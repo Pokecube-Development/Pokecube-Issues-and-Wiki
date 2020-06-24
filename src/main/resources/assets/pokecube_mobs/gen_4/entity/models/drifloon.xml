@@ -5,6 +5,7 @@
   <customTex default="drifloon">
    <part name="Head" tex="driflooneye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
+   <part name="Mouth" tex="drifloonmouth"/>
   </customTex>
   <phase axis="0" name="snakeFly" parts="line1:line1_1:line1_2:hand1"/>
   <phase axis="0" name="snakeFly" parts="line2:line2_1:line2_2:hand2"/>

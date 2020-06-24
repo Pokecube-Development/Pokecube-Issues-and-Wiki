@@ -6,7 +6,7 @@
   <phase duration="9" leftArm="" leftLeg="leg1" legAngle="20" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="mareanie">
    <part name="Head" tex="mareaniehead"/>
-   <animation diffs="0.35,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="hair1">

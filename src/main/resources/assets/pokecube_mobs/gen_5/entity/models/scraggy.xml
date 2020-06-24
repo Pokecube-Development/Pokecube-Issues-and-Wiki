@@ -6,7 +6,7 @@
   <phase duration="5" leftArm="" leftLeg="foot1" name="biWalk" rightArm="" rightLeg="foot2"/>
   <customTex default="scraggy">
    <part name="Head" tex="scraggyhead"/>
-   <animation diffs="0.38,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="body">

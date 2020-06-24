@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1"/>
   <material name="Mesh" meshs="Mesh" transluscent="true"/>
   <customTex default="dianciemega">
-   <part name="Head" tex="dianciemegaeye"/>
+   <part name="Head" tex="diancieeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <material name="glow" light="1" transluscent="false"/>

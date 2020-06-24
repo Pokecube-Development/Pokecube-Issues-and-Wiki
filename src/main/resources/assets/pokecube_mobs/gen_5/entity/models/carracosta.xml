@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="" leftHind="leg1" name="quadWalk" rightFront="" rightHind="leg2"/>
   <customTex default="carracosta">
    <part name="Head" tex="carracostahead"/>
-   <animation diffs="0.26,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">
@@ -22,8 +22,8 @@
     <component length="1" name="1" rotOffset="10,-25,-2," startKey="0"/>
    </part>
    <part name="tail">
-    <component length="4" name="1" rotChange="20,0,0" rotOffset="5,0,0" startKey="0"/>
-    <component length="4" name="2" rotChange="-20,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="5,0,0" rotOffset="5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
    </part>
    <part name="arm2">
     <component length="1" name="1" rotOffset="20,15,20," startKey="0"/>
@@ -47,15 +47,14 @@
     <component length="1" name="1" rotOffset="5,-19,-20," startKey="0"/>
    </part>
    <part name="arm1_2">
-    <component length="4" name="1" rotChange="0,15,0" rotOffset="13,-15,-16" startKey="0"/>
-    <component length="4" name="2" rotChange="0,-15,0" startKey="15"/>
+    <component length="10" name="1" rotOffset="13,-15,-16" startKey="0"/>
    </part>
    <part name="arm1_3">
     <component length="1" name="1" rotOffset="10,-25,-2," startKey="0"/>
    </part>
    <part name="tail">
-    <component length="4" name="1" rotChange="20,0,0" rotOffset="5,0,0" startKey="0"/>
-    <component length="4" name="2" rotChange="-20,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="10,0,0" rotOffset="5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-10,0,0" startKey="10"/>
    </part>
    <part name="arm2">
     <component length="8" name="1" rotChange="0,15,0" rotOffset="-20,15,40" startKey="0"/>
@@ -65,8 +64,7 @@
     <component length="1" name="1" rotOffset="5,19,20," startKey="0"/>
    </part>
    <part name="arm2_2">
-    <component length="4" name="1" rotChange="0,15,0" rotOffset="13,-15,16" startKey="0"/>
-    <component length="4" name="2" rotChange="0,-15,0" startKey="15"/>
+    <component length="1" name="1" rotOffset="13,-15,16" startKey="0"/>
    </part>
    <part name="arm2_3">
     <component length="1" name="1" rotOffset="10,25,2," startKey="0"/>

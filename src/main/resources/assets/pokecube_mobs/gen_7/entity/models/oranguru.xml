@@ -5,7 +5,8 @@
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <customTex default="oranguru">
    <part name="Head" tex="oranguruhead"/>
-   <animation diffs="0.25,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.41,0" part="Head" trigger="random:0.005:4"/>
+   <part name="Mark" tex="orangurumark"/>
   </customTex>
   <phase type="idle">
    <part name="body">

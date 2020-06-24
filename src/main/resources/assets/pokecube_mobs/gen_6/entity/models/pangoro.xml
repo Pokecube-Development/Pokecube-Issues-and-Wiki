@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="leg1_1" leftLeg="leg1" legAngle="13" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
   <customTex default="pangoro">
    <part name="Head" tex="pangorohead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="sitting">
    <part name="arm1">

@@ -5,9 +5,9 @@
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
   <customTex default="lunala">
    <part name="Head" tex="lunalahead"/>
-   <animation diffs="0,0.4" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
-  <material name="Moon" light="1" transluscent="true"/>
+  <material name="Moon" light="1" transluscent="false"/>
   <phase type="idle">
    <part name="tail3">
     <component length="10" name="1" rotChange="3,0,0" rotOffset="-20,0,0" startKey="0"/>

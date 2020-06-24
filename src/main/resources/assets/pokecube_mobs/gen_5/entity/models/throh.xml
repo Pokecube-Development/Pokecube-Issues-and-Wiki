@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="leg2_1" leftLeg="leg2" legAngle="10" name="biWalk" rightArm="leg1_1" rightLeg="leg1"/>
   <customTex default="throh">
    <part name="Head" tex="throhhead"/>
-   <animation diffs="0.2,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

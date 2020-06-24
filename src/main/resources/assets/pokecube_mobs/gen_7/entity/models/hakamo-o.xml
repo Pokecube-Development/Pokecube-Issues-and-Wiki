@@ -5,8 +5,8 @@
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
   <phase armAngle="20" duration="10" leftArm="" leftLeg="leg1" legAngle="20" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="hakamoo">
-   <part name="Head" tex="hakamoohead"/>
-   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="hakamooeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase axis="0" name="snakeIdle" parts="tail1:tail2:tail3:tail4"/>
   <phase axis="1" name="snakeWalk" parts="tail1:tail2:tail3:tail4"/>

@@ -5,8 +5,8 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
   <phase duration="10" leftFront="arm2" leftHind="arm4" name="quadWalk" rightFront="arm1" rightHind="arm3"/>
   <customTex default="rockruff">
-   <part name="Head" tex="rockruffhead"/>
-   <animation diffs="0.43,0" part="Head" trigger="random:0.005:20"/>
+   <part name="Head" tex="rockruffeye"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="tail">

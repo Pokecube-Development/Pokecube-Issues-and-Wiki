@@ -6,7 +6,7 @@
   <metadata dye="WoolHead:WoolBody" head="Head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1" shear="wool"/>
   <customTex default="cufant">
   <part name="Head" tex="cufanteye"/>
-  <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   <part name="Back" tex="cufantback"/>
   </customTex>
   <phase type="sitting">

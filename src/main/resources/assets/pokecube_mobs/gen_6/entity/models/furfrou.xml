@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <customTex default="furfrou">
    <part name="Head" tex="furfrouhead"/>
-   <animation diffs="0.35,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="orl1">

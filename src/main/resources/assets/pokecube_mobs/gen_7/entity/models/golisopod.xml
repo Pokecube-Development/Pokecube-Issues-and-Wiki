@@ -5,8 +5,8 @@
   <metadata head="Cube_029" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-50,50" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="20" name="biWalk" rightArm="" rightLeg="leg1"/>
   <customTex default="golisopod">
-   <part name="Head" tex="golisopodhead"/>
-   <animation diffs="0,0.4" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="golisopodeye"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="body2">

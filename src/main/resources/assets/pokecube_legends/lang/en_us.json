@@ -59,6 +59,9 @@
     "item.pokecube_legends.rustedsword": "Rusted Sword",
     "item.pokecube_legends.chippedpot": "Chipped Pot",
     "item.pokecube_legends.crackedpot": "Cracked Pot",
+    "item.pokecube_legends.galarcuff": "Galarica Cuff",
+    "item.pokecube_legends.pdark": "Parchment of Darkness",
+    "item.pokecube_legends.pwater": "Parchment of Water",
 
     "": "/Mint Nature",
     "item.pokecube_legends.mint_adamant": "Mint Adamant",
@@ -213,5 +216,7 @@
     "legends.rustedsword.tooltip": "Use this item on 'Legendary Spawn' to Spawn Zacian. Use this item in 'Zacian' to change it.",
     "legends.zygardecube.tooltip": "Use this item in 'Zygarde' to change it.",
     "legends.gigantic_shard.tooltip": "Use para fazer seu pokemon usar o Gigantamax.",
-    "legends.wishing_piece.tooltip": "Use this item on an inactive raid spot to activate it!"
+    "legends.wishing_piece.tooltip": "Use this item on an inactive raid spot to activate it!",
+	"legends.pdark.tooltip": "Use this item to evolve Kubfu into Single Strike Style",
+	"legends.pwater.tooltip": "Use this item to evolve Kubfu into Rapid Strike Style"
 }
