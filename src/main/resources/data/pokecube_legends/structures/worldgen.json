@@ -300,7 +300,7 @@
       "name":"pokecube_legends:raid_end",
       "root":"pokecube_legends:raid_end",
       "biomeType":"ruin",
-      "distance":20,
+      "distance":32,
       "separation":5,
       "spawn":{
         "values":{
@@ -312,7 +312,7 @@
       "name":"pokecube_legends:raid_ocean",
       "root":"pokecube_legends:raid_ocean",
       "biomeType":"ruin",
-      "distance":20,
+      "distance":32,
       "separation":5,
       "water":true,
       "spawn":{
@@ -337,7 +337,7 @@
       "name":"pokecube_legends:raid_spot",
       "root":"pokecube_legends:raid_spot",
       "biomeType":"ruin",
-      "distance":15,
+      "distance":32,
       "separation":5,
       "spawn":{
         "values":{
