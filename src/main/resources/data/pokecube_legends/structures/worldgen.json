@@ -117,11 +117,51 @@
       ]
     },
     {
-      "name":"pokecube_legends:regis_temple",
+      "name":"pokecube_legends:regigigas_temple",
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regis_temple;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/regigigas_temple"
+      ]
+    },
+    {
+      "name":"pokecube_legends:regice_temple",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/regice_temple"
+      ]
+    },
+    {
+      "name":"pokecube_legends:regirock_temple",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/regirock_temple"
+      ]
+    },
+    {
+      "name":"pokecube_legends:registeel_temple",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/registeel_temple"
+      ]
+    },
+	{
+      "name":"pokecube_legends:kubfu_water",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/kubfu_water"
+      ]
+    },
+    {
+      "name":"pokecube_legends:kubfu_dark",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/kubfu_dark"
       ]
     },
     {
@@ -260,7 +300,7 @@
       "name":"pokecube_legends:raid_end",
       "root":"pokecube_legends:raid_end",
       "biomeType":"ruin",
-      "distance":20,
+      "distance":32,
       "separation":5,
       "spawn":{
         "values":{
@@ -272,7 +312,7 @@
       "name":"pokecube_legends:raid_ocean",
       "root":"pokecube_legends:raid_ocean",
       "biomeType":"ruin",
-      "distance":20,
+      "distance":32,
       "separation":5,
       "water":true,
       "spawn":{
@@ -297,12 +337,85 @@
       "name":"pokecube_legends:raid_spot",
       "root":"pokecube_legends:raid_spot",
       "biomeType":"ruin",
-      "distance":15,
+      "distance":32,
       "separation":5,
       "spawn":{
         "values":{
           "types":"all",
+          "typesBlacklist":"sandy",
           "categoryBlacklist":"ocean,desert,the_end"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:kubfu_water",
+      "root":"pokecube_legends:kubfu_water",
+      "biomeType":"ruin",
+      "distance":10,
+      "separation":4,
+      "spawn":{
+        "values":{
+          "category":"beach"
+        }
+      }
+    },
+	{
+      "name":"pokecube_legends:kubfu_dark",
+      "root":"pokecube_legends:kubfu_dark",
+      "biomeType":"ruin",
+      "distance":27,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "category":"extreme_hills"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:regigigas_temple",
+      "root":"pokecube_legends:regigigas_temple",
+      "biomeType":"ruin",
+      "distance":24,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "category":"icy"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:regice_temple",
+      "root":"pokecube_legends:regice_temple",
+      "biomeType":"ruin",
+      "distance":24,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "category":"icy"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:regirock_temple",
+      "root":"pokecube_legends:regirock_temple",
+      "biomeType":"ruin",
+      "distance":24,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "types":"sandy"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:registeel_temple",
+      "root":"pokecube_legends:registeel_temple",
+      "biomeType":"ruin",
+      "distance":32,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "category":"extreme_hills"
         }
       }
     },
@@ -413,18 +526,6 @@
       "spawn":{
         "values":{
           "category":"plains"
-        }
-      }
-    },
-    {
-      "name":"pokecube_legends:regis_temple",
-      "root":"pokecube_legends:regis_temple",
-      "biomeType":"ruin",
-      "distance":24,
-      "separation":8,
-      "spawn":{
-        "values":{
-          "category":"icy"
         }
       }
     },

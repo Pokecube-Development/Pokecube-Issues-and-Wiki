@@ -6,8 +6,8 @@
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7"/>
   <phase axis="0" name="snakeFly" parts="tail1:tail2:tail3:tail4:tail5:tail6:tail7"/>
   <customTex default="tornadustherian">
-   <part name="Head" tex="tornadushead"/>
-   <animation diffs="0,0.3" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="tornaduseye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase duration="6" leftArm="" leftLeg="leg1:leg1_1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
   <phase type="idle">

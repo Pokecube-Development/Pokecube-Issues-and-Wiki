@@ -6,7 +6,7 @@
   <phase duration="6" leftArm="arm2" leftLeg="foot1" legAngle="25" name="biWalk" rightArm="arm1" rightLeg="foot2"/>
   <customTex default="slurpuff">
    <part name="Head" tex="slurpuffhead"/>
-   <animation diffs="0.43,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="body">

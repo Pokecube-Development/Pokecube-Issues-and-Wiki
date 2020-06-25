@@ -35,6 +35,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
@@ -530,7 +531,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     default IPokemob megaEvolve(final PokedexEntry newEntry, final boolean immediate)
     {
         final LivingEntity thisEntity = this.getEntity();
-        final IPokemob thisMob = CapabilityPokemob.getPokemobFor(thisEntity);
+        final IPokemob thisMob = (IPokemob) this;
         LivingEntity evolution = thisEntity;
         IPokemob evoMob = thisMob;
         final PokedexEntry oldEntry = this.getPokedexEntry();
@@ -557,6 +558,14 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             EntityTools.copyEntityTransforms(evolution, thisEntity);
             evolution.setEntityId(id);
             evolution.setUniqueId(uuid);
+
+            // Sync over any active moves
+            if (thisMob.getActiveMove() != null)
+            {
+                final EntityMoveUse move = thisMob.getActiveMove();
+                evoMob.setActiveMove(move);
+                move.setUser(evolution);
+            }
 
             // Flag the mob as evolving.
             evoMob.setGeneralState(GeneralStates.EVOLVING, true);

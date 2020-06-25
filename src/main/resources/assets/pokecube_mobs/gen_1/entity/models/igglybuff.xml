@@ -5,7 +5,7 @@
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1" legAngle="45" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="igglybuff">
    <part name="Head" tex="igglybuffeye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:6"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

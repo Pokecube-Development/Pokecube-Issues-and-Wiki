@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
   <customTex default="ribombee">
    <part name="Head" tex="ribombeehead"/>
-   <animation diffs="0.43,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.43" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

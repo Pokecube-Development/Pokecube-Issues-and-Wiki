@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -138,6 +139,8 @@ public class EntityMoveUse extends ThrowableEntity
 
     double dist = 0;
 
+    int initTimer = 10;
+
     final Set<UUID> alreadyHit = Sets.newHashSet();
 
     Predicate<Entity> valid = e -> !this.alreadyHit.contains(e.getUniqueID());
@@ -151,6 +154,14 @@ public class EntityMoveUse extends ThrowableEntity
     protected void init()
     {
         if (this.init) return;
+        if (this.initTimer-- < 0)
+        {
+            // If we timed out, it means our user died before the move could
+            // finish (ie it died on the same tick it used the attack), in this
+            // case, we just remove the attack.
+            this.remove();
+            return;
+        }
 
         // This should initialise these values on the client side correctly.
         this.getStart();
@@ -163,25 +174,6 @@ public class EntityMoveUse extends ThrowableEntity
 
         this.init = true;
         this.startAge = this.getDuration();
-        if (this.move != null)
-        {
-            this.contact = (this.move.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
-            final boolean aoe = this.move.aoe;
-            if (this.contact)
-            {
-                final float size = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
-                final float width = this.user.getWidth();
-                final float height = this.user.getHeight();
-                this.size = EntitySize.fixed(width + size, height + size);
-            }
-            else if (aoe)
-            {
-                final float size = 8;
-                final float width = this.user.getWidth();
-                final float height = this.user.getHeight();
-                this.size = EntitySize.fixed(width + size, height + size);
-            }
-        }
         if (!this.start.equals(this.end)) this.dir.set(this.end).subtractFrom(this.start).norm();
         else this.onSelf = true;
         this.dist = this.start.distanceTo(this.end);
@@ -195,6 +187,31 @@ public class EntityMoveUse extends ThrowableEntity
     }
 
     @Override
+    public EntitySize getSize(final Pose poseIn)
+    {
+        EntitySize size = super.getSize(poseIn);
+        this.getMove();
+        if (this.move == null) return size;
+        this.contact = (this.move.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
+        final boolean aoe = this.move.aoe;
+        if (this.contact)
+        {
+            final float s = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
+            final float width = this.user.getWidth();
+            final float height = this.user.getHeight();
+            size = EntitySize.fixed(width + s, height + s);
+        }
+        else if (aoe)
+        {
+            final float s = 8;
+            final float width = this.user.getWidth();
+            final float height = this.user.getHeight();
+            size = EntitySize.fixed(width + s, height + s);
+        }
+        return size;
+    }
+
+    @Override
     public IPacket<?> createSpawnPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
@@ -204,6 +221,7 @@ public class EntityMoveUse extends ThrowableEntity
     {
         final Move_Base attack = this.getMove();
         final Entity user = this.getUser();
+        if (!this.valid.test(target)) return;
         this.alreadyHit.add(target.getUniqueID());
         if (user == null || !this.isAlive() || !user.isAlive()) return;
         // Only can hit our valid target!
@@ -237,7 +255,9 @@ public class EntityMoveUse extends ThrowableEntity
     public Move_Base getMove()
     {
         if (this.move != null) return this.move;
-        return this.move = MovesUtils.getMoveFromName(this.getDataManager().get(EntityMoveUse.MOVENAME));
+        final String name = this.getDataManager().get(EntityMoveUse.MOVENAME);
+        if (name.isEmpty()) return null;
+        return this.move = MovesUtils.getMoveFromName(name);
     }
 
     public MovePacketInfo getMoveInfo()
@@ -387,6 +407,8 @@ public class EntityMoveUse extends ThrowableEntity
     {
         this.user = user;
         this.getDataManager().set(EntityMoveUse.USER, user.getEntityId());
+        this.alreadyHit.add(this.user.getUniqueID());
+        if (this.init) this.recalculateSize();
         return this;
     }
 

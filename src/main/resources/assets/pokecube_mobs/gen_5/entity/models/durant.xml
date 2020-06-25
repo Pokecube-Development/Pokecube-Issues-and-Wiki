@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
   <customTex default="durant">
    <part name="Head" tex="duranteye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="l1">

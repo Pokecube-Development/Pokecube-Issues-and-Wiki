@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg3" leftHind="leg1" name="quadWalk" rightFront="leg4" rightHind="leg2"/>
   <customTex default="herdier">
    <part name="Head" tex="herdierhead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:6"/>
   </customTex>
   <phase type="sitting">
    <part name="head">

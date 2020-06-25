@@ -3,8 +3,9 @@
  <model name="">
   <phase name="global" scale="0.45"/>
   <customTex default="probopass">
+   <part name="Eye" tex="probopasshead"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:4"/>
    <part name="Head" tex="probopasshead"/>
-   <animation diffs="0,0.3" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase type="idle">
    <part name="body">

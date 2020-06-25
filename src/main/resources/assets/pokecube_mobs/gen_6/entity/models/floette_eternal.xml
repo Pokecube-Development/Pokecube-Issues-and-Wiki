@@ -5,7 +5,8 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <customTex default="floetteeternal">
    <part name="Head" tex="floettehead"/>
-   <animation diffs="0.25,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.47,0" part="Head" trigger="random:0.005:1"/>
+   <part name="Flow" tex="floetteeternalf"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

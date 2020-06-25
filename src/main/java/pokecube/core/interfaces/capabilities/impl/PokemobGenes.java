@@ -29,6 +29,8 @@ import thut.api.entity.genetics.Alleles;
 
 public abstract class PokemobGenes extends PokemobSided implements IMobColourable
 {
+    private boolean changing = false;
+
     @Override
     public Ability getAbility()
     {
@@ -442,14 +444,26 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         final PokedexEntry entry = this.getPokedexEntry();
         final SpeciesInfo info = this.genesSpecies.getExpressed().getValue();
         if (newEntry == null || newEntry == entry) return this;
-        this.entry = newEntry;
         IPokemob ret = this;
-        info.entry = newEntry;
+        if (this.changing || !this.getEntity().isAddedToWorld())
+        {
+            this.entry = newEntry;
+            info.entry = newEntry;
+            return ret;
+        }
+        this.changing = true;
         ret = this.megaEvolve(newEntry);
+
+        // These need to be set after mega evolve call, as that also does a
+        // validation of old entry.
+        this.entry = newEntry;
+        info.entry = newEntry;
+
         if (this.getEntity().getEntityWorld() != null) ret.setSize((float) (ret.getSize() / PokecubeCore
                 .getConfig().scalefactor));
         if (this.getEntity().getEntityWorld() != null && this.getEntity().isServerWorld()) PacketChangeForme
                 .sendPacketToTracking(ret.getEntity(), newEntry);
+        System.out.println(entry + "->" + newEntry + " " + (ret == this));
         return ret;
     }
 

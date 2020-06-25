@@ -7,7 +7,7 @@
   <phase duration="5" leftArm="arm1" leftLeg="foot1" name="biWalk" rightArm="arm2" rightLeg="foot2"/>
   <customTex default="binacle">
    <part name="Head" tex="binaclehead"/>
-   <animation diffs="0.28,0" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0.45,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="p1">

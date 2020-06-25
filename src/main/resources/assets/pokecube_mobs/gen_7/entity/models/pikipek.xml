@@ -6,12 +6,12 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="50" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="pikipek">
    <part name="Head" tex="pikipekhead"/>
-   <animation diffs="0,0.4" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="tail">
-    <component length="5" name="1" rotChange="20,0,0" rotOffset="20,0,0" startKey="0"/>
-    <component length="5" name="2" rotChange="-20,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="20,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-20,0,0" startKey="10"/>
    </part>
   </phase>
   <phase type="flying">
@@ -24,8 +24,8 @@
     <component length="5" name="2" rotChange="0,-30,30" startKey="10"/>
    </part>
    <part name="tail">
-    <component length="5" name="1" rotChange="20,0,0" rotOffset="20,0,0" startKey="0"/>
-    <component length="5" name="2" rotChange="-20,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="20,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-20,0,0" startKey="10"/>
    </part>
    <part name="leg1">
     <component length="1" name="1" rotOffset="-25,0,0," startKey="0"/>

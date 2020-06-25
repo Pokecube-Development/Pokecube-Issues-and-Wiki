@@ -1658,9 +1658,51 @@
       }
     ]
   },
+  "mobs.slowpoke_galar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slowpoke_galar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slowpoke",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/slowpoke",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/slowpoke",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
   "mobs.slowbro": {
     "category": "hostile",
     "subtitle": "entity.pokecube.slowbro",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slowbro",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/slowbro",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/slowbro",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.slowbro_galar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slowbro_galar",
     "sounds": [
       {
         "name": "pokecube_mobs:mobs/slowbro",
@@ -18810,6 +18852,90 @@
       },
       {
         "name": "pokecube_mobs:mobs/eternatus",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.kubfu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kubfu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kubfu",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/kubfu",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/kubfu",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.urshifu_single": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.urshifu_single",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/urshifu_single",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/urshifu_single",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/urshifu_single",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.urshifu_rapid": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.urshifu_rapid",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/urshifu_rapid",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/urshifu_rapid",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/urshifu_rapid",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.zarude": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zarude",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zarude",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/zarude",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/zarude",
         "volume": 1.0,
         "pitch": 1.0
       }

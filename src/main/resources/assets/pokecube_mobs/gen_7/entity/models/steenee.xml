@@ -5,8 +5,10 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="25" name="biWalk" rightArm="" rightLeg="leg1"/>
   <customTex default="steenee">
-   <part name="Head" tex="steeneehead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="steeneeeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+   <part name="Mouth" tex="steeneemouth"/>
+   <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

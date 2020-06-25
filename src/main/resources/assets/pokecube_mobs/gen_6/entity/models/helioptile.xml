@@ -7,7 +7,7 @@
   <phase duration="6" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="helioptile">
    <part name="Head" tex="helioptilehead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

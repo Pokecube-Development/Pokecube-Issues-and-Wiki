@@ -9,7 +9,7 @@
   <worn angles="0,0,0" id="__EAR_right__" offset="-0.2,0.4,-0.4" parent="orl2" scale="2"/>
   <customTex default="popplio">
    <part name="Head" tex="poppliohead"/>
-   <animation diffs="0,0.45" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.45" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="body">

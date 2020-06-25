@@ -2,13 +2,11 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.39"/>
-  <metadata head="Cube_006" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
-  <metadata head="neck2" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1"/>
-  <metadata head="neck1" headAxis="2" headAxis2="0" headCap="-35,35" headCap1="-15,15" headDir="-1"/>
+  <metadata head="neck1:neck2" headAxis="2" headAxis2="0" headCap="-35,35" headCap1="-15,15" headDir="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <customTex default="virizion">
    <part name="Head" tex="virizionhead"/>
-   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>
  </model>
 </ModelAnimator>

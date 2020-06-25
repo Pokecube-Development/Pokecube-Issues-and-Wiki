@@ -43,6 +43,7 @@ import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.events.pokemob.combat.MoveUse;
 import pokecube.core.events.pokemob.combat.MoveUse.MoveWorldAction;
@@ -498,7 +499,7 @@ public class MoveEventsHandler
     public void onEvent(final MoveUse.DuringUse.Post evt)
     {
         final MovePacket move = evt.getPacket();
-        final IPokemob attacker = move.attacker;
+        IPokemob attacker = move.attacker;
         final Entity attacked = move.attacked;
         final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
 
@@ -519,9 +520,16 @@ public class MoveEventsHandler
         }
 
         final boolean user = evt.isFromUser();
-        final IPokemob applied = user ? attacker : target;
+        IPokemob applied = user ? attacker : target;
         if (applied != null && applied.getHeldItem() != null) ItemGenerator.processHeldItemUse(move, applied, applied
                 .getHeldItem());
+
+        Ability ab;
+        if (target != null && (ab = target.getAbility()) != null) ab.onMoveUse(applied, move);
+        // Reset this incase it was changed!
+        attacker = move.attacker;
+        applied = user ? attacker : target;
+        if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
@@ -530,11 +538,11 @@ public class MoveEventsHandler
         final MovePacket move = evt.getPacket();
         final Move_Base attack = move.getMove();
         final boolean user = evt.isFromUser();
-        final IPokemob attacker = move.attacker;
+        IPokemob attacker = move.attacker;
         final Entity attacked = move.attacked;
         final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
-        final IPokemob applied = user ? attacker : target;
-        final IPokemob other = user ? target : attacker;
+        IPokemob applied = user ? attacker : target;
+        IPokemob other = user ? target : attacker;
 
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
@@ -575,7 +583,17 @@ public class MoveEventsHandler
 
         if (applied.getHeldItem() != null) ItemGenerator.processHeldItemUse(move, applied, applied.getHeldItem());
 
-        if (applied.getAbility() != null) applied.getAbility().onMoveUse(applied, move);
+        Ability ab;
+        if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
+        // Reset this incase it was changed!
+        attacker = move.attacker;
+        applied = user ? attacker : target;
+        other = user ? target : attacker;
+        if (target != null && (ab = target.getAbility()) != null) ab.onMoveUse(applied, move);
+        // Reset this incase it was changed!
+        attacker = move.attacker;
+        applied = user ? attacker : target;
+        other = user ? target : attacker;
 
         if (attack.getName().equals(IMoveNames.MOVE_FALSESWIPE)) move.noFaint = true;
         boolean blockMove = false;

@@ -4,8 +4,8 @@
   <phase name="global" scale="0.25"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
   <customTex default="grapploct">
-   <part name="Head" tex="grapplocthead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+   <part name="Head" tex="grapplocteye"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase axis="0" name="snakeSwim" parts="leg1:leg1_1:leg1_2:leg1_3"/>
   <phase axis="0" length="20" name="snakeSwim" parts="leg2:leg2_1:leg2_2:leg2_3"/>
