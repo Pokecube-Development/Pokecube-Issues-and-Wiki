@@ -48,29 +48,30 @@ public abstract class PokemobBase implements IPokemob
 
         public final int[] FLAVOURS = new int[5];
 
-        public int         HELDITEMDW;
-        public int         EVOLTICKDW;
-        public int         DYNAPOWERDW;
-        public int         HAPPYDW;
-        public int         ATTACKCOOLDOWN;
-        public int         NICKNAMEDW;
-        public int         ZMOVECD;
-        public int         DIRECTIONPITCHDW;
-        public int         HEADINGDW;
-        public int         TRANSFORMEDTODW;
-        public int         GENERALSTATESDW;
-        public int         LOGICSTATESDW;
-        public int         COMBATSTATESDW;
-        public int         ATTACKTARGETIDDW;
-        public int         HUNGERDW;
-        public int         STATUSDW;
-        public int         STATUSTIMERDW;
-        public int         MOVEINDEXDW;
-        public int         DYECOLOUR;
-        public int         TYPE1DW;
-        public int         TYPE2DW;
+        public int HELDITEMDW;
+        public int EVOLTICKDW;
+        public int DYNAPOWERDW;
+        public int HAPPYDW;
+        public int ATTACKCOOLDOWN;
+        public int NICKNAMEDW;
+        public int ZMOVECD;
+        public int DIRECTIONPITCHDW;
+        public int HEADINGDW;
+        public int TRANSFORMEDTODW;
+        public int GENERALSTATESDW;
+        public int LOGICSTATESDW;
+        public int COMBATSTATESDW;
+        public int ATTACKTARGETIDDW;
+        public int HUNGERDW;
+        public int STATUSDW;
+        public int STATUSTIMERDW;
+        public int MOVEINDEXDW;
+        public int DYECOLOUR;
+        public int TYPE1DW;
+        public int TYPE2DW;
+        public int ACTIVEMOVEID;
+
         public final int[] DISABLE = new int[4];
-        public int         ACTIVEMOVEID;
 
         public void register(final IPokemob pokemob)
         {

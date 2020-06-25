@@ -3,7 +3,8 @@
  <model name="">
   <phase name="global" scale="0.45"/>
   <customTex default="dottler">
-   <part name="Head" tex="dottlerhead"/>
+   <part name="Head" tex="dottlereye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
    <part name="Led1" tex="light"/>
    <animation diffs="0.5,0" part="Led1" trigger="random:0.002:7"/>
    <part name="Led2" tex="light"/>

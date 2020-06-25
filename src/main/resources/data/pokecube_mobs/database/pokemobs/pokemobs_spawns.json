@@ -7256,7 +7256,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004",
+              "biomes": "the_end,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -7599,7 +7599,7 @@
           {
             "values": {
               "types": "cold",
-              "rate": "0.5"
+              "rate": "0.3"
             }
           }
         ]
@@ -7630,7 +7630,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "hills,cold",
+              "types": "hills",
               "rate": "0.3"
             }
           }
@@ -7644,7 +7644,7 @@
           {
             "values": {
               "types": "beach",
-              "rate": "0.25",
+              "rate": "0.3",
               "water": "true"
             }
           },
@@ -7684,14 +7684,14 @@
           {
             "values": {
               "types": "hills",
-              "rate": "0.18",
+              "rate": "0.12",
               "day": "false"
             }
           },
           {
             "values": {
               "category": "nether",
-              "rate": "0.12"
+              "rate": "0.15"
             }
           }
         ]
@@ -7749,7 +7749,7 @@
           {
             "values": {
               "category": "ocean",
-              "rate": "0.12",
+              "rate": "0.17",
               "air": "false"
             }
           },
@@ -7868,7 +7868,13 @@
           {
             "values": {
               "types": "jungle",
-              "rate": "0.2"
+              "rate": "0.3"
+            }
+          },
+		  {
+            "values": {
+              "category": "spooky",
+              "rate": "0.18"
             }
           }
         ]
@@ -7961,6 +7967,12 @@
               "category": "nether",
               "rate": "0.16"
             }
+          },
+		  {
+            "values": {
+              "category": "village",
+              "rate": "0.18"
+            }
           }
         ]
       }
@@ -7973,6 +7985,12 @@
             "values": {
               "category": "extreme_hills",
               "rate": "0.18"
+            }
+          },
+		  {
+            "values": {
+              "category": "forest",
+              "rate": "0.2"
             }
           }
         ]
@@ -8036,6 +8054,32 @@
           {
             "values": {
               "category": "the_end",
+              "rate": "0.002"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "Kubfu",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "hills",
+              "rate": "0.005"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "Zarude",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "jungle",
               "rate": "0.002"
             }
           }

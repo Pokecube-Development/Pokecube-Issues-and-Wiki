@@ -5,8 +5,8 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
   <phase duration="10" leftArm="arm1" leftLeg="leg1" legAngle="30" name="biWalk" rightArm="arm2" rightLeg="leg2"/>
   <customTex default="drampa">
-   <part name="Head" tex="drampahead"/>
-   <animation diffs="0,0.2" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="drampaeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="tail1">

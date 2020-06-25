@@ -5,17 +5,17 @@
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
   <phase duration="10" leftFront="arm1" leftHind="leg2" name="quadWalk" rightFront="arm2" rightHind="leg1"/>
   <customTex default="jangmoo">
-   <part name="Head" tex="jangmoohead"/>
-   <animation diffs="0,0.3" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="jangmooeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="tail1">
-    <component length="10" name="1" rotChange="-50,0,0" rotOffset="20,0,0" startKey="0"/>
-    <component length="10" name="2" rotChange="50,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="-10,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
    </part>
    <part name="tail2">
-    <component length="8" name="1" rotChange="-50,0,0" rotOffset="20,0,0" startKey="0"/>
-    <component length="8" name="2" rotChange="50,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="-10,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
    </part>
   </phase>
   <phase type="walking">

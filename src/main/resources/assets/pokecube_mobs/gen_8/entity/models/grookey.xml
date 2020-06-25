@@ -6,15 +6,11 @@
 		<phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="65"/>
 		<phase axis="0" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4"/>
 		<phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4"/>
-		<worn angles="-90,0,0" id="__HAT__" offset="0,1.4,0" parent="head" scale="2"/>
-		  <worn angles="-90,0,0" id="__EYE__" offset="0,1.1,0.005" parent="head" scale="3"/>
-		  <worn angles="-90,0,0" id="__NECK__" offset="0,0.05,0.2" parent="neck" scale="1.8"/>
-		  <worn angles="-90,0,0" id="__BACK__" offset="0,1.5,-0.1" parent="body" scale="2.2"/>
 		<customTex default="grookey">
-		<part name="Head" tex="grookeyhead"/>
-		<part name="M" tex="grookeyhead"/>
-		<animation diffs="0.317,0" part="Head" trigger="random:0.005:25"/>
-		<animation diffs="0,0.45" part="M" trigger="random:0.005:25"/>
+		<part name="Head" tex="grookeyeye"/>
+		<part name="M" tex="grookeymouth"/>
+		<animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
+		<animation diffs="0,0.5" part="M" trigger="random:0.005:5"/>
 		</customTex>
 		<phase type="sitting">
 		<part name="body">

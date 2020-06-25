@@ -7,7 +7,7 @@
   <phase duration="6" leftArm="arm2" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="arm1" rightLeg="leg2"/>
   <customTex default="mandibuzz">
    <part name="Head" tex="mandibuzzhead"/>
-   <animation diffs="0.4,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.49" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="body1">

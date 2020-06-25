@@ -5,6 +5,7 @@
   <customTex default="drifblim">
    <part name="Head" tex="drifblimeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
+   <part name="Mouth" tex="drifblimmouth"/>
   </customTex>
   <phase axis="0" name="snakeFly" parts="arm1:arm1_1"/>
   <phase axis="0" name="snakeFly" parts="arm2:arm2_1"/>

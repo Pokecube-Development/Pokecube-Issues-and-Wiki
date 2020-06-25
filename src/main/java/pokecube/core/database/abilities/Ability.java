@@ -16,7 +16,7 @@ public abstract class Ability
      * @param damage
      * @return the actual damage dealt
      */
-    public int beforeDamage(IPokemob mob, MovePacket move, int damage)
+    public int beforeDamage(final IPokemob mob, final MovePacket move, final int damage)
     {
         return damage;
     }
@@ -26,7 +26,7 @@ public abstract class Ability
      *
      * @param mob
      */
-    public boolean canChange(IPokemob mob, PokedexEntry changeTo)
+    public boolean canChange(final IPokemob mob, final PokedexEntry changeTo)
     {
         return true;
     }
@@ -50,7 +50,7 @@ public abstract class Ability
      * @param args
      * @return
      */
-    public Ability init(Object... args)
+    public Ability init(final Object... args)
     {
         return this;
     }
@@ -63,7 +63,7 @@ public abstract class Ability
      * @param mob
      * @param target
      */
-    public void onAgress(IPokemob mob, LivingEntity target)
+    public void onAgress(final IPokemob mob, final LivingEntity target)
     {
     }
 
@@ -73,7 +73,7 @@ public abstract class Ability
      * @param mob
      * @param move
      */
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
     }
 
@@ -82,8 +82,19 @@ public abstract class Ability
      *
      * @param mob
      */
-    public void onUpdate(IPokemob mob)
+    public void onUpdate(final IPokemob mob)
     {
+    }
+
+    /**
+     * Called when a pokemob tries to recall, this might change the pokemob, so
+     * check that the returned value is not the same as mob!
+     *
+     * @param mob
+     */
+    public IPokemob onRecall(final IPokemob mob)
+    {
+        return mob;
     }
 
     @Override

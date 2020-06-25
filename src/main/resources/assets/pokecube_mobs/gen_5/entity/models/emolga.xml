@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <customTex default="emolga">
    <part name="Head" tex="emolgahead"/>
-   <animation diffs="0.49,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <worn angles="270,0,0" id="__HAT__" offset="0,0.6,0" parent="head" scale="1"/>
   <worn angles="270,0,0" id="__EYE__" offset="0,0.35,0.05" parent="head" scale="1.1"/>

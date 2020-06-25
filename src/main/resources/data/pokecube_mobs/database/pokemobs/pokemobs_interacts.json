@@ -1531,6 +1531,12 @@
     {
       "name": "Slowpoke Galar",
       "stats": {
+	    "evolutions": [
+          {
+            "name": "Slowbro Galar",
+            "item_preset": "galarcuff",
+          }
+        ],
         "species": "Lizard Artiodactyla",
         "interactions": [
           {
@@ -1567,6 +1573,12 @@
             "preset": "Mega"
           }
         ]
+      }
+    },
+	{
+      "name": "Slowbro Galar",
+      "stats": {
+        "species": "Lizard Artiodactyla Crustacea"
       }
     },
     {
@@ -11484,6 +11496,28 @@
       "name": "Eternatus",
       "stats": {
         "species": "Alien"
+      }
+    },
+	{
+      "name": "Kubfu",
+      "stats": {
+        "evolutions": [
+          {
+            "name": "Urshifu Single",
+			"item_preset": "pdark"
+          },
+		  {
+            "name": "Urshifu Rapid",
+			"item_preset": "pwater"
+          }
+        ],
+        "species": "Bear"
+      }
+    },
+	{
+      "name": "Zarude",
+      "stats": {
+        "species": "Monkey"
       }
     }
   ]

@@ -64,8 +64,13 @@ public class ItemInit
     public static final RegistryObject<Item> AZURE_FLUTE;
     public static final RegistryObject<Item> RSHIELD;
     public static final RegistryObject<Item> RSWORD;
+    
+    //Evolutions
     public static final RegistryObject<Item> CHPOT;
     public static final RegistryObject<Item> CRPOT;
+    public static final RegistryObject<Item> GALARCUFF;
+    public static final RegistryObject<Item> PDARK;
+    public static final RegistryObject<Item> PWATER;
     
     //Raids/Dynamax/Gigantamax
     public static final RegistryObject<Item> WISHING_PIECE;
@@ -128,8 +133,12 @@ public class ItemInit
                 "azureflute"));
         RSHIELD = PokecubeLegends.ITEMS.register("rustedshield", () -> new ItemBase("rustedshield", 1));
         RSWORD = PokecubeLegends.ITEMS.register("rustedsword", () -> new ItemBase("rustedsword", 1));
+        
         CHPOT = PokecubeLegends.ITEMS.register("chippedpot", () -> new ItemBase("chippedpot", 1).noTooltop());
         CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase("crackedpot", 1).noTooltop());
+        GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase("galarcuff", 1).noTooltop());
+        PDARK = PokecubeLegends.ITEMS.register("pdark", () -> new ItemBase("pdark", 1).setTooltipName("pdark"));
+        PWATER = PokecubeLegends.ITEMS.register("pwater", () -> new ItemBase("pwater", 1).setTooltipName("pwater"));
 
         WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));

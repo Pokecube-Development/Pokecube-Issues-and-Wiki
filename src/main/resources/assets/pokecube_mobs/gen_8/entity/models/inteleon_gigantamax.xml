@@ -3,11 +3,9 @@
  <model name="">
   <phase name="global" scale="1"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1" headDir1="-1"/>
-  <customTex default="inteleongmax">
-   <part name="Head" tex="inteleonhead"/>
+  <customTex default="inteleongigantamax">
+   <part name="Head" tex="inteleongeye"/>
    <animation diffs="0,0.35" part="Head" trigger="random:0.005:25"/>
-   <part name="Eye" tex="inteleoneye"/>
-   <part name="water" tex="water"/>
   </customTex>
   <material name="water" light="1" transluscent="true"/>
   <phase type="sitting">

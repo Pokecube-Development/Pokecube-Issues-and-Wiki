@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg4" leftHind="leg2:leg2_1" name="quadWalk" rightFront="leg3" rightHind="leg1:leg1_1"/>
   <customTex default="sandile">
    <part name="Head" tex="sandileeye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase axis="0" name="snakeIdle" parts="tail:tail1"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1"/>

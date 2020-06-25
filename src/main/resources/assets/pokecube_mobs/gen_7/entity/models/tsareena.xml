@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="15" name="biWalk" rightArm="" rightLeg="leg1"/>
   <customTex default="tsareena">
    <part name="Head" tex="tsareenahead"/>
-   <animation diffs="0.34,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

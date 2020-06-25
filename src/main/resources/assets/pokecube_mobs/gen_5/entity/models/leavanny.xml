@@ -6,7 +6,8 @@
   <phase duration="10" leftArm="" leftLeg="leg1" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="leavanny">
    <part name="Head" tex="leavannyhead"/>
-   <animation diffs="0,0.4" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.49" part="Head" trigger="random:0.005:5"/>
+   <part name="Mark" tex="leavannyextra"/>
   </customTex>
   <phase type="idle">
    <part name="ant1">

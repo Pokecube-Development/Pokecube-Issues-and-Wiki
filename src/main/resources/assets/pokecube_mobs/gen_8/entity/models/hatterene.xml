@@ -4,8 +4,10 @@
   <phase name="global" scale="0.56"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1" headDir2="1"/>
   <customTex default="hatterene">
-   <part name="Head" tex="hatterenehead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
+   <part name="Head" tex="hattereneeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+   <part name="Mouth" tex="hattereneeye"/>
+   <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="body">

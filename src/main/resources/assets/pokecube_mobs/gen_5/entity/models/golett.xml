@@ -6,7 +6,8 @@
   <phase duration="6" leftArm="arm2" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="arm1" rightLeg="leg2"/>
   <customTex default="golett">
    <part name="Head" tex="goletthead"/>
-   <animation diffs="0,0.29" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.35" part="Head" trigger="random:0.005:5"/>
+   <part name="Extra" tex="goletthead"/>
   </customTex>
   <phase type="idle">
    <part name="body">

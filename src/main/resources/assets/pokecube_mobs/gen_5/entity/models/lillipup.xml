@@ -6,12 +6,12 @@
   <phase duration="10" leftFront="arm3" leftHind="arm1" name="quadWalk" rightFront="arm4" rightHind="arm2"/>
   <customTex default="lillipup">
    <part name="Head" tex="lillipuphead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="tail">
-    <component length="4" name="1" rotChange="0,20,0" rotOffset="15,-10,0" startKey="0"/>
-    <component length="4" name="2" rotChange="0,-20,0" startKey="10"/>
+    <component length="8" name="1" rotChange="0,20,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="0,-20,0" startKey="10"/>
    </part>
   </phase>
   <phase type="sitting">
@@ -35,8 +35,8 @@
     <component length="1" name="1" rotOffset="-35.0,0,0.0," startKey="0"/>
    </part>
    <part name="tail">
-    <component length="4" name="1" rotChange="0,20,0" rotOffset="15,-10,0" startKey="0"/>
-    <component length="4" name="2" rotChange="0,-20,0" startKey="10"/>
+    <component length="10" name="1" rotChange="0,15,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-15,0" startKey="10"/>
    </part>
   </phase>
   <phase type="walking">
@@ -60,8 +60,8 @@
     <component length="1" name="1" rotOffset="-0.0,0,0.0," startKey="0"/>
    </part>
    <part name="tail">
-    <component length="4" name="1" rotChange="0,20,0" rotOffset="-15,-10,0" startKey="0"/>
-    <component length="4" name="2" rotChange="0,-20,0" startKey="10"/>
+    <component length="10" name="1" rotChange="0,10,0" rotOffset="-15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-10,0" startKey="10"/>
    </part>
   </phase>
  </model>

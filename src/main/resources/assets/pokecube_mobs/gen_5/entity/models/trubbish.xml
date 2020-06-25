@@ -5,7 +5,7 @@
   <phase duration="6" leftArm="" leftLeg="foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="foot2"/>
   <customTex default="trubbish">
    <part name="Head" tex="trubbishhead"/>
-   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.4,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="body">
