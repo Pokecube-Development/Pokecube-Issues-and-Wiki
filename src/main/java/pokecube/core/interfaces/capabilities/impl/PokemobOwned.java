@@ -27,6 +27,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.entity.pokemobs.AnimalChest;
@@ -245,10 +246,15 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
         final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega;
 
-        if (megaForm)
+        IPokemob base = this;
+        if (megaForm) base = this.megaRevert();
+
+        final Ability ab = this.getAbility();
+        if (ab != null) base = ab.onRecall(base);
+
+        if (base != this && base != null)
         {
             final float hp = this.getHealth();
-            final IPokemob base = this.megaRevert();
             base.setHealth(hp);
             if (base == this) this.returning = false;
             if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbility(AbilityManager
