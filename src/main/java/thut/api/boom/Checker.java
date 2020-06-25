@@ -23,6 +23,7 @@ import thut.api.boom.ExplosionCustom.HitEntity;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
+import thut.core.common.ThutCore;
 
 public class Checker
 {
@@ -55,49 +56,28 @@ public class Checker
         default float getTotalValue(final Vector3 rHat, final float r, final int minCube, final ExplosionCustom boom)
         {
 
-            float resist;
-            float res_prev;
-            final float dj = 1;
-            resist = 0;
-            res_prev = 0;
+            float resist = 0;
             float res;
 
             // Check each block to see if we have enough power to break.
-            for (float j = 0; j <= r; j += dj)
+            for (float j = 0; j <= r; j += 1.0f)
             {
                 boom.rTest.set(boom.rHat).scalarMultBy(j);
-
                 if (!boom.rTest.sameBlock(boom.rTestPrev))
                 {
                     boom.rTestAbs.set(boom.rTest).addTo(boom.centre);
-
                     final BlockPos testPos = boom.rTest.getPos();
-
-                    if (boom.resists.has(testPos))
-                    {
-                        res_prev = boom.resists.get(testPos);
-                        res = res_prev;
-                    }
+                    if (this.has(testPos)) res = this.get(testPos);
                     else
                     {
                         // Ensure the chunk exists.
                         final ChunkPos cpos = new ChunkPos(boom.rTestAbs.getPos());
                         boom.world.getChunk(cpos.x, cpos.z);
                         res = boom.resistProvider.getResistance(boom.rTestAbs.getPos(), boom);
-                        boom.resists.set(testPos, res);
+                        this.set(testPos, res);
                     }
                     resist += res;
-                    // Can't break this, so set as blocked and flag for next
-                    // site.
-                    if (!boom.canBreak(boom.rTestAbs, boom.rTestAbs.getBlockState(boom.world)))
-                    {
-                        boom.shadow.block(boom.r.getPos(), boom.rHat);
-                        boom.ind2++;
-                        return boom.strength;
-                    }
-                    final double d1 = boom.rTest.magSq();
-                    final double d = d1;
-                    final float str = (float) (boom.strength / d);
+                    final float str = (float) (boom.strength / boom.rTest.magSq());
                     // too hard, so set as blocked and flag for next site.
                     if (resist > str)
                     {
@@ -108,7 +88,6 @@ public class Checker
                 }
                 boom.rTestPrev.set(boom.rTest);
             }
-
             return 0;
         }
     }
@@ -399,7 +378,10 @@ public class Checker
             this.boom.min_next.set(1, 1, 1);
             this.boom.max_next.set(-1, -1, -1);
             this.boom.lastBoundCheck = r;
-
+            ThutCore.LOGGER.debug("Strength: {}, Max radius: {}, Last Radius: {}",
+                    this.boom.strength,
+                    this.boom.radius,
+                    (int) r);
             this.boom.shadow.clean(this.boom);
         }
         else

@@ -73,6 +73,10 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    maven {
+        name "jared maven"
+        url "http://blamejared.com/maven"
+	}
     maven { // Computer Craft
         url 'https://squiddev.cc/maven/' 
     }
@@ -117,6 +121,9 @@ dependencies {
     
     //Minecolonies
     implementation fg.deobf("libs:minecolonies-${version_minecolonies}")
+    
+    //Immersive Enginnering
+    //implementation "blusunrize:ImmersiveEngineering:0.15-+"
 
 }
 
