@@ -18878,7 +18878,7 @@
       }
     ]
   },
-  "mobs.kubfu": {
+  "mobs.urshifu_single": {
     "category": "hostile",
     "subtitle": "entity.pokecube.urshifu_single",
     "sounds": [
@@ -18899,7 +18899,7 @@
       }
     ]
   },
-  "mobs.kubfu": {
+  "mobs.urshifu_rapid": {
     "category": "hostile",
     "subtitle": "entity.pokecube.urshifu_rapid",
     "sounds": [
@@ -18920,7 +18920,7 @@
       }
     ]
   },
-  "mobs.kubfu": {
+  "mobs.zarude": {
     "category": "hostile",
     "subtitle": "entity.pokecube.zarude",
     "sounds": [
