@@ -72944,7 +72944,7 @@
       "name": "Kubfu",
       "number": 891,
       "base": true,
-	  "legend": true,
+      "legend": true,
       "breed": false,
       "stats": {
         "stats": {
@@ -73003,7 +73003,7 @@
             "40": "dynamicpunch",
             "44": "counter",
             "48": "closecombat",
-			"48": "focuspunch"
+            "52": "focuspunch"
           }
         },
         "misc": {
