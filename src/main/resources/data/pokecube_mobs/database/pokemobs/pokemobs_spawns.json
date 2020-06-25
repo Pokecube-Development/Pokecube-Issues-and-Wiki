@@ -1516,6 +1516,14 @@
               "rate": "0.01",
               "max": "1"
             }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "rate": "0.05",
+			  "min": "1",
+			  "max": "1"
+            }
           }
         ]
       }
@@ -1531,6 +1539,14 @@
               "rate": "0.01",
               "max": "1"
             }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "rate": "0.05",
+			  "min": "1",
+			  "max": "1"
+            }
           }
         ]
       }
@@ -1545,6 +1561,14 @@
               "min": "1",
               "rate": "0.01",
               "max": "1"
+            }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "rate": "0.05",
+			  "min": "1",
+			  "max": "1"
             }
           }
         ]
@@ -2394,8 +2418,16 @@
             "values": {
               "types": "industrial",
               "min": "1",
-              "rate": "0.02",
+              "rate": "0.03",
               "max": "1"
+            }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "rate": "0.05",
+			  "min": "1",
+			  "max": "1"
             }
           }
         ]
@@ -2420,6 +2452,14 @@
               "rate": "0.02",
               "max": "1"
             }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "rate": "0.05",
+			  "min": "1",
+			  "max": "1"
+            }
           }
         ]
       }
@@ -2442,6 +2482,14 @@
               "min": "1",
               "rate": "0.02",
               "max": "1"
+            }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "rate": "0.05",
+			  "min": "1",
+			  "max": "1"
             }
           }
         ]
@@ -5912,6 +5960,14 @@
               "rate": "0.002",
               "max": "1"
             }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
+              "rate": "0.02",
+			  "min": "1",
+			  "max": "1"
+            }
           }
         ]
       }
@@ -5926,6 +5982,14 @@
               "min": "1",
               "rate": "0.002",
               "max": "1"
+            }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "rate": "0.02",
+			  "min": "1",
+			  "max": "1"
             }
           }
         ]
@@ -5942,6 +6006,14 @@
               "rate": "0.002",
               "max": "1"
             }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "rate": "0.02",
+			  "min": "1",
+			  "max": "1"
+			}
           }
         ]
       }
@@ -5957,6 +6029,14 @@
               "rate": "0.002",
               "max": "1"
             }
+          },
+		  {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "rate": "0.02",
+			  "min": "1",
+			  "max": "1"
+			}
           }
         ]
       }
