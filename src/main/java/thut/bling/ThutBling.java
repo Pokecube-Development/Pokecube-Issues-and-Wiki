@@ -2,9 +2,9 @@ package thut.bling;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.inventory.ChestScreen;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -37,8 +37,8 @@ import thut.wearables.network.PacketHandler;
 public class ThutBling
 {
     public static final String      MODID = "thut_bling";
-    public static final CommonProxy PROXY = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public static final CommonProxy PROXY = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
 
     public static class ClientProxy extends CommonProxy
     {

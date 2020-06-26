@@ -56,8 +56,8 @@ public class NBTEdit
 
     public static boolean opOnly = true;
 
-    public final static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public final static CommonProxy proxy = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
 
     public static final ConfigHolder config = new ConfigHolder();
 

@@ -63,8 +63,8 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Reference.ID);
-    public static final DeferredRegister<Item>  ITEMS  = new DeferredRegister<>(ForgeRegistries.ITEMS, Reference.ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
+    public static final DeferredRegister<Item>  ITEMS  = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
@@ -109,8 +109,9 @@ public class PokecubeLegends
                                 .getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(
                                         new CountRangeConfig(2, 0, 0, 32))));
                 b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE.get()
-                                .getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(
+                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE
+                                .get().getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE
+                                        .configure(
                                         new CountRangeConfig(2, 0, 0, 32))));
             }
 
@@ -137,8 +138,8 @@ public class PokecubeLegends
         }
     }
 
-    public static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public static CommonProxy proxy = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
 
     public static final Config config = new Config();
 

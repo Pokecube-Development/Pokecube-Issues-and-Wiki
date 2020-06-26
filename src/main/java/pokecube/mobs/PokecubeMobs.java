@@ -87,8 +87,8 @@ public class PokecubeMobs
     }
 
     public static final String MODID = "pokecube_mobs";
-    public static CommonProxy  proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public static CommonProxy  proxy = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
 
     Map<PokedexEntry, Integer> genMap = Maps.newHashMap();
 

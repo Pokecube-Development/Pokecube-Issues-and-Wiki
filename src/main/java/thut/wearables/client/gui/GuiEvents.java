@@ -39,13 +39,6 @@ public class GuiEvents
 
     @OnlyIn(value = Dist.CLIENT)
     @SubscribeEvent
-    public void guiPostAction(final GuiScreenEvent.ActionPerformedEvent.Post event)
-    {
-        System.out.println("test");
-    }
-
-    @OnlyIn(value = Dist.CLIENT)
-    @SubscribeEvent
     public void guiPostInit(final GuiScreenEvent.InitGuiEvent.Post event)
     {
         if (!ThutWearables.config.hasButton) return;

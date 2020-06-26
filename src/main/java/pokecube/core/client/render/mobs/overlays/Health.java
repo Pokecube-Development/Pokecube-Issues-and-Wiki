@@ -285,7 +285,6 @@ public class Health
         mat.pop();
     }
 
-    @SuppressWarnings("deprecation")
     public static void renderIcon(final LivingEntity mob, final MatrixStack mat, final IRenderTypeBuffer buf,
             final int vertexX, final int vertexY, final ItemStack stack, final int intU, final int intV, final int br)
     {

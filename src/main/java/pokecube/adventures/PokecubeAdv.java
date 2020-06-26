@@ -276,8 +276,8 @@ public class PokecubeAdv
 
     public static final String TRAINERTEXTUREPATH = PokecubeAdv.MODID + ":textures/trainer/";
 
-    public final static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public final static CommonProxy proxy = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
 
     private static final String NETVERSION = "1.0.1";
     // Handler for network stuff.
