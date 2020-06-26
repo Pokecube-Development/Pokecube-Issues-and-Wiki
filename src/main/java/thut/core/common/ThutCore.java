@@ -153,8 +153,8 @@ public class ThutCore
 
     public static ThutCore instance;
 
-    public static final Proxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public static final Proxy proxy = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
 
     public static final ConfigHandler conf = new ConfigHandler();
 

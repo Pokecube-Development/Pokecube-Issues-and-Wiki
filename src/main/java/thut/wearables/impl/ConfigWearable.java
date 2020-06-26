@@ -52,7 +52,6 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
         return this.slot;
     }
 
-    @SuppressWarnings("deprecation")
     @OnlyIn(value = Dist.CLIENT)
     @Override
     public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,

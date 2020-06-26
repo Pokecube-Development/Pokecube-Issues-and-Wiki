@@ -339,8 +339,8 @@ public class PokecubeCore
     private static final Config config = new Config();
 
     // Sided proxy for handling server/client only stuff.
-    public final static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public final static CommonProxy proxy = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
 
     // Spawner for world spawning of pokemobs.
     public static SpawnHandler spawner = new SpawnHandler();

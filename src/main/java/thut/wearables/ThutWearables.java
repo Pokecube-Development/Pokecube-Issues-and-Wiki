@@ -202,8 +202,8 @@ public class ThutWearables
     public final static PacketHandler packets = new PacketHandler(new ResourceLocation(Reference.MODID, "comms"),
             Reference.NETVERSION);
 
-    public final static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public final static CommonProxy proxy = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
     // Holder for our config options
     public static final Config config = new Config();
 

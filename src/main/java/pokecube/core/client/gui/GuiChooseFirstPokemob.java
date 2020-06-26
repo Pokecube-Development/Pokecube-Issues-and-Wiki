@@ -244,7 +244,6 @@ public class GuiChooseFirstPokemob extends Screen
         GL11.glPopMatrix();
     }
 
-    @SuppressWarnings("deprecation")
     public void renderItem(final double x, final double y, final double z)
     {
         final ItemStack item = PokecubeItems.POKECUBE_CUBES;

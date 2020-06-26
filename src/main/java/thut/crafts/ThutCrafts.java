@@ -70,8 +70,8 @@ public class ThutCrafts
     public final static PacketHandler packets = new PacketHandler(new ResourceLocation(Reference.MODID, "comms"),
             Reference.NETVERSION);
 
-    public static Proxy               proxy   = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public static Proxy proxy = DistExecutor.safeRunForDist(
+            () -> ClientProxy::new, () -> CommonProxy::new);
 
     public static Item                CRAFTMAKER;
 
