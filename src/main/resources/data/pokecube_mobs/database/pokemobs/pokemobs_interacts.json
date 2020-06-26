@@ -1534,7 +1534,7 @@
 	    "evolutions": [
           {
             "name": "Slowbro Galar",
-            "item_preset": "galarcuff",
+            "item_preset": "galarcuff"
           }
         ],
         "species": "Lizard Artiodactyla",
