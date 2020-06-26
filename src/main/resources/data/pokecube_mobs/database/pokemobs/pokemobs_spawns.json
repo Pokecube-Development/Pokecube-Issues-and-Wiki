@@ -1517,12 +1517,12 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:lugia_tower",
               "rate": "0.05",
-			  "min": "1",
-			  "max": "1"
+              "min": "1",
+              "max": "1"
             }
           }
         ]
@@ -1540,12 +1540,12 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:lugia_tower",
               "rate": "0.05",
-			  "min": "1",
-			  "max": "1"
+              "min": "1",
+              "max": "1"
             }
           }
         ]
@@ -1563,12 +1563,12 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:lugia_tower",
               "rate": "0.05",
-			  "min": "1",
-			  "max": "1"
+              "min": "1",
+              "max": "1"
             }
           }
         ]
@@ -2422,12 +2422,12 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:hooh_tower",
               "rate": "0.05",
-			  "min": "1",
-			  "max": "1"
+              "min": "1",
+              "max": "1"
             }
           }
         ]
@@ -2453,12 +2453,12 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:hooh_tower",
               "rate": "0.05",
-			  "min": "1",
-			  "max": "1"
+              "min": "1",
+              "max": "1"
             }
           }
         ]
@@ -2484,12 +2484,12 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:hooh_tower",
               "rate": "0.05",
-			  "min": "1",
-			  "max": "1"
+              "min": "1",
+              "max": "1"
             }
           }
         ]
@@ -5961,12 +5961,12 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:space_temple",
               "rate": "0.02",
-			  "min": "1",
-			  "max": "1"
+              "min": "1",
+              "max": "1"
             }
           }
         ]
@@ -5984,12 +5984,12 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:keldeo_place",
               "rate": "0.02",
-			  "min": "1",
-			  "max": "1"
+              "min": "1",
+              "max": "1"
             }
           }
         ]
@@ -6007,13 +6007,13 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:keldeo_place",
               "rate": "0.02",
-			  "min": "1",
-			  "max": "1"
-			}
+              "min": "1",
+              "max": "1"
+            }
           }
         ]
       }
@@ -6030,13 +6030,13 @@
               "max": "1"
             }
           },
-		  {
+          {
             "values": {
               "structures": "pokecube_legends:keldeo_place",
               "rate": "0.02",
-			  "min": "1",
-			  "max": "1"
-			}
+              "min": "1",
+              "max": "1"
+            }
           }
         ]
       }
@@ -7951,7 +7951,7 @@
               "rate": "0.3"
             }
           },
-		  {
+          {
             "values": {
               "category": "spooky",
               "rate": "0.18"
@@ -8048,7 +8048,7 @@
               "rate": "0.16"
             }
           },
-		  {
+          {
             "values": {
               "category": "village",
               "rate": "0.18"
@@ -8067,7 +8067,7 @@
               "rate": "0.18"
             }
           },
-		  {
+          {
             "values": {
               "category": "forest",
               "rate": "0.2"
@@ -8140,7 +8140,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Kubfu",
       "stats": {
         "spawnRules": [
@@ -8153,7 +8153,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Zarude",
       "stats": {
         "spawnRules": [
