@@ -2418,7 +2418,7 @@
             "values": {
               "types": "industrial",
               "min": "1",
-              "rate": "0.03",
+              "rate": "0.01",
               "max": "1"
             }
           },
