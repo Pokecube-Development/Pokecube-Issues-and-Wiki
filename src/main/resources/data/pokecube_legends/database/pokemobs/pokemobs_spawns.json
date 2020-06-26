@@ -49,6 +49,12 @@
               "types": "mountain",
               "rate": "0.0"
             }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:regirock_temple",
+              "rate": "0.0"
+            }
           }
         ]
       }
@@ -60,6 +66,12 @@
           {
             "values": {
               "types": "mountain,cold",
+              "rate": "0.0"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:regice_temple",
               "rate": "0.0"
             }
           }
@@ -76,6 +88,12 @@
               "types": "mountain",
               "rate": "0.0"
             }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:registeel_temple",
+              "rate": "0.0"
+            }
           }
         ]
       }
@@ -86,7 +104,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:regis_temple",
+              "structures": "pokecube_legends:regigigas_temple",
               "rate": "0.0"
             }
           }
