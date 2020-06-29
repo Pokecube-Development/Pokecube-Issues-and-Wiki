@@ -74,7 +74,7 @@ public class ItemInit
     
     //Raids/Dynamax/Gigantamax
     public static final RegistryObject<Item> WISHING_PIECE;
-    public static final RegistryObject<Item> GIGANTIC_SHARD;
+    //public static final RegistryObject<Item> GIGANTIC_SHARD;
 
     // Tools
     public static final RegistryObject<Item> RAINBOW_SWORD;
@@ -141,7 +141,7 @@ public class ItemInit
         PWATER = PokecubeLegends.ITEMS.register("pwater", () -> new ItemBase("pwater", 1).setTooltipName("pwater"));
 
         WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1));
-        GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));
+        //GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(4, -3,
                 ItemInit.MATERIAL_RAINBOW));
