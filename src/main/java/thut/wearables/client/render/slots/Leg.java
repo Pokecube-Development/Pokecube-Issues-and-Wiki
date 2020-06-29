@@ -28,12 +28,8 @@ public class Leg
 
         mat.push();
 
-        if (wearer.isCrouching())
-        {
-            mat.translate(0.0F, 0.23125F, 0.01F);
-            if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(4 + index)) != null) mat.translate(
-                    offsetArr[0], offsetArr[1], offsetArr[2]);
-        }
+        if (wearer.isCrouching() && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(4 + index)) != null) mat
+                .translate(offsetArr[0], offsetArr[1], offsetArr[2]);
 
         if (index == 0) theModel.bipedRightLeg.translateRotate(mat);
         else theModel.bipedLeftLeg.translateRotate(mat);
