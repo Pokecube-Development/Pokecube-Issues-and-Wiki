@@ -5,12 +5,12 @@
 	<metadata head="head" headCap="-70,70" headCap1="-60,60" headAxis="2" headAxis2="0" headDir="-1"/>
 	<phase name="biWalk" leftLeg="leg2" rightLeg="leg1" leftArm="" rightArm="" duration="12" legAngle="30"/>
    <customTex default="cinderace">
-    <part name="Head" tex="cinderacehead"/>
+    <part name="Head" tex="cinderaceeye"/>
     <animation diffs="0,0.5" part="Head" trigger="random:0.005:2"/>
     <part name="Mouth" tex="cinderacemouth"/>
     <animation diffs="0.5,0" part="Mouth" trigger="random:0.005:2"/>
 	<part name="Flame" tex="flame_c"/>
-	<part name="ballface" tex="cinderace_ball"/>
+	<part name="ballface" tex="cinderaceballface"/>
    </customTex>
    <material name="Flame" light="1" transluscent="false"/>
    <material name="ballface" light="1" transluscent="true"/>
