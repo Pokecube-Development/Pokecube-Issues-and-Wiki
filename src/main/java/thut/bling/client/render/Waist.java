@@ -16,6 +16,7 @@ public class Waist
             final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
             final int overlay)
     {
+        if (!model.isLoaded() || !model.isValid()) return;
         float s, dx, dy, dz;
         dx = 0;
         dy = -.0f;

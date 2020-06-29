@@ -33,6 +33,7 @@ public class Eye
             final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
             final int overlay)
     {
+        if (!model.isLoaded() || !model.isValid()) return;
         // TODO eye by model instead of texture.
         mat.push();
         mat.translate(-0.26, -0.175, -0.251);
