@@ -134,7 +134,7 @@
     "": "/Tools",
     "item.pokecube_legends.rainbow_sword": "Rainbow Sword",
     "item.pokecube_legends.wishing_piece": "Wishing Piece",
-    "item.pokecube_legends.gigantic_shard": "Gigant Shard",
+    "item.pokecube_legends.gigantic_shard": "Gigant Shard (WIP)",
 
     "": "/Blocks",
     "block.pokecube_legends.regirock_spawn": "Regirock Core",
@@ -215,7 +215,7 @@
     "legends.rustedshield.tooltip": "Use this item on 'Legendary Spawn' to Spawn Zamazenta. Use this item in 'Zamazenta' to change it.",
     "legends.rustedsword.tooltip": "Use this item on 'Legendary Spawn' to Spawn Zacian. Use this item in 'Zacian' to change it.",
     "legends.zygardecube.tooltip": "Use this item in 'Zygarde' to change it.",
-    "legends.gigantic_shard.tooltip": "Use para fazer seu pokemon usar o Gigantamax.",
+    "legends.gigantic_shard.tooltip": "Use to make your pokemon use Gigantamax!",
     "legends.wishing_piece.tooltip": "Use this item on an inactive raid spot to activate it!",
 	"legends.pdark.tooltip": "Use this item to evolve Kubfu into Single Strike Style",
 	"legends.pwater.tooltip": "Use this item to evolve Kubfu into Rapid Strike Style"
