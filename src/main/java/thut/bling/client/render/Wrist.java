@@ -15,6 +15,7 @@ public class Wrist
             final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
             final int overlay)
     {
+        if (!model.isLoaded() || !model.isValid()) return;
         float s, sy, sx, sz, dx, dy, dz;
         dx = 0.f;
         dy = .06f;

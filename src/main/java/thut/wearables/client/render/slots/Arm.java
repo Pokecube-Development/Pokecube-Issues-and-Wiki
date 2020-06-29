@@ -28,7 +28,7 @@ public class Arm
         float[] offsetArr;
         final boolean sneak = wearer.isCrouching();
         mat.push();
-        if (wearer.isCrouching()) mat.translate(0.0F, 0.23125F, 0.01F);
+
         boolean render = false;
         // Right side
         if (index == 0) switch (slot)

@@ -28,8 +28,8 @@ public class Head
         float[] offsetArr;
 
         mat.push();
-        if (wearer.isCrouching()) if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null) mat
-                .translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+        if (wearer.isCrouching() && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null) mat.translate(
+                offsetArr[0], offsetArr[1], offsetArr[2]);
         if (wearer.isChild())
         {
             final float af = 2.0F;
