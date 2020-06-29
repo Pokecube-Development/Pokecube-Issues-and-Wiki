@@ -61,6 +61,7 @@ public class ClientProxy extends CommonProxy
                 if (slot != EnumWearable.HAT) return;
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megatiara.x3d"));
+                if (!this.model.isLoaded() || !this.model.isValid()) return;
                 final float dx = -0.0f, dy = 0.25f, dz = -0.25f;
                 mat.rotate(Vector3f.XP.rotationDegrees(-90));
                 mat.translate(dx, dy, dz);
@@ -101,6 +102,7 @@ public class ClientProxy extends CommonProxy
                 if (slot != EnumWearable.ANKLE) return;
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaankletzinnia.x3d"));
+                if (!this.model.isLoaded() || !this.model.isValid()) return;
                 float s, dx, dy, dz;
                 dx = 0.f;
                 dy = .06f;
@@ -147,6 +149,7 @@ public class ClientProxy extends CommonProxy
                 if (slot != EnumWearable.NECK) return;
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megapendant.x3d"));
+                if (!this.model.isLoaded() || !this.model.isValid()) return;
                 float  dx, dy, dz;
                 dx = 0;
                 dy = -.0f;
@@ -192,6 +195,7 @@ public class ClientProxy extends CommonProxy
                 if (slot != EnumWearable.EAR) return;
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaearring.x3d"));
+                if (!this.model.isLoaded() || !this.model.isValid()) return;
                 final Minecraft minecraft = Minecraft.getInstance();
                 float dx, dy, dz;
                 dx = 0.0f;
@@ -239,6 +243,7 @@ public class ClientProxy extends CommonProxy
                 if (slot != EnumWearable.EYE) return;
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaglasses.x3d"));
+                if (!this.model.isLoaded() || !this.model.isValid()) return;
 
                 final float dx = -0.0f, dy = 0.0f, dz = -0.25f;
                 mat.rotate(Vector3f.XP.rotationDegrees(90));

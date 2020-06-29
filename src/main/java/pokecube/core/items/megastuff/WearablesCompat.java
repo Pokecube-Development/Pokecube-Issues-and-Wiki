@@ -160,6 +160,7 @@ public class WearablesCompat
                     this.strap = new ResourceLocation(PokecubeMod.ID, "textures/worn/megabelt_2.png");
                     this.watch = new ResourceLocation(PokecubeMod.ID, "textures/worn/watch.png");
                 }
+                if (!this.model.isLoaded() || !this.model.isValid()) return;
                 float s, sy, sx, sz, dx, dy, dz;
                 dx = 0.f;
                 dy = .06f;
@@ -221,10 +222,10 @@ public class WearablesCompat
                 mat.scale(s, s, s);
                 mat.rotate(net.minecraft.client.renderer.Vector3f.YP.rotationDegrees(90));
                 buf = ModelRing.makeBuilder(buff, ModelRing.texture_1);
-                ring.pass = 1;
+                this.ring.pass = 1;
                 this.ring.render(mat, buf, brightness, overlay, 1, 1, 1, 1);
                 buf = ModelRing.makeBuilder(buff, ModelRing.texture_2);
-                ring.pass = 2;
+                this.ring.pass = 2;
                 this.ring.render(mat, buf, brightness, overlay, 1, 1, 1, 1);
             }
         });
@@ -251,6 +252,7 @@ public class WearablesCompat
                     this.keystone = new ResourceLocation(PokecubeMod.ID, "textures/worn/keystone.png");
                     this.belt_2 = new ResourceLocation(PokecubeMod.ID, "textures/worn/megabelt_2.png");
                 }
+                if (!this.belt.isLoaded() || !this.belt.isValid()) return;
                 float s, dx, dy, dz;
                 dx = 0;
                 dy = -.0f;
@@ -298,6 +300,7 @@ public class WearablesCompat
                 if (slot != EnumWearable.HAT) return;
                 if (this.hat == null)
                     this.hat = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/hat.x3d"));
+                if (!this.hat.isLoaded() || !this.hat.isValid()) return;
                 Hat.renderHat(mat, buff, wearer, stack, this.hat, this.TEX, brightness, overlay);
             }
         });
@@ -310,11 +313,8 @@ public class WearablesCompat
             final Set<ItemStack> worn = thut.wearables.ThutWearables.getWearables(player).getWearables();
             for (final ItemStack stack1 : worn)
                 if (stack1 != null) if (MegaCapability.matches(stack1, toEvolve)) return true;
-            for (int i = 0; i < player.inventory.armorInventory.size(); i++)
-            {
-                final ItemStack stack2 = player.inventory.armorInventory.get(i);
+            for (final ItemStack stack2 : player.inventory.armorInventory)
                 if (stack2 != null) if (MegaCapability.matches(stack2, toEvolve)) return true;
-            }
             return false;
         };
     }

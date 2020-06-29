@@ -26,6 +26,7 @@ public class Hat
     {
         if (!(model instanceof IModelCustom)) return;
         final IModelCustom renderable = (IModelCustom) model;
+        if (!model.isLoaded() || !model.isValid()) return;
 
         DyeColor ret;
         Color colour;

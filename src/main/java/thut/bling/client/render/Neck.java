@@ -23,6 +23,7 @@ public class Neck
             final int overlay)
     {
         if (!(model instanceof IModelCustom)) return;
+        if (!model.isLoaded() || !model.isValid()) return;
         final ResourceLocation[] tex = textures.clone();
         final IModelCustom renderable = (IModelCustom) model;
         DyeColor ret;

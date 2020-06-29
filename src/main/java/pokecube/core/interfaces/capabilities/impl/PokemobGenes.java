@@ -463,7 +463,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 .getConfig().scalefactor));
         if (this.getEntity().getEntityWorld() != null && this.getEntity().isServerWorld()) PacketChangeForme
                 .sendPacketToTracking(ret.getEntity(), newEntry);
-        System.out.println(entry + "->" + newEntry + " " + (ret == this));
         return ret;
     }
 

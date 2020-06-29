@@ -22,6 +22,7 @@ public class Back
             final int overlay)
     {
         if (!(model instanceof IModelCustom)) return;
+        if (!model.isLoaded() || !model.isValid()) return;
         final IModelCustom renderable = (IModelCustom) model;
 
         DyeColor ret;
