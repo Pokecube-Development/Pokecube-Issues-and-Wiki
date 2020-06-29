@@ -21,6 +21,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
@@ -92,9 +93,10 @@ public class MaxRaidFunction
             v.add(0, 1, 0).moveEntity(entity);
             entity.setPosition(v.x, v.y + 3, v.z);
             //
-            //pokemob.setHeldItem(new ItemStack(Items.END_STONE));
+            // pokemob.setHeldItem(new ItemStack(Items.END_STONE));
             //
-            
+            pokemob.setExp(Tools.levelToXp(entityToSpawn.getBaseXP(), new Random().nextInt(100)), false);
+
             final Long time = entity.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
