@@ -19,7 +19,7 @@ public class ItemNature extends Item
 {
     public static boolean isNature(final ItemStack stackIn)
     {
-        return stackIn != null && stackIn.getItem() instanceof ItemNature;
+        return stackIn.getItem() instanceof ItemNature;
     }
 
     public final Nature type;
