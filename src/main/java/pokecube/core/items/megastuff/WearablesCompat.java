@@ -169,8 +169,8 @@ public class WearablesCompat
                 sx = 1.05f * s / 2;
                 sy = s * 1.8f / 2;
                 sz = s / 2;
-                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
-                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
 
                 mat.push();
                 mat.translate(dx, dy, dz);
@@ -220,7 +220,7 @@ public class WearablesCompat
                 s = .2f;
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
-                mat.rotate(net.minecraft.client.renderer.Vector3f.YP.rotationDegrees(90));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.YP.rotationDegrees(90));
                 buf = ModelRing.makeBuilder(buff, ModelRing.texture_1);
                 this.ring.pass = 1;
                 this.ring.render(mat, buf, brightness, overlay, 1, 1, 1, 1);
@@ -259,8 +259,8 @@ public class WearablesCompat
                 dz = -0.6f;
                 s = 1.1f;
                 if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS).isEmpty()) s = .95f;
-                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
-                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
                 mat.push();
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);

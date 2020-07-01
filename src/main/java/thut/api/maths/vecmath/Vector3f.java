@@ -94,9 +94,9 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public net.minecraft.client.renderer.Vector3f toMC()
+    public net.minecraft.util.math.vector.Vector3f toMC()
     {
-        return new net.minecraft.client.renderer.Vector3f(this.x, this.y, this.z);
+        return new net.minecraft.util.math.vector.Vector3f(this.x, this.y, this.z);
     }
 
     public Vector3f(final Vector3 rHat)

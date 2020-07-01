@@ -5,7 +5,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.item.DyeColor;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
@@ -120,18 +120,18 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
     protected void render(final IVertexBuilder buffer, final Quaternion quaternion, final Vector3f offset)
     {
-        final net.minecraft.client.renderer.Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F).toMC();
+        final net.minecraft.util.math.vector.Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F).toMC();
         vector3f1.transform(quaternion);
-        final net.minecraft.client.renderer.Vector3f[] verts = new net.minecraft.client.renderer.Vector3f[] {
-                new net.minecraft.client.renderer.Vector3f(-1.0F, -1.0F, 0.0F),
-                new net.minecraft.client.renderer.Vector3f(-1.0F, 1.0F, 0.0F),
-                new net.minecraft.client.renderer.Vector3f(1.0F, 1.0F, 0.0F),
-                new net.minecraft.client.renderer.Vector3f(1.0F, -1.0F, 0.0F) };
+        final net.minecraft.util.math.vector.Vector3f[] verts = new net.minecraft.util.math.vector.Vector3f[] {
+                new net.minecraft.util.math.vector.Vector3f(-1.0F, -1.0F, 0.0F),
+                new net.minecraft.util.math.vector.Vector3f(-1.0F, 1.0F, 0.0F),
+                new net.minecraft.util.math.vector.Vector3f(1.0F, 1.0F, 0.0F),
+                new net.minecraft.util.math.vector.Vector3f(1.0F, -1.0F, 0.0F) };
         final float f4 = this.size;
 
         for (int i = 0; i < 4; ++i)
         {
-            final net.minecraft.client.renderer.Vector3f vector3f = verts[i];
+            final net.minecraft.util.math.vector.Vector3f vector3f = verts[i];
             vector3f.transform(quaternion);
             vector3f.mul(f4);
             vector3f.add(offset.x, offset.y, offset.z);

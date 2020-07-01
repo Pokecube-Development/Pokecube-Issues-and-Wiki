@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -108,8 +108,8 @@ public class ClientProxy extends CommonProxy
                 dy = .06f;
                 dz = 0.f;
                 s = 1.f;
-                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
-                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
@@ -201,7 +201,7 @@ public class ClientProxy extends CommonProxy
                 dx = 0.0f;
                 dy = index == 0 ? 0.01f : -0.01f;
                 dz = -0.25f;
-                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");
