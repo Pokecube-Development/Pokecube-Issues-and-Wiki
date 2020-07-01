@@ -110,8 +110,8 @@ public class IdleWalkTask extends BaseIdleTask
                 .getConfig().aiDisableDistance);
         if (player != null)
         {
-            final double diff = Math.abs(player.posY - this.y);
-            if (diff > 5) this.y = player.posY + 5 * (1 - Math.random());
+            final double diff = Math.abs(player.getPosY() - this.y);
+            if (diff > 5) this.y = player.getPosY() + 5 * (1 - Math.random());
         }
     }
 
@@ -126,9 +126,9 @@ public class IdleWalkTask extends BaseIdleTask
     /** Stationary things will not idle path at all */
     public void doStationaryIdle()
     {
-        this.x = this.entity.posX;
-        this.y = this.entity.posY;
-        this.z = this.entity.posZ;
+        this.x = this.entity.getPosX();
+        this.y = this.entity.getPosY();
+        this.z = this.entity.getPosZ();
     }
 
     /** Water things will not idle path out of water. */
@@ -137,9 +137,9 @@ public class IdleWalkTask extends BaseIdleTask
         this.v.set(this.x, this.y, this.z);
         if (this.world.getFluidState(this.v.getPos()).isTagged(FluidTags.WATER))
         {
-            this.x = this.entity.posX;
-            this.y = this.entity.posY;
-            this.z = this.entity.posZ;
+            this.x = this.entity.getPosX();
+            this.y = this.entity.getPosY();
+            this.z = this.entity.getPosZ();
         }
     }
 

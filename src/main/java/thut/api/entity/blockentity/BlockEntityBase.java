@@ -243,8 +243,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         final int xMax = this.boundMax.getX();
         final int zMax = this.boundMax.getZ();
 
-        final List<?> list = this.world.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.posX + (xMin
-                - 2), this.posY, this.posZ + (zMin - 2), this.posX + xMax + 2, this.posY + 64, this.posZ + zMax + 2));
+        final List<?> list = this.world.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.getPosX() + (xMin
+                - 2), this.getPosY(), this.getPosZ() + (zMin - 2), this.getPosX() + xMax + 2, this.getPosY() + 64, this.getPosZ() + zMax + 2));
         if (list != null && !list.isEmpty())
         {
             if (list.size() == 1 && this.getRecursivePassengers() != null && !this.getRecursivePassengers().isEmpty())
@@ -466,21 +466,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void resetPositionToBB()
-    {
-        final BlockPos min = this.getMin();
-        final BlockPos max = this.getMax();
-        final float xDiff = (max.getX() - min.getX()) / 2f;
-        final float zDiff = (max.getZ() - min.getZ()) / 2f;
-        final AxisAlignedBB axisalignedbb = this.getBoundingBox();
-        if (xDiff % 1 != 0) this.posX = axisalignedbb.minX + xDiff;
-        else this.posX = (axisalignedbb.minX + axisalignedbb.maxX) / 2.0D;
-        this.posY = axisalignedbb.minY;
-        if (zDiff % 1 != 0) this.posZ = axisalignedbb.minZ + zDiff;
-        else this.posZ = (axisalignedbb.minZ + axisalignedbb.maxZ) / 2.0D;
-    }
-
-    @Override
     public void setBlocks(final BlockState[][][] blocks)
     {
         this.blocks = blocks;
@@ -549,9 +534,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         if (this.getBlocks() == null && this.getEntityWorld().isRemote) return;
 
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        this.prevPosX = this.getPosX();
+        this.prevPosY = this.getPosY();
+        this.prevPosZ = this.getPosZ();
 
         if (this.collider == null)
         {
@@ -578,8 +563,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         else if (dx == dy && dy == dz && dz == 0 && !this.world.isRemote)
         {
             final BlockPos pos = this.getPosition();
-            final boolean update = this.posX != pos.getX() + 0.5 || this.posY != Math.round(this.posY)
-                    || this.posZ != pos.getZ() + 0.5;
+            final boolean update = this.getPosX() != pos.getX() + 0.5 || this.getPosY() != Math.round(this.getPosY())
+                    || this.getPosZ() != pos.getZ() + 0.5;
             if (update) this.onGridAlign();
         }
         this.checkCollision();

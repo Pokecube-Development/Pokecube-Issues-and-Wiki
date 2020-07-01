@@ -85,8 +85,8 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                     for (int j = 0; j < sizeY; j++)
                         for (int k = 0; k < sizeZ; k++)
                         {
-                            pos1.setPos(i + xMin + this.craft.posX, j + yMin + this.craft.posY, k + zMin
-                                    + this.craft.posZ);
+                            pos1.setPos(i + xMin + this.craft.getPosX(), j + yMin + this.craft.getPosY(), k + zMin
+                                    + this.craft.getPosZ());
                             final BlockState state1 = this.craft.getFakeWorld().getBlock(pos1);
                             if (state1.getBlock() instanceof StairsBlock)
                             {

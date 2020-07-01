@@ -79,9 +79,9 @@ public class ParticleHandler
                     mat.push();
                     source.set(target.subtract(source));
                     mat.translate(source.x, source.y, source.z);
-                    final double d0 = (-player.posX + player.lastTickPosX) * event.getPartialTicks();
-                    final double d1 = (-player.posY + player.lastTickPosY) * event.getPartialTicks();
-                    final double d2 = (-player.posZ + player.lastTickPosZ) * event.getPartialTicks();
+                    final double d0 = (-player.getPosX() + player.lastTickPosX) * event.getPartialTicks();
+                    final double d1 = (-player.getPosY() + player.lastTickPosY) * event.getPartialTicks();
+                    final double d2 = (-player.getPosZ() + player.lastTickPosZ) * event.getPartialTicks();
                     source.set(d0, d1, d2);
                     mat.translate(source.x, source.y, source.z);
                     // particle.render(event.getRenderPartialTicks());

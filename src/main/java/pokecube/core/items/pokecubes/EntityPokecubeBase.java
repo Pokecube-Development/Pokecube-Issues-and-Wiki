@@ -376,8 +376,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         if (this.isInWater())
         {
             for (int i = 0; i < 4; ++i)
-                this.world.addParticle(ParticleTypes.BUBBLE, this.posX - vec3d.x * 0.25D, this.posY - vec3d.y * 0.25D,
-                        this.posZ - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+                this.world.addParticle(ParticleTypes.BUBBLE, this.getPosX() - vec3d.x * 0.25D, this.getPosY() - vec3d.y * 0.25D,
+                        this.getPosZ() - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
             f1 = 0.8F;
         }
         else f1 = 0.99F;
@@ -399,9 +399,9 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     @Override
     public void tick()
     {
-        this.lastTickPosX = this.posX;
-        this.lastTickPosY = this.posY;
-        this.lastTickPosZ = this.posZ;
+        this.lastTickPosX = this.getPosX();
+        this.lastTickPosY = this.getPosY();
+        this.lastTickPosZ = this.getPosZ();
 
         this.autoRelease--;
         if (this.autoRelease == 0) SendOutManager.sendOut(this, true);
@@ -409,7 +409,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         final boolean releasing = this.isReleasing();
         if (capturing || releasing) this.seeking = false;
 
-        if (this.posY < -64.0D) this.outOfWorld();
+        if (this.getPosY() < -64.0D) this.outOfWorld();
 
         if (this.checkCube)
         {

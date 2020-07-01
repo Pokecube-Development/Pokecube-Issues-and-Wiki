@@ -40,9 +40,9 @@ public class EntityChunk extends Chunk
         if (!this.worldE.inBounds(pos)) return Blocks.AIR.getDefaultState();
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getPosX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         return mob.getBlocks()[i][j][k];
     }
 
@@ -52,9 +52,9 @@ public class EntityChunk extends Chunk
         if (!this.worldE.inBounds(pos)) return Blocks.AIR.getDefaultState();
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getPosX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         mob.getBlocks()[i][j][k] = state;
         return state;
     }
@@ -65,9 +65,9 @@ public class EntityChunk extends Chunk
         if (!this.worldE.inBounds(pos)) return;
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getPosX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         mob.getTiles()[i][j][k] = tile;
         if (tile != null)
         {

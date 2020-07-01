@@ -270,7 +270,7 @@ public class EntityPokemobEgg extends AgeableEntity
         if (te instanceof HopperTileEntity)
         {
             final HopperTileEntity hopper = (HopperTileEntity) te;
-            final ItemEntity item = new ItemEntity(this.getEntityWorld(), this.posX, this.posY, this.posZ, this
+            final ItemEntity item = new ItemEntity(this.getEntityWorld(), this.getPosX(), this.getPosY(), this.getPosZ(), this
                     .getHeldItemMainhand());
             if (HopperTileEntity.captureItem(hopper, item)) this.remove();
         }

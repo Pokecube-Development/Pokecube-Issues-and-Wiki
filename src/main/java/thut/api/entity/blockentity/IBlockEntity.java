@@ -187,8 +187,8 @@ public interface IBlockEntity
                         // whether the entity is rotated, and then also call the
                         // block's rotate method as well before placing the
                         // BlockState.
-                        final BlockPos pos = new BlockPos(i + xMin + entity.posX, j + yMin + entity.posY, k + zMin
-                                + entity.posZ);
+                        final BlockPos pos = new BlockPos(i + xMin + entity.getPosX(), j + yMin + entity.getPosY(), k + zMin
+                                + entity.getPosZ());
                         final BlockState state = toRevert.getFakeWorld().getBlock(pos);
                         final TileEntity tile = toRevert.getFakeWorld().getTile(pos);
                         if (state != null)
@@ -204,7 +204,7 @@ public interface IBlockEntity
             final List<Entity> possibleInside = entity.getEntityWorld().getEntitiesWithinAABBExcludingEntity(entity,
                     entity.getBoundingBox());
             for (final Entity e : possibleInside)
-                e.setPosition(e.posX, e.posY + 0.25, e.posZ);
+                e.setPosition(e.getPosX(), e.getPosY() + 0.25, e.getPosZ());
         }
     }
 

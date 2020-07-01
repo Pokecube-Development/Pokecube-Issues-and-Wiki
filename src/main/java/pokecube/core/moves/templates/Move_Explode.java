@@ -155,7 +155,7 @@ public class Move_Explode extends Move_Basic
         final float f1 = (float) (this.getPWR(pokemob, attacked) * PokecubeCore.getConfig().blastStrength * pokemob
                 .getStat(Stats.ATTACK, true) / 500000f);
 
-        final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.posX, mob.posY, mob.posZ, f1);
+        final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.getPosX(), mob.getPosY(), mob.getPosZ(), f1);
         boom.hitter = new Hitter(pokemob, this);
         final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.getEntityWorld(), boom);
         MinecraftForge.EVENT_BUS.post(evt);
@@ -168,13 +168,13 @@ public class Move_Explode extends Move_Basic
             else
             {
                 // Otherwise spawn in some effects
-                mob.getEntityWorld().playSound((PlayerEntity) null, mob.posX, mob.posY, mob.posZ,
+                mob.getEntityWorld().playSound((PlayerEntity) null, mob.getPosX(), mob.getPosY(), mob.getPosZ(),
                         SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (mob
                                 .getEntityWorld().rand.nextFloat() - mob.getEntityWorld().rand.nextFloat()) * 0.2F)
                                 * 0.7F);
-                if (this.getPWR() > 200) mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.posX, mob.posY,
-                        mob.posZ, 1.0D, 0.0D, 0.0D);
-                else mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.posX, mob.posY, mob.posZ, 1.0D, 0.0D,
+                if (this.getPWR() > 200) mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.getPosX(), mob.getPosY(),
+                        mob.getPosZ(), 1.0D, 0.0D, 0.0D);
+                else mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.getPosX(), mob.getPosY(), mob.getPosZ(), 1.0D, 0.0D,
                         0.0D);
                 // and hit nearby targets normally.
                 this.actualAttack(pokemob, Vector3.getNewVector().set(pokemob.getEntity()).add(0, pokemob.getSize()

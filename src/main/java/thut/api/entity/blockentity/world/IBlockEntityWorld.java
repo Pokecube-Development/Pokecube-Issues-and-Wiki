@@ -18,9 +18,9 @@ public interface IBlockEntityWorld extends IBlockReader
         if (!this.inBounds(pos)) return null;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getPosX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         return mob.getBlocks()[i][j][k];
     }
 
@@ -37,9 +37,9 @@ public interface IBlockEntityWorld extends IBlockReader
         if (!this.inBounds(pos)) return null;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getPosX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         final TileEntity tile = mob.getTiles()[i][j][k];
         if (tile != null)
         {
@@ -53,9 +53,9 @@ public interface IBlockEntityWorld extends IBlockReader
         final IBlockEntity mob = this.getBlockEntity();
         if (mob.getBlocks() == null) return false;
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getPosX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         if (i >= mob.getBlocks().length || j >= mob.getBlocks()[0].length || k >= mob.getBlocks()[0][0].length || i < 0
                 || j < 0 || k < 0)
             return false;
@@ -67,9 +67,9 @@ public interface IBlockEntityWorld extends IBlockReader
         if (!this.inBounds(pos)) return false;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getPosX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         mob.getBlocks()[i][j][k] = state;
         return true;
     }
@@ -93,8 +93,8 @@ public interface IBlockEntityWorld extends IBlockReader
                 for (int k = 0; k < sizeZ; k++)
                     if (mob.getTiles()[i][j][k] != null)
                     {
-                        final BlockPos pos = new BlockPos(i + xMin + entity.posX, j + yMin + entity.posY,
-                                k + zMin + entity.posZ);
+                        final BlockPos pos = new BlockPos(i + xMin + entity.getPosX(), j + yMin + entity.getPosY(),
+                                k + zMin + entity.getPosZ());
                         mob.getTiles()[i][j][k].setPos(pos);
                         mob.getTiles()[i][j][k].validate();
                     }
@@ -105,9 +105,9 @@ public interface IBlockEntityWorld extends IBlockReader
         if (!this.inBounds(pos)) return false;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getPosX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         mob.getTiles()[i][j][k] = tile;
         if (tile != null)
         {

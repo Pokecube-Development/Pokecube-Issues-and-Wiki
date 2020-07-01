@@ -153,8 +153,8 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         double var1 = (double) (this.entity.getWidth() * 2.0F) * (this.entity.getWidth() * 2.0F);
         boolean distanced = false;
         final boolean self = (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
-        final double dist = this.entity.getDistanceSq(this.entityTarget.posX, this.entityTarget.posY,
-                this.entityTarget.posZ);
+        final double dist = this.entity.getDistanceSq(this.entityTarget.getPosX(), this.entityTarget.getPosY(),
+                this.entityTarget.getPosZ());
 
         distanced = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0;
         // Check to see if the move is ranged, contact or self.

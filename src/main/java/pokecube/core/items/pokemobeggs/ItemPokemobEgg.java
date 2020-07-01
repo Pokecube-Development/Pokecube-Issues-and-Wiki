@@ -264,7 +264,7 @@ public class ItemPokemobEgg extends Item
             exp = Math.max(1, exp);
             mob.setForSpawn(exp);
             entity.getPersistentData().putBoolean(TagNames.HATCHED, true);
-            entity.setLocationAndAngles(Math.floor(egg.posX) + 0.5, Math.floor(egg.posY) + 0.5, Math.floor(egg.posZ)
+            entity.setLocationAndAngles(Math.floor(egg.getPosX()) + 0.5, Math.floor(egg.getPosY()) + 0.5, Math.floor(egg.getPosZ())
                     + 0.5, world.rand.nextFloat() * 360F, 0.0F);
             int[] nest = null;
             if (stack.hasTag()) if (stack.getTag().contains("nestLocation")) nest = stack.getTag().getIntArray(
@@ -278,7 +278,7 @@ public class ItemPokemobEgg extends Item
                 owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName()
                         .getFormattedText()));
                 if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(
-                        world, entity.posX, entity.posY, entity.posZ, entity.getRNG().nextInt(7) + 1));
+                        world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.getRNG().nextInt(7) + 1));
             }
             final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
             PokecubeCore.POKEMOB_BUS.post(evt);
@@ -334,7 +334,7 @@ public class ItemPokemobEgg extends Item
         if (this.hasCustomEntity(itemstack))
         {
             final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setStack(itemstack).setPos(
-                    oldItem.posX, oldItem.posY, oldItem.posZ);
+                    oldItem.getPosX(), oldItem.getPosY(), oldItem.getPosZ());
             egg.setMotion(oldItem.getMotion());
             return egg;
         }

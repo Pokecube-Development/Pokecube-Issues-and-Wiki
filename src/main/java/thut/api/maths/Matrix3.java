@@ -109,7 +109,7 @@ public class Matrix3
 
         Matrix3.mergeAABBs(aabbs, maxX - minX, maxY - minY, maxZ - minZ);
 
-        final double yTop = Math.min(e.stepHeight + e.posY + yShift, maxY);
+        final double yTop = Math.min(e.stepHeight + e.getPosY() + yShift, maxY);
 
         boolean floor = false;
         boolean ceiling = false;

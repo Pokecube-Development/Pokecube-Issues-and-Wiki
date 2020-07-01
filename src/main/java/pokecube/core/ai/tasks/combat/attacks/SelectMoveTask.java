@@ -68,7 +68,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
         int index = this.pokemob.getMoveIndex();
         int max = 0;
         final String[] moves = this.pokemob.getMoves();
-        final double dist = this.entity.getDistanceSq(this.target.posX, this.target.posY, this.target.posZ);
+        final double dist = this.entity.getDistanceSq(this.target.getPosX(), this.target.getPosY(), this.target.getPosZ());
         for (int i = 0; i < 4; i++)
         {
             final String s = moves[i];

@@ -220,8 +220,8 @@ public class TrainerSpawnHandler
                     || WorldEntitySpawner.canCreatureTypeSpawnAtLocation(PlacementType.IN_WATER, w, v.getPos(), t
                             .getType()))) return;
 
-            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.posX, (int) t.posY,
-                    (int) t.posZ))
+            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getPosX(), (int) t.getPosY(),
+                    (int) t.getPosZ()))
             {
                 w.addEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);

@@ -336,7 +336,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
                     this.energy -= needed;
                 }
                 evt.pokemob.setShiny(true);
-                this.world.playSound(evt.entity.posX, evt.entity.posY, evt.entity.posZ,
+                this.world.playSound(evt.entity.getPosX(), evt.entity.getPosY(), evt.entity.getPosZ(),
                         SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                 this.world.playSound(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(),
                         SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);

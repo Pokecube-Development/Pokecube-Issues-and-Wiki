@@ -21,9 +21,9 @@ public class Action
         {
             String editedCommand = command;
             editedCommand = editedCommand.replace("@p", target.getGameProfile().getName());
-            editedCommand = editedCommand.replace("'x'", target.posX + "");
-            editedCommand = editedCommand.replace("'y'", target.posY + 1 + "");
-            editedCommand = editedCommand.replace("'z'", target.posZ + "");
+            editedCommand = editedCommand.replace("'x'", target.getPosX() + "");
+            editedCommand = editedCommand.replace("'y'", target.getPosY() + 1 + "");
+            editedCommand = editedCommand.replace("'z'", target.getPosZ() + "");
             final Commands c = target.getServer().getCommandManager();
             c.handleCommand(target.getServer().getCommandSource(), editedCommand);
         }

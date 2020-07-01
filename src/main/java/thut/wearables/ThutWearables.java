@@ -272,8 +272,8 @@ public class ThutWearables
             if (stack != null)
             {
                 EnumWearable.takeOff(mob, stack, i);
-                final double d0 = mob.posY - 0.3D + mob.getEyeHeight();
-                final ItemEntity drop = new ItemEntity(mob.getEntityWorld(), mob.posX, d0, mob.posZ, stack);
+                final double d0 = mob.getPosY() - 0.3D + mob.getEyeHeight();
+                final ItemEntity drop = new ItemEntity(mob.getEntityWorld(), mob.getPosX(), d0, mob.getPosZ(), stack);
                 final float f = mob.getRNG().nextFloat() * 0.5F;
                 final float f1 = mob.getRNG().nextFloat() * ((float) Math.PI * 2F);
                 drop.setMotion(-MathHelper.sin(f1) * f, MathHelper.cos(f1) * f, 0.2);

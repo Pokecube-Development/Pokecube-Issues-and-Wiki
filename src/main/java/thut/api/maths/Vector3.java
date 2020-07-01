@@ -139,7 +139,7 @@ public class Vector3
 
     public static Vector3 entity(final Entity e)
     {
-        if (e != null) return Vector3.getNewVector().set(e.posX, e.posY + e.getEyeHeight(), e.posZ);
+        if (e != null) return Vector3.getNewVector().set(e.getPosX(), e.getPosY() + e.getEyeHeight(), e.getPosZ());
         return null;
     }
 
@@ -387,15 +387,15 @@ public class Vector3
     {
         if (e != null && bool)
         {
-            this.x = e.posX;
-            this.y = e.posY + e.getHeight() / 2;
-            this.z = e.posZ;
+            this.x = e.getPosX();
+            this.y = e.getPosY() + e.getHeight() / 2;
+            this.z = e.getPosZ();
         }
         else if (e != null)
         {
-            this.x = e.posX;
-            this.y = e.posY + e.getEyeHeight();
-            this.z = e.posZ;
+            this.x = e.getPosX();
+            this.y = e.getPosY() + e.getEyeHeight();
+            this.z = e.getPosZ();
         }
     }
 
@@ -1373,15 +1373,15 @@ public class Vector3
     {
         if (e != null && b)
         {
-            this.x = e.posX;
-            this.y = e.posY + e.getHeight() / 2;
-            this.z = e.posZ;
+            this.x = e.getPosX();
+            this.y = e.getPosY() + e.getHeight() / 2;
+            this.z = e.getPosZ();
         }
         else if (e != null)
         {
-            this.x = e.posX;
-            this.y = e.posY + e.getEyeHeight();
-            this.z = e.posZ;
+            this.x = e.getPosX();
+            this.y = e.getPosY() + e.getEyeHeight();
+            this.z = e.getPosZ();
         }
         return this;
     }
@@ -1398,7 +1398,7 @@ public class Vector3
         if (o instanceof Entity)
         {
             final Entity e = (Entity) o;
-            this.set(e.posX, e.posY, e.posZ);
+            this.set(e.getPosX(), e.getPosY(), e.getPosZ());
         }
         else if (o instanceof TileEntity)
         {

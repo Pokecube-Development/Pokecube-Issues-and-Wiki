@@ -50,9 +50,9 @@ public class LogicFloatFlySwim extends LogicBase
             {
                 this.action = MovementController.Action.WAIT;
 
-                final double dx = this.posX - this.mob.posX;
-                final double dy = this.posY - this.mob.posY;
-                final double dz = this.posZ - this.mob.posZ;
+                final double dx = this.posX - this.mob.getPosX();
+                final double dy = this.posY - this.mob.getPosY();
+                final double dz = this.posZ - this.mob.getPosZ();
                 // Total distance squared
                 final double ds2 = dx * dx + dy * dy + dz * dz;
                 if (ds2 < 0.01F)
@@ -111,9 +111,9 @@ public class LogicFloatFlySwim extends LogicBase
             {
                 this.action = MovementController.Action.WAIT;
                 this.mob.setNoGravity(true);
-                final double dx = this.posX - this.mob.posX;
-                final double dy = this.posY - this.mob.posY;
-                final double dz = this.posZ - this.mob.posZ;
+                final double dx = this.posX - this.mob.getPosX();
+                final double dy = this.posY - this.mob.getPosY();
+                final double dz = this.posZ - this.mob.getPosZ();
                 // Total distance squared
                 final double ds2 = dx * dx + dy * dy + dz * dz;
                 if (ds2 < 0.01F)

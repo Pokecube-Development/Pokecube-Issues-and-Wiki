@@ -385,8 +385,8 @@ public class LogicMiscUpdate extends LogicBase
             final Vector3 heart = Vector3.getNewVector();
             for (int i = 0; i < 3; ++i)
             {
-                heart.set(this.entity.posX + rand.nextFloat() * this.entity.getWidth() * 2.0F - this.entity.getWidth(),
-                        this.entity.posY + 0.5D + rand.nextFloat() * this.entity.getHeight(), this.entity.posZ + rand
+                heart.set(this.entity.getPosX() + rand.nextFloat() * this.entity.getWidth() * 2.0F - this.entity.getWidth(),
+                        this.entity.getPosY() + 0.5D + rand.nextFloat() * this.entity.getHeight(), this.entity.getPosZ() + rand
                                 .nextFloat() * this.entity.getWidth() * 2.0F - this.entity.getWidth());
                 this.entity.getEntityWorld().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
             }

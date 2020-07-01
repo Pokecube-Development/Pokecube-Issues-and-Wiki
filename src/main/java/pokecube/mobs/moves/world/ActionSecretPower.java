@@ -40,8 +40,8 @@ public class ActionSecretPower implements IMoveAction
                 owner.dimension.getId()));
         final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirm", location
                 .set(location.getPos()));
-        message.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pokebase confirm " + owner.posX
-                + " " + owner.posY + " " + owner.posZ));
+        message.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pokebase confirm " + owner.getPosX()
+                + " " + owner.getPosY() + " " + owner.getPosZ()));
         owner.sendMessage(message);
         return true;
     }
