@@ -31,8 +31,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
@@ -825,9 +825,9 @@ public class Vector3
         return pointedEntity;
     }
 
-    public Vec3d toVec3d()
+    public Vector3d toVec3d()
     {
-        return new Vec3d(this.x, this.y, this.z);
+        return new Vector3d(this.x, this.y, this.z);
     }
 
     public List<Entity> firstEntityLocationExcluding(final int range, final double size, Vector3 direction,
@@ -1426,9 +1426,9 @@ public class Vector3
             final PathPoint p = (PathPoint) o;
             this.set(p.x, p.y, p.z);
         }
-        else if (o instanceof Vec3d)
+        else if (o instanceof Vector3d)
         {
-            final Vec3d p = (Vec3d) o;
+            final Vector3d p = (Vector3d) o;
             this.set(p.x, p.y, p.z);
         }
         else if (o instanceof int[])
@@ -1478,10 +1478,10 @@ public class Vector3
         final int z = this.intZ();
         final IChunk chunk = world.getChunk(new BlockPos(x, 0, z));
         final BiomeContainer biomes = chunk.getBiomes();
-        int i = x & BiomeContainer.HORIZONTAL_MASK;
-        int j = (int) MathHelper.clamp(y, 0, BiomeContainer.VERTICAL_MASK);
-        int k = z & BiomeContainer.HORIZONTAL_MASK;
-        int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i;
+        final int i = x & BiomeContainer.HORIZONTAL_MASK;
+        final int j = (int) MathHelper.clamp(this.y, 0, BiomeContainer.VERTICAL_MASK);
+        final int k = z & BiomeContainer.HORIZONTAL_MASK;
+        final int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i;
         biomes.biomes[index] = biome;
     }
 
