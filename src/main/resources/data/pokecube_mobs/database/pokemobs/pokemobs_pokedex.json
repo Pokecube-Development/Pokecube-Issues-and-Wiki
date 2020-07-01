@@ -219,7 +219,7 @@
         "evolutionMoves": "petalblizzard"
       }
     },
-	{
+    {
       "name": "Venusaur Gigantamax",
       "number": 3,
       "stats": {
@@ -849,7 +849,7 @@
         }
       }
     },
-	{
+    {
       "name": "Blastoise Gigantamax",
       "number": 9,
       "stats": {
@@ -7355,7 +7355,7 @@
         }
       }
     },
-	{
+    {
       "name": "Slowbro Galar",
       "number": 80,
       "stats": {
@@ -55394,10 +55394,10 @@
       }
     },
     {
-        "name": "Meowstic",
+      "name": "Meowstic",
       "number": 678,
       "base": true,
-	  "male_model": {
+      "male_model": {
         "key": "meowstic_m",
         "model": "meowstic_m",
         "anim": "meowstic_m"
@@ -66286,7 +66286,7 @@
         "evolutionMoves": "drumbeating"
       }
     },
-	{
+    {
       "name": "Rillaboom Gigantamax",
       "number": 812,
       "stats": {
@@ -66535,7 +66535,7 @@
         "evolutionMoves": "pyroball"
       }
     },
-	{
+    {
       "name": "Cinderace Gigantamax",
       "number": 815,
       "stats": {
@@ -66789,7 +66789,7 @@
         "evolutionMoves": "snipeshot"
       }
     },
-	{
+    {
       "name": "Inteleon Gigantamax",
       "number": 818,
       "stats": {
@@ -72940,7 +72940,7 @@
         "mass": 0.0
       }
     },
-	{
+    {
       "name": "Kubfu",
       "number": 891,
       "base": true,
@@ -73011,11 +73011,11 @@
         }
       }
     },
-	{
+    {
       "name": "Urshifu Single",
       "number": 892,
       "base": true,
-	  "legend": true,
+      "legend": true,
       "breed": false,
       "stats": {
         "stats": {
@@ -73075,7 +73075,7 @@
             "40": "dynamicpunch",
             "44": "counter",
             "48": "closecombat",
-			"52": "focuspunch"
+            "52": "focuspunch"
           }
         },
         "misc": {
@@ -73084,10 +73084,10 @@
         "evolutionMoves": "wickedblow"
       }
     },
-	{
+    {
       "name": "Urshifu Single Gigantamax",
       "number": 892,
-	  "legend": true,
+      "legend": true,
       "breed": false,
       "stats": {
         "stats": {
@@ -73126,10 +73126,10 @@
         "mass": 405.0
       }
     },
-	{
+    {
       "name": "Urshifu Rapid",
       "number": 892,
-	  "legend": true,
+      "legend": true,
       "breed": false,
       "stats": {
         "stats": {
@@ -73189,7 +73189,7 @@
             "40": "dynamicpunch",
             "44": "counter",
             "48": "closecombat",
-			"52": "focuspunch"
+            "52": "focuspunch"
           }
         },
         "misc": {
@@ -73198,10 +73198,10 @@
         "evolutionMoves": "surgingstrikes"
       }
     },
-	{
+    {
       "name": "Urshifu Rapid Gigantamax",
       "number": 892,
-	  "legend": true,
+      "legend": true,
       "breed": false,
       "stats": {
         "stats": {
@@ -73240,11 +73240,11 @@
         "mass": 405.0
       }
     },
-	{
+    {
       "name": "Zarude",
       "number": 893,
       "base": true,
-	  "legend": true,
+      "legend": true,
       "breed": false,
       "stats": {
         "stats": {
@@ -73272,7 +73272,7 @@
         "types": {
           "values": {
             "type1": "Dark",
-			"type2": "Grass"
+            "type2": "Grass"
           }
         },
         "abilities": {
@@ -73304,9 +73304,9 @@
             "60": "energyball",
             "66": "synthesis",
             "72": "hammerarm",
-			"78": "thrash",
-			"84": "powerwhip",
-			"90": "junglehealing"
+            "78": "thrash",
+            "84": "powerwhip",
+            "90": "junglehealing"
           }
         },
         "misc": {
