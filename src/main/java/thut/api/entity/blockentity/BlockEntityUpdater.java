@@ -348,12 +348,12 @@ public class BlockEntityUpdater
     public void onSetPosition()
     {
         double xMin, yMin, zMin, xMax, yMax, zMax;
-        xMin = this.theEntity.posX + this.blockEntity.getMin().getX() - 0.5;
-        yMin = this.theEntity.posY + this.blockEntity.getMin().getY();
-        zMin = this.theEntity.posZ + this.blockEntity.getMin().getZ() - 0.5;
-        xMax = this.theEntity.posX + this.blockEntity.getMax().getX() + 0.5;
-        yMax = this.theEntity.posY + this.blockEntity.getMax().getY() + 1;
-        zMax = this.theEntity.posZ + this.blockEntity.getMax().getZ() + 0.5;
+        xMin = this.theEntity.getPosX() + this.blockEntity.getMin().getX() - 0.5;
+        yMin = this.theEntity.getPosY() + this.blockEntity.getMin().getY();
+        zMin = this.theEntity.getPosZ() + this.blockEntity.getMin().getZ() - 0.5;
+        xMax = this.theEntity.getPosX() + this.blockEntity.getMax().getX() + 0.5;
+        yMax = this.theEntity.getPosY() + this.blockEntity.getMax().getY() + 1;
+        zMax = this.theEntity.getPosZ() + this.blockEntity.getMax().getZ() + 0.5;
         this.theEntity.setBoundingBox(new AxisAlignedBB(xMin, yMin, zMin, xMax, yMax, zMax));
     }
 

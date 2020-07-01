@@ -40,7 +40,7 @@ public interface IMultiplePassengerEntity
             }
             // if (!(passenger.getEntityWorld() instanceof ServerWorld))
             // System.out.println(v + " " + pitch);
-            passenger.setPosition(entity.posX + v.x, entity.posY + passenger.getYOffset() + v.y, entity.posZ + v.z);
+            passenger.setPosition(entity.getPosX() + v.x, entity.getPosY() + passenger.getYOffset() + v.y, entity.getPosZ() + v.z);
         }
     }
 

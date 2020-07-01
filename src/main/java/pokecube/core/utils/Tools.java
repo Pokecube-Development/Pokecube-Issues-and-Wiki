@@ -262,7 +262,7 @@ public class Tools
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
     {
-        final Vec3d vec3 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+        final Vec3d vec3 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
         final double d0 = distance;
         final Vec3d vec31 = entity.getLook(0);
         final Vec3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
@@ -406,8 +406,8 @@ public class Tools
         final boolean flag = PlayerEntity.inventory.addItemStackToInventory(itemstack);
         if (flag)
         {
-            PlayerEntity.getEntityWorld().playSound((PlayerEntity) null, PlayerEntity.posX, PlayerEntity.posY,
-                    PlayerEntity.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((PlayerEntity
+            PlayerEntity.getEntityWorld().playSound((PlayerEntity) null, PlayerEntity.getPosX(), PlayerEntity.getPosY(),
+                    PlayerEntity.getPosZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((PlayerEntity
                             .getRNG().nextFloat() - PlayerEntity.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
             PlayerEntity.container.detectAndSendChanges();
         }
@@ -446,9 +446,9 @@ public class Tools
             final PlayerEntity PlayerEntity = world.getPlayers().get(i);
             if (EntityPredicates.NOT_SPECTATING.test(PlayerEntity) || PokecubeCore.getConfig().debug)
             {
-                final double d0 = PlayerEntity.posX - location.x;
-                final double d1 = PlayerEntity.posZ - location.z;
-                final double d2 = PlayerEntity.posY - location.y;
+                final double d0 = PlayerEntity.getPosX() - location.x;
+                final double d1 = PlayerEntity.getPosZ() - location.z;
+                final double d2 = PlayerEntity.getPosY() - location.y;
                 final double dh = d0 * d0 + d1 * d1;
                 final double dv = d2 * d2;
                 if (dh < dhm && dv < dvm) return true;
@@ -460,7 +460,7 @@ public class Tools
     public static boolean isAnyPlayerInRange(final double range, final Entity entity)
     {
         final World world = entity.getEntityWorld();
-        return world.getClosestPlayer(entity.posX, entity.posY, entity.posZ, range,
+        return world.getClosestPlayer(entity.getPosX(), entity.getPosY(), entity.getPosZ(), range,
                 EntityPredicates.NOT_SPECTATING) != null;
     }
 

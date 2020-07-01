@@ -4,8 +4,8 @@
   <phase name="global" scale="1.4"/>
   <metadata head="head" headCap="-70,70" headCap1="-60,60" headAxis="2" headAxis2="0" headDir="-1"/>
   <customTex default="rillaboom">
-	<part name="Head" tex="rillaboomhead"/>
-	<animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+	<part name="Head" tex="rillaboomeye"/>
+	<animation diffs="0.5,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="sitting">
    <part name="body1">

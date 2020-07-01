@@ -163,8 +163,8 @@ public class EntityPokemob extends PokemobHasParts
                 final double d2 = this.rand.nextGaussian() * 0.02D;
                 final double d0 = this.rand.nextGaussian() * 0.02D;
                 final double d1 = this.rand.nextGaussian() * 0.02D;
-                this.world.addParticle(ParticleTypes.POOF, this.posX + this.rand.nextFloat() * this.getWidth() * 2.0F
-                        - this.getWidth(), this.posY + this.rand.nextFloat() * this.getHeight(), this.posZ + this.rand
+                this.world.addParticle(ParticleTypes.POOF, this.getPosX() + this.rand.nextFloat() * this.getWidth() * 2.0F
+                        - this.getWidth(), this.getPosY() + this.rand.nextFloat() * this.getHeight(), this.getPosZ() + this.rand
                                 .nextFloat() * this.getWidth() * 2.0F - this.getWidth(), d2, d0, d1);
             }
         }

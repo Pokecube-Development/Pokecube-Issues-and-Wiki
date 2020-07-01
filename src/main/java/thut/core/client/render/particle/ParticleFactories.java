@@ -38,7 +38,7 @@ public class ParticleFactories
         @Override
         public void finishRender(final Tessellator tes)
         {
-             tes.draw();
+            tes.draw();
         }
 
     }
@@ -69,7 +69,7 @@ public class ParticleFactories
         @Override
         public IParticleRenderType getRenderType()
         {
-            return TYPE;
+            return ParticleFactories.TYPE;
         }
 
         @Override

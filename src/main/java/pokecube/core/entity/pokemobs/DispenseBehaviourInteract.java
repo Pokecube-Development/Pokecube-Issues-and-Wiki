@@ -61,9 +61,7 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
                 DispenseBehaviourInteract.DEFAULT).dispense(source, stack);
 
         final FakePlayer player = PokecubeMod.getFakePlayer(source.getWorld());
-        player.posX = source.getX();
-        player.posY = source.getY() - player.getEyeHeight();
-        player.posZ = source.getZ();
+        player.setPosition(source.getX(), source.getY() - player.getEyeHeight(), source.getZ());
 
         final Vector3 loc = Vector3.getNewVector().set(source.getBlockPos().offset(dir));
         final AxisAlignedBB box = loc.getAABB().grow(2);

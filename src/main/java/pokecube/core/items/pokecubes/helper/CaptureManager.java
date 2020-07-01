@@ -203,7 +203,7 @@ public class CaptureManager
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", pokemob.getDisplayName());
             ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
-            cube.setPosition(cube.shootingEntity.posX, cube.shootingEntity.posY, cube.shootingEntity.posZ);
+            cube.setPosition(cube.shootingEntity.getPosX(), cube.shootingEntity.getPosY(), cube.shootingEntity.getPosZ());
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
         }
         return true;

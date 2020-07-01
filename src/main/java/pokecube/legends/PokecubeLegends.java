@@ -50,6 +50,7 @@ import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.PokecubeDim;
+import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.proxy.ClientProxy;
@@ -80,13 +81,6 @@ public class PokecubeLegends
         {
             RaidSpawn.TYPE = TileEntityType.Builder.create(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
             event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
-        }
-
-        @SubscribeEvent
-        public static void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
-        {
-            UsableItemNatureEffects.registerCapabilities(event);
-            UsableItemZMoveEffects.registerCapabilities(event);
         }
 
         @SubscribeEvent
@@ -138,8 +132,7 @@ public class PokecubeLegends
         }
     }
 
-    public static CommonProxy proxy = DistExecutor.safeRunForDist(
-            () -> ClientProxy::new, () -> CommonProxy::new);
+    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public static final Config config = new Config();
 
@@ -168,6 +161,14 @@ public class PokecubeLegends
 
         BlockInit.init();
         ItemInit.init();
+    }
+
+    @SubscribeEvent
+    public void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
+    {
+        UsableItemNatureEffects.registerCapabilities(event);
+        UsableItemZMoveEffects.registerCapabilities(event);
+        UsableItemGigantShard.registerCapabilities(event);
     }
 
     @SubscribeEvent

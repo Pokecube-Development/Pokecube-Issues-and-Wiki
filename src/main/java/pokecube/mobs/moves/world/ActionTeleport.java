@@ -55,11 +55,11 @@ public class ActionTeleport implements IMoveAction
             final float var21 = (toTeleport.getRNG().nextFloat() - 0.5F) * 0.2F;
             final float var22 = (toTeleport.getRNG().nextFloat() - 0.5F) * 0.2F;
             final float var23 = (toTeleport.getRNG().nextFloat() - 0.5F) * 0.2F;
-            final double var24 = par1 + (toTeleport.posX - par1) * var19 + (toTeleport.getRNG().nextDouble() - 0.5D)
+            final double var24 = par1 + (toTeleport.getPosX() - par1) * var19 + (toTeleport.getRNG().nextDouble() - 0.5D)
                     * toTeleport.getWidth() * 2.0D;
-            final double var26 = par3 + (toTeleport.posY - par3) * var19 + toTeleport.getRNG().nextDouble() * toTeleport
+            final double var26 = par3 + (toTeleport.getPosY() - par3) * var19 + toTeleport.getRNG().nextDouble() * toTeleport
                     .getHeight();
-            final double var28 = par5 + (toTeleport.posZ - par5) * var19 + (toTeleport.getRNG().nextDouble() - 0.5D)
+            final double var28 = par5 + (toTeleport.getPosZ() - par5) * var19 + (toTeleport.getRNG().nextDouble() - 0.5D)
                     * toTeleport.getWidth() * 2.0D;
             toTeleport.getEntityWorld().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
         }

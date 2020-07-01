@@ -34,9 +34,7 @@ public class DispenserBehaviorPokecube implements IDispenseItemBehavior
         if (dir == null) return stack;
 
         final FakePlayer player = PokecubeMod.getFakePlayer(source.getWorld());
-        player.posX = source.getX();
-        player.posY = source.getY() - player.getEyeHeight();
-        player.posZ = source.getZ();
+        player.setPosition(source.getX(), source.getY() - player.getEyeHeight(), source.getZ());
 
         // Defaults are for south.
         player.rotationPitch = 0;

@@ -137,9 +137,6 @@ public class LegendarySpawn
         if (!repeated || evt.getPlayer().isCrouching()) return;
         evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", evt.getWorld().getGameTime());
 
-        evt.setCanceled(true);
-        evt.setUseItem(Result.DENY);
-        evt.setUseBlock(Result.DENY);
         ItemStack stack = evt.getItemStack();
         // Try both hands just incase.
         if (stack.isEmpty()) stack = evt.getPlayer().getHeldItemMainhand();
@@ -184,7 +181,13 @@ public class LegendarySpawn
             if (result == SpawnResult.FAIL) LegendarySpawn.trySpawn(match, stack, evt, true);
         }
 
-        if (worked) return;
+        if (worked)
+        {
+            evt.setCanceled(true);
+            evt.setUseItem(Result.DENY);
+            evt.setUseBlock(Result.DENY);
+            return;
+        }
 
         if (already_spawned.size() > 0)
         {

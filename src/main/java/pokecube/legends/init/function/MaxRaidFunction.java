@@ -8,12 +8,17 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -21,6 +26,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
@@ -32,6 +38,8 @@ import thut.api.maths.Vector3;
  */
 public class MaxRaidFunction
 {
+    public static ResourceLocation lootTable = new ResourceLocation("pokecube_legends", "raids/raid_drop");
+
     public static PokedexEntry getRandomEntry()
     {
         PokedexEntry ret = null;
@@ -84,21 +92,37 @@ public class MaxRaidFunction
         final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
         final Vector3 v = Vector3.getNewVector().set(pos);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final LivingEntity poke = pokemob.getEntity();
+
+        final LootTable loottable = pokemob.getEntity().getEntityWorld().getServer().getLootTableManager()
+                .getLootTableFromLocation(MaxRaidFunction.lootTable);
+        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) pokemob.getEntity()
+                .getEntityWorld()).withRandom(poke.getRNG());
+        // Generate the loot list.
+        final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
 
         // Raid Battle
         if (entity != null && !entityToSpawn.isMega)
         {
-            entity.setHealth(entity.getMaxHealth());
-            v.add(0, 1, 0).moveEntity(entity);
-            entity.setPosition(v.x, v.y + 3, v.z);
-            //
-            //pokemob.setHeldItem(new ItemStack(Items.END_STONE));
-            //
-            
+            final int level = new Random().nextInt(100);
+            pokemob.setExp(Tools.levelToXp(entityToSpawn.getEvolutionMode(), level), false);
             final Long time = entity.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
             pokemob.setCombatState(CombatStates.DYNAMAX, true);
+            pokemob.spawnInit();
+            v.add(0, 1, 0).moveEntity(entity);
+            entity.setPosition(v.x, v.y + 3, v.z);
+
+            if (!list.isEmpty()) Collections.shuffle(list);
+            for (final ItemStack itemstack : list)
+                // Pick first valid item in it.
+                if (!itemstack.isEmpty())
+                {
+                    final ItemStack stack = itemstack.copy();
+                    pokemob.setHeldItem(stack);
+                    break;
+                }
             world.addEntity(entity);
         }
         world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1, false);

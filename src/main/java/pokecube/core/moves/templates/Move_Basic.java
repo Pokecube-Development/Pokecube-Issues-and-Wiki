@@ -172,7 +172,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         if (!this.move.isNotIntercepable() && attacker.inCombat())
         {
-            final Vec3d loc1 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+            final Vec3d loc1 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
             final Vec3d loc2 = new Vec3d(location.x, location.y, location.z);
             final BlockRayTraceResult result = entity.getEntityWorld().rayTraceBlocks(new RayTraceContext(loc1, loc2,
                     RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, entity));

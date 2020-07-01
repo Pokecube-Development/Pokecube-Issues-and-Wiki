@@ -79,7 +79,7 @@ public class Vector4
 
     public Vector4(final Entity e)
     {
-        this(e.posX, e.posY, e.posZ, e.dimension.getId());
+        this(e.getPosX(), e.getPosY(), e.getPosZ(), e.dimension.getId());
     }
 
     public Vector4(final String toParse)

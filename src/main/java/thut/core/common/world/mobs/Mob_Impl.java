@@ -90,9 +90,9 @@ public class Mob_Impl implements Mob, ICapabilityProvider
     @Override
     public Vector<Double> position()
     {
-        this.position.setValue(0, this.entity.posX);
-        this.position.setValue(1, this.entity.posY);
-        this.position.setValue(2, this.entity.posZ);
+        this.position.setValue(0, this.entity.getPosX());
+        this.position.setValue(1, this.entity.getPosY());
+        this.position.setValue(2, this.entity.getPosZ());
         return this.position;
     }
 

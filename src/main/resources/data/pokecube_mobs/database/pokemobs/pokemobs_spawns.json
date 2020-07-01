@@ -7871,7 +7871,7 @@
               "rate": "0.3"
             }
           },
-		  {
+          {
             "values": {
               "category": "spooky",
               "rate": "0.18"
@@ -7968,7 +7968,7 @@
               "rate": "0.16"
             }
           },
-		  {
+          {
             "values": {
               "category": "village",
               "rate": "0.18"
@@ -7987,7 +7987,7 @@
               "rate": "0.18"
             }
           },
-		  {
+          {
             "values": {
               "category": "forest",
               "rate": "0.2"
@@ -8060,7 +8060,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Kubfu",
       "stats": {
         "spawnRules": [
@@ -8073,7 +8073,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Zarude",
       "stats": {
         "spawnRules": [

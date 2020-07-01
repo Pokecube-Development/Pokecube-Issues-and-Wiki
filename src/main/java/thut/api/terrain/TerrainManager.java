@@ -130,7 +130,7 @@ public class TerrainManager
     public TerrainSegment getTerrainForEntity(final Entity e)
     {
         if (e == null) return null;
-        return this.getTerrain(e.getEntityWorld(), e.posX, e.posY, e.posZ);
+        return this.getTerrain(e.getEntityWorld(), e.getPosX(), e.getPosY(), e.getPosZ());
     }
 
     public TerrainSegment getTerrian(final IWorld world, final Vector3 v)

@@ -35,8 +35,8 @@ public class TM
             itemstack.setCount(1);
             final ItemEntity itementity1 = serverplayerentity.dropItem(itemstack, false);
             if (itementity1 != null) itementity1.makeFakeItem();
-            serverplayerentity.world.playSound((PlayerEntity) null, serverplayerentity.posX, serverplayerentity.posY,
-                    serverplayerentity.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F,
+            serverplayerentity.world.playSound((PlayerEntity) null, serverplayerentity.getPosX(), serverplayerentity.getPosY(),
+                    serverplayerentity.getPosZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F,
                     ((serverplayerentity.getRNG().nextFloat() - serverplayerentity.getRNG().nextFloat()) * 0.7F + 1.0F)
                             * 2.0F);
             serverplayerentity.container.detectAndSendChanges();

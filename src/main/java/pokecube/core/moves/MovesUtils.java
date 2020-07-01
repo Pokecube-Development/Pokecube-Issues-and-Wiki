@@ -170,9 +170,9 @@ public class MovesUtils implements IMoveConstants
             final float attackedHeight = p.getMob().getHeight();
             final float attackedWidth = p.getMob().getWidth();
 
-            final float dx = (float) (entity.posX - p.getMob().posX);
-            final float dz = (float) (entity.posZ - p.getMob().posZ);
-            final float dy = (float) (entity.posY - p.getMob().posY);
+            final float dx = (float) (entity.getPosX() - p.getMob().getPosX());
+            final float dz = (float) (entity.getPosZ() - p.getMob().getPosZ());
+            final float dy = (float) (entity.getPosY() - p.getMob().getPosY());
 
             final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
             final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
@@ -186,9 +186,9 @@ public class MovesUtils implements IMoveConstants
             final float attackedHeight = attacked.getHeight() + dr;
             final float attackedWidth = attacked.getWidth() + dr;
 
-            final float dx = (float) (entity.posX - attacked.posX);
-            final float dz = (float) (entity.posZ - attacked.posZ);
-            final float dy = (float) (entity.posY - attacked.posY);
+            final float dx = (float) (entity.getPosX() - attacked.getPosX());
+            final float dz = (float) (entity.getPosZ() - attacked.getPosZ());
+            final float dy = (float) (entity.getPosY() - attacked.getPosY());
 
             final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
             final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz

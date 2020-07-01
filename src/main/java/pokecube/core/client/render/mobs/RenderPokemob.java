@@ -347,7 +347,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             }
 
             BlockPos pos;
-            final boolean flying = !entity.onGround && !(entity.posY - (int) entity.posY < 0.01f && entity
+            final boolean flying = !entity.onGround && !(entity.getPosY() - (int) entity.getPosY() < 0.01f && entity
                     .getEntityWorld().getBlockState(pos = entity.getPosition().down()).isTopSolid(entity
                             .getEntityWorld(), pos, entity));
             final boolean walking = entity.onGround && walkspeed > stationary;

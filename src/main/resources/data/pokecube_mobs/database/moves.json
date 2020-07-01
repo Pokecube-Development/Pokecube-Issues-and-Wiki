@@ -22940,7 +22940,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "expandingforce",
       "readableName": "Expanding Force",
       "type": "Psych",
@@ -22970,7 +22970,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "steelroller",
       "readableName": "Steel Roller",
       "type": "Steel",
@@ -23000,7 +23000,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "scaleshot",
       "readableName": "Scale Shot",
       "type": "Dragon",
@@ -23030,7 +23030,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "meteorbeam",
       "readableName": "Meteor Beam",
       "type": "Rock",
@@ -23060,7 +23060,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "shellsidearm",
       "readableName": "Shell Side Arm",
       "type": "Poison",
@@ -23090,7 +23090,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "mistyexplosion",
       "readableName": "Misty Explosion",
       "type": "Fairy",
@@ -23120,7 +23120,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "grassyglide",
       "readableName": "Grassy Glide",
       "type": "Grass",
@@ -23150,7 +23150,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "risingvoltage",
       "readableName": "Rising Voltage",
       "type": "Electric",
@@ -23180,7 +23180,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "terrainpulse",
       "readableName": "Terrain Pulse",
       "type": "Normal",
@@ -23210,7 +23210,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "skittersmack",
       "readableName": "Skitter Smack",
       "type": "Bug",
@@ -23240,7 +23240,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "burningjealousy",
       "readableName": "Burning Jealousy",
       "type": "Fire",
@@ -23270,7 +23270,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "lashout",
       "readableName": "Lash Out",
       "type": "Dark",
@@ -23300,7 +23300,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "poltergeist",
       "readableName": "Poltergeist",
       "type": "Ghost",
@@ -23330,7 +23330,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "corrosivegas",
       "readableName": "Corrosive Gas",
       "type": "Poison",
@@ -23360,7 +23360,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "coaching",
       "readableName": "Coaching",
       "type": "Fighting",
@@ -23390,7 +23390,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "flipturn",
       "readableName": "Flip Turn",
       "type": "Water",
@@ -23420,7 +23420,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "tripleaxel",
       "readableName": "Triple Axel",
       "type": "Ice",
@@ -23450,7 +23450,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "dualwingbeat",
       "readableName": "Dual Wingbeat",
       "type": "Flying",
@@ -23480,7 +23480,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "scorchingsands",
       "readableName": "Scorching Sands",
       "type": "Ground",
@@ -23510,7 +23510,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "junglehealing",
       "readableName": "Jungle Healing",
       "type": "Grass",
@@ -23540,7 +23540,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "wickedblow",
       "readableName": "Wicked Blow",
       "type": "Dark",
@@ -23570,7 +23570,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "surgingstrikes",
       "readableName": "Surging Strikes",
       "type": "Water",
@@ -24964,7 +24964,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "gmaxfireball",
       "readableName": "G-Max Fireball",
       "type": "Fire",
@@ -24995,7 +24995,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "gmaxdrumsolo",
       "readableName": "G-Max Drum Solo",
       "type": "Grass",
@@ -25026,7 +25026,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "gmaxhydrosnipe",
       "readableName": "G-Max Hydrosnipe",
       "type": "Water",
@@ -25057,7 +25057,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "gmaxoneblow",
       "readableName": "G-Max One Blow",
       "type": "Dark",
@@ -25088,7 +25088,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "gmaxrapidflow",
       "readableName": "G-Max Rapid Flow",
       "type": "Water",
@@ -25119,7 +25119,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "gmaxvinelash",
       "readableName": "G-Max Vine Lash",
       "type": "Grass",
@@ -25150,7 +25150,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "gmaxcannonade",
       "readableName": "G-Max Cannonade",
       "type": "Water",

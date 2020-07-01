@@ -122,10 +122,10 @@ public abstract class PokemobAI extends PokemobEvolves
             for (int i = 0; i < 20; ++i)
             {
                 particleLoc.set(
-                        this.getEntity().posX + this.rand.nextFloat() * this.getEntity().getWidth() * 2.0F
+                        this.getEntity().getPosX() + this.rand.nextFloat() * this.getEntity().getWidth() * 2.0F
                         - this.getEntity().getWidth(),
-                        this.getEntity().posY + 0.5D + this.rand.nextFloat() * this.getEntity().getHeight(),
-                        this.getEntity().posZ + this.rand.nextFloat() * this.getEntity().getWidth() * 2.0F
+                        this.getEntity().getPosY() + 0.5D + this.rand.nextFloat() * this.getEntity().getHeight(),
+                        this.getEntity().getPosZ() + this.rand.nextFloat() * this.getEntity().getWidth() * 2.0F
                         - this.getEntity().getWidth());
                 this.getEntity().getEntityWorld().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x,
                         particleLoc.y, particleLoc.z, 0, 0, 0);

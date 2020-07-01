@@ -179,32 +179,32 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             destZ = (float) dest.z;
         }
 
-        destX += this.posX;
-        destY += this.posY;
-        destZ += this.posZ;
+        destX += this.getPosX();
+        destY += this.getPosY();
+        destZ += this.getPosZ();
 
         final Vec3d v = this.getMotion();
         double vx = v.x;
         double vy = v.y;
         double vz = v.z;
 
-        if (destY != this.posY)
+        if (destY != this.getPosY())
         {
-            final double dy = this.getSpeed(this.posY, destY, vy, this.getSpeedUp(), this.getSpeedDown());
+            final double dy = this.getSpeed(this.getPosY(), destY, vy, this.getSpeedUp(), this.getSpeedDown());
             vy = dy;
             this.toMoveY = true;
         }
         else vy *= 0.5;
-        if (destX != this.posX)
+        if (destX != this.getPosX())
         {
-            final double dx = this.getSpeed(this.posX, destX, vx, this.getSpeedHoriz(), this.getSpeedHoriz());
+            final double dx = this.getSpeed(this.getPosX(), destX, vx, this.getSpeedHoriz(), this.getSpeedHoriz());
             vx = dx;
             this.toMoveX = true;
         }
         else vx *= 0.5;
-        if (destZ != this.posZ)
+        if (destZ != this.getPosZ())
         {
-            final double dz = this.getSpeed(this.posZ, destZ, vz, this.getSpeedHoriz(), this.getSpeedHoriz());
+            final double dz = this.getSpeed(this.getPosZ(), destZ, vz, this.getSpeedHoriz(), this.getSpeedHoriz());
             vz = dz;
             this.toMoveZ = true;
         }
@@ -371,7 +371,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         double dx = this.getPosX();
         double dy = this.getPosY();
         double dz = this.getPosZ();
-        this.setPosition(pos.getX() + 0.5, Math.round(this.posY), pos.getZ() + 0.5);
+        this.setPosition(pos.getX() + 0.5, Math.round(this.getPosY()), pos.getZ() + 0.5);
         dx -= this.getPosX();
         dy -= this.getPosY();
         dz -= this.getPosZ();
