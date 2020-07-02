@@ -1516,6 +1516,14 @@
               "rate": "0.01",
               "max": "1"
             }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
           }
         ]
       }
@@ -1531,6 +1539,14 @@
               "rate": "0.01",
               "max": "1"
             }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
           }
         ]
       }
@@ -1544,6 +1560,14 @@
               "category": "extreme_hills",
               "min": "1",
               "rate": "0.01",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "min": "1",
+              "rate": "0.02",
               "max": "1"
             }
           }
@@ -2397,6 +2421,14 @@
               "rate": "0.02",
               "max": "1"
             }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
           }
         ]
       }
@@ -2420,6 +2452,14 @@
               "rate": "0.02",
               "max": "1"
             }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
           }
         ]
       }
@@ -2439,6 +2479,14 @@
           {
             "values": {
               "types": "snowy",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
               "min": "1",
               "rate": "0.02",
               "max": "1"
@@ -5912,6 +5960,14 @@
               "rate": "0.002",
               "max": "1"
             }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
           }
         ]
       }
@@ -5925,6 +5981,14 @@
               "types": "hills",
               "min": "1",
               "rate": "0.002",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "min": "1",
+              "rate": "0.005",
               "max": "1"
             }
           }
@@ -5942,6 +6006,14 @@
               "rate": "0.002",
               "max": "1"
             }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
           }
         ]
       }
@@ -5955,6 +6027,14 @@
               "category": "forest",
               "min": "1",
               "rate": "0.002",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "min": "1",
+              "rate": "0.005",
               "max": "1"
             }
           }
@@ -6480,6 +6560,22 @@
               "category": "forest",
               "min": "1",
               "rate": "0.002",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:yveltal_place",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:xerneas_place",
+              "min": "1",
+              "rate": "0.005",
               "max": "1"
             }
           }
@@ -8081,6 +8177,12 @@
             "values": {
               "types": "jungle",
               "rate": "0.002"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:celebi_temple",
+              "rate": "0.02"
             }
           }
         ]
