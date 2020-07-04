@@ -5,8 +5,9 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="flapple">
-   <part name="Head" tex="flapplehead"/>
+   <part name="Head" tex="flappleeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:11"/>
+   <part name="Mark" tex="flapplebody"/>
   </customTex>
   <phase type="idle">
    <part name="mouth">

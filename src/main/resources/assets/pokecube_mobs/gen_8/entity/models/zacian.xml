@@ -4,8 +4,8 @@
   <phase name="global" scale="0.75"/>
   <metadata head="neck1:neck2:head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1" headDir1="-1"/>
   <customTex default="zacian">
-   <part name="Head" tex="zacianhead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="zacianeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase axis="0" name="snakeIdle" parts="p1_4:p1_5:p1_6:p1_7:p1_8:p1_9"/>
   <phase axis="0" name="snakeIdle" parts="p2_4:p2_5:p2_6:p2_7:p2_8:p2_9"/>
