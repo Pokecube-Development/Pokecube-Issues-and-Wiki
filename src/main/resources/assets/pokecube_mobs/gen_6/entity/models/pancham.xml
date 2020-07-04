@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.35"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
-  <phase duration="10" leftFront="arm1" leftHind="leg" name="quadWalk" rightFront="arm" rightHind="leg1"/>
+  <phase name="global" scale="0.3"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
+  <phase duration="10" leftArm="" leftLeg="leg1" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="pancham">
    <part name="Head" tex="panchamhead"/>
-   <animation diffs="0.405,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+   <part name="Mouth" tex="panchammouth"/>
+   <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
-   <part name="arm">
-    <component length="13" name="1" rotChange="0,0,-2," rotOffset="0,0,4," startKey="0"/>
+   <part name="arm1">
+    <component length="13" name="1" rotChange="0,0,-2," rotOffset="0,0,-50," startKey="0"/>
     <component length="13" name="2" rotChange="0,0,2," startKey="10"/>
    </part>
-   <part name="arm1">
-    <component length="13" name="1" rotChange="0,0,2," rotOffset="0,0,-4," startKey="0"/>
+   <part name="arm2">
+    <component length="13" name="1" rotChange="0,0,2," rotOffset="0,0,50," startKey="0"/>
     <component length="13" name="2" rotChange="0,0,-2," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-2," rotOffset="30,0,-50," startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,2," startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,2," rotOffset="30,0,50," startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-2," startKey="10"/>
    </part>
   </phase>
  </model>
