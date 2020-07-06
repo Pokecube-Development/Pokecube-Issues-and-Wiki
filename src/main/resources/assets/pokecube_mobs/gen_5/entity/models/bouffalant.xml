@@ -1,23 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.25"/>
-  <metadata head="neck" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <phase name="global" scale="0.3"/>
+  <metadata head="neck" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
   <phase duration="10" leftFront="leg3" leftHind="leg1" name="quadWalk" rightFront="leg4" rightHind="leg2"/>
   <customTex default="bouffalant">
    <part name="Head" tex="bouffalanthead"/>
    <animation diffs="0.44,0" part="Head" trigger="random:0.005:1"/>
   </customTex>
-  <phase type="idle">
+  <phase type="sitting">
+   <part name="body">
+    <component length="10" name="1" posOffset="0,15,0" startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="10" name="1" rotOffset="-10,0,0" startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component length="10" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="10" name="1" rotOffset="-10,0,0" startKey="0"/>
+   </part>
+   <part name="leg2_1">
+    <component length="10" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="10" name="1" rotOffset="-10,0,0" startKey="0"/>
+   </part>
+   <part name="leg3_1">
+    <component length="10" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="10" name="1" rotOffset="-10,0,0" startKey="0"/>
+   </part>
+   <part name="leg4_1">
+    <component length="10" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
    <part name="tail">
-    <component length="5" name="1" rotChange="-3,0,0" rotOffset="3,0,0" startKey="0"/>
-    <component length="5" name="2" rotChange="3,0,0" startKey="5"/>
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" posChange="0,0.2,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.2,0" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
    </part>
   </phase>
   <phase type="walking">
    <part name="tail">
     <component length="10" name="1" rotChange="-3,0,0" rotOffset="3,0,0" startKey="0"/>
-    <component length="5" name="2" rotChange="3,0,0" startKey="10"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
    </part>
   </phase>
  </model>
