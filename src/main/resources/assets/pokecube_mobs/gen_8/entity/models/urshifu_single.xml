@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2"/>
   <phase axis="0" name="snakeIdle" parts="f1_1:f1_2:f1_3:f1_4:f1_5"/>
   <phase axis="0" name="snakeIdle" parts="f2_1:f2_2:f2_3:f2_4:f2_5"/>
-  <phase axis="-1" name="snakeWalk" parts="f1:f1_1:f1_2:f1_3:f1_4:f1_5"/>
+  <phase axis="0" name="snakeWalk" parts="f1:f1_1:f1_2:f1_3:f1_4:f1_5"/>
   <phase axis="0" name="snakeWalk" parts="f2:f2_1:f2_2:f2_3:f2_4:f2_5"/>
   <customTex default="urshifu">
    <part name="Head" tex="urshifueye"/>

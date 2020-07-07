@@ -3,7 +3,7 @@
  <model name="">
    <phase name="global" scale="0.53"/>
    <metadata head="head" headCap="-70,70" headCap1="-60,60" headAxis="2" headAxis2="0" headDir="-1"/>
-   <phase name="walking-2" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="65"/>  
+   <phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="35"/>  
    <customTex default="raboot">
     <part name="Head" tex="rabooteye"/>
     <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
@@ -97,49 +97,31 @@
     <component length="20" name="2" rotChange="0,0,5" startKey="20"/>
    </part>
   </phase>
-  <phase type="walking-1">
+  <phase type="walking">
    <part name="body">
-    <component name="1" rotOffset="30,0,0" length="1" startKey="0"/>
+    <component name="1" rotOffset="10,0,0" length="1" startKey="0"/>
    </part>
    <part name="arm1">
-    <component name="1" rotOffset="0,20,-30" length="1" startKey="0"/>
-   </part>
-   <part name="arm2">
-    <component name="1" rotOffset="0,-20,30" length="1" startKey="0"/>
-   </part>
-   <part name="p1">
-    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-5" startKey="10"/>
-   </part>
-   <part name="p2">
-    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-5" startKey="10"/>
-   </part>
-   <part name="p3">
-    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-5" startKey="10"/>
-   </part>
-   <part name="orl1">
-    <component length="10" name="1" rotOffset="0,0,-50" rotChange="0,0,5" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-5" startKey="10"/>
-   </part>
-   <part name="orl1_001">
-    <component length="10" name="1" rotOffset="0,0,50" rotChange="0,0,-5" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,5" startKey="10"/>
-   </part>
-  </phase>
-  <phase type="walking-2">
-   <part name="arm1">
-    <component name="1" rotOffset="0,-30,-30" length="1" startKey="0"/>
+    <component length="8" name="1" rotChange="0,20,0" rotOffset="0,0,-35" startKey="0"/>
+    <component length="8" name="2" rotChange="0,-40,0" startKey="10"/>
+	<component length="8" name="3" rotChange="0,20,0" startKey="20"/>
    </part>
    <part name="arm1_1">
-    <component name="1" rotOffset="0,-10,-110" length="1" startKey="0"/>
+    <component length="10" name="1" rotOffset="0,-25,-5" startKey="0"/>
    </part>
    <part name="arm2">
-    <component name="1" rotOffset="0,30,30" length="1" startKey="0"/>
+    <component length="8" name="1" rotChange="0,20,0" rotOffset="0,0,35" startKey="0"/>
+    <component length="8" name="2" rotChange="0,-40,0" startKey="10"/>
+	<component length="8" name="3" rotChange="0,20,0" startKey="20"/>
    </part>
    <part name="arm2_1">
-    <component name="1" rotOffset="0,10,110" length="1" startKey="0"/>
+    <component length="10" name="1" rotOffset="0,25,5" startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component name="1" rotOffset="30,0,0" length="1" startKey="0"/>
+   </part>
+   <part name="leg2_1">
+    <component name="1" rotOffset="30,0,0" length="1" startKey="0"/>
    </part>
    <part name="p1">
     <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
@@ -162,9 +144,5 @@
     <component length="10" name="2" rotChange="0,0,5" startKey="10"/>
    </part>
   </phase>
-  <subanim name="walking-1" base="walking"/>
-  <subanim name="walking-2" base="walking"/>
-  <merges merge="walking->walking-1"/>
-  <merges merge="biWalk->walking-2"/>
  </model>
 </ModelAnimator>
