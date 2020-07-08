@@ -18,8 +18,7 @@
           "translate": "entity.pokecube.buzzwole"
         }
       ]
-    },
-    "frame": "challenge"
+    }
   },
   "criteria": {
     "catch_buzzwole": {

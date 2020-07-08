@@ -18,8 +18,7 @@
           "translate": "entity.pokecube.nihilego"
         }
       ]
-    },
-    "frame": "challenge"
+    }
   },
   "criteria": {
     "catch_nihilego": {
