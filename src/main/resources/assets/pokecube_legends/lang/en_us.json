@@ -20,7 +20,9 @@
     "msg.alreadyspawned.info": "§c You have already spawned [§a%1$s§c]!",
     
     "_comment": "/Hidden/Cosmic Power-Ultra Space",
-    "msg.spaceacess.deny.info": "§cYou don't have enough experience to create a portal..",
+    "msg.spaceacess.deny.too_weak": "§cYou don't have enough experience to create a portal..",
+    "msg.spaceacess.deny.too_soon": "§cYou cannot create another portal yet..",
+    "msg.spaceacess.deny.info": "§cThe portal failed to create..",
     "msg.spaceacess.accept.info": "§aUltra Wormhole created!",
 	
     "_comment": "/Raid Related messages Names",

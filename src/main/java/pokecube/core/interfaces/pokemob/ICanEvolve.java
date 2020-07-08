@@ -73,10 +73,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Remount riders on the new mob.
             final List<Entity> riders = this.thisEntity.getPassengers();
             for (final Entity e : riders)
-            {
                 e.stopRiding();
-                e.startRiding(this.evolution);
-            }
             final IPokemob old = CapabilityPokemob.getPokemobFor(this.thisEntity);
 
             if (this.thisEntity != this.evolution)

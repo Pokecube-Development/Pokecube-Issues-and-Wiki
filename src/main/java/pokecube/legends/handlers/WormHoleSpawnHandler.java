@@ -27,17 +27,17 @@ public class WormHoleSpawnHandler
     public void tickEvent(final WorldTickEvent evt)
     {
         if (evt.phase == Phase.END && evt.side != LogicalSide.CLIENT && !Database.spawnables.isEmpty()) if (evt.world
-                .getGameTime() % PokecubeLegends.config.ticksPerPortalSpawn == 0) WormHoleSpawnHandler.portalSpawnTick(evt.world);
+                .getGameTime() % PokecubeLegends.config.ticksPerPortalSpawn == 0) WormHoleSpawnHandler.portalSpawnTick(
+                        evt.world, PokecubeCore.getConfig().maxSpawnRadius);
     }
 
-    public static void portalSpawnTick(final World world)
+    public static void portalSpawnTick(final World world, final int distance)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
         final List<Object> players = new ArrayList<>(world.getPlayers());
         if (players.size() < 1) return;
         final Random rand = new Random();
         final Entity player = (Entity) players.get(rand.nextInt(players.size()));
-        final int distance = PokecubeCore.getConfig().maxSpawnRadius;
         final int dx = rand.nextInt(distance) - distance / 2;
         final int dz = rand.nextInt(distance) - distance / 2;
         final Vector3 v = Vector3.getNewVector().set(player).add(dx, 0, dz);
