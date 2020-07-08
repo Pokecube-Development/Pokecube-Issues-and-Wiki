@@ -18,7 +18,8 @@
           "translate": "entity.pokecube.eternatus_eternamax"
         }
       ]
-    }
+    },
+    "frame": "challenge"
   },
   "criteria": {
     "catch_eternatus_eternamax": {

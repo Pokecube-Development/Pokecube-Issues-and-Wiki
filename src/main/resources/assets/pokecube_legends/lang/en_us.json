@@ -19,7 +19,10 @@
     "msg.wrongitem.info": "§c[§a%1$s§c] does not like your offering.",
     "msg.alreadyspawned.info": "§c You have already spawned [§a%1$s§c]!",
     
-    
+    "_comment": "/Hidden/Cosmic Power-Ultra Space",
+    "msg.spaceacess.deny.info": "§cYou don't have enough experience to create a portal..",
+    "msg.spaceacess.accept.info": "§aUltra Wormhole created!",
+	
     "_comment": "/Raid Related messages Names",
     "msg.notaraidspot.info": "§cThis den does not seem to be able to be activated.",
 

@@ -49,6 +49,590 @@
           ]
         }
       ]
+    },
+	{
+      "name": "pool_1",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "pokecube_legends:z_grass",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_bug",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_dark",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_dragon",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_electric",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_fairy",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_fighting",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_fire",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_ground",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_ghost",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_ice",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_normal",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_poison",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_psychic",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_rock",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_steel",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_water",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_flying",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:z_unknown",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+	{
+      "name": "pool_2",
+      "rolls": 1,
+      "entries": [
+	    {
+          "type": "item",
+          "name": "pokecube_legends:mint_adamant",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:mint_bold",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_brave",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_calm",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_careful",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_gentle",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_hasty",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_impish",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_jolly",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_lax",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_lonely",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_mild",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_modest",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_naive",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_naughty",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_quiet",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_rash",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_relaxed",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_sassy",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_serious",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_timid",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_hardy",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_quirky",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_docile",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+		{
+          "type": "item",
+          "name": "pokecube_legends:mint_bashful",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

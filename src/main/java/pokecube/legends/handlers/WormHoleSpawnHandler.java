@@ -27,10 +27,10 @@ public class WormHoleSpawnHandler
     public void tickEvent(final WorldTickEvent evt)
     {
         if (evt.phase == Phase.END && evt.side != LogicalSide.CLIENT && !Database.spawnables.isEmpty()) if (evt.world
-                .getGameTime() % PokecubeLegends.config.ticksPerPortalSpawn == 0) this.portalSpawnTick(evt.world);
+                .getGameTime() % PokecubeLegends.config.ticksPerPortalSpawn == 0) WormHoleSpawnHandler.portalSpawnTick(evt.world);
     }
 
-    public void portalSpawnTick(final World world)
+    public static void portalSpawnTick(final World world)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
         final List<Object> players = new ArrayList<>(world.getPlayers());
@@ -45,7 +45,7 @@ public class WormHoleSpawnHandler
         // Only spawn this if the nearby area is actually loaded.
         if (!TerrainManager.isAreaLoaded(world, v, 8)) return;
 
-        v.y = world.getHeight(Heightmap.Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 10;
+        v.y = world.getHeight(Heightmap.Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 2;
         if (v.isAir(world)) ((UltraSpacePortal) BlockInit.ULTRASPACE_PORTAL.get()).place(world, v.getPos(), Direction
                 .byHorizontalIndex(rand.nextInt()));
     }

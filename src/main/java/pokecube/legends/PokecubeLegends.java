@@ -53,6 +53,7 @@ import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
+import pokecube.legends.init.moves.world.MoveRegister;
 import pokecube.legends.proxy.ClientProxy;
 import pokecube.legends.proxy.CommonProxy;
 import pokecube.legends.tileentity.RaidSpawn;
@@ -161,6 +162,7 @@ public class PokecubeLegends
 
         BlockInit.init();
         ItemInit.init();
+        MoveRegister.init();
     }
 
     @SubscribeEvent
