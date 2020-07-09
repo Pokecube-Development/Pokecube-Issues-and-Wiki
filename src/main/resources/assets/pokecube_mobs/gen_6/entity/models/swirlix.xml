@@ -4,40 +4,82 @@
   <phase name="global" scale="0.14"/>
   <customTex default="swirlix">
    <part name="Head" tex="slurpuffhead"/>
-   <animation diffs="0.43,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
+  <phase type="sitting">
+   <part name="body">
+    <component length="10" name="1" posOffset="0,17,0" startKey="0"/>
+   </part>
+   <part name="foot1">
+    <component length="10" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="10" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="tail1">
+    <component length="10" name="1" rotChange="-8,0,0" rotOffset="70,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="8,0,0" startKey="10"/>
+   </part>
+   <part name="tail2">
+    <component length="10" name="1" rotChange="8,0,0" rotOffset="30,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-8,0,0" startKey="10"/>
+   </part>
+  </phase>
   <phase type="idle">
    <part name="body">
     <component length="10" name="1" posChange="0,-0.5,0" startKey="0"/>
     <component length="10" name="2" posChange="0,0.5,0" startKey="15"/>
+   </part>
+   <part name="foot1">
+    <component length="10" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="10" name="1" hidden="true" startKey="0"/>
    </part>
    <part name="tail1">
     <component length="10" name="1" rotChange="-8,0,0" rotOffset="7,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="8,0,0" startKey="10"/>
    </part>
    <part name="tail2">
-    <component length="5" name="1" rotChange="8,0,0" rotOffset="5,0,0" startKey="0"/>
-    <component length="5" name="2" rotChange="-8,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="8,0,0" rotOffset="5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-8,0,0" startKey="10"/>
    </part>
   </phase>
   <phase type="walking">
    <part name="body">
     <component length="10" name="1" rotOffset="3,0,0" startKey="0"/>
    </part>
-   <part name="arm1">
-    <component length="5" name="1" rotChange="2,0,0" rotOffset="60,0,0" startKey="0"/>
-    <component length="5" name="2" rotChange="-2,0,0" startKey="10"/>
+   <part name="foot1">
+    <component length="10" name="1" hidden="true" startKey="0"/>
    </part>
-   <part name="arm2">
-    <component length="5" name="1" rotChange="2,0,0" rotOffset="60,0,0" startKey="0"/>
-    <component length="5" name="2" rotChange="-2,0,0" startKey="10"/>
+   <part name="foot2">
+    <component length="10" name="1" hidden="true" startKey="0"/>
    </part>
-   <part name="tail">
-    <component length="10" name="1" rotChange="-8,0,0" rotOffset="-7,0,0" startKey="0"/>
+   <part name="tail1">
+    <component length="10" name="1" rotChange="-8,0,0" rotOffset="30,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="8,0,0" startKey="10"/>
    </part>
    <part name="tail2">
-    <component length="5" name="1" rotChange="8,0,0" rotOffset="5,0,0" startKey="0"/>
+    <component length="5" name="1" rotChange="8,0,0" rotOffset="12,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="-8,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+    <component length="10" name="1" rotOffset="7,0,0" startKey="0"/>
+   </part>
+   <part name="foot1">
+    <component length="10" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="10" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="tail1">
+    <component length="10" name="1" rotChange="-8,0,0" rotOffset="30,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="8,0,0" startKey="10"/>
+   </part>
+   <part name="tail2">
+    <component length="5" name="1" rotChange="8,0,0" rotOffset="12,0,0" startKey="0"/>
     <component length="5" name="2" rotChange="-8,0,0" startKey="10"/>
    </part>
   </phase>
