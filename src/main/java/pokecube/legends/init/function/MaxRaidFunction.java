@@ -30,6 +30,7 @@ import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
+import thut.lib.ItemStackTools;
 
 /**
  * Uses player interact here to also prevent opening of inventories.
@@ -115,14 +116,9 @@ public class MaxRaidFunction
             entity.setPosition(v.x, v.y + 3, v.z);
 
             if (!list.isEmpty()) Collections.shuffle(list);
-            for (final ItemStack itemstack : list)
-                // Pick first valid item in it.
-                if (!itemstack.isEmpty())
-                {
-                    final ItemStack stack = itemstack.copy();
-                    pokemob.setHeldItem(stack);
-                    break;
-                }
+            System.out.println(list);
+            for (final ItemStack stack : list)
+                ItemStackTools.addItemStackToInventory(stack, pokemob.getInventory(), 1);
             world.addEntity(entity);
         }
         world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1, false);
