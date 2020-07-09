@@ -4,8 +4,8 @@
   <phase name="global" scale="0.8"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
   <customTex default="zamazenta">
-   <part name="Head" tex="zamazentahead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="zamazentaeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase axis="0" name="snakeIdle" parts="f1:f1_1:f1_2:f1_3:f1_4"/>
   <phase axis="0" name="snakeWalk" parts="f1:f1_1:f1_2:f1_3:f1_4"/>
