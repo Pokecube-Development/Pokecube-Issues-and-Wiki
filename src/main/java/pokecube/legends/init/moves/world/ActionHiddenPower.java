@@ -69,7 +69,7 @@ public class ActionHiddenPower implements IMoveAction
             {
                 user.getEntity().getPersistentData().putLong("pokecube_legends:last_portal_make", user.getEntity()
                         .getEntityWorld().getGameTime());
-                block.place(owner.getEntityWorld(), prevPos, context.getFace());
+                block.place(owner.getEntityWorld(), prevPos, context.getPlacementHorizontalFacing());
                 message = new TranslationTextComponent("msg.spaceacess.accept.info");
                 mob.setHungerTime(mob.getHungerTime() + count);
             }
