@@ -10,7 +10,7 @@ import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -33,8 +33,8 @@ public class Move_AOE extends Move_Basic
         final Entity entity = attacker.getEntity();
         if (!this.move.isNotIntercepable())
         {
-            final Vec3d loc1 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
-            final Vec3d loc2 = new Vec3d(location.x, location.y, location.z);
+            final Vector3d loc1 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
+            final Vector3d loc2 = new Vec3d(location.x, location.y, location.z);
             final BlockRayTraceResult result = entity.getEntityWorld().rayTraceBlocks(new RayTraceContext(loc1, loc2,
                     RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, entity));
             if (result != null) location.set(result.getHitVec());

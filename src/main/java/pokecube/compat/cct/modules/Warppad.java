@@ -1,7 +1,7 @@
 package pokecube.compat.cct.modules;
 
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.DimensionType;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.core.utils.PokecubeSerializer.TeleDest;
 

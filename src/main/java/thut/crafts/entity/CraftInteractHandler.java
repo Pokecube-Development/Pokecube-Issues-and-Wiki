@@ -12,7 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
@@ -30,7 +30,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     }
 
     @Override
-    public ActionResultType applyPlayerInteraction(final PlayerEntity player, Vec3d vec, final ItemStack stack,
+    public ActionResultType applyPlayerInteraction(final PlayerEntity player, Vector3d vec, final ItemStack stack,
             final Hand hand)
     {
         if (player.isCrouching()) return ActionResultType.PASS;
@@ -41,8 +41,8 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         vec = vec.add(vec.x > 0 ? -0.01 : 0.01, vec.y > 0 ? -0.01 : 0.01, vec.z > 0 ? -0.01 : 0.01);
         if (this.trace == null)
         {
-            final Vec3d playerPos = player.getPositionVector().add(0, player.getEyeHeight(), 0);
-            final Vec3d start = playerPos.subtract(this.craft.getPositionVector());
+            final Vector3d playerPos = player.getPositionVector().add(0, player.getEyeHeight(), 0);
+            final Vector3d start = playerPos.subtract(this.craft.getPositionVector());
             final RayTraceResult hit = IBlockEntity.BlockEntityFormer.rayTraceInternal(start.add(this.craft
                     .getPositionVector()), vec.add(this.craft.getPositionVector()), this.craft);
             this.trace = hit instanceof BlockRayTraceResult ? (BlockRayTraceResult) hit : null;

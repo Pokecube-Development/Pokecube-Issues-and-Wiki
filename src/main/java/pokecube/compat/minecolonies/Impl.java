@@ -10,7 +10,7 @@ import com.minecolonies.api.colony.buildings.IBuilding;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.server.ServerChunkProvider;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
@@ -63,7 +63,7 @@ public class Impl
                 final IColony colony = Impl.instance.getColonyManager().getClosestColony(world.getWorld(), v.getPos());
                 if (colony == null || colony.getBuildingManager() == null || colony.getBuildingManager()
                         .getBuildings() == null) break check;
-                final Vec3d vec = new Vec3d(v.x, v.y, v.z);
+                final Vector3d vec = new Vec3d(v.x, v.y, v.z);
                 for (final IBuilding b : colony.getBuildingManager().getBuildings().values())
                 {
                     String type = b.getSchematicName();

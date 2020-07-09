@@ -110,7 +110,7 @@ public class Material
         {
             if (this.fix_counter < 2) builder.writeMask(new WriteMaskState(true, true));
             else builder.writeMask(new WriteMaskState(true, false));
-            builder.depthTest(new DepthTestState(513));
+            builder.depthTest(new DepthTestState("transp", 513));
         }
         else builder.cull(new CullState(false));
         if (!this.flat) builder.shadeModel(new ShadeModelState(true));

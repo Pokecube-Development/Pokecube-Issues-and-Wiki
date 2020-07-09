@@ -3,7 +3,7 @@ package pokecube.core.network.pokemobs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.interfaces.IPokemob;
@@ -39,7 +39,7 @@ public class PacketMountedControl extends Packet
     {
         final PacketMountedControl packet = new PacketMountedControl();
         packet.entityId = pokemob.getEntityId();
-        final Vec3d pos = pokemob.getPositionVector();
+        final Vector3d pos = pokemob.getPositionVector();
         packet.message = 0;
         packet.x = (float) pos.x;
         packet.y = (float) pos.y;

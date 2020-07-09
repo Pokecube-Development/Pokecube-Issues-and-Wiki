@@ -37,7 +37,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -344,7 +344,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         }
     }
 
-    private void validateDirection(final Vec3d vec3d)
+    private void validateDirection(final Vector3d vec3d)
     {
         final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
         if (f > 0.5)
@@ -370,7 +370,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
     private void postValidateVelocity()
     {
-        final Vec3d vec3d = this.getMotion();
+        final Vector3d vec3d = this.getMotion();
         this.validateDirection(vec3d);
         float f1;
         if (this.isInWater())
@@ -383,11 +383,11 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         else f1 = 0.99F;
 
         this.setMotion(vec3d.scale(f1));
-        final Vec3d motion = this.getMotion();
+        final Vector3d motion = this.getMotion();
         if (motion.y == 0) this.setMotion(motion.x * 0.8, motion.y, motion.z * 0.8);
         if (!this.hasNoGravity())
         {
-            final Vec3d vec3d1 = this.getMotion();
+            final Vector3d vec3d1 = this.getMotion();
             this.setMotion(vec3d1.x, vec3d1.y - this.getGravityVelocity(), vec3d1.z);
         }
 
@@ -492,7 +492,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     }
 
     @Override
-    public void setMotion(final Vec3d velocity)
+    public void setMotion(final Vector3d velocity)
     {
         super.setMotion(velocity);
         this.validateDirection(velocity);

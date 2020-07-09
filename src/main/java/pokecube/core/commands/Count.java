@@ -13,7 +13,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
@@ -33,7 +33,7 @@ public class Count
     {
         final ServerWorld world = source.getWorld();
         final Stream<Entity> mobs = world.getEntities();
-        final Vec3d pos = source.getPos();
+        final Vector3d pos = source.getPos();
         int count1 = 0;
         int count2 = 0;
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();

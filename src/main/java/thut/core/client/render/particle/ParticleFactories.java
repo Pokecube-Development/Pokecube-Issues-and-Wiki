@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -82,7 +82,7 @@ public class ParticleFactories
         public void renderParticle(final IVertexBuilder buffer, final ActiveRenderInfo renderInfo,
                 final float partialTicks)
         {
-            final Vec3d vec3d = renderInfo.getProjectedView();
+            final Vector3d vec3d = renderInfo.getProjectedView();
             final float x = (float) (MathHelper.lerp(partialTicks, this.prevPosX, this.posX) - vec3d.x);
             final float y = (float) (MathHelper.lerp(partialTicks, this.prevPosY, this.posY) - vec3d.y);
             final float z = (float) (MathHelper.lerp(partialTicks, this.prevPosZ, this.posZ) - vec3d.z);

@@ -19,7 +19,7 @@ import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -81,11 +81,11 @@ public class NearBlocks extends Sensor<LivingEntity>
         origin.set(entityIn);
         final List<NearBlock> list = Lists.newArrayList();
 
-        final Vec3d start = entityIn.getEyePosition(1);
+        final Vector3d start = entityIn.getEyePosition(1);
 
         final Predicate<BlockPos> visible = input ->
         {
-            final Vec3d end = new Vec3d(input).add(0.5, 0.5, 0.5);
+            final Vector3d end = new Vec3d(input).add(0.5, 0.5, 0.5);
             final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
                     entityIn);
             final RayTraceResult result = worldIn.rayTraceBlocks(context);

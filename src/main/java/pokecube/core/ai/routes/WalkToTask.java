@@ -17,7 +17,7 @@ import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
@@ -140,7 +140,7 @@ public class WalkToTask extends RootTask<MobEntity>
 
             if (this.currentPath != null) return true;
 
-            final Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards((CreatureEntity) mob, 10, 7,
+            final Vector3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards((CreatureEntity) mob, 10, 7,
                     new Vec3d(blockpos));
             if (vec3d != null)
             {

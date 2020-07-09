@@ -14,7 +14,7 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public abstract class BlockEntityInteractHandler
@@ -35,12 +35,12 @@ public abstract class BlockEntityInteractHandler
         return this.trace;
     }
 
-    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vec3d vec, final ItemStack stack,
+    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vector3d vec, final ItemStack stack,
             final Hand hand)
     {
-        final Vec3d playerPos = player.getEyePosition(1);
-        final Vec3d start = playerPos;
-        final Vec3d end = playerPos.add(player.getLookVec().scale(4.5));
+        final Vector3d playerPos = player.getEyePosition(1);
+        final Vector3d start = playerPos;
+        final Vector3d end = playerPos.add(player.getLookVec().scale(4.5));
         this.trace = null;
         RayTraceResult trace2 = IBlockEntity.BlockEntityFormer.rayTraceInternal(start, end, this.blockEntity);
         if (trace2 instanceof BlockRayTraceResult) this.trace = (BlockRayTraceResult) trace2;

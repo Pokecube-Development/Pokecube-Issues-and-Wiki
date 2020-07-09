@@ -27,7 +27,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -295,7 +295,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             if (!this.wrapper.isLoaded()) return "not_loaded_yet!";
             String phase = "idle";
             if (this.model == null || pokemob == null) return phase;
-            final Vec3d velocity = entity.getMotion();
+            final Vector3d velocity = entity.getMotion();
             final float dStep = entity.limbSwingAmount - entity.prevLimbSwingAmount;
             final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
             final float stationary = 0.00001f;

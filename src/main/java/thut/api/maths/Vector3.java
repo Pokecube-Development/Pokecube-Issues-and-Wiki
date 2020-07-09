@@ -285,8 +285,8 @@ public class Vector3
 
         if (world instanceof ServerWorld)
         {
-            final Vec3d start = source.toVec3d();
-            final Vec3d end = direction.scalarMultBy(range).addTo(source).toVec3d();
+            final Vector3d start = source.toVec3d();
+            final Vector3d end = direction.scalarMultBy(range).addTo(source).toVec3d();
             if (Vector3.USEDFORRAYTRACECONTEXT == null) Vector3.USEDFORRAYTRACECONTEXT = FakePlayerFactory.get(
                     (ServerWorld) world, Vector3.FAKEPLAYER);
             else Vector3.USEDFORRAYTRACECONTEXT.setWorld((World) world);
@@ -414,7 +414,7 @@ public class Vector3
         this.set(B.subtract(A));
     }
 
-    private Vector3(final Vec3d vec)
+    private Vector3(final Vector3d vec)
     {
         this.x = vec.x;
         this.y = vec.y;
@@ -481,9 +481,9 @@ public class Vector3
         Predicate<Entity> predicate = e -> e != excluded;
         predicate = predicate.and(EntityPredicates.NOT_SPECTATING);
         final double ds = range;
-        final Vec3d vec3 = source.toVec3d();
-        final Vec3d vec31 = direction.toVec3d();
-        final Vec3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
+        final Vector3d vec3 = source.toVec3d();
+        final Vector3d vec31 = direction.toVec3d();
+        final Vector3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
         final float f = 0.5F;
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
@@ -493,7 +493,7 @@ public class Vector3
             for (final ICompoundPart part : parts)
             {
                 final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
-                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
                     ret.add(entity1);
@@ -503,7 +503,7 @@ public class Vector3
             else
             {
                 final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
-                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent()) ret.add(entity1);
             }
         return ret;
@@ -516,9 +516,9 @@ public class Vector3
         final List<Entity> ret = new ArrayList<>();
         if (predicate == null) predicate = EntityPredicates.NOT_SPECTATING;
         final double ds = range;
-        final Vec3d vec3 = source.toVec3d();
-        final Vec3d vec31 = direction.toVec3d();
-        final Vec3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
+        final Vector3d vec3 = source.toVec3d();
+        final Vector3d vec31 = direction.toVec3d();
+        final Vector3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
         final float f = 1F;
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
@@ -528,7 +528,7 @@ public class Vector3
             for (final ICompoundPart part : parts)
             {
                 final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(size);
-                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
                     ret.add(entity1);
@@ -538,7 +538,7 @@ public class Vector3
             else
             {
                 final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(size);
-                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent()) ret.add(entity1);
             }
         return ret;
@@ -778,14 +778,14 @@ public class Vector3
         return Vector3.findNextSolidBlock(world, this, direction, range);
     }
 
-    public Entity firstEntityExcluding(final double range, final Vec3d vec31, final World world, final Entity entity,
+    public Entity firstEntityExcluding(final double range, final Vector3d vec31, final World world, final Entity entity,
             Predicate<Entity> predicate)
     {
         Entity pointedEntity = null;
         if (predicate == null) predicate = EntityPredicates.NOT_SPECTATING;
         double ds = range;
-        final Vec3d vec3 = this.toVec3d();
-        final Vec3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
+        final Vector3d vec3 = this.toVec3d();
+        final Vector3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
         final float f = 2.5F;
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(entity, aabb, predicate);
@@ -796,7 +796,7 @@ public class Vector3
             for (final ICompoundPart part : parts)
             {
                 final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
-                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
                     final double d1 = vec3.squareDistanceTo(optional.get());
@@ -811,7 +811,7 @@ public class Vector3
             else
             {
                 final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
-                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
                     final double d1 = vec3.squareDistanceTo(optional.get());
@@ -911,7 +911,7 @@ public class Vector3
     {
         final BlockState state = this.getBlockState(world);
         if (state == null || state.getBlock().isAir(state, world, this.getPos())) return 0;
-        final float res = state.getExplosionResistance(world, this.pos, boom.getExplosivePlacedBy(), boom);
+        final float res = state.getExplosionResistance(world, this.pos, boom);
         return res;
     }
 

@@ -3,7 +3,7 @@ package thut.api.terrain;
 import java.util.Objects;
 
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.DimensionType;
 
 public class GlobalChunkPos
 {

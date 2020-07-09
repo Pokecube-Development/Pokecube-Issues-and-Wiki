@@ -16,7 +16,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
@@ -239,7 +239,7 @@ public class EntityPokecube extends EntityPokecubeBase
     @Override
     public void shoot(final double x, final double y, final double z, final float velocity, final float inaccuracy)
     {
-        final Vec3d vec3d = new Vec3d(x, y, z).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy,
+        final Vector3d vec3d = new Vec3d(x, y, z).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy,
                 this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy).scale(
                         velocity);
         this.setMotion(vec3d);

@@ -24,7 +24,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -461,7 +461,7 @@ public class EntityMoveUse extends ThrowableEntity
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
 
-        final Vec3d v = this.getMotion();
+        final Vector3d v = this.getMotion();
         testBox = testBox.expand(v.x, v.y, v.z);
         final List<LivingEntity> hits = this.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, testBox,
                 this.valid);

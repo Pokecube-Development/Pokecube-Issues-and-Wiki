@@ -5,7 +5,7 @@ import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -132,7 +132,7 @@ public class Mob_Impl implements Mob, ICapabilityProvider
     @Override
     public Vector<Double> velocity()
     {
-        final Vec3d motion = this.entity.getMotion();
+        final Vector3d motion = this.entity.getMotion();
         this.velocity.setValue(0, motion.x);
         this.velocity.setValue(1, motion.y);
         this.velocity.setValue(2, motion.z);

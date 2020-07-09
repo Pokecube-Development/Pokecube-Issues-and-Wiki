@@ -32,7 +32,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -185,7 +185,7 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public void travel(final Vec3d dr)
+    public void travel(final Vector3d dr)
     {
         if (this.isServerWorld() && this.isInWater() && this.pokemobCap.swims())
         {

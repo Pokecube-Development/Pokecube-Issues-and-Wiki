@@ -22,7 +22,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -183,7 +183,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         destY += this.getPosY();
         destZ += this.getPosZ();
 
-        final Vec3d v = this.getMotion();
+        final Vector3d v = this.getMotion();
         double vx = v.x;
         double vy = v.y;
         double vz = v.z;

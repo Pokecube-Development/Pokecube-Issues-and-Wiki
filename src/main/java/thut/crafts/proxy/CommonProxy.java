@@ -6,7 +6,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -88,7 +88,7 @@ public class CommonProxy implements Proxy
                 .getLong("time") != worldIn.getGameTime())
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
-            final Vec3d loc = playerIn.getPositionVector().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookVec()
+            final Vector3d loc = playerIn.getPositionVector().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookVec()
                     .scale(2));
             final BlockPos pos = new BlockPos(loc);
             BlockPos min = pos;

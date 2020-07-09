@@ -12,7 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -100,7 +100,7 @@ public class Matrix3
         final double maxY = entityBox.maxY;
         final double maxZ = entityBox.maxZ;
         final double factor = 0.75d;
-        final Vec3d motion = e.getMotion();
+        final Vector3d motion = e.getMotion();
         double dx = Math.max(maxX - minX, 0.5) / factor + motion.x, dz = Math.max(maxZ - minZ, 0.5) / factor + motion.z,
                 r;
 
@@ -614,7 +614,7 @@ public class Matrix3
             if (v.z < minZ) minZ = v.z;
         }
         double factor = 0.275d;
-        final Vec3d motion = e.getMotion();
+        final Vector3d motion = e.getMotion();
         double dx = Math.max(maxX - minX, 1) / factor + motion.x, dy = Math.max(maxY - minY, 1) / factor + motion.y,
                 dz = Math.max(maxZ - minZ, 1) / factor + motion.z;
         dx = Math.abs(dx);

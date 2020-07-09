@@ -15,7 +15,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.MemoryModules;
@@ -28,7 +28,7 @@ public class GuardAICapability implements IGuardAICapability
     {
         private AttributeModifier executingGuardTask = null;
 
-        private Vec3d lastPos;
+        private Vector3d lastPos;
 
         int path_fails = 0;
 
@@ -49,7 +49,7 @@ public class GuardAICapability implements IGuardAICapability
         @Override
         public void continueTask(final MobEntity entity)
         {
-            final Vec3d newPos = entity.getPositionVec();
+            final Vector3d newPos = entity.getPositionVec();
             if (this.getPos().withinDistance(newPos, this.getRoamDistance())) return;
 
             final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
@@ -146,12 +146,12 @@ public class GuardAICapability implements IGuardAICapability
 
         private boolean path(final MobEntity entity, final double speed)
         {
-            final Vec3d pos = new Vec3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ() + 0.5);
+            final Vector3d pos = new Vec3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ() + 0.5);
             this.setWalkTo(entity, pos, speed, 0);
             return true;
         }
 
-        protected void setWalkTo(final MobEntity entity, final Vec3d pos, final double speed, final int dist)
+        protected void setWalkTo(final MobEntity entity, final Vector3d pos, final double speed, final int dist)
         {
             entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(pos, (float) speed, dist));
         }

@@ -9,7 +9,7 @@ import net.minecraft.state.IProperty;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokecube;

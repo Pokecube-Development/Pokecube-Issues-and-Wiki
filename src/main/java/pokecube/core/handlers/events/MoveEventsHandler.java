@@ -32,7 +32,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -463,8 +463,8 @@ public class MoveEventsHandler
         final PlayerEntity player = user.getOwner() instanceof PlayerEntity ? (PlayerEntity) user.getOwner()
                 : PokecubeMod.getFakePlayer(world);
         final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
-        final Vec3d start = origin.toVec3d();
-        final Vec3d end = target.toVec3d();
+        final Vector3d start = origin.toVec3d();
+        final Vector3d end = target.toVec3d();
         final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.ANY, user
                 .getEntity());
         final BlockRayTraceResult hit = world.rayTraceBlocks(context);

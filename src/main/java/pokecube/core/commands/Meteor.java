@@ -6,7 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -21,7 +21,7 @@ public class Meteor
     public static int execute(final CommandSource source, final int power) throws CommandSyntaxException
     {
         final ServerWorld world = source.getWorld();
-        final Vec3d pos = source.getPos();
+        final Vector3d pos = source.getPos();
 
         final Vector3 v = Vector3.getNewVector().set(pos);
         v.x = v.intX() + 0.5;

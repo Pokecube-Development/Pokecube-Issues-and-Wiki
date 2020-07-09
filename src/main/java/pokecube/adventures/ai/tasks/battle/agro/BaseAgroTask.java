@@ -11,7 +11,7 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -82,8 +82,8 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
             return true;
         };
         final double s = this.trainer.getAgressDistance();
-        final Vec3d start = entityIn.getEyePosition(1);
-        final Vec3d end = start.add(entityIn.getLook(1).mul(s, s, s));
+        final Vector3d start = entityIn.getEyePosition(1);
+        final Vector3d end = start.add(entityIn.getLook(1).mul(s, s, s));
 
         for (LivingEntity mob : mobs)
             if (this.isValidTarget(mob) && tameChecker.test(mob))

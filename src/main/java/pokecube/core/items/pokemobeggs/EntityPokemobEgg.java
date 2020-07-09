@@ -16,7 +16,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
@@ -246,7 +246,7 @@ public class EntityPokemobEgg extends AgeableEntity
 
         if (this.isInWater() || this.isInLava())
         {
-            final Vec3d motion = this.getMotion();
+            final Vector3d motion = this.getMotion();
             double dy = motion.y + 0.1;
             dy = Math.min(dy, 0.1);
             this.setMotion(motion.x, dy, motion.z);

@@ -20,9 +20,9 @@ import net.minecraft.command.arguments.GameProfileArgument;
 import net.minecraft.command.arguments.Vec3Argument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeItems;
@@ -62,7 +62,7 @@ public class SecretBase
         return 0;
     }
 
-    public static int execute_create(final CommandSource source, final ServerPlayerEntity player, final Vec3d input)
+    public static int execute_create(final CommandSource source, final ServerPlayerEntity player, final Vector3d input)
     {
         if (SecretBase.pendingBaseLocations.containsKey(player.getUniqueID()))
         {

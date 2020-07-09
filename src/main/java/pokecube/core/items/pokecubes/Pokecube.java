@@ -26,7 +26,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -395,7 +395,7 @@ public class Pokecube extends Item implements IPokecube
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) thrower;
             final Hand hand = player.getActiveHand();
-            final Vec3d tmp = thrower.getLookVec();
+            final Vector3d tmp = thrower.getLookVec();
             final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
             final Vector3f shift = new Vector3f();
             shift.cross(look, new Vector3f(0, 1, 0));
@@ -459,7 +459,7 @@ public class Pokecube extends Item implements IPokecube
             {
                 final ServerPlayerEntity player = (ServerPlayerEntity) thrower;
                 final Hand hand = player.getActiveHand();
-                final Vec3d tmp = thrower.getLookVec();
+                final Vector3d tmp = thrower.getLookVec();
                 final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
                 final Vector3f shift = new Vector3f();
                 shift.cross(look, new Vector3f(0, 1, 0));

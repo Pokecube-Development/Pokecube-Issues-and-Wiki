@@ -23,7 +23,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputUpdateEvent;
@@ -107,8 +107,8 @@ public class ClientProxy extends CommonProxy
             if (held.getTag() != null && held.getTag().contains("min"))
             {
                 final Minecraft mc = Minecraft.getInstance();
-                final Vec3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
-                Vec3d pointed = new Vec3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player.getLook(event
+                final Vector3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
+                Vector3d pointed = new Vec3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player.getLook(event
                         .getPartialTicks()));
                 if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == Type.BLOCK)
                 {

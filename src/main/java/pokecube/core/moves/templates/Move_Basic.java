@@ -21,7 +21,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -172,8 +172,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         if (!this.move.isNotIntercepable() && attacker.inCombat())
         {
-            final Vec3d loc1 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
-            final Vec3d loc2 = new Vec3d(location.x, location.y, location.z);
+            final Vector3d loc1 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
+            final Vector3d loc2 = new Vec3d(location.x, location.y, location.z);
             final BlockRayTraceResult result = entity.getEntityWorld().rayTraceBlocks(new RayTraceContext(loc1, loc2,
                     RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, entity));
             // TODO check if this is relative or absolute positon.

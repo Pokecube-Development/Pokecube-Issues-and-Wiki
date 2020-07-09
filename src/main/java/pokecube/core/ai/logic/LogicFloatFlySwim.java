@@ -8,7 +8,7 @@ import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.pathing.ClimbPathNavi;
@@ -85,7 +85,7 @@ public class LogicFloatFlySwim extends LogicBase
                 // points.
                 final float dh_hat = MathHelper.abs(dh / ds);
                 final float dy_hat = (float) Math.abs(dy / ds);
-                final Vec3d v = this.mob.getMotion();
+                final Vector3d v = this.mob.getMotion();
                 this.mob.setMotion(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
             }
             else this.entity.setAIMoveSpeed(0.0F);
@@ -148,7 +148,7 @@ public class LogicFloatFlySwim extends LogicBase
                 // points.
                 final float dh_hat = MathHelper.abs(dh / ds);
                 final float dy_hat = (float) Math.abs(dy / ds);
-                final Vec3d v = this.mob.getMotion();
+                final Vector3d v = this.mob.getMotion();
                 this.mob.setMotion(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
             }
             else
