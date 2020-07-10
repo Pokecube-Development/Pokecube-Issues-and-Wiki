@@ -52839,10 +52839,10 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
-        },
-        "movementType": "flying"
+        }
       },
       "moves": {
         "lvlupMoves": {
@@ -71471,6 +71471,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -71532,7 +71533,14 @@
             "normal": "Ice Face"
           }
         },
-        "mass": 89.0
+        "mass": 89.0,
+        "logics": {
+          "values": {
+            "dive": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
+        "movementType": "water"
       }
     },
     {
