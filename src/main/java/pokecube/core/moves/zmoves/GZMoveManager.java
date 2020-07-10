@@ -163,12 +163,13 @@ public class GZMoveManager
      *            - move index to check
      * @return
      */
-    public static String getGMove(final IPokemob user, final String base_move, final boolean gigant)
+    public static String getGMove(final IPokemob user, final String base_move, boolean gigant)
     {
         if (base_move == null) return null;
         if (!user.getCombatState(CombatStates.DYNAMAX)) return null;
         final Move_Base move = MovesUtils.getMoveFromName(base_move);
         if (move == null) return null;
+        gigant = gigant && GZMoveManager.g_max_moves_map.containsKey(base_move);
         return gigant ? GZMoveManager.g_max_moves_map.get(base_move) : GZMoveManager.gmoves_map.get(base_move);
     }
 }
