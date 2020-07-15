@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.25"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
-  <phase duration="10" leftFront="arm3" leftHind="arm1" name="quadWalk" rightFront="arm4" rightHind="arm2"/>
+  <phase name="global" scale="0.18"/>
+  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
+  <phase duration="10" leftFront="leg1" leftHind="leg3" name="quadWalk" rightFront="leg2" rightHind="leg4"/>
+  <customTex default="mudbray">
+   <part name="Head" tex="mudbrayeye"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:10"/>
+  </customTex>
+  <phase type="idle">
+   <part name="tail">
+    <component length="10" name="1" rotChange="-10,0,0" rotOffset="-35,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="orl1">
+    <component length="10" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="10" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="hair">
+    <component length="10" name="1" rotChange="-5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="5,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="tail">
+    <component length="10" name="1" rotChange="-10,0,0" rotOffset="-15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="orl1">
+    <component length="10" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="10" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="hair">
+    <component length="10" name="1" rotChange="-5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="5,0,0" startKey="10"/>
+   </part>
+  </phase>
  </model>
  <details>
   <RIDDENOFFSET>
