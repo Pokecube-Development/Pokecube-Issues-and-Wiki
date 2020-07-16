@@ -35,7 +35,7 @@ public class Mimicry extends Ability
     public IPokemob onRecall(final IPokemob mob)
     {
         final PokedexEntry mobs = mob.getPokedexEntry();
-        if (mob.getType1() != mobs.getType1()) return mob.setPokedexEntry(mobs);
+        mob.setType1(mobs.getType1());
         return super.onRecall(mob);
     }
 }

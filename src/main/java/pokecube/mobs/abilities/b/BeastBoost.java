@@ -1,7 +1,6 @@
 package pokecube.mobs.abilities.b;
 
 import net.minecraft.entity.LivingEntity;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
@@ -25,16 +24,7 @@ public class BeastBoost extends Ability
             	MovesUtils.handleStats2(mob, mob.getOwner(), IMoveConstants.SPATACK, IMoveConstants.RAISE);
             	MovesUtils.handleStats2(mob, mob.getOwner(), IMoveConstants.SPDEFENSE, IMoveConstants.RAISE);
             	MovesUtils.handleStats2(mob, mob.getOwner(), IMoveConstants.VIT, IMoveConstants.RAISE);
-            	System.out.println("subiu tudo!");
             }
         }
-    }
-	
-	@Override
-    public void onUpdate(final IPokemob mob)
-    {
-    	final PokedexEntry mobs = mob.getPokedexEntry();
-    	if(!mob.inCombat()) 
-        	mob.setPokedexEntry(mobs);
     }
 }
