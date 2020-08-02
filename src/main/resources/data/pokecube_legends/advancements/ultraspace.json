@@ -39,6 +39,18 @@
       "conditions": {
         "biome": "pokecube_legends:ub004"
       }
+    },
+	"biome_4": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:ub005"
+      }
+    },
+	"biome_4": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:ub006"
+      }
     }
   },
   "rewards": {
