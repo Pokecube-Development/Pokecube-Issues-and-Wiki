@@ -6,6 +6,7 @@ import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemTier;
+import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,7 +30,7 @@ public class ItemInit
 {
     // Materials
     public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
-    
+
     // Orbs
     public static final RegistryObject<Item> BLUEORB;
     public static final RegistryObject<Item> GREENORB;
@@ -74,32 +75,32 @@ public class ItemInit
     public static final RegistryObject<Item> AZURE_FLUTE;
     public static final RegistryObject<Item> RSHIELD;
     public static final RegistryObject<Item> RSWORD;
-    
-    //Evolutions
+
+    // Evolutions
     public static final RegistryObject<Item> CHPOT;
     public static final RegistryObject<Item> CRPOT;
     public static final RegistryObject<Item> GALARCUFF;
     public static final RegistryObject<Item> PDARK;
     public static final RegistryObject<Item> PWATER;
-    
-    //Raids/Dynamax/Gigantamax
+
+    // Raids/Dynamax/Gigantamax
     public static final RegistryObject<Item> WISHING_PIECE;
     public static final RegistryObject<Item> GIGANTIC_SHARD;
 
     // Tools
     public static final RegistryObject<Item> RAINBOW_SWORD;
-    
-    //UltraSpace
+
+    // UltraSpace
     public static final RegistryObject<Item> SPECTRUM_SHARD;
-    
-    	//Armor
-	    public static final RegistryObject<ArmorItem> ULTRA_HELMET;
-	    public static final RegistryObject<ArmorItem> ULTRA_CHESTPLATE;
-	    public static final RegistryObject<ArmorItem> ULTRA_LEGGINGS;
-	    public static final RegistryObject<ArmorItem> ULTRA_BOOTS;
-	    
-	    //Torch
-	    //public static final RegistryObject<BlockItem> TORCH01;
+
+    // Armor
+    public static final RegistryObject<ArmorItem> ULTRA_HELMET;
+    public static final RegistryObject<ArmorItem> ULTRA_CHESTPLATE;
+    public static final RegistryObject<ArmorItem> ULTRA_LEGGINGS;
+    public static final RegistryObject<ArmorItem> ULTRA_BOOTS;
+
+    // Torch
+    public static final RegistryObject<Item> TORCH01;
 
     static
     {
@@ -155,7 +156,7 @@ public class ItemInit
                 "azureflute"));
         RSHIELD = PokecubeLegends.ITEMS.register("rustedshield", () -> new ItemBase("rustedshield", 1));
         RSWORD = PokecubeLegends.ITEMS.register("rustedsword", () -> new ItemBase("rustedsword", 1));
-        
+
         CHPOT = PokecubeLegends.ITEMS.register("chippedpot", () -> new ItemBase("chippedpot", 1).noTooltop());
         CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase("crackedpot", 1).noTooltop());
         GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase("galarcuff", 1).noTooltop());
@@ -167,52 +168,71 @@ public class ItemInit
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(4, -3,
                 ItemInit.MATERIAL_RAINBOW));
-        
-        //UltraSpace
-        SPECTRUM_SHARD		= PokecubeLegends.ITEMS_TAB.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32));
-        
-        ULTRA_HELMET 		= PokecubeLegends.ITEMS_TAB.register("ultra_helmet", () -> new UltraHelmetEffect(ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().group(PokecubeLegends.TAB)));
-        ULTRA_CHESTPLATE 	= PokecubeLegends.ITEMS_TAB.register("ultra_chestplate", () -> new ArmorItem(ItemInit.armormaterial, EquipmentSlotType.CHEST, new Item.Properties().group(PokecubeLegends.TAB)));
-        ULTRA_LEGGINGS 		= PokecubeLegends.ITEMS_TAB.register("ultra_leggings", () -> new ArmorItem(ItemInit.armormaterial, EquipmentSlotType.LEGS, new Item.Properties().group(PokecubeLegends.TAB)));
-        ULTRA_BOOTS 		= PokecubeLegends.ITEMS_TAB.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.armormaterial, EquipmentSlotType.FEET, new Item.Properties().group(PokecubeLegends.TAB)));
-        
-        //Torchs
-        //TORCH01 			= PokecubeLegends.ITEMS_TAB.register("ultra_torch01", () -> new WallOrFloorItem(BlockInit.ULTRA_TORCH1.get(), BlockInit.ULTRA_TORCH1_WALL.get(),
-        //		(new Item.Properties()).group(PokecubeLegends.TAB)));
-        
+
+        // UltraSpace
+        SPECTRUM_SHARD = PokecubeLegends.ITEMS_TAB.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32));
+
+        ULTRA_HELMET = PokecubeLegends.ITEMS_TAB.register("ultra_helmet", () -> new UltraHelmetEffect(
+                ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().group(PokecubeLegends.TAB)));
+        ULTRA_CHESTPLATE = PokecubeLegends.ITEMS_TAB.register("ultra_chestplate", () -> new ArmorItem(
+                ItemInit.armormaterial, EquipmentSlotType.CHEST, new Item.Properties().group(PokecubeLegends.TAB)));
+        ULTRA_LEGGINGS = PokecubeLegends.ITEMS_TAB.register("ultra_leggings", () -> new ArmorItem(
+                ItemInit.armormaterial, EquipmentSlotType.LEGS, new Item.Properties().group(PokecubeLegends.TAB)));
+        ULTRA_BOOTS = PokecubeLegends.ITEMS_TAB.register("ultra_boots", () -> new UltraBootsEffect(
+                ItemInit.armormaterial, EquipmentSlotType.FEET, new Item.Properties().group(PokecubeLegends.TAB)));
+
+        // Torchs
+        TORCH01 = PokecubeLegends.ITEMS_TAB.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.ULTRA_TORCH1
+                .get(), BlockInit.ULTRA_TORCH1_WALL.get(), new Item.Properties().group(PokecubeLegends.TAB)));
+
     }
 
-    public static final IArmorMaterial armormaterial = new IArmorMaterial() {
-		public int getDurability(EquipmentSlotType slot) {
-			return new int[]{13, 15, 16, 11}[slot.getIndex()] * 25;
-		}
+    public static final IArmorMaterial armormaterial = new IArmorMaterial()
+    {
+        @Override
+        public int getDurability(final EquipmentSlotType slot)
+        {
+            return new int[] { 13, 15, 16, 11 }[slot.getIndex()] * 25;
+        }
 
-		public int getDamageReductionAmount(EquipmentSlotType slot) {
-			return new int[]{2, 5, 6, 2}[slot.getIndex()];
-		}
+        @Override
+        public int getDamageReductionAmount(final EquipmentSlotType slot)
+        {
+            return new int[] { 2, 5, 6, 2 }[slot.getIndex()];
+        }
 
-		public int getEnchantability() {
-			return 9;
-		}
+        @Override
+        public int getEnchantability()
+        {
+            return 9;
+        }
 
-		public net.minecraft.util.SoundEvent getSoundEvent() {
-			return SoundEvents.ENTITY_ZOMBIE_ATTACK_IRON_DOOR;
-		}
+        @Override
+        public net.minecraft.util.SoundEvent getSoundEvent()
+        {
+            return SoundEvents.ENTITY_ZOMBIE_ATTACK_IRON_DOOR;
+        }
 
-		public Ingredient getRepairMaterial() {
-			return Ingredient.fromItems(ItemInit.CRYSTAL_SHARD.get());
-		}
+        @Override
+        public Ingredient getRepairMaterial()
+        {
+            return Ingredient.fromItems(ItemInit.CRYSTAL_SHARD.get());
+        }
 
-		@OnlyIn(Dist.CLIENT)
-		public String getName() {
-			return Reference.ID + ":ultra";
-		}
+        @Override
+        @OnlyIn(Dist.CLIENT)
+        public String getName()
+        {
+            return Reference.ID + ":ultra";
+        }
 
-		public float getToughness() {
-			return 1.5f;
-		}
-	};
-    
+        @Override
+        public float getToughness()
+        {
+            return 1.5f;
+        }
+    };
+
     public static void init()
     {
 

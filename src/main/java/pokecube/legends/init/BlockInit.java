@@ -25,8 +25,7 @@ import pokecube.legends.blocks.blockstates.MagneticBlock;
 import pokecube.legends.blocks.blockstates.SandDistorBlock;
 import pokecube.legends.blocks.blockstates.SandUltraBlock;
 import pokecube.legends.blocks.blockstates.UltraTorch1;
-import pokecube.legends.blocks.blockstates.UltraTorch2;
-import pokecube.legends.blocks.blockstates.UltraTorch3;
+import pokecube.legends.blocks.blockstates.UltraTorch1Wall;
 import pokecube.legends.blocks.customblocks.KeldeoBlock;
 import pokecube.legends.blocks.customblocks.LegendaryBlock;
 import pokecube.legends.blocks.customblocks.NatureCoreBlock;
@@ -73,26 +72,24 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_ROCKDISTOR;
     public static final RegistryObject<Block> ULTRA_GRASSAGED;
     public static final RegistryObject<Block> ULTRA_DIRTAGED;
-    
+
     public static final RegistryObject<Block> ULTRA_TORCH1;
-    //public static final RegistryObject<Block> ULTRA_TORCH1_WALL;
-    
-    public static final RegistryObject<Block> ULTRA_TORCH2;
-    
-    
-    public static final RegistryObject<Block> ULTRA_TORCH3;
-    
-    
-    
+    public static final RegistryObject<Block> ULTRA_TORCH1_WALL;
+
+    // public static final RegistryObject<Block> ULTRA_TORCH2;
+    // public static final RegistryObject<Block> ULTRA_TORCH3;
+
+
+
     //Plants(LOG/Planks/Leaves)
     public static final RegistryObject<Block> ULTRA_SAPLING_UB01;
     public static final RegistryObject<Block> ULTRA_SAPLING_UB02;
     public static final RegistryObject<Block> ULTRA_SAPLING_UB03;
-    
+
     public static final RegistryObject<Block> ULTRA_LOGUB01;
     public static final RegistryObject<Block> ULTRA_PLANKUB01;
     public static final RegistryObject<Block> ULTRA_LEAVEUB01;
-    
+
     public static final RegistryObject<Block> ULTRA_LOGUB02;
     public static final RegistryObject<Block> ULTRA_PLANKUB02;
     public static final RegistryObject<Block> ULTRA_LEAVEUB02;
@@ -100,7 +97,7 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_LOGUB03;
     public static final RegistryObject<Block> ULTRA_PLANKUB03;
     public static final RegistryObject<Block> ULTRA_LEAVEUB03;
-    
+
     // Portal
     public static final RegistryObject<Block> ULTRASPACE_PORTAL;
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
@@ -125,7 +122,7 @@ public class BlockInit
     public static final RegistryObject<Block> SAPPHIRE_BLOCK;
     public static final RegistryObject<Block> SPECTRUM_ORE;
     public static final RegistryObject<Block> SPECTRUM_BLOCK;
-    
+
 
     static
     {
@@ -182,16 +179,17 @@ public class BlockInit
         		.noInfoBlock());
         TEMPORAL_CRYSTAL 	= PokecubeLegends.BLOCKS_TAB.register("temporal_crystal", () -> new BlockBase("temporal_crystal", Material.GLASS,
         		1.5f, SoundType.GLASS, ToolType.PICKAXE).noInfoBlock());
-        
+
         //Torchs
-        ULTRA_TORCH1		= PokecubeLegends.BLOCKS_TAB.register("ultra_torch1", () -> new UltraTorch1());
-        //ULTRA_TORCH1_WALL	= PokecubeLegends.BLOCKS_TAB.register("ultra_torch1_wall", () -> new UltraTorch1Wall());
-        
-        ULTRA_TORCH2		= PokecubeLegends.BLOCKS_TAB.register("ultra_torch2", () -> new UltraTorch2());
-        
-        ULTRA_TORCH3		= PokecubeLegends.BLOCKS_TAB.register("ultra_torch3", () -> new UltraTorch3());
-        
-        
+        ULTRA_TORCH1 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1", () -> new UltraTorch1());
+        ULTRA_TORCH1_WALL = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1_wall", () -> new UltraTorch1Wall());
+
+        // ULTRA_TORCH2 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch2", ()
+        // -> new UltraTorch2());
+        // ULTRA_TORCH3 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch3", ()
+        // -> new UltraTorch3());
+
+
         //Plants
         ULTRA_SAPLING_UB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_sapling01", () -> new SaplingBase(
         		() -> new Ultra_Tree01(), Block.Properties.from(Blocks.OAK_SAPLING)));
@@ -199,20 +197,20 @@ public class BlockInit
         		() -> new Ultra_Tree02(), Block.Properties.from(Blocks.OAK_SAPLING)));
         ULTRA_SAPLING_UB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_sapling03", () -> new SaplingBase(
         		() -> new Ultra_Tree03(), Block.Properties.from(Blocks.OAK_SAPLING)));
-        
+
         //Plants (LOG/LEAVE/PLANKS)
         ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        
+
         ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
         ULTRA_PLANKUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        
+
         ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        
+
         // Portal
         ULTRASPACE_PORTAL 	= PokecubeLegends.BLOCKS_TAB.register("ultraspace_portal", () -> new UltraSpacePortal(
                 "ultraspace_portal", Block.Properties.create(Material.GLASS).sound(SoundType.GLASS)
@@ -279,12 +277,14 @@ public class BlockInit
     public static void init()
     {
     	PlantsInit.registry();
-        for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries()) {
+        for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .group(PokecubeItems.POKECUBEBLOCKS)));
-        }
-        
-        for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries()) {
+
+        for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries())
+        {
+            // These are registered seperately, so skip them.
+            if (reg == BlockInit.ULTRA_TORCH1 || reg == BlockInit.ULTRA_TORCH1_WALL) continue;
             PokecubeLegends.ITEMS_TAB.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .group(PokecubeLegends.TAB)));
         }
