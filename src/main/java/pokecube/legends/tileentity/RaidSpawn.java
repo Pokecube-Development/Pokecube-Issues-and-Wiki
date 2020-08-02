@@ -12,8 +12,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeTileEntity;
 import pokecube.core.blocks.maxspot.MaxTile;
-import pokecube.legends.blocks.RaidSpawnBlock;
-import pokecube.legends.blocks.RaidSpawnBlock.State;
+import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
+import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 
 public class RaidSpawn extends MaxTile
 {

@@ -1,10 +1,6 @@
 package pokecube.legends.handlers;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.events.GeneEditEvent;
 import pokecube.adventures.events.GeneEditEvent.EditType;
 import pokecube.core.database.PokedexEntry;
@@ -37,29 +33,6 @@ public class GeneProtector
         final SpeciesInfo info = gene.getValue();
         final PokedexEntry entry = info.entry;
         return this.invalidEntry(entry, false);
-    }
-
-    @SubscribeEvent
-    public void SelectorCopyPrevention(final PlayerEvent.ItemCraftedEvent evt)
-    {
-        if (evt.getCrafting().getItem() == Items.WRITTEN_BOOK)
-        {
-            int num = 0;
-            boolean hasBook = false;
-            boolean hasbook_quil = false;
-            for (int i = 0; i < evt.getInventory().getSizeInventory(); i++)
-            {
-                final ItemStack stack = evt.getInventory().getStackInSlot(i);
-                if (!stack.isEmpty())
-                {
-                    hasBook = hasBook || stack.getItem() == Items.WRITTEN_BOOK;
-                    hasbook_quil = hasbook_quil || stack.getItem() == Items.WRITABLE_BOOK;
-                    num++;
-                }
-            }
-            if (num == 2 && hasbook_quil && hasBook && evt.getCrafting().hasTag()) evt.getCrafting().getTag().remove(
-                    ClonerHelper.SELECTORTAG);
-        }
     }
 
     @SubscribeEvent

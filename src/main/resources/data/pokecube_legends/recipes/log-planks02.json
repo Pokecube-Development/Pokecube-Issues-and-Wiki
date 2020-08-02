@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:true"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "group": "pokecube_legends",
+        "ingredients": [
+          {
+            "item": "pokecube_legends:ultra_log02"
+          }
+        ],
+        "result": {
+          "item": "pokecube_legends:ultra_plank02",
+          "count": 4
+        }
+      }
+    }
+  ]
+}
