@@ -16,7 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.blocks.UltraSpacePortal;
+import pokecube.legends.blocks.customblocks.UltraSpacePortal;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;

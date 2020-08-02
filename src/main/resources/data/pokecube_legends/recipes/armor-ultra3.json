@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RTR",
+    "R R",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "pokecube_legends:ultramagnetic"
+    },
+    "R": {
+      "item": "pokecube_legends:spectrum_shard"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:ultra_leggings",
+    "count": 1
+  }
+}

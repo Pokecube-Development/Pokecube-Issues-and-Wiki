@@ -1,25 +1,35 @@
 package pokecube.legends.init;
 
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemTier;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.SoundEvents;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.PokeType;
 import pokecube.legends.PokecubeLegends;
+import pokecube.legends.Reference;
 import pokecube.legends.items.GiganticShard;
 import pokecube.legends.items.ItemBase;
 import pokecube.legends.items.LegendaryOrb;
 import pokecube.legends.items.RainbowSword;
+import pokecube.legends.items.armor.UltraBootsEffect;
+import pokecube.legends.items.armor.UltraHelmetEffect;
 import pokecube.legends.items.natureedit.ItemNature;
 import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class ItemInit
 {
-    // Materials//TODO custom material here.
+    // Materials
     public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
-
+    
     // Orbs
     public static final RegistryObject<Item> BLUEORB;
     public static final RegistryObject<Item> GREENORB;
@@ -78,6 +88,18 @@ public class ItemInit
 
     // Tools
     public static final RegistryObject<Item> RAINBOW_SWORD;
+    
+    //UltraSpace
+    public static final RegistryObject<Item> SPECTRUM_SHARD;
+    
+    	//Armor
+	    public static final RegistryObject<ArmorItem> ULTRA_HELMET;
+	    public static final RegistryObject<ArmorItem> ULTRA_CHESTPLATE;
+	    public static final RegistryObject<ArmorItem> ULTRA_LEGGINGS;
+	    public static final RegistryObject<ArmorItem> ULTRA_BOOTS;
+	    
+	    //Torch
+	    //public static final RegistryObject<BlockItem> TORCH01;
 
     static
     {
@@ -145,8 +167,52 @@ public class ItemInit
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(4, -3,
                 ItemInit.MATERIAL_RAINBOW));
+        
+        //UltraSpace
+        SPECTRUM_SHARD		= PokecubeLegends.ITEMS_TAB.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32));
+        
+        ULTRA_HELMET 		= PokecubeLegends.ITEMS_TAB.register("ultra_helmet", () -> new UltraHelmetEffect(ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().group(PokecubeLegends.TAB)));
+        ULTRA_CHESTPLATE 	= PokecubeLegends.ITEMS_TAB.register("ultra_chestplate", () -> new ArmorItem(ItemInit.armormaterial, EquipmentSlotType.CHEST, new Item.Properties().group(PokecubeLegends.TAB)));
+        ULTRA_LEGGINGS 		= PokecubeLegends.ITEMS_TAB.register("ultra_leggings", () -> new ArmorItem(ItemInit.armormaterial, EquipmentSlotType.LEGS, new Item.Properties().group(PokecubeLegends.TAB)));
+        ULTRA_BOOTS 		= PokecubeLegends.ITEMS_TAB.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.armormaterial, EquipmentSlotType.FEET, new Item.Properties().group(PokecubeLegends.TAB)));
+        
+        //Torchs
+        //TORCH01 			= PokecubeLegends.ITEMS_TAB.register("ultra_torch01", () -> new WallOrFloorItem(BlockInit.ULTRA_TORCH1.get(), BlockInit.ULTRA_TORCH1_WALL.get(),
+        //		(new Item.Properties()).group(PokecubeLegends.TAB)));
+        
     }
 
+    public static final IArmorMaterial armormaterial = new IArmorMaterial() {
+		public int getDurability(EquipmentSlotType slot) {
+			return new int[]{13, 15, 16, 11}[slot.getIndex()] * 25;
+		}
+
+		public int getDamageReductionAmount(EquipmentSlotType slot) {
+			return new int[]{2, 5, 6, 2}[slot.getIndex()];
+		}
+
+		public int getEnchantability() {
+			return 9;
+		}
+
+		public net.minecraft.util.SoundEvent getSoundEvent() {
+			return SoundEvents.ENTITY_ZOMBIE_ATTACK_IRON_DOOR;
+		}
+
+		public Ingredient getRepairMaterial() {
+			return Ingredient.fromItems(ItemInit.CRYSTAL_SHARD.get());
+		}
+
+		@OnlyIn(Dist.CLIENT)
+		public String getName() {
+			return Reference.ID + ":ultra";
+		}
+
+		public float getToughness() {
+			return 1.5f;
+		}
+	};
+    
     public static void init()
     {
 

@@ -7352,7 +7352,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "the_end,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004",
+              "biomes": "the_end,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004,pokecube_legends:ub005,pokecube_legends:ub006",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -7458,7 +7458,9 @@
           {
             "values": {
               "biomes": "pokecube_legends:ub001",
-              "rate": "1"
+              "min": "1",
+              "rate": "0.4",
+              "max": "1"
             }
           }
         ]
@@ -7471,7 +7473,9 @@
           {
             "values": {
               "biomes": "pokecube_legends:ub002",
-              "rate": "0.5"
+              "min": "1",
+              "rate": "0.4",
+              "max": "1"
             }
           }
         ]
@@ -7484,7 +7488,9 @@
           {
             "values": {
               "biomes": "pokecube_legends:ub003",
-              "rate": "0.5"
+              "min": "1",
+              "rate": "0.4",
+              "max": "1"
             }
           }
         ]
@@ -7496,8 +7502,10 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub001",
-              "rate": "0.5"
+              "biomes": "pokecube_legends:ub005",
+              "min": "1",
+              "rate": "0.4",
+              "max": "1"
             }
           }
         ]
@@ -7510,7 +7518,9 @@
           {
             "values": {
               "biomes": "pokecube_legends:ub003",
-              "rate": "0.5"
+              "min": "1",
+              "rate": "0.3",
+              "max": "1"
             }
           }
         ]
@@ -7522,8 +7532,10 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub002",
-              "rate": "0.5"
+              "biomes": "pokecube_legends:ub006",
+              "min": "1",
+              "rate": "0.4",
+              "max": "1"
             }
           }
         ]
@@ -7536,7 +7548,9 @@
           {
             "values": {
               "biomes": "pokecube_legends:ub004",
-              "rate": "0.5"
+              "min": "1",
+              "rate": "0.3",
+              "max": "1"
             }
           }
         ]
@@ -7548,7 +7562,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004",
+              "biomes": "pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004,pokecube_legends:ub005,pokecube_legends:ub006",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -7564,7 +7578,9 @@
           {
             "values": {
               "biomes": "pokecube_legends:ub002",
-              "rate": "0.5"
+              "min": "1",
+              "rate": "0.4",
+              "max": "1"
             }
           }
         ]
@@ -7576,8 +7592,10 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub003",
-              "rate": "0.5"
+              "biomes": "pokecube_legends:ub005",
+              "min": "1",
+              "rate": "0.4",
+              "max": "1"
             }
           }
         ]
@@ -7590,7 +7608,9 @@
           {
             "values": {
               "biomes": "pokecube_legends:ub001",
-              "rate": "0.5"
+              "min": "1",
+              "rate": "0.4",
+              "max": "1"
             }
           }
         ]

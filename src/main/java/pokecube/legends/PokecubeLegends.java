@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -42,8 +43,8 @@ import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.legends.blocks.RaidSpawnBlock;
-import pokecube.legends.blocks.RaidSpawnBlock.State;
+import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
+import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.init.BiomeInit;
 import pokecube.legends.init.BlockInit;
@@ -66,7 +67,9 @@ public class PokecubeLegends
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
+    public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
     public static final DeferredRegister<Item>  ITEMS  = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
+    public static final DeferredRegister<Item>  ITEMS_TAB  = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
@@ -89,13 +92,13 @@ public class PokecubeLegends
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
             new WorldgenHandler(Reference.ID).processStructures(event);
-
+            
             if (PokecubeCore.getConfig().generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 if (!(SpawnBiomeMatcher.contains(b, Type.FOREST) || SpawnBiomeMatcher.contains(b, Type.OCEAN)
                         || SpawnBiomeMatcher.contains(b, Type.HILLS) || SpawnBiomeMatcher.contains(b, Type.PLAINS)
                         || SpawnBiomeMatcher.contains(b, Type.SWAMP) || SpawnBiomeMatcher.contains(b, Type.MOUNTAIN)
-                        || SpawnBiomeMatcher.contains(b, Type.SNOWY) || SpawnBiomeMatcher.contains(b, Type.SPOOKY)))
+                        || SpawnBiomeMatcher.contains(b, Type.SNOWY) || SpawnBiomeMatcher.contains(b, Type.SPOOKY))) 
                     continue;
                 // Currently this uses same settings as gold ore.
 
@@ -109,7 +112,6 @@ public class PokecubeLegends
                                         .configure(
                                         new CountRangeConfig(2, 0, 0, 32))));
             }
-
         }
 
         @SubscribeEvent
@@ -122,13 +124,7 @@ public class PokecubeLegends
         public static void registerModDimensions(final RegistryEvent.Register<ModDimension> event)
         {
             event.getRegistry().register(new UltraSpaceModDimension().setRegistryName(ModDimensions.DIMENSION_ID));
-            // event.getRegistry().register(DimensionInit.DIMENSION.setRegistryName(Reference.ID,
-            // "ultraspace"));
-            // event.getRegistry().register
-            // (
-            // new UltraSpaceModDimension().setRegistryName(Reference.ID,
-            // "ultraspace")
-            // );
+          
             PokecubeLegends.LOGGER.debug("Registering Pokecube UltraSpace");
         }
     }
@@ -146,8 +142,7 @@ public class PokecubeLegends
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        // DimensionInit.initDimension();
+        
         // Register setup for proxy
         modEventBus.addListener(PokecubeLegends.proxy::setup);
         // Register the doClientStuff method for modloading
@@ -159,12 +154,14 @@ public class PokecubeLegends
 
         PokecubeLegends.BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
+        PokecubeLegends.ITEMS_TAB.register(modEventBus);
+        PokecubeLegends.BLOCKS_TAB.register(modEventBus);
 
         BlockInit.init();
         ItemInit.init();
         MoveRegister.init();
     }
-
+    
     @SubscribeEvent
     public void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
     {
@@ -178,6 +175,15 @@ public class PokecubeLegends
     {
         Database.addDatabase("pokecube_legends:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
     }
+    
+    public static final ItemGroup TAB = new ItemGroup("ultratab") {
+    	
+    	@Override
+    	public ItemStack createIcon() 
+    	{
+    		return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
+    	}
+    };
 
     @SubscribeEvent
     public void registerPokecubes(final RegisterPokecubes event)
@@ -192,14 +198,6 @@ public class PokecubeLegends
                 return helper.beast(mob);
             }
         }.setRegistryName("pokecube_legends", "beast"));
-
-        // Pokecube Capture example dynamax resize
-        /*
-         * event.behaviors.add(new DefaultPokecubeBehavior() {
-         * @Override public double getCaptureModifier(IPokemob mob) { return
-         * helper.dynamax(mob); } }.setRegistryName("pokecube_legends",
-         * "dynamax"));
-         */
     }
 
     @SubscribeEvent

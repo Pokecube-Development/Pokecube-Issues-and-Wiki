@@ -18,7 +18,7 @@ public class ForgeEventHandlers
     public void onDimensionRegistry(final RegisterDimensionsEvent event)
     {
         ModDimensions.DIMENSION_TYPE = DimensionManager.registerOrGetDimension(ModDimensions.DIMENSION_ID,
-                ModDimensions.DIMENSION, null, true);
+                ModDimensions.DIMENSION, null, false);
         if (ModDimensions.DIMENSION_TYPE.getRegistryName() == null) ModDimensions.DIMENSION_TYPE.setRegistryName(
                 ModDimensions.DIMENSION_ID);
     }

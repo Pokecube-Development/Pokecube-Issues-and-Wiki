@@ -16,10 +16,28 @@
     "hidden": false
   },
   "criteria": {
-    "intotespace": {
-      "trigger": "minecraft:changed_dimension",
+    "biome_1": {
+      "trigger": "minecraft:location",
       "conditions": {
-        "to": "pokecube_legends:ultraspace"
+        "biome": "pokecube_legends:ub001"
+      }
+    },
+    "biome_2": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:ub002"
+      }
+    },
+    "biome_3": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:ub003"
+      }
+    },
+    "biome_4": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:ub004"
       }
     }
   },

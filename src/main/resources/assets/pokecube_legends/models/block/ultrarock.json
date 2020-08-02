@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:blocks/ultrarock",
+    "up": "pokecube_legends:blocks/ultrarock",
+    "north": "pokecube_legends:blocks/ultrarock",
+    "east": "pokecube_legends:blocks/ultrarock",
+    "south": "pokecube_legends:blocks/ultrarock",
+    "west": "pokecube_legends:blocks/ultrarock",
+    "particle": "pokecube_legends:blocks/ultrarock"
+   }
+}

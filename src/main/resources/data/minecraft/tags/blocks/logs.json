@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#pokecube:berry_logs"
+    "#pokecube:berry_logs",
+    "#pokecube_legends:ultra_logs"
   ]
 }

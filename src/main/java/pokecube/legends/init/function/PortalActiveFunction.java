@@ -17,7 +17,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.legends.blocks.PortalWarp;
+import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.dimension.ModDimensions;
 import thut.api.maths.Vector3;

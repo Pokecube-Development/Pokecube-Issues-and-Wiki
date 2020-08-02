@@ -11,7 +11,7 @@ import pokecube.core.handlers.events.MoveEventsHandler.UseContext;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.blocks.UltraSpacePortal;
+import pokecube.legends.blocks.customblocks.UltraSpacePortal;
 import pokecube.legends.init.BlockInit;
 import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
@@ -34,7 +34,7 @@ public class ActionCosmicPower implements IMoveAction
         final int level = user.getLevel();
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 16;
         count = (int) Math.max(1, Math.ceil(count * Math.pow((100 - level) / 100d, 3))) * hungerValue;
-        if (level < 20)
+        if (level < PokecubeLegends.config.levelCreatePortal)
         {
             message = new TranslationTextComponent("msg.spaceacess.deny.too_weak");
             owner.sendMessage(message);
@@ -69,7 +69,7 @@ public class ActionCosmicPower implements IMoveAction
             {
                 user.getEntity().getPersistentData().putLong("pokecube_legends:last_portal_make", user.getEntity()
                         .getEntityWorld().getGameTime());
-                block.place(owner.getEntityWorld(), prevPos, context.getPlacementHorizontalFacing());
+                block.place(owner.getEntityWorld(), prevPos, context.getFace());
                 message = new TranslationTextComponent("msg.spaceacess.accept.info");
                 mob.setHungerTime(mob.getHungerTime() + count);
             }

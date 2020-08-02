@@ -34,6 +34,8 @@ public class Config extends ConfigData
     public int     ticksPerPortalSpawn = 9000;
     @Configure(category = "ultraspace")
     public int     portalDwellTime     = 9000;
+    @Configure(category = "ultraspace")
+    public int     levelCreatePortal     = 22;
 
     private final WormHoleSpawnHandler wormholes       = new WormHoleSpawnHandler();
     private boolean                    wormholeReged   = false;
@@ -66,6 +68,10 @@ public class Config extends ConfigData
         {
             this.conditions.init();
             this.conditionsReged = true;
+        }
+        
+        if(this.levelCreatePortal <= 10 || this.levelCreatePortal >= 60) {
+        	this.levelCreatePortal = 20;
         }
     }
 

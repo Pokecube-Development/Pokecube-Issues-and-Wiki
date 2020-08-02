@@ -2,6 +2,7 @@
     "replace": false,
     "values": [
         "#forge:gems/sapphire",
-        "#forge:gems/ruby"
+        "#forge:gems/ruby",
+        "#forge:gems/spectrum"
     ]
 }

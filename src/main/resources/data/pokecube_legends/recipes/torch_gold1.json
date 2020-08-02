@@ -1,0 +1,16 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:a1_flower"
+    },
+    {
+      "item": "minecraft:torch"
+    }
+  ],
+  "result": {
+    "item": "pokecube_legends:ultra_torch2",
+    "count": 1
+  }
+}
