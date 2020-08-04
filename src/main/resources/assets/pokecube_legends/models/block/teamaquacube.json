@@ -1,0 +1,10 @@
+{
+  "parent": "pokecube:block/pokecubes",
+  "textures": {
+    "top": "pokecube_legends:items/teamaquacubetop",
+    "bottom": "pokecube_legends:items/teamaquacubebottom",
+    "front": "pokecube_legends:items/teamaquacubefront",
+    "back": "pokecube_legends:items/teamaquacubeback",
+    "side": "pokecube_legends:items/teamaquacubeside"
+  }
+}

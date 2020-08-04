@@ -170,7 +170,7 @@ public class ItemInit
                 ItemInit.MATERIAL_RAINBOW));
 
         // UltraSpace
-        SPECTRUM_SHARD = PokecubeLegends.ITEMS_TAB.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32));
+        SPECTRUM_SHARD = PokecubeLegends.ITEMS_TAB.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32).noTooltop());
 
         ULTRA_HELMET = PokecubeLegends.ITEMS_TAB.register("ultra_helmet", () -> new UltraHelmetEffect(
                 ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().group(PokecubeLegends.TAB)));

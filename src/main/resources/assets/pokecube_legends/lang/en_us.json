@@ -5,6 +5,22 @@
     "item.pokecube.beastcube": "Beast Cube",
     "item.pokecube.beastcube.desc": "A modified pokécube that increases chance in other dimensions.",
     
+    "item.pokecube.clonecube": "Clone Cube",
+    "item.pokecube.clonecube.desc": "A modified pokécube by a mysterious pokemon. Increase capture of Ghost/Psychic types",
+    
+    "item.pokecube.teammagmacube": "Magma Cube",
+    "item.pokecube.teammagmacube.desc": "A modified pokécube that increases the capture of Fire types.",
+    
+    "item.pokecube.teamaquacube": "Aqua Cube",
+    "item.pokecube.teamaquacube.desc": "A modified pokécube that increases the capture of Ice types.",
+    
+    "item.pokecube.typingcube": "Typing Cube",
+    "item.pokecube.typingcube.desc": "A modified pokécube that increases the capture of Ground types.",
+    
+    "item.pokecube.rocketcube": "Rocket Cube",
+    "item.pokecube.rocketcube.desc": "A modified pokécube used by Team Rocket.",
+
+
     "_comment": "/Alert Pokemon Legendary Capture",
     "msg.infolegend.info": "§aCapture [%1$s§a] Type Pokemob so he can Trust You. Needs: %2$s, §aOwn: %3$s.",
     "msg.infolegendduo.info": "§aCapture [%1$s§a] Type Pokemob and Kill [%2$s§a] Type Pokemob. Needs: %3$s, §aOwn: %4$s. §aNeeds Kill: %5$s, §aOwn: %6$s.",
@@ -27,8 +43,20 @@
 	"_comment": "/Ultra Space Part",   
 	
 	"_comment": "/Advancements",
-    "advancements.intotespace.descr": "visit all Ultra Space biomes.",
-    "advancements.intotespace.title": "Colliding Universes!",   
+    "advancements.intotespace.descr": "Visit all Ultra Space biomes.",
+    "advancements.intotespace.title": "Colliding Universes!",
+    
+    "advancements.ultraubs.title": "A collection from another world!",
+    "advancements.ultraubs.descr": "Capture all Ultra Beasts.",
+    
+    "advancements.ultratraje.title": "Avoiding Anomalies!",
+    "advancements.ultratraje.descr": "Crafting a Full Spectrum armor.",
+    
+    "advancements.ultraspace.title": "Welcome to Ultra Space!",
+    "advancements.ultraspace.descr": "Enter Ultra Space for the first time.",
+    
+    "advancements.spectrum.title": "Maybe valuable?",
+    "advancements.spectrum.descr": "Get the Ultra Space ore.",
     
 	"_comment": "Armor",
 	"item.pokecube_legends.ultra_helmet": 		"Ultra Armor Helmet",
@@ -60,7 +88,7 @@
     
     "block.pokecube_legends.spectrum_ore": "Spectrum Ore",
     "item.pokecube_legends.spectrum_shard": "Spectrum Shard",
-    "block.pokecube_legends.spectrum_ore": "Spectrum Block",
+    "block.pokecube_legends.spectrum_block": "Spectrum Block",
     
     "block.pokecube_legends.ultra_torch2": "Golden Torch",
     "block.pokecube_legends.ultra_torch1": "Infected Torch",

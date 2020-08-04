@@ -2,7 +2,7 @@
   "display": {
     "background": "minecraft:textures/block/stone.png",
     "icon": {
-      "item": "pokecube_legends:ultraspace_portal"
+      "item": "pokecube_legends:ultragrass3"
     },
     "title": {
       "translate": "advancements.intotespace.title"
@@ -40,13 +40,13 @@
         "biome": "pokecube_legends:ub004"
       }
     },
-	"biome_4": {
+	"biome_5": {
       "trigger": "minecraft:location",
       "conditions": {
         "biome": "pokecube_legends:ub005"
       }
     },
-	"biome_4": {
+	"biome_6": {
       "trigger": "minecraft:location",
       "conditions": {
         "biome": "pokecube_legends:ub006"
@@ -56,5 +56,5 @@
   "rewards": {
     "experience": 3
   },
-  "parent": "pokecube_legends:root"
+  "parent": "pokecube_legends:ultradimension"
 }
