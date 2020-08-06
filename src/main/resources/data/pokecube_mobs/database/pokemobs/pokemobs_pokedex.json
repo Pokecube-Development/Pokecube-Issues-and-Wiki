@@ -36400,6 +36400,18 @@
       "name": "Gible",
       "number": 443,
       "base": true,
+	  "female_model": {
+        "key": "gible_female",
+        "tex": "gible",
+        "model": "gible_female",
+        "anim": "gible_female"
+      },
+      "male_model": {
+        "key": "gible_male",
+        "tex": "gible",
+        "model": "gible_male",
+        "anim": "gible_male"
+      },
       "stats": {
         "stats": {
           "values": {
