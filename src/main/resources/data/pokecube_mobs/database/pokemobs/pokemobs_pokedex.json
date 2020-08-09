@@ -150,6 +150,18 @@
       "name": "Venusaur",
       "number": 3,
       "base": true,
+	  "female_model": {
+        "key": "venusaur_female",
+        "tex": "venusaur",
+        "model": "venusaur_female",
+        "anim": "venusaur_female"
+      },
+      "male_model": {
+        "key": "venusaur_male",
+        "tex": "venusaur",
+        "model": "venusaur_male",
+        "anim": "venusaur_male"
+      },
       "stats": {
         "stats": {
           "values": {

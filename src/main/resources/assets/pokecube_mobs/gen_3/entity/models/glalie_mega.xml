@@ -4,7 +4,8 @@
   <phase name="global" rotation="0,1,0,0" scale="1.2"/>
   <material name="Crystal" light="1" transluscent="false"/>
   <customTex default="glaliemega">
-   <part name="Head" tex="glaliemegaeye"/>
+   <part name="Head" tex="glaliemegahead"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="head">
