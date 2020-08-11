@@ -36494,6 +36494,18 @@
       "name": "Gabite",
       "number": 444,
       "base": true,
+	  "female_model": {
+        "key": "gabite_female",
+        "tex": "gabite",
+        "model": "gabite_female",
+        "anim": "gabite_female"
+      },
+      "male_model": {
+        "key": "gabite_male",
+        "tex": "gabite",
+        "model": "gabite_male",
+        "anim": "gabite_male"
+      },
       "stats": {
         "stats": {
           "values": {
