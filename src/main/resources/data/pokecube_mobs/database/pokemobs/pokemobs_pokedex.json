@@ -17386,6 +17386,18 @@
       "name": "Girafarig",
       "number": 203,
       "base": true,
+	  "female_model": {
+        "key": "girafarig_female",
+        "tex": "girafarig",
+        "model": "girafarig_female",
+        "anim": "girafarig_female"
+      },
+      "male_model": {
+        "key": "girafarig_male",
+        "tex": "girafarig",
+        "model": "girafarig_male",
+        "anim": "girafarig_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -28977,6 +28989,18 @@
     {
       "name": "Milotic",
       "number": 350,
+	  "female_model": {
+        "key": "milotic_female",
+        "tex": "milotic",
+        "model": "milotic_female",
+        "anim": "milotic_female"
+      },
+      "male_model": {
+        "key": "milotic_male",
+        "tex": "milotic",
+        "model": "milotic_male",
+        "anim": "milotic_male"
+      },
       "base": true,
       "stats": {
         "stats": {
