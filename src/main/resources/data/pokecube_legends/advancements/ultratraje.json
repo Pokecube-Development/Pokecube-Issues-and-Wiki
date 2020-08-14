@@ -1,0 +1,64 @@
+{
+  "display": {
+    "background": "minecraft:textures/block/stone.png",
+    "icon": {
+      "item": "pokecube_legends:ultra_helmet"
+    },
+    "title": {
+      "translate": "advancements.ultratraje.title"
+    },
+    "description": {
+      "translate": "advancements.ultratraje.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ultra_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_legends:ultra_helmet"
+          }
+        ]
+      }
+    },
+    "ultra_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_legends:ultra_chestplate"
+          }
+        ]
+      }
+    },
+    "ultra_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_legends:ultra_leggings"
+          }
+        ]
+      }
+    },
+    "ultra_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_legends:ultra_boots"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 3
+  },
+  "parent": "pokecube_legends:ultraspectrum"
+}

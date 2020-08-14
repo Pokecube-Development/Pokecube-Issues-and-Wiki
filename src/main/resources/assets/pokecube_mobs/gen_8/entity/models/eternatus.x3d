@@ -3693,7 +3693,14 @@
 													<Group DEF="group_ME_Plane">
 														<Shape>
 															<Appearance>
-																<Material USE="MA_glow" />
+																<Material DEF="MA_Head"
+																          diffuseColor="0.800 0.800 0.800"
+																          specularColor="0.401 0.401 0.401"
+																          emissiveColor="0.000 0.000 0.000"
+																          ambientIntensity="0.333"
+																          shininess="0.098"
+																          transparency="0.0"
+																          />
 															</Appearance>
 															<IndexedTriangleSet solid="true"
 															                    normalPerVertex="true"

@@ -1,0 +1,87 @@
+{
+  "display": {
+    "background": "minecraft:textures/block/stone.png",
+    "icon": {
+      "item": "pokecube_legends:beastcube"
+    },
+    "title": {
+      "translate": "advancements.ultraubs.title"
+    },
+    "description": {
+      "translate": "advancements.ultraubs.descr"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_nihilego": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "nihilego"
+      }
+    },
+    "catch_buzzwole": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "buzzwole"
+      }
+    },
+    "catch_pheromosa": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "pheromosa"
+      }
+    },
+    "catch_xurkitree": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "xurkitree"
+      }
+    },
+    "catch_celesteela": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "celesteela"
+      }
+    },
+    "catch_guzzlord": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "guzzlord"
+      }
+    },
+    "catch_poipole": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "poipole"
+      }
+    },
+    "catch_stakataka": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "stakataka"
+      }
+    },
+    "catch_blacephalon": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "blacephalon"
+      }
+    }
+  },
+  "rewards": {
+    "experience": 3
+  },
+  "parent": "pokecube_legends:ultrabiomes"
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RDR",
+    "CTC",
+    "DDD"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube_legends:mush_plant1"
+    },
+    "D": {
+      "item": "minecraft:obsidian"
+    },
+    "T": {
+      "item": "minecraft:ender_eye"
+    },
+    "C": {
+      "item": "pokecube:ultracube"
+    }
+  },
+  "result": {
+    "item": "pokecube:clonecube",
+    "count": 2
+  }
+}

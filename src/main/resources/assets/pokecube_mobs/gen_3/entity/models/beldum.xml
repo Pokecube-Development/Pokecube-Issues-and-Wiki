@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale=".3"/>
+  <phase name="global" scale="0.22"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <customTex default="beldum">
+   <part name="Head" tex="beldumeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
+  </customTex>
+	<phase type="idle">
+	  <part name="body">
+	  <component name="1" rotOffset="-20,0,0" length="10" startKey="0"/>
+	  </part>
+	</phase>
+	<phase type="walking">
+	  <part name="body">
+	  <component name="1" rotOffset="-10,0,0" length="10" startKey="0"/>
+	  </part>
+	</phase>
+	<phase type="flying">
+	  <part name="body">
+	  <component name="10" posChange="0,1,0" length="10" startKey="0"/>
+	  <component name="10" posChange="0,-1,0" length="10" startKey="10"/>
+	  </part>
+	</phase>
  </model>
 </ModelAnimator>

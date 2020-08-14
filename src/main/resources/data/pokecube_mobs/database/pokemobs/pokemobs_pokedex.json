@@ -150,6 +150,18 @@
       "name": "Venusaur",
       "number": 3,
       "base": true,
+	  "female_model": {
+        "key": "venusaur_female",
+        "tex": "venusaur",
+        "model": "venusaur_female",
+        "anim": "venusaur_female"
+      },
+      "male_model": {
+        "key": "venusaur_male",
+        "tex": "venusaur",
+        "model": "venusaur_male",
+        "anim": "venusaur_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -17374,6 +17386,18 @@
       "name": "Girafarig",
       "number": 203,
       "base": true,
+	  "female_model": {
+        "key": "girafarig_female",
+        "tex": "girafarig",
+        "model": "girafarig_female",
+        "anim": "girafarig_female"
+      },
+      "male_model": {
+        "key": "girafarig_male",
+        "tex": "girafarig",
+        "model": "girafarig_male",
+        "anim": "girafarig_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -28965,6 +28989,18 @@
     {
       "name": "Milotic",
       "number": 350,
+	  "female_model": {
+        "key": "milotic_female",
+        "tex": "milotic",
+        "model": "milotic_female",
+        "anim": "milotic_female"
+      },
+      "male_model": {
+        "key": "milotic_male",
+        "tex": "milotic",
+        "model": "milotic_male",
+        "anim": "milotic_male"
+      },
       "base": true,
       "stats": {
         "stats": {
@@ -36400,6 +36436,18 @@
       "name": "Gible",
       "number": 443,
       "base": true,
+	  "female_model": {
+        "key": "gible_female",
+        "tex": "gible",
+        "model": "gible_female",
+        "anim": "gible_female"
+      },
+      "male_model": {
+        "key": "gible_male",
+        "tex": "gible",
+        "model": "gible_male",
+        "anim": "gible_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -36470,6 +36518,18 @@
       "name": "Gabite",
       "number": 444,
       "base": true,
+	  "female_model": {
+        "key": "gabite_female",
+        "tex": "gabite",
+        "model": "gabite_female",
+        "anim": "gabite_female"
+      },
+      "male_model": {
+        "key": "gabite_male",
+        "tex": "gabite",
+        "model": "gabite_male",
+        "anim": "gabite_male"
+      },
       "stats": {
         "stats": {
           "values": {

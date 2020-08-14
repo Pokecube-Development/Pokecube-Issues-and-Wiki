@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "R R",
+    "A A",
     "X X",
     "   "
   ],
   "key": {
-    "R": {
+    "A": {
       "item": "pokecube_legends:ultramagnetic"
     },
     "X": {

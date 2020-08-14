@@ -197,7 +197,47 @@ public class PokecubeLegends
             {
                 return helper.beast(mob);
             }
-        }.setRegistryName("pokecube_legends", "beast"));
+        }.setRegistryName(Reference.ID, "beast"));
+        event.behaviors.add(new DefaultPokecubeBehavior()
+        {
+            @Override
+            public double getCaptureModifier(final IPokemob mob)
+            {
+                return helper.clone(mob);
+            }
+        }.setRegistryName(Reference.ID, "clone"));
+        event.behaviors.add(new DefaultPokecubeBehavior()
+        {
+            @Override
+            public double getCaptureModifier(final IPokemob mob)
+            {
+                return helper.typingB(mob);
+            }
+        }.setRegistryName(Reference.ID, "typing"));
+        event.behaviors.add(new DefaultPokecubeBehavior()
+        {
+            @Override
+            public double getCaptureModifier(final IPokemob mob)
+            {
+                return helper.teamAqua(mob);
+            }
+        }.setRegistryName(Reference.ID, "teamaqua"));
+        event.behaviors.add(new DefaultPokecubeBehavior()
+        {
+            @Override
+            public double getCaptureModifier(final IPokemob mob)
+            {
+                return helper.teamMagma(mob);
+            }
+        }.setRegistryName(Reference.ID, "teammagma"));
+        event.behaviors.add(new DefaultPokecubeBehavior()
+        {
+            @Override
+            public double getCaptureModifier(final IPokemob mob)
+            {
+                return helper.teamR(mob);
+            }
+        }.setRegistryName(Reference.ID, "rocket"));
     }
 
     @SubscribeEvent

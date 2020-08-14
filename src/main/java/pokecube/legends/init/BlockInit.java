@@ -76,11 +76,6 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_TORCH1;
     public static final RegistryObject<Block> ULTRA_TORCH1_WALL;
 
-    // public static final RegistryObject<Block> ULTRA_TORCH2;
-    // public static final RegistryObject<Block> ULTRA_TORCH3;
-
-
-
     //Plants(LOG/Planks/Leaves)
     public static final RegistryObject<Block> ULTRA_SAPLING_UB01;
     public static final RegistryObject<Block> ULTRA_SAPLING_UB02;
@@ -183,12 +178,6 @@ public class BlockInit
         //Torchs
         ULTRA_TORCH1 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1", () -> new UltraTorch1());
         ULTRA_TORCH1_WALL = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1_wall", () -> new UltraTorch1Wall());
-
-        // ULTRA_TORCH2 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch2", ()
-        // -> new UltraTorch2());
-        // ULTRA_TORCH3 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch3", ()
-        // -> new UltraTorch3());
-
 
         //Plants
         ULTRA_SAPLING_UB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_sapling01", () -> new SaplingBase(

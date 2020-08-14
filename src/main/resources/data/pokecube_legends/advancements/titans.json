@@ -25,7 +25,7 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "reice"
+        "entry": "regice"
       }
     },
     "catch_registeel": {
@@ -48,5 +48,5 @@
       "pokecube_legends:entities/regisorb"
     ]
   },
-  "parent": "pokecube_legends:root"
+  "parent": "pokecube_legends:regis"
 }

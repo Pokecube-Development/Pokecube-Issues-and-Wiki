@@ -1,6 +1,7 @@
 {
     "ambientocclusion": false,
     "textures": {
+    	"torch": "pokecube_legends:blocks/ultra_torch1",
         "particle": "#torch"
     },
     "elements": [
