@@ -283,6 +283,7 @@ public class EntityPokemob extends PokemobHasParts
     {// Nope, no nether portal for us.
     }
 
+    @Override
     protected SoundEvent getAmbientSound()
     {
         return this.pokemobCap.getSound();
