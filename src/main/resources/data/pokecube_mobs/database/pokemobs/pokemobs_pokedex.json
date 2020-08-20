@@ -36601,6 +36601,18 @@
       "name": "Garchomp",
       "number": 445,
       "base": true,
+	  "female_model": {
+        "key": "garchomp_female",
+        "tex": "garchomp",
+        "model": "garchomp_female",
+        "anim": "garchomp_female"
+      },
+      "male_model": {
+        "key": "garchomp_male",
+        "tex": "garchomp",
+        "model": "garchomp_male",
+        "anim": "garchomp_male"
+      },
       "stats": {
         "stats": {
           "values": {
