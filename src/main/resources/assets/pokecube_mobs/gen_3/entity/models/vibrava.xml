@@ -7,6 +7,7 @@
    <part name="Head" tex="vibravahead"/>
    <animation diffs="0.45,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
+  <material name="B" meshs="1" transluscent="true"/>
   <phase type="idle">
    <part name="body">
     <component length="1" name="1" posOffset="0,-3,0," startKey="0"/>

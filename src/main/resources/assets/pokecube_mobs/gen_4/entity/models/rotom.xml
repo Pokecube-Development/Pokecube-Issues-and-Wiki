@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model>
-  <phase name="global" scale="0.2"/>
+  <phase name="global" scale="0.25"/>
   <customTex default="rotom">
    <part name="Mouth" tex="rotommouth"/>
    <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:5"/>
   </customTex>
+  <material name="F" meshs="a1" light="1" transluscent="true"/>
   <phase type="sitting">
    <part name="arm1">
     <component length="5" name="1" rotOffset="0,0,40," startKey="0"/>
