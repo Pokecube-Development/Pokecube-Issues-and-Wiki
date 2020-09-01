@@ -7,6 +7,9 @@
    <part name="Eye" tex="snomhead"/>
    <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
   </customTex>
+  <material name="B" meshs="a1" transluscent="true"/>
+  <material name="B" meshs="a2" transluscent="true"/>
+  <material name="B" meshs="a3" transluscent="true"/>
   <phase type="idle">
    <part name="Cube_001">
     <component length="10" name="1" rotChange="0,2,0" startKey="0"/>
