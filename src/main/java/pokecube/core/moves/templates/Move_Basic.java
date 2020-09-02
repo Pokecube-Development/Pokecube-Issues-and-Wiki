@@ -251,7 +251,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         final boolean shouldEffect = packet.attackedStatModProb > 0 || packet.attackerStatModProb > 0;
         if (!shouldEffect) return;
         boolean effect = false;
-        if (this.hasStatModTarget && packet.hit) effect = MovesUtils.handleStats(packet.attacker, packet.attacked,
+        if (packet.getMove().hasStatModTarget && packet.hit) effect = MovesUtils.handleStats(packet.attacker,
+                packet.attacked,
                 packet, true);
         if (packet.getMove().hasStatModSelf) effect = MovesUtils.handleStats(packet.attacker, packet.attacker
                 .getEntity(), packet, false);

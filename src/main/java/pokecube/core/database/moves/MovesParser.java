@@ -312,7 +312,7 @@ public class MovesParser
             if (s.isEmpty()) continue;
             final boolean lower = effect.contains("lower");
             final boolean raise = effect.contains("raise") || effect.contains("boost");
-            final boolean user = effect.contains("user");
+            final boolean user = effect.contains("user") && !effect.contains("opponent's");
             boolean atk = effect.contains("attack");
             final boolean spatk = effect.contains("special attack");
             boolean def = effect.contains("defense");
