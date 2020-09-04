@@ -155,7 +155,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             if (this.callback != null) this.callback.run(this);
             this.callback = null;
             IExtendedModelPart.sort(this.order, this.getParts());
-            for (final String s : this.getOrder())
+            for (final String s : this.order)
             {
                 final IExtendedModelPart o = this.parts.get(s);
                 o.preProcess();
