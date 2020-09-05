@@ -21583,6 +21583,18 @@
       "name": "Combusken",
       "number": 256,
       "base": true,
+	  "female_model": {
+        "key": "combusken_female",
+        "tex": "combusken",
+        "model": "combusken_female",
+        "anim": "combusken_female"
+      },
+      "male_model": {
+        "key": "combusken_male",
+        "tex": "combusken",
+        "model": "combusken_male",
+        "anim": "combusken_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -33569,6 +33581,18 @@
       "name": "Luxray",
       "number": 405,
       "base": true,
+	  "female_model": {
+        "key": "luxray_female",
+        "tex": "luxray",
+        "model": "luxray_female",
+        "anim": "luxray_female"
+      },
+      "male_model": {
+        "key": "luxray_male",
+        "tex": "luxray",
+        "model": "luxray_male",
+        "anim": "luxray_male"
+      },
       "stats": {
         "stats": {
           "values": {
