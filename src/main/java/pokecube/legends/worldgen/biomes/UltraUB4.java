@@ -1,14 +1,13 @@
 package pokecube.legends.worldgen.biomes;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.Blocks;
+import net.minecraft.block.pattern.BlockMatcher;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.SphereReplaceConfig;
-import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -18,50 +17,38 @@ import pokecube.legends.init.BlockInit;
 
 public class UltraUB4 extends Biome
 {
+	public static class customFillerBlockType
+    {
+        public static final OreFeatureConfig.FillerBlockType CUSTOM_FILLER = OreFeatureConfig.FillerBlockType.create("CustomFiller", "custom_filler", new BlockMatcher(BlockInit.ULTRA_STONE.get()));
+    }
+	
     // Guzzlord
     public UltraUB4()
-    {
-        super(new Biome.Builder().downfall(1f).depth(0.3f).scale(0.3f).temperature(0.65f)
-                .precipitation(Biome.RainType.SNOW).category(Biome.Category.ICY).waterColor(-6880509)
-                .waterFogColor(-6880509).surfaceBuilder(SurfaceBuilder.DEFAULT,
-                        new SurfaceBuilderConfig(BlockInit.ULTRA_COBBLES.get().getDefaultState(),
-                                BlockInit.ULTRA_STONE.get().getDefaultState(), BlockInit.ULTRA_STONE.get().getDefaultState())));
-        // setRegistryName("testar");
-        DefaultBiomeFeatures.addCarvers(this);
-        DefaultBiomeFeatures.addStructures(this);
-        DefaultBiomeFeatures.addOres(this);
-        DefaultBiomeFeatures.addLakes(this);
+    {     
+        super(new Biome.Builder().downfall(1f).depth(0.3f).scale(0.2f).temperature(2f)
+        		.precipitation(Biome.RainType.RAIN).category(Biome.Category.DESERT).waterColor(-6880509)
+        		.waterFogColor(-6880509).surfaceBuilder(SurfaceBuilder.DEFAULT,
+        				new SurfaceBuilderConfig(BlockInit.ULTRA_DARKSTONE.get().getDefaultState(),
+        						BlockInit.ULTRA_DARKSTONE.get().getDefaultState(),
+        						Blocks.MOSSY_COBBLESTONE.getDefaultState())));
+		
+		DefaultBiomeFeatures.addCarvers(this);
+		DefaultBiomeFeatures.addStructures(this);
+		DefaultBiomeFeatures.addMonsterRooms(this);
+		DefaultBiomeFeatures.addOres(this);
         DefaultBiomeFeatures.addFossils(this);
-
-        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                Feature.DISK
-                .withConfiguration(new SphereReplaceConfig(Blocks.GRAVEL.getDefaultState(), 6, 2,
-                        Lists.newArrayList(Blocks.DIRT.getDefaultState(),
-                                Blocks.GRASS_BLOCK.getDefaultState())))
-                .withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(15))));
-
-        // super(new
-        // Biome.Builder().precipitation(RainType.RAIN).downfall(1.0f).temperature(0.1f).scale(0.3f).depth(
-        // 0.3f));
-        // super(new
-        // BiomeProperties("UB04").setBaseHeight(0.3f).setRainfall(1.0F).setTemperature(0.1f).setHeightVariation(
-        // 0.3f));
-
-        // topBlock = BlockInit.ULTRA_COBBLES.getDefaultState();
-        // fillerBlock = BlockInit.ULTRA_STONE.getDefaultState();
-        // this.decorator.treesPerChunk = 0;
-        // this.decorator.flowersPerChunk = 0;
-        // this.decorator.mushroomsPerChunk = 0;
-        // this.spawnableCaveCreatureList.clear();
-        // this.spawnableCreatureList.clear();
-        // this.spawnableMonsterList.clear();
-        // this.spawnableWaterCreatureList.clear();
-        // this.decorator.generateFalls = true;
+        		
+      //Extra
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
+                new OreFeatureConfig(customFillerBlockType.CUSTOM_FILLER, 
+                		BlockInit.SPECTRUM_ORE.get().getDefaultState(), 8))
+        					.withPlacement(Placement.COUNT_RANGE.configure(
+                                new CountRangeConfig(10, 0, 0, 32))));
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public int getGrassColor(final double p_225528_1_, final double p_225528_3_)
+    public int getGrassColor(final double posX, final double posZ)
     {
         return -14932710;
     }

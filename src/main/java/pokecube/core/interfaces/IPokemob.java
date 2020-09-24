@@ -420,12 +420,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default boolean moveToShoulder(final PlayerEntity player)
     {
-        if (this.getEntity() instanceof ShoulderRidingEntity)
-        {
-            if (player instanceof ServerPlayerEntity) ((ShoulderRidingEntity) this.getEntity()).func_213439_d(
-                    (ServerPlayerEntity) player);
-            return true;
-        }
+        if (this.getEntity() instanceof ShoulderRidingEntity) if (player instanceof ServerPlayerEntity)return ((ShoulderRidingEntity) this.getEntity()).func_213439_d(
+                (ServerPlayerEntity) player);
         return false;
     }
 

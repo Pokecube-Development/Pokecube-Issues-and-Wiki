@@ -4,8 +4,10 @@
   <phase name="global" offset="0,0,0.02" scale="0.1"/>
   <metadata head="neck1:head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
   <customTex default="appletun">
-   <part name="Head" tex="appletunhead"/>
-   <animation diffs="0,0.51" part="Head" trigger="random:0.005:11"/>
+   <part name="Head" tex="appletuneye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:11"/>
+   <part name="Mark1" tex="appletuneye"/>
+   <part name="Mark2" tex="appletunbody"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A A",
+    "X X",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:ultramagnetic"
+    },
+    "X": {
+      "item": "pokecube_legends:spectrum_shard"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:ultra_boots",
+    "count": 1
+  }
+}

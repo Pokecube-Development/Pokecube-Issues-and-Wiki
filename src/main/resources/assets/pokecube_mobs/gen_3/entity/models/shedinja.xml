@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model>
-  <phase name="global" scale=".45"/>
-  <metadata head="head"/>
+  <phase name="global" scale="0.2"/>
+  <metadata head="head" headCap="-10,10" headCap1="-10,10" headAxis="2" headAxis2="0" headDir="-1" headDir1="-1"/>
   <phase type="idle">
-    <part name="Halo">
-        <component name="1" startKey="0" length="10" posOffset="0.0,0.0,1.0," posChange="0.0,0.0,-1.0,"/>
-        <component name="2" startKey="10" length="10" posChange="0.0,0.0,1.0,"/>
-    </part>
-</phase>
+	<part name="top">
+	<component name="1" startKey="0" length="10" posChange="0,-2,0"/>
+	<component name="2" startKey="10" length="10" posChange="0,2,0"/>
+	</part>
+  </phase>
+  <phase type="walking">
+	<part name="top">
+	<component name="1" startKey="0" length="10" posChange="0,-2,0"/>
+	<component name="2" startKey="10" length="10" posChange="0,2,0"/>
+	</part>
+	<part name="body">
+	<component name="1" startKey="0" length="10" posChange="0,-2,0"/>
+	<component name="2" startKey="10" length="10" posChange="0,2,0"/>
+	</part>
+  </phase>
+  <phase type="flying">
+	<part name="top">
+	<component name="1" startKey="0" length="10" posChange="0,-2,0"/>
+	<component name="2" startKey="10" length="10" posChange="0,2,0"/>
+	</part>
+	<part name="body">
+	<component name="1" startKey="0" length="10" rotOffset="20,0,0"/>
+	</part>
+  </phase>
  </model>
 </ModelAnimator>

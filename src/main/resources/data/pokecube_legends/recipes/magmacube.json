@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GAG",
+    "CCC",
+    "RRR"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:black_dye"
+    },
+    "R": {
+      "item": "minecraft:gold_ingot"
+    },
+    "A": {
+      "item": "minecraft:red_dye"
+    },
+    "C": {
+      "item": "pokecube:premiercube"
+    }
+  },
+  "result": {
+    "item": "pokecube:teammagmacube",
+    "count": 3
+  }
+}

@@ -18,7 +18,8 @@
           "translate": "entity.pokecube.zacian_crowned"
         }
       ]
-    }
+    },
+    "frame": "challenge"
   },
   "criteria": {
     "catch_zacian_crowned": {

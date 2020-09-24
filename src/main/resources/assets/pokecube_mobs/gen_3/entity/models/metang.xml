@@ -1,11 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale=".3"/>
+  <phase name="global" scale="0.25"/>
+  <customTex default="metang">
+   <part name="Head" tex="metangeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+  </customTex>
+  <phase type="idle">
+	<part name="arm1">
+		<component name="1" rotOffset="-90,0,0" length="10" startKey="0"/>
+	</part>
+	<part name="hand1">
+		<component name="1" rotOffset="-20,0,0" length="10" startKey="0"/>
+	</part>
+	<part name="arm2">
+		<component name="1" rotOffset="-90,0,0" length="10" startKey="0"/>
+	</part>
+	<part name="hand2">
+		<component name="1" rotOffset="-20,0,0" length="10" startKey="0"/>
+	</part>
+  </phase>
+  <phase type="walking">
+	<part name="body">
+	 <component name="1" rotOffset="5,0,0" length="10" startKey="0"/>
+	</part>
+	<part name="arm1">
+	 <component name="10" rotChange="0,0,-5" length="10" startKey="0"/>
+	 <component name="10" rotChange="0,0,5" length="10" startKey="10"/>
+	</part>
+	<part name="hand1">
+	 <component name="10" rotChange="0,0,-10" rotOffset="-20,0,0" length="10" startKey="0"/>
+	 <component name="10" rotChange="0,0,10" length="10" startKey="10"/>
+	</part>
+	<part name="arm2">
+	 <component name="10" rotChange="0,0,5" length="10" startKey="0"/>
+	 <component name="10" rotChange="0,0,-5" length="10" startKey="10"/>
+	</part>
+	<part name="hand2">
+	 <component name="10" rotChange="0,0,10" rotOffset="-20,0,0" length="10" startKey="0"/>
+	 <component name="10" rotChange="0,0,-10" length="10" startKey="10"/>
+	</part>
+  </phase>
+  <phase type="flying">
+	<part name="body">
+	 <component name="10" posChange="0,1,0" rotOffset="-5,0,0" length="10" startKey="0"/>
+	 <component name="10" posChange="0,-1,0" length="10" startKey="10"/>
+	</part>
+	<part name="arm1">
+	 <component name="10" rotChange="0,0,-1" length="10" startKey="0"/>
+	 <component name="10" rotChange="0,0,1" length="10" startKey="10"/>
+	</part>
+	<part name="hand1">
+	 <component name="10" rotChange="0,0,-2" rotOffset="80,0,0" length="10" startKey="0"/>
+	 <component name="10" rotChange="0,0,2" length="10" startKey="10"/>
+	</part>
+	<part name="arm2">
+	 <component name="10" rotChange="0,0,1" length="10" startKey="0"/>
+	 <component name="10" rotChange="0,0,-1" length="10" startKey="10"/>
+	</part>
+	<part name="hand2">
+	 <component name="10" rotChange="0,0,2" rotOffset="80,0,0" length="10" startKey="0"/>
+	 <component name="10" rotChange="0,0,-2" length="10" startKey="10"/>
+	</part>
+  </phase>
  </model>
- <details>
-  <RIDDENOFFSET>
-   0.8
-  </RIDDENOFFSET>
- </details>
 </ModelAnimator>

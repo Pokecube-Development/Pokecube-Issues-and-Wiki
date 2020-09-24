@@ -1,0 +1,10 @@
+{
+  "parent": "pokecube:block/pokecubes",
+  "textures": {
+    "top": "pokecube_legends:items/typingcubetop",
+    "bottom": "pokecube_legends:items/typingcubebottom",
+    "front": "pokecube_legends:items/typingcubefront",
+    "back": "pokecube_legends:items/typingcubeback",
+    "side": "pokecube_legends:items/typingcubeside"
+  }
+}

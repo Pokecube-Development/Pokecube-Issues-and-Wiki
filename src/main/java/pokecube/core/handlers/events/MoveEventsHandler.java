@@ -471,6 +471,21 @@ public class MoveEventsHandler
         return new UseContext(world, player, Hand.MAIN_HAND, stack, hit);
     }
 
+    public static UseContext getContext(final World world, final Entity user, final BlockState toPlace,
+            final Vector3 target)
+    {
+        final ItemStack stack = new ItemStack(toPlace.getBlock());
+        final PlayerEntity player = user instanceof PlayerEntity ? (PlayerEntity) user
+                : PokecubeMod.getFakePlayer(world);
+        final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
+        final Vec3d start = origin.toVec3d();
+        final Vec3d end = target.toVec3d();
+        final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.ANY, user
+                .getEntity());
+        final BlockRayTraceResult hit = world.rayTraceBlocks(context);
+        return new UseContext(world, player, Hand.MAIN_HAND, stack, hit);
+    }
+
     public static MoveEventsHandler getInstance()
     {
         return MoveEventsHandler.INSTANCE == null ? MoveEventsHandler.INSTANCE = new MoveEventsHandler()

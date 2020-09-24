@@ -18,7 +18,8 @@
           "translate": "entity.pokecube.zamazenta"
         }
       ]
-    }
+    },
+    "frame": "challenge"
   },
   "criteria": {
     "catch_zamazenta": {

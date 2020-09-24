@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#pokecube:berry_planks"
+    "#pokecube:berry_planks",
+    "#pokecube_legends:ultra_planks"
   ]
 }

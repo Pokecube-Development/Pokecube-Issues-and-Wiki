@@ -1,33 +1,52 @@
 package pokecube.legends.init;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.PokeType;
+import pokecube.legends.worldgen.dimension.ModDimensions;
 
 public class PokecubeDim
 {
+	
     public double beast(final IPokemob mob)
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        if (entity.dimension.getId() != 0) x = 3.7;
+        if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE.getId()) x = 3.7;
         return x;
     }
-
-    // Dynamax
-    public double dynamax(IPokemob mob)
+    
+    //Teams
+    public double teamR(final IPokemob mob)
     {
-        double x = 0.1;
-        final MobEntity entity = mob.getEntity();
-        mob = CapabilityPokemob.getPokemobFor(entity);
-        if (entity != null)
-        {
-            mob.setSize(1f);
-            mob.setHealth(entity.getMaxHealth());
-            x = 60;
-            // System.console().printf("ta aki");
-        }
+    	double x = 1.5;
+        return x;
+    }
+    public double teamMagma(final IPokemob mob)
+    {
+    	double x = 1.5;
+    	if (mob.isType(PokeType.getType("fire"))) x = 2.5;
+        return x;
+    }
+    public double teamAqua(final IPokemob mob)
+    {
+        double x = 1.5;
+        if (mob.isType(PokeType.getType("ice"))) x = 2.5;
+        return x;
+    }
+    //
+
+    public double typingB(final IPokemob mob)
+    {
+    	double x = 1;
+        if (mob.isType(PokeType.getType("ground"))) x = 2.5;
+        return x;
+    }
+    
+    public double clone(final IPokemob mob)
+    {
+        double x = 1.5;
+        if (mob.isType(PokeType.getType("ghost")) || mob.isType(PokeType.getType("psychic"))) x = 3;
         return x;
     }
 }

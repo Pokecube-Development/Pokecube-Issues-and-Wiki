@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "RRR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube_legends:spectrum_shard"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:spectrum_block",
+    "count": 1
+  }
+}

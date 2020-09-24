@@ -224,8 +224,16 @@ public class BrainUtils
         if (aggressor != null && !AITools.validTargets.test(target)) return;
         if (targetMob != null && !AITools.validTargets.test(mob)) return;
 
-        if (targetMob != null) targetMob.setCombatState(CombatStates.ANGRY, true);
-        if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, true);
+        if (targetMob != null)
+        {
+            targetMob.setCombatState(CombatStates.ANGRY, true);
+            targetMob.onSetTarget(mob, true);
+        }
+        if (aggressor != null)
+        {
+            aggressor.setCombatState(CombatStates.ANGRY, true);
+            aggressor.onSetTarget(target, true);
+        }
 
         BrainUtils.setAttackTarget(mob, target);
         BrainUtils.setAttackTarget(target, mob);

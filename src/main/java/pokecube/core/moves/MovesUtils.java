@@ -531,11 +531,11 @@ public class MovesUtils implements IMoveConstants
         }
         if (ret)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(attacker);
+            final IPokemob targetMob = targetPokemob;
             for (byte i = 0; i < diff.length; i++)
-                if (diff[i] != 0 && pokemob != null) MovesUtils.displayStatsMessage(pokemob, targetPokemob.getEntity(),
-                        0, i, diff[i]);
-            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULTMODIFIERS, targetPokemob);
+                if (diff[i] != 0 && attacker != null) MovesUtils.displayStatsMessage(targetMob, attacker, 0, i,
+                        diff[i]);
+            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULTMODIFIERS, targetMob);
         }
         return ret;
     }
@@ -629,7 +629,7 @@ public class MovesUtils implements IMoveConstants
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(attacker);
         return e ->
         {
-            if (pokemob == null) return false;
+            if (pokemob == null || e == attacker) return false;
             if (!(e instanceof LivingEntity)) return false;
             if (attacker.isEntityEqual(e.getRidingEntity())) return false;
             if (attacker.isEntityEqual(e)) return false;

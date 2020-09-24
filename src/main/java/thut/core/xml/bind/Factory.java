@@ -199,12 +199,14 @@ public class Factory<T>
     public T make(final SAXSource source) throws SAXException, IOException, ParserConfigurationException
     {
         final DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
+        f.setNamespaceAware(true);
+        f.setFeature("http://xml.org/sax/features/namespaces", false);
+        f.setFeature("http://xml.org/sax/features/validation", false);
+        f.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+        f.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
         final Document d = f.newDocumentBuilder().parse(source.getInputSource());
-
         final Node root = d.getDocumentElement();
-
         this.processNode(root, this.toFill, 0);
-
         return this.toFill;
     }
 }

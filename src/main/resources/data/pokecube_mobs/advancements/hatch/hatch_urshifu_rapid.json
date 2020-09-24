@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu_rapid"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu_rapid"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_urshifu_rapid": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "urshifu_rapid"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

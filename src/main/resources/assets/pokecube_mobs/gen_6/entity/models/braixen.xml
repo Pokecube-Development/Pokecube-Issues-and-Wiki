@@ -5,8 +5,8 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="28" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="braixen">
-   <part name="Head" tex="braixenhead"/>
-   <animation diffs="0,0.55" part="Head" trigger="random:0.005:25"/>
+   <part name="Head" tex="braixeneye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <material name="Fire" light="1" transluscent="true"/>
   <phase type="sitting">

@@ -2,7 +2,8 @@
     "replace": false,
     "values": [
         "#forge:ores/sapphire",
-        "#forge:ores/ruby"
+        "#forge:ores/ruby",
+        "#forge:ores/spectrum"
     ],
     "optional": [
         "pokecube:fossilstone"
