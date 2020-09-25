@@ -19,7 +19,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.network.pokemobs.PacketTeleport;
 import pokecube.core.utils.PokeType;
-import pokecube.core.utils.PokecubeSerializer.TeleDest;
+import thut.api.entity.ThutTeleporter.TeleDest;
 
 public class GuiTeleport extends AbstractGui
 {

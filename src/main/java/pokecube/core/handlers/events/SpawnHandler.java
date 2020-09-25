@@ -32,6 +32,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
@@ -546,8 +547,8 @@ public final class SpawnHandler
             PokecubeCore.LOGGER.debug(message);
             boom.doExplosion();
         }
-        PokecubeSerializer.getInstance().addMeteorLocation(new Vector4(location.x, location.y, location.z, world
-                .getDimension().getType().getId()));
+        PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.getDimension().getType(), location
+                .getPos()));
     }
 
     private static int parse(final IWorld world, final Vector3 location)
@@ -684,7 +685,8 @@ public final class SpawnHandler
             if (!TerrainManager.isAreaLoaded(world, v, 0)) return;
             // This getHeight can block if the above check doesn't work out!
             loc.y = world.getHeight(Type.WORLD_SURFACE, (int) loc.x, (int) loc.z);
-            if (PokecubeSerializer.getInstance().canMeteorLand(loc, world))
+            final GlobalPos pos = GlobalPos.of(world.getDimension().getType(), new BlockPos(loc.x, loc.y, loc.z));
+            if (PokecubeSerializer.getInstance().canMeteorLand(pos, world))
             {
                 final Vector3 direction = v1.set(rand.nextGaussian() / 2, -1, rand.nextGaussian() / 2);
                 v.set(loc.x, loc.y, loc.z);

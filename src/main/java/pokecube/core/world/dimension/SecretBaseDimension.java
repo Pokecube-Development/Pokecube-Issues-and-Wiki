@@ -18,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -47,6 +48,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.ThutTeleporter;
+import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 
 public class SecretBaseDimension extends ModDimension
@@ -55,8 +58,8 @@ public class SecretBaseDimension extends ModDimension
     {
         final DimensionType targetDim = SecretBaseDimension.TYPE;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
-        final Vector4 dest = new Vector4(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, targetDim.getId());
-        ThutTeleporter.transferTo(player, dest, true);
+        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
         player.sendMessage(new TranslationTextComponent("pokecube.secretbase.enter"));
     }
 
@@ -64,8 +67,8 @@ public class SecretBaseDimension extends ModDimension
     {
         final DimensionType targetDim = DimensionType.OVERWORLD;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
-        final Vector4 dest = new Vector4(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, targetDim.getId());
-        ThutTeleporter.transferTo(player, dest, true);
+        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
         player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"));
     }
 
@@ -86,7 +89,7 @@ public class SecretBaseDimension extends ModDimension
                 PokecubeSerializer.getInstance().bases.removeIf(c -> old.withinDistance(0.25f, old));
             }
             tag.put("secret_base_exit", exit);
-            PokecubeSerializer.getInstance().bases.add(new Vector4(pos.getX(), pos.getY(), pos.getZ(), dim.getId()));
+            PokecubeSerializer.getInstance().bases.add(GlobalPos.of(dim, pos));
         }
     }
 
@@ -331,11 +334,11 @@ public class SecretBaseDimension extends ModDimension
         return (w, t) -> new SecretDimension(w, t);
     }
 
-    public static List<Vector4> getNearestBases(final Vector4 here, final int baseRadarRange)
+    public static List<GlobalPos> getNearestBases(final GlobalPos here, final int baseRadarRange)
     {
-        final List<Vector4> bases = Lists.newArrayList();
-        for (final Vector4 v : PokecubeSerializer.getInstance().bases)
-            if (v.withinDistance(baseRadarRange, here)) bases.add(v);
+        final List<GlobalPos> bases = Lists.newArrayList();
+        for (final GlobalPos v : PokecubeSerializer.getInstance().bases)
+            if (v.getPos().withinDistance(here.getPos(), baseRadarRange)) bases.add(v);
         return bases;
     }
 

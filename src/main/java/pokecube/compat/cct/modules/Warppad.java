@@ -1,9 +1,10 @@
 package pokecube.compat.cct.modules;
 
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.world.DimensionType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import pokecube.adventures.blocks.warppad.WarppadTile;
-import pokecube.core.utils.PokecubeSerializer.TeleDest;
+import thut.api.entity.ThutTeleporter.TeleDest;
 
 public class Warppad extends BasePeripheral<WarppadTile>
 {
@@ -20,23 +21,13 @@ public class Warppad extends BasePeripheral<WarppadTile>
         {
             final TeleDest dest = this.tile.getDest();
 
-            return new float[] { dest.loc.x, dest.loc.y, dest.loc.z, dest.loc.w };
+            return new float[] { dest.loc.getPos().getX(), dest.loc.getPos().getY(), dest.loc.getPos().getZ() };
         }
 
         public boolean setDest(final int x, final int y, final int z) throws LuaException
         {
-            return this.setDest(x, y, z, this.tile.getWorld().getDimension().getType().getId());
-        }
-
-        public boolean setDest(final int x, final int y, final int z, final int w) throws LuaException
-        {
             final TeleDest dest = this.tile.getDest();
-            dest.loc.x = x;
-            dest.loc.y = y;
-            dest.loc.z = z;
-            final int dim = w;
-            if (DimensionType.getById(dim) == null) throw new LuaException("No dimension by id " + dim);
-            dest.loc.w = dim;
+            dest.setPos(GlobalPos.of(this.tile.getWorld().getDimension().getType(), new BlockPos(x, y, z)));
             return true;
         }
     }

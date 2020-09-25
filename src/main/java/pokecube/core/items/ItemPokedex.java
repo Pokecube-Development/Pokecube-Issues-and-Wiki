@@ -18,6 +18,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
@@ -36,7 +37,6 @@ import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
 import thut.core.common.commands.CommandTools;
@@ -110,7 +110,7 @@ public class ItemPokedex extends Item
         }
         if (block instanceof HealerBlock)
         {
-            final Vector4 loc = new Vector4(playerIn);
+            final GlobalPos loc = GlobalPos.of(worldIn.getDimension().getType(), playerIn.getPosition());
             TeleportHandler.setTeleport(loc, playerIn.getCachedUniqueIdString());
             if (!worldIn.isRemote)
             {
