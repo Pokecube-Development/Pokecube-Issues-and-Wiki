@@ -139,7 +139,7 @@ public class SecretBaseRadarPage extends WatchPage
         }
         GL11.glPopMatrix();
         GlStateManager.enableTexture();
-        this.drawCenteredString(this.font, this.getTitle().getFormattedText(), x, y, 0x78C850);
+        this.drawCenteredString(this.font, this.getTitle().getString(), x, y, 0x78C850);
         super.render(mouseX, mouseY, partialTicks);
     }
 }

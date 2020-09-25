@@ -312,7 +312,7 @@ public class BlockEntityUpdater
 
             if (colY)
             {
-                entity.onGround = true;
+                entity.setOnGround(true);
                 entity.onLivingFall(entity.fallDistance, 0);
                 entity.fallDistance = 0;
             }

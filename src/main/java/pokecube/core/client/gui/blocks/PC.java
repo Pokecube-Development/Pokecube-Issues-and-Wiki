@@ -3,15 +3,17 @@ package pokecube.core.client.gui.blocks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.pc.PCContainer;
@@ -28,8 +30,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
     TextFieldWidget textFieldBoxName;
     TextFieldWidget textFieldSearch;
 
-    String autoOn  = I18n.format("block.pc.autoon");
-    String autoOff = I18n.format("block.pc.autooff");
+    String autoOn  = new TranslationTextComponent("block.pc.autoon");
+    String autoOff = new TranslationTextComponent("block.pc.autooff");
 
     private String boxName = "1";
 
@@ -73,7 +75,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final float f, final int i, final int j)
+    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float f, final int i, final int j)
     {
         GL11.glColor4f(1f, 1f, 1f, 1f);
 
@@ -84,7 +86,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(final int par1, final int par2)
+    protected void drawGuiContainerForegroundLayer(final MatrixStack mat, final int par1, final int par2)
     {
     }
 
@@ -94,14 +96,14 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         super.init();
         final int xOffset = 0;
         final int yOffset = -11;
-        final String next = I18n.format("block.pc.next");
+        final ITextComponent next = new TranslationTextComponent("block.pc.next");
         this.addButton(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10, next, b ->
         {
             this.container.updateInventoryPages((byte) 1, this.minecraft.player.inventory);
             this.textFieldSelectedBox.setText(this.container.getPageNb());
             this.textFieldBoxName.setText(this.container.getPage());
         }));
-        final String prev = I18n.format("block.pc.previous");
+        final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
         this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10, prev, b ->
         {
             this.container.updateInventoryPages((byte) -1, this.minecraft.player.inventory);
@@ -113,14 +115,15 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
 
         if (!this.bound)
         {
-            final String auto = this.container.inv.autoToPC ? I18n.format("block.pc.autoon")
-                    : I18n.format("block.pc.autooff");
+            final ITextComponent auto = this.container.inv.autoToPC ? new TranslationTextComponent(
+                    "block.pc.autoon")
+                    : new TranslationTextComponent("block.pc.autooff");
             this.buttons.add(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset + 10, 50, 10, auto,
                     b -> this.container.toggleAuto()));
         }
         if (!this.bound)
         {
-            final String rename = I18n.format("block.pc.rename");
+            final ITextComponent rename = new TranslationTextComponent("block.pc.rename");
             this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
             {
                 final String box = this.textFieldBoxName.getText();
@@ -131,7 +134,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         if (this.container.pcPos != null)
         {
             if (!this.bound) this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 85,
-                    50, 20, I18n.format("block.pc.option.private"), b ->
+                    50, 20, new TranslationTextComponent("block.pc.option.private"), b ->
                     {
                         // TODO bind.
                         // this.container.pcTile.toggleBound();
@@ -139,15 +142,15 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                     }));
             else
             {
-                this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 50, 20, I18n
-                        .format("block.pc.option.public"), b ->
+                this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 50, 20,
+                        new TranslationTextComponent("block.pc.option.public"), b ->
                         {
                             // TODO bind.
                             // this.container.pcTile.toggleBound();
                             this.minecraft.player.closeScreen();
                         }));
-                this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 105, 50, 20, I18n
-                        .format("block.pc.option.bind"), b ->
+                        this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 105, 50,
+                                20, new TranslationTextComponent("block.pc.option.bind"), b ->
                         {
                             // TODO bind.
                             // this.container.pcTile.setBoundOwner(this.minecraft.player);
@@ -163,8 +166,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         }));
         if (!this.bound)
         {
-            this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset + 10, 50, 10, I18n
-                    .format("block.pc.option.release"), b ->
+            this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset + 10, 50, 10,
+                    new TranslationTextComponent("block.pc.option.release"), b ->
                     {
                         this.release = !this.release;
                         if (!this.release && this.container.release)
@@ -199,8 +202,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                             this.buttons.get(6).visible = this.release;
                         }
                     }));
-            this.addButton(new Button(this.width / 2 - xOffset - 31, this.height / 2 - yOffset + 10, 50, 10, I18n
-                    .format("block.pc.option.confirm"), b ->
+                    this.addButton(new Button(this.width / 2 - xOffset - 31, this.height / 2 - yOffset + 10, 50, 10,
+                            new TranslationTextComponent("block.pc.option.confirm"), b ->
                     {
                         this.release = !this.release;
                         this.container.setRelease(this.release, this.minecraft.player.getUniqueID());
@@ -273,7 +276,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
             {
                 final ItemStack stack = this.container.inv.getStackInSlot(i + 54 * this.container.inv.getPage());
                 if (stack.isEmpty()) continue;
-                final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
+                final String name = stack == null ? "" : stack.getDisplayName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
                 {
                     final int slotColor = 0x55FF0000;

@@ -155,12 +155,12 @@ public class PokedexEntry
             if (this.gender == 1) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.male");
             if (this.gender == 2) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.female");
             if (!this.item.isEmpty()) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.item", this.item
-                    .getDisplayName().getFormattedText());
+                    .getDisplayName().getString());
             else if (this.preset != null)
             {
                 final ItemStack stack = PokecubeItems.getStack(this.preset);
                 if (!stack.isEmpty()) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.item", stack
-                        .getDisplayName().getFormattedText());
+                        .getDisplayName().getString());
             }
             if (this.happy) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.happy");
             if (this.dawnOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.dawn");

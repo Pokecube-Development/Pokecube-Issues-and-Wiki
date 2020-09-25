@@ -58,9 +58,9 @@ public class Moves extends ListPage<LineEntry>
             final Move_Base move = MovesUtils.getMoveFromName(this.parent.pokemob.getMove(offset[3]));
             if (move != null)
             {
-                this.drawString(this.font, MovesUtils.getMoveName(move.getName()).getFormattedText(), x + dx, y + dy
+                this.drawString(this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx, y + dy
                         + offset[1] + offset[4], move.getType(this.parent.pokemob).colour);
-                final int length = this.font.getStringWidth(MovesUtils.getMoveName(move.getName()).getFormattedText());
+                final int length = this.font.getStringWidth(MovesUtils.getMoveName(move.getName()).getString());
                 if (mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.FONT_HEIGHT)
                 {
                     String text;
@@ -84,7 +84,7 @@ public class Moves extends ListPage<LineEntry>
         {
             final int[] offset = this.moveOffsets[held];
             final Move_Base move = MovesUtils.getMoveFromName(this.parent.pokemob.getMove(offset[3]));
-            if (move != null) this.drawString(this.font, MovesUtils.getMoveName(move.getName()).getFormattedText(), x
+            if (move != null) this.drawString(this.font, MovesUtils.getMoveName(move.getName()).getString(), x
                     + dx, y + dy + offset[1], move.getType(this.parent.pokemob).colour);
         }
     }

@@ -7,6 +7,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -18,6 +19,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -94,14 +96,14 @@ public class GuiChooseFirstPokemob extends Screen
         final int yOffset = 110;
         if (GuiChooseFirstPokemob.starters.length > 0)
         {
-            final String next = I18n.format("block.pc.next");
+            final ITextComponent next = new TranslationTextComponent("block.pc.next");
             this.addButton(this.next = new Button(this.width / 2 - xOffset + 65, this.height / 2 - yOffset, 50, 20,
                     next, b ->
                     {
                         this.index++;
                         if (this.index >= GuiChooseFirstPokemob.starters.length) this.index = 0;
                     }));
-            final String prev = I18n.format("block.pc.previous");
+                    final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
             this.addButton(this.prev = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset, 50, 20,
                     prev, b ->
                     {
@@ -111,14 +113,14 @@ public class GuiChooseFirstPokemob extends Screen
         }
 
         this.addButton(this.choose = new Button(this.width / 2 - xOffset - 25, this.height / 2 - yOffset + 160, 50, 20,
-                I18n.format("gui.pokemob.select"), b ->
+                new TranslationTextComponent("gui.pokemob.select"), b ->
                 {
                     this.sendMessage(this.pokedexEntry);
                     this.player.closeScreen();
                 }));
 
         this.addButton(this.accept = new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset + 30, 50, 20,
-                I18n.format("gui.pokemob.accept"), b ->
+                new TranslationTextComponent("gui.pokemob.accept"), b ->
                 {
                     this.gotSpecial = true;
 
@@ -135,7 +137,7 @@ public class GuiChooseFirstPokemob extends Screen
                     }
                 }));
         this.addButton(this.deny = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset + 30, 50, 20,
-                I18n.format("gui.pokemob.deny"), b ->
+                new TranslationTextComponent("gui.pokemob.deny"), b ->
                 {
                     this.next.visible = true;
                     this.prev.visible = true;
@@ -160,14 +162,16 @@ public class GuiChooseFirstPokemob extends Screen
     }
 
     @Override
-    public void render(final int i, final int j, final float f)
+    public void render(final MatrixStack mat, final int i, final int j, final float f)
     {
-        this.renderBackground();
-        super.render(i, j, f);
+        this.renderBackground(mat);
+        super.render(mat, i, j, f);
 
         if (GuiChooseFirstPokemob.special)
         {
-            this.drawCenteredString(this.font, I18n.format("gui.pokemob.choose1st.override"), this.width / 2, 17,
+            AbstractGui.drawCenteredString(mat, this.font, I18n.format("gui.pokemob.choose1st.override"), this.width
+                    / 2,
+                    17,
                     0xffffff);
             return;
         }
@@ -185,9 +189,12 @@ public class GuiChooseFirstPokemob extends Screen
 
         GL11.glPushMatrix();
 
-        this.drawCenteredString(this.font, I18n.format("gui.pokemob.choose1st"), this.width / 2, 17, 0xffffff);
+        AbstractGui.drawCenteredString(mat, this.font, I18n.format("gui.pokemob.choose1st"), this.width / 2, 17,
+                0xffffff);
 
-        this.drawCenteredString(this.font, I18n.format(this.pokedexEntry.getUnlocalizedName()), this.width / 2, 45,
+        AbstractGui.drawCenteredString(mat, this.font, I18n.format(this.pokedexEntry.getUnlocalizedName()), this.width
+                / 2,
+                45,
                 0xffffff);
 
         int n = 0;
@@ -197,14 +204,19 @@ public class GuiChooseFirstPokemob extends Screen
         final int l = 40;
         final int k = 150;
 
-        if (this.pokedexEntry.getType2() == PokeType.unknown) this.drawCenteredString(this.font, PokeType
+        if (this.pokedexEntry.getType2() == PokeType.unknown) AbstractGui.drawCenteredString(mat, this.font,
+                PokeType
                 .getTranslatedName(this.pokedexEntry.getType1()), this.width / 2, 65, this.pokedexEntry
                         .getType1().colour);
         else
         {
-            this.drawCenteredString(this.font, PokeType.getTranslatedName(this.pokedexEntry.getType1()), this.width / 2
+            AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(this.pokedexEntry.getType1()),
+                    this.width
+                            / 2
                     - 20, 65, this.pokedexEntry.getType1().colour);
-            this.drawCenteredString(this.font, PokeType.getTranslatedName(this.pokedexEntry.getType2()), this.width / 2
+            AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(this.pokedexEntry.getType2()),
+                    this.width
+                            / 2
                     + 20, 65, this.pokedexEntry.getType2().colour);
         }
         GL11.glPushMatrix();
@@ -212,29 +224,29 @@ public class GuiChooseFirstPokemob extends Screen
         this.minecraft.getTextureManager().bindTexture(Resources.GUI_POKEMOB);
 
         GL11.glColor4f(255f / 255f, 0f / 255f, 0f / 255f, 1.0F);
-        this.blit(n + k, m + l, 0, 0, this.pokedexEntry.getStatHP(), 13);
+        this.blit(mat, n + k, m + l, 0, 0, this.pokedexEntry.getStatHP(), 13);
 
         GL11.glColor4f(234f / 255f, 125f / 255f, 46f / 255f, 1.0F);
-        this.blit(n + k, m + l + 13, 0, 0, this.pokedexEntry.getStatATT(), 13);
+        this.blit(mat, n + k, m + l + 13, 0, 0, this.pokedexEntry.getStatATT(), 13);
 
         GL11.glColor4f(242f / 255f, 203f / 255f, 46f / 255f, 1.0F);
-        this.blit(n + k, m + l + 26, 0, 0, this.pokedexEntry.getStatDEF(), 13);
+        this.blit(mat, n + k, m + l + 26, 0, 0, this.pokedexEntry.getStatDEF(), 13);
 
         GL11.glColor4f(102f / 255f, 140f / 255f, 234f / 255f, 1.0F);
-        this.blit(n + k, m + l + 39, 0, 0, this.pokedexEntry.getStatATTSPE(), 13);
+        this.blit(mat, n + k, m + l + 39, 0, 0, this.pokedexEntry.getStatATTSPE(), 13);
 
         GL11.glColor4f(118f / 255f, 198f / 255f, 78f / 255f, 1.0F);
-        this.blit(n + k, m + l + 52, 0, 0, this.pokedexEntry.getStatDEFSPE(), 13);
+        this.blit(mat, n + k, m + l + 52, 0, 0, this.pokedexEntry.getStatDEFSPE(), 13);
 
         GL11.glColor4f(243f / 255f, 86f / 255f, 132f / 255f, 1.0F);
-        this.blit(n + k, m + l + 65, 0, 0, this.pokedexEntry.getStatVIT(), 13);
+        this.blit(mat, n + k, m + l + 65, 0, 0, this.pokedexEntry.getStatVIT(), 13);
 
-        this.drawCenteredString(this.font, "VIT: ", n + k - 10, m + l + 3, 0x930000);
-        this.drawCenteredString(this.font, "ATT: ", n + k - 10, m + l + 17, 0xAD5D22);
-        this.drawCenteredString(this.font, "DEF: ", n + k - 10, m + l + 29, 0xB39622);
-        this.drawCenteredString(this.font, "ATTSPE: ", n + k - 18, m + l + 42, 0x4C68AD);
-        this.drawCenteredString(this.font, "DEFSPE: ", n + k - 18, m + l + 55, 0x57933A);
-        this.drawCenteredString(this.font, "SPE: ", n + k - 10, m + l + 67, 0xB44062);
+        AbstractGui.drawCenteredString(mat, this.font, "VIT: ", n + k - 10, m + l + 3, 0x930000);
+        AbstractGui.drawCenteredString(mat, this.font, "ATT: ", n + k - 10, m + l + 17, 0xAD5D22);
+        AbstractGui.drawCenteredString(mat, this.font, "DEF: ", n + k - 10, m + l + 29, 0xB39622);
+        AbstractGui.drawCenteredString(mat, this.font, "ATTSPE: ", n + k - 18, m + l + 42, 0x4C68AD);
+        AbstractGui.drawCenteredString(mat, this.font, "DEFSPE: ", n + k - 18, m + l + 55, 0x57933A);
+        AbstractGui.drawCenteredString(mat, this.font, "SPE: ", n + k - 10, m + l + 67, 0xB44062);
         GL11.glPopMatrix();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -268,7 +280,7 @@ public class GuiChooseFirstPokemob extends Screen
             final MatrixStack matrixstack = new MatrixStack();
             final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
                     .getBufferSource();
-            final boolean flag = !model.func_230044_c_();
+            final boolean flag = !model.isSideLit();
             if (flag) RenderHelper.setupGuiFlatDiffuseLighting();
 
             Minecraft.getInstance().getItemRenderer().renderItem(item,

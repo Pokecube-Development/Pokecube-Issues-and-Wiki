@@ -67,7 +67,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             GuiInfoMessages.addMessage(message);
         else if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getFormattedText());
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getString());
             final MoveMessageEvent event = new MoveMessageEvent(this, message);
             PokecubeCore.MOVE_BUS.post(event);
             PacketPokemobMessage.sendMessage((PlayerEntity) owner, this.getEntity().getEntityId(), event.message);

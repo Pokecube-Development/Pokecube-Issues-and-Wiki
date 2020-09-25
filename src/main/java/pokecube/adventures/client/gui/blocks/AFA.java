@@ -37,9 +37,9 @@ public class AFA extends ContainerScreen<AfaContainer>
     @Override
     protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY)
     {
-        String text = this.getTitle().getFormattedText();
+        String text = this.getTitle().getString();
         this.font.drawString(text, 172 - this.font.getStringWidth(text), 6, 4210752);
-        this.font.drawString(this.playerInventory.getName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
+        this.font.drawString(this.playerInventory.getName().getString(), 8, this.ySize - 96 + 2, 4210752);
 
         text = this.container.tile.ability != null ? I18n.format("block.afa.ability.info", I18n.format(
                 this.container.tile.ability.getName())) : I18n.format("block.afa.ability.none");

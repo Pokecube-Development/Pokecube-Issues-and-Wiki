@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -107,8 +108,8 @@ public class WikiPage extends ListPage<LineEntry>
         super.initList();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final String next = ">";
-        final String prev = "<";
+        final ITextComponent next = new StringTextComponent(">");
+        final ITextComponent prev = new StringTextComponent("<");
         this.addButton(new Button(x + 64, y - 70, 12, 12, next, b ->
         {
             this.index++;
@@ -123,11 +124,11 @@ public class WikiPage extends ListPage<LineEntry>
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int offsetX = (this.watch.width - 160) / 2 + 10;
         final int offsetY = (this.watch.height - 160) / 2 + 20;
-        AbstractGui.fill(offsetX - 2, offsetY - 1, offsetX + 132, offsetY + 122, 0xFFFDF8EC);
+        AbstractGui.fill(mat, offsetX - 2, offsetY - 1, offsetX + 132, offsetY + 122, 0xFFFDF8EC);
         super.render(mouseX, mouseY, partialTicks);
     }
 
@@ -177,9 +178,9 @@ public class WikiPage extends ListPage<LineEntry>
             {
                 final ITextComponent page = ITextComponent.Serializer.fromJsonLenient(bookPages.getString(i));
                 final List<ITextComponent> list = RenderComponentsUtil.splitText(page, 120, this.font, true, true);
-                for (int j = 0; j < list.size(); j++)
+                for (final ITextComponent element : list)
                 {
-                    line = list.get(j);
+                    line = element;
                     final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i).setClickListner(
                             listener);
                     this.list.addEntry(wikiline);
@@ -230,7 +231,7 @@ public class WikiPage extends ListPage<LineEntry>
                         for (int j = 0; j < list.size(); j++)
                         {
                             entry = list.get(j);
-                            String text = entry.getFormattedText();
+                            String text = entry.getString();
                             final Style style = entry.getStyle();
                             // We have a link
                             if (text.contains(linkin))

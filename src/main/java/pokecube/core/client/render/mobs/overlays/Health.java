@@ -160,7 +160,7 @@ public class Health
             if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName()) nameComp = ((MobEntity) entity)
                     .getCustomName();
             final float s = 0.5F;
-            final String name = I18n.format(nameComp.getFormattedText());
+            final String name = I18n.format(nameComp.getString());
             final float namel = mc.fontRenderer.getStringWidth(name) * s;
             if (namel + 20 > size * 2) size = namel / 2F + 10F;
             float healthSize = size * (health / maxHealth);

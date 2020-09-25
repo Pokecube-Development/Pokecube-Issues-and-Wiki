@@ -35,15 +35,15 @@ public class GuiInfoMessages
             PokecubeCore.LOGGER.warn("Null message was sent!", new NullPointerException());
             return;
         }
-        PokecubeCore.LOGGER.debug("Recieved Message: " + message.getFormattedText());
+        PokecubeCore.LOGGER.debug("Recieved Message: " + message.getString());
         if (PokecubeCore.getConfig().battleLogInChat)
         {
             if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message);
             return;
         }
-        GuiInfoMessages.messages.push(message.getFormattedText());
+        GuiInfoMessages.messages.push(message.getString());
         GuiInfoMessages.time = Minecraft.getInstance().player.ticksExisted;
-        GuiInfoMessages.recent.addFirst(message.getFormattedText());
+        GuiInfoMessages.recent.addFirst(message.getString());
         if (GuiInfoMessages.messages.size() > 100) GuiInfoMessages.messages.remove(0);
     }
 
@@ -141,8 +141,8 @@ public class GuiInfoMessages
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
-                AbstractGui.fill(w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.fontRenderer.drawString(mess1.get(j), x - trim, ph, 0xffffff);
+                AbstractGui.fill(event.mat, w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
+                minecraft.fontRenderer.drawString(event.mat, mess1.get(j), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;

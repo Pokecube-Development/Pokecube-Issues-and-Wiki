@@ -42,7 +42,7 @@ public class PacketNickname extends Packet
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
         final String name = SharedConstants.filterAllowedCharacters(new String(this.name));
-        if (pokemob.getDisplayName().getFormattedText().equals(name)) return;
+        if (pokemob.getDisplayName().getString().equals(name)) return;
         boolean OT = pokemob.getOwnerId() == null || pokemob.getOriginalOwnerUUID() == null || pokemob
                 .getOwnerId().equals(pokemob.getOriginalOwnerUUID());
         if (!OT && pokemob.getOwner() != null) OT = pokemob.getOwner().getUniqueID().equals(pokemob
@@ -55,7 +55,7 @@ public class PacketNickname extends Packet
         else
         {
             pokemob.getOwner().sendMessage(new TranslationTextComponent("pokemob.rename.success", pokemob
-                    .getDisplayName().getFormattedText(), name));
+                    .getDisplayName().getString(), name));
             pokemob.setPokemonNickname(name);
         }
     }

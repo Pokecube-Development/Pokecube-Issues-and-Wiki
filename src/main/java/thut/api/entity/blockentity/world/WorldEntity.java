@@ -7,19 +7,22 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.tags.NetworkTagManager;
+import net.minecraft.tags.ITagCollectionSupplier;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.ITickList;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.storage.MapData;
@@ -34,8 +37,8 @@ public class WorldEntity extends World implements IBlockEntityWorld
 
     public WorldEntity(final World world)
     {
-        super(world.getWorldInfo(), world.dimension.getType(), (w, d) -> new BlockEntityChunkProvider((WorldEntity) w),
-                world.getProfiler(), world.isRemote);
+        super(world.getWorldInfo(), world.getDimensionKey(), world
+                .getDimensionType(), world.getWorldProfiler(), world.getProfiler(), world.isRemote, false, 0l);
         this.world = world;
     }
 
@@ -81,7 +84,7 @@ public class WorldEntity extends World implements IBlockEntityWorld
     }
 
     @Override
-    public IFluidState getFluidState(final BlockPos pos)
+    public FluidState getFluidState(final BlockPos pos)
     {
         return this.world.getFluidState(pos);
     }
@@ -179,7 +182,7 @@ public class WorldEntity extends World implements IBlockEntityWorld
     }
 
     @Override
-    public NetworkTagManager getTags()
+    public ITagCollectionSupplier getTags()
     {
         return this.world.getTags();
     }
@@ -200,5 +203,26 @@ public class WorldEntity extends World implements IBlockEntityWorld
     public Biome getNoiseBiome(final int x, final int y, final int z)
     {
         return this.world.getNoiseBiome(x, y, z);
+    }
+
+    @Override
+    public AbstractChunkProvider getChunkProvider()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public DynamicRegistries func_241828_r()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public float func_230487_a_(final Direction p_230487_1_, final boolean p_230487_2_)
+    {
+        // TODO Auto-generated method stub
+        return this.world.func_230487_a_(p_230487_1_, p_230487_2_);
     }
 }

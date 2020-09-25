@@ -31,7 +31,7 @@ public class ConfigGui extends Screen
     public void render(final int x, final int y, final float partialTicks)
     {
         this.renderBackground();
-        this.drawCenteredString(this.font, this.title.getFormattedText(), this.width / 2, this.height / 3, 16777215);
+        this.drawCenteredString(this.font, this.title.getString(), this.width / 2, this.height / 3, 16777215);
         super.render(x, y, partialTicks);
     }
 }

@@ -126,7 +126,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                                     .getLastAttackedEntity() != this.entity)
             {
                 final ITextComponent message = new TranslationTextComponent("pokemob.agress", this.pokemob
-                        .getDisplayName().getFormattedText());
+                        .getDisplayName().getString());
                 try
                 {
                     // Only send this once.

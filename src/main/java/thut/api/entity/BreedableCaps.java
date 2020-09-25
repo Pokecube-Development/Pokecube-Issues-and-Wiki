@@ -10,6 +10,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -52,7 +53,7 @@ public class BreedableCaps
         @Override
         public Object getChild(final IBreedingMob male)
         {
-            return this.wrapped.createChild(male.getEntity());
+            return this.wrapped.func_241840_a((ServerWorld) this.wrapped.getEntityWorld(), male.getEntity());
         }
 
         @Override

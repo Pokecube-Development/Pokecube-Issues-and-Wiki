@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -147,7 +149,8 @@ public class GuiPokedex extends Screen
         final int yOffset = this.height / 2 - 80;
         final int xOffset = this.width / 2;
 
-        this.pokemobTextField = new TextFieldWidget(this.font, xOffset - 65, yOffset + 123, 110, 10, "");
+        this.pokemobTextField = new TextFieldWidget(this.font, xOffset - 65, yOffset + 123, 110, 10,
+                new StringTextComponent(""));
         this.pokemobTextField.setEnableBackgroundDrawing(false);
         this.pokemobTextField.setEnabled(true);
 
@@ -166,11 +169,11 @@ public class GuiPokedex extends Screen
         ITextComponent line;
         ITextComponent page = GuiPokedex.pokedexEntry.getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.FONT_HEIGHT, offsetX, offsetY);
-        page = new StringTextComponent(page.getFormattedText());
+        page = new StringTextComponent(page.getString());
         final List<ITextComponent> list = RenderComponentsUtil.splitText(page, 100, this.font, false, false);
-        for (int j = 0; j < list.size(); j++)
+        for (final ITextComponent element : list)
         {
-            line = list.get(j);
+            line = element;
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF));
         }
         this.children.add(this.list);
@@ -259,14 +262,14 @@ public class GuiPokedex extends Screen
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTick)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTick)
     {
         // Draw background
         final Minecraft minecraft = Minecraft.getInstance();
         minecraft.getTextureManager().bindTexture(Resources.GUI_POKEDEX);
         final int j2 = (this.width - this.xSize) / 2;
         final int k2 = (this.height - this.ySize) / 2;
-        this.blit(j2, k2, 0, 0, this.xSize, this.ySize);
+        this.blit(mat, j2, k2, 0, 0, this.xSize, this.ySize);
 
         // Draw mob
         final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity
@@ -307,12 +310,14 @@ public class GuiPokedex extends Screen
         final PokeType type2 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry()
                 ? this.pokemob.getType2()
                 : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType2() : PokeType.unknown;
-        this.drawCenteredString(this.font, "#" + nb, xOffset - 28, yOffset + 02, 0xffffff);
+        AbstractGui.drawCenteredString(mat, this.font, "#" + nb, xOffset - 28, yOffset + 02, 0xffffff);
         try
         {
-            this.drawCenteredString(this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset + 137,
+            AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset
+                    + 137,
                     type1.colour);
-            this.drawCenteredString(this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset + 137,
+            AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset
+                    + 137,
                     type2.colour);
         }
         catch (final Exception e)
@@ -323,7 +328,7 @@ public class GuiPokedex extends Screen
         final int length = this.font.getStringWidth(this.pokemobTextField.getText()) / 2;
         xOffset = this.width / 2 - 65;
         this.pokemobTextField.x = xOffset - length;
-        super.render(mouseX, mouseY, partialTick);
+        super.render(mat, mouseX, mouseY, partialTick);
 
         // Draw description
         this.list.render(mouseX, mouseY, partialTick);

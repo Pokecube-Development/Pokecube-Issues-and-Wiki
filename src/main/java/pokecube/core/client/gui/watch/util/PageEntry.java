@@ -13,7 +13,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> impleme
             final int offsetY)
     {
         this.top = offsetY;
-        this.button = new Button(offsetX, offsetY, 130, 20, page.getTitle().getFormattedText(), b -> parent.watch
+        this.button = new Button(offsetX, offsetY, 130, 20, page.getTitle().getString(), b -> parent.watch
                 .changePage(index));
         this.button.visible = false;
         this.button.active = false;

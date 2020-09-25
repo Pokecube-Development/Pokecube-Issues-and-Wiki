@@ -58,7 +58,7 @@ public class SpawnListEntry
         {
             String biomeString = I18n.format("pokewatch.spawns.biomes") + "\n";
             for (final ITextComponent s : biomes)
-                biomeString = biomeString + s.getFormattedText() + ",\n";
+                biomeString = biomeString + s.getString() + ",\n";
             biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
             final List<String> split = fontRender.listFormattedStringToWidth(biomeString, width - fontRender
                     .getStringWidth(ind));

@@ -382,7 +382,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     /** First layer of player interaction */
     @Override
-    public boolean processInitialInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType processInitialInteract(final PlayerEntity player, final Hand hand)
     {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         return this.interacter.processInitialInteract(player, player.getHeldItem(hand), hand);
@@ -425,7 +425,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                         if (blockTag.contains("T" + i + "," + k + "," + j)) try
                         {
                             final CompoundNBT tag = blockTag.getCompound("T" + i + "," + k + "," + j);
-                            this.tiles[i][k][j] = TileEntity.create(tag);
+                            this.tiles[i][k][j] = TileEntity.readTileEntity(state, tag);
                         }
                         catch (final Exception e)
                         {

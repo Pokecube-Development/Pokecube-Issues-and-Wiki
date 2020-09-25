@@ -59,8 +59,8 @@ public class ProgressPage extends PageWithSubPages<Progress>
     {
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 8;
-        this.drawCenteredString(this.font, this.getTitle().getFormattedText(), x, y, 0xFF78C850);
-        this.drawCenteredString(this.font, this.current_page.getTitle().getFormattedText(), x, y + 10, 0xFF78C850);
+        this.drawCenteredString(this.font, this.getTitle().getString(), x, y, 0xFF78C850);
+        this.drawCenteredString(this.font, this.current_page.getTitle().getString(), x, y + 10, 0xFF78C850);
     }
 
     @Override

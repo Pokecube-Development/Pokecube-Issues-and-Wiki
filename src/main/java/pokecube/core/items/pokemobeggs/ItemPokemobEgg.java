@@ -276,7 +276,7 @@ public class ItemPokemobEgg extends Item
             {
                 final LivingEntity owner = mob.getOwner();
                 owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName()
-                        .getFormattedText()));
+                        .getString()));
                 if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(
                         world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.getRNG().nextInt(7) + 1));
             }

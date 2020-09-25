@@ -275,7 +275,7 @@ public class Pokemake
         GeneticsManager.initMob(mob);
         mob.getEntityWorld().addEntity(mob);
 
-        final String text = TextFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getFormattedText();
+        final String text = TextFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
         final ITextComponent message = ITextComponent.Serializer.fromJson("[\"" + text + "\"]");
         source.sendFeedback(message, true);
         return 0;

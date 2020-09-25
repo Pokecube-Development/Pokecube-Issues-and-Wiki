@@ -284,7 +284,7 @@ public final class SpawnHandler
                 final Vector3 v = Vector3.getNewVector().set(posX, posY, posZ);
                 final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
                 PokecubeCore.LOGGER.info(String.format(toLog, v.getPos(), dt, pokemob.getDisplayName()
-                        .getFormattedText()));
+                        .getString()));
             }
             return pokemob.getEntity();
         }

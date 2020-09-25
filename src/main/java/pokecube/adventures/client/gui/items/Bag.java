@@ -142,7 +142,7 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
                 if (stack.isEmpty()) continue;
                 final int x = i % 9 * 18 + this.width / 2 - 80;
                 final int y = i / 9 * 18 + this.height / 2 - 96;
-                final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
+                final String name = stack == null ? "" : stack.getDisplayName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
                 {
                     final int slotColor = 0x55FF0000;

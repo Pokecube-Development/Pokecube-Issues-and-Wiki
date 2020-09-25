@@ -23,8 +23,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.maths.Vector3.MutableBlockPos;
@@ -78,7 +78,8 @@ public interface IBlockEntity
                         {
                             CompoundNBT tag = new CompoundNBT();
                             tag = old.write(tag);
-                            ret[i - xMin][j - yMin][k - zMin] = TileEntity.create(tag);
+                            ret[i - xMin][j - yMin][k - zMin] = TileEntity.readTileEntity(world.getBlockState(temp),
+                                    tag);
                         }
                     }
             return ret;
@@ -197,7 +198,7 @@ public interface IBlockEntity
                             if (tile != null)
                             {
                                 final TileEntity newTile = entity.getEntityWorld().getTileEntity(pos);
-                                if (newTile != null) newTile.read(tile.write(new CompoundNBT()));
+                                if (newTile != null) newTile.read(state, tile.write(new CompoundNBT()));
                             }
                         }
                     }

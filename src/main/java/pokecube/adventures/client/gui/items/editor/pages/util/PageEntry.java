@@ -11,7 +11,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry>
     public PageEntry(final Page parent, final Page page, final int index, final int offsetX, final int offsetY)
     {
         this.top = offsetY;
-        this.button = new Button(offsetX, offsetY, 130, 20, page.getTitle().getFormattedText(), b -> parent.parent
+        this.button = new Button(offsetX, offsetY, 130, 20, page.getTitle().getString(), b -> parent.parent
                 .changePage(index));
         this.button.visible = false;
         this.button.active = false;

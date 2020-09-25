@@ -104,25 +104,25 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
             if (fav == this.type.index)
             {
                 info = new TranslationTextComponent("item.berry.favourite.desc", pokemob.getDisplayName()
-                        .getFormattedText());
+                        .getString());
                 tooltip.add(info);
                 info = null;
             }
             final int weight = Nature.getBerryWeight(this.type.index, nature);
             if (weight == 0) info = new TranslationTextComponent("item.berry.nomind.desc", pokemob.getDisplayName()
-                    .getFormattedText());
+                    .getString());
             if (weight >= 10) info = new TranslationTextComponent("item.berry.like1.desc", pokemob.getDisplayName()
-                    .getFormattedText());
+                    .getString());
             if (weight >= 20) info = new TranslationTextComponent("item.berry.like2.desc", pokemob.getDisplayName()
-                    .getFormattedText());
+                    .getString());
             if (weight >= 30) info = new TranslationTextComponent("item.berry.like3.desc", pokemob.getDisplayName()
-                    .getFormattedText());
+                    .getString());
             if (weight <= -10) info = new TranslationTextComponent("item.berry.hate1.desc", pokemob.getDisplayName()
-                    .getFormattedText());
+                    .getString());
             if (weight <= -20) info = new TranslationTextComponent("item.berry.hate2.desc", pokemob.getDisplayName()
-                    .getFormattedText());
+                    .getString());
             if (weight <= -30) info = new TranslationTextComponent("item.berry.hate3.desc", pokemob.getDisplayName()
-                    .getFormattedText());
+                    .getString());
             if (info != null) tooltip.add(info);
         }
     }

@@ -35,8 +35,8 @@ public class Splicer extends ContainerScreen<SplicerContainer>
     @Override
     protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY)
     {
-        this.font.drawString(this.getTitle().getFormattedText(), 8, 6, 4210752);
-        this.font.drawString(this.playerInventory.getName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
+        this.font.drawString(this.getTitle().getString(), 8, 6, 4210752);
+        this.font.drawString(this.playerInventory.getName().getString(), 8, this.ySize - 96 + 2, 4210752);
     }
 
     @Override

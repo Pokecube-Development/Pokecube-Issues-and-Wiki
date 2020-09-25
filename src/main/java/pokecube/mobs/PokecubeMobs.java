@@ -232,7 +232,7 @@ public class PokecubeMobs
                 if (shuckle.getOwner() != null)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName()
-                            .getFormattedText();
+                            .getString();
                     ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message));
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE));
@@ -246,7 +246,7 @@ public class PokecubeMobs
 
                 if (shuckle.getOwner() != null && shuckle.getOwner() instanceof PlayerEntity)
                 {
-                    final String message = "The smell coming from " + shuckle.getDisplayName().getFormattedText()
+                    final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
                     ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message));
                 }

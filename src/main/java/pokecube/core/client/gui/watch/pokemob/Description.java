@@ -73,7 +73,7 @@ public class Description extends ListPage<LineEntry>
         ITextComponent line;
         ITextComponent page = this.parent.pokemob.getPokedexEntry().getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 107, height, this.font.FONT_HEIGHT, offsetX, offsetY);
-        page = new StringTextComponent(page.getFormattedText());
+        page = new StringTextComponent(page.getString());
         final List<ITextComponent> list = RenderComponentsUtil.splitText(page, 100, this.font, false, false);
         for (int j = 0; j < list.size(); j++)
         {

@@ -58,8 +58,8 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
     public void render(final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
-        this.fontRender.drawString(this.line.getFormattedText(), x + this.x0, y + this.y0, this.colour);
-        final int dx = this.fontRender.getStringWidth(this.line.getFormattedText());
+        this.fontRender.drawString(this.line.getString(), x + this.x0, y + this.y0, this.colour);
+        final int dx = this.fontRender.getStringWidth(this.line.getString());
         final int relativeX = mouseX - x;
         final int relativeY = mouseY - y;
         if (relativeY <= this.fontRender.FONT_HEIGHT && relativeX >= 0 && relativeX <= dx && relativeY > 0)

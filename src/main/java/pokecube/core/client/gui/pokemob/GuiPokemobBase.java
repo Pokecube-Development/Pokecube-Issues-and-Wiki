@@ -123,7 +123,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     @Override
     protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY)
     {
-        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, this.ySize - 96 + 2,
+        this.font.drawString(this.playerInventory.getDisplayName().getString(), 8.0F, this.ySize - 96 + 2,
                 4210752);
     }
 

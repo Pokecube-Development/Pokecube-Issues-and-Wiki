@@ -2,13 +2,16 @@ package pokecube.core.client.gui.blocks;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.interfaces.Move_Base;
@@ -38,7 +41,8 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final float partialTicks, final int mouseX, final int mouseY)
+    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX,
+            final int mouseY)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(TMs.TEXTURE);
@@ -51,21 +55,21 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
     public void init()
     {
         super.init();
-        final String apply = I18n.format("block.tm_machine.apply");
+        final ITextComponent apply = new TranslationTextComponent("block.tm_machine.apply");
         this.addButton(new Button(this.width / 2 - 8, this.height / 2 - 39, 60, 20, apply, b ->
         {
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
         }));
-        final String next = I18n.format(">");
+        final ITextComponent next = new TranslationTextComponent(">");
         this.addButton(new Button(this.width / 2 + 68, this.height / 2 - 50, 10, 10, next, b ->
         {
             final String[] moves = this.container.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
         }));
-        final String prev = I18n.format("<");
+        final ITextComponent prev = new TranslationTextComponent("<");
         this.addButton(new Button(this.width / 2 - 30, this.height / 2 - 50, 10, 10, prev, b ->
         {
             final String[] moves = this.container.moves;
@@ -74,15 +78,15 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
             else if (this.index < 0) this.index = 0;
         }));
         this.addButton(this.search = new TextFieldWidget(this.font, this.width / 2 - 19, this.height / 2 - 50, 87, 10,
-                ""));
+                new TranslationTextComponent("")));
     }
 
     @Override
     /** Draws the screen and all the components in it. */
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
+        this.renderBackground(mat);
+        super.render(mat, mouseX, mouseY, partialTicks);
         final String[] moves = this.container.moves;
         final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
         final Move_Base move = MovesUtils.getMoveFromName(s);
@@ -90,11 +94,12 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
         {
             final int yOffset = this.height / 2 - 164;
             final int xOffset = this.width / 2 - 42;
-            this.drawString(this.font, MovesUtils.getMoveName(s).getFormattedText(), xOffset + 14, yOffset + 99, move
+            AbstractGui.drawString(mat, this.font, MovesUtils.getMoveName(s).getString(), xOffset + 14, yOffset + 99,
+                    move
                     .getType(null).colour);
-            this.drawString(this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
+            AbstractGui.drawString(mat, this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
         }
-        this.renderHoveredToolTip(mouseX, mouseY);
+        this.renderHoveredToolTip(mat, mouseX, mouseY);
     }
 
 }

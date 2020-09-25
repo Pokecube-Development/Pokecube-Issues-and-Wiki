@@ -239,7 +239,7 @@ public class ForgetTargetTask extends CombatTask
             {
                 // Send deagress message and put mob on cooldown.
                 final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
-                        .getDisplayName().getFormattedText());
+                        .getDisplayName().getString());
                 try
                 {
                     this.entityTarget.sendMessage(message);
@@ -257,7 +257,7 @@ public class ForgetTargetTask extends CombatTask
             {
                 // Send deagress message and put mob on cooldown.
                 final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
-                        .getDisplayName().getFormattedText());
+                        .getDisplayName().getString());
                 try
                 {
                     this.entityTarget.sendMessage(message);

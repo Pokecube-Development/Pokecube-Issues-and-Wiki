@@ -22,7 +22,7 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     {
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 8;
-        this.drawCenteredString(this.font, this.getTitle().getFormattedText(), x, y, 0xFFFFFFFF);
+        this.drawCenteredString(this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
     }
 
     @Override

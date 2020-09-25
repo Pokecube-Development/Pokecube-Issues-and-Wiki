@@ -77,8 +77,9 @@ public abstract class BlockEntityInteractHandler
     public abstract ActionResultType interactInternal(PlayerEntity player, BlockPos pos, @Nullable ItemStack stack,
             Hand hand);
 
-    public boolean processInitialInteract(final PlayerEntity player, @Nullable final ItemStack stack, final Hand hand)
+    public ActionResultType processInitialInteract(final PlayerEntity player, @Nullable final ItemStack stack,
+            final Hand hand)
     {
-        return false;
+        return ActionResultType.PASS;
     }
 }
