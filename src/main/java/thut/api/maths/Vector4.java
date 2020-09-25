@@ -5,10 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -30,8 +27,6 @@ public class Vector4
     @OnlyIn(value = Dist.CLIENT)
     private Quaternion quat;
 
-    public DimensionType dim = null;
-
     public Vector4()
     {
         this.y = this.z = this.x = 0;
@@ -43,21 +38,6 @@ public class Vector4
     {
         this(quat.getX(), quat.getY(), quat.getZ(), quat.getW());
         this.quat = quat;
-    }
-
-    public Vector4(final BlockPos pos, final DimensionType dim)
-    {
-        this();
-        this.x = pos.getX();
-        this.y = pos.getY();
-        this.z = pos.getZ();
-        this.w = dim.getId();
-        this.dim = dim;
-    }
-
-    public Vector4(final GlobalPos pos)
-    {
-        this(pos.getPos(), pos.getDimension());
     }
 
     public Vector4(final CompoundNBT nbt)

@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import pokecube.core.utils.PokecubeSerializer.TeleDest;
+import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
 /**
@@ -56,7 +56,7 @@ public class PokecubePlayerData extends PlayerData
     }
 
     @Override
-    public void readFromNBT(CompoundNBT tag)
+    public void readFromNBT(final CompoundNBT tag)
     {
         this.hasStarter = tag.getBoolean("hasStarter");
         this.teleIndex = tag.getInt("teleIndex");
@@ -75,12 +75,12 @@ public class PokecubePlayerData extends PlayerData
         }
     }
 
-    public void setHasStarter(boolean has)
+    public void setHasStarter(final boolean has)
     {
         this.hasStarter = has;
     }
 
-    public void setTeleIndex(int index)
+    public void setTeleIndex(final int index)
     {
         this.teleIndex = index;
     }
@@ -92,7 +92,7 @@ public class PokecubePlayerData extends PlayerData
     }
 
     @Override
-    public void writeToNBT(CompoundNBT tag)
+    public void writeToNBT(final CompoundNBT tag)
     {
         tag.putBoolean("hasStarter", this.hasStarter);
         tag.putInt("teleIndex", this.teleIndex);

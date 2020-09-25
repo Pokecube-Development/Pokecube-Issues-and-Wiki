@@ -11,6 +11,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.dimension.DimensionType;
@@ -21,9 +22,8 @@ import pokecube.core.interfaces.IMoveNames;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
-import pokecube.core.utils.PokecubeSerializer.TeleDest;
 import thut.api.entity.ThutTeleporter;
-import thut.api.maths.Vector4;
+import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class TeleportHandler extends DefaultHandler
@@ -85,7 +85,7 @@ public class TeleportHandler extends DefaultHandler
         while (dests.hasNext())
         {
             final TeleDest dest = dests.next();
-            if (dest.loc.withinDistance(TeleportHandler.MINDIST, teleport.loc)) if (set) dests.remove();
+            if (dest.withinDist(teleport, TeleportHandler.MINDIST)) if (set) dests.remove();
             else
             {
                 set = true;
@@ -102,9 +102,9 @@ public class TeleportHandler extends DefaultHandler
             list.get(i).index = i;
     }
 
-    public static void setTeleport(final Vector4 v, final String uuid)
+    public static void setTeleport(final GlobalPos pos, final String uuid)
     {
-        final TeleDest d = new TeleDest().setLoc(v);
+        final TeleDest d = new TeleDest().setPos(pos);
         TeleportHandler.setTeleport(uuid, d);
     }
 
@@ -199,6 +199,6 @@ public class TeleportHandler extends DefaultHandler
                 attackName);
         if (this.fromOwner()) pokemob.displayMessageToOwner(text);
         EventsHandler.recallAllPokemobsExcluding(player, null, false);
-        ThutTeleporter.transferTo(player, d.loc, true);
+        ThutTeleporter.transferTo(player, d, true);
     }
 }

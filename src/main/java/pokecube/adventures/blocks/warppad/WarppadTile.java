@@ -12,15 +12,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.utils.PokecubeSerializer.TeleDest;
 import thut.api.entity.ThutTeleporter;
+import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 
 public class WarppadTile extends InteractableTile implements IEnergyStorage
 {
@@ -53,7 +53,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
     public static void warp(final Entity entityIn, final TeleDest dest, final boolean sound)
     {
-        ThutTeleporter.transferTo(entityIn, dest.loc, sound);
+        ThutTeleporter.transferTo(entityIn, dest, sound);
     }
 
     private TeleDest dest         = null;
@@ -84,7 +84,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
         if (WarppadTile.invalidSources.contains(entityIn.dimension) || entityIn.getEntityWorld().isRemote) return;
 
         final TeleDest dest = this.getDest();
-        final Vector4 link = dest.loc;
+        final BlockPos link = dest.loc.getPos();
         final long time = this.world.getGameTime();
         final long lastStepped = entityIn.getPersistentData().getLong("lastWarpPadUse");
         // No step now, too soon.
@@ -95,10 +95,11 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
             double cost = 0;
             final Vector3 here = Vector3.getNewVector().set(this);
-            WarppadTile.parser.setVarValue("dx", link.x - here.x);
-            WarppadTile.parser.setVarValue("dy", link.y - here.y);
-            WarppadTile.parser.setVarValue("dz", link.z - here.z);
-            WarppadTile.parser.setVarValue("dw", link.w - this.getWorld().getDimension().getType().getId());
+            WarppadTile.parser.setVarValue("dx", link.getX() - here.x);
+            WarppadTile.parser.setVarValue("dy", link.getY() - here.y);
+            WarppadTile.parser.setVarValue("dz", link.getZ() - here.z);
+            WarppadTile.parser.setVarValue("dw", dest.loc.getDimension().getId() - this.getWorld().getDimension()
+                    .getType().getId());
             cost = WarppadTile.parser.getValue();
             if (!this.noEnergyNeed && this.energy < cost)
             {
@@ -110,7 +111,8 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
         }
         this.getWorld().playSound(null, this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos().getZ()
                 + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
-        this.getWorld().playSound(null, link.x + 0.5, link.y + 0.5, link.z + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+        this.getWorld().playSound(null, link.getX() + 0.5, link.getY() + 0.5, link.getZ() + 0.5,
+                SoundEvents.ENTITY_ENDERMAN_TELEPORT,
                 SoundCategory.BLOCKS, 1, 1);
         WarppadTile.warp(entityIn, dest, true);
     }

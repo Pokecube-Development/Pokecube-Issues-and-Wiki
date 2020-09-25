@@ -1,9 +1,14 @@
 package thut.api.entity;
 
+import com.mojang.datafixers.Dynamic;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
@@ -15,10 +20,104 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import thut.api.maths.Vector4;
+import thut.api.maths.Vector3;
 
 public class ThutTeleporter
 {
+    public static class TeleDest
+    {
+        public static TeleDest readFromNBT(final CompoundNBT nbt)
+        {
+            final Vector3 loc = Vector3.readFromNBT(nbt, "v");
+            final String name = nbt.getString("name");
+            final int index = nbt.getInt("i");
+            GlobalPos pos = null;
+            pos = GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE, nbt.get("pos")));
+            return new TeleDest().setLoc(pos, loc).setPos(pos).setName(name).setIndex(index);
+        }
+
+        public GlobalPos loc;
+
+        private Vector3 subLoc;
+
+        private String name;
+
+        public int index;
+
+        public TeleDest()
+        {
+        }
+
+        public TeleDest setLoc(final GlobalPos loc, final Vector3 subLoc)
+        {
+            this.loc = loc;
+            this.subLoc = subLoc;
+            this.name = loc.getPos().toString() + " " + loc.getDimension().getRegistryName();
+            return this;
+        }
+
+        public TeleDest setPos(final GlobalPos pos)
+        {
+            if (pos != null)
+            {
+                this.loc = pos;
+                this.subLoc = Vector3.getNewVector().set(this.loc.getPos().getX(), this.loc.getPos().getY(), this.loc
+                        .getPos().getZ());
+                this.name = this.loc.getPos().toString() + " " + this.loc.getDimension().getRegistryName();
+            }
+            return this;
+        }
+
+        public GlobalPos getPos()
+        {
+            return this.loc;
+        }
+
+        public Vector3 getLoc()
+        {
+            return this.subLoc;
+        }
+
+        public String getName()
+        {
+            return this.name;
+        }
+
+        public TeleDest setIndex(final int index)
+        {
+            this.index = index;
+            return this;
+        }
+
+        public TeleDest setName(final String name)
+        {
+            this.name = name;
+            return this;
+        }
+
+        public void writeToNBT(final CompoundNBT nbt)
+        {
+            this.subLoc.writeToNBT(nbt, "v");
+            nbt.put("pos", this.loc.serialize(NBTDynamicOps.INSTANCE));
+            nbt.putString("name", this.name);
+            nbt.putInt("i", this.index);
+        }
+
+        public void shift(final double dx, final int dy, final double dz)
+        {
+            this.subLoc.x += dx;
+            this.subLoc.y += dy;
+            this.subLoc.z += dz;
+        }
+
+        public boolean withinDist(final TeleDest other, final double dist)
+        {
+            if (other.loc.getDimension() == this.loc.getDimension()) return other.loc.getPos().withinDistance(this.loc
+                    .getPos(), dist);
+            return false;
+        }
+    }
+
     private static class InvulnTicker
     {
         private final ServerWorld overworld;
@@ -53,10 +152,12 @@ public class ThutTeleporter
     {
         private final Entity      entity;
         private final ServerWorld destWorld;
-        private final Vector4     dest;
+        private final TeleDest    dest;
         private final boolean     sound;
 
-        public TransferTicker(final ServerWorld destWorld, final Entity entity, final Vector4 dest, final boolean sound)
+        public TransferTicker(final ServerWorld destWorld, final Entity entity,
+                final TeleDest dest,
+                final boolean sound)
         {
             this.entity = entity;
             this.dest = dest;
@@ -74,7 +175,8 @@ public class ThutTeleporter
                 ThutTeleporter.transferMob(this.destWorld, this.dest, this.entity);
                 if (this.sound)
                 {
-                    this.destWorld.playSound(this.dest.x, this.dest.y, this.dest.z,
+                    this.destWorld.playSound(this.dest.subLoc.x, this.dest.subLoc.y,
+                            this.dest.subLoc.z,
                             SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                     this.entity.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
                 }
@@ -83,30 +185,32 @@ public class ThutTeleporter
         }
     }
 
-    public static void transferTo(final Entity entity, final Vector4 dest)
+    public static void transferTo(final Entity entity, final TeleDest dest)
     {
         ThutTeleporter.transferTo(entity, dest, false);
     }
 
-    public static void transferTo(final Entity entity, final Vector4 dest, final boolean sound)
+    public static void transferTo(final Entity entity, final TeleDest dest, final boolean sound)
     {
         if (entity.getEntityWorld() instanceof ServerWorld)
         {
             new InvulnTicker(entity);
-            if (dest.dim == entity.dimension)
+            if (dest.loc.getDimension() == entity.dimension)
             {
                 ThutTeleporter.moveMob(entity, dest);
                 return;
             }
-            final ServerWorld destWorld = entity.getServer().getWorld(DimensionType.getById((int) dest.w));
+            final ServerWorld destWorld = entity.getServer().getWorld(dest.loc.getDimension());
             if (entity instanceof ServerPlayerEntity)
             {
                 final ServerPlayerEntity player = (ServerPlayerEntity) entity;
                 player.invulnerableDimensionChange = true;
-                player.teleport(destWorld, dest.x, dest.y, dest.z, entity.rotationYaw, entity.rotationPitch);
+                player.teleport(destWorld, dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.rotationYaw,
+                        entity.rotationPitch);
                 if (sound)
                 {
-                    destWorld.playSound(dest.x, dest.y, dest.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+                    destWorld.playSound(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z,
+                            SoundEvents.ENTITY_ENDERMAN_TELEPORT,
                             SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                     player.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
                 }
@@ -117,7 +221,7 @@ public class ThutTeleporter
         }
     }
 
-    private static void transferMob(final ServerWorld destWorld, final Vector4 dest, final Entity entity)
+    private static void transferMob(final ServerWorld destWorld, final TeleDest dest, final Entity entity)
     {
         ServerPlayerEntity player = null;
         if (entity instanceof ServerPlayerEntity)
@@ -129,14 +233,16 @@ public class ThutTeleporter
         entity.dimension = destWorld.dimension.getType();
         ThutTeleporter.removeMob(serverworld, entity, true);
         entity.revive();
-        entity.setLocationAndAngles(dest.x, dest.y, dest.z, entity.rotationYaw, entity.rotationPitch);
+        entity.setLocationAndAngles(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.rotationYaw,
+                entity.rotationPitch);
         entity.setWorld(destWorld);
         ThutTeleporter.addMob(destWorld, entity);
         if (player != null)
         {
             player.invulnerableDimensionChange = false;
             player.connection.captureCurrentPosition();
-            player.connection.setPlayerLocation(dest.x, dest.y, dest.z, entity.rotationYaw, entity.rotationPitch);
+            player.connection.setPlayerLocation(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.rotationYaw,
+                    entity.rotationPitch);
         }
     }
 
@@ -156,17 +262,19 @@ public class ThutTeleporter
         world.removeEntity(entity, keepData);
     }
 
-    private static void moveMob(final Entity entity, final Vector4 dest)
+    private static void moveMob(final Entity entity, final TeleDest dest)
     {
         if (entity instanceof ServerPlayerEntity)
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) entity;
             player.invulnerableDimensionChange = true;
-            ((ServerPlayerEntity) entity).connection.setPlayerLocation(dest.x, dest.y, dest.z, entity.rotationYaw,
+            ((ServerPlayerEntity) entity).connection.setPlayerLocation(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z,
+                    entity.rotationYaw,
                     entity.rotationPitch);
             ((ServerPlayerEntity) entity).connection.captureCurrentPosition();
             player.invulnerableDimensionChange = false;
         }
-        else entity.setLocationAndAngles(dest.x, dest.y, dest.z, entity.rotationYaw, entity.rotationPitch);
+        else entity.setLocationAndAngles(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.rotationYaw,
+                entity.rotationPitch);
     }
 }

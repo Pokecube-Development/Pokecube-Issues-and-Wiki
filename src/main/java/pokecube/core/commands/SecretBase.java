@@ -20,6 +20,7 @@ import net.minecraft.command.arguments.GameProfileArgument;
 import net.minecraft.command.arguments.Vec3Argument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.dimension.DimensionType;
@@ -31,6 +32,7 @@ import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.api.entity.ThutTeleporter;
+import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.common.commands.CommandTools;
@@ -56,8 +58,8 @@ public class SecretBase
         }
         final DimensionType targetDim = DimensionType.OVERWORLD;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUniqueID(), player.getServer(), targetDim);
-        final Vector4 dest = new Vector4(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, targetDim.getId());
-        ThutTeleporter.transferTo(player, dest);
+        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
         player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"));
         return 0;
     }
