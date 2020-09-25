@@ -21,7 +21,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.common.MinecraftForge;
@@ -134,7 +133,7 @@ public class ExplosionCustom extends Explosion
 
     public int maxPerTick;
 
-    public IWorld world;
+    public World world;
 
     Vector3 centre;
 
@@ -245,7 +244,7 @@ public class ExplosionCustom extends Explosion
 
         if (this.owner != null) try
         {
-            final BreakEvent evt = new BreakEvent(this.world.getWorld(), location.getPos(), state, this.owner);
+            final BreakEvent evt = new BreakEvent(this.world, location.getPos(), state, this.owner);
             MinecraftForge.EVENT_BUS.post(evt);
             if (evt.isCanceled()) return false;
         }
@@ -260,9 +259,9 @@ public class ExplosionCustom extends Explosion
 
     public void doExplosion()
     {
-        this.world.getWorld().playSound((PlayerEntity) null, this.explosionX, this.explosionY, this.explosionZ,
-                SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.getWorld().rand
-                        .nextFloat() - this.world.getWorld().rand.nextFloat()) * 0.2F) * 0.7F);
+        this.world.playSound((PlayerEntity) null, this.explosionX, this.explosionY, this.explosionZ,
+                SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.rand.nextFloat()
+                        - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
         this.world.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D,
                 0.0D);
         MinecraftForge.EVENT_BUS.register(this);
@@ -363,7 +362,7 @@ public class ExplosionCustom extends Explosion
         final BlastResult result = new Checker(this).getBlocksToRemove();
         this.applyBlockEffects(result);
         this.applyEntityEffects(result);
-        final ExplosionEvent evt2 = new ExplosionEvent.Detonate(this.world.getWorld(), this, this.targets);
+        final ExplosionEvent evt2 = new ExplosionEvent.Detonate(this.world, this, this.targets);
         // ThutCore.LOGGER.info("Strength: {}, Max radius: {}, Last Radius: {}",
         // this.strength, this.radius, this.r.mag());
         MinecraftForge.EVENT_BUS.post(evt2);
