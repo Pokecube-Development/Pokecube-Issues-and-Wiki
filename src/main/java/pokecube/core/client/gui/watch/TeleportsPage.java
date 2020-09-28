@@ -16,7 +16,7 @@ import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.network.packets.PacketPokedex;
-import pokecube.core.utils.PokecubeSerializer.TeleDest;
+import thut.api.entity.ThutTeleporter.TeleDest;
 
 public class TeleportsPage extends ListPage<TeleOption>
 {
@@ -78,16 +78,16 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
 
         @Override
-        public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+        public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
         {
             if (this.text.isFocused())
             {
                 if (keyCode == GLFW.GLFW_KEY_ENTER)
                 {
-                    if (!text.getText().equals(dest.getName()))
+                    if (!this.text.getText().equals(this.dest.getName()))
                     {
-                        PacketPokedex.sendRenameTelePacket(text.getText(), dest.index);
-                        dest.setName(text.getText());
+                        PacketPokedex.sendRenameTelePacket(this.text.getText(), this.dest.index);
+                        this.dest.setName(this.text.getText());
                         return true;
                     }
                     return false;
@@ -100,16 +100,13 @@ public class TeleportsPage extends ListPage<TeleOption>
         @Override
         public boolean charTyped(final char typedChar, final int keyCode)
         {
-            if (this.text.isFocused()) { return this.text.charTyped(typedChar, keyCode); }
+            if (this.text.isFocused()) return this.text.charTyped(typedChar, keyCode);
 
-            if (keyCode == GLFW.GLFW_KEY_ENTER)
+            if (keyCode == GLFW.GLFW_KEY_ENTER) if (!this.text.getText().equals(this.dest.getName()))
             {
-                if (!this.text.getText().equals(this.dest.getName()))
-                {
-                    PacketPokedex.sendRenameTelePacket(this.text.getText(), this.dest.index);
-                    this.dest.setName(this.text.getText());
-                    return true;
-                }
+                PacketPokedex.sendRenameTelePacket(this.text.getText(), this.dest.index);
+                this.dest.setName(this.text.getText());
+                return true;
             }
             return super.charTyped(typedChar, keyCode);
         }
@@ -125,32 +122,32 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.text.setFocused(fits);
             if (this.delete.isMouseOver(mouseX, mouseY))
             {
-                delete.playDownSound(this.mc.getSoundHandler());
-                confirm.active = !confirm.active;
+                this.delete.playDownSound(this.mc.getSoundHandler());
+                this.confirm.active = !this.confirm.active;
             }
             else if (this.confirm.isMouseOver(mouseX, mouseY) && this.confirm.active)
             {
-                confirm.playDownSound(this.mc.getSoundHandler());
+                this.confirm.playDownSound(this.mc.getSoundHandler());
                 // Send packet for removal server side
-                PacketPokedex.sendRemoveTelePacket(dest.index);
+                PacketPokedex.sendRemoveTelePacket(this.dest.index);
                 // Also remove it client side so we update now.
-                TeleportHandler.unsetTeleport(dest.index, parent.watch.player.getCachedUniqueIdString());
+                TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getCachedUniqueIdString());
                 // Update the list for the page.
-                parent.initList();
+                this.parent.initList();
             }
             else if (this.moveUp.isMouseOver(mouseX, mouseY) && this.moveUp.active)
             {
-                moveUp.playDownSound(this.mc.getSoundHandler());
-                PacketPokedex.sendReorderTelePacket(dest.index, dest.index - 1);
+                this.moveUp.playDownSound(this.mc.getSoundHandler());
+                PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                 // Update the list for the page.
-                parent.initList();
+                this.parent.initList();
             }
             else if (this.moveDown.isMouseOver(mouseX, mouseY) && this.moveDown.active)
             {
-                moveDown.playDownSound(this.mc.getSoundHandler());
-                PacketPokedex.sendReorderTelePacket(dest.index, dest.index + 1);
+                this.moveDown.playDownSound(this.mc.getSoundHandler());
+                PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
                 // Update the list for the page.
-                parent.initList();
+                this.parent.initList();
             }
             return fits;
         }

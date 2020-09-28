@@ -16,9 +16,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
@@ -44,8 +47,8 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.utils.PokecubeSerializer.TeleDest;
 import pokecube.core.world.dimension.SecretBaseDimension;
+import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.terrain.BiomeDatabase;
@@ -163,27 +166,25 @@ public class PacketPokedex extends Packet
         final ListNBT list = new ListNBT();
         // TODO secret bases
         final BlockPos pos = player.getPosition();
-        final Vector4 here = new Vector4(pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId());
-        for (final Vector4 c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
+        final GlobalPos here = GlobalPos.of(player.getEntityWorld().getDimension().getType(), pos);
+        for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
         {
-            final CompoundNBT tag = new CompoundNBT();
-            c.writeToNBT(tag);
+            final INBT tag = c.serialize(NBTDynamicOps.INSTANCE);
             list.add(tag);
         }
         packet.data.put("B", list);
         packet.data.putBoolean("M", watch);
         packet.data.putInt("R", PokecubeCore.getConfig().baseRadarRange);
-        final List<Vector4> meteors = PokecubeSerializer.getInstance().meteors;
+        final List<GlobalPos> meteors = PokecubeSerializer.getInstance().meteors;
         if (!meteors.isEmpty())
         {
             double dist = Double.MAX_VALUE;
-            Vector4 closest = null;
-            final Vector4 posv = new Vector4(player);
+            GlobalPos closest = null;
             double check = 0;
-            for (final Vector4 loc : meteors)
+            for (final GlobalPos loc : meteors)
             {
-                if (loc.w != posv.w) continue;
-                check = PokecubeSerializer.distSq(loc, posv);
+                if (loc.getDimension() != here.getDimension()) continue;
+                check = PokecubeSerializer.distSq(loc, here);
                 if (check < dist)
                 {
                     closest = loc;
@@ -192,8 +193,7 @@ public class PacketPokedex extends Packet
             }
             if (closest != null)
             {
-                final CompoundNBT tag = new CompoundNBT();
-                closest.writeToNBT(tag);
+                final INBT tag = closest.serialize(NBTDynamicOps.INSTANCE);
                 packet.data.put("V", tag);
             }
         }
