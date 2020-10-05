@@ -7,11 +7,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import thut.api.entity.blockentity.IBlockEntity;
 
-public interface IBlockEntityWorld extends IBlockReader
+public interface IBlockEntityWorld extends IWorld
 {
     default BlockState getBlock(final BlockPos pos)
     {
@@ -41,10 +41,7 @@ public interface IBlockEntityWorld extends IBlockReader
         final int j = pos.getY() - MathHelper.floor(entity.getPosY() + mob.getMin().getY());
         final int k = pos.getZ() - MathHelper.floor(entity.getPosZ() + mob.getMin().getZ());
         final TileEntity tile = mob.getTiles()[i][j][k];
-        if (tile != null)
-        {
-            tile.setPos(pos.toImmutable());
-        }
+        if (tile != null) tile.setPos(pos.toImmutable());
         return tile;
     }
 

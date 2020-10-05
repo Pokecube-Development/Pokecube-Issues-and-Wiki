@@ -30,7 +30,6 @@ import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
@@ -127,13 +126,11 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         final BlockPos mobPos = entity.getMin();
         final BlockPos realpos = pos.add(mobPos).add(((Entity) entity).getPosition());
         if (state == null) state = Blocks.AIR.getDefaultState();
-        World world = ((Entity) entity).getEntityWorld();
         if (state.getMaterial() != Material.AIR)
         {
-            world = (World) entity.getFakeWorld();
             final BlockState actualstate = state;// .getBlock().getStateAtViewpoint(state,
                                                  // entity.getFakeWorld(), pos);
-            this.renderBakedBlockModel(entity, actualstate, world, realpos, pos, mat, bufferIn, packedLightIn);
+            this.renderBakedBlockModel(entity, actualstate, entity.getFakeWorld(), realpos, pos, mat, bufferIn, packedLightIn);
         }
     }
 
