@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -76,9 +75,7 @@ public class TerrainSegment
                 final Biome b = v.getBiome(world);
 
                 // Do not define lakes on watery biomes.
-                final boolean notLake = BiomeDatabase.contains(b, Type.OCEAN) || BiomeDatabase.contains(b, Type.SWAMP)
-                        || BiomeDatabase.contains(b, Type.RIVER) || BiomeDatabase.contains(b, Type.WATER)
-                        || BiomeDatabase.contains(b, Type.BEACH);
+                final boolean notLake = this.isWatery(b);
                 if (!notLake)
                 {
                     // If it isn't a water biome, define it as a lake if more
@@ -118,6 +115,17 @@ public class TerrainSegment
          * @return
          */
         int getSubBiome(IWorld world, Vector3 v, TerrainSegment segment, boolean caveAdjusted);
+
+        default boolean isWatery(final Biome b)
+        {
+            //@formatter:off
+            return     BiomeDatabase.contains(b, "ocean")
+                    || BiomeDatabase.contains(b, "swamp")
+                    || BiomeDatabase.contains(b, "river")
+                    || BiomeDatabase.contains(b, "water")
+                    || BiomeDatabase.contains(b, "beach");
+            //@formatter:on
+        }
     }
 
     public static interface ITerrainEffect
