@@ -1146,12 +1146,6 @@ public class Vector3
         return true;
     }
 
-    public boolean isSideSolid(final IBlockReader world, final Direction side)
-    {
-        final BlockState state = this.getBlockState(world);
-        return state.canBeConnectedTo(world, this.getPos(), side);
-    }
-
     public boolean isVisible(final IBlockReader world, final Vector3 location)
     {
         final Vector3 direction = location.subtract(this);
@@ -1478,10 +1472,10 @@ public class Vector3
         final int z = this.intZ();
         final IChunk chunk = world.getChunk(new BlockPos(x, 0, z));
         final BiomeContainer biomes = chunk.getBiomes();
-        int i = x & BiomeContainer.HORIZONTAL_MASK;
-        int j = (int) MathHelper.clamp(y, 0, BiomeContainer.VERTICAL_MASK);
-        int k = z & BiomeContainer.HORIZONTAL_MASK;
-        int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i;
+        final int i = x & BiomeContainer.HORIZONTAL_MASK;
+        final int j = (int) MathHelper.clamp(this.y, 0, BiomeContainer.VERTICAL_MASK);
+        final int k = z & BiomeContainer.HORIZONTAL_MASK;
+        final int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i;
         biomes.biomes[index] = biome;
     }
 
