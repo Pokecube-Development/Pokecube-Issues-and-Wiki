@@ -1,5 +1,7 @@
 package thut.wearables.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -23,23 +25,24 @@ public class GuiWearables extends DisplayEffectsScreen<ContainerWearables>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final float p_146976_1_, final int p_146976_2_,
+    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float p_146976_1_,
+            final int p_146976_2_,
             final int p_146976_3_)
     {
         this.minecraft.getTextureManager().bindTexture(GuiWearables.background);
         final int i = this.guiLeft;
         final int j = this.guiTop;
-        this.blit(i, j, 0, 0, this.xSize, this.ySize);
+        this.blit(mat, i, j, 0, 0, this.xSize, this.ySize);
         InventoryScreen.drawEntityOnScreen(i + 51, j + 75, 30, i + 51 - this.oldMouseX, j + 75 - 50 - this.oldMouseY,
                 this.container.wearer);
     }
 
     /** Draws the screen and all the components in it. */
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
+        this.renderBackground(mat);
+        super.render(mat, mouseX, mouseY, partialTicks);
         this.oldMouseX = mouseX;
         this.oldMouseY = mouseY;
         this.renderHoveredToolTip(mouseX, mouseY);

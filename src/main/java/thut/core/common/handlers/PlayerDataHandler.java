@@ -17,9 +17,8 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -27,6 +26,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
+import thut.bling.bag.SaveHandler;
 import thut.core.common.ThutCore;
 
 public class PlayerDataHandler
@@ -150,7 +150,7 @@ public class PlayerDataHandler
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getWorld(DimensionType.OVERWORLD);
+        final ServerWorld world = server.getWorld(World.OVERWORLD);
         final SaveHandler saveHandler = world.getSaveHandler();
         final String seperator = System.getProperty("file.separator");
         final File worlddir = saveHandler.getWorldDirectory();
@@ -198,21 +198,17 @@ public class PlayerDataHandler
         // online, and remove them. This is done here, and not on logoff, as
         // something may have requested the manager for an offline player, which
         // would have loaded it.
-        final DimensionType type = event.getWorld().getDimension().getType();
-        if (type == DimensionType.OVERWORLD)
+        final Set<String> toUnload = Sets.newHashSet();
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        for (final String uuid : this.data.keySet())
         {
-            final Set<String> toUnload = Sets.newHashSet();
-            final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-            for (final String uuid : this.data.keySet())
-            {
-                final ServerPlayerEntity player = server.getPlayerList().getPlayerByUUID(UUID.fromString(uuid));
-                if (player == null) toUnload.add(uuid);
-            }
-            for (final String s : toUnload)
-            {
-                this.save(s);
-                this.data.remove(s);
-            }
+            final ServerPlayerEntity player = server.getPlayerList().getPlayerByUUID(UUID.fromString(uuid));
+            if (player == null) toUnload.add(uuid);
+        }
+        for (final String s : toUnload)
+        {
+            this.save(s);
+            this.data.remove(s);
         }
     }
 

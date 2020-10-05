@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -36,15 +37,16 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         if (player.isCrouching()) return ActionResultType.PASS;
         final ActionResultType result = super.applyPlayerInteraction(player, vec, stack, hand);
         boolean passed = result == ActionResultType.SUCCESS;
-        passed = passed || this.processInitialInteract(player, player.getHeldItem(hand), hand);
+        passed = passed || this.processInitialInteract(player, player.getHeldItem(hand),
+                hand) == ActionResultType.SUCCESS;
         if (passed) return ActionResultType.SUCCESS;
         vec = vec.add(vec.x > 0 ? -0.01 : 0.01, vec.y > 0 ? -0.01 : 0.01, vec.z > 0 ? -0.01 : 0.01);
         if (this.trace == null)
         {
-            final Vector3d playerPos = player.getPositionVector().add(0, player.getEyeHeight(), 0);
-            final Vector3d start = playerPos.subtract(this.craft.getPositionVector());
+            final Vector3d playerPos = player.getPositionVec().add(0, player.getEyeHeight(), 0);
+            final Vector3d start = playerPos.subtract(this.craft.getPositionVec());
             final RayTraceResult hit = IBlockEntity.BlockEntityFormer.rayTraceInternal(start.add(this.craft
-                    .getPositionVector()), vec.add(this.craft.getPositionVector()), this.craft);
+                    .getPositionVec()), vec.add(this.craft.getPositionVec()), this.craft);
             this.trace = hit instanceof BlockRayTraceResult ? (BlockRayTraceResult) hit : null;
         }
         BlockPos pos;
@@ -95,7 +97,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                             }
                         }
             }
-            final BlockPos pos2 = new BlockPos(this.craft.getPositionVector());
+            final BlockPos pos2 = new BlockPos(this.craft.getPositionVec());
             pos = pos.subtract(pos2);
             for (int i = 0; i < this.craft.getSeatCount(); i++)
             {
@@ -118,14 +120,15 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     }
 
     @Override
-    public boolean processInitialInteract(final PlayerEntity player, @Nullable final ItemStack stack, final Hand hand)
+    public ActionResultType processInitialInteract(final PlayerEntity player, @Nullable final ItemStack stack,
+            final Hand hand)
     {
         if (stack.getItem() == Items.BLAZE_ROD) if (!player.world.isRemote)
         {
-            player.sendMessage(new TranslationTextComponent("msg.craft.killed"));
+            player.sendMessage(new TranslationTextComponent("msg.craft.killed"), Util.DUMMY_UUID);
             this.craft.remove();
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 }

@@ -2,6 +2,7 @@ package thut.wearables.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -37,7 +38,8 @@ public class MouseOverPacket extends Packet
                 ThutWearables.packets.sendToServer(packet);
             }
         }
-        else Minecraft.getInstance().player.sendMessage(new TranslationTextComponent("wearables.other.fail"));
+        else Minecraft.getInstance().player.sendMessage(new TranslationTextComponent("wearables.other.fail"),
+                Util.DUMMY_UUID);
     }
 
     @Override

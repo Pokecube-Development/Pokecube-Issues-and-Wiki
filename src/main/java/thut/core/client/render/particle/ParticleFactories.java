@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -50,7 +51,7 @@ public class ParticleFactories
 
         protected ThutParticle(final World worldIn, final ParticleBase particleIn)
         {
-            super(worldIn, particleIn.position.x, particleIn.position.y, particleIn.position.z);
+            super((ClientWorld) worldIn, particleIn.position.x, particleIn.position.y, particleIn.position.z);
             this.particle = particleIn;
             this.world = worldIn;
             if (this.particle instanceof ParticleNoGravity) this.particleGravity = 0;

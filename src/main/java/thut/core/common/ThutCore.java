@@ -108,7 +108,7 @@ public class ThutCore
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
                     if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(), event
-                            .getHand()))
+                            .getHand()) != ActionResultType.PASS)
                     {
                         event.setCanceled(true);
                         return;

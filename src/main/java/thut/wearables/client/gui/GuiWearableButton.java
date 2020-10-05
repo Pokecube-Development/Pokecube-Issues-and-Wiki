@@ -1,5 +1,7 @@
 package thut.wearables.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 
@@ -19,11 +21,12 @@ public class GuiWearableButton extends Button
     }
 
     @Override
-    public void renderButton(final int p_renderButton_1_, final int p_renderButton_2_, final float p_renderButton_3_)
+    public void renderButton(final MatrixStack mat, final int p_renderButton_1_, final int p_renderButton_2_,
+            final float p_renderButton_3_)
     {
         final Minecraft minecraft = Minecraft.getInstance();
         minecraft.getTextureManager().bindTexture(GuiWearables.background);
         final int i = this.getYImage(this.isHovered());
-        this.blit(this.x, this.y, 0, i, this.width, this.height);
+        this.blit(mat, this.x, this.y, 0, i, this.width, this.height);
     }
 }

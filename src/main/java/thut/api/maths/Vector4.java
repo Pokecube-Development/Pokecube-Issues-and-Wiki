@@ -5,6 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -58,7 +59,7 @@ public class Vector4
 
     public Vector4(final Entity e)
     {
-        this(e.getPosX(), e.getPosY(), e.getPosZ(), e.dimension.getId());
+        this(e.getPosX(), e.getPosY(), e.getPosZ(), 0);
     }
 
     public Vector4(final String toParse)

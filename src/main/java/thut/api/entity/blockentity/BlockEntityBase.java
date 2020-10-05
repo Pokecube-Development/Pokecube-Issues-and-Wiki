@@ -3,6 +3,7 @@ package thut.api.entity.blockentity;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
@@ -44,8 +45,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
         public BlockEntityType(final EntityType.IFactory<T> factory)
         {
-            super(factory, EntityClassification.MISC, true, false, true, true, new EntitySize(1, 1, true), c -> true,
-                    c -> 64, c -> 1, null);
+            super(factory, EntityClassification.MISC, true, false, true, true, ImmutableSet.of(), new EntitySize(1, 1,
+                    true), 64, 1);
         }
 
         @Override
@@ -180,19 +181,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public boolean attackEntityFrom(final DamageSource source, final float amount)
     {
         return false;
-    }
-
-    /** returns the bounding box for this entity */
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox()
-    {
-        return null;
-    }
-
-    @Override
-    public AxisAlignedBB getCollisionBox(final Entity entityIn)
-    {
-        return null;
     }
 
     /**

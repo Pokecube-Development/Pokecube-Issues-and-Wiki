@@ -8,7 +8,7 @@ import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -48,7 +48,9 @@ public class GuiEvents
             final DisplayEffectsScreen<?> gui = (DisplayEffectsScreen<?>) event.getGui();
             final GuiWearableButton button;
             event.getGui().addButton(button = new GuiWearableButton(gui.getGuiLeft() + ThutWearables.config.buttonPos
-                    .get(0), gui.getGuiTop() + ThutWearables.config.buttonPos.get(1), 9, 9, I18n.format(this.active
+                    .get(0), gui.getGuiTop() + ThutWearables.config.buttonPos.get(1), 9, 9,
+                    new TranslationTextComponent(
+                            this.active
                             ? "button.wearables.off" : "button.wearables.on"), b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
         }
@@ -58,7 +60,8 @@ public class GuiEvents
             this.active = event.getGui() instanceof GuiWearables;
             GuiWearableButton button;
             event.getGui().addButton(button = new GuiWearableButton(gui.getGuiLeft() + 37, gui.getGuiTop() + 9, 9, 9,
-                    I18n.format(this.active ? "button.wearables.off" : "button.wearables.on"), b -> this.pressButton(
+                    new TranslationTextComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
+                    b -> this.pressButton(
                             gui)));
             button.setFGColor(0xFFFF00FF);
             button.visible = button.active = gui.getSelectedTabIndex() == 11;

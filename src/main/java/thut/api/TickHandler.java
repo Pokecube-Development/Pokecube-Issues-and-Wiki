@@ -36,6 +36,6 @@ public class TickHandler
          * block entities.
          */
         if (event.phase == Phase.END && event.side == LogicalSide.CLIENT) if (event.player.ticksExisted == event.player
-                .getPersistentData().getInt("lastStandTick") + 1) event.player.onGround = true;
+                .getPersistentData().getInt("lastStandTick") + 1) event.player.setOnGround(true);
     }
 }

@@ -12,9 +12,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +21,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputUpdateEvent;
@@ -108,12 +108,13 @@ public class ClientProxy extends CommonProxy
             {
                 final Minecraft mc = Minecraft.getInstance();
                 final Vector3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
-                Vector3d pointed = new Vec3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player.getLook(event
+                Vector3d pointed = new Vector3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player
+                        .getLook(event
                         .getPartialTicks()));
                 if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == Type.BLOCK)
                 {
                     final BlockRayTraceResult result = (BlockRayTraceResult) mc.objectMouseOver;
-                    pointed = new Vec3d(result.getPos());
+                    pointed = new Vector3d(result.getPos().getX(), result.getPos().getY(), result.getPos().getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
