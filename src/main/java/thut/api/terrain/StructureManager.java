@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.DimensionType;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -22,7 +23,7 @@ public class StructureManager
     public static class StructureInfo
     {
         public String         name;
-        public StructureStart start;
+        public StructureStart<?> start;
 
         private int    hash;
         private String key;
@@ -31,9 +32,9 @@ public class StructureManager
         {
         }
 
-        public StructureInfo(final Entry<String, StructureStart> entry)
+        public StructureInfo(final Entry<Structure<?>, StructureStart<?>> entry)
         {
-            this.name = entry.getKey();
+            this.name = entry.getKey().getStructureName();
             this.start = entry.getValue();
             this.key = this.name + " " + this.start.getBoundingBox();
             this.hash = this.key.hashCode();
@@ -113,8 +114,8 @@ public class StructureManager
     {
         // The world is null when it is loaded off thread during worldgen!
         if (evt.getWorld() == null || evt.getWorld().isRemote()) return;
-        final DimensionType dim = evt.getWorld().getDimension().getType();
-        for (final Entry<String, StructureStart> entry : evt.getChunk().getStructureStarts().entrySet())
+        final DimensionType dim = evt.getWorld().getDimensionType();
+        for (final Entry<Structure<?>, StructureStart<?>> entry : evt.getChunk().getStructureStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
             final MutableBoundingBox b = info.start.getBoundingBox();
@@ -133,7 +134,7 @@ public class StructureManager
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
         if (evt.getWorld() == null || evt.getWorld().isRemote()) return;
-        final DimensionType dim = evt.getChunk().getWorldForge().getDimension().getType();
+        final DimensionType dim = evt.getChunk().getWorldForge().getDimensionType();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
         StructureManager.map_by_pos.remove(pos);
     }

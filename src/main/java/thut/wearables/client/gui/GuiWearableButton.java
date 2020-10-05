@@ -4,12 +4,13 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.ITextComponent;
 
 public class GuiWearableButton extends Button
 {
 
-    public GuiWearableButton(final int xIn, final int yIn, final int widthIn, final int heightIn, final String nameIn,
-            final IPressable onPress)
+    public GuiWearableButton(final int xIn, final int yIn, final int widthIn, final int heightIn,
+            final ITextComponent nameIn, final IPressable onPress)
     {
         super(xIn, yIn, widthIn, heightIn, nameIn, onPress);
     }

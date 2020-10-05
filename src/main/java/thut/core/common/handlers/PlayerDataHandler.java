@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -17,8 +19,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -26,7 +26,6 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
-import thut.bling.bag.SaveHandler;
 import thut.core.common.ThutCore;
 
 public class PlayerDataHandler
@@ -150,12 +149,17 @@ public class PlayerDataHandler
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getWorld(World.OVERWORLD);
-        final SaveHandler saveHandler = world.getSaveHandler();
-        final String seperator = System.getProperty("file.separator");
-        final File worlddir = saveHandler.getWorldDirectory();
-        final File file = new File(worlddir, "thutcore" + seperator + uuid + seperator + fileName + ".dat");
-        final File dir = new File(file.getParentFile().getAbsolutePath());
+        Path path = Paths.get(server.getDataDirectory().toURI());
+        // on single player, these are inside a saves directory
+        if (!server.isDedicatedServer()) path = path.resolve("saves");
+        // This is to the world save location
+        path = path.resolve(server.func_240793_aU_().getWorldName());
+        // This is to the uuid specific folder
+        path = path.resolve("thutcore").resolve("uuid");
+        final File dir = path.toFile();
+        // and this if the file itself
+        path = path.resolve(fileName + ".dat");
+        final File file = path.toFile();
         if (!file.exists()) dir.mkdirs();
         return file;
     }

@@ -15,22 +15,19 @@ public class Mimicry extends Ability
     {
     	final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
     	final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
-         
+
     	final PokedexEntry mobs = mob.getPokedexEntry();
-    	if(!mob.inCombat()) 
+    	if(!mob.inCombat())
         	mob.setPokedexEntry(mobs);
-    	
-        if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_ELECTRIC) > 0 && mob.getEntity().onGround) {
-        	mob.setType1(PokeType.getType("electric"));
-        }
-        else if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_GRASS) > 0 && mob.getEntity().onGround) {
-        	mob.setType1(PokeType.getType("grass"));
-        }
-        else if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_MISTY) > 0 && mob.getEntity().onGround) {
-        	mob.setType1(PokeType.getType("fairy"));
-        }
+
+        if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_ELECTRIC) > 0 && mob.getEntity()
+                .isOnGround()) mob.setType1(PokeType.getType("electric"));
+        else if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_GRASS) > 0 && mob.getEntity()
+                .isOnGround()) mob.setType1(PokeType.getType("grass"));
+        else if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_MISTY) > 0 && mob.getEntity()
+                .isOnGround()) mob.setType1(PokeType.getType("fairy"));
     }
-    
+
     @Override
     public IPokemob onRecall(final IPokemob mob)
     {

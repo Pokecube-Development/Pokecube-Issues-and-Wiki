@@ -119,7 +119,7 @@ public class CapabilityTerrain
             TerrainSegment ret = this.segments[chunkY];
             // try to find any cached variants if they exist
             final TerrainSegment cached = thut.api.terrain.ITerrainProvider.removeCached(this.chunk.getWorldForge()
-                    .getDimension().getType(), pos);
+                    .getDimensionType(), pos);
 
             // If not found, make a new one, or use cached
             if (ret == null)

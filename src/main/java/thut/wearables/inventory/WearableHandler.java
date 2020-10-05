@@ -3,13 +3,12 @@ package thut.wearables.inventory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.LogicalSide;
@@ -24,12 +23,17 @@ public class WearableHandler
     private static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getWorld(DimensionType.OVERWORLD);
-        final SaveHandler saveHandler = world.getSaveHandler();
-        final String seperator = System.getProperty("file.separator");
-        final File worlddir = saveHandler.getWorldDirectory();
-        final File file = new File(worlddir, "wearables" + seperator + uuid + seperator + fileName + ".dat");
-        final File dir = new File(file.getParentFile().getAbsolutePath());
+        Path path = Paths.get(server.getDataDirectory().toURI());
+        // on single player, these are inside a saves directory
+        if (!server.isDedicatedServer()) path = path.resolve("saves");
+        // This is to the world save location
+        path = path.resolve(server.func_240793_aU_().getWorldName());
+        // This is to the uuid specific folder
+        path = path.resolve("wearables").resolve("uuid");
+        final File dir = path.toFile();
+        // and this if the file itself
+        path = path.resolve(fileName + ".dat");
+        final File file = path.toFile();
         if (!file.exists()) dir.mkdirs();
         if (!file.exists()) return null;
         return file;

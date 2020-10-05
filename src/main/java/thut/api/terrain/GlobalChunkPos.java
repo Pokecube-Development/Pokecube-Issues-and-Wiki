@@ -16,7 +16,8 @@ public class GlobalChunkPos
     {
         this.dimension = dimension;
         this.pos = pos;
-        this.hash = (dimension.getId() + pos.z * 511) * 511 + pos.x;
+        // FIXME this needs to use world keys instead?
+        this.hash = dimension.hashCode() | pos.z * 511 * 511 + pos.x;
     }
 
     @Override

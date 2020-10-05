@@ -38,7 +38,7 @@ public class TerrainSegment
             if (caveAdjusted)
             {
                 // Do not return this for cave worlds
-                if (!world.getDimension().isSurfaceWorld()) return -1;
+                if (world.getDimensionType().getHasCeiling()) return -1;
                 boolean sky = false;
                 final Vector3 temp1 = Vector3.getNewVector();
                 final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;

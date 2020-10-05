@@ -23,7 +23,7 @@ public class GemRecipe extends SpecialRecipe
 
     public static boolean is(final ResourceLocation tag, final Item item)
     {
-        final boolean tagged = ItemTags.getCollection().getOrCreate(tag).contains(item);
+        final boolean tagged = ItemTags.getCollection().get(tag).contains(item);
         return tagged;
     }
 

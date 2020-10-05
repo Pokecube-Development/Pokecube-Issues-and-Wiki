@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.common.MinecraftForge;
@@ -233,7 +234,7 @@ public class PokecubeMobs
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName()
                             .getString();
-                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message));
+                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE));
                 return;
@@ -248,7 +249,7 @@ public class PokecubeMobs
                 {
                     final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message));
+                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
                 }
                 shuckle.setHeldItem(candy);
                 return;

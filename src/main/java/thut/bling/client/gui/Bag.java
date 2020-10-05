@@ -3,15 +3,18 @@ package thut.bling.client.gui;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
 import thut.core.common.ThutCore;
@@ -64,7 +67,7 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final float f, final int i, final int j)
+    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float f, final int i, final int j)
     {
         GL11.glColor4f(1f, 1f, 1f, 1f);
 
@@ -72,11 +75,11 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
                 "textures/gui/large_bag.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;
-        this.blit(x, y, 0, 0, this.xSize + 1, this.ySize + 1);
+        this.blit(mat, x, y, 0, 0, this.xSize + 1, this.ySize + 1);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(final int par1, final int par2)
+    protected void drawGuiContainerForegroundLayer(final MatrixStack mat, final int par1, final int par2)
     {
 
     }
@@ -87,22 +90,22 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
         super.init();
         final int xOffset = 0;
         final int yOffset = -11;
-        final String next = I18n.format("block.pc.next");
+        final ITextComponent next = new TranslationTextComponent("block.pc.next");
         this.addButton(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10, next, b ->
         {
             this.container.updateInventoryPages((byte) 1, this.minecraft.player.inventory);
             this.textFieldSelectedBox.setText(this.container.getPageNb());
         }));
-        final String prev = I18n.format("block.pc.previous");
+        final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
         this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10, prev, b ->
         {
             this.container.updateInventoryPages((byte) -1, this.minecraft.player.inventory);
             this.textFieldSelectedBox.setText(this.container.getPageNb());
         }));
         this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70, this.height / 2
-                - yOffset - 121, 25, 10, this.page);
+                - yOffset - 121, 25, 10, new StringTextComponent(this.page));
 
-        final String rename = I18n.format("block.pc.rename");
+        final ITextComponent rename = new TranslationTextComponent("block.pc.rename");
         this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
         {
             final String box = this.textFieldBoxName.getText();
@@ -111,9 +114,9 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
         }));
 
         this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
-                + 0, 100, 10, this.boxName);
+                + 0, 100, 10, new StringTextComponent(this.boxName));
         this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
-                - 121, 90, 10, "");
+                - 121, 90, 10, new StringTextComponent(""));
 
         this.addButton(this.textFieldSelectedBox);
         this.addButton(this.textFieldBoxName);
@@ -134,10 +137,10 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float f)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float f)
     {
-        this.renderBackground();
-        super.render(mouseX, mouseY, f);
+        this.renderBackground(mat);
+        super.render(mat, mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
             if (!this.textFieldSearch.getText().isEmpty())
             {
@@ -149,12 +152,12 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
                 {
                     final int slotColor = 0x55FF0000;
-                    AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
+                    AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
                 }
                 else
                 {
                     final int slotColor = 0x5500FF00;
-                    AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
+                    AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
                 }
             }
         this.renderHoveredToolTip(mouseX, mouseY);

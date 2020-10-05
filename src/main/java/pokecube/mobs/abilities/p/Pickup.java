@@ -5,10 +5,10 @@ import java.util.List;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootTable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootTable;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;

@@ -145,7 +145,8 @@ public class Util
         }
         else if (part != null && !gem.isEmpty())
         {
-            final IVertexBuilder buf0 = buff.getBuffer(RenderTypeLookup.getRenderType(gem));
+            // TODO confirm this works
+            final IVertexBuilder buf0 = buff.getBuffer(RenderTypeLookup.func_239219_a_(gem, false));
             renderable.renderPart(mat, buf0, itempart);
         }
         mat.pop();

@@ -22,7 +22,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -31,6 +31,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -48,7 +49,6 @@ import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import thut.wearables.client.gui.GuiEvents;
 import thut.wearables.client.gui.GuiWearables;
@@ -261,7 +261,7 @@ public class ThutWearables
     public void dropLoot(final LivingDropsEvent event)
     {
         final LivingEntity mob = event.getEntityLiving();
-        final GameRules rules = this.overworldRules ? mob.getServer().getWorld(DimensionType.OVERWORLD).getGameRules()
+        final GameRules rules = this.overworldRules ? mob.getServer().getWorld(World.OVERWORLD).getGameRules()
                 : mob.getEntityWorld().getGameRules();
         final PlayerWearables cap = ThutWearables.getWearables(mob);
         if (rules.getBoolean(GameRules.KEEP_INVENTORY) || cap == null) return;
@@ -341,8 +341,8 @@ public class ThutWearables
     {
         if (!(event.getEntity() instanceof ServerPlayerEntity)) return;
         final PlayerEntity player = (PlayerEntity) event.getEntity();
-        final GameRules rules = this.overworldRules ? player.getServer().getWorld(DimensionType.OVERWORLD)
-                .getGameRules() : player.getEntityWorld().getGameRules();
+        final GameRules rules = this.overworldRules ? player.getServer().getWorld(World.OVERWORLD).getGameRules()
+                : player.getEntityWorld().getGameRules();
         if (rules.getBoolean(GameRules.KEEP_INVENTORY))
         {
             final PlayerWearables cap = ThutWearables.getWearables(player);
@@ -373,9 +373,9 @@ public class ThutWearables
      *
      * @param event
      */
-    public void serverStarting(final FMLServerStartingEvent event)
+    public void onCommandsRegister(final RegisterCommandsEvent event)
     {
-        CommandGui.register(event.getCommandDispatcher());
+        CommandGui.register(event.getDispatcher());
     }
 
     /**

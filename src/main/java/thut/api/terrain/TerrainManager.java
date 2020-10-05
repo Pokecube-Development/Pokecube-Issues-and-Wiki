@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -38,7 +38,7 @@ public class TerrainManager
     public static boolean isAreaLoaded(final IWorld world, final BlockPos blockPos, final double distance)
     {
         DimensionType dim = null;
-        if (world != null && world.getDimension() != null) dim = world.getDimension().getType();
+        if (world != null) dim = world.getDimensionType();
         return TerrainManager.isAreaLoaded(dim, blockPos, distance);
     }
 
@@ -65,7 +65,7 @@ public class TerrainManager
     public static boolean chunkIsReal(final IWorld world, final ChunkPos pos)
     {
         DimensionType dim = null;
-        if (world != null && world.getDimension() != null) dim = world.getDimension().getType();
+        if (world != null) dim = world.getDimensionType();
         return TerrainManager.chunkIsReal(dim, pos);
     }
 
@@ -79,8 +79,7 @@ public class TerrainManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         DimensionType dim = null;
-        if (evt.getWorld() != null && evt.getWorld().getDimension() != null) dim = evt.getWorld().getDimension()
-                .getType();
+        if (evt.getWorld() != null) dim = evt.getWorld().getDimensionType();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
@@ -90,8 +89,7 @@ public class TerrainManager
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
         DimensionType dim = null;
-        if (evt.getWorld() != null && evt.getWorld().getDimension() != null) dim = evt.getWorld().getDimension()
-                .getType();
+        if (evt.getWorld() != null) dim = evt.getWorld().getDimensionType();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 
