@@ -5,19 +5,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.GetCollisionBoxesEvent;
 
 public class Matrix3
 {
@@ -44,9 +36,8 @@ public class Matrix3
         final Vector3 mid = Vector3.findMidPoint(points);
         points.remove(index);
         boolean ret = false;
-        for (int i = 0; i < points.size(); i++)
+        for (final Vector3 v : points)
         {
-            final Vector3 v = points.get(i);
             if (v == null) // new Exception().printStackTrace();
                 continue;
             final double d = v.dot(base);
@@ -423,8 +414,6 @@ public class Matrix3
 
     Vector3[] pointSet;
 
-    private ArrayList<AxisAlignedBB> collidingBoundingBoxes;
-
     public Matrix3()
     {
         this.rows[0] = Vector3.getNewVector();
@@ -594,300 +583,6 @@ public class Matrix3
         return hit;
     }
 
-    public Vector3 doTileCollision(final IBlockReader world, final Entity e, final Vector3 offset, final Vector3 diffs,
-            final boolean move)
-    {
-        final Matrix3 box = this.copy().addOffsetTo(offset);
-        final Vector3 v1 = box.boxCentre();
-        final Vector3[] corners = box.corners(v1);
-
-        double minX = Double.MAX_VALUE, minZ = Double.MAX_VALUE, minY = Double.MAX_VALUE;
-        double maxX = -Double.MAX_VALUE, maxZ = -Double.MAX_VALUE, maxY = -Double.MAX_VALUE;
-
-        for (final Vector3 v : corners)
-        {
-            if (v.x > maxX) maxX = v.x;
-            if (v.y > maxY) maxY = v.y;
-            if (v.z > maxZ) maxZ = v.z;
-            if (v.x < minX) minX = v.x;
-            if (v.y < minY) minY = v.y;
-            if (v.z < minZ) minZ = v.z;
-        }
-        double factor = 0.275d;
-        final Vector3d motion = e.getMotion();
-        double dx = Math.max(maxX - minX, 1) / factor + motion.x, dy = Math.max(maxY - minY, 1) / factor + motion.y,
-                dz = Math.max(maxZ - minZ, 1) / factor + motion.z;
-        dx = Math.abs(dx);
-        dy = Math.abs(dy);
-        dz = Math.abs(dz);
-        dx = Math.max(dx, 1.5);
-        dy = Math.max(dy, 1.5);
-        dz = Math.max(dz, 1.5);
-        AxisAlignedBB b1 = box.boxCentre().getAABB().expand(dx, dy, dz);
-        final List<AxisAlignedBB> aabbs = this.getCollidingBoxes(b1, e.getEntityWorld(), world);
-        AxisAlignedBB b2;
-        final AxisAlignedBB[] boxes = aabbs.toArray(new AxisAlignedBB[aabbs.size()]);
-        aabbs.clear();
-        dx = maxX - minX;
-        dy = maxY - minY;
-        dz = maxZ - minZ;
-        Arrays.sort(boxes, (arg0, arg1) ->
-        {
-            final int minX0 = (int) (arg0.minX * 32);
-            final int minY0 = (int) (arg0.minY * 32);
-            final int minZ0 = (int) (arg0.minZ * 32);
-            final int minX1 = (int) (arg1.minX * 32);
-            final int minY1 = (int) (arg1.minY * 32);
-            final int minZ1 = (int) (arg1.minZ * 32);
-            if (minX0 == minX1)
-            {
-                if (minZ0 == minZ1) return minY0 - minY1;
-                return minZ0 - minZ1;
-            }
-            return minX0 - minX1;
-        });
-        double minBoxY = Integer.MAX_VALUE;
-        double maxBoxY = Integer.MIN_VALUE;
-        for (int i = 0; i < boxes.length; i++)
-        {
-            b1 = boxes[i];
-            if (b1 == null) continue;
-            for (int j = 0; j < boxes.length; j++)
-            {
-                b2 = boxes[j];
-                if (i == j || b2 == null) continue;
-                factor = 16;
-                if (MathHelper.floor(b2.maxX * factor) == MathHelper.floor(b1.maxX * factor) && MathHelper.floor(b2.minX
-                        * factor) == MathHelper.floor(b1.minX * factor) && MathHelper.floor(b2.maxZ
-                                * factor) == MathHelper.floor(b1.maxZ * factor) && MathHelper.floor(b2.minZ
-                                        * factor) == MathHelper.floor(b1.minZ * factor) && Math.abs(b2.minY
-                                                - b1.maxY) < dy)
-                {
-                    b1 = Matrix3.copyAndChange(b1, 4, b2.maxY);
-                    boxes[i] = b1;
-                    if (b1.minY < minBoxY) minBoxY = b1.minY;
-                    if (b1.maxY > maxBoxY) maxBoxY = b1.maxY;
-                    boxes[j] = null;
-                }
-
-            }
-        }
-        for (int i = 0; i < boxes.length; i++)
-        {
-            b1 = boxes[i];
-            if (b1 == null) continue;
-            for (int j = 0; j < boxes.length; j++)
-            {
-                b2 = boxes[j];
-                if (i == j || b2 == null) continue;
-                factor = 16;
-                if (MathHelper.floor(b2.maxY * factor) == MathHelper.floor(b1.maxY * factor) && MathHelper.floor(b2.minY
-                        * factor) == MathHelper.floor(b1.minY * factor) && MathHelper.floor(b2.maxZ
-                                * factor) == MathHelper.floor(b1.maxZ * factor) && MathHelper.floor(b2.minZ
-                                        * factor) == MathHelper.floor(b1.minZ * factor) && Math.abs(b2.minX
-                                                - b1.maxX) < dx)
-                {
-                    b1 = Matrix3.copyAndChange(b1, 3, b2.maxX);
-                    boxes[i] = b1;
-                    boxes[j] = null;
-                }
-            }
-        }
-        for (int i = 0; i < boxes.length; i++)
-        {
-            b1 = boxes[i];
-            if (b1 == null) continue;
-            for (int j = 0; j < boxes.length; j++)
-            {
-                b2 = boxes[j];
-                if (i == j || b2 == null) continue;
-                factor = 16;
-                if (MathHelper.floor(b2.maxY * factor) == MathHelper.floor(b1.maxY * factor) && MathHelper.floor(b2.minY
-                        * factor) == MathHelper.floor(b1.minY * factor) && MathHelper.floor(b2.maxX
-                                * factor) == MathHelper.floor(b1.maxX * factor) && MathHelper.floor(b2.minX
-                                        * factor) == MathHelper.floor(b1.minX * factor) && Math.abs(b2.minZ
-                                                - b1.maxZ) < dz)
-                {
-                    b1 = Matrix3.copyAndChange(b1, 5, b2.maxZ);
-                    boxes[i] = b1;
-                    boxes[j] = null;
-                }
-            }
-        }
-        for (final AxisAlignedBB b : boxes)
-            if (b != null) aabbs.add(b);
-        return this.doTileCollision(world, aabbs, e, offset, diffs, true);
-    }
-
-    public Vector3 doTileCollision(final IBlockReader world, final List<AxisAlignedBB> aabbs, final Entity e,
-            final Vector3 offset, final Vector3 diffs)
-    {
-        return this.doTileCollision(world, aabbs, e, offset, diffs, false);
-    }
-
-    public Vector3 doTileCollision(final IBlockReader world, final List<AxisAlignedBB> aabbs, final Entity e,
-            final Vector3 offset, final Vector3 diffs, final boolean moveEntity)
-    {
-        final Vector3 temp1 = Vector3.getNewVector();
-
-        final Matrix3 box = this.copy().addOffsetTo(offset);
-        final Vector3 v1 = box.boxCentre();
-        final Vector3[] corners = box.corners(v1);
-
-        double minX = Double.MAX_VALUE, minZ = Double.MAX_VALUE, minY = Double.MAX_VALUE;
-        double maxX = -Double.MAX_VALUE, maxZ = -Double.MAX_VALUE, maxY = -Double.MAX_VALUE;
-
-        for (final Vector3 v : corners)
-        {
-            if (v.x > maxX) maxX = v.x;
-            if (v.y > maxY) maxY = (float) v.y;
-            if (v.z > maxZ) maxZ = v.z;
-            if (v.x < minX) minX = v.x;
-            if (v.y < minY) minY = (float) v.y;
-            if (v.z < minZ) minZ = v.z;
-        }
-        if (!e.getRecursivePassengers().isEmpty())
-        {
-            double mY = 0;
-            for (final Entity e1 : e.getRecursivePassengers())
-                mY = Math.max(mY, e1.getHeight() + e.getMountedYOffset());
-            maxY += mY;
-        }
-        final AxisAlignedBB boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
-        double dx, dy, dz;
-        temp1.set(diffs);
-        final double yTop = Math.min(e.stepHeight + minY, maxY);
-        boolean vert = false;
-        for (final AxisAlignedBB aabb : aabbs)
-            if (boundingBox.intersects(aabb))
-            {
-                dx = 10e3;
-                dz = 10e3;
-                double dxmax = 10e3, dxmin = -10e3, dzmax = 10e3, dzmin = -10e3;
-
-                boolean collidesX = maxZ <= aabb.maxZ && maxZ >= aabb.minZ || minZ <= aabb.maxZ && minZ >= aabb.minZ
-                        || minZ <= aabb.minZ && maxZ >= aabb.maxZ;
-
-                final boolean collidesY = minY >= aabb.minY && minY <= aabb.maxY || maxY <= aabb.maxY
-                        && maxY >= aabb.minY || minY <= aabb.minY && maxY >= aabb.maxY;
-
-                boolean collidesZ = maxX <= aabb.maxX && maxX >= aabb.minX || minX <= aabb.maxX && minX >= aabb.minX
-                        || minX <= aabb.minX && maxX >= aabb.maxX;
-
-                collidesZ = collidesZ && (collidesX || collidesY);
-                collidesX = collidesX && (collidesZ || collidesY);
-
-                if (yTop >= aabb.maxY && boundingBox.minY - e.stepHeight <= aabb.maxY)
-                {
-                    temp1.y = aabb.maxY - boundingBox.minY;
-                    vert = true;
-                }
-                if (boundingBox.maxY >= aabb.minY && boundingBox.minY < aabb.minY && diffs.y > 0)
-                {
-                    temp1.y = aabb.minY - boundingBox.maxY;
-                    vert = true;
-                }
-                if (boundingBox.maxX > aabb.minX && boundingBox.minX < aabb.minX && !vert) dxmin = aabb.minX
-                        - boundingBox.maxX;
-                if (boundingBox.minX < aabb.maxX && boundingBox.maxX > aabb.maxX && !vert) dxmax = aabb.maxX
-                        - boundingBox.minX;
-                if (boundingBox.maxZ > aabb.minZ && boundingBox.minZ < aabb.minZ && !vert) dzmin = aabb.minZ
-                        - boundingBox.maxZ;
-                if (boundingBox.minZ < aabb.maxZ && boundingBox.maxZ > aabb.maxZ && !vert) dzmax = aabb.maxZ
-                        - boundingBox.minZ;
-
-                if (dxmin != -10e3)
-                {
-                    if (dzmax != 10e3)
-                    {
-                        if (Math.abs(dxmin) < dzmax) temp1.x = dxmin;
-                        else temp1.z = dzmax;
-                    }
-                    else if (dzmin != -10e3)
-                    {
-                        if (dxmin > dzmin) temp1.x = dxmin;
-                        else temp1.z = dzmin;
-                    }
-                    else temp1.x = dxmin;
-                }
-                else if (dxmax != 10e3)
-                {
-                    if (dzmax != 10e3)
-                    {
-                        if (dxmax < dxmax) temp1.x = dxmax;
-                        else temp1.z = dzmax;
-                    }
-                    else if (dzmin != -10e3)
-                    {
-                        if (Math.abs(dzmin) < dxmax) temp1.z = dzmin;
-                        else temp1.x = dxmax;
-                    }
-                    else temp1.x = dxmax;
-                }
-                else if (dzmin != -10e3) temp1.z = dzmin;
-                else if (dzmax != 10e3) temp1.z = dzmax;
-            }
-            else
-            {
-                dy = -this.yOffset(boundingBox, aabb, -temp1.y);
-                if (dy != temp1.y) temp1.y = dy;
-                dx = -this.xOffset(boundingBox, aabb, -temp1.x);
-                if (dx != temp1.x) temp1.x = dx;
-                dz = -this.zOffset(boundingBox, aabb, -temp1.z);
-                if (dz != temp1.z) temp1.z = dz;
-            }
-        return temp1;
-    }
-
-    public boolean doTileCollision(final IBlockReader world, final List<AxisAlignedBB> aabbs, final Vector3 location,
-            final Entity e, final Vector3 diffs)
-    {
-
-        final Vector3 temp1 = Vector3.getNewVector();
-
-        final Matrix3 box = this.copy().addOffsetTo(location);
-        final Vector3 v1 = box.boxCentre();
-        final Vector3[] corners = box.corners(v1);
-
-        double minX = Double.MAX_VALUE, minZ = Double.MAX_VALUE, minY = Double.MAX_VALUE;
-        double maxX = -Double.MAX_VALUE, maxZ = -Double.MAX_VALUE, maxY = -Double.MAX_VALUE;
-
-        for (final Vector3 v : corners)
-        {
-            if (v.x > maxX) maxX = v.x;
-            if (v.y > maxY) maxY = (float) v.y;
-            if (v.z > maxZ) maxZ = v.z;
-            if (v.x < minX) minX = v.x;
-            if (v.y < minY) minY = (float) v.y;
-            if (v.z < minZ) minZ = v.z;
-        }
-        if (!e.getRecursivePassengers().isEmpty())
-        {
-            double mY = 0;
-            for (final Entity e1 : e.getRecursivePassengers())
-                mY = Math.max(mY, e1.getHeight() + e.getMountedYOffset());
-            maxY += mY;
-        }
-        final AxisAlignedBB boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
-        temp1.set(diffs);
-        for (final AxisAlignedBB aabb : aabbs)
-            if (boundingBox.intersects(aabb))
-            {
-                boolean collidesX = maxZ <= aabb.maxZ && maxZ >= aabb.minZ || minZ <= aabb.maxZ && minZ >= aabb.minZ
-                        || minZ <= aabb.minZ && maxZ >= aabb.maxZ;
-
-                final boolean collidesY = minY >= aabb.minY && minY <= aabb.maxY || maxY <= aabb.maxY
-                        && maxY >= aabb.minY || minY <= aabb.minY && maxY >= aabb.maxY;
-
-                boolean collidesZ = maxX <= aabb.maxX && maxX >= aabb.minX || minX <= aabb.maxX && minX >= aabb.minX
-                        || minX <= aabb.minX && maxX >= aabb.maxX;
-                collidesZ = collidesZ && (collidesX || collidesY);
-                collidesX = collidesX && (collidesZ || collidesY);
-                if (collidesZ || collidesX || collidesY) return true;
-            }
-        return false;
-    }
-
     public Vector3 get(final int i)
     {
         assert i < 3;
@@ -918,38 +613,6 @@ public class Matrix3
             if (v.z < minZ) minZ = v.z;
         }
         return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
-    }
-
-    public List<AxisAlignedBB> getCollidingBoxes(final AxisAlignedBB box, final World world, final IBlockReader access)
-    {
-        if (this.collidingBoundingBoxes == null) this.collidingBoundingBoxes = new ArrayList<>();
-
-        this.collidingBoundingBoxes.clear();
-        final int i = MathHelper.floor(box.minX);
-        final int j = MathHelper.floor(box.maxX + 1.0D);
-        final int k = MathHelper.floor(box.minY);
-        final int l = MathHelper.floor(box.maxY + 1.0D);
-        final int i1 = MathHelper.floor(box.minZ);
-        final int j1 = MathHelper.floor(box.maxZ + 1.0D);
-
-        for (int k1 = i; k1 < j; ++k1)
-            for (int l1 = i1; l1 < j1; ++l1)
-                for (int i2 = k - 1; i2 < l; ++i2)
-                {
-                    final BlockPos blockpos = new BlockPos(k1, i2, l1);
-
-                    BlockState state = access.getBlockState(blockpos);
-                    if (state == null) state = Blocks.AIR.getDefaultState();
-                    final VoxelShape shape = state.getCollisionShape(access, blockpos);
-                    final List<AxisAlignedBB> boxes = shape.toBoundingBoxList();
-                    if (!boxes.isEmpty())
-                    {
-                        this.collidingBoundingBoxes.addAll(boxes);
-                        MinecraftForge.EVENT_BUS.post(new GetCollisionBoxesEvent(world, null, box,
-                                this.collidingBoundingBoxes));
-                    }
-                }
-        return this.collidingBoundingBoxes;
     }
 
     public Matrix3 getOctant(final int octant)
@@ -1160,72 +823,6 @@ public class Matrix3
         final String eol = System.getProperty("line.separator");
         return eol + "0: " + this.rows[0].toString() + eol + "1: " + this.rows[1].toString() + eol + "2 : "
                 + this.rows[2].toString();
-    }
-
-    private double xOffset(final AxisAlignedBB box, final AxisAlignedBB aabb, double x)
-    {
-        if (aabb.maxY > box.minY && aabb.minY < box.maxY && aabb.maxZ > box.minZ && aabb.minZ < box.maxZ)
-        {
-            if (x > 0.0D && aabb.maxX <= box.minX)
-            {
-                final double d1 = box.minX - aabb.maxX;
-
-                if (d1 < x) x = d1;
-            }
-            else if (x < 0.0D && aabb.minX >= box.maxX)
-            {
-                final double d0 = box.maxX - aabb.minX;
-
-                if (d0 > x) x = d0;
-            }
-
-            return x;
-        }
-        else return x;
-    }
-
-    private double yOffset(final AxisAlignedBB box, final AxisAlignedBB aabb, double x)
-    {
-        if (aabb.maxX > box.minX && aabb.minX < box.maxX && aabb.maxZ > box.minZ && aabb.minZ < box.maxZ)
-        {
-            if (x > 0.0D && aabb.maxY <= box.minY)
-            {
-                final double d1 = box.minY - aabb.maxY;
-
-                if (d1 < x) x = d1;
-            }
-            else if (x < 0.0D && aabb.minY >= box.maxY)
-            {
-                final double d0 = box.maxY - aabb.minY;
-
-                if (d0 > x) x = d0;
-            }
-
-            return x;
-        }
-        else return x;
-    }
-
-    private double zOffset(final AxisAlignedBB box, final AxisAlignedBB aabb, double x)
-    {
-        if (aabb.maxX > box.minX && aabb.minX < box.maxX && aabb.maxY > box.minY && aabb.minY < box.maxY)
-        {
-            if (x > 0.0D && aabb.maxZ <= box.minZ)
-            {
-                final double d1 = box.minZ - aabb.maxZ;
-
-                if (d1 < x) x = d1;
-            }
-            else if (x < 0.0D && aabb.minZ >= box.maxZ)
-            {
-                final double d0 = box.maxZ - aabb.minZ;
-
-                if (d0 > x) x = d0;
-            }
-
-            return x;
-        }
-        else return x;
     }
 
 }

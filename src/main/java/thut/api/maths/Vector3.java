@@ -1146,12 +1146,6 @@ public class Vector3
         return true;
     }
 
-    public boolean isSideSolid(final IBlockReader world, final Direction side)
-    {
-        final BlockState state = this.getBlockState(world);
-        return state.canBeConnectedTo(world, this.getPos(), side);
-    }
-
     public boolean isVisible(final IBlockReader world, final Vector3 location)
     {
         final Vector3 direction = location.subtract(this);
