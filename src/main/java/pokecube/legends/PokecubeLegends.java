@@ -18,7 +18,6 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.Placement;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -37,7 +36,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
-import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
@@ -60,6 +58,7 @@ import pokecube.legends.proxy.CommonProxy;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.worldgen.dimension.ModDimensions;
 import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
+import thut.api.terrain.BiomeDatabase;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
@@ -92,13 +91,13 @@ public class PokecubeLegends
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
             new WorldgenHandler(Reference.ID).processStructures(event);
-            
+
             if (PokecubeCore.getConfig().generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
-                if (!(SpawnBiomeMatcher.contains(b, Type.FOREST) || SpawnBiomeMatcher.contains(b, Type.OCEAN)
-                        || SpawnBiomeMatcher.contains(b, Type.HILLS) || SpawnBiomeMatcher.contains(b, Type.PLAINS)
-                        || SpawnBiomeMatcher.contains(b, Type.SWAMP) || SpawnBiomeMatcher.contains(b, Type.MOUNTAIN)
-                        || SpawnBiomeMatcher.contains(b, Type.SNOWY) || SpawnBiomeMatcher.contains(b, Type.SPOOKY))) 
+                if (!(BiomeDatabase.contains(b, "FOREST") || BiomeDatabase.contains(b, "OCEAN")
+                        || BiomeDatabase.contains(b, "HILLS") || BiomeDatabase.contains(b, "PLAINS")
+                        || BiomeDatabase.contains(b, "SWAMP") || BiomeDatabase.contains(b, "MOUNTAIN")
+                        || BiomeDatabase.contains(b, "SNOWY") || BiomeDatabase.contains(b, "SPOOKY")))
                     continue;
                 // Currently this uses same settings as gold ore.
 
@@ -124,7 +123,7 @@ public class PokecubeLegends
         public static void registerModDimensions(final RegistryEvent.Register<ModDimension> event)
         {
             event.getRegistry().register(new UltraSpaceModDimension().setRegistryName(ModDimensions.DIMENSION_ID));
-          
+
             PokecubeLegends.LOGGER.debug("Registering Pokecube UltraSpace");
         }
     }
@@ -142,7 +141,7 @@ public class PokecubeLegends
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        
+
         // Register setup for proxy
         modEventBus.addListener(PokecubeLegends.proxy::setup);
         // Register the doClientStuff method for modloading
@@ -161,7 +160,7 @@ public class PokecubeLegends
         ItemInit.init();
         MoveRegister.init();
     }
-    
+
     @SubscribeEvent
     public void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
     {
@@ -175,11 +174,11 @@ public class PokecubeLegends
     {
         Database.addDatabase("pokecube_legends:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
     }
-    
+
     public static final ItemGroup TAB = new ItemGroup("ultratab") {
-    	
+
     	@Override
-    	public ItemStack createIcon() 
+    	public ItemStack createIcon()
     	{
     		return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
     	}

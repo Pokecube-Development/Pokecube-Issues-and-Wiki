@@ -2,14 +2,12 @@ package pokecube.core.database;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
@@ -23,7 +21,6 @@ import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
@@ -199,15 +196,8 @@ public class SpawnBiomeMatcher
         ALLMATCHER = new SpawnBiomeMatcher(rule);
     }
 
-    private static int                               lastTypesSize  = -1;
     private static int                               lastBiomesSize = -1;
-    private static Map<String, BiomeDictionary.Type> typeMap        = Maps.newHashMap();
     private static List<Biome>                       allBiomes      = Lists.newArrayList();
-
-    public static boolean contains(final Biome biome, final BiomeDictionary.Type type)
-    {
-        return BiomeDatabase.contains(biome, type);
-    }
 
     public static Collection<Biome> getAllBiomes()
     {
@@ -218,18 +208,6 @@ public class SpawnBiomeMatcher
             SpawnBiomeMatcher.allBiomes.addAll(biomes);
         }
         return SpawnBiomeMatcher.allBiomes;
-    }
-
-    public static BiomeDictionary.Type getBiomeType(String name)
-    {
-        name = name.toUpperCase();
-        if (SpawnBiomeMatcher.lastTypesSize != BiomeDictionary.Type.getAll().size())
-        {
-            SpawnBiomeMatcher.typeMap.clear();
-            for (final BiomeDictionary.Type type : BiomeDictionary.Type.getAll())
-                SpawnBiomeMatcher.typeMap.put(type.getName(), type);
-        }
-        return SpawnBiomeMatcher.typeMap.get(name);
     }
 
     public Set<ResourceLocation> _validBiomes        = Sets.newHashSet();
@@ -496,8 +474,8 @@ public class SpawnBiomeMatcher
 
         final List<Category> biomeCats = Lists.newArrayList();
         final List<Category> noBiomeCats = Lists.newArrayList();
-        final Set<BiomeDictionary.Type> blackListTypes = Sets.newHashSet();
-        final Set<BiomeDictionary.Type> validTypes = Sets.newHashSet();
+        final Set<String> blackListTypes = Sets.newHashSet();
+        final Set<String> validTypes = Sets.newHashSet();
 
         if (biomeCat != null)
         {
@@ -556,17 +534,15 @@ public class SpawnBiomeMatcher
             for (String s : args)
             {
                 s = s.trim();
-                BiomeDictionary.Type type;
-                type = SpawnBiomeMatcher.getBiomeType(s);
-                if (type != null)
+                if (BiomeDatabase.isAType(s))
                 {
                     hasForgeTypes = true;
-                    if (type == BiomeDictionary.Type.WATER)
+                    if (s.equalsIgnoreCase("water"))
                     {
-                        validTypes.add(BiomeDictionary.Type.RIVER);
-                        validTypes.add(BiomeDictionary.Type.OCEAN);
+                        validTypes.add("river");
+                        validTypes.add("ocean");
                     }
-                    else validTypes.add(type);
+                    else validTypes.add(s);
                     continue;
                 }
                 final BiomeType subBiome = BiomeType.getBiome(s.trim(), false);
@@ -602,18 +578,17 @@ public class SpawnBiomeMatcher
             for (String s : args)
             {
                 s = s.trim();
-                final BiomeDictionary.Type type = SpawnBiomeMatcher.getBiomeType(s);
-                if (type != null)
+                if (BiomeDatabase.isAType(s))
                 {
-                    if (type == BiomeDictionary.Type.WATER)
+                    hasForgeTypes = true;
+                    if (s.equalsIgnoreCase("water"))
                     {
-                        blackListTypes.add(BiomeDictionary.Type.RIVER);
-                        blackListTypes.add(BiomeDictionary.Type.OCEAN);
+                        blackListTypes.add("river");
+                        blackListTypes.add("ocean");
                     }
-                    else blackListTypes.add(type);
+                    else blackListTypes.add(s);
                     continue;
                 }
-
                 BiomeType subBiome = null;
                 for (final BiomeType b : BiomeType.values())
                     if (Database.trim(b.name).equals(Database.trim(s)))
@@ -628,9 +603,9 @@ public class SpawnBiomeMatcher
             if (b != null && !this._blackListBiomes.contains(b.getRegistryName()))
             {
                 boolean matches = biomeCats.contains(b.getCategory());
-                if (!matches) for (final BiomeDictionary.Type type : validTypes)
+                if (!matches) for (final String type : validTypes)
                 {
-                    matches = SpawnBiomeMatcher.contains(b, type);
+                    matches = BiomeDatabase.contains(b, type);
                     if (matches) break;
                 }
                 if (matches) this._validBiomes.add(b.getRegistryName());
@@ -641,9 +616,9 @@ public class SpawnBiomeMatcher
             if (b != null && !this._blackListBiomes.contains(b.getRegistryName()))
             {
                 boolean matches = noBiomeCats.contains(b.getCategory());
-                if (!matches) for (final BiomeDictionary.Type type : blackListTypes)
+                if (!matches) for (final String type : blackListTypes)
                 {
-                    matches = matches || SpawnBiomeMatcher.contains(b, type);
+                    matches = matches || BiomeDatabase.contains(b, type);
                     if (matches) break;
                 }
                 if (matches)
@@ -675,7 +650,7 @@ public class SpawnBiomeMatcher
                         subBiome = b;
                         break;
                     }
-                if (subBiome == null && SpawnBiomeMatcher.getBiomeType(s) == null) BiomeType.getBiome(s.trim(), true);
+                if (subBiome == null && !BiomeDatabase.isAType(s)) BiomeType.getBiome(s.trim(), true);
             }
         }
     }

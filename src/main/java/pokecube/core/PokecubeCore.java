@@ -39,7 +39,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
@@ -64,7 +63,6 @@ import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
@@ -108,6 +106,7 @@ import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
+import thut.api.terrain.BiomeDatabase;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 
@@ -180,7 +179,7 @@ public class PokecubeCore
             // Register the fossil stone spawning.
             if (PokecubeCore.config.generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
-                if (!(SpawnBiomeMatcher.contains(b, Type.SANDY) || SpawnBiomeMatcher.contains(b, Type.OCEAN))) continue;
+                if (!(BiomeDatabase.contains(b, "sandy") || BiomeDatabase.contains(b, "ocean"))) continue;
                 // Currently this uses same settings as gold ore.
                 b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
                         new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE
