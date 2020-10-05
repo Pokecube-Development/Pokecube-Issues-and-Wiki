@@ -1,6 +1,8 @@
 package thut.api.entity.blockentity.world;
 
 import java.util.List;
+import java.util.Random;
+import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -8,35 +10,47 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.tags.NetworkTagManager;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.ITickList;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeManager;
+import net.minecraft.world.border.WorldBorder;
+import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.storage.MapData;
+import net.minecraft.world.dimension.Dimension;
+import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.world.lighting.WorldLightManager;
+import net.minecraft.world.storage.WorldInfo;
 import thut.api.entity.blockentity.IBlockEntity;
 
-public class WorldEntity extends World implements IBlockEntityWorld
+public class WorldEntity implements IBlockEntityWorld
 {
 
     final World    world;
     IBlockEntity   mob;
     public boolean creating;
+    BlockEntityChunkProvider chunks;
 
     public WorldEntity(final World world)
     {
-        super(world.getWorldInfo(), world.dimension.getType(), (w, d) -> new BlockEntityChunkProvider((WorldEntity) w),
-                world.getProfiler(), world.isRemote);
         this.world = world;
+        this.chunks = new BlockEntityChunkProvider(this);
+    }
+
+    @Override
+    public World getWorld()
+    {
+        return this.world;
     }
 
     @Override
@@ -54,7 +68,8 @@ public class WorldEntity extends World implements IBlockEntityWorld
     @Override
     public boolean setBlockState(final BlockPos pos, final BlockState newState, final int flags)
     {
-        return super.setBlockState(pos, newState, flags);
+        final IChunk c = this.getChunk(pos);
+        return c.setBlockState(pos, newState, (flags & 64) != 0) != null;
     }
 
     @Override
@@ -111,77 +126,9 @@ public class WorldEntity extends World implements IBlockEntityWorld
     }
 
     @Override
-    public void notifyBlockUpdate(final BlockPos pos, final BlockState oldState, final BlockState newState,
-            final int flags)
-    {
-        this.world.notifyBlockUpdate(pos, oldState, newState, flags);
-    }
-
-    @Override
-    public void playSound(final PlayerEntity player, final double x, final double y, final double z,
-            final SoundEvent soundIn, final SoundCategory category, final float volume, final float pitch)
-    {
-        this.world.playSound(player, x, y, z, soundIn, category, volume, pitch);
-    }
-
-    @Override
-    public void playMovingSound(final PlayerEntity p_217384_1_, final Entity p_217384_2_, final SoundEvent p_217384_3_,
-            final SoundCategory p_217384_4_, final float p_217384_5_, final float p_217384_6_)
-    {
-        this.world.playMovingSound(p_217384_1_, p_217384_2_, p_217384_3_, p_217384_4_, p_217384_5_, p_217384_6_);
-    }
-
-    @Override
     public IChunk getChunk(final int x, final int z, final ChunkStatus requiredStatus, final boolean nonnull)
     {
         return new EntityChunk(this, new ChunkPos(x, z));
-    }
-
-    @Override
-    public Entity getEntityByID(final int id)
-    {
-        return this.world.getEntityByID(id);
-    }
-
-    @Override
-    public MapData getMapData(final String mapName)
-    {
-        return this.world.getMapData(mapName);
-    }
-
-    @Override
-    public void registerMapData(final MapData mapDataIn)
-    {
-    }
-
-    @Override
-    public int getNextMapId()
-    {
-        return 0;
-    }
-
-    @Override
-    public void sendBlockBreakProgress(final int breakerId, final BlockPos pos, final int progress)
-    {
-
-    }
-
-    @Override
-    public Scoreboard getScoreboard()
-    {
-        return this.world.getScoreboard();
-    }
-
-    @Override
-    public RecipeManager getRecipeManager()
-    {
-        return this.world.getRecipeManager();
-    }
-
-    @Override
-    public NetworkTagManager getTags()
-    {
-        return this.world.getTags();
     }
 
     @Override
@@ -200,5 +147,142 @@ public class WorldEntity extends World implements IBlockEntityWorld
     public Biome getNoiseBiome(final int x, final int y, final int z)
     {
         return this.world.getNoiseBiome(x, y, z);
+    }
+
+    @Override
+    public long getSeed()
+    {
+        return this.world.getSeed();
+    }
+
+    @Override
+    public WorldInfo getWorldInfo()
+    {
+        // TODO Auto-generated method stub
+        return this.world.getWorldInfo();
+    }
+
+    @Override
+    public DifficultyInstance getDifficultyForLocation(final BlockPos pos)
+    {
+        return this.world.getDifficultyForLocation(pos);
+    }
+
+    @Override
+    public AbstractChunkProvider getChunkProvider()
+    {
+        return this.chunks;
+    }
+
+    @Override
+    public Random getRandom()
+    {
+        return this.world.getRandom();
+    }
+
+    @Override
+    public void notifyNeighbors(final BlockPos pos, final Block blockIn)
+    {
+    }
+
+    @Override
+    public BlockPos getSpawnPoint()
+    {
+        return this.world.getSpawnPoint();
+    }
+
+    @Override
+    public void playSound(final PlayerEntity player, final BlockPos pos, final SoundEvent soundIn,
+            final SoundCategory category, final float volume, final float pitch)
+    {
+        this.world.playSound(player, pos, soundIn, category, volume, pitch);
+    }
+
+    @Override
+    public void addParticle(final IParticleData particleData, final double x, final double y, final double z,
+            final double xSpeed, final double ySpeed, final double zSpeed)
+    {
+        this.world.addParticle(particleData, x, y, z, xSpeed, ySpeed, zSpeed);
+    }
+
+    @Override
+    public List<Entity> getEntitiesInAABBexcluding(final Entity entityIn, final AxisAlignedBB boundingBox,
+            final Predicate<? super Entity> predicate)
+    {
+        return this.world.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
+    }
+
+    @Override
+    public <T extends Entity> List<T> getEntitiesWithinAABB(final Class<? extends T> clazz, final AxisAlignedBB aabb,
+            final Predicate<? super T> filter)
+    {
+        return this.world.getEntitiesWithinAABB(clazz, aabb, filter);
+    }
+
+    @Override
+    public int getHeight(final Type heightmapType, final int x, final int z)
+    {
+        return this.world.getHeight(heightmapType, x, z);
+    }
+
+    @Override
+    public int getSkylightSubtracted()
+    {
+        return this.world.getSkylightSubtracted();
+    }
+
+    @Override
+    public BiomeManager getBiomeManager()
+    {
+        return this.world.getBiomeManager();
+    }
+
+    @Override
+    public boolean isRemote()
+    {
+        // TODO Auto-generated method stub
+        return this.world.isRemote();
+    }
+
+    @Override
+    public int getSeaLevel()
+    {
+        return this.world.getSeaLevel();
+    }
+
+    @Override
+    public Dimension getDimension()
+    {
+        return this.world.getDimension();
+    }
+
+    @Override
+    public WorldLightManager getLightManager()
+    {
+        return this.world.getLightManager();
+    }
+
+    @Override
+    public WorldBorder getWorldBorder()
+    {
+        return this.world.getWorldBorder();
+    }
+
+    @Override
+    public boolean hasBlockState(final BlockPos p_217375_1_, final Predicate<BlockState> p_217375_2_)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean removeBlock(final BlockPos pos, final boolean isMoving)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean destroyBlock(final BlockPos p_225521_1_, final boolean p_225521_2_, final Entity p_225521_3_)
+    {
+        return false;
     }
 }
