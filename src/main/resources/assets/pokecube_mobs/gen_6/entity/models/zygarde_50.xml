@@ -1,7 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="3"/>
-  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <phase name="global" scale="0.5"/>
+  <customTex default="zygarde50">
+	   <part name="Face" tex="zygarde50head"/>
+	   <part name="Glow" tex="zygarde50"/>
+	   <animation diffs="-0.5,0" part="Glow" trigger="random:0.010:25"/>
+   </customTex>
+   <material name="Glow" light="1"/>
+   <material name="Glow1" light="1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-50,50" headDir="-1"/>
+  <phase type="idle">
+   <part name="neck1">
+    <component length="10" name="1" rotOffset="20,0,0," startKey="0"/>
+   </part>
+   <part name="neck2">
+    <component length="10" name="1" rotOffset="20,0,0," startKey="0"/>
+   </part>
+   <part name="head">
+    <component length="10" name="1" rotOffset="20,0,0," startKey="0"/>
+   </part>
+   <part name="body">
+    <component length="10" name="1" rotOffset="20,0,0," startKey="0"/>
+   </part>
+   <part name="body1">
+    <component length="10" name="1" rotOffset="-20,0,0," startKey="0"/>
+   </part>
+   <part name="body2">
+    <component length="10" name="1" rotOffset="-10,0,0," startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="100,0,0," startKey="0"/>
+   </part>
+   <part name="tail1">
+    <component length="10" name="1" rotOffset="-60,0,0," startKey="0"/>
+   </part>
+   <part name="tail2">
+    <component length="10" name="1" rotOffset="50,0,0," startKey="0"/>
+   </part>
+   <part name="tail3">
+    <component length="10" name="1" rotOffset="-30,0,0," startKey="0"/>
+   </part>
+   <part name="tail4">
+    <component length="10" name="1" rotOffset="-30,0,0," startKey="0"/>
+   </part>
+   <part name="mark1">
+    <component length="10" name="1" rotOffset="0,0,0," rotChange="0,0,-2," startKey="0"/>
+	<component length="10" name="2" rotChange="0,0,4," startKey="5"/>
+	<component length="10" name="2" rotChange="0,0,-2," startKey="10"/>
+   </part>
+   <part name="mark2">
+    <component length="10" name="1" rotOffset="0,0,0," rotChange="0,0,2," startKey="0"/>
+	<component length="10" name="2" rotChange="0,0,-4," startKey="5"/>
+	<component length="10" name="2" rotChange="0,0,2," startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
