@@ -17,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -84,7 +85,7 @@ public class MovesUtils implements IMoveConstants
         {
             final ITextComponent message = new TranslationTextComponent(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else target.sendMessage(message);
+            else target.sendMessage(message, Util.DUMMY_UUID);
         }
     }
 
@@ -100,7 +101,7 @@ public class MovesUtils implements IMoveConstants
         {
             final ITextComponent message = new TranslationTextComponent(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else target.sendMessage(message);
+            else target.sendMessage(message, Util.DUMMY_UUID);
         }
     }
 
@@ -286,7 +287,7 @@ public class MovesUtils implements IMoveConstants
             {
                 final ITextComponent message = new TranslationTextComponent(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
-                else target.sendMessage(message);
+                else target.sendMessage(message, Util.DUMMY_UUID);
             }
         }
     }
@@ -412,14 +413,14 @@ public class MovesUtils implements IMoveConstants
             terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_MISTY);
             if (terrainDuration > 0) ret = 0.5f;
         }
-        if (type == PokeType.getType("electric") && (attacker.onGround || attacker.fallDistance < 0.5))
+        if (type == PokeType.getType("electric") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
         {
             terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_ELECTRIC);
             if (terrainDuration > 0) ret = 1.5f;
             terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_SPORT_MUD);
             if (terrainDuration > 0) ret *= 0.33f;
         }
-        if (type == PokeType.getType("grass") && (attacker.onGround || attacker.fallDistance < 0.5))
+        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
         {
             terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_GRASS);
             if (terrainDuration > 0) ret = 1.5f;

@@ -14,8 +14,9 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -111,7 +112,7 @@ public class LegendarySpawn
                 "spwnedby:Most"))
         {
             ServerWorld world = (ServerWorld) evt.getEntity().getEntityWorld();
-            world = world.getServer().getWorld(DimensionType.OVERWORLD);
+            world = world.getServer().getWorld(World.OVERWORLD);
             final UUID id = evt.getEntity().getPersistentData().getUniqueId("spwnedby:");
             PokecubePlayerDataHandler.getCustomDataTag(id).putLong("spwn_ded:" + attacked.getPokedexEntry()
                     .getTrimmedName(), world.getGameTime());
@@ -157,7 +158,7 @@ public class LegendarySpawn
                 if (spawnCondition.canSpawn(evt.getPlayer(), location, false).test()) break;
             }
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.noitem.info", new TranslationTextComponent(
-                    match.entry.getUnlocalizedName())));
+                    match.entry.getUnlocalizedName())), Util.DUMMY_UUID);
             evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", evt.getWorld().getGameTime());
             return;
         }
@@ -193,7 +194,7 @@ public class LegendarySpawn
         {
             Collections.shuffle(already_spawned);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.alreadyspawned.info",
-                    new TranslationTextComponent(already_spawned.get(0).getUnlocalizedName())));
+                    new TranslationTextComponent(already_spawned.get(0).getUnlocalizedName())), Util.DUMMY_UUID);
             return;
         }
 
@@ -201,14 +202,14 @@ public class LegendarySpawn
         {
             Collections.shuffle(wrong_items);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.wrongitem.info", new TranslationTextComponent(
-                    wrong_items.get(0).getUnlocalizedName())));
+                    wrong_items.get(0).getUnlocalizedName())), Util.DUMMY_UUID);
             return;
         }
         if (wrong_biomes.size() > 0)
         {
             Collections.shuffle(wrong_biomes);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.nohere.info", new TranslationTextComponent(
-                    matches.get(0).entry.getUnlocalizedName())));
+                    matches.get(0).entry.getUnlocalizedName())), Util.DUMMY_UUID);
             return;
         }
 

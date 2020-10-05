@@ -26,6 +26,7 @@ import net.minecraft.tileentity.FurnaceTileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -252,7 +253,7 @@ public class MoveEventsHandler
         if (evt.isCanceled())
         {
             final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.noperms");
-            if (!user.inCombat()) owner.sendMessage(message);
+            if (!user.inCombat()) owner.sendMessage(message, Util.DUMMY_UUID);
             return false;
         }
         return true;
@@ -478,8 +479,8 @@ public class MoveEventsHandler
         final PlayerEntity player = user instanceof PlayerEntity ? (PlayerEntity) user
                 : PokecubeMod.getFakePlayer(world);
         final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
-        final Vec3d start = origin.toVec3d();
-        final Vec3d end = target.toVec3d();
+        final Vector3d start = origin.toVec3d();
+        final Vector3d end = target.toVec3d();
         final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.ANY, user
                 .getEntity());
         final BlockRayTraceResult hit = world.rayTraceBlocks(context);

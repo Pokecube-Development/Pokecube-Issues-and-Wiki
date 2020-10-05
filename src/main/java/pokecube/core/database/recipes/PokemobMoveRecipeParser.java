@@ -17,8 +17,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipe;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -98,7 +98,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final Tag<Item> tag = ItemTags.getCollection().getOrCreate(id);
+                    final ITag<Item> tag = ItemTags.getCollection().get(id);
                     recipeItemsIn.add(Ingredient.fromTag(tag));
                 }
                 else recipeItemsIn.add(Ingredient.fromStacks(Tools.getStack(value.getValues())));

@@ -9,10 +9,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.DimensionType;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
@@ -109,7 +109,7 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
             if (prevDied)
             {
                 final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < server.getWorld(
-                        DimensionType.OVERWORLD).getGameTime();
+                        World.OVERWORLD).getGameTime();
                 if (doneCooldown)
                 {
                     PokecubePlayerDataHandler.getCustomDataTag(player).remove(tag0);
@@ -157,7 +157,7 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         final String message = "msg.notrust.info";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
                 .getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component);
+        trainer.sendMessage(component, Util.DUMMY_UUID);
     }
 
     public void sendNoHere(final Entity trainer)
@@ -165,7 +165,7 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         final String message = "msg.nohere.info";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
                 .getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component);
+        trainer.sendMessage(component, Util.DUMMY_UUID);
     }
 
     // Basic Legend
@@ -174,7 +174,7 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         final String message = "msg.infolegend.info";
         final ITextComponent typeMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 type)));
-        trainer.sendMessage(new TranslationTextComponent(message, typeMess, numA + 1, numB));
+        trainer.sendMessage(new TranslationTextComponent(message, typeMess, numA + 1, numB), Util.DUMMY_UUID);
     }
 
     // Duo Type Legend
@@ -187,7 +187,7 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         final ITextComponent killMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 kill)));
         trainer.sendMessage(new TranslationTextComponent(message, typeMess, killMess, numA + 1, numB, killa + 1,
-                killb));
+                killb), Util.DUMMY_UUID);
     }
 
     // Catch specific Legend
@@ -204,7 +204,7 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
             else namemes = namemes.appendText(", ").appendSibling(new TranslationTextComponent(entry
                     .getUnlocalizedName()));
         }
-        trainer.sendMessage(new TranslationTextComponent(message, namemes));
+        trainer.sendMessage(new TranslationTextComponent(message, namemes), Util.DUMMY_UUID);
     }
 
     public void sendAngered(final Entity trainer)
@@ -212,6 +212,6 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         final String message = "msg.angeredlegend.json";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
                 .getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component);
+        trainer.sendMessage(component, Util.DUMMY_UUID);
     }
 }

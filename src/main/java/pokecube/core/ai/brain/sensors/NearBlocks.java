@@ -85,7 +85,7 @@ public class NearBlocks extends Sensor<LivingEntity>
 
         final Predicate<BlockPos> visible = input ->
         {
-            final Vector3d end = new Vec3d(input).add(0.5, 0.5, 0.5);
+            final Vector3d end = new Vector3d(input).add(0.5, 0.5, 0.5);
             final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
                     entityIn);
             final RayTraceResult result = worldIn.rayTraceBlocks(context);

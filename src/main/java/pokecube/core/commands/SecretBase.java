@@ -19,11 +19,14 @@ import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.GameProfileArgument;
 import net.minecraft.command.arguments.Vec3Argument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeItems;
@@ -51,12 +54,12 @@ public class SecretBase
 
     public static int execute_exit(final CommandSource source, final ServerPlayerEntity player)
     {
-        if (player.dimension != SecretBaseDimension.TYPE)
+        if (player.getEntityWorld().getDimensionKey() != SecretBaseDimension.TYPE)
         {
             player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit.notinbase"));
             return 1;
         }
-        final DimensionType targetDim = DimensionType.OVERWORLD;
+        final RegistryKey<World> targetDim = World.OVERWORLD;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUniqueID(), player.getServer(), targetDim);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
@@ -87,7 +90,7 @@ public class SecretBase
                 pos.z = pos.intZ();
                 final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirmed",
                         pos);
-                player.sendMessage(message);
+                player.sendMessage(message, Util.DUMMY_UUID);
                 return 0;
             }
         }

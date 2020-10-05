@@ -5,7 +5,7 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IDispenseItemBehavior;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -25,7 +25,7 @@ public class DispenserBehaviorPokecube implements IDispenseItemBehavior
     {
         Direction dir = null;
         final BlockState state = source.getBlockState();
-        for (final IProperty<?> prop : state.getProperties())
+        for (final Property<?> prop : state.getProperties())
             if (prop.getValueClass() == Direction.class)
             {
                 dir = (Direction) state.get(prop);
@@ -49,7 +49,7 @@ public class DispenserBehaviorPokecube implements IDispenseItemBehavior
         if (ItemList.is(PokecubeItems.POKEMOBEGG, stack))
         {
             player.setHeldItem(Hand.MAIN_HAND, stack);
-            final BlockRayTraceResult result = new BlockRayTraceResult(new Vec3d(0.5, 0.5, 0.5), Direction.UP, source
+            final BlockRayTraceResult result = new BlockRayTraceResult(new Vector3d(0.5, 0.5, 0.5), Direction.UP, source
                     .getBlockPos().offset(dir), false);
             final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, result);
             stack.onItemUse(context);

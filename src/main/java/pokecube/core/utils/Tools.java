@@ -262,7 +262,7 @@ public class Tools
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
     {
-        final Vector3d vec3 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
+        final Vector3d vec3 = new Vector3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
         final double d0 = distance;
         final Vector3d vec31 = entity.getLook(0);
         final Vector3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);

@@ -141,7 +141,7 @@ public class WalkToTask extends RootTask<MobEntity>
             if (this.currentPath != null) return true;
 
             final Vector3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards((CreatureEntity) mob, 10, 7,
-                    new Vec3d(blockpos));
+                    new Vector3d(blockpos));
             if (vec3d != null)
             {
                 this.currentPath = mob.getNavigator().getPathToPos(vec3d.x, vec3d.y, vec3d.z, 0);

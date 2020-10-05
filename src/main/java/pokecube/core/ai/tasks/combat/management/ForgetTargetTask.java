@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
@@ -242,7 +243,7 @@ public class ForgetTargetTask extends CombatTask
                         .getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message);
+                    this.entityTarget.sendMessage(message, Util.DUMMY_UUID);
                 }
                 catch (final Exception e)
                 {
@@ -260,7 +261,7 @@ public class ForgetTargetTask extends CombatTask
                         .getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message);
+                    this.entityTarget.sendMessage(message, Util.DUMMY_UUID);
                 }
                 catch (final Exception e)
                 {

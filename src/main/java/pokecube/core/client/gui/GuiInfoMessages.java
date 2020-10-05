@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,7 +39,7 @@ public class GuiInfoMessages
         PokecubeCore.LOGGER.debug("Recieved Message: " + message.getString());
         if (PokecubeCore.getConfig().battleLogInChat)
         {
-            if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message);
+            if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message, Util.DUMMY_UUID);
             return;
         }
         GuiInfoMessages.messages.push(message.getString());

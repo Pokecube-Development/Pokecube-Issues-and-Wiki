@@ -5,6 +5,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -82,7 +83,7 @@ public class ClientProxy extends CommonProxy
     {
         final ITextComponent component = new StringTextComponent(message);
         component.getStyle().setColor(color);
-        Minecraft.getInstance().player.sendMessage(component);
+        Minecraft.getInstance().player.sendMessage(component, Util.DUMMY_UUID);
     }
 
     @Override

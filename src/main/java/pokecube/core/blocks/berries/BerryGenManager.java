@@ -43,7 +43,6 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
-import net.minecraft.world.gen.feature.structure.Structures;
 import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.RuleEntry;
@@ -64,6 +63,7 @@ import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
+import pokecube.core.database.worldgen.WorldgenHandler.Structures;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.berries.BerryManager;
@@ -96,7 +96,7 @@ public class BerryGenManager
 
     public static final ResourceLocation REPLACETAG      = new ResourceLocation("pokecube:berry_tree_replace");
     public static final RuleEntry        REPLACEABLEONLY = new RuleEntry(AlwaysTrueRuleTest.INSTANCE,
-            new TagMatchRuleTest(BlockTags.getCollection().getOrCreate(BerryGenManager.REPLACETAG)),
+            new TagMatchRuleTest(BlockTags.getCollection().get(BerryGenManager.REPLACETAG)),
             Blocks.STRUCTURE_VOID.getDefaultState());
     public static final NotRuleProcessor NOREPLACE       = new NotRuleProcessor(ImmutableList.of(
             BerryGenManager.REPLACEABLEONLY));

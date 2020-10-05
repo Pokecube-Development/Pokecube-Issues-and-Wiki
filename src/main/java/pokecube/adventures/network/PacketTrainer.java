@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -75,7 +76,7 @@ public class PacketTrainer extends NBTPacket
 
         if (!canEdit)
         {
-            editor.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."));
+            editor.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."), Util.DUMMY_UUID);
             return;
         }
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
@@ -159,7 +160,7 @@ public class PacketTrainer extends NBTPacket
 
             if (!PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
             {
-                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."));
+                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."), Util.DUMMY_UUID);
                 return;
             }
 

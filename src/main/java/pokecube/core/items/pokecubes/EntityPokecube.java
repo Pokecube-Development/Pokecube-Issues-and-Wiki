@@ -11,6 +11,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Hand;
@@ -19,9 +22,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameters;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.CaptureEvent;
@@ -239,7 +239,7 @@ public class EntityPokecube extends EntityPokecubeBase
     @Override
     public void shoot(final double x, final double y, final double z, final float velocity, final float inaccuracy)
     {
-        final Vector3d vec3d = new Vec3d(x, y, z).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy,
+        final Vector3d vec3d = new Vector3d(x, y, z).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy,
                 this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy).scale(
                         velocity);
         this.setMotion(vec3d);

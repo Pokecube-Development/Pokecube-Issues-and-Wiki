@@ -63,7 +63,7 @@ public class Impl
                 final IColony colony = Impl.instance.getColonyManager().getClosestColony(world.getWorld(), v.getPos());
                 if (colony == null || colony.getBuildingManager() == null || colony.getBuildingManager()
                         .getBuildings() == null) break check;
-                final Vector3d vec = new Vec3d(v.x, v.y, v.z);
+                final Vector3d vec = new Vector3d(v.x, v.y, v.z);
                 for (final IBuilding b : colony.getBuildingManager().getBuildings().values())
                 {
                     String type = b.getSchematicName();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.database.Database;
@@ -98,7 +99,7 @@ public class Regigigas extends Condition
         }
         if (!check)
         {
-            if (message) trainer.sendMessage(new TranslationTextComponent("msg.reginotlookright.txt"));
+            if (message) trainer.sendMessage(new TranslationTextComponent("msg.reginotlookright.txt"), Util.DUMMY_UUID);
             return CanSpawn.NO;
         }
         return CanSpawn.YES;

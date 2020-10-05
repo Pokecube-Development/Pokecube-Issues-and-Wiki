@@ -31,14 +31,14 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.Rarity;
+import net.minecraft.loot.functions.LootFunctionManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.blocks.bases.BaseBlock;
@@ -341,7 +341,7 @@ public class PokecubeItems extends ItemList
 
     public static ItemStack getStack(final ResourceLocation loc, final boolean stacktrace)
     {
-        final Tag<Item> tag = ItemTags.getCollection().get(loc);
+        final ITag<Item> tag = ItemTags.getCollection().get(loc);
         if (tag != null)
         {
             final Item item = tag.getRandomElement(new Random(2));
@@ -415,7 +415,7 @@ public class PokecubeItems extends ItemList
                     this.checks.put(name, true);
                 }
                 if (key == null) return true;
-                for (final IProperty<?> prop : input.getProperties())
+                for (final Property<?> prop : input.getProperties())
                     if (prop.getName().equals(key))
                     {
                         final Object inputVal = input.get(prop);
@@ -623,7 +623,7 @@ public class PokecubeItems extends ItemList
     {
         if (name == null) return false;
         final ResourceLocation loc = PokecubeItems.toPokecubeResource(name);
-        final Tag<Item> old = ItemTags.getCollection().get(loc);
+        final ITag<Item> old = ItemTags.getCollection().get(loc);
         final Item item = ForgeRegistries.ITEMS.getValue(loc);
         // TODO confirm this works
         return old != null || ItemList.pendingTags.containsKey(loc) || item != null;

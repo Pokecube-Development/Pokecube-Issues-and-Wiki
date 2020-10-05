@@ -15,18 +15,19 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.dimension.Dimension;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.dimension.OverworldDimension;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
@@ -56,23 +57,23 @@ public class SecretBaseDimension extends ModDimension
 {
     public static void sendToBase(final ServerPlayerEntity player, final UUID baseOwner)
     {
-        final DimensionType targetDim = SecretBaseDimension.TYPE;
+        final RegistryKey<World> targetDim = SecretBaseDimension.TYPE;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
-        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.enter"));
+        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.enter"), Util.DUMMY_UUID);
     }
 
     public static void sendToExit(final ServerPlayerEntity player, final UUID baseOwner)
     {
-        final DimensionType targetDim = DimensionType.OVERWORLD;
+        final RegistryKey<World> targetDim = World.OVERWORLD;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
-        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"));
+        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.DUMMY_UUID);
     }
 
-    public static void setSecretBasePoint(final ServerPlayerEntity player, final BlockPos pos, final DimensionType dim)
+    public static void setSecretBasePoint(final ServerPlayerEntity player, final BlockPos pos, final RegistryKey<World> dim)
     {
         final CompoundNBT tag = PokecubePlayerDataHandler.getCustomDataTag(player);
         final CompoundNBT exit = new CompoundNBT();
@@ -103,7 +104,7 @@ public class SecretBaseDimension extends ModDimension
         return new ChunkPos(x, z);
     }
 
-    public static BlockPos getSecretBaseLoc(final UUID player, final MinecraftServer server, final DimensionType dim)
+    public static BlockPos getSecretBaseLoc(final UUID player, final MinecraftServer server, final RegistryKey<World> dim)
     {
         final CompoundNBT tag = PokecubePlayerDataHandler.getCustomDataTag(player.toString());
         if (dim == SecretBaseDimension.TYPE)
@@ -287,7 +288,7 @@ public class SecretBaseDimension extends ModDimension
     }
 
     public static final SecretBaseDimension DIMENSION = new SecretBaseDimension();
-    public static DimensionType             TYPE;
+    public static RegistryKey<World>             TYPE;
     public static Biome                     BIOME;
 
     public static final String ID = PokecubeCore.MODID + ":secret_bases";

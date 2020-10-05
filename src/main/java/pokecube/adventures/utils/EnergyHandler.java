@@ -11,12 +11,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -207,8 +208,8 @@ public class EnergyHandler
         if (PokecubeAdv.config.wirelessSiphons) for (final GlobalPos pos : event.getTile().wirelessLinks)
         {
             final BlockPos bpos = pos.getPos();
-            final DimensionType dim = pos.getDimension();
-            if (dim != world.dimension.getType()) continue;
+            final RegistryKey<World> dim = pos.getDimension();
+            if (dim != world.getDimensionKey()) continue;
             final ChunkPos cpos = new ChunkPos(bpos);
             if (!world.chunkExists(cpos.x, cpos.z)) continue;
             final TileEntity te = world.getTileEntity(bpos);

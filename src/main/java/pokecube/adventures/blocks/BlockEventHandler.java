@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DimensionType;
@@ -62,7 +63,7 @@ public class BlockEventHandler
             this.tile.getDest().shift(0.5, 0, 0.5);
             if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
                     "block.pokecube_adventures.warppad.link", pos.getPos().getX(), pos.getPos().getY(), pos.getPos()
-                            .getZ(), pos.getDimension()));
+                            .getZ(), pos.getDimension()), Util.DUMMY_UUID);
             // Centre us properly.
             return true;
         }

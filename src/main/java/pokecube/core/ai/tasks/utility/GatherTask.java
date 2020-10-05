@@ -15,7 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -80,7 +80,7 @@ public class GatherTask extends UtilTask
             final PlayerEntity player = PokecubeMod.getFakePlayer(world);
             player.setPosition(this.pos.getX(), this.pos.getY(), this.pos.getZ());
             player.inventory.mainInventory.set(player.inventory.currentItem, this.seeds);
-            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vec3d(
+            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vector3d(
                     0.5, 1, 0.5), Direction.UP, down, false));
             check:
             if (this.seeds.getItem() instanceof BlockItem && !this.selfPlacement)
@@ -90,7 +90,7 @@ public class GatherTask extends UtilTask
 
                 final BlockState def = block.getDefaultState();
                 boolean same = true;
-                for (final IProperty<?> p : def.getProperties())
+                for (final Property<?> p : def.getProperties())
                 {
                     if (!this.oldState.has(p))
                     {
@@ -242,7 +242,7 @@ public class GatherTask extends UtilTask
         final double dot = this.v.normalize().dot(Vector3.secondAxis);
         // This means that the item is directly above the pokemob, assume it
         // can pick up to 3 blocks upwards.
-        if (dot < -0.9 && this.entity.onGround) diff = Math.max(3, diff);
+        if (dot < -0.9 && this.entity.isOnGround()) diff = Math.max(3, diff);
         if (dist < diff)
         {
             final BlockState state = stuffLoc.getBlockState(this.entity.getEntityWorld());

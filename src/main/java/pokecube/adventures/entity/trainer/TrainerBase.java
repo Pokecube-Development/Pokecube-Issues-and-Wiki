@@ -15,6 +15,7 @@ import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
@@ -88,7 +89,7 @@ public abstract class TrainerBase extends NpcMob
                     final ItemStack i = this.pokemobsCap.getPokemob(ind);
                     if (!i.isEmpty()) message += i.getDisplayName() + " ";
                 }
-                player.sendMessage(new StringTextComponent(message));
+                player.sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
             }
             else if (!this.getEntityWorld().isRemote && player.isCrouching() && player.getHeldItemMainhand()
                     .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);

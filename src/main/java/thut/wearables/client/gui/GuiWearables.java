@@ -45,6 +45,6 @@ public class GuiWearables extends DisplayEffectsScreen<ContainerWearables>
         super.render(mat, mouseX, mouseY, partialTicks);
         this.oldMouseX = mouseX;
         this.oldMouseY = mouseY;
-        this.renderHoveredToolTip(mouseX, mouseY);
+        this.renderHoveredTooltip(mat, mouseX, mouseY);
     }
 }

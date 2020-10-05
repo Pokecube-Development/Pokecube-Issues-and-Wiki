@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -63,7 +64,7 @@ public class BaseTile extends InteractableTile
             {
                 // We need to remove the location.
                 this.world.setBlockState(pos, this.original);
-                player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"));
+                player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"), Util.DUMMY_UUID);
                 return ActionResultType.FAIL;
             }
         }

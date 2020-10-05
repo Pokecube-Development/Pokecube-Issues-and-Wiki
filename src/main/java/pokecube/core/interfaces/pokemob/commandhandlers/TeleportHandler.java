@@ -10,11 +10,12 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
@@ -145,8 +146,8 @@ public class TeleportHandler extends DefaultHandler
             return;
         }
         if (d == null) return;
-        final DimensionType dim = d.getPos().getDimension();
-        final DimensionType oldDim = player.dimension;
+        final RegistryKey<World> dim = d.getPos().getDimension();
+        final RegistryKey<World> oldDim = player.getEntityWorld().getDimensionKey();
         int needed = PokecubeCore.getConfig().telePearlsCostSameDim;
         if (dim != oldDim)
         {

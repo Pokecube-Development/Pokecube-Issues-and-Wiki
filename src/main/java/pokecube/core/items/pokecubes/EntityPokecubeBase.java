@@ -8,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.MoverType;
@@ -37,8 +36,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
@@ -53,7 +52,7 @@ import pokecube.core.utils.TagNames;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
-public abstract class EntityPokecubeBase extends LivingEntity implements IProjectile
+public abstract class EntityPokecubeBase extends LivingEntity
 {
     public static final String CUBETIMETAG = "lastCubeTime";
 

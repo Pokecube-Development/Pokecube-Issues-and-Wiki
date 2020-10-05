@@ -20,6 +20,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.StringTextComponent;
@@ -518,14 +519,14 @@ public class PacketPokedex extends Packet
             final int index = this.data.getInt("I");
             final TeleDest loc = TeleportHandler.getTeleport(player.getCachedUniqueIdString(), index);
             TeleportHandler.unsetTeleport(index, player.getCachedUniqueIdString());
-            player.sendMessage(new StringTextComponent("Deleted " + loc.getName()));
+            player.sendMessage(new StringTextComponent("Deleted " + loc.getName()), Util.DUMMY_UUID);
             PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
             PacketDataSync.sendInitPacket(player, "pokecube-data");
             return;
         case RENAME:
             final String name = this.data.getString("N");
             TeleportHandler.renameTeleport(player.getCachedUniqueIdString(), this.data.getInt("I"), name);
-            player.sendMessage(new StringTextComponent("Set teleport as " + name));
+            player.sendMessage(new StringTextComponent("Set teleport as " + name), Util.DUMMY_UUID);
             PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
             PacketDataSync.sendInitPacket(player, "pokecube-data");
             return;
@@ -537,11 +538,11 @@ public class PacketPokedex extends Packet
 
             if (!reward)
             {
-                if (inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.available"));
+                if (inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.available"), Util.DUMMY_UUID);
             }
             else
             {
-                if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"));
+                if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"), Util.DUMMY_UUID);
                 player.closeScreen();
             }
             return;

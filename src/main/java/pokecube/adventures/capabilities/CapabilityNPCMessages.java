@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -80,7 +81,7 @@ public class CapabilityNPCMessages
         {
             if (target instanceof FakePlayer || this.messages.get(state) == null || this.messages.get(state).trim()
                     .isEmpty()) return;
-            target.sendMessage(new TranslationTextComponent(this.messages.get(state), args));
+            target.sendMessage(new TranslationTextComponent(this.messages.get(state), args), Util.DUMMY_UUID);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(state + ": " + this.messages.get(state));
         }
 

@@ -2,6 +2,7 @@ package pokecube.mobs.moves.world;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import pokecube.core.commands.SecretBase;
@@ -33,7 +34,7 @@ public class ActionSecretPower implements IMoveAction
         {
             System.out.println(state);
             final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.wrongloc");
-            owner.sendMessage(message);
+            owner.sendMessage(message, Util.DUMMY_UUID);
             return false;
         }
         SecretBase.pendingBaseLocations.put(owner.getUniqueID(), new Vector4(location.x, location.y, location.z,
@@ -42,7 +43,7 @@ public class ActionSecretPower implements IMoveAction
                 .set(location.getPos()));
         message.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pokebase confirm " + owner.getPosX()
                 + " " + owner.getPosY() + " " + owner.getPosZ()));
-        owner.sendMessage(message);
+        owner.sendMessage(message, Util.DUMMY_UUID);
         return true;
     }
 

@@ -15,8 +15,8 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.utils.TimePeriod;
@@ -146,7 +146,7 @@ public class GuardAICapability implements IGuardAICapability
 
         private boolean path(final MobEntity entity, final double speed)
         {
-            final Vector3d pos = new Vec3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ() + 0.5);
+            final Vector3d pos = new Vector3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ() + 0.5);
             this.setWalkTo(entity, pos, speed, 0);
             return true;
         }

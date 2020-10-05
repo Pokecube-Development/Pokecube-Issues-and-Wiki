@@ -44,7 +44,7 @@ public class RunAway extends RootTask<CreatureEntity>
     {
         for (int i = 0; i < 10; ++i)
         {
-            final Vector3d vec3d = new Vec3d(runFrom.getPosX(), runFrom.getPosY(), runFrom.getPosZ());
+            final Vector3d vec3d = new Vector3d(runFrom.getPosX(), runFrom.getPosY(), runFrom.getPosZ());
             final Vector3d vec3d1 = RandomPositionGenerator.func_223548_b(mob, 16, 7, vec3d);
             if (vec3d1 != null)
             {

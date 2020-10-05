@@ -3,6 +3,7 @@ package pokecube.core.handlers.events;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -48,7 +49,7 @@ public class StatsHandler
         {
             evt.setCanceled(true);
             if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
-                    "pokecube.denied"));
+                    "pokecube.denied"), Util.DUMMY_UUID);
             evt.pokecube.entityDropItem(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
             evt.pokecube.remove();
             return;
@@ -69,7 +70,7 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
-                        "pokecube.denied"));
+                        "pokecube.denied"), Util.DUMMY_UUID);
                 evt.pokecube.entityDropItem(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
                 evt.pokecube.remove();
                 return;
@@ -92,7 +93,7 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
-                        "pokecube.denied"));
+                        "pokecube.denied"), Util.DUMMY_UUID);
                 evt.pokecube.entityDropItem(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
                 evt.pokecube.remove();
                 return;

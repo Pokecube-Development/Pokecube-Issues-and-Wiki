@@ -3,6 +3,7 @@ package pokecube.legends.init.moves.world;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
@@ -37,7 +38,7 @@ public class ActionCosmicPower implements IMoveAction
         if (level < PokecubeLegends.config.levelCreatePortal)
         {
             message = new TranslationTextComponent("msg.spaceacess.deny.too_weak");
-            owner.sendMessage(message);
+            owner.sendMessage(message, Util.DUMMY_UUID);
             return false;
         }
         else
@@ -49,7 +50,7 @@ public class ActionCosmicPower implements IMoveAction
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
                     message = new TranslationTextComponent("msg.spaceacess.deny.too_soon");
-                    owner.sendMessage(message);
+                    owner.sendMessage(message, Util.DUMMY_UUID);
                     return false;
                 }
             }
@@ -73,7 +74,7 @@ public class ActionCosmicPower implements IMoveAction
                 message = new TranslationTextComponent("msg.spaceacess.accept.info");
                 mob.setHungerTime(mob.getHungerTime() + count);
             }
-            owner.sendMessage(message);
+            owner.sendMessage(message, Util.DUMMY_UUID);
             return true;
         }
     }

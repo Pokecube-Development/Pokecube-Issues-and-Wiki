@@ -16,6 +16,7 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.GlobalPos;
@@ -56,7 +57,7 @@ public class ItemPokedex extends Item
     }
 
     @Override
-    public boolean itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
+    public ActionResultType itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
             final LivingEntity target, final Hand hand)
     {
         if (playerIn instanceof ServerPlayerEntity)
@@ -71,7 +72,7 @@ public class ItemPokedex extends Item
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(playerIn).getData(
                     PokecubePlayerStats.class).inspect(playerIn, pokemob);
             PacketPokedex.sendOpenPacket((ServerPlayerEntity) playerIn, pokemob, this.watch);
-            return true;
+            return ActionResultType.SUCCESS;
         }
         return super.itemInteractionForEntity(stack, playerIn, target, hand);
     }
@@ -105,7 +106,7 @@ public class ItemPokedex extends Item
             {
                 final Set<StructureInfo> infos = StructureManager.getFor(worldIn.getDimension().getType(), pos);
                 for (final StructureInfo i : infos)
-                    playerIn.sendMessage(new StringTextComponent(i.name));
+                    playerIn.sendMessage(new StringTextComponent(i.name), Util.DUMMY_UUID);
             }
         }
         if (block instanceof HealerBlock)
@@ -124,13 +125,13 @@ public class ItemPokedex extends Item
         {
             ITextComponent message = CommandTools.makeTranslatedMessage("pokedex.locationinfo1", "green",
                     Database.spawnables.size());
-            playerIn.sendMessage(message);
+            playerIn.sendMessage(message, Util.DUMMY_UUID);
             message = CommandTools.makeTranslatedMessage("pokedex.locationinfo2", "green", Pokedex.getInstance()
                     .getEntries().size());
-            playerIn.sendMessage(message);
+            playerIn.sendMessage(message, Util.DUMMY_UUID);
             message = CommandTools.makeTranslatedMessage("pokedex.locationinfo3", "green", Pokedex.getInstance()
                     .getRegisteredEntries().size());
-            playerIn.sendMessage(message);
+            playerIn.sendMessage(message, Util.DUMMY_UUID);
         }
 
         if (!playerIn.isCrouching()) this.showGui(playerIn);

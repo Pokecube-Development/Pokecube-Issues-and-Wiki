@@ -19,6 +19,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -138,7 +139,7 @@ public class Restore
                 PlayerPokemobCache.class);
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
         ITextComponent message = new StringTextComponent("Pokemobs: ");
-        user.sendMessage(message);
+        user.sendMessage(message, Util.DUMMY_UUID);
         message = new StringTextComponent("");
         for (final Entry<Integer, ItemStack> entry : cache.entrySet())
         {
@@ -184,11 +185,11 @@ public class Restore
             final int size = message.toString().getBytes().length;
             if (size > 32000)
             {
-                user.sendMessage(message);
+                user.sendMessage(message, Util.DUMMY_UUID);
                 message = new StringTextComponent("");
             }
         }
-        user.sendMessage(message);
+        user.sendMessage(message, Util.DUMMY_UUID);
         return 0;
     }
 }

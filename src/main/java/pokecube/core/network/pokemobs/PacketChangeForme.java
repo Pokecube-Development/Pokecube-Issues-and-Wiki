@@ -4,11 +4,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.DimensionType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
@@ -78,7 +78,7 @@ public class PacketChangeForme extends Packet
         final boolean hasRing = MegaCapability.canMegaEvolve(player, pokemob);
         if (!hasRing)
         {
-            player.sendMessage(new TranslationTextComponent("pokecube.mega.noring", pokemob.getDisplayName()));
+            player.sendMessage(new TranslationTextComponent("pokecube.mega.noring", pokemob.getDisplayName()), Util.DUMMY_UUID);
             return;
         }
         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -113,12 +113,12 @@ public class PacketChangeForme extends Packet
             {
                 final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(player.getUniqueID()).getLong(
                         "pokecube:dynatime");
-                final long time = player.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                final long time = player.getServer().getWorld(World.OVERWORLD).getGameTime();
                 final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
                 if (dynatime != 0 && time < dynaagain)
                 {
                     player.sendMessage(new TranslationTextComponent("pokemob.dynamax.too_soon", pokemob
-                            .getDisplayName()));
+                            .getDisplayName()), Util.DUMMY_UUID);
                     return;
                 }
 
@@ -179,7 +179,7 @@ public class PacketChangeForme extends Packet
                     newEntry.getUnlocalizedName()));
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
         }
-        else player.sendMessage(new TranslationTextComponent("pokemob.megaevolve.failed", pokemob.getDisplayName()));
+        else player.sendMessage(new TranslationTextComponent("pokemob.megaevolve.failed", pokemob.getDisplayName()), Util.DUMMY_UUID);
     }
 
     @Override

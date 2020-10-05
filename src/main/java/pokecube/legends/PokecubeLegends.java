@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -255,7 +256,7 @@ public class PokecubeLegends
         if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
         {
             if (hit.getBlock() == PokecubeItems.DYNABLOCK) event.getPlayer().sendMessage(new TranslationTextComponent(
-                    "msg.notaraidspot.info"));
+                    "msg.notaraidspot.info"), Util.DUMMY_UUID);
             return;
         }
         final boolean active = hit.get(RaidSpawnBlock.ACTIVE).active();

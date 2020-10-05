@@ -181,7 +181,7 @@ public class UltraSpaceConfig
         @OnlyIn(Dist.CLIENT)
         public Vector3d getFogColor(final float cangle, final float ticks)
         {
-            return new Vec3d(0, 0, 0);
+            return new Vector3d(0, 0, 0);
         }
 
         @Override

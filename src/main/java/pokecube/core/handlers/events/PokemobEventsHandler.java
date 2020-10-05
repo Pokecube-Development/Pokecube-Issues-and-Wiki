@@ -28,6 +28,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.MinecraftForge;
@@ -126,7 +127,7 @@ public class PokemobEventsHandler
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            PokemobEventsHandler.DYETAGS.put(colour, ItemTags.getCollection().getOrCreate(tag));
+            PokemobEventsHandler.DYETAGS.put(colour, ItemTags.getCollection().get(tag));
         }
         return PokemobEventsHandler.DYETAGS;
     }
@@ -377,7 +378,7 @@ public class PokemobEventsHandler
         }
 
         // Item has custom entity interaction, let that run instead.
-        if (held.getItem().itemInteractionForEntity(held, player, entity, hand))
+        if (held.getItem().itemInteractionForEntity(held, player, entity, hand) != ActionResultType.PASS)
         {
             evt.setCanceled(true);
             evt.setCancellationResult(ActionResultType.SUCCESS);
@@ -471,7 +472,7 @@ public class PokemobEventsHandler
         if (deny)
         {
             // Add message here about cannot use items right now
-            player.sendMessage(new TranslationTextComponent("pokemob.action.cannotuse"));
+            player.sendMessage(new TranslationTextComponent("pokemob.action.cannotuse"), Util.DUMMY_UUID);
             return;
         }
 

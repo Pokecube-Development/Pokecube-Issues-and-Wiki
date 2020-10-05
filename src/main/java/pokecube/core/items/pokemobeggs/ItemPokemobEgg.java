@@ -23,6 +23,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
@@ -276,7 +277,7 @@ public class ItemPokemobEgg extends Item
             {
                 final LivingEntity owner = mob.getOwner();
                 owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName()
-                        .getString()));
+                        .getString()), Util.DUMMY_UUID);
                 if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(
                         world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.getRNG().nextInt(7) + 1));
             }

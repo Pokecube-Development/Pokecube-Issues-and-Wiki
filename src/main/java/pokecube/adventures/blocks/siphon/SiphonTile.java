@@ -3,8 +3,9 @@ package pokecube.adventures.blocks.siphon;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Dynamic;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,6 +19,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -135,7 +137,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             ITextComponent message = null;
             message = new TranslationTextComponent("block.rfsiphon.info", this.energy.theoreticalOutput
                     - this.energy.currentOutput, this.energy.theoreticalOutput);
-            player.sendMessage(message);
+            player.sendMessage(message, Util.DUMMY_UUID);
         }
         return super.onInteract(pos, player, hand, hit);
     }
@@ -147,7 +149,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
     }
 
     @Override
-    public void read(final CompoundNBT compound)
+    public void read(final BlockState stateIn, final CompoundNBT compound)
     {
         this.wirelessLinks.clear();
         final CompoundNBT wireless = compound.getCompound("links");
@@ -157,7 +159,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             final INBT tag = wireless.get("" + i);
             this.wirelessLinks.add(GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE, tag)));
         }
-        super.read(compound);
+        super.read(stateIn, compound);
     }
 
     @Override
@@ -185,13 +187,13 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             {
                 if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
                         "block.pokecube_adventures.siphon.unlink", pos.getPos().getX(), pos.getPos().getY(), pos
-                                .getPos().getZ(), pos.getDimension()));
+                                .getPos().getZ(), pos.getDimension()), Util.DUMMY_UUID);
                 return true;
             }
             this.wirelessLinks.add(pos);
             if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
                     "block.pokecube_adventures.siphon.link", pos.getPos().getX(), pos.getPos().getY(), pos.getPos()
-                            .getZ(), pos.getDimension()));
+                            .getZ(), pos.getDimension()), Util.DUMMY_UUID);
             return true;
         }
         return false;

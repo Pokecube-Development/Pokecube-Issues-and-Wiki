@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.SharedConstants;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
@@ -12,7 +13,7 @@ import thut.core.common.network.Packet;
 
 public class PacketNickname extends Packet
 {
-    public static void sendPacket(Entity mob, String name)
+    public static void sendPacket(final Entity mob, final String name)
     {
         final PacketNickname packet = new PacketNickname();
         packet.entityId = mob.getEntityId();
@@ -27,7 +28,7 @@ public class PacketNickname extends Packet
     {
     }
 
-    public PacketNickname(PacketBuffer buf)
+    public PacketNickname(final PacketBuffer buf)
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
         this.entityId = buffer.readInt();
@@ -35,7 +36,7 @@ public class PacketNickname extends Packet
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
 
         final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.entityId, true);
@@ -50,18 +51,18 @@ public class PacketNickname extends Packet
         if (!OT)
         {
             if (pokemob.getOwner() != null) pokemob.getOwner().sendMessage(new TranslationTextComponent(
-                    "pokemob.rename.deny"));
+                    "pokemob.rename.deny"), Util.DUMMY_UUID);
         }
         else
         {
             pokemob.getOwner().sendMessage(new TranslationTextComponent("pokemob.rename.success", pokemob
-                    .getDisplayName().getString(), name));
+                    .getDisplayName().getString(), name), Util.DUMMY_UUID);
             pokemob.setPokemonNickname(name);
         }
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeInt(this.entityId);

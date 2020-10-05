@@ -33,8 +33,8 @@ public class Move_AOE extends Move_Basic
         final Entity entity = attacker.getEntity();
         if (!this.move.isNotIntercepable())
         {
-            final Vector3d loc1 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
-            final Vector3d loc2 = new Vec3d(location.x, location.y, location.z);
+            final Vector3d loc1 = new Vector3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
+            final Vector3d loc2 = new Vector3d(location.x, location.y, location.z);
             final BlockRayTraceResult result = entity.getEntityWorld().rayTraceBlocks(new RayTraceContext(loc1, loc2,
                     RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, entity));
             if (result != null) location.set(result.getHitVec());
