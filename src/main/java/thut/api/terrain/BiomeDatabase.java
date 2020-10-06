@@ -1,43 +1,40 @@
 package thut.api.terrain;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import net.minecraft.world.World;
+import com.google.common.collect.Maps;
+
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 public class BiomeDatabase
 {
-    public static HashMap<Biome, Type[]> biomeTypes = new HashMap<>();
+    private static int                               lastTypesSize = -1;
 
-    public static boolean contains(final Biome b, final Type type)
+    private static Map<String, BiomeDictionary.Type> typeMap       = Maps.newHashMap();
+
+    private static BiomeDictionary.Type getBiomeType(String name)
     {
-        return BiomeDictionary.hasType(b, type);
-    }
-
-    public static BiomeType getBiome(final Biome b)
-    {
-        if (b != null) if (ThutCore.trim(BiomeDatabase.getBiomeName(b)).contains("flower")) return BiomeType.FLOWER;
-        return BiomeType.NONE;
-    }
-
-    public static String getBiome(final World world, final Vector3 v, final boolean checkIndandVillage)
-    {
-        String ret = "";
-
-        if (checkIndandVillage && world instanceof ServerWorld)
+        name = name.toUpperCase();
+        if (BiomeDatabase.lastTypesSize != BiomeDictionary.Type.getAll().size())
         {
-            final ServerWorld server = (ServerWorld) world;
-            if (server.isVillage(v.getPos())) return "village";
+            BiomeDatabase.typeMap.clear();
+            for (final BiomeDictionary.Type type : BiomeDictionary.Type.getAll())
+                BiomeDatabase.typeMap.put(type.getName(), type);
         }
-        final Biome biome = v.getBiome(world);
-        ret = BiomeDatabase.getBiome(biome).name;
+        return BiomeDatabase.typeMap.get(name);
+    }
 
-        return ret;
+    public static boolean isAType(final String name)
+    {
+        return BiomeDatabase.getBiomeType(name) != null;
+    }
+
+    public static boolean contains(final Biome b, final String type)
+    {
+        final BiomeDictionary.Type bType = BiomeDatabase.getBiomeType(type);
+        if (bType == null) return false;
+        return BiomeDictionary.hasType(b, bType);
     }
 
     public static String getBiomeName(final Biome biome)

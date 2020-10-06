@@ -13,12 +13,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntryLoader;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
@@ -177,9 +175,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         int biome = -1;
         final Biome b = v.getBiome(world);
         if (!PokecubeCore.getConfig().autoDetectSubbiomes) return biome;
-        final boolean notLake = BiomeDatabase.contains(b, Type.OCEAN) || BiomeDatabase.contains(b, Type.SWAMP)
-                || BiomeDatabase.contains(b, Type.RIVER) || BiomeDatabase.contains(b, Type.WATER) || BiomeDatabase
-                        .contains(b, Type.BEACH);
+        final boolean notLake = this.isWatery(b);
         int industrial = 0;
         int water = 0;
         final Vector3 temp1 = Vector3.getNewVector();
