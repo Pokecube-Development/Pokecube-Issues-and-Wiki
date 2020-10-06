@@ -80,10 +80,11 @@ repositories {
     maven { // Computer Craft
         url 'https://squiddev.cc/maven/' 
     }
-        maven { // The repo from which to get waila
+    //TODO check dependency
+  /*  maven { // The repo from which to get waila
         name "Mobius Repo"
         url "https://tehnut.info/maven"
-    }
+    }*/
     maven { // JEI
         url "http://dvs1.progwml6.com/files/maven"
     }
