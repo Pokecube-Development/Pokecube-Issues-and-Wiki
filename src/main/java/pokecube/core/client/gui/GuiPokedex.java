@@ -331,6 +331,6 @@ public class GuiPokedex extends Screen
         super.render(mat, mouseX, mouseY, partialTick);
 
         // Draw description
-        this.list.render(mouseX, mouseY, partialTick);
+        this.list.render(mat, mouseX, mouseY, partialTick);
     }
 }

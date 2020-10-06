@@ -12,11 +12,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.StringTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
@@ -76,7 +77,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         }
     }
 
-    protected TextFieldWidget name = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, "");
+    protected TextFieldWidget name = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, new StringTextComponent(""));
 
     public GuiPokemobBase(final ContainerPokemob container, final PlayerInventory inv)
     {
@@ -99,14 +100,14 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final float partialTicks, final int mouseX, final int mouseY)
+    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
         this.getMinecraft().getTextureManager().bindTexture(Resources.GUI_POKEMOB);
         final int k = (this.width - this.xSize) / 2;
         final int l = (this.height - this.ySize) / 2;
-        this.blit(k, l, 0, 0, this.xSize, this.ySize);
-        if (this.container.mode == 0) this.blit(k + 79, l + 17, 0, this.ySize, 90, 18);
-        this.blit(k + 7, l + 35, 0, this.ySize + 54, 18, 18);
+        this.blit(mat, k, l, 0, 0, this.xSize, this.ySize);
+        if (this.container.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.ySize, 90, 18);
+        this.blit(mat, k + 7, l + 35, 0, this.ySize + 54, 18, 18);
         if (this.container.pokemob != null)
         {
             final boolean prev = this.container.pokemob.getEntity().addedToChunk;
@@ -121,9 +122,9 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
      * of the items)
      */
     @Override
-    protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY)
+    protected void drawGuiContainerForegroundLayer(final MatrixStack mat, final int mouseX, final int mouseY)
     {
-        this.font.drawString(this.playerInventory.getDisplayName().getString(), 8.0F, this.ySize - 96 + 2,
+        this.font.drawString(mat, this.playerInventory.getDisplayName().getString(), 8.0F, this.ySize - 96 + 2,
                 4210752);
     }
 
@@ -133,7 +134,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         super.init();
         final int xOffset = 80;
         final int yOffset = 77;
-        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, "");
+        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, new StringTextComponent(""));
         if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName()
                 .getUnformattedComponentText().trim());
         this.name.setTextColor(0xFFFFFFFF);
@@ -142,10 +143,10 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 
     /** Draws the screen and all the components in it. */
     @Override
-    public void render(final int x, final int y, final float z)
+    public void render(final MatrixStack mat, final int x, final int y, final float z)
     {
-        super.renderBackground();
-        super.render(x, y, z);
+        super.renderBackground(mat);
+        super.render(mat, x, y, z);
         final List<String> text = Lists.newArrayList();
         if (this.container.pokemob == null) return;
         if (!text.isEmpty()) this.renderTooltip(text, x, y);

@@ -98,7 +98,7 @@ public class DodgeTask extends CombatTask implements IAICombat
          */
         perp.addVelocities(this.entity);
 
-        new PlaySound(this.entity.dimension, Vector3.getNewVector().set(this.entity), this.getDodgeSound(),
+        new PlaySound(this.entity.getEntityWorld().getDimensionKey(), Vector3.getNewVector().set(this.entity), this.getDodgeSound(),
                 SoundCategory.HOSTILE, 1, 1).run(this.world);
     }
 

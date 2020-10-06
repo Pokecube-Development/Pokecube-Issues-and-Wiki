@@ -14,6 +14,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -82,7 +83,7 @@ public class PerTypeProgress extends Progress
         super.init();
         final int x = this.watch.width / 2 - 30;
         final int y = this.watch.height / 2 + 53;
-        this.text = new TextFieldWidget(this.font, x, y, 60, 10, "");
+        this.text = new TextFieldWidget(this.font, x, y, 60, 10, new StringTextComponent(""));
         this.addButton(this.text);
     }
 

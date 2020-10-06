@@ -81,8 +81,8 @@ public class PortalActiveFunction
         // IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
 
         // Normal Worlds
-        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega && entity.dimension
-                .getId() != ModDimensions.DIMENSION_TYPE.getId())
+        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega && entity.getEntityWorld().getDimensionKey()
+                != ModDimensions.DIMENSION_TYPE)
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);
@@ -91,8 +91,7 @@ public class PortalActiveFunction
         }
 
         // Ultra Space
-        else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE
-                .getId())
+        else if (entity != null && !entityToSpawn.isMega && entity.getEntityWorld().getDimensionKey() == ModDimensions.DIMENSION_TYPE)
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);

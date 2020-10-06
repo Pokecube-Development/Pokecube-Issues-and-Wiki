@@ -8,10 +8,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootFunction;
+import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootFunction;
-import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 
@@ -25,16 +25,16 @@ public class MakeFossil extends LootFunction
         }
 
         @Override
-        public MakeFossil deserialize(JsonObject object, JsonDeserializationContext deserializationContext,
-                ILootCondition[] conditionsIn)
+        public MakeFossil deserialize(final JsonObject object, final JsonDeserializationContext deserializationContext,
+                final ILootCondition[] conditionsIn)
         {
             final String arg = object.get("type").getAsString();
             return new MakeFossil(conditionsIn, arg);
         }
 
         @Override
-        public void serialize(JsonObject object, MakeFossil functionClazz,
-                JsonSerializationContext serializationContext)
+        public void serialize(final JsonObject object, final MakeFossil functionClazz,
+                final JsonSerializationContext serializationContext)
         {
             object.addProperty("type", functionClazz.arg);
         }
@@ -44,14 +44,14 @@ public class MakeFossil extends LootFunction
 
     final String arg;
 
-    protected MakeFossil(ILootCondition[] conditionsIn, String arg)
+    protected MakeFossil(final ILootCondition[] conditionsIn, final String arg)
     {
         super(conditionsIn);
         this.arg = arg;
     }
 
     @Override
-    public ItemStack doApply(ItemStack stack, LootContext context)
+    public ItemStack doApply(final ItemStack stack, final LootContext context)
     {
         if (MakeFossil.fossils.containsKey(this.arg))
         {

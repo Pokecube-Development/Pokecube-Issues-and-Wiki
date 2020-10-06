@@ -5,11 +5,13 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
@@ -153,7 +155,7 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
 
         @Override
-        public void render(final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
+        public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
                 final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
         {
             boolean fits = true;
@@ -171,11 +173,11 @@ public class TeleportsPage extends ListPage<TeleOption>
             fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
             if (fits)
             {
-                this.text.render(mouseX, mouseY, partialTicks);
-                this.delete.render(mouseX, mouseY, partialTicks);
-                this.confirm.render(mouseX, mouseY, partialTicks);
-                this.moveUp.render(mouseX, mouseY, partialTicks);
-                this.moveDown.render(mouseX, mouseY, partialTicks);
+                this.text.render(mat, mouseX, mouseY, partialTicks);
+                this.delete.render(mat, mouseX, mouseY, partialTicks);
+                this.confirm.render(mat, mouseX, mouseY, partialTicks);
+                this.moveUp.render(mat, mouseX, mouseY, partialTicks);
+                this.moveDown.render(mat, mouseX, mouseY, partialTicks);
             }
         }
     }
@@ -201,7 +203,7 @@ public class TeleportsPage extends ListPage<TeleOption>
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)
         {
-            final TextFieldWidget name = new TextFieldWidget(this.font, 0, 0, 104, 10, "");
+            final TextFieldWidget name = new TextFieldWidget(this.font, 0, 0, 104, 10, new StringTextComponent(""));
             this.teleNames.add(name);
             name.setText(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));

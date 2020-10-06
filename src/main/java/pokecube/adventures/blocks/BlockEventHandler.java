@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
@@ -58,7 +58,7 @@ public class BlockEventHandler
             if (user instanceof LivingEntity && own instanceof IOwnableTE && !((IOwnableTE) own).canEdit(
                     (LivingEntity) user) || pos == null) return false;
             // Assume that we right clicked the top of the block.
-            pos = GlobalPos.of(pos.getDimension(), pos.getPos().up());
+            pos = GlobalPos.getPosition(pos.getDimension(), pos.getPos().up());
             this.tile.getDest().setPos(pos);
             this.tile.getDest().shift(0.5, 0, 0.5);
             if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
@@ -100,7 +100,7 @@ public class BlockEventHandler
         {
             this.tile = tile;
             this.pos = new PosStorage();
-            this.pos.setLinkedPos(GlobalPos.of(DimensionType.OVERWORLD, this.tile.getPos()), null);
+            this.pos.setLinkedPos(GlobalPos.getPosition(World.OVERWORLD, this.tile.getPos()), null);
         }
 
         @Override

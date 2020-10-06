@@ -42,7 +42,7 @@ public class RepelTile extends InteractableTile
         if (this.getWorld() == null || this.getWorld().isRemote || !this.enabled) return false;
         final BlockPos pos = this.getPos();
         return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(),
-                this.world.getDimension().getType().getId(), this.range, ForbidReason.REPEL);
+                this.world.getDimensionKey().getId(), this.range, ForbidReason.REPEL);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class RepelTile extends InteractableTile
     public boolean removeForbiddenSpawningCoord()
     {
         if (this.getWorld() == null || this.getWorld().isRemote) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world.getDimension().getType().getId());
+        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world.getDimensionKey().getId());
     }
 
     @Override

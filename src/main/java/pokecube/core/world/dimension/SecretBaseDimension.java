@@ -309,7 +309,7 @@ public class SecretBaseDimension extends ModDimension
     {
         final World world = PokecubeCore.proxy.getWorld();
         if (world == null) return;
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().getRegistryName().equals(
                 SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
     }
 
@@ -317,7 +317,7 @@ public class SecretBaseDimension extends ModDimension
     public static void worldTick(final WorldTickEvent event)
     {
         final World world = event.world;
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().getRegistryName().equals(
                 SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
     }
 
@@ -325,7 +325,7 @@ public class SecretBaseDimension extends ModDimension
     public static void worldLoad(final WorldEvent.Load event)
     {
         final IWorld world = event.getWorld();
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().getRegistryName().equals(
                 SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
     }
 

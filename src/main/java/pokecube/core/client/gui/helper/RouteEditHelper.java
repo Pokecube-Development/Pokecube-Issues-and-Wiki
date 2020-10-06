@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.StringTextComponent;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 
@@ -20,11 +21,12 @@ public class RouteEditHelper
     {
         final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
         int num = 0;
+        final StringTextComponent blank = new StringTextComponent("");
         for (final IGuardTask task : guard.getTasks())
         {
-            final TextFieldWidget location = new TextFieldWidget(fontRenderer, 0, 0, width, 10, "");
-            final TextFieldWidget time = new TextFieldWidget(fontRenderer, 0, 0, width, 10, "");
-            final TextFieldWidget dist = new TextFieldWidget(fontRenderer, 0, 0, width, 10, "");
+            final TextFieldWidget location = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
+            final TextFieldWidget time = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
+            final TextFieldWidget dist = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
             location.setMaxStringLength(Short.MAX_VALUE);
             time.setMaxStringLength(Short.MAX_VALUE);
             dist.setMaxStringLength(Short.MAX_VALUE);
@@ -40,9 +42,9 @@ public class RouteEditHelper
             entries.addEntry(entry);
         }
         // Blank value.
-        final TextFieldWidget location = new TextFieldWidget(fontRenderer, 0, 0, width, 10, "");
-        final TextFieldWidget time = new TextFieldWidget(fontRenderer, 0, 0, width, 10, "");
-        final TextFieldWidget dist = new TextFieldWidget(fontRenderer, 0, 0, width, 10, "");
+        final TextFieldWidget location = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
+        final TextFieldWidget time = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
+        final TextFieldWidget dist = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
         location.setMaxStringLength(Short.MAX_VALUE);
         time.setMaxStringLength(Short.MAX_VALUE);
         dist.setMaxStringLength(Short.MAX_VALUE);

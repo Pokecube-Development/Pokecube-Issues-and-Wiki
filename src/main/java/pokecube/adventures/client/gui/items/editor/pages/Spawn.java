@@ -34,8 +34,8 @@ public class Spawn extends Page
         super.onPageOpened();
         final int yOffset = this.height / 2;
         final int xOffset = this.width / 2;
-        this.type = new TextFieldWidget(this.font, xOffset - 45, yOffset, 100, 10, "");
-        this.level = new TextFieldWidget(this.font, xOffset - 45, yOffset + 20, 100, 10, "");
+        this.type = new TextFieldWidget(this.font, xOffset - 45, yOffset, 100, 10, new StringTextComponent(""));
+        this.level = new TextFieldWidget(this.font, xOffset - 45, yOffset + 20, 100, 10, new StringTextComponent(""));
 
         this.index = this.index % TypeTrainer.typeMap.size();
         final List<String> types = Lists.newArrayList(TypeTrainer.typeMap.keySet());
@@ -63,32 +63,32 @@ public class Spawn extends Page
         this.addButton(this.level);
         this.addButton(this.type);
 
-        this.addButton(new Button(xOffset + 75 - 15, yOffset, 40, 20, "next", b ->
+        this.addButton(new Button(xOffset + 75 - 15, yOffset, 40, 20, new StringTextComponent("next"), b ->
         {
             this.index++;
             this.index = this.index % types.size();
             this.type.setText(types.get(this.index));
 
         }));
-        this.addButton(new Button(xOffset - 75 - 15, yOffset, 40, 20, "prev", b ->
+        this.addButton(new Button(xOffset - 75 - 15, yOffset, 40, 20, new StringTextComponent("prev"), b ->
         {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
             this.type.setText(types.get(this.index));
         }));
-        this.addButton(new Button(xOffset - 45, yOffset + 40, 40, 20, "trainer", b ->
+        this.addButton(new Button(xOffset - 45, yOffset + 40, 40, 20, new StringTextComponent("trainer"), b ->
         {
             if (b.getMessage().equals("trainer")) b.setMessage("leader");
             else b.setMessage("trainer");
             this.leader = b.getMessage().equals("leader");
         }));
-        this.addButton(new Button(xOffset - 5, yOffset + 40, 40, 20, "stands", b ->
+        this.addButton(new Button(xOffset - 5, yOffset + 40, 40, 20, new StringTextComponent("stands"), b ->
         {
             if (b.getMessage().equals("wanders")) b.setMessage("stands");
             else b.setMessage("wanders");
             this.stand = b.getMessage().equals("stands");
         }));
-        this.addButton(new Button(xOffset + 35, yOffset + 40, 40, 20, "spawn", b ->
+        this.addButton(new Button(xOffset + 35, yOffset + 40, 40, 20,new StringTextComponent( "spawn"), b ->
         {
             final PacketTrainer message = new PacketTrainer(PacketTrainer.SPAWN);
             message.getTag().putString("T", this.type.getText());

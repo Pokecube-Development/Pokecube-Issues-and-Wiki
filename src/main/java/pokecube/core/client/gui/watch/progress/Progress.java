@@ -3,7 +3,9 @@ package pokecube.core.client.gui.watch.progress;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.WatchPage;
@@ -25,7 +27,7 @@ public abstract class Progress extends WatchPage
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 30;
@@ -33,11 +35,11 @@ public abstract class Progress extends WatchPage
         final int colour = 0xFFFFFFFF;
         for (final String s : this.lines)
         {
-            this.drawCenteredString(this.font, s, x, y + dy, colour);
+            AbstractGui.drawCenteredString(mat, this.font, s, x, y + dy, colour);
             dy += this.font.FONT_HEIGHT;
             if (s.isEmpty()) dy -= this.font.FONT_HEIGHT / 1.5f;
         }
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 
 }

@@ -19,8 +19,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -32,6 +32,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -45,7 +46,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -992,14 +992,14 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
         final BlockPos ultraSpacePortalBottomLeftPos = this.getUltraSpacePortalBottomLeftPos(pos, direction);
         final BlockPos ultraSpacePortalBottomRightPos = this.getUltraSpacePortalBottomRightPos(pos, direction);
 
-        final IFluidState topFluidState = world.getFluidState(pos.up(2));
-        final IFluidState topWestFluidState = world.getFluidState(pos.up(2).west());
-        final IFluidState topEastFluidState = world.getFluidState(pos.up(2).east());
-        final IFluidState middleFluidState = world.getFluidState(pos.up());
-        final IFluidState middleWestFluidState = world.getFluidState(pos.up().west());
-        final IFluidState middleEastFluidState = world.getFluidState(pos.up().east());
-        final IFluidState bottomWestFluidState = world.getFluidState(pos.west());
-        final IFluidState bottomEastFluidState = world.getFluidState(pos.east());
+        final FluidState topFluidState = world.getFluidState(pos.up(2));
+        final FluidState topWestFluidState = world.getFluidState(pos.up(2).west());
+        final FluidState topEastFluidState = world.getFluidState(pos.up(2).east());
+        final FluidState middleFluidState = world.getFluidState(pos.up());
+        final FluidState middleWestFluidState = world.getFluidState(pos.up().west());
+        final FluidState middleEastFluidState = world.getFluidState(pos.up().east());
+        final FluidState bottomWestFluidState = world.getFluidState(pos.west());
+        final FluidState bottomEastFluidState = world.getFluidState(pos.east());
 
         world.setBlockState(ultraSpacePortalBottomLeftPos, state.with(UltraSpacePortal.PART,
                 UltraSpacePortalPart.BOTTOM_LEFT).with(UltraSpacePortal.WATERLOGGED, bottomWestFluidState
@@ -1328,7 +1328,7 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
     // Breaking the Ultra Space Portal leaves water if underwater
     private void removePart(final World world, final BlockPos pos, final BlockState state)
     {
-        final IFluidState fluidState = world.getFluidState(pos);
+        final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
         else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
     }
@@ -1338,7 +1338,7 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         final BlockPos pos = context.getPos();
 
         final BlockPos ultraSpacePortalTopPos = this.getUltraSpacePortalTopPos(pos, context
@@ -1452,9 +1452,9 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
     public void onEntityCollision(final BlockState state, final World worldIn, final BlockPos pos, final Entity entity)
     {
         if (!(entity instanceof ServerPlayerEntity)) return;
-        if (entity.dimension == DimensionType.OVERWORLD) UltraSpaceModDimension.sentToUltraspace(
+        if (entity.getEntityWorld().getDimensionKey() == World.OVERWORLD) UltraSpaceModDimension.sentToUltraspace(
                 (ServerPlayerEntity) entity);
-        else if (entity.dimension == ModDimensions.DIMENSION_TYPE) UltraSpaceModDimension.sendToOverworld(
+        else if (entity.getEntityWorld().getDimensionKey() == ModDimensions.DIMENSION_TYPE) UltraSpaceModDimension.sendToOverworld(
                 (ServerPlayerEntity) entity);
     }
 
@@ -1462,8 +1462,8 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
     public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
-        final DimensionType dim = entity.dimension;
-        if (dim == DimensionType.OVERWORLD)
+        final RegistryKey<World> dim = entity.getEntityWorld().getDimensionKey();
+        if (dim == World.OVERWORLD)
         {
             if (entity instanceof ServerPlayerEntity) UltraSpaceModDimension.sentToUltraspace(
                     (ServerPlayerEntity) entity);

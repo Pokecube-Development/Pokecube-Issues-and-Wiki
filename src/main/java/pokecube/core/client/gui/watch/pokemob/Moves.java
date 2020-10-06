@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.gui.AbstractGui;
@@ -33,14 +34,14 @@ public class Moves extends ListPage<LineEntry>
     }
 
     @Override
-    void drawInfo(final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 8;
-        if (this.watch.canEdit(this.parent.pokemob)) this.drawMoves(x, y, mouseX, mouseY);
+        if (this.watch.canEdit(this.parent.pokemob)) this.drawMoves(mat, x, y, mouseX, mouseY);
     }
 
-    private void drawMoves(final int x, final int y, final int mouseX, final int mouseY)
+    private void drawMoves(final MatrixStack mat, final int x, final int y, final int mouseX, final int mouseY)
     {
         final int dx = -30;
         final int dy = 20;
@@ -58,7 +59,7 @@ public class Moves extends ListPage<LineEntry>
             final Move_Base move = MovesUtils.getMoveFromName(this.parent.pokemob.getMove(offset[3]));
             if (move != null)
             {
-                this.drawString(this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx, y + dy
+                AbstractGui.drawString(mat,this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx, y + dy
                         + offset[1] + offset[4], move.getType(this.parent.pokemob).colour);
                 final int length = this.font.getStringWidth(MovesUtils.getMoveName(move.getName()).getString());
                 if (mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.FONT_HEIGHT)
@@ -73,9 +74,9 @@ public class Moves extends ListPage<LineEntry>
                     final int mx1 = 75 - box;
                     final int my1 = offset[1] + 18;
                     final int dy1 = this.font.FONT_HEIGHT;
-                    AbstractGui.fill(x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
-                    AbstractGui.fill(x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
-                    this.font.drawString(text, x + mx1 + 1, y + my1, 0xFFFFFFFF);
+                    AbstractGui.fill(mat,x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
+                    AbstractGui.fill(mat,x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
+                    this.font.drawString(mat,text, x + mx1 + 1, y + my1, 0xFFFFFFFF);
                     GlStateManager.enableDepthTest();
                 }
             }
@@ -84,7 +85,7 @@ public class Moves extends ListPage<LineEntry>
         {
             final int[] offset = this.moveOffsets[held];
             final Move_Base move = MovesUtils.getMoveFromName(this.parent.pokemob.getMove(offset[3]));
-            if (move != null) this.drawString(this.font, MovesUtils.getMoveName(move.getName()).getString(), x
+            if (move != null) AbstractGui.drawString(mat,this.font, MovesUtils.getMoveName(move.getName()).getString(), x
                     + dx, y + dy + offset[1], move.getType(this.parent.pokemob).colour);
         }
     }
@@ -132,7 +133,7 @@ public class Moves extends ListPage<LineEntry>
             @Override
             public boolean handleClick(final ITextComponent component)
             {
-                return thisObj.handleComponentClicked(component);
+                return thisObj.handleComponentClicked(component.getStyle());
             }
 
             @Override
@@ -274,7 +275,7 @@ public class Moves extends ListPage<LineEntry>
     }
 
     @Override
-    protected void renderComponentHoverEffect(final ITextComponent component, final int x, final int y)
+    protected void renderComponentHoverEffect(final MatrixStack mat, final ITextComponent component, final int x, final int y)
     {
         tooltip:
         if (component.getStyle().getHoverEvent() != null)

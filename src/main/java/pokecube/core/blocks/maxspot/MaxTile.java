@@ -90,7 +90,7 @@ public class MaxTile extends InteractableTile
     public boolean removeForbiddenSpawningCoord()
     {
         if (this.getWorld() == null || this.getWorld().isRemote) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world.getDimension().getType().getId());
+        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world.getDimensionKey().getId());
     }
 
     @Override

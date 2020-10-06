@@ -35,11 +35,11 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
@@ -204,7 +204,7 @@ public final class SpawnHandler
         if (world == null) return true;
         if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return false;
         if (!SpawnHandler.doSpawns) return false;
-        if (SpawnHandler.dimensionBlacklist.contains(world.getDimension().getType())) return false;
+        if (SpawnHandler.dimensionBlacklist.contains(world.getDimensionKey())) return false;
         if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world.getDimension()
                 .getType())) return false;
         return true;
@@ -302,7 +302,7 @@ public final class SpawnHandler
             final int dx = Math.abs(x - coord.getX());
             final int dy = Math.abs(y - coord.getY());
             final int dz = Math.abs(z - coord.getZ());
-            if (world.getDimension().getType().getId() == coord.dim && dx <= tolerance && dz <= tolerance
+            if (world.getDimensionKey().getId() == coord.dim && dx <= tolerance && dz <= tolerance
                     && dy <= tolerance) return entry;
         }
         return null;
@@ -547,14 +547,14 @@ public final class SpawnHandler
             PokecubeCore.LOGGER.debug(message);
             boom.doExplosion();
         }
-        PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.getDimension().getType(), location
+        PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.getDimensionKey(), location
                 .getPos()));
     }
 
     private static int parse(final IWorld world, final Vector3 location)
     {
         final Vector3 spawn = Vector3.getNewVector().set(world.getWorld().getSpawnPoint());
-        final DimensionType type = world.getDimension().getType();
+        final DimensionType type = world.getDimensionKey();
         final JEP toUse = SpawnHandler.getParser(type);
         final Function function = SpawnHandler.getFunction(type);
         final boolean r = function.radial;
@@ -685,7 +685,7 @@ public final class SpawnHandler
             if (!TerrainManager.isAreaLoaded(world, v, 0)) return;
             // This getHeight can block if the above check doesn't work out!
             loc.y = world.getHeight(Type.WORLD_SURFACE, (int) loc.x, (int) loc.z);
-            final GlobalPos pos = GlobalPos.of(world.getDimension().getType(), new BlockPos(loc.x, loc.y, loc.z));
+            final GlobalPos pos = GlobalPos.of(world.getDimensionKey(), new BlockPos(loc.x, loc.y, loc.z));
             if (PokecubeSerializer.getInstance().canMeteorLand(pos, world))
             {
                 final Vector3 direction = v1.set(rand.nextGaussian() / 2, -1, rand.nextGaussian() / 2);
@@ -871,7 +871,7 @@ public final class SpawnHandler
         Collections.shuffle(players);
         for (final ServerPlayerEntity player : players)
         {
-            if (player.dimension != world.getDimension().getType()) continue;
+            if (player.getEntityWorld().getDimensionKey() != world.getDimensionKey()) continue;
             this.doSpawnForPlayer(player, world, PokecubeCore.getConfig().minSpawnRadius, PokecubeCore
                     .getConfig().maxSpawnRadius);
         }

@@ -160,7 +160,7 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
                     AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
                 }
             }
-        this.renderHoveredToolTip(mouseX, mouseY);
+        this.renderHoveredTooltip(mat,mouseX, mouseY);
     }
 
 }

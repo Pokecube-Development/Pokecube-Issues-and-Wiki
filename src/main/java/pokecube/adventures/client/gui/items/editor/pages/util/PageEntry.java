@@ -1,5 +1,7 @@
 package pokecube.adventures.client.gui.items.editor.pages.util;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.AbstractList;
 
@@ -11,7 +13,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry>
     public PageEntry(final Page parent, final Page page, final int index, final int offsetX, final int offsetY)
     {
         this.top = offsetY;
-        this.button = new Button(offsetX, offsetY, 130, 20, page.getTitle().getString(), b -> parent.parent
+        this.button = new Button(offsetX, offsetY, 130, 20, page.getTitle(), b -> parent.parent
                 .changePage(index));
         this.button.visible = false;
         this.button.active = false;
@@ -19,7 +21,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry>
     }
 
     @Override
-    public void render(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
+    public void render(final MatrixStack mat, final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
         this.button.visible = false;

@@ -129,7 +129,7 @@ public class WikiPage extends ListPage<LineEntry>
         final int offsetX = (this.watch.width - 160) / 2 + 10;
         final int offsetY = (this.watch.height - 160) / 2 + 20;
         AbstractGui.fill(mat, offsetX - 2, offsetY - 1, offsetX + 132, offsetY + 122, 0xFFFDF8EC);
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 
     private void setList()

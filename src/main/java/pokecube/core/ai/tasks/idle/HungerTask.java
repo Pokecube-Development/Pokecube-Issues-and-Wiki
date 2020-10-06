@@ -33,7 +33,6 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.TimePeriod;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -230,7 +229,7 @@ public class HungerTask extends BaseIdleTask
      */
     protected boolean checkPhotoeat()
     {
-        if (this.entity.getEntityWorld().dimension.isDaytime() && this.v.canSeeSky(this.world))
+        if (this.entity.getEntityWorld().isDaytime() && this.v.canSeeSky(this.world))
         {
             this.pokemob.setHungerTime(this.pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan / 4);
             this.pokemob.setCombatState(CombatStates.HUNTING, false);
@@ -256,7 +255,7 @@ public class HungerTask extends BaseIdleTask
                 this.pokemob.setLogicState(LogicStates.SLEEPING, false);
                 break;
             }
-        final ChunkCoordinate c = new ChunkCoordinate(this.v, this.entity.dimension.getId());
+        final BlockPos c = this.v.getPos();
         final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob
                 .getGeneralState(GeneralStates.STAYING);
         if (this.sleepy && this.hitThreshold(HungerTask.EATTHRESHOLD) && !ownedSleepCheck)
@@ -278,7 +277,7 @@ public class HungerTask extends BaseIdleTask
     }
 
     // 0 is sunrise, 6000 noon, 12000 dusk, 18000 midnight, 23999
-    public boolean isGoodSleepingSpot(final ChunkCoordinate c)
+    public boolean isGoodSleepingSpot(final BlockPos c)
     {
         if (this.pokemob.getHome() == null || this.pokemob.getHome().equals(BlockPos.ZERO))
         {

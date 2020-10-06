@@ -3,8 +3,10 @@ package pokecube.adventures.client.gui.items.editor;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -45,12 +47,12 @@ public class EditorGui extends Screen
         }
 
         @Override
-        public void render(final int mouseX, final int mouseY, final float partialTicks)
+        public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
         {
             final int x = (this.parent.width - 160) / 2 + 80;
             final int y = (this.parent.height - 160) / 2 + 70;
-            this.drawCenteredString(this.font, I18n.format("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
-            super.render(mouseX, mouseY, partialTicks);
+            AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
+            super.render(mat, mouseX, mouseY, partialTicks);
         }
 
     }
@@ -123,12 +125,12 @@ public class EditorGui extends Screen
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
         try
         {
-            this.current_page.render(mouseX, mouseY, partialTicks);
+            this.current_page.render(mat, mouseX, mouseY, partialTicks);
         }
         catch (final Exception e)
         {

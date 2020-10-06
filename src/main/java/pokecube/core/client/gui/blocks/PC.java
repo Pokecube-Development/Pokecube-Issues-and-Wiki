@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
@@ -82,7 +83,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;
-        this.blit(x, y, 0, 0, this.xSize + 1, this.ySize + 1);
+        this.blit(mat, x, y, 0, 0, this.xSize + 1, this.ySize + 1);
     }
 
     @Override
@@ -111,12 +112,11 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
             this.textFieldBoxName.setText(this.container.getPage());
         }));
         this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70, this.height / 2
-                - yOffset - 121, 25, 10, this.page);
+                - yOffset - 121, 25, 10, new StringTextComponent(this.page));
 
         if (!this.bound)
         {
-            final ITextComponent auto = this.container.inv.autoToPC ? new TranslationTextComponent(
-                    "block.pc.autoon")
+            final ITextComponent auto = this.container.inv.autoToPC ? new TranslationTextComponent("block.pc.autoon")
                     : new TranslationTextComponent("block.pc.autooff");
             this.buttons.add(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset + 10, 50, 10, auto,
                     b -> this.container.toggleAuto()));
@@ -149,8 +149,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                             // this.container.pcTile.toggleBound();
                             this.minecraft.player.closeScreen();
                         }));
-                        this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 105, 50,
-                                20, new TranslationTextComponent("block.pc.option.bind"), b ->
+                this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 105, 50, 20,
+                        new TranslationTextComponent("block.pc.option.bind"), b ->
                         {
                             // TODO bind.
                             // this.container.pcTile.setBoundOwner(this.minecraft.player);
@@ -158,12 +158,13 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                         }));
             }
         }
-        else this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 0, 0, "", b ->
-        {
-            // TODO bind.
-            // this.container.pcTile.toggleBound();
-            this.minecraft.player.closeScreen();
-        }));
+        else this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 0, 0,
+                new StringTextComponent(""), b ->
+                {
+                    // TODO bind.
+                    // this.container.pcTile.toggleBound();
+                    this.minecraft.player.closeScreen();
+                }));
         if (!this.bound)
         {
             this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset + 10, 50, 10,
@@ -202,8 +203,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                             this.buttons.get(6).visible = this.release;
                         }
                     }));
-                    this.addButton(new Button(this.width / 2 - xOffset - 31, this.height / 2 - yOffset + 10, 50, 10,
-                            new TranslationTextComponent("block.pc.option.confirm"), b ->
+            this.addButton(new Button(this.width / 2 - xOffset - 31, this.height / 2 - yOffset + 10, 50, 10,
+                    new TranslationTextComponent("block.pc.option.confirm"), b ->
                     {
                         this.release = !this.release;
                         this.container.setRelease(this.release, this.minecraft.player.getUniqueID());
@@ -241,9 +242,9 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         }
 
         this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
-                + 0, 100, 10, this.boxName);
+                + 0, 100, 10, new StringTextComponent(this.boxName));
         this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
-                - 121, 90, 10, "");
+                - 121, 90, 10, new StringTextComponent(""));
 
         this.addButton(this.textFieldSelectedBox);
         this.addButton(this.textFieldBoxName);
@@ -264,10 +265,10 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float f)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float f)
     {
-        this.renderBackground();
-        super.render(mouseX, mouseY, f);
+        this.renderBackground(mat);
+        super.render(mat, mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
         {
             final int x = i % 9 * 18 + this.width / 2 - 79;
@@ -280,21 +281,21 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
                 {
                     final int slotColor = 0x55FF0000;
-                    AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
+                    AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
                 }
                 else
                 {
                     final int slotColor = 0x5500FF00;
-                    AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
+                    AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
                 }
             }
             if (this.container.toRelease[i])
             {
                 final int slotColor = 0x55FF0000;
-                AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
+                AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
             }
         }
-        this.renderHoveredToolTip(mouseX, mouseY);
+        this.renderHoveredTooltip(mat, mouseX, mouseY);
     }
 
 }

@@ -52,7 +52,7 @@ public class GlobalProgress extends Progress
 
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        this.addButton(this.button = new Button(x - 50, y + 57, 100, 12, I18n.format("pokewatch.progress.inspect"), b ->
+        this.addButton(this.button = new Button(x - 50, y + 57, 100, 12, new TranslationTextComponent("pokewatch.progress.inspect"), b ->
         {
             PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getCurrentLanguage()
                     .getCode());

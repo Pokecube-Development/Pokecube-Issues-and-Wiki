@@ -115,7 +115,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean removeForbiddenSpawningCoord()
     {
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world.getDimension().getType().getId());
+        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world.getDimensionKey().getId());
     }
 
     public void removeResident(final IPokemob resident)

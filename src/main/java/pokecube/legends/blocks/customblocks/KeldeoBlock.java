@@ -13,7 +13,7 @@ import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -164,7 +164,7 @@ public class KeldeoBlock extends Rotates implements IWaterLoggable
     {
         if (entity != null)
         {
-            final IFluidState fluidState = world.getFluidState(pos.up());
+            final FluidState fluidState = world.getFluidState(pos.up());
             world.setBlockState(pos.up(), state.with(KeldeoBlock.HALF, KeldeoBlockPart.TOP).with(
                     KeldeoBlock.WATERLOGGED, fluidState.getFluid() == Fluids.WATER), 3);
         }
@@ -209,7 +209,7 @@ public class KeldeoBlock extends Rotates implements IWaterLoggable
     // Breaking the Keldeo Spawner leaves water if underwater
     private void removeHalf(final World world, final BlockPos pos, final BlockState state)
     {
-        final IFluidState fluidState = world.getFluidState(pos);
+        final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
         else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
     }
@@ -219,7 +219,7 @@ public class KeldeoBlock extends Rotates implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         final BlockPos pos = context.getPos();
 
         final BlockPos keldeoPos = this.getKeldeoTopPos(pos, context.getPlacementHorizontalFacing().getOpposite());

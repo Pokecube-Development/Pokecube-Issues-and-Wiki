@@ -5,6 +5,7 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -15,6 +16,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
@@ -81,16 +83,16 @@ public class GuiPokemobStorage extends GuiPokemobBase
      * the items)
      */
     @Override
-    protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY)
+    protected void drawGuiContainerForegroundLayer(final MatrixStack mat,final int mouseX, final int mouseY)
     {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        super.drawGuiContainerForegroundLayer(mat,mouseX, mouseY);
         final int x = 83;
         final int y = 20;
-        this.font.drawString(I18n.format("pokemob.gui.berry"), x, y, 4210752);
-        this.font.drawString(I18n.format("pokemob.gui.store"), x, y + 10, 4210752);
-        this.font.drawString(I18n.format("pokemob.gui.face"), x, y + 20, 4210752);
-        this.font.drawString(I18n.format("pokemob.gui.empty"), x, y + 30, 4210752);
-        this.font.drawString(I18n.format("pokemob.gui.face"), x, y + 40, 4210752);
+        this.font.drawString(mat,I18n.format("pokemob.gui.berry"), x, y, 4210752);
+        this.font.drawString(mat,I18n.format("pokemob.gui.store"), x, y + 10, 4210752);
+        this.font.drawString(mat,I18n.format("pokemob.gui.face"), x, y + 20, 4210752);
+        this.font.drawString(mat,I18n.format("pokemob.gui.empty"), x, y + 30, 4210752);
+        this.font.drawString(mat,I18n.format("pokemob.gui.face"), x, y + 40, 4210752);
     }
 
     @Override
@@ -100,22 +102,22 @@ public class GuiPokemobStorage extends GuiPokemobBase
         this.buttons.clear();
         int xOffset = this.width / 2 - 10;
         final int yOffset = this.height / 2 - 77;
-        this.addButton(new Button(xOffset + 60, yOffset, 30, 10, I18n.format("pokemob.gui.inventory"),
+        this.addButton(new Button(xOffset + 60, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.inventory"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getEntityId())));
-        this.addButton(new Button(xOffset + 30, yOffset, 30, 10, I18n.format("pokemob.gui.ai"), b -> PacketPokemobGui
+        this.addButton(new Button(xOffset + 30, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.ai"), b -> PacketPokemobGui
                 .sendPagePacket(PacketPokemobGui.AI, this.entity.getEntityId())));
-        this.addButton(new Button(xOffset + 00, yOffset, 30, 10, I18n.format("pokemob.gui.routes"),
+        this.addButton(new Button(xOffset + 00, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.routes"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getEntityId())));
         xOffset += 29;
         final int dy = 13;
         final int ds = 10;
-        this.addButton(this.berry = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 0, 50, 10, ""));
-        this.addButton(this.storage = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 1, 50, 10, ""));
+        this.addButton(this.berry = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 0, 50, 10, new StringTextComponent("")));
+        this.addButton(this.storage = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 1, 50, 10, new StringTextComponent("")));
         this.addButton(this.storageFace = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 2, 50, 10,
-                ""));
-        this.addButton(this.empty = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 3, 50, 10, ""));
+                new StringTextComponent("")));
+        this.addButton(this.empty = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 3, 50, 10, new StringTextComponent("")));
         this.addButton(this.emptyFace = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 4, 50, 10,
-                ""));
+                new StringTextComponent("")));
         this.textBoxes = Lists.newArrayList(this.berry, this.storage, this.storageFace, this.empty, this.emptyFace);
 
         final CompoundNBT nbt = this.ai.serializeNBT();
@@ -207,10 +209,10 @@ public class GuiPokemobStorage extends GuiPokemobBase
     }
 
     @Override
-    public void render(final int i, final int j, final float f)
+    public void render(final MatrixStack mat, final int i, final int j, final float f)
     {
-        super.render(i, j, f);
-        this.renderHoveredToolTip(i, j);
+        super.render(mat,i, j, f);
+        this.renderHoveredTooltip(mat,i, j);
     }
 
     private void sendUpdate()

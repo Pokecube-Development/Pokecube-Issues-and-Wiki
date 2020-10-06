@@ -1,8 +1,8 @@
 package pokecube.core.world.gen.jigsaw;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.DynamicOps;
 
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;

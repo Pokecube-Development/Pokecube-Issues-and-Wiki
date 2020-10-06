@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Dynamic;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.state.properties.StructureMode;
@@ -12,10 +12,10 @@ import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeManager;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
@@ -154,7 +154,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     {
         if (!this.biomeMatches(biome)) return false;
 
-        final DimensionType dim = chunkGen.world.getDimension().getType();
+        final DimensionType dim = chunkGen.world.getDimensionKey();
         if (this.getStruct().isBlackisted(dim)) return false;
 
         // Check if spawn building and should build.

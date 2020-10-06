@@ -1,5 +1,7 @@
 package pokecube.core.client.gui.watch.util;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import pokecube.core.client.gui.helper.INotifiedEntry;
@@ -13,7 +15,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> impleme
             final int offsetY)
     {
         this.top = offsetY;
-        this.button = new Button(offsetX, offsetY, 130, 20, page.getTitle().getString(), b -> parent.watch
+        this.button = new Button(offsetX, offsetY, 130, 20, page.getTitle(), b -> parent.watch
                 .changePage(index));
         this.button.visible = false;
         this.button.active = false;
@@ -29,7 +31,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> impleme
     }
 
     @Override
-    public void render(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
+    public void render(final MatrixStack mat, final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
         // Note that this seems to send these backwards.

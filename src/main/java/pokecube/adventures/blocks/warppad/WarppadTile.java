@@ -6,15 +6,17 @@ import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
@@ -25,8 +27,8 @@ import thut.api.maths.Vector3;
 public class WarppadTile extends InteractableTile implements IEnergyStorage
 {
     public static TileEntityType<? extends TileEntity> TYPE;
-    public static List<DimensionType>                  invalidDests   = Lists.newArrayList();
-    public static List<DimensionType>                  invalidSources = Lists.newArrayList();
+    public static List<RegistryKey<World>>             invalidDests   = Lists.newArrayList();
+    public static List<RegistryKey<World>>             invalidSources = Lists.newArrayList();
     public static JEP                                  parser;
 
     public static void initParser(final String function)
@@ -72,8 +74,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
     public TeleDest getDest()
     {
-        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.of(this.getWorld() != null ? this.getWorld()
-                .getDimension().getType() : DimensionType.OVERWORLD, this.getPos().up(4)));
+        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.getPosition(this.getWorld() != null ? this.getWorld().getDimensionKey() : World.OVERWORLD, this.getPos().up(4)));
         return this.dest;
     }
 
@@ -81,7 +82,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     public void onWalkedOn(final Entity entityIn)
     {
         // TODO possible error log when things fail for reasons?
-        if (WarppadTile.invalidSources.contains(entityIn.dimension) || entityIn.getEntityWorld().isRemote) return;
+        if (WarppadTile.invalidSources.contains(entityIn.getEntityWorld().getDimensionKey()) || entityIn.getEntityWorld().isRemote) return;
 
         final TeleDest dest = this.getDest();
         final BlockPos link = dest.loc.getPos();
@@ -98,8 +99,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
             WarppadTile.parser.setVarValue("dx", link.getX() - here.x);
             WarppadTile.parser.setVarValue("dy", link.getY() - here.y);
             WarppadTile.parser.setVarValue("dz", link.getZ() - here.z);
-            WarppadTile.parser.setVarValue("dw", dest.loc.getDimension().getId() - this.getWorld().getDimension()
-                    .getType().getId());
+            WarppadTile.parser.setVarValue("dw", 0);// TODO Decide on distance between dimensions
             cost = WarppadTile.parser.getValue();
             if (!this.noEnergyNeed && this.energy < cost)
             {
@@ -118,7 +118,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     }
 
     @Override
-    public void read(final CompoundNBT compound)
+    public void read(final BlockState stateIn, final CompoundNBT compound)
     {
         if (compound.contains("dest"))
         {
@@ -127,7 +127,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
         }
         this.energy = compound.getInt("energy");
         this.noEnergyNeed = compound.getBoolean("noEnergyNeed");
-        super.read(compound);
+        super.read(stateIn, compound);
     }
 
     @Override

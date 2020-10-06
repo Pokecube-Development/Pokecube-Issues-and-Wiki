@@ -30,7 +30,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
@@ -600,8 +600,7 @@ public class PokemobEventsHandler
     @SubscribeEvent
     public static void tick(final LivingUpdateEvent evt)
     {
-        final DimensionType dim = evt.getEntity().getEntityWorld().getDimension().getType();
-        if (dim != evt.getEntity().dimension) evt.getEntity().dimension = dim;
+        final World dim = evt.getEntity().getEntityWorld();
         if (!TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold))
         {
@@ -619,7 +618,7 @@ public class PokemobEventsHandler
         if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
         {
             final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
-            evt.getEntity().getPersistentData().removeUniqueId("old_uuid");
+            evt.getEntity().getPersistentData().remove("old_uuid");
             if (pokemob != null) PokemobTracker.removePokemob(pokemob);
             evt.getEntity().setUniqueId(id);
             if (pokemob != null) PokemobTracker.addPokemob(pokemob);

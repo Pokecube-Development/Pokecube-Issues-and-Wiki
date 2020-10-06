@@ -219,7 +219,7 @@ public class EventsHandler
             }
             return;
         }
-        final DimensionType dim = world.getDimension().getType();
+        final DimensionType dim = world.getDimensionKey();
         final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Lists.newArrayList());
         synchronized (tasks)
         {
@@ -620,7 +620,7 @@ public class EventsHandler
     public static void WorldSave(final WorldEvent.Save evt)
     {
         // Save the pokecube data whenever the overworld saves.
-        if (evt.getWorld().getDimension().getType() == DimensionType.OVERWORLD)
+        if (evt.getWorld().getDimensionKey() == World.OVERWORLD)
         {
             final long time = System.nanoTime();
             PokecubeSerializer.getInstance().save();

@@ -6,6 +6,8 @@ import java.util.function.Function;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
@@ -19,6 +21,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -56,12 +59,12 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.variation = variation;
         this.index = index;
         this.entity = entity;
-        this.delete = new Button(0, 0, 10, 10, "x", b -> this.deleteClicked(b));
+        this.delete = new Button(0, 0, 10, 10, new StringTextComponent("x"), b -> this.deleteClicked(b));
         this.delete.setFGColor(0xFFFF0000);
-        this.confirm = new Button(0, 0, 10, 10, "Y", b -> this.confirmClicked(b));
+        this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b -> this.confirmClicked(b));
         this.confirm.active = false;
-        this.moveUp = new Button(0, 0, 10, 10, "\u21e7", b -> this.moveUpClicked(b));
-        this.moveDown = new Button(0, 0, 10, 10, "\u21e9", b -> this.moveDownClicked(b));
+        this.moveUp = new Button(0, 0, 10, 10, new StringTextComponent("\u21e7"), b -> this.moveUpClicked(b));
+        this.moveDown = new Button(0, 0, 10, 10, new StringTextComponent("\u21e9"), b -> this.moveDownClicked(b));
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
         this.moveDown.active = index < guard.getTasks().size() - 1;
         this.function = function;
@@ -216,7 +219,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
     }
 
     @Override
-    public void render(final int slotIndex, int y, int x, final int listWidth, final int slotHeight, final int mouseX,
+    public void render(final MatrixStack mat, final int slotIndex, int y, int x, final int listWidth, final int slotHeight, final int mouseX,
             final int mouseY, final boolean isSelected, final float partialTicks)
     {
         this.delete.visible = true;
@@ -249,14 +252,14 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.moveDown.x = x - 2 + 10 + this.location.getWidth();
 
         RenderHelper.disableStandardItemLighting();
-        this.location.render(mouseX, mouseY, partialTicks);
-        this.timeperiod.render(mouseX, mouseY, partialTicks);
-        this.variation.render(mouseX, mouseY, partialTicks);
+        this.location.render(mat, mouseX, mouseY, partialTicks);
+        this.timeperiod.render(mat, mouseX, mouseY, partialTicks);
+        this.variation.render(mat, mouseX, mouseY, partialTicks);
 
-        this.delete.render(mouseX, mouseY, partialTicks);
-        this.confirm.render(mouseX, mouseY, partialTicks);
-        this.moveUp.render(mouseX, mouseY, partialTicks);
-        this.moveDown.render(mouseX, mouseY, partialTicks);
+        this.delete.render(mat, mouseX, mouseY, partialTicks);
+        this.confirm.render(mat, mouseX, mouseY, partialTicks);
+        this.moveUp.render(mat, mouseX, mouseY, partialTicks);
+        this.moveDown.render(mat, mouseX, mouseY, partialTicks);
         GL11.glColor3f(1, 1, 1);
     }
 

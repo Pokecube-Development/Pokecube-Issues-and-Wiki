@@ -7,8 +7,8 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -65,7 +65,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     {
         if (placer != null)
         {
-            final IFluidState fluidState = world.getFluidState(pos.up());
+            final FluidState fluidState = world.getFluidState(pos.up());
             world.setBlockState(pos.up(), state.with(ClonerBlock.HALF, ClonerBlockPart.TOP).with(
                     ClonerBlock.WATERLOGGED, fluidState.getFluid() == Fluids.WATER), 1);
         }
@@ -110,7 +110,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     // Breaking the Cloner leaves water if underwater
     private void removeHalf(final World world, final BlockPos pos, final BlockState state)
     {
-        final IFluidState fluidState = world.getFluidState(pos);
+        final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
         else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
     }
@@ -119,7 +119,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         final BlockPos pos = context.getPos();
 
         final BlockPos clonerPos = this.getClonerTopPos(pos, context.getPlacementHorizontalFacing().getOpposite());
@@ -133,7 +133,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
 
     @SuppressWarnings("deprecation")
     @Override
-    public IFluidState getFluidState(final BlockState state)
+    public FluidState getFluidState(final BlockState state)
     {
         return state.get(ClonerBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }

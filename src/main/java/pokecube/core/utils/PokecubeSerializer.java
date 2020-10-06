@@ -13,7 +13,7 @@ import java.util.Vector;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Dynamic;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -23,12 +23,12 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
 import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.SaveHandler;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry;
@@ -38,6 +38,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector4;
+import thut.bling.bag.SaveHandler;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 
@@ -91,7 +92,7 @@ public class PokecubeSerializer
 
     private PokecubeSerializer(final MinecraftServer server)
     {
-        this(server != null ? server.getWorld(DimensionType.OVERWORLD) : null);
+        this(server != null ? server.getWorld(World.OVERWORLD) : null);
     }
 
     private PokecubeSerializer(final ServerWorld world)
@@ -112,11 +113,11 @@ public class PokecubeSerializer
         this.save();
     }
 
-    public boolean shouldPlace(final String struct, final BlockPos pos, final DimensionType dim, final int seperation)
+    public boolean shouldPlace(final String struct, final BlockPos pos, final RegistryKey<World> dim, final int seperation)
     {
         final List<GlobalPos> locs = this.structs.get(struct);
         if (locs == null) return true;
-        final GlobalPos check = GlobalPos.of(dim, pos);
+        final GlobalPos check = GlobalPos.getPosition(dim, pos);
         for (final GlobalPos v : locs)
         {
             if (v.getDimension() != dim) continue;
@@ -125,9 +126,9 @@ public class PokecubeSerializer
         return true;
     }
 
-    public void place(final String struct, final BlockPos pos, final DimensionType dim)
+    public void place(final String struct, final BlockPos pos, final RegistryKey<World> dim)
     {
-        final GlobalPos check = GlobalPos.of(dim, pos);
+        final GlobalPos check = GlobalPos.getPosition(dim, pos);
         final List<GlobalPos> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
         locs.add(check);
         this.structs.put(struct, locs);
@@ -252,8 +253,8 @@ public class PokecubeSerializer
                     if (tmp != null && !tmp.isEmpty())
                     {
                         final BlockPos pos = new BlockPos(tmp.x, tmp.y, tmp.z);
-                        final DimensionType dim = DimensionType.getById((int) tmp.w);
-                        final GlobalPos location = GlobalPos.of(dim, pos);
+                        final RegistryKey<World> dim = DimensionType.getById((int) tmp.w);
+                        final GlobalPos location = GlobalPos.getPosition(dim, pos);
                         for (final GlobalPos v : this.meteors)
                             if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
                         this.meteors.add(location);

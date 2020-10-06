@@ -8,10 +8,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootFunction;
+import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootFunction;
-import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 
@@ -25,16 +25,16 @@ public class MakeHeldItem extends LootFunction
         }
 
         @Override
-        public MakeHeldItem deserialize(JsonObject object, JsonDeserializationContext deserializationContext,
-                ILootCondition[] conditionsIn)
+        public MakeHeldItem deserialize(final JsonObject object, final JsonDeserializationContext deserializationContext,
+                final ILootCondition[] conditionsIn)
         {
             final String arg = object.get("type").getAsString();
             return new MakeHeldItem(conditionsIn, arg);
         }
 
         @Override
-        public void serialize(JsonObject object, MakeHeldItem functionClazz,
-                JsonSerializationContext serializationContext)
+        public void serialize(final JsonObject object, final MakeHeldItem functionClazz,
+                final JsonSerializationContext serializationContext)
         {
             object.addProperty("type", functionClazz.arg);
         }
@@ -44,14 +44,14 @@ public class MakeHeldItem extends LootFunction
 
     final String arg;
 
-    protected MakeHeldItem(ILootCondition[] conditionsIn, String arg)
+    protected MakeHeldItem(final ILootCondition[] conditionsIn, final String arg)
     {
         super(conditionsIn);
         this.arg = arg;
     }
 
     @Override
-    public ItemStack doApply(ItemStack stack, LootContext context)
+    public ItemStack doApply(final ItemStack stack, final LootContext context)
     {
         if (MakeHeldItem.nameMap.containsKey(this.arg))
         {

@@ -27,7 +27,7 @@ public class Warppad extends BasePeripheral<WarppadTile>
         public boolean setDest(final int x, final int y, final int z) throws LuaException
         {
             final TeleDest dest = this.tile.getDest();
-            dest.setPos(GlobalPos.of(this.tile.getWorld().getDimension().getType(), new BlockPos(x, y, z)));
+            dest.setPos(GlobalPos.of(this.tile.getWorld().getDimensionKey(), new BlockPos(x, y, z)));
             return true;
         }
     }

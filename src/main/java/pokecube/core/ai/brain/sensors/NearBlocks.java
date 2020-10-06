@@ -74,7 +74,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
                 AIRoutine.GATHER) && this.tameCheck(pokemob);
         final int size = gathering ? 15 : 8;
-        if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), size + 8)) return;
+        if (!TerrainManager.isAreaLoaded(entityIn.getEntityWorld(), entityIn.getPosition(), size + 8)) return;
 
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector();
         final Vector3 origin = Vector3.getNewVector();
@@ -85,7 +85,7 @@ public class NearBlocks extends Sensor<LivingEntity>
 
         final Predicate<BlockPos> visible = input ->
         {
-            final Vector3d end = new Vector3d(input).add(0.5, 0.5, 0.5);
+            final Vector3d end = new Vector3d(input.getX() + 0.5, input.getY() + 0.5, input.getZ() + 0.5);
             final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
                     entityIn);
             final RayTraceResult result = worldIn.rayTraceBlocks(context);

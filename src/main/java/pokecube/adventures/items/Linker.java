@@ -105,7 +105,7 @@ public class Linker extends Item
         if (!test_stack.isPresent()) return false;
         final ILinkStorage storage = test_stack.orElse(null);
         final GlobalPos pos = storage.getLinkedPos(playerIn);
-        if (ai != null && pos != null && pos.getDimension() == target.dimension)
+        if (ai != null && pos != null && pos.getDimension() == target.getEntityWorld().getDimensionKey())
         {
             final IOwnable ownable = OwnableCaps.getOwnable(target);
             boolean valid = false;

@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -177,7 +176,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     if (dyna)
                     {
                         this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
-                        final Long time = evt.world.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                        final Long time = evt.world.getServer().getWorld(World.OVERWORLD).getGameTime();
                         this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
                         if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler.getCustomDataTag(this.pokemob
                                 .getOwnerId()).putLong("pokecube:dynatime", time);

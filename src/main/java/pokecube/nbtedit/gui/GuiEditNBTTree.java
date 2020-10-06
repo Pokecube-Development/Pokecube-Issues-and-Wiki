@@ -2,12 +2,16 @@ package pokecube.nbtedit.gui;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.packets.CustomNBTPacket;
@@ -92,8 +96,8 @@ public class GuiEditNBTTree extends Screen
     {
         this.minecraft.keyboardListener.enableRepeatEvents(true);
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
-        this.addButton(new Button(this.width / 4 - 100, this.height - 27, 200, 20, "Save", b -> this.quitWithSave()));
-        this.addButton(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, "Quit", b -> this
+        this.addButton(new Button(this.width / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Save"), b -> this.quitWithSave()));
+        this.addButton(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Quit"), b -> this
                 .quitWithoutSaving()));
         this.children.add(this.guiTree);
     }
@@ -165,12 +169,12 @@ public class GuiEditNBTTree extends Screen
     }
 
     @Override
-    public void render(final int x, final int y, final float par3)
+    public void render(final MatrixStack mat, final int x, final int y, final float par3)
     {
-        this.renderBackground();
-        this.guiTree.render(x, y, par3);
-        this.drawCenteredString(this.font, this.screenTitle, this.width / 2, 5, 16777215);
-        super.render(x, y, par3);
+        this.renderBackground(mat);
+        this.guiTree.render(mat, x, y, par3);
+        AbstractGui.drawCenteredString(mat,this.font, this.screenTitle, this.width / 2, 5, 16777215);
+        super.render(mat,x, y, par3);
     }
 
     @Override

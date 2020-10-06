@@ -13,11 +13,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.world.dimension.SecretBaseDimension;
@@ -52,7 +53,7 @@ public class BaseTile extends InteractableTile
             BlockPos exit_here;
             try
             {
-                exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.dimension);
+                exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.getEntityWorld().getDimensionKey());
             }
             catch (final Exception e)
             {
@@ -68,16 +69,16 @@ public class BaseTile extends InteractableTile
                 return ActionResultType.FAIL;
             }
         }
-        final DimensionType dim = player.dimension;
-        if (dim == DimensionType.OVERWORLD) SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
+        final RegistryKey<World> dim = player.getEntityWorld().getDimensionKey();
+        if (dim == World.OVERWORLD) SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
         else SecretBaseDimension.sendToExit((ServerPlayerEntity) player, targetBase);
         return ActionResultType.SUCCESS;
     }
 
     @Override
-    public void read(final CompoundNBT compound)
+    public void read(final BlockState stateIn, final CompoundNBT compound)
     {
-        super.read(compound);
+        super.read(stateIn, compound);
         this.any = compound.getBoolean("any_use");
         if (compound.contains("base_pos"))
         {

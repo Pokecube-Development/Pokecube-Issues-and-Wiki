@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.RenderComponentsUtil;
@@ -148,7 +149,7 @@ public class SpawnsPage extends ListPage<LineEntry>
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedLoc.size() || this.repel != PacketPokedex.repelled)
@@ -158,7 +159,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         }
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 17;
-        this.drawCenteredString(this.font, I18n.format("pokewatch.spawns.info"), x, y, 0xFFFFFFFF);
-        super.render(mouseX, mouseY, partialTicks);
+        this.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x, y, 0xFFFFFFFF);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 }

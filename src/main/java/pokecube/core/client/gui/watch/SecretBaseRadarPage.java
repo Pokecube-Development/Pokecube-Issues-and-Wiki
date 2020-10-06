@@ -5,13 +5,16 @@ import java.util.Set;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.api.maths.Vector3;
@@ -46,12 +49,12 @@ public class SecretBaseRadarPage extends WatchPage
         super.onPageOpened();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        this.addButton(new Button(x + 64, y - 70, 12, 12, "",
+        this.addButton(new Button(x + 64, y - 70, 12, 12, new StringTextComponent(""),
                 b -> SecretBaseRadarPage.meteors = !SecretBaseRadarPage.meteors));
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
         GL11.glPushMatrix();
@@ -139,7 +142,7 @@ public class SecretBaseRadarPage extends WatchPage
         }
         GL11.glPopMatrix();
         GlStateManager.enableTexture();
-        this.drawCenteredString(this.font, this.getTitle().getString(), x, y, 0x78C850);
-        super.render(mouseX, mouseY, partialTicks);
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0x78C850);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 }

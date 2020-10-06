@@ -10,6 +10,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -195,13 +196,13 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     {
         final String message = "msg.infolegendextra.info";
         final String[] split = names.split(", ");
-        ITextComponent namemes = null;
+        IFormattableTextComponent namemes = null;
         for (final String s : split)
         {
             PokedexEntry entry = Database.getEntry(s);
             if (entry == null) entry = Database.missingno;
             if (namemes == null) namemes = new TranslationTextComponent(entry.getUnlocalizedName());
-            else namemes = namemes.appendText(", ").appendSibling(new TranslationTextComponent(entry
+            else namemes = namemes.appendString(", ").append(new TranslationTextComponent(entry
                     .getUnlocalizedName()));
         }
         trainer.sendMessage(new TranslationTextComponent(message, namemes), Util.DUMMY_UUID);

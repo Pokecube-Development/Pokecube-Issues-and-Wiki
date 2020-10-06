@@ -8,6 +8,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
@@ -17,6 +18,8 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.EventsHandlerClient;
@@ -167,7 +170,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         super.init();
         final int x = this.watch.width / 2 - 70;
         final int y = this.watch.height / 2 + 53;
-        this.search = new TextFieldWidget(this.font, x, y, 140, 10, "");
+        this.search = new TextFieldWidget(this.font, x, y, 140, 10, new StringTextComponent(""));
         this.addButton(this.search);
         this.index = PokemobInfoPage.savedIndex;
     }
@@ -228,7 +231,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     }
 
     @Override
-    public void postPageDraw(final int mouseX, final int mouseY, final float partialTicks)
+    public void postPageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 8;
@@ -251,11 +254,11 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 for (final String s : text)
                     box = Math.max(box, this.font.getStringWidth(s) + 2);
 
-                AbstractGui.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1, 0xFF78C850);
+                AbstractGui.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1, 0xFF78C850);
                 for (final String s : text)
                 {
-                    AbstractGui.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-                    this.font.drawString(s, x + mx + 1, y + my, 0xFFFFFFFF);
+                    AbstractGui.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
+                    this.font.drawString(mat, s, x + mx + 1, y + my, 0xFFFFFFFF);
                     my += dy;
                 }
                 GlStateManager.enableDepthTest();
@@ -264,7 +267,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     }
 
     @Override
-    public void prePageDraw(final int mouseX, final int mouseY, final float partialTicks)
+    public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (!this.watch.canEdit(this.pokemob))
         {
@@ -286,18 +289,18 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 8;
-        this.drawCenteredString(this.font, this.getTitle().getString(), x, y, 0xFF78C850);
-        this.drawCenteredString(this.font, this.current_page.getTitle().getString(), x, y + 10, 0xFF78C850);
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFF78C850);
+        AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x, y + 10, 0xFF78C850);
         int dx = -76;
         int dy = 10;
         int dr = 40;
         int colour = 0xFF78C850;
 
         // Draw a box around where pokemob displays
-        this.vLine(x + dx, y + dy, y + dy + dr, colour);
-        this.vLine(x + dx + dr, y + dy, y + dy + dr, colour);
-        this.hLine(x + dx, x + dx + dr, y + dy, colour);
-        this.hLine(x + dx, x + dx + dr, y + dy + dr, colour);
+        this.vLine(mat, x + dx, y + dy, y + dy + dr, colour);
+        this.vLine(mat, x + dx + dr, y + dy, y + dy + dr, colour);
+        this.hLine(mat, x + dx, x + dx + dr, y + dy, colour);
+        this.hLine(mat, x + dx, x + dx + dr, y + dy + dr, colour);
 
         // Draw Pokemob
         if (this.pokemob != null)
@@ -325,7 +328,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             dx = -75;
             dy = 11;
             // Draw the box.
-            this.blit(x + dx, y + dy, dr, 247, 9, 9);
+            this.blit(mat, x + dx, y + dy, dr, 247, 9, 9);
 
             IPokemob pokemob = this.renderMob;
             // Copy the stuff to the render mob if this mob is in world
@@ -368,29 +371,29 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final String level = "L. " + this.pokemob.getLevel();
             dx = -74;
             dy = 42;
-            this.drawString(this.font, level, x + dx, y + dy, 0xffffff);
+            AbstractGui.drawString(mat, this.font, level, x + dx, y + dy, 0xffffff);
             dx = -40;
-            this.drawCenteredString(this.font, gender, x + dx, y + dy, genderColor);
+            AbstractGui.drawCenteredString(mat, this.font, gender, x + dx, y + dy, genderColor);
             this.pokemob.getType1();
             final String type1 = PokeType.getTranslatedName(this.pokemob.getType1());
             final String type2 = PokeType.getTranslatedName(this.pokemob.getType2());
             dx = -74;
             dy = 52;
             colour = this.pokemob.getType1().colour;
-            this.drawString(this.font, type1, x + dx, y + dy, colour);
+            AbstractGui.drawString(mat, this.font, type1, x + dx, y + dy, colour);
             colour = this.pokemob.getType2().colour;
             dy = 62;
-            if (this.pokemob.getType2() != PokeType.unknown) this.drawString(this.font, type2, x + dx, y + dy, colour);
+            if (this.pokemob.getType2() != PokeType.unknown) AbstractGui.drawString(mat, this.font, type2, x + dx, y + dy, colour);
 
             // Draw box around where type displays
             dx = -76;
             dy = 50;
             dr = 20;
             colour = 0xFF78C850;
-            this.vLine(x + dx, y + dy, y + dy + dr, colour);
-            this.vLine(x + dx + 2 * dr, y + dy, y + dy + dr, colour);
+            this.vLine(mat, x + dx, y + dy, y + dy + dr, colour);
+            this.vLine(mat, x + dx + 2 * dr, y + dy, y + dy + dr, colour);
             dr = 40;
-            this.hLine(x + dx, x + dx + dr, y + dy + dr / 2, colour);
+            this.hLine(mat, x + dx, x + dx + dr, y + dy + dr / 2, colour);
 
         }
     }
@@ -403,8 +406,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         this.initPages(this.pokemob);
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final String next = ">";
-        final String prev = "<";
+        final ITextComponent next = new StringTextComponent(">");
+        final ITextComponent prev = new StringTextComponent("<");
         this.addButton(new Button(x + 64, y - 70, 12, 12, next, b ->
         {
             this.changePage(this.index + 1);

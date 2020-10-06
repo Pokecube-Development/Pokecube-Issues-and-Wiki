@@ -1,5 +1,8 @@
 package pokecube.adventures.client.gui.items.editor.pages.util;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
@@ -19,11 +22,11 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
         super(title, parent);
     }
 
-    public void drawTitle(final int mouseX, final int mouseY, final float partialTicks)
+    public void drawTitle(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.parent.width - 160) / 2 + 80;
         final int y = (this.parent.height - 160) / 2 + 8;
-        this.drawCenteredString(this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
     }
 
     @Override
@@ -46,11 +49,11 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.drawTitle(mouseX, mouseY, partialTicks);
-        super.render(mouseX, mouseY, partialTicks);
+        this.drawTitle(mat, mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
         // Draw the list
-        if (!this.handlesList) this.list.render(mouseX, mouseY, partialTicks);
+        if (!this.handlesList) this.list.render(mat, mouseX, mouseY, partialTicks);
     }
 }

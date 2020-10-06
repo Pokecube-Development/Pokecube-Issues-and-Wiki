@@ -54,6 +54,6 @@ public class Healer<T extends HealerContainer> extends ContainerScreen<T>
     {
         this.renderBackground(mat);
         super.render(mat, mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+        this.renderHoveredTooltip(mat, mouseX, mouseY);
     }
 }

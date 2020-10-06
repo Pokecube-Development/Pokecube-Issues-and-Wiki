@@ -13,7 +13,7 @@ import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -307,9 +307,9 @@ public class XerneasCore extends Rotates implements IWaterLoggable
             final BlockPos xerneasCoreTopLeftPos = this.getXerneasCoreTopLeftPos(pos, entity.getHorizontalFacing());
             final BlockPos xerneasCoreTopRightPos = this.getXerneasCoreTopRightPos(pos, entity.getHorizontalFacing());
 
-            final IFluidState fluidState = world.getFluidState(pos.up());
-            final IFluidState westFluidState = world.getFluidState(pos.up().west());
-            final IFluidState eastFluidState = world.getFluidState(pos.up().east());
+            final FluidState fluidState = world.getFluidState(pos.up());
+            final FluidState westFluidState = world.getFluidState(pos.up().west());
+            final FluidState eastFluidState = world.getFluidState(pos.up().east());
 
             world.setBlockState(pos.up(), state.with(XerneasCore.PART, XerneasCorePart.TOP).with(
                     XerneasCore.WATERLOGGED, fluidState.getFluid() == Fluids.WATER), 3);
@@ -461,7 +461,7 @@ public class XerneasCore extends Rotates implements IWaterLoggable
     // Breaking the Xerneas Core Spawner leaves water if underwater
     private void removePart(final World world, final BlockPos pos, final BlockState state)
     {
-        final IFluidState fluidState = world.getFluidState(pos);
+        final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
         else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
     }
@@ -471,7 +471,7 @@ public class XerneasCore extends Rotates implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         final BlockPos pos = context.getPos();
 
         final BlockPos xerneasCorePos = this.getXerneasCoreTopPos(pos, context.getPlacementHorizontalFacing()

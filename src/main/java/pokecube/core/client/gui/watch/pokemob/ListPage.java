@@ -1,5 +1,8 @@
 package pokecube.core.client.gui.watch.pokemob;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
@@ -14,16 +17,16 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     }
 
     @Override
-    void drawInfo(final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
 
-    protected void drawTitle(final int mouseX, final int mouseY, final float partialTicks)
+    protected void drawTitle(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 8;
-        this.drawCenteredString(this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
     }
 
     @Override
@@ -48,10 +51,10 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(mouseX, mouseY, partialTicks);
-        this.list.render(mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
+        this.list.render(mat, mouseX, mouseY, partialTicks);
     }
 
 }

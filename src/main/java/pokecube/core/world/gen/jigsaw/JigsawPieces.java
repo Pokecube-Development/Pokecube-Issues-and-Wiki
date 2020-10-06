@@ -13,22 +13,23 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.DynamicOps;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.StructureMode;
 import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.IJigsawDeserializer;
@@ -39,7 +40,6 @@ import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
-import net.minecraft.world.gen.feature.structure.Structures;
 import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
@@ -61,6 +61,7 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
+import pokecube.core.database.worldgen.WorldgenHandler.Structures;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.template.ExtendedRuleProcessor;
@@ -88,19 +89,19 @@ public class JigsawPieces
 
     private static final Set<JigSawConfig> toInitialze = Sets.newConcurrentHashSet();
 
-    public static final Map<DimensionType, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
+    public static final Map<RegistryKey<World>, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
 
     private static boolean shouldApply(final BlockPos pos, final IWorld worldIn)
     {
-        Set<BlockPos> poses = JigsawPieces.sent_events.get(worldIn.getDimension().getType());
-        if (poses == null) JigsawPieces.sent_events.put(worldIn.getDimension().getType(), poses = Sets.newHashSet());
+        Set<BlockPos> poses = JigsawPieces.sent_events.get(worldIn.getDimensionKey());
+        if (poses == null) JigsawPieces.sent_events.put(worldIn.getDimensionKey(), poses = Sets.newHashSet());
         return !poses.contains(pos.toImmutable());
     }
 
     private static void apply(final BlockPos pos, final IWorld worldIn)
     {
-        Set<BlockPos> poses = JigsawPieces.sent_events.get(worldIn.getDimension().getType());
-        if (poses == null) JigsawPieces.sent_events.put(worldIn.getDimension().getType(), poses = Sets.newHashSet());
+        Set<BlockPos> poses = JigsawPieces.sent_events.get(worldIn.getDimensionKey());
+        if (poses == null) JigsawPieces.sent_events.put(worldIn.getDimensionKey(), poses = Sets.newHashSet());
         poses.add(pos.toImmutable());
     }
 

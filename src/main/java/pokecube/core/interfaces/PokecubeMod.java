@@ -77,7 +77,7 @@ public abstract class PokecubeMod
 
     public static FakePlayer getFakePlayer(final World world)
     {
-        final FakePlayer player = PokecubeMod.getFakePlayer(world.dimension.getDimension().getType());
+        final FakePlayer player = PokecubeMod.getFakePlayer(world.dimension.getDimensionKey());
         player.setWorld(world);
         return player;
     }

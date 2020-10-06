@@ -5,13 +5,16 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.watch.util.WatchPage;
@@ -31,12 +34,12 @@ public class GuiPokeWatch extends Screen
         }
 
         @Override
-        public void render(final int mouseX, final int mouseY, final float partialTicks)
+        public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
         {
             final int x = (this.watch.width - 160) / 2 + 80;
             final int y = (this.watch.height - 160) / 2 + 70;
-            this.drawCenteredString(this.font, I18n.format("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
-            super.render(mouseX, mouseY, partialTicks);
+            AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
+            super.render(mat, mouseX, mouseY, partialTicks);
         }
 
     }
@@ -170,9 +173,9 @@ public class GuiPokeWatch extends Screen
         this.current_page.init();
         final int x = this.width / 2;
         final int y = this.height / 2 - 5;
-        final String next = I18n.format("block.pc.next");
-        final String prev = I18n.format("block.pc.previous");
-        final String home = I18n.format("pokewatch.button.home");
+        final ITextComponent next = new TranslationTextComponent("block.pc.next");
+        final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
+        final ITextComponent home = new TranslationTextComponent("pokewatch.button.home");
         this.addButton(new Button(x + 26, y + 69, 50, 12, next, b ->
         {
             int index = this.index;
@@ -196,16 +199,16 @@ public class GuiPokeWatch extends Screen
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         this.minecraft.textureManager.bindTexture(GuiPokeWatch.TEXTURE);
         final int j2 = (this.width - 160) / 2;
         final int k2 = (this.height - 160) / 2;
-        this.blit(j2, k2, 0, 0, 160, 160);
-        super.render(mouseX, mouseY, partialTicks);
+        this.blit(mat, j2, k2, 0, 0, 160, 160);
+        super.render(mat, mouseX, mouseY, partialTicks);
         try
         {
-            this.current_page.render(mouseX, mouseY, partialTicks);
+            this.current_page.render(mat, mouseX, mouseY, partialTicks);
         }
         catch (final Exception e)
         {

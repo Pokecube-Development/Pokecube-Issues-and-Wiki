@@ -141,7 +141,7 @@ public class WalkToTask extends RootTask<MobEntity>
             if (this.currentPath != null) return true;
 
             final Vector3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards((CreatureEntity) mob, 10, 7,
-                    new Vector3d(blockpos));
+                    new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
             if (vec3d != null)
             {
                 this.currentPath = mob.getNavigator().getPathToPos(vec3d.x, vec3d.y, vec3d.z, 0);
@@ -154,6 +154,6 @@ public class WalkToTask extends RootTask<MobEntity>
 
     private boolean hasReachedTarget(final MobEntity mob, final WalkTarget target)
     {
-        return target.getTarget().getBlockPos().manhattanDistance(new BlockPos(mob)) <= target.getDistance();
+        return target.getTarget().getBlockPos().manhattanDistance(mob.getPosition()) <= target.getDistance();
     }
 }

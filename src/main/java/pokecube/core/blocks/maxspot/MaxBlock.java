@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -130,7 +130,7 @@ public class MaxBlock extends InteractableHorizontalBlock
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         return Objects.requireNonNull(super.getStateForPlacement(context)).with(MaxBlock.FACING, context
                 .getPlacementHorizontalFacing().getOpposite()).with(MaxBlock.WATERLOGGED, ifluidstate.isTagged(
                         FluidTags.WATER) && ifluidstate.getLevel() == 8);
@@ -139,7 +139,7 @@ public class MaxBlock extends InteractableHorizontalBlock
     // Adds Waterlogging State
     @SuppressWarnings("deprecation")
     @Override
-    public IFluidState getFluidState(final BlockState state)
+    public FluidState getFluidState(final BlockState state)
     {
         return state.get(MaxBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }

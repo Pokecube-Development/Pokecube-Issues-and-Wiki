@@ -43,7 +43,7 @@ public class Impl
     {
         final ChunkGenerator<?> generator = event.chunkGen;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getWorld(generator.world.getDimension().getType());
+        final ServerWorld world = server.getWorld(generator.world.getDimensionKey());
         final IDimensionInfo dimInfo = Registration.LOSTCITY_FEATURE.getDimensionInfo(world);
         if (dimInfo == null)
         {

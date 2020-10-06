@@ -47,7 +47,7 @@ public class RaidSpawnBlock extends MaxBlock
         }
 
         @Override
-        public String getName()
+        public String getString()
         {
             return this.name;
         }

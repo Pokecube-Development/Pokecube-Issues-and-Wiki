@@ -4,9 +4,12 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
@@ -41,7 +44,7 @@ public abstract class PokeInfoPage extends WatchPage
     {
     }
 
-    abstract void drawInfo(int mouseX, int mouseY, float partialTicks);
+    abstract void drawInfo(MatrixStack mat, int mouseX, int mouseY, float partialTicks);
 
     @Override
     public void init()
@@ -49,8 +52,8 @@ public abstract class PokeInfoPage extends WatchPage
         super.init();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final String next = ">";
-        final String prev = "<";
+        final ITextComponent next = new StringTextComponent(">");
+        final ITextComponent prev = new StringTextComponent("<");
         this.addButton(new Button(x - 46, y + 4, 12, 20, next, b ->
         {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
@@ -69,7 +72,7 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
             this.parent.initPages(this.parent.pokemob);
         }));
-        this.addButton(new Button(x - 65, y + 4, 20, 9, "\u2500", b ->
+        this.addButton(new Button(x - 65, y + 4, 20, 9, new StringTextComponent("\u2500"), b ->
         { // Cycle Form, only if not a real mob
             if (this.parent.pokemob.getEntity().addedToChunk) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
@@ -94,17 +97,17 @@ public abstract class PokeInfoPage extends WatchPage
             }
             this.parent.pokemob.setCustomHolder(holder);
         }));
-        this.addButton(new Button(x - 65, y + 13, 20, 10, "\u266B", b ->
+        this.addButton(new Button(x - 65, y + 13, 20, 10, new StringTextComponent("\u266B"), b ->
         {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
         }));
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.drawInfo(mouseX, mouseY, partialTicks);
-        super.render(mouseX, mouseY, partialTicks);
+        this.drawInfo(mat, mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 
 }

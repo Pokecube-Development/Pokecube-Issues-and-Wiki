@@ -99,7 +99,7 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
                     .getType(null).colour);
             AbstractGui.drawString(mat, this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
         }
-        this.renderHoveredToolTip(mat, mouseX, mouseY);
+        this.renderHoveredTooltip(mat, mouseX, mouseY);
     }
 
 }

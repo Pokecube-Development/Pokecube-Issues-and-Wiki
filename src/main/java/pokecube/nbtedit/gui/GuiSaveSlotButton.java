@@ -3,11 +3,15 @@ package pokecube.nbtedit.gui;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.StringTextComponent;
 import pokecube.nbtedit.nbt.SaveStates;
 
 public class GuiSaveSlotButton extends Button
@@ -26,8 +30,8 @@ public class GuiSaveSlotButton extends Button
 
     public GuiSaveSlotButton(final SaveStates.SaveState save, final int x, final int y, final IPressable onClick)
     {
-        super(x, y, GuiSaveSlotButton.X_SIZE, GuiSaveSlotButton.HEIGHT, (save.tag.isEmpty() ? "Save " : "Load ")
-                + save.name, onClick);
+        super(x, y, GuiSaveSlotButton.X_SIZE, GuiSaveSlotButton.HEIGHT, new StringTextComponent((save.tag.isEmpty() ? "Save " : "Load ")
+                + save.name), onClick);
         this.save = save;
         this.x = this.rightX = x;
         this.y = y;
@@ -66,12 +70,12 @@ public class GuiSaveSlotButton extends Button
         return false;
     }
 
-    public void draw(final int mx, final int my)
+    public void draw(final MatrixStack mat, final int mx, final int my)
     {
 
         int textColor = this.isHovered() ? 16777120 : 0xffffff;
-        this.renderVanillaButton(this.x, this.y, 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
-        this.drawCenteredString(this.mc.fontRenderer, this.getMessage(), this.x + this.width / 2, this.y + 6,
+        this.renderVanillaButton(mat, this.x, this.y, 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
+        AbstractGui.drawCenteredString(mat, this.mc.fontRenderer, this.getMessage(), this.x + this.width / 2, this.y + 6,
                 textColor);
         if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0) this.mc.fontRenderer.drawStringWithShadow("_", this.x
                 + (this.width + this.mc.fontRenderer.getStringWidth(this.getMessage())) / 2 + 1, this.y + 6, 0xffffff);
@@ -79,10 +83,10 @@ public class GuiSaveSlotButton extends Button
         if (this.xVisible)
         {
             textColor = this.inBoundsOfX(mx, my) ? 16777120 : 0xffffff;
-            this.renderVanillaButton(this.leftBoundOfX(), this.topBoundOfX(), 0, 66, GuiSaveSlotButton.X_SIZE,
+            this.renderVanillaButton(mat, this.leftBoundOfX(), this.topBoundOfX(), 0, 66, GuiSaveSlotButton.X_SIZE,
                     GuiSaveSlotButton.X_SIZE);
-            this.drawCenteredString(this.mc.fontRenderer, "x", this.x - GuiSaveSlotButton.GAP - GuiSaveSlotButton.X_SIZE
-                    / 2, this.y + 6, textColor);
+            AbstractGui.drawCenteredString(mat, this.mc.fontRenderer, "x", this.x - GuiSaveSlotButton.GAP
+                    - GuiSaveSlotButton.X_SIZE / 2, this.y + 6, textColor);
         }
     }
 
@@ -99,20 +103,20 @@ public class GuiSaveSlotButton extends Button
         return this.x - GuiSaveSlotButton.X_SIZE - GuiSaveSlotButton.GAP;
     }
 
-    private void renderVanillaButton(final int x, final int y, final int u, final int v, final int width,
+    private void renderVanillaButton(final MatrixStack mat, final int x, final int y, final int u, final int v, final int width,
             final int height)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(GuiSaveSlotButton.TEXTURE);
 
         // Top Left
-        this.blit(x, y, u, v, width / 2, height / 2);
+        this.blit(mat, x, y, u, v, width / 2, height / 2);
         // Top Right
-        this.blit(x + width / 2, y, u + 200 - width / 2, v, width / 2, height / 2);
+        this.blit(mat, x + width / 2, y, u + 200 - width / 2, v, width / 2, height / 2);
         // Bottom Left
-        this.blit(x, y + height / 2, u, v + 20 - height / 2, width / 2, height / 2);
+        this.blit(mat, x, y + height / 2, u, v + 20 - height / 2, width / 2, height / 2);
         // Bottom Right
-        this.blit(x + width / 2, y + height / 2, u + 200 - width / 2, v + 20 - height / 2, width / 2, height / 2);
+        this.blit(mat, x + width / 2, y + height / 2, u + 200 - width / 2, v + 20 - height / 2, width / 2, height / 2);
     }
 
     public void reset()

@@ -136,7 +136,7 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
     @Override
     public PlantType getPlantType(final IBlockReader world, final BlockPos pos)
     {
-        return PlantType.Crop;
+        return PlantType.CROP;
     }
 
     @Override

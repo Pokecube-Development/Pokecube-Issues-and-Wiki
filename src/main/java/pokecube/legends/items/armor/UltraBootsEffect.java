@@ -15,30 +15,26 @@ import pokecube.legends.worldgen.dimension.ModDimensions;
 
 public class UltraBootsEffect extends ArmorItem
 {
-	public UltraBootsEffect(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
-		super(materialIn, slot, builder);	
+	public UltraBootsEffect(final IArmorMaterial materialIn, final EquipmentSlotType slot, final Properties builder) {
+		super(materialIn, slot, builder);
 	}
-	
+
 	@Override
-	public void onArmorTick(ItemStack itemstack, World world, PlayerEntity entity) {
+	public void onArmorTick(final ItemStack itemstack, final World world, final PlayerEntity entity) {
 		super.onArmorTick(itemstack, world, entity);
 		{
-			java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
+			final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
 			$_dependencies.put("entity", entity);
 			UltraBootsEffect.executeProcedure($_dependencies);
 		}
 	}
 
-	public static void executeProcedure(java.util.HashMap<String, Object> dependencies) {
+	public static void executeProcedure(final java.util.HashMap<String, Object> dependencies) {
 		if (dependencies.get("entity") == null) {
 			System.err.println("Failed Effect Helmet!");
 			return;
 		}
-		Entity entity = (Entity) dependencies.get("entity");
-		if ((entity instanceof ServerPlayerEntity)) {
-			if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE.getId()) {
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 120, 1));
-			}
-		}
+		final Entity entity = (Entity) dependencies.get("entity");
+		if (entity instanceof ServerPlayerEntity) if (entity.getEntityWorld().getDimensionKey() == ModDimensions.DIMENSION_TYPE) ((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 120, 1));
 	}
 }

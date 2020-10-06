@@ -2,6 +2,7 @@ package pokecube.core.client.gui.helper;
 
 import java.util.Objects;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -85,27 +86,24 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float tick)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float tick)
     {
-        this.renderBackground();
+        this.renderBackground(mat);
 
-        int i = this.getScrollbarPosition();
-        int j = i + 6;
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        final int i = this.getScrollbarPosition();
+        final int j = i + 6;
+        final Tessellator tessellator = Tessellator.getInstance();
+        final BufferBuilder bufferbuilder = tessellator.getBuffer();
         this.minecraft.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        int k = this.getRowLeft();
-        int l = this.y0 + 4 - (int) this.getScrollAmount();
-        if (this.renderHeader)
-        {
-            this.renderHeader(k, l, tessellator);
-        }
+        final int k = this.getRowLeft();
+        final int l = this.y0 + 4 - (int) this.getScrollAmount();
+        if (this.renderHeader) this.renderHeader(mat, k, l, tessellator);
 
-        this.renderList(k, l, mouseX, mouseY, tick);
+        this.renderList(mat, k, l, mouseX, mouseY, tick);
         RenderSystem.disableDepthTest();
-        this.renderHoleBackground(0, this.y0, 255, 255);
-        this.renderHoleBackground(this.y1, this.height, 255, 255);
+        this.renderHoleBackground(mat, 0, this.y0, 255, 255);
+        this.renderHoleBackground(mat, this.y1, this.height, 255, 255);
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO,
@@ -114,16 +112,13 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         RenderSystem.shadeModel(7425);
         RenderSystem.disableTexture();
 
-        int j1 = this.getMaxScroll();
+        final int j1 = this.getMaxScroll();
         if (j1 > 0)
         {
             int k1 = (int) ((float) ((this.y1 - this.y0) * (this.y1 - this.y0)) / (float) this.getMaxPosition());
             k1 = MathHelper.clamp(k1, 32, this.y1 - this.y0 - 8);
             int l1 = (int) this.getScrollAmount() * (this.y1 - this.y0 - k1) / j1 + this.y0;
-            if (l1 < this.y0)
-            {
-                l1 = this.y0;
-            }
+            if (l1 < this.y0) l1 = this.y0;
 
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
             bufferbuilder.pos(i, this.y1, 0.0D).color(0, 0, 0, 255).tex(0.0F, 1.0F).endVertex();
@@ -145,7 +140,7 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
             tessellator.draw();
         }
 
-        this.renderDecorations(mouseX, mouseY);
+        this.renderDecorations(mat, mouseX, mouseY);
         RenderSystem.enableTexture();
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
@@ -153,14 +148,14 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     }
 
     @Override
-    protected void renderHoleBackground(final int p_renderHoleBackground_1_, final int p_renderHoleBackground_2_,
+    protected void renderHoleBackground(final MatrixStack mat, final int p_renderHoleBackground_1_, final int p_renderHoleBackground_2_,
             final int p_renderHoleBackground_3_, final int p_renderHoleBackground_4_)
     {
         // Nope
     }
 
     @Override
-    protected void renderList(final int x, final int y, final int mouseX, final int mouseY, final float tick)
+    protected void renderList(final MatrixStack mat, final int x, final int y, final int mouseX, final int mouseY, final float tick)
     {
         final int i = this.getItemCount();
         final Tessellator tessellator = Tessellator.getInstance();
@@ -202,7 +197,7 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
                     tessellator.draw();
                     RenderSystem.enableTexture();
                 }
-                e.render(j, k, j2, k1, j1, mouseX, mouseY,
+                e.render(mat, j, k, j2, k1, j1, mouseX, mouseY,
                         this.isMouseOver(mouseX, mouseY) && Objects.equals(this.getEntryAtPosition(mouseX, mouseY), e),
                         tick);
             }

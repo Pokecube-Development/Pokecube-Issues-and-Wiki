@@ -10,11 +10,11 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.common.PlantType;
 
 public class PlantBase extends FlowerBlock
@@ -26,23 +26,23 @@ public class PlantBase extends FlowerBlock
         super(Effects.SATURATION, 0, Block.Properties.create(material).hardnessAndResistance(hardness, resistance)
                 .doesNotBlockMovement().sound(sound).lightValue(2));
     }
-    
+
     @Override
-	public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
+	public boolean isReplaceable(final BlockState state, final BlockItemUseContext useContext) {
 		return true;
 	}
-    
+
     @SuppressWarnings("deprecation")
 	@Override
-	public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-		List<ItemStack> dropsOriginal = super.getDrops(state, builder);
+	public List<ItemStack> getDrops(final BlockState state, final LootContext.Builder builder) {
+		final List<ItemStack> dropsOriginal = super.getDrops(state, builder);
 		if (!dropsOriginal.isEmpty())
 			return dropsOriginal;
 		return Collections.singletonList(new ItemStack(this, 1));
 	}
-    
+
     @Override
-	public int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
+	public int getFlammability(final BlockState state, final IBlockReader world, final BlockPos pos, final Direction face) {
 		return 2;
 	}
 

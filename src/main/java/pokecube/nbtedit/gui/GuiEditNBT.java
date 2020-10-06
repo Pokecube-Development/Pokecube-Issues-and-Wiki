@@ -3,9 +3,10 @@ package pokecube.nbtedit.gui;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.nbt.ByteArrayNBT;
@@ -19,6 +20,7 @@ import net.minecraft.nbt.LongNBT;
 import net.minecraft.nbt.ShortNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
@@ -170,13 +172,6 @@ public class GuiEditNBT extends Widget
         this.save.active = valid;
     }
 
-    @Override
-    public void drawCenteredString(final FontRenderer par1FontRenderer, final String par2Str, final int par3,
-            final int par4, final int par5)
-    {
-        par1FontRenderer.drawString(par2Str, par3 - par1FontRenderer.getStringWidth(par2Str) / 2, par4, par5);
-    }
-
     public void initGUI(final int x, final int y)
     {
         this.x = x;
@@ -208,8 +203,8 @@ public class GuiEditNBT extends Widget
         if (!this.key.isFocused() && !this.value.isFocused()) if (this.canEditText) this.key.setFocused(true);
         else if (this.canEditValue) this.value.setFocused(true);
 
-        this.parent.addButton(this.save = new Button(x + 9, y + 62, 75, 20, "Save", b -> this.saveAndQuit()));
-        this.parent.addButton(new Button(x + 93, y + 62, 75, 20, "Cancel", b -> this.parent.closeWindow()));
+        this.parent.addButton(this.save = new Button(x + 9, y + 62, 75, 20, new StringTextComponent("Save"), b -> this.saveAndQuit()));
+        this.parent.addButton(new Button(x + 93, y + 62, 75, 20, new StringTextComponent("Cancel"), b -> this.parent.closeWindow()));
     }
 
     @Override
@@ -221,7 +216,7 @@ public class GuiEditNBT extends Widget
     }
 
     @Override
-    public void render(final int mx, final int my, final float m)
+    public void render(final MatrixStack mat, final int mx, final int my, final float m)
     {
         this.active = false;
 
@@ -230,13 +225,13 @@ public class GuiEditNBT extends Widget
         this.mc.getTextureManager().bindTexture(GuiEditNBT.WINDOW_TEXTURE);
 
         GL11.glColor4f(1, 1, 1, 1);
-        this.blit(this.x, this.y, 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
-        if (!this.canEditText) AbstractGui.fill(this.x + 42, this.y + 15, this.x + 169, this.y + 31, 0x80000000);
-        if (!this.canEditValue) AbstractGui.fill(this.x + 42, this.y + 41, this.x + 169, this.y + 57, 0x80000000);
+        this.blit(mat, this.x, this.y, 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
+        if (!this.canEditText) AbstractGui.fill(mat, this.x + 42, this.y + 15, this.x + 169, this.y + 31, 0x80000000);
+        if (!this.canEditValue) AbstractGui.fill(mat, this.x + 42, this.y + 41, this.x + 169, this.y + 57, 0x80000000);
 
-        if (this.kError != null) this.drawCenteredString(this.mc.fontRenderer, this.kError,
+        if (this.kError != null) AbstractGui.drawCenteredString(mat,this.mc.fontRenderer, this.kError,
                 this.x + GuiEditNBT.WIDTH / 2, this.y + 4, 0xFF0000);
-        if (this.vError != null) this.drawCenteredString(this.mc.fontRenderer, this.vError,
+        if (this.vError != null) AbstractGui.drawCenteredString(mat, this.mc.fontRenderer, this.vError,
                 this.x + GuiEditNBT.WIDTH / 2, this.y + 32, 0xFF0000);
     }
 
