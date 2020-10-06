@@ -88,8 +88,8 @@ public class MovePacket
         this.changeAddition = changeAddition;
         this.pre = pre;
         final Move_Base move = this.getMove();
-        this.attackedStatModification = move.move.attackedStatModification;
-        this.attackerStatModification = move.move.attackerStatModification;
+        this.attackedStatModification = move.move.attackedStatModification.clone();
+        this.attackerStatModification = move.move.attackerStatModification.clone();
         this.attackedStatModProb = move.move.attackedStatModProb;
         this.attackerStatModProb = move.move.attackerStatModProb;
 
