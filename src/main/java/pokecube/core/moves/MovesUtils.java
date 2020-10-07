@@ -409,37 +409,42 @@ public class MovesUtils implements IMoveConstants
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
         if (type == PokeType.getType("dragon"))
         {
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_MISTY);
-            if (terrainDuration > 0) ret = 0.5f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.MISTY))
+                ret = 0.5f;
         }
         if (type == PokeType.getType("electric") && (attacker.onGround || attacker.fallDistance < 0.5))
         {
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_ELECTRIC);
-            if (terrainDuration > 0) ret = 1.5f;
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_SPORT_MUD);
-            if (terrainDuration > 0) ret *= 0.33f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.ELECTRIC))
+                ret = 1.5f;
+
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.MUD))
+                ret *= 0.33f;
         }
+
         if (type == PokeType.getType("grass") && (attacker.onGround || attacker.fallDistance < 0.5))
         {
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_GRASS);
-            if (terrainDuration > 0) ret = 1.5f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.GRASS))
+                ret = 1.5f;
         }
+
         if (type == PokeType.getType("water"))
         {
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_RAIN);
-            if (terrainDuration > 0) ret = 1.5f;
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_SUN);
-            if (terrainDuration > 0) ret = 0.5f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
+                ret = 1.5f;
 
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN))
+                ret = 0.5f;
         }
         if (type == PokeType.getType("fire"))
         {
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_SUN);
-            if (terrainDuration > 0) ret = 1.5f;
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_RAIN);
-            if (terrainDuration > 0) ret = 0.5f;
-            terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_SPORT_WATER);
-            if (terrainDuration > 0) ret *= 0.33f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN))
+                ret = 1.5f;
+
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
+                ret = 0.5f;
+
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.WATER))
+                ret *= 0.33f;
         }
         return ret;
     }

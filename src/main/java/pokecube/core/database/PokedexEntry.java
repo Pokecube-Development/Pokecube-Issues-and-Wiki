@@ -281,10 +281,13 @@ public class PokedexEntry
                 {
                     final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
                     final PokemobTerrainEffects teffect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
-                    if (teffect != null) rain = teffect.effects[PokemobTerrainEffects.EFFECT_WEATHER_RAIN] > 0;
+                    if (teffect != null && !teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
+                    {
+                        return false;
+                    }
                 }
-                if (!rain) return false;
             }
+
             boolean correctItem = true;
             if (this.preset != null || !this.item.isEmpty())
             {
@@ -292,6 +295,7 @@ public class PokedexEntry
                 if (!mobs.isEmpty()) if (this.preset != null) correctItem = ItemList.is(this.preset, mobs.getItem());
                 else correctItem = Tools.isSameStack(mobs, this.item, true);
             }
+
             if (ItemList.is(ICanEvolve.EVERSTONE, mob.getHeldItem())) return false;
             if (ItemList.is(ICanEvolve.EVERSTONE, mobs)) return false;
             ret = ret && correctItem;
@@ -659,8 +663,7 @@ public class PokedexEntry
         public Variance getVariance(final SpawnBiomeMatcher matcher)
         {
             final SpawnEntry entry = this.matchers.get(matcher);
-            final Variance variance = entry == null ? new Variance() : entry.variance;
-            return variance;
+            return entry == null ? new Variance() : entry.variance;
         }
 
         public float getWeight(final SpawnBiomeMatcher matcher)
@@ -1987,8 +1990,8 @@ public class PokedexEntry
 
     public boolean isLegendary()
     {
-        final boolean baseLegend = this.getBaseForme() != null && this.getBaseForme() != this ? this.getBaseForme()
-                .isLegendary() : false;
+        final boolean baseLegend = this.getBaseForme() != null && this.getBaseForme() != this && this.getBaseForme()
+                .isLegendary();
         return baseLegend || this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null
                 || SpecialCaseRegister.getSpawnCondition(this) != null;
     }
