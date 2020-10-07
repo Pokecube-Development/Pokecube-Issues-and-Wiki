@@ -41,8 +41,8 @@ public class IceFace extends Ability
 	        {
 	            if (mobs == IceFace.Ice) mob.setPokedexEntry(IceFace.noIce);
 	        }
-        else if (mobs == IceFace.noIce &&  effects.getEffect(
-                PokemobTerrainEffects.EFFECT_WEATHER_HAIL) > 0) mob.setPokedexEntry(IceFace.Ice);
+        else if (mobs == IceFace.noIce &&  effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.HAIL))
+            mob.setPokedexEntry(IceFace.Ice);
         }
     }
 }

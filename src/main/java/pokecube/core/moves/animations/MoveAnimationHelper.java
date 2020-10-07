@@ -172,7 +172,7 @@ public class MoveAnimationHelper
                         final TerrainSegment segment = this.terrainMap.get(pos);
                         if (segment == null) continue;
                         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.effectArr[this.index];
-                        if (teffect == null || !teffect.hasEffects()) continue;
+                        if (teffect == null || !teffect.hasWeatherEffects()) continue;
                         this.target.set(segment.getCentre());
                         this.target.add(-8, -8, -8);
                         mat.push();
