@@ -56,14 +56,14 @@ public class Synchronize extends Ability
     {
     }
 
-    @Override
+     /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (mob == move.attacked && move.statusChange != IMoveConstants.STATUS_NON && mob
                 .getStatus() == IMoveConstants.STATUS_NON) if (move.statusChange != IMoveConstants.STATUS_FRZ
                         && move.statusChange != IMoveConstants.STATUS_SLP) MovesUtils.setStatus(move.attacker
                                 .getEntity(), move.statusChange);
-    }
+    }*/
 
     @Override
     public void onUpdate(IPokemob mob)

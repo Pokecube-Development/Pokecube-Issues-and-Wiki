@@ -7,14 +7,14 @@ import pokecube.core.utils.PokeType;
 
 public class Aerilate extends Ability
 {
-    @Override
+   /* @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
-        /*if (!move.pre) return;
+        if (!move.pre) return;
         if (move.attackType == PokeType.getType("normal") && mob == move.attacker)
         {
             move.attackType = PokeType.getType("flying");
             move.PWR *= 1.2;
-        }*/
-    }
+        }
+    }*/
 }

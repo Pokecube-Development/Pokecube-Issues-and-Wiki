@@ -68,14 +68,25 @@ public abstract class Ability
     }
 
     /**
-     * Called whenever a move is used.
+     * Called when validating move
      *
      * @param mob
      * @param move
      */
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMove(final IPokemob mob, final MovePacket move)
     {
     }
+
+    /**
+     * Called after move validation
+     *
+     * @param mob
+     * @param move
+     */
+    public void postMove(final IPokemob mob, final MovePacket move)
+    {
+    }
+
 
     /**
      * Called during the pokemob's update tick.

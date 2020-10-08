@@ -51,7 +51,7 @@ public class Damp extends Ability
         return this;
     }
 
-    @Override
+     /*@Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         if (move.getMove() instanceof Move_Explode)
@@ -59,7 +59,7 @@ public class Damp extends Ability
             move.failed = true;
             move.canceled = true;
         }
-    }
+    }*/
 
     @Override
     public void onUpdate(final IPokemob mob)
