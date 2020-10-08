@@ -12,7 +12,7 @@ import thut.api.terrain.TerrainSegment;
 
 public class Airlock extends Ability
 {
-   /* @Override
+    @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (!move.pre) return;
@@ -21,9 +21,9 @@ public class Airlock extends Ability
         boolean rain = world.isRaining();
         if (!rain)
         {
-            final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
+           /* final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
             final PokemobTerrainEffects teffect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
-            teffect.
+            teffect.*/
         }
-    }*/
+    }
 }

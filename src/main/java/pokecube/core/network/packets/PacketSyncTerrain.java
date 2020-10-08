@@ -30,7 +30,7 @@ public class PacketSyncTerrain extends Packet
         for (int i = 0; i < packet.effects.length; i++) {
             PokemobTerrainEffects.WeatherEffectType type = PokemobTerrainEffects.WeatherEffectType.values()[i];
             if(terrain.isEffectActive(type)) {
-                PokemobTerrainEffects.WeatherEffect effect = terrain.getWeatherEffect(type);
+                PokemobTerrainEffects.Effect effect = terrain.getEffect(type);
                 packet.effects[i][0] = i;
                 packet.effects[i][1] = effect.getDuration();
             }else {

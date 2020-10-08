@@ -50,8 +50,6 @@ public class Move_Terrain extends Move_Basic
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
         // TODO check if effect already exists, and send message if so.
         // Otherwise send the it starts to effect message
-        if(this.effect == -1)
-            this.effect = 0;
 
         teffect.setTerrainEffectDuration(PokemobTerrainEffects.WeatherEffectType.values()[this.effect], this.duration + world.getGameTime(), attacker);
 
