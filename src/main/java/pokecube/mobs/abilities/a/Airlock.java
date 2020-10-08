@@ -13,6 +13,7 @@ import thut.api.terrain.TerrainSegment;
 public class Airlock extends Ability
 {
     /*@Override
+    @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (!move.pre) return;
