@@ -7,7 +7,7 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Competitive extends Ability
 {
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (!move.pre)
@@ -44,5 +44,5 @@ public class Competitive extends Ability
                 move.attackerStatModification[3] = IMoveConstants.RAISE;
             }
         }
-    }
+    }*/
 }

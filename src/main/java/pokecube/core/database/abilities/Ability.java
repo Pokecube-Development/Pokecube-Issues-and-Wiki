@@ -73,7 +73,11 @@ public abstract class Ability
      * @param mob
      * @param move
      */
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void beforeMove(final IPokemob mob, final MovePacket move)
+    {
+    }
+
+    public void afterMove(final IPokemob mob, final MovePacket move)
     {
     }
 

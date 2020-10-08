@@ -8,7 +8,7 @@ import pokecube.core.moves.MovesUtils;
 
 public class CottonDown extends Ability
 {
-	@Override
+	/*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {   
 		final IPokemob attacker = move.attacker;
@@ -16,7 +16,7 @@ public class CottonDown extends Ability
         if (move.hit) {
         	MovesUtils.handleStats2(mob, attacker.getEntity(),
         			IMoveConstants.VIT, IMoveConstants.FALL);
-        	System.out.println("ta lento é?");
+        	System.out.println("ta lento ï¿½?");
         }
-    }
+    }*/
 }

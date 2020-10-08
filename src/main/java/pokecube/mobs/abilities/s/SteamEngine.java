@@ -27,7 +27,7 @@ public class SteamEngine extends Ability
         return this;
     }
     
-	@Override
+	/*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (!move.pre) return;
@@ -37,7 +37,7 @@ public class SteamEngine extends Ability
         	MovesUtils.handleStats2(mob, mob
                     .getEntity(), IMoveConstants.VIT, IMoveConstants.RAISE);
         }
-    }
+    }*/
 	
 	@Override
     public void onUpdate(IPokemob mob)

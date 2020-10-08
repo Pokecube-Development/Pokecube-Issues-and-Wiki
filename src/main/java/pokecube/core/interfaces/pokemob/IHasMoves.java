@@ -183,7 +183,7 @@ public interface IHasMoves extends IHasStats
      *
      * @return the index from 0 to 3;
      */
-    public int getMoveIndex();
+    int getMoveIndex();
 
     /**
      * Returns all the 4 available moves name.
@@ -271,7 +271,6 @@ public interface IHasMoves extends IHasStats
                     this.getMoveStats().newMoves.add(moveName);
                     PacketSyncNewMoves.sendUpdatePacket((IPokemob) this);
                 }
-                return;
             }
         }
         else
@@ -290,11 +289,10 @@ public interface IHasMoves extends IHasStats
      *
      * @param move
      */
-    default void onMoveUse(final MovePacket move)
+    default void useMove(final MovePacket move)
     {
-        final Event toPost = move.pre ? new MoveUse.DuringUse.Pre(move, move.attacker == this)
-                : new MoveUse.DuringUse.Post(move, move.attacker == this);
-        PokecubeCore.MOVE_BUS.post(toPost);
+        final Event use =  new MoveUse.DuringUse.Use(move, move.attacker == this);
+        PokecubeCore.MOVE_BUS.post(use);
     }
 
     /**
@@ -388,7 +386,7 @@ public interface IHasMoves extends IHasStats
      * @param i
      *            must be a value from 0 to 3
      */
-    public void setMoveIndex(int i);
+    void setMoveIndex(int i);
 
     /**
      * Statuses: {@link IMoveConstants#STATUS_PSN} for example. The set can

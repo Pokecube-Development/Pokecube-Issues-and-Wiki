@@ -19,7 +19,7 @@ public class UsableItemZMoveEffects
         public ActionResult<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack,
                 final MovePacket moveuse)
         {
-            if (moveuse.pre && stack == attacker.getHeldItem()) moveuse.criticalLevel = 0;
+            if (stack == attacker.getHeldItem()) moveuse.criticalLevel = 0;
             return super.onMoveTick(attacker, stack, moveuse);
         }
     }

@@ -17,7 +17,7 @@ public class GulpMissile extends Ability
     
     private static boolean      noTurnBase = false;
     
-    @Override
+    /*@Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         if (GulpMissile.noTurnBase) return;
@@ -83,5 +83,5 @@ public class GulpMissile extends Ability
         final boolean isDive = mobs == GulpMissile.pikachu;
         if (isSurf || isDive) return mob.setPokedexEntry(GulpMissile.baseNormal);
         return super.onRecall(mob);
-    }
+    }*/
 }

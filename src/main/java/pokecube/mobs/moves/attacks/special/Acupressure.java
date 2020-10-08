@@ -16,9 +16,9 @@ public class Acupressure extends Move_Basic
     }
 
     @Override
-    public void postAttack(MovePacket packet)
+    public void attack(MovePacket packet)
     {
-        super.postAttack(packet);
+        super.attack(packet);
         if (packet.canceled || packet.failed) return;
         final Random r = new Random(packet.attacked.getEntityWorld().rand.nextLong());
         int rand = r.nextInt(7);

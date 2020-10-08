@@ -11,7 +11,7 @@ public class BulletProof extends Ability
             "Octazooka", "RockWrecker", "SearingShot", "SeedBomb", "ShadowBall", "SludgeBomb", "WeatherBall",
             "ZapCannon" };
 
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (move.pre && mob == move.attacked) for (final String s : BulletProof.bullets)
@@ -20,5 +20,5 @@ public class BulletProof extends Ability
                 move.canceled = true;
                 return;
             }
-    }
+    }*/
 }

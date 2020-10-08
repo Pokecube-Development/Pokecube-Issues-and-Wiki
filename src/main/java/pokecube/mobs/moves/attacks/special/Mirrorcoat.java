@@ -15,9 +15,9 @@ public class Mirrorcoat extends Move_Basic
     }
 
     @Override
-    public void postAttack(final MovePacket packet)
+    public void attack(final MovePacket packet)
     {
-        super.postAttack(packet);
+        super.attack(packet);
         if (packet.canceled || packet.failed) return;
         final LivingEntity attacker = packet.attacker.getEntity();
         if (!packet.attacker.getMoveStats().biding)

@@ -10,7 +10,7 @@ import pokecube.core.moves.MovesUtils;
 
 public class BeastBoost extends Ability
 {
-	@Override
+	/*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
 		final LivingEntity target = (LivingEntity) move.attacked;
@@ -26,5 +26,5 @@ public class BeastBoost extends Ability
             	MovesUtils.handleStats2(mob, mob.getOwner(), IMoveConstants.VIT, IMoveConstants.RAISE);
             }
         }
-    }
+    }*/
 }

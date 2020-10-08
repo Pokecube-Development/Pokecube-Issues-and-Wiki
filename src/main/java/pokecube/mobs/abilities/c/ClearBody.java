@@ -6,7 +6,7 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class ClearBody extends Ability
 {
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (move.pre && mob == move.attacked && mob != move.attacker)
@@ -15,5 +15,5 @@ public class ClearBody extends Ability
             for (int i = 0; i < move.attackedStatModification.length; i++)
                 if (move.attackedStatModification[i] < 0) move.attackedStatModification[i] = 0;
         }
-    }
+    }*/
 }

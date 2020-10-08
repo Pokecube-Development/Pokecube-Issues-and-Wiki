@@ -18,9 +18,9 @@ public class Curse extends Move_Basic
     }
 
     @Override
-    public void postAttack(MovePacket packet)
+    public void attack(MovePacket packet)
     {
-        super.postAttack(packet);
+        super.attack(packet);
         if (packet.canceled || packet.failed) return;
         if (packet.attacker.isType(PokeType.getType("ghost")))
         {
@@ -34,8 +34,8 @@ public class Curse extends Move_Basic
             if (apply)
             {
                 final MovePacket move = new MovePacket(packet.attacker, packet.attacked, this.getName(), PokeType
-                        .getType("ghost"), 0, 0, (byte) 0, IMoveConstants.CHANGE_CURSE, true);
-                if (target != null) target.onMoveUse(move);
+                        .getType("ghost"), 0, 0, (byte) 0, IMoveConstants.CHANGE_CURSE);
+                if (target != null) target.useMove(move);
                 if (!move.canceled)
                 {
                     MovesUtils.addChange(packet.attacked, packet.attacker, IMoveConstants.CHANGE_CURSE);

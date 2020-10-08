@@ -6,11 +6,11 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Analytic extends Ability
 {
-    // TODO Position modifiers
+   /* // TODO Position modifiers
     @Override
     public void onMoveUse(IPokemob mob, MovePacket move) {
         if (move.attacker == mob || move.pre) return;
 
         move.PWR += (move.PWR/100)*30;
-    }
+    }*/
 }

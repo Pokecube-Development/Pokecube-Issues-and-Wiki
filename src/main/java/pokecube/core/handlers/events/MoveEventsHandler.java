@@ -19,7 +19,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.FurnaceTileEntity;
@@ -145,7 +144,7 @@ public class MoveEventsHandler
                     attacker, this.move, location);
             if (this.move.getType(attacker) == PokeType.getType("ice") && (this.move.getAttackCategory()
                     & IMoveConstants.CATEGORY_DISTANCE) > 0 && this.move.move.power > 0) return MoveEventsHandler
-                            .doDefaultIce(attacker, this.move, location);
+                            .doDefaultIce(attacker, location);
             if (this.move.getType(attacker) == PokeType.getType("electric")) MoveEventsHandler.doDefaultElectric(
                     attacker, this.move, location);
             if (this.move.getType(attacker) == PokeType.getType("fire")) return MoveEventsHandler.doDefaultFire(
@@ -181,45 +180,41 @@ public class MoveEventsHandler
             tile.setWorldAndPos(world, location.getPos());
             for (final ItemEntity item2 : items)
             {
-                final ItemEntity item = item2;
-                final ItemStack stack = item.getItem();
+                final ItemStack stack = item2.getItem();
                 final int num = stack.getCount();
                 tile.setInventorySlotContents(0, stack);
                 tile.setInventorySlotContents(1, stack);
-                final IRecipe<?> irecipe = world.getRecipeManager().getRecipe(IRecipeType.SMELTING, tile, world).orElse(
+                final AbstractCookingRecipe irecipe = world.getRecipeManager().getRecipe(IRecipeType.SMELTING, tile, world).orElse(
                         null);
                 if (irecipe == null) continue;
                 ItemStack newstack = irecipe.getRecipeOutput();
-                if (newstack != null)
+                newstack = newstack.copy();
+                newstack.setCount(num);
+                int i1 = num;
+                float f = irecipe.getExperience();
+                if (f == 0.0F) i1 = 0;
+                else if (f < 1.0F)
                 {
-                    newstack = newstack.copy();
-                    newstack.setCount(num);
-                    int i1 = num;
-                    float f = ((AbstractCookingRecipe) irecipe).getExperience();
-                    if (f == 0.0F) i1 = 0;
-                    else if (f < 1.0F)
-                    {
-                        int j = MathHelper.floor(i1 * f);
-                        if (j < MathHelper.ceil(i1 * f) && Math.random() < i1 * f - j) ++j;
+                    int j = MathHelper.floor(i1 * f);
+                    if (j < MathHelper.ceil(i1 * f) && Math.random() < i1 * f - j) ++j;
 
-                        i1 = j;
-                    }
-                    f = i1;
-                    while (i1 > 0)
-                    {
-                        final int k = ExperienceOrbEntity.getXPSplit(i1);
-                        i1 -= k;
-                        world.addEntity(new ExperienceOrbEntity(world, location.x, location.y + 1.5D, location.z + 0.5D,
-                                k));
-                    }
-                    int hunger = PokecubeCore.getConfig().baseSmeltingHunger * num;
-                    hunger = (int) Math.max(1, hunger / (float) attacker.getLevel());
-                    if (f > 0) hunger *= f;
-                    attacker.setHungerTime(attacker.getHungerTime() + hunger);
-                    item.setItem(newstack);
-                    item.lifespan += 6000;
-                    smelt = true;
+                    i1 = j;
                 }
+                f = i1;
+                while (i1 > 0)
+                {
+                    final int k = ExperienceOrbEntity.getXPSplit(i1);
+                    i1 -= k;
+                    world.addEntity(new ExperienceOrbEntity(world, location.x, location.y + 1.5D, location.z + 0.5D,
+                            k));
+                }
+                int hunger = PokecubeCore.getConfig().baseSmeltingHunger * num;
+                hunger = (int) Math.max(1, hunger / (float) attacker.getLevel());
+                if (f > 0) hunger *= f;
+                attacker.setHungerTime(attacker.getHungerTime() + hunger);
+                item2.setItem(newstack);
+                item2.lifespan += 6000;
+                smelt = true;
             }
             return smelt;
         }
@@ -377,7 +372,7 @@ public class MoveEventsHandler
      * Place snow
      * Freeze water
      */
-    public static boolean doDefaultIce(final IPokemob attacker, final Move_Base move, final Vector3 location)
+    public static boolean doDefaultIce(final IPokemob attacker, final Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultIceActions) return false;
         final World world = attacker.getEntity().getEntityWorld();
@@ -510,77 +505,50 @@ public class MoveEventsHandler
         Effect.initDefaults();
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public void onEvent(final MoveUse.DuringUse.Post evt)
-    {
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void onEvent(final MoveUse.DuringUse.Use evt) {
+        //Basic
         final MovePacket move = evt.getPacket();
-        IPokemob attacker = move.attacker;
         final Entity attacked = move.attacked;
         final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
+        final boolean user = evt.isFromUser();
+        final Move_Base attack = move.getMove();
+        IPokemob other;
+        Ability ab;
+        IPokemob attacker = move.attacker;
 
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
-        if (attackerheld != null)
-        {
+        if (attackerheld != null) {
             final ActionResult<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(), move);
             if (result.getType() == ActionResultType.SUCCESS) attacker.setHeldItem(result.getResult());
         }
-        if (target != null)
-        {
+
+        if (target != null) {
             final IPokemobUseable targetheld = IPokemobUseable.getUsableFor(target.getHeldItem());
-            if (targetheld != null)
-            {
+            if (targetheld != null) {
                 final ActionResult<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(), move);
                 if (result.getType() == ActionResultType.SUCCESS) target.setHeldItem(result.getResult());
             }
         }
 
-        final boolean user = evt.isFromUser();
         IPokemob applied = user ? attacker : target;
-        if (applied != null && applied.getHeldItem() != null) ItemGenerator.processHeldItemUse(move, applied, applied
-                .getHeldItem());
 
-        Ability ab;
-        if (target != null && (ab = target.getAbility()) != null) ab.onMoveUse(applied, move);
+        if (applied != null && applied.getHeldItem() != null)
+            ItemGenerator.processHeldItemUse(move, applied, applied.getHeldItem());
+
+
+        if (target != null && (ab = target.getAbility()) != null) ab.beforeMove(applied, move);
         // Reset this incase it was changed!
         attacker = move.attacker;
         applied = user ? attacker : target;
-        if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public void onEvent(final MoveUse.DuringUse.Pre evt)
-    {
-        final MovePacket move = evt.getPacket();
-        final Move_Base attack = move.getMove();
-        final boolean user = evt.isFromUser();
-        IPokemob attacker = move.attacker;
-        final Entity attacked = move.attacked;
-        final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
-        IPokemob applied = user ? attacker : target;
-        IPokemob other = user ? target : attacker;
-
-        final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
-        if (attackerheld != null)
-        {
-            final ActionResult<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(), move);
-            if (result.getType() == ActionResultType.SUCCESS) attacker.setHeldItem(result.getResult());
-        }
-        if (target != null)
-        {
-            final IPokemobUseable targetheld = IPokemobUseable.getUsableFor(target.getHeldItem());
-            if (targetheld != null)
-            {
-                final ActionResult<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(), move);
-                if (result.getType() == ActionResultType.SUCCESS) target.setHeldItem(result.getResult());
-            }
-        }
+        if ((ab = attacker.getAbility()) != null) ab.beforeMove(applied, move);
 
         if (applied == null) return;
+
         if (!user) applied.getEntity().getPersistentData().putString("lastMoveHitBy", move.attack);
         if (MoveEntry.oneHitKos.contains(attack.name) && target != null && target.getLevel() < attacker.getLevel())
             move.failed = true;
-        if (target != null && target.getMoveStats().substituteHP > 0 && !user)
-        {
+        if (target != null && target.getMoveStats().substituteHP > 0 && !user) {
             final float damage = MovesUtils.getAttackStrength(attacker, target, move.getMove().getCategory(attacker),
                     move.PWR, move);
             MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.substitute.absorb");
@@ -598,13 +566,13 @@ public class MoveEventsHandler
 
         if (applied.getHeldItem() != null) ItemGenerator.processHeldItemUse(move, applied, applied.getHeldItem());
 
-        Ability ab;
-        if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
+        if ((ab = attacker.getAbility()) != null) ab.afterMove(applied, move);
+
         // Reset this incase it was changed!
         attacker = move.attacker;
         applied = user ? attacker : target;
-        other = user ? target : attacker;
-        if (target != null && (ab = target.getAbility()) != null) ab.onMoveUse(applied, move);
+        if (target != null && (ab = target.getAbility()) != null) ab.afterMove(applied, move);
+
         // Reset this incase it was changed!
         attacker = move.attacker;
         applied = user ? attacker : target;
@@ -613,41 +581,40 @@ public class MoveEventsHandler
         if (attack.getName().equals(IMoveNames.MOVE_FALSESWIPE)) move.noFaint = true;
         boolean blockMove = false;
         for (final String s : MoveEntry.protectionMoves)
-            if (s.equals(move.attack))
-            {
+            if (s.equals(move.attack)) {
                 blockMove = true;
                 break;
             }
 
-        if (user && !blockMove && applied.getMoveStats().blocked && applied.getMoveStats().blockTimer-- <= 0)
-        {
+        if (user && !blockMove && applied.getMoveStats().blocked && applied.getMoveStats().blockTimer-- <= 0) {
             applied.getMoveStats().blocked = false;
             applied.getMoveStats().blockTimer = 0;
             applied.getMoveStats().BLOCKCOUNTER = 0;
         }
+
         boolean unblockable = false;
         for (final String s : MoveEntry.unBlockableMoves)
-            if (s.equals(move.attack))
-            {
+            if (s.equals(move.attack)) {
                 unblockable = true;
                 break;
             }
-        if (move.attacked != move.attacker && !unblockable && other != null && other.getMoveStats().BLOCKCOUNTER > 0)
-        {
+
+        if (move.attacked != move.attacker && !unblockable && other != null && other.getMoveStats().BLOCKCOUNTER > 0) {
             final float count = Math.max(0, other.getMoveStats().BLOCKCOUNTER - 2);
             final float chance = count != 0 ? Math.max(0.125f, 1 / count) : 1;
             if (chance > Math.random()) move.failed = true;
         }
-        if (attack.getName().equals(IMoveNames.MOVE_PROTECT) || attack.getName().equals(IMoveNames.MOVE_DETECT))
-        {
+
+        if (attack.getName().equals(IMoveNames.MOVE_PROTECT) || attack.getName().equals(IMoveNames.MOVE_DETECT)) {
             applied.getMoveStats().blockTimer = PokecubeCore.getConfig().attackCooldown * 2;
             applied.getMoveStats().blocked = true;
             applied.getMoveStats().BLOCKCOUNTER += 2;
         }
+
         if (applied.getMoveStats().BLOCKCOUNTER > 0) applied.getMoveStats().BLOCKCOUNTER--;
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onEvent(final MoveWorldAction.OnAction evt)
     {
         final IPokemob attacker = evt.getUser();

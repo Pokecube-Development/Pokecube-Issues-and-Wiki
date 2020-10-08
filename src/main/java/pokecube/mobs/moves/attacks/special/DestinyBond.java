@@ -86,7 +86,6 @@ public class DestinyBond extends Move_Basic
     @Override
     public void onAttack(MovePacket packet)
     {
-        this.preAttack(packet);
         if (packet.denied) return;
 
         final IPokemob attacker = packet.attacker;
@@ -107,14 +106,11 @@ public class DestinyBond extends Move_Basic
         if (!added) if (packet.failed)
         {
             MovesUtils.displayEfficiencyMessages(attacker, attacked, -2, 0);
-            packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition,
-                    false);
+            packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition);
             packet.hit = false;
             packet.didCrit = false;
-            this.postAttack(packet);
-            return;
         }
 
-        this.postAttack(packet);
+        this.attack(packet);
     }
 }

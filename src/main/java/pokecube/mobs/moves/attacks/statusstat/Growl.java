@@ -12,9 +12,9 @@ public class Growl extends Move_Basic
     }
 
     @Override
-    public void preAttack(MovePacket packet)
+    public void attack(MovePacket packet)
     {
-        super.preAttack(packet);
+        super.attack(packet);
         this.soundUser = packet.attacker.getSound();
     }
 }

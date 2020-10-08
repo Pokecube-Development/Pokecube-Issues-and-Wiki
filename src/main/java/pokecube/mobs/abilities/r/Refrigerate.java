@@ -7,7 +7,7 @@ import pokecube.core.utils.PokeType;
 
 public class Refrigerate extends Ability
 {
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (!move.pre) return;
@@ -16,5 +16,5 @@ public class Refrigerate extends Ability
             move.attackType = PokeType.getType("ice");
             move.PWR *= 1.2;
         }
-    }
+    }*/
 }

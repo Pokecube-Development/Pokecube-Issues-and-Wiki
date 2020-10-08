@@ -25,9 +25,9 @@ public class Sketch extends Move_Basic
     }
 
     @Override
-    public void postAttack(final MovePacket packet)
+    public void attack(final MovePacket packet)
     {
-        super.postAttack(packet);
+        super.attack(packet);
         if (packet.attacker.getTransformedTo() != null) return;
         final String lastHitBy = packet.attacker.getEntity().getPersistentData().getString("lastMoveHitBy");
         final Move_Base toSketch = MovesUtils.getMoveFromName(lastHitBy);

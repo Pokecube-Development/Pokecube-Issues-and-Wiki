@@ -20,11 +20,11 @@ public class SecretPower extends Move_Basic
         return super.getAnimation();
     }
 
-    @Override
+    /*@Override
     public void preAttack(MovePacket packet)
     {
         // TODO before super call, add in the needed stats/status/change effects
         // based on terrain.
         super.preAttack(packet);
-    }
+    }*/
 }

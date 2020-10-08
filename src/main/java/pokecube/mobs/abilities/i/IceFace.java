@@ -18,7 +18,7 @@ public class IceFace extends Ability
     
     private static boolean      noTurnBase = false;
 
-    @Override
+  /*  @Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         if (IceFace.noTurnBase) return;
@@ -44,5 +44,5 @@ public class IceFace extends Ability
         else if (mobs == IceFace.noIce &&  effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.HAIL))
             mob.setPokedexEntry(IceFace.Ice);
         }
-    }
+    }*/
 }

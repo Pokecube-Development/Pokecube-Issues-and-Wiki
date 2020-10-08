@@ -38,8 +38,7 @@ public class MiscItemHelper
         public ActionResult<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
                 final MovePacket moveuse)
         {
-            if (pokemob == moveuse.attacker && moveuse.pre) if (moveuse.getMove().getType(
-                    pokemob) == CharcoalEffect.FIRE)
+            if (pokemob == moveuse.attacker) if (moveuse.getMove().getType(pokemob) == CharcoalEffect.FIRE)
             {
                 moveuse.PWR *= 1.2;
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);

@@ -13,9 +13,9 @@ public class Splash extends Move_Basic
     }
 
     @Override
-    public void preAttack(final MovePacket packet)
+    public void attack(final MovePacket packet)
     {
-        super.preAttack(packet);
+        super.attack(packet);
         packet.denied = true;
         MovesUtils.sendPairedMessages(packet.attacked, packet.attacker, "pokemob.move.doesnt.affect");
     }

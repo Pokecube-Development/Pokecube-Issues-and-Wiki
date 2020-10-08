@@ -6,9 +6,9 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class ShellArmor extends Ability
 {
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (move.pre && mob == move.attacked) move.criticalLevel = -1;
-    }
+    }*/
 }

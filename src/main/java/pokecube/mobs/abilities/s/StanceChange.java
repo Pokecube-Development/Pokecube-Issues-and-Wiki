@@ -13,7 +13,7 @@ public class StanceChange extends Ability
     private static PokedexEntry blade_form;
     private static boolean      noTurn = false;
 
-    @Override
+    /*@Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         if (StanceChange.noTurn) return;
@@ -40,7 +40,7 @@ public class StanceChange extends Ability
         else if (isBlade && move.attack.equals("kingsshield")) attacker = attacker.setPokedexEntry(
                 StanceChange.base_form);
         move.attacker = attacker;
-    }
+    }*/
 
     @Override
     public IPokemob onRecall(final IPokemob mob)

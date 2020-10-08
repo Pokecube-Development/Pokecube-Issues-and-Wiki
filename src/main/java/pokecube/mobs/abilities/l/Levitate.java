@@ -14,10 +14,10 @@ public class Levitate extends Ability
         return super.beforeDamage(mob, move, damage);
     }
 
-    @Override
+    /*@Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         if (move.attacker == mob || !move.pre || move.attacker == move.attacked) return;
         if (move.getMove().getType(move.attacker) == PokeType.getType("ground")) move.canceled = true;
-    }
+    }*/
 }

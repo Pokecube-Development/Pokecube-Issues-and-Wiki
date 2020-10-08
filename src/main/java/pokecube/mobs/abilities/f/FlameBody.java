@@ -12,7 +12,7 @@ import thut.api.maths.Vector3;
 
 public class FlameBody extends Ability
 {
-    int range = 4;
+   /* int range = 4;
 
     @Override
     public Ability init(Object... args)
@@ -46,5 +46,5 @@ public class FlameBody extends Ability
         for (final EntityPokemobEgg egg : eggs)
             egg.incubateEgg();
     }
-
+*/
 }

@@ -6,7 +6,7 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class MirrorArmor extends Ability
 {
-	@Override
+	/*@Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
 		final IPokemob attacker = move.attacker;
@@ -19,5 +19,5 @@ public class MirrorArmor extends Ability
             move.attackedStatModification = move.attackerStatModification;
             move.attackedStatModProb = move.attackerStatModProb;
         }
-    }
+    }*/
 }

@@ -386,20 +386,12 @@ public abstract class Move_Base
     }
 
     /**
-     * Called after the attack is done for any additional effects needed Both
-     * involved mobs should be notified of the packet here.
-     *
-     * @param packet
-     */
-    public abstract void postAttack(MovePacket packet);
-
-    /**
-     * Called before the attack is applied. Both involved mobs should be
+     * Called to apply attack
      * notified of the packet here.
      *
      * @param packet
      */
-    public abstract void preAttack(MovePacket packet);
+    public abstract void attack(MovePacket packet);
 
     /**
      * Sets the move animation

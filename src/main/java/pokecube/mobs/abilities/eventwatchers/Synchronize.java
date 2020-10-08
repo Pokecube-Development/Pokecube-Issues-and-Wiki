@@ -14,7 +14,7 @@ import thut.core.common.ThutCore;
 
 public class Synchronize extends Ability
 {
-    Vector3  location = Vector3.getNewVector();
+ /*   Vector3  location = Vector3.getNewVector();
     IPokemob pokemob;
     int      range    = 16;
 
@@ -70,5 +70,5 @@ public class Synchronize extends Ability
     {
         this.location.set(mob.getEntity());
         this.pokemob = mob;
-    }
+    }*/
 }

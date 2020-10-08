@@ -81,24 +81,9 @@ public class MoveUse extends Event
          * <br>
          * this is fired on the {@link pokecube.core.PokecubeCore#MOVE_BUS}
          */
-        public static class Post extends DuringUse
+        public static class Use extends DuringUse
         {
-            public Post(MovePacket packet, boolean fromUser)
-            {
-                super(packet, fromUser);
-            }
-        }
-
-        @Cancelable
-        /**
-         * Cancelling this event prevents the default implementation from being
-         * applied. <br>
-         * <br>
-         * this is fired on the {@link pokecube.core.PokecubeCore#MOVE_BUS}
-         */
-        public static class Pre extends DuringUse
-        {
-            public Pre(MovePacket packet, boolean fromUser)
+            public Use(MovePacket packet, boolean fromUser)
             {
                 super(packet, fromUser);
             }

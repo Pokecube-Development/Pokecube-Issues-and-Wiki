@@ -17,9 +17,9 @@ public class GuardSplit extends Move_Basic
     }
 
     @Override
-    public void postAttack(MovePacket packet)
+    public void attack(MovePacket packet)
     {
-        super.postAttack(packet);
+        super.attack(packet);
         if (packet.canceled || packet.failed) return;
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
         if (attacked != null)

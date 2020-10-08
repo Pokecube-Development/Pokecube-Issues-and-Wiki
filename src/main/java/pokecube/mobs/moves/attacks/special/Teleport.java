@@ -13,10 +13,10 @@ public class Teleport extends Move_Basic
     }
 
     @Override
-    public void postAttack(final MovePacket packet)
+    public void attack(final MovePacket packet)
     {
         final IPokemob attacker = packet.attacker;
         BrainUtils.deagro(attacker.getEntity());
-        super.postAttack(packet);
+        super.attack(packet);
     }
 }

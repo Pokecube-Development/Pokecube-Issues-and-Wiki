@@ -8,7 +8,7 @@ import pokecube.core.moves.MovesUtils;
 
 public class Defiant extends Ability
 {
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (move.attacker == mob || move.pre || move.attacker == move.attacked) return;
@@ -19,5 +19,5 @@ public class Defiant extends Ability
                 MovesUtils.handleStats2(mob, mob.getOwner(), IMoveConstants.ATTACK, IMoveConstants.SHARP);
             }
         }
-    }
+    }*/
 }

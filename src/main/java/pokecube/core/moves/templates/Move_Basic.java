@@ -1,6 +1,3 @@
-/**
- *
- */
 package pokecube.core.moves.templates;
 
 import java.util.ArrayList;
@@ -262,7 +259,6 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     @Override
     public void onAttack(MovePacket packet)
     {
-        this.preAttack(packet);
         if (packet.denied) return;
 
         final IPokemob attacker = packet.attacker;
@@ -283,21 +279,19 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (packet.canceled)
         {
             MovesUtils.displayEfficiencyMessages(attacker, attacked, -2, 0);
-            packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition,
-                    false);
+            packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition);
             packet.hit = false;
             packet.didCrit = false;
-            this.postAttack(packet);
+            this.attack(packet);
             return;
         }
         if (packet.failed)
         {
             MovesUtils.displayEfficiencyMessages(attacker, attacked, -2, 0);
-            packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition,
-                    false);
+            packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition);
             packet.hit = false;
             packet.didCrit = false;
-            this.postAttack(packet);
+            this.attack(packet);
             return;
         }
 
@@ -307,11 +301,10 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (packet.infatuateAttacker) attacker.getMoveStats().infatuateTarget = attacked;
         if (attacked == null)
         {
-            packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition,
-                    false);
+            packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition);
             packet.hit = false;
             packet.didCrit = false;
-            this.postAttack(packet);
+            this.attack(packet);
             return;
         }
 
@@ -570,32 +563,22 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (healRatio > 0 && canHeal) attackerMob.setHealth(Math.min(attackerMob.getMaxHealth(), attackerMob.getHealth()
                 + attackerMob.getMaxHealth() * healRatio));
 
-        packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition,
-                false);
+        packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition);
+
         packet.hit = efficiency >= 0;
         packet.didCrit = criticalRatio > 1;
         packet.damageDealt = beforeHealth - afterHealth;
         this.handleStatsChanges(packet);
-        this.postAttack(packet);
+        this.attack(packet);
     }
 
     @Override
-    public void postAttack(final MovePacket packet)
+    public void attack(final MovePacket packet)
     {
         final IPokemob attacker = packet.attacker;
-        attacker.onMoveUse(packet);
+        attacker.useMove(packet);
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
-        if (attacked != null) attacked.onMoveUse(packet);
+        if (attacked != null) attacked.useMove(packet);
         PokecubeCore.MOVE_BUS.post(new MoveUse.ActualMoveUse.Post(packet.attacker, this, packet.attacked));
-    }
-
-    @Override
-    public void preAttack(final MovePacket packet)
-    {
-        PokecubeCore.MOVE_BUS.post(new MoveUse.ActualMoveUse.Pre(packet.attacker, this, packet.attacked));
-        final IPokemob attacker = packet.attacker;
-        attacker.onMoveUse(packet);
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
-        if (attacked != null) attacked.onMoveUse(packet);
     }
 }

@@ -7,9 +7,9 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Guts extends Ability
 {
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (mob == move.attacker && move.pre) move.statMults[Stats.ATTACK.ordinal()] = 1.5f;
-    }
+    }*/
 }

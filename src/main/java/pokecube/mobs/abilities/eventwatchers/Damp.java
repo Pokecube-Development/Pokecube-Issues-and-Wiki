@@ -12,7 +12,7 @@ import thut.core.common.ThutCore;
 
 public class Damp extends Ability
 {
-    IPokemob mob;
+   /* IPokemob mob;
 
     int range = 16;
 
@@ -66,5 +66,5 @@ public class Damp extends Ability
     {
         this.mob = mob;
     }
-
+*/
 }

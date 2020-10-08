@@ -23,8 +23,6 @@ public class MovePacket
     public boolean       stab              = false;
     public boolean       hit               = false;
     public int           damageDealt       = 0;
-    /** Is the move packet before of after damage is done */
-    public final boolean pre;
     /** Detect, Protect, wonder guard will set this true. */
     public boolean       canceled          = false;
     /** Did the move crit */
@@ -72,12 +70,6 @@ public class MovePacket
     public MovePacket(IPokemob attacker, Entity attacked, String attack, PokeType type, int PWR, int criticalLevel,
             byte statusChange, byte changeAddition)
     {
-        this(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition, true);
-    }
-
-    public MovePacket(IPokemob attacker, Entity attacked, String attack, PokeType type, int PWR, int criticalLevel,
-            byte statusChange, byte changeAddition, boolean pre)
-    {
         this.attacker = attacker;
         this.attacked = attacked;
         this.attack = attack;
@@ -86,7 +78,6 @@ public class MovePacket
         this.criticalLevel = criticalLevel;
         this.statusChange = statusChange;
         this.changeAddition = changeAddition;
-        this.pre = pre;
         final Move_Base move = this.getMove();
         this.attackedStatModification = move.move.attackedStatModification.clone();
         this.attackerStatModification = move.move.attackerStatModification.clone();

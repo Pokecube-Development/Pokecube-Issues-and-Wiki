@@ -1,6 +1,3 @@
-/**
- *
- */
 package pokecube.core.moves.templates;
 
 import java.util.BitSet;
@@ -204,7 +201,7 @@ public class Move_Explode extends Move_Basic
     }
 
     @Override
-    public void postAttack(final MovePacket packet)
+    public void attack(final MovePacket packet)
     {
         final Entity attacked = packet.attacked;
         final IPokemob pokemob = packet.attacker;
@@ -226,6 +223,6 @@ public class Move_Explode extends Move_Basic
                 target.addEVs(evsToAdd);
             }
         }
-        super.postAttack(packet);
+        super.attack(packet);
     }
 }

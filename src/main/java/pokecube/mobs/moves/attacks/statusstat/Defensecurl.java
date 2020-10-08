@@ -12,9 +12,9 @@ public class Defensecurl extends Move_Basic
     }
 
     @Override
-    public void postAttack(MovePacket packet)
+    public void attack(MovePacket packet)
     {
-        super.postAttack(packet);
+        super.attack(packet);
         if (packet.canceled || packet.failed) return;
         packet.attacker.getMoveStats().DEFENSECURLCOUNTER = 200;
     }
