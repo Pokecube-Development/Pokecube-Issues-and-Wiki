@@ -409,21 +409,21 @@ public class MovesUtils implements IMoveConstants
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
         if (type == PokeType.getType("dragon"))
         {
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.MISTY))
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY))
                 ret = 0.5f;
         }
         if (type == PokeType.getType("electric") && (attacker.onGround || attacker.fallDistance < 0.5))
         {
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.ELECTRIC))
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC))
                 ret = 1.5f;
 
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.MUD))
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MUD))
                 ret *= 0.33f;
         }
 
         if (type == PokeType.getType("grass") && (attacker.onGround || attacker.fallDistance < 0.5))
         {
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.GRASS))
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS))
                 ret = 1.5f;
         }
 
@@ -443,7 +443,7 @@ public class MovesUtils implements IMoveConstants
             if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
                 ret = 0.5f;
 
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.WATER))
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.WATER))
                 ret *= 0.33f;
         }
         return ret;

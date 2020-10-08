@@ -31,7 +31,7 @@ public class SandSpit extends Ability
         {
         	//terrain.doWorldAction(mob, location);
         	
-        	teffect.setTerrainEffectDuration(PokemobTerrainEffects.WeatherEffectType.SAND, duration + world.getGameTime(), mob);
+        	teffect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.SAND, duration + world.getGameTime(), mob);
 
             if (mob.getEntity().isServerWorld()) PacketSyncTerrain.sendTerrainEffects(mob.getEntity(),
                     segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
