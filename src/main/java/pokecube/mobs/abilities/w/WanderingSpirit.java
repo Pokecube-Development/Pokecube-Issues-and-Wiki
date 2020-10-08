@@ -15,7 +15,7 @@ public class WanderingSpirit extends Ability
 
 	Ability Spirit;
 	
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
     	final Move_Base attack = move.getMove();
@@ -44,7 +44,7 @@ public class WanderingSpirit extends Ability
         if (this.Spirit != null) {
         	this.Spirit.onMoveUse(mob, move);
         }
-    }
+    }*/
 
     @Override
     public void onUpdate(final IPokemob mob)

@@ -16,7 +16,7 @@ public class SandSpit extends Ability
 {
 	public int duration = 300 + new Random().nextInt(600);
     
-	@Override
+/*	@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
 		final IPokemob attacker = move.attacker;
@@ -36,5 +36,5 @@ public class SandSpit extends Ability
             if (mob.getEntity().isServerWorld()) PacketSyncTerrain.sendTerrainEffects(mob.getEntity(),
                     segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
         }       
-    }
+    }*/
 }

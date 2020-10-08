@@ -7,7 +7,7 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Rivalry extends Ability
 {
-    @Override
+ /*   @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
 
@@ -23,5 +23,5 @@ public class Rivalry extends Ability
             if (mobGender == targetGender) move.PWR *= 1.25;
             else move.PWR *= 0.75;
         }
-    }
+    }*/
 }

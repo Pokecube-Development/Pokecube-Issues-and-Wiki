@@ -24,11 +24,11 @@ public class Trace extends Ability
         }
     }
 
-    @Override
+   /* @Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         if (this.traced != null) this.traced.onMoveUse(mob, move);
-    }
+    }*/
 
     @Override
     public void onUpdate(final IPokemob mob)

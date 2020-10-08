@@ -17,7 +17,7 @@ public class Aftermath extends Ability
     @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
-        if (mob != move.attacked || move.pre || move.attacker == move.attacked) return;
+      /*  if (mob != move.attacked || move.pre || move.attacker == move.attacked) return;
         final Move_Base attack = move.getMove();
         if (attack == null || (attack.getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) == 0) return;
 
@@ -33,6 +33,6 @@ public class Aftermath extends Ability
                 final float hp = attacker.getHealth();
                 attacker.attackEntityFrom(DamageSource.MAGIC, hp / 4);
             }
-        }
+        }*/
     }
 }

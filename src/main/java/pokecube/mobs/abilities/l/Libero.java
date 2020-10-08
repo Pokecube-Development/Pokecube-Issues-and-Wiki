@@ -8,14 +8,14 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Libero extends Ability
 {
-    @Override
+  /*  @Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {   
     	final Move_Base attack = move.getMove();
         if (!move.pre || move.attack.equals("struggle")) return;     
 		if(mob == move.attacker)
         	mob.setType1(attack.move.type);
-    }
+    }*/
     
     @Override
     public void onUpdate(final IPokemob mob)

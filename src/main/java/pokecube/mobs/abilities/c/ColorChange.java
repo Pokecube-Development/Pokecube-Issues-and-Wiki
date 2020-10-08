@@ -6,9 +6,9 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class ColorChange extends Ability
 {
-    @Override
+   /* @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (mob == move.attacked && !move.pre) mob.setType1(move.attackType);
-    }
+    }*/
 }

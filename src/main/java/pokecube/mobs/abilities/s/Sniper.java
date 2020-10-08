@@ -6,10 +6,10 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Sniper extends Ability
 {
-    @Override
+    /*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (!move.pre) return;
         if (mob == move.attacker) move.critFactor = 2;
-    }
+    }*/
 }

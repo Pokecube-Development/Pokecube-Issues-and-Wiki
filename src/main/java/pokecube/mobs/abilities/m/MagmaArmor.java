@@ -26,13 +26,13 @@ public class MagmaArmor extends Ability
         return this;
     }
 
-    @Override
+   /* @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         final IPokemob attacker = move.attacker;
         if (attacker == mob || !move.pre || attacker == move.attacked) return;
         if (move.statusChange == IMoveConstants.STATUS_FRZ) move.statusChange = IMoveConstants.STATUS_NON;
-    }
+    }*/
 
     @Override
     public void onUpdate(IPokemob mob)

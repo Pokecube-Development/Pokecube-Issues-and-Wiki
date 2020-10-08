@@ -10,7 +10,7 @@ import pokecube.core.moves.MovesUtils;
 public class DauntlessShield extends Ability
 {
 	
-	@Override
+/*	@Override
     public void onAgress(final IPokemob mob, final LivingEntity target)
     {
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
@@ -19,5 +19,5 @@ public class DauntlessShield extends Ability
         			IMoveConstants.DEFENSE, IMoveConstants.RAISE);
         	System.out.println("defesa!");
         }
-    }
+    }*/
 }

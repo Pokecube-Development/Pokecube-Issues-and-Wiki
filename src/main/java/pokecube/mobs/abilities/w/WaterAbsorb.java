@@ -8,7 +8,7 @@ import pokecube.core.utils.PokeType;
 
 public class WaterAbsorb extends Ability
 {
-    @Override
+  /*  @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (mob == move.attacked && move.pre && move.attackType == PokeType.getType("water"))
@@ -19,6 +19,6 @@ public class WaterAbsorb extends Ability
             final float maxHp = entity.getMaxHealth();
             entity.setHealth(Math.min(hp + 0.25f * maxHp, maxHp));
         }
-    }
+    }*/
 
 }

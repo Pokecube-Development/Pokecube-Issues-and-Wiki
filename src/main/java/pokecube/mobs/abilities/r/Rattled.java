@@ -14,10 +14,10 @@ public class Rattled extends Ability
         return type == PokeType.getType("dark") || type == PokeType.getType("bug") || type == PokeType.getType("ghost");
     }
 
-    @Override
+   /* @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         if (mob == move.attacked && !move.pre && this.isCorrectType(move.attackType)) MovesUtils.handleStats2(mob, mob
                 .getEntity(), IMoveConstants.VIT, IMoveConstants.RAISE);
-    }
+    }*/
 }
