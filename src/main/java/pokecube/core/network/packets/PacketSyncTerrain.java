@@ -75,7 +75,7 @@ public class PacketSyncTerrain extends Packet
             empty = empty && check;
             if (check) continue;
 
-            effect.setTerrainEffectDuration(PokemobTerrainEffects.WeatherEffectType.values()[(int) longs[0]],
+            effect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.values()[(int) longs[0]],
                     longs[1], null);
         }
 

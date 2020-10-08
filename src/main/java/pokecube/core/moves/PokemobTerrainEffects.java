@@ -35,7 +35,6 @@ import thut.api.terrain.TerrainSegment.ITerrainEffect;
 
 public class PokemobTerrainEffects implements ITerrainEffect
 {
-
     public interface EffectType{
         int getIndex();
     }
@@ -128,7 +127,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
         public IPokemob getMob() {
             return mob;
         }
-
         public EffectType getType() {
             return type;
         }
@@ -310,7 +308,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     @OnlyIn(Dist.CLIENT)
     private void renderEffect(final IVertexBuilder builder, final Matrix4f pos, final Vector3 origin,
-            final Vector3 direction, final float tick, final float r, final float g, final float b, final float a)
+                              final Vector3 direction, final float tick, final float r, final float g, final float b, final float a)
     {
         final Vector3 temp = Vector3.getNewVector();
         final Vector3 temp2 = Vector3.getNewVector();
@@ -432,7 +430,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
      *            time a pokemob uses a move.
      */
 
-    public void setTerrainEffectDuration(final EffectType type, final long duration, final IPokemob mob) {
+    public void setEffectDuration(final EffectType type, final long duration, final IPokemob mob) {
         Effect effect = new Effect(type, duration, mob);
         effect.duration = duration;
         if (type != NoEffects.NO_EFFECTS) {
