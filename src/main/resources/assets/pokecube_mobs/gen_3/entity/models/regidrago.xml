@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" scale="0.30"/>
+  <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
+  <customTex default="regidrago"/>
+  <phase type="sitting">
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="4,-90,180" posOffset="18.5,40,15" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="4,90,0" posOffset="-11.5,0,21" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="10" name="1" posOffset="0,-3,0" rotChange="0,0,1" rotOffset="0,0,-35" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-1" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" posOffset="0,-3,0" rotChange="0,0,-1" rotOffset="0,0,30" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,1" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="arm1">
+    <component length="8" name="1" posOffset="0,-3,0" rotChange="0,-10,0" rotOffset="0,-20,-40" startKey="0"/>
+    <component length="8" name="2" rotChange="0,20,0" startKey="5"/>
+    <component length="8" name="3" rotChange="0,-10,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" posOffset="0,-3,0" rotChange="0,-10,0" rotOffset="0,20,40" startKey="0"/>
+    <component length="8" name="2" rotChange="0,20,0" startKey="5"/>
+    <component length="8" name="3" rotChange="0,-10,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>
