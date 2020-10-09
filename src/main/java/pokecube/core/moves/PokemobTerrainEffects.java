@@ -276,13 +276,13 @@ public class PokemobTerrainEffects implements ITerrainEffect
         boolean send = false;
 
         for (int type : effects.keySet()) {
-
             Effect effect = effects.get(type);
-            effect.duration -= time;
             if (effect.duration < 0) {
-                effect.duration = 0;
-                effects.remove(type);
-                send = true;
+                effect.duration -= time;
+                if (effect.duration <= 0) {
+                    effects.remove(type);
+                    send = true;
+                }
             }
         }
 
@@ -298,7 +298,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public boolean hasEffects()
     {
-        return effects.isEmpty();
+        return !effects.isEmpty() && !isEffectActive(NoEffects.NO_EFFECTS);
     }
 
     @Override
@@ -433,20 +433,21 @@ public class PokemobTerrainEffects implements ITerrainEffect
     public void setEffectDuration(final EffectType type, final long duration, final IPokemob mob) {
         Effect effect = new Effect(type, duration, mob);
         effect.duration = duration;
-        if (type != NoEffects.NO_EFFECTS) {
-            if (type != NoEffects.CLEAR_WEATHER) {
-                if (!effects.containsKey(type.getIndex())) {
-                    effects.put(type.getIndex(), effect);
-                } else {
-                    effects.replace(type.getIndex(), effect);
-                }
-            } else {
-                effects.clear();
+        if (type != NoEffects.CLEAR_WEATHER) {
+            if (!effects.containsKey(type.getIndex())) {
                 effects.put(type.getIndex(), effect);
+            } else {
+                effects.replace(type.getIndex(), effect);
             }
         } else {
             effects.clear();
+            effects.put(type.getIndex(), effect);
         }
+    }
+
+    public void removeEffect(EffectType effectType)
+    {
+        effects.remove(effectType.getIndex());
     }
 
     @Override

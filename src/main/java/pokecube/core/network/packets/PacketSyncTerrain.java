@@ -50,7 +50,7 @@ public class PacketSyncTerrain extends Packet
                 data[i][1] = effect.getDuration();
             }else {
                 data[i][0] = i;
-                data[i][1] = 0;
+                data[i][1] = -1;
             }
         }
     }
@@ -98,7 +98,7 @@ public class PacketSyncTerrain extends Packet
         boolean empty = true;
 
         for (long[] longs : data) {
-            boolean check = longs[1] <= 0;
+            boolean check = longs[1] < 0;
             empty = empty && check;
             if (check) continue;
 
