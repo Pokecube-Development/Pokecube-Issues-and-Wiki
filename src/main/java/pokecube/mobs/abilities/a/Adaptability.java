@@ -6,10 +6,10 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Adaptability extends Ability
 {
-   /* @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    @Override
+    public void preMove(IPokemob mob, MovePacket move)
     {
-        if (!move.pre) return;
-        if (mob == move.attacker) move.stabFactor = 2;
-    }*/
+        if (mob == move.attacker)
+            move.stabFactor = 2;
+    }
 }
