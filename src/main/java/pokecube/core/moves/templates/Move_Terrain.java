@@ -13,7 +13,7 @@ import thut.api.terrain.TerrainSegment;
 public class Move_Terrain extends Move_Basic
 {
 
-    public final int effect;
+    public int effect;
     public int       duration = 300;
 
     /**
@@ -49,9 +49,9 @@ public class Move_Terrain extends Move_Basic
 
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
         // TODO check if effect already exists, and send message if so.
-        // Otherwise send the it starts to effect message
+        // Otherwise send the it starts to effect messaged
 
-        teffect.setEffect(this.effect, this.duration + world.getGameTime(), attacker);
+        teffect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.values()[this.effect], this.duration + world.getGameTime(), attacker);
 
         if (attacker.getEntity().isServerWorld()) PacketSyncTerrain.sendTerrainEffects(attacker.getEntity(),
                 segment.chunkX, segment.chunkY, segment.chunkZ, teffect);

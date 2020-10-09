@@ -19,10 +19,10 @@ public class Synthesis extends Move_Basic
     {
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(user.getEntity());
         final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
-        if (effects.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_RAIN) > 0 || effects.getEffect(
-                PokemobTerrainEffects.EFFECT_WEATHER_HAIL) > 0 || effects.getEffect(
-                        PokemobTerrainEffects.EFFECT_WEATHER_SAND) > 0) return 25f;
-        if (effects.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_SUN) > 0) return 200 / 3f;
+        if (effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN) ||
+                effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.HAIL) ||
+                effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SAND)) return 25f;
+        if (effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN)) return 200 / 3f;
         return 50f;
     }
 

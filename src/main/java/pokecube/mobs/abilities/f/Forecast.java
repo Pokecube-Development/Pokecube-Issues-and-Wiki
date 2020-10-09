@@ -35,20 +35,20 @@ public class Forecast extends Ability
 
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(pokemob);
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
-        long terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_RAIN);
-        if (terrainDuration > 0)
+
+        if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
         {
             mob.setPokedexEntry(Forecast.rain);
             return;
         }
-        terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_SUN);
-        if (terrainDuration > 0)
+
+        if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN))
         {
             mob.setPokedexEntry(Forecast.sun);
             return;
         }
-        terrainDuration = effect.getEffect(PokemobTerrainEffects.EFFECT_WEATHER_HAIL);
-        if (terrainDuration > 0)
+
+        if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.HAIL))
         {
             mob.setPokedexEntry(Forecast.snow);
             return;
