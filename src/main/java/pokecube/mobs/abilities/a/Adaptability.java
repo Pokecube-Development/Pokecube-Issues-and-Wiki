@@ -4,6 +4,11 @@ import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
+/**
+  *   Wiki description
+  *   Adaptability increases STAB of a Pokémon with this Ability from 1.5× to 2×.
+ **/
+
 public class Adaptability extends Ability
 {
     @Override
