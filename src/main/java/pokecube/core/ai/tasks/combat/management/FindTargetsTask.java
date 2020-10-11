@@ -38,6 +38,11 @@ import thut.api.maths.Vector3;
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
 public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinder
 {
+    public static int DEAGROTIMER = 50;
+
+    UUID targetId = null;
+
+    int forgetTimer = 0;
 
     public static boolean handleDamagedTargets = true;
     static
@@ -46,34 +51,27 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     }
 
     @SubscribeEvent
-    public static void livingSetTarget(final LivingSetAttackTargetEvent event)
-    {
+    public static void livingSetTarget(final LivingSetAttackTargetEvent event) {
         // Don't manage this.
-        if (event.getTarget() == null) return;
+        if (event.getTarget() == null)
+            return;
+
         List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(), e -> CapabilityPokemob.getPokemobFor(e) != null
                 && e.getDistanceSq(event.getTarget()) < 64);
         final boolean targetHasMobs = !mobs.isEmpty();
-        if (targetHasMobs)
-        {
+
+        if (targetHasMobs) {
             mobs.sort((o1, o2) -> (int) (o1.getDistanceSq(event.getEntityLiving()) - o2.getDistanceSq(event
                     .getEntityLiving())));
             final Entity mob = mobs.get(0);
             mobs = PokemobTracker.getMobs(mob, e -> true);
             // No loop diverting
             if (!mobs.isEmpty()) return;
+
             // Divert the target over.
-            BrainUtils.setAttackTarget(event.getEntityLiving(), (LivingEntity) mob);
+            Battle.createBattle(event.getEntityLiving(), (LivingEntity) mob);
         }
     }
-
-    public static int DEAGROTIMER = 50;
-
-    Vector3 v  = Vector3.getNewVector();
-    Vector3 v1 = Vector3.getNewVector();
-
-    UUID targetId = null;
-
-    int forgetTimer = 0;
 
     /**
      * Checks the validTargts as well as team settings, will not allow
@@ -122,7 +120,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         else centre.set(this.pokemob.getOwner());
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS). get();
         // Only allow valid guard targets.
         for (final LivingEntity o : pokemobs)
             if (this.validGuardTarget.test(o)) ret.add(o);
@@ -134,20 +132,10 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Agro the target.
         if (newtarget != null)
         {
-            this.setAttackTarget(this.entity, newtarget);
+            Battle.createBattle(entity, newtarget);
             return true;
         }
         return false;
-    }
-
-    protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
-    {
-        if (target == null || !AITools.validTargets.test(target))
-        {
-            BrainUtils.deagro(attacker);
-            this.clear();
-        }
-        else BrainUtils.initiateCombat(attacker, target);
     }
 
     /**
@@ -187,7 +175,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             final LivingEntity targ = BrainUtils.getAttackTarget(entity);
             if (entity instanceof MobEntity && targ != null && targ.equals(owner))
             {
-                this.setAttackTarget(this.entity, entity);
+                Battle.createBattle(this.entity, entity);
                 return true;
             }
         }
@@ -202,23 +190,27 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     @Override
     public void run()
     {
+        //Check if pokemob can see the target, if yes start battle
         if (this.targetId != null)
         {
             final Entity mob = this.world.getEntityByUuid(this.targetId);
-            if (mob instanceof LivingEntity && BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob)) this
-                    .setAttackTarget(this.entity, (LivingEntity) mob);
+            if (mob instanceof LivingEntity && BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob))
+                Battle.createBattle(this.entity, (LivingEntity) mob);
+
             // Reset target ID here, so we don't keep looking for it.
             if (this.forgetTimer-- <= 0) this.targetId = null;
             return;
         }
 
+        //If pokemob is hurt by someone, for example players
         final Optional<LivingEntity> hurtBy = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY);
         if (hurtBy != null && hurtBy.isPresent())
         {
             final LivingEntity target = hurtBy.get();
+
             if (BrainUtil.canSee(this.entity.getBrain(), target))
             {
-                this.setAttackTarget(this.entity, target);
+                Battle.createBattle(this.entity, target);
                 return;
             }
         }
@@ -236,6 +228,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (!this.pokemob.getGeneralState(GeneralStates.STAYING)) if (this.checkOwner()) return;
 
         final boolean playerNear = this.entity.getBrain().hasMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
+
         // If wild, randomly decided to agro a nearby player instead.
         if (playerNear && AITools.shouldAgroNearestPlayer.test(this.pokemob))
         {
@@ -244,9 +237,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                 player = null;
             if (player != null && AITools.validTargets.test(player))
             {
-                this.setAttackTarget(this.entity, player);
+                Battle.createBattle(this.entity, player);
                 PokecubeCore.LOGGER.debug("Found player to be angry with, agressing.");
-                return;
             }
         }
     }
