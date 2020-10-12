@@ -5,6 +5,7 @@ import net.minecraft.entity.MobEntity;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.AITools;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,19 +20,19 @@ public class Battle {
     private IPokemob pokemob;
 
 
-    Battle(LivingEntity mob, LivingEntity targetMob)
-    {
+    Battle(LivingEntity mob, LivingEntity targetMob) {
         enemies = new ArrayList<>(10);
         allies = new ArrayList<>(10);
         this.mob = mob;
         this.mainTarget = targetMob;
 
-        if(mob instanceof MobEntity) {
-            pokemob = CapabilityPokemob.getPokemobFor(mob);
+        pokemob = CapabilityPokemob.getPokemobFor(mob);
+
+        if (pokemob != null) {
             pokemob.setBattle(this);
         }
 
-        if(!battles.containsKey(targetMob)) {
+        if (!battles.containsKey(targetMob)) {
             Battle.createBattle(targetMob, mob);
         }
 
@@ -42,23 +43,22 @@ public class Battle {
 
         enemyBattle.addBattleAsEnemy(this);
 
-        for(Battle ally : allies){
+        for (Battle ally : allies) {
             ally.addBattleAsAlly(this);
         }
 
-        for(Battle enemy : enemies){
+        for (Battle enemy : enemies) {
             enemy.addBattleAsEnemy(this);
         }
     }
 
-    public void start()
-    {
-        if(mob instanceof MobEntity){
+    public void start() {
+        if (mob instanceof MobEntity) {
             BrainUtils.initiateCombat((MobEntity) mob, mainTarget);
         }
     }
 
-    public void end(){
+    public void end() {
         BrainUtils.deagro(mob);
         BrainUtils.deagro(mainTarget);
 
@@ -68,16 +68,22 @@ public class Battle {
         battles.remove(mob);
     }
 
-    public static void createBattle(LivingEntity mob, LivingEntity targetMob) {
-        Battle battle;
-        if(!battles.containsKey(mob)) {
-            battle = new Battle(mob, targetMob);
-            battles.put(mob, battle);
-        }else {
-            battle = battles.get(mob);
-        }
+    public static boolean createBattle(LivingEntity mob, LivingEntity targetMob) {
+        if (targetMob != null && AITools.validTargets.test(targetMob)) {
+            Battle battle;
+            if (!battles.containsKey(mob)) {
+                battle = new Battle(mob, targetMob);
+                battles.put(mob, battle);
+            } else {
+                battle = battles.get(mob);
+            }
 
-        battle.start();
+            battle.start();
+            return true;
+        } else {
+            BrainUtils.deagro(mob);
+            return false;
+        }
     }
 
     public ArrayList<Battle> getEnemies() {
@@ -88,11 +94,11 @@ public class Battle {
         return allies;
     }
 
-    public void addBattleAsEnemy(Battle battle){
+    public void addBattleAsEnemy(Battle battle) {
         enemies.add(battle);
     }
 
-    public void addBattleAsAlly(Battle battle){
+    public void addBattleAsAlly(Battle battle) {
         allies.add(battle);
     }
 }

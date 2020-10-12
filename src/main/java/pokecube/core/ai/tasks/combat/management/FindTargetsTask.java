@@ -173,9 +173,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         {
             if (oldOwner != null && entity == oldOwner) return false;
             final LivingEntity targ = BrainUtils.getAttackTarget(entity);
-            if (entity instanceof MobEntity && targ != null && targ.equals(owner))
+            if (entity instanceof MobEntity && targ != null && targ.equals(owner) &&  Battle.createBattle(this.entity, entity))
             {
-                Battle.createBattle(this.entity, entity);
+
                 return true;
             }
         }
@@ -194,8 +194,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (this.targetId != null)
         {
             final Entity mob = this.world.getEntityByUuid(this.targetId);
-            if (mob instanceof LivingEntity && BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob))
-                Battle.createBattle(this.entity, (LivingEntity) mob);
+            if (!(mob instanceof LivingEntity) && !BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob)
+            && !Battle.createBattle(this.entity, (LivingEntity) mob))
+                this.clear();
 
             // Reset target ID here, so we don't keep looking for it.
             if (this.forgetTimer-- <= 0) this.targetId = null;
@@ -210,7 +211,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
             if (BrainUtil.canSee(this.entity.getBrain(), target))
             {
-                Battle.createBattle(this.entity, target);
+                initiateBattle(target);
                 return;
             }
         }
@@ -237,9 +238,15 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                 player = null;
             if (player != null && AITools.validTargets.test(player))
             {
-                Battle.createBattle(this.entity, player);
+                initiateBattle(player);
                 PokecubeCore.LOGGER.debug("Found player to be angry with, agressing.");
             }
+        }
+    }
+
+    private void initiateBattle(LivingEntity target){
+        if(!Battle.createBattle(this.entity, target)){
+            this.clear();
         }
     }
 
