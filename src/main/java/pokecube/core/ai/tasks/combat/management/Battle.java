@@ -16,9 +16,9 @@ public class Battle {
     private final ArrayList<Battle> enemies;
     private final ArrayList<Battle> allies;
     private final LivingEntity mob;
-    private final LivingEntity mainTarget;
-    private IPokemob pokemob;
-
+    private final IPokemob pokemob;
+    private LivingEntity mainTarget;
+    private Battle enemyBattle;
 
     Battle(LivingEntity mob, LivingEntity targetMob) {
         enemies = new ArrayList<>(10);
@@ -36,7 +36,7 @@ public class Battle {
             Battle.createBattle(targetMob, mob);
         }
 
-        Battle enemyBattle = battles.get(targetMob);
+        enemyBattle = battles.get(targetMob);
 
         allies.addAll(enemyBattle.getEnemies());
         enemies.addAll(enemyBattle.getAllies());
@@ -55,17 +55,49 @@ public class Battle {
     public void start() {
         if (mob instanceof MobEntity) {
             BrainUtils.initiateCombat((MobEntity) mob, mainTarget);
+            if(pokemob != null) {
+                pokemob.getAbility().start(pokemob);
+            }
         }
     }
 
     public void end() {
-        BrainUtils.deagro(mob);
-        BrainUtils.deagro(mainTarget);
-
-        enemies.clear();
         allies.clear();
 
-        battles.remove(mob);
+        if(!enemies.isEmpty()) {
+
+            enemies.remove(enemyBattle);
+
+            enemies.sort((o1, o2) -> (int) (o1.getMob().getDistanceSq(mob) -
+                    o2.getMob().getDistanceSq(mob)));
+
+            ArrayList<Battle> copy = new ArrayList<>(enemies);
+
+            for(Battle battle : copy){
+                if(battles.contains(battle)){
+                    enemyBattle = battle;
+                    mainTarget = enemyBattle.mob;
+                    allies.addAll(enemyBattle.enemies);
+                    break;
+                }else {
+                    enemies.remove(battle);
+                }
+            }
+
+            if(!enemies.isEmpty()){
+                this.start();
+            }
+
+        }else{
+            BrainUtils.deagro(mob);
+            BrainUtils.deagro(mainTarget);
+
+            if (pokemob != null) {
+                pokemob.getAbility().end(pokemob);
+            }
+
+            battles.remove(mob);
+        }
     }
 
     public static boolean createBattle(LivingEntity mob, LivingEntity targetMob) {
@@ -100,5 +132,9 @@ public class Battle {
 
     public void addBattleAsAlly(Battle battle) {
         allies.add(battle);
+    }
+
+    public LivingEntity getMob() {
+        return mob;
     }
 }
