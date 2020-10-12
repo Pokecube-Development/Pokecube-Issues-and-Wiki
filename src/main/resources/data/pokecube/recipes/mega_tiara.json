@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "   ",
+    "BRB",
+    "GGG"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube:megastone"
+    },
+    "B": {
+      "item": "minecraft:gold_nugget"
+    },
+    "G": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "result": {
+    "item": "pokecube:mega_tiara"
+  }
+}
