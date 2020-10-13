@@ -29,6 +29,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.tasks.combat.management.Battle;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
@@ -558,4 +559,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     CompoundNBT write();
+
+    public Battle getBattle();
+
+    public void setBattle(Battle battle);
 }
