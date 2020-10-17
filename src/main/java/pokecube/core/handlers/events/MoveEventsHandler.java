@@ -510,7 +510,7 @@ public class MoveEventsHandler
         Effect.initDefaults();
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onEvent(final MoveUse.DuringUse.Post evt)
     {
         final MovePacket move = evt.getPacket();
@@ -540,14 +540,14 @@ public class MoveEventsHandler
                 .getHeldItem());
 
         Ability ab;
-        if (target != null && (ab = target.getAbility()) != null) ab.onMoveUse(applied, move);
+        if (target != null && (ab = target.getAbility()) != null) ab.postMove(applied, move);
         // Reset this incase it was changed!
         attacker = move.attacker;
         applied = user ? attacker : target;
-        if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
+        if ((ab = attacker.getAbility()) != null) ab.postMove(applied, move);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onEvent(final MoveUse.DuringUse.Pre evt)
     {
         final MovePacket move = evt.getPacket();
@@ -557,7 +557,7 @@ public class MoveEventsHandler
         final Entity attacked = move.attacked;
         final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
         IPokemob applied = user ? attacker : target;
-        IPokemob other = user ? target : attacker;
+        IPokemob other;
 
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
@@ -599,12 +599,12 @@ public class MoveEventsHandler
         if (applied.getHeldItem() != null) ItemGenerator.processHeldItemUse(move, applied, applied.getHeldItem());
 
         Ability ab;
-        if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
+        if ((ab = attacker.getAbility()) != null) ab.preMove(applied, move);
         // Reset this incase it was changed!
         attacker = move.attacker;
         applied = user ? attacker : target;
         other = user ? target : attacker;
-        if (target != null && (ab = target.getAbility()) != null) ab.onMoveUse(applied, move);
+        if (target != null && (ab = target.getAbility()) != null) ab.preMove(applied, move);
         // Reset this incase it was changed!
         attacker = move.attacker;
         applied = user ? attacker : target;

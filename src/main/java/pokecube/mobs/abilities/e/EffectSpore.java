@@ -11,7 +11,7 @@ import pokecube.core.utils.PokeType;
 
 public class EffectSpore extends Ability
 {
-    @Override
+   /* @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         final Move_Base attack = move.getMove();
@@ -26,5 +26,5 @@ public class EffectSpore extends Ability
             if (num < 19) move.attacker.setStatus(IMoveConstants.STATUS_PAR);
             else move.attacker.setStatus(IMoveConstants.STATUS_SLP);
         }
-    }
+    }*/
 }

@@ -11,9 +11,9 @@ public class BattleBond extends Ability
      *
      * @param mob
      */
-    @Override
+  /*  @Override
     public boolean canChange(IPokemob mob, PokedexEntry changeTo)
     {
         return true;
-    }
+    }*/
 }

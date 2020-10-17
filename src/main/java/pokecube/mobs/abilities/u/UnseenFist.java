@@ -8,7 +8,7 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class UnseenFist extends Ability
 {
-	@Override
+	/*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         final Move_Base attack = move.getMove();
@@ -17,5 +17,5 @@ public class UnseenFist extends Ability
         if (move.hit && attack.getAttackCategory() == IMoveConstants.CATEGORY_CONTACT) {
         	move.failed = false;
         }
-    }
+    }*/
 }

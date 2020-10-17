@@ -9,7 +9,7 @@ public class PunkRock extends Ability
 	private static final String[] Sounds = { "Boomburst", "BugBuzz", "DisarmingVoice", "EchoedVoice", "Overdrive",
             "RelicSong", "Round", "Snarl", "SparklingAria", "Uproar"};
 
-    @Override
+ /*   @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
 	    if (move.pre && mob == move.attacked) for (final String s : PunkRock.Sounds)
@@ -18,5 +18,5 @@ public class PunkRock extends Ability
             move.PWR *= 0.3;
             return;
         }
-    }
+    }*/
 }

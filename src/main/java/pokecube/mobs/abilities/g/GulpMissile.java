@@ -17,7 +17,7 @@ public class GulpMissile extends Ability
     
     private static boolean      noTurnBase = false;
     
-    @Override
+   /* @Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         if (GulpMissile.noTurnBase) return;
@@ -74,7 +74,8 @@ public class GulpMissile extends Ability
             }
         }
     }
-    
+    */
+
     @Override
     public IPokemob onRecall(final IPokemob mob)
     {

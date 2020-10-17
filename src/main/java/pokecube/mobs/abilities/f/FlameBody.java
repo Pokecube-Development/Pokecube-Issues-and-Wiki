@@ -26,7 +26,7 @@ public class FlameBody extends Ability
         return this;
     }
 
-    @Override
+   /* @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         final Move_Base attack = move.getMove();
@@ -35,7 +35,7 @@ public class FlameBody extends Ability
         if (attacker == mob || move.pre || attacker == move.attacked) return;
         if (move.hit && attack.getAttackCategory() == IMoveConstants.CATEGORY_CONTACT && Math.random() > 0.7)
             move.attacker.setStatus(IMoveConstants.STATUS_BRN);
-    }
+    }*/
 
     @Override
     public void onUpdate(IPokemob mob)

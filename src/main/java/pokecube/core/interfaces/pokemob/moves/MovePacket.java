@@ -80,13 +80,15 @@ public class MovePacket
     {
         this.attacker = attacker;
         this.attacked = attacked;
+        this.pre = pre;
+
         this.attack = attack;
         this.attackType = type;
         this.PWR = PWR;
         this.criticalLevel = criticalLevel;
         this.statusChange = statusChange;
         this.changeAddition = changeAddition;
-        this.pre = pre;
+
         final Move_Base move = this.getMove();
         this.attackedStatModification = move.move.attackedStatModification.clone();
         this.attackerStatModification = move.move.attackerStatModification.clone();
@@ -99,5 +101,19 @@ public class MovePacket
     public Move_Base getMove()
     {
         return MovesUtils.getMoveFromName(this.attack);
+    }
+
+    public void changeMove(Move_Base newMove)
+    {
+        this.attack = newMove.name;
+        this.attackType = newMove.getType(attacker);
+        this.PWR = newMove.getPWR();
+        this.criticalLevel = newMove.move.crit;
+        this.statusChange = newMove.move.statusChange;
+        this.changeAddition = newMove.move.change;
+        this.attackedStatModification = newMove.move.attackedStatModification.clone();
+        this.attackerStatModification = newMove.move.attackerStatModification.clone();
+        this.attackedStatModProb = newMove.move.attackedStatModProb;
+        this.attackerStatModProb = newMove.move.attackerStatModProb;
     }
 }

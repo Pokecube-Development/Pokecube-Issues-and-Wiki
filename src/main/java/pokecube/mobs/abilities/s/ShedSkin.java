@@ -7,7 +7,7 @@ import pokecube.core.interfaces.IPokemob;
 
 public class ShedSkin extends Ability
 {
-    @Override
+ /*   @Override
     public void onUpdate(IPokemob mob)
     {
         if (mob.getStatus() != IMoveConstants.STATUS_NON)
@@ -15,5 +15,5 @@ public class ShedSkin extends Ability
             final LivingEntity poke = mob.getEntity();
             if (poke.ticksExisted % 20 == 0 && Math.random() < 0.3) mob.healStatus();
         }
-    }
+    }*/
 }

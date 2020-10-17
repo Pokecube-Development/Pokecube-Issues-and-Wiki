@@ -6,12 +6,12 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Oblivious extends Ability
 {
-    @Override
+   /* @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         mob.getMoveStats().infatuateTarget = null;
         move.infatuateTarget = false;
-    }
+    }*/
 
     @Override
     public void onUpdate(IPokemob mob)

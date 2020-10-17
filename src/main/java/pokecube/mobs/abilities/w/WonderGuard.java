@@ -8,7 +8,7 @@ import pokecube.core.utils.PokeType;
 
 public class WonderGuard extends Ability
 {
-    @Override
+   /* @Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
 
@@ -20,5 +20,5 @@ public class WonderGuard extends Ability
 
         final float eff = PokeType.getAttackEfficiency(attack.getType(move.attacker), mob.getType1(), mob.getType2());
         if (eff <= 1 && attack.getPWR(attacker, mob.getEntity()) > 0) move.canceled = true;
-    }
+    }*/
 }

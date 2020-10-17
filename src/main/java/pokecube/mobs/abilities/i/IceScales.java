@@ -8,7 +8,7 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class IceScales extends Ability
 {
-	@Override
+	/*@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
         final Move_Base attack = move.getMove();
@@ -18,5 +18,5 @@ public class IceScales extends Ability
         if (move.hit && attack.getAttackCategory() == IMoveConstants.SPECIAL)
            move.PWR = (move.PWR / 2);
            System.out.println("ta fraco ein?");
-    }
+    }*/
 }
