@@ -325,7 +325,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
                 SharedMonsterAttributes.MOVEMENT_SPEED);
         final boolean swimming = this.getEntity().isInWater() || this.getEntity().isInLava() && this.getEntity()
                 .isImmuneToFire();
-        final boolean flying = !swimming && !this.getEntity().onGround;
+        final boolean flying = !swimming && !this.getEntity().isOnGround();
 
         final boolean hasFlyBoost = iattributeinstance.getModifier(IPokemob.FLYSPEEDFACTOR_ID) != null;
         final boolean hasSwimBoost = iattributeinstance.getModifier(IPokemob.SWIMSPEEDFACTOR_ID) != null;

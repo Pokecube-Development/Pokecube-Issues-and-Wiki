@@ -223,7 +223,7 @@ public abstract class PokemobMoves extends PokemobSexed
     @Override
     public boolean isOnGround()
     {
-        return this.getEntity().onGround;
+        return this.getEntity().isOnGround();
     }
 
     @Override
