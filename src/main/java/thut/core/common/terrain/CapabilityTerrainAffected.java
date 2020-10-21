@@ -55,7 +55,7 @@ public class CapabilityTerrainAffected
 
             for (final ITerrainEffect effect : this.effects)
             {
-                final TerrainEffectEvent event = new TerrainEffectEvent(this.theMob, effect.getIdenitifer(), true);
+                final TerrainEffectEvent event = new TerrainEffectEvent(this.theMob, effect.getIdentifier(), true);
                 if (!MinecraftForge.EVENT_BUS.post(event)) effect.doEffect(this.theMob, true);
             }
         }
@@ -73,7 +73,7 @@ public class CapabilityTerrainAffected
             if (this.effects == null) return;
             for (final ITerrainEffect effect : this.effects)
             {
-                final TerrainEffectEvent event = new TerrainEffectEvent(this.theMob, effect.getIdenitifer(), false);
+                final TerrainEffectEvent event = new TerrainEffectEvent(this.theMob, effect.getIdentifier(), false);
                 if (!MinecraftForge.EVENT_BUS.post(event)) effect.doEffect(this.theMob, false);
             }
         }

@@ -97,7 +97,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/yveltal_place;{\"dy\":3}"
+        "pokecube_legends:temples/surface/yveltal_place;{\"dy\":1}"
       ]
     },
     {

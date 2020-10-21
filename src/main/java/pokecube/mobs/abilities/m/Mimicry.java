@@ -20,12 +20,15 @@ public class Mimicry extends Ability
     	if(!mob.inCombat())
         	mob.setPokedexEntry(mobs);
 
-        if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_ELECTRIC) > 0 && mob.getEntity()
-                .isOnGround()) mob.setType1(PokeType.getType("electric"));
-        else if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_GRASS) > 0 && mob.getEntity()
-                .isOnGround()) mob.setType1(PokeType.getType("grass"));
-        else if (effects.getEffect(PokemobTerrainEffects.EFFECT_TERRAIN_MISTY) > 0 && mob.getEntity()
-                .isOnGround()) mob.setType1(PokeType.getType("fairy"));
+    	if(mob.getEntity().isOnGround()) {
+            if (effects.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC)) {
+                mob.setType1(PokeType.getType("electric"));
+            } else if (effects.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS)) {
+                mob.setType1(PokeType.getType("grass"));
+            } else if (effects.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY)) {
+                mob.setType1(PokeType.getType("fairy"));
+            }
+        }
     }
 
     @Override

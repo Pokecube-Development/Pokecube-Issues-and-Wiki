@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    " G ",
+    "B B",
+    " R "
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube:megastone"
+    },
+    "B": {
+      "item": "minecraft:string"
+    },
+    "G": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "item": "pokecube:mega_pendant"
+  }
+}

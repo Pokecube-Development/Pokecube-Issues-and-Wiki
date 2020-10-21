@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "RB ",
+    "B B",
+    " G "
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube:megastone"
+    },
+    "B": {
+      "item": "minecraft:iron_nugget"
+    },
+    "G": {
+      "item": "minecraft:iron_boots"
+    }
+  },
+  "result": {
+    "item": "pokecube:mega_ankletzinnia"
+  }
+}

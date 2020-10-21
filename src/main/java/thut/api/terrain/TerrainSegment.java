@@ -1,11 +1,6 @@
 package thut.api.terrain;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
@@ -144,7 +139,7 @@ public class TerrainSegment
 
         void doEffect(LivingEntity entity, boolean firstEntry);
 
-        String getIdenitifer();
+        String getIdentifier();
 
         // TODO call this
         void readFromNBT(CompoundNBT nbt);
@@ -304,14 +299,14 @@ public class TerrainSegment
             try
             {
                 final ITerrainEffect effect = clas.newInstance();
-                this.addEffect(effect, effect.getIdenitifer());
+                this.addEffect(effect, effect.getIdentifier());
             }
             catch (InstantiationException | IllegalAccessException e)
             {
                 e.printStackTrace();
             }
         final List<ITerrainEffect> toSort = Lists.newArrayList(this.effects.values());
-        toSort.sort((o1, o2) -> o1.getIdenitifer().compareTo(o2.getIdenitifer()));
+        toSort.sort(Comparator.comparing(ITerrainEffect::getIdentifier));
         this.effectArr = toSort.toArray(new ITerrainEffect[0]);
     }
 

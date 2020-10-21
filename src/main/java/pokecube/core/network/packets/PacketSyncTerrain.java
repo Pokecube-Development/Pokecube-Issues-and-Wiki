@@ -14,23 +14,46 @@ import thut.core.common.network.Packet;
 
 public class PacketSyncTerrain extends Packet
 {
+    int         x;
+    int         y;
+    int         z;
+    long[][]    weatherEffects = new long[PokemobTerrainEffects.WeatherEffectType.values().length][2];
+    long[][]    terrainEffects = new long[PokemobTerrainEffects.TerrainEffectType.values().length][2];
+    long[][]    entryEffects = new long[PokemobTerrainEffects.EntryEffectType.values().length][2];
+
+    CompoundNBT data    = new CompoundNBT();
+
     public static void sendTerrainEffects(Entity player, int x, int y, int z, PokemobTerrainEffects terrain)
     {
         final PacketSyncTerrain packet = new PacketSyncTerrain();
         packet.x = x;
         packet.y = y;
         packet.z = z;
-        for (int i = 0; i < 16; i++)
-            packet.effects[i] = terrain.effects[i];
+
+        encodeActiveEffect(packet.weatherEffects, PokemobTerrainEffects.WeatherEffectType.values(), terrain);
+        encodeActiveEffect(packet.terrainEffects, PokemobTerrainEffects.TerrainEffectType.values(), terrain);
+        encodeActiveEffect(packet.entryEffects, PokemobTerrainEffects.EntryEffectType.values(), terrain);
+
         PokecubeCore.packets.sendToTracking(packet,
                 player.getEntityWorld().getChunk(new BlockPos(x * 16, y * 16, z * 16)));
     }
 
-    int         x;
-    int         y;
-    int         z;
-    long[]      effects = new long[16];
-    CompoundNBT data    = new CompoundNBT();
+    private static void encodeActiveEffect(final long[][] data,
+                                                PokemobTerrainEffects.EffectType[] effectTypes,
+                                                PokemobTerrainEffects terrain)
+    {
+        for (int i = 0; i < data.length; i++){
+            PokemobTerrainEffects.EffectType type = effectTypes[i];
+            if(terrain.isEffectActive(type)) {
+                PokemobTerrainEffects.Effect effect = terrain.getEffect(type);
+                data[i][0] = i;
+                data[i][1] = effect.getDuration();
+            }else {
+                data[i][0] = i;
+                data[i][1] = 0;
+            }
+        }
+    }
 
     public PacketSyncTerrain()
     {
@@ -43,8 +66,10 @@ public class PacketSyncTerrain extends Packet
         this.x = buf.readInt();
         this.y = buf.readInt();
         this.z = buf.readInt();
-        for (int i = 0; i < 16; i++)
-            this.effects[i] = buf.readLong();
+
+        writeLongArray(weatherEffects, buf);
+        writeLongArray(terrainEffects, buf);
+        writeLongArray(entryEffects, buf);
     }
 
     @Override
@@ -54,13 +79,12 @@ public class PacketSyncTerrain extends Packet
         player = PokecubeCore.proxy.getPlayer();
         final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getEntityWorld(), this.x * 16,
                 this.y * 16, this.z * 16);
-        final PokemobTerrainEffects effect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
-        boolean empty = true;
-        for (int i = 0; i < 16; i++)
-        {
-            effect.effects[i] = this.effects[i];
-            empty = empty && this.effects[i] <= 0;
-        }
+        final PokemobTerrainEffects effects = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
+
+        boolean empty = decodeEffectTypes(weatherEffects, PokemobTerrainEffects.WeatherEffectType.values(), effects);
+        empty = empty && decodeEffectTypes(terrainEffects, PokemobTerrainEffects.TerrainEffectType.values(), effects);
+        empty = empty && decodeEffectTypes(entryEffects, PokemobTerrainEffects.EntryEffectType.values(), effects);
+
         if (!empty)
         {
             MoveAnimationHelper.Instance().addEffect();
@@ -69,14 +93,37 @@ public class PacketSyncTerrain extends Packet
         else MoveAnimationHelper.Instance().clearEffect();
     }
 
+    private boolean decodeEffectTypes(final long[][] data, final PokemobTerrainEffects.EffectType[] types,
+                                   final PokemobTerrainEffects effects){
+        boolean empty = true;
+
+        for (long[] longs : data) {
+            boolean check = longs[1] <= 0;
+            empty = empty && check;
+            if (check) continue;
+
+            effects.setEffectDuration(types[(int) longs[0]],
+                    longs[1], null);
+        }
+
+        return empty;
+    }
+
     @Override
     public void write(PacketBuffer buf)
     {
         buf.writeInt(this.x);
         buf.writeInt(this.y);
         buf.writeInt(this.z);
-        for (int i = 0; i < 16; i++)
-            buf.writeLong(this.effects[i]);
+        writeLongArray(weatherEffects, buf);
+        writeLongArray(terrainEffects, buf);
+        writeLongArray(entryEffects, buf);
     }
 
+    private void writeLongArray(long[][] array, PacketBuffer buf)
+    {
+        for (long[] effect : array)
+            for (int s = 0; s < 2; s++)
+                buf.writeLong(effect[s]);
+    }
 }

@@ -39,6 +39,7 @@ import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.logic.LogicMovesUpdates;
 import pokecube.core.ai.tasks.Tasks;
+import pokecube.core.ai.tasks.combat.management.Battle;
 import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.core.events.pokemob.InitAIEvent;
 import pokecube.core.handlers.TeamManager;
@@ -65,6 +66,8 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     private List<IAIRunnable> tasks = Lists.newArrayList();
 
     private boolean initedAI = false;
+
+    private Battle battle;
 
     public DefaultPokemob()
     {
@@ -116,6 +119,16 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     public List<IAIRunnable> getTasks()
     {
         return this.tasks;
+    }
+
+    @Override
+    public Battle getBattle() {
+        return battle;
+    }
+
+    @Override
+    public void setBattle(Battle battle) {
+        this.battle = battle;
     }
 
     @SuppressWarnings("unchecked")

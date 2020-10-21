@@ -5,9 +5,9 @@
 	<metadata head="head" headAxis="2" headAxis2="0" headCap="-5,5" headCap1="-5,5" headDir="-1"/>
 	<customTex default="carkol">
 	<part name="Head" tex="carkolhead"/>
-	<animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
+	<animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
 	</customTex>
-	<material name="fire" light="0.5" transluscent="true"/>
+	<material name="fire" light="0.5" transluscent="false"/>
 	<phase type="idle">
 	<part name="body">
 	<component length="10" name="1" rotChange="-0.3,0,0," startKey="0"/>

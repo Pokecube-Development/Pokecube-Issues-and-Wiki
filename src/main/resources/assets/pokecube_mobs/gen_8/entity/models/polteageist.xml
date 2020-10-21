@@ -9,16 +9,13 @@
   </customTex>
   <phase type="idle">
    <part name="body">
-    <component length="30" name="1" hidden="true" posOffset="0,0.5,0" startKey="0"/>
+    <component length="30" name="1" hidden="true" startKey="0"/>
    </part>
    <part name="leg1">
     <component length="30" name="1" hidden="true" startKey="0"/>
    </part>
    <part name="leg2">
     <component length="30" name="1" hidden="true" startKey="0"/>
-   </part>
-   <part name="p1">
-    <component length="30" name="1" hidden="false" startKey="0"/>
    </part>
   </phase>
   <phase type="flying">
