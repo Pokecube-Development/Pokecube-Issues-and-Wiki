@@ -276,15 +276,12 @@ public class PokedexEntry
             if (this.rainOnly)
             {
                 final World world = mob.getEntity().getEntityWorld();
-                boolean rain = world.isRaining();
+                final boolean rain = world.isRaining();
                 if (!rain)
                 {
                     final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
                     final PokemobTerrainEffects teffect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
-                    if (teffect != null && !teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
-                    {
-                        return false;
-                    }
+                    if (teffect != null && !teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN)) return false;
                 }
             }
 
@@ -1587,7 +1584,7 @@ public class PokedexEntry
                     this.heldTable);
             final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntityWorld())
                     .withParameter(LootParameters.THIS_ENTITY, mob).withParameter(LootParameters.DAMAGE_SOURCE,
-                            DamageSource.GENERIC).withParameter(LootParameters.POSITION, mob.getPosition());
+                            DamageSource.GENERIC).withParameter(LootParameters.field_237457_g_, mob.getPositionVec());
             for (final ItemStack itemstack : loottable.generate(lootcontext$builder.build(loottable.getParameterSet())))
                 if (!itemstack.isEmpty()) return itemstack;
         }

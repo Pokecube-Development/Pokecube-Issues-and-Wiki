@@ -13,9 +13,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -106,7 +106,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             final VillagerProfession profession = this.getVillagerData().getProfession();
             if (this.getNpcType() != null && this.getNpcType().getProfession() != profession) this.setVillagerData(this
                     .getVillagerData().withLevel(3).withProfession(this.getNpcType().getProfession()));
-            final float f = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            final float f = (float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
             if (this.isChild())
             {
                 brain.setSchedule(Schedules.CHILD);
@@ -175,7 +175,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         final VillagerProfession proff = this.getNpcType().getProfession();
         this.setVillagerData(this.getVillagerData().withProfession(proff).withLevel(3));
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier(
+        this.getAttribute(Attributes.FOLLOW_RANGE).applyPersistentModifier(new AttributeModifier(
                 "Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
         if (this.rand.nextFloat() < 0.05F) this.setLeftHanded(true);
         else this.setLeftHanded(false);

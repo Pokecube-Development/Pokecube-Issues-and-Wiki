@@ -83,7 +83,7 @@ public class MoveEventsHandler
 
         public BlockPos getHitPos()
         {
-            return this.rayTraceResult.getPos();
+            return this.func_242401_i().getPos();
         }
 
         public BlockState getHitState()

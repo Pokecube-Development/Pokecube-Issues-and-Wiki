@@ -10,10 +10,10 @@ import com.google.common.collect.Lists;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -264,13 +264,12 @@ public abstract class PokemobBase implements IPokemob
 
     protected void setMaxHealth(final float maxHealth)
     {
-        final IAttributeInstance health = this.getEntity().getAttribute(SharedMonsterAttributes.MAX_HEALTH);
-        final List<AttributeModifier> mods = Lists.newArrayList(health.func_225505_c_());
-        for (final AttributeModifier modifier : mods)
+        final ModifiableAttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
+        for (final AttributeModifier modifier : health.getModifierListCopy())
             health.removeModifier(modifier);
         final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax", this
                 .getDynamaxFactor(), Operation.MULTIPLY_BASE);
-        if (this.getCombatState(CombatStates.DYNAMAX)) health.applyModifier(dynahealth);
+        if (this.getCombatState(CombatStates.DYNAMAX)) health.applyNonPersistentModifier(dynahealth);
         health.setBaseValue(maxHealth);
     }
 

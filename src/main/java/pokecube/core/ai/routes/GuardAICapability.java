@@ -7,9 +7,9 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -52,7 +52,7 @@ public class GuardAICapability implements IGuardAICapability
             final Vector3d newPos = entity.getPositionVec();
             if (this.getPos().withinDistance(newPos, this.getRoamDistance())) return;
 
-            final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            final double speed = entity.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
             this.path(entity, speed);
 
             final double ds2 = this.lastPos == null ? 1 : newPos.squareDistanceTo(this.lastPos);
@@ -74,7 +74,7 @@ public class GuardAICapability implements IGuardAICapability
         @Override
         public void endTask(final MobEntity entity)
         {
-            entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
+            entity.getAttribute(Attributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
             this.path_fails = 0;
         }
 
@@ -118,9 +118,9 @@ public class GuardAICapability implements IGuardAICapability
         @Override
         public void startTask(final MobEntity entity)
         {
-            entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
-            entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(this.executingGuardTask);
-            final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            entity.getAttribute(Attributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
+            entity.getAttribute(Attributes.FOLLOW_RANGE).applyNonPersistentModifier(this.executingGuardTask);
+            final double speed = entity.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
             if (!this.path(entity, speed)) this.pathFail(entity);
         }
 

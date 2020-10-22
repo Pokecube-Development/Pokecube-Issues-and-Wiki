@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -275,7 +276,7 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     protected void handleFluidJump(final Tag<Fluid> fluidTag)
     {
-        this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(LivingEntity.SWIM_SPEED).getValue(), 0.0D));
+        this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(Attributes.SWIM_SPEED).getValue(), 0.0D));
     }
 
     @Override

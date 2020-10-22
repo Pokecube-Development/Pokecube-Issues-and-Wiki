@@ -1,5 +1,7 @@
 package pokecube.core.entity.pokemobs;
 
+import com.google.common.collect.ImmutableSet;
+
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
@@ -13,13 +15,11 @@ import pokecube.core.utils.PokeType;
 public class PokemobType<T extends TameableEntity> extends EntityType<T>
 {
     final PokedexEntry       entry;
-    private final EntitySize baseSize;
 
     public PokemobType(final EntityType.IFactory<T> factory, final PokedexEntry entry)
     {
-        super(factory, EntityClassification.CREATURE, true, true, false, true, null, c -> true, c -> 64, c -> 3, null);
+        super(factory, EntityClassification.CREATURE, true, true, false, true, ImmutableSet.of(), EntitySize.flexible(entry.width, entry.height), 64, 3);
         this.entry = entry;
-        this.baseSize = EntitySize.flexible(entry.width, entry.height);
         entry.setEntityType(this);
     }
 
@@ -39,12 +39,6 @@ public class PokemobType<T extends TameableEntity> extends EntityType<T>
     {
         if (this.entry.lootTable != null) return this.entry.lootTable;
         return super.getLootTable();
-    }
-
-    @Override
-    public EntitySize getSize()
-    {
-        return this.baseSize;
     }
 
     @Override

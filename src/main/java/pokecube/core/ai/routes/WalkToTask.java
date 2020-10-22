@@ -128,7 +128,7 @@ public class WalkToTask extends RootTask<MobEntity>
     private boolean isPathValid(final MobEntity mob, final WalkTarget target, final long gametime)
     {
         final BlockPos blockpos = target.getTarget().getBlockPos();
-        this.currentPath = mob.getNavigator().func_225464_a(ImmutableSet.of(blockpos), 16, false, 0);
+        this.currentPath = mob.getNavigator().pathfind(ImmutableSet.of(blockpos), 16, false, 0);
         this.speed = target.getSpeed();
         if (!this.hasReachedTarget(mob, target))
         {

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -89,9 +90,9 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void read(final CompoundNBT nbt)
+    public void read(final BlockState state, final CompoundNBT nbt)
     {
-        super.read(nbt);
+        super.read(state, nbt);
         this.spawns.clear();
         if (nbt.contains("spawns"))
         {

@@ -101,7 +101,7 @@ public class RootTask<E extends LivingEntity> extends Task<E>
 
     protected void setWalkTo(final Entity mobIn, final double speed, final int dist)
     {
-        this.setWalkTo(new WalkTarget(new EntityPosWrapper(mobIn), (float) speed, dist));
+        this.setWalkTo(new WalkTarget(new EntityPosWrapper(mobIn, false), (float) speed, dist));
     }
 
     protected void setWalkTo(final WalkTarget target)

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Sets;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
@@ -67,9 +68,9 @@ public class TraderTile extends InteractableTile
     }
 
     @Override
-    public void handleUpdateTag(final CompoundNBT tag)
+    public void handleUpdateTag(final BlockState state, final CompoundNBT tag)
     {
-        this.read(tag);
+        this.read(state, tag);
     }
 
     @Override

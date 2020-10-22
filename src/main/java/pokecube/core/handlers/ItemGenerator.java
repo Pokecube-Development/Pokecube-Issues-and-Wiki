@@ -9,8 +9,8 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.LogBlock;
 import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -112,8 +112,7 @@ public class ItemGenerator
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
 
             // Log
-            Block block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
-                    MaterialColor.BROWN).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
+            Block block = new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "log_" + name);
             ItemGenerator.logs.put(name, block);
             registry.register(block);

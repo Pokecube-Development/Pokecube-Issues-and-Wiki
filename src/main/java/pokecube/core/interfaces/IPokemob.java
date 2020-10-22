@@ -10,6 +10,8 @@ import javax.annotation.Nullable;
 
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -152,11 +154,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     static final UUID              FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
     static final AttributeModifier FLYSPEEDFACTOR    = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
-            "following speed boost", 1F, AttributeModifier.Operation.MULTIPLY_TOTAL).setSaved(false);
+            "following speed boost", 1F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     static final UUID              SWIMSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1236-96EA6097278D");
     static final AttributeModifier SWIMSPEEDFACTOR    = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
-            "following speed boost", 0.25F, AttributeModifier.Operation.MULTIPLY_TOTAL).setSaved(false);
+            "following speed boost", 0.25F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     /*
      * Genders of pokemobs
@@ -322,8 +324,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default double getMovementSpeed()
     {
-        final IAttributeInstance iattributeinstance = this.getEntity().getAttribute(
-                SharedMonsterAttributes.MOVEMENT_SPEED);
+        final ModifiableAttributeInstance iattributeinstance = this.getEntity().getAttribute(
+                Attributes.MOVEMENT_SPEED);
         final boolean swimming = this.getEntity().isInWater() || this.getEntity().isInLava() && this.getEntity()
                 .isImmuneToFire();
         final boolean flying = !swimming && !this.getEntity().isOnGround();
@@ -331,10 +333,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         final boolean hasFlyBoost = iattributeinstance.getModifier(IPokemob.FLYSPEEDFACTOR_ID) != null;
         final boolean hasSwimBoost = iattributeinstance.getModifier(IPokemob.SWIMSPEEDFACTOR_ID) != null;
 
-        if (flying && !hasFlyBoost) iattributeinstance.applyModifier(IPokemob.FLYSPEEDFACTOR);
+        if (flying && !hasFlyBoost) iattributeinstance.applyNonPersistentModifier(IPokemob.FLYSPEEDFACTOR);
         else if (hasFlyBoost && !flying) iattributeinstance.removeModifier(IPokemob.FLYSPEEDFACTOR_ID);
 
-        if (swimming && !hasSwimBoost) iattributeinstance.applyModifier(IPokemob.SWIMSPEEDFACTOR);
+        if (swimming && !hasSwimBoost) iattributeinstance.applyNonPersistentModifier(IPokemob.SWIMSPEEDFACTOR);
         else if (hasSwimBoost && !swimming) iattributeinstance.removeModifier(IPokemob.SWIMSPEEDFACTOR_ID);
 
         final double speed = iattributeinstance.getValue();

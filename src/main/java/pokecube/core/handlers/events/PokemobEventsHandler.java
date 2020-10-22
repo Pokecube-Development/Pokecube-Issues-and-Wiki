@@ -33,6 +33,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.Tags.IOptionalNamedTag;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -438,7 +439,7 @@ public class PokemobEventsHandler
         // is Dyeable
         if (!held.isEmpty() && entry.dyeable)
         {
-            final Tag<Item> dyeTag = Tags.Items.DYES;
+            final IOptionalNamedTag<Item> dyeTag = Tags.Items.DYES;
             DyeColor dye = null;
             if (held.getItem().isIn(dyeTag))
             {

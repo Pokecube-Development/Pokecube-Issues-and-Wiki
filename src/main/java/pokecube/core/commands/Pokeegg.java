@@ -90,7 +90,7 @@ public class Pokeegg
         Tools.giveItem(owner, stack);
 
         final String text = TextFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
-        final ITextComponent message = ITextComponent.Serializer.fromJson("[\"" + text + "\"]");
+        final ITextComponent message = ITextComponent.Serializer.getComponentFromJson("[\"" + text + "\"]");
         source.sendFeedback(message, true);
         return 0;
     }

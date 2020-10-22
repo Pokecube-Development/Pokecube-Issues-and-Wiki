@@ -20,7 +20,6 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.ShuffledTask;
 import pokecube.core.ai.routes.GuardAI;
-import pokecube.core.ai.routes.GuardAI.ShouldRun;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.WalkToTask;
@@ -53,7 +52,7 @@ public class Tasks
             MemoryModules.NOT_FOUND_PATH);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
-            SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
+             SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
 
     public static void initBrain(final Brain<?> brain)
     {
@@ -87,14 +86,10 @@ public class Tasks
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
 
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
-        guardai.shouldRun = new ShouldRun()
+        guardai.shouldRun = () ->
         {
-            @Override
-            public boolean shouldRun()
-            {
-                if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
-                return pokemob.getGeneralState(GeneralStates.STAYING);
-            }
+            if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
+            return pokemob.getGeneralState(GeneralStates.STAYING);
         };
 
         final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(entity, guardai));
@@ -195,14 +190,10 @@ public class Tasks
 
         final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
-        guardai.shouldRun = new ShouldRun()
+        guardai.shouldRun = () ->
         {
-            @Override
-            public boolean shouldRun()
-            {
-                if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
-                return pokemob.getGeneralState(GeneralStates.STAYING);
-            }
+            if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
+            return pokemob.getGeneralState(GeneralStates.STAYING);
         };
         final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(pokemob.getEntity(),
                 guardai));

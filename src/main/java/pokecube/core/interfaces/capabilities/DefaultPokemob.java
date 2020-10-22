@@ -10,7 +10,7 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -123,11 +123,11 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
 
     @Override
     public Battle getBattle() {
-        return battle;
+        return this.battle;
     }
 
     @Override
-    public void setBattle(Battle battle) {
+    public void setBattle(final Battle battle) {
         this.battle = battle;
     }
 
@@ -189,7 +189,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             }
 
         // DOLATER decide on speed scaling here?
-        entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2F);
+        entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2F);
 
         this.tasks = Lists.newArrayList();
         final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();

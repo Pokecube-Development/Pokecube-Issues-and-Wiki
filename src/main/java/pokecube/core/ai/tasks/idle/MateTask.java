@@ -159,7 +159,7 @@ public class MateTask extends BaseIdleTask
 
     void approach(final LivingEntity living, final LivingEntity target, final float speed)
     {
-        final EntityPosWrapper entityposwrapper = new EntityPosWrapper(target);
+        final EntityPosWrapper entityposwrapper = new EntityPosWrapper(target, false);
         final WalkTarget walktarget = new WalkTarget(entityposwrapper, speed, 0);
         living.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, entityposwrapper);
         living.getBrain().setMemory(MemoryModuleType.WALK_TARGET, walktarget);

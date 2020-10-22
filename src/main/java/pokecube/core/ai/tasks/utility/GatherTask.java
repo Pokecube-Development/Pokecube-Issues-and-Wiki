@@ -92,7 +92,7 @@ public class GatherTask extends UtilTask
                 boolean same = true;
                 for (final Property<?> p : def.getProperties())
                 {
-                    if (!this.oldState.has(p))
+                    if (!this.oldState.hasProperty(p))
                     {
                         same = false;
                         break;
@@ -128,10 +128,10 @@ public class GatherTask extends UtilTask
     public static final ResourceLocation HARVEST   = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
 
     private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropsBlock && input
-            .has(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
+            .hasProperty(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
 
     private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropsBlock && input
-            .has(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input.getBlock())
+            .hasProperty(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input.getBlock())
                     .getMaxAge();
 
     // Matcher used to determine if a block is a fruit or crop to be picked.
