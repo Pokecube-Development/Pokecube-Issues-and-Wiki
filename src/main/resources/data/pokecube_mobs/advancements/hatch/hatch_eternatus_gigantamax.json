@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.eternatus_eternamax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.eternatus_eternamax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_eternatus_gigantamax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "eternatus_gigantamax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -19,6 +19,7 @@ import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.SaplingBase;
 import pokecube.legends.blocks.blockstates.DarkStoneBlock;
 import pokecube.legends.blocks.blockstates.GrassAgedBlock;
+import pokecube.legends.blocks.blockstates.GrassDistorticBlock;
 import pokecube.legends.blocks.blockstates.GrassJungleBlock;
 import pokecube.legends.blocks.blockstates.GrassMussBlock;
 import pokecube.legends.blocks.blockstates.MagneticBlock;
@@ -31,8 +32,14 @@ import pokecube.legends.blocks.customblocks.LegendaryBlock;
 import pokecube.legends.blocks.customblocks.NatureCoreBlock;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
+import pokecube.legends.blocks.customblocks.Regice_Core;
+import pokecube.legends.blocks.customblocks.Regidrago_Core;
+import pokecube.legends.blocks.customblocks.Regieleki_Core;
+import pokecube.legends.blocks.customblocks.Regigigas_Core;
+import pokecube.legends.blocks.customblocks.Regirock_Core;
+import pokecube.legends.blocks.customblocks.Registeel_Core;
 import pokecube.legends.blocks.customblocks.SpaceCoreBlock;
-import pokecube.legends.blocks.customblocks.UltraSpacePortal;
+import pokecube.legends.blocks.customblocks.TroughBlock;
 import pokecube.legends.blocks.customblocks.VictiniBlock;
 import pokecube.legends.blocks.customblocks.XerneasCore;
 import pokecube.legends.blocks.customblocks.YveltalEgg;
@@ -44,6 +51,7 @@ public class BlockInit
 {
     // Blocks
     public static final RegistryObject<Block> RAID_SPAWN;
+    public static final RegistryObject<Block> METEOR_BLOCK;
 
     // Decorative_Blocks
     public static final RegistryObject<Block> OCEAN_BRICK;
@@ -52,9 +60,10 @@ public class BlockInit
     public static final RegistryObject<Block> MAGMA_BRICK;
     public static final RegistryObject<Block> CRYSTAL_BRICK;
     public static final RegistryObject<Block> DARKSKY_BRICK;
+    public static final RegistryObject<Block> DYNA_LEAVE1;
+    public static final RegistryObject<Block> DYNA_LEAVE2;
 
     // Dimensions
-
     public static final RegistryObject<Block> TEMPORAL_CRYSTAL;
     public static final RegistryObject<Block> ULTRA_MAGNETIC;
     public static final RegistryObject<Block> ULTRA_SANDSTONE;
@@ -72,6 +81,10 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_ROCKDISTOR;
     public static final RegistryObject<Block> ULTRA_GRASSAGED;
     public static final RegistryObject<Block> ULTRA_DIRTAGED;
+    
+    public static final RegistryObject<Block> DISTORTIC_GRASS;
+    public static final RegistryObject<Block> DISTORTIC_STONE;
+    public static final RegistryObject<Block> DISTORTIC_MIRROR;
 
     public static final RegistryObject<Block> ULTRA_TORCH1;
     public static final RegistryObject<Block> ULTRA_TORCH1_WALL;
@@ -94,15 +107,21 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_LEAVEUB03;
 
     // Portal
-    public static final RegistryObject<Block> ULTRASPACE_PORTAL;
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
 
     // Legendary Spawns
     public static final RegistryObject<Block> LEGENDARY_SPAWN;
+    public static final RegistryObject<Block> TROUGH_BLOCK;
+    
+    public static final RegistryObject<Block> GOLEM_STONE;
+    
     public static final RegistryObject<Block> REGISTEEL_CORE;
     public static final RegistryObject<Block> REGICE_CORE;
     public static final RegistryObject<Block> REGIROCK_CORE;
+    public static final RegistryObject<Block> REGIELEKI_CORE;
+    public static final RegistryObject<Block> REGIDRAGO_CORE;
     public static final RegistryObject<Block> REGIGIGA_CORE;
+    
     public static final RegistryObject<Block> TIMESPACE_CORE;
     public static final RegistryObject<Block> NATURE_CORE;
     public static final RegistryObject<Block> KELDEO_CORE;
@@ -117,8 +136,8 @@ public class BlockInit
     public static final RegistryObject<Block> SAPPHIRE_BLOCK;
     public static final RegistryObject<Block> SPECTRUM_ORE;
     public static final RegistryObject<Block> SPECTRUM_BLOCK;
-
-
+    public static final RegistryObject<Block> COSMIC_DUST_ORE;
+    
     static
     {
         // Block Raid
@@ -126,6 +145,11 @@ public class BlockInit
                 .setInfoBlockName("raidspawn"));
 
         // Decorative_Blocks
+        DYNA_LEAVE1 	= PokecubeLegends.BLOCKS.register("dyna_leave_1", () -> new Block(Block.Properties.create(
+                Material.LEAVES).hardnessAndResistance(1f, 5).sound(SoundType.WET_GRASS).noDrops()));
+        DYNA_LEAVE2 	= PokecubeLegends.BLOCKS.register("dyna_leave_2", () -> new Block(Block.Properties.create(
+                Material.LEAVES).hardnessAndResistance(1f, 5).sound(SoundType.WET_GRASS).noDrops()));
+        
         OCEAN_BRICK 	= PokecubeLegends.BLOCKS.register("oceanbrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
         SKY_BRICK 		= PokecubeLegends.BLOCKS.register("skybrick", () -> new Block(Block.Properties.create(Material.ROCK)
@@ -137,35 +161,38 @@ public class BlockInit
         DARKSKY_BRICK 	= PokecubeLegends.BLOCKS.register("darkskybrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
 
+        METEOR_BLOCK 	= PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new BlockBase("meteor_block",
+                Material.GOURD, 2.5F, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());
+        
         CRYSTAL_BRICK 	= PokecubeLegends.BLOCKS_TAB.register("crystalbrick", () -> new BlockBase("crystalbrick",
-                Material.PACKED_ICE, 0.5F, SoundType.GLASS, ToolType.PICKAXE).noInfoBlock());
+                Material.PACKED_ICE, 0.5F, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
 
         // Dimensions
         SPECTRUM_GLASS 		= PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new GlassBlock(Block.Properties.from(Blocks.GLASS).notSolid()));
         ULTRA_DIRTAGED		= PokecubeLegends.BLOCKS_TAB.register("ultradirt3", () -> new BlockBase("ultradirt3",
-        		Material.ORGANIC, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL).noInfoBlock());
+        		Material.ORGANIC, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_ROCKDISTOR	= PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",
-        		Material.ROCK, 0.9f, SoundType.METAL, ToolType.PICKAXE).noInfoBlock());
+        		Material.ROCK, 0.9f, SoundType.METAL, ToolType.PICKAXE, 1).noInfoBlock());
         ULTRA_MAGNETIC 		= PokecubeLegends.BLOCKS_TAB.register("ultramagnetic", () -> new MagneticBlock("ultramagnetic",
                 Material.GLASS).noInfoBlock());
         ULTRA_SANDSTONE 	= PokecubeLegends.BLOCKS_TAB.register("ultrasandstone", () -> new BlockBase("ultrasandstone",
-                Material.SAND, 0.5f, SoundType.STONE, ToolType.PICKAXE).noInfoBlock());
+                Material.SAND, 0.5f, SoundType.STONE, ToolType.PICKAXE, 1).noInfoBlock());
         ULTRA_DARKSTONE 		= PokecubeLegends.BLOCKS_TAB.register("ultracobbles", () -> new DarkStoneBlock("ultracobbles",
                 Material.ROCK).noInfoBlock());
         ULTRA_DARKCOBBLES 	= PokecubeLegends.BLOCKS_TAB.register("ultrarock", () -> new BlockBase("ultrarock",
-                Material.ROCK, 0.8f, SoundType.STONE, ToolType.PICKAXE).noInfoBlock());
+                Material.ROCK, 0.8f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_GRASSMUSS 	= PokecubeLegends.BLOCKS_TAB.register("ultragrass1", () -> new GrassMussBlock("ultragrass1",
                 Material.ORGANIC).noInfoBlock());
         ULTRA_DIRTMUSS 		= PokecubeLegends.BLOCKS_TAB.register("ultradirt1", () -> new BlockBase("ultradirt1", Material.CLAY,
-                0.5f, SoundType.GROUND, ToolType.SHOVEL).noInfoBlock());
+                0.5f, SoundType.GROUND, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_GRASSJUN 		= PokecubeLegends.BLOCKS_TAB.register("ultragrass2", () -> new GrassJungleBlock("ultragrass2",
                 Material.ORGANIC).noInfoBlock());
         ULTRA_DIRTJUN 		= PokecubeLegends.BLOCKS_TAB.register("ultradirt2", () -> new BlockBase("ultradirt2", Material.GOURD,
-                0.5f, SoundType.GROUND, ToolType.SHOVEL).noInfoBlock());
+                0.5f, SoundType.GROUND, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_STONE 		= PokecubeLegends.BLOCKS_TAB.register("ultrastone", () -> new BlockBase("ultrastone", Material.ROCK,
-        		1.5f, SoundType.STONE, ToolType.PICKAXE).noInfoBlock());
+        		1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_METAL 		= PokecubeLegends.BLOCKS_TAB.register("ultrablock", () -> new BlockBase("ultrablock", Material.IRON,
-                5.0f, 10f, SoundType.STONE, ToolType.PICKAXE).noInfoBlock());
+                5.0f, 10f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_SAND 			= PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new SandUltraBlock("ultrasand", Material.SAND)
                 .noInfoBlock());
         ULTRA_SANDDISTOR 	= PokecubeLegends.BLOCKS_TAB.register("ultrasand1", () -> new SandDistorBlock("ultrasand1", Material.CLAY)
@@ -173,7 +200,15 @@ public class BlockInit
         ULTRA_GRASSAGED		= PokecubeLegends.BLOCKS_TAB.register("ultragrass3", () -> new GrassAgedBlock("ultragrass3", Material.GOURD)
         		.noInfoBlock());
         TEMPORAL_CRYSTAL 	= PokecubeLegends.BLOCKS_TAB.register("temporal_crystal", () -> new BlockBase("temporal_crystal", Material.GLASS,
-        		1.5f, SoundType.GLASS, ToolType.PICKAXE).noInfoBlock());
+        		1.5f, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
+        
+        	//Distortic World
+        DISTORTIC_GRASS 	= PokecubeLegends.BLOCKS_TAB.register("distortic_grass", () -> new GrassDistorticBlock(BlockBase.Properties.create(Material.ORGANIC).sound(SoundType.NETHER_WART)
+        		.hardnessAndResistance(1, 2).harvestTool(ToolType.SHOVEL).harvestLevel(1)));
+        DISTORTIC_STONE 	= PokecubeLegends.BLOCKS_TAB.register("distortic_stone", () -> new BlockBase("distortic_stone", Material.ROCK,
+        		1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+        DISTORTIC_MIRROR 	= PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase("distortic_mirror", Material.GLASS,
+        		2.5f, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
 
         //Torchs
         ULTRA_TORCH1 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1", () -> new UltraTorch1());
@@ -200,30 +235,33 @@ public class BlockInit
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
 
-        // Portal
-        ULTRASPACE_PORTAL 	= PokecubeLegends.BLOCKS_TAB.register("ultraspace_portal", () -> new UltraSpacePortal(
-                "ultraspace_portal", Block.Properties.create(Material.GLASS).sound(SoundType.GLASS)
-                        .hardnessAndResistance(2000, 2000).lightValue(9)).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 3, 1))
-                                .setInfoBlockName("ultraportal"));
+        // Mirage Spot (Hoopa Ring)
         BLOCK_PORTALWARP 	= PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", Block.Properties
                 .create(Material.ROCK).sound(SoundType.METAL).hardnessAndResistance(2000, 2000).lightValue(9)).setShape(VoxelShapes
                         .create(0.05, 0, 0.05, 1, 3, 1)).setInfoBlockName("portalwarp"));
 
         // Legendary Spawns
+        GOLEM_STONE 	= PokecubeLegends.BLOCKS.register("golem_stone", () -> new BlockBase("golem_stone", Material.ROCK,
+        		5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+        
         LEGENDARY_SPAWN 	= PokecubeLegends.BLOCKS.register("legendaryspawn", () -> new LegendaryBlock("legendaryspawn",
                 Material.IRON).noInfoBlock());
-        REGISTEEL_CORE 		= PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new BlockBase("registeel_spawn",
-                Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(5, 15).harvestTool(
-                        ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
-        REGICE_CORE 		= PokecubeLegends.BLOCKS.register("regice_spawn", () -> new BlockBase("regice_spawn",
-                Block.Properties.create(Material.PACKED_ICE).sound(SoundType.GLASS).hardnessAndResistance(5, 15)
-                        .harvestTool(ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
-        REGIROCK_CORE 		= PokecubeLegends.BLOCKS.register("regirock_spawn", () -> new BlockBase("regirock_spawn",
-                Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
-                        ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
-        REGIGIGA_CORE 		= PokecubeLegends.BLOCKS.register("regigiga_spawn", () -> new BlockBase("regigiga_spawn",
-                Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(5, 15).harvestTool(
-                        ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
+        TROUGH_BLOCK 	= PokecubeLegends.BLOCKS.register("trough_block", () -> new TroughBlock("trough_block",
+                Material.ANVIL).noInfoBlock());
+        ///
+        REGISTEEL_CORE 		= PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
+                Material.IRON, 15, SoundType.METAL ,ToolType.PICKAXE, 2).noInfoBlock());
+        REGICE_CORE 		= PokecubeLegends.BLOCKS.register("regice_spawn", () -> new Regice_Core("regice_spawn",
+                Material.PACKED_ICE, 15, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
+        REGIROCK_CORE 		= PokecubeLegends.BLOCKS.register("regirock_spawn", () -> new Regirock_Core("regirock_spawn",
+                Material.ROCK, 15, SoundType.STONE, ToolType.PICKAXE,2).noInfoBlock());
+        REGIELEKI_CORE		= PokecubeLegends.BLOCKS.register("regieleki_spawn", () -> new Regieleki_Core("regieleki_spawn",
+                Material.ROCK, 15, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+        REGIDRAGO_CORE 		= PokecubeLegends.BLOCKS.register("regidrago_spawn", () -> new Regidrago_Core("regidrago_spawn",
+                Material.ROCK, 15, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+        REGIGIGA_CORE 		= PokecubeLegends.BLOCKS.register("regigiga_spawn", () -> new Regigigas_Core("regigiga_spawn",
+                Material.IRON, 15, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());
+        ///
         TIMESPACE_CORE 		= PokecubeLegends.BLOCKS.register("timerspawn", () -> new SpaceCoreBlock("timerspawn",
                 Block.Properties.create(Material.ORGANIC).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
                         .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
@@ -260,12 +298,16 @@ public class BlockInit
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         SPECTRUM_BLOCK		= PokecubeLegends.BLOCKS_TAB.register("spectrum_block", () -> new Block(Block.Properties.create(
                 Material.IRON).hardnessAndResistance(5.0f, 7).sound(SoundType.ANVIL).lightValue(4).harvestTool(ToolType.PICKAXE)));
+        COSMIC_DUST_ORE 		= PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new BlockBase("cosmic_dust_ore",
+                Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
+                        ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
 
     }
 
     public static void init()
     {
     	PlantsInit.registry();
+    	
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .group(PokecubeItems.POKECUBEBLOCKS)));
@@ -274,7 +316,7 @@ public class BlockInit
         {
             // These are registered seperately, so skip them.
             if (reg == BlockInit.ULTRA_TORCH1 || reg == BlockInit.ULTRA_TORCH1_WALL) continue;
-            PokecubeLegends.ITEMS_TAB.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
+            PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .group(PokecubeLegends.TAB)));
         }
     }

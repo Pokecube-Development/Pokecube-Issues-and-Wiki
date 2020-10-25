@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:blocks/golemstone",
-    "up": "pokecube_legends:blocks/golemstone",
-    "north": "pokecube_legends:blocks/golemstone",
-    "east": "pokecube_legends:blocks/golemstone",
-    "south": "pokecube_legends:blocks/golemstone",
-    "west": "pokecube_legends:blocks/golemstone",
-    "particle": "pokecube_legends:blocks/golemstone"
+	"down": "pokecube_legends:blocks/golem_stone",
+    "up": "pokecube_legends:blocks/golem_stone",
+    "north": "pokecube_legends:blocks/regigigas_stone",
+    "east": "pokecube_legends:blocks/golem_stone",
+    "south": "pokecube_legends:blocks/golem_stone",
+    "west": "pokecube_legends:blocks/golem_stone",
+    "particle": "pokecube_legends:blocks/regigigas_stone"
    }
 }

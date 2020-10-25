@@ -12981,6 +12981,84 @@
       }
     },
     {
+      "name": "Articuno Galar",
+      "number": 144,
+      "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "100",
+            "spatk": "125",
+            "def": "85",
+            "spd": "95",
+            "hp": "90",
+            "atk": "85"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "2.0",
+            "width": "2.0",
+            "height": "1.7"
+          }
+        },
+        "types": {
+          "values": {
+            "type2": "Flying",
+            "type1": "Psychic"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Pressure",
+            "hidden": "Competitive"
+          }
+        },
+        "mass": 50.9,
+        "captureRate": 3,
+        "baseExp": 250,
+        "baseFriendship": 35,
+        "expMode": "Slow",
+        "genderRatio": 255,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        },
+        "movementType": "flying"
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "gust,psychoshift",
+            "5": "confusion",
+            "10": "reflect",
+            "15": "hypnosis",
+            "20": "agility",
+            "25": "ancientpower",
+            "30": "tailwind",
+            "35": "psychocut",
+            "40": "recover",
+            "45": "freezingglare",
+            "50": "dreameater",
+            "55": "hurricane",
+            "60": "mindreader",
+            "65": "futuresight",
+            "70": "trickroom"
+          }
+        },
+        "misc": {
+          "moves": "fly, hyperbeam, gigaimpact, lightscreen, reflect, rest, snore, protect, scaryface, steelwing, facade, swift, imprison, uturn, powerswap, guardswap, psychocut, trickroom, round, airslash"
+        }
+      }
+    },
+    {
       "name": "Zapdos",
       "number": 145,
       "base": true,
@@ -13060,6 +13138,83 @@
       }
     },
     {
+      "name": "Zapdos Galar",
+      "number": 145,
+      "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "90",
+            "spatk": "85",
+            "def": "90",
+            "spd": "100",
+            "hp": "90",
+            "atk": "125"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.3",
+            "width": "1.0",
+            "height": "1.6"
+          }
+        },
+        "types": {
+          "values": {
+            "type2": "Flying",
+            "type1": "Fighting"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Pressure",
+            "hidden": "Defiant"
+          }
+        },
+        "mass": 58.2,
+        "captureRate": 3,
+        "baseExp": 250,
+        "baseFriendship": 35,
+        "expMode": "Slow",
+        "genderRatio": 255,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        }
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "peck,focusenergy",
+            "5": "rocksmash",
+            "10": "lightscreen",
+            "15": "pluck",
+            "20": "agility",
+            "25": "ancientpower",
+            "30": "brickbreak",
+            "35": "drillpeck",
+            "40": "quickguard",
+            "45": "thunderouskick",
+            "50": "bulkup",
+            "55": "counter",
+            "60": "detect",
+            "65": "closecombat",
+            "70": "reversal"
+          }
+        },
+        "misc": {
+          "moves": "megakick, fly, hyperbeam, gigaimpact, screech, lightscreen, rest, snore, protect, scaryface, steelwing, facade, swift, revenge,brickbreak, bounce, uturn, payback, assurance, lowsweep, round, acrobatics, retaliate, stompingtantrum, lowkick, agility, focusenergy, substitute, reversal, endure,sleeptalk, taunt, superpower, blazekick, bulkup, closecombat, bravebird, hurricane, throatchop, dualwingbeat, coaching"
+        }
+      }
+    },
+    {
       "name": "Moltres",
       "number": 146,
       "base": true,
@@ -13135,6 +13290,84 @@
         },
         "misc": {
           "moves": "aerialace, agility, aircutter, airslash, ancientpower, bide, burnup, confide, curse, defog, detect, doubleedge, doubleteam, ember, endure, facade, fireblast, firespin, flamecharge, flamethrower, fly, frustration, gigaimpact, heatwave, hiddenpower, hurricane, hyperbeam, incinerate, laserfocus, leer, mimic, mudslap, naturalgift, ominouswind, overheat, peck, pluck, protect, rage, raindance, razorwind, reflect, rest, return, roar, rocksmash, roost, round, safeguard, sandstorm, secretpower, skyattack, skydrop, sleeptalk, snore, solarbeam, steelwing, substitute, sunnyday, swagger, swift, tailwind, takedown, toxic, twister, uturn, whirlwind, willowisp, wingattack"
+        }
+      }
+    },
+    {
+      "name": "Moltres Galar",
+      "number": 146,
+      "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "125",
+            "spatk": "100",
+            "def": "90",
+            "spd": "90",
+            "hp": "90",
+            "atk": "85"
+          }
+        },
+        "evs": {
+          "values": {
+            "spdef": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "2.0",
+            "width": "2.0",
+            "height": "2.0"
+          }
+        },
+        "types": {
+          "values": {
+            "type2": "Flying",
+            "type1": "Dark"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Pressure",
+            "hidden": "Berserk"
+          }
+        },
+        "mass": 66.0,
+        "captureRate": 3,
+        "baseExp": 261,
+        "baseFriendship": 35,
+        "expMode": "Slow",
+        "genderRatio": 255,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        },
+        "movementType": "flying"
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "gust,leer",
+            "5": "payback",
+            "10": "safeguard",
+            "15": "wingattack",
+            "20": "agility",
+            "25": "ancientpower",
+            "30": "suckerpunch",
+            "35": "airslash",
+            "40": "afteryou",
+            "45": "fierywrath",
+            "50": "nastyplot",
+            "55": "hurricane",
+            "60": "endure",
+            "65": "memento",
+            "70": "skyattack"
+          }
+        },
+        "misc": {
+          "moves": "fly, hyperbeam, gigaimpact, safeguard, rest, snore, protect, scaryface, steelwing, facade, swift, imprison, uturn, payback, assurance, round, hex, snarl, airslash, agility, substitute, endure, sleeptalk, shadowball, taunt, hypervoice, darkpulse, bravebird, nastyplot, foulplay, hurricane, dualwingbeat, lastout"
         }
       }
     },
@@ -17182,6 +17415,80 @@
         "misc": {
           "moves": "expandingforce,afteryou, allyswitch, amnesia, aquatail, attract, avalanche, blizzard, block, bodyslam, brickbreak, brine, bulldoze, calmmind, captivate, confide, confusion, counter, curse, dig, disable, dive, doubleedge, doubleteam, dragontail, drainpunch, dreameater, dynamicpunch, earthquake, echoedvoice, endure, facade, fireblast, flamethrower, flash, fling, focusblast, focuspunch, foulplay, frustration, furycutter, gigaimpact, grassknot, growl, hail, headbutt, healpulse, hiddenpower, hyperbeam, icebeam, icepunch, icywind, incinerate, irondefense, irontail, laserfocus, lightscreen, magiccoat, megakick, megapunch, mimic, mudslap, nastyplot, naturalgift, nightmare, powergem, poweruppunch, protect, psychic, psychup, psyshock, quash, raindance, recycle, rest, return, rocksmash, round, safeguard, scald, secretpower, seismictoss, shadowball, signalbeam, skillswap, slackoff, sleeptalk, snore, strength, substitute, sunnyday, surf, swagger, swift, tackle, telekinesis, thunderwave, toxic, trick, trickroom, trumpcard, watergun, waterpulse, whirlpool, wonderroom, yawn, zapcannon, zenheadbutt"
         }
+      }
+    },
+    {
+      "name": "Slowking Galar",
+      "number": 199,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "110",
+            "spatk": "110",
+            "def": "80",
+            "spd": "30",
+            "hp": "95",
+            "atk": "65"
+          }
+        },
+        "evs": {
+          "values": {
+            "spdef": "2"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.0",
+            "width": "1.0",
+            "height": "1.8"
+          }
+        },
+        "types": {
+          "values": {
+            "type2": "Psychic",
+            "type1": "Poison"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Curious Medicine, Own Tempo",
+            "hidden": "Regenerator"
+          }
+        },
+        "mass": 79.5,
+        "captureRate": 70,
+        "baseExp": 100,
+        "expMode": "Medium Fast",
+        "genderRatio": 127,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        }
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "eeriespell, powergem, nastyplot, swagger, tackle, curse, growl, acid",
+            "9": "yawn",
+            "12": "confusion",
+            "15": "disable",
+            "18": "waterpulse",
+            "21": "headbutt",
+            "24": "zenheadbutt",
+            "27": "amnesia",
+            "30": "surf",
+            "33": "slackoff",
+            "36": "psychic",
+            "39": "psychup",
+            "42": "raindance",
+			"45": "healpulse"
+          }
+        },
+        "misc": {
+          "moves": "megapunch, megakick, payday, icepunch, hyperbeam, gigaimpact, thunderwave, dig, lightscreen, safeguard, rest, snore, protect, icywind, attract, raindance, sunnyday, hail, whirlpool, facade, swift, brickbreak, imprison, dive, weatherball, mudshot, brine, fling, drainpunch, avalanche, trickroom, wonderroom, venoshock, round, hex, bulldoze, razorshell, psychicterrain, bodyslam, flamethrower, hydropump, surf, icebeam, blizzard, earthquake, psychic, fireblast, amnesia, triattack, substitute, sludgebomb, psyshock, endure, sleeptalk, irontail, shadowball, futuresight, trick, skillswap, muddywater, irondefense, calmmind, powergem, focusblast, nastyplot, zenheadbutt, grassknot, sludgewave, foulplay, storedpower, scald, venomdrench, liquidation, belch, bellydrum, block, stomp"
+        },
+		"evolutionMoves": "eeriespell"
       }
     },
     {
@@ -73003,7 +73310,7 @@
       }
     },
     {
-      "name": "Eternatus Eternamax",
+      "name": "Eternatus Gigantamax",
       "number": 890,
       "legend": true,
       "breed": false,
@@ -73415,6 +73722,510 @@
         },
         "misc": {
           "moves": "grassyglide,lastout,megapunch,megakick,hyperbeam,gigaimpact,magicalleaf,solarbeam,solarblade,dig,rest,rockslide,thief,snore,protect,scaryface,gigadrain,sunnyday,facade,swift,revenge,brickbreak,rocktomb,bulletseed,mudshot,uturn,payback,assurance,fling,drainpunch,round,acrobatics,snarl,grassyterrain,brutalswing,stompingtantrum,bodyslam,lowkick,substitute,endure,sleeptalk,encore,irontail,crunch,taunt,superpower,hypervoice,bulkup,closecombat,darkpulse,seedbomb,energyball,nastyplot,powerwhip,grassknot,darkestlariat,throatchop"
+        }
+      }
+    },
+    {
+      "name": "Regieleki",
+      "number": 894,
+      "base": true,
+      "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "50",
+            "spatk": "100",
+            "def": "50",
+            "spd": "200",
+            "hp": "80",
+            "atk": "100"
+          }
+        },
+        "evs": {
+          "values": {
+            "spdef": "1",
+            "def": "2"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.0",
+            "width": "1.0",
+            "height": "1.2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Electric"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Transistor"
+          }
+        },
+        "mass": 145.0,
+        "captureRate": 3,
+        "baseExp": 261,
+        "baseFriendship": 35,
+        "expMode": "Slow",
+        "genderRatio": 255,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        }
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "thundershock,rapidspin",
+            "6": "electroweb",
+            "12": "ancientpower",
+            "18": "shockwave",
+            "24": "thunderwave",
+            "30": "extremespeed",
+            "36": "thundercage",
+            "42": "thunderbolt",
+            "48": "magnetrise",
+            "54": "thrash",
+            "60": "lockon",
+            "66": "zapcannon",
+			"72": "hyperbeam",
+			"78": "explosion"
+          }
+        },
+        "misc": {
+          "moves": "hyperbeam, gigaimpact, thunderwave, screech, lightscreen, reflect, selfdestruct, rest, snore, protect, raindance, facade, swift, bounce, assurance, round, acrobatics, voltswitch, electroweb, electricterrain, eerieimpulse, bodyslam, thunderbolt, thunder, agility, substitute, endure, sleeptalk, electroball, wildcharge, risingvoltage"
+        }
+      }
+    },
+    {
+      "name": "Regidrago",
+      "number": 895,
+      "base": true,
+      "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "50",
+            "spatk": "100",
+            "def": "50",
+            "spd": "80",
+            "hp": "200",
+            "atk": "100"
+          }
+        },
+        "evs": {
+          "values": {
+            "spdef": "1",
+            "def": "2"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.0",
+            "width": "1.0",
+            "height": "2.1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Dragon"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Dragon's Maw"
+          }
+        },
+        "mass": 200.0,
+        "captureRate": 3,
+        "baseExp": 261,
+        "baseFriendship": 35,
+        "expMode": "Slow",
+        "genderRatio": 255,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        }
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "twister,visegrip",
+            "6": "bite",
+            "12": "ancientpower",
+            "18": "dragonbreath",
+            "24": "focusenergy",
+            "30": "crunch",
+            "36": "dragonclaw",
+            "42": "hammerarm",
+            "48": "dragondance",
+            "54": "thrash",
+            "60": "laserfocus",
+            "66": "dragonenergy",
+			"72": "hyperbeam",
+			"78": "explosion"
+          }
+        },
+        "misc": {
+          "moves": "hyperbeam, gigaimpact, lightscreen, reflect, selfdestruct, rest, snore, protect, facade, thunderfang, firefang, round, breakingswipe, bodyslam, focusenergy, substitute, reversal, outrage, endure, sleeptalk, crunch, dragonclaw, dragondance, dragonpulse, scaleshot"
+        }
+      }
+    },
+	{
+      "name": "Glastrier",
+      "number": 896,
+      "base": true,
+	  "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "80",
+            "spatk": "80",
+            "def": "70",
+            "spd": "105",
+            "hp": "65",
+            "atk": "100"
+          }
+        },
+        "evs": {
+          "values": {
+            "spd": "2"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.5",
+            "width": "1.0",
+            "height": "2.2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Ice"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Chilling Neigh"
+          }
+        },
+        "mass": 800.0,
+        "captureRate": 3,
+        "baseExp": 175,
+        "expMode": "Medium Fast",
+        "genderRatio": 127,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        }
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "tackle,tailwhip",
+            "6": "doublekick",
+            "12": "avalanche",
+            "18": "stomp",
+            "24": "torment",
+            "30": "mist",
+            "36": "iciclecrash",
+            "42": "takedown",
+            "48": "irondefense",
+            "54": "thrash",
+            "60": "taunt",
+            "66": "doubleedge",
+            "72": "swordsdance"
+          }
+        },
+        "misc": {
+          "moves": "hyperbeam, gigaimpact, rest, snore, protect, scaryface, icewind, hail, facade, iciclecrash, mudshot, payback, assurance, avalanche, round, bulldoze, snarl, smartstrike, stompingtantrum, swordsdance, bodyslam, icebeam, blizzard, substitute, outrage, endure, sleeptalk, megahorn, crunch, uproar, taunt, superpower, irondefense, closecombat, heavyslam, highhorsepower, throatchop, bodypress, lashout"
+        }
+      }
+    },
+	{
+      "name": "Ice Rider",
+      "number": 896,
+	  "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "80",
+            "spatk": "80",
+            "def": "80",
+            "spd": "80",
+            "hp": "100",
+            "atk": "80"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.5",
+            "width": "1.0",
+            "height": "2.2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Psychic",
+            "type2": "Ice"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Unnerve Chilling Neigh"
+          }
+        },
+        "mass": 7.7,
+        "captureRate": 3,
+        "baseFriendship": 0,
+        "expMode": "Slow",
+        "logics": {},
+        "formeItems": {}
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "glaciallance, tackle, tailwhip, doublekick, avalanche, stomp, torment, mist,iciclecrash,takedown, irondefense, thrash, taunt, doubleedge, swordsdance, pound, megadrain, confusion, growth",
+            "8": "lifedew",
+			"16": "gigadrain",
+			"24": "psyshock",
+			"32": "helpinghand",
+			"40": "aromatherapy",
+			"48": "energyball",
+			"56": "psychic",
+			"64": "leechseed",
+			"72": "healpulse",
+			"80": "solarbeam",
+			"88": "futuresight"
+          }
+        },
+        "misc": {
+          "moves": "payday, hyperbeam, gigaimpact, magicalleaf, solarbeam, solarblade, lightscreen, reflect, safeguard, rest, snore, protect, gigadrain, sunnyday, facade, swift, helpinghand, imprison, bulletseed, powerswap, guardswap, speedswap, trickroom, wonderroom, magicroom, round, drainingkiss, grassyterrain, psychicterrain, psychic, agility, metronome, triattack, substitute, psyshock, endure, sleeptalk, batonpass, encore, futuresight, trick, skillswap, calmmind, seedbomb, energyball, zenheadbutt, leafstorm, grassknot, storedpower, allyswitch, pollenpuff, expandingforce"
+        }
+      }
+    },
+	{
+      "name": "Spectrier",
+      "number": 897,
+      "base": true,
+	  "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "80",
+            "spatk": "80",
+            "def": "70",
+            "spd": "105",
+            "hp": "65",
+            "atk": "100"
+          }
+        },
+        "evs": {
+          "values": {
+            "spd": "2"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.5",
+            "width": "1.0",
+            "height": "2.0"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Ghost"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Grim Neigh"
+          }
+        },
+        "mass": 44.0,
+        "captureRate": 3,
+        "baseExp": 175,
+        "expMode": "Medium Fast",
+        "genderRatio": 127,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        }
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "tackle,tailwhip",
+            "6": "doublekick",
+            "12": "hex",
+            "18": "stomp",
+            "24": "confuseray",
+            "30": "haze",
+            "36": "shadowball",
+            "42": "takedown",
+            "48": "agility",
+            "54": "thrash",
+            "60": "disable",
+            "66": "doubleedge",
+            "72": "nastyplot"
+          }
+        },
+        "misc": {
+          "moves": "hyperbeam, gigaimpact, rest, snore, protect, scaryface, willowisp, facade, swift, mudshot, payback, assurance,psychocut, round, hex, bulldoze, snarl, phantomforce, stompingtantrum, bodyslam, agility, substitute, endure, sleeptalk, crunch, shadowball, uproar, taunt, calmmind, darkpulse, nastyplot, foulplay, lashout"
+        }
+      }
+    },
+	{
+      "name": "Shadow Rider",
+      "number": 897,
+	  "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "80",
+            "spatk": "80",
+            "def": "80",
+            "spd": "80",
+            "hp": "100",
+            "atk": "80"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.5",
+            "width": "1.0",
+            "height": "2.0"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Psychic",
+            "type2": "Ghost"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Unnerve"
+          }
+        },
+        "mass": 7.7,
+        "captureRate": 3,
+        "baseFriendship": 0,
+        "expMode": "Slow",
+        "logics": {},
+        "formeItems": {}
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "astralbarrage, tackle, tailwhip, doublekick, hex, stomp, confuseray, haze, shadowball, takedown, agility, thrash,disable, doubleedge, nastyplot, pound, megadrain, confusion, growth",
+            "8": "lifedew",
+			"16": "gigadrain",
+			"24": "psyshock",
+			"32": "helpinghand",
+			"40": "aromatherapy",
+			"48": "energyball",
+			"56": "psychic",
+			"64": "leechseed",
+			"72": "healpulse",
+			"80": "solarbeam",
+			"88": "futuresight"
+          }
+        },
+        "misc": {
+          "moves": "payday, hyperbeam, gigaimpact, magicalleaf, solarbeam, solarblade, lightscreen, reflect, safeguard, rest, snore, protect, gigadrain, sunnyday, facade, swift, helpinghand, imprison, bulletseed, powerswap, guardswap, speedswap, trickroom, wonderroom, magicroom, round, drainingkiss, grassyterrain, psychicterrain, psychic, agility, metronome, triattack, substitute, psyshock, endure, sleeptalk, batonpass, encore, futuresight, trick, skillswap, calmmind, seedbomb, energyball, zenheadbutt, leafstorm, grassknot, storedpower, allyswitch, pollenpuff, expandingforce"
+        }
+      }
+    },
+    {
+      "name": "Calyrex",
+      "number": 898,
+      "base": true,
+	  "breed": false,
+      "legend": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "80",
+            "spatk": "80",
+            "def": "80",
+            "spd": "80",
+            "hp": "100",
+            "atk": "80"
+          }
+        },
+        "evs": {
+          "values": {
+            "hp": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "width": "0.9",
+            "length": "0.9",
+            "height": "1.1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Psychic",
+            "type2": "Grass"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Unnerve"
+          }
+        },
+        "mass": 7.7,
+        "captureRate": 3,
+        "baseFriendship": 0,
+        "expMode": "Slow",
+        "logics": {},
+        "formeItems": {},
+        "movementType": "floating"
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "pound, megadrain, confusion, growth",
+            "8": "lifedew",
+			"16": "gigadrain",
+			"24": "psyshock",
+			"32": "helpinghand",
+			"40": "aromatherapy",
+			"48": "energyball",
+			"56": "psychic",
+			"64": "leechseed",
+			"72": "healpulse",
+			"80": "solarbeam",
+			"88": "futuresight"
+          }
+        },
+        "misc": {
+          "moves": "payday, hyperbeam, gigaimpact, magicalleaf, solarbeam, solarblade, lightscreen, reflect, safeguard, rest, snore, protect, gigadrain, sunnyday, facade, swift, helpinghand, imprison, bulletseed, powerswap, guardswap, speedswap, trickroom, wonderroom, magicroom, round, drainingkiss, grassyterrain, psychicterrain, psychic, agility, metronome, triattack, substitute, psyshock, endure, sleeptalk, batonpass, encore, futuresight, trick, skillswap, calmmind, seedbomb, energyball, zenheadbutt, leafstorm, grassknot, storedpower, allyswitch, pollenpuff, expandingforce"
         }
       }
     }

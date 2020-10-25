@@ -24,7 +24,7 @@ public class UltraSpaceModDimension extends ModDimension
 
     public static void sentToUltraspace(final ServerPlayerEntity player)
     {
-        final DimensionType targetDim = ModDimensions.DIMENSION_TYPE;
+        final DimensionType targetDim = ModDimensions.DIMENSION_TYPE_US;
         final BlockPos pos = ModDimensions.getTransferPoint(player, player.getServer(), targetDim);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);

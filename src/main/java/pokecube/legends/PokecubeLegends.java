@@ -52,10 +52,10 @@ import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
-import pokecube.legends.init.moves.world.MoveRegister;
 import pokecube.legends.proxy.ClientProxy;
 import pokecube.legends.proxy.CommonProxy;
 import pokecube.legends.tileentity.RaidSpawn;
+import pokecube.legends.worldgen.dimension.DistortedModDimension;
 import pokecube.legends.worldgen.dimension.ModDimensions;
 import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
 import thut.api.terrain.BiomeDatabase;
@@ -68,8 +68,7 @@ public class PokecubeLegends
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
     public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
     public static final DeferredRegister<Item>  ITEMS  = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
-    public static final DeferredRegister<Item>  ITEMS_TAB  = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
-
+    
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
     {
@@ -122,9 +121,10 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void registerModDimensions(final RegistryEvent.Register<ModDimension> event)
         {
-            event.getRegistry().register(new UltraSpaceModDimension().setRegistryName(ModDimensions.DIMENSION_ID));
+            event.getRegistry().register(new UltraSpaceModDimension().setRegistryName(ModDimensions.DIMENSION_ULTRASPACE));
+            event.getRegistry().register(new DistortedModDimension().setRegistryName(ModDimensions.DIMENSION_DISTORTIC));
 
-            PokecubeLegends.LOGGER.debug("Registering Pokecube UltraSpace");
+            PokecubeLegends.LOGGER.debug("Registering Pokecube UltraSpace/Distortion World");
         }
     }
 
@@ -153,12 +153,10 @@ public class PokecubeLegends
 
         PokecubeLegends.BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
-        PokecubeLegends.ITEMS_TAB.register(modEventBus);
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
 
         BlockInit.init();
         ItemInit.init();
-        MoveRegister.init();
     }
 
     @SubscribeEvent

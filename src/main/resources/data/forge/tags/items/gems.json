@@ -3,6 +3,7 @@
     "values": [
         "#forge:gems/sapphire",
         "#forge:gems/ruby",
-        "#forge:gems/spectrum"
+        "#forge:gems/spectrum",
+        "#forge:gems/cosmicdust"
     ]
 }

@@ -1,0 +1,24 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A0A",
+    "040",
+    "A0A"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:light_gray_concrete"
+    },
+    "A": {
+      "item": "minecraft:terracotta"
+    },
+    "4": {
+      "item": "minecraft:gray_dye"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:golem_stone",
+    "count": 2
+  }
+}

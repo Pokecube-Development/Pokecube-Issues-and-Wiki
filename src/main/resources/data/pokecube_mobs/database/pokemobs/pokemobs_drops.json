@@ -999,14 +999,32 @@
         "lootTable": "pokecube:entities/generic_legend"
       }
     },
+	{
+      "name": "Articuno Galar",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
     {
       "name": "Zapdos",
       "stats": {
         "lootTable": "pokecube:entities/generic_legend"
       }
     },
+	{
+      "name": "Zapdos Galar",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
     {
       "name": "Moltres",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+	{
+      "name": "Moltres Galar",
       "stats": {
         "lootTable": "pokecube:entities/generic_legend"
       }
@@ -1311,6 +1329,12 @@
     },
     {
       "name": "Slowking",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_3"
+      }
+    },
+	{
+      "name": "Slowking Galar",
       "stats": {
         "lootTable": "pokecube:entities/pig_3"
       }
@@ -5037,25 +5061,73 @@
       "name": "Dragapult"
     },
     {
-      "name": "Zacian"
+      "name": "Zacian",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
     },
     {
-      "name": "Zamazenta"
+      "name": "Zamazenta",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
     },
     {
-      "name": "Eternatus"
+      "name": "Eternatus",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
     },
     {
       "name": "Kubfu"
     },
     {
-      "name": "Urshifu Single"
+      "name": "Urshifu Single",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
     },
     {
-      "name": "Urshifu Rapid"
+      "name": "Urshifu Rapid",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
     },
     {
-      "name": "Zarude"
+      "name": "Zarude",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+	{
+      "name": "Regieleki",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+	{
+      "name": "Regidrago",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Glastrier",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Spectrier",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Calyrex",
+	  "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
     }
   ]
 }

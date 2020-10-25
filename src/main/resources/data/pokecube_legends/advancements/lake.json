@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "pokecube:ultracube"
+      "item": "pokecube_legends:head_mirror"
     },
     "title": {
       "translate": "achievement.pokelegends.lake",
@@ -45,7 +45,7 @@
   },
   "rewards": {
     "loot": [
-      "pokecube_legends:entities/legendscore"
+      "pokecube_legends:entities/lake"
     ]
   },
   "parent": "pokecube_legends:root"

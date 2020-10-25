@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
 
 public class Regirock extends Condition
@@ -70,7 +70,7 @@ public class Regirock extends Condition
         locations.add(location.add(0, -2, 0));
         locations.add(location.add(-1, -1, 0));
         locations.add(location.add(1, -1, 0));
-        check = Condition.isBlock(world, locations, Blocks.OBSIDIAN);
+        check = Condition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
         if (check)
         {
             locations.clear();
@@ -85,7 +85,7 @@ public class Regirock extends Condition
             locations.add(location.add(0, -2, 0));
             locations.add(location.add(0, -1, 1));
             locations.add(location.add(0, -1, -1));
-            check = Condition.isBlock(world, locations, Blocks.OBSIDIAN);
+            check = Condition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
             if (check)
             {
                 locations.clear();
@@ -96,7 +96,7 @@ public class Regirock extends Condition
         }
         if (!check)
         {
-            if (message) trainer.sendMessage(new TranslationTextComponent("msg.reginotlookright.txt"));
+            if (message) this.sendLegendBuild(trainer, "Regirock");
             return CanSpawn.NO;
         }
         return CanSpawn.YES;

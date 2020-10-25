@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:blocks/dyna_leave_2",
+    "up": "pokecube_legends:blocks/dyna_leave_2",
+    "north": "pokecube_legends:blocks/dyna_leave_2",
+    "east": "pokecube_legends:blocks/dyna_leave_2",
+    "south": "pokecube_legends:blocks/dyna_leave_2",
+    "west": "pokecube_legends:blocks/dyna_leave_2",
+    "particle": "pokecube_legends:blocks/dyna_leave_2"
+   }
+}

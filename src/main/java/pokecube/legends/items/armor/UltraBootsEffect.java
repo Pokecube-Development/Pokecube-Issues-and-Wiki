@@ -36,7 +36,7 @@ public class UltraBootsEffect extends ArmorItem
 		}
 		Entity entity = (Entity) dependencies.get("entity");
 		if ((entity instanceof ServerPlayerEntity)) {
-			if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE.getId()) {
+			if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US.getId()) {
 				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 120, 1));
 			}
 		}
