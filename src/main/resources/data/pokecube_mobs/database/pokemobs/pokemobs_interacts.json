@@ -1535,6 +1535,10 @@
           {
             "name": "Slowbro Galar",
             "item_preset": "galarcuff"
+          },
+          {
+            "name": "Slowking Galar",
+            "item_preset": "galarwreath"
           }
         ],
         "species": "Lizard Artiodactyla",
@@ -3010,6 +3014,12 @@
     },
     {
       "name": "Slowking",
+      "stats": {
+        "species": "Royal"
+      }
+    },
+    {
+      "name": "Slowking Galar",
       "stats": {
         "species": "Royal"
       }
@@ -10534,6 +10544,11 @@
     {
       "name": "Marshadow",
       "stats": {
+        "formeItems": {
+          "values": {
+            "forme": "NMarshadow Z:Ipokecube_mobs:marshadow"
+          }
+        },
         "species": "Shadow"
       }
     },
@@ -11518,6 +11533,34 @@
       "name": "Zarude",
       "stats": {
         "species": "Monkey"
+      }
+    },
+    {
+      "name": "Glastrier",
+      "stats": {
+        "species": "Horse",
+        "formeItems": {
+          "values": {
+            "forme": "NIce Rider:Ireins_u"
+          }
+        }
+      }
+    },
+    {
+      "name": "Spectrier",
+      "stats": {
+        "species": "Horse",
+        "formeItems": {
+          "values": {
+            "forme": "NShadow Rider:Ireins_u"
+          }
+        }
+      }
+    },
+    {
+      "name": "Calyrex",
+      "stats": {
+        "species": "King"
       }
     }
   ]

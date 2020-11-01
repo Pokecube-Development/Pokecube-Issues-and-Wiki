@@ -3065,6 +3065,27 @@
       }
     ]
   },
+  "mobs.articuno_galar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.articuno_galar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/articuno",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/articuno",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/articuno",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
   "mobs.zapdos": {
     "category": "hostile",
     "subtitle": "entity.pokecube.zapdos",
@@ -3086,9 +3107,51 @@
       }
     ]
   },
+  "mobs.zapdos_galar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zapdos_galar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zapdos",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/zapdos",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/zapdos",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
   "mobs.moltres": {
     "category": "hostile",
     "subtitle": "entity.pokecube.moltres",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/moltres",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/moltres",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/moltres",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.moltres_galar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.moltres_galar",
     "sounds": [
       {
         "name": "pokecube_mobs:mobs/moltres",
@@ -4202,6 +4265,27 @@
   "mobs.slowking": {
     "category": "hostile",
     "subtitle": "entity.pokecube.slowking",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slowking",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/slowking",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/slowking",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.slowking_galar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slowking_galar",
     "sounds": [
       {
         "name": "pokecube_mobs:mobs/slowking",
@@ -18936,6 +19020,183 @@
       },
       {
         "name": "pokecube_mobs:mobs/zarude",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.regieleki": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.regieleki",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/regieleki",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/regieleki",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/regieleki",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.regidrago": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.regidrago",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/regidrago",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/regidrago",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/regidrago",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.spectrier": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spectrier",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/spectrier",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/spectrier",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/spectrier",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.glastrier": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.glastrier",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/glastrier",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/glastrier",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/glastrier",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.calyrex": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.calyrex",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.ice_rider": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ice_rider",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/glastrier",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/glastrier",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 1.0,
+        "pitch": 1.0
+      },
+      {
+        "name": "pokecube_mobs:mobs/glastrier",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.shadow_rider": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shadow_rider",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/spectrier",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/spectrier",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/calyrex",
+        "volume": 1.0,
+        "pitch": 1.0
+      },
+      {
+        "name": "pokecube_mobs:mobs/spectrier",
         "volume": 1.0,
         "pitch": 1.0
       }

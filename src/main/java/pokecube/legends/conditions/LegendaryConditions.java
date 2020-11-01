@@ -33,7 +33,10 @@ public class LegendaryConditions
 
         new LegendarySpawn("registeel", ItemInit.STEELCORE, BlockInit.REGISTEEL_CORE);
         new LegendarySpawn("regirock", ItemInit.ROCKCORE, BlockInit.REGIROCK_CORE);
-        new LegendarySpawn("regice", ItemInit.ICECORE, BlockInit.REGICE_CORE);
+        new LegendarySpawn("regice", ItemInit.ICECORE, BlockInit.REGICE_CORE);      
+        new LegendarySpawn("regidrago", ItemInit.DRAGOCORE, BlockInit.REGIDRAGO_CORE);
+        new LegendarySpawn("regieleki", ItemInit.THUNDERCORE, BlockInit.REGIELEKI_CORE);
+        
         new LegendarySpawn("regigigas", ItemInit.REGIS_ORB, BlockInit.REGIGIGA_CORE);
 
         new LegendarySpawn("groudon", ItemInit.REDORB, BlockInit.LEGENDARY_SPAWN);
@@ -60,6 +63,9 @@ public class LegendaryConditions
 
         new LegendarySpawn("zacian", ItemInit.RSWORD, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("zamazenta", ItemInit.RSHIELD, BlockInit.LEGENDARY_SPAWN);
+        
+        new LegendarySpawn("glastrier", ItemInit.ICE_CARROT, BlockInit.TROUGH_BLOCK);
+        new LegendarySpawn("spectrier", ItemInit.SHADOW_CARROT, BlockInit.TROUGH_BLOCK);
 
         // Register the thng that prevents genetic modification of protected
         // mobs

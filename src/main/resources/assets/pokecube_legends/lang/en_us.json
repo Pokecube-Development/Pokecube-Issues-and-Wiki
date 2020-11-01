@@ -29,20 +29,21 @@
     "msg.notrust.info": "§c[§a%1$s§c] does not trust you enough for that.",
     "msg.noitem.info": "§cThis requires an offering.",
     "msg.wrongitem.info": "§c[§a%1$s§c] does not like your offering.",
-    "msg.alreadyspawned.info": "§c You have already spawned [§a%1$s§c]!",
-    
-    "_comment": "/Hidden/Cosmic Power-Ultra Space",
-    "msg.spaceacess.deny.too_weak": "§cYou don't have enough experience to create a portal..",
-    "msg.spaceacess.deny.too_soon": "§cYou cannot create another portal yet..",
-    "msg.spaceacess.deny.info": "§cThe portal failed to create..",
-    "msg.spaceacess.accept.info": "§aUltra Wormhole created!",
+    "msg.alreadyspawned.info": "§c You have already spawned [§a%1$s§c]!",   
+    "msg.reginotlookright.info": "§cYou built the [%1$s§c] the wrong way.",
 	
     "_comment": "/Raid Related messages Names",
     "msg.notaraidspot.info": "§cThis den does not seem to be able to be activated.",
 
-	"_comment": "/Ultra Space Part",   
+	"_comment": "/Dimensions Part",   
 	
 	"_comment": "/Advancements",
+	"advancements.mirror.title": "Welcome to Distortic World!",
+    "advancements.mirror.descr": "Enter Distortic World for the first time.",
+    
+    "advancements.headmirror.title": "I see myself?",
+    "advancements.headmirror.descr": "build Giratina's Mirror",
+    
     "advancements.intotespace.descr": "Visit all Ultra Space biomes.",
     "advancements.intotespace.title": "Colliding Universes!",
     
@@ -64,7 +65,9 @@
 	"item.pokecube_legends.ultra_leggings": 	"Ultra Armor Leggings",
 	"item.pokecube_legends.ultra_boots": 		"Ultra Armor Boots",
 	
-    "_comment": "/Biome Names",
+    "_comment": "/Biome Names",   
+    "biome.pokecube_legends.distortic_world": "Distorted World",
+    
     "biome.pokecube_legends.ub001": "Ultra Deep Caves",
     "biome.pokecube_legends.ub002": "Ultra Jungle",
     "biome.pokecube_legends.ub003": "Ultra Desert",
@@ -80,11 +83,17 @@
     
     "block.pokecube_legends.ultra_sapling01": "Inverted Sapling",
     "block.pokecube_legends.ultra_sapling02": "Temporal Sapling",
-    "block.pokecube_legends.ultra_sapling03": "Aged     Sapling",
+    "block.pokecube_legends.ultra_sapling03": "Aged Sapling",
+    
+    "block.pokecube_legends.dyna_leave_1": "Dyna Leave",
+    "block.pokecube_legends.dyna_leave_2": "Dyna Leave",
         
     "itemGroup.ultratab": "Pokecube Dimensions",
     
     "_comment": "/Blocks",
+    
+    "block.pokecube_legends.cosmic_dust_ore": "Cosmic Ore",
+    "block.pokecube_legends.meteor_block": "Meteor Block",
     
     "block.pokecube_legends.spectrum_ore": "Spectrum Ore",
     "item.pokecube_legends.spectrum_shard": "Spectrum Shard",
@@ -124,6 +133,9 @@
     "block.pokecube_legends.ultrastone": 		"Ultra Stone",
     "block.pokecube_legends.ultrablock": 		"Ultra Stone Compressed",
     "block.pokecube_legends.temporal_crystal":  "Crystal Block",
+    "block.pokecube_legends.distortic_grass": 	"Distortic Grass",
+    "block.pokecube_legends.distortic_stone": 	"Distortic Stone",
+    "block.pokecube_legends.distortic_mirror": 	"Distortic Mirror",
     
     "_comment": "//",
     
@@ -156,6 +168,16 @@
     "item.pokecube_legends.galarcuff": "Galarica Cuff",
     "item.pokecube_legends.pdark": "Parchment of Darkness",
     "item.pokecube_legends.pwater": "Parchment of Water",
+    "item.pokecube_legends.head_mirror": "Antique Mirror Head",
+    "item.pokecube_legends.body_mirror": "Antique Mirror Body",
+    "item.pokecube_legends.glass_mirror": "Antique Mirror Plate",
+    "item.pokecube_legends.cosmic_dust":"Cosmic Dust",
+    "item.pokecube_legends.thundercore":"Thunder Core",
+    "item.pokecube_legends.dragocore":"Drago Core",
+    "item.pokecube_legends.ice_carrot":"Iceroot Carrot",
+    "item.pokecube_legends.shadow_carrot":"Shaderoot Carrot",
+    "item.pokecube_legends.reins_u":"Reins of Unity",
+    "item.pokecube_legends.galarwreath": "Galar Wreath",
 
     "_comment": "/Mint Nature",
     "item.pokecube_legends.mint_adamant": "Mint Adamant",
@@ -229,10 +251,16 @@
     "item.pokecube_legends.rainbow_sword": "Rainbow Sword",
     "item.pokecube_legends.wishing_piece": "Wishing Piece",
     "item.pokecube_legends.gigantic_shard": "Gigant Shard",
+    "item.pokecube_legends.giratina_mirror": "Distortic Mirror",
+    "item.pokecube_legends.ultrakey": "Ultra Dimensional Key",
 
     "_comment": "/Blocks",
+    "block.pokecube_legends.trough_block": "Trough Block Spawn",
+    "block.pokecube_legends.golem_stone": "Golem Stone",
     "block.pokecube_legends.regirock_spawn": "Regirock Core",
     "block.pokecube_legends.regice_spawn": "Regice Core",
+    "block.pokecube_legends.regidrago_spawn": "Regidrago Core",
+    "block.pokecube_legends.regieleki_spawn": "Regieleki Core",
     "block.pokecube_legends.registeel_spawn": "Registeel Core",
     "block.pokecube_legends.timerspawn": "Time and Space Spawn",
     "block.pokecube_legends.naturespawn": "Nature Spawn",
@@ -245,7 +273,7 @@
     "block.pokecube_legends.portal": "Mirage Spots",
     "block.pokecube_legends.ruby_ore": "Ruby Ore",
     "block.pokecube_legends.sapphire_ore": "Sapphire Ore",
-    "block.pokecube_legends.regigiga_spawn": "Regigiga Core",
+    "block.pokecube_legends.regigiga_spawn": "Regigigas Core",
     "block.pokecube_legends.legendaryspawn": "Legendary Spawn",
     "block.pokecube_legends.oceanbrick": "Ocean Brick",
     "block.pokecube_legends.skybrick": "Sky Brck",
@@ -256,7 +284,6 @@
     "block.pokecube_legends.raidspawn_block": "Raid Spot Spawn",
 
     "_comment": "/Tooltips Block",
-    "legendblock.portalwarp.tooltip": "This portal spawns a random Pokemon over a period of time.",
     "legendblock.ultraportal.tooltip": "Use to enter and exit Ultra Space",
     "legendblock.raidspawn.tooltip": "Use to create a Raid battle!",
 
@@ -297,5 +324,10 @@
     "legends.gigantic_shard.tooltip": "Use to make your pokemon use Gigantamax!",
     "legends.wishing_piece.tooltip": "Use this item on an inactive raid spot to activate it!",
     "legends.pdark.tooltip": "Use this item to evolve Kubfu into Single Strike Style",
-    "legends.pwater.tooltip": "Use this item to evolve Kubfu into Rapid Strike Style"
+    "legends.pwater.tooltip": "Use this item to evolve Kubfu into Rapid Strike Style",
+    "legends.mirror.tooltip": "Use this item to access the Distorted Dimension!",
+    "legends.ultrakey.tooltip": "Use this item to teleport to Ultra Space! [You need Cosmic Dust in your inventory! Minimum: 5]",
+    "legends.reins_unity.tooltip": "Use this item in 'Calyrex' to change it.",
+    "legends.shadow_c.tooltip": "Use this item on 'Trough Block Spawn' to Spawn Glastrier",
+    "legends.ice_c.tooltip": "Use this item on 'Trough Block Spawn' to Spawn Spectrier"
 }

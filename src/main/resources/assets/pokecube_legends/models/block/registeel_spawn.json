@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:blocks/registeelspawn",
-    "up": "pokecube_legends:blocks/registeelspawn",
-    "north": "pokecube_legends:blocks/registeelspawn",
-    "east": "pokecube_legends:blocks/registeelspawn",
-    "south": "pokecube_legends:blocks/registeelspawn",
-    "west": "pokecube_legends:blocks/registeelspawn",
-    "particle": "pokecube_legends:blocks/registeelspawn"
+	"down": "pokecube_legends:blocks/golem_stone",
+    "up": "pokecube_legends:blocks/golem_stone",
+    "north": "pokecube_legends:blocks/registeel_stone",
+    "east": "pokecube_legends:blocks/golem_stone",
+    "south": "pokecube_legends:blocks/golem_stone",
+    "west": "pokecube_legends:blocks/golem_stone",
+    "particle": "pokecube_legends:blocks/registeel_stone"
    }
 }

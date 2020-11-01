@@ -3,7 +3,8 @@
     "values": [
         "#forge:ores/sapphire",
         "#forge:ores/ruby",
-        "#forge:ores/spectrum"
+        "#forge:ores/spectrum",
+        "#forge:ores/cosmic"
     ],
     "optional": [
         "pokecube:fossilstone"

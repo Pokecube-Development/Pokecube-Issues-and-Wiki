@@ -7,6 +7,7 @@ import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.registries.IForgeRegistry;
+import pokecube.legends.worldgen.biomes.DistorticBiome;
 import pokecube.legends.worldgen.biomes.UltraUB1;
 import pokecube.legends.worldgen.biomes.UltraUB2;
 import pokecube.legends.worldgen.biomes.UltraUB3;
@@ -22,6 +23,8 @@ public class BiomeInit
     public static final Biome BIOME_UB4 = new UltraUB4();
     public static final Biome BIOME_UB5 = new UltraUB5();
     public static final Biome BIOME_UB6 = new UltraUB6();
+    
+    public static final Biome BIOME_DISTORTIC = new DistorticBiome();
 
     public static void registerBiomes(final Register<Biome> event)
     {
@@ -38,6 +41,9 @@ public class BiomeInit
                 Type.MESA, Type.PLATEAU, Type.PLAINS);
         BiomeInit.initBiome(event.getRegistry(), BiomeInit.BIOME_UB6, "pokecube_legends:ub006", BiomeType.COOL,
                 Type.OCEAN, Type.VOID, Type.PLAINS);
+        
+        BiomeInit.initBiome(event.getRegistry(), BiomeInit.BIOME_DISTORTIC, "pokecube_legends:distortic_world", BiomeType.ICY,
+                Type.VOID);
     }
 
     private static Biome initBiome(final IForgeRegistry<Biome> registry, final Biome biome, final String name,

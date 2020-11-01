@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RCR",
+    "SAS",
+    "RCR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "A": {
+      "item": "pokecube_legends:ruby_block"
+    },
+    "S": {
+      "item": "pokecube_legends:sapphire_block"
+    },
+    "C": {
+      "item": "minecraft:yellow_terracotta"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:regieleki_spawn",
+    "count": 1
+  }
+}

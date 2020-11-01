@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.Reference;
+import pokecube.legends.init.BlockInit;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
@@ -42,7 +42,7 @@ public class Regice extends Condition
     @Override
     public void onSpawn(IPokemob mob)
     {
-        mob = mob.setForSpawn(54500);
+    	mob = mob.setForSpawn(54500);
         final Vector3 location = Vector3.getNewVector().set(mob.getEntity()).add(0, -1, 0);
         final ArrayList<Vector3> locations = new ArrayList<>();
         final World world = mob.getEntity().getEntityWorld();
@@ -52,6 +52,10 @@ public class Regice extends Condition
         locations.add(location.add(-1, -1, 0));
         locations.add(location.add(0, -1, -1));
         locations.add(location.add(0, -1, 1));
+        locations.add(location.add(0, 0, -1));
+        locations.add(location.add(0, 0, 1));
+        locations.add(location.add(1, 0, 0));
+        locations.add(location.add(-1, 0, 0));
         for (final Vector3 v : locations)
             v.setAir(world);
         location.setAir(world);
@@ -71,14 +75,17 @@ public class Regice extends Condition
         locations.add(location.add(0, -2, 0));
         locations.add(location.add(-1, -1, 0));
         locations.add(location.add(1, -1, 0));
-        check = Condition.isBlock(world, locations, Regice.VALID);
+        check = Condition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
         if (check)
         {
-            Block b = location.add(0, -1, 1).getBlock(world);
+            check = Condition.isBlock(world, locations, Regice.VALID);
+            Block b = location.add(1, 0, 0).getBlock(world);
+            b = location.add(-1, 0, 0).getBlock(world);
             check = ItemList.is(Regice.VALID, b);
             if (!check)
             {
-                b = location.add(0, -1, -1).getBlock(world);
+                b = location.add(1, 0, 0).getBlock(world);
+                b = location.add(-1, 0, 0).getBlock(world);
                 check = ItemList.is(Regice.VALID, b);
             }
         }
@@ -89,21 +96,24 @@ public class Regice extends Condition
             locations.add(location.add(0, -2, 0));
             locations.add(location.add(0, -1, 1));
             locations.add(location.add(0, -1, -1));
-            check = Condition.isBlock(world, locations, Regice.VALID);
+            check = Condition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
             if (check)
             {
-                Block b = location.add(1, -1, 0).getBlock(world);
+                check = Condition.isBlock(world, locations, Regice.VALID);
+                Block b = location.add(0, 0, 1).getBlock(world);
+                b = location.add(0, 0, -1).getBlock(world);
                 check = ItemList.is(Regice.VALID, b);
                 if (!check)
                 {
-                    b = location.add(-1, -1, 0).getBlock(world);
+                    b = location.add(0, 0, 1).getBlock(world);
+                    b = location.add(0, 0, -1).getBlock(world);
                     check = ItemList.is(Regice.VALID, b);
                 }
             }
         }
         if (!check)
         {
-            if (message) trainer.sendMessage(new TranslationTextComponent("msg.reginotlookright.txt"));
+            if (message) this.sendLegendBuild(trainer, "Regice");
             return CanSpawn.NO;
         }
         return CanSpawn.YES;

@@ -36,7 +36,7 @@ public class UltraHelmetEffect extends ArmorItem
 		}
 		Entity entity = (Entity) dependencies.get("entity");
 		if ((entity instanceof ServerPlayerEntity)) {
-			if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE.getId()) {
+			if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US.getId()) {
 				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 210, 1));
 			}
 		}

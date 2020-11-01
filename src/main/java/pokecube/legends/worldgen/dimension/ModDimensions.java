@@ -14,12 +14,17 @@ import pokecube.legends.Reference;
 public class ModDimensions
 {
 
-    public static final ResourceLocation DIMENSION_ID = new ResourceLocation(Reference.ID, "ultraspace");
-
+    public static final ResourceLocation DIMENSION_ULTRASPACE = new ResourceLocation(Reference.ID, "ultraspace");
+    public static final ResourceLocation DIMENSION_DISTORTIC = new ResourceLocation(Reference.ID, "distorticw");
+    
     @ObjectHolder("pokecube_legends:ultraspace")
-    public static ModDimension DIMENSION;
+    public static ModDimension DIMENSION_U;
 
-    public static DimensionType DIMENSION_TYPE;
+    @ObjectHolder("pokecube_legends:distorticw")
+    public static ModDimension DIMENSION_D;
+    
+    public static DimensionType DIMENSION_TYPE_US;
+    public static DimensionType DIMENSION_TYPE_DW;
 
     public static BlockPos getTransferPoint(final ServerPlayerEntity player, final MinecraftServer server,
             final DimensionType targetDim)

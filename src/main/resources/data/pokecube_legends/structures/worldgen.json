@@ -22,6 +22,32 @@
       ]
     },
     {
+      "name":"pokecube_legends:meteor_overworld",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+      	"pokecube_legends:meteorites/meteor_small;{\"weight\":10}",
+      	"pokecube_legends:meteorites/meteor_small_1;{\"weight\":20}",
+        "pokecube_legends:meteorites/meteor_medium;{\"weight\":30}",
+        "pokecube_legends:meteorites/meteor_medium_1;{\"weight\":50}",
+        "pokecube_legends:meteorites/meteor_large;{\"weight\":70}",
+        "pokecube_legends:meteorites/meteor_large_1;{\"weight\":100}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:meteor_dimension",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+      	"pokecube_legends:meteorites/meteor_small;{\"weight\":8}",
+      	"pokecube_legends:meteorites/meteor_small_1;{\"weight\":16}",
+        "pokecube_legends:meteorites/meteor_medium;{\"weight\":32}",
+        "pokecube_legends:meteorites/meteor_medium_1;{\"weight\":54}",
+        "pokecube_legends:meteorites/meteor_large;{\"weight\":60}",
+        "pokecube_legends:meteorites/meteor_large_1;{\"weight\":90}"
+      ]
+    },
+    {
       "name":"pokecube_legends:mirage/base",
       "rigid":false,
       "options":[
@@ -84,6 +110,14 @@
       ]
     },
     {
+      "name":"pokecube_legends:legendy_tree",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/legendy_tree;{\"dy\":-1}"
+      ]
+    },
+    {
       "name":"pokecube_legends:rayquaza_tower",
       "rigid":true,
       "ignoreAir":true,
@@ -130,6 +164,22 @@
       "ignoreAir":false,
       "options":[
         "pokecube_legends:temples/surface/regice_temple"
+      ]
+    },
+    {
+      "name":"pokecube_legends:regieleki_temple",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/regieleki_temple"
+      ]
+    },
+    {
+      "name":"pokecube_legends:regidrago_temple",
+      "rigid":true,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:temples/surface/regidrago_temple"
       ]
     },
     {
@@ -314,7 +364,8 @@
       "spawn":{
         "values":{
           "types":"all",
-          "categoryBlacklist":"ocean"
+          "categoryBlacklist":"ocean",
+          "biomesBlacklist":"pokecube_legends:distortic_world"
         }
       }
     },
@@ -326,7 +377,8 @@
       "separation":5,
       "spawn":{
         "values":{
-          "category":"the_end"
+          "category":"the_end",
+          "biomesBlacklist":"pokecube_legends:distortic_world"
         }
       }
     },
@@ -339,7 +391,8 @@
       "water":true,
       "spawn":{
         "values":{
-          "category":"ocean"
+          "category":"ocean",
+          "biomesBlacklist":"pokecube_legends:distortic_world"
         }
       }
     },
@@ -351,7 +404,8 @@
       "separation":5,
       "spawn":{
         "values":{
-          "types":"sandy"
+          "types":"sandy",
+          "biomesBlacklist":"pokecube_legends:distortic_world"
         }
       }
     },
@@ -365,7 +419,8 @@
         "values":{
           "types":"all",
           "typesBlacklist":"sandy",
-          "categoryBlacklist":"ocean,desert,the_end"
+          "categoryBlacklist":"ocean,desert,the_end",
+          "biomesBlacklist":"pokecube_legends:distortic_world"
         }
       }
     },
@@ -378,7 +433,7 @@
       "spawn":{
         "values":{
           "category":"beach",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -391,7 +446,7 @@
       "spawn":{
         "values":{
           "category":"extreme_hills",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -404,7 +459,7 @@
       "spawn":{
         "values":{
           "category":"icy",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -417,7 +472,7 @@
       "spawn":{
         "values":{
           "category":"icy",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -430,7 +485,8 @@
       "spawn":{
         "values":{
           "types":"sandy",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "typesBlacklist": "mesa",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -443,7 +499,33 @@
       "spawn":{
         "values":{
           "category":"extreme_hills",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:regidrago_temple",
+      "root":"pokecube_legends:regidrago_temple",
+      "biomeType":"ruin",
+      "distance":32,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "types":"mesa",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:regieleki_temple",
+      "root":"pokecube_legends:regieleki_temple",
+      "biomeType":"ruin",
+      "distance":32,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "types":"savanna",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -456,7 +538,7 @@
       "spawn":{
         "values":{
           "category":"swamp",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -469,7 +551,7 @@
       "spawn":{
         "values":{
           "types":"sandy",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -482,7 +564,20 @@
       "spawn":{
         "values":{
           "category":"beach",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:legendy_tree",
+      "root":"pokecube_legends:legendy_tree",
+      "biomeType":"none",
+      "distance":24,
+      "separation":4,
+      "spawn":{
+        "values":{
+          "category":"plains",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -496,7 +591,7 @@
       "spawn":{
         "values":{
           "category":"ocean",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -510,7 +605,7 @@
         "values":{
           "category":"forest",
           "typesBlacklist":"sparse,cold,dry,spooky",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -522,7 +617,8 @@
       "separation":8,
       "spawn":{
         "values":{
-          "category":"the_end"
+          "category":"the_end",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -535,7 +631,7 @@
       "spawn":{
         "values":{
           "category":"river",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -548,7 +644,7 @@
       "spawn":{
         "values":{
           "category":"river",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -561,7 +657,7 @@
       "spawn":{
         "values":{
           "category":"plains",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -574,7 +670,7 @@
       "spawn":{
         "values":{
           "types":"spooky",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -587,7 +683,7 @@
       "spawn":{
         "values":{
           "category":"extreme_hills",
-          "biomesBlacklist":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -600,7 +696,8 @@
       "water":true,
       "spawn":{
         "values":{
-          "category":"ocean"
+          "category":"ocean",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
         }
       }
     },
@@ -613,7 +710,34 @@
       "surface":false,
       "spawn":{
         "values":{
-          "category":"nether"
+          "category":"nether",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:meteor_overworld",
+      "root":"pokecube_legends:meteor_overworld",
+      "biomeType":"none",
+      "distance":6,
+      "separation":2,
+      "spawn":{
+        "values":{
+          "category":"extreme_hills",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:meteor_dimension",
+      "root":"pokecube_legends:meteor_dimension",
+      "biomeType":"none",
+      "distance":4,
+      "separation":2,
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004",
+          "biomesBlacklist":"pokecube_legends:distortic_world"
         }
       }
     },

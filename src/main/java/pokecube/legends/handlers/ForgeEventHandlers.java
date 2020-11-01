@@ -17,10 +17,17 @@ public class ForgeEventHandlers
     @SubscribeEvent
     public void onDimensionRegistry(final RegisterDimensionsEvent event)
     {
-        ModDimensions.DIMENSION_TYPE = DimensionManager.registerOrGetDimension(ModDimensions.DIMENSION_ID,
-                ModDimensions.DIMENSION, null, false);
-        if (ModDimensions.DIMENSION_TYPE.getRegistryName() == null) ModDimensions.DIMENSION_TYPE.setRegistryName(
-                ModDimensions.DIMENSION_ID);
+    	//Ultra Space
+        ModDimensions.DIMENSION_TYPE_US = DimensionManager.registerOrGetDimension(ModDimensions.DIMENSION_ULTRASPACE,
+                ModDimensions.DIMENSION_U, null, false);
+        if (ModDimensions.DIMENSION_TYPE_US.getRegistryName() == null) ModDimensions.DIMENSION_TYPE_US.setRegistryName(
+                ModDimensions.DIMENSION_ULTRASPACE);
+        
+        //Distortic World
+        ModDimensions.DIMENSION_TYPE_DW = DimensionManager.registerOrGetDimension(ModDimensions.DIMENSION_DISTORTIC,
+                ModDimensions.DIMENSION_D, null, false);
+        if (ModDimensions.DIMENSION_TYPE_DW.getRegistryName() == null) ModDimensions.DIMENSION_TYPE_DW.setRegistryName(
+                ModDimensions.DIMENSION_DISTORTIC);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

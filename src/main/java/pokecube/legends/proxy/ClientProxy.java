@@ -24,7 +24,8 @@ import thut.core.client.gui.ConfigGui;
 
 public class ClientProxy extends CommonProxy
 {
-    final Predicate<Material> notSolid = m -> m == Material.GLASS || m == Material.ICE || m == Material.PACKED_ICE || m == Material.LEAVES;
+    final Predicate<Material> notSolid = m -> m == Material.GLASS || m == Material.ICE ||
+    		m == Material.PACKED_ICE || m == Material.LEAVES || m == Material.ANVIL;
 
     @Override
     public void setupClient(final FMLClientSetupEvent event)

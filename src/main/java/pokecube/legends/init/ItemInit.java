@@ -13,14 +13,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
+import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.PokeType;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
+import pokecube.legends.items.DistortedMirror;
 import pokecube.legends.items.GiganticShard;
 import pokecube.legends.items.ItemBase;
 import pokecube.legends.items.LegendaryOrb;
 import pokecube.legends.items.RainbowSword;
+import pokecube.legends.items.UltraKey;
 import pokecube.legends.items.armor.UltraBootsEffect;
 import pokecube.legends.items.armor.UltraHelmetEffect;
 import pokecube.legends.items.natureedit.ItemNature;
@@ -31,7 +34,7 @@ public class ItemInit
     // Materials
     public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
 
-    // Orbs
+    // Keys
     public static final RegistryObject<Item> BLUEORB;
     public static final RegistryObject<Item> GREENORB;
     public static final RegistryObject<Item> REDORB;
@@ -53,6 +56,11 @@ public class ItemInit
     public static final RegistryObject<Item> BLUE_RUNE;
     public static final RegistryObject<Item> GREEN_RUNE;
     public static final RegistryObject<Item> REGIS_ORB;
+    public static final RegistryObject<Item> THUNDERCORE;
+    public static final RegistryObject<Item> DRAGOCORE;
+    public static final RegistryObject<Item> ICE_CARROT;
+    public static final RegistryObject<Item> SHADOW_CARROT;
+    
 
     // Gens_ores
     public static final RegistryObject<Item> SAPPHIRE;
@@ -75,6 +83,7 @@ public class ItemInit
     public static final RegistryObject<Item> AZURE_FLUTE;
     public static final RegistryObject<Item> RSHIELD;
     public static final RegistryObject<Item> RSWORD;
+    public static final RegistryObject<Item> REINS_U;
 
     // Evolutions
     public static final RegistryObject<Item> CHPOT;
@@ -82,6 +91,7 @@ public class ItemInit
     public static final RegistryObject<Item> GALARCUFF;
     public static final RegistryObject<Item> PDARK;
     public static final RegistryObject<Item> PWATER;
+    public static final RegistryObject<Item> GALARWREATH;
 
     // Raids/Dynamax/Gigantamax
     public static final RegistryObject<Item> WISHING_PIECE;
@@ -90,9 +100,17 @@ public class ItemInit
     // Tools
     public static final RegistryObject<Item> RAINBOW_SWORD;
 
-    // UltraSpace
+    // Dimensions
     public static final RegistryObject<Item> SPECTRUM_SHARD;
-
+    public static final RegistryObject<Item> ULTRAKEY;
+    public static final RegistryObject<Item> COSMIC_DUST;
+    
+    //Giratina
+    public static final RegistryObject<Item> GIRATINA_MIRROR;
+    public static final RegistryObject<Item> HEAD_MIRROR;
+    public static final RegistryObject<Item> BODY_MIRROR;
+    public static final RegistryObject<Item> GLASS_MIRROR;
+    
     // Armor
     public static final RegistryObject<ArmorItem> ULTRA_HELMET;
     public static final RegistryObject<ArmorItem> ULTRA_CHESTPLATE;
@@ -104,87 +122,102 @@ public class ItemInit
 
     static
     {
-        // Orbs
-        BLUEORB = PokecubeLegends.ITEMS.register("blueorb", () -> new ItemBase("blueorb", 1));
-        GREENORB = PokecubeLegends.ITEMS.register("greenorb", () -> new ItemBase("greenorb", 1));
-        REDORB = PokecubeLegends.ITEMS.register("redorb", () -> new ItemBase("redorb", 1));
-        GRAYORB = PokecubeLegends.ITEMS.register("grayorb", () -> new ItemBase("grayorb", 1).noTooltop());
+        // Keys
+        BLUEORB = PokecubeLegends.ITEMS.register("blueorb", () -> new ItemBase("blueorb", 1,PokecubeItems.POKECUBEITEMS));
+        GREENORB = PokecubeLegends.ITEMS.register("greenorb", () -> new ItemBase("greenorb", 1,PokecubeItems.POKECUBEITEMS));
+        REDORB = PokecubeLegends.ITEMS.register("redorb", () -> new ItemBase("redorb", 1,PokecubeItems.POKECUBEITEMS));
+        GRAYORB = PokecubeLegends.ITEMS.register("grayorb", () -> new ItemBase("grayorb", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
         LEGENDARYORB = PokecubeLegends.ITEMS.register("legendaryorb", () -> new LegendaryOrb("legendaryorb", 1));
-        LUSTROUSORB = PokecubeLegends.ITEMS.register("lustrousorb", () -> new ItemBase("lustrousorb", 1));
-        ADAMANTORB = PokecubeLegends.ITEMS.register("adamantorb", () -> new ItemBase("adamantorb", 1));
-        OCEANORB = PokecubeLegends.ITEMS.register("oceanorb", () -> new ItemBase("oceanorb", 1));
-        LIGHTSTONE = PokecubeLegends.ITEMS.register("lightstone", () -> new ItemBase("lightstone", 1));
-        DARKSTONE = PokecubeLegends.ITEMS.register("darkstone", () -> new ItemBase("darkstone", 1));
-        ROCKCORE = PokecubeLegends.ITEMS.register("rockcore", () -> new ItemBase("rockcore", 1));
-        ICECORE = PokecubeLegends.ITEMS.register("icecore", () -> new ItemBase("icecore", 1));
-        STEELCORE = PokecubeLegends.ITEMS.register("steelcore", () -> new ItemBase("steelcore", 1));
-        EMBLEM = PokecubeLegends.ITEMS.register("emblem", () -> new ItemBase("emblem", 1));
-        MAGMA_CORE = PokecubeLegends.ITEMS.register("magmacore", () -> new ItemBase("magmacore", 1));
-        LIFEORB = PokecubeLegends.ITEMS.register("lifeorb", () -> new ItemBase("lifeorb", 1));
-        DESTRUCTORB = PokecubeLegends.ITEMS.register("destructorb", () -> new ItemBase("destructorb", 1));
-        ORANGE_RUNE = PokecubeLegends.ITEMS.register("orange_rune", () -> new ItemBase("orange_rune", 1).setTooltipName(
+        LUSTROUSORB = PokecubeLegends.ITEMS.register("lustrousorb", () -> new ItemBase("lustrousorb", 1,PokecubeItems.POKECUBEITEMS));
+        ADAMANTORB = PokecubeLegends.ITEMS.register("adamantorb", () -> new ItemBase("adamantorb", 1,PokecubeItems.POKECUBEITEMS));
+        OCEANORB = PokecubeLegends.ITEMS.register("oceanorb", () -> new ItemBase("oceanorb", 1,PokecubeItems.POKECUBEITEMS));
+        LIGHTSTONE = PokecubeLegends.ITEMS.register("lightstone", () -> new ItemBase("lightstone", 1,PokecubeItems.POKECUBEITEMS));
+        DARKSTONE = PokecubeLegends.ITEMS.register("darkstone", () -> new ItemBase("darkstone", 1,PokecubeItems.POKECUBEITEMS));
+        ROCKCORE = PokecubeLegends.ITEMS.register("rockcore", () -> new ItemBase("rockcore", 1,PokecubeItems.POKECUBEITEMS));
+        ICECORE = PokecubeLegends.ITEMS.register("icecore", () -> new ItemBase("icecore", 1,PokecubeItems.POKECUBEITEMS));
+        STEELCORE = PokecubeLegends.ITEMS.register("steelcore", () -> new ItemBase("steelcore", 1,PokecubeItems.POKECUBEITEMS));
+        EMBLEM = PokecubeLegends.ITEMS.register("emblem", () -> new ItemBase("emblem", 1,PokecubeItems.POKECUBEITEMS));
+        MAGMA_CORE = PokecubeLegends.ITEMS.register("magmacore", () -> new ItemBase("magmacore", 1,PokecubeItems.POKECUBEITEMS));
+        LIFEORB = PokecubeLegends.ITEMS.register("lifeorb", () -> new ItemBase("lifeorb", 1,PokecubeItems.POKECUBEITEMS));
+        DESTRUCTORB = PokecubeLegends.ITEMS.register("destructorb", () -> new ItemBase("destructorb", 1,PokecubeItems.POKECUBEITEMS));
+        ORANGE_RUNE = PokecubeLegends.ITEMS.register("orange_rune", () -> new ItemBase("orange_rune", 1,PokecubeItems.POKECUBEITEMS).setTooltipName(
                 "orangerune"));
-        BLUE_RUNE = PokecubeLegends.ITEMS.register("blue_rune", () -> new ItemBase("blue_rune", 1).setTooltipName(
+        BLUE_RUNE = PokecubeLegends.ITEMS.register("blue_rune", () -> new ItemBase("blue_rune", 1,PokecubeItems.POKECUBEITEMS).setTooltipName(
                 "bluerune"));
-        GREEN_RUNE = PokecubeLegends.ITEMS.register("green_rune", () -> new ItemBase("green_rune", 1).setTooltipName(
+        GREEN_RUNE = PokecubeLegends.ITEMS.register("green_rune", () -> new ItemBase("green_rune", 1,PokecubeItems.POKECUBEITEMS).setTooltipName(
                 "greenrune"));
-        REGIS_ORB = PokecubeLegends.ITEMS.register("regisorb", () -> new ItemBase("regisorb", 1));
-
+        REGIS_ORB = PokecubeLegends.ITEMS.register("regisorb", () -> new ItemBase("regisorb", 1,PokecubeItems.POKECUBEITEMS));
+        THUNDERCORE = PokecubeLegends.ITEMS.register("thundercore", () -> new ItemBase("thundercore", 1,PokecubeItems.POKECUBEITEMS));
+        DRAGOCORE   = PokecubeLegends.ITEMS.register("dragocore", () -> new ItemBase("dragocore", 1,PokecubeItems.POKECUBEITEMS));
+        ICE_CARROT   = PokecubeLegends.ITEMS.register("ice_carrot", () -> new ItemBase("ice_carrot", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("ice_c"));
+        SHADOW_CARROT   = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("shadow_c"));
+        
         // Gens_ores
-        SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase("sapphire", 64).noTooltop());
-        RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase("ruby", 64).noTooltop());
+        SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase("sapphire", 64,PokecubeItems.POKECUBEITEMS).noTooltop());
+        RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase("ruby", 64,PokecubeItems.POKECUBEITEMS).noTooltop());
 
         // Extra
-        SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing", () -> new ItemBase("silver_wing", 5).noTooltop());
-        RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing", () -> new ItemBase("rainbow_wing", 5)
+        SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing", () -> new ItemBase("silver_wing", 5,PokecubeItems.POKECUBEITEMS).noTooltop());
+        RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing", () -> new ItemBase("rainbow_wing", 5,PokecubeItems.POKECUBEITEMS)
                 .noTooltop());
-        CRYSTAL_SHARD = PokecubeLegends.ITEMS.register("crystal_shard", () -> new ItemBase("crystal_shard", 35)
+        CRYSTAL_SHARD = PokecubeLegends.ITEMS.register("crystal_shard", () -> new ItemBase("crystal_shard", 35,PokecubeItems.POKECUBEITEMS)
                 .noTooltop());
-        GRISEOUS_ORB = PokecubeLegends.ITEMS.register("griseousorb", () -> new ItemBase("griseousorb", 1));
-        ZYGARDE_CUBE = PokecubeLegends.ITEMS.register("zygardecube", () -> new ItemBase("zygardecube", 1));
-        PRISION_BOTTLE = PokecubeLegends.ITEMS.register("prisonbottle", () -> new ItemBase("prisonbottle", 1));
-        REVEAL_GLASS = PokecubeLegends.ITEMS.register("revealglass", () -> new ItemBase("revealglass", 1));
-        DNA_SPLICERA = PokecubeLegends.ITEMS.register("dna_splicera", () -> new ItemBase("dna_splicera", 1)
+        GRISEOUS_ORB = PokecubeLegends.ITEMS.register("griseousorb", () -> new ItemBase("griseousorb", 1,PokecubeItems.POKECUBEITEMS));
+        ZYGARDE_CUBE = PokecubeLegends.ITEMS.register("zygardecube", () -> new ItemBase("zygardecube", 1,PokecubeItems.POKECUBEITEMS));
+        PRISION_BOTTLE = PokecubeLegends.ITEMS.register("prisonbottle", () -> new ItemBase("prisonbottle", 1,PokecubeItems.POKECUBEITEMS));
+        REVEAL_GLASS = PokecubeLegends.ITEMS.register("revealglass", () -> new ItemBase("revealglass", 1,PokecubeItems.POKECUBEITEMS));
+        DNA_SPLICERA = PokecubeLegends.ITEMS.register("dna_splicera", () -> new ItemBase("dna_splicera", 1,PokecubeItems.POKECUBEITEMS)
                 .setTooltipName("dnasplicer"));
-        DNA_SPLICERB = PokecubeLegends.ITEMS.register("dna_splicerb", () -> new ItemBase("dna_splicerb", 1)
+        DNA_SPLICERB = PokecubeLegends.ITEMS.register("dna_splicerb", () -> new ItemBase("dna_splicerb", 1,PokecubeItems.POKECUBEITEMS)
                 .setTooltipName("dnasplicer"));
-        GRACIDEA = PokecubeLegends.ITEMS.register("gracidea", () -> new ItemBase("gracidea", 10));
-        METEORITE = PokecubeLegends.ITEMS.register("meteorite", () -> new ItemBase("meteorite", 16));
-        NSUN = PokecubeLegends.ITEMS.register("n_sun", () -> new ItemBase("n_sun", 1).setTooltipName("nsun"));
-        NMOON = PokecubeLegends.ITEMS.register("n_moon", () -> new ItemBase("n_moon", 1).setTooltipName("nmoon"));
-        AZURE_FLUTE = PokecubeLegends.ITEMS.register("azure_flute", () -> new ItemBase("azure_flute", 1).setTooltipName(
+        GRACIDEA = PokecubeLegends.ITEMS.register("gracidea", () -> new ItemBase("gracidea", 10,PokecubeItems.POKECUBEITEMS));
+        METEORITE = PokecubeLegends.ITEMS.register("meteorite", () -> new ItemBase("meteorite", 16,PokecubeItems.POKECUBEITEMS));
+        NSUN = PokecubeLegends.ITEMS.register("n_sun", () -> new ItemBase("n_sun", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("nsun"));
+        NMOON = PokecubeLegends.ITEMS.register("n_moon", () -> new ItemBase("n_moon", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("nmoon"));
+        AZURE_FLUTE = PokecubeLegends.ITEMS.register("azure_flute", () -> new ItemBase("azure_flute", 1,PokecubeItems.POKECUBEITEMS).setTooltipName(
                 "azureflute"));
-        RSHIELD = PokecubeLegends.ITEMS.register("rustedshield", () -> new ItemBase("rustedshield", 1));
-        RSWORD = PokecubeLegends.ITEMS.register("rustedsword", () -> new ItemBase("rustedsword", 1));
+        RSHIELD = PokecubeLegends.ITEMS.register("rustedshield", () -> new ItemBase("rustedshield", 1,PokecubeItems.POKECUBEITEMS));
+        RSWORD = PokecubeLegends.ITEMS.register("rustedsword", () -> new ItemBase("rustedsword", 1,PokecubeItems.POKECUBEITEMS));
 
-        CHPOT = PokecubeLegends.ITEMS.register("chippedpot", () -> new ItemBase("chippedpot", 1).noTooltop());
-        CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase("crackedpot", 1).noTooltop());
-        GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase("galarcuff", 1).noTooltop());
-        PDARK = PokecubeLegends.ITEMS.register("pdark", () -> new ItemBase("pdark", 1).setTooltipName("pdark"));
-        PWATER = PokecubeLegends.ITEMS.register("pwater", () -> new ItemBase("pwater", 1).setTooltipName("pwater"));
-
-        WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1));
+        CHPOT = PokecubeLegends.ITEMS.register("chippedpot", () -> new ItemBase("chippedpot", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
+        CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase("crackedpot", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
+        GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase("galarcuff", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
+        PDARK = PokecubeLegends.ITEMS.register("pdark", () -> new ItemBase("pdark", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("pdark"));
+        PWATER = PokecubeLegends.ITEMS.register("pwater", () -> new ItemBase("pwater", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("pwater"));
+        REINS_U = PokecubeLegends.ITEMS.register("reins_u", () -> new ItemBase("reins_u", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("reins_unity"));
+        GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath", () -> new ItemBase("galarwreath", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
+        
+        WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1,PokecubeItems.POKECUBEITEMS));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(4, -3,
                 ItemInit.MATERIAL_RAINBOW));
 
         // UltraSpace
-        SPECTRUM_SHARD = PokecubeLegends.ITEMS_TAB.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32).noTooltop());
-
-        ULTRA_HELMET = PokecubeLegends.ITEMS_TAB.register("ultra_helmet", () -> new UltraHelmetEffect(
+        SPECTRUM_SHARD = PokecubeLegends.ITEMS.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32, PokecubeItems.POKECUBEITEMS).noTooltop());
+        
+        ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet", () -> new UltraHelmetEffect(
                 ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().group(PokecubeLegends.TAB)));
-        ULTRA_CHESTPLATE = PokecubeLegends.ITEMS_TAB.register("ultra_chestplate", () -> new ArmorItem(
+        ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate", () -> new ArmorItem(
                 ItemInit.armormaterial, EquipmentSlotType.CHEST, new Item.Properties().group(PokecubeLegends.TAB)));
-        ULTRA_LEGGINGS = PokecubeLegends.ITEMS_TAB.register("ultra_leggings", () -> new ArmorItem(
+        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(
                 ItemInit.armormaterial, EquipmentSlotType.LEGS, new Item.Properties().group(PokecubeLegends.TAB)));
-        ULTRA_BOOTS = PokecubeLegends.ITEMS_TAB.register("ultra_boots", () -> new UltraBootsEffect(
+        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(
                 ItemInit.armormaterial, EquipmentSlotType.FEET, new Item.Properties().group(PokecubeLegends.TAB)));
 
+        //Distortic World
+        GIRATINA_MIRROR = PokecubeLegends.ITEMS.register("giratina_mirror", () -> new DistortedMirror("giratina_mirror", 1).setTooltipName("mirror"));
+        HEAD_MIRROR = PokecubeLegends.ITEMS.register("head_mirror", () -> new ItemBase("head_mirror", 1, PokecubeItems.POKECUBEITEMS).noTooltop());
+        BODY_MIRROR = PokecubeLegends.ITEMS.register("body_mirror", () -> new ItemBase("body_mirror", 1, PokecubeItems.POKECUBEITEMS).noTooltop());
+        GLASS_MIRROR = PokecubeLegends.ITEMS.register("glass_mirror", () -> new ItemBase("glass_mirror", 1, PokecubeItems.POKECUBEITEMS).noTooltop());
+        
         // Torchs
-        TORCH01 = PokecubeLegends.ITEMS_TAB.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.ULTRA_TORCH1
+        TORCH01 = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.ULTRA_TORCH1
                 .get(), BlockInit.ULTRA_TORCH1_WALL.get(), new Item.Properties().group(PokecubeLegends.TAB)));
 
+        
+        ULTRAKEY 		= PokecubeLegends.ITEMS.register("ultrakey", () -> new UltraKey("ultrakey",1).setTooltipName("ultrakey"));
+        COSMIC_DUST 	= PokecubeLegends.ITEMS.register("cosmic_dust", () -> new ItemBase("cosmic_dust", 30, PokecubeItems.POKECUBEITEMS).noTooltop());
     }
 
     public static final IArmorMaterial armormaterial = new IArmorMaterial()

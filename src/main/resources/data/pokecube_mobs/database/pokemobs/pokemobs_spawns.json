@@ -1529,6 +1529,21 @@
       }
     },
     {
+      "name": "Articuno Galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:legendy_tree",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Zapdos",
       "stats": {
         "spawnRules": [
@@ -1543,6 +1558,36 @@
           {
             "values": {
               "structures": "pokecube_legends:lugia_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Zapdos Galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:legendy_tree",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Moltres Galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:legendy_tree",
               "min": "1",
               "rate": "0.02",
               "max": "1"
@@ -1933,6 +1978,15 @@
             "values": {
               "types": "ruin",
               "rate": "1.0"
+            }
+          },
+          {
+            "model": {
+              "key": "unown_*"
+            },
+            "values": {
+              "biomes": "pokecube_legends:distortic_world",
+              "rate": "0.3"
             }
           }
         ]
@@ -4570,6 +4624,7 @@
           {
             "values": {
               "types": "all",
+              "biomesBlacklist":"pokecube_legends:distortic_world",
               "min": "1",
               "rate": "0.001",
               "max": "1"
@@ -4626,6 +4681,7 @@
           {
             "values": {
               "types": "all",
+              "biomesBlacklist":"pokecube_legends:distortic_world",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -5950,12 +6006,12 @@
       }
     },
     {
-      "name": "Giratina",
+      "name": "Giratina Origin",
       "stats": {
         "spawnRules": [
           {
             "values": {
-              "category": "the_end",
+              "biomes": "pokecube_legends:distortic_world",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -6156,6 +6212,7 @@
           {
             "values": {
               "types": "all",
+              "biomesBlacklist":"pokecube_legends:distortic_world",
               "rate": "0.05",
               "night": "false"
             }
@@ -8203,6 +8260,21 @@
             "values": {
               "structures": "pokecube_legends:celebi_temple",
               "rate": "0.02"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Calyrex",
+      "stats": {
+        "spawnRules": [
+           {
+            "values": {
+              "types": "cold",
+              "min": "1",
+              "rate": "0.004",
+              "max": "1"
             }
           }
         ]

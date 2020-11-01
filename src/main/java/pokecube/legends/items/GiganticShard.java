@@ -11,13 +11,14 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.core.PokecubeItems;
 
 public class GiganticShard extends ItemBase
 {
 
     public GiganticShard(final String name, final int num)
     {
-        super(name, num);
+        super(name, num, PokecubeItems.POKECUBEITEMS);
     }
 
     @Override

@@ -171,9 +171,9 @@ public class SpaceCoreBlock extends Rotates implements IWaterLoggable
 
     // Default States
     public SpaceCoreBlock(final String name, final Material material, final float hardness, final float resistance,
-            final SoundType sound, final ToolType tool)
+            final SoundType sound, final ToolType tool, final int harvest)
     {
-        super(name, material, hardness, resistance, sound, tool);
+        super(name, material, hardness, resistance, sound, tool, harvest);
         this.setDefaultState(this.stateContainer.getBaseState().with(SpaceCoreBlock.HALF, TimeSpaceCorePart.BOTTOM)
                 .with(SpaceCoreBlock.FACING, Direction.NORTH).with(SpaceCoreBlock.WATERLOGGED, false));
     }
