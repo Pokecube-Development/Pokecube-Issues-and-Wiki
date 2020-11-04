@@ -1,0 +1,24 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ZZZ",
+    "AYA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:netherrack"
+    },
+    "Z": {
+      "item": "minecraft:magma_block"
+    },
+    "Y": {
+      "item": "pokecube_legends:redorb"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:heatran_block",
+    "count": 1
+  }
+}

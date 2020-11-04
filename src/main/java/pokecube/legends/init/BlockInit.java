@@ -112,6 +112,7 @@ public class BlockInit
     // Legendary Spawns
     public static final RegistryObject<Block> LEGENDARY_SPAWN;
     public static final RegistryObject<Block> TROUGH_BLOCK;
+    public static final RegistryObject<Block> HEATRAN_BLOCK;
     
     public static final RegistryObject<Block> GOLEM_STONE;
     
@@ -248,6 +249,8 @@ public class BlockInit
                 Material.IRON).noInfoBlock());
         TROUGH_BLOCK 	= PokecubeLegends.BLOCKS.register("trough_block", () -> new TroughBlock("trough_block",
                 Material.ANVIL).noInfoBlock());
+        HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new TroughBlock("heatran_block",
+                Material.LAVA).noInfoBlock());
         ///
         REGISTEEL_CORE 		= PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
                 Material.IRON, 15, SoundType.METAL ,ToolType.PICKAXE, 2).noInfoBlock());
