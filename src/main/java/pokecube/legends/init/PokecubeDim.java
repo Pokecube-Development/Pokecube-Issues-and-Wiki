@@ -3,7 +3,6 @@ package pokecube.legends.init;
 import net.minecraft.entity.Entity;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
-import pokecube.legends.worldgen.dimension.ModDimensions;
 
 public class PokecubeDim
 {
@@ -12,7 +11,7 @@ public class PokecubeDim
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        if (entity.getEntityWorld().getDimensionKey() == ModDimensions.DIMENSION_TYPE) x = 3.7;
+        if (entity.getEntityWorld().getDimensionKey() == DimensionInit.ULTRASPACE_KEY) x = 3.7;
         return x;
     }
 

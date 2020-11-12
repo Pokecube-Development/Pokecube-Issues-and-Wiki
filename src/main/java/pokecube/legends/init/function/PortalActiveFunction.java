@@ -19,7 +19,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.worldgen.dimension.ModDimensions;
+import pokecube.legends.init.DimensionInit;
 import thut.api.maths.Vector3;
 
 /**
@@ -82,7 +82,7 @@ public class PortalActiveFunction
 
         // Normal Worlds
         if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega && entity.getEntityWorld().getDimensionKey()
-                != ModDimensions.DIMENSION_TYPE)
+                != DimensionInit.ULTRASPACE_KEY)
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);
@@ -91,7 +91,7 @@ public class PortalActiveFunction
         }
 
         // Ultra Space
-        else if (entity != null && !entityToSpawn.isMega && entity.getEntityWorld().getDimensionKey() == ModDimensions.DIMENSION_TYPE)
+        else if (entity != null && !entityToSpawn.isMega && entity.getEntityWorld().getDimensionKey() == DimensionInit.ULTRASPACE_KEY)
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);

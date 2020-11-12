@@ -231,6 +231,11 @@ public class ItemInit
         {
             return 1.5f;
         }
+
+		@Override
+		public float getKnockbackResistance() {
+			return 2;
+		}
     };
 
     public static void init()

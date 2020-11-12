@@ -51,8 +51,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
-import pokecube.legends.worldgen.dimension.ModDimensions;
-import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
+import pokecube.legends.init.DimensionInit;
 import thut.api.terrain.TerrainManager;
 
 public class UltraSpacePortal extends Rotates implements IWaterLoggable
@@ -1395,11 +1394,11 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
                 UltraSpacePortal.WATERLOGGED, false).with(UltraSpacePortal.PART, UltraSpacePortalPart.BOTTOM));
     }
 
-    // Time for Despawn
+    // time for spawn
     @Override
-    public int tickRate(final IWorldReader world)
+    public int ticksRandomly()
     {
-        return PokecubeLegends.config.portalDwellTime;
+    	return PokecubeLegends.config.portalDwellTime;
     }
 
     @Override
@@ -1448,17 +1447,17 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
                 SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 
-    @Override
+    /*@Override
     public void onEntityCollision(final BlockState state, final World worldIn, final BlockPos pos, final Entity entity)
     {
         if (!(entity instanceof ServerPlayerEntity)) return;
         if (entity.getEntityWorld().getDimensionKey() == World.OVERWORLD) UltraSpaceModDimension.sentToUltraspace(
                 (ServerPlayerEntity) entity);
-        else if (entity.getEntityWorld().getDimensionKey() == ModDimensions.DIMENSION_TYPE) UltraSpaceModDimension.sendToOverworld(
+        else if (entity.getEntityWorld().getDimensionKey() == DimensionInit.DIMENSION_TYPE) UltraSpaceModDimension.sendToOverworld(
                 (ServerPlayerEntity) entity);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
@@ -1469,12 +1468,12 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
                     (ServerPlayerEntity) entity);
             return ActionResultType.SUCCESS;
         }
-        else if (dim == ModDimensions.DIMENSION_TYPE)
+        else if (dim == DimensionInit.DIMENSION_TYPE)
         {
             if (entity instanceof ServerPlayerEntity) UltraSpaceModDimension.sendToOverworld(
                     (ServerPlayerEntity) entity);
             return ActionResultType.SUCCESS;
         }
         return ActionResultType.PASS;
-    }
+    }*/
 }

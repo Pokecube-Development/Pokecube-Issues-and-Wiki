@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
-import pokecube.legends.worldgen.dimension.ModDimensions;
+import pokecube.legends.init.DimensionInit;
 
 public class UltraHelmetEffect extends ArmorItem
 {
@@ -35,6 +35,6 @@ public class UltraHelmetEffect extends ArmorItem
 			return;
 		}
 		final Entity entity = (Entity) dependencies.get("entity");
-		if (entity instanceof ServerPlayerEntity) if (entity.getEntityWorld().getDimensionKey() == ModDimensions.DIMENSION_TYPE) ((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 210, 1));
+		if (entity instanceof ServerPlayerEntity) if (entity.getEntityWorld().getDimensionKey() == DimensionInit.ULTRASPACE_KEY) ((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 210, 1));
 	}
 }

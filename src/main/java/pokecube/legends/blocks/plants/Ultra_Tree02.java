@@ -2,31 +2,31 @@ package pokecube.legends.blocks.plants;
 
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.trees.Tree;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.foliageplacer.PineFoliagePlacer;
-import net.minecraftforge.common.IPlantable;
+import net.minecraft.world.gen.feature.FeatureSpread;
+import net.minecraft.world.gen.feature.TwoLayerFeature;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
+import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.UltraTreeInit;
 
 public class Ultra_Tree02 extends Tree {
 
-	public static final TreeFeatureConfig ULTRA_TREE02_CONFIG = (new TreeFeatureConfig.Builder(
-		   new SimpleBlockStateProvider(BlockInit.ULTRA_LOGUB02.get().getDefaultState()),
-		   new SimpleBlockStateProvider(BlockInit.ULTRA_LEAVEUB02.get().getDefaultState()), 
-		   new PineFoliagePlacer(3,0)))
-			.baseHeight(11)
-			.heightRandA(3)
-			.heightRandB(2)
-			.foliageHeight(3)
-			.ignoreVines()
-			.setSapling((IPlantable) BlockInit.ULTRA_SAPLING_UB02.get()).build();
-
-	@Override
-	protected ConfiguredFeature<TreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean b) {
-		return Feature.NORMAL_TREE.withConfiguration(ULTRA_TREE02_CONFIG);
-	}
-	
+	@Nullable
+    @Override
+    public ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive) {
+        return UltraTreeInit.ULTRA_TREE_CONFIG.get().withConfiguration(
+                (new BaseTreeFeatureConfig.Builder(
+                        new SimpleBlockStateProvider(BlockInit.ULTRA_LOGUB02.get().getDefaultState()),
+                        new SimpleBlockStateProvider(BlockInit.ULTRA_LEAVEUB02.get().getDefaultState()),
+                        new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 2),
+                        new StraightTrunkPlacer(10, 2, 2),
+                        new TwoLayerFeature(1, 0, 1)))
+                        .setIgnoreVines().build());
+    }
 }

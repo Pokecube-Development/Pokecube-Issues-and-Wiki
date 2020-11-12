@@ -1,6 +1,6 @@
 package pokecube.legends.worldgen.dimension;
 
-import java.util.Set;
+/*import java.util.Set;
 import java.util.function.LongFunction;
 import java.util.HashSet;
 import java.util.Arrays;
@@ -112,7 +112,7 @@ public class UltraSpaceConfig
         }
     }
 
-    public static class UltraSpaceChunkGenerator extends OverworldChunkGenerator
+    public static class UltraSpaceChunkGenerator extends ChunkGenerator
     {
         // private static final int SEALEVEL = 63;
 
@@ -208,3 +208,4 @@ public class UltraSpaceConfig
         }
     }
 }
+*/

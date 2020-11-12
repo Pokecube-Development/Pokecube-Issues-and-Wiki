@@ -1,0 +1,65 @@
+{
+  "type": "ultraspace:ultraspace",
+  "generator": {
+    "type": "minecraft:noise",
+    "seed": 855043515,
+    "biome_source": {
+      "type": "minecraft:checkerboard",
+      "seed": 855043515,
+      "biomes": [
+        "pokecube_legends:ultra_dark_valley",
+        "pokecube_legends:ultra_deep_cave",
+        "pokecube_legends:ultra_deep_hills",
+        "pokecube_legends:ultra_desert",
+        "pokecube_legends:ultra_jungle",
+        "pokecube_legends:ultra_forgotten_plains"
+      ]
+    },
+    "settings": {
+      "name": "pokecube_legends:ultraspace",
+      "bedrock_roof_position": -10,
+      "bedrock_floor_position": 0,
+      "sea_level": 63,
+      "disable_mob_generation": false,
+      "default_block": {
+        "Name": "pokecube_legends:ultra_stone"
+      },
+      "default_fluid": {
+        "Name": "minecraft:andesite",
+        "Properties": {
+          "level": "0"
+        }
+      },
+      "noise": {
+        "density_factor": 1,
+        "density_offset": -0.46875,
+        "simplex_surface_noise": true,
+        "random_density_offset": true,
+        "island_noise_override": true,
+        "amplified": false,
+        "size_horizontal": 1,
+        "size_vertical": 2,
+        "height": 256,
+        "sampling": {
+          "xz_scale": 1,
+          "y_scale": 1,
+          "xz_factor": 80,
+          "y_factor": 160
+        },
+        "bottom_slide": {
+          "target": -30,
+          "size": 0,
+          "offset": 0
+        },
+        "top_slide": {
+          "target": -10,
+          "size": 3,
+          "offset": 0
+        }
+      },
+      "structures": {
+        "structures": {}
+      }
+    }
+  }
+}
