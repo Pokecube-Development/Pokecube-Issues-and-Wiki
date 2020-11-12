@@ -1146,7 +1146,7 @@ public class PortalWarp extends Rotates implements IWaterLoggable
 
     // time for spawn
     @Override
-    public int tickRate(final IWorldReader world)
+    public int ticksRandomly()
     {
         return 500;
     }

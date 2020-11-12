@@ -14,7 +14,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class UltraTorch1 extends TorchBlock
 {	
     public UltraTorch1() {
-    	super(Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0f).lightValue(6));
+    	super(Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0f), 
+    			ParticleTypes.CAMPFIRE_COSY_SMOKE);
 	}
     
 	@OnlyIn(Dist.CLIENT)

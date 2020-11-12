@@ -4,10 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.GlassBlock;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.LogBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -188,25 +186,26 @@ public class BlockInit
         		() -> new Ultra_Tree03(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
         //Plants (LOG/LEAVE/PLANKS)
-        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        
+        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01",   () -> new BlockBase("ultra_log01", Material.WOOD, 2, 4, SoundType.WOOD, ToolType.AXE));
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
 
-        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02",   () -> new BlockBase("ultra_log02", Material.WOOD, 2, 4, SoundType.WOOD, ToolType.AXE));
         ULTRA_PLANKUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
 
-        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03",   () -> new BlockBase("ultra_log03", Material.WOOD, 2, 4, SoundType.WOOD, ToolType.AXE));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
 
         // Portal
         ULTRASPACE_PORTAL 	= PokecubeLegends.BLOCKS_TAB.register("ultraspace_portal", () -> new UltraSpacePortal(
                 "ultraspace_portal", Block.Properties.create(Material.GLASS).sound(SoundType.GLASS)
-                        .hardnessAndResistance(2000, 2000).lightValue(9)).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 3, 1))
+                        .hardnessAndResistance(2000, 2000)).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 3, 1))
                                 .setInfoBlockName("ultraportal"));
         BLOCK_PORTALWARP 	= PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", Block.Properties
-                .create(Material.ROCK).sound(SoundType.METAL).hardnessAndResistance(2000, 2000).lightValue(9)).setShape(VoxelShapes
+                .create(Material.ROCK).sound(SoundType.METAL).hardnessAndResistance(2000, 2000)).setShape(VoxelShapes
                         .create(0.05, 0, 0.05, 1, 3, 1)).setInfoBlockName("portalwarp"));
 
         // Legendary Spawns
@@ -226,23 +225,23 @@ public class BlockInit
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         TIMESPACE_CORE 		= PokecubeLegends.BLOCKS.register("timerspawn", () -> new SpaceCoreBlock("timerspawn",
                 Block.Properties.create(Material.ORGANIC).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
-                        .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         NATURE_CORE 		= PokecubeLegends.BLOCKS.register("naturespawn", () -> new NatureCoreBlock("naturespawn",
                 Block.Properties.create(Material.ROCK).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
-                        .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         KELDEO_CORE 		= PokecubeLegends.BLOCKS.register("keldeoblock", () -> new KeldeoBlock("keldeoblock",
                 Block.Properties.create(Material.ROCK).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
-                        .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
         VICTINI_CORE 		= PokecubeLegends.BLOCKS.register("victiniblock", () -> new VictiniBlock("victiniblock",
                 Block.Properties.create(Material.IRON).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-                        .harvestLevel(2).sound(SoundType.ANVIL).lightValue(4).variableOpacity()).setShape(VoxelShapes
+                        .harvestLevel(2).sound(SoundType.ANVIL).variableOpacity()).setShape(VoxelShapes
                                 .create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
         YVELTAL_CORE 		= PokecubeLegends.BLOCKS.register("yveltal_egg", () -> new YveltalEgg("yveltal_egg",
                 Block.Properties.create(Material.IRON).hardnessAndResistance(2000, 2000).sound(SoundType.WOOD)
-                        .lightValue(2).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         XERNEAS_CORE 		= PokecubeLegends.BLOCKS.register("xerneas_tree", () -> new XerneasCore("xerneas_tree",
                 Block.Properties.create(Material.IRON).hardnessAndResistance(2000, 2000).sound(SoundType.WOOD)
-                        .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
 
         // Ores
         RUBY_ORE 			= PokecubeLegends.BLOCKS.register("ruby_ore", () -> new BlockBase("ruby_ore", Block.Properties.create(
@@ -252,14 +251,14 @@ public class BlockInit
                 Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         RUBY_BLOCK		 	= PokecubeLegends.BLOCKS.register("ruby_block", () -> new Block(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL).lightValue(4).harvestTool(ToolType.PICKAXE)));
+                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)));
         SAPPHIRE_BLOCK 		= PokecubeLegends.BLOCKS.register("sapphire_block", () -> new Block(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL).lightValue(4).harvestTool(ToolType.PICKAXE)));
+                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)));
         SPECTRUM_ORE 		= PokecubeLegends.BLOCKS_TAB.register("spectrum_ore", () -> new BlockBase("spectrum_ore",
                 Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         SPECTRUM_BLOCK		= PokecubeLegends.BLOCKS_TAB.register("spectrum_block", () -> new Block(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(5.0f, 7).sound(SoundType.ANVIL).lightValue(4).harvestTool(ToolType.PICKAXE)));
+                Material.IRON).hardnessAndResistance(5.0f, 7).sound(SoundType.ANVIL).harvestTool(ToolType.PICKAXE)));
 
     }
 

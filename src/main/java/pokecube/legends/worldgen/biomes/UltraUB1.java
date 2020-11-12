@@ -6,9 +6,8 @@ import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.layer.BiomeLayer;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -17,22 +16,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.blocks.plants.Ultra_Tree01;
 import pokecube.legends.init.BlockInit;
 
-public class UltraUB1 extends Biome
-{
-	public static class customFillerBlockType
+public class UltraUB1 {
+	/*public static class customFillerBlockType
     {
-        public static final OreFeatureConfig.FillerBlockType CUSTOM_FILLER = OreFeatureConfig.FillerBlockType.create("CustomFiller", "custom_filler", new BlockMatcher(BlockInit.ULTRA_STONE.get()));
+        public static final OreFeatureConfig.FillerBlockType CUSTOM_FILLER = 
+        		OreFeatureConfig.FillerBlockType.BASE_STONE_NETHER;
     }
 	
     // Nhihilego/Xurkitree/Blacephalun
     public UltraUB1()
     {       
         super(new Biome.Builder().downfall(0.8f).depth(0.1f).scale(0.2f).temperature(1.5f)
-        		.precipitation(Biome.RainType.RAIN).category(Biome.Category.PLAINS).waterColor(-1).waterFogColor(-1)
-				.surfaceBuilder(SurfaceBuilder.DEFAULT,
-						new SurfaceBuilderConfig(BlockInit.ULTRA_GRASSMUSS.get().getDefaultState(),
-								BlockInit.ULTRA_DIRTMUSS.get().getDefaultState(), 
-								BlockInit.ULTRA_DIRTMUSS.get().getDefaultState())));
+        		.precipitation(Biome.RainType.RAIN).category(Biome.Category.PLAINS));
 
         DefaultBiomeFeatures.addCarvers(this);
 		DefaultBiomeFeatures.addStructures(this);
@@ -78,5 +73,5 @@ public class UltraUB1 extends Biome
     public int getSkyColor()
     {
         return -14339742;
-    }
+    }*/
 }

@@ -24,11 +24,6 @@ public class SandUltraBlock extends BlockBase
         super(name, Properties.create(material).sound(SoundType.SNOW).hardnessAndResistance(2, 6).harvestTool(
                 ToolType.SHOVEL).harvestLevel(1));
     }
-    
-    @Override
-	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return false;
-	}
 
     @Override
     public void onEntityWalk(final World world, final BlockPos pos, final Entity entity)

@@ -11,16 +11,21 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Util;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
+import net.minecraft.world.gen.placement.ChanceConfig;
+import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -49,6 +54,7 @@ import pokecube.legends.init.BiomeInit;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.DimensionInit;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
@@ -57,8 +63,6 @@ import pokecube.legends.init.moves.world.MoveRegister;
 import pokecube.legends.proxy.ClientProxy;
 import pokecube.legends.proxy.CommonProxy;
 import pokecube.legends.tileentity.RaidSpawn;
-import pokecube.legends.worldgen.dimension.ModDimensions;
-import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
 import thut.api.terrain.BiomeDatabase;
 
 @Mod(value = Reference.ID)
@@ -93,40 +97,21 @@ public class PokecubeLegends
             PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
             new WorldgenHandler(Reference.ID).processStructures(event);
 
-            if (PokecubeCore.getConfig().generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())
-            {
-                if (!(BiomeDatabase.contains(b, "FOREST") || BiomeDatabase.contains(b, "OCEAN")
-                        || BiomeDatabase.contains(b, "HILLS") || BiomeDatabase.contains(b, "PLAINS")
-                        || BiomeDatabase.contains(b, "SWAMP") || BiomeDatabase.contains(b, "MOUNTAIN")
-                        || BiomeDatabase.contains(b, "SNOWY") || BiomeDatabase.contains(b, "SPOOKY")))
-                    continue;
-                // Currently this uses same settings as gold ore.
-
-                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE.get()
-                                .getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(
-                                        new CountRangeConfig(2, 0, 0, 32))));
-                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE
-                                .get().getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE
-                                        .configure(
-                                        new CountRangeConfig(2, 0, 0, 32))));
-            }
         }
 
-        @SubscribeEvent
+        /*@SubscribeEvent
         public static void registerBiomes(final RegistryEvent.Register<Biome> event)
         {
             BiomeInit.registerBiomes(event);
         }
 
         @SubscribeEvent
-        public static void registerModDimensions(final RegistryEvent.Register<ModDimension> event)
+        public static void registerModDimensions(final RegistryKey<World> event)
         {
-            event.getRegistry().register(new UltraSpaceModDimension().setRegistryName(ModDimensions.DIMENSION_ID));
+            event..register(new UltraSpaceModDimension().setRegistryName(ModDimensions.DIMENSION_ID));
 
             PokecubeLegends.LOGGER.debug("Registering Pokecube UltraSpace");
-        }
+        }*/
     }
 
     public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);

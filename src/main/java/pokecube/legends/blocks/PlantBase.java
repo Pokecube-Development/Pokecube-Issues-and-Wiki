@@ -24,7 +24,7 @@ public class PlantBase extends FlowerBlock
     public PlantBase(final Material material, final float hardness, final float resistance, final SoundType sound)
     {
         super(Effects.SATURATION, 0, Block.Properties.create(material).hardnessAndResistance(hardness, resistance)
-                .doesNotBlockMovement().sound(sound).lightValue(2));
+                .doesNotBlockMovement().sound(sound));
     }
 
     @Override
@@ -49,6 +49,6 @@ public class PlantBase extends FlowerBlock
     @Override
     public PlantType getPlantType(final IBlockReader world, final BlockPos pos)
     {
-        return PlantType.Plains;
+    	return PlantType.PLAINS;
     }
 }

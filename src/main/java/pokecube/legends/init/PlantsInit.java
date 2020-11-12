@@ -18,14 +18,13 @@ import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.DefaultFlowersFeature;
 import net.minecraft.world.gen.feature.FlowersFeature;
-import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.PlantBase;
-import pokecube.legends.worldgen.dimension.ModDimensions;
 
 public class PlantsInit
 {
@@ -52,15 +51,15 @@ public class PlantsInit
 
     }
 
-    public void init(final FMLCommonSetupEvent event)
+    /*public void init(final FMLCommonSetupEvent event)
     {
         PlantsInit.SpawnPlant(PlantsInit.MUSH_PLANT1.get(), "pokecube_legends:ub001", 2);
         PlantsInit.SpawnPlant(PlantsInit.MUSH_PLANT2.get(), "pokecube_legends:ub001", 2);
         PlantsInit.SpawnPlant(PlantsInit.AGED_FLOWER.get(), "pokecube_legends:ub006", 2);
         PlantsInit.SpawnPlant(PlantsInit.DIRST_FLOWER.get(), "pokecube_legends:ub005", 1);
-    }
+    }*/
 
-	public static void SpawnPlant(final Block block, final String biomeName, final int spawnRate)
+	/*public static void SpawnPlant(final Block block, final String biomeName, final int spawnRate)
     {
     	final FlowersFeature<BlockClusterFeatureConfig> feature = new DefaultFlowersFeature(BlockClusterFeatureConfig::deserialize) {
 			@Override
@@ -72,7 +71,7 @@ public class PlantsInit
 			public boolean place(final IWorld world, ChunkGenerator<?> generator, final Random random, final BlockPos pos, final BlockClusterFeatureConfig config) {
 				final RegistryKey<World> dimensionType = world.getDimensionKey();
 				boolean dimensionCriteria = false;
-				if (dimensionType == ModDimensions.DIMENSION_TYPE)
+				if (dimensionType == DimensionInit.DIMENSION_TYPE)
 					dimensionCriteria = true;
 				if (!dimensionCriteria)
 					return false;
@@ -85,11 +84,11 @@ public class PlantsInit
 				biomeCriteria = true;
 			if (!biomeCriteria)
 				continue;
-			biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
+			biome.ad(GenerationStage.Decoration.VEGETAL_DECORATION,
 					feature.withConfiguration(
 							new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(block.getDefaultState()), new SimpleBlockPlacer())
 									.tries(64).build())
-							.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(spawnRate))));
+							.withPlacement(Placement.HEIGHTMAP_WORLD_SURFACE.configure(new NoPlacementConfig())));
 		}
-    }
+    }*/
 }

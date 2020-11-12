@@ -23,7 +23,7 @@ public class MagneticBlock extends BlockBase
     public MagneticBlock(final String name, final Material material)
     {
         super(name, Properties.create(material).sound(SoundType.STONE).hardnessAndResistance(3, 8).harvestTool(
-                ToolType.PICKAXE).harvestLevel(1).lightValue(11));
+                ToolType.PICKAXE).harvestLevel(1));
     }
 
     @SuppressWarnings("deprecation")
@@ -67,7 +67,7 @@ public class MagneticBlock extends BlockBase
 			}
 
         	if (world instanceof ServerWorld) {
-				((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, (int) x, (int) y, (int) z, false));
+				//((ServerWorld) world).addEntity(new LightningBoltEntity(null, world));
         	}
         }
     }

@@ -14,8 +14,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.init.BlockInit;
 
-public class UltraUB3 extends Biome
-{
+public class UltraUB3 {
+	
+	/*
 	public static class customFillerBlockType
     {
         public static final OreFeatureConfig.FillerBlockType CUSTOM_FILLER = OreFeatureConfig.FillerBlockType.create("CustomFiller", "custom_filler", new BlockMatcher(BlockInit.ULTRA_STONE.get()));
@@ -64,5 +65,5 @@ public class UltraUB3 extends Biome
     public int getSkyColor()
     {
         return -11272211;
-    }
+    }*/
 }

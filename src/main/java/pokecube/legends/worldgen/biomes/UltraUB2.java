@@ -10,8 +10,6 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -20,8 +18,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.blocks.plants.Ultra_Tree02;
 import pokecube.legends.init.BlockInit;
 
-public class UltraUB2 extends Biome
-{
+public class UltraUB2 {
+	/*
 	public static class customFillerBlockType
     {
         public static final OreFeatureConfig.FillerBlockType CUSTOM_FILLER = OreFeatureConfig.FillerBlockType.create("CustomFiller", "custom_filler", new BlockMatcher(BlockInit.ULTRA_STONE.get()));
@@ -88,5 +86,5 @@ public class UltraUB2 extends Biome
     public int getSkyColor()
     {
         return -1704908;
-    }
+    }*/
 }

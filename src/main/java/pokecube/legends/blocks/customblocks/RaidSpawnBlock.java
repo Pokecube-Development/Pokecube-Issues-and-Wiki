@@ -83,8 +83,9 @@ public class RaidSpawnBlock extends MaxBlock
         return new RaidSpawn();
     }
 
+    // time for spawn
     @Override
-    public int tickRate(final IWorldReader world)
+    public int ticksRandomly()
     {
         return 3000;
     }

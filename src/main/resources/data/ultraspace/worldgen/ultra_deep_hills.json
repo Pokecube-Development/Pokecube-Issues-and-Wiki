@@ -1,0 +1,24 @@
+{
+  "surface_builder": "pokecube_legends:ultrasand1",
+  "depth": 0.128,
+  "scale": 0.06,
+  "temperature": 0.8,
+  "downfall": 0.4,
+  "precipitation": "snow",
+  "temperature_modifier": "none",
+  "category": "forest",
+  "effects": {
+    "sky_color": 11036849,
+    "fog_color": 1900626,
+    "water_color": 15790320,
+    "water_fog_color": 8487309,
+    "grass_color": 3813965,
+    "foliage_color": 4015985,
+    "grass_color_modifier": "dark_forest"
+  },
+  "starts": [],
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {},
+  "features": []
+}
