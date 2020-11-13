@@ -99,7 +99,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             catch (final Exception e1)
             {
                 for (final DyeColor col : DyeColor.values())
-                    if (col.name().equals(val))
+                    if (col.getString().equals(val))
                     {
                         colour = col;
                         break;

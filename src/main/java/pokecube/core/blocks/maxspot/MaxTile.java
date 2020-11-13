@@ -45,8 +45,8 @@ public class MaxTile extends InteractableTile
     {
         if (this.getWorld() == null || this.getWorld().isRemote || !this.enabled) return false;
         final BlockPos pos = this.getPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), ((INBT) this.world.getDimensionType())
-                .getId(), this.range, MaxTile.MAXSPOT);
+        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world.getDimension()
+                .getType.getId(), this.range, MaxTile.MAXSPOT);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class MaxTile extends InteractableTile
     public boolean removeForbiddenSpawningCoord()
     {
         if (this.getWorld() == null || this.getWorld().isRemote) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), ((INBT) this.world.getDimensionKey()).getId());
+        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world.getDimensionKey().getId());
     }
 
     @Override

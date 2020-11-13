@@ -327,6 +327,6 @@ public class PokecubeAdv
      */
     public void serverStarting(final FMLServerStartingEvent event)
     {
-        CommandConfigs.register(PokecubeAdv.config, event.getResult(), "pokeadvsettings");
+        CommandConfigs.register(PokecubeAdv.config, event.getCommandDispatcher(), "pokeadvsettings");
     }
 }
