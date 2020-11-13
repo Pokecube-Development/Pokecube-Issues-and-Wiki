@@ -167,7 +167,7 @@ public class PacketPokedex extends Packet
         final ListNBT list = new ListNBT();
         // TODO secret bases
         final BlockPos pos = player.getPosition();
-        final GlobalPos here = GlobalPos.of(player.getEntityWorld().getDimensionKey(), pos);
+        final GlobalPos here = GlobalPos.getPosition(player.getEntityWorld().getDimensionKey(), pos);
         for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
         {
             final INBT tag = c.serialize(NBTDynamicOps.INSTANCE);

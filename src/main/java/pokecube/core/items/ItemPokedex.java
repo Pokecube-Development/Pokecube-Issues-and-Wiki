@@ -104,14 +104,14 @@ public class ItemPokedex extends Item
             SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn.getEntityWorld(), true);
             if (PokecubeMod.debug)
             {
-                final Set<StructureInfo> infos = StructureManager.getFor(worldIn.getDimensionKey(), pos);
+                final Set<StructureInfo> infos = StructureManager.getFor(worldIn.getDimensionType(), pos);
                 for (final StructureInfo i : infos)
                     playerIn.sendMessage(new StringTextComponent(i.name), Util.DUMMY_UUID);
             }
         }
         if (block instanceof HealerBlock)
         {
-            final GlobalPos loc = GlobalPos.of(worldIn.getDimensionKey(), playerIn.getPosition());
+            final GlobalPos loc = GlobalPos.getPosition(worldIn.getDimensionKey(), playerIn.getPosition());
             TeleportHandler.setTeleport(loc, playerIn.getCachedUniqueIdString());
             if (!worldIn.isRemote)
             {

@@ -136,7 +136,7 @@ public class ClonerHelper
             final ListNBT pages = (ListNBT) stack.getTag().get("pages");
             try
             {
-                final ITextComponent comp = ITextComponent.Serializer.fromJson(pages.getString(0));
+                final ITextComponent comp = ITextComponent.Serializer.getComponentFromJson(pages.getString(0));
                 for (final String line : comp.getString().split("\n"))
                 {
                     if (line.equalsIgnoreCase("ALL"))
@@ -165,7 +165,7 @@ public class ClonerHelper
             final ListNBT pages = (ListNBT) stack.getTag().get("pages");
             try
             {
-                final ITextComponent comp = ITextComponent.Serializer.fromJson(pages.getString(0));
+                final ITextComponent comp = ITextComponent.Serializer.getComponentFromJson(pages.getString(0));
                 for (final String line : comp.getString().split("\n"))
                 {
                     if (line.equalsIgnoreCase("ALL")) return -1;

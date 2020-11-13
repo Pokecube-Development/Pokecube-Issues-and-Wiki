@@ -47,8 +47,8 @@ public class MoveQueue
                 final MoveQueue queue = MoveQueuer.queues.get(evt.world);
                 if (queue == null)
                 {
-                    PokecubeCore.LOGGER.error("Critical Error with world for dimension " + evt.world.dimension
-                            .getDimension() + " It is somehow ticking when not loaded, this should not happen.",
+                    PokecubeCore.LOGGER.error("Critical Error with world for dimension " + evt.world.getDimensionType()
+                             + " It is somehow ticking when not loaded, this should not happen.",
                             new Exception());
                     return;
                 }

@@ -19,12 +19,12 @@ public class TrainerEditor extends Item
     }
 
     @Override
-    public boolean itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
+    public ActionResultType itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
             final LivingEntity target, final Hand hand)
     {
         if (playerIn instanceof ServerPlayerEntity) PacketTrainer.sendEditOpenPacket(target,
                 (ServerPlayerEntity) playerIn);
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override

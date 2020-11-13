@@ -240,7 +240,7 @@ public class Health
             colour = 0xBBBBBB;
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
-            if (isOwner) mc.fontRenderer.drawString(healthStr, (int) (size / (s * s1)) - mc.fontRenderer.getStringWidth(
+            if (isOwner) mc.fontRenderer.drawString(mat, healthStr, (int) (size / (s * s1)) - mc.fontRenderer.getStringWidth(
                     healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.getLast().getMatrix();
@@ -251,7 +251,7 @@ public class Health
             if (PokecubeCore.getConfig().enableDebugInfo && mc.gameSettings.showDebugInfo)
             {
                 final String entityID = entity.getEntityString().toString();
-                mc.fontRenderer.drawString("ID: \"" + entityID + "\"" + "(" + entity.getEntityId() + ")", 0, h + 16,
+                mc.fontRenderer.drawString(mat, "ID: \"" + entityID + "\"" + "(" + entity.getEntityId() + ")", 0, h + 16,
                         0xFFFFFFFF);
             }
             mat.pop();

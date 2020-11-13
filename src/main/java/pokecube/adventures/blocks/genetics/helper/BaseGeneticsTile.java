@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.nfunk.jep.JEP;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -312,9 +313,9 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public void read(final CompoundNBT nbt)
+    public void read(BlockState state, final CompoundNBT nbt)
     {
-        super.read(nbt);
+        super.read(state, nbt);
         InvHelper.load(this, nbt);
         if (nbt.contains("progress"))
         {

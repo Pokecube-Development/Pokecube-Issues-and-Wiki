@@ -83,13 +83,6 @@ public class RaidSpawnBlock extends MaxBlock
         return new RaidSpawn();
     }
 
-    // time for spawn
-    @Override
-    public int ticksRandomly()
-    {
-        return 3000;
-    }
-
     public RaidSpawnBlock setInfoBlockName(final String infoname)
     {
         this.infoname = infoname;

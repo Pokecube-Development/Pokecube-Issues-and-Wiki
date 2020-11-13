@@ -29,7 +29,7 @@ public class RecipePokeseals extends SpecialRecipe
     {
         for (final DyeColor colour : DyeColor.values())
         {
-            final ResourceLocation dyeTag = new ResourceLocation("forge", "dyes/" + colour.getName().toLowerCase(
+            final ResourceLocation dyeTag = new ResourceLocation("forge", "dyes/" + colour.name().toLowerCase(
                     Locale.ROOT));
             RecipePokeseals.DYES[colour.getId()] = dyeTag;
         }

@@ -39,7 +39,7 @@ public class PacketMountedControl extends Packet
     {
         final PacketMountedControl packet = new PacketMountedControl();
         packet.entityId = pokemob.getEntityId();
-        final Vector3d pos = pokemob.getPositionVector();
+        final Vector3d pos = pokemob.getPositionVec();
         packet.message = 0;
         packet.x = (float) pos.x;
         packet.y = (float) pos.y;

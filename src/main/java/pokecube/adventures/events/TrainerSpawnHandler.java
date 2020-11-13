@@ -189,7 +189,7 @@ public class TrainerSpawnHandler
         if (v.y <= 0) v.y = v.getMaxY(w);
         final Vector3 temp = Vector3.getNextSurfacePoint(w, v, Vector3.secondAxisNeg, 20);
         v = temp != null ? temp.offset(Direction.UP) : v;
-        if (v.y <= 0 || v.y >= w.getActualHeight()) return;
+        if (v.y <= 0 || v.y >= w.getHeight()) return;
 
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
 
@@ -263,8 +263,8 @@ public class TrainerSpawnHandler
             // Set it to air so mob can spawn.
             event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
-            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.world.getWorld())
-                    : TrainerNpc.TYPE.create(event.world.getWorld());
+            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(((ServerWorld) event.world).getWorld())
+                    : TrainerNpc.TYPE.create(((ServerWorld) event.world).getWorld());
             mob.enablePersistence();
             mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
             mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
