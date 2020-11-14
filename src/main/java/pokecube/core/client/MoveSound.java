@@ -42,7 +42,7 @@ public class MoveSound extends TickableSound
     {
         this.pos2.set(this.player);
         this.volume = MoveSound.getVolume(this.pos1, this.pos2, this.volumeScale);
-        if (this.time++ > 100 || this.volume == 0) this.donePlaying = true;
+        if (this.time++ > 100 || this.volume == 0) this.repeat = true;
     }
 
     @Override

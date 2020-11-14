@@ -16,6 +16,7 @@ import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -145,7 +146,7 @@ public class EntityPokecube extends EntityPokecubeBase
     }
 
     @Override
-    public boolean processInitialInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType processInitialInteract(final PlayerEntity player, final Hand hand)
     {
         final ItemStack stack = player.getHeldItem(hand);
         if (player instanceof ServerPlayerEntity && this.canBePickedUp)
@@ -155,7 +156,7 @@ public class EntityPokecube extends EntityPokecubeBase
             {
                 this.isLoot = true;
                 this.addLoot(new LootEntry(stack, 1));
-                return true;
+                return ActionResultType.SUCCESS;
             }
             if (!this.isReleasing()) if (PokecubeManager.isFilled(this.getItem()))
             {
@@ -170,7 +171,7 @@ public class EntityPokecube extends EntityPokecubeBase
             {
                 if (this.isLoot)
                 {
-                    if (this.cannotCollect(player)) return false;
+                    if (this.cannotCollect(player)) return ActionResultType.FAIL;
                     this.players.add(new CollectEntry(player.getCachedUniqueIdString(), this.getEntityWorld()
                             .getGameTime()));
                     ItemStack loot = ItemStack.EMPTY;
@@ -196,13 +197,13 @@ public class EntityPokecube extends EntityPokecubeBase
                         PacketPokecube.sendMessage(player, this.getEntityId(), this.getEntityWorld().getGameTime()
                                 + this.resetTime);
                     }
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
                 Tools.giveItem(player, this.getItem());
                 this.remove();
             }
         }
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override

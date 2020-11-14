@@ -21,6 +21,7 @@ import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
@@ -102,16 +103,16 @@ public class SpawnBiomeMatcher
             this.location = location;
             this.biome = location.getBiome(world).getRegistryName();
             this.material = location.getBlockMaterial(world);
-            this.chunk = ITerrainProvider.getChunk(world.getDimensionKey(), new ChunkPos(location.getPos()));
+            this.chunk = ITerrainProvider.getChunk(world.getDimensionType(), new ChunkPos(location.getPos()));
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
             final int subBiomeId = t.getBiome(location);
             if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
             else this.type = BiomeType.NONE;
             // TODO better way to choose current time.
-            final double time = world.getWorld().getDayTime() / 24000;
+            final double time = ((ServerWorld) world).getWorld().getDayTime() / 24000;
             final int lightBlock = world.getLight(location.getPos());
             this.light = lightBlock / 15f;
-            final World w = world.getWorld();
+            final World w = ((ServerWorld) world).getWorld();
             this.weather = Weather.getForWorld(w, location);
             this.thundering = this.weather == Weather.RAIN && w.isThundering();
             this.day = PokedexEntry.day.contains(time);
@@ -149,7 +150,7 @@ public class SpawnBiomeMatcher
         {
             if (!matcher._validStructures.isEmpty())
             {
-                final Set<StructureInfo> set = StructureManager.getFor(checker.world.getDimensionKey(),
+                final Set<StructureInfo> set = StructureManager.getFor(checker.world.getDimensionType(),
                         checker.location.getPos());
                 for (final StructureInfo i : set)
                     if (matcher._validStructures.contains(i.name)) return MatchResult.SUCCEED;

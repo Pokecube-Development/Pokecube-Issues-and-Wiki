@@ -48,7 +48,7 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
         this.minecraft.getTextureManager().bindTexture(TMs.TEXTURE);
         final int j2 = (this.width - this.xSize) / 2;
         final int k2 = (this.height - this.ySize) / 2;
-        this.blit(j2, k2, 0, 0, this.xSize, this.ySize);
+        this.blit(mat, j2, k2, 0, 0, this.xSize, this.ySize);
     }
 
     @Override

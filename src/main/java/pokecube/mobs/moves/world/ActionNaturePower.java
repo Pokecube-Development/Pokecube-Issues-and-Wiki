@@ -20,6 +20,7 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.pathfinding.PathType;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -38,7 +39,7 @@ public class ActionNaturePower implements IMoveAction
 {
     public static class DesertChanger implements IBiomeChanger
     {
-        static final Biome DESERT = Biomes.DESERT;
+        static final RegistryKey<Biome> DESERT = Biomes.DESERT;
 
         public DesertChanger()
         {
@@ -90,7 +91,7 @@ public class ActionNaturePower implements IMoveAction
 
     public static class ForestChanger implements IBiomeChanger
     {
-        static final Biome FOREST = Biomes.FOREST;
+        static final RegistryKey<Biome> FOREST = Biomes.FOREST;
 
         public ForestChanger()
         {
@@ -138,7 +139,7 @@ public class ActionNaturePower implements IMoveAction
 
     public static class HillsChanger implements IBiomeChanger
     {
-        final Biome HILLS = Biomes.MOUNTAINS;
+        final RegistryKey<Biome> HILLS = Biomes.MOUNTAINS;
 
         public HillsChanger()
         {
@@ -148,7 +149,7 @@ public class ActionNaturePower implements IMoveAction
         public boolean apply(final BlockPos pos, final ServerWorld world)
         {
             // Ensure that this is actually a "high" spot.
-            if (pos.getY() < world.getActualHeight() / 2) return false;
+            if (pos.getY() < world.getHeight() / 2) return false;
 
             // This is the predicate we will use for checking whether something
             // is a valid spot.
@@ -240,7 +241,7 @@ public class ActionNaturePower implements IMoveAction
 
     public static class PlainsChanger implements IBiomeChanger
     {
-        static final Biome PLAINS = Biomes.PLAINS;
+        static final RegistryKey<Biome> PLAINS = Biomes.PLAINS;
 
         public PlainsChanger()
         {

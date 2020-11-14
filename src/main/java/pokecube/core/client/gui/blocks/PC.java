@@ -31,8 +31,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
     TextFieldWidget textFieldBoxName;
     TextFieldWidget textFieldSearch;
 
-    String autoOn  = new TranslationTextComponent("block.pc.autoon");
-    String autoOff = new TranslationTextComponent("block.pc.autooff");
+    TranslationTextComponent autoOn  = new TranslationTextComponent("block.pc.autoon");
+    TranslationTextComponent autoOff = new TranslationTextComponent("block.pc.autooff");
 
     private String boxName = "1";
 

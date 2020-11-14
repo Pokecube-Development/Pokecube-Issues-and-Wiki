@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
@@ -45,7 +46,7 @@ public class MaxTile extends InteractableTile
         if (this.getWorld() == null || this.getWorld().isRemote || !this.enabled) return false;
         final BlockPos pos = this.getPos();
         return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world.getDimension()
-                .getType().getId(), this.range, MaxTile.MAXSPOT);
+                .getType.getId(), this.range, MaxTile.MAXSPOT);
     }
 
     @Override
