@@ -43,6 +43,7 @@ import pokecube.core.world.gen.WorldStructDatafixer;
 import pokecube.core.world.gen.jigsaw.JigsawConfig;
 import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import pokecube.core.world.gen.jigsaw.JigsawStructure;
+import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class WorldgenHandler
 {
@@ -263,6 +264,8 @@ public class WorldgenHandler
         final String key = struct.type.isEmpty() ? struct.name : struct.type;
         final JigsawStructure toAdd = WorldgenHandler.structs.getOrDefault(key, new JigsawStructure(key)).addStruct(
                 struct);
+        if(!"none".equals(struct.biomeType))
+            PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name, struct.biomeType);
         if (!WorldgenHandler.structs.containsKey(key))
         {
             WorldgenHandler.structs.put(key, toAdd);
