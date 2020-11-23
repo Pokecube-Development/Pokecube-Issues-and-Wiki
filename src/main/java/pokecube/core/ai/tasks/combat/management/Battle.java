@@ -1,14 +1,14 @@
 package pokecube.core.ai.tasks.combat.management;
 
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.AITools;
-
-import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Battle {
     public static final ConcurrentHashMap<LivingEntity, Battle> battles = new ConcurrentHashMap<>();
@@ -20,95 +20,79 @@ public class Battle {
     private LivingEntity mainTarget;
     private Battle enemyBattle;
 
-    Battle(LivingEntity mob, LivingEntity targetMob) {
-        enemies = new ArrayList<>(10);
-        allies = new ArrayList<>(10);
+    Battle(final LivingEntity mob, final LivingEntity targetMob) {
+        this.enemies = new ArrayList<>(10);
+        this.allies = new ArrayList<>(10);
         this.mob = mob;
         this.mainTarget = targetMob;
 
-        pokemob = CapabilityPokemob.getPokemobFor(mob);
+        this.pokemob = CapabilityPokemob.getPokemobFor(mob);
 
-        if (pokemob != null) {
-            pokemob.setBattle(this);
-        }
+        if (this.pokemob != null) this.pokemob.setBattle(this);
 
-        if (!battles.containsKey(targetMob)) {
-            Battle.createBattle(targetMob, mob);
-        }
 
-        enemyBattle = battles.get(targetMob);
+        if (!Battle.battles.containsKey(mob)) Battle.battles.put(mob, this);
+        if (!Battle.battles.containsKey(targetMob)) Battle.createBattle(targetMob, mob);
 
-        allies.addAll(enemyBattle.getEnemies());
-        enemies.addAll(enemyBattle.getAllies());
+        this.enemyBattle = Battle.battles.get(targetMob);
 
-        enemyBattle.addBattleAsEnemy(this);
+        this.allies.addAll(this.enemyBattle.getEnemies());
+        this.enemies.addAll(this.enemyBattle.getAllies());
 
-        for (Battle ally : allies) {
+        this.enemyBattle.addBattleAsEnemy(this);
+
+        for (final Battle ally : this.allies)
             ally.addBattleAsAlly(this);
-        }
 
-        for (Battle enemy : enemies) {
+        for (final Battle enemy : this.enemies)
             enemy.addBattleAsEnemy(this);
-        }
     }
 
     public void start() {
-        if (mob instanceof MobEntity) {
-            BrainUtils.initiateCombat((MobEntity) mob, mainTarget);
-            if(pokemob != null) {
-                pokemob.getAbility().start(pokemob);
-            }
+        if (this.mob instanceof MobEntity) {
+            BrainUtils.initiateCombat((MobEntity) this.mob, this.mainTarget);
+            if(this.pokemob != null) this.pokemob.getAbility().start(this.pokemob);
         }
     }
 
     public void end() {
-        allies.clear();
+        this.allies.clear();
 
-        if(!enemies.isEmpty()) {
+        if(!this.enemies.isEmpty()) {
 
-            enemies.remove(enemyBattle);
+            this.enemies.remove(this.enemyBattle);
 
-            enemies.sort((o1, o2) -> (int) (o1.getMob().getDistanceSq(mob) -
-                    o2.getMob().getDistanceSq(mob)));
+            this.enemies.sort((o1, o2) -> (int) (o1.getMob().getDistanceSq(this.mob) -
+                    o2.getMob().getDistanceSq(this.mob)));
 
-            ArrayList<Battle> copy = new ArrayList<>(enemies);
+            final ArrayList<Battle> copy = new ArrayList<>(this.enemies);
 
-            for(Battle battle : copy){
-                if(battles.contains(battle)){
-                    enemyBattle = battle;
-                    mainTarget = enemyBattle.mob;
-                    allies.addAll(enemyBattle.enemies);
+            for(final Battle battle : copy)
+                if(Battle.battles.contains(battle)){
+                    this.enemyBattle = battle;
+                    this.mainTarget = this.enemyBattle.mob;
+                    this.allies.addAll(this.enemyBattle.enemies);
                     break;
-                }else {
-                    enemies.remove(battle);
                 }
-            }
+                else this.enemies.remove(battle);
 
-            if(!enemies.isEmpty()){
-                this.start();
-            }
+            if(!this.enemies.isEmpty()) this.start();
 
         }else{
-            BrainUtils.deagro(mob);
-            BrainUtils.deagro(mainTarget);
+            BrainUtils.deagro(this.mob);
+            BrainUtils.deagro(this.mainTarget);
 
-            if (pokemob != null) {
-                pokemob.getAbility().end(pokemob);
-            }
+            if (this.pokemob != null) this.pokemob.getAbility().end(this.pokemob);
 
-            battles.remove(mob);
+            Battle.battles.remove(this.mob);
         }
     }
 
-    public static boolean createBattle(LivingEntity mob, LivingEntity targetMob) {
+    public static boolean createBattle(final LivingEntity mob, final LivingEntity targetMob) {
         if (targetMob != null && AITools.validTargets.test(targetMob)) {
             Battle battle;
-            if (!battles.containsKey(mob)) {
-                battle = new Battle(mob, targetMob);
-                battles.put(mob, battle);
-            } else {
-                battle = battles.get(mob);
-            }
+            if (!Battle.battles.containsKey(mob)) battle = new Battle(mob, targetMob);
+            else battle = Battle.battles.get(mob);
 
             battle.start();
             return true;
@@ -119,22 +103,22 @@ public class Battle {
     }
 
     public ArrayList<Battle> getEnemies() {
-        return enemies;
+        return this.enemies;
     }
 
     public ArrayList<Battle> getAllies() {
-        return allies;
+        return this.allies;
     }
 
-    public void addBattleAsEnemy(Battle battle) {
-        enemies.add(battle);
+    public void addBattleAsEnemy(final Battle battle) {
+        this.enemies.add(battle);
     }
 
-    public void addBattleAsAlly(Battle battle) {
-        allies.add(battle);
+    public void addBattleAsAlly(final Battle battle) {
+        this.allies.add(battle);
     }
 
     public LivingEntity getMob() {
-        return mob;
+        return this.mob;
     }
 }
