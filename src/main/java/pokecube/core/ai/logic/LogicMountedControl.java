@@ -43,6 +43,8 @@ public class LogicMountedControl extends LogicBase
     public boolean followOwnerLook  = false;
     public double  throttle         = 0.5;
 
+    private boolean wasRiding = false;
+
     public LogicMountedControl(final IPokemob pokemob_)
     {
         super(pokemob_);
@@ -57,8 +59,17 @@ public class LogicMountedControl extends LogicBase
         this.entity.stepHeight = 1.1f;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
 
-        if (rider == null) return;
-
+        boolean canFly = this.pokemob.canUseFly();
+        if (rider == null)
+        {
+            if (this.wasRiding && canFly && !this.pokemob.getPokedexEntry().flys())
+            {
+                this.entity.setNoGravity(false);
+                this.wasRiding = false;
+            }
+            return;
+        }
+        this.wasRiding = true;
         final Config config = PokecubeCore.getConfig();
         boolean move = false;
         this.entity.rotationYaw = this.pokemob.getHeading();
@@ -67,7 +78,6 @@ public class LogicMountedControl extends LogicBase
         boolean waterSpeed = false;
         boolean airSpeed = !this.entity.onGround;
 
-        boolean canFly = this.pokemob.canUseFly();
         boolean canSurf = this.pokemob.canUseSurf();
         boolean canDive = this.pokemob.canUseDive();
 
