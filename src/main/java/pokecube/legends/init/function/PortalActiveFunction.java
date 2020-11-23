@@ -82,7 +82,7 @@ public class PortalActiveFunction
 
         // Normal Worlds
         if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega && entity.dimension
-                .getId() != ModDimensions.DIMENSION_TYPE.getId())
+                .getId() != ModDimensions.DIMENSION_TYPE_US.getId())
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);
@@ -91,7 +91,7 @@ public class PortalActiveFunction
         }
 
         // Ultra Space
-        else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE
+        else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US
                 .getId())
         {
             entity.setHealth(entity.getMaxHealth());
