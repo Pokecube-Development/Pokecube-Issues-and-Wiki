@@ -1,5 +1,8 @@
 package pokecube.core.blocks.healer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -16,15 +19,93 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import pokecube.core.inventory.healer.HealerContainer;
 
 public class HealerBlock extends HorizontalBlock
 {
+	private static final Map<Direction, VoxelShape> HEALER_MACHINE  = new HashMap<>();
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
 
+    // Precise selection box
+    static
+    {// @formatter:off
+    	HealerBlock.HEALER_MACHINE.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 0, 0, 15, 13, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 0, 13, 15, 1),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 13, 1, 9, 14, 15),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 15, 13, 15, 16),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 11, 13, 14, 14),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 11, 6, 14, 14),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 6.5, 13, 14, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 6.5, 6, 14, 9.5),
+                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 2, 13, 14, 5),
+                              Block.makeCuboidShape(3, 13, 2, 6, 14, 5),
+                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
+        );
+    	HealerBlock.HEALER_MACHINE.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 1, 16, 13, 15),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(15, 13, 3, 16, 15, 13),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 13, 7, 15, 14, 9),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 13, 3, 1, 15, 13),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 13, 10, 5, 14, 13),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 13, 3, 5, 14, 6),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13, 10, 9.5, 14, 13),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13, 3, 9.5, 14, 6),
+                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11, 13, 10, 14, 14, 13),
+                              Block.makeCuboidShape(11, 13, 3, 14, 14, 6),
+                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
+        );
+    	HealerBlock.HEALER_MACHINE.put(Direction.SOUTH,
+		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 0, 0, 15, 13, 16),
+        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 0, 13, 15, 1),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 13, 1, 9, 14, 15),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 15, 13, 15, 16),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 11, 13, 14, 14),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 11, 6, 14, 14),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 6.5, 13, 14, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 6.5, 6, 14, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 2, 13, 14, 5),
+                        	Block.makeCuboidShape(3, 13, 2, 6, 14, 5),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
+        );
+    	HealerBlock.HEALER_MACHINE.put(Direction.WEST,
+		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 1, 16, 13, 15),
+        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(15, 13, 3, 16, 15, 13),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 13, 7, 15, 14, 9),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 13, 3, 1, 15, 13),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 13, 10, 5, 14, 13),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 13, 3, 5, 14, 6),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13, 10, 9.5, 14, 13),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13, 3, 9.5, 14, 6),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11, 13, 10, 14, 14, 13),
+                          Block.makeCuboidShape(11, 13, 3, 14, 14, 6),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
+        );
+    }// @formatter:on
+
+    // Precise selection box
+    @Override
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
+    {
+        return HealerBlock.HEALER_MACHINE.get(state.get(HealerBlock.FACING));
+    }
+    
     public HealerBlock(final Properties builder)
     {
         super(builder);

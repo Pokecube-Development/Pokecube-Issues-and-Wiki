@@ -27,6 +27,7 @@ import pokecube.legends.blocks.blockstates.SandDistorBlock;
 import pokecube.legends.blocks.blockstates.SandUltraBlock;
 import pokecube.legends.blocks.blockstates.UltraTorch1;
 import pokecube.legends.blocks.blockstates.UltraTorch1Wall;
+import pokecube.legends.blocks.customblocks.HeatranBlock;
 import pokecube.legends.blocks.customblocks.KeldeoBlock;
 import pokecube.legends.blocks.customblocks.LegendaryBlock;
 import pokecube.legends.blocks.customblocks.NatureCoreBlock;
@@ -248,9 +249,11 @@ public class BlockInit
         LEGENDARY_SPAWN 	= PokecubeLegends.BLOCKS.register("legendaryspawn", () -> new LegendaryBlock("legendaryspawn",
                 Material.IRON).noInfoBlock());
         TROUGH_BLOCK 	= PokecubeLegends.BLOCKS.register("trough_block", () -> new TroughBlock("trough_block",
-                Material.ANVIL).noInfoBlock());
-        HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new TroughBlock("heatran_block",
-                Material.LAVA).noInfoBlock());
+        		Block.Properties.create(Material.IRON).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
+                .harvestLevel(2).sound(SoundType.ANVIL).lightValue(4).variableOpacity()).noInfoBlock());
+        HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new HeatranBlock("heatran_block",
+        		Block.Properties.create(Material.LAVA).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
+                .harvestLevel(2).sound(SoundType.CORAL).lightValue(4).variableOpacity()).noInfoBlock());
         ///
         REGISTEEL_CORE 		= PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
                 Material.IRON, 15, SoundType.METAL ,ToolType.PICKAXE, 2).noInfoBlock());
