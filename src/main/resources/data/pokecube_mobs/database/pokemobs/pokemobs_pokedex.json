@@ -8783,9 +8783,9 @@
         },
         "sizes": {
           "values": {
-            "length": "8.8",
+            "length": "1.3",
             "width": "1.0",
-            "height": "1.3"
+            "height": "8.8"
           }
         },
         "types": {
@@ -8838,32 +8838,8 @@
         "misc": {
           "moves": "scorchingsands,meteorbeam,ancientpower, attract, bide, bind, block, bodyslam, brutalswing, bulldoze, captivate, confide, curse, dig, doubleedge, doubleteam, dragonbreath, dragonpulse, dragontail, earthpower, earthquake, endure, explosion, facade, fissure, flashcannon, frustration, gyroball, harden, headbutt, hiddenpower, ironhead, irontail, mimic, mudslap, mudsport, naturalgift, naturepower, payback, protect, psychup, rage, rest, return, roar, rockpolish, rockslide, rocksmash, rockthrow, rocktomb, round, sandstorm, sandtomb, screech, secretpower, selfdestruct, slam, sleeptalk, smackdown, snore, stealthrock, stompingtantrum, stoneedge, strength, substitute, sunnyday, swagger, tackle, takedown, taunt, torment, toxic, twister"
         }
-      },
-      "body": {
-        "parts": [
-          {
-            "name": "-1",
-            "offset": "0,0,-2",
-            "dimensions": "-0.5,-0.5,-0.5->0.5,0.5,0.5"
-          },
-          {
-            "name": "0",
-            "offset": "0,0,-1",
-            "dimensions": "-0.5,-0.5,-0.5->0.5,0.5,0.5"
-          },
-          {
-            "name": "1",
-            "offset": "0,0,0",
-            "dimensions": "-0.5,-0.5,-0.5->0.5,0.5,0.5"
-          },
-          {
-            "name": "2",
-            "offset": "0,0,1",
-            "dimensions": "-0.5,-0.5,-0.5->0.5,0.5,0.5"
-          }
-        ]
       }
-    },
+	},
     {
       "name": "Drowzee",
       "number": 96,
@@ -13981,6 +13957,18 @@
       "name": "Meganium",
       "number": 154,
       "base": true,
+	  "female_model": {
+        "key": "meganium_female",
+        "tex": "meganium",
+        "model": "meganium_female",
+        "anim": "meganium_female"
+      },
+      "male_model": {
+        "key": "meganium_male",
+        "tex": "meganium",
+        "model": "meganium_male",
+        "anim": "meganium_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -18100,9 +18088,9 @@
         },
         "sizes": {
           "values": {
-            "length": "9.2",
+            "length": "1.5",
             "width": "1.5",
-            "height": "1.5"
+            "height": "9.2"
           }
         },
         "types": {
@@ -18173,9 +18161,9 @@
         },
         "sizes": {
           "values": {
-            "length": "10.5",
+            "length": "1.5",
             "width": "1.5",
-            "height": "1.5"
+            "height": "10.5"
           }
         },
         "abilities": {
@@ -50963,8 +50951,7 @@
           "values": {
             "shoulder": "FALSE"
           }
-        },
-        "movementType": "water"
+        }
       },
       "moves": {
         "lvlupMoves": {

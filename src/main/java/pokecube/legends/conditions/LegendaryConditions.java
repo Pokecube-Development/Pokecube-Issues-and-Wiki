@@ -40,7 +40,7 @@ public class LegendaryConditions
 
         new LegendarySpawn("groudon", ItemInit.REDORB, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("kyogre", ItemInit.BLUEORB, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("rayquaza", ItemInit.GREENORB, BlockInit.LEGENDARY_SPAWN);
+        new LegendarySpawn("rayquaza", ItemInit.ANCIENT_STONE, BlockInit.LEGENDARY_SPAWN);
 
         new LegendarySpawn("arceus", ItemInit.AZURE_FLUTE, BlockInit.TIMESPACE_CORE);
         new LegendarySpawn("palkia", ItemInit.LUSTROUSORB, BlockInit.TIMESPACE_CORE);

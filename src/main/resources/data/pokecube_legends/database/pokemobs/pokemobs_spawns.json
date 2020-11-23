@@ -181,7 +181,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:rayquaza_tower",
+              "structures": "pokecube_legends:sky_pillar",
               "rate": "0.0"
             }
           }

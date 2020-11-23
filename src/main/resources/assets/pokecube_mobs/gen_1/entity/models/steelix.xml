@@ -6,7 +6,7 @@
   <phase name="snakeWalk" axis="0" parts="body1:body2:body3:body4:body5:body6"/>
   <customTex default="steelix">
    <part name="Head" tex="steelixhead"/>
-   <animation diffs="0,0.3" part="Head" trigger="random:0.005:11"/>
+   <animation diffs="0,0.36" part="Head" trigger="random:0.005:11"/>
   </customTex>
   <phase type="idle">
    <part name="tail">
@@ -66,12 +66,4 @@
    </part>
   </phase>
  </model>
- <details>
-  <RIDDENOFFSET>
-   0.10
-  </RIDDENOFFSET>
-  <MODELSIZE>
-   9.2,1,1
-  </MODELSIZE>
- </details>
 </ModelAnimator>
