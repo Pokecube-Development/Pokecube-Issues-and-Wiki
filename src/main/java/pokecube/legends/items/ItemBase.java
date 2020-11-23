@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -44,7 +45,7 @@ public class ItemBase extends Item
     {
         if (!this.hasTooltip) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip");
+        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip", TextFormatting.GOLD, TextFormatting.BOLD, TextFormatting.RESET);
         else message = I18n.format("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }

@@ -151,6 +151,37 @@
         {
           "key": "",
           "values": {
+            "id": "pokecube_legends:imprisonment_helmet"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "pokecube:pokemobegg"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:potion",
+            "tag": "{Potion:\"minecraft:strong_regeneration\"}"
+          }
+        }
+      ],
+      "values": {
+        "lvl": "20",
+        "cost": "20000",
+        "pokemon": "Type:Null"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "cloner",
+      "map": "",
+      "inputs": [
+        {
+          "key": "",
+          "values": {
             "id": "minecraft:redstone_block"
           }
         },

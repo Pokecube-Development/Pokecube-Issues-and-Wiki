@@ -7242,19 +7242,6 @@
       }
     },
     {
-      "name": "Type: Null",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "industrial",
-              "rate": "0.01"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "Minior",
       "stats": {
         "spawnRules": [

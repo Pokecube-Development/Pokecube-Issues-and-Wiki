@@ -15,6 +15,7 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.worldgen.biomes.UltraUB1.customFillerBlockType;
 
 public class UltraUB5 extends Biome
 {
@@ -46,6 +47,11 @@ public class UltraUB5 extends Biome
         this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
                 new OreFeatureConfig(customFillerBlockType.CUSTOM_FILLER, 
                 		BlockInit.SPECTRUM_ORE.get().getDefaultState(), 8))
+        					.withPlacement(Placement.COUNT_RANGE.configure(
+                                new CountRangeConfig(10, 0, 0, 32))));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
+                new OreFeatureConfig(customFillerBlockType.CUSTOM_FILLER, 
+                		BlockInit.COSMIC_DUST_ORE.get().getDefaultState(), 8))
         					.withPlacement(Placement.COUNT_RANGE.configure(
                                 new CountRangeConfig(10, 0, 0, 32))));
     }

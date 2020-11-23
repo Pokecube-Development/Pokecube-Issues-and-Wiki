@@ -183,7 +183,7 @@ public class TradeEntryLoader
 
     public static void makeEntries(final ResourceLocation file) throws Exception
     {
-        if (TradeEntryLoader.database == null) TradeEntryLoader.database = TradeEntryLoader.loadDatabase(file);
+        TradeEntryLoader.database = TradeEntryLoader.loadDatabase(file);
         for (final TradeEntry entry : TradeEntryLoader.database.trades)
         {
             final TrainerTrades trades = new TrainerTrades();

@@ -10450,6 +10450,458 @@
           "starttick": "3"
         }
       ]
+    },
+    {
+      "name": "snipershot",
+      "animations": [
+        {
+          "preset": "beam:psplash:d0.2:~snipershot",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.surf",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.6
+        },
+        {
+          "preset": "flow:psplash:d1:w1:~snipershot",
+          "duration": "5",
+          "starttick": "0"
+        },
+        {
+          "preset": "cartFunc:plargeexplode:d1:w1:~snipershot",
+          "duration": "5",
+          "starttick": "3",
+          "sound": "pokecube:moves.surf",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.2
+        }
+      ]
+    },
+    {
+      "name": "hydrovortex",
+      "animations": [
+        {
+          "preset": "flow:psplash:d10:w0.5:l10:~hydrovortex",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.surf",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.2
+        },
+        {
+          "preset": "cartFunc:plargeexplode:d1:w0.5:l5:~hydrovortex",
+          "duration": "5",
+          "starttick": "3",
+          "sound": "pokecube:moves.waterpulse",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.7
+        }
+      ]
+    },
+    {
+      "name": "maxflare",
+      "animations": [
+        {
+           "preset": "flow:pflame:d3:w3:l5:~maxflare",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.sacredfire",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.3
+        },
+        {
+          "preset": "cartFunc:plava:d0.3:w1:l40:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~maxflare",
+          "duration": "5",
+          "starttick": "3",
+          "sound": "pokecube:moves.flamewheel",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "name": "maxflutterby",
+      "animations": [
+        {
+          "preset": "flow:w3:pleaf:~maxflutterby",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.withdraw",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.7
+        },
+        {
+          "preset": "flow:pmisc:d0.7:w2.5:l5:~maxflutterby",
+          "duration": "5",
+          "starttick": "3",
+          "sound": "pokecube:moves.withdraw",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.7
+        },
+        {
+          "preset": "cartFunc:plargeexplode:d2:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~maxflutterby",
+          "duration": "5",
+          "starttick": "5",
+          "volume": 1.0,
+          "pitch": 0.9
+        }
+      ]
+    },
+    {
+      "name": "maxlightning",
+      "animations": [
+        {
+          "preset": "throw:atrue:~maxlightning",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.thunderbolt",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.4
+        },
+        {
+          "preset": "flow:pmisc:d0.25:w0.5:atrue:~maxlightning",
+          "duration": "5",
+          "starttick": "0"
+        },
+        {
+          "preset": "cartFunc:pmisc:w1:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~maxlightning",
+          "duration": "5",
+          "starttick": "4",
+          "sound": "pokecube:moves.thunderwave",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "preset": "cartFunc:pmisc:w2.5:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~maxlightning",
+          "duration": "5",
+          "starttick": "7"
+        }
+      ]
+    },
+    {
+      "name": "maxstrike",
+      "animations": [
+        {
+          "preset": "cartFunc:psweep_attack:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~maxstrike",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.slash",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.8
+        },
+        {
+          "preset": "cartFunc:pcloud:d0.05:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~maxstrike",
+          "duration": "5",
+          "starttick": "0"
+        }
+      ]
+    },
+    {
+      "name": "maxknuckle",
+      "animations": [
+        {
+          "preset": "cartFunc:pcrit:d0.4:w1:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~maxknuckle",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.woodenhammer",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.8
+        },
+        {
+          "preset": "cartFunc:plargeexplode:d1:w1:l2:~maxknuckle",
+          "duration": "5",
+          "starttick": "0"
+        }
+      ]
+    },
+    {
+      "name": "maxphantasm",
+      "animations": [
+        {
+          "preset": "cartFunc:psweep_attack:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~maxphantasm",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "minecraft:entity.elder_guardian.curse",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.8
+        },
+        {
+          "preset": "cartFunc:pcloud:d0.05:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~maxphantasm",
+          "duration": "5",
+          "starttick": "0"
+        }
+      ]
+    },
+    {
+      "name": "maxhailstorm",
+      "animations": [
+        {
+          "preset": "cartFunc:pmisc:d0.05:w1:l10:f(0.5-rand())*(3),(5),(0.5-rand())*(3):~maxhailstorm",
+          "duration": "4",
+          "starttick": "0",
+          "sound": "pokecube:moves.withdraw",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "preset": "cartFunc:ppoof:d0.01:w1:l4:f(0.5-rand())*(2.5),(0.5-rand())*(10),(0.5-rand())*(2.5):~maxhailstorm",
+          "duration": "1",
+          "starttick": "3",
+          "sound": "pokecube:moves.iceball",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "preset": "powder:pitem_snowball:d0.5:w1:l4:~maxhailstorm",
+          "duration": "1",
+          "starttick": "4",
+          "sound": "pokecube:moves.icebreak",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "name": "maxooze",
+      "animations": [
+        {
+          "preset": "flow:w0.8:~maxooze",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.acidarmor",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.7
+        }
+      ]
+    },
+    {
+      "name": "maxgeyser",
+      "animations": [
+        {
+          "preset": "beam:psplash:d0.2:~maxgeyser",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.surf",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "preset": "flow:psplash:d1:w1:~maxgeyser",
+          "duration": "5",
+          "starttick": "0"
+        },
+        {
+          "preset": "cartFunc:plargeexplode:d1:w1:~maxgeyser",
+          "duration": "5",
+          "starttick": "3",
+          "sound": "pokecube:moves.surf",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.7
+        }
+      ]
+    },
+    {
+      "name": "maxairstream",
+      "animations": [
+        {
+          "preset": "cartFunc:psweep_attack:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~maxairstream",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.gustwind",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.8
+        },
+        {
+          "preset": "cartFunc:pcloud:d0.05:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~maxairstream",
+          "duration": "5",
+          "starttick": "0"
+        }
+      ]
+    },
+    {
+      "name": "maxstarfall",
+      "animations": [
+        {
+          "preset": "pons:pwitch:~maxstarfall",
+          "duration": "2",
+          "starttick": "0",
+          "sound": "pokecube:moves.aurorabeam",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 0.7
+        },
+        {
+          "preset": "pont:pwitch:~maxstarfall",
+          "duration": "3",
+          "starttick": "2"
+        }
+      ]
+    },
+    {
+      "name": "maxwyrmwind",
+      "animations": [
+        {
+          "preset": "flow:d0.25:atrue:w1.25:~maxwyrmwind",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.poisontoxic",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.4
+        }
+      ]
+    },
+    {
+      "name": "maxmindstorm",
+      "animations": [
+        {
+          "preset": "beam:~maxmindstorm",
+          "duration": "5",
+          "starttick": "0"
+        },
+        {
+          "preset": "flow:pend_rod:w0.3:d0.1:~maxmindstorm",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.aurorabeam",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "name": "maxrockfall",
+      "animations": [
+        {
+          "preset": "throw:pmisc:~maxrockfall",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.withdraw",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "preset": "flow:pmisc:~maxrockfall",
+          "duration": "5",
+          "starttick": "0"
+        },
+        {
+          "preset": "cartFunc:~maxrockfall",
+          "duration": "0",
+          "starttick": "5",
+          "sound": "pokecube:moves.rocksmash",
+          "soundSource": false,
+          "soundTarget": true,
+          "volume": 1.0,
+          "pitch": 1.0
+        }
+      ]
+    },
+    {
+      "name": "maxquake",
+      "animations": [
+        {
+          "preset": "cartFunc:pmisc:cbrown:plargeexplode:rtrue:~maxquake",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.dig",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.4
+        }
+      ]
+    },
+    {
+      "name": "maxovergrowth",
+      "animations": [
+        {
+          "preset": "cartFunc:plava:d1:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~maxovergrowth",
+          "duration": "5",
+          "starttick": "4",
+          "sound": "pokecube:moves.ember",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "preset": "throw:pmisc:d0.7:w0.7:l4:~maxovergrowth",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "pokecube:moves.fly",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.0
+        },
+        {
+          "preset": "cartFunc:plargeexplode:d1:w1:l4:~maxovergrowth",
+          "duration": "5",
+          "starttick": "4",
+          "sound": "minecraft:entity.generic.explode",
+          "soundSource": false,
+          "soundTarget": true,
+          "volume": 1.0,
+          "pitch": 1.7
+        }
+      ]
+    },
+    {
+      "name": "maxsteelspike",
+      "animations": [
+        {
+          "preset": "cartFunc:pcrit:d0.5:w1:l10:f(0.5-rand())*(13),(0.5-rand())*(2),(0.5-rand())*(13):~maxsteelspike",
+          "duration": "5",
+          "starttick": "0"
+        }
+      ]
     }
   ]
 }

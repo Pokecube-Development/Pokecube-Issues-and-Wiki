@@ -60,7 +60,8 @@ public class ItemInit
     public static final RegistryObject<Item> DRAGOCORE;
     public static final RegistryObject<Item> ICE_CARROT;
     public static final RegistryObject<Item> SHADOW_CARROT;
-    
+    public static final RegistryObject<Item> ANCIENT_STONE;
+    public static final RegistryObject<Item> IMPRISIONMENT_HELMET;
 
     // Gens_ores
     public static final RegistryObject<Item> SAPPHIRE;
@@ -139,7 +140,10 @@ public class ItemInit
         EMBLEM = PokecubeLegends.ITEMS.register("emblem", () -> new ItemBase("emblem", 1,PokecubeItems.POKECUBEITEMS));
         MAGMA_CORE = PokecubeLegends.ITEMS.register("magmacore", () -> new ItemBase("magmacore", 1,PokecubeItems.POKECUBEITEMS));
         LIFEORB = PokecubeLegends.ITEMS.register("lifeorb", () -> new ItemBase("lifeorb", 1,PokecubeItems.POKECUBEITEMS));
-        DESTRUCTORB = PokecubeLegends.ITEMS.register("destructorb", () -> new ItemBase("destructorb", 1,PokecubeItems.POKECUBEITEMS));
+        DESTRUCTORB = PokecubeLegends.ITEMS.register("destructorb", () -> new ItemBase("destructorb", 1,PokecubeItems.POKECUBEITEMS).setTooltipName(
+        		"destructorb"));
+        ANCIENT_STONE = PokecubeLegends.ITEMS.register("ancient_stone", () -> new ItemBase("ancient_stone", 1,PokecubeItems.POKECUBEITEMS).setTooltipName(
+        		"ancient_stone"));
         ORANGE_RUNE = PokecubeLegends.ITEMS.register("orange_rune", () -> new ItemBase("orange_rune", 1,PokecubeItems.POKECUBEITEMS).setTooltipName(
                 "orangerune"));
         BLUE_RUNE = PokecubeLegends.ITEMS.register("blue_rune", () -> new ItemBase("blue_rune", 1,PokecubeItems.POKECUBEITEMS).setTooltipName(
@@ -151,6 +155,7 @@ public class ItemInit
         DRAGOCORE   = PokecubeLegends.ITEMS.register("dragocore", () -> new ItemBase("dragocore", 1,PokecubeItems.POKECUBEITEMS));
         ICE_CARROT   = PokecubeLegends.ITEMS.register("ice_carrot", () -> new ItemBase("ice_carrot", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("ice_c"));
         SHADOW_CARROT   = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("shadow_c"));
+        IMPRISIONMENT_HELMET   = PokecubeLegends.ITEMS.register("imprisonment_helmet", () -> new ItemBase("imprisonment_helmet", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("helmet"));
         
         // Gens_ores
         SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase("sapphire", 64,PokecubeItems.POKECUBEITEMS).noTooltop());

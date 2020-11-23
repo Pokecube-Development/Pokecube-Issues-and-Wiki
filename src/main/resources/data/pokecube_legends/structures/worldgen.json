@@ -21,30 +21,36 @@
         "pokecube_legends:temples/underground/base"
       ]
     },
+    
+    {
+      "name":"pokecube_legends:aether_fund",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/aether_base;{\"dy\":-1}",
+        "pokecube_legends:temples/surface/aether_base1;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:team_rocket",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/team_rocket;{\"dy\":26}"
+      ]
+    },
+      
     {
       "name":"pokecube_legends:meteor_overworld",
       "rigid":false,
       "ignoreAir":true,
       "options":[
-      	"pokecube_legends:meteorites/meteor_small;{\"weight\":10}",
-      	"pokecube_legends:meteorites/meteor_small_1;{\"weight\":20}",
-        "pokecube_legends:meteorites/meteor_medium;{\"weight\":30}",
-        "pokecube_legends:meteorites/meteor_medium_1;{\"weight\":50}",
-        "pokecube_legends:meteorites/meteor_large;{\"weight\":70}",
-        "pokecube_legends:meteorites/meteor_large_1;{\"weight\":100}"
-      ]
-    },
-    {
-      "name":"pokecube_legends:meteor_dimension",
-      "rigid":false,
-      "ignoreAir":true,
-      "options":[
-      	"pokecube_legends:meteorites/meteor_small;{\"weight\":8}",
-      	"pokecube_legends:meteorites/meteor_small_1;{\"weight\":16}",
-        "pokecube_legends:meteorites/meteor_medium;{\"weight\":32}",
-        "pokecube_legends:meteorites/meteor_medium_1;{\"weight\":54}",
-        "pokecube_legends:meteorites/meteor_large;{\"weight\":60}",
-        "pokecube_legends:meteorites/meteor_large_1;{\"weight\":90}"
+      	"pokecube_legends:meteorites/meteor_small;{\"weight\":30}",
+      	"pokecube_legends:meteorites/meteor_small_1;{\"weight\":60}",
+        "pokecube_legends:meteorites/meteor_medium;{\"weight\":80}",
+        "pokecube_legends:meteorites/meteor_medium_1;{\"weight\":100}",
+        "pokecube_legends:meteorites/meteor_large;{\"weight\":120}",
+        "pokecube_legends:meteorites/meteor_large_1;{\"weight\":140}"
       ]
     },
     {
@@ -86,14 +92,6 @@
       ]
     },
     {
-      "name":"pokecube_legends:raid_ocean",
-      "rigid":true,
-      "ignoreAir":false,
-      "options":[
-        "pokecube_legends:temples/surface/raid_ocean;{\"dy\":2}"
-      ]
-    },
-    {
       "name":"pokecube_legends:nature_place",
       "rigid":true,
       "ignoreAir":false,
@@ -118,20 +116,11 @@
       ]
     },
     {
-      "name":"pokecube_legends:rayquaza_tower",
-      "rigid":true,
-      "ignoreAir":true,
-      "options":[
-        "pokecube_legends:temples/surface/rayquaza_tower1;{\"dy\":3}",
-        "pokecube_legends:temples/surface/rayquaza_tower2;{\"dy\":3}"
-      ]
-    },
-    {
       "name":"pokecube_legends:yveltal_place",
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/yveltal_place;{\"dy\":1}"
+        "pokecube_legends:temples/surface/yveltal_place"
       ]
     },
     {
@@ -140,6 +129,14 @@
       "ignoreAir":false,
       "options":[
         "pokecube_legends:temples/surface/keldeo_place"
+      ]
+    },
+    {
+      "name":"pokecube_legends:sky_pillar",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/sky_pillar"
       ]
     },
     {
@@ -383,20 +380,6 @@
       }
     },
     {
-      "name":"pokecube_legends:raid_ocean",
-      "root":"pokecube_legends:raid_ocean",
-      "biomeType":"ruin",
-      "distance":32,
-      "separation":5,
-      "water":true,
-      "spawn":{
-        "values":{
-          "category":"ocean",
-          "biomesBlacklist":"pokecube_legends:distortic_world"
-        }
-      }
-    },
-    {
       "name":"pokecube_legends:raid_desert",
       "root":"pokecube_legends:raid_desert",
       "biomeType":"ruin",
@@ -581,13 +564,42 @@
         }
       }
     },
+    
     {
-      "name":"pokecube_legends:rayquaza_tower",
-      "root":"pokecube_legends:rayquaza_tower",
-      "biomeType":"ruin",
+      "name":"pokecube_legends:aether_fund",
+      "root":"pokecube_legends:aether_fund",
+      "biomeType":"none",
       "distance":24,
-      "separation":8,
+      "separation":9,
       "base_under":false,
+      "spawn":{
+        "values":{
+          "category":"ocean",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:team_rocket",
+      "root":"pokecube_legends:team_rocket",
+      "biomeType":"industrial",
+      "distance":24,
+      "separation":10,
+      "base_under":false,
+      "spawn":{
+        "values":{
+          "category":"plains",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+        }
+      }
+    },
+    
+    {
+      "name":"pokecube_legends:sky_pillar",
+      "root":"pokecube_legends:sky_pillar",
+      "biomeType":"ruin",
+      "distance":28,
+      "separation":10,
       "spawn":{
         "values":{
           "category":"ocean",
@@ -719,25 +731,12 @@
       "name":"pokecube_legends:meteor_overworld",
       "root":"pokecube_legends:meteor_overworld",
       "biomeType":"none",
-      "distance":6,
-      "separation":2,
+      "distance":9,
+      "separation":3,
       "spawn":{
         "values":{
           "category":"extreme_hills",
           "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
-        }
-      }
-    },
-    {
-      "name":"pokecube_legends:meteor_dimension",
-      "root":"pokecube_legends:meteor_dimension",
-      "biomeType":"none",
-      "distance":4,
-      "separation":2,
-      "spawn":{
-        "values":{
-          "biomes":"pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004",
-          "biomesBlacklist":"pokecube_legends:distortic_world"
         }
       }
     },

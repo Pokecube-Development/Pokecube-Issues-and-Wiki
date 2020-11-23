@@ -16,6 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -41,7 +42,7 @@ public class UltraKey extends ItemBase {
             final ITooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip");
+        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip", TextFormatting.LIGHT_PURPLE, PokecubeLegends.config.itemCombustiveStack);
         else message = I18n.format("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }

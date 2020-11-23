@@ -53,6 +53,11 @@ public class UltraUB1 extends Biome
                 		BlockInit.SPECTRUM_ORE.get().getDefaultState(), 8))
         					.withPlacement(Placement.COUNT_RANGE.configure(
                                 new CountRangeConfig(10, 0, 0, 32))));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
+                new OreFeatureConfig(customFillerBlockType.CUSTOM_FILLER, 
+                		BlockInit.COSMIC_DUST_ORE.get().getDefaultState(), 8))
+        					.withPlacement(Placement.COUNT_RANGE.configure(
+                                new CountRangeConfig(10, 0, 0, 32))));
         
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.NORMAL_TREE.withConfiguration(Ultra_Tree01.ULTRA_TREE01_CONFIG)
 				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(3, 0.1f, 1))));

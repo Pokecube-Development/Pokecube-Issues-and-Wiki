@@ -18,11 +18,15 @@
     "pokecube_legends:icecore",
     "pokecube_legends:steelcore",
     "pokecube_legends:rockcore",
+    "pokecube_legends:thundercore",
+    "pokecube_legends:dragocore",
     "pokecube_legends:regisorb",
     "pokecube_legends:magmacore",
     "pokecube_legends:lustrousorb",
     "pokecube_legends:lightstone",
     "pokecube_legends:darkstone",
-    "pokecube_legends:adamantorb"
+    "pokecube_legends:adamantorb",
+	"pokecube_legends:ancient_stone",
+	"pokecube_legends:imprisonment_helmet"
   ]
 }
