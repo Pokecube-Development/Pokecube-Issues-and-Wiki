@@ -405,7 +405,6 @@ public class MovesUtils implements IMoveConstants
             final TerrainSegment terrain)
     {
         float ret = 1;
-        long terrainDuration = 0;
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
         if (type == PokeType.getType("dragon"))
         {

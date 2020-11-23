@@ -162,21 +162,20 @@ public class MoveAnimationHelper
             final MatrixStack mat = event.getMatrixStack();
             mat.push();
             mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-
             final BlockPos.Mutable pos = new BlockPos.Mutable();
             for (int i = -range; i <= range; i++)
                 for (int j = -range; j <= range; j++)
                     for (int k = -range; k <= range; k++)
                     {
                         pos.setPos(player.chunkCoordX + i, player.chunkCoordY + j, player.chunkCoordZ + k);
-                        final TerrainSegment segment = this.terrainMap.get(pos);
+                        final TerrainSegment segment = this.terrainMap.get(pos.toImmutable());
                         if (segment == null) continue;
                         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.effectArr[this.index];
                         if (teffect == null || !teffect.hasEffects()) continue;
                         this.target.set(segment.getCentre());
                         this.target.add(-8, -8, -8);
                         mat.push();
-                        teffect.renderTerrainEffects(event, target);
+                        teffect.renderTerrainEffects(event, this.target);
                         mat.pop();
                         num++;
                     }

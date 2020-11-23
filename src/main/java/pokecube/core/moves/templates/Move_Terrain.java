@@ -3,8 +3,10 @@ package pokecube.core.moves.templates;
 import java.util.Random;
 
 import net.minecraft.world.World;
+import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.PokemobTerrainEffects;
+import pokecube.core.moves.PokemobTerrainEffects.EffectType;
 import pokecube.core.network.packets.PacketSyncTerrain;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
@@ -13,7 +15,7 @@ import thut.api.terrain.TerrainSegment;
 public class Move_Terrain extends Move_Basic
 {
 
-    public int effect;
+    EffectType effect;
     public int       duration = 300;
 
     /**
@@ -25,7 +27,8 @@ public class Move_Terrain extends Move_Basic
     public Move_Terrain(final String name)
     {
         super(name);
-        this.effect = this.move.baseEntry.extraInfo;
+        this.effect = PokemobTerrainEffects.getForIndex(this.move.baseEntry.extraInfo);
+        PokecubeCore.LOGGER.error(name+" "+this.move.baseEntry.extraInfo+" "+this.effect);
     }
 
     @Override
@@ -51,8 +54,7 @@ public class Move_Terrain extends Move_Basic
         // TODO check if effect already exists, and send message if so.
         // Otherwise send the it starts to effect messaged
 
-        teffect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.values()[this.effect], this.duration + world.getGameTime(), attacker);
-
+        teffect.setEffectDuration(this.effect, this.duration + world.getGameTime(), attacker);
         if (attacker.getEntity().isServerWorld()) PacketSyncTerrain.sendTerrainEffects(attacker.getEntity(),
                 segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
 
