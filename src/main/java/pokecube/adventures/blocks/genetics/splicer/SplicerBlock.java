@@ -2,6 +2,7 @@ package pokecube.adventures.blocks.genetics.splicer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -23,10 +24,10 @@ import pokecube.core.blocks.InteractableHorizontalBlock;
 
 public class SplicerBlock extends InteractableHorizontalBlock
 {
-	private static final Map<Direction, VoxelShape> SPLICER  = new HashMap<>();
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
-    public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
-    
+    private static final Map<Direction, VoxelShape> SPLICER = new HashMap<>();
+    public static final DirectionProperty           FACING  = HorizontalBlock.HORIZONTAL_FACING;
+    public static final BooleanProperty             FIXED   = BooleanProperty.create("fixed");
+
     // Precise selection box
     static
     {// @formatter:off
@@ -51,24 +52,22 @@ public class SplicerBlock extends InteractableHorizontalBlock
                 IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR)
         );
     	SplicerBlock.SPLICER.put(Direction.EAST,
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 0, 0, 15, 10, 16),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 10, 0, 6, 16, 8),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 10, 0, 14, 11, 8),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 10, 10, 9, 11, 14),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 10, 10, 14, 11, 14),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5, 11, 10, 7, 12, 14),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.1012358467425472, 9.627750490281636, 11, 3.101235846742547, 14.127750490281636, 13),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 15, 10, 8.4, 16.5, 14),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(-5.31370849898476, 10.313708498984763, 10.7, 1.6862915010152397, 12.313708498984763, 13.2),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(17.55622204955825, 6.905675044638734, 1, 18.55622204955825, 11.905675044638734, 7),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 11, 5, 8, 15, 6),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9, 11, 6, 10, 15, 7),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11, 11, 5, 12, 15, 6),
-    			Block.makeCuboidShape(9, 11, 1, 10, 15, 2),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR),IBooleanFunction.OR),
-				IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR),
-				IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR)
+    	        Stream.of(
+    	                Block.makeCuboidShape(1, 0, 0, 15, 10, 16),
+    	                Block.makeCuboidShape(1, 10, 0, 6, 16, 8),
+    	                Block.makeCuboidShape(6, 10, 0, 14, 11, 8),
+    	                Block.makeCuboidShape(4, 10, 10, 9, 11, 14),
+    	                Block.makeCuboidShape(10, 10, 10, 14, 11, 14),
+    	                Block.makeCuboidShape(5, 11, 10, 7, 12, 14),
+    	                Block.makeCuboidShape(5.3, 10.98096988312782, 11, 7.3, 15.48096988312782, 13),
+    	                Block.makeCuboidShape(6, 13.5, 10, 12.4, 15, 14),
+    	                Block.makeCuboidShape(11.060660171779823, 11.7, 10.7, 13.060660171779823, 15.7, 13.2),
+    	                Block.makeCuboidShape(14, 10.03806023374436, 1, 15, 15.03806023374436, 7),
+    	                Block.makeCuboidShape(7, 11, 5, 8, 15, 6),
+    	                Block.makeCuboidShape(9, 11, 6, 10, 15, 7),
+    	                Block.makeCuboidShape(11, 11, 5, 12, 15, 6),
+    	                Block.makeCuboidShape(9, 11, 1, 10, 15, 2)
+    	                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get()
         );
     	SplicerBlock.SPLICER.put(Direction.SOUTH,
     			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(-0.07066713058715557, 0, 0.920667130587157, 15.929332869412843, 10, 14.920667130587155),
@@ -119,12 +118,12 @@ public class SplicerBlock extends InteractableHorizontalBlock
     {
         return SplicerBlock.SPLICER.get(state.get(SplicerBlock.FACING));
     }
-    
+
     public SplicerBlock(final Properties properties)
     {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(SplicerBlock.FACING, Direction.NORTH).with(
-        		SplicerBlock.FIXED, false));
+                SplicerBlock.FIXED, false));
     }
 
     @Override
@@ -132,7 +131,7 @@ public class SplicerBlock extends InteractableHorizontalBlock
     {
         return new SplicerTile();
     }
-    
+
     @Override
     protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
     {
