@@ -177,7 +177,7 @@
       "spawn":{
         "values":{
           "types":"all",
-          "categoryBlacklist":"desert"
+          "categoryBlacklist":"desert,ocean"
         }
       }
     },
@@ -201,7 +201,8 @@
       ],
       "spawn":{
         "values":{
-          "category":"desert"
+          "category":"desert",
+          "categoryBlacklist":"ocean"
         }
       }
     }
