@@ -265,10 +265,10 @@ public class SpawnBiomeMatcher
     {
         this.parse();
         if (!this.valid) return false;
+        if (this._blackListBiomes.contains(biome.getRegistryName())) return false;
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         if (this._validSubBiomes.contains(BiomeType.NONE) || this._validBiomes.isEmpty() && this._blackListBiomes
                 .isEmpty()) return false;
-        if (this._blackListBiomes.contains(biome.getRegistryName())) return false;
         return this._validBiomes.contains(biome.getRegistryName());
     }
 
