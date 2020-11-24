@@ -264,8 +264,7 @@ public class WorldgenHandler
         final String key = struct.type.isEmpty() ? struct.name : struct.type;
         final JigsawStructure toAdd = WorldgenHandler.structs.getOrDefault(key, new JigsawStructure(key)).addStruct(
                 struct);
-        if(!"none".equals(struct.biomeType))
-            PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name, struct.biomeType);
+        PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name, struct.biomeType);
         if (!WorldgenHandler.structs.containsKey(key))
         {
             WorldgenHandler.structs.put(key, toAdd);
@@ -283,6 +282,7 @@ public class WorldgenHandler
         if (struct.base_under && !struct.water && !struct.air) WorldgenHandler.forceVillageFeature(toAdd);
         for (final Biome b : ForgeRegistries.BIOMES.getValues())
         {
+            if(!struct._matcher.checkBiome(b)) continue;
             b.addFeature(stage, toAdd.withConfiguration(config));
             b.addStructure(toAdd.withConfiguration(config));
         }
