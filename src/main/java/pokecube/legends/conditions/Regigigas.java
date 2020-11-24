@@ -4,13 +4,12 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
 
 public class Regigigas extends Condition
@@ -25,10 +24,14 @@ public class Regigigas extends Condition
                 "registeel")) > 0;
         final boolean regirock = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
                 "regirock")) > 0;
+        final boolean regieleki = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "regieleki")) > 0;
+        final boolean regidrago = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "regidrago")) > 0;
 
-        final String name = "Regice, Registeel, Regirock";
+        final String name = "Regice, Registeel, Regirock, Regieleki, Regidrago";
 
-        if (regice && registeel && regirock) return true;
+        if (regice && registeel && regirock && regieleki && regidrago) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
             this.sendNoTrust(trainer);
@@ -73,7 +76,7 @@ public class Regigigas extends Condition
         locations.add(location.add(0, -2, 0));
         locations.add(location.add(-1, -1, 0));
         locations.add(location.add(1, -1, 0));
-        check = Condition.isBlock(world, locations, Blocks.OBSIDIAN);
+        check = Condition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
         if (check)
         {
             locations.clear();
@@ -88,7 +91,7 @@ public class Regigigas extends Condition
             locations.add(location.add(0, -2, 0));
             locations.add(location.add(0, -1, 1));
             locations.add(location.add(0, -1, -1));
-            check = Condition.isBlock(world, locations, Blocks.OBSIDIAN);
+            check = Condition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
             if (check)
             {
                 locations.clear();
@@ -99,7 +102,7 @@ public class Regigigas extends Condition
         }
         if (!check)
         {
-            if (message) trainer.sendMessage(new TranslationTextComponent("msg.reginotlookright.txt"), Util.DUMMY_UUID);
+            if (message) this.sendLegendBuild(trainer, "Regigigas");
             return CanSpawn.NO;
         }
         return CanSpawn.YES;

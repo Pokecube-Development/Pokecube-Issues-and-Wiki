@@ -4,9 +4,6 @@ import java.util.function.Predicate;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.EntityPredicates;
-import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.utils.TrainerTracker;
-import thut.api.maths.Vector3;
 
 public class AgroTargets extends BaseAgroTask
 {
@@ -35,9 +32,6 @@ public class AgroTargets extends BaseAgroTask
         if (!this.shouldRun.test(this.entity)) return false;
         if (!EntityPredicates.CAN_AI_TARGET.test(target)) return false;
         if (!this.trainer.canBattle(target, false).test()) return false;
-        final int dist = PokecubeAdv.config.trainer_crowding_radius;
-        final int num = PokecubeAdv.config.trainer_crowding_number;
-        if (TrainerTracker.countTrainers(this.world, Vector3.getNewVector().set(this.entity), dist) > num) return false;
         return this.validTargets.test(target);
     }
 }

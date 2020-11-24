@@ -27,16 +27,16 @@ public class BlockBase extends Block
     String     infoname;
     boolean    hasTextInfo = true;
 
-    public BlockBase(final String name, final Material material, final float hardnessresistance, final SoundType sound, final ToolType tool)
+    public BlockBase(final String name, final Material material, final float hardnessresistance, final SoundType sound, final ToolType tool, final int harvest)
     {
-        this(name, material, hardnessresistance, hardnessresistance, sound, tool);
+        this(name, material, hardnessresistance, hardnessresistance, sound, tool, harvest);
         this.setInfoBlockName(name);
     }
 
     public BlockBase(final String name, final Material material, final float hardness, final float resistance,
-            final SoundType sound, final ToolType tool)
+            final SoundType sound, final ToolType tool, final int harvestLevel)
     {
-        super(Block.Properties.create(material).hardnessAndResistance(hardness, resistance).sound(sound));
+        super(Block.Properties.create(material).hardnessAndResistance(hardness, resistance).sound(sound).harvestLevel(harvestLevel));
     }
 
     public BlockBase(final String name, final Material material, final ToolType tool, final int level)

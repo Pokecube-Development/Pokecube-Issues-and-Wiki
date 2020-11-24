@@ -71,7 +71,7 @@ public class PlantsInit
 			public boolean place(final IWorld world, ChunkGenerator<?> generator, final Random random, final BlockPos pos, final BlockClusterFeatureConfig config) {
 				final RegistryKey<World> dimensionType = world.getDimensionKey();
 				boolean dimensionCriteria = false;
-				if (dimensionType == DimensionInit.DIMENSION_TYPE)
+				if (dimensionType == ModDimensions.DIMENSION_TYPE_US)
 					dimensionCriteria = true;
 				if (!dimensionCriteria)
 					return false;

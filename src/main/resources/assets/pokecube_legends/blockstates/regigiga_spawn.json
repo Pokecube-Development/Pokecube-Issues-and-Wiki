@@ -1,7 +1,19 @@
 {
-    "variants": {
-        "": { 
-			"model": "pokecube_legends:block/regigiga_spawn" 
-		}
+  "variants": {
+    "facing=north": {
+      "model": "pokecube_legends:block/regigiga_spawn"
+    },
+    "facing=east": {
+      "model": "pokecube_legends:block/regigiga_spawn",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "pokecube_legends:block/regigiga_spawn",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "pokecube_legends:block/regigiga_spawn",
+      "y": 270
+    }
     }
 }

@@ -15,6 +15,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.ItemInit;
 
 public class ControllerUltraEffect extends ItemBase
@@ -22,7 +23,7 @@ public class ControllerUltraEffect extends ItemBase
 
     public ControllerUltraEffect(final String name, final int num)
     {
-        super(name, num);
+        super(name, num, PokecubeLegends.TAB);
     }
 
     @Override

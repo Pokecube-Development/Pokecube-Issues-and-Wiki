@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RCR",
+    "CAC",
+    "RCR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:obsidian"
+    },
+    "A": {
+      "item": "pokecube_legends:ruby_block"
+    },
+    "C": {
+      "item": "minecraft:magma_block"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:regidrago_spawn",
+    "count": 1
+  }
+}

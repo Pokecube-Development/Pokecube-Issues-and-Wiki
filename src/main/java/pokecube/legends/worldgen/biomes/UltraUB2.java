@@ -62,9 +62,15 @@ public class UltraUB2 {
                 		BlockInit.SPECTRUM_ORE.get().getDefaultState(), 8))
         					.withPlacement(Placement.COUNT_RANGE.configure(
                                 new CountRangeConfig(10, 0, 0, 32))));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
+                new OreFeatureConfig(customFillerBlockType.CUSTOM_FILLER, 
+                		BlockInit.COSMIC_DUST_ORE.get().getDefaultState(), 8))
+        					.withPlacement(Placement.COUNT_RANGE.configure(
+                                new CountRangeConfig(10, 0, 0, 32))));
         
-				this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.NORMAL_TREE.withConfiguration(Ultra_Tree02.ULTRA_TREE02_CONFIG)
-						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(5, 0.1f, 1))));
+		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.NORMAL_TREE.withConfiguration
+				(Ultra_Tree02.ULTRA_TREE02_CONFIG).withPlacement
+					(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(5, 0.1f, 1))));
 	}
 
     @OnlyIn(Dist.CLIENT)

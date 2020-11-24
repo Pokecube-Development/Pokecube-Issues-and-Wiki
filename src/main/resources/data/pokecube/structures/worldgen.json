@@ -177,7 +177,7 @@
       "spawn":{
         "values":{
           "types":"all",
-          "categoryBlacklist":"desert"
+          "categoryBlacklist":"desert,ocean,the_end,nether"
         }
       }
     },

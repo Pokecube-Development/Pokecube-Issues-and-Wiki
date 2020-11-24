@@ -25,9 +25,9 @@ public class Rotates extends BlockBase
     private static final DirectionProperty FACING      = HorizontalBlock.HORIZONTAL_FACING;
 
     public Rotates(final String name, final Material material, final float hardness, final float resistance,
-            final SoundType sound, final ToolType tool)
+            final SoundType sound, final ToolType tool, final int harvest)
     {
-        super(name, material, hardness, resistance, sound, tool);
+    	super(name, material, hardness, resistance, sound, tool, harvest);
         this.setDefaultState(this.stateContainer.getBaseState().with(Rotates.FACING, Direction.NORTH).with(
                 Rotates.WATERLOGGED, false));
     }

@@ -43,6 +43,7 @@ import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.adventures.utils.TradeEntryLoader;
+import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -60,6 +61,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
+import thut.api.maths.Vector3;
 
 @SuppressWarnings("unchecked")
 public class TypeTrainer extends NpcType
@@ -143,7 +145,13 @@ public class TypeTrainer extends NpcType
 
         TypeTrainer.registerAIAdder((npc) ->
         {
-
+            final Predicate<LivingEntity> noRunIfCrowded = e ->
+            {
+                final int dist = PokecubeAdv.config.trainer_crowding_radius;
+                final int num = PokecubeAdv.config.trainer_crowding_number;
+                if (TrainerTracker.countTrainers(e.getEntityWorld(), Vector3.getNewVector().set(e), dist) > num) return false;
+                return true;
+            };
             final Predicate<LivingEntity> noRunWhileRest = e ->
             {
                 if (e instanceof VillagerEntity)
@@ -153,7 +161,7 @@ public class TypeTrainer extends NpcType
                     final Activity a = s.getScheduledActivity((int) (e.world.getDayTime() % 24000L));
                     if (a == Activity.REST) return false;
                 }
-                return true;
+                return noRunIfCrowded.test(e);
             };
             final Predicate<LivingEntity> noRunWhileMeet = e ->
             {
@@ -164,14 +172,14 @@ public class TypeTrainer extends NpcType
                     final Activity a = s.getScheduledActivity((int) (e.world.getDayTime() % 24000L));
                     if (a == Activity.MEET) return false;
                 }
-                return true;
+                return noRunIfCrowded.test(e);
             };
             final Predicate<LivingEntity> onlyIfHasMobs = e ->
             {
                 final IHasPokemobs other = TrainerCaps.getHasPokemobs(e);
-                if (other == null) return true;
+                if (other == null) return noRunIfCrowded.test(e);
                 final boolean hasMob = !other.getNextPokemob().isEmpty();
-                if (hasMob) return true;
+                if (hasMob) return noRunIfCrowded.test(e);
                 return other.getOutID() != null;
             };
 

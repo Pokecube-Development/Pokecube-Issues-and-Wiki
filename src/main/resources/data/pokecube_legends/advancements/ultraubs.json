@@ -2,7 +2,7 @@
   "display": {
     "background": "minecraft:textures/block/stone.png",
     "icon": {
-      "item": "pokecube_legends:beastcube"
+      "item": "pokecube:beastcube"
     },
     "title": {
       "translate": "advancements.ultraubs.title"

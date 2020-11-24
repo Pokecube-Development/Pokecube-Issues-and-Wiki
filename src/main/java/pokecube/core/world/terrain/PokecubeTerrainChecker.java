@@ -45,6 +45,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     public static ResourceLocation WOODTAG       = new ResourceLocation(PokecubeCore.MODID, "wood");
 
     public static Map<String, String> structureSubbiomeMap = Maps.newHashMap();
+    public static Map<String, String> manualStructureSubbiomes = Maps.newHashMap();
 
     public static void initStructMap()
     {
@@ -54,6 +55,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
             final StructInfo info = PokedexEntryLoader.gson.fromJson(s, StructInfo.class);
             PokecubeTerrainChecker.structureSubbiomeMap.put(info.struct, info.subbiome);
         }
+        PokecubeTerrainChecker.structureSubbiomeMap.putAll(PokecubeTerrainChecker.manualStructureSubbiomes);
     }
 
     public static void init()

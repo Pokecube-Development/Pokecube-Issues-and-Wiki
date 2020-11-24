@@ -1,0 +1,85 @@
+{
+  "trainers": [
+    {
+      "type": "rocket",
+      "pokemon": "tauros,zubat,doduo,venomoth,skarmory,golem,rhydon,rhyperior,purugly,toxicroak,skuntank,yanma,koffing,magnemite,raticate,grimer,golbat,houndoom,arbok,geodude,graveler,drowzee,persian,murkrow,electrode,beedrill",
+      "spawns": [
+        {
+          "values": {
+            "rate": "0.7",
+            "types": "all",
+            "typesBlacklist": "cave"
+          }
+        }
+      ],
+      "gender": "Both"
+    },
+    {
+      "type": "aether",
+      "pokemon": "dugtrio_alola,sliggoo,herdier,lumineon,shelgon,trumbeak,parasect,drifblim,vibrava,primeape,muk_alola,megneton,porygon2,machoke,vanillish,mudsdale,pelipper,magmar,electabuzz,ledian,kecleon,arbok,lurantis,sudowoodo,arcanine,huntail,gorebyss,anorith,lileep,houndoom,manectric,pupitar,granbull,scrafty,shiinotic",
+      "spawns": [
+        {
+          "values": {
+            "rate": "0.7",
+            "types": "all",
+            "typesBlacklist": "cave"
+          }
+        }
+      ],
+      "gender": "Both"
+    },
+    {
+      "type": "zinnia",
+      "pokemon": "whismur,goodra,tyrantrum,altaria,noivern,salamence",
+      "spawns": [
+        {
+          "values": {
+            "rate": "0.3",
+            "types": "extreme_hills",
+            "typesBlacklist": "cave"
+          }
+        }
+      ],
+      "gender": "Female"
+    },
+    {
+      "type": "giovanni",
+      "pokemon": "persian,rhyhorn,nidoqueen,dugtrio,nidoking,rhydon,kangaskhan,gyarados,marowak,exeggutor,arcanine,rhyperior,hippowdon,krookodile,gliscor,garchomp,sandslash,golem,honchkrow,onix,venusaur,blastoise,muk,porygon,poliwrath,electrode,alakazam,gengar",
+      "spawns": [
+        {
+          "values": {
+            "rate": "0.05",
+            "types": "all"
+          }
+        }
+      ],
+      "gender": "Male"
+    },
+    {
+      "type": "lusamine",
+      "pokemon": "clefable,lilligant,mismagius,milotic,bewear,lopunny,nihilego,magmar,starmie,salazzle,granbull,absol,solrock,lunatone",
+      "spawns": [
+        {
+          "values": {
+            "rate": "0.02",
+            "types": "village"
+          }
+        }
+      ],
+      "gender": "Female"
+    },
+    {
+      "type": "faba",
+      "pokemon": "slowbro,bruxish,hypno,raichu_alola,alakazam,claydol,raticate_alola,magnezone,toxel",
+      "spawns": [
+        {
+          "values": {
+            "rate": "0.02",
+            "types": "village"
+          }
+        }
+      ],
+      "gender": "Male"
+    }
+  ]
+}

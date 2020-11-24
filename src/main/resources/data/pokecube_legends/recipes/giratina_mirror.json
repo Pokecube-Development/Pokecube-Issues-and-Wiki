@@ -1,0 +1,27 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "BGC",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:head_mirror"
+    },
+    "B": {
+      "item": "pokecube_legends:body_mirror"
+    },
+    "C": {
+      "item": "pokecube_legends:glass_mirror"
+    },
+    "G": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:giratina_mirror",
+    "count": 1
+  }
+}

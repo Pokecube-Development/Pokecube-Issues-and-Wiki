@@ -20,30 +20,35 @@ public class UltraUB5 {
     {
         public static final OreFeatureConfig.FillerBlockType CUSTOM_FILLER = OreFeatureConfig.FillerBlockType.create("CustomFiller", "custom_filler", new BlockMatcher(BlockInit.ULTRA_STONE.get()));
     }
-	
-    // 
+
+    //
     public UltraUB5()
-    {     
+    {
         super(new Biome.Builder().downfall(0.5f).depth(0.6f).scale(0.1f).temperature(1.5f)
         		.precipitation(Biome.RainType.RAIN).category(Biome.Category.THEEND).waterColor(-8650599)
         		.waterFogColor(-8650599).surfaceBuilder(SurfaceBuilder.DEFAULT,
         				new SurfaceBuilderConfig(BlockInit.ULTRA_SANDDISTOR.get().getDefaultState(),
         						BlockInit.ULTRA_ROCKDISTOR.get().getDefaultState(),
         						Blocks.MOSSY_COBBLESTONE.getDefaultState())));
-		
+
 		DefaultBiomeFeatures.addCarvers(this);
 		DefaultBiomeFeatures.addStructures(this);
 		DefaultBiomeFeatures.addMonsterRooms(this);
 		DefaultBiomeFeatures.addOres(this);
-		
+
 		this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
                 Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.GRASS_CONFIG)
                 .withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(3))));
-			
+
 		//Extra
         this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                new OreFeatureConfig(customFillerBlockType.CUSTOM_FILLER, 
+                new OreFeatureConfig(customFillerBlockType.CUSTOM_FILLER,
                 		BlockInit.SPECTRUM_ORE.get().getDefaultState(), 8))
+        					.withPlacement(Placement.COUNT_RANGE.configure(
+                                new CountRangeConfig(10, 0, 0, 32))));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
+                new OreFeatureConfig(customFillerBlockType.CUSTOM_FILLER,
+                		BlockInit.COSMIC_DUST_ORE.get().getDefaultState(), 8))
         					.withPlacement(Placement.COUNT_RANGE.configure(
                                 new CountRangeConfig(10, 0, 0, 32))));
     }

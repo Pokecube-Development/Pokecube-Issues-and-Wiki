@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
@@ -131,18 +132,17 @@ public class SendOutManager
 
             v.set(v.intX() + 0.5, v.intY(), v.intZ() + 0.5);
             final BlockState state = v.getBlockState(cube.getEntityWorld());
-            if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
+            final VoxelShape s = state.getCollisionShape(world, v.getPos());
+            if (!s.isEmpty()) v.y += s.getEnd(Axis.Y);
             // Ensure the mob's position is initialized properly first
             v.moveEntity(mob);
             v = SendOutManager.getFreeSpot(mob, world, v, respectRoom);
-            if (v == null)
+            // Let npcs send out their mobs wherever they want to...
+            if (v == null && isPlayers)
             {
-                if (isPlayers)
-                {
-                    Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                    user.sendMessage(new TranslationTextComponent("pokecube.noroom"), Util.DUMMY_UUID);
-                    cube.remove();
-                }
+                Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
+                user.sendMessage(new TranslationTextComponent("pokecube.noroom"), Util.DUMMY_UUID);
+                cube.remove();
                 return null;
             }
         }

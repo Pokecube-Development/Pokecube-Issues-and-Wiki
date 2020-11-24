@@ -99,6 +99,44 @@
       }
     },
     {
+      "name": "Regidrago",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "mesa",
+              "rate": "0.0"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:regidrago_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Regieleki",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "industrial",
+              "rate": "0.0"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:regieleki_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Regigigas",
       "stats": {
         "spawnRules": [
@@ -143,7 +181,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:rayquaza_tower",
+              "structures": "pokecube_legends:sky_pillar",
               "rate": "0.0"
             }
           }
@@ -339,6 +377,32 @@
           {
             "values": {
               "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Glastrier",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "snowy",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Spectrier",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "spooky",
               "rate": "0.0"
             }
           }

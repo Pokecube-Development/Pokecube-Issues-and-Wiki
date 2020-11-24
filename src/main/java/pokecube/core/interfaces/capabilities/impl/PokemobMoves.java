@@ -394,6 +394,7 @@ public abstract class PokemobMoves extends PokemobSexed
     @Override
     public ITargetFinder getTargetFinder()
     {
+        if (this.targetFinder == null) return () -> {};
         return this.targetFinder;
     }
 

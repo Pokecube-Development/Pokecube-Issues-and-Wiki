@@ -6,22 +6,23 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.PokecubeItems;
 
 public class ItemBase extends Item
 {
     String  tooltipname;
     boolean hasTooltip = true;
 
-    public ItemBase(final String name, final int num)
+    public ItemBase(final String name, final int num, final ItemGroup group)
     {
-        super(new Properties().group(PokecubeItems.POKECUBEITEMS).maxStackSize(num));
+        super(new Properties().group(group).maxStackSize(num));
         this.setTooltipName(name);
     }
 
@@ -44,7 +45,7 @@ public class ItemBase extends Item
     {
         if (!this.hasTooltip) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip");
+        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip", TextFormatting.GOLD, TextFormatting.BOLD, TextFormatting.RESET);
         else message = I18n.format("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }

@@ -149,6 +149,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         if (nbt.contains("trades")) this.aiStates.setAIState(IHasNPCAIStates.TRADES, nbt.getBoolean("trades"));
         this.fixedTrades = nbt.getBoolean("fixedTrades");
         this.fixedMobs = nbt.getBoolean("fixedMobs");
+        this.customTrades = nbt.getString("customTrades");
         this.setTypes();
     }
 
@@ -223,5 +224,6 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         super.writeAdditional(compound);
         compound.putBoolean("fixedTrades", this.fixedTrades);
         compound.putBoolean("fixedMobs", this.fixedMobs);
+        compound.putString("customTrades", this.customTrades);
     }
 }
