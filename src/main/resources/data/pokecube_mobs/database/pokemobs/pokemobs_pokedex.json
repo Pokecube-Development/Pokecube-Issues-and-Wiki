@@ -50952,7 +50952,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "normal"
       },
       "moves": {
         "lvlupMoves": {
