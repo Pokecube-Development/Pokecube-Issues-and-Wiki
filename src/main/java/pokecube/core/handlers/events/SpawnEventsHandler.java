@@ -178,7 +178,12 @@ public class SpawnEventsHandler
     public static void applyFunction(final NpcMob npc, final JsonObject thing)
     {
         if (thing.has("name")) npc.name = thing.get("name").getAsString();
-
+        if (thing.has("gender"))
+        {
+            final boolean male = thing.get("gender").getAsString().equalsIgnoreCase("male") ? true
+                    : thing.get("gender").getAsString().equalsIgnoreCase("female") ? false : npc.getRNG().nextBoolean();
+            npc.setMale(male);
+        }
         GuardInfo info = null;
         if (thing.has("guard")) try
         {
