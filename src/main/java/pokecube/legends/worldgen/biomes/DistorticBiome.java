@@ -13,15 +13,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.init.BlockInit;
 
 public class DistorticBiome extends Biome
-{	
+{
     //Giratinaa
     public DistorticBiome()
-    {       
+    {
         super(new Biome.Builder().downfall(0.8f).depth(0.1f).scale(0.2f).temperature(1.5f)
-        		.precipitation(Biome.RainType.NONE).category(Biome.Category.NONE).waterColor(-13012799).waterFogColor(-13012799)
+        		.precipitation(Biome.RainType.NONE).category(Biome.Category.THEEND).waterColor(-13012799).waterFogColor(-13012799)
 				.surfaceBuilder(SurfaceBuilder.DEFAULT,
 						new SurfaceBuilderConfig(BlockInit.DISTORTIC_GRASS.get().getDefaultState(),
-								BlockInit.DISTORTIC_STONE.get().getDefaultState(), 
+								BlockInit.DISTORTIC_STONE.get().getDefaultState(),
 								BlockInit.DISTORTIC_STONE.get().getDefaultState())));
 
         DefaultBiomeFeatures.addCarvers(this);
@@ -46,7 +46,7 @@ public class DistorticBiome extends Biome
     {
         return -13489378;
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public int getSkyColor()
