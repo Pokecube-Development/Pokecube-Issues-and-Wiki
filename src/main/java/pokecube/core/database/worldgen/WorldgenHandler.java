@@ -282,7 +282,6 @@ public class WorldgenHandler
         if (struct.base_under && !struct.water && !struct.air) WorldgenHandler.forceVillageFeature(toAdd);
         for (final Biome b : ForgeRegistries.BIOMES.getValues())
         {
-            if(!struct._matcher.checkBiome(b)) continue;
             b.addFeature(stage, toAdd.withConfiguration(config));
             b.addStructure(toAdd.withConfiguration(config));
         }
