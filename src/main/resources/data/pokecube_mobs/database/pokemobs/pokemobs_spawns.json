@@ -338,6 +338,7 @@
             "values": {
               "maxLight": "0.5",
               "types": "all",
+              "biomesBlacklist":"pokecube_legends:distortic_world",
               "min": "3",
               "rate": "0.25",
               "max": "8",

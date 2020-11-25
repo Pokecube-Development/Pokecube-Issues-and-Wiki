@@ -1,5 +1,53 @@
 {
   "pools":[
+  	//
+  	{
+      "name":"pokecube_legends:village/ocean/town_centers",
+      "options":[
+        "pokecube_legends:village/ocean/town_centers/center_1"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/terminators",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:village/ocean/terminators/terminator_01"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/streets",
+      "target":"pokecube_legends:village/ocean/terminators",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:village/ocean/road_01"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/pokecenter/path",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:village/ocean/pokecenter/path"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/gym/path",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:village/ocean/gym/path"
+      ]
+    },
+     {
+      "name":"pokecube_legends:village/ocean/houses",
+      "target":"pokecube_legends:village/ocean/terminators",
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:village/ocean/houses/trade;{\"flag\":\"pokecenter\"}",
+        "pokecube_legends:village/ocean/houses/aether_base;{\"flag\":\"gym\"}",
+        "pokecube_legends:village/ocean/houses/aether_base1;{\"flag\":\"gym\"}"
+      ]
+    },
+    
+    //
     {
       "name":"pokecube_legends:temples/surface_base",
       "rigid":false,
@@ -21,16 +69,7 @@
         "pokecube_legends:temples/underground/base"
       ]
     },
-    
-    {
-      "name":"pokecube_legends:aether_fund",
-      "rigid":true,
-      "ignoreAir":false,
-      "options":[
-        "pokecube_legends:temples/surface/aether_base;{\"dy\":-1}",
-        "pokecube_legends:temples/surface/aether_base1;{\"dy\":-1}"
-      ]
-    },
+  
     {
       "name":"pokecube_legends:team_rocket",
       "rigid":true,
@@ -352,10 +391,39 @@
     }
   ],
   "jigsaws":[
+  	//
+    {
+      "type":"pokecube_legends:village_ocean",
+      "name":"pokecube_legends:village/ocean",
+      "root":"pokecube_legends:village/ocean/town_centers",
+      "chance":1,
+      "distance":24,
+      "separation":8,
+      "size":6,
+      "priority":10,
+      "biomeType":"village",
+      "base_under":false,
+      "needed_once":[
+        "pokecenter",
+        "gym"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "types":"ocean",
+          "categoryBlacklist":"the_end,nether",
+          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
+        }
+      }
+    },
+    //
     {
       "name":"pokecube_legends:mirage",
       "root":"pokecube_legends:mirage/base",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":8,
       "spawn":{
@@ -369,7 +437,7 @@
     {
       "name":"pokecube_legends:raid_end",
       "root":"pokecube_legends:raid_end",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":32,
       "separation":5,
       "spawn":{
@@ -382,7 +450,7 @@
     {
       "name":"pokecube_legends:raid_desert",
       "root":"pokecube_legends:raid_desert",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":15,
       "separation":5,
       "spawn":{
@@ -395,7 +463,7 @@
     {
       "name":"pokecube_legends:raid_spot",
       "root":"pokecube_legends:raid_spot",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":25,
       "separation":5,
       "spawn":{
@@ -410,7 +478,7 @@
     {
       "name":"pokecube_legends:kubfu_water",
       "root":"pokecube_legends:kubfu_water",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":4,
       "spawn":{
@@ -423,7 +491,7 @@
 	{
       "name":"pokecube_legends:kubfu_dark",
       "root":"pokecube_legends:kubfu_dark",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":27,
       "separation":8,
       "spawn":{
@@ -515,7 +583,7 @@
     {
       "name":"pokecube_legends:nature_place",
       "root":"pokecube_legends:nature_place",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":8,
       "spawn":{
@@ -541,7 +609,7 @@
     {
       "name":"pokecube_legends:lugia_tower",
       "root":"pokecube_legends:lugia_tower",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":4,
       "spawn":{
@@ -564,21 +632,6 @@
         }
       }
     },
-    
-    {
-      "name":"pokecube_legends:aether_fund",
-      "root":"pokecube_legends:aether_fund",
-      "biomeType":"none",
-      "distance":24,
-      "separation":9,
-      "base_under":false,
-      "spawn":{
-        "values":{
-          "category":"ocean",
-          "biomesBlacklist":"pokecube_legends:distortic_world,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004"
-        }
-      }
-    },
     {
       "name":"pokecube_legends:team_rocket",
       "root":"pokecube_legends:team_rocket",
@@ -593,7 +646,6 @@
         }
       }
     },
-    
     {
       "name":"pokecube_legends:sky_pillar",
       "root":"pokecube_legends:sky_pillar",
@@ -610,7 +662,7 @@
     {
       "name":"pokecube_legends:celebi_temple",
       "root":"pokecube_legends:celebi_temple",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":8,
       "spawn":{
@@ -637,7 +689,7 @@
     {
       "name":"pokecube_legends:zacian_temple",
       "root":"pokecube_legends:zacian_temple",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":8,
       "spawn":{
@@ -650,7 +702,7 @@
     {
       "name":"pokecube_legends:zamazenta_temple",
       "root":"pokecube_legends:zamazenta_temple",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":8,
       "spawn":{
@@ -663,7 +715,7 @@
     {
       "name":"pokecube_legends:hooh_tower",
       "root":"pokecube_legends:hooh_tower",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":8,
       "spawn":{
@@ -676,7 +728,7 @@
     {
       "name":"pokecube_legends:xerneas_place",
       "root":"pokecube_legends:xerneas_place",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":16,
       "separation":8,
       "spawn":{
@@ -689,7 +741,7 @@
     {
       "name":"pokecube_legends:keldeo_place",
       "root":"pokecube_legends:keldeo_place",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":8,
       "spawn":{
@@ -702,7 +754,7 @@
     {
       "name":"pokecube_legends:kyogre_temple",
       "root":"pokecube_legends:kyogre_temple",
-      "biomeType":"ruin",
+      "biomeType":"none",
       "distance":24,
       "separation":8,
       "water":true,
@@ -730,7 +782,7 @@
     {
       "name":"pokecube_legends:meteor_overworld",
       "root":"pokecube_legends:meteor_overworld",
-      "biomeType":"none",
+      "biomeType":"meteor",
       "distance":9,
       "separation":3,
       "spawn":{

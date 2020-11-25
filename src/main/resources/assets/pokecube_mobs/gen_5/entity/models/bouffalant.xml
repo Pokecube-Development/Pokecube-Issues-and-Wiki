@@ -5,8 +5,8 @@
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
   <phase duration="10" leftFront="leg3" leftHind="leg1" name="quadWalk" rightFront="leg4" rightHind="leg2"/>
   <customTex default="bouffalant">
-   <part name="Head" tex="bouffalanthead"/>
-   <animation diffs="0.44,0" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="bouffalanteye"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="body">
