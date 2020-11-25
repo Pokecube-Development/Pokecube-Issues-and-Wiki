@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
- <model>
-  <phase name="global" scale="1.2"/>
- </model>
+  <model>
+    <phase name="global" scale="0.9"/>
+    <customTex default="cascoon">
+      <part name="Cascoon Eyes" tex="cascoon_eyes"/>
+    </customTex>
+  </model>
 </ModelAnimator>
