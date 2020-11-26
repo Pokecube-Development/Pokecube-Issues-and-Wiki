@@ -318,7 +318,7 @@
     "legends.thundercore.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on -Regieleki Core- to Spawn Regieleki",
     "legends.legendaryorb.tooltip": "Use this item on -Legendary Spawn- to for Spawn Ho-oh",
     "legends.lifeorb.tooltip": "Use this item on -Aura Tree- Spawn Xerneas",
-    "legends.destructorb.tooltip": "Use this item on -Cocoon of Destruction- Spawn Xerneas",
+    "legends.destructorb.tooltip": "Use this item on -Cocoon of Destruction- Spawn Yveltal",
     "legends.lightstone.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on -Time and Space Spawn- Spawn Reshiram",
     "legends.lustrousorb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on -Time and Space Spawn- Spawn Palkia",
     "legends.magmacore.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on -Heatran Spawn- to Spawn Heatran",
@@ -342,7 +342,7 @@
     "legends.mirror.tooltip": "Use this item to access the Distorted Dimension!",
     "legends.ultrakey.tooltip": "Use this item to teleport to Ultra Space!\n%1$s[You need Cosmic Dust in your inventory! Minimum: %2$s]",
     "legends.reins_unity.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest!%3$s\nUse this item in -Calyrex- to change it.",
-    "legends.shadow_c.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on -Trough Block Spawn- to Spawn Glastrier",
-    "legends.ice_c.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on -Trough Block Spawn- to Spawn Spectrier",
+    "legends.shadow_c.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on -Trough Block Spawn- to Spawn Spectrier",
+    "legends.ice_c.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on -Trough Block Spawn- to Spawn Glastrier",
     "legends.helmet.tooltip": "%1$s%2$s[Purchase]%3$s %1$sItem purchased with specific NPC!%3$s\nUse on the -Clone Device- as a recipe item to invoke Type:Null"
 }
