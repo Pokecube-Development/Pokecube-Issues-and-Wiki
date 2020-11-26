@@ -54,7 +54,7 @@ public class Battle
         if (this.mob instanceof MobEntity)
         {
             BrainUtils.initiateCombat((MobEntity) this.mob, this.mainTarget);
-            if (this.pokemob != null) this.pokemob.getAbility().start(this.pokemob);
+            if (this.pokemob != null && this.pokemob.getAbility() != null) this.pokemob.getAbility().start(this.pokemob);
         }
     }
 
@@ -90,7 +90,7 @@ public class Battle
             BrainUtils.deagro(this.mob);
             BrainUtils.deagro(this.mainTarget);
 
-            if (this.pokemob != null) this.pokemob.getAbility().end(this.pokemob);
+            if (this.pokemob != null && this.pokemob.getAbility() != null) this.pokemob.getAbility().end(this.pokemob);
 
             Battle.battles.remove(this.mob);
         }

@@ -168,8 +168,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     private void preRender(final MatrixStack mat)
     {
-        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         mat.push();
+        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         // Translate of offset for rotation.
         mat.translate(this.offset.x, this.offset.y, this.offset.z);
         mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
