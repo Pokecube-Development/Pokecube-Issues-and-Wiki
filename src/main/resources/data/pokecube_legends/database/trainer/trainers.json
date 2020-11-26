@@ -16,7 +16,7 @@
     },
     {
       "type": "aether",
-      "pokemon": "dugtrio_alola,sliggoo,herdier,lumineon,shelgon,trumbeak,parasect,drifblim,vibrava,primeape,muk_alola,megneton,porygon2,machoke,vanillish,mudsdale,pelipper,magmar,electabuzz,ledian,kecleon,arbok,lurantis,sudowoodo,arcanine,huntail,gorebyss,anorith,lileep,houndoom,manectric,pupitar,granbull,scrafty,shiinotic",
+      "pokemon": "dugtrio_alola,sliggoo,herdier,lumineon,shelgon,trumbeak,parasect,drifblim,vibrava,primeape,muk_alola,magneton,porygon2,machoke,vanillish,mudsdale,pelipper,magmar,electabuzz,ledian,kecleon,arbok,lurantis,sudowoodo,arcanine,huntail,gorebyss,anorith,lileep,houndoom,manectric,pupitar,granbull,scrafty,shiinotic",
       "spawns": [
         {
           "values": {
