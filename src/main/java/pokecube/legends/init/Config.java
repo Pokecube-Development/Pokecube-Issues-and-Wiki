@@ -15,6 +15,15 @@ public class Config extends ConfigData
     @Configure(category = "general")
     public int     respawnLegendDelay    = 36000;
 
+    // Meteor adjustments
+    @Configure(category = "meteors")
+    public double meteorPowerThreshold = 20;
+    @Configure(category = "meteors")
+    public double meteorChanceForAny = 0.01;
+    @Configure(category = "meteors")
+    public double meteorChanceForDust = 0.25;
+
+
     //Raids
     @Configure(category = "raids")
     public int raidDuration = 3000;
@@ -30,7 +39,7 @@ public class Config extends ConfigData
     public boolean enabledkeyusecombustible    	= true;
     @Configure(category = "ultraspace")
     public int     itemCombustiveStack     		= 5;
-    
+
     //Distortic World
     @Configure(category = "distortic")
     public int     mirrorCooldown     	= 800;
@@ -54,14 +63,10 @@ public class Config extends ConfigData
             this.conditions.init();
             this.conditionsReged = true;
         }
-        
-        if(this.enabledkeyusecombustible == true) {
-	        if(this.itemCombustiveStack <= 1 || this.itemCombustiveStack >= 10)
-	        	this.itemCombustiveStack = 5;
-	   }
-        
-       if(this.mirrorCooldown <= 300 || this.mirrorCooldown >= 2000) {
-        	this.mirrorCooldown = 800;
-       }
+
+        if(this.enabledkeyusecombustible == true) if(this.itemCombustiveStack <= 1 || this.itemCombustiveStack >= 10)
+        	this.itemCombustiveStack = 5;
+
+       if(this.mirrorCooldown <= 300 || this.mirrorCooldown >= 2000) this.mirrorCooldown = 800;
     }
 }

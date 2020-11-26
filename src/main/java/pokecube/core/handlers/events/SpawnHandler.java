@@ -53,6 +53,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.events.MeteorEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
@@ -536,6 +537,8 @@ public final class SpawnHandler
                             if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.getDefaultState();
                             if (destroyed.getMaterial() == Material.TALL_PLANTS) to = Blocks.FIRE.getDefaultState();
                         }
+                        final MeteorEvent event = new MeteorEvent(destroyed, to, pos, power, boom);
+                        MinecraftForge.EVENT_BUS.post(event);
                         final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
                         seg.setBiome(pos, BiomeType.METEOR.getType());
                         boom.world.setBlockState(pos, to, 3);
