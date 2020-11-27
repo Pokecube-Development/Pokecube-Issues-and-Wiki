@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.block.GlassBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
@@ -82,7 +83,7 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_ROCKDISTOR;
     public static final RegistryObject<Block> ULTRA_GRASSAGED;
     public static final RegistryObject<Block> ULTRA_DIRTAGED;
-    
+
     public static final RegistryObject<Block> DISTORTIC_GRASS;
     public static final RegistryObject<Block> DISTORTIC_STONE;
     public static final RegistryObject<Block> DISTORTIC_MIRROR;
@@ -114,16 +115,16 @@ public class BlockInit
     public static final RegistryObject<Block> LEGENDARY_SPAWN;
     public static final RegistryObject<Block> TROUGH_BLOCK;
     public static final RegistryObject<Block> HEATRAN_BLOCK;
-    
+
     public static final RegistryObject<Block> GOLEM_STONE;
-    
+
     public static final RegistryObject<Block> REGISTEEL_CORE;
     public static final RegistryObject<Block> REGICE_CORE;
     public static final RegistryObject<Block> REGIROCK_CORE;
     public static final RegistryObject<Block> REGIELEKI_CORE;
     public static final RegistryObject<Block> REGIDRAGO_CORE;
     public static final RegistryObject<Block> REGIGIGA_CORE;
-    
+
     public static final RegistryObject<Block> TIMESPACE_CORE;
     public static final RegistryObject<Block> NATURE_CORE;
     public static final RegistryObject<Block> KELDEO_CORE;
@@ -139,7 +140,7 @@ public class BlockInit
     public static final RegistryObject<Block> SPECTRUM_ORE;
     public static final RegistryObject<Block> SPECTRUM_BLOCK;
     public static final RegistryObject<Block> COSMIC_DUST_ORE;
-    
+
     static
     {
         // Block Raid
@@ -151,7 +152,7 @@ public class BlockInit
                 Material.LEAVES).hardnessAndResistance(1f, 5).sound(SoundType.WET_GRASS).noDrops()));
         DYNA_LEAVE2 	= PokecubeLegends.BLOCKS.register("dyna_leave_2", () -> new Block(Block.Properties.create(
                 Material.LEAVES).hardnessAndResistance(1f, 5).sound(SoundType.WET_GRASS).noDrops()));
-        
+
         OCEAN_BRICK 	= PokecubeLegends.BLOCKS.register("oceanbrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
         SKY_BRICK 		= PokecubeLegends.BLOCKS.register("skybrick", () -> new Block(Block.Properties.create(Material.ROCK)
@@ -163,9 +164,11 @@ public class BlockInit
         DARKSKY_BRICK 	= PokecubeLegends.BLOCKS.register("darkskybrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
 
-        METEOR_BLOCK 	= PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new BlockBase("meteor_block",
-                Material.GOURD, 2.5F, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());
-        
+//        METEOR_BLOCK    = PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new BlockBase("meteor_block",
+//                Material.GOURD, 2.5F, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());
+        METEOR_BLOCK    = PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new FallingBlock(Block.Properties.
+                create(Material.GOURD).hardnessAndResistance(2.5f).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
+
         CRYSTAL_BRICK 	= PokecubeLegends.BLOCKS_TAB.register("crystalbrick", () -> new BlockBase("crystalbrick",
                 Material.PACKED_ICE, 0.5F, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
 
@@ -203,7 +206,7 @@ public class BlockInit
         		.noInfoBlock());
         TEMPORAL_CRYSTAL 	= PokecubeLegends.BLOCKS_TAB.register("temporal_crystal", () -> new BlockBase("temporal_crystal", Material.GLASS,
         		1.5f, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
-        
+
         	//Distortic World
         DISTORTIC_GRASS 	= PokecubeLegends.BLOCKS_TAB.register("distortic_grass", () -> new GrassDistorticBlock(BlockBase.Properties.create(Material.ORGANIC).sound(SoundType.NETHER_WART)
         		.hardnessAndResistance(1, 2).harvestTool(ToolType.SHOVEL).harvestLevel(1)));
@@ -249,7 +252,7 @@ public class BlockInit
         // Legendary Spawns
         GOLEM_STONE 	= PokecubeLegends.BLOCKS.register("golem_stone", () -> new BlockBase("golem_stone", Material.ROCK,
         		5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
-        
+
         LEGENDARY_SPAWN 	= PokecubeLegends.BLOCKS.register("legendaryspawn", () -> new LegendaryBlock("legendaryspawn",
                 Material.IRON).noInfoBlock());
         TROUGH_BLOCK 	= PokecubeLegends.BLOCKS.register("trough_block", () -> new TroughBlock("trough_block",
@@ -308,16 +311,20 @@ public class BlockInit
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         SPECTRUM_BLOCK		= PokecubeLegends.BLOCKS_TAB.register("spectrum_block", () -> new Block(Block.Properties.create(
                 Material.IRON).hardnessAndResistance(5.0f, 7).sound(SoundType.ANVIL).lightValue(4).harvestTool(ToolType.PICKAXE)));
-        COSMIC_DUST_ORE 		= PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new BlockBase("cosmic_dust_ore",
-                Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
-                        ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
+
+//        COSMIC_DUST_ORE 		= PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new BlockBase("cosmic_dust_ore",
+//                Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
+//                        ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
+        COSMIC_DUST_ORE = PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new FallingBlock(Block.Properties
+                .create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
+                .harvestLevel(2)));
 
     }
 
     public static void init()
     {
     	PlantsInit.registry();
-    	
+
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .group(PokecubeItems.POKECUBEBLOCKS)));

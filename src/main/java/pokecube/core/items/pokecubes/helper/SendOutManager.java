@@ -145,6 +145,7 @@ public class SendOutManager
                 cube.remove();
                 return null;
             }
+            else if (v == null) v = cube.v0.set(cube);
         }
         mob.fallDistance = 0;
         v.moveEntity(mob);
