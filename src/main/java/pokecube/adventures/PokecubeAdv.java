@@ -21,11 +21,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -325,8 +325,8 @@ public class PokecubeAdv
      *
      * @param event
      */
-    public void serverStarting(final FMLServerStartingEvent event)
+    public void registerCommands(final RegisterCommandsEvent event)
     {
-        CommandConfigs.register(PokecubeAdv.config, event.getCommandDispatcher(), "pokeadvsettings");
+        CommandConfigs.register(PokecubeAdv.config, event.getDispatcher(), "pokeadvsettings");
     }
 }

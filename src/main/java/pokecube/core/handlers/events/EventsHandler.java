@@ -27,16 +27,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
@@ -97,7 +98,6 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import thut.api.entity.ShearableCaps;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandConfigs;
@@ -201,7 +201,7 @@ public class EventsHandler
         EventsHandler.MONSTERMATCHER = EventsHandler.NOTVANILLAANIMALORMOB.and(EventsHandler.MONSTERMATCHER);
     }
 
-    private static Map<DimensionType, List<IRunnable>> scheduledTasks = Maps.newConcurrentMap();
+    private static Map<RegistryKey<World>, List<IRunnable>> scheduledTasks = Maps.newConcurrentMap();
 
     public static void Schedule(final World world, final IRunnable task)
     {
@@ -219,7 +219,7 @@ public class EventsHandler
             }
             return;
         }
-        final DimensionType dim = world.getDimensionKey();
+        final RegistryKey<World> dim = world.getDimensionKey();
         final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Lists.newArrayList());
         synchronized (tasks)
         {
@@ -353,7 +353,7 @@ public class EventsHandler
     {
         final boolean disabled = evt.getType() == EntityClassification.MONSTER ? PokecubeCore
                 .getConfig().deactivateMonsters : PokecubeCore.getConfig().deactivateAnimals;
-        if (disabled) evt.getList().removeIf(e -> e.entityType.getRegistryName().getNamespace().equals("minecraft"));
+        if (disabled) evt.getList().removeIf(e -> e.type.getRegistryName().getNamespace().equals("minecraft"));
     }
 
     @SubscribeEvent
@@ -471,7 +471,8 @@ public class EventsHandler
     {
         // Reset this.
         PokecubeSerializer.clearInstance();
-        JigsawPieces.sent_events.clear();
+        // TODO structure stuff
+        // JigsawPieces.sent_events.clear();
         EventsHandler.scheduledTasks.clear();
     }
 
@@ -489,24 +490,30 @@ public class EventsHandler
      */
     public static void serverStarting(final FMLServerStartingEvent event)
     {
-        PokecubeCore.LOGGER.info("Server Starting, Registering Commands");
+        PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
-        CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher(), "pokesettings");
-        CommandManager.register(event.getCommandDispatcher());
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void registerServerCommands(final RegisterCommandsEvent event)
+    {
+        PokecubeCore.LOGGER.info("Registering Commands");
+        CommandConfigs.register(PokecubeCore.getConfig(), event.getDispatcher(), "pokesettings");
+        CommandManager.register(event.getDispatcher());
     }
 
     @SubscribeEvent
     public static void capabilityWorld(final AttachCapabilitiesEvent<World> event)
     {
-        if (event.getObject() instanceof ServerWorld && event.getObject().getDimension()
-                .getType() == DimensionType.OVERWORLD) PokecubeSerializer.newInstance((ServerWorld) event.getObject());
+        if (event.getObject() instanceof ServerWorld && event.getObject().getDimensionKey().equals(World.OVERWORLD))
+            PokecubeSerializer.newInstance((ServerWorld) event.getObject());
     }
 
     @SubscribeEvent
     public static void tickEvent(final WorldTickEvent evt)
     {
         if (evt.phase != Phase.END || !(evt.world instanceof ServerWorld)) return;
-        final DimensionType dim = evt.world.dimension.getType();
+        final RegistryKey<World> dim = evt.world.getDimensionKey();
         final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
         synchronized (tasks)
         {
@@ -619,8 +626,9 @@ public class EventsHandler
     @SubscribeEvent
     public static void WorldSave(final WorldEvent.Save evt)
     {
+        if (!(evt.getWorld() instanceof ServerWorld)) return;
         // Save the pokecube data whenever the overworld saves.
-        if (evt.getWorld().getDimensionKey() == World.OVERWORLD)
+        if (((World) evt.getWorld()).getDimensionKey().equals(World.OVERWORLD))
         {
             final long time = System.nanoTime();
             PokecubeSerializer.getInstance().save();

@@ -21,8 +21,8 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
@@ -31,6 +31,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.Tags.IOptionalNamedTag;
@@ -87,7 +88,7 @@ import thut.api.terrain.TerrainManager;
 
 public class PokemobEventsHandler
 {
-    private static Map<DyeColor, Tag<Item>> DYETAGS = Maps.newHashMap();
+    private static Map<DyeColor, ITag<Item>> DYETAGS = Maps.newHashMap();
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void dropEvent(final LivingDropsEvent event)
@@ -123,11 +124,11 @@ public class PokemobEventsHandler
         }
     }
 
-    public static Map<DyeColor, Tag<Item>> getDyeTagMap()
+    public static Map<DyeColor, ITag<Item>> getDyeTagMap()
     {
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
-            final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
+            final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getTranslationKey());
             PokemobEventsHandler.DYETAGS.put(colour, ItemTags.getCollection().get(tag));
         }
         return PokemobEventsHandler.DYETAGS;
@@ -339,8 +340,9 @@ public class PokemobEventsHandler
         final DamageSource damageSource = evt.getSource();
         // Handle transferring the kill info over, This is in place for mod
         // support.
-        if (damageSource instanceof PokemobDamageSource) damageSource.getImmediateSource().onKillEntity(
-                (LivingEntity) evt.getEntity());
+        if (damageSource instanceof PokemobDamageSource && evt.getEntity().getEntityWorld() instanceof ServerWorld)
+            damageSource.getImmediateSource().func_241847_a((ServerWorld) evt.getEntity().getEntityWorld(),
+                    (LivingEntity) evt.getEntity());
 
         // Handle exp gain for the mob.
         final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getImmediateSource());
@@ -443,7 +445,7 @@ public class PokemobEventsHandler
             DyeColor dye = null;
             if (held.getItem().isIn(dyeTag))
             {
-                final Map<DyeColor, Tag<Item>> tags = PokemobEventsHandler.getDyeTagMap();
+                final Map<DyeColor, ITag<Item>> tags = PokemobEventsHandler.getDyeTagMap();
                 for (final DyeColor colour : DyeColor.values())
                     if (held.getItem().isIn(tags.get(colour)))
                     {

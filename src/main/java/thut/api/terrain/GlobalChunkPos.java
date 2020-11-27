@@ -2,22 +2,23 @@ package thut.api.terrain;
 
 import java.util.Objects;
 
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 
 public class GlobalChunkPos
 {
-    private final DimensionType dimension;
+    private final RegistryKey<World> world;
     private final ChunkPos      pos;
 
     private final int hash;
 
-    public GlobalChunkPos(final DimensionType dimension, final ChunkPos pos)
+    public GlobalChunkPos(final RegistryKey<World> world, final ChunkPos pos)
     {
-        this.dimension = dimension;
+        this.world = world;
         this.pos = pos;
         // FIXME this needs to use world keys instead?
-        this.hash = dimension.hashCode() | pos.z * 511 * 511 + pos.x;
+        this.hash = world.hashCode() | pos.z * 511 * 511 + pos.x;
     }
 
     @Override
@@ -27,7 +28,7 @@ public class GlobalChunkPos
         else if (obj != null && this.getClass() == obj.getClass())
         {
             final GlobalChunkPos globalpos = (GlobalChunkPos) obj;
-            return Objects.equals(this.dimension, globalpos.dimension) && Objects.equals(this.pos, globalpos.pos);
+            return Objects.equals(this.world, globalpos.world) && Objects.equals(this.pos, globalpos.pos);
         }
         else return false;
     }

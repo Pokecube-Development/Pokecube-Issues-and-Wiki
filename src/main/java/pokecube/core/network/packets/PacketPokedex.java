@@ -48,7 +48,6 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -168,11 +167,13 @@ public class PacketPokedex extends Packet
         // TODO secret bases
         final BlockPos pos = player.getPosition();
         final GlobalPos here = GlobalPos.getPosition(player.getEntityWorld().getDimensionKey(), pos);
-        for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
-        {
-            final INBT tag = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, c).get().left().get();
-            list.add(tag);
-        }
+        // for (final GlobalPos c : SecretBaseDimension.getNearestBases(here,
+        // PokecubeCore.getConfig().baseRadarRange))
+        // {
+        // final INBT tag = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE,
+        // c).get().left().get();
+        // list.add(tag);
+        // }
         packet.data.put("B", list);
         packet.data.putBoolean("M", watch);
         packet.data.putInt("R", PokecubeCore.getConfig().baseRadarRange);
@@ -538,11 +539,13 @@ public class PacketPokedex extends Packet
 
             if (!reward)
             {
-                if (inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.available"), Util.DUMMY_UUID);
+                if (inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.available"),
+                        Util.DUMMY_UUID);
             }
             else
             {
-                if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"), Util.DUMMY_UUID);
+                if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"),
+                        Util.DUMMY_UUID);
                 player.closeScreen();
             }
             return;

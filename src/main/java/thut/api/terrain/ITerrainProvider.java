@@ -3,10 +3,11 @@ package thut.api.terrain;
 import java.util.Map;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import thut.api.ThutCaps;
@@ -70,7 +71,7 @@ public interface ITerrainProvider
      * @param dim
      * @param chunk
      */
-    public static void addChunk(final DimensionType dim, final IChunk chunk)
+    public static void addChunk(final RegistryKey<World> dim, final IChunk chunk)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim, chunk.getPos());
         synchronized (ITerrainProvider.lock)
@@ -85,7 +86,7 @@ public interface ITerrainProvider
      * @param dim
      * @param pos
      */
-    public static void removeChunk(final DimensionType dim, final ChunkPos cpos)
+    public static void removeChunk(final RegistryKey<World> dim, final ChunkPos cpos)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim, cpos);
         synchronized (ITerrainProvider.lock)
@@ -94,7 +95,7 @@ public interface ITerrainProvider
         }
     }
 
-    public static IChunk getChunk(final DimensionType dim, final ChunkPos cpos)
+    public static IChunk getChunk(final RegistryKey<World> dim, final ChunkPos cpos)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim, cpos);
         synchronized (ITerrainProvider.lock)
@@ -104,7 +105,7 @@ public interface ITerrainProvider
         }
     }
 
-    public static TerrainSegment removeCached(final DimensionType dim, final BlockPos pos)
+    public static TerrainSegment removeCached(final RegistryKey<World> dim, final BlockPos pos)
     {
         final GlobalChunkPos wpos = new GlobalChunkPos(dim, new ChunkPos(pos.getX(), pos.getZ()));
         final TerrainCache segs = ITerrainProvider.pendingCache.get(wpos);
@@ -123,6 +124,8 @@ public interface ITerrainProvider
      */
     default TerrainSegment getTerrain(final IWorld world, final BlockPos p)
     {
+        if(!(world instanceof World)) return new TerrainSegment(p);
+        final World rworld = (World)world;
         // Convert the pos to a chunk pos
         final ChunkPos temp = new ChunkPos(p);
         int y = p.getY() >> 4;
@@ -130,7 +133,7 @@ public interface ITerrainProvider
         if (y > 15) y = 15;
         // Include the value for y
         final BlockPos pos = new BlockPos(temp.x, y, temp.z);
-        final DimensionType dim = world.getDimensionType();
+        final RegistryKey<World> dim = rworld.getDimensionKey();
         final IChunk chunk = ITerrainProvider.getChunk(dim, temp);
         final boolean real = chunk != null && chunk instanceof ICapabilityProvider;
         // This means it occurs during worldgen?

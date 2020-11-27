@@ -68,18 +68,18 @@ public class Config extends ConfigData
     public List<String> snag_cube_blacklist = Lists.newArrayList("ender_dragon", "wither");
 
     @Configure(category = Config.misc)
-    public boolean defaultInteractions = true;
+    public boolean defaultInteractions  = true;
     @Configure(category = Config.misc)
-    public boolean berryBreeding       = true;
+    public boolean berryBreeding        = true;
     @Configure(category = Config.misc)
-    public boolean legendsBreed        = false;
+    public boolean legendsBreed         = false;
     @Configure(category = Config.misc)
-    public boolean bedsHeal            = true;
+    public boolean bedsHeal             = true;
     /** does defeating a tame pokemob give exp */
     @Configure(category = Config.misc)
-    public boolean trainerExp          = true;
+    public boolean trainerExp           = true;
     @Configure(category = Config.misc)
-    public boolean pcOnDrop            = true;
+    public boolean pcOnDrop             = true;
     @Configure(category = Config.misc)
     public boolean pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc)
@@ -826,23 +826,26 @@ public class Config extends ConfigData
 
         // TODO figure out dimension blacklists.
         SpawnHandler.dimensionBlacklist.clear();
-//        for (final String i : this.spawnDimBlacklist)
-//        {
-//            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-//            if (type != null) SpawnHandler.dimensionBlacklist.add(type);
-//        }
+        // for (final String i : this.spawnDimBlacklist)
+        // {
+        // final DimensionType type = DimensionType.byName(new
+        // ResourceLocation(i));
+        // if (type != null) SpawnHandler.dimensionBlacklist.add(type);
+        // }
         SpawnHandler.dimensionWhitelist.clear();
-//        for (final String i : this.spawnDimWhitelist)
-//        {
-//            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-//            if (type != null) SpawnHandler.dimensionWhitelist.add(type);
-//        }
+        // for (final String i : this.spawnDimWhitelist)
+        // {
+        // final DimensionType type = DimensionType.byName(new
+        // ResourceLocation(i));
+        // if (type != null) SpawnHandler.dimensionWhitelist.add(type);
+        // }
         LogicMountedControl.BLACKLISTED.clear();
-//        for (final String i : this.blackListedFlyDims)
-//        {
-//            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-//            if (type != null) LogicMountedControl.BLACKLISTED.add(type);
-//        }
+        // for (final String i : this.blackListedFlyDims)
+        // {
+        // final DimensionType type = DimensionType.byName(new
+        // ResourceLocation(i));
+        // if (type != null) LogicMountedControl.BLACKLISTED.add(type);
+        // }
 
         boolean failed = false;
         if (this.dodgeSounds.size() == 0) failed = true;

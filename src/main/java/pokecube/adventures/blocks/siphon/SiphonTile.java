@@ -3,7 +3,6 @@ package pokecube.adventures.blocks.siphon;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.serialization.Dynamic;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -157,7 +156,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
         for (int i = 0; i < n; i++)
         {
             final INBT tag = wireless.get("" + i);
-            this.wirelessLinks.add(GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE, tag)));
+            this.wirelessLinks.add(GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, tag).result().get().getFirst());
         }
         super.read(stateIn, compound);
     }
@@ -170,7 +169,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
         int n = 0;
         for (final GlobalPos pos : this.wirelessLinks)
         {
-            final INBT tag = pos.serialize(NBTDynamicOps.INSTANCE);
+            final INBT tag = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, pos).get().left().get();
             wireless.put("" + n++, tag);
         }
         compound.put("links", wireless);

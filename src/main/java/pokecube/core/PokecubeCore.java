@@ -26,7 +26,6 @@ import net.minecraft.particles.IParticleData;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
@@ -89,7 +88,6 @@ import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.ClientProxy;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
@@ -174,7 +172,7 @@ public class PokecubeCore
 //            }
 
             // Register the general structure piece we use
-            Registry.register(Registry.STRUCTURE_PIECE, "pokecube:jigsaw_piece", JigsawPieces.CSP);
+//            Registry.register(Registry.STRUCTURE_PIECE, "pokecube:jigsaw_piece", JigsawPieces.CSP);
 
             // Register structure processor types  TODO Structure Processors
 //            PokecubeStructureProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process",

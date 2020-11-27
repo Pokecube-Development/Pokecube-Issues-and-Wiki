@@ -1,11 +1,12 @@
 package thut.api.terrain;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -37,12 +38,12 @@ public class TerrainManager
 
     public static boolean isAreaLoaded(final IWorld world, final BlockPos blockPos, final double distance)
     {
-        DimensionType dim = null;
-        if (world != null) dim = world.getDimensionType();
+        RegistryKey<World> dim = null;
+        if (world instanceof World) dim = ((World) world).getDimensionKey();
         return TerrainManager.isAreaLoaded(dim, blockPos, distance);
     }
 
-    public static boolean isAreaLoaded(final DimensionType dim, final BlockPos blockPos, final double distance)
+    public static boolean isAreaLoaded(final RegistryKey<World> dim, final BlockPos blockPos, final double distance)
     {
         if (dim == null) return false;
         final int r = (int) distance >> 4;
@@ -64,12 +65,12 @@ public class TerrainManager
 
     public static boolean chunkIsReal(final IWorld world, final ChunkPos pos)
     {
-        DimensionType dim = null;
-        if (world != null) dim = world.getDimensionType();
+        RegistryKey<World> dim = null;
+        if (world instanceof World) dim = ((World) world).getDimensionKey();
         return TerrainManager.chunkIsReal(dim, pos);
     }
 
-    public static boolean chunkIsReal(final DimensionType dim, final ChunkPos pos)
+    public static boolean chunkIsReal(final RegistryKey<World> dim, final ChunkPos pos)
     {
         if (dim == null) return false;
         return ITerrainProvider.getChunk(dim, pos) != null;
@@ -78,8 +79,8 @@ public class TerrainManager
     @SubscribeEvent
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
-        DimensionType dim = null;
-        if (evt.getWorld() != null) dim = evt.getWorld().getDimensionType();
+        RegistryKey<World> dim = null;
+        if (evt.getWorld() instanceof World) dim = ((World) evt.getWorld()).getDimensionKey();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
@@ -88,8 +89,8 @@ public class TerrainManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        DimensionType dim = null;
-        if (evt.getWorld() != null) dim = evt.getWorld().getDimensionType();
+        RegistryKey<World> dim = null;
+        if (evt.getWorld() instanceof World) dim = ((World) evt.getWorld()).getDimensionKey();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 

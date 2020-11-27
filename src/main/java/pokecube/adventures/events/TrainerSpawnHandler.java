@@ -26,7 +26,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
@@ -280,7 +279,7 @@ public class TrainerSpawnHandler
                 PokecubeCore.LOGGER.error("Error parsing " + function, e);
             }
             // We apply it regardless, as this initializes defaults.
-            TrainerSpawnHandler.applyFunction(event.world, mob, thing, leader);
+            TrainerSpawnHandler.applyFunction((World) event.world, mob, thing, leader);
             PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
             {
@@ -290,7 +289,7 @@ public class TrainerSpawnHandler
         }
     }
 
-    private static void applyFunction(final IWorld world, final TrainerNpc npc, final JsonObject thing,
+    private static void applyFunction(final World world, final TrainerNpc npc, final JsonObject thing,
             final boolean leader)
     {
         // Apply and settings common to pokecube core.

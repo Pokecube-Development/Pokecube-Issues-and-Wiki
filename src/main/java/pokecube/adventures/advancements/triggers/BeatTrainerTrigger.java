@@ -7,13 +7,15 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate.AndPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.entity.trainer.LeaderNpc;
@@ -25,9 +27,9 @@ public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.
 
     public static class Instance extends CriterionInstance
     {
-        public Instance()
+        public Instance(final AndPredicate pred)
         {
-            super(BeatTrainerTrigger.ID);
+            super(BeatTrainerTrigger.ID, pred);
         }
 
         public boolean test(final ServerPlayerEntity player, final TrainerBase defeated)
@@ -126,15 +128,11 @@ public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.
         this.listeners.remove(playerAdvancementsIn);
     }
 
-    /**
-     * Deserialize a ICriterionInstance of this trigger from the data in the
-     * JSON.
-     */
     @Override
-    public BeatTrainerTrigger.Instance deserializeInstance(final JsonObject json,
-            final JsonDeserializationContext context)
+    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
     {
-        return new BeatTrainerTrigger.Instance();
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        return new BeatTrainerTrigger.Instance(pred);
     }
 
     public void trigger(final ServerPlayerEntity player, final TrainerBase defeated)

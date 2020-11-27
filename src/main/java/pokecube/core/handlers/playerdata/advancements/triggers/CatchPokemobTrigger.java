@@ -7,13 +7,14 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -31,9 +32,9 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
         int                number  = -1;
         int                sign    = 0;
 
-        public Instance(final PokedexEntry entry, final boolean lenient, final int number, final int sign)
+        public Instance(final EntityPredicate.AndPredicate player, final PokedexEntry entry, final boolean lenient, final int number, final int sign)
         {
-            super(CatchPokemobTrigger.ID);
+            super(CatchPokemobTrigger.ID, player);
             this.entry = entry != null ? entry : Database.missingno;
             this.lenient = lenient;
             this.number = number;
@@ -129,21 +130,6 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
         bredanimalstrigger$listeners.add(listener);
     }
 
-    /**
-     * Deserialize a ICriterionInstance of this trigger from the data in the
-     * JSON.
-     */
-    @Override
-    public CatchPokemobTrigger.Instance deserializeInstance(final JsonObject json,
-            final JsonDeserializationContext context)
-    {
-        final String name = json.has("entry") ? json.get("entry").getAsString() : "";
-        final int number = json.has("number") ? json.get("number").getAsInt() : -1;
-        final int sign = json.has("sign") ? json.get("sign").getAsInt() : 0;
-        final boolean lenient = json.has("lenient") ? json.get("lenient").getAsBoolean() : false;
-        return new CatchPokemobTrigger.Instance(Database.getEntry(name), lenient, number, sign);
-    }
-
     @Override
     public ResourceLocation getId()
     {
@@ -174,5 +160,16 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
     {
         final CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
         if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, pokemob);
+    }
+
+    @Override
+    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
+    {
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        final String name = json.has("entry") ? json.get("entry").getAsString() : "";
+        final int number = json.has("number") ? json.get("number").getAsInt() : -1;
+        final int sign = json.has("sign") ? json.get("sign").getAsInt() : 0;
+        final boolean lenient = json.has("lenient") ? json.get("lenient").getAsBoolean() : false;
+        return new CatchPokemobTrigger.Instance(pred, Database.getEntry(name), lenient, number, sign);
     }
 }

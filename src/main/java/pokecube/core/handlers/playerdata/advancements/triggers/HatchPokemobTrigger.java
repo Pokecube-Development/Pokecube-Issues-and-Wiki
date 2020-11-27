@@ -7,13 +7,15 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate.AndPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -26,13 +28,13 @@ public class HatchPokemobTrigger implements ICriterionTrigger<HatchPokemobTrigge
     {
         final PokedexEntry entry;
 
-        public Instance(PokedexEntry entry)
+        public Instance(final AndPredicate pred, final PokedexEntry entry)
         {
-            super(HatchPokemobTrigger.ID);
+            super(HatchPokemobTrigger.ID, pred);
             this.entry = entry != null ? entry : Database.missingno;
         }
 
-        public boolean test(ServerPlayerEntity player, IPokemob pokemob)
+        public boolean test(final ServerPlayerEntity player, final IPokemob pokemob)
         {
             return (this.entry == Database.missingno || pokemob.getPokedexEntry() == this.entry) && pokemob
                     .getOwner() == player;
@@ -45,12 +47,12 @@ public class HatchPokemobTrigger implements ICriterionTrigger<HatchPokemobTrigge
         private final PlayerAdvancements                                            playerAdvancements;
         private final Set<ICriterionTrigger.Listener<HatchPokemobTrigger.Instance>> listeners = Sets.<ICriterionTrigger.Listener<HatchPokemobTrigger.Instance>> newHashSet();
 
-        public Listeners(PlayerAdvancements playerAdvancementsIn)
+        public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(ICriterionTrigger.Listener<HatchPokemobTrigger.Instance> listener)
+        public void add(final ICriterionTrigger.Listener<HatchPokemobTrigger.Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -60,12 +62,12 @@ public class HatchPokemobTrigger implements ICriterionTrigger<HatchPokemobTrigge
             return this.listeners.isEmpty();
         }
 
-        public void remove(ICriterionTrigger.Listener<HatchPokemobTrigger.Instance> listener)
+        public void remove(final ICriterionTrigger.Listener<HatchPokemobTrigger.Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
-        public void trigger(ServerPlayerEntity player, IPokemob pokemob)
+        public void trigger(final ServerPlayerEntity player, final IPokemob pokemob)
         {
             List<ICriterionTrigger.Listener<HatchPokemobTrigger.Instance>> list = null;
 
@@ -91,8 +93,8 @@ public class HatchPokemobTrigger implements ICriterionTrigger<HatchPokemobTrigge
     }
 
     @Override
-    public void addListener(PlayerAdvancements playerAdvancementsIn,
-            ICriterionTrigger.Listener<HatchPokemobTrigger.Instance> listener)
+    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+            final ICriterionTrigger.Listener<HatchPokemobTrigger.Instance> listener)
     {
         HatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -105,15 +107,12 @@ public class HatchPokemobTrigger implements ICriterionTrigger<HatchPokemobTrigge
         bredanimalstrigger$listeners.add(listener);
     }
 
-    /**
-     * Deserialize a ICriterionInstance of this trigger from the data in the
-     * JSON.
-     */
     @Override
-    public HatchPokemobTrigger.Instance deserializeInstance(JsonObject json, JsonDeserializationContext context)
+    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
     {
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
         final String name = json.has("entry") ? json.get("entry").getAsString() : "";
-        return new HatchPokemobTrigger.Instance(Database.getEntry(name));
+        return new HatchPokemobTrigger.Instance(pred, Database.getEntry(name));
     }
 
     @Override
@@ -123,14 +122,14 @@ public class HatchPokemobTrigger implements ICriterionTrigger<HatchPokemobTrigge
     }
 
     @Override
-    public void removeAllListeners(PlayerAdvancements playerAdvancementsIn)
+    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(PlayerAdvancements playerAdvancementsIn,
-            ICriterionTrigger.Listener<HatchPokemobTrigger.Instance> listener)
+    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+            final ICriterionTrigger.Listener<HatchPokemobTrigger.Instance> listener)
     {
         final HatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -142,7 +141,7 @@ public class HatchPokemobTrigger implements ICriterionTrigger<HatchPokemobTrigge
         }
     }
 
-    public void trigger(ServerPlayerEntity player, IPokemob pokemob)
+    public void trigger(final ServerPlayerEntity player, final IPokemob pokemob)
     {
         final HatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
         if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, pokemob);

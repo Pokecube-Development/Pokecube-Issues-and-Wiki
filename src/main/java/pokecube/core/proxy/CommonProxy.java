@@ -43,8 +43,6 @@ import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.zmoves.CapabilityZMove;
 import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
-import pokecube.core.world.dimension.SecretBaseDimension;
-import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.maths.Vector3;
@@ -99,7 +97,7 @@ public class CommonProxy implements Proxy
         MinecraftForge.EVENT_BUS.register(WearablesCompat.class);
         MinecraftForge.EVENT_BUS.register(NBTEdit.class);
         MinecraftForge.EVENT_BUS.register(MoveQueuer.class);
-        MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
+//        MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
 
         // Initialize the capabilities.
         CapabilityManager.INSTANCE.register(IGuardAICapability.class, new IGuardAICapability.Storage(),
@@ -175,7 +173,7 @@ public class CommonProxy implements Proxy
         // Reload this here to initialze anything that needs to be done here.
         PokecubeCore.getConfig().onUpdated();
         Database.postResourcesLoaded();
-        JigsawPieces.finializeJigsaws();
+//        JigsawPieces.finializeJigsaws();
     }
 
     public void pokecenterloop(final HealerTile tileIn, final boolean play)

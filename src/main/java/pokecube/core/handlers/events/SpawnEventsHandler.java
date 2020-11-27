@@ -18,6 +18,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -59,7 +61,7 @@ public class SpawnEventsHandler
     @SubscribeEvent
     public static void onSpawnCheck(final SpawnEvent.Check event)
     {
-        if (!SpawnHandler.canSpawnInWorld(event.world)) event.setCanceled(true);
+        if (!SpawnHandler.canSpawnInWorld((World) event.world)) event.setCanceled(true);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -105,7 +107,7 @@ public class SpawnEventsHandler
         if (random > weight || v == null) return;
         if (dbe.isLegendary())
         {
-            final int level = SpawnHandler.getSpawnLevel(world, v, dbe);
+            final int level = SpawnHandler.getSpawnLevel((World) world, v, dbe);
             if (level < PokecubeCore.getConfig().minLegendLevel) return;
         }
         event.setLocation(v);
@@ -125,7 +127,7 @@ public class SpawnEventsHandler
             {
                 // Set it to air so mob can spawn.
                 event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
-                final NpcMob mob = NpcMob.TYPE.create(event.world.getWorld());
+                final NpcMob mob = NpcMob.TYPE.create((World) event.world);
                 mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
                 if (nurse) mob.setMale(false);
                 mob.enablePersistence();
@@ -161,7 +163,7 @@ public class SpawnEventsHandler
             event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
             if (!PokecubeSerializer.getInstance().hasPlacedSpawn())
             {
-                event.world.getWorld().setSpawnPoint(event.pos);
+                ((ServerWorld)event.world).func_241124_a__(event.pos, 0);
                 PokecubeSerializer.getInstance().setPlacedSpawn();
                 PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
                 event.setResult(Result.ALLOW);

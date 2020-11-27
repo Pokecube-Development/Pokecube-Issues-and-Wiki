@@ -11,6 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
@@ -44,7 +45,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     public static ResourceLocation TERRAINTAG    = new ResourceLocation(PokecubeCore.MODID, "terrain");
     public static ResourceLocation WOODTAG       = new ResourceLocation(PokecubeCore.MODID, "wood");
 
-    public static Map<String, String> structureSubbiomeMap = Maps.newHashMap();
+    public static Map<String, String> structureSubbiomeMap     = Maps.newHashMap();
     public static Map<String, String> manualStructureSubbiomes = Maps.newHashMap();
 
     public static void initStructMap()
@@ -98,7 +99,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
 
     public static boolean isCutablePlant(final BlockState state)
     {
-        return ItemList.is(PokecubeTerrainChecker.PLANTEATTAG, state) || ItemList.is(BlockTags.LEAVES.getId(), state)
+        return ItemList.is(PokecubeTerrainChecker.PLANTEATTAG, state) || ItemList.is(BlockTags.LEAVES.getName(), state)
                 || PokecubeCore.getConfig().autoPopulateLists && PokecubeTerrainChecker.isPlant(state.getMaterial());
     }
 
@@ -126,9 +127,11 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
             final boolean caveAdjusted)
     {
+        if (!(world instanceof World)) return -1;
+        final World rworld = (World) world;
         if (caveAdjusted)
         {
-            final Set<StructureInfo> set = StructureManager.getFor(world.getDimensionKey(), v.getPos());
+            final Set<StructureInfo> set = StructureManager.getFor(rworld.getDimensionKey(), v.getPos());
             for (final StructureInfo info : set)
             {
                 final String name = info.name;
@@ -140,7 +143,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
                     return biom.getType();
                 }
             }
-            if (world.getDimension().doesWaterVaporize() || v.canSeeSky(world) || !PokecubeCore
+            if (rworld.getDimensionType().getHasCeiling() || v.canSeeSky(world) || !PokecubeCore
                     .getConfig().autoDetectSubbiomes) return -1;
             boolean sky = false;
             final Vector3 temp1 = Vector3.getNewVector();
