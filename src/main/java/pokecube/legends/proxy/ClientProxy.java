@@ -88,7 +88,7 @@ public class ClientProxy extends CommonProxy
                         break;
                     }
                 }
-            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getTranslucent());
+            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
         }
 
         // Renderer for raid spawn
