@@ -643,6 +643,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
                     p.applyTexture(bufferIn, default_, texer);
                 });
             }
+            holder.wrapper.SetEntity(entity);
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         }
         catch (final Exception e)

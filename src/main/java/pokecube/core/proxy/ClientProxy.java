@@ -360,7 +360,7 @@ public class ClientProxy extends CommonProxy
     private final Map<SoundEvent, Float>         move_volumes      = Maps.newHashMap();
     private final Map<SoundEvent, Vector3>       move_positions    = Maps.newHashMap();
 
-    @SubscribeEvent
+//    @SubscribeEvent
     public void worldTick(final ClientTickEvent event)
     {
         final Set<SoundEvent> stale = Sets.newHashSet();

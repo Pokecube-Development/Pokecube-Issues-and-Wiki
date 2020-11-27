@@ -11,8 +11,8 @@ public class PokecubeDim
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US.getId() ||
-        	entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_DW.getId()) x = 3.7;
+//        if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US.getId() ||
+//        	entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_DW.getId()) x = 3.7;
         return x;
     }
 

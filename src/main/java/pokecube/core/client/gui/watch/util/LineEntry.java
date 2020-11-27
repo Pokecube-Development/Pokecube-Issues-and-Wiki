@@ -5,18 +5,19 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import pokecube.core.client.gui.helper.ScrollGui;
 
 public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
 {
     public static interface IClickListener
     {
-        default boolean handleClick(final ITextComponent component)
+        default boolean handleClick(final Style component)
         {
             return false;
         }
 
-        default void handleHovor(final ITextComponent component, final int x, final int y)
+        default void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
         {
 
         }
@@ -50,22 +51,23 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
         final boolean inBounds = this.isMouseOver(x, y);
         if (inBounds)
         {
-            this.listener.handleClick(this.line);
+            this.listener.handleClick(this.line.getStyle());
             return true;
         }
         return false;
     }
 
     @Override
-    public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
-            final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
+    public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+            final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+            final float partialTicks)
     {
         this.fontRender.drawString(mat, this.line.getString(), x + this.x0, y + this.y0, this.colour);
         final int dx = this.fontRender.getStringWidth(this.line.getString());
         final int relativeX = mouseX - x;
         final int relativeY = mouseY - y;
         if (relativeY <= this.fontRender.FONT_HEIGHT && relativeX >= 0 && relativeX <= dx && relativeY > 0)
-            this.listener.handleHovor(this.line, x, y);
+            this.listener.handleHovor(mat, this.line.getStyle(), x, y);
     }
 
     public LineEntry setClickListner(IClickListener listener)

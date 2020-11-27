@@ -1,46 +1,29 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
+import pokecube.adventures.utils.RecipePokeAdv;
 import thut.core.common.network.TileUpdate;
 
 public class PoweredProcess
 {
-    public static final RecipeExtract      EXTRACT = new RecipeExtract(new ResourceLocation(
-            "pokecube_adventures:extracting"));
-    public static final RecipeSplice       SPLICE  = new RecipeSplice(new ResourceLocation(
-            "pokecube_adventures:splicing"));
-    public static final RecipeClone REVIVE  = new RecipeClone(new ResourceLocation(
-            "pokecube_adventures:reviving"));
-
     public static PoweredRecipe findRecipe(final IPoweredProgress tile, final World world)
     {
         if (!tile.getStackInSlot(tile.getOutputSlot()).isEmpty()) return null;
-        if (tile.isValid(RecipeClone.class) && PoweredProcess.REVIVE.matches(tile.getCraftMatrix(), world))
-            return PoweredProcess.REVIVE;
-        if (tile.isValid(RecipeExtract.class) && !PoweredProcess.EXTRACT.getCraftingResult(tile.getCraftMatrix())
-                .isEmpty()) return PoweredProcess.EXTRACT;
-        if (tile.isValid(RecipeSplice.class) && !PoweredProcess.SPLICE.getCraftingResult(tile.getCraftMatrix())
-                .isEmpty()) return PoweredProcess.SPLICE;
+        final RecipeClone cloneRecipe = new RecipeClone(RecipePokeAdv.REVIVE.getId());
+        if (tile.isValid(RecipeClone.class) && cloneRecipe.matches(tile.getCraftMatrix(), world)) return cloneRecipe;
+
+        final RecipeSplice spliceRecipe = new RecipeSplice(RecipePokeAdv.SPLICE.getId());
+        if (tile.isValid(RecipeSplice.class) && spliceRecipe.matches(tile.getCraftMatrix(), world)) return spliceRecipe;
+
+        final RecipeExtract extractRecipe = new RecipeExtract(RecipePokeAdv.EXTRACT.getId());
+        if (tile.isValid(RecipeExtract.class) && extractRecipe.matches(tile.getCraftMatrix(), world))
+            return extractRecipe;
+
         return null;
-    }
-
-    public static void init(final Register<IRecipeSerializer<?>> event)
-    {
-        RecipeSelector.SERIALIZER.toString();
-        RecipeExtract.SERIALIZER.toString();
-        RecipeSplice.SERIALIZER.toString();
-        RecipeClone.SERIALIZER.toString();
-
-        // This one needs registration as is actually a real crafting recipe.
-        event.getRegistry().register(RecipeSelector.SERIALIZER.setRegistryName(new ResourceLocation(
-                "pokecube_adventures:selectors")));
     }
 
     public static PoweredProcess load(final CompoundNBT tag, final BaseGeneticsTile tile)

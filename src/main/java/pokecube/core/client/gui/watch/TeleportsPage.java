@@ -44,7 +44,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.offsetY = offsetY;
             this.guiHeight = height;
             this.parent = parent;
-            this.confirm = new Button(0, 0, 10, 10, "Y", b ->
+            this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b ->
             {
                 b.playDownSound(this.mc.getSoundHandler());
                 // Send packet for removal server side
@@ -54,21 +54,21 @@ public class TeleportsPage extends ListPage<TeleOption>
                 // Update the list for the page.
                 this.parent.initList();
             });
-            this.delete = new Button(0, 0, 10, 10, "x", b ->
+            this.delete = new Button(0, 0, 10, 10, new StringTextComponent("x"), b ->
             {
                 b.playDownSound(this.mc.getSoundHandler());
                 this.confirm.active = !this.confirm.active;
             });
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
-            this.moveUp = new Button(0, 0, 10, 10, "\u21e7", b ->
+            this.moveUp = new Button(0, 0, 10, 10, new StringTextComponent("\u21e7"), b ->
             {
                 b.playDownSound(this.mc.getSoundHandler());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                 // Update the list for the page.
                 this.parent.initList();
             });
-            this.moveDown = new Button(0, 0, 10, 10, "\u21e9", b ->
+            this.moveDown = new Button(0, 0, 10, 10, new StringTextComponent("\u21e9"), b ->
             {
                 b.playDownSound(this.mc.getSoundHandler());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
@@ -120,7 +120,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             fits = this.text.y >= this.offsetY;
             fits = fits && mouseX - this.text.x >= 0;
             fits = fits && mouseX - this.text.x <= this.text.getWidth();
-            fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
+            fits = fits && this.text.y + this.text.getHeightRealms() <= this.offsetY + this.guiHeight;
             this.text.setFocused(fits);
             if (this.delete.isMouseOver(mouseX, mouseY))
             {
@@ -155,8 +155,9 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
 
         @Override
-        public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
-                final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
+        public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+                final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                final float partialTicks)
         {
             boolean fits = true;
             this.text.x = x - 2;
@@ -170,7 +171,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.moveDown.y = y - 5;
             this.moveDown.x = x - 2 + 26 + this.text.getWidth();
             fits = this.text.y >= this.offsetY;
-            fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
+            fits = fits && this.text.y + this.text.getHeightRealms() <= this.offsetY + this.guiHeight;
             if (fits)
             {
                 this.text.render(mat, mouseX, mouseY, partialTicks);

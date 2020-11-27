@@ -17,13 +17,13 @@ public class StructureEvent extends Event
     @Cancelable
     public static class PickLocation extends StructureEvent
     {
-        public final ChunkGenerator<?> chunkGen;
+        public final ChunkGenerator chunkGen;
         public final Random            rand;
         public final int               chunkPosX;
         public final int               chunkPosZ;
         public final JigSawConfig      struct;
 
-        public PickLocation(final ChunkGenerator<?> chunkGen, final Random rand, final int chunkPosX,
+        public PickLocation(final ChunkGenerator chunkGen, final Random rand, final int chunkPosX,
                 final int chunkPosZ, final JigSawConfig struct)
         {
             this.chunkGen = chunkGen;

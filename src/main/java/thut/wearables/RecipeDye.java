@@ -1,6 +1,8 @@
 package thut.wearables;
 
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 
@@ -8,6 +10,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
@@ -18,19 +21,32 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class RecipeDye extends SpecialRecipe
 {
     private static Map<DyeColor, ITag<Item>> DYETAGS = Maps.newHashMap();
 
-    public static final IRecipeSerializer<RecipeDye> SERIALIZER = new SpecialRecipeSerializer<>(RecipeDye::new);
+    public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
+            ForgeRegistries.RECIPE_SERIALIZERS, ThutWearables.MODID);
+
+    public static final RegistryObject<SpecialRecipeSerializer<RecipeDye>> SERIALIZER = RecipeDye.RECIPE_SERIALIZERS
+            .register("dye", RecipeDye.special(RecipeDye::new));
+
+    private static <T extends IRecipe<?>> Supplier<SpecialRecipeSerializer<T>> special(
+            final Function<ResourceLocation, T> create)
+    {
+        return () -> new SpecialRecipeSerializer<>(create);
+    }
 
     public static Map<DyeColor, ITag<Item>> getDyeTagMap()
     {
         if (RecipeDye.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getTranslationKey());
-            RecipeDye.DYETAGS.put(colour, ItemTags.getCollection().get(tag));
+            RecipeDye.DYETAGS.put(colour, ItemTags.getCollection().getTagByID(tag));
         }
         return RecipeDye.DYETAGS;
     }
@@ -101,7 +117,7 @@ public class RecipeDye extends SpecialRecipe
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return RecipeDye.SERIALIZER;
+        return RecipeDye.SERIALIZER.get();
     }
 
     @Override

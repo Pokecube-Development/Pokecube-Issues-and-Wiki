@@ -1,33 +1,25 @@
 package pokecube.legends.init;
 
-import java.util.jar.Attributes.Name;
-
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.BiomeManager.BiomeType;
-import net.minecraftforge.event.RegistryEvent.Register;
-import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.legends.Reference;
-import pokecube.legends.worldgen.biomes.UltraUB1;
-import pokecube.legends.worldgen.biomes.UltraUB2;
-import pokecube.legends.worldgen.biomes.UltraUB3;
-import pokecube.legends.worldgen.biomes.UltraUB4;
-import pokecube.legends.worldgen.biomes.UltraUB5;
-import pokecube.legends.worldgen.biomes.UltraUB6;
+//import pokecube.legends.worldgen.biomes.UltraUB1;
+//import pokecube.legends.worldgen.biomes.UltraUB2;
+//import pokecube.legends.worldgen.biomes.UltraUB3;
+//import pokecube.legends.worldgen.biomes.UltraUB4;
+//import pokecube.legends.worldgen.biomes.UltraUB5;
+//import pokecube.legends.worldgen.biomes.UltraUB6;
 
 public class BiomeInit
 {
-    public static final RegistryKey<Biome> BIOME_UB1 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, name("ultra_deep_cave"));
-    public static final RegistryKey<Biome> BIOME_UB2 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, name("ultra_jungle"));
-    public static final RegistryKey<Biome> BIOME_UB3 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, name("ultra_desert"));
-    public static final RegistryKey<Biome> BIOME_UB4 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, name("ultra_dark_valley"));
-    public static final RegistryKey<Biome> BIOME_UB5 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, name("ultra_deep_hills"));
-    public static final RegistryKey<Biome> BIOME_UB6 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, name("ultra_forgotten_plains"));
+    public static final RegistryKey<Biome> BIOME_UB1 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, BiomeInit.name("ultra_deep_cave"));
+    public static final RegistryKey<Biome> BIOME_UB2 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, BiomeInit.name("ultra_jungle"));
+    public static final RegistryKey<Biome> BIOME_UB3 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, BiomeInit.name("ultra_desert"));
+    public static final RegistryKey<Biome> BIOME_UB4 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, BiomeInit.name("ultra_dark_valley"));
+    public static final RegistryKey<Biome> BIOME_UB5 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, BiomeInit.name("ultra_deep_hills"));
+    public static final RegistryKey<Biome> BIOME_UB6 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, BiomeInit.name("ultra_forgotten_plains"));
 
     /*public static void registerBiomes(final RegistryKey<Biome> event)
     {
@@ -46,11 +38,11 @@ public class BiomeInit
                 Type.OCEAN, Type.VOID, Type.PLAINS);
     }*/
 
-    
-    private static ResourceLocation name(String name) {
+
+    private static ResourceLocation name(final String name) {
         return new ResourceLocation(Reference.ID, name);
     }
-    
+
     /*private static Biome initBiome(final RegistryKey<Biome> registry, final Biome biome, final String name,
     		final BiomeType bType, final Type... types)
     {
@@ -58,7 +50,7 @@ public class BiomeInit
         //registry.register(biome);
         BiomeDictionary.addTypes(registry, types);
         BiomeManager.addBiome(bType, null);
-        
+
         //Biome Spawn Overworld
         //BiomeManager.addBiome(bType, new BiomeManager.BiomeEntry(biome, chance));
         //

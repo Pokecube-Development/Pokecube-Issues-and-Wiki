@@ -42,7 +42,7 @@ public abstract class WatchPage extends Screen implements IGuiEventListener
 
     public void onPageClosed()
     {
-        this.watch.children().remove(this);
+        this.watch.getEventListeners().remove(this);
     }
 
     @Override
@@ -50,7 +50,7 @@ public abstract class WatchPage extends Screen implements IGuiEventListener
     {
         // We overwrite this to reverse the ordering of checking if tab was
         // pressed
-        final boolean subpages = this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
+        final boolean subpages = this.getListener() != null && this.getListener().keyPressed(keyCode, b, c);
         if (subpages) return true;
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
@@ -65,7 +65,7 @@ public abstract class WatchPage extends Screen implements IGuiEventListener
     public void onPageOpened()
     {
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.watch.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.watch.getEventListeners();
         list.add(this);
     }
 }

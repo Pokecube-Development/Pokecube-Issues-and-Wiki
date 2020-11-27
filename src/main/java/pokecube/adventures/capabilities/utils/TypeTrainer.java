@@ -349,8 +349,7 @@ public class TypeTrainer extends NpcType
     {
         final int num = entry.getPokedexNb();
         if (Pokedex.getInstance().getEntry(num) == null) return ItemStack.EMPTY;
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, PokecubeCore.proxy
-                .getWorld()));
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getEntityWorld()));
         if (pokemob != null)
         {
             for (int i = 1; i < level; i++)

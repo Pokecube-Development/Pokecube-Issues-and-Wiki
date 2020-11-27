@@ -11,10 +11,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.events.MeteorEvent;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.legends.init.DimensionInit;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.worldgen.dimension.ModDimensions;
 
 public class ForgeEventHandlers
 {

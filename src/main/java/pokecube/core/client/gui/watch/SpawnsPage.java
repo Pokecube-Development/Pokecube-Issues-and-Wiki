@@ -11,10 +11,15 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.Difficulty;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry;
@@ -44,9 +49,11 @@ public class SpawnsPage extends ListPage<LineEntry>
     }
 
     @Override
-    public boolean handleComponentClicked(final ITextComponent component)
+    public boolean handleComponentClicked(final Style component)
     {
-        final PokedexEntry e = Database.getEntry(component.getUnformattedComponentText());
+        ClickEvent clickevent;
+        if (component == null || (clickevent = component.getClickEvent()) == null) return false;
+        final PokedexEntry e = Database.getEntry(clickevent.getValue());
         if (e != null)
         {
             PacketPokedex.updateWatchEntry(e);
@@ -84,13 +91,13 @@ public class SpawnsPage extends ListPage<LineEntry>
         final IClickListener listener = new IClickListener()
         {
             @Override
-            public boolean handleClick(final ITextComponent component)
+            public boolean handleClick(final Style component)
             {
                 return SpawnsPage.this.handleComponentClicked(component);
             }
 
             @Override
-            public void handleHovor(final ITextComponent component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
                 // TODO possibly handle hovor text?
             }
@@ -99,11 +106,12 @@ public class SpawnsPage extends ListPage<LineEntry>
         if (this.repel = PacketPokedex.repelled)
         {
             final ITextComponent comp = new TranslationTextComponent("pokewatch.spawns.repelled");
-            final List<ITextComponent> list = RenderComponentsUtil.splitText(comp, 120, this.font, true, true);
+            final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(comp, 120, this.font);
 
-            for (final ITextComponent entry : list)
+            for (final IReorderingProcessor entry : list)
             {
-                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, entry, 0xFFFFFFFF);
+                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, new StringTextComponent(entry
+                        .toString()), 0xFFFFFFFF);
                 this.list.addEntry(line);
             }
         }
@@ -111,10 +119,11 @@ public class SpawnsPage extends ListPage<LineEntry>
         if (Minecraft.getInstance().world.getDifficulty() == Difficulty.PEACEFUL)
         {
             final ITextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
-            final List<ITextComponent> list = RenderComponentsUtil.splitText(comp, 120, this.font, true, true);
-            for (final ITextComponent entry : list)
+            final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(comp, 120, this.font);
+            for (final IReorderingProcessor entry : list)
             {
-                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, entry, 0xFFFFFFFF);
+                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, new StringTextComponent(entry
+                        .toString()), 0xFFFFFFFF);
                 this.list.addEntry(line);
             }
         }
@@ -159,7 +168,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         }
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 17;
-        this.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x, y, 0xFFFFFFFF);
+        AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x, y, 0xFFFFFFFF);
         super.render(mat, mouseX, mouseY, partialTicks);
     }
 }

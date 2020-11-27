@@ -109,10 +109,10 @@ public class SpawnBiomeMatcher
             if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
             else this.type = BiomeType.NONE;
             // TODO better way to choose current time.
-            final double time = ((ServerWorld) world).getWorld().getDayTime() / 24000;
+            final double time = ((ServerWorld) world).getDayTime() / 24000;
             final int lightBlock = world.getLight(location.getPos());
             this.light = lightBlock / 15f;
-            final World w = ((ServerWorld) world).getWorld();
+            final World w = (ServerWorld) world;
             this.weather = Weather.getForWorld(w, location);
             this.thundering = this.weather == Weather.RAIN && w.isThundering();
             this.day = PokedexEntry.day.contains(time);

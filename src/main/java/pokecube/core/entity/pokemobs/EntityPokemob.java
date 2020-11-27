@@ -15,7 +15,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +26,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -164,9 +163,10 @@ public class EntityPokemob extends PokemobHasParts
                 final double d2 = this.rand.nextGaussian() * 0.02D;
                 final double d0 = this.rand.nextGaussian() * 0.02D;
                 final double d1 = this.rand.nextGaussian() * 0.02D;
-                this.world.addParticle(ParticleTypes.POOF, this.getPosX() + this.rand.nextFloat() * this.getWidth() * 2.0F
-                        - this.getWidth(), this.getPosY() + this.rand.nextFloat() * this.getHeight(), this.getPosZ() + this.rand
-                                .nextFloat() * this.getWidth() * 2.0F - this.getWidth(), d2, d0, d1);
+                this.world.addParticle(ParticleTypes.POOF, this.getPosX() + this.rand.nextFloat() * this.getWidth()
+                        * 2.0F - this.getWidth(), this.getPosY() + this.rand.nextFloat() * this.getHeight(), this
+                                .getPosZ() + this.rand.nextFloat() * this.getWidth() * 2.0F - this.getWidth(), d2, d0,
+                        d1);
             }
         }
         if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer)
@@ -262,10 +262,10 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public void setSitting(final boolean sitting)
+    public void func_233687_w_(final boolean sitting)
     {
         this.pokemobCap.setLogicState(LogicStates.SITTING, sitting);
-        super.setSitting(sitting);
+        super.func_233687_w_(sitting);
     }
 
     @Override
@@ -274,9 +274,10 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    protected void handleFluidJump(final Tag<Fluid> fluidTag)
+    protected void handleFluidJump(final ITag<Fluid> fluidTag)
     {
-        this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(Attributes.SWIM_SPEED).getValue(), 0.0D));
+        this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(
+                net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
     }
 
     @Override

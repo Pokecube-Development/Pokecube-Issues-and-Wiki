@@ -8,20 +8,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeItems;
+import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 
 public class RecipePokeseals extends SpecialRecipe
 {
-    public static final IRecipeSerializer<RecipePokeseals> SERIALIZER = new SpecialRecipeSerializer<>(
-            RecipePokeseals::new);
-
     public static final ResourceLocation   ANYDYE = new ResourceLocation("forge", "dyes");
     public static final ResourceLocation[] DYES   = new ResourceLocation[DyeColor.values().length];
 
@@ -106,7 +103,7 @@ public class RecipePokeseals extends SpecialRecipe
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return RecipePokeseals.SERIALIZER;
+        return RecipeHandler.APPLYSEAL.get();
     }
 
     @Override

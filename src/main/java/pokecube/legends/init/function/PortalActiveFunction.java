@@ -19,7 +19,6 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.DimensionInit;
 import thut.api.maths.Vector3;
 
 /**
@@ -80,25 +79,25 @@ public class PortalActiveFunction
         final Vector3 v = Vector3.getNewVector().set(pos);
         // IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
 
-        // Normal Worlds
-        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega && entity.dimension
-                .getId() != ModDimensions.DIMENSION_TYPE_US.getId())
-        {
-            entity.setHealth(entity.getMaxHealth());
-            v.add(0, 1, 0).moveEntity(entity);
-            entity.setPosition(v.x, v.y, v.z);
-            world.addEntity(entity);
-        }
-
-        // Ultra Space
-        else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US
-                .getId())
-        {
-            entity.setHealth(entity.getMaxHealth());
-            v.add(0, 1, 0).moveEntity(entity);
-            entity.setPosition(v.x, v.y, v.z);
-            world.addEntity(entity);
-        }
+//        // Normal Worlds
+//        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega && entity.dimension
+//                .getId() != ModDimensions.DIMENSION_TYPE_US.getId())
+//        {
+//            entity.setHealth(entity.getMaxHealth());
+//            v.add(0, 1, 0).moveEntity(entity);
+//            entity.setPosition(v.x, v.y, v.z);
+//            world.addEntity(entity);
+//        }
+//
+//        // Ultra Space
+//        else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US
+//                .getId())
+//        {
+//            entity.setHealth(entity.getMaxHealth());
+//            v.add(0, 1, 0).moveEntity(entity);
+//            entity.setPosition(v.x, v.y, v.z);
+//            world.addEntity(entity);
+//        }
         world.setBlockState(pos, state.with(PortalWarp.ACTIVE, false));
         world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.NEUTRAL, 1, 1, false);
 

@@ -132,6 +132,7 @@ public class BrainUtils
     public static IPosWrapper getMoveUseTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
+        if(!brain.hasMemory(MemoryModules.MOVE_TARGET)) return null;
         final Optional<IPosWrapper> pos = brain.getMemory(MemoryModules.MOVE_TARGET);
         if (pos == null || !pos.isPresent()) return null;
         return pos.get();

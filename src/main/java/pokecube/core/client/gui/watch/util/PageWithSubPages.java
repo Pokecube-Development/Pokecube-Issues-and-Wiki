@@ -33,7 +33,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
     {
         if (this.current_page == null) return;
         this.current_page.onPageClosed();
-        this.children().remove(this.current_page);
+        this.getEventListeners().remove(this.current_page);
     }
 
     protected abstract T createPage(int index);
@@ -68,7 +68,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
             PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         }
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.getEventListeners();
         list.add(this.current_page);
     }
 

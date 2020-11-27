@@ -66,8 +66,16 @@ public class NearBlocks extends Sensor<LivingEntity>
     @Override
     protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
     {
-        if (BrainUtils.hasAttackTarget(entityIn)) return;
-        if (BrainUtils.hasMoveUseTarget(entityIn)) return;
+        try
+        {
+            if (BrainUtils.hasAttackTarget(entityIn)) return;
+            if (BrainUtils.hasMoveUseTarget(entityIn)) return;
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            return;
+        }
         this.tick++;
         if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0) return;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);

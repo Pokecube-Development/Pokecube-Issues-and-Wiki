@@ -8,8 +8,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
@@ -111,12 +111,12 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     {
         return HealerBlock.HEALER_MACHINE.get(state.get(HealerBlock.FACING));
     }
-    
+
     public HealerBlock(final Properties builder)
     {
         super(builder);
         this.setDefaultState(this.stateContainer.getBaseState().with(HealerBlock.FACING, Direction.NORTH).with(
-                HealerBlock.FIXED, false).with(WATERLOGGED, false));
+                HealerBlock.FIXED, false).with(HealerBlock.WATERLOGGED, false));
     }
 
     @Override
@@ -136,27 +136,25 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
+        final boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
         return this.getDefaultState().with(HealerBlock.FACING, context.getPlacementHorizontalFacing().getOpposite())
-                .with(HealerBlock.FIXED, false).with(WATERLOGGED, flag);
+                .with(HealerBlock.FIXED, false).with(HealerBlock.WATERLOGGED, flag);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos,
-            BlockPos facingPos) 
+    public BlockState updatePostPlacement(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+            final BlockPos facingPos)
     {
-        if (state.get(WATERLOGGED)) {
-            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-        }
+        if (state.get(HealerBlock.WATERLOGGED)) world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public IFluidState getFluidState(BlockState state) 
+    public FluidState getFluidState(final BlockState state)
     {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.get(HealerBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
     @Override

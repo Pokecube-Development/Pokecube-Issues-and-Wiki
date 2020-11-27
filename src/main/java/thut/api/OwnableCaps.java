@@ -319,7 +319,7 @@ public class OwnableCaps
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags
-                    .getCollection().get(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
+                    .getCollection().getTagByID(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
                     && ((IOwnableTE) ownable).getOwnerId() != null) event.getWorld().destroyBlock(event.getPos(), true);
         }
     }

@@ -2,7 +2,10 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import java.util.Collections;
 
-import net.minecraft.util.text.ITextComponent;
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -29,7 +32,7 @@ public class Breeding extends ListPage<LineEntry>
     }
 
     @Override
-    void drawInfo(final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         final int num = PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList())
@@ -44,13 +47,14 @@ public class Breeding extends ListPage<LineEntry>
     }
 
     @Override
-    public boolean handleComponentClicked(final ITextComponent component)
+    public boolean handleComponentClicked(final Style component)
     {
         if (component != null)
         {
-            ClickEvent clickevent = component.getStyle().getClickEvent();
-            if (clickevent == null) for (final ITextComponent sib : component.getSiblings())
-                if (sib != null && (clickevent = sib.getStyle().getClickEvent()) != null) break;
+            final ClickEvent clickevent = component.getClickEvent();
+            //TODO see if we need a sub style somehow?
+//          if (clickevent == null) for (final ITextComponent sib : component.getSiblings())
+//          if (sib != null && (clickevent = sib.getStyle().getClickEvent()) != null) break;
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
@@ -83,29 +87,28 @@ public class Breeding extends ListPage<LineEntry>
         final IClickListener listener = new IClickListener()
         {
             @Override
-            public boolean handleClick(final ITextComponent component)
+            public boolean handleClick(final Style component)
             {
                 return thisObj.handleComponentClicked(component);
             }
 
             @Override
-            public void handleHovor(final ITextComponent component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
-                thisObj.renderComponentHoverEffect(component, x, y);
+                thisObj.renderComponentHoverEffect(mat, component, x, y);
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.FONT_HEIGHT / 2,
                 this.font.FONT_HEIGHT, offsetX, offsetY);
-        ITextComponent main = new TranslationTextComponent(ourEntry.getUnlocalizedName());
+        IFormattableTextComponent main = new TranslationTextComponent(ourEntry.getUnlocalizedName());
         if (ourEntry.breeds) for (final String name : PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(),
                 Collections.emptyList()))
         {
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
             main = new TranslationTextComponent(entry.getUnlocalizedName());
-            main.setStyle(new Style());
-            main.getStyle().setColor(TextFormatting.GREEN);
+            main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN));
             main.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName()));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
         }

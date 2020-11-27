@@ -98,7 +98,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final ITag<Item> tag = ItemTags.getCollection().get(id);
+                    final ITag<Item> tag = ItemTags.getCollection().getTagByID(id);
                     recipeItemsIn.add(Ingredient.fromTag(tag));
                 }
                 else recipeItemsIn.add(Ingredient.fromStacks(Tools.getStack(value.getValues())));

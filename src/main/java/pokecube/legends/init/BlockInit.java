@@ -1,11 +1,8 @@
 package pokecube.legends.init;
 
-import java.util.function.Supplier;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
-import net.minecraft.block.GlassBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -229,7 +226,7 @@ public class BlockInit
         		() -> new Ultra_Tree03(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
         //Plants (LOG/LEAVE/PLANKS)
-        
+
         ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01",   () -> new BlockBase("ultra_log01", Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(5, 10).harvestTool(
                 ToolType.AXE).harvestLevel(2)).noInfoBlock());
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
@@ -240,7 +237,7 @@ public class BlockInit
         ULTRA_PLANKUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
 
-        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03",   () -> new BlockBase("ultra_log03", 
+        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03",   () -> new BlockBase("ultra_log03",
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(5, 10).harvestTool(ToolType.AXE).harvestLevel(2)).noInfoBlock());
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
@@ -258,10 +255,10 @@ public class BlockInit
                 Material.IRON).noInfoBlock());
         TROUGH_BLOCK 	= PokecubeLegends.BLOCKS.register("trough_block", () -> new TroughBlock("trough_block",
         		Block.Properties.create(Material.IRON).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-                .harvestLevel(2).sound(SoundType.ANVIL).lightValue(4).variableOpacity()).noInfoBlock());
+                .harvestLevel(2).sound(SoundType.ANVIL).setLightLevel(b->4).variableOpacity()).noInfoBlock());
         HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new HeatranBlock("heatran_block",
         		Block.Properties.create(Material.LAVA).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-                .harvestLevel(2).sound(SoundType.CORAL).lightValue(4).variableOpacity()).noInfoBlock());
+                .harvestLevel(2).sound(SoundType.CORAL).setLightLevel(b->4).variableOpacity()).noInfoBlock());
         ///
         REGISTEEL_CORE 		= PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
                 Material.IRON, 15, SoundType.METAL ,ToolType.PICKAXE, 2).noInfoBlock());
@@ -311,7 +308,7 @@ public class BlockInit
                 Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         SPECTRUM_BLOCK		= PokecubeLegends.BLOCKS_TAB.register("spectrum_block", () -> new Block(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(5.0f, 7).sound(SoundType.ANVIL).lightValue(4).harvestTool(ToolType.PICKAXE)));
+                Material.IRON).hardnessAndResistance(5.0f, 7).sound(SoundType.ANVIL).setLightLevel(b->4).harvestTool(ToolType.PICKAXE)));
 
 //        COSMIC_DUST_ORE 		= PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new BlockBase("cosmic_dust_ore",
 //                Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(

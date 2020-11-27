@@ -5,13 +5,18 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.IBidiRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob.Stats;
 
 public class StatsInfo extends PokeInfoPage
 {
+    private IBidiRenderer splitRenderer = IBidiRenderer.field_243257_a;
     private final FontRenderer fontRender;
 
     public StatsInfo(final PokemobInfoPage parent)
@@ -157,24 +162,25 @@ public class StatsInfo extends PokeInfoPage
             AbstractGui.drawString(mat,this.fontRender, I18n.format("pokewatch.ability", abilityName), x + dx, y + dy, 0xFFFFFF);
         }
         final int happiness = this.parent.pokemob.getHappiness();
-        String message = "";
+        TextComponent message = new StringTextComponent("");
 
         // Draw size
         dy += 11;
-        message = I18n.format("pokewatch.size", this.parent.pokemob.getSize());
-        this.fontRender.drawSplitString(message, x + dx, y + dy, 100, 0xFFFFFF);
+        message = new TranslationTextComponent("pokewatch.size", this.parent.pokemob.getSize());
+        this.splitRenderer = IBidiRenderer.func_243258_a(this.fontRender, message, 100);
+        this.splitRenderer.func_241866_c(mat, x + dx, y + dy, 12, 0xFFFFFF);
 
-        if (happiness == 0) message = "pokemob.info.happy0";
-        if (happiness > 0) message = "pokemob.info.happy1";
-        if (happiness > 49) message = "pokemob.info.happy2";
-        if (happiness > 99) message = "pokemob.info.happy3";
-        if (happiness > 149) message = "pokemob.info.happy4";
-        if (happiness > 199) message = "pokemob.info.happy5";
-        if (happiness > 254) message = "pokemob.info.happy6";
+        if (happiness == 0) message = new TranslationTextComponent("pokemob.info.happy0");
+        if (happiness > 0) message = new TranslationTextComponent("pokemob.info.happy1");
+        if (happiness > 49) message = new TranslationTextComponent("pokemob.info.happy2");
+        if (happiness > 99) message = new TranslationTextComponent("pokemob.info.happy3");
+        if (happiness > 149) message = new TranslationTextComponent("pokemob.info.happy4");
+        if (happiness > 199) message = new TranslationTextComponent("pokemob.info.happy5");
+        if (happiness > 254) message = new TranslationTextComponent("pokemob.info.happy6");
         // Draw Happiness
-        message = I18n.format(message);
         dy += 11;
-        this.fontRender.drawSplitString(message, x + dx, y + dy, 100, 0xFFFFFF);
+        this.splitRenderer = IBidiRenderer.func_243258_a(this.fontRender, message, 100);
+        this.splitRenderer.func_241866_c(mat, x + dx, y + dy, 12, 0xFFFFFF);
     }
 
     @Override

@@ -152,7 +152,7 @@ public class GuiPokeWatch extends Screen
 
         // We overwrite this to reverse the ordering of checking if tab was
         // pressed
-        final boolean subpages = this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
+        final boolean subpages = this.getListener() != null && this.getListener().keyPressed(keyCode, b, c);
 
         if (subpages) return true;
         if (keyCode == GLFW.GLFW_KEY_TAB)

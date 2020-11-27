@@ -9,6 +9,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
@@ -131,15 +132,15 @@ public class Moves extends ListPage<LineEntry>
         final IClickListener listener = new IClickListener()
         {
             @Override
-            public boolean handleClick(final ITextComponent component)
+            public boolean handleClick(final Style component)
             {
-                return thisObj.handleComponentClicked(component.getStyle());
+                return thisObj.handleComponentClicked(component);
             }
 
             @Override
-            public void handleHovor(final ITextComponent component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
-                thisObj.renderComponentHoverEffect(component, x, y);
+                thisObj.renderComponentHoverEffect(mat, component, x, y);
             }
         };
 
@@ -153,11 +154,9 @@ public class Moves extends ListPage<LineEntry>
             {
                 added.add(s);
                 final ITextComponent moveName = MovesUtils.getMoveName(s);
-                moveName.setStyle(new Style());
-                moveName.getStyle().setColor(TextFormatting.RED);
+                moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED));
                 final ITextComponent main = new TranslationTextComponent("pokewatch.moves.lvl", i, moveName);
-                main.setStyle(new Style());
-                main.getStyle().setColor(TextFormatting.GREEN);
+                main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN));
                 main.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s));
                 main.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s)));
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
@@ -167,11 +166,9 @@ public class Moves extends ListPage<LineEntry>
         {
             added.add(s);
             final ITextComponent moveName = MovesUtils.getMoveName(s);
-            moveName.setStyle(new Style());
-            moveName.getStyle().setColor(TextFormatting.RED);
+            moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED));
             final ITextComponent main = new TranslationTextComponent("pokewatch.moves.tm", moveName);
-            main.setStyle(new Style());
-            main.getStyle().setColor(TextFormatting.GREEN);
+            main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN));
             main.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s));
             main.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s)));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
@@ -275,12 +272,12 @@ public class Moves extends ListPage<LineEntry>
     }
 
     @Override
-    protected void renderComponentHoverEffect(final MatrixStack mat, final ITextComponent component, final int x, final int y)
+    protected void renderComponentHoverEffect(final MatrixStack mat, final Style component, final int x, final int y)
     {
         tooltip:
-        if (component.getStyle().getHoverEvent() != null)
+        if (component.getHoverEvent() != null)
         {
-            String text = component.getStyle().getHoverEvent().getValue().getUnformattedComponentText();
+            String text = component.getHoverEvent().getAction().getCanonicalName();
             final Move_Base move = MovesUtils.getMoveFromName(text);
             if (move == null) break tooltip;
             final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
@@ -292,12 +289,12 @@ public class Moves extends ListPage<LineEntry>
             final int mx = 100 - box;
             final int my = -10;
             final int dy = this.font.FONT_HEIGHT;
-            AbstractGui.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
-            AbstractGui.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-            this.font.drawString(text, x + mx + 1, y + my, 0xFFFFFFFF);
+            AbstractGui.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
+            AbstractGui.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
+            this.font.drawString(mat, text, x + mx + 1, y + my, 0xFFFFFFFF);
             GlStateManager.enableDepthTest();
         }
-        super.renderComponentHoverEffect(component, x, y);
+        super.renderComponentHoverEffect(mat, component, x, y);
     }
 
 }

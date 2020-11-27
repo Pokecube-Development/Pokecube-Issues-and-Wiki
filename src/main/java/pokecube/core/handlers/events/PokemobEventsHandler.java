@@ -129,7 +129,7 @@ public class PokemobEventsHandler
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getTranslationKey());
-            PokemobEventsHandler.DYETAGS.put(colour, ItemTags.getCollection().get(tag));
+            PokemobEventsHandler.DYETAGS.put(colour, ItemTags.getCollection().getTagByID(tag));
         }
         return PokemobEventsHandler.DYETAGS;
     }

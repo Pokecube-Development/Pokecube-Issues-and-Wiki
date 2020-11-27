@@ -4,12 +4,12 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -18,8 +18,7 @@ import thut.api.item.ItemList;
 
 public class RecipeRevive extends SpecialRecipe
 {
-    public static final IRecipeSerializer<RecipeRevive> SERIALIZER = new SpecialRecipeSerializer<>(RecipeRevive::new);
-    public static final ResourceLocation                REVIVETAG  = new ResourceLocation("pokecube:revive");
+    public static final ResourceLocation REVIVETAG = new ResourceLocation("pokecube:revive");
 
     public RecipeRevive(final ResourceLocation idIn)
     {
@@ -81,7 +80,7 @@ public class RecipeRevive extends SpecialRecipe
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return RecipeRevive.SERIALIZER;
+        return RecipeHandler.REVIVE.get();
     }
 
     @Override

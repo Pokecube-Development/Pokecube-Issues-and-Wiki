@@ -42,7 +42,7 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
 
     public static void registerBehavior(final ResourceLocation tag)
     {
-        for (final Item item : ItemTags.getCollection().get(tag).getAllElements())
+        for (final Item item : ItemTags.getCollection().getTagByID(tag).getAllElements())
             DispenseBehaviourInteract.registerBehavior(new ItemStack(item));
     }
 

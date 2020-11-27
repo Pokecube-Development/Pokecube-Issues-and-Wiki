@@ -14,7 +14,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
@@ -25,6 +24,7 @@ import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.events.CloneEvent;
+import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -132,8 +132,6 @@ public class RecipeClone extends PoweredRecipe
     }
 
     public static int                                  ENERGYCOST = 10000;
-    public static final IRecipeSerializer<RecipeClone> SERIALIZER = IRecipeSerializer.register(
-            "pokecube_adventures:reviving", new SpecialRecipeSerializer<>(RecipeClone::new));
 
     public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeClone.ENERGYCOST;
     private static List<RecipeClone>           recipeList = Lists.newArrayList();
@@ -233,7 +231,7 @@ public class RecipeClone extends PoweredRecipe
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return RecipeClone.SERIALIZER;
+        return RecipePokeAdv.REVIVE.get();
     }
 
     /** Used to check if a recipe matches current crafting inventory */

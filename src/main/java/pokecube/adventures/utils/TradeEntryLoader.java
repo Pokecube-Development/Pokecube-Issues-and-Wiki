@@ -114,7 +114,7 @@ public class TradeEntryLoader
         else if (flag.equals("tag_sell"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final ITag<Item> itemtag = ItemTags.getCollection().get(tag);
+            final ITag<Item> itemtag = ItemTags.getCollection().getTagByID(tag);
             for (final Item i : itemtag.getAllElements())
             {
                 final ItemStack stack = new ItemStack(i);
@@ -147,7 +147,7 @@ public class TradeEntryLoader
         else if (flag.equals("tag_buy"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final ITag<Item> itemtag = ItemTags.getCollection().get(tag);
+            final ITag<Item> itemtag = ItemTags.getCollection().getTagByID(tag);
             if (itemtag != null) for (final Item i : itemtag.getAllElements())
             {
                 final ItemStack stack = new ItemStack(i);

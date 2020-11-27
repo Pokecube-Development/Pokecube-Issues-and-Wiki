@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.watch.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -9,12 +10,13 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
@@ -51,7 +53,7 @@ public class SpawnListEntry
 
         final List<ITextComponent> biomes = Lists.newArrayList();
         if (value._validBiomes != null) for (final ResourceLocation b : value._validBiomes)
-            biomes.add(ForgeRegistries.BIOMES.getValue(b).getDisplayName());
+            biomes.add(new TranslationTextComponent(b.getPath()));
         if (entry != null) this.output.add(entry.getName() + ":");
         final String ind = entry != null ? "  " : "";
         if (!biomes.isEmpty())
@@ -60,8 +62,11 @@ public class SpawnListEntry
             for (final ITextComponent s : biomes)
                 biomeString = biomeString + s.getString() + ",\n";
             biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
-            final List<String> split = fontRender.listFormattedStringToWidth(biomeString, width - fontRender
-                    .getStringWidth(ind));
+            final List<String> split = new ArrayList<>();
+            for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(biomeString),
+                    width - fontRender.getStringWidth(ind)))
+                split.add(line.toString());
+
             split.replaceAll(t -> ind + t);
             this.output.addAll(split);
         }
@@ -74,8 +79,10 @@ public class SpawnListEntry
             String typeString = I18n.format("pokewatch.spawns.types") + " ";
             for (final String s : types)
                 typeString = typeString + s + ", ";
-            final List<String> split = fontRender.listFormattedStringToWidth(typeString, width - fontRender
-                    .getStringWidth(ind));
+            final List<String> split = new ArrayList<>();
+            for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(typeString),
+                    width - fontRender.getStringWidth(ind)))
+                split.add(line.toString());
             split.replaceAll(t -> ind + t);
             this.output.addAll(split);
         }
@@ -85,10 +92,12 @@ public class SpawnListEntry
         final boolean dawn = value.dawn;
         final boolean water = value.water;
         final boolean air = value.air;
-        if (water) if (air) this.output.addAll(fontRender.listFormattedStringToWidth(ind + I18n.format(
-                "pokewatch.spawns.water_optional"), width));
-        else this.output.addAll(fontRender.listFormattedStringToWidth(ind + I18n.format("pokewatch.spawns.water_only"),
-                width));
+        if (water) if (air) for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(
+                ind + I18n.format("pokewatch.spawns.water_optional")), width))
+            this.output.add(line.toString());
+        else for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(ind + I18n
+                .format("pokewatch.spawns.water_only")), width))
+            this.output.add(line.toString());
         String times = ind + I18n.format("pokewatch.spawns.times");
         if (day) times = times + " " + I18n.format("pokewatch.spawns.day");
         if (night)
@@ -106,7 +115,8 @@ public class SpawnListEntry
             if (day || night || dawn) times = times + ", ";
             times = times + I18n.format("pokewatch.spawns.dawn");
         }
-        this.output.addAll(fontRender.listFormattedStringToWidth(times, width));
+        for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(times), width))
+            this.output.add(line.toString());
         String rate = "";
         if (value.spawnRule.values.containsKey(new QName("Local_Rate")))
         {
@@ -153,7 +163,9 @@ public class SpawnListEntry
             final String var = val + "%";
             rate = ind + I18n.format("pokewatch.spawns.rate_single", var);
         }
-        if (!rate.isEmpty()) this.output.addAll(fontRender.listFormattedStringToWidth(rate, width));
+        if (!rate.isEmpty()) for (final IReorderingProcessor line : fontRender.trimStringToWidth(
+                new StringTextComponent(rate), width))
+            this.output.add(line.toString());
         this.output.add("");
     }
 
@@ -167,11 +179,7 @@ public class SpawnListEntry
             if (n++ == 0)
             {
                 final PokedexEntry e = Database.getEntry(comp.getUnformattedComponentText());
-                if (e != null)
-                {
-                    comp.setStyle(new Style());
-                    comp.getStyle().setColor(TextFormatting.GREEN);
-                }
+                if (e != null) comp.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN));
             }
             lines.add(new LineEntry(parent, 0, 0, this.fontRender, comp, 0xFFFFFFFF).setClickListner(listener));
         }

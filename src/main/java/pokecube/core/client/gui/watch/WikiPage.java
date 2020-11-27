@@ -17,6 +17,8 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
@@ -56,13 +58,16 @@ public class WikiPage extends ListPage<LineEntry>
     }
 
     @Override
-    public boolean handleComponentClicked(final ITextComponent component)
+    public boolean handleComponentClicked(final Style component)
     {
         if (component != null)
         {
-            ClickEvent clickevent = component.getStyle().getClickEvent();
-            if (clickevent == null) for (final ITextComponent sib : component.getSiblings())
-                if (sib != null && (clickevent = sib.getStyle().getClickEvent()) != null) break;
+            final ClickEvent clickevent = component.getClickEvent();
+            // TODO see if we need a sub style somehow?
+            // if (clickevent == null) for (final ITextComponent sib :
+            // component.getSiblings())
+            // if (sib != null && (clickevent = sib.getStyle().getClickEvent())
+            // != null) break;
             final int max = this.list.getMaxScroll();
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {
@@ -155,13 +160,13 @@ public class WikiPage extends ListPage<LineEntry>
         final IClickListener listener = new IClickListener()
         {
             @Override
-            public boolean handleClick(final ITextComponent component)
+            public boolean handleClick(final Style component)
             {
                 return thisObj.handleComponentClicked(component);
             }
 
             @Override
-            public void handleHovor(final ITextComponent component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
             }
         };
@@ -176,11 +181,12 @@ public class WikiPage extends ListPage<LineEntry>
             ITextComponent line;
             for (int i = 0; i < bookPages.size(); i++)
             {
-                final ITextComponent page = ITextComponent.Serializer.fromJsonLenient(bookPages.getString(i));
-                final List<ITextComponent> list = RenderComponentsUtil.splitText(page, 120, this.font, true, true);
-                for (final ITextComponent element : list)
+                final ITextComponent page = ITextComponent.Serializer.getComponentFromJsonLenient(bookPages.getString(
+                        i));
+                final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(page, 120, this.font);
+                for (final IReorderingProcessor element : list)
                 {
-                    line = element;
+                    line = new StringTextComponent(element.toString());
                     final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i).setClickListner(
                             listener);
                     this.list.addEntry(wikiline);
@@ -199,7 +205,7 @@ public class WikiPage extends ListPage<LineEntry>
             int pagenum = 0;
             try
             {
-                ITextComponent entry;
+                IFormattableTextComponent entry;
                 for (final Page page : pages.pages)
                 {
                     for (String line : page.lines)
@@ -225,12 +231,11 @@ public class WikiPage extends ListPage<LineEntry>
                             ref_val = ref_val.replace("{_ref_:", "").replace("}", "");
                         }
 
-                        final ITextComponent comp = new StringTextComponent(line);
-                        final List<ITextComponent> list = RenderComponentsUtil.splitText(comp, 120, this.font, true,
-                                true);
-                        for (int j = 0; j < list.size(); j++)
+                        final IFormattableTextComponent comp = new StringTextComponent(line);
+                        final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(comp, 120, this.font);
+                        for (final IReorderingProcessor element : list)
                         {
-                            entry = list.get(j);
+                            entry = new StringTextComponent(element.toString());
                             String text = entry.getString();
                             final Style style = entry.getStyle();
                             // We have a link

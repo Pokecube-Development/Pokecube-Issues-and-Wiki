@@ -4,9 +4,9 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
@@ -39,16 +39,16 @@ public class GlobalProgress extends Progress
         this.killed0 = KillStats.getNumberUniqueKilledBy(this.watch.player.getUniqueID());
         this.killed1 = KillStats.getTotalNumberKilledBy(this.watch.player.getUniqueID());
 
-        final String captureLine = I18n.format("pokewatch.progress.global.caught", this.caught1, this.caught0);
-        final String killLine = I18n.format("pokewatch.progress.global.killed", this.killed1, this.killed0);
-        final String hatchLine = I18n.format("pokewatch.progress.global.hatched", this.hatched1, this.hatched0);
+        final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.global.caught", this.caught1, this.caught0);
+        final TranslationTextComponent killLine = new TranslationTextComponent("pokewatch.progress.global.killed", this.killed1, this.killed0);
+        final TranslationTextComponent hatchLine = new TranslationTextComponent("pokewatch.progress.global.hatched", this.hatched1, this.hatched0);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
         final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
                 .getConfig().maxSpawnRadius);
         final List<Entity> otherMobs = this.watch.player.getEntityWorld().getEntitiesInAABBexcluding(this.watch.player,
                 bb, input -> input instanceof AnimalEntity && CapabilityPokemob.getPokemobFor(input) != null);
-        final String nearbyLine = I18n.format("pokewatch.progress.global.nearby", otherMobs.size());
+        final TranslationTextComponent nearbyLine = new TranslationTextComponent("pokewatch.progress.global.nearby", otherMobs.size());
 
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
@@ -58,17 +58,17 @@ public class GlobalProgress extends Progress
                     .getCode());
         }));
 
-        for (final String line : this.font.listFormattedStringToWidth(captureLine, 120))
-            this.lines.add(line);
+        for (final IReorderingProcessor line : this.font.trimStringToWidth(captureLine, 120))
+            this.lines.add(line.toString());
         this.lines.add("");
-        for (final String line : this.font.listFormattedStringToWidth(killLine, 120))
-            this.lines.add(line);
+        for (final IReorderingProcessor line : this.font.trimStringToWidth(killLine, 120))
+            this.lines.add(line.toString());
         this.lines.add("");
-        for (final String line : this.font.listFormattedStringToWidth(hatchLine, 120))
-            this.lines.add(line);
+        for (final IReorderingProcessor line : this.font.trimStringToWidth(hatchLine, 120))
+            this.lines.add(line.toString());
         this.lines.add("");
-        for (final String line : this.font.listFormattedStringToWidth(nearbyLine, 120))
-            this.lines.add(line);
+        for (final IReorderingProcessor line : this.font.trimStringToWidth(nearbyLine, 120))
+            this.lines.add(line.toString());
     }
 
 }

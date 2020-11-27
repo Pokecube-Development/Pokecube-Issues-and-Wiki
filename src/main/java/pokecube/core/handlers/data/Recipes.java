@@ -33,7 +33,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
             ShapelessRecipeBuilder.shapelessRecipe(to, number)
             .addIngredient(from)
             .setGroup(to.getRegistryName().getNamespace())
-            .addCriterion("has_from", this.hasItem(from))
+            .addCriterion("has_from", RecipeProvider.hasItem(from))
             ::build
         )
         .build(consumer, id);

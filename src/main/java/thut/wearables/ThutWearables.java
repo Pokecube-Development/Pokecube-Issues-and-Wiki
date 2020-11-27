@@ -15,7 +15,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -173,13 +172,6 @@ public class ThutWearables
             event.getRegistry().register(ContainerWearables.TYPE.setRegistryName(ThutWearables.MODID, "wearables"));
         }
 
-        @SubscribeEvent
-        public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
-        {
-            event.getRegistry().register(RecipeDye.SERIALIZER.setRegistryName(new ResourceLocation(
-                    "thut_wearables:dye")));
-        }
-
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
@@ -255,6 +247,7 @@ public class ThutWearables
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutWearables.proxy::setupClient);
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutWearables.proxy::finish);
+        RecipeDye.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

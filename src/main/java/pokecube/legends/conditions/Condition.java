@@ -212,9 +212,9 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     public void sendLegendBuild(final Entity trainer, final String name)
     {
         final String message = "msg.reginotlookright.info";
-        trainer.sendMessage(new TranslationTextComponent(message, name));
+        trainer.sendMessage(new TranslationTextComponent(message, name), Util.DUMMY_UUID);
     }
-    
+
     public void sendAngered(final Entity trainer)
     {
         final String message = "msg.angeredlegend.json";

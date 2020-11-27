@@ -11,10 +11,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
 import thut.api.ModelHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
@@ -50,6 +50,11 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         this.model = model;
         this.renderer = renderer;
+    }
+
+    public void SetEntity(final T entity)
+    {
+        this.entityIn = entity;
     }
 
     @Override

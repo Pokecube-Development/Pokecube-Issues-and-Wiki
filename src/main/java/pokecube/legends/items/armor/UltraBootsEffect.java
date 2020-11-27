@@ -1,17 +1,11 @@
 package pokecube.legends.items.armor;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
-import pokecube.legends.init.DimensionInit;
 
 public class UltraBootsEffect extends ArmorItem
 {
@@ -34,11 +28,11 @@ public class UltraBootsEffect extends ArmorItem
 			System.err.println("Failed Effect Helmet!");
 			return;
 		}
-		Entity entity = (Entity) dependencies.get("entity");
-		if ((entity instanceof ServerPlayerEntity)) {
-			if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US.getId()) {
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 120, 1));
-			}
-		}
+//		Entity entity = (Entity) dependencies.get("entity");
+//		if ((entity instanceof ServerPlayerEntity)) {
+//			if (entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US.getId()) {
+//				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 120, 1));
+//			}
+//		}
 	}
 }

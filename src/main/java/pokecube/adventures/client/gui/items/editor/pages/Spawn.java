@@ -78,15 +78,15 @@ public class Spawn extends Page
         }));
         this.addButton(new Button(xOffset - 45, yOffset + 40, 40, 20, new StringTextComponent("trainer"), b ->
         {
-            if (b.getMessage().equals("trainer")) b.setMessage("leader");
-            else b.setMessage("trainer");
-            this.leader = b.getMessage().equals("leader");
+            if (b.getMessage().getString().equals("trainer")) b.setMessage(new StringTextComponent("leader"));
+            else b.setMessage(new StringTextComponent("trainer"));
+            this.leader = b.getMessage().getString().equals("leader");
         }));
         this.addButton(new Button(xOffset - 5, yOffset + 40, 40, 20, new StringTextComponent("stands"), b ->
         {
-            if (b.getMessage().equals("wanders")) b.setMessage("stands");
-            else b.setMessage("wanders");
-            this.stand = b.getMessage().equals("stands");
+            if (b.getMessage().getString().equals("wanders")) b.setMessage(new StringTextComponent("stands"));
+            else b.setMessage(new StringTextComponent("wanders"));
+            this.stand = b.getMessage().getString().equals("stands");
         }));
         this.addButton(new Button(xOffset + 35, yOffset + 40, 40, 20,new StringTextComponent( "spawn"), b ->
         {
