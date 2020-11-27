@@ -27,7 +27,7 @@ public class WearableHandler
         // on single player, these are inside a saves directory
         if (!server.isDedicatedServer()) path = path.resolve("saves");
         // This is to the world save location
-        path = path.resolve(server.func_240793_aU_().getWorldName());
+        path = path.resolve(server.getServerConfiguration().getWorldName());
         // This is to the uuid specific folder
         path = path.resolve("wearables").resolve("uuid");
         final File dir = path.toFile();
