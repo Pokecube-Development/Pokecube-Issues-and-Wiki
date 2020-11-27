@@ -49,7 +49,7 @@ public class LegendaryConditions
         new LegendarySpawn("zekrom", ItemInit.DARKSTONE, BlockInit.TIMESPACE_CORE);
 
         new LegendarySpawn("heatran", ItemInit.MAGMA_CORE, BlockInit.HEATRAN_BLOCK);
-        new LegendarySpawn("keldeo", ItemInit.RAINBOW_SWORD, BlockInit.KELDEO_CORE);
+        new LegendarySpawn("keldeo", ItemInit.KELDEO_SWORD, BlockInit.KELDEO_CORE);
 
         new LegendarySpawn("landorusincarnate", ItemInit.ORANGE_RUNE, BlockInit.NATURE_CORE);
         new LegendarySpawn("thundurusincarnate", ItemInit.BLUE_RUNE, BlockInit.NATURE_CORE);

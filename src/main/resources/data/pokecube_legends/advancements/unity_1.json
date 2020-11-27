@@ -21,11 +21,11 @@
     "hidden": false
   },
   "criteria": {
-    "catch_ice_rider": {
+    "catch_glastrier": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "ice_rider"
+        "entry": "glastrier"
       }
     }
   },

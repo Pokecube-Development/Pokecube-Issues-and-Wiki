@@ -45,7 +45,7 @@
   },
   "rewards": {
     "loot": [
-      "pokecube_legends:entities/legendscore"
+      "pokecube_legends:entities/keldeo"
     ]
   },
   "parent": "pokecube_legends:root"
