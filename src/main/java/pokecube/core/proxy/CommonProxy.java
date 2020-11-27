@@ -2,10 +2,6 @@ package pokecube.core.proxy;
 
 import java.util.UUID;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Pair;
-
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.INBT;
 import net.minecraft.server.MinecraftServer;
@@ -13,15 +9,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
-import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
-import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
-import net.minecraft.world.gen.feature.template.RandomBlockMatchRuleTest;
-import net.minecraft.world.gen.feature.template.RuleEntry;
-import net.minecraft.world.gen.feature.template.RuleStructureProcessor;
-import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -86,13 +73,13 @@ public class CommonProxy implements Proxy
     public ServerWorld getServerWorld()
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        return server.getWorld(DimensionType.OVERWORLD);
+        return server.getWorld(World.OVERWORLD);
     }
 
     public World getWorld()
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        return server.getWorld(DimensionType.OVERWORLD);
+        return server.getWorld(World.OVERWORLD);
     }
 
     @Override
@@ -153,17 +140,25 @@ public class CommonProxy implements Proxy
         // Register some Village stuff
         if (PokecubeCore.getConfig().villagePokecenters)
         {
-            final ImmutableList<StructureProcessor> replacementRules = ImmutableList.of(new RuleStructureProcessor(
-                    ImmutableList.of(new RuleEntry(new RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F),
-                            AlwaysTrueRuleTest.INSTANCE, Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
-
-            final SingleJigsawPiece part = new SingleJigsawPiece(new ResourceLocation(PokecubeCore.MODID,
-                    "village/common/pokecenter").toString(), replacementRules,
-                    JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING);
-
-            JigsawManager.REGISTRY.register(new JigsawPattern(new ResourceLocation(PokecubeCore.MODID,
-                    "village/common/pokecenter"), new ResourceLocation("village/plains/terminators"), ImmutableList.of(
-                            new Pair<>(part, 100)), JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING));
+            // TODO pokecenters in vanilla villages.
+            // final ImmutableList<StructureProcessor> replacementRules =
+            // ImmutableList.of(new RuleStructureProcessor(
+            // ImmutableList.of(new RuleEntry(new
+            // RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F),
+            // AlwaysTrueRuleTest.INSTANCE,
+            // Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
+            //
+            // final SingleJigsawPiece part = new SingleJigsawPiece(new
+            // ResourceLocation(PokecubeCore.MODID,
+            // "village/common/pokecenter").toString(), replacementRules,
+            // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING);
+            //
+            // JigsawManager.REGISTRY.register(new JigsawPattern(new
+            // ResourceLocation(PokecubeCore.MODID,
+            // "village/common/pokecenter"), new
+            // ResourceLocation("village/plains/terminators"), ImmutableList.of(
+            // new Pair<>(part, 100)),
+            // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING));
         }
 
     }

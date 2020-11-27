@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.world.DimensionType;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -825,24 +824,25 @@ public class Config extends ConfigData
         if (this.configDatabases.size() != EnumDatabase.values().length) this.configDatabases = Lists.newArrayList(
                 new String[] { "", "", "" });
 
+        // TODO figure out dimension blacklists.
         SpawnHandler.dimensionBlacklist.clear();
-        for (final String i : this.spawnDimBlacklist)
-        {
-            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-            if (type != null) SpawnHandler.dimensionBlacklist.add(type);
-        }
+//        for (final String i : this.spawnDimBlacklist)
+//        {
+//            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
+//            if (type != null) SpawnHandler.dimensionBlacklist.add(type);
+//        }
         SpawnHandler.dimensionWhitelist.clear();
-        for (final String i : this.spawnDimWhitelist)
-        {
-            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-            if (type != null) SpawnHandler.dimensionWhitelist.add(type);
-        }
+//        for (final String i : this.spawnDimWhitelist)
+//        {
+//            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
+//            if (type != null) SpawnHandler.dimensionWhitelist.add(type);
+//        }
         LogicMountedControl.BLACKLISTED.clear();
-        for (final String i : this.blackListedFlyDims)
-        {
-            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-            if (type != null) LogicMountedControl.BLACKLISTED.add(type);
-        }
+//        for (final String i : this.blackListedFlyDims)
+//        {
+//            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
+//            if (type != null) LogicMountedControl.BLACKLISTED.add(type);
+//        }
 
         boolean failed = false;
         if (this.dodgeSounds.size() == 0) failed = true;

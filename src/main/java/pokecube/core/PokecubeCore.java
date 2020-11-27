@@ -28,19 +28,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.IStructureProcessorType;
-import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.BusBuilder;
@@ -53,7 +45,6 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
@@ -98,15 +89,10 @@ import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.ClientProxy;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.world.dimension.SecretBaseDimension;
-import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
 import pokecube.core.world.gen.jigsaw.JigsawPieces;
-import pokecube.core.world.gen.template.FillerProcessor;
-import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
-import thut.api.terrain.BiomeDatabase;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 
@@ -129,15 +115,15 @@ public class PokecubeCore
             pre.modIDs.add(PokecubeCore.MODID);
             Database.preInit();
         }
-
-        @SubscribeEvent
-        public static void registerBiomes(final RegistryEvent.Register<Biome> event)
-        {
-            PokecubeCore.LOGGER.debug("Registering Pokecube Biomes");
-            SecretBaseDimension.BIOME = new SecretBiome();
-            event.getRegistry().register(SecretBaseDimension.BIOME);
-            BiomeDictionary.addTypes(SecretBaseDimension.BIOME, BiomeDictionary.Type.VOID);
-        }
+//
+//        @SubscribeEvent TODO Dimensions
+//        public static void registerBiomes(final RegistryEvent.Register<Biome> event)
+//        {
+//            PokecubeCore.LOGGER.debug("Registering Pokecube Biomes");
+//            SecretBaseDimension.BIOME = new SecretBiome();
+//            event.getRegistry().register(SecretBaseDimension.BIOME);
+//            BiomeDictionary.addTypes(SecretBaseDimension.BIOME, BiomeDictionary.Type.VOID);
+//        }
 
         @SubscribeEvent
         public static void registerActivities(final RegistryEvent.Register<Activity> event)
@@ -176,25 +162,25 @@ public class PokecubeCore
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Features");
 
-            // Register the fossil stone spawning.
-            if (PokecubeCore.config.generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())
-            {
-                if (!(BiomeDatabase.contains(b, "sandy") || BiomeDatabase.contains(b, "ocean"))) continue;
-                // Currently this uses same settings as gold ore.
-                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE
-                                .getDefaultState(), 9)).withPlacement(Placement.COUNT_RANGE.configure(
-                                        new CountRangeConfig(2, 0, 0, 32))));
-            }
+//            // Register the fossil stone spawning. TODO Ore Generation
+//            if (PokecubeCore.config.generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())
+//            {
+//                if (!(BiomeDatabase.contains(b, "sandy") || BiomeDatabase.contains(b, "ocean"))) continue;
+//                // Currently this uses same settings as gold ore.
+//                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
+//                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE
+//                                .getDefaultState(), 9)).withPlacement(Placement.COUNT_RANGE.configure(
+//                                        new CountRangeConfig(2, 0, 0, 32))));
+//            }
 
             // Register the general structure piece we use
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:jigsaw_piece", JigsawPieces.CSP);
 
-            // Register structure processor types
-            PokecubeStructureProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process",
-                    PokecubeStructureProcessor::new);
-            FillerProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process_filler",
-                    FillerProcessor::new);
+            // Register structure processor types  TODO Structure Processors
+//            PokecubeStructureProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process",
+//                    PokecubeStructureProcessor::new);
+//            FillerProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process_filler",
+//                    FillerProcessor::new);
 
             // Register the configurable worldgen things from datapack
             new WorldgenHandler().processStructures(event);
@@ -225,12 +211,12 @@ public class PokecubeCore
             event.getRegistry().register(TradeContainer.TYPE.setRegistryName(PokecubeCore.MODID, "trade_machine"));
         }
 
-        @SubscribeEvent
-        public static void registerDimensions(final RegistryEvent.Register<ModDimension> event)
-        {
-            PokecubeCore.LOGGER.debug("Registering Pokecube Dimensions");
-            event.getRegistry().register(SecretBaseDimension.DIMENSION.setRegistryName(SecretBaseDimension.ID));
-        }
+//        @SubscribeEvent TODO Dimensions
+//        public static void registerDimensions(final RegistryEvent.Register<ModDimension> event)
+//        {
+//            PokecubeCore.LOGGER.debug("Registering Pokecube Dimensions");
+//            event.getRegistry().register(SecretBaseDimension.DIMENSION.setRegistryName(SecretBaseDimension.ID));
+//        }
 
         @SubscribeEvent
         public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)

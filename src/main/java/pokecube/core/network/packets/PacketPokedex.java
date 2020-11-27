@@ -170,7 +170,7 @@ public class PacketPokedex extends Packet
         final GlobalPos here = GlobalPos.getPosition(player.getEntityWorld().getDimensionKey(), pos);
         for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
         {
-            final INBT tag = c.serialize(NBTDynamicOps.INSTANCE);
+            final INBT tag = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, c).get().left().get();
             list.add(tag);
         }
         packet.data.put("B", list);
@@ -194,7 +194,7 @@ public class PacketPokedex extends Packet
             }
             if (closest != null)
             {
-                final INBT tag = closest.serialize(NBTDynamicOps.INSTANCE);
+                final INBT tag = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, closest).get().left().get();
                 packet.data.put("V", tag);
             }
         }

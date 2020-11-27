@@ -6,6 +6,8 @@ package pokecube.core.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,6 @@ import java.util.Vector;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.serialization.Dynamic;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -26,9 +27,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry;
@@ -37,8 +39,6 @@ import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import thut.api.maths.Vector4;
-import thut.bling.bag.SaveHandler;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 
@@ -78,8 +78,6 @@ public class PokecubeSerializer
         PokecubeSerializer.instance = new PokecubeSerializer(world);
     }
 
-    SaveHandler saveHandler;
-
     public ArrayList<GlobalPos> meteors;
     public ArrayList<GlobalPos> bases;
 
@@ -99,7 +97,6 @@ public class PokecubeSerializer
     {
         /** This data is saved to surface world's folder. */
         this.myWorld = world;
-        if (this.myWorld != null) this.saveHandler = this.myWorld.getSaveHandler();
         this.lastId = 0;
         this.meteors = new ArrayList<>();
         this.bases = new ArrayList<>();
@@ -204,14 +201,30 @@ public class PokecubeSerializer
         return PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerData.class).hasStarter();
     }
 
+    public static File getSafeFile()
+    {
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        Path path = Paths.get(server.getDataDirectory().toURI());
+        // on single player, these are inside a saves directory
+        if (!server.isDedicatedServer()) path = path.resolve("saves");
+        // This is to the world save location
+        path = path.resolve(server.getServerConfiguration().getWorldName());
+        // This is to the uuid specific folder
+        path = path.resolve(PokecubeSerializer.POKECUBE);
+        final File dir = path.toFile();
+        // and this if the file itself
+        path = path.resolve("global.dat");
+        final File file = path.toFile();
+        if (!file.exists()) dir.mkdirs();
+        return file;
+    }
+
+
     public void loadData()
     {
-        if (this.saveHandler != null) try
+        try
         {
-            final File worlddir = this.saveHandler.getWorldDirectory();
-            File file = new File(worlddir, PokecubeSerializer.POKECUBE);
-            file.mkdirs();
-            file = new File(file, "global.dat");
+            final File file = PokecubeSerializer.getSafeFile();
             if (file != null && file.exists())
             {
                 final FileInputStream fileinputstream = new FileInputStream(file);
@@ -239,27 +252,12 @@ public class PokecubeSerializer
             for (int i = 0; i < tagListMeteors.size(); i++)
             {
                 final CompoundNBT pokemobData = tagListMeteors.getCompound(i);
-                if (pokemobData != null) try
+                if (pokemobData != null)
                 {
-                    final GlobalPos location = GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE,
-                            pokemobData));
+                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result().get().getFirst();
                         for (final GlobalPos v : this.meteors)
                             if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
                         this.meteors.add(location);
-                }
-                catch (final Exception e)
-                {
-                    final Vector4 tmp = new Vector4(pokemobData);
-                    if (tmp != null && !tmp.isEmpty())
-                    {
-                        final BlockPos pos = new BlockPos(tmp.x, tmp.y, tmp.z);
-                        final RegistryKey<World> dim = DimensionType.getById((int) tmp.w);
-                        final GlobalPos location = GlobalPos.getPosition(dim, pos);
-                        for (final GlobalPos v : this.meteors)
-                            if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
-                        this.meteors.add(location);
-                    }
-                    PokecubeCore.LOGGER.error("Error loading meteor from tag: "+pokemobData);
                 }
             }
         }
@@ -273,8 +271,7 @@ public class PokecubeSerializer
                 final CompoundNBT pokemobData = tagListMeteors.getCompound(i);
                 if (pokemobData != null) try
                 {
-                    final GlobalPos location = GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE,
-                            pokemobData));
+                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result().get().getFirst();
                     for (final GlobalPos v : this.bases)
                         if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
                         this.bases.add(location);
@@ -295,8 +292,7 @@ public class PokecubeSerializer
                 final CompoundNBT pokemobData = tagListStructs.getCompound(i);
                 if (pokemobData != null) try
                 {
-                    final GlobalPos location = GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE,
-                            pokemobData));
+                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result().get().getFirst();
                     final String struct = pokemobData.getString("type");
                     final List<GlobalPos> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
                         locs.add(location);
@@ -320,14 +316,9 @@ public class PokecubeSerializer
 
     private void saveData()
     {
-        if (this.saveHandler == null) return;
-
         try
         {
-            final File worlddir = this.saveHandler.getWorldDirectory();
-            File file = new File(worlddir, PokecubeSerializer.POKECUBE);
-            file.mkdirs();
-            file = new File(file, "global.dat");
+            final File file = PokecubeSerializer.getSafeFile();
             if (file != null)
             {
                 final CompoundNBT CompoundNBT = new CompoundNBT();
@@ -396,7 +387,7 @@ public class PokecubeSerializer
         final ListNBT tagListMeteors = new ListNBT();
         for (final GlobalPos v : this.meteors)
             {
-                final INBT nbt = v.serialize(NBTDynamicOps.INSTANCE);
+                final INBT nbt = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
                 tagListMeteors.add(nbt);
             }
         tag.put(PokecubeSerializer.METEORS, tagListMeteors);
@@ -406,7 +397,7 @@ public class PokecubeSerializer
             final List<GlobalPos> list = this.structs.get(s);
             for (final GlobalPos v : list)
                 {
-                    final CompoundNBT nbt = (CompoundNBT) v.serialize(NBTDynamicOps.INSTANCE);
+                    final CompoundNBT nbt = (CompoundNBT)  GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
                     nbt.putString("type", s);
                     tagListStructs.add(nbt);
                 }
@@ -415,7 +406,7 @@ public class PokecubeSerializer
         final ListNBT tagListBases = new ListNBT();
         for (final GlobalPos v : this.bases)
             {
-                final INBT nbt = v.serialize(NBTDynamicOps.INSTANCE);
+                final INBT nbt =  GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
                 tagListMeteors.add(nbt);
             }
         tag.put(PokecubeSerializer.BASES, tagListBases);

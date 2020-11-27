@@ -39,10 +39,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import thut.api.entity.blockentity.render.RenderBlockEntity;
 import thut.api.maths.Vector3;
 import thut.crafts.ThutCrafts;
-import thut.crafts.client.TestMobRender;
 import thut.crafts.entity.CraftController;
 import thut.crafts.entity.EntityCraft;
-import thut.crafts.entity.EntityTest;
 import thut.crafts.network.PacketCraftControl;
 
 public class ClientProxy extends CommonProxy
@@ -109,8 +107,7 @@ public class ClientProxy extends CommonProxy
                 final Minecraft mc = Minecraft.getInstance();
                 final Vector3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
                 Vector3d pointed = new Vector3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player
-                        .getLook(event
-                        .getPartialTicks()));
+                        .getLook(event.getPartialTicks()));
                 if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == Type.BLOCK)
                 {
                     final BlockRayTraceResult result = (BlockRayTraceResult) mc.objectMouseOver;
@@ -202,6 +199,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(this.ROTATERIGHT);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityTest.TYPE, TestMobRender::new);
+        // RenderingRegistry.registerEntityRenderingHandler(EntityTest.TYPE,
+        // TestMobRender::new);
     }
 }
