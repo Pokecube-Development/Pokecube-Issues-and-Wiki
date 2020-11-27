@@ -32,24 +32,22 @@ public class SplicerBlock extends InteractableHorizontalBlock
     static
     {// @formatter:off
     	SplicerBlock.SPLICER.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0.07933286941284567, 0, 0.9293328694128444, 16.079332869412845, 10, 14.929332869412843),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0.07933286941284567, 10, 9.929332869412843, 8.079332869412845, 16, 14.929332869412843),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0.07933286941284567, 10, 1.9293328694128444, 8.079332869412845, 11, 9.929332869412843),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.079332869412845, 10, 6.929332869412844, 14.079332869412845, 11, 11.929332869412843),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.079332869412845, 10, 1.9293328694128444, 14.079332869412845, 11, 5.929332869412844),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.079332869412845, 11, 8.929332869412843, 14.079332869412845, 12, 10.929332869412843),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11.079332869412845, 10.98096988312782, 8.629332869412842, 13.079332869412845, 15.48096988312782, 10.629332869412842),
-    	  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.079332869412845, 13.5, 3.5293328694128423, 14.079332869412845, 15, 9.929332869412843),
-		  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.779332869412844, 11.7, 2.8686726976330217, 13.279332869412844, 15.7, 4.868672697633022),
-		  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.0793328694128457, 10.03806023374436, 0.9293328694128444, 7.079332869412846, 15.03806023374436, 1.9293328694128444),
-		  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.079332869412846, 11, 7.9293328694128435, 6.079332869412846, 15, 8.929332869412843),
-		  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.079332869412846, 11, 5.929332869412844, 7.079332869412846, 15, 6.929332869412844),
-		  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.079332869412846, 11, 3.9293328694128444, 6.079332869412846, 15, 4.929332869412844),
-        		  Block.makeCuboidShape(1.0793328694128457, 11, 5.929332869412844, 2.0793328694128457, 15, 6.929332869412844),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR),IBooleanFunction.OR),
-    				IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR),
-                IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR)
+		Stream.of(
+				Block.makeCuboidShape(0, 0, 1, 16, 10, 15),
+				Block.makeCuboidShape(0, 10, 10, 8, 16, 15),
+				Block.makeCuboidShape(0, 10, 2, 8, 11, 10),
+				Block.makeCuboidShape(10, 10, 7, 14, 11, 12),
+				Block.makeCuboidShape(10, 10, 2, 14, 11, 6),
+				Block.makeCuboidShape(10, 11, 9, 14, 12, 11),
+				Block.makeCuboidShape(11, 10.98096988312782, 8.7, 13, 15.48096988312782, 10.7),
+				Block.makeCuboidShape(10, 13.5, 3.5999999999999996, 14, 15, 10),
+				Block.makeCuboidShape(10.7, 11.7, 2.9393398282201773, 13.2, 15.7, 4.939339828220177),
+				Block.makeCuboidShape(1, 10.03806023374436, 1, 7, 15.03806023374436, 2),
+				Block.makeCuboidShape(5, 11, 8, 6, 15, 9),
+				Block.makeCuboidShape(6, 11, 6, 7, 15, 7),
+				Block.makeCuboidShape(5, 11, 4, 6, 15, 5),
+				Block.makeCuboidShape(1, 11, 6, 2, 15, 7)
+				).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get()
         );
     	SplicerBlock.SPLICER.put(Direction.EAST,
     	        Stream.of(
@@ -70,44 +68,40 @@ public class SplicerBlock extends InteractableHorizontalBlock
     	                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get()
         );
     	SplicerBlock.SPLICER.put(Direction.SOUTH,
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(-0.07066713058715557, 0, 0.920667130587157, 15.929332869412843, 10, 14.920667130587155),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.9293328694128435, 10, 0.920667130587157, 15.929332869412843, 16, 5.920667130587157),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.9293328694128435, 10, 5.920667130587157, 15.929332869412843, 11, 13.920667130587155),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.9293328694128435, 10, 3.920667130587157, 5.9293328694128435, 11, 8.920667130587155),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.9293328694128435, 10, 9.920667130587155, 5.9293328694128435, 11, 13.920667130587155),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.9293328694128435, 11, 4.920667130587157, 5.9293328694128435, 12, 6.920667130587157),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.9293328694128435, 10.98096988312782, 5.220667130587158, 4.9293328694128435, 15.48096988312782, 7.220667130587158),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.9293328694128435, 13.5, 5.920667130587157, 5.9293328694128435, 15, 12.320667130587157),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.7293328694128443, 11.7, 10.981327302366978, 5.229332869412844, 15.7, 12.981327302366978),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.929332869412843, 10.03806023374436, 13.920667130587155, 14.929332869412843, 15.03806023374436, 14.920667130587155),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9.929332869412843, 11, 6.920667130587157, 10.929332869412843, 15, 7.920667130587156),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.929332869412843, 11, 8.920667130587155, 9.929332869412843, 15, 9.920667130587155),
-				VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9.929332869412843, 11, 10.920667130587155, 10.929332869412843, 15, 11.920667130587155),
-						Block.makeCuboidShape(13.929332869412843, 11, 8.920667130587155, 14.929332869412843, 15, 9.920667130587155),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-				IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-				IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
+		Stream.of(
+				Block.makeCuboidShape(0, 0, 1, 16, 10, 15),
+				Block.makeCuboidShape(8, 10, 1, 16, 16, 6),
+				Block.makeCuboidShape(8, 10, 6, 16, 11, 14),
+				Block.makeCuboidShape(2, 10, 4, 6, 11, 9),
+				Block.makeCuboidShape(2, 10, 10, 6, 11, 14),
+				Block.makeCuboidShape(2, 11, 5, 6, 12, 7),
+				Block.makeCuboidShape(3, 10.98096988312782, 5.300000000000001, 5, 15.48096988312782, 7.300000000000001),
+				Block.makeCuboidShape(2, 13.5, 6, 6, 15, 12.4),
+				Block.makeCuboidShape(2.8000000000000007, 11.7, 11.060660171779823, 5.300000000000001, 15.7, 13.060660171779823),
+				Block.makeCuboidShape(9, 10.03806023374436, 14, 15, 15.03806023374436, 15),
+				Block.makeCuboidShape(10, 11, 7, 11, 15, 8),
+				Block.makeCuboidShape(9, 11, 9, 10, 15, 10),
+				Block.makeCuboidShape(10, 11, 11, 11, 15, 12),
+				Block.makeCuboidShape(14, 11, 9, 15, 15, 10)
+				).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get()
         );
     	SplicerBlock.SPLICER.put(Direction.WEST,
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.0086657388256883, 0, -0.14999999999999947, 15.008665738825687, 10, 15.849999999999998),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.008665738825687, 10, 7.85, 15.008665738825687, 16, 15.849999999999998),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.0086657388256883, 10, 7.85, 10.008665738825687, 11, 15.849999999999998),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.008665738825688, 10, 1.8499999999999996, 12.008665738825687, 11, 5.85),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.0086657388256883, 10, 1.8499999999999996, 6.008665738825688, 11, 5.85),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9.008665738825687, 11, 1.8499999999999996, 11.008665738825687, 12, 5.85),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.708665738825687, 10.98096988312782, 2.8499999999999996, 10.708665738825687, 15.48096988312782, 4.85),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.608665738825686, 13.5, 1.8499999999999996, 10.008665738825687, 15, 5.85),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.9480055670458656, 11.7, 2.6500000000000004, 4.948005567045866, 15.7, 5.15),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.0086657388256883, 10.03806023374436, 8.849999999999998, 2.0086657388256883, 15.03806023374436, 14.849999999999998),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.008665738825687, 11, 9.849999999999998, 9.008665738825687, 15, 10.849999999999998),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.008665738825688, 11, 8.849999999999998, 7.008665738825688, 15, 9.849999999999998),
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.008665738825688, 11, 9.849999999999998, 5.008665738825688, 15, 10.849999999999998),
-    					Block.makeCuboidShape(6.008665738825688, 11, 13.849999999999998, 7.008665738825688, 15, 14.849999999999998),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR),IBooleanFunction.OR),
-    			IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR),
-    			IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR),IBooleanFunction.OR)
+		Stream.of(
+				Block.makeCuboidShape(1, 0, 0, 15, 10, 16),
+				Block.makeCuboidShape(10, 10, 8, 15, 16, 16),
+				Block.makeCuboidShape(2, 10, 8, 10, 11, 16),
+				Block.makeCuboidShape(7, 10, 2, 12, 11, 6),
+				Block.makeCuboidShape(2, 10, 2, 6, 11, 6),
+				Block.makeCuboidShape(9, 11, 2, 11, 12, 6),
+				Block.makeCuboidShape(8.7, 10.98096988312782, 3, 10.7, 15.48096988312782, 5),
+				Block.makeCuboidShape(3.5999999999999996, 13.5, 2, 10, 15, 6),
+				Block.makeCuboidShape(2.9393398282201773, 11.7, 2.8000000000000007, 4.939339828220177, 15.7, 5.300000000000001),
+				Block.makeCuboidShape(1, 10.03806023374436, 9, 2, 15.03806023374436, 15),
+				Block.makeCuboidShape(8, 11, 10, 9, 15, 11),
+				Block.makeCuboidShape(6, 11, 9, 7, 15, 10),
+				Block.makeCuboidShape(4, 11, 10, 5, 15, 11),
+				Block.makeCuboidShape(6, 11, 14, 7, 15, 15)
+				).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get()
         );
     }// @formatter:on
 

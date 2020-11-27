@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale=".5"/>
+  <phase name="global" scale="0.15"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <customTex default="barboach">
+   <part name="Head" tex="barboachmouth"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+  </customTex>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" posOffset="0,-15,0" rotOffset="-10,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="l1">
+    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="l2">
+    <component length="10" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="l3">
+    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-10,0" startKey="5"/>
+	<component length="10" name="3" rotChange="0,5,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" posOffset="0,-15,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="l1">
+    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="l2">
+    <component length="10" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="l3">
+    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-10,0" startKey="5"/>
+	<component length="10" name="3" rotChange="0,5,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="swimming">
+   <part name="l1">
+    <component length="10" name="1" rotChange="0,0,10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,10" startKey="10"/>
+   </part>
+   <part name="l2">
+    <component length="10" name="1" rotChange="0,0,-10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-10" startKey="10"/>
+   </part>
+   <part name="l3">
+    <component length="10" name="1" rotChange="0,0,10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,10" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="0,10,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-20,0" startKey="5"/>
+	<component length="10" name="3" rotChange="0,10,0" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
