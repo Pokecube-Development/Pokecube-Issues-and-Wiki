@@ -208,7 +208,7 @@ public class Database
     static int lastCount = -1;
 
     public static IReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(
-            ResourcePackType.SERVER_DATA, Thread.currentThread());
+            ResourcePackType.SERVER_DATA);
 
     public static PokedexEntry[] starters = {};
 
@@ -965,9 +965,9 @@ public class Database
 
     public static void swapManager(final MinecraftServer server)
     {
-        Database.resourceManager = server.getResourceManager();
+        Database.resourceManager = (IReloadableResourceManager) server.getDataPackRegistries().getResourceManager();
         Database.listener.add(Database.resourceManager);
-        server.getResourceManager().addReloadListener(Database.listener);
+        Database.resourceManager.addReloadListener(Database.listener);
     }
 
     /**
@@ -979,7 +979,7 @@ public class Database
         PokecubeCore.LOGGER.debug("Database preInit()");
         // Initialize the resourceloader.
         @SuppressWarnings("deprecation")
-        final ResourcePackList<ResourcePackInfo> resourcePacks = new ResourcePackList<>(ResourcePackInfo::new);
+        final ResourcePackList resourcePacks = new ResourcePackList(ResourcePackInfo::new);
         @SuppressWarnings("deprecation")
         final PackFinder finder = new PackFinder(ResourcePackInfo::new);
         resourcePacks.addPackFinder(finder);

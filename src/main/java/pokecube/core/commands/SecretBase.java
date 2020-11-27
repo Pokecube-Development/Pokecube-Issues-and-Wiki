@@ -12,30 +12,16 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.GameProfileArgument;
 import net.minecraft.command.arguments.Vec3Argument;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
-import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.bases.BaseTile;
-import pokecube.core.world.dimension.SecretBaseDimension;
-import thut.api.ThutCaps;
-import thut.api.block.IOwnableTE;
-import thut.api.entity.ThutTeleporter;
-import thut.api.entity.ThutTeleporter.TeleDest;
-import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
 public class SecretBase
@@ -46,52 +32,52 @@ public class SecretBase
             final Collection<GameProfile> profiles)
     {
         final GameProfile match = profiles.iterator().next();
-        SecretBaseDimension.sendToBase(player, match.getId());
+//        SecretBaseDimension.sendToBase(player, match.getId());
         return 0;
     }
 
     public static int execute_exit(final CommandSource source, final ServerPlayerEntity player)
     {
-        if (player.getEntityWorld().getDimensionKey() != SecretBaseDimension.TYPE)
-        {
-            player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit.notinbase"), Util.DUMMY_UUID);
-            return 1;
-        }
-        final RegistryKey<World> targetDim = World.OVERWORLD;
-        final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUniqueID(), player.getServer(), targetDim);
-        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.getPosition(targetDim, pos), v), true);
-        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.DUMMY_UUID);
+//        if (player.getEntityWorld().getDimensionKey() != SecretBaseDimension.TYPE)
+//        {
+//            player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit.notinbase"), Util.DUMMY_UUID);
+//            return 1;
+//        }
+//        final RegistryKey<World> targetDim = World.OVERWORLD;
+//        final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUniqueID(), player.getServer(), targetDim);
+//        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+//        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.getPosition(targetDim, pos), v), true);
+//        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.DUMMY_UUID);
         return 0;
     }
 
     public static int execute_create(final CommandSource source, final ServerPlayerEntity player, final Vector3d input)
     {
-        if (SecretBase.pendingBaseLocations.containsKey(player.getUniqueID()))
-        {
-            final GlobalPos loc = SecretBase.pendingBaseLocations.remove(player.getUniqueID());
-            final Vector3 pos = Vector3.getNewVector().set(loc.getPos());
-            final RegistryKey<World> type = loc.getDimension();
-            if (type == player.getEntityWorld().getDimensionKey() && pos.distTo(Vector3.getNewVector().set(input)) < 16)
-            {
-                final BlockPos base_pos = new BlockPos(input);
-                final BlockState original = pos.getBlockState(player.getEntityWorld());
-                pos.setBlock(player.getEntityWorld(), PokecubeItems.SECRETBASE.getDefaultState());
-                final BaseTile tile = (BaseTile) player.getEntityWorld().getTileEntity(pos.getPos());
-                final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-                ownable.setPlacer(player);
-                tile.last_base = base_pos;
-                tile.original = original;
-                SecretBaseDimension.setSecretBasePoint(player, base_pos, type);
-                pos.x = pos.intX();
-                pos.y = pos.intY();
-                pos.z = pos.intZ();
-                final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirmed",
-                        pos);
-                player.sendMessage(message, Util.DUMMY_UUID);
-                return 0;
-            }
-        }
+//        if (SecretBase.pendingBaseLocations.containsKey(player.getUniqueID()))
+//        {
+//            final GlobalPos loc = SecretBase.pendingBaseLocations.remove(player.getUniqueID());
+//            final Vector3 pos = Vector3.getNewVector().set(loc.getPos());
+//            final RegistryKey<World> type = loc.getDimension();
+//            if (type == player.getEntityWorld().getDimensionKey() && pos.distTo(Vector3.getNewVector().set(input)) < 16)
+//            {
+//                final BlockPos base_pos = new BlockPos(input);
+//                final BlockState original = pos.getBlockState(player.getEntityWorld());
+//                pos.setBlock(player.getEntityWorld(), PokecubeItems.SECRETBASE.getDefaultState());
+//                final BaseTile tile = (BaseTile) player.getEntityWorld().getTileEntity(pos.getPos());
+//                final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+//                ownable.setPlacer(player);
+//                tile.last_base = base_pos;
+//                tile.original = original;
+//                SecretBaseDimension.setSecretBasePoint(player, base_pos, type);
+//                pos.x = pos.intX();
+//                pos.y = pos.intY();
+//                pos.z = pos.intZ();
+//                final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirmed",
+//                        pos);
+//                player.sendMessage(message, Util.DUMMY_UUID);
+//                return 0;
+//            }
+//        }
         return 1;
     }
 

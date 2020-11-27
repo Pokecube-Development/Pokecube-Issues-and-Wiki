@@ -103,7 +103,7 @@ public class SpawnBiomeMatcher
             this.location = location;
             this.biome = location.getBiome(world).getRegistryName();
             this.material = location.getBlockMaterial(world);
-            this.chunk = ITerrainProvider.getChunk(world.getDimensionType(), new ChunkPos(location.getPos()));
+            this.chunk = ITerrainProvider.getChunk(((World)world).getDimensionKey(), new ChunkPos(location.getPos()));
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
             final int subBiomeId = t.getBiome(location);
             if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
@@ -150,7 +150,7 @@ public class SpawnBiomeMatcher
         {
             if (!matcher._validStructures.isEmpty())
             {
-                final Set<StructureInfo> set = StructureManager.getFor(checker.world.getDimensionType(),
+                final Set<StructureInfo> set = StructureManager.getFor(((World)checker.world).getDimensionKey(),
                         checker.location.getPos());
                 for (final StructureInfo i : set)
                     if (matcher._validStructures.contains(i.name)) return MatchResult.SUCCEED;

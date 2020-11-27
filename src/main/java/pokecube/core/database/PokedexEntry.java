@@ -125,7 +125,7 @@ public class PokedexEntry
         public Entity getEvolution(final IWorld world)
         {
             if (this.evolution == null) return null;
-            final Entity ret = PokecubeCore.createPokemob(this.evolution, world.getWorld());
+            final Entity ret = PokecubeCore.createPokemob(this.evolution, (World) world);
             return ret;
         }
 
@@ -188,7 +188,7 @@ public class PokedexEntry
                 for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
                 {
                     final boolean valid = this.matcher._validBiomes.contains(test.getRegistryName());
-                    if (valid) biomeNames.add(I18n.format(test.getTranslationKey()));
+                    if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
                 }
                 for (final SpawnBiomeMatcher matcher : this.matcher.children)
                 {
@@ -197,7 +197,7 @@ public class PokedexEntry
                     for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
                     {
                         final boolean valid = matcher._validBiomes.contains(test.getRegistryName());
-                        if (valid) biomeNames.add(I18n.format(test.getTranslationKey()));
+                        if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
                     }
                 }
                 subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.locations", biomeNames);

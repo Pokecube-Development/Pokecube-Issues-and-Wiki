@@ -1,16 +1,12 @@
 package pokecube.core.database.worldgen;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
 
 import javax.xml.namespace.QName;
 
@@ -23,27 +19,16 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.DimensionType;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.structure.JigsawStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.world.gen.WorldStructDatafixer;
-import pokecube.core.world.gen.jigsaw.JigsawConfig;
-import pokecube.core.world.gen.jigsaw.JigsawPieces;
-import pokecube.core.world.gen.jigsaw.JigsawStructure;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class WorldgenHandler
 {
@@ -66,7 +51,8 @@ public class WorldgenHandler
             }
         }).create();
         PokecubeCore.LOGGER.info("Registering DataFixer for structures");
-        WorldStructDatafixer.insertFixer();
+        // TODO structures and worldgen
+//        WorldStructDatafixer.insertFixer();
     }
 
     public static class CustomDim
@@ -169,16 +155,16 @@ public class WorldgenHandler
 
         public boolean isBlackisted(final DimensionType dim)
         {
-            for (final String s : this.dimBlacklist)
-            {
-                if (!WorldgenHandler.dimTypes.containsKey(s))
-                {
-                    final DimensionType type = DimensionType.byName(new ResourceLocation(s));
-                    WorldgenHandler.dimTypes.put(s, type);
-                }
-                final DimensionType type = WorldgenHandler.dimTypes.get(s);
-                if (type == dim) return true;
-            }
+//            for (final String s : this.dimBlacklist)
+//            {
+//                if (!WorldgenHandler.dimTypes.containsKey(s))
+//                {
+//                    final DimensionType type = DimensionType.byName(new ResourceLocation(s));
+//                    WorldgenHandler.dimTypes.put(s, type);
+//                }
+//                final DimensionType type = WorldgenHandler.dimTypes.get(s);
+//                if (type == dim) return true;
+//            }
             return false;
         }
     }
@@ -195,21 +181,21 @@ public class WorldgenHandler
 
     private static Map<JigsawStructure, Integer> priorities = Maps.newConcurrentMap();
 
-    public static boolean isBlocked(final ChunkGenerator<?> gen, final Random rand, final Structure<?> feat_in,
-            final int chunkX, final int chunkZ)
-    {
-        final Integer id = WorldgenHandler.priorities.getOrDefault(feat_in, 100);
-        final ChunkPos pos = new ChunkPos(chunkX, chunkZ);
-        for (final Entry<JigsawStructure, Integer> entry : WorldgenHandler.priorities.entrySet())
-        {
-            final JigsawStructure feat = entry.getKey();
-            if (feat == feat_in) continue;
-            final Integer id2 = entry.getValue();
-            if (id2 >= id) continue;
-            if (feat.getStartPositionForPosition(gen, rand, chunkX, chunkZ, 0, 0).equals(pos)) return true;
-        }
-        return false;
-    }
+//    public static boolean isBlocked(final ChunkGenerator<?> gen, final Random rand, final Structure<?> feat_in,
+//            final int chunkX, final int chunkZ)
+//    {
+//        final Integer id = WorldgenHandler.priorities.getOrDefault(feat_in, 100);
+//        final ChunkPos pos = new ChunkPos(chunkX, chunkZ);
+//        for (final Entry<JigsawStructure, Integer> entry : WorldgenHandler.priorities.entrySet())
+//        {
+//            final JigsawStructure feat = entry.getKey();
+//            if (feat == feat_in) continue;
+//            final Integer id2 = entry.getValue();
+//            if (id2 >= id) continue;
+//            if (feat.getStartPositionForPosition(gen, rand, chunkX, chunkZ, 0, 0).equals(pos)) return true;
+//        }
+//        return false;
+//    }
 
     public CustomDims dims;
 
@@ -237,74 +223,74 @@ public class WorldgenHandler
 
     public void processStructures(final RegistryEvent.Register<Feature<?>> event)
     {
-        try
-        {
-            this.loadStructures();
-        }
-        catch (final Exception e)
-        {
-            if (e instanceof FileNotFoundException) PokecubeMod.LOGGER.warn("No worldgen database found for "
-                    + this.MODID);
-            else PokecubeMod.LOGGER.catching(e);
-            return;
-        }
-        // Initialize the pools
-        for (final JigSawPool pool : this.defaults.pools)
-            JigsawPieces.initPool(pool);
-
-        // Register the jigsaws
-        for (final JigSawConfig struct : this.defaults.jigsaws)
-            WorldgenHandler.register(struct, event);
-        PokecubeMod.LOGGER.debug("Loaded configurable worldgen");
+//        try
+//        {
+//            this.loadStructures();
+//        }
+//        catch (final Exception e)
+//        {
+//            if (e instanceof FileNotFoundException) PokecubeMod.LOGGER.warn("No worldgen database found for "
+//                    + this.MODID);
+//            else PokecubeMod.LOGGER.catching(e);
+//            return;
+//        }
+//        // Initialize the pools
+//        for (final JigSawPool pool : this.defaults.pools)
+//            JigsawPieces.initPool(pool);
+//
+//        // Register the jigsaws
+//        for (final JigSawConfig struct : this.defaults.jigsaws)
+//            WorldgenHandler.register(struct, event);
+//        PokecubeMod.LOGGER.debug("Loaded configurable worldgen");
     }
 
     public static void register(final JigSawConfig struct, final RegistryEvent.Register<Feature<?>> event)
     {
-        JigsawPieces.registerJigsaw(struct);
-        final String key = struct.type.isEmpty() ? struct.name : struct.type;
-        final JigsawStructure toAdd = WorldgenHandler.structs.getOrDefault(key, new JigsawStructure(key)).addStruct(
-                struct);
-        PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name, struct.biomeType);
-        if (!WorldgenHandler.structs.containsKey(key))
-        {
-            WorldgenHandler.structs.put(key, toAdd);
-            toAdd.setRegistryName(new ResourceLocation(struct.name));
-            event.getRegistry().register(toAdd);
-            WorldgenHandler.priorities.put(toAdd, struct.priority);
-        }
-        // No natural spawn, we skip this one for spawning.
-        if (struct.spawn == null) return;
-
-        struct._matcher = new SpawnBiomeMatcher(struct.spawn);
-        final JigsawConfig config = new JigsawConfig(struct);
-        final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
-                : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
-        if (struct.base_under && !struct.water && !struct.air) WorldgenHandler.forceVillageFeature(toAdd);
-        for (final Biome b : ForgeRegistries.BIOMES.getValues())
-        {
-            b.addFeature(stage, toAdd.withConfiguration(config));
-            b.addStructure(toAdd.withConfiguration(config));
-        }
+//        JigsawPieces.registerJigsaw(struct);
+//        final String key = struct.type.isEmpty() ? struct.name : struct.type;
+//        final JigsawStructure toAdd = WorldgenHandler.structs.getOrDefault(key, new JigsawStructure(key)).addStruct(
+//                struct);
+//        PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name, struct.biomeType);
+//        if (!WorldgenHandler.structs.containsKey(key))
+//        {
+//            WorldgenHandler.structs.put(key, toAdd);
+//            toAdd.setRegistryName(new ResourceLocation(struct.name));
+//            event.getRegistry().register(toAdd);
+//            WorldgenHandler.priorities.put(toAdd, struct.priority);
+//        }
+//        // No natural spawn, we skip this one for spawning.
+//        if (struct.spawn == null) return;
+//
+//        struct._matcher = new SpawnBiomeMatcher(struct.spawn);
+//        final JigsawConfig config = new JigsawConfig(struct);
+//        final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
+//                : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
+//        if (struct.base_under && !struct.water && !struct.air) WorldgenHandler.forceVillageFeature(toAdd);
+//        for (final Biome b : ForgeRegistries.BIOMES.getValues())
+//        {
+//            b.addFeature(stage, toAdd.withConfiguration(config));
+//            b.addStructure(toAdd.withConfiguration(config));
+//        }
     }
 
     private static Field illagers = null;
 
     private static void forceVillageFeature(final Structure<?> feature)
     {
-        if (WorldgenHandler.illagers == null) WorldgenHandler.illagers = ObfuscationReflectionHelper.findField(
-                Feature.class, "field_214488_aQ");
-        final List<Structure<?>> list = Lists.newArrayList(Feature.ILLAGER_STRUCTURES);
-        list.add(feature);
-        try
-        {
-            final Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(WorldgenHandler.illagers, WorldgenHandler.illagers.getModifiers() & ~Modifier.FINAL);
-            WorldgenHandler.illagers.set(null, list);
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
+//        if (WorldgenHandler.illagers == null) WorldgenHandler.illagers = ObfuscationReflectionHelper.findField(
+//                Feature.class, "field_214488_aQ");
+//        final List<Structure<?>> list = Lists.newArrayList(Feature.ILLAGER_STRUCTURES);
+//        list.add(feature);
+//        try
+//        {
+//            final Field modifiersField = Field.class.getDeclaredField("modifiers");
+//            modifiersField.setAccessible(true);
+//            modifiersField.setInt(WorldgenHandler.illagers, WorldgenHandler.illagers.getModifiers() & ~Modifier.FINAL);
+//            WorldgenHandler.illagers.set(null, list);
+//        }
+//        catch (final Exception e)
+//        {
+//            e.printStackTrace();
+//        }
     }
 }

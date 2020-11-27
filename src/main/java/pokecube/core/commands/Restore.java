@@ -20,7 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
@@ -138,7 +138,7 @@ public class Restore
         final PlayerPokemobCache pokemobCache = PlayerDataHandler.getInstance().getPlayerData(profile.getId()).getData(
                 PlayerPokemobCache.class);
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
-        ITextComponent message = new StringTextComponent("Pokemobs: ");
+        IFormattableTextComponent message = new StringTextComponent("Pokemobs: ");
         user.sendMessage(message, Util.DUMMY_UUID);
         message = new StringTextComponent("");
         for (final Entry<Integer, ItemStack> entry : cache.entrySet())
@@ -178,10 +178,10 @@ public class Restore
             copy.setTag(tag);
             tag = copy.write(new CompoundNBT());
             final ClickEvent click = new ClickEvent(Action.RUN_COMMAND, command);
-            final ITextComponent sub = stack.getTextComponent();
+            final IFormattableTextComponent sub = (IFormattableTextComponent) stack.getTextComponent();
             sub.getStyle().setClickEvent(click);
-            sub.appendText(" ");
-            message.appendSibling(sub);
+            sub.appendString(" ");
+            message.append(sub);
             final int size = message.toString().getBytes().length;
             if (size > 32000)
             {
