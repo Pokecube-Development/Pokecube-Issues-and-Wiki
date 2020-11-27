@@ -178,6 +178,7 @@ public class Pokemake
                 }
                 else for (int i = 0; i < 6; i++)
                     ivs[i] = Byte.parseByte(vec[i]);
+                mob.setIVs(ivs);
             }
             else if (arg.equalsIgnoreCase("w")) asWild = true;
             else if (arg.equalsIgnoreCase("h")) mob.setSize(Float.parseFloat(val));
