@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -23,6 +24,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.abilities.Ability;
@@ -138,8 +140,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         }
         if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
         {
-            final LightningBoltEntity lightning = new LightningBoltEntity(attacked.getEntityWorld(), 0, 0, 0, false);
-            attacked.onStruckByLightning(lightning);
+            final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT,attacked.getEntityWorld());
+            attacked.func_241841_a((ServerWorld) attacked.getEntityWorld(),lightning);
         }
         if (attacked instanceof CreeperEntity)
         {

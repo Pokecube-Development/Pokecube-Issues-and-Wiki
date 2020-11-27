@@ -7,11 +7,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.nbtedit.forge.ClientProxy;
 import pokecube.nbtedit.forge.CommonProxy;
@@ -85,9 +85,9 @@ public class NBTEdit
     }
 
     @SubscribeEvent
-    public static void serverStarting(final FMLServerStartingEvent event)
+    public static void registerCommands(final RegisterCommandsEvent event)
     {
-        CommandNBTEdit.register(event.getCommandDispatcher());
+        CommandNBTEdit.register(event.getDispatcher());
         NBTEdit.LOGGER.trace("Server Starting -- Added \"/pcedit\" command");
     }
 

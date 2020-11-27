@@ -5,12 +5,14 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -49,9 +51,8 @@ public class Move_AOE extends Move_Basic
                 {
                     if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
                     {
-                        final LightningBoltEntity lightning = new LightningBoltEntity(e.getEntityWorld(), 0, 0, 0,
-                                false);
-                        e.onStruckByLightning(lightning);
+                        final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT,e.getEntityWorld());
+                        e.func_241841_a((ServerWorld) entity.getEntityWorld(),lightning);
                     }
                     if (e instanceof CreeperEntity)
                     {

@@ -11,13 +11,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.HopperTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -84,13 +85,6 @@ public class EntityPokemobEgg extends AgeableEntity
         if (this.isInvulnerableTo(source)) return false;
         this.markVelocityChanged();
         return false;
-    }
-
-    /** returns the bounding box for this entity */
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox()
-    {
-        return this.getBoundingBox();
     }
 
     public Entity getEggOwner()
@@ -171,9 +165,9 @@ public class EntityPokemobEgg extends AgeableEntity
     }
 
     @Override
-    public boolean processInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vector3d pos, final Hand hand)
     {
-        if (this.delayBeforeCanPickup > 0) return false;
+        if (this.delayBeforeCanPickup > 0) return ActionResultType.FAIL;
         final ItemStack itemstack = this.getHeldItemMainhand();
         final int i = itemstack.getCount();
         if (this.mother != null && this.mother.getOwner() != player) BrainUtils.setAttackTarget(this.mother.getEntity(),
@@ -182,9 +176,9 @@ public class EntityPokemobEgg extends AgeableEntity
         {
             player.onItemPickup(this, i);
             if (itemstack.isEmpty()) this.remove();
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return super.processInteract(player, hand);
+        return super.applyPlayerInteraction(player, pos, hand);
     }
 
     @Override
@@ -270,14 +264,14 @@ public class EntityPokemobEgg extends AgeableEntity
         if (te instanceof HopperTileEntity)
         {
             final HopperTileEntity hopper = (HopperTileEntity) te;
-            final ItemEntity item = new ItemEntity(this.getEntityWorld(), this.getPosX(), this.getPosY(), this.getPosZ(), this
-                    .getHeldItemMainhand());
+            final ItemEntity item = new ItemEntity(this.getEntityWorld(), this.getPosX(), this.getPosY(), this
+                    .getPosZ(), this.getHeldItemMainhand());
             if (HopperTileEntity.captureItem(hopper, item)) this.remove();
         }
     }
 
     @Override
-    public AgeableEntity createChild(final AgeableEntity ageable)
+    public AgeableEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity p_241840_2_)
     {
         // This is the child.
         return null;

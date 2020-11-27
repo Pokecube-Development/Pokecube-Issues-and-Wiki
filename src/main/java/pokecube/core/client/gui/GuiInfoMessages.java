@@ -10,9 +10,12 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -135,15 +138,16 @@ public class GuiInfoMessages
             int index = l + GuiInfoMessages.offset;
             if (index < 0) index = 0;
             if (index > size) break;
-            final String mess2 = toUse.get(index);
-            final List<String> mess1 = minecraft.fontRenderer.listFormattedStringToWidth(mess2, trim);
+            final StringTextComponent mess2 = new StringTextComponent(toUse.get(index));
+//            final List<String> mess1 = minecraft.fontRenderer.listFormattedStringToWidth(mess2, trim);
+            final List<IReorderingProcessor> mess1 = RenderComponentsUtil.func_238505_a_(mess2, 100, minecraft.fontRenderer);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
                 AbstractGui.fill(event.mat, w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.fontRenderer.drawString(event.mat, mess1.get(j), x - trim, ph, 0xffffff);
+                minecraft.fontRenderer.drawString(event.mat, mess1.get(j).toString(), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;

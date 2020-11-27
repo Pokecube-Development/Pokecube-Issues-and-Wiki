@@ -424,7 +424,7 @@ public class GuiNBTTree extends Screen
         if (this.window != null)
         {
             @SuppressWarnings("unchecked")
-            final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
+            final List<IGuiEventListener> list = (List<IGuiEventListener>) this.getEventListeners();
             list.add(this.window);
         }
 
@@ -711,7 +711,7 @@ public class GuiNBTTree extends Screen
         if (index != -1)
         {
             final GuiNBTNode gui = this.nodes.get(index);
-            this.shift((this.bottom + this.START_Y + 1) / 2 - (gui.y + gui.getHeight()));
+            this.shift((this.bottom + this.START_Y + 1) / 2 - (gui.y + gui.getHeightRealms()));
         }
     }
 

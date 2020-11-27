@@ -45,7 +45,7 @@ public class GuiPokemobRoutes extends GuiPokemobBase
     @Override
     protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+        super.drawGuiContainerBackgroundLayer(mat, partialTicks, mouseX, mouseY);
         final int k = (this.width - this.xSize) / 2;
         final int l = (this.height - this.ySize) / 2;
         final String number = this.num + "";

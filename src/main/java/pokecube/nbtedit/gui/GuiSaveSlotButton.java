@@ -77,8 +77,8 @@ public class GuiSaveSlotButton extends Button
         this.renderVanillaButton(mat, this.x, this.y, 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
         AbstractGui.drawCenteredString(mat, this.mc.fontRenderer, this.getMessage(), this.x + this.width / 2, this.y + 6,
                 textColor);
-        if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0) this.mc.fontRenderer.drawStringWithShadow("_", this.x
-                + (this.width + this.mc.fontRenderer.getStringWidth(this.getMessage())) / 2 + 1, this.y + 6, 0xffffff);
+        if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0) this.mc.fontRenderer.drawStringWithShadow(mat, "_", this.x
+                + (this.width + this.mc.fontRenderer.getStringWidth(this.getMessage().getString())) / 2 + 1, this.y + 6, 0xffffff);
 
         if (this.xVisible)
         {
@@ -134,6 +134,11 @@ public class GuiSaveSlotButton extends Button
         this.updatePosition();
     }
 
+    private void setMessage(final String string)
+    {
+        this.setMessage(new StringTextComponent(string));
+    }
+
     public void startEditing()
     {
         this.tickCount = 0;
@@ -156,7 +161,7 @@ public class GuiSaveSlotButton extends Button
 
     private void updatePosition()
     {
-        this.width = this.mc.fontRenderer.getStringWidth(this.getMessage()) + 24;
+        this.width = this.mc.fontRenderer.getStringWidth(this.getMessage().getString()) + 24;
         if (this.width % 2 == 1) ++this.width;
         this.width = MathHelper.clamp(this.width, GuiSaveSlotButton.MIN_WIDTH, GuiSaveSlotButton.MAX_WIDTH);
         this.x = this.rightX - this.width;

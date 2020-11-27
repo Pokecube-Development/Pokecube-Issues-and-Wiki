@@ -33,6 +33,8 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         this.setLeftPos(offsetX);
         this.parent = parent;
         this.headerHeight = 0;
+        // No default background thing
+        this.func_244606_c(false);
     }
 
     @Override
@@ -42,6 +44,7 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         return super.addEntry(p_addEntry_1_);
     }
 
+    @Override
     public int getMaxScroll()
     {
         return Math.max(0, this.getMaxPosition() - (this.y1 - this.y0 - 4));
@@ -102,8 +105,6 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
 
         this.renderList(mat, k, l, mouseX, mouseY, tick);
         RenderSystem.disableDepthTest();
-        this.renderHoleBackground(mat, 0, this.y0, 255, 255);
-        this.renderHoleBackground(mat, this.y1, this.height, 255, 255);
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO,
@@ -145,13 +146,6 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
-    }
-
-    @Override
-    protected void renderHoleBackground(final MatrixStack mat, final int p_renderHoleBackground_1_, final int p_renderHoleBackground_2_,
-            final int p_renderHoleBackground_3_, final int p_renderHoleBackground_4_)
-    {
-        // Nope
     }
 
     @Override
@@ -208,13 +202,12 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     {
         if (!this.smoothScroll) ds = ds == 0 ? 0 : ds > 0 ? this.itemHeight : -this.itemHeight;
         this.setScrollAmount(this.getScrollAmount() + ds);
-        this.yDrag = -2;
     }
 
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        for (final T value : this.children())
+        for (final T value : this.getEventListeners())
             if (value.keyPressed(keyCode, b, c)) return true;
         return super.keyPressed(keyCode, b, c);
     }

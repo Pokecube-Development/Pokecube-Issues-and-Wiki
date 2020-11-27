@@ -25,6 +25,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -319,9 +320,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             // Render Name
             if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
-            this.blit(nameOffsetX + w, nameOffsetY + h, 44, 0, 90, 13);
-            if (this.fontRenderer.getStringWidth(displayName) > 70) displayName = this.fontRenderer.trimStringToWidth(
-                    displayName, 70);
+            this.blit(evt.mat, nameOffsetX + w, nameOffsetY + h, 44, 0, 90, 13);
+            if (this.fontRenderer.getStringWidth(displayName) > 70)
+                displayName = this.fontRenderer.trimStringToWidth(new StringTextComponent(displayName), 70).get(0).toString();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3 + w, nameOffsetY + 3
                     + h,

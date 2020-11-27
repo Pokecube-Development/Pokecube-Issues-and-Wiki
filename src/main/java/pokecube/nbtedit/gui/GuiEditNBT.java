@@ -123,7 +123,7 @@ public class GuiEditNBT extends Widget
             final boolean editValue)
     {
         super((parent.width - GuiEditNBT.WIDTH) / 2, (parent.height - GuiEditNBT.HEIGHT) / 2, GuiEditNBT.WIDTH,
-                GuiEditNBT.HEIGHT, "");
+                GuiEditNBT.HEIGHT, new StringTextComponent(""));
         this.parent = parent;
         this.node = node;
         this.nbt = node.getObject().getNBT();

@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
@@ -349,7 +350,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             BlockPos pos;
             final boolean flying = !entity.isOnGround() && !(entity.getPosY() - (int) entity.getPosY() < 0.01f && entity
                     .getEntityWorld().getBlockState(pos = entity.getPosition().down()).isTopSolid(entity
-                            .getEntityWorld(), pos, entity));
+                            .getEntityWorld(), pos, entity, Direction.UP));
             final boolean walking = entity.isOnGround() && walkspeed > stationary;
             final boolean swimming = entity.isInWater();
 
@@ -652,7 +653,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     }
 
     @Override
-    protected RenderType func_230042_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b)
+    protected RenderType func_230496_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b, final boolean bool_c)
     {
         final RenderType.State rendertype$state = RenderType.State.getBuilder().texture(new RenderState.TextureState(
                 this.getEntityTexture(entity), false, false)).transparency(new RenderState.TransparencyState(

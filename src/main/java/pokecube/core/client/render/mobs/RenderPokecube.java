@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -23,6 +22,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3f;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
 import pokecube.core.interfaces.IPokecube;
@@ -86,9 +86,9 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
 
-            final RenderType rendertype = RenderTypeLookup.getRenderType(renderStack);
+            final RenderType rendertype = RenderTypeLookup.func_239219_a_(renderStack, true);
             RenderType rendertype1;
-            if (Objects.equals(rendertype, Atlases.getTranslucentBlockType())) rendertype1 = Atlases
+            if (Objects.equals(rendertype, Atlases.getTranslucentCullBlockType())) rendertype1 = Atlases
                     .getTranslucentCullBlockType();
             else rendertype1 = rendertype;
             final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()

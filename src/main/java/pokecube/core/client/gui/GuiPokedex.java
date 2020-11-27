@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
@@ -170,10 +171,10 @@ public class GuiPokedex extends Screen
         ITextComponent page = GuiPokedex.pokedexEntry.getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.FONT_HEIGHT, offsetX, offsetY);
         page = new StringTextComponent(page.getString());
-        final List<ITextComponent> list = RenderComponentsUtil.splitText(page, 100, this.font, false, false);
-        for (final ITextComponent element : list)
+        final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(page, 100, this.font);
+        for (final IReorderingProcessor element : list)
         {
-            line = element;
+            line = new StringTextComponent(element.toString());
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF));
         }
         this.children.add(this.list);

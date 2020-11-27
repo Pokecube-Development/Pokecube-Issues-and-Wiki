@@ -81,7 +81,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.variation.visible = false;
 
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) parent.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) parent.getEventListeners();
         // Add us first so we can add linker-clicking to the location field
         list.add(this);
 

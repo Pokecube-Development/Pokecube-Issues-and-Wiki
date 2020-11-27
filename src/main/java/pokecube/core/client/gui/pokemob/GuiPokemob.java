@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.pokemob;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -11,6 +12,8 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
@@ -153,7 +156,9 @@ public class GuiPokemob extends GuiPokemobBase
         if (this.sit.isMouseOver(x, y)) if (sitting) text.add(I18n.format("pokemob.stance.sit"));
         else text.add(I18n.format("pokemob.stance.no_sit"));
         if (this.bar.isMouseOver(x, y)) text.add(I18n.format("pokemob.bar.value", this.bar.value));
-        if (!text.isEmpty()) this.renderTooltip(mat, text, x, y);
+        final List<ITextComponent> msgs = new ArrayList<>();
+        for(final String s: text) msgs.add(new StringTextComponent(s));
+        if (!text.isEmpty()) this.renderWrappedToolTip(mat, msgs, x, y, this.font);
         this.renderHoveredTooltip(mat, x, y);
     }
 }

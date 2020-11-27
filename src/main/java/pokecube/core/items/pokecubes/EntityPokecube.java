@@ -237,7 +237,7 @@ public class EntityPokecube extends EntityPokecubeBase
         this.shoot(direction.x, direction.y, direction.z, velocity, 0);
     }
 
-    @Override
+//    @Override
     public void shoot(final double x, final double y, final double z, final float velocity, final float inaccuracy)
     {
         final Vector3d vec3d = new Vector3d(x, y, z).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy,

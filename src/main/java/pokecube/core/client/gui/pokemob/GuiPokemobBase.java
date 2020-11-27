@@ -1,10 +1,7 @@
 package pokecube.core.client.gui.pokemob;
 
-import java.util.List;
-
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -147,8 +144,5 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     {
         super.renderBackground(mat);
         super.render(mat, x, y, z);
-        final List<String> text = Lists.newArrayList();
-        if (this.container.pokemob == null) return;
-        if (!text.isEmpty()) this.renderTooltip(text, x, y);
     }
 }

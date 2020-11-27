@@ -31,7 +31,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.Rarity;
-import net.minecraft.loot.functions.LootFunctionManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.Property;
@@ -60,9 +59,6 @@ import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
-import pokecube.core.items.loot.functions.MakeBerry;
-import pokecube.core.items.loot.functions.MakeFossil;
-import pokecube.core.items.loot.functions.MakeHeldItem;
 import pokecube.core.items.pokecubes.DispenserBehaviorPokecube;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.items.revive.ItemRevive;
@@ -148,11 +144,12 @@ public class PokecubeItems extends ItemList
      */
     public static HashMap<ItemStack, PokedexEntry> fossils = new HashMap<>();
 
+    // TODO decide if we need any, these are obsolete with the new items having fixed ID thing
     static
     {
-        LootFunctionManager.registerFunction(new MakeBerry.Serializer());
-        LootFunctionManager.registerFunction(new MakeHeldItem.Serializer());
-        LootFunctionManager.registerFunction(new MakeFossil.Serializer());
+//        LootFunctionManager.registerFunction(new MakeBerry.Serializer());
+//        LootFunctionManager.registerFunction(new MakeHeldItem.Serializer());
+//        LootFunctionManager.registerFunction(new MakeFossil.Serializer());
     }
 
     private static Set<ResourceLocation> errored = Sets.newHashSet();
@@ -169,14 +166,14 @@ public class PokecubeItems extends ItemList
         REVIVE = new ItemRevive(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
 
         // Blocks
-        HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).lightValue(15));
+        HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15));
         NESTBLOCK = new NestBlock(Block.Properties.create(Material.ORGANIC));
         REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC));
-        DYNABLOCK = new MaxBlock(Block.Properties.create(Material.ROCK).lightValue(15).hardnessAndResistance(2000));
-        PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).lightValue(15), true);
-        PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).lightValue(15), false);
-        TRADER = new TraderBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).lightValue(15));
-        TMMACHINE = new TMBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).lightValue(15));
+        DYNABLOCK = new MaxBlock(Block.Properties.create(Material.ROCK).setLightLevel(b->15).hardnessAndResistance(2000));
+        PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15), true);
+        PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15), false);
+        TRADER = new TraderBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15));
+        TMMACHINE = new TMBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15));
         SECRETBASE = new BaseBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2000));
         FOSSILSTONE = new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 10).harvestTool(
                 ToolType.PICKAXE));
