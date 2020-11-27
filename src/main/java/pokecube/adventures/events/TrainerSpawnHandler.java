@@ -26,6 +26,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
@@ -266,7 +267,7 @@ public class TrainerSpawnHandler
                     : TrainerNpc.TYPE.create(((ServerWorld) event.world).getWorld());
             mob.enablePersistence();
             mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
-            mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
+            mob.onInitialSpawn((IServerWorld) event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
                     (ILivingEntityData) null, (CompoundNBT) null);
             JsonObject thing = new JsonObject();
             if (!function.isEmpty() && function.contains("{") && function.contains("}")) try

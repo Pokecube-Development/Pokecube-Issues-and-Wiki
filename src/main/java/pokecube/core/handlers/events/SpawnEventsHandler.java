@@ -17,6 +17,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -132,7 +133,7 @@ public class SpawnEventsHandler
                 if (nurse) mob.setMale(false);
                 mob.enablePersistence();
                 mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
-                mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
+                mob.onInitialSpawn((IServerWorld) event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
                         (ILivingEntityData) null, (CompoundNBT) null);
                 JsonObject thing = new JsonObject();
                 if (!function.isEmpty() && function.contains("{") && function.contains("}")) try

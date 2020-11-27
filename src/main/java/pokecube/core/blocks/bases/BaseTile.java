@@ -1,29 +1,17 @@
 package pokecube.core.blocks.bases;
 
-import java.util.UUID;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.world.dimension.SecretBaseDimension;
-import thut.api.ThutCaps;
-import thut.api.block.IOwnableTE;
 
 public class BaseTile extends InteractableTile
 {
@@ -42,36 +30,47 @@ public class BaseTile extends InteractableTile
     public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
-        if (!(player instanceof ServerPlayerEntity)) return ActionResultType.SUCCESS;
-        final MinecraftServer server = player.getServer();
-        UUID targetBase = player.getUniqueID();
-        if (!this.any)
-        {
-            final IOwnableTE tile = (IOwnableTE) this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-            targetBase = tile.getOwnerId();
-            if (targetBase == null) return ActionResultType.SUCCESS;
-            BlockPos exit_here;
-            try
-            {
-                exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.getEntityWorld().getDimensionKey());
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error(e);
-                return ActionResultType.FAIL;
-            }
-            if (this.last_base == null) this.last_base = exit_here;
-            if (exit_here.distanceSq(this.last_base.getX(), this.last_base.getY(), this.last_base.getZ(), false) > 0.0)
-            {
-                // We need to remove the location.
-                this.world.setBlockState(pos, this.original);
-                player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"), Util.DUMMY_UUID);
-                return ActionResultType.FAIL;
-            }
-        }
-        final RegistryKey<World> dim = player.getEntityWorld().getDimensionKey();
-        if (dim == World.OVERWORLD) SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
-        else SecretBaseDimension.sendToExit((ServerPlayerEntity) player, targetBase);
+        // TODO Secret bases
+        // if (!(player instanceof ServerPlayerEntity)) return
+        // ActionResultType.SUCCESS;
+        // final MinecraftServer server = player.getServer();
+        // UUID targetBase = player.getUniqueID();
+        // if (!this.any)
+        // {
+        // final IOwnableTE tile = (IOwnableTE)
+        // this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+        // targetBase = tile.getOwnerId();
+        // if (targetBase == null) return ActionResultType.SUCCESS;
+        // BlockPos exit_here;
+        // try
+        // {
+        // exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server,
+        // player.getEntityWorld().getDimensionKey());
+        // }
+        // catch (final Exception e)
+        // {
+        // PokecubeCore.LOGGER.error(e);
+        // return ActionResultType.FAIL;
+        // }
+        // if (this.last_base == null) this.last_base = exit_here;
+        // if (exit_here.distanceSq(this.last_base.getX(),
+        // this.last_base.getY(), this.last_base.getZ(), false) > 0.0)
+        // {
+        // // We need to remove the location.
+        // this.world.setBlockState(pos, this.original);
+        // player.sendMessage(new
+        // TranslationTextComponent("pokemob.removebase.stale"),
+        // Util.DUMMY_UUID);
+        // return ActionResultType.FAIL;
+        // }
+        // }
+        // final RegistryKey<World> dim =
+        // player.getEntityWorld().getDimensionKey();
+        // if (dim == World.OVERWORLD)
+        // SecretBaseDimension.sendToBase((ServerPlayerEntity) player,
+        // targetBase);
+        // else SecretBaseDimension.sendToExit((ServerPlayerEntity) player,
+        // targetBase);
         return ActionResultType.SUCCESS;
     }
 

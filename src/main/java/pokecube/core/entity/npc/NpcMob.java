@@ -30,14 +30,16 @@ import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -137,7 +139,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public VillagerEntity createChild(final AgeableEntity ageable)
+    public VillagerEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity p_241840_2_)
     {
         return null;
     }
@@ -170,13 +172,13 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(final IWorld worldIn, final DifficultyInstance difficultyIn,
+    public ILivingEntityData onInitialSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
             final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
     {
         final VillagerProfession proff = this.getNpcType().getProfession();
         this.setVillagerData(this.getVillagerData().withProfession(proff).withLevel(3));
-        this.getAttribute(Attributes.FOLLOW_RANGE).applyPersistentModifier(new AttributeModifier(
-                "Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
+        this.getAttribute(Attributes.FOLLOW_RANGE).applyPersistentModifier(new AttributeModifier("Random spawn bonus",
+                this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
         if (this.rand.nextFloat() < 0.05F) this.setLeftHanded(true);
         else this.setLeftHanded(false);
         return spawnDataIn;
@@ -190,10 +192,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public boolean processInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
     {
-        if (this.getNpcType().getInteraction().processInteract(player, hand, this)) return true;
-        return super.processInteract(player, hand);
+        if (this.getNpcType().getInteraction().processInteract(player, hand, this)) return ActionResultType
+                .func_233537_a_(this.world.isRemote);
+        return super.func_230254_b_(player, hand);
     }
 
     @Override
@@ -236,7 +239,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         if (this.name != null && !this.name.isEmpty())
         {
-            ITextComponent display;
+            IFormattableTextComponent display;
             if (this.name.startsWith("pokecube."))
             {
                 final String[] args = this.name.split(":");
@@ -244,9 +247,9 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
                 else display = new StringTextComponent(this.name);
             }
             else display = new StringTextComponent(this.name);
-            display.applyTextStyle((style) ->
+            display.modifyStyle((style) ->
             {
-                style.setHoverEvent(this.getHoverEvent()).setInsertion(this.getCachedUniqueIdString());
+                return style.setHoverEvent(this.getHoverEvent()).setInsertion(this.getCachedUniqueIdString());
             });
             return display;
         }

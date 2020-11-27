@@ -81,7 +81,7 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public AgeableEntity createChild(final AgeableEntity ageable)
+    public AgeableEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity ageable)
     {
         final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
         if (other == null) return null;

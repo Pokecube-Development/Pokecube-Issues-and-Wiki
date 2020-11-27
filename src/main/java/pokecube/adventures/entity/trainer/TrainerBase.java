@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -75,7 +76,7 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public boolean processInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
     {
         final ItemStack stack = player.getHeldItem(hand);
         if (player.abilities.isCreativeMode && player.isCrouching())
@@ -93,7 +94,7 @@ public abstract class TrainerBase extends NpcMob
             }
             else if (!this.getEntityWorld().isRemote && player.isCrouching() && player.getHeldItemMainhand()
                     .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
-            return true;
+            return ActionResultType.func_233537_a_(this.world.isRemote);
         }
         else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this.getOffers()
                 .isEmpty())
@@ -105,12 +106,12 @@ public abstract class TrainerBase extends NpcMob
                 pokemob.onRecall(false);
             this.pokemobsCap.friendlyCooldown = 2400;
             this.playCelebrateSound();
-            return true;
+            return ActionResultType.func_233537_a_(this.world.isRemote);
         }
         else if (this.canTrade(player))
         {
             final boolean customer = player == this.getCustomer();
-            if (customer) return true;
+            if (customer) return ActionResultType.func_233537_a_(this.world.isRemote);
             this.setCustomer(player);
             if (!this.fixedTrades)
             {
@@ -122,12 +123,12 @@ public abstract class TrainerBase extends NpcMob
             }
             if (!this.getOffers().isEmpty()) this.openMerchantContainer(player, this.getDisplayName(), 0);
             else this.setCustomer(null);
-            return true;
+            return ActionResultType.func_233537_a_(this.world.isRemote);
         }
         else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK) this.pokemobsCap.onSetTarget(
                 player);
 
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override
@@ -261,10 +262,10 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public boolean func_213705_dZ()
+    public boolean hasXPBar()
     {
         // Not sure what this does, wandering is false, village is true?
-        return super.func_213705_dZ();
+        return super.hasXPBar();
     }
 
     @Override
@@ -288,7 +289,7 @@ public abstract class TrainerBase extends NpcMob
             final MerchantOffers merchantoffers = this.getOffers();
             // TODO here we add in a hook to see if we want to trade pokemobs.
             if (!merchantoffers.isEmpty()) player.openMerchantContainer(optionalint.getAsInt(), merchantoffers, level,
-                    this.getXp(), this.func_213705_dZ(), this.func_223340_ej());
+                    this.getXp(), this.hasXPBar(), true);
         }
 
     }

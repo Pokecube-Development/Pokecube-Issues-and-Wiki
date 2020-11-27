@@ -17,6 +17,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -115,7 +116,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public VillagerEntity createChild(final AgeableEntity ageable)
+    public VillagerEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity ageable)
     {
         if (this.isChild() || this.getGrowingAge() > 0 || !this.aiStates.getAIState(IHasNPCAIStates.MATES)) return null;
         if (TrainerTracker.countTrainers(this.getEntityWorld(), this.location.set(this),
