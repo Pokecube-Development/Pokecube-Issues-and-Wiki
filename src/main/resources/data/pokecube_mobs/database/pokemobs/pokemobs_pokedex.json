@@ -5712,6 +5712,18 @@
       "name": "Alakazam",
       "number": 65,
       "base": true,
+	  "female_model": {
+        "key": "alakazam_female",
+        "tex": "alakazam",
+        "model": "alakazam_female",
+        "anim": "alakazam_female"
+      },
+      "male_model": {
+        "key": "alakazam_male",
+        "tex": "alakazam",
+        "model": "alakazam_male",
+        "anim": "alakazam_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -37646,6 +37658,18 @@
       "name": "Toxicroak",
       "number": 454,
       "base": true,
+	  "female_model": {
+        "key": "toxicroak_female",
+        "tex": "toxicroak",
+        "model": "toxicroak_female",
+        "anim": "toxicroak_female"
+      },
+      "male_model": {
+        "key": "toxicroak_male",
+        "tex": "toxicroak",
+        "model": "toxicroak_male",
+        "anim": "toxicroak_male"
+      },
       "stats": {
         "stats": {
           "values": {
