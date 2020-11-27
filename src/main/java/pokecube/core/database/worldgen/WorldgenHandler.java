@@ -171,10 +171,16 @@ public class WorldgenHandler
         {
             for (final String s : this.dimBlacklist)
             {
+                if (s == null) continue;
                 if (!WorldgenHandler.dimTypes.containsKey(s))
                 {
                     final DimensionType type = DimensionType.byName(new ResourceLocation(s));
-                    WorldgenHandler.dimTypes.put(s, type);
+                    if (type != null) WorldgenHandler.dimTypes.put(s, type);
+                    else
+                    {
+                        PokecubeCore.LOGGER.error("Error with blacklisted dimension: " + s);
+                        continue;
+                    }
                 }
                 final DimensionType type = WorldgenHandler.dimTypes.get(s);
                 if (type == dim) return true;
