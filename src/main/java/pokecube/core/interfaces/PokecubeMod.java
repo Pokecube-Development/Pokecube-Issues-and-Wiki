@@ -16,19 +16,14 @@ import com.mojang.authlib.GameProfile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 public abstract class PokecubeMod
 {
@@ -45,7 +40,7 @@ public abstract class PokecubeMod
 
     public final static String GIFTURL = PokecubeMod.GIST + "gift";
 
-    private static HashMap<DimensionType, FakePlayer> fakePlayers = new HashMap<>();
+    private static HashMap<World, FakePlayer> fakePlayers = new HashMap<>();
 
     public static double              MAX_DENSITY   = 1;
     public static Map<String, String> gifts         = Maps.newHashMap();
@@ -56,28 +51,21 @@ public abstract class PokecubeMod
     public static Logger  LOGGER = null;
     public static boolean debug;
 
-    public static FakePlayer getFakePlayer(final DimensionType dim)
+    private static FakePlayer makeNewFakePlayer(final ServerWorld world)
     {
-        if (PokecubeMod.fakePlayers.get(dim) == null)
-        {
-            ServerWorld world = null;
-
-            if (ThutCore.proxy.isServerSide())
-            {
-                final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-                world = server.getWorld(dim);
-            }
-
-            final FakePlayer fakeplayer = FakePlayerFactory.get(world, new GameProfile(PokecubeMod.fakeUUID,
-                    "[Pokecube]DispenserPlayer"));
-            PokecubeMod.fakePlayers.put(dim, fakeplayer);
-        }
-        return PokecubeMod.fakePlayers.get(dim);
+        return FakePlayerFactory.get(world, new GameProfile(PokecubeMod.fakeUUID, "[Pokecube]DispenserPlayer"));
     }
 
     public static FakePlayer getFakePlayer(final World world)
     {
-        final FakePlayer player = PokecubeMod.getFakePlayer(world.dimension.getDimension().getType());
+        if (!(world instanceof ServerWorld)) throw new IllegalArgumentException("Must be called server side!");
+        return PokecubeMod.getFakePlayer((ServerWorld) world);
+    }
+
+    public static FakePlayer getFakePlayer(final ServerWorld world)
+    {
+        final FakePlayer player = PokecubeMod.fakePlayers.getOrDefault(world, PokecubeMod.makeNewFakePlayer(world));
+        PokecubeMod.fakePlayers.put(world, player);
         player.setWorld(world);
         return player;
     }
