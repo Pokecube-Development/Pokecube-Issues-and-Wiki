@@ -25,6 +25,10 @@
       "rotation": [ 0, 225, 0 ],
       "translation": [ 0, 0, 0 ],
       "scale": [ 0.40, 0.40, 0.40 ]
-    }
+    },
+	"ground": {
+		"translation": [0, 3, 0],
+		"scale": [0.3, 0.3, 0.3]
+	}
   }
 }

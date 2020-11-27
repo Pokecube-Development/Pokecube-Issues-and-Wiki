@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.4"/>
+  <phase name="global" scale="0.1"/>
+  <customTex default="castformrain">
+   <part name="Head" tex="castformraineye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+  </customTex>
+  <material name="Glow" transluscent="true"/>
  </model>
 </ModelAnimator>

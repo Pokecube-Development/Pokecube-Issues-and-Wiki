@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.4"/>
+  <phase name="global" scale="0.09"/>
+  <customTex default="castformsun">
+   <part name="Head" tex="castformsuneye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+  </customTex>
+  <material name="Mask" transluscent="true"/>
  </model>
 </ModelAnimator>

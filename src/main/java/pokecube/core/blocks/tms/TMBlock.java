@@ -39,7 +39,7 @@ public class TMBlock extends InteractableHorizontalBlock implements IWaterLoggab
         TMBlock.TM_MACHINE.put(Direction.NORTH,
           VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 2.75, 16, 1, 13.25),
             VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.9, 6.22, 2.62, 5.43, 7.51, 3.2),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.13, 1, 3.17, 15.85, 8, 12.83),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.13, 1, 3.17, 15.85, 9, 12.83),
                 VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 2.62, 16, 10, 13.38),
                   VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0.14, 1, 2.93, 7.21, 9, 13.07),
                     VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.1, 6.62, 1.48, 5.22, 7.11, 3.94),

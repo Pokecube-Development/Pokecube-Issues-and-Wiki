@@ -54,7 +54,7 @@ public class TraderBlock extends InteractableHorizontalBlock implements IWaterLo
               VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.02, 1, 2.64, 13.98, 9, 13.36),
                 VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.67, 1, 0.21, 13.33, 9, 15.79),
                   VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.72, 10, 5.5, 11.72, 10.5, 10.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.84, 10, 10.7, 12.84, 11, 15.07),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.84, 10, 10.07, 12.84, 11, 15.07),
                       VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.84, 10, 1.12, 12.84, 11, 5.87),
                           Block.makeCuboidShape(2.55, 9, 4.4, 5.75, 15.45, 11.4),
                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
