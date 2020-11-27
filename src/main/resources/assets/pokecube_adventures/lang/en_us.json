@@ -367,6 +367,12 @@
     "achievement.pokelegends.weather.desc" : "Catch Groudon/Kyogre/Rayquaza",
     "achievement.pokelegends.zeraora" : "The Power of Us",
     "achievement.pokelegends.zeraora.desc" : "Catch Zeraora",
+	"achievement.pokelegends.calyrex" : "The King of Galar",
+    "achievement.pokelegends.calyrex.desc" : "Catch Calyrex",
+	"achievement.pokelegends.shadow_rider" : "Shadow Knight",
+    "achievement.pokelegends.shadow_rider.desc" : "Catch Spectrier",
+	"achievement.pokelegends.ice_rider" : "Ice Knight",
+    "achievement.pokelegends.ice_rider.desc" : "Catch Glastrier",
 
     "pokecube_adventures.tooltip.expshare": "Gives extra EXP if the Pokémob holding this is within 16 blocks of the battle.",
     "pokecube_adventures.tooltip.bag": "Acts as a bag.",

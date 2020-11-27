@@ -21,6 +21,7 @@ import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
 import pokecube.legends.items.GiganticShard;
 import pokecube.legends.items.ItemBase;
+import pokecube.legends.items.KeldeoSword;
 import pokecube.legends.items.LegendaryOrb;
 import pokecube.legends.items.RainbowSword;
 import pokecube.legends.items.UltraKey;
@@ -33,6 +34,7 @@ public class ItemInit
 {
     // Materials
     public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
+    public static final IItemTier MATERIAL_JUSTISE = ItemTier.DIAMOND;
 
     // Keys
     public static final RegistryObject<Item> BLUEORB;
@@ -100,7 +102,8 @@ public class ItemInit
 
     // Tools
     public static final RegistryObject<Item> RAINBOW_SWORD;
-
+    public static final RegistryObject<Item> KELDEO_SWORD;
+    
     // Dimensions
     public static final RegistryObject<Item> SPECTRUM_SHARD;
     public static final RegistryObject<Item> ULTRAKEY;
@@ -195,8 +198,10 @@ public class ItemInit
         WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1,PokecubeItems.POKECUBEITEMS));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));
 
-        RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(4, -3,
+        RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(5, 1,
                 ItemInit.MATERIAL_RAINBOW));
+        KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword", () -> new KeldeoSword(6, 1,
+                ItemInit.MATERIAL_JUSTISE, "keldeo_sword").setTooltipName("keldeosword"));
 
         // UltraSpace
         SPECTRUM_SHARD = PokecubeLegends.ITEMS.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32, PokecubeItems.POKECUBEITEMS).noTooltop());

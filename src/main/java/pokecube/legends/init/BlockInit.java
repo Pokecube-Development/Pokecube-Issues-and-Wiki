@@ -41,6 +41,7 @@ import pokecube.legends.blocks.customblocks.Regigigas_Core;
 import pokecube.legends.blocks.customblocks.Regirock_Core;
 import pokecube.legends.blocks.customblocks.Registeel_Core;
 import pokecube.legends.blocks.customblocks.SpaceCoreBlock;
+import pokecube.legends.blocks.customblocks.SpectrumGlass;
 import pokecube.legends.blocks.customblocks.TroughBlock;
 import pokecube.legends.blocks.customblocks.VictiniBlock;
 import pokecube.legends.blocks.customblocks.XerneasCore;
@@ -173,7 +174,7 @@ public class BlockInit
                 Material.PACKED_ICE, 0.5F, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
 
         // Dimensions
-        SPECTRUM_GLASS 		= PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new GlassBlock(Block.Properties.from(Blocks.GLASS).notSolid()));
+        SPECTRUM_GLASS 		= PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new SpectrumGlass("spectrum_glass",Block.Properties.from(Blocks.GLASS).notSolid()));
         ULTRA_DIRTAGED		= PokecubeLegends.BLOCKS_TAB.register("ultradirt3", () -> new BlockBase("ultradirt3",
         		Material.ORGANIC, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_ROCKDISTOR	= PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",

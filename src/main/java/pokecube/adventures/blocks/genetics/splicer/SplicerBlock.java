@@ -7,10 +7,14 @@ import java.util.stream.Stream;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -19,14 +23,17 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import pokecube.adventures.blocks.genetics.extractor.ExtractorBlock;
 import pokecube.core.blocks.InteractableBlock;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
-public class SplicerBlock extends InteractableHorizontalBlock
+public class SplicerBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
     private static final Map<Direction, VoxelShape> SPLICER = new HashMap<>();
     public static final DirectionProperty           FACING  = HorizontalBlock.HORIZONTAL_FACING;
     public static final BooleanProperty             FIXED   = BooleanProperty.create("fixed");
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
@@ -117,7 +124,7 @@ public class SplicerBlock extends InteractableHorizontalBlock
     {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(SplicerBlock.FACING, Direction.NORTH).with(
-                SplicerBlock.FIXED, false));
+                SplicerBlock.FIXED, false).with(WATERLOGGED, false));
     }
 
     @Override
@@ -131,13 +138,33 @@ public class SplicerBlock extends InteractableHorizontalBlock
     {
         builder.add(SplicerBlock.FACING);
         builder.add(SplicerBlock.FIXED);
+        builder.add(SplicerBlock.WATERLOGGED);
     }
 
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
+        boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
         return this.getDefaultState().with(SplicerBlock.FACING, context.getPlacementHorizontalFacing().getOpposite())
-                .with(SplicerBlock.FIXED, false);
+                .with(SplicerBlock.FIXED, false).with(WATERLOGGED, flag);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos,
+            BlockPos facingPos) 
+    {
+        if (state.get(WATERLOGGED)) {
+            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public IFluidState getFluidState(BlockState state) 
+    {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
     @Override
