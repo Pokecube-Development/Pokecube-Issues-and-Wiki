@@ -21,11 +21,11 @@
     "hidden": false
   },
   "criteria": {
-    "catch_shadow_rider": {
+    "catch_spectrier": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "shadow_rider"
+        "entry": "spectrier"
       }
     }
   },
