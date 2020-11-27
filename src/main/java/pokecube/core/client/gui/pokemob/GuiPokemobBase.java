@@ -21,6 +21,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {
@@ -35,7 +36,8 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         {
             final float mobScale = pokemob.getSize();
             final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-            scale /= Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+            if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
+            else scale /= Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
         }
         RenderSystem.pushMatrix();
         RenderSystem.translatef(j + 55, k + 60, 50.0F);
