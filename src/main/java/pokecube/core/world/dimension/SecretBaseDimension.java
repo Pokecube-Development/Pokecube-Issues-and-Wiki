@@ -18,6 +18,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -30,6 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -50,9 +52,14 @@ public class SecretBaseDimension
     public static final RegistryObject<SurfaceBuilder<?>> SECRETBUILDER = SecretBaseDimension.REG.register(
             "secret_base", () -> new SecretSurfaceBuilder(SurfaceBuilderConfig.field_237203_a_));
 
+    public static void onConstruct(final IEventBus bus)
+    {
+        SecretBaseDimension.REG.register(bus);
+    }
+
     public static void sendToBase(final ServerPlayerEntity player, final UUID baseOwner)
     {
-        final RegistryKey<World> targetDim = SecretBaseDimension.TYPE;
+        final RegistryKey<World> targetDim = SecretBaseDimension.WORLD_KEY;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.getPosition(targetDim, pos), v), true);
@@ -76,7 +83,7 @@ public class SecretBaseDimension
         exit.putInt("x", pos.getX());
         exit.putInt("y", pos.getY());
         exit.putInt("z", pos.getZ());
-        if (dim == SecretBaseDimension.TYPE) tag.put("secret_base_internal", exit);
+        if (dim == SecretBaseDimension.WORLD_KEY) tag.put("secret_base_internal", exit);
         else
         {
             if (tag.contains("secret_base_exit"))
@@ -104,7 +111,7 @@ public class SecretBaseDimension
             final RegistryKey<World> dim)
     {
         final CompoundNBT tag = PokecubePlayerDataHandler.getCustomDataTag(player.toString());
-        if (dim == SecretBaseDimension.TYPE)
+        if (dim == SecretBaseDimension.WORLD_KEY)
         {
             if (tag.contains("secret_base_internal"))
             {
@@ -171,7 +178,7 @@ public class SecretBaseDimension
                         chunk.setBlockState(blockpos$mutableblockpos.setPos(j, h - 5, k), state, false);
                     }
             }
-            else
+            else if ((pos.x - 1) % 16 == 0 || (pos.z - 1) % 16 == 0 || (pos.x + 1) % 16 == 0 || (pos.z + 1) % 16 == 0)
             {
                 final BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
                 final BlockState state = Blocks.BARRIER.getDefaultState();
@@ -183,13 +190,14 @@ public class SecretBaseDimension
         }
     }
 
-    public static final SecretBaseDimension DIMENSION = new SecretBaseDimension();
-    public static RegistryKey<World>        TYPE;
-    public static Biome                     BIOME;
-
-    public static final String ID = PokecubeCore.MODID + ":secret_bases";
+    public static final String ID = PokecubeCore.MODID + ":secret_base";
 
     private static final ResourceLocation IDLOC = new ResourceLocation(SecretBaseDimension.ID);
+
+    public static final RegistryKey<World> WORLD_KEY = RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
+            SecretBaseDimension.IDLOC);
+    public static final RegistryKey<Biome> BIOME_KEY = RegistryKey.getOrCreateKey(Registry.BIOME_KEY,
+            SecretBaseDimension.IDLOC);
 
     @SubscribeEvent
     @OnlyIn(value = Dist.CLIENT)

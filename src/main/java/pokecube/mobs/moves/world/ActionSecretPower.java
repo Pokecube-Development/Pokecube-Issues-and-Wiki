@@ -32,16 +32,16 @@ public class ActionSecretPower implements IMoveAction
         final BlockState state = location.getBlockState(owner.getEntityWorld());
         if (!(PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isWood(state)))
         {
-            System.out.println(state);
             final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.wrongloc");
             owner.sendMessage(message, Util.DUMMY_UUID);
             return false;
         }
-        SecretBase.pendingBaseLocations.put(owner.getUniqueID(), GlobalPos.getPosition(owner.getEntityWorld().getDimensionKey(), location.getPos()));
+        SecretBase.pendingBaseLocations.put(owner.getUniqueID(), GlobalPos.getPosition(owner.getEntityWorld()
+                .getDimensionKey(), location.getPos()));
         final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirm", location
                 .set(location.getPos()));
-        message.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pokebase confirm " + owner.getPosX()
-                + " " + owner.getPosY() + " " + owner.getPosZ()));
+        message.setStyle(message.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pokebase confirm " + owner
+                .getPosX() + " " + owner.getPosY() + " " + owner.getPosZ())));
         owner.sendMessage(message, Util.DUMMY_UUID);
         return true;
     }

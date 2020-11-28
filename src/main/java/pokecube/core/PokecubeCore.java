@@ -447,7 +447,7 @@ public class PokecubeCore
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::loaded);
 
         RecipeHandler.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        SecretBaseDimension.REG.register(FMLJavaModLoadingContext.get().getModEventBus());
+        SecretBaseDimension.onConstruct(FMLJavaModLoadingContext.get().getModEventBus());
 
         FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeCore.proxy);
         MinecraftForge.EVENT_BUS.register(PokecubeCore.proxy);

@@ -37,7 +37,6 @@ import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
@@ -495,13 +494,13 @@ public final class SpawnHandler
     public static JEP getParser(final RegistryKey<World> type)
     {
         if (SpawnHandler.functions.isEmpty()) SpawnHandler.initSpawnFunctions();
-        return SpawnHandler.parsers.getOrDefault(type, SpawnHandler.parsers.get(DimensionType.OVERWORLD));
+        return SpawnHandler.parsers.getOrDefault(type, SpawnHandler.parsers.get(World.OVERWORLD));
     }
 
     public static Function getFunction(final RegistryKey<World> dim)
     {
         if (SpawnHandler.functions.isEmpty()) SpawnHandler.initSpawnFunctions();
-        return SpawnHandler.functions.getOrDefault(dim, SpawnHandler.functions.get(DimensionType.OVERWORLD));
+        return SpawnHandler.functions.getOrDefault(dim, SpawnHandler.functions.get(World.OVERWORLD));
     }
 
     public static void initSpawnFunctions()
