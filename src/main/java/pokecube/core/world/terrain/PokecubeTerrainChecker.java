@@ -134,7 +134,8 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
             final Set<StructureInfo> set = StructureManager.getFor(rworld.getDimensionKey(), v.getPos());
             for (final StructureInfo info : set)
             {
-                final String name = info.name;
+                String name = info.name;
+                if (!name.contains(":")) name = "minecraft:" + name;
                 String subbiome = PokecubeTerrainChecker.structureSubbiomeMap.get(name);
                 if (subbiome == null && PokecubeCore.getConfig().structs_default_ruins) subbiome = "ruin";
                 if (subbiome != null)
