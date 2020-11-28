@@ -106,7 +106,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
     
     //Computer Craft Support.
-    //implementation fg.deobf("org.squiddev:cc-tweaked-${version_minecraft}:${version_cct}")
+    implementation fg.deobf("org.squiddev:cc-tweaked-${version_minecraft}:${version_cct}")
     
     //Lost Cities
     //implementation "libs:lostcities-${version_lostcities}"
@@ -115,7 +115,7 @@ dependencies {
     //implementation "libs:thutessentials-1.15.2-3.0.16-deobf"
     
     //JEI
-    //implementation fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
+    implementation fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
     
     //WHYLA
     //implementation fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")

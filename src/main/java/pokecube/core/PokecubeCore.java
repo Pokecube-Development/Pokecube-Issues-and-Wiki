@@ -92,6 +92,7 @@ import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.ClientProxy;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.PokemobTracker;
+import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
@@ -446,6 +447,7 @@ public class PokecubeCore
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::loaded);
 
         RecipeHandler.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        SecretBaseDimension.REG.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeCore.proxy);
         MinecraftForge.EVENT_BUS.register(PokecubeCore.proxy);
