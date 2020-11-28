@@ -236,23 +236,22 @@ public class WikiPage extends ListPage<LineEntry>
                         {
                             entry = element;
                             String text = entry.getString();
-                            final Style style = entry.getStyle();
+                            Style style = entry.getStyle();
                             // We have a link
                             if (text.contains(linkin))
                             {
                                 text = text.replace(linkin, "");
                                 entry = new StringTextComponent(text);
-                                style.setClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
-                                entry.setStyle(style);
+                                style = style.setClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
                             }
                             // We have a ref
                             if (text.contains(refin))
                             {
                                 text = text.replace(refin, "");
                                 entry = new StringTextComponent(text);
-                                entry.setStyle(style);
                                 this.refs.put(ref_val, this.list.getSize());
                             }
+                            entry.setStyle(style);
                             final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, entry, pagenum)
                                     .setClickListner(listener);
                             this.list.addEntry(wikiline);

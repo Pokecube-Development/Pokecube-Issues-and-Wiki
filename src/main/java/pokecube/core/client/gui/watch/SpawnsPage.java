@@ -12,15 +12,14 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.Difficulty;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
@@ -105,25 +104,22 @@ public class SpawnsPage extends ListPage<LineEntry>
 
         if (this.repel = PacketPokedex.repelled)
         {
-            final ITextComponent comp = new TranslationTextComponent("pokewatch.spawns.repelled");
-            final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(comp, 120, this.font);
-
-            for (final IReorderingProcessor entry : list)
+            final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.repelled");
+            final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            for (final IFormattableTextComponent entry : list)
             {
-                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, new StringTextComponent(entry
-                        .toString()), 0xFFFFFFFF);
+                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, entry, 0xFFFFFFFF);
                 this.list.addEntry(line);
             }
         }
 
         if (Minecraft.getInstance().world.getDifficulty() == Difficulty.PEACEFUL)
         {
-            final ITextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
-            final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(comp, 120, this.font);
-            for (final IReorderingProcessor entry : list)
+            final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
+            final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            for (final IFormattableTextComponent entry : list)
             {
-                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, new StringTextComponent(entry
-                        .toString()), 0xFFFFFFFF);
+                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, entry, 0xFFFFFFFF);
                 this.list.addEntry(line);
             }
         }
@@ -133,7 +129,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, PacketPokedex.selectedLoc.get(pokeEntry),
                     pokeEntry, height, height, offsetY);
             final List<LineEntry> lines = entry.getLines(this.list, listener);
-            int num = 4;
+            int num = 5;
             final ITextComponent water0 = new TranslationTextComponent("pokewatch.spawns.water_only");
             final ITextComponent water1 = new TranslationTextComponent("pokewatch.spawns.water_optional");
             while (lines.size() > num)

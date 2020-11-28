@@ -1,6 +1,5 @@
 package pokecube.core.client.gui.watch.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -10,29 +9,32 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
-import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.SpawnBiomeMatcher;
 import thut.api.terrain.BiomeType;
 
 public class SpawnListEntry
 {
-    final int                 width;
-    final int                 height;
-    final int                 yMin;
-    final SpawnBiomeMatcher   value;
-    final WatchPage           parent;
-    final FontRenderer        fontRender;
-    public final List<String> output = Lists.newArrayList();
+    final int               width;
+    final int               height;
+    final int               yMin;
+    final SpawnBiomeMatcher value;
+    final WatchPage         parent;
+    final FontRenderer      fontRender;
+
+    public final List<IFormattableTextComponent> output = Lists.newArrayList();
 
     public SpawnListEntry(final WatchPage parent, final FontRenderer fontRender, final SpawnBiomeMatcher value,
             final PokedexEntry entry, final int width, final int height, final int yMin)
@@ -54,7 +56,14 @@ public class SpawnListEntry
         final List<ITextComponent> biomes = Lists.newArrayList();
         if (value._validBiomes != null) for (final ResourceLocation b : value._validBiomes)
             biomes.add(new TranslationTextComponent(b.getPath()));
-        if (entry != null) this.output.add(entry.getName() + ":");
+
+        if (entry != null)
+        {
+            final IFormattableTextComponent name = new StringTextComponent(entry.getTranslatedName() + ":");
+            name.setStyle(name.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getTrimmedName()))
+                    .setColor(Color.fromTextFormatting(TextFormatting.GREEN)));
+            this.output.add(name);
+        }
         final String ind = entry != null ? "  " : "";
         if (!biomes.isEmpty())
         {
@@ -62,13 +71,9 @@ public class SpawnListEntry
             for (final ITextComponent s : biomes)
                 biomeString = biomeString + s.getString() + ",\n";
             biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
-            final List<String> split = new ArrayList<>();
-            for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(biomeString),
-                    width - fontRender.getStringWidth(ind)))
-                split.add(line.toString());
-
-            split.replaceAll(t -> ind + t);
-            this.output.addAll(split);
+            for (final IFormattableTextComponent line : ListHelper.splitText(new StringTextComponent(biomeString), width
+                    - fontRender.getStringWidth(ind), fontRender, true))
+                this.output.add(new StringTextComponent(ind + line.getString()));
         }
 
         final List<String> types = Lists.newArrayList();
@@ -79,12 +84,9 @@ public class SpawnListEntry
             String typeString = I18n.format("pokewatch.spawns.types") + " ";
             for (final String s : types)
                 typeString = typeString + s + ", ";
-            final List<String> split = new ArrayList<>();
-            for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(typeString),
-                    width - fontRender.getStringWidth(ind)))
-                split.add(line.toString());
-            split.replaceAll(t -> ind + t);
-            this.output.addAll(split);
+            for (final IFormattableTextComponent line : ListHelper.splitText(new StringTextComponent(typeString), width
+                    - fontRender.getStringWidth(ind), fontRender, false))
+                this.output.add(new StringTextComponent(ind + line.getString()));
         }
         final boolean day = value.day;
         final boolean night = value.night;
@@ -92,13 +94,13 @@ public class SpawnListEntry
         final boolean dawn = value.dawn;
         final boolean water = value.water;
         final boolean air = value.air;
-        if (water) if (air) for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(
-                ind + I18n.format("pokewatch.spawns.water_optional")), width))
-            this.output.add(line.toString());
-        else for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(ind + I18n
-                .format("pokewatch.spawns.water_only")), width))
-            this.output.add(line.toString());
-        String times = ind + I18n.format("pokewatch.spawns.times");
+        if (water) if (air) for (final IFormattableTextComponent line : ListHelper.splitText(new StringTextComponent(ind
+                + I18n.format("pokewatch.spawns.water_optional")), width, fontRender, false))
+            this.output.add(line);
+        else for (final IFormattableTextComponent line : ListHelper.splitText(new StringTextComponent(ind + I18n.format(
+                "pokewatch.spawns.water_only")), width, fontRender, false))
+            this.output.add(line);
+        String times = I18n.format("pokewatch.spawns.times");
         if (day) times = times + " " + I18n.format("pokewatch.spawns.day");
         if (night)
         {
@@ -115,8 +117,9 @@ public class SpawnListEntry
             if (day || night || dawn) times = times + ", ";
             times = times + I18n.format("pokewatch.spawns.dawn");
         }
-        for (final IReorderingProcessor line : fontRender.trimStringToWidth(new StringTextComponent(times), width))
-            this.output.add(line.toString());
+        for (final IFormattableTextComponent line : ListHelper.splitText(new StringTextComponent(times), width
+                - fontRender.getStringWidth(ind), fontRender, false))
+            this.output.add(new StringTextComponent(ind + line.getString()));
         String rate = "";
         if (value.spawnRule.values.containsKey(new QName("Local_Rate")))
         {
@@ -144,7 +147,7 @@ public class SpawnListEntry
                 }
                 val = val2;
             }
-            rate = ind + I18n.format("pokewatch.spawns.rate_local", val + "%");
+            rate = I18n.format("pokewatch.spawns.rate_local", val + "%");
         }
         else
         {
@@ -163,26 +166,17 @@ public class SpawnListEntry
             final String var = val + "%";
             rate = ind + I18n.format("pokewatch.spawns.rate_single", var);
         }
-        if (!rate.isEmpty()) for (final IReorderingProcessor line : fontRender.trimStringToWidth(
-                new StringTextComponent(rate), width))
-            this.output.add(line.toString());
-        this.output.add("");
+        if (!rate.isEmpty()) this.output.add(new StringTextComponent(ind + rate));
+        this.output.add(new StringTextComponent(""));
+        System.out.println(this.output.size());
     }
 
     public List<LineEntry> getLines(final ScrollGui<LineEntry> parent, final IClickListener listener)
     {
         final List<LineEntry> lines = Lists.newArrayList();
-        int n = 0;
-        for (final String s : this.output)
-        {
-            final ITextComponent comp = new StringTextComponent(s);
-            if (n++ == 0)
-            {
-                final PokedexEntry e = Database.getEntry(comp.getUnformattedComponentText());
-                if (e != null) comp.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN));
-            }
-            lines.add(new LineEntry(parent, 0, 0, this.fontRender, comp, 0xFFFFFFFF).setClickListner(listener));
-        }
+        for (final ITextComponent s : this.output)
+            lines.add(new LineEntry(parent, 0, 0, this.fontRender, s, 0xFFFFFFFF).setClickListner(listener));
+        System.out.println(lines.size());
         return lines;
     }
 }

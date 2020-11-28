@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 
 public class ListHelper
@@ -38,8 +39,9 @@ public class ListHelper
                 final int k = s.indexOf(10);
                 final String s1 = s.substring(k + 1);
                 s = s.substring(0, k + 1);
-                final IFormattableTextComponent itextcomponent2 = new StringTextComponent(s1).setStyle(itextcomponent1
-                        .getStyle());
+                Style copy = itextcomponent1.getStyle();
+                copy = copy.setBold(copy.getBold());
+                final IFormattableTextComponent itextcomponent2 = new StringTextComponent(s1).setStyle(copy);
                 list1.add(j + 1, itextcomponent2);
                 flag = true;
             }
@@ -69,14 +71,17 @@ public class ListHelper
                         s3 = s4;
                     }
                     s3 = ListHelper.getFormatString(s2) + s3;
-                    final IFormattableTextComponent itextcomponent4 = new StringTextComponent(s3).setStyle(
-                            itextcomponent1.getStyle());
+                    Style copy = itextcomponent1.getStyle();
+                    copy = copy.setBold(copy.getBold());
+                    final IFormattableTextComponent itextcomponent4 = new StringTextComponent(s3).setStyle(copy);
                     list1.add(j + 1, itextcomponent4);
                 }
 
                 i1 = fontRendererIn.getStringWidth(s2);
                 itextcomponent3 = new StringTextComponent(s2);
-                itextcomponent3.setStyle(itextcomponent1.getStyle());
+                Style copy = itextcomponent1.getStyle();
+                copy = copy.setBold(copy.getBold());
+                itextcomponent3.setStyle(copy);
                 flag = true;
             }
 
