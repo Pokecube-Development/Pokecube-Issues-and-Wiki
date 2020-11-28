@@ -1,39 +1,42 @@
 package thut.api.terrain;
 
+import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeDatabase
 {
-    // private static int lastTypesSize = -1;
-    //
-    // private static Map<String, BiomeDictionary.Type> typeMap =
-    // Maps.newHashMap();
-    //
-    // private static BiomeDictionary.Type getBiomeType(String name)
-    // {
-    // name = name.toUpperCase();
-    // if (BiomeDatabase.lastTypesSize != BiomeDictionary.Type.getAll().size())
-    // {
-    // BiomeDatabase.typeMap.clear();
-    // for (final BiomeDictionary.Type type : BiomeDictionary.Type.getAll())
-    // BiomeDatabase.typeMap.put(type.getName(), type);
-    // }
-    // return BiomeDatabase.typeMap.get(name);
-    // }
+    private static Map<String, BiomeDictionary.Type> TYPES = Maps.newHashMap();
+
+    private static Set<String> notTypes = Sets.newHashSet();
 
     public static boolean isAType(final String name)
     {
-        // TODO fix this.
-        return false;// BiomeDatabase.getBiomeType(name) != null;
+        if (BiomeDatabase.notTypes.contains(name)) return false;
+        if (BiomeDatabase.TYPES.containsKey(name)) return true;
+        for (final BiomeDictionary.Type t : BiomeDictionary.Type.getAll())
+            if (name.equalsIgnoreCase(t.getName()))
+            {
+                BiomeDatabase.TYPES.put(name, t);
+                return true;
+            }
+        BiomeDatabase.notTypes.add(name);
+        return false;
     }
 
     public static boolean contains(final Biome b, final String type)
     {
-        // TODO fix this.
-        return false;
-        // final BiomeDictionary.Type bType = BiomeDatabase.getBiomeType(type);
-        // if (bType == null) return false;
-        // return BiomeDictionary.hasType(b, bType);
+        if (!BiomeDatabase.isAType(type)) return false;
+        final BiomeDictionary.Type t = BiomeDatabase.TYPES.get(type);
+        final RegistryKey<Biome> key = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, b.getRegistryName());
+        return BiomeDictionary.hasType(key, t);
     }
 
     public static String getBiomeName(final Biome biome)
