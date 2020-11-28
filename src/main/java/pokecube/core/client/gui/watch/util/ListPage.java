@@ -32,9 +32,9 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     public void init()
     {
         this.getEventListeners().clear();
-        this.setFocusedDefault(null);
         super.init();
         this.initList();
+        this.setFocusedDefault(this.list);
     }
 
     public void initList()
@@ -46,9 +46,9 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     public void onPageOpened()
     {
         this.getEventListeners().clear();
-        this.setFocusedDefault(null);
         this.initList();
         super.onPageOpened();
+        this.setFocusedDefault(this.list);
     }
 
     @Override
@@ -57,6 +57,6 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
         this.drawTitle(mat, mouseX, mouseY, partialTicks);
         super.render(mat, mouseX, mouseY, partialTicks);
         // Draw the list
-        if (!this.handlesList) this.list.render(mat, mouseX, mouseY, partialTicks);
+        if (!this.handlesList && this.list != null) this.list.render(mat, mouseX, mouseY, partialTicks);
     }
 }

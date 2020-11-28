@@ -10,10 +10,9 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,6 +22,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
+import pokecube.core.client.gui.helper.ListHelper;
 
 public class GuiInfoMessages
 {
@@ -42,7 +42,8 @@ public class GuiInfoMessages
         PokecubeCore.LOGGER.debug("Recieved Message: " + message.getString());
         if (PokecubeCore.getConfig().battleLogInChat)
         {
-            if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message, Util.DUMMY_UUID);
+            if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message,
+                    Util.DUMMY_UUID);
             return;
         }
         GuiInfoMessages.messages.push(message.getString());
@@ -139,15 +140,15 @@ public class GuiInfoMessages
             if (index < 0) index = 0;
             if (index > size) break;
             final StringTextComponent mess2 = new StringTextComponent(toUse.get(index));
-//            final List<String> mess1 = minecraft.fontRenderer.listFormattedStringToWidth(mess2, trim);
-            final List<IReorderingProcessor> mess1 = RenderComponentsUtil.func_238505_a_(mess2, 100, minecraft.fontRenderer);
+            final List<IFormattableTextComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.fontRenderer,
+                    true);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
                 AbstractGui.fill(event.mat, w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.fontRenderer.drawString(event.mat, mess1.get(j).toString(), x - trim, ph, 0xffffff);
+                minecraft.fontRenderer.drawString(event.mat, mess1.get(j).getString(), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;

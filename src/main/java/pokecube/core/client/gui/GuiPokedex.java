@@ -13,19 +13,19 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.gui.watch.util.LineEntry;
@@ -167,14 +167,14 @@ public class GuiPokedex extends Screen
         final int offsetX = (this.width - 160) / 2 + 90;
         final int offsetY = (this.height - 160) / 2 + 12;
         final int height = 15 * this.font.FONT_HEIGHT;
-        ITextComponent line;
-        ITextComponent page = GuiPokedex.pokedexEntry.getDescription();
+        IFormattableTextComponent line;
+        IFormattableTextComponent page = (IFormattableTextComponent) GuiPokedex.pokedexEntry.getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.FONT_HEIGHT, offsetX, offsetY);
         page = new StringTextComponent(page.getString());
-        final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(page, 100, this.font);
-        for (final IReorderingProcessor element : list)
+        final List<IFormattableTextComponent> list = ListHelper.splitText(page, 100, this.font, false);
+        for (final ITextComponent element : list)
         {
-            line = new StringTextComponent(element.toString());
+            line = (IFormattableTextComponent) element;
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF));
         }
         this.children.add(this.list);
@@ -315,11 +315,9 @@ public class GuiPokedex extends Screen
         try
         {
             AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset
-                    + 137,
-                    type1.colour);
+                    + 137, type1.colour);
             AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset
-                    + 137,
-                    type2.colour);
+                    + 137, type2.colour);
         }
         catch (final Exception e)
         {

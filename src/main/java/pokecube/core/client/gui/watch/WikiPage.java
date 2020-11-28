@@ -12,12 +12,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -25,6 +23,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
@@ -181,12 +180,12 @@ public class WikiPage extends ListPage<LineEntry>
             ITextComponent line;
             for (int i = 0; i < bookPages.size(); i++)
             {
-                final ITextComponent page = ITextComponent.Serializer.getComponentFromJsonLenient(bookPages.getString(
-                        i));
-                final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(page, 120, this.font);
-                for (final IReorderingProcessor element : list)
+                final IFormattableTextComponent page = ITextComponent.Serializer.getComponentFromJsonLenient(bookPages
+                        .getString(i));
+                final List<IFormattableTextComponent> list = ListHelper.splitText(page, 120, this.font, false);
+                for (final IFormattableTextComponent element : list)
                 {
-                    line = new StringTextComponent(element.toString());
+                    line = element;
                     final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i).setClickListner(
                             listener);
                     this.list.addEntry(wikiline);
@@ -232,10 +231,10 @@ public class WikiPage extends ListPage<LineEntry>
                         }
 
                         final IFormattableTextComponent comp = new StringTextComponent(line);
-                        final List<IReorderingProcessor> list = RenderComponentsUtil.func_238505_a_(comp, 120, this.font);
-                        for (final IReorderingProcessor element : list)
+                        final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+                        for (final IFormattableTextComponent element : list)
                         {
-                            entry = new StringTextComponent(element.toString());
+                            entry = element;
                             String text = entry.getString();
                             final Style style = entry.getStyle();
                             // We have a link

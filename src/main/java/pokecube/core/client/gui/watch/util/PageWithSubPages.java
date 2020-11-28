@@ -52,6 +52,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
         super.onPageOpened();
         this.preSubOpened();
         this.openSubPage();
+        this.setFocusedDefault(this.current_page);
     }
 
     protected void openSubPage()

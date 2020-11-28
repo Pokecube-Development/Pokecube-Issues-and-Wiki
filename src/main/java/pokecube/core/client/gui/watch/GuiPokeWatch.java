@@ -120,6 +120,7 @@ public class GuiPokeWatch extends Screen
         GuiPokeWatch.lastPage = this.index;
         this.current_page.init(this.minecraft, this.width, this.height);
         this.current_page.onPageOpened();
+        this.setFocusedDefault(this.current_page);
     }
 
     public WatchPage createPage(final int index)
@@ -147,6 +148,7 @@ public class GuiPokeWatch extends Screen
         if (keyCode == GLFW.GLFW_KEY_ESCAPE && this.shouldCloseOnEsc())
         {
             this.onClose();
+            this.closeScreen();
             return true;
         }
 

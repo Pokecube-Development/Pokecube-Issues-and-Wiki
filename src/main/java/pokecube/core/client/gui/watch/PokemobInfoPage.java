@@ -402,7 +402,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     public void preSubOpened()
     {
         this.getEventListeners().clear();
-        this.setFocusedDefault(null);
         this.initPages(this.pokemob);
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
