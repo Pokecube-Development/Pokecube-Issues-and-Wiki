@@ -52,9 +52,11 @@ public class Breeding extends ListPage<LineEntry>
         if (component != null)
         {
             final ClickEvent clickevent = component.getClickEvent();
-            //TODO see if we need a sub style somehow?
-//          if (clickevent == null) for (final ITextComponent sib : component.getSiblings())
-//          if (sib != null && (clickevent = sib.getStyle().getClickEvent()) != null) break;
+            // TODO see if we need a sub style somehow?
+            // if (clickevent == null) for (final ITextComponent sib :
+            // component.getSiblings())
+            // if (sib != null && (clickevent = sib.getStyle().getClickEvent())
+            // != null) break;
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
@@ -108,8 +110,8 @@ public class Breeding extends ListPage<LineEntry>
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
             main = new TranslationTextComponent(entry.getUnlocalizedName());
-            main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN));
-            main.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName()));
+            main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
+                    new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
         }
     }

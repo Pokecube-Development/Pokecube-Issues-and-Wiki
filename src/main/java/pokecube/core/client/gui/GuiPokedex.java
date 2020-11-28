@@ -168,9 +168,8 @@ public class GuiPokedex extends Screen
         final int offsetY = (this.height - 160) / 2 + 12;
         final int height = 15 * this.font.FONT_HEIGHT;
         IFormattableTextComponent line;
-        IFormattableTextComponent page = (IFormattableTextComponent) GuiPokedex.pokedexEntry.getDescription();
+        final IFormattableTextComponent page = (IFormattableTextComponent) GuiPokedex.pokedexEntry.getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.FONT_HEIGHT, offsetX, offsetY);
-        page = new StringTextComponent(page.getString());
         final List<IFormattableTextComponent> list = ListHelper.splitText(page, 100, this.font, false);
         for (final ITextComponent element : list)
         {
