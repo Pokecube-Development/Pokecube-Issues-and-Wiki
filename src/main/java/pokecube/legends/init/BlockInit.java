@@ -149,9 +149,9 @@ public class BlockInit
                 .setInfoBlockName("raidspawn"));
 
         // Decorative_Blocks
-        DYNA_LEAVE1 	= PokecubeLegends.BLOCKS.register("dyna_leave_1", () -> new Block(Block.Properties.create(
+        DYNA_LEAVE1 	= PokecubeLegends.BLOCKS.register("dyna_leave_1", () -> new LeavesBlock(Block.Properties.create(
                 Material.LEAVES).hardnessAndResistance(1f, 5).sound(SoundType.WET_GRASS).noDrops()));
-        DYNA_LEAVE2 	= PokecubeLegends.BLOCKS.register("dyna_leave_2", () -> new Block(Block.Properties.create(
+        DYNA_LEAVE2 	= PokecubeLegends.BLOCKS.register("dyna_leave_2", () -> new LeavesBlock(Block.Properties.create(
                 Material.LEAVES).hardnessAndResistance(1f, 5).sound(SoundType.WET_GRASS).noDrops()));
 
         OCEAN_BRICK 	= PokecubeLegends.BLOCKS.register("oceanbrick", () -> new Block(Block.Properties.create(

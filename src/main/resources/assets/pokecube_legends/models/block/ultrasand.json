@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-    "down": "pokecube_legends:blocks/ultrasandstonetop",
-    "up": "pokecube_legends:blocks/ultrasandstonetop",
-    "north": "pokecube_legends:blocks/ultrasandstonetop",
-    "east": "pokecube_legends:blocks/ultrasandstonetop",
-    "south": "pokecube_legends:blocks/ultrasandstonetop",
-    "west": "pokecube_legends:blocks/ultrasandstonetop",
-    "particle": "pokecube_legends:blocks/ultrasandstonetop"
+    "down": "pokecube_legends:blocks/ultrasand",
+    "up": "pokecube_legends:blocks/ultrasand",
+    "north": "pokecube_legends:blocks/ultrasand",
+    "east": "pokecube_legends:blocks/ultrasand",
+    "south": "pokecube_legends:blocks/ultrasand",
+    "west": "pokecube_legends:blocks/ultrasand",
+    "particle": "pokecube_legends:blocks/ultrasand"
   }
 }
