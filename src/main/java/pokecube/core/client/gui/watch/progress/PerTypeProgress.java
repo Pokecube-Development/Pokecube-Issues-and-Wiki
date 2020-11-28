@@ -12,11 +12,12 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
@@ -109,12 +110,12 @@ public class PerTypeProgress extends Progress
         this.killed0 = KillStats.getUniqueOfTypeKilledBy(this.watch.player.getUniqueID(), this.type);
         this.killed1 = KillStats.getTotalOfTypeKilledBy(this.watch.player.getUniqueID(), this.type);
 
-        final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.type.caught", this.caught1, this.caught0, this.type,
-                total_of_type);
-        final TranslationTextComponent killLine = new TranslationTextComponent("pokewatch.progress.type.killed", this.killed1, this.killed0, this.type,
-                total_of_type);
-        final TranslationTextComponent hatchLine = new TranslationTextComponent("pokewatch.progress.type.hatched", this.hatched1, this.hatched0, this.type,
-                total_of_type);
+        final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.type.caught",
+                this.caught1, this.caught0, this.type, total_of_type);
+        final TranslationTextComponent killLine = new TranslationTextComponent("pokewatch.progress.type.killed",
+                this.killed1, this.killed0, this.type, total_of_type);
+        final TranslationTextComponent hatchLine = new TranslationTextComponent("pokewatch.progress.type.hatched",
+                this.hatched1, this.hatched0, this.type, total_of_type);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
         final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
@@ -127,19 +128,20 @@ public class PerTypeProgress extends Progress
                         return false;
                     return pokemob.isType(PerTypeProgress.this.type);
                 });
-        final TranslationTextComponent nearbyLine = new TranslationTextComponent("pokewatch.progress.global.nearby", otherMobs.size());
+        final TranslationTextComponent nearbyLine = new TranslationTextComponent("pokewatch.progress.global.nearby",
+                otherMobs.size());
 
-        for (final IReorderingProcessor line : this.font.trimStringToWidth(captureLine, 140))
-            this.lines.add(line.toString());
+        for (final IFormattableTextComponent line : ListHelper.splitText(captureLine, 140, this.font, false))
+            this.lines.add(line.getString());
         this.lines.add("");
-        for (final IReorderingProcessor line : this.font.trimStringToWidth(killLine, 140))
-            this.lines.add(line.toString());
+        for (final IFormattableTextComponent line : ListHelper.splitText(killLine, 140, this.font, false))
+            this.lines.add(line.getString());
         this.lines.add("");
-        for (final IReorderingProcessor line : this.font.trimStringToWidth(hatchLine, 140))
-            this.lines.add(line.toString());
+        for (final IFormattableTextComponent line : ListHelper.splitText(hatchLine, 140, this.font, false))
+            this.lines.add(line.getString());
         this.lines.add("");
-        for (final IReorderingProcessor line : this.font.trimStringToWidth(nearbyLine, 140))
-            this.lines.add(line.toString());
+        for (final IFormattableTextComponent line : ListHelper.splitText(nearbyLine, 140, this.font, false))
+            this.lines.add(line.getString());
     }
 
 }

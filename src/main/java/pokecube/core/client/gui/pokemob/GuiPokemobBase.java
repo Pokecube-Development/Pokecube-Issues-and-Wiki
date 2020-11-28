@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
@@ -81,8 +82,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     public GuiPokemobBase(final ContainerPokemob container, final PlayerInventory inv)
     {
         super(container, inv, container.pokemob.getDisplayName());
-        this.name.setText(container.pokemob.getDisplayName().getUnformattedComponentText().trim());
-        this.name.enabledColor = 4210752;
     }
 
     @Override
@@ -99,7 +98,8 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
+    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX,
+            final int mouseY)
     {
         this.getMinecraft().getTextureManager().bindTexture(Resources.GUI_POKEMOB);
         final int k = (this.width - this.xSize) / 2;
@@ -133,10 +133,11 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         super.init();
         final int xOffset = 80;
         final int yOffset = 77;
-        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, new StringTextComponent(""));
-        if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName()
-                .getUnformattedComponentText().trim());
+        final ITextComponent comp = new StringTextComponent("");
+        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, comp);
         this.name.setTextColor(0xFFFFFFFF);
+        this.name.disabledColor = 4210752;
+        if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName().getString());
         this.addButton(this.name);
     }
 
