@@ -1,6 +1,7 @@
 package pokecube.legends;
 
 import java.util.Random;
+import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,10 +12,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -51,15 +56,19 @@ import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.proxy.ClientProxy;
 import pokecube.legends.proxy.CommonProxy;
 import pokecube.legends.tileentity.RaidSpawn;
+import thut.api.terrain.BiomeDatabase;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
-    public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
-    public static final DeferredRegister<Item>  ITEMS  = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
+    public static final DeferredRegister<Block> BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,
+            Reference.ID);
+    public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
+            Reference.ID);
+    public static final DeferredRegister<Item>  ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,
+            Reference.ID);
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
@@ -71,33 +80,36 @@ public class PokecubeLegends
         }
 
         @SubscribeEvent
+        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
+        {
+            PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
+
+            // Register the fossil stone spawning.
+            if (PokecubeLegends.config.generateOres)
+            {
+                final Predicate<RegistryKey<Biome>> check = k ->
+                BiomeDatabase.contains(k, "FOREST") || BiomeDatabase.contains(k, "OCEAN") ||
+                BiomeDatabase.contains(k, "HILLS") || BiomeDatabase.contains(k, "PLAINS") ||
+                BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN") ||
+                BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY");
+                WorldgenHandler.WORLDGEN.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
+                        Feature.ORE.withConfiguration(new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.RUBY_ORE.get()
+                                        .getDefaultState(), 5)).range(32).square().func_242731_b(2));
+
+                WorldgenHandler.WORLDGEN.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
+                        Feature.ORE.withConfiguration(new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.SAPPHIRE_ORE.get()
+                                        .getDefaultState(), 5)).range(32).square().func_242731_b(2));
+            }
+        }
+
+        @SubscribeEvent
         public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
         {
             RaidSpawn.TYPE = TileEntityType.Builder.create(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
             event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
         }
-
-        @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
-        {
-            PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
-            new WorldgenHandler(Reference.ID).processStructures(event);
-
-        }
-
-        /*@SubscribeEvent
-        public static void registerBiomes(final RegistryEvent.Register<Biome> event)
-        {
-            BiomeInit.registerBiomes(event);
-        }
-
-        @SubscribeEvent
-        public static void registerModDimensions(final RegistryKey<World> event)
-        {
-            event..register(new UltraSpaceModDimension().setRegistryName(ModDimensions.DIMENSION_ID));
-
-            PokecubeLegends.LOGGER.debug("Registering Pokecube UltraSpace");
-        }*/
     }
 
     public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
@@ -126,6 +138,8 @@ public class PokecubeLegends
         // Just generally register it to event bus.
         modEventBus.register(PokecubeLegends.proxy);
 
+        new WorldgenHandler(Reference.ID, modEventBus);
+
         PokecubeLegends.BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
@@ -148,13 +162,14 @@ public class PokecubeLegends
         Database.addDatabase("pokecube_legends:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
     }
 
-    public static final ItemGroup TAB = new ItemGroup("ultratab") {
+    public static final ItemGroup TAB = new ItemGroup("ultratab")
+    {
 
-    	@Override
-    	public ItemStack createIcon()
-    	{
-    		return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
-    	}
+        @Override
+        public ItemStack createIcon()
+        {
+            return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
+        }
     };
 
     @SubscribeEvent

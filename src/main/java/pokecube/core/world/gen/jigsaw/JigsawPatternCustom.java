@@ -3,6 +3,7 @@ package pokecube.core.world.gen.jigsaw;
 import java.util.List;
 import java.util.Random;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -12,7 +13,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrays;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.template.TemplateManager;
@@ -20,7 +21,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
-import pokecube.core.world.gen.jigsaw.JigsawPieces.SingleOffsetPiece;
 
 public class JigsawPatternCustom extends JigsawPattern
 {
@@ -32,12 +32,18 @@ public class JigsawPatternCustom extends JigsawPattern
 
     public boolean respects_pool_spawns = true;
 
+    //TODO see if this can check a config somehow, and then decide on if true (like if it has a spawn rule)
     public BiPredicate<JigsawPiece, SpawnCheck> validator = (p, s) -> true;
 
-    public JigsawPatternCustom(final JigSawPool part, final List<Pair<JigsawPiece, Integer>> parts,
-            final PlacementBehaviour behaviour)
+    public JigsawPatternCustom(final JigSawPool part, final List<Pair<JigsawPiece, Integer>> parts)
     {
-        super(new ResourceLocation(part.name), new ResourceLocation(part.target), parts, behaviour);
+        super(new ResourceLocation(part.name), new ResourceLocation(part.target), parts);
+        this.pool = part;
+    }
+
+    public JigsawPatternCustom(final JigSawPool part, final List<Pair<Function<JigsawPattern.PlacementBehaviour, ? extends JigsawPiece>, Integer>> parts, final JigsawPattern.PlacementBehaviour placementBehaviourIn)
+    {
+        super(new ResourceLocation(part.name), new ResourceLocation(part.target), parts, placementBehaviourIn);
         this.pool = part;
     }
 
@@ -48,7 +54,7 @@ public class JigsawPatternCustom extends JigsawPattern
             for (final String s : this.pool.includes)
             {
                 final ResourceLocation sub_pool = new ResourceLocation(s);
-                final JigsawPattern sub = JigsawManager.REGISTRY.get(sub_pool);
+                final JigsawPattern sub = WorldGenRegistries.JIGSAW_POOL.getOrDefault(sub_pool);
                 if (sub != null) this.jigsawPieces.addAll(sub.jigsawPieces);
                 else PokecubeCore.LOGGER.error("No subpool registered by name {}", sub_pool);
             }
@@ -59,8 +65,6 @@ public class JigsawPatternCustom extends JigsawPattern
 
     public boolean isValidPos(final JigsawPiece part, final SpawnCheck check)
     {
-        if (this.respects_pool_spawns && part instanceof SingleOffsetPiece && !((SingleOffsetPiece) part).isValidPos(
-                check)) return false;
         return this.validator.test(part, check);
     }
 

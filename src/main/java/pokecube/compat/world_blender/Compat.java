@@ -25,6 +25,7 @@ public class Compat
         {
             PokecubeCore.POKEMOB_BUS.register(Compat.class);
             FMLJavaModLoadingContext.get().getModEventBus().register(Compat.class);
+            new WorldgenHandler(Compat.MODID, FMLJavaModLoadingContext.get().getModEventBus());
         }
     }
 
@@ -39,6 +40,5 @@ public class Compat
     public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
     {
         PokecubeCore.LOGGER.debug("Registering World Blender Features");
-        new WorldgenHandler(Compat.MODID).processStructures(event);
     }
 }

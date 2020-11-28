@@ -33,6 +33,12 @@ public class BiomeDatabase
 
     public static boolean contains(final Biome b, final String type)
     {
+        final RegistryKey<Biome> key = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, b.getRegistryName());
+        return BiomeDatabase.contains(key, type);
+    }
+
+    public static boolean contains(final RegistryKey<Biome> b, final String type)
+    {
         if (!BiomeDatabase.isAType(type)) return false;
         final BiomeDictionary.Type t = BiomeDatabase.TYPES.get(type);
         final RegistryKey<Biome> key = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, b.getRegistryName());

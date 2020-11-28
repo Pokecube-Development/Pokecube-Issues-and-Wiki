@@ -2,6 +2,7 @@ package pokecube.core.world.gen.template;
 
 import javax.annotation.Nullable;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 
 import net.minecraft.util.math.BlockPos;
@@ -13,8 +14,8 @@ import net.minecraft.world.gen.feature.template.Template;
 
 public class FillerProcessor extends StructureProcessor
 {
-    public static IStructureProcessorType<?>  TYPE;
-    public static final StructureProcessor PROCESSOR = new FillerProcessor();
+    public static final Codec<StructureProcessor> CODEC;
+    public static final StructureProcessor        PROCESSOR = new FillerProcessor();
 
     public FillerProcessor()
     {
@@ -30,13 +31,20 @@ public class FillerProcessor extends StructureProcessor
             final Template.BlockInfo old, final Template.BlockInfo blockInfo,
             final PlacementSettings placementSettingsIn, final Template ref)
     {
-        return worldReaderIn.getBlockState(pos).isAir(worldReaderIn, pos) ? blockInfo : null;
+        return worldReaderIn.isAirBlock(pos) ? blockInfo : null;
     }
 
     @Override
     protected IStructureProcessorType<?> getType()
     {
-        return FillerProcessor.TYPE;
+        return PokecubeStructureProcessors.FILTER;
     }
 
+    static
+    {
+        CODEC = Codec.unit(() ->
+        {
+            return FillerProcessor.PROCESSOR;
+        });
+    }
 }

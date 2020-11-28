@@ -195,6 +195,10 @@ def cleanTOML()
 }
 
 def gitVersion(value) {
+    if("${pre_release}".toBoolean())
+    {
+        return "${value}.0.a"
+    }
     def raw = grgit.describe(longDescr: true)
     def desc = (raw == null ? 'unknown-offset-hash' : grgit.describe(longDescr: true)).split('-') as List
     def vers = desc.get(1)

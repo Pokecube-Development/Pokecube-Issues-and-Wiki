@@ -1,6 +1,5 @@
 package pokecube.core.world.gen.jigsaw;
 
-import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +13,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.JigsawBlock;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -23,6 +23,7 @@ import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -32,15 +33,16 @@ import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.JigsawJunction;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
-import pokecube.core.world.gen.jigsaw.JigsawPieces.SingleOffsetPiece;
-import thut.api.maths.Vector3;
 
 public class JigsawAssmbler
 {
@@ -61,9 +63,17 @@ public class JigsawAssmbler
         }
     }
 
+    public static IWorld getForGen(final ChunkGenerator chunkGen)
+    {
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        for (final ServerWorld w : server.getWorlds())
+            if (w.getChunkProvider().generator == chunkGen) return w;
+        throw new IllegalStateException("Did not find a world for this chunk generator!");
+    }
+
     private int                               depth;
     private JigsawManager.IPieceFactory       pieceFactory;
-    private ChunkGenerator<?>                 chunkGenerator;
+    private ChunkGenerator                    chunkGenerator;
     private BlockPos                          base_pos;
     private TemplateManager                   templateManager;
     private List<StructurePiece>              structurePieces;
@@ -79,7 +89,7 @@ public class JigsawAssmbler
     }
 
     private void init(final int depth, final JigsawManager.IPieceFactory pieceFactory,
-            final ChunkGenerator<?> chunkGenerator, final TemplateManager templateManagerIn, final BlockPos pos,
+            final ChunkGenerator chunkGenerator, final TemplateManager templateManagerIn, final BlockPos pos,
             final List<StructurePiece> parts, final Random rand, final Biome biome)
     {
         this.biome = biome;
@@ -96,11 +106,11 @@ public class JigsawAssmbler
 
     private JigsawPattern init(final ResourceLocation resourceLocationIn)
     {
-        return JigsawManager.REGISTRY.get(resourceLocationIn);
+        return WorldGenRegistries.JIGSAW_POOL.getOrDefault(resourceLocationIn);
     }
 
     public boolean build(final ResourceLocation resourceLocationIn, final int depth,
-            final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator<?> chunkGenerator,
+            final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
             final Random rand, final Biome biome)
     {
@@ -113,7 +123,7 @@ public class JigsawAssmbler
     }
 
     public boolean build(final JigsawPattern jigsawpattern, final Rotation rotation, final int depth,
-            final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator<?> chunkGenerator,
+            final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
             final Random rand, final Biome biome, final Consumer<JigsawPatternCustom> pre,
             final Consumer<JigsawPatternCustom> post, final int default_k)
@@ -139,19 +149,19 @@ public class JigsawAssmbler
         final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
         int k = default_k;
 
-        if (k == -1 && this.root != null && this.root.jigsaw.air) k = chunkGenerator.func_222532_b(i, j,
+        if (k == -1 && this.root != null && this.root.jigsaw.air) k = chunkGenerator.getNoiseHeight(i, j,
                 this.SURFACE_TYPE) + rand.nextInt(this.root.jigsaw.variance);
 
-        if (k == -1) if (this.SURFACE_TYPE != null) k = chunkGenerator.func_222532_b(i, j, this.SURFACE_TYPE);
+        if (k == -1) if (this.SURFACE_TYPE != null) k = chunkGenerator.getNoiseHeight(i, j, this.SURFACE_TYPE);
         else
         {
-            k = this.chunkGenerator.func_222532_b(i, j, Heightmap.Type.OCEAN_FLOOR_WG);
+            k = this.chunkGenerator.getNoiseHeight(i, j, Heightmap.Type.OCEAN_FLOOR_WG);
             if (k > 0) k = this.rand.nextInt(k + 1);
-            else k = chunkGenerator.world.getSeaLevel();
+            else k = chunkGenerator.getSeaLevel();
         }
-        if (k <= 0 || k >= chunkGenerator.world.getWorld().getActualHeight())
+        if (k <= 0 || k >= chunkGenerator.getMaxBuildHeight())
         {
-            k = chunkGenerator.world.getWorld().getActualHeight();
+            k = chunkGenerator.getMaxBuildHeight();
             k = this.rand.nextInt(k + 1);
         }
 
@@ -182,12 +192,18 @@ public class JigsawAssmbler
         {
             final List<String> guarenteed = Lists.newArrayList(((JigsawPatternCustom) jigsawpattern).neededChildren);
             for (final StructurePiece part : parts)
-                if (part instanceof AbstractVillagePiece && ((AbstractVillagePiece) part)
-                        .getJigsawPiece() instanceof SingleOffsetPiece)
-                {
-                    final SingleOffsetPiece p = (SingleOffsetPiece) ((AbstractVillagePiece) part).getJigsawPiece();
-                    guarenteed.remove(p.flag);
-                }
+            {
+                // TODO decide on how to do this.
+                //
+                // if (part instanceof AbstractVillagePiece &&
+                // ((AbstractVillagePiece) part)
+                // .getJigsawPiece() instanceof SingleOffsetPiece)
+                // {
+                // final SingleOffsetPiece p = (SingleOffsetPiece)
+                // ((AbstractVillagePiece) part).getJigsawPiece();
+                // guarenteed.remove(p.flag);
+                // }
+            }
             return guarenteed.isEmpty();
         }
         return true;
@@ -195,27 +211,32 @@ public class JigsawAssmbler
 
     private void sort(final List<JigsawPiece> list)
     {
-        final List<JigsawPiece> needed = Lists.newArrayList();
-        final IWorld world = this.chunkGenerator.world;
-        final BlockPos pos = this.base_pos;
-        final SpawnCheck check = new SpawnCheck(Vector3.getNewVector().set(pos), world, this.biome);
-        if (this.root != null) list.removeIf(p -> !this.root.isValidPos(p, check));
-        list.removeIf(p -> p instanceof SingleOffsetPiece && this.once_added.contains(((SingleOffsetPiece) p).flag));
-        if (this.root != null) for (final JigsawPiece p : list)
-            if (p instanceof SingleOffsetPiece && !((SingleOffsetPiece) p).flag.isEmpty() && this.root.neededChildren
-                    .contains(((SingleOffsetPiece) p).flag)) needed.add(p);
-        list.removeIf(p -> needed.contains(p));
-        Collections.shuffle(needed, this.rand);
-        for (final JigsawPiece p : needed)
-            list.add(0, p);
-        if (this.root != null) list.forEach(p ->
-        {
-            if (p instanceof SingleOffsetPiece)
-            {
-                ((SingleOffsetPiece) p).offset = this.root.jigsaw.offset;
-                ((SingleOffsetPiece) p).subbiome = this.root.jigsaw.biomeType;
-            }
-        });
+        // TODO figure this out again as well.
+        // final List<JigsawPiece> needed = Lists.newArrayList();
+        // final IWorld world = JigsawAssmbler.getForGen(this.chunkGenerator);
+        // final BlockPos pos = this.base_pos;
+        // final SpawnCheck check = new
+        // SpawnCheck(Vector3.getNewVector().set(pos), world, this.biome);
+        // if (this.root != null) list.removeIf(p -> !this.root.isValidPos(p,
+        // check));
+        // list.removeIf(p -> p instanceof SingleOffsetPiece &&
+        // this.once_added.contains(((SingleOffsetPiece) p).flag));
+        // if (this.root != null) for (final JigsawPiece p : list)
+        // if (p instanceof SingleOffsetPiece && !((SingleOffsetPiece)
+        // p).flag.isEmpty() && this.root.neededChildren
+        // .contains(((SingleOffsetPiece) p).flag)) needed.add(p);
+        // list.removeIf(p -> needed.contains(p));
+        // Collections.shuffle(needed, this.rand);
+        // for (final JigsawPiece p : needed)
+        // list.add(0, p);
+        // if (this.root != null) list.forEach(p ->
+        // {
+        // if (p instanceof SingleOffsetPiece)
+        // {
+        // ((SingleOffsetPiece) p).offset = this.root.jigsaw.offset;
+        // ((SingleOffsetPiece) p).subbiome = this.root.jigsaw.biomeType;
+        // }
+        // });
     }
 
     private void addPiece(final AbstractVillagePiece villagePieceIn, final AtomicReference<VoxelShape> atomicVoxelShape,
@@ -234,7 +255,7 @@ public class JigsawAssmbler
 
         if (k0 == -1) if (this.SURFACE_TYPE == null)
         {
-            k0 = this.chunkGenerator.func_222532_b(blockpos.getX(), blockpos.getZ(), Heightmap.Type.OCEAN_FLOOR_WG);
+            k0 = this.chunkGenerator.getNoiseHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.OCEAN_FLOOR_WG);
             if (k0 > 0) k0 = this.rand.nextInt(k0 + 1);
             else k0 = -1;
         }
@@ -248,11 +269,12 @@ public class JigsawAssmbler
             final BlockPos blockpos2 = blockpos1.offset(direction);
             final int j = blockpos1.getY() - i;
             int k = k0;
-            final JigsawPattern jigsawpattern = JigsawManager.REGISTRY.get(new ResourceLocation(template$blockinfo.nbt
-                    .getString("target_pool")));
-            final JigsawPattern jigsawpattern1 = JigsawManager.REGISTRY.get(jigsawpattern.getFallback());
-            if (jigsawpattern != JigsawPattern.INVALID && (jigsawpattern.getNumberOfPieces() != 0
-                    || jigsawpattern == JigsawPattern.EMPTY))
+            final JigsawPattern jigsawpattern = WorldGenRegistries.JIGSAW_POOL.getOrDefault(new ResourceLocation(
+                    template$blockinfo.nbt.getString("target_pool")));
+            final JigsawPattern jigsawpattern1 = WorldGenRegistries.JIGSAW_POOL.getOrDefault(jigsawpattern
+                    .getFallback());
+            if (jigsawpattern.getNumberOfPieces() != 0 || jigsawpattern.getName().equals(
+                    JigsawPatternRegistry.field_244091_a.getLocation()))
             {
                 final boolean flag1 = mutableboundingbox.isVecInside(blockpos2);
                 AtomicReference<VoxelShape> atomicreference1;
@@ -280,9 +302,10 @@ public class JigsawAssmbler
                 for (final JigsawPiece jigsawpiece1 : list)
                 {
                     if (jigsawpiece1 == EmptyJigsawPiece.INSTANCE) break;
-                    String once = "";
-                    if (jigsawpiece1 instanceof SingleOffsetPiece && !(once = ((SingleOffsetPiece) jigsawpiece1).flag)
-                            .isEmpty() && this.once_added.contains(once)) continue;
+                    final String once = "";
+                    //TODO figure out only once stuff in the pieces.
+//                    if (jigsawpiece1 instanceof SingleOffsetPiece && !(once = ((SingleOffsetPiece) jigsawpiece1).flag)
+//                            .isEmpty() && this.once_added.contains(once)) continue;
 
                     for (final Rotation rotation1 : Rotation.shuffledRotations(this.rand))
                     {
@@ -300,16 +323,17 @@ public class JigsawAssmbler
                             {
                                 final ResourceLocation resourcelocation = new ResourceLocation(p_214880_2_.nbt
                                         .getString("target_pool"));
-                                final JigsawPattern jigsawpattern2 = JigsawManager.REGISTRY.get(resourcelocation);
-                                final JigsawPattern jigsawpattern3 = JigsawManager.REGISTRY.get(jigsawpattern2
-                                        .getFallback());
+                                final JigsawPattern jigsawpattern2 = WorldGenRegistries.JIGSAW_POOL.getOrDefault(
+                                        resourcelocation);
+                                final JigsawPattern jigsawpattern3 = WorldGenRegistries.JIGSAW_POOL.getOrDefault(
+                                        jigsawpattern2.getFallback());
                                 return Math.max(jigsawpattern2.getMaxSize(this.templateManager), jigsawpattern3
                                         .getMaxSize(this.templateManager));
                             }
                         }).max().orElse(0);
 
                         for (final Template.BlockInfo template$blockinfo1 : list1)
-                            if (JigsawBlock.func_220171_a(template$blockinfo, template$blockinfo1))
+                            if (JigsawBlock.hasJigsawMatch(template$blockinfo, template$blockinfo1))
                             {
                                 final BlockPos blockpos3 = template$blockinfo1.pos;
                                 final BlockPos blockpos4 = new BlockPos(blockpos2.getX() - blockpos3.getX(), blockpos2
@@ -327,7 +351,7 @@ public class JigsawAssmbler
                                 if (root_rigid && rigid) i2 = i + l1;
                                 else
                                 {
-                                    if (k == -1) k = this.chunkGenerator.func_222532_b(blockpos1.getX(), blockpos1
+                                    if (k == -1) k = this.chunkGenerator.getNoiseHeight(blockpos1.getX(), blockpos1
                                             .getZ(), this.SURFACE_TYPE);
 
                                     i2 = k - k1;
@@ -363,7 +387,7 @@ public class JigsawAssmbler
                                     else if (rigid) i3 = i2 + k1;
                                     else
                                     {
-                                        if (k == -1) k = this.chunkGenerator.func_222532_b(blockpos1.getX(), blockpos1
+                                        if (k == -1) k = this.chunkGenerator.getNoiseHeight(blockpos1.getX(), blockpos1
                                                 .getZ(), this.SURFACE_TYPE);
 
                                         i3 = k + l1 / 2;

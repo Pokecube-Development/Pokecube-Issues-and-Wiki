@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -18,7 +19,6 @@ import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.DynamicOps;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.StructureMode;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.util.RegistryKey;
@@ -33,11 +33,11 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.IJigsawDeserializer;
-import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
-import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
@@ -61,9 +61,9 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
-import pokecube.core.database.worldgen.WorldgenHandler.Structures;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.utils.PokecubeSerializer;
+import pokecube.core.world.gen.jigsaw.JigsawPieces.CustomJigsawPiece;
 import pokecube.core.world.gen.template.ExtendedRuleProcessor;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
@@ -91,14 +91,14 @@ public class JigsawPieces
 
     public static final Map<RegistryKey<World>, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
 
-    private static boolean shouldApply(final BlockPos pos, final IWorld worldIn)
+    private static boolean shouldApply(final BlockPos pos, final World worldIn)
     {
         Set<BlockPos> poses = JigsawPieces.sent_events.get(worldIn.getDimensionKey());
         if (poses == null) JigsawPieces.sent_events.put(worldIn.getDimensionKey(), poses = Sets.newHashSet());
         return !poses.contains(pos.toImmutable());
     }
 
-    private static void apply(final BlockPos pos, final IWorld worldIn)
+    private static void apply(final BlockPos pos, final World worldIn)
     {
         Set<BlockPos> poses = JigsawPieces.sent_events.get(worldIn.getDimensionKey());
         if (poses == null) JigsawPieces.sent_events.put(worldIn.getDimensionKey(), poses = Sets.newHashSet());
@@ -119,11 +119,11 @@ public class JigsawPieces
         JigsawPieces.patterns.put(pool.name, JigsawPieces.registerPart(pool, proc, rules));
     }
 
-    public static void initStructure(final ChunkGenerator<?> chunk_gen, final TemplateManager templateManagerIn,
+    public static void initStructure(final ChunkGenerator chunk_gen, final TemplateManager templateManagerIn,
             final BlockPos pos, final List<StructurePiece> parts, final SharedSeedRandom rand,
             final JigSawConfig struct, final Biome biome)
     {
-        Structures.init();
+        JigsawPatternRegistry.func_244093_a();
         final ResourceLocation key = new ResourceLocation(struct.root);
         final JigsawAssmbler assembler = new JigsawAssmbler();
         boolean built = assembler.build(key, struct.size, CustomJigsawPiece::new, chunk_gen, templateManagerIn, pos,
@@ -145,6 +145,8 @@ public class JigsawPieces
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
                 : PlacementBehaviour.TERRAIN_MATCHING;
         final List<Pair<JigsawPiece, Integer>> parts = Lists.newArrayList();
+        final List<Pair<Function<JigsawPattern.PlacementBehaviour, ? extends JigsawPiece>, Integer>> parts2 = Lists
+                .newArrayList();
         final String subbiome = part.biomeType;
         for (String option : part.options)
         {
@@ -169,9 +171,10 @@ public class JigsawPieces
             else parts.add(Pair.of(new SingleOffsetPiece(part, option, rules, place, subbiome).process(thing, proc),
                     second));
         }
-        final JigsawPatternCustom pattern = new JigsawPatternCustom(part, parts, behaviour);
+        // TODO figure out how to do the placement behaviour now...
+        final JigsawPatternCustom pattern = new JigsawPatternCustom(part, parts);
         // Register the buildings
-        JigsawManager.REGISTRY.register(pattern);
+        JigsawPatternRegistry.func_244094_a(pattern);
         return pattern;
     }
 
@@ -196,7 +199,7 @@ public class JigsawPieces
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
-        public static IJigsawDeserializer PIECETYPE = IJigsawDeserializer.register("pokecube:sop",
+        public static IJigsawDeserializer<?> PIECETYPE = IJigsawDeserializer.register("pokecube:sop",
                 SingleOffsetPiece::new);
 
         public final JigSawPool pool;
@@ -256,7 +259,7 @@ public class JigsawPieces
         }
 
         @Override
-        public IJigsawDeserializer getType()
+        public IJigsawDeserializer<?> getType()
         {
             return SingleOffsetPiece.PIECETYPE;
         }
@@ -396,27 +399,13 @@ public class JigsawPieces
                 final ResourceLocation key = new ResourceLocation(function.replaceFirst("Chest ", ""));
                 if (sbb.isVecInside(blockpos)) LockableLootTileEntity.setLootTable(worldIn, rand, blockpos, key);
             }
-            else if (JigsawPieces.shouldApply(pos, worldIn))
+            else if (JigsawPieces.shouldApply(pos, (World) worldIn))
             {
                 PokecubeCore.LOGGER.info(function);
                 final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, rand, sbb);
                 MinecraftForge.EVENT_BUS.post(event);
-                if (event.getResult() == Result.ALLOW) JigsawPieces.apply(pos, worldIn);
+                if (event.getResult() == Result.ALLOW) JigsawPieces.apply(pos, (World) worldIn);
             }
-        }
-    }
-
-    public static class CustomJigsawPiece extends AbstractVillagePiece
-    {
-        public CustomJigsawPiece(final TemplateManager manager, final JigsawPiece piece, final BlockPos pos,
-                final int groundLevelDelta, final Rotation dir, final MutableBoundingBox box)
-        {
-            super(JigsawPieces.CSP, manager, piece, pos, groundLevelDelta, dir, box);
-        }
-
-        public CustomJigsawPiece(final TemplateManager manager, final CompoundNBT tag)
-        {
-            super(manager, tag, JigsawPieces.CSP);
         }
     }
 }

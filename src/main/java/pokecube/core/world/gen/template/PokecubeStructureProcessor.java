@@ -1,5 +1,6 @@
 package pokecube.core.world.gen.template;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +15,8 @@ import pokecube.core.events.StructureEvent;
 
 public class PokecubeStructureProcessor extends StructureProcessor
 {
-    public static IStructureProcessorType<?>  TYPE;
+    public static final Codec<StructureProcessor> CODEC;
+
     public static final StructureProcessor PROCESSOR = new PokecubeStructureProcessor();
 
     public PokecubeStructureProcessor()
@@ -37,6 +39,14 @@ public class PokecubeStructureProcessor extends StructureProcessor
     @Override
     protected IStructureProcessorType<?> getType()
     {
-        return PokecubeStructureProcessor.TYPE;
+        return PokecubeStructureProcessors.STRUCTS;
+    }
+
+    static
+    {
+        CODEC = Codec.unit(() ->
+        {
+            return PokecubeStructureProcessor.PROCESSOR;
+        });
     }
 }

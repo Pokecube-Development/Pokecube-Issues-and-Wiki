@@ -1,5 +1,6 @@
 package pokecube.core;
 
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -28,10 +29,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -93,9 +98,11 @@ import pokecube.core.proxy.ClientProxy;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.core.world.gen.template.PokecubeStructureProcessors;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
+import thut.api.terrain.BiomeDatabase;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 
@@ -118,17 +125,6 @@ public class PokecubeCore
             pre.modIDs.add(PokecubeCore.MODID);
             Database.preInit();
         }
-        //
-        // @SubscribeEvent TODO Dimensions
-        // public static void registerBiomes(final RegistryEvent.Register<Biome>
-        // event)
-        // {
-        // PokecubeCore.LOGGER.debug("Registering Pokecube Biomes");
-        // SecretBaseDimension.BIOME = new SecretBiome();
-        // event.getRegistry().register(SecretBaseDimension.BIOME);
-        // BiomeDictionary.addTypes(SecretBaseDimension.BIOME,
-        // BiomeDictionary.Type.VOID);
-        // }
 
         @SubscribeEvent
         public static void registerActivities(final RegistryEvent.Register<Activity> event)
@@ -167,22 +163,17 @@ public class PokecubeCore
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Features");
 
-            // // Register the fossil stone spawning. TODO Ore Generation
-            // if (PokecubeCore.config.generateFossils) for (final Biome b :
-            // ForgeRegistries.BIOMES.getValues())
-            // {
-            // if (!(BiomeDatabase.contains(b, "sandy") ||
-            // BiomeDatabase.contains(b, "ocean"))) continue;
-            // // Currently this uses same settings as gold ore.
-            // b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-            // Feature.ORE.withConfiguration(
-            // new
-            // OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-            // PokecubeItems.FOSSILSTONE
-            // .getDefaultState(),
-            // 9)).withPlacement(Placement.COUNT_RANGE.configure(
-            // new CountRangeConfig(2, 0, 0, 32))));
-            // }
+            // Register the fossil stone spawning.
+            if (PokecubeCore.config.generateFossils)
+            {
+                final Predicate<RegistryKey<Biome>> check = k -> BiomeDatabase.contains(k, "ocean") || BiomeDatabase
+                        .contains(k, "sandy");
+                // Currently this uses same settings as gold ore.
+                WorldgenHandler.WORLDGEN.get(PokecubeCore.MODID).register(check,
+                        GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, PokecubeItems.FOSSILSTONE
+                                        .getDefaultState(), 9)).range(32).square().func_242731_b(2));
+            }
 
             // Register the general structure piece we use
             // Registry.register(Registry.STRUCTURE_PIECE,
@@ -197,7 +188,6 @@ public class PokecubeCore
             // FillerProcessor::new);
 
             // Register the configurable worldgen things from datapack
-            new WorldgenHandler().processStructures(event);
             new BerryGenManager().processStructures(event);
 
             // Register village stuff
@@ -224,14 +214,6 @@ public class PokecubeCore
             event.getRegistry().register(TMContainer.TYPE.setRegistryName(PokecubeCore.MODID, "tm_machine"));
             event.getRegistry().register(TradeContainer.TYPE.setRegistryName(PokecubeCore.MODID, "trade_machine"));
         }
-
-        // @SubscribeEvent TODO Dimensions
-        // public static void registerDimensions(final
-        // RegistryEvent.Register<ModDimension> event)
-        // {
-        // PokecubeCore.LOGGER.debug("Registering Pokecube Dimensions");
-        // event.getRegistry().register(SecretBaseDimension.DIMENSION.setRegistryName(SecretBaseDimension.ID));
-        // }
 
         @SubscribeEvent
         public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
@@ -436,20 +418,24 @@ public class PokecubeCore
         MinecraftForge.EVENT_BUS.register(EventsHandler.class);
         MinecraftForge.EVENT_BUS.register(PokemobTracker.class);
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::setup);
+        final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        bus.addListener(PokecubeCore.proxy::setup);
         // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::setupClient);
+        bus.addListener(PokecubeCore.proxy::setupClient);
         // Register imc comms sender
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        bus.addListener(this::enqueueIMC);
         // Register imc comms listender
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        bus.addListener(this::processIMC);
         // Register the loaded method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::loaded);
+        bus.addListener(PokecubeCore.proxy::loaded);
 
-        RecipeHandler.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        SecretBaseDimension.onConstruct(FMLJavaModLoadingContext.get().getModEventBus());
+        RecipeHandler.RECIPE_SERIALIZERS.register(bus);
+        SecretBaseDimension.onConstruct(bus);
+        PokecubeStructureProcessors.init(bus);
+        new WorldgenHandler(bus);
 
-        FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeCore.proxy);
+        bus.register(PokecubeCore.proxy);
         MinecraftForge.EVENT_BUS.register(PokecubeCore.proxy);
 
         // Register the player data we use with thutcore
