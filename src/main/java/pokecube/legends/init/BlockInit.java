@@ -1,10 +1,5 @@
 package pokecube.legends.init;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
@@ -12,19 +7,18 @@ import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.LogBlock;
-import net.minecraft.block.RotatedPillarBlock;
+import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
+import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
@@ -117,6 +111,8 @@ public class BlockInit
     public static final RegistryObject<Block> INVERTED_SLAB;
     public static final RegistryObject<Block> INVERTED_FENCE;
     public static final RegistryObject<Block> INVERTED_FENCE_GATE;
+    public static final RegistryObject<Block> INVERTED_BUTTON;
+    public static final RegistryObject<Block> INVERTED_PR_PLATE;
     public static final RegistryObject<Block> ULTRA_LEAVEUB01;
 
     public static final RegistryObject<Block> ULTRA_LOGUB02;
@@ -256,6 +252,8 @@ public class BlockInit
         INVERTED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("inverted_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("inverted_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new PokecubeButtonBlock());
+        INVERTED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_pressure_plate", () -> new PokecubePressurePlate());
         ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
 
         ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
@@ -365,8 +363,23 @@ public class BlockInit
         @SuppressWarnings("deprecation")
 		public PokecubeWoodStairs() {
             super(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS)
-                    .sound(SoundType.WOOD)
-                    .hardnessAndResistance(2.0f, 3.0f)
+                    .sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)
+            );
+        }
+    }
+
+    public static class PokecubeButtonBlock extends WoodButtonBlock {
+        public PokecubeButtonBlock() {
+            super(Block.Properties.create(Material.WOOD)
+                    .sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)
+            );
+        }
+    }
+
+    public static class PokecubePressurePlate extends PressurePlateBlock {
+        public PokecubePressurePlate() {
+            super(PressurePlateBlock.Sensitivity.EVERYTHING, Block.Properties.create(Material.WOOD)
+                    .sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)
             );
         }
     }
