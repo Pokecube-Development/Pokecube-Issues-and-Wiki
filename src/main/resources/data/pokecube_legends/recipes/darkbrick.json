@@ -8,10 +8,10 @@
   ],
   "key": {
     "0": {
-      "tag": "minecraft:stone_bricks"
+      "item": "pokecube_legends:skybrick"
     },
     "4": {
-      "item": "minecraft:cyan_dye"
+      "tag": "forge:dyes/gray"
     }
   },
   "result": {
