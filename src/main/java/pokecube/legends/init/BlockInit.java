@@ -8,6 +8,8 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
+import net.minecraft.block.FenceBlock;
+import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.RotatedPillarBlock;
@@ -113,6 +115,8 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_PLANKUB01;
     public static final RegistryObject<Block> INVERTED_STAIRS;
     public static final RegistryObject<Block> INVERTED_SLAB;
+    public static final RegistryObject<Block> INVERTED_FENCE;
+    public static final RegistryObject<Block> INVERTED_FENCE_GATE;
     public static final RegistryObject<Block> ULTRA_LEAVEUB01;
 
     public static final RegistryObject<Block> ULTRA_LOGUB02;
@@ -244,12 +248,14 @@ public class BlockInit
 
         //Woods (LOG/LEAVES/PLANKS)
         ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
-        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new RotatedPillarBlock(Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new RotatedPillarBlock(Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_WOOD)));
+        STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("inverted_stairs", () -> new PokecubeWoodStairs());
         INVERTED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("inverted_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        INVERTED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("inverted_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        INVERTED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
 
         ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
