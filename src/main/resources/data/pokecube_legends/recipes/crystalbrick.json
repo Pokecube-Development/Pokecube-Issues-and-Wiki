@@ -2,9 +2,8 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "000",
-    "000",
-    "000"
+    "00",
+    "00"
   ],
   "key": {
     "0": {
@@ -13,6 +12,6 @@
   },
   "result": {
     "item": "pokecube_legends:crystalbrick",
-    "count": 3
+    "count": 4
   }
 }
