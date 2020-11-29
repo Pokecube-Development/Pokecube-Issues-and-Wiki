@@ -2,5 +2,5 @@
   "config": {
     "probability": 0.20
   },
-  "type": "minecraft:cave"
+  "type": "pokecube:cave"
 }

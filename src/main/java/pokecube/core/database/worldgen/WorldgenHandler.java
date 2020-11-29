@@ -1,12 +1,15 @@
 package pokecube.core.database.worldgen;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import javax.xml.namespace.QName;
@@ -18,29 +21,41 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.structure.JigsawStructure;
+import net.minecraft.world.gen.feature.StructureFeature;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.VillageConfig;
+import net.minecraft.world.gen.feature.template.ProcessorLists;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
 
 public class WorldgenHandler
 {
@@ -62,31 +77,14 @@ public class WorldgenHandler
                 out.value(value.toString());
             }
         }).create();
-        PokecubeCore.LOGGER.info("Registering DataFixer for structures");
-        // TODO structures and worldgen
-        // WorldStructDatafixer.insertFixer();
-    }
 
-    public static class CustomDim
-    {
-        public int    dimid;
-        public String world_name;
-        public String dim_type;
-        public String world_type;
-        public String generator_options;
-        public Long   seed;
+        // CustomJigsawPiece.TYPE =
+        // IJigsawDeserializer.func_236851_a_("pokecube:custom_pool_element",
+        // CustomJigsawPiece.CODEC);
+        // CustomVillagePiece.PCVP =
+        // IStructurePieceType.register(CustomVillagePiece::new,
+        // "pokecube:pcvp");
 
-        @Override
-        public String toString()
-        {
-            return this.dimid + " " + this.world_name + " " + this.dim_type + " " + this.world_type + " "
-                    + this.generator_options + " " + this.seed;
-        }
-    }
-
-    public static class CustomDims
-    {
-        public List<CustomDim> dims = Lists.newArrayList();
     }
 
     public static class JsonStructure
@@ -118,6 +116,31 @@ public class WorldgenHandler
 
     }
 
+    public static class Options
+    {
+        public static final Codec<Options> CODEC = Codec.STRING.comapFlatMap(Options::decodeOptions,
+                Options::serialize);
+
+        private static DataResult<Options> decodeOptions(final String encoded)
+        {
+            return DataResult.success(Options.deserialize(encoded));
+        }
+
+        public int    weight = 1;
+        public String flag   = "";
+        public int    dy     = 0;
+
+        public String serialize()
+        {
+            return WorldgenHandler.GSON.toJson(this);
+        }
+
+        public static Options deserialize(final String structstring)
+        {
+            return WorldgenHandler.GSON.fromJson(structstring, Options.class);
+        }
+    }
+
     public static class JigSawPool
     {
         public String       name;
@@ -132,6 +155,14 @@ public class WorldgenHandler
 
     public static class JigSawConfig
     {
+        public static final Codec<JigSawConfig> CODEC = Codec.STRING.comapFlatMap(JigSawConfig::decodeConfig,
+                JigSawConfig::serialize);
+
+        private static DataResult<JigSawConfig> decodeConfig(final String encoded)
+        {
+            return DataResult.success(JigSawConfig.deserialize(encoded));
+        }
+
         public String       name;
         public String       root;
         public float        chance       = 1;
@@ -190,13 +221,7 @@ public class WorldgenHandler
 
     public static Map<String, WorldgenHandler> WORLDGEN = Maps.newConcurrentMap();
 
-    public static Map<String, JigsawStructure> structs = Maps.newConcurrentMap();
-
-    private static Map<String, DimensionType> dimTypes = Maps.newConcurrentMap();
-
-    private static Map<JigsawStructure, Integer> priorities = Maps.newConcurrentMap();
-
-    public CustomDims dims;
+    public static Map<String, CustomJigsawStructure> structs = Maps.newConcurrentMap();
 
     public final String           MODID;
     public final ResourceLocation ROOT;
@@ -212,41 +237,77 @@ public class WorldgenHandler
             this.stage = stage;
             this.feature = feature;
         }
+    }
 
+    private static class BiomeStructure
+    {
+        public StructureFeature<?, ?> feature;
+
+        public BiomeStructure(final StructureFeature<?, ?> configured)
+        {
+            this.feature = configured;
+        }
     }
 
     private class FMLReger
     {
         @SubscribeEvent
-        public void processStructures(final RegistryEvent.Register<Feature<?>> event)
+        public void processStructures(final RegistryEvent.Register<Structure<?>> event)
         {
+            try
+            {
+                WorldgenHandler.this.loadStructures();
+            }
+            catch (final Exception e)
+            {
+                if (e instanceof FileNotFoundException) PokecubeMod.LOGGER.warn("No worldgen database found for "
+                        + WorldgenHandler.this.MODID);
+                else PokecubeMod.LOGGER.catching(e);
+                return;
+            }
 
-            // try
-            // {
-            // this.loadStructures();
-            // }
-            // catch (final Exception e)
-            // {
-            // if (e instanceof FileNotFoundException)
-            // PokecubeMod.LOGGER.warn("No
-            // worldgen database found for "
-            // + this.MODID);
-            // else PokecubeMod.LOGGER.catching(e);
-            // return;
-            // }
-            // // Initialize the pools
-            // for (final JigSawPool pool : this.defaults.pools)
-            // JigsawPieces.initPool(pool);
-            //
-            // // Register the jigsaws
-            // for (final JigSawConfig struct : this.defaults.jigsaws)
-            // WorldgenHandler.register(struct, event);
-            // PokecubeMod.LOGGER.debug("Loaded configurable worldgen");
+            PokecubeCore.LOGGER.info("Loaded {} pools and {} jigsaws for {}", WorldgenHandler.this.defaults.pools
+                    .size(), WorldgenHandler.this.defaults.jigsaws.size(), WorldgenHandler.this.MODID);
+
+            // Register the pools.
+            for (final JigSawPool pool : WorldgenHandler.this.defaults.pools)
+            {
+                final JigsawPattern.PlacementBehaviour placement = pool.rigid ? JigsawPattern.PlacementBehaviour.RIGID
+                        : JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING;
+                final List<Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer>> pairs = Lists
+                        .newArrayList();
+                for (final String option : pool.options)
+                {
+                    int second = 1;
+                    final String[] args = option.split(";");
+                    if (args.length > 1)
+                    {
+                        final Options opts = Options.deserialize(args[1]);
+                        second = opts.weight;
+                    }
+                    final Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer> pair = Pair.of(JigsawPiece
+                            .func_242851_a(args[0], ProcessorLists.field_244110_j), second);
+                    pairs.add(pair);
+                }
+                JigsawPattern pattern = new JigsawPattern(new ResourceLocation(pool.name), new ResourceLocation(
+                        pool.target), pairs, placement);
+                pattern = JigsawPatternRegistry.func_244094_a(pattern);
+                WorldgenHandler.this.patterns.put(pool.name, pattern);
+                PokecubeCore.LOGGER.info("Registered Pattern/Pool: " + pool.name);
+            }
+
+            // Register the structrues
+            for (final JigSawConfig struct : WorldgenHandler.this.defaults.jigsaws)
+                WorldgenHandler.this.register(struct, event);
         }
     }
 
-    private final FMLReger                                         reg      = new FMLReger();
-    private final Map<Predicate<RegistryKey<Biome>>, BiomeFeature> features = Maps.newHashMap();
+    private final FMLReger reg = new FMLReger();
+
+    private final Map<Predicate<RegistryKey<Biome>>, BiomeFeature>   features   = Maps.newHashMap();
+    private final Map<Predicate<RegistryKey<Biome>>, BiomeStructure> structures = Maps.newHashMap();
+
+    private final Map<String, JigsawPattern> patterns = Maps.newHashMap();
 
     public Structures defaults;
 
@@ -293,64 +354,61 @@ public class WorldgenHandler
                 final BiomeFeature feat = this.features.get(checks);
                 event.getGeneration().getFeatures(feat.stage).add(() -> feat.feature);
             }
+        for (final Predicate<RegistryKey<Biome>> checks : this.structures.keySet())
+            if (checks.test(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName())))
+            {
+                final BiomeStructure feat = this.structures.get(checks);
+                event.getGeneration().getStructures().add(() -> feat.feature);
+            }
     }
 
-    public static void register(final JigSawConfig struct, final RegistryEvent.Register<Feature<?>> event)
+    public void register(final JigSawConfig struct, final RegistryEvent.Register<Structure<?>> event)
     {
-        // JigsawPieces.registerJigsaw(struct);
-        // final String key = struct.type.isEmpty() ? struct.name : struct.type;
-        // final JigsawStructure toAdd =
-        // WorldgenHandler.structs.getOrDefault(key, new
-        // JigsawStructure(key)).addStruct(
-        // struct);
-        // PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name,
-        // struct.biomeType);
-        // if (!WorldgenHandler.structs.containsKey(key))
-        // {
-        // WorldgenHandler.structs.put(key, toAdd);
-        // toAdd.setRegistryName(new ResourceLocation(struct.name));
-        // event.getRegistry().register(toAdd);
-        // WorldgenHandler.priorities.put(toAdd, struct.priority);
-        // }
-        // // No natural spawn, we skip this one for spawning.
-        // if (struct.spawn == null) return;
-        //
-        // struct._matcher = new SpawnBiomeMatcher(struct.spawn);
-        // final JigsawConfig config = new JigsawConfig(struct);
-        // final GenerationStage.Decoration stage = struct.surface ?
-        // GenerationStage.Decoration.SURFACE_STRUCTURES
-        // : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
-        // if (struct.base_under && !struct.water && !struct.air)
-        // WorldgenHandler.forceVillageFeature(toAdd);
-        // for (final Biome b : ForgeRegistries.BIOMES.getValues())
-        // {
-        // b.addFeature(stage, toAdd.withConfiguration(config));
-        // b.addStructure(toAdd.withConfiguration(config));
-        // }
+        if (!struct.name.equals("pokecube:scattered/ruins")) return;
+        final String structName = struct.type.isEmpty() ? struct.name : struct.type;
+
+        CustomJigsawStructure structure = WorldgenHandler.structs.get(structName);
+        // already registered! (Need to do something about this?
+        if (structure == null)
+        {
+            PokecubeCore.LOGGER.info("Registering Structure: {} ({}) for mod {}", structName, struct.name, this.MODID);
+            structure = new CustomJigsawStructure(VillageConfig.field_236533_a_);
+            WorldgenHandler.structs.put(structName, structure);
+            structure.setRegistryName(new ResourceLocation(structName));
+            // Use this instead of event, as it will also populated proper maps.
+            event.getRegistry().register(structure);
+            Structure.STRUCTURE_DECORATION_STAGE_MAP.put(structure, Decoration.SURFACE_STRUCTURES);
+            Structure.NAME_STRUCTURE_BIMAP.put(structName, structure);
+            WorldgenHandler.forceVillageFeature(structure);
+        }
+        PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);
+        if (!this.patterns.containsKey(struct.root)) throw new RuntimeException();
+        final VillageConfig config = new VillageConfig(() -> this.patterns.get(struct.root), 2);
+        StructureFeature<?, ?> configured = structure.withConfiguration(config);
+        configured = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, struct.name,
+                configured);
+        final BiomeStructure value = new BiomeStructure(configured);
+        this.structures.put((c) -> true, value);
     }
 
     private static Field illagers = null;
 
     private static void forceVillageFeature(final Structure<?> feature)
     {
-        // if (WorldgenHandler.illagers == null) WorldgenHandler.illagers =
-        // ObfuscationReflectionHelper.findField(
-        // Feature.class, "field_214488_aQ");
-        // final List<Structure<?>> list =
-        // Lists.newArrayList(Feature.ILLAGER_STRUCTURES);
-        // list.add(feature);
-        // try
-        // {
-        // final Field modifiersField =
-        // Field.class.getDeclaredField("modifiers");
-        // modifiersField.setAccessible(true);
-        // modifiersField.setInt(WorldgenHandler.illagers,
-        // WorldgenHandler.illagers.getModifiers() & ~Modifier.FINAL);
-        // WorldgenHandler.illagers.set(null, list);
-        // }
-        // catch (final Exception e)
-        // {
-        // e.printStackTrace();
-        // }
+        if (WorldgenHandler.illagers == null) WorldgenHandler.illagers = ObfuscationReflectionHelper.findField(
+                Structure.class, "field_236384_t_");
+        final List<Structure<?>> list = Lists.newArrayList(Structure.field_236384_t_);
+        list.add(feature);
+        try
+        {
+            final Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(WorldgenHandler.illagers, WorldgenHandler.illagers.getModifiers() & ~Modifier.FINAL);
+            WorldgenHandler.illagers.set(null, list);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

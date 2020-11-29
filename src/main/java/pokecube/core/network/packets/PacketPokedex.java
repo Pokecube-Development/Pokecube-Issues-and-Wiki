@@ -20,6 +20,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
@@ -500,7 +501,7 @@ public class PacketPokedex extends Packet
                         }
                         if (hasBiomes) break;
                     }
-                    if (hasBiomes) for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
+                    if (hasBiomes) for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
                         if (b != null) if (data.isValid(b)) biomes.add(b.getRegistryName().toString());
                     for (final BiomeType b : BiomeType.values())
                         if (data.isValid(b)) biomes.add(b.readableName);

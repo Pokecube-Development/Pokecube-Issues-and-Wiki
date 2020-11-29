@@ -37,6 +37,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -98,6 +99,7 @@ import pokecube.core.proxy.ClientProxy;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.PokecubeStructureProcessors;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
@@ -158,6 +160,13 @@ public class PokecubeCore
             gen.addProvider(new Drops(gen));
         }
 
+
+        @SubscribeEvent
+        public static void registerStructures(final RegistryEvent.Register<Structure<?>> event)
+        {
+            new BerryGenManager().processStructures(event);
+        }
+
         @SubscribeEvent
         public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
         {
@@ -188,7 +197,6 @@ public class PokecubeCore
             // FillerProcessor::new);
 
             // Register the configurable worldgen things from datapack
-            new BerryGenManager().processStructures(event);
 
             // Register village stuff
             // TODO add in forge village stuff maybe here when it is done.
@@ -433,6 +441,7 @@ public class PokecubeCore
         RecipeHandler.RECIPE_SERIALIZERS.register(bus);
         SecretBaseDimension.onConstruct(bus);
         PokecubeStructureProcessors.init(bus);
+        WorldgenFeatures.init(bus);
         new WorldgenHandler(bus);
 
         bus.register(PokecubeCore.proxy);

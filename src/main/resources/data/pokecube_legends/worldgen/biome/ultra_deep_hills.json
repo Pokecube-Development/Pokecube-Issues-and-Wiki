@@ -23,8 +23,8 @@
   "surface_builder": "pokecube_legends:deep_hills",
   "carvers": {
     "air": [
-      "minecraft:cave",
-      "minecraft:canyon"
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
     ]
   },
   "features": [

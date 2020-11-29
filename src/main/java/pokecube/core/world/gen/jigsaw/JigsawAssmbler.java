@@ -1,5 +1,6 @@
 package pokecube.core.world.gen.jigsaw;
 
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Random;
@@ -43,6 +44,8 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import thut.api.maths.Vector3;
 
 public class JigsawAssmbler
 {
@@ -144,6 +147,12 @@ public class JigsawAssmbler
         final AbstractVillagePiece abstractvillagepiece = pieceFactory.create(templateManagerIn, jigsawpiece, pos,
                 jigsawpiece.getGroundLevelDelta(), rotation, jigsawpiece.getBoundingBox(templateManagerIn, pos,
                         rotation));
+        if (this.root != null && abstractvillagepiece instanceof CustomVillagePiece)
+        {
+            final CustomVillagePiece p = (CustomVillagePiece) abstractvillagepiece;
+            p.opts = this.root.getForPiece(jigsawpiece);
+        }
+
         final MutableBoundingBox mutableboundingbox = abstractvillagepiece.getBoundingBox();
         final int i = (mutableboundingbox.maxX + mutableboundingbox.minX) / 2;
         final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
@@ -193,16 +202,9 @@ public class JigsawAssmbler
             final List<String> guarenteed = Lists.newArrayList(((JigsawPatternCustom) jigsawpattern).neededChildren);
             for (final StructurePiece part : parts)
             {
-                // TODO decide on how to do this.
-                //
-                // if (part instanceof AbstractVillagePiece &&
-                // ((AbstractVillagePiece) part)
-                // .getJigsawPiece() instanceof SingleOffsetPiece)
-                // {
-                // final SingleOffsetPiece p = (SingleOffsetPiece)
-                // ((AbstractVillagePiece) part).getJigsawPiece();
-                // guarenteed.remove(p.flag);
-                // }
+                if (!(part instanceof CustomVillagePiece)) continue;
+                final CustomVillagePiece jig = (CustomVillagePiece) part;
+                if (jig.opts != null) guarenteed.remove(jig.opts.flag);
             }
             return guarenteed.isEmpty();
         }
@@ -211,32 +213,29 @@ public class JigsawAssmbler
 
     private void sort(final List<JigsawPiece> list)
     {
-        // TODO figure this out again as well.
-        // final List<JigsawPiece> needed = Lists.newArrayList();
-        // final IWorld world = JigsawAssmbler.getForGen(this.chunkGenerator);
-        // final BlockPos pos = this.base_pos;
-        // final SpawnCheck check = new
-        // SpawnCheck(Vector3.getNewVector().set(pos), world, this.biome);
-        // if (this.root != null) list.removeIf(p -> !this.root.isValidPos(p,
-        // check));
-        // list.removeIf(p -> p instanceof SingleOffsetPiece &&
-        // this.once_added.contains(((SingleOffsetPiece) p).flag));
-        // if (this.root != null) for (final JigsawPiece p : list)
-        // if (p instanceof SingleOffsetPiece && !((SingleOffsetPiece)
-        // p).flag.isEmpty() && this.root.neededChildren
-        // .contains(((SingleOffsetPiece) p).flag)) needed.add(p);
-        // list.removeIf(p -> needed.contains(p));
-        // Collections.shuffle(needed, this.rand);
-        // for (final JigsawPiece p : needed)
-        // list.add(0, p);
-        // if (this.root != null) list.forEach(p ->
-        // {
-        // if (p instanceof SingleOffsetPiece)
-        // {
-        // ((SingleOffsetPiece) p).offset = this.root.jigsaw.offset;
-        // ((SingleOffsetPiece) p).subbiome = this.root.jigsaw.biomeType;
-        // }
-        // });
+        final List<JigsawPiece> needed = Lists.newArrayList();
+        final IWorld world = JigsawAssmbler.getForGen(this.chunkGenerator);
+        final BlockPos pos = this.base_pos;
+        final SpawnCheck check = new SpawnCheck(Vector3.getNewVector().set(pos), world, this.biome);
+        if (this.root != null) list.removeIf(p -> !this.root.isValidPos(p, check));
+        list.removeIf(p -> p instanceof CustomJigsawPiece && this.once_added.contains(
+                ((CustomJigsawPiece) p).opts.flag));
+        if (this.root != null) for (final JigsawPiece p : list)
+            if (p instanceof CustomJigsawPiece && !((CustomJigsawPiece) p).opts.flag.isEmpty()
+                    && this.root.neededChildren.contains(((CustomJigsawPiece) p).opts.flag)) needed.add(p);
+        list.removeIf(p -> needed.contains(p));
+        Collections.shuffle(needed, this.rand);
+        for (final JigsawPiece p : needed)
+            list.add(0, p);
+        if (this.root != null) list.forEach(p ->
+        {
+            // TODO biome types and offsets for these guys.
+            // if (p instanceof CustomJigsawPiece)
+            // {
+            // ((CustomJigsawPiece) p).offset = this.root.jigsaw.offset;
+            // ((CustomJigsawPiece) p).subbiome = this.root.jigsaw.biomeType;
+            // }
+        });
     }
 
     private void addPiece(final AbstractVillagePiece villagePieceIn, final AtomicReference<VoxelShape> atomicVoxelShape,
@@ -303,9 +302,10 @@ public class JigsawAssmbler
                 {
                     if (jigsawpiece1 == EmptyJigsawPiece.INSTANCE) break;
                     final String once = "";
-                    //TODO figure out only once stuff in the pieces.
-//                    if (jigsawpiece1 instanceof SingleOffsetPiece && !(once = ((SingleOffsetPiece) jigsawpiece1).flag)
-//                            .isEmpty() && this.once_added.contains(once)) continue;
+                    // TODO figure out only once stuff in the pieces.
+                    // if (jigsawpiece1 instanceof SingleOffsetPiece && !(once =
+                    // ((SingleOffsetPiece) jigsawpiece1).flag)
+                    // .isEmpty() && this.once_added.contains(once)) continue;
 
                     for (final Rotation rotation1 : Rotation.shuffledRotations(this.rand))
                     {

@@ -21,6 +21,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
+import pokecube.core.database.worldgen.WorldgenHandler.Options;
 
 public class JigsawPatternCustom extends JigsawPattern
 {
@@ -32,7 +33,8 @@ public class JigsawPatternCustom extends JigsawPattern
 
     public boolean respects_pool_spawns = true;
 
-    //TODO see if this can check a config somehow, and then decide on if true (like if it has a spawn rule)
+    // TODO see if this can check a config somehow, and then decide on if true
+    // (like if it has a spawn rule)
     public BiPredicate<JigsawPiece, SpawnCheck> validator = (p, s) -> true;
 
     public JigsawPatternCustom(final JigSawPool part, final List<Pair<JigsawPiece, Integer>> parts)
@@ -41,10 +43,17 @@ public class JigsawPatternCustom extends JigsawPattern
         this.pool = part;
     }
 
-    public JigsawPatternCustom(final JigSawPool part, final List<Pair<Function<JigsawPattern.PlacementBehaviour, ? extends JigsawPiece>, Integer>> parts, final JigsawPattern.PlacementBehaviour placementBehaviourIn)
+    public JigsawPatternCustom(final JigSawPool part,
+            final List<Pair<Function<JigsawPattern.PlacementBehaviour, ? extends JigsawPiece>, Integer>> parts,
+            final JigsawPattern.PlacementBehaviour placementBehaviourIn)
     {
         super(new ResourceLocation(part.name), new ResourceLocation(part.target), parts, placementBehaviourIn);
         this.pool = part;
+    }
+
+    public Options getForPiece(final JigsawPiece piece)
+    {
+        return new Options();
     }
 
     public List<JigsawPiece> getPieces()

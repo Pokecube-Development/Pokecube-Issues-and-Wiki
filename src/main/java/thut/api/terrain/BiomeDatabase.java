@@ -17,6 +17,11 @@ public class BiomeDatabase
 
     private static Set<String> notTypes = Sets.newHashSet();
 
+    public static RegistryKey<Biome> getKey(final Biome b)
+    {
+        return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, b.getRegistryName());
+    }
+
     public static boolean isAType(final String name)
     {
         if (BiomeDatabase.notTypes.contains(name)) return false;
@@ -33,8 +38,7 @@ public class BiomeDatabase
 
     public static boolean contains(final Biome b, final String type)
     {
-        final RegistryKey<Biome> key = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, b.getRegistryName());
-        return BiomeDatabase.contains(key, type);
+        return BiomeDatabase.contains(BiomeDatabase.getKey(b), type);
     }
 
     public static boolean contains(final RegistryKey<Biome> b, final String type)

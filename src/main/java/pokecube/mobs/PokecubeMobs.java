@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -80,7 +80,7 @@ public class PokecubeMobs
         }
 
         @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
+        public static void registerFeatures(final RegistryEvent.Register<Structure<?>> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Mobs Features");
             new BerryGenManager(PokecubeMobs.MODID).processStructures(event);

@@ -17,8 +17,8 @@
   "surface_builder": "pokecube_legends:ultra_desert",
   "carvers": {
     "air": [
-      "minecraft:cave",
-      "minecraft:canyon"
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
     ]
   },
   "features": [

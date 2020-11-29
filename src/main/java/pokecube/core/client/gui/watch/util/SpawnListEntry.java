@@ -9,7 +9,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -18,6 +18,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
+import net.minecraft.world.biome.Biome;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
@@ -46,16 +47,14 @@ public class SpawnListEntry
         this.parent = parent;
         this.fontRender = fontRender;
         value._additionalConditions = Sets.newHashSet();
-        value._blackListBiomes = Sets.newHashSet();
         value._blackListSubBiomes = Sets.newHashSet();
-        value._validBiomes = Sets.newHashSet();
         value._validSubBiomes = Sets.newHashSet();
         value.reset();
         value.parse();
 
         final List<ITextComponent> biomes = Lists.newArrayList();
-        if (value._validBiomes != null) for (final ResourceLocation b : value._validBiomes)
-            biomes.add(new TranslationTextComponent(b.getPath()));
+        for (final RegistryKey<Biome> b : value.getValidBiomes())
+            biomes.add(new TranslationTextComponent(b.getLocation().getPath()));
 
         if (entry != null)
         {

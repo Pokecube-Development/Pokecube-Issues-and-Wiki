@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
@@ -69,25 +69,25 @@ public class SpawnBiomeMatcher
 
     public static class SpawnCheck
     {
-        public final boolean          day;
-        public final boolean          dusk;
-        public final boolean          dawn;
-        public final boolean          night;
-        public final Material         material;
-        public final float            light;
-        public final ResourceLocation biome;
-        public final BiomeType        type;
-        public final Weather          weather;
-        public final boolean          thundering;
-        public final IWorld           world;
-        public final IChunk           chunk;
-        public final Vector3          location;
+        public final boolean            day;
+        public final boolean            dusk;
+        public final boolean            dawn;
+        public final boolean            night;
+        public final Material           material;
+        public final float              light;
+        public final RegistryKey<Biome> biome;
+        public final BiomeType          type;
+        public final Weather            weather;
+        public final boolean            thundering;
+        public final IWorld             world;
+        public final IChunk             chunk;
+        public final Vector3            location;
 
         public SpawnCheck(final Vector3 location, final IWorld world, final Biome biome)
         {
             this.world = world;
             this.location = location;
-            this.biome = biome.getRegistryName();
+            this.biome = BiomeDatabase.getKey(biome);
             this.day = this.dusk = this.dawn = this.night = true;
             this.weather = Weather.NONE;
             this.thundering = false;
@@ -101,9 +101,9 @@ public class SpawnBiomeMatcher
         {
             this.world = world;
             this.location = location;
-            this.biome = location.getBiome(world).getRegistryName();
+            this.biome = BiomeDatabase.getKey(location.getBiome(world));
             this.material = location.getBlockMaterial(world);
-            this.chunk = ITerrainProvider.getChunk(((World)world).getDimensionKey(), new ChunkPos(location.getPos()));
+            this.chunk = ITerrainProvider.getChunk(((World) world).getDimensionKey(), new ChunkPos(location.getPos()));
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
             final int subBiomeId = t.getBiome(location);
             if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
@@ -150,7 +150,7 @@ public class SpawnBiomeMatcher
         {
             if (!matcher._validStructures.isEmpty())
             {
-                final Set<StructureInfo> set = StructureManager.getFor(((World)checker.world).getDimensionKey(),
+                final Set<StructureInfo> set = StructureManager.getFor(((World) checker.world).getDimensionKey(),
                         checker.location.getPos());
                 for (final StructureInfo i : set)
                     if (matcher._validStructures.contains(i.name)) return MatchResult.SUCCEED;
@@ -197,25 +197,31 @@ public class SpawnBiomeMatcher
         ALLMATCHER = new SpawnBiomeMatcher(rule);
     }
 
-    private static int                               lastBiomesSize = -1;
-    private static List<Biome>                       allBiomes      = Lists.newArrayList();
+    private static int                      lastBiomesSize = -1;
+    private static List<RegistryKey<Biome>> allBiomes      = Lists.newArrayList();
 
-    public static Collection<Biome> getAllBiomes()
+    public static Collection<RegistryKey<Biome>> getAllBiomes()
     {
         final Collection<Biome> biomes = ForgeRegistries.BIOMES.getValues();
         if (SpawnBiomeMatcher.lastBiomesSize != biomes.size())
         {
             SpawnBiomeMatcher.allBiomes.clear();
-            SpawnBiomeMatcher.allBiomes.addAll(biomes);
+            for (final Biome b : biomes)
+                SpawnBiomeMatcher.allBiomes.add(BiomeDatabase.getKey(b));
         }
         return SpawnBiomeMatcher.allBiomes;
     }
 
-    public Set<ResourceLocation> _validBiomes        = Sets.newHashSet();
-    public Set<String>           _validStructures    = Sets.newHashSet();
-    public Set<BiomeType>        _validSubBiomes     = Sets.newHashSet();
-    public Set<ResourceLocation> _blackListBiomes    = Sets.newHashSet();
-    public Set<BiomeType>        _blackListSubBiomes = Sets.newHashSet();
+    // These are private so that they can force an update based on categories
+    private Set<RegistryKey<Biome>> _validBiomes     = Sets.newHashSet();
+    private Set<RegistryKey<Biome>> _blackListBiomes = Sets.newHashSet();
+
+    private final Set<Category> _validCats     = Sets.newHashSet();
+    private final Set<Category> _blackListCats = Sets.newHashSet();
+
+    public Set<String>    _validStructures    = Sets.newHashSet();
+    public Set<BiomeType> _validSubBiomes     = Sets.newHashSet();
+    public Set<BiomeType> _blackListSubBiomes = Sets.newHashSet();
 
     public Set<Weather> _neededWeather = Sets.newHashSet();
     public Set<Weather> _bannedWeather = Sets.newHashSet();
@@ -255,6 +261,38 @@ public class SpawnBiomeMatcher
         this.spawnRule = rules;
     }
 
+    public Set<RegistryKey<Biome>> getInvalidBiomes()
+    {
+        if (!this._blackListCats.isEmpty())
+        {
+            for (final Biome b : ForgeRegistries.BIOMES.getValues())
+                if (this._blackListCats.contains(b.getCategory())) this._blackListBiomes.add(BiomeDatabase.getKey(b));
+            this._blackListCats.clear();
+        }
+
+        return this._blackListBiomes;
+    }
+
+    public Set<RegistryKey<Biome>> getValidBiomes()
+    {
+        if (!this._validCats.isEmpty())
+        {
+            this.getInvalidBiomes();
+            for (final Biome b : ForgeRegistries.BIOMES.getValues())
+            {
+                final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
+                if (this._blackListBiomes.contains(key))
+                {
+                    this._validBiomes.remove(key);
+                    continue;
+                }
+                if (this._validCats.contains(b.getCategory())) this._validBiomes.add(key);
+            }
+            this._validCats.clear();
+        }
+        return this._validBiomes;
+    }
+
     /**
      * This is a check for just a single biome, it doesn't factor in the other
      * values such as subbiome (unless flagged all), lighting, time, etc.
@@ -262,15 +300,20 @@ public class SpawnBiomeMatcher
      * @param biome
      * @return
      */
-    public boolean checkBiome(final Biome biome)
+    public boolean checkBiome(final RegistryKey<Biome> biome)
     {
         this.parse();
         if (!this.valid) return false;
-        if (this._blackListBiomes.contains(biome.getRegistryName())) return false;
+        if (this.getInvalidBiomes().contains(biome)) return false;
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
-        if (this._validSubBiomes.contains(BiomeType.NONE) || this._validBiomes.isEmpty() && this._blackListBiomes
+        if (this._validSubBiomes.contains(BiomeType.NONE) || this.getValidBiomes().isEmpty() && this.getInvalidBiomes()
                 .isEmpty()) return false;
-        return this._validBiomes.contains(biome.getRegistryName());
+        return this.getValidBiomes().contains(biome);
+    }
+
+    public boolean checkBiome(final Biome biome)
+    {
+        return this.checkBiome(BiomeDatabase.getKey(biome));
     }
 
     private boolean weatherMatches(final SpawnCheck checker)
@@ -289,8 +332,8 @@ public class SpawnBiomeMatcher
         // This takes priority, regardless of the other options.
         BiomeType type = checker.type;
         if (checker.type == null) type = BiomeType.ALL;
-        final boolean blackListed = this._blackListBiomes.contains(checker.biome) || this._blackListSubBiomes.contains(
-                type);
+        final boolean blackListed = this.getInvalidBiomes().contains(checker.biome) || this._blackListSubBiomes
+                .contains(type);
         if (blackListed) return false;
         final IChunk chunk = checker.chunk;
         // No chunk here, no spawn here!
@@ -305,14 +348,14 @@ public class SpawnBiomeMatcher
             if (result != MatchResult.PASS) return result == MatchResult.SUCCEED;
         }
 
-        if (this._validSubBiomes.contains(BiomeType.NONE) || this._validBiomes.isEmpty() && this._validSubBiomes
-                .isEmpty() && this._blackListSubBiomes.isEmpty() && this._blackListBiomes.isEmpty()) return false;
+        if (this._validSubBiomes.contains(BiomeType.NONE) || this.getValidBiomes().isEmpty() && this._validSubBiomes
+                .isEmpty() && this._blackListSubBiomes.isEmpty() && this.getInvalidBiomes().isEmpty()) return false;
         final boolean noSubbiome = checker.type == null || checker.type == BiomeType.NONE;
-        final boolean rightBiome = this._validSubBiomes.contains(BiomeType.ALL) || this._validBiomes.contains(
-                checker.biome) || this._validBiomes.isEmpty();
+        final boolean rightBiome = this._validSubBiomes.contains(BiomeType.ALL) || this.getValidBiomes().contains(
+                checker.biome) || this.getValidBiomes().isEmpty();
         boolean rightSubBiome = this._validSubBiomes.isEmpty() && noSubbiome || this._validSubBiomes.contains(
                 BiomeType.ALL) || this._validSubBiomes.contains(checker.type);
-        if (this._validBiomes.isEmpty() && this._validSubBiomes.isEmpty()) rightSubBiome = true;
+        if (this.getValidBiomes().isEmpty() && this._validSubBiomes.isEmpty()) rightSubBiome = true;
         return rightBiome && rightSubBiome;
     }
 
@@ -473,8 +516,8 @@ public class SpawnBiomeMatcher
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MAXLIGHT)) this.maxLight = Float.parseFloat(
                 this.spawnRule.values.get(SpawnBiomeMatcher.MAXLIGHT));
 
-        final List<Category> biomeCats = Lists.newArrayList();
-        final List<Category> noBiomeCats = Lists.newArrayList();
+        final Set<Category> biomeCats = this._validCats;
+        final Set<Category> noBiomeCats = this._blackListCats;
         final Set<String> blackListTypes = Sets.newHashSet();
         final Set<String> validTypes = Sets.newHashSet();
 
@@ -511,21 +554,16 @@ public class SpawnBiomeMatcher
             for (String s : args)
             {
                 s = s.trim();
-                Biome biome = null;
-                for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
-                {
+                // Ensure we are a resourcelocation!
+                if (!s.contains(":")) s = "minecraft:" + s;
+                RegistryKey<Biome> biome = null;
+                for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
                     if (b.getRegistryName().toString().equals(s))
                     {
                         biome = b;
                         break;
                     }
-                    if (b != null) if (Database.trim(BiomeDatabase.getBiomeName(b)).equals(Database.trim(s)))
-                    {
-                        biome = b;
-                        break;
-                    }
-                }
-                if (biome != null) this._validBiomes.add(biome.getRegistryName());
+                if (biome != null) this._validBiomes.add(biome);
             }
         }
         boolean hasForgeTypes = false;
@@ -556,21 +594,16 @@ public class SpawnBiomeMatcher
             for (String s : args)
             {
                 s = s.trim();
-                Biome biome = null;
-                for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
-                {
+                // Ensure we are a resourcelocation!
+                if (!s.contains(":")) s = "minecraft:" + s;
+                RegistryKey<Biome> biome = null;
+                for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
                     if (b.getRegistryName().toString().equals(s))
                     {
                         biome = b;
                         break;
                     }
-                    if (b != null) if (Database.trim(BiomeDatabase.getBiomeName(b)).equals(Database.trim(s)))
-                    {
-                        biome = b;
-                        break;
-                    }
-                }
-                if (biome != null) this._blackListBiomes.add(biome.getRegistryName());
+                if (biome != null) this._blackListBiomes.add(biome);
             }
         }
         if (typeBlacklistString != null)
@@ -600,39 +633,40 @@ public class SpawnBiomeMatcher
                 if (subBiome != BiomeType.NONE) this._blackListSubBiomes.add(subBiome);
             }
         }
-        for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
-            if (b != null && !this._blackListBiomes.contains(b.getRegistryName()))
+        for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
+            if (b != null && !this._blackListBiomes.contains(b))
             {
-                boolean matches = biomeCats.contains(b.getCategory());
-                if (!matches) for (final String type : validTypes)
+                boolean matches = false;
+                for (final String type : validTypes)
                 {
                     matches = BiomeDatabase.contains(b, type);
                     if (matches) break;
                 }
-                if (matches) this._validBiomes.add(b.getRegistryName());
+                if (matches) this._validBiomes.add(b);
             }
 
-        final Set<ResourceLocation> toRemove = Sets.newHashSet();
-        for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
-            if (b != null && !this._blackListBiomes.contains(b.getRegistryName()))
+        final Set<RegistryKey<Biome>> toRemove = Sets.newHashSet();
+        for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
+            if (b != null && !this._blackListBiomes.contains(b))
             {
-                boolean matches = noBiomeCats.contains(b.getCategory());
-                if (!matches) for (final String type : blackListTypes)
+                boolean matches = false;
+                for (final String type : blackListTypes)
                 {
                     matches = matches || BiomeDatabase.contains(b, type);
                     if (matches) break;
                 }
                 if (matches)
                 {
-                    toRemove.add(b.getRegistryName());
-                    this._blackListBiomes.add(b.getRegistryName());
+                    toRemove.add(b);
+                    this._blackListBiomes.add(b);
                 }
             }
         this._validBiomes.removeAll(toRemove);
 
         if (hasForgeTypes && this._validBiomes.isEmpty()) this.valid = false;
         if (this._validSubBiomes.isEmpty() && this._validBiomes.isEmpty() && this._blackListBiomes.isEmpty()
-                && this._blackListSubBiomes.isEmpty() && this._validStructures.isEmpty()) this.valid = false;
+                && this._blackListSubBiomes.isEmpty() && this._validStructures.isEmpty() && this._validCats.isEmpty()
+                && this._blackListCats.isEmpty()) this.valid = false;
     }
 
     private void preParseSubBiomes()
@@ -660,6 +694,9 @@ public class SpawnBiomeMatcher
     {
         this.parsed = false;
         this.valid = true;
+        this._validBiomes.clear();
+        this._validCats.clear();
+        this._blackListBiomes.clear();
         for (final SpawnBiomeMatcher child : this.children)
             child.reset();
     }

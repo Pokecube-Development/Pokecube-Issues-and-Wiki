@@ -31,6 +31,7 @@ import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
@@ -73,6 +74,7 @@ import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
+import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -185,18 +187,18 @@ public class PokedexEntry
                 final List<String> biomeNames = Lists.newArrayList();
                 for (final BiomeType t : this.matcher._validSubBiomes)
                     biomeNames.add(I18n.format(t.readableName));
-                for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
+                for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
                 {
-                    final boolean valid = this.matcher._validBiomes.contains(test.getRegistryName());
+                    final boolean valid = this.matcher.getValidBiomes().contains(test);
                     if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
                 }
                 for (final SpawnBiomeMatcher matcher : this.matcher.children)
                 {
                     for (final BiomeType t : matcher._validSubBiomes)
                         biomeNames.add(I18n.format(t.readableName));
-                    for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
+                    for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
                     {
-                        final boolean valid = matcher._validBiomes.contains(test.getRegistryName());
+                        final boolean valid = matcher.getValidBiomes().contains(test);
                         if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
                     }
                 }
@@ -281,7 +283,8 @@ public class PokedexEntry
                 {
                     final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
                     final PokemobTerrainEffects teffect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
-                    if (teffect != null && !teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN)) return false;
+                    if (teffect != null && !teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
+                        return false;
                 }
             }
 
@@ -672,7 +675,14 @@ public class PokedexEntry
         public boolean isValid(final Biome biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher._validBiomes.contains(biome.getRegistryName())) return true;
+                if (matcher.getValidBiomes().contains(BiomeDatabase.getKey(biome))) return true;
+            return false;
+        }
+
+        public boolean isValid(final RegistryKey<Biome> biome)
+        {
+            for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
+                if (matcher.getValidBiomes().contains(biome)) return true;
             return false;
         }
 

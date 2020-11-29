@@ -10,16 +10,16 @@ public class JigsawConfig implements IFeatureConfig
 {
     public static final Codec<JigsawConfig> CODEC = RecordCodecBuilder.create((builder) ->
     {
-        return builder.group(Codec.STRING.fieldOf("struct").forGetter((config) ->
+        return builder.group(JigSawConfig.CODEC.fieldOf("struct_config").forGetter((config) ->
         {
-            return config.struct.name;
+            return config.struct_config;
         })).apply(builder, JigsawConfig::new);
     });
 
-    public final JigSawConfig struct;
+    public final JigSawConfig struct_config;
 
-    public JigsawConfig(final String struct)
+    public JigsawConfig(final JigSawConfig struct)
     {
-        this.struct = JigSawConfig.deserialize(struct);
+        this.struct_config = struct;
     }
 }

@@ -2,5 +2,5 @@
   "config": {
     "probability": 0.02
   },
-  "type": "minecraft:canyon"
+  "type": "pokecube:canyon"
 }

@@ -45,6 +45,8 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     public static ResourceLocation TERRAINTAG    = new ResourceLocation(PokecubeCore.MODID, "terrain");
     public static ResourceLocation WOODTAG       = new ResourceLocation(PokecubeCore.MODID, "wood");
 
+    public static ResourceLocation LEAVES = new ResourceLocation("minecraft:leaves");
+
     public static Map<String, String> structureSubbiomeMap     = Maps.newHashMap();
     public static Map<String, String> manualStructureSubbiomes = Maps.newHashMap();
 
@@ -121,6 +123,11 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     public static boolean isWood(final BlockState state)
     {
         return ItemList.is(PokecubeTerrainChecker.WOODTAG, state);
+    }
+
+    public static boolean isLeaves(final BlockState state)
+    {
+        return ItemList.is(PokecubeTerrainChecker.LEAVES, state);
     }
 
     @Override
