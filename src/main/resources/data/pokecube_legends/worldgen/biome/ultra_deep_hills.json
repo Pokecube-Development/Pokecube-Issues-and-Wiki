@@ -1,0 +1,62 @@
+{
+  "scale": 0.45000002,
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.11
+    },
+    "sky_color": 7368816,
+    "fog_color": 3026478,
+    "water_color": 9837923,
+    "water_fog_color": 11096477,
+    "grass_color": 328965,
+    "foliage_color": 328965
+  },
+  "surface_builder": "pokecube_legends:deep_hills",
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava"
+    ],
+    [],
+    [
+    ],
+    [
+    ],
+    [],
+    [
+     "pokecube_legends:ore_spectrum",
+     "pokecube_legends:ore_cosmic"
+    ],
+    [],
+    [
+     "pokecube_legends:hills_flower"
+    ],
+    [
+    ]
+  ],
+  "starts": [],
+  "creature_spawn_probability": 0.07,
+  "spawners": {},
+  "spawn_costs": {},
+  "player_spawn_friendly": false,
+  "precipitation": "snow",
+  "temperature": 0.0,
+  "downfall": 0.5,
+  "category": "icy",
+  "depth": 0.425
+}

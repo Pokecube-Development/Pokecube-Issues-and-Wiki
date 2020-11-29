@@ -48,6 +48,7 @@ import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
+import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
@@ -139,7 +140,7 @@ public class PokecubeLegends
         modEventBus.register(PokecubeLegends.proxy);
 
         new WorldgenHandler(Reference.ID, modEventBus);
-
+        
         PokecubeLegends.BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
