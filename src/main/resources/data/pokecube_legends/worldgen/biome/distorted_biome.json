@@ -1,0 +1,47 @@
+{
+  "scale": 0.25,
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "sky_color": 12451835,
+    "fog_color": 10997197,
+    "water_color": 10484187,
+    "water_fog_color": 5007508,
+    "grass_color": 16777215,
+    "foliage_color": 15592941
+  },
+  "surface_builder": "pokecube_legends:distorted_place",
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_water"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "starts": [],
+  "spawners":{},
+  "spawn_costs": {},
+  "player_spawn_friendly": false,
+  "precipitation": "none",
+  "temperature": 2.0,
+  "downfall": 0.0,
+  "category": "plains",
+  "depth": 0.225
+}
