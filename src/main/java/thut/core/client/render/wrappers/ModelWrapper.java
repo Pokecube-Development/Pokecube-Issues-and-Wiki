@@ -52,6 +52,11 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.renderer = renderer;
     }
 
+    public void SetEntity(final T entity)
+    {
+        this.entityIn = entity;
+    }
+
     @Override
     public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
             final float limbSwing)
