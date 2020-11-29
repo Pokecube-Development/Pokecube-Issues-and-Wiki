@@ -11,7 +11,7 @@
       "tag": "minecraft:stone_bricks"
     },
     "4": {
-      "item": "minecraft:light_blue_dye"
+      "tag": "forge:dyes/light_blue"
     }
   },
   "result": {

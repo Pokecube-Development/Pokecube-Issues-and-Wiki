@@ -14,7 +14,7 @@
       "item": "minecraft:terracotta"
     },
     "4": {
-      "item": "minecraft:gray_dye"
+      "tag": "forge:dyes/gray"
     }
   },
   "result": {

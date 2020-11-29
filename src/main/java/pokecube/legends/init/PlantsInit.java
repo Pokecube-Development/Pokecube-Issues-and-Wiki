@@ -38,13 +38,13 @@ public class PlantsInit
     static
     {
         PlantsInit.MUSH_PLANT1 = PokecubeLegends.BLOCKS_TAB.register("mush_plant1", () -> new PlantBase(Material.PLANTS,
-                0.2f, 3f, SoundType.PLANT));
+                0f, 3f, SoundType.PLANT));
         PlantsInit.MUSH_PLANT2 = PokecubeLegends.BLOCKS_TAB.register("mush_plant2", () -> new PlantBase(Material.PLANTS,
-                0.2f, 3f, SoundType.PLANT));
+                0f, 3f, SoundType.PLANT));
         PlantsInit.AGED_FLOWER = PokecubeLegends.BLOCKS_TAB.register("a1_flower", () -> new PlantBase(Material.PLANTS,
-                0.2f, 3f, SoundType.CORAL));
+                0f, 3f, SoundType.CORAL));
         PlantsInit.DIRST_FLOWER = PokecubeLegends.BLOCKS_TAB.register("b1_flower", () -> new PlantBase(Material.PLANTS,
-                0.2f, 3f, SoundType.BAMBOO_SAPLING));
+                0f, 3f, SoundType.BAMBOO_SAPLING));
     }
 
     public static void registry() {
