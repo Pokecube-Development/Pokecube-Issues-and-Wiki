@@ -38,10 +38,13 @@
     [],
     [],
     [
+     "pokecube_legends:ore_spectrum",
+     "pokecube_legends:ore_cosmic"
     ],
     [],
     [
-     "pokecube_legends:deep_cave_vegetation"
+     "pokecube_legends:deep_cave_vegetation",
+     "pokecube_legends:deep_flower"
     ],
     []
   ],

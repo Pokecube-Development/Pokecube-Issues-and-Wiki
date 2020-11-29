@@ -7,12 +7,12 @@
       "block_search_extent": 8,
       "offset": 2.0
     },
-    "sky_color": 12451835,
-    "fog_color": 10997197,
-    "water_color": 10484187,
-    "water_fog_color": 5007508,
-    "grass_color": 16777215,
-    "foliage_color": 15592941
+    "sky_color": 4766,
+    "fog_color": 7058318,
+    "water_color": 12245481,
+    "water_fog_color": 5796478,
+    "grass_color": 7418711,
+    "foliage_color": 5516101
   },
   "surface_builder": "pokecube_legends:distorted_place",
   "carvers": {

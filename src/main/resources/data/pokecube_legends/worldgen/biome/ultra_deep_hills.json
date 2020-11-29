@@ -17,8 +17,8 @@
     "fog_color": 3026478,
     "water_color": 9837923,
     "water_fog_color": 11096477,
-    "grass_color": 0,
-    "foliage_color": 0
+    "grass_color": 328965,
+    "foliage_color": 328965
   },
   "surface_builder": "pokecube_legends:deep_hills",
   "carvers": {
@@ -39,9 +39,12 @@
     ],
     [],
     [
+     "pokecube_legends:ore_spectrum",
+     "pokecube_legends:ore_cosmic"
     ],
     [],
     [
+     "pokecube_legends:hills_flower"
     ],
     [
     ]
