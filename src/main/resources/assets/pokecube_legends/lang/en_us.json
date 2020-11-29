@@ -112,7 +112,12 @@
     "block.pokecube_legends.ultra_torch3": "Temporal Torch",
     
     "block.pokecube_legends.ultra_log01": "Inverted Log",
+    "block.pokecube_legends.inverted_wood": "Inverted Wood",
+    "block.pokecube_legends.stripped_inverted_log": "Stripped Inverted Log",
+    "block.pokecube_legends.stripped_inverted_wood": "Stripped Inverted Wood",
     "block.pokecube_legends.ultra_plank01": "Inverted Planks",
+    "block.pokecube_legends.inverted_stairs": "Inverted Stairs",
+    "block.pokecube_legends.inverted_slab": "Inverted Slab",
     "block.pokecube_legends.ultra_leave01": "Inverted Leaves",
     
     "block.pokecube_legends.ultra_log02": "Temporal Log",

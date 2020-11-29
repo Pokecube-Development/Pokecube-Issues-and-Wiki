@@ -1,19 +1,28 @@
 package pokecube.legends.init;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
-import net.minecraft.block.GlassBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.LogBlock;
+import net.minecraft.block.RotatedPillarBlock;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
@@ -98,7 +107,12 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_SAPLING_UB03;
 
     public static final RegistryObject<Block> ULTRA_LOGUB01;
+    public static final RegistryObject<Block> INVERTED_WOOD;
+    public static final RegistryObject<Block> STRIP_INVERTED_LOG;
+    public static final RegistryObject<Block> STRIP_INVERTED_WOOD;
     public static final RegistryObject<Block> ULTRA_PLANKUB01;
+    public static final RegistryObject<Block> INVERTED_STAIRS;
+    public static final RegistryObject<Block> INVERTED_SLAB;
     public static final RegistryObject<Block> ULTRA_LEAVEUB01;
 
     public static final RegistryObject<Block> ULTRA_LOGUB02;
@@ -208,7 +222,7 @@ public class BlockInit
         TEMPORAL_CRYSTAL 	= PokecubeLegends.BLOCKS_TAB.register("temporal_crystal", () -> new BlockBase("temporal_crystal", Material.GLASS,
         		1.5f, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
 
-        	//Distortic World
+        //Distortic World
         DISTORTIC_GRASS 	= PokecubeLegends.BLOCKS_TAB.register("distortic_grass", () -> new GrassDistorticBlock(BlockBase.Properties.create(Material.ORGANIC).sound(SoundType.NETHER_WART)
         		.hardnessAndResistance(1, 2).harvestTool(ToolType.SHOVEL).harvestLevel(1)));
         DISTORTIC_STONE 	= PokecubeLegends.BLOCKS_TAB.register("distortic_stone", () -> new BlockBase("distortic_stone", Material.ROCK,
@@ -216,7 +230,7 @@ public class BlockInit
         DISTORTIC_MIRROR 	= PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase("distortic_mirror", Material.GLASS,
         		2.5f, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
 
-        //Torchs
+        //Torches
         ULTRA_TORCH1 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1", () -> new UltraTorch1());
         ULTRA_TORCH1_WALL = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1_wall", () -> new UltraTorch1Wall());
 
@@ -228,9 +242,14 @@ public class BlockInit
         ULTRA_SAPLING_UB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_sapling03", () -> new SaplingBase(
         		() -> new Ultra_Tree03(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
-        //Plants (LOG/LEAVE/PLANKS)
+        //Woods (LOG/LEAVES/PLANKS)
         ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new RotatedPillarBlock(Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new RotatedPillarBlock(Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
+        INVERTED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("inverted_stairs", () -> new PokecubeWoodStairs());
+        INVERTED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("inverted_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
 
         ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
@@ -328,11 +347,33 @@ public class BlockInit
 
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries())
         {
-            // These are registered seperately, so skip them.
+            // These are registered separately, so skip them.
             if (reg == BlockInit.ULTRA_TORCH1 || reg == BlockInit.ULTRA_TORCH1_WALL) continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .group(PokecubeLegends.TAB)));
         }
     }
+
+    public static class PokecubeWoodStairs extends StairsBlock 
+    {
+        @SuppressWarnings("deprecation")
+		public PokecubeWoodStairs() {
+            super(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS)
+                    .sound(SoundType.WOOD)
+                    .hardnessAndResistance(2.0f, 3.0f)
+            );
+        }
+    }
+    
+//	public static void addStrippable(final RegistryObject<Block> log, RegistryObject<Block> strippedLog) {
+//		AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
+//		AxeItem.BLOCK_STRIPPING_MAP.put(log, strippedLog);
+//	}
+//	
+//	public void strippableBlocks(FMLCommonSetupEvent e) 
+//	{
+//		addStrippable(ULTRA_LOGUB01, STRIPPED_INVERTED_LOG);
+//		addStrippable(INVERTED_WOOD, STRIPPED_INVERTED_WOOD);
+//	}
 
 }
