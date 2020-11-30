@@ -84,6 +84,8 @@ public class JigsawAssmbler
     private List<StructurePiece> structurePieces;
     private Random               rand;
 
+    private Predicate<JigsawPiece> validator = p -> true;
+
     private final Deque<JigsawAssmbler.Entry> availablePieces = Queues.newArrayDeque();
 
     private Heightmap.Type SURFACE_TYPE = Heightmap.Type.WORLD_SURFACE_WG;
@@ -124,10 +126,19 @@ public class JigsawAssmbler
     public boolean build(final DynamicRegistries dynamicRegistryManager, final ResourceLocation resourceLocationIn,
             final int depth, final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final Biome biome, final Predicate<JigsawPiece> isValid)
+            final Random rand, final Biome biome, final Predicate<JigsawPiece> isValid, final int default_k)
     {
         return this.build(this.init(dynamicRegistryManager, resourceLocationIn), Rotation.randomRotation(rand), depth,
-                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome, -1, isValid);
+                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome, default_k, isValid);
+    }
+
+    public boolean build(final DynamicRegistries dynamicRegistryManager, final ResourceLocation resourceLocationIn,
+            final int depth, final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
+            final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
+            final Random rand, final Biome biome, final Predicate<JigsawPiece> isValid)
+    {
+        return this.build(dynamicRegistryManager, resourceLocationIn, depth, pieceFactory, chunkGenerator,
+                templateManagerIn, pos, parts, rand, biome, isValid, -1);
     }
 
     public boolean build(final JigsawPattern jigsawpattern, final Rotation rotation, final int depth,
@@ -135,6 +146,7 @@ public class JigsawAssmbler
             final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
             final Random rand, final Biome biome, final int default_k, final Predicate<JigsawPiece> isValid)
     {
+        this.validator = isValid;
         PokecubeCore.LOGGER.debug("Jigsaw starting build");
         this.init(depth, pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome);
 
@@ -203,6 +215,7 @@ public class JigsawAssmbler
     {
         final List<JigsawPiece> needed = Lists.newArrayList();
         final IWorld world = JigsawAssmbler.getForGen(this.chunkGenerator);
+        list.removeIf(p -> !this.validator.test(p));
         list.removeIf(p -> p instanceof CustomJigsawPiece && this.once_added.contains(
                 ((CustomJigsawPiece) p).opts.flag));
         for (final JigsawPiece p : list)

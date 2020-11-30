@@ -5,7 +5,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 
 public class PokecubeStructureProcessors
 {
-    public static IStructureProcessorType<?> FILTER   = IStructureProcessorType.register("pokecube:filter",
+    public static IStructureProcessorType<?> FILLER   = IStructureProcessorType.register("pokecube:filter",
             FillerProcessor.CODEC);
     public static IStructureProcessorType<?> EXTENDED = IStructureProcessorType.register("pokecube:extrule",
             ExtendedRuleProcessor.CODEC);

@@ -30,6 +30,7 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.JigsawReplacementStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessorList;
 import net.minecraft.world.gen.feature.template.Template;
@@ -102,6 +103,8 @@ public class CustomJigsawPiece extends SingleJigsawPiece
 
     public PlacementSettings toUse;
 
+    public StructureProcessorList overrideList = null;
+
     boolean maskCheck;
 
     public CustomJigsawPiece(final Either<ResourceLocation, Template> template,
@@ -117,12 +120,26 @@ public class CustomJigsawPiece extends SingleJigsawPiece
     public PlacementSettings func_230379_a_(final Rotation direction, final MutableBoundingBox box,
             final boolean notJigsaw)
     {
-        final PlacementSettings placementsettings = super.func_230379_a_(direction, box, notJigsaw);
-        placementsettings.removeProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+        final PlacementSettings placementsettings = new PlacementSettings();
+        placementsettings.setBoundingBox(box);
+        placementsettings.setRotation(direction);
+        placementsettings.func_215223_c(true);
+        placementsettings.setIgnoreEntities(false);
+        placementsettings.func_237133_d_(true);
+
+        if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
         if (this.opts.getFiller()) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
         if (!this.opts.getIgnoreAir() || !this.opts.getRigid()) placementsettings.addProcessor(
                 BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
         else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+
+        if (this.overrideList == null)
+        {
+            this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
+            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
+        }
+        else this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
+
         return this.toUse = placementsettings;
     }
 

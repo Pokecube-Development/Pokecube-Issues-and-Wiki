@@ -225,6 +225,8 @@ public class BerryGenManager
             final Random rand = make.build(world, biome, this, cropPos, this.jigsaw);
             if (rand != null)
             {
+                final List<CustomJigsawPiece> parts = Lists.newArrayList();
+
                 boolean valid = true;
                 parts:
                 for (final StructurePiece part : make.getComponents())
@@ -235,12 +237,13 @@ public class BerryGenManager
                         {
                             final BlockPos pos = p.getPos();
                             final CustomJigsawPiece piece = (CustomJigsawPiece) p.getJigsawPiece();
+                            parts.add(piece);
                             final Template t = piece.getTemplate(world.getStructureTemplateManager());
                             valid = true;
+                            piece.overrideList = WorldgenFeatures.BERRYLIST;
+                            // TODO find out why this sometimes fails
                             final PlacementSettings settings = piece.func_230379_a_(p.getRotation(), bounds, false);
-                            settings.clearProcessors();
                             // DOLATER find out what the second block pos is
-                            // for?
                             final List<BlockInfo> list = Template.processBlockInfos(world, pos, pos, settings, settings
                                     .func_237132_a_(t.blocks, pos).func_237157_a_(), t);
                             for (final BlockInfo i : list)
@@ -260,6 +263,8 @@ public class BerryGenManager
                     world.setBlockState(cropPos, Blocks.AIR.getDefaultState());
                     make.reallyBuild(world, world.getChunkProvider().getChunkGenerator(), cropPos);
                 }
+                for (final CustomJigsawPiece part : parts)
+                    part.overrideList = null;
             }
         }
 
@@ -283,8 +288,8 @@ public class BerryGenManager
 
             public void reallyBuild(final ServerWorld world, final ChunkGenerator generator, final BlockPos pos)
             {
-                this.func_230366_a_(world, world.func_241112_a_(), generator, this.rand, this.getBoundingBox(),
-                        new ChunkPos(pos));
+                this.func_230366_a_(world, world.func_241112_a_(), generator, this.rand, MutableBoundingBox
+                        .func_236990_b_(), new ChunkPos(pos));
             }
 
             public Random build(final ServerWorld world, final Biome biome, final JigsawGrower grower,
@@ -295,7 +300,7 @@ public class BerryGenManager
                 final JigsawAssmbler assembler = new JigsawAssmbler(jigsaw);
                 final boolean built = assembler.build(world.func_241828_r(), new ResourceLocation(jigsaw.root),
                         jigsaw.size, AbstractVillagePiece::new, chunkGenerator, manager, pos, this.components,
-                        this.rand, biome, this.isValid(jigsaw));
+                        this.rand, biome, this.isValid(jigsaw), pos.getY());
                 if (!built) return null;
                 this.recalculateStructureSize();
                 return this.rand;
@@ -306,7 +311,10 @@ public class BerryGenManager
                 return (j) ->
                 {
                     if (!(j instanceof CustomJigsawPiece)) return true;
-                    return ((CustomJigsawPiece) j).opts.flag.equals(this.berryType);
+                    final CustomJigsawPiece p = (CustomJigsawPiece) j;
+                    System.out.println(p.opts.flag);
+                    if (p.opts.flag.isEmpty()) return true;
+                    return p.opts.flag.equals(this.berryType);
                 };
             }
         }
