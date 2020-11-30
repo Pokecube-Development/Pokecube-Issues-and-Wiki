@@ -187,14 +187,19 @@ public class SpawnBiomeMatcher
 
     public static final QName MAXLIGHT = new QName("maxLight");
 
-    public static final QName             SPAWNCOMMAND = new QName("command");
+    public static final QName SPAWNCOMMAND = new QName("command");
+
     public static final SpawnBiomeMatcher ALLMATCHER;
+    public static final SpawnBiomeMatcher NONEMATCHER;
 
     static
     {
-        final SpawnRule rule = new SpawnRule();
+        SpawnRule rule = new SpawnRule();
         rule.values.put(SpawnBiomeMatcher.TYPES, "all");
         ALLMATCHER = new SpawnBiomeMatcher(rule);
+        rule = new SpawnRule();
+        rule.values.put(SpawnBiomeMatcher.TYPES, "none");
+        NONEMATCHER = new SpawnBiomeMatcher(rule);
     }
 
     private static int                      lastBiomesSize = -1;

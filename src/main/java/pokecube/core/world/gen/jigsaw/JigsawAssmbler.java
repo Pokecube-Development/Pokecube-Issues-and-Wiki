@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -67,7 +68,7 @@ public class JigsawAssmbler
         }
     }
 
-    public static IWorld getForGen(final ChunkGenerator chunkGen)
+    public static ServerWorld getForGen(final ChunkGenerator chunkGen)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         for (final ServerWorld w : server.getWorlds())
@@ -123,21 +124,22 @@ public class JigsawAssmbler
     public boolean build(final DynamicRegistries dynamicRegistryManager, final ResourceLocation resourceLocationIn,
             final int depth, final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final Biome biome)
+            final Random rand, final Biome biome, final Predicate<JigsawPiece> isValid)
     {
         return this.build(this.init(dynamicRegistryManager, resourceLocationIn), Rotation.randomRotation(rand), depth,
-                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome, -1);
+                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome, -1, isValid);
     }
 
     public boolean build(final JigsawPattern jigsawpattern, final Rotation rotation, final int depth,
             final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final Biome biome, final int default_k)
+            final Random rand, final Biome biome, final int default_k, final Predicate<JigsawPiece> isValid)
     {
         PokecubeCore.LOGGER.debug("Jigsaw starting build");
         this.init(depth, pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome);
 
-        if (this.config.water || this.config.air) this.SURFACE_TYPE = Type.OCEAN_FLOOR_WG;
+        if (this.config.water || this.config.air) this.SURFACE_TYPE = this.config.water ? Type.OCEAN_FLOOR_WG
+                : Type.WORLD_SURFACE_WG;
         else if (!this.config.surface) this.SURFACE_TYPE = null;
 
         final JigsawPiece jigsawpiece = jigsawpattern.getRandomPiece(rand);

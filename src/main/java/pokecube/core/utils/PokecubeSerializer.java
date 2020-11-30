@@ -88,11 +88,6 @@ public class PokecubeSerializer
     public ServerWorld myWorld;
     public CompoundNBT customData = new CompoundNBT();
 
-    private PokecubeSerializer(final MinecraftServer server)
-    {
-        this(server != null ? server.getWorld(World.OVERWORLD) : null);
-    }
-
     private PokecubeSerializer(final ServerWorld world)
     {
         /** This data is saved to surface world's folder. */
@@ -110,7 +105,8 @@ public class PokecubeSerializer
         this.save();
     }
 
-    public boolean shouldPlace(final String struct, final BlockPos pos, final RegistryKey<World> dim, final int seperation)
+    public boolean shouldPlace(final String struct, final BlockPos pos, final RegistryKey<World> dim,
+            final int seperation)
     {
         final List<GlobalPos> locs = this.structs.get(struct);
         if (locs == null) return true;
@@ -219,7 +215,6 @@ public class PokecubeSerializer
         return file;
     }
 
-
     public void loadData()
     {
         try
@@ -254,10 +249,11 @@ public class PokecubeSerializer
                 final CompoundNBT pokemobData = tagListMeteors.getCompound(i);
                 if (pokemobData != null)
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result().get().getFirst();
-                        for (final GlobalPos v : this.meteors)
-                            if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
-                        this.meteors.add(location);
+                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result()
+                            .get().getFirst();
+                    for (final GlobalPos v : this.meteors)
+                        if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
+                    this.meteors.add(location);
                 }
             }
         }
@@ -271,10 +267,11 @@ public class PokecubeSerializer
                 final CompoundNBT pokemobData = tagListMeteors.getCompound(i);
                 if (pokemobData != null) try
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result().get().getFirst();
+                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result()
+                            .get().getFirst();
                     for (final GlobalPos v : this.bases)
                         if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
-                        this.bases.add(location);
+                    this.bases.add(location);
                 }
                 catch (final Exception e)
                 {
@@ -292,11 +289,12 @@ public class PokecubeSerializer
                 final CompoundNBT pokemobData = tagListStructs.getCompound(i);
                 if (pokemobData != null) try
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result().get().getFirst();
+                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result()
+                            .get().getFirst();
                     final String struct = pokemobData.getString("type");
                     final List<GlobalPos> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
-                        locs.add(location);
-                        this.structs.put(struct, locs);
+                    locs.add(location);
+                    this.structs.put(struct, locs);
                 }
                 catch (final Exception e)
                 {
@@ -386,29 +384,30 @@ public class PokecubeSerializer
         tag.put("data", this.customData);
         final ListNBT tagListMeteors = new ListNBT();
         for (final GlobalPos v : this.meteors)
-            {
-                final INBT nbt = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
-                tagListMeteors.add(nbt);
-            }
+        {
+            final INBT nbt = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
+            tagListMeteors.add(nbt);
+        }
         tag.put(PokecubeSerializer.METEORS, tagListMeteors);
         final ListNBT tagListStructs = new ListNBT();
         for (final String s : this.structs.keySet())
         {
             final List<GlobalPos> list = this.structs.get(s);
             for (final GlobalPos v : list)
-                {
-                    final CompoundNBT nbt = (CompoundNBT)  GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
-                    nbt.putString("type", s);
-                    tagListStructs.add(nbt);
-                }
+            {
+                final CompoundNBT nbt = (CompoundNBT) GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get()
+                        .left().get();
+                nbt.putString("type", s);
+                tagListStructs.add(nbt);
+            }
         }
         tag.put(PokecubeSerializer.STRUCTS, tagListStructs);
         final ListNBT tagListBases = new ListNBT();
         for (final GlobalPos v : this.bases)
-            {
-                final INBT nbt =  GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
-                tagListMeteors.add(nbt);
-            }
+        {
+            final INBT nbt = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
+            tagListMeteors.add(nbt);
+        }
         tag.put(PokecubeSerializer.BASES, tagListBases);
         final CompoundNBT tms = new CompoundNBT();
         PokecubeItems.saveTime(tms);

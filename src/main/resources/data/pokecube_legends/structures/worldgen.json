@@ -634,6 +634,7 @@
       "biomeType":"ruin",
       "distance":28,
       "separation":10,
+      "base_under":false,
       "spawn":{
         "values":{
           "category":"ocean"

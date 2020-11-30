@@ -35,12 +35,12 @@ import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 
 public class WorldgenFeatures
 {
-    public static final DeferredRegister<WorldCarver<?>> REG = DeferredRegister.create(ForgeRegistries.WORLD_CARVERS,
-            PokecubeCore.MODID);
+    public static final DeferredRegister<WorldCarver<?>> CARVERS = DeferredRegister.create(
+            ForgeRegistries.WORLD_CARVERS, PokecubeCore.MODID);
 
-    public static final RegistryObject<WorldCarver<?>> CAVE   = WorldgenFeatures.REG.register("cave",
+    public static final RegistryObject<WorldCarver<?>> CAVE   = WorldgenFeatures.CARVERS.register("cave",
             () -> new CaveCarver(ProbabilityConfig.CODEC, 256));
-    public static final RegistryObject<WorldCarver<?>> CANYON = WorldgenFeatures.REG.register("canyon",
+    public static final RegistryObject<WorldCarver<?>> CANYON = WorldgenFeatures.CARVERS.register("canyon",
             () -> new CanyonCarver(ProbabilityConfig.CODEC));
 
     public static final List<StructureProcessor> BERRYRULES   = ImmutableList.of(BerryGenManager.NOREPLACE);
@@ -53,13 +53,14 @@ public class WorldgenFeatures
     static
     {
         WorldgenFeatures.GENERICRULES.add(0, PokecubeStructureProcessor.PROCESSOR);
+        // TODO find out why it hates the "berry_gen" list...
         BERRYLIST = WorldgenFeatures.register("berry_gen", WorldgenFeatures.BERRYRULES);
         GENERICLIST = WorldgenFeatures.register("generic", WorldgenFeatures.GENERICRULES);
     }
 
     public static void init(final IEventBus bus)
     {
-        WorldgenFeatures.REG.register(bus);
+        WorldgenFeatures.CARVERS.register(bus);
     }
 
     public static JigsawPattern register(final JigSawPool pool, final StructureProcessorList default_list)
@@ -67,6 +68,7 @@ public class WorldgenFeatures
         final JigsawPattern.PlacementBehaviour placement = pool.rigid ? JigsawPattern.PlacementBehaviour.RIGID
                 : JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING;
         final List<Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer>> pairs = Lists.newArrayList();
+        int size = 0;
         for (final String option : pool.options)
         {
             int second = 1;
@@ -83,11 +85,13 @@ public class WorldgenFeatures
 
             final Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer> pair = Pair.of(WorldgenFeatures
                     .makePiece(args[0], default_list, opts), second);
+            size += second;
             pairs.add(pair);
         }
         final JigsawPattern pattern = new JigsawPattern(new ResourceLocation(pool.name), new ResourceLocation(
                 pool.target), pairs, placement);
-        PokecubeCore.LOGGER.debug("Registered Pattern/Pool: " + pool.name + " with target " + pool.target);
+        PokecubeCore.LOGGER.debug("Registered Pattern/Pool: {}, with target: {}, of size: {}({},{})", pool.name,
+                pool.target, size, pairs.size(), pattern.getNumberOfPieces());
         return JigsawPatternRegistry.func_244094_a(pattern);
     }
 

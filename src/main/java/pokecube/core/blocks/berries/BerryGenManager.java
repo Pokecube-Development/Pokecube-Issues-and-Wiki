@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -28,17 +28,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
+import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructurePiece;
+import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.RuleEntry;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegistryEvent;
@@ -49,13 +56,16 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.berries.BerryManager;
+import pokecube.core.world.gen.WorldgenFeatures;
+import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
+import pokecube.core.world.gen.jigsaw.JigsawAssmbler;
 import pokecube.core.world.gen.jigsaw.JigsawConfig;
-import pokecube.core.world.gen.jigsaw.JigsawPatternCustom;
 import pokecube.core.world.gen.template.NotRuleProcessor;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
@@ -78,10 +88,10 @@ public class BerryGenManager
     {
     }
 
-    public static final ResourceLocation REPLACETAG      = new ResourceLocation("pokecube:berry_tree_replace");
-    public static final RuleEntry        REPLACEABLEONLY = new RuleEntry(AlwaysTrueRuleTest.INSTANCE,
-            new TagMatchRuleTest(BlockTags.getCollection().getTagByID(BerryGenManager.REPLACETAG)),
-            Blocks.STRUCTURE_VOID.getDefaultState());
+    public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
+
+    public static final RuleEntry REPLACEABLEONLY = new RuleEntry(AlwaysTrueRuleTest.INSTANCE, new TagMatchRuleTest(
+            BlockTags.getCollection().getTagByID(BerryGenManager.REPLACETAG)), Blocks.STRUCTURE_VOID.getDefaultState());
 
     public static final NotRuleProcessor NOREPLACE = new NotRuleProcessor(ImmutableList.of(
             BerryGenManager.REPLACEABLEONLY));
@@ -124,28 +134,36 @@ public class BerryGenManager
 
         PokecubeMod.LOGGER.debug("=========Adding Berry Trees=========");
 
+        final WorldgenHandler handler = WorldgenHandler.WORLDGEN.getOrDefault(this.MODID, WorldgenHandler.WORLDGEN.get(
+                PokecubeCore.MODID));
+
         // // Initialize the pools, applying our extra values
-//        for (final BerryPool pool : this.defaults.pools)
-//            WorldgenFeatures.register(pool, WorldgenFeatures.BERRYLIST);
+        for (final BerryPool pool : this.defaults.pools)
+            // TODO find out why this doesn't work with BERRYLIST...
+            handler.patterns.put(pool.name, WorldgenFeatures.register(pool, WorldgenFeatures.GENERICLIST));
 
         // Register the jigsaws
-//        for (final BerryJigsaw struct : this.defaults.jigsaws)
-//        {
-//            WorldgenHandler.WORLDGEN.getOrDefault(this.MODID, WorldgenHandler.WORLDGEN.get(PokecubeCore.MODID))
-//                    .register(struct, event);
-//            final JigsawGrower default_grower = new JigsawGrower(struct);
-//            if (struct.onGrow) for (final String berry : struct.trees)
-//            {
-//                if (!BerryManager.byName.containsKey(berry))
-//                {
-//                    PokecubeMod.LOGGER.warn("No Berry found for " + berry);
-//                    continue;
-//                }
-//                final int index = BerryManager.byName.get(berry).type.index;
-//                BerryGenManager.trees.put(index, default_grower);
-//                PokecubeMod.LOGGER.debug("Adding berry tree for {}", berry);
-//            }
-//        }
+        for (final BerryJigsaw struct : this.defaults.jigsaws)
+        {
+            // This handles registering the structure itself
+            handler.register(struct, event);
+            // Now we handle registering it as a tree if needed.
+            if (struct.onGrow)
+            {
+                final JigsawGrower default_grower = new JigsawGrower(JigsawConfig.CODEC, struct);
+                for (final String berry : struct.trees)
+                {
+                    if (!BerryManager.byName.containsKey(berry))
+                    {
+                        PokecubeMod.LOGGER.warn("No Berry found for " + berry);
+                        continue;
+                    }
+                    final int index = BerryManager.byName.get(berry).type.index;
+                    BerryGenManager.trees.put(index, default_grower);
+                    PokecubeMod.LOGGER.debug("Adding berry tree for {}", berry);
+                }
+            }
+        }
         PokecubeMod.LOGGER.debug("==========Done Berry Trees==========");
     }
 
@@ -160,13 +178,26 @@ public class BerryGenManager
         public String          berry;
     }
 
-    public static class JigsawGrower implements TreeGrower
+    public static class JigsawGrower extends Structure<JigsawConfig> implements TreeGrower
     {
         final BerryJigsaw jigsaw;
 
-        public JigsawGrower(final BerryJigsaw jigsaw)
+        public JigsawGrower(final Codec<JigsawConfig> codec, final BerryJigsaw jigsaw)
         {
+            super(codec);
             this.jigsaw = jigsaw;
+        }
+
+        @Override
+        public Decoration getDecorationStage()
+        {
+            return Decoration.SURFACE_STRUCTURES;
+        }
+
+        @Override
+        public IStartFactory<JigsawConfig> getStartFactory()
+        {
+            return Start::new;
         }
 
         @Override
@@ -190,61 +221,51 @@ public class BerryGenManager
             final MutableBoundingBox bounds = new MutableBoundingBox(xMin, yMin, zMin, xMax, yMax, zMax);
             final Start make = new Start(null, chunkX, chunkZ, bounds, 0, cropPos.toLong() + world.getSeed() + world
                     .getGameTime());
-            final Random rand = make.build(world, biome, this, cropPos, berryId);
+            make.berryType = BerryManager.berryNames.get(berryId);
+            final Random rand = make.build(world, biome, this, cropPos, this.jigsaw);
             if (rand != null)
             {
-                // boolean valid = true;
-                // parts:
-                // for (final StructurePiece part : make.getComponents())
-                // if (part instanceof CustomVillagePiece)
-                // {
-                // final CustomVillagePiece p = (CustomVillagePiece) part;
-                // if (p.getJigsawPiece() instanceof SingleOffsetPiece)
-                // {
-                // final BlockPos pos = p.getPos();
-                // final SingleOffsetPiece piece = (SingleOffsetPiece)
-                // p.getJigsawPiece();
-                // final Template t =
-                // piece.getTemplate(world.getStructureTemplateManager());
-                // valid = true;
-                // final PlacementSettings settings =
-                // piece.createPlacementSettings(p.getRotation(), bounds);
-                // settings.clearProcessors();
-                // final List<BlockInfo> list = Template.processBlockInfos(t,
-                // world, pos, settings, settings
-                // .func_227459_a_(t.blocks, pos));
-                // for (final BlockInfo i : list)
-                // if (i != null && i.state != null && !(i.state.getBlock() ==
-                // Blocks.JIGSAW || i.state
-                // .getBlock() == Blocks.STRUCTURE_VOID))
-                // {
-                // final BlockState state = world.getBlockState(i.pos);
-                // if (state != null && state.getBlock() != Blocks.AIR)
-                // valid = BerryGenManager.REPLACEABLEONLY.test(null, state,
-                // rand);
-                // if (!valid) break parts;
-                // }
-                // }
-                // }
-                // if (valid)
-                // {
-                // world.setBlockState(cropPos, Blocks.AIR.getDefaultState());
-                // make.generateStructure(world,
-                // world.getChunkProvider().getChunkGenerator(), rand, make
-                // .getBoundingBox(), new ChunkPos(chunkX, chunkZ));
-                // }
+                boolean valid = true;
+                parts:
+                for (final StructurePiece part : make.getComponents())
+                    if (part instanceof AbstractVillagePiece)
+                    {
+                        final AbstractVillagePiece p = (AbstractVillagePiece) part;
+                        if (p.getJigsawPiece() instanceof CustomJigsawPiece)
+                        {
+                            final BlockPos pos = p.getPos();
+                            final CustomJigsawPiece piece = (CustomJigsawPiece) p.getJigsawPiece();
+                            final Template t = piece.getTemplate(world.getStructureTemplateManager());
+                            valid = true;
+                            final PlacementSettings settings = piece.func_230379_a_(p.getRotation(), bounds, false);
+                            settings.clearProcessors();
+                            // DOLATER find out what the second block pos is
+                            // for?
+                            final List<BlockInfo> list = Template.processBlockInfos(world, pos, pos, settings, settings
+                                    .func_237132_a_(t.blocks, pos).func_237157_a_(), t);
+                            for (final BlockInfo i : list)
+                                if (i != null && i.state != null && !(i.state.getBlock() == Blocks.JIGSAW || i.state
+                                        .getBlock() == Blocks.STRUCTURE_VOID))
+                                {
+                                    final BlockState state = world.getBlockState(i.pos);
+                                    if (state != null && state.getBlock() != Blocks.AIR)
+                                        valid = BerryGenManager.REPLACEABLEONLY.func_237110_a_(state, state, pos, pos,
+                                                pos, rand);
+                                    if (!valid) break parts;
+                                }
+                        }
+                    }
+                if (valid)
+                {
+                    world.setBlockState(cropPos, Blocks.AIR.getDefaultState());
+                    make.reallyBuild(world, world.getChunkProvider().getChunkGenerator(), cropPos);
+                }
             }
         }
 
-        public static class Start extends MarginedStructureStart<JigsawConfig>
+        public class Start extends StructureStart<JigsawConfig>
         {
-
-            private static final Consumer<JigsawPatternCustom> pre  = p ->
-                                                                    {
-                                                                    };
-            private static final Consumer<JigsawPatternCustom> post = p ->
-                                                                    {
-                                                                    };
+            public String berryType = "";
 
             public Start(final Structure<JigsawConfig> structure, final int x, final int z,
                     final MutableBoundingBox box, final int refs, final long seed)
@@ -260,147 +281,35 @@ public class BerryGenManager
                 // We do nothing, we do our own thing seperately.
             }
 
-            public Random build(final ServerWorld world, final Biome biome, final JigsawGrower grower,
-                    final BlockPos pos, final int berryId)
+            public void reallyBuild(final ServerWorld world, final ChunkGenerator generator, final BlockPos pos)
             {
-                // final ResourceLocation key = new
-                // ResourceLocation(grower.jigsaw.root);
-                // final JigsawPattern jigsawpattern =
-                // JigsawManager.REGISTRY.get(key);
-                // JigsawPatternCustom root;
-                // if (jigsawpattern instanceof JigsawPatternCustom) root =
-                // (JigsawPatternCustom) jigsawpattern;
-                // else
-                // {
-                // PokecubeCore.LOGGER.error("Berry crop got wrong type of
-                // pattern for {}", key);
-                // return null;
-                // }
-                // final ChunkGenerator chunkGenerator =
-                // world.getChunkProvider().generator;
-                // final TemplateManager manager =
-                // world.getStructureTemplateManager();
-                //
-                // final JigsawAssmbler assembler = new JigsawAssmbler();
-                // final BiPredicate<JigsawPiece, SpawnCheck> old =
-                // root.validator;
-                // final boolean respects_pools = root.respects_pool_spawns;
-                // root.validator = this.isValid(berryId);
-                // final Rotation rot = Rotation.randomRotation(this.rand);
-                // assembler.build(root, rot, grower.jigsaw.size,
-                // CustomVillagePiece::new, chunkGenerator, manager,
-                // pos, this.getComponents(), this.rand, biome, Start.pre,
-                // Start.post), pos.getY());
-                // root.validator = old;
-                // root.respects_pool_spawns = respects_pools;
+                this.func_230366_a_(world, world.func_241112_a_(), generator, this.rand, this.getBoundingBox(),
+                        new ChunkPos(pos));
+            }
+
+            public Random build(final ServerWorld world, final Biome biome, final JigsawGrower grower,
+                    final BlockPos pos, final BerryJigsaw jigsaw)
+            {
+                final ChunkGenerator chunkGenerator = world.getChunkProvider().generator;
+                final TemplateManager manager = world.getStructureTemplateManager();
+                final JigsawAssmbler assembler = new JigsawAssmbler(jigsaw);
+                final boolean built = assembler.build(world.func_241828_r(), new ResourceLocation(jigsaw.root),
+                        jigsaw.size, AbstractVillagePiece::new, chunkGenerator, manager, pos, this.components,
+                        this.rand, biome, this.isValid(jigsaw));
+                if (!built) return null;
+                this.recalculateStructureSize();
                 return this.rand;
             }
 
-            private BiPredicate<JigsawPiece, SpawnCheck> isValid(final int berryId)
+            private Predicate<JigsawPiece> isValid(final BerryJigsaw jigsaw)
             {
-                return (j, s) ->
+                return (j) ->
                 {
-                    final boolean valid = berryId == -1;
-                    // if (!valid && j instanceof SingleOffsetPiece)
-                    // {
-                    // final String value = ((SingleOffsetPiece) j).flag;
-                    // final String key = BerryManager.berryNames.get(berryId);
-                    // if (key != null) return key.equals(value);
-                    // }
-                    return valid;
+                    if (!(j instanceof CustomJigsawPiece)) return true;
+                    return ((CustomJigsawPiece) j).opts.flag.equals(this.berryType);
                 };
             }
-
         }
-
-        // public static class Start extends MarginedStructureStart
-        // {
-        // final Biome biome;
-        // public Rotation rot;
-        //
-        // public Start(final Structure<?> structureIn, final int chunkX, final
-        // int chunkZ, final Biome biomeIn,
-        // final MutableBoundingBox boundsIn, final int referenceIn, final long
-        // seed)
-        // {
-        // super(structureIn, chunkX, chunkZ, boundsIn, referenceIn, seed);
-        // this.biome = biomeIn;
-        // }
-        //
-        // public Random build(final ServerWorld world, final JigsawGrower
-        // grower, final BlockPos pos,
-        // final int berryId)
-        // {
-        // final ResourceLocation key = new
-        // ResourceLocation(grower.jigsaw.root);
-        // final JigsawPattern jigsawpattern = JigsawManager.REGISTRY.get(key);
-        // JigsawPatternCustom root;
-        // if (jigsawpattern instanceof JigsawPatternCustom) root =
-        // (JigsawPatternCustom) jigsawpattern;
-        // else
-        // {
-        // PokecubeCore.LOGGER.error("Berry crop got wrong type of pattern for
-        // {}", key);
-        // return null;
-        // }
-        // final ChunkGenerator<?> chunkGenerator =
-        // world.getChunkProvider().generator;
-        // final TemplateManager manager = world.getStructureTemplateManager();
-        //
-        // final JigsawAssmbler assembler = new JigsawAssmbler();
-        // final BiPredicate<JigsawPiece, SpawnCheck> old = root.validator;
-        // final boolean respects_pools = root.respects_pool_spawns;
-        // root.validator = this.isValid(berryId);
-        // this.rot = Rotation.randomRotation(this.rand);
-        // assembler.build(root, this.rot, grower.jigsaw.size,
-        // CustomJigsawPiece::new, chunkGenerator, manager,
-        // pos, this.getComponents(), this.rand, this.biome, this.pre(),
-        // this.post(), pos.getY());
-        // root.validator = old;
-        // root.respects_pool_spawns = respects_pools;
-        // return this.rand;
-        // }
-        //
-        // private Consumer<JigsawPatternCustom> pre()
-        // {
-        // return p ->
-        // {
-        // };
-        // }
-        //
-        // private Consumer<JigsawPatternCustom> post()
-        // {
-        // return p ->
-        // {
-        // };
-        // }
-        //
-        // private BiPredicate<JigsawPiece, SpawnCheck> isValid(final int
-        // berryId)
-        // {
-        // return (j, s) ->
-        // {
-        // final boolean valid = berryId == -1;
-        // if (!valid && j instanceof SingleOffsetPiece)
-        // {
-        // final String value = ((SingleOffsetPiece) j).flag;
-        // final String key = BerryManager.berryNames.get(berryId);
-        // if (key != null) return key.equals(value);
-        // }
-        // return valid;
-        // };
-        // }
-        //
-        // @Override
-        // public void init(final ChunkGenerator<?> generator, final
-        // TemplateManager templateManagerIn,
-        // final int chunkX, final int chunkZ, final Biome biomeIn)
-        // {
-        // // We do nothing here, as we work differently from normal
-        // }
-        //
-        // }
-
     }
 
     public static class GenericGrower implements TreeGrower

@@ -7,8 +7,10 @@ public class PokecubeStructureProcessors
 {
     public static IStructureProcessorType<?> FILTER   = IStructureProcessorType.register("pokecube:filter",
             FillerProcessor.CODEC);
-    public static IStructureProcessorType<?> EXTENDED = IStructureProcessorType.RULE;
-    public static IStructureProcessorType<?> NOTRULE  = IStructureProcessorType.RULE;
+    public static IStructureProcessorType<?> EXTENDED = IStructureProcessorType.register("pokecube:extrule",
+            ExtendedRuleProcessor.CODEC);
+    public static IStructureProcessorType<?> NOTRULE  = IStructureProcessorType.register("pokecube:notrule",
+            NotRuleProcessor.CODEC);
     public static IStructureProcessorType<?> STRUCTS  = IStructureProcessorType.register("pokecube:structures",
             PokecubeStructureProcessor.CODEC);
 

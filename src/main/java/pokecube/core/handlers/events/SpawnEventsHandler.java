@@ -35,7 +35,6 @@ import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.utils.CapHolders;
-import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
@@ -155,16 +154,6 @@ public class SpawnEventsHandler
             {
 
             }
-        }
-        else if (event.function.startsWith("pokecube:worldspawn") && !PokecubeSerializer.getInstance().hasPlacedSpawn())
-        {
-            event.worldActual.getServer().execute(() ->
-            {
-                event.worldActual.func_241124_a__(event.pos, 0);
-            });
-            PokecubeSerializer.getInstance().setPlacedSpawn();
-            PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
-            event.setResult(Result.ALLOW);
         }
     }
 
