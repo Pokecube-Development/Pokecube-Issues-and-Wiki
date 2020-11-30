@@ -74,7 +74,7 @@ public class CommanderTile extends InteractableTile
     public void read(final BlockState stateIn, final CompoundNBT nbt)
     {
         super.read(stateIn, nbt);
-        if (nbt.contains("pokeIDMost")) this.pokeID = nbt.getUniqueId("pokeID");
+        if (nbt.hasUniqueId("pokeID")) this.pokeID = nbt.getUniqueId("pokeID");
         if (nbt.contains("cmd")) this.command = Command.valueOf(nbt.getString("cmd"));
         this.args = nbt.getString("args");
     }

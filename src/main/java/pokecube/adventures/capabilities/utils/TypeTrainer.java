@@ -371,7 +371,6 @@ public class TypeTrainer extends NpcType
             final int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
             pokemob = pokemob.setForSpawn(exp, false);
             final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
-            pokemob.getEntity().remove();
             return item;
         }
 

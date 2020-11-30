@@ -1,5 +1,6 @@
 package pokecube.core.world.gen.template;
 
+import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
@@ -19,10 +20,10 @@ public class ExtendedRuleProcessor extends RuleStructureProcessor
 {
     private final ImmutableList<RuleEntry> rules;
 
-    public ExtendedRuleProcessor(final ImmutableList<RuleEntry> rules)
+    public ExtendedRuleProcessor(final List<RuleEntry> rules)
     {
         super(rules);
-        this.rules = rules;
+        this.rules = ImmutableList.copyOf(rules);
     }
 
     @Override

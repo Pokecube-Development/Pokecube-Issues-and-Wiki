@@ -145,9 +145,9 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (pokemon.getEntity().getPersistentData().contains("spwnedby:Most"))
+        if (pokemon.getEntity().getPersistentData().hasUniqueId("spwnedby"))
         {
-            final UUID id = pokemon.getEntity().getPersistentData().getUniqueId("spwnedby:");
+            final UUID id = pokemon.getEntity().getPersistentData().getUniqueId("spwnedby");
             if (!trainer.getUniqueID().equals(id)) return false;
         }
         return this.canCapture(trainer);

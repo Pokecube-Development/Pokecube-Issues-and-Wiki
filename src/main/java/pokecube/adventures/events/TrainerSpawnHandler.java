@@ -10,8 +10,6 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
@@ -196,10 +194,8 @@ public class TrainerSpawnHandler
         final int count = TrainerTracker.countTrainers(w, v, PokecubeAdv.config.trainerBox);
         if (count < Config.instance.trainerDensity)
         {
-            final BlockState here = v.getBlockState(w);
             final Vector3 u = v.add(0, -1, 0);
-            final BlockState down = u.getBlockState(w);
-            if (here.isAir(w, v.getPos()) && down.isAir(w, u.getPos())) return;
+            if (w.isAirBlock(v.getPos()) && w.isAirBlock(u.getPos())) return;
 
             final long time = System.nanoTime();
             final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
@@ -220,8 +216,8 @@ public class TrainerSpawnHandler
                     || WorldEntitySpawner.canCreatureTypeSpawnAtLocation(PlacementType.IN_WATER, w, v.getPos(), t
                             .getType()))) return;
 
-            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getPosX(), (int) t.getPosY(),
-                    (int) t.getPosZ()))
+            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getPosX(), (int) t
+                    .getPosY(), (int) t.getPosZ()))
             {
                 w.addEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
@@ -260,15 +256,13 @@ public class TrainerSpawnHandler
         // Here we process custom options for trainers or leaders in structures.
         if (function.startsWith("trainer") || (leader = function.startsWith("leader")))
         {
-            // Set it to air so mob can spawn.
-            event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
-            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(((ServerWorld) event.world).getWorld())
-                    : TrainerNpc.TYPE.create(((ServerWorld) event.world).getWorld());
+            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.worldActual)
+                    : TrainerNpc.TYPE.create(event.worldActual);
             mob.enablePersistence();
             mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
-            mob.onInitialSpawn((IServerWorld) event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
-                    (ILivingEntityData) null, (CompoundNBT) null);
+            mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(event.pos),
+                    SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
             JsonObject thing = new JsonObject();
             if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
             {
@@ -280,11 +274,11 @@ public class TrainerSpawnHandler
                 PokecubeCore.LOGGER.error("Error parsing " + function, e);
             }
             // We apply it regardless, as this initializes defaults.
-            TrainerSpawnHandler.applyFunction((World) event.world, mob, thing, leader);
+            TrainerSpawnHandler.applyFunction(event.worldActual, mob, thing, leader);
             PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
-            if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
+            if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.worldActual, SpawnReason.STRUCTURE)))
             {
-                event.world.addEntity(mob);
+                event.worldBlocks.addEntity(mob);
                 event.setResult(Result.ALLOW);
             }
         }

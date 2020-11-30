@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -17,6 +19,7 @@ import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.handlers.events.EventsHandler;
@@ -379,6 +382,14 @@ public class Config extends ConfigData
     public boolean chunkLoadPokecenters = false;
 
     @Configure(category = Config.world)
+    public List<String> softWorldgenDimBlacklist = Lists.newArrayList(
+    //@formatter:off
+            "pokecube_legends:distorted_world",
+            "pokecube_legends:ultraspace"
+            );
+    //@formatter:on
+
+    @Configure(category = Config.world)
     public String       baseSizeFunction    = "8 + c/10 + h/10 + k/20";
     @Configure(category = Config.world)
     public int          baseMaxSize         = 1;
@@ -697,9 +708,12 @@ public class Config extends ConfigData
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
 
-        // TODO Init secret bases.
+        // TODO Init secret bases resizing
         // DimensionSecretBase.init(baseSizeFunction);
         PokecubeTerrainChecker.initStructMap();
+        WorldgenHandler.SOFTBLACKLIST.clear();
+        for (final String s : this.softWorldgenDimBlacklist)
+            WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
         SpawnHandler.MAXNUM = this.mobSpawnNumber;

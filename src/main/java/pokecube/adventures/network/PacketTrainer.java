@@ -11,6 +11,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -76,7 +77,8 @@ public class PacketTrainer extends NBTPacket
 
         if (!canEdit)
         {
-            editor.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."), Util.DUMMY_UUID);
+            editor.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                    Util.DUMMY_UUID);
             return;
         }
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
@@ -160,7 +162,8 @@ public class PacketTrainer extends NBTPacket
 
             if (!PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
             {
-                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."), Util.DUMMY_UUID);
+                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                        Util.DUMMY_UUID);
                 return;
             }
 
@@ -181,8 +184,8 @@ public class PacketTrainer extends NBTPacket
             }
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
-            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(), player
-                    .getRNG(), MutableBoundingBox.getNewBoundingBox());
+            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(), (ServerWorld) player
+                    .getEntityWorld(), player.getRNG(), MutableBoundingBox.getNewBoundingBox());
             TrainerSpawnHandler.StructureSpawn(event);
             break;
         }

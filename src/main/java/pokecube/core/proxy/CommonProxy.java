@@ -23,6 +23,7 @@ import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.handlers.events.PokemobEventsHandler;
@@ -97,7 +98,7 @@ public class CommonProxy implements Proxy
         MinecraftForge.EVENT_BUS.register(WearablesCompat.class);
         MinecraftForge.EVENT_BUS.register(NBTEdit.class);
         MinecraftForge.EVENT_BUS.register(MoveQueuer.class);
-//        MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
+        // MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
 
         // Initialize the capabilities.
         CapabilityManager.INSTANCE.register(IGuardAICapability.class, new IGuardAICapability.Storage(),
@@ -134,6 +135,11 @@ public class CommonProxy implements Proxy
 
         // Forward this to PCEdit mod:
         NBTEdit.setup(event);
+
+        event.enqueueWork(() ->
+        {
+            WorldgenHandler.setupAll();
+        });
 
         // Register some Village stuff
         if (PokecubeCore.getConfig().villagePokecenters)
@@ -173,7 +179,7 @@ public class CommonProxy implements Proxy
         // Reload this here to initialze anything that needs to be done here.
         PokecubeCore.getConfig().onUpdated();
         Database.postResourcesLoaded();
-//        JigsawPieces.finializeJigsaws();
+        // JigsawPieces.finializeJigsaws();
     }
 
     public void pokecenterloop(final HealerTile tileIn, final boolean play)
