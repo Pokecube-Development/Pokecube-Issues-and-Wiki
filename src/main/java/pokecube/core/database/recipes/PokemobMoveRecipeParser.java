@@ -120,7 +120,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             // a shapeless recipe.
             final World world = user.getEntity().getEntityWorld();
             final BlockState block = location.getBlockState(world);
-            if (block == null || block.isAir(world, location.getPos())) return false;
+            if (block == null || world.isAirBlock(location.getPos())) return false;
             final ItemStack item = new ItemStack(block.getBlock());
             final CraftingInventory inven = new CraftingInventory(this.c, 1, 1);
             inven.setInventorySlotContents(0, item);

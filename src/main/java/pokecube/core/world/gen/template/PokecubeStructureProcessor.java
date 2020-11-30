@@ -1,5 +1,7 @@
 package pokecube.core.world.gen.template;
 
+import javax.annotation.Nullable;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 
@@ -25,6 +27,15 @@ public class PokecubeStructureProcessor extends StructureProcessor
 
     public PokecubeStructureProcessor(final Dynamic<?> p_deserialize_1_)
     {
+    }
+
+    @Override
+    @Nullable
+    public Template.BlockInfo process(final IWorldReader world, final BlockPos pos1, final BlockPos pos2,
+            final Template.BlockInfo rawInfo, final Template.BlockInfo modInfo, final PlacementSettings settings,
+            @Nullable final Template template)
+    {
+        return modInfo;
     }
 
     @Override

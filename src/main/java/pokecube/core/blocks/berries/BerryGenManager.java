@@ -38,7 +38,6 @@ import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
 import net.minecraft.world.gen.feature.template.RuleEntry;
-import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
@@ -50,7 +49,6 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
 import pokecube.core.handlers.ItemGenerator;
@@ -87,8 +85,6 @@ public class BerryGenManager
 
     public static final NotRuleProcessor NOREPLACE = new NotRuleProcessor(ImmutableList.of(
             BerryGenManager.REPLACEABLEONLY));
-
-    public static final ImmutableList<StructureProcessor> DARULES = ImmutableList.of(BerryGenManager.NOREPLACE);
 
     public String           MODID = PokecubeCore.MODID;
     public ResourceLocation ROOT  = new ResourceLocation(PokecubeCore.MODID, "structures/");
@@ -129,38 +125,29 @@ public class BerryGenManager
         PokecubeMod.LOGGER.debug("=========Adding Berry Trees=========");
 
         // // Initialize the pools, applying our extra values
-        // for (final BerryPool pool : this.defaults.pools)
-        // JigsawPieces.initPool(pool, this.berryProc(),
-        // BerryGenManager.DARULES);
+//        for (final BerryPool pool : this.defaults.pools)
+//            WorldgenFeatures.register(pool, WorldgenFeatures.BERRYLIST);
 
         // Register the jigsaws
-        for (final BerryJigsaw struct : this.defaults.jigsaws)
-        {
-            WorldgenHandler.WORLDGEN.getOrDefault(this.MODID, WorldgenHandler.WORLDGEN.get(PokecubeCore.MODID))
-                    .register(struct, event);
-            final JigsawGrower default_grower = new JigsawGrower(struct);
-            if (struct.onGrow) for (final String berry : struct.trees)
-            {
-                if (!BerryManager.byName.containsKey(berry))
-                {
-                    PokecubeMod.LOGGER.warn("No Berry found for " + berry);
-                    continue;
-                }
-                final int index = BerryManager.byName.get(berry).type.index;
-                BerryGenManager.trees.put(index, default_grower);
-                PokecubeMod.LOGGER.debug("Adding berry tree for {}", berry);
-            }
-        }
+//        for (final BerryJigsaw struct : this.defaults.jigsaws)
+//        {
+//            WorldgenHandler.WORLDGEN.getOrDefault(this.MODID, WorldgenHandler.WORLDGEN.get(PokecubeCore.MODID))
+//                    .register(struct, event);
+//            final JigsawGrower default_grower = new JigsawGrower(struct);
+//            if (struct.onGrow) for (final String berry : struct.trees)
+//            {
+//                if (!BerryManager.byName.containsKey(berry))
+//                {
+//                    PokecubeMod.LOGGER.warn("No Berry found for " + berry);
+//                    continue;
+//                }
+//                final int index = BerryManager.byName.get(berry).type.index;
+//                BerryGenManager.trees.put(index, default_grower);
+//                PokecubeMod.LOGGER.debug("Adding berry tree for {}", berry);
+//            }
+//        }
         PokecubeMod.LOGGER.debug("==========Done Berry Trees==========");
     }
-
-    // private BiConsumer<SingleOffsetPiece, JsonObject> berryProc()
-    // {
-    // return (p, t) ->
-    // {
-    // if (t != null && t.has("berry")) p.flag = t.get("berry").getAsString();
-    // };
-    // }
 
     private static class BerryGenList
     {

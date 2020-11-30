@@ -4,6 +4,7 @@
 package pokecube.core.items;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -23,7 +24,9 @@ import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.gen.feature.StructureFeature;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.database.Database;
@@ -81,8 +84,15 @@ public class ItemPokedex extends Item
     public ActionResult<ItemStack> onItemRightClick(final World world, final PlayerEntity player, final Hand hand)
     {
         final ItemStack itemstack = player.getHeldItem(hand);
-        if (!world.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld(),
-                true);
+        if (!world.isRemote)
+        {
+            SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld(), true);
+
+            final Biome b = world.getBiome(player.getPosition());
+            for (final Supplier<StructureFeature<?, ?>> a : b.getGenerationSettings().getStructures())
+                System.out.println(a.get().field_236268_b_.getStructureName());
+
+        }
         if (!player.isCrouching())
         {
             this.showGui(player);

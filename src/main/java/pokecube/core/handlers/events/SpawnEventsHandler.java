@@ -9,7 +9,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
@@ -20,7 +19,6 @@ import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -126,15 +124,14 @@ public class SpawnEventsHandler
             final boolean trader = function.startsWith("trader");
             if (nurse || professor || trader)
             {
-                // Set it to air so mob can spawn.
-                event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
-                final NpcMob mob = NpcMob.TYPE.create((World) event.world);
+                final NpcMob mob = NpcMob.TYPE.create(event.worldActual);
                 mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
                 if (nurse) mob.setMale(false);
                 mob.enablePersistence();
                 mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
-                mob.onInitialSpawn((IServerWorld) event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
-                        (ILivingEntityData) null, (CompoundNBT) null);
+                mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(
+                        event.pos), SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
+
                 JsonObject thing = new JsonObject();
                 if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
                 {
@@ -147,9 +144,10 @@ public class SpawnEventsHandler
                     PokecubeCore.LOGGER.error("Error parsing " + function, e);
                 }
 
-                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
+                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.worldActual,
+                        SpawnReason.STRUCTURE)))
                 {
-                    event.world.addEntity(mob);
+                    event.worldBlocks.addEntity(mob);
                     event.setResult(Result.ALLOW);
                 }
             }
@@ -158,17 +156,15 @@ public class SpawnEventsHandler
 
             }
         }
-        else if (event.function.startsWith("pokecube:worldspawn"))
+        else if (event.function.startsWith("pokecube:worldspawn") && !PokecubeSerializer.getInstance().hasPlacedSpawn())
         {
-            // Set it to air so player can spawn here.
-            event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
-            if (!PokecubeSerializer.getInstance().hasPlacedSpawn())
+            event.worldActual.getServer().execute(() ->
             {
-                ((ServerWorld)event.world).func_241124_a__(event.pos, 0);
-                PokecubeSerializer.getInstance().setPlacedSpawn();
-                PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
-                event.setResult(Result.ALLOW);
-            }
+                event.worldActual.func_241124_a__(event.pos, 0);
+            });
+            PokecubeSerializer.getInstance().setPlacedSpawn();
+            PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
+            event.setResult(Result.ALLOW);
         }
     }
 
