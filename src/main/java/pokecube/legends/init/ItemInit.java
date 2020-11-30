@@ -87,7 +87,7 @@ public class ItemInit
     public static final RegistryObject<Item> RSHIELD;
     public static final RegistryObject<Item> RSWORD;
     public static final RegistryObject<Item> REINS_U;
-
+    
     // Evolutions
     public static final RegistryObject<Item> CHPOT;
     public static final RegistryObject<Item> CRPOT;
@@ -274,7 +274,7 @@ public class ItemInit
         {
             return 1.5f;
         }
-
+		
 		@Override
 		public float getKnockbackResistance() {
 			return 2;

@@ -296,7 +296,7 @@
     "block.pokecube_legends.raidspawn_block": "Raid Spot Spawn",
 
     "_comment": "/Tooltips Block",
-    "legendblock.ultraportal.tooltip": "Use to enter and exit Ultra Space",
+    "legendblock.portalwarp.tooltip": "Summon a random pokemob using this block!",
     "legendblock.raidspawn.tooltip": "Use to create a Raid battle!",
 	"legends.gigantic_shard.tooltip": "Use to make your pokemob use Gigantamax!",
     "legends.wishing_piece.tooltip": "Use this item on an inactive raid spot to activate it!",
