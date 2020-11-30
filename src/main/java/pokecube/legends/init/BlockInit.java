@@ -6,6 +6,7 @@ import net.minecraft.block.FallingBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -227,18 +228,15 @@ public class BlockInit
 
         //Plants (LOG/LEAVE/PLANKS)
 
-        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01",   () -> new BlockBase("ultra_log01", Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(5, 10).harvestTool(
-                ToolType.AXE).harvestLevel(2)).noInfoBlock());
+        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01",   () -> Blocks.createLogBlock(MaterialColor.PURPLE, MaterialColor.BLUE_TERRACOTTA));
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
 
-        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02",   () -> new BlockBase("ultra_log02", Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(5, 10).harvestTool(
-                ToolType.AXE).harvestLevel(2)).noInfoBlock());
+        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02",   () -> Blocks.createLogBlock(MaterialColor.GREEN, MaterialColor.YELLOW));
         ULTRA_PLANKUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
 
-        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03",   () -> new BlockBase("ultra_log03",
-        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(5, 10).harvestTool(ToolType.AXE).harvestLevel(2)).noInfoBlock());
+        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03",   () -> Blocks.createLogBlock(MaterialColor.GOLD, MaterialColor.BROWN));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
 

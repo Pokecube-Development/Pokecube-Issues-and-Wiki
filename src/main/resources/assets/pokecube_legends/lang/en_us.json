@@ -189,6 +189,7 @@
     "item.pokecube_legends.ancient_stone": "Ancient Stone",
     "item.pokecube_legends.imprisonment_helmet":"Imprisonment Helmet",
     "item.pokecube_legends.keldeo_sword": "Keldeo Sword",
+    "item.pokecube_legends.fossil_gene": "Gene Fossil",
 
     "_comment": "/Mint Nature",
     "item.pokecube_legends.mint_adamant": "Mint Adamant",
@@ -296,7 +297,7 @@
     "block.pokecube_legends.raidspawn_block": "Raid Spot Spawn",
 
     "_comment": "/Tooltips Block",
-    "legendblock.ultraportal.tooltip": "Use to enter and exit Ultra Space",
+    "legendblock.portalwarp.tooltip": "Summon a random pokemob using this block!",
     "legendblock.raidspawn.tooltip": "Use to create a Raid battle!",
 	"legends.gigantic_shard.tooltip": "Use to make your pokemob use Gigantamax!",
     "legends.wishing_piece.tooltip": "Use this item on an inactive raid spot to activate it!",

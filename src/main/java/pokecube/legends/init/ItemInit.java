@@ -87,7 +87,8 @@ public class ItemInit
     public static final RegistryObject<Item> RSHIELD;
     public static final RegistryObject<Item> RSWORD;
     public static final RegistryObject<Item> REINS_U;
-
+    public static final RegistryObject<Item> GENE_FOSSIL;
+    
     // Evolutions
     public static final RegistryObject<Item> CHPOT;
     public static final RegistryObject<Item> CRPOT;
@@ -187,6 +188,7 @@ public class ItemInit
         RSHIELD = PokecubeLegends.ITEMS.register("rustedshield", () -> new ItemBase("rustedshield", 1,PokecubeItems.POKECUBEITEMS));
         RSWORD = PokecubeLegends.ITEMS.register("rustedsword", () -> new ItemBase("rustedsword", 1,PokecubeItems.POKECUBEITEMS));
 
+        GENE_FOSSIL = PokecubeLegends.ITEMS.register("fossil_gene", () -> new ItemBase("fossil_gene", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
         CHPOT = PokecubeLegends.ITEMS.register("chippedpot", () -> new ItemBase("chippedpot", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
         CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase("crackedpot", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
         GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase("galarcuff", 1,PokecubeItems.POKECUBEITEMS).noTooltop());
@@ -274,7 +276,7 @@ public class ItemInit
         {
             return 1.5f;
         }
-
+		
 		@Override
 		public float getKnockbackResistance() {
 			return 2;
