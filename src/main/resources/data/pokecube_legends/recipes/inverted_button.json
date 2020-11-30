@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "wooden_button",
+  "group": "pokecube_legends",
   "ingredients": [
     {
       "item": "pokecube_legends:ultra_plank01"

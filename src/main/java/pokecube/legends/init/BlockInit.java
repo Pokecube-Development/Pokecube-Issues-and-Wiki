@@ -1,7 +1,9 @@
 package pokecube.legends.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
@@ -11,6 +13,7 @@ import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
+import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -111,6 +114,8 @@ public class BlockInit
     public static final RegistryObject<Block> INVERTED_SLAB;
     public static final RegistryObject<Block> INVERTED_FENCE;
     public static final RegistryObject<Block> INVERTED_FENCE_GATE;
+    public static final RegistryObject<Block> INVERTED_TRAPDOOR;
+    public static final RegistryObject<Block> INVERTED_DOOR;
     public static final RegistryObject<Block> INVERTED_BUTTON;
     public static final RegistryObject<Block> INVERTED_PR_PLATE;
     public static final RegistryObject<Block> ULTRA_LEAVEUB01;
@@ -243,18 +248,30 @@ public class BlockInit
         		() -> new Ultra_Tree03(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
         //Woods (LOG/LEAVES/PLANKS)
-        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
-        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_WOOD)));
-        STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_WOOD)));
+        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_WOOD)));
+        STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new LogBlock(MaterialColor.WOOD,
+        		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        INVERTED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("inverted_stairs", () -> new PokecubeWoodStairs());
         INVERTED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("inverted_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        INVERTED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("inverted_stairs", () -> new GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), 
+        		Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
+        ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(
+        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
         INVERTED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("inverted_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        INVERTED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_pressure_plate", () -> new GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, 
+        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        INVERTED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("inverted_trapdoor", () -> new GenericTrapDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
         INVERTED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
-        INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new PokecubeButtonBlock());
-        INVERTED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_pressure_plate", () -> new PokecubePressurePlate());
-        ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new GenericButtonBlock(
+        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        INVERTED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("inverted_door", () -> new GenericDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
         ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
         ULTRA_PLANKUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
@@ -358,29 +375,35 @@ public class BlockInit
         }
     }
 
-    public static class PokecubeWoodStairs extends StairsBlock 
+    public static class GenericWoodStairs extends StairsBlock 
     {
         @SuppressWarnings("deprecation")
-		public PokecubeWoodStairs() {
-            super(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS)
-                    .sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)
-            );
+		public GenericWoodStairs(BlockState state, Properties properties) {
+            super(state, properties);
         }
     }
 
-    public static class PokecubeButtonBlock extends WoodButtonBlock {
-        public PokecubeButtonBlock() {
-            super(Block.Properties.create(Material.WOOD)
-                    .sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)
-            );
+    public static class GenericTrapDoorBlock extends TrapDoorBlock {
+        public GenericTrapDoorBlock(Properties properties) {
+            super(properties);
         }
     }
 
-    public static class PokecubePressurePlate extends PressurePlateBlock {
-        public PokecubePressurePlate() {
-            super(PressurePlateBlock.Sensitivity.EVERYTHING, Block.Properties.create(Material.WOOD)
-                    .sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)
-            );
+    public static class GenericDoorBlock extends DoorBlock {
+        public GenericDoorBlock(Properties properties) {
+            super(properties);
+        }
+    }
+
+    public static class GenericButtonBlock extends WoodButtonBlock {
+        public GenericButtonBlock(Properties properties) {
+            super(properties);
+        }
+    }
+
+    public static class GenericPressurePlate extends PressurePlateBlock {
+        public GenericPressurePlate(Sensitivity sesitivity, Properties properties) {
+            super(sesitivity, properties);
         }
     }
     
