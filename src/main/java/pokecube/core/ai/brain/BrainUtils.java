@@ -247,6 +247,7 @@ public class BrainUtils
         if (aggressor != null)
         {
             aggressor.getTargetFinder().clear();
+            aggressor.onSetTarget(null, true);
             aggressor.setCombatState(CombatStates.ANGRY, false);
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }

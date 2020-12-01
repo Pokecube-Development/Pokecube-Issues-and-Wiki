@@ -93,6 +93,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     @Override
     public void clear()
     {
+        this.targetId = null;
+        this.forgetTimer = 0;
     }
 
     /**
@@ -132,7 +134,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Agro the target.
         if (newtarget != null)
         {
-            Battle.createBattle(entity, newtarget);
+            Battle.createBattle(this.entity, newtarget);
             return true;
         }
         return false;
@@ -173,11 +175,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         {
             if (oldOwner != null && entity == oldOwner) return false;
             final LivingEntity targ = BrainUtils.getAttackTarget(entity);
-            if (entity instanceof MobEntity && targ != null && targ.equals(owner) &&  Battle.createBattle(this.entity, entity))
-            {
-
-                return true;
-            }
+            if (entity instanceof MobEntity && targ != null && targ.equals(owner) &&  Battle.createBattle(this.entity, entity)) return true;
         }
         return false;
     }
@@ -211,7 +209,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
             if (BrainUtil.canSee(this.entity.getBrain(), target))
             {
-                initiateBattle(target);
+                this.initiateBattle(target);
                 return;
             }
         }
@@ -238,16 +236,14 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                 player = null;
             if (player != null && AITools.validTargets.test(player))
             {
-                initiateBattle(player);
+                this.initiateBattle(player);
                 PokecubeCore.LOGGER.debug("Found player to be angry with, agressing.");
             }
         }
     }
 
-    private void initiateBattle(LivingEntity target){
-        if(!Battle.createBattle(this.entity, target)){
-            this.clear();
-        }
+    private void initiateBattle(final LivingEntity target){
+        if(!Battle.createBattle(this.entity, target)) this.clear();
     }
 
     @Override
