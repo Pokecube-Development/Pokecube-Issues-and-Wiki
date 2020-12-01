@@ -27,28 +27,33 @@ public class GrassDistorticBlock extends DirectionalBlock
     public GrassDistorticBlock(final BlockBase.Properties properties)
     {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.UP));
+        this.setDefaultState(this.stateContainer.getBaseState().with(DirectionalBlock.FACING, Direction.UP));
     }
-    
+
     @Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING);
-	}
+    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    {
+        builder.add(DirectionalBlock.FACING);
+    }
 
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
-	}
+    @Override
+    public BlockState rotate(final BlockState state, final Rotation rot)
+    {
+        return state.with(DirectionalBlock.FACING, rot.rotate(state.get(DirectionalBlock.FACING)));
+    }
 
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
-	}
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState mirror(final BlockState state, final Mirror mirrorIn)
+    {
+        return state.rotate(mirrorIn.toRotation(state.get(DirectionalBlock.FACING)));
+    }
 
-	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(FACING, context.getNearestLookingDirection().getOpposite());
-	}
-
-
+    @Override
+    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    {
+        return this.getDefaultState().with(DirectionalBlock.FACING, context.getNearestLookingDirection().getOpposite());
+    }
 
     @Override
     public boolean canSustainPlant(final BlockState state, final IBlockReader world, final BlockPos pos,
@@ -64,7 +69,7 @@ public class GrassDistorticBlock extends DirectionalBlock
         {
             final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
             $_dependencies.put("entity", entity);
-            executeProcedure($_dependencies);
+            GrassDistorticBlock.executeProcedure($_dependencies);
         }
     }
 
@@ -76,14 +81,12 @@ public class GrassDistorticBlock extends DirectionalBlock
             return;
         }
         final Entity entity = (Entity) dependencies.get("entity");
-        if (entity instanceof ServerPlayerEntity) {
-        	if ((((PlayerEntity) entity).inventory.armorInventory.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()) ||
-                    (((PlayerEntity) entity).inventory.armorInventory.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()) ||
-                    (((PlayerEntity) entity).inventory.armorInventory.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()) || 
-                    (((PlayerEntity) entity).inventory.armorInventory.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())) 
-                {
-        	((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SPEED, 120, 2));
-                }
-        }
+        if (entity instanceof ServerPlayerEntity) if (((PlayerEntity) entity).inventory.armorInventory.get(3).getItem() != new ItemStack(
+                ItemInit.ULTRA_HELMET.get(), 1).getItem() || ((PlayerEntity) entity).inventory.armorInventory.get(
+                        2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                || ((PlayerEntity) entity).inventory.armorInventory.get(1).getItem() != new ItemStack(
+                        ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                || ((PlayerEntity) entity).inventory.armorInventory.get(0).getItem() != new ItemStack(
+                        ItemInit.ULTRA_BOOTS.get(), 1).getItem()) ((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SPEED, 120, 2));
     }
 }
