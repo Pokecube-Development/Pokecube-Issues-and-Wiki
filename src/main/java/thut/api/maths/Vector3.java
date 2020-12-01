@@ -1,6 +1,7 @@
 package thut.api.maths;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -1476,6 +1477,7 @@ public class Vector3
         final int j = (int) MathHelper.clamp(this.y, 0, BiomeContainer.VERTICAL_MASK);
         final int k = z & BiomeContainer.HORIZONTAL_MASK;
         final int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i;
+        Arrays.fill(biomes.biomes, biome);
         biomes.biomes[index] = biome;
     }
 

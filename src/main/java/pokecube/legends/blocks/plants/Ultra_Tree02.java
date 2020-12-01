@@ -2,19 +2,10 @@ package pokecube.legends.blocks.plants;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.trees.Tree;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.FeatureSpread;
 import net.minecraft.world.gen.feature.Features;
-import net.minecraft.world.gen.feature.TwoLayerFeature;
-import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
-import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
-import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.UltraTreeInit;
 
 public class Ultra_Tree02 extends Tree {
 
@@ -30,7 +21,7 @@ public class Ultra_Tree02 extends Tree {
                         new TwoLayerFeature(1, 0, 1)))
                         .setIgnoreVines().build());
     }*/
-	
+
 	@Override
 	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(final Random randomIn, final boolean b) {
 		return Features.JUNGLE_TREE_NO_VINE;

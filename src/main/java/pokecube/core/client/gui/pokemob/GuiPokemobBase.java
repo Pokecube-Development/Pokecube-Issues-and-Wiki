@@ -3,7 +3,6 @@ package pokecube.core.client.gui.pokemob;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -40,12 +39,10 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
             if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
             else scale /= Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
         }
-        RenderSystem.pushMatrix();
-        RenderSystem.translatef(j + 55, k + 60, 50.0F);
-        RenderSystem.scalef(1.0F, 1.0F, -1.0F);
         final MatrixStack matrixstack = new MatrixStack();
-
-        matrixstack.getLast().getNormal().mul(Vector3f.YP.rotationDegrees(50));
+        matrixstack.translate(j + 55, k + 60, 50.0F);
+        matrixstack.scale(1.0F, 1.0F, 1.0F);
+        matrixstack.push();
 
         matrixstack.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
@@ -65,7 +62,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.finish();
         entityrenderermanager.setRenderShadow(true);
-        RenderSystem.popMatrix();
+        matrixstack.pop();
     }
 
     public static void setPokemob(final IPokemob pokemobIn)

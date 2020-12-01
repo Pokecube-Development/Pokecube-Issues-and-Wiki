@@ -11,8 +11,11 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CactusBlock;
+import net.minecraft.block.GrassBlock;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -23,13 +26,17 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.server.ChunkManager;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
+import thut.api.terrain.BiomeDatabase;
 
 public class ActionNaturePower implements IMoveAction
 {
@@ -43,44 +50,45 @@ public class ActionNaturePower implements IMoveAction
 
         @Override
         public boolean apply(final BlockPos pos, final ServerWorld world)
-        {//TODO biome changers
-//            // This is the predicate we will use for checking whether something
-//            // is a valid spot.
-//            final Predicate<BlockPos> predicate = t ->
-//            {
-//                final BlockState stateHere = world.getBlockState(t);
-//                final BlockState stateUp = world.getBlockState(t.up());
-//                final Block blockHere = stateHere.getBlock();
-//                final Block blockUp = stateUp.getBlock();
-//                // If already desert biome, this isn't valid, so
-//                // we can return false.
-//                if (world.getBiome(t) == DesertChanger.DESERT) return false;
-//                // Only valid surface blocks are sand
-//                final boolean validHere = blockHere == Blocks.SAND;
-//                // Only counts as desert if air or cactus on top
-//                final boolean validUp = blockUp.isAir(stateUp, world, t.up()) || blockUp instanceof CactusBlock;
-//                return validHere && validUp;
-//            };
-//            // Used on a sand block, will only apply and return true if there is
-//            // some cactus found though.
-//            final BlockState state = world.getBlockState(pos);
-//
-//            // Has to be used on sand
-//            if (state.getBlock() == Blocks.SAND)
-//            {
-//                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.down()), predicate);
-//                checker.checkPoints();
-//                // Check if any cactus is found, will only allow this change if
-//                // at least 1 is found.
-//                boolean cactus = false;
-//                for (final BlockState found : checker.states)
-//                {
-//                    cactus = found.getBlock() instanceof CactusBlock;
-//                    if (cactus) break;
-//                }
-//                if (!cactus) return false;
-//                return ActionNaturePower.applyChecker(checker, world, DesertChanger.DESERT);
-//            }
+        {// TODO biome changers
+         // This is the predicate we will use for checking whether something
+         // is a valid spot.
+            final Predicate<BlockPos> predicate = t ->
+            {
+                final BlockState stateHere = world.getBlockState(t);
+                final BlockState stateUp = world.getBlockState(t.up());
+                final Block blockHere = stateHere.getBlock();
+                final Block blockUp = stateUp.getBlock();
+                final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
+                // If already desert biome, this isn't valid, so
+                // we can return false.
+                if (here == DesertChanger.DESERT) return false;
+                // Only valid surface blocks are sand
+                final boolean validHere = blockHere == Blocks.SAND;
+                // Only counts as desert if air or cactus on top
+                final boolean validUp = blockUp.isAir(stateUp, world, t.up()) || blockUp instanceof CactusBlock;
+                return validHere && validUp;
+            };
+            // Used on a sand block, will only apply and return true if there is
+            // some cactus found though.
+            final BlockState state = world.getBlockState(pos);
+
+            // Has to be used on sand
+            if (state.getBlock() == Blocks.SAND)
+            {
+                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.down()), predicate);
+                checker.checkPoints();
+                // Check if any cactus is found, will only allow this change if
+                // at least 1 is found.
+                boolean cactus = false;
+                for (final BlockState found : checker.states)
+                {
+                    cactus = found.getBlock() instanceof CactusBlock;
+                    if (cactus) break;
+                }
+                if (!cactus) return false;
+                return ActionNaturePower.applyChecker(checker, world, DesertChanger.DESERT);
+            }
             return false;
         }
     }
@@ -95,47 +103,47 @@ public class ActionNaturePower implements IMoveAction
 
         @Override
         public boolean apply(final BlockPos pos, final ServerWorld world)
-        {//TODO biome changers
-//            // This is the predicate we will use for checking whether something
-//            // is a valid spot.
-//            final Predicate<BlockPos> predicate = t ->
-//            {
-//                final BlockState stateHere = world.getBlockState(t);
-//                final BlockState stateUp = world.getBlockState(t.up());
-//                final Block blockHere = stateHere.getBlock();
-//                final Block blockUp = stateUp.getBlock();
-//
-//                // If already forest biome, this isn't valid, so
-//                // we can return false.
-//                if (world.getBiome(t) == ForestChanger.FOREST) return false;
-//                // Only valid surface blocks are dirt and grass
-//                // for this.
-//                final boolean validHere = blockHere == Blocks.GRASS || blockHere == Blocks.DIRT;
-//                // If it is dirt, it must be under a tree,
-//                // otherwise it can be under air or a plant.
-//                final boolean validUp = blockHere == Blocks.DIRT ? PokecubeTerrainChecker.isWood(stateUp)
-//                        : blockUp.isAir(stateUp, world, t.up()) || PokecubeTerrainChecker.isCutablePlant(stateUp);
-//                return validHere && validUp;
-//            };
-//            // Used on a tree, spreads outwards from tree along dirt and grass
-//            // blocks, and converts the area to forest.
-//            final BlockState state = world.getBlockState(pos);
-//            final BlockState below = world.getBlockState(pos.down());
-//
-//            // Has to be wood on dirt, ie at least originally a tree.
-//            if (below.getBlock() == Blocks.DIRT && PokecubeTerrainChecker.isWood(state))
-//            {
-//                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.down()), predicate);
-//                checker.checkPoints();
-//                return ActionNaturePower.applyChecker(checker, world, ForestChanger.FOREST);
-//            }
+        {// TODO biome changers
+         // This is the predicate we will use for checking whether
+         // something
+         // is a valid spot.
+            final Predicate<BlockPos> predicate = t ->
+            {
+                final BlockState stateHere = world.getBlockState(t);
+                final BlockState stateUp = world.getBlockState(t.up());
+                final Block blockHere = stateHere.getBlock();
+                final Block blockUp = stateUp.getBlock();
+
+                final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
+                if (here == ForestChanger.FOREST) return false;
+
+                final boolean validHere = blockHere == Blocks.GRASS || blockHere == Blocks.DIRT;
+                // If it is dirt, it must be under a tree,
+                // otherwise it can be under air or a plant.
+                final boolean validUp = blockHere == Blocks.DIRT ? PokecubeTerrainChecker.isWood(stateUp)
+                        : blockUp.isAir(stateUp, world, t.up()) || PokecubeTerrainChecker.isCutablePlant(stateUp);
+                return validHere && validUp;
+            };
+            // Used on a tree, spreads outwards from tree along dirt and
+            // grass
+            // blocks, and converts the area to forest.
+            final BlockState state = world.getBlockState(pos);
+            final BlockState below = world.getBlockState(pos.down());
+
+            // Has to be wood on dirt, ie at least originally a tree.
+            if (below.getBlock() == Blocks.DIRT && PokecubeTerrainChecker.isWood(state))
+            {
+                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.down()), predicate);
+                checker.checkPoints();
+                return ActionNaturePower.applyChecker(checker, world, ForestChanger.FOREST);
+            }
             return false;
         }
     }
 
     public static class HillsChanger implements IBiomeChanger
     {
-        final RegistryKey<Biome> HILLS = Biomes.MOUNTAINS;
+        static final RegistryKey<Biome> HILLS = Biomes.MOUNTAINS;
 
         public HillsChanger()
         {
@@ -143,37 +151,36 @@ public class ActionNaturePower implements IMoveAction
 
         @Override
         public boolean apply(final BlockPos pos, final ServerWorld world)
-        {//TODO biome changers
-//            // Ensure that this is actually a "high" spot.
-//            if (pos.getY() < world.getHeight() / 2) return false;
-//
-//            // This is the predicate we will use for checking whether something
-//            // is a valid spot.
-//            final Predicate<BlockPos> predicate = t ->
-//            {
-//                final BlockState stateHere = world.getBlockState(t);
-//                final Block blockHere = stateHere.getBlock();
-//                // If already hills biome, this isn't valid, so
-//                // we can return false.
-//                if (world.getBiome(t) == HillsChanger.this.HILLS) return false;
-//                // Only valid surface blocks are stone
-//                final boolean validHere = blockHere == Blocks.STONE;
-//                // Block must be the surface
-//                // TODO see if this works.
-//                final boolean validUp = ActionNaturePower.getTopSolidOrLiquidBlock(world, null, t.getX() & 15, t.getZ()
-//                        & 15).getY() <= t.getY();
-//                return validHere && validUp;
-//            };
-//            // Used on a stone, spreads sideways
-//            final BlockState state = world.getBlockState(pos);
-//
-//            // Has to be used on stone.
-//            if (state.getBlock() == Blocks.STONE)
-//            {
-//                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos), predicate);
-//                checker.checkPoints();
-//                return ActionNaturePower.applyChecker(checker, world, this.HILLS);
-//            }
+        {// TODO biome changers
+         // Ensure that this is actually a "high" spot.
+            if (pos.getY() < world.getHeight() / 2) return false;
+
+            // This is the predicate we will use for checking whether
+            // is a valid spot.
+            final Predicate<BlockPos> predicate = t ->
+            {
+                final BlockState stateHere = world.getBlockState(t);
+                final Block blockHere = stateHere.getBlock();
+                final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
+                if (here == HillsChanger.HILLS) return false;
+                // Only valid surface blocks are stone
+                final boolean validHere = blockHere == Blocks.STONE;
+                // Block must be the surface
+                // TODO see if this works.
+                final boolean validUp = ActionNaturePower.getTopSolidOrLiquidBlock(world, null, t.getX() & 15, t.getZ()
+                        & 15).getY() <= t.getY();
+                return validHere && validUp;
+            };
+            // Used on a stone, spreads sideways
+            final BlockState state = world.getBlockState(pos);
+
+            // Has to be used on stone.
+            if (state.getBlock() == Blocks.STONE)
+            {
+                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos), predicate);
+                checker.checkPoints();
+                return ActionNaturePower.applyChecker(checker, world, HillsChanger.HILLS);
+            }
             return false;
         }
     }
@@ -194,46 +201,43 @@ public class ActionNaturePower implements IMoveAction
         public boolean apply(BlockPos pos, ServerWorld world);
     }
 
-    // public static void updateChunks(PlayerChunkMap chunkMap, Set<Chunk>
-    // affected, int minY, int maxY)
-    // {
-    // Send updates about the chunk having changed. If this is not done,
-    // the player will need to leave area and return to see the changes
-    // on their end.
-    // for (Chunk chunk : affected)
-    // {
-    // PlayerChunkMapEntry entry = chunkMap.getEntry(chunk.x, chunk.z);
-    // if (entry != null)
-    // {
-    // // Reflection is fine here, as not too many chunks should be
-    // // affected by a single use of naturepower.
-    // ReflectionHelper.setPrivateValue(PlayerChunkMapEntry.class, entry,
-    // false, "sentToPlayers",
-    // "field_187290_j", "j");
-    // entry.sendToPlayers();
-    // ClassInheritanceMultiMap<Entity>[] entityLists =
-    // chunk.getEntityLists();
-    // // Ensure range is correct.
-    // minY = Math.max(0, minY);
-    // maxY = Math.min(entityLists.length - 1, maxY);
-    // for (int y = minY; y <= maxY; y++)
-    // {
-    // // Iterate over the mobs here, and send updates to clients.
-    // // This is needed, as somehow the entry.sendToPlayers();
-    // // above removes the entities from the client side mob
-    // // lists. This is the simplest way I found to re-add them to
-    // // those lists.
-    // ClassInheritanceMultiMap<Entity> e = entityLists[y];
-    // Iterator<Entity> iter = e.iterator();
-    // while (iter.hasNext())
-    // {
-    // Entity mob = iter.next();
-    // PacketHandler.sendEntityUpdate(mob);
-    // }
-    // }
-    // }
-    // }
-    // }
+    public static void updateChunks(final ChunkManager chunkMap, final Set<Chunk> affected, final int minY, final int maxY)
+    {
+        // Send updates about the chunk having changed. If this is not done,
+        // the player will need to leave area and return to see the changes
+        // on their end.
+        for (final Chunk chunk : affected)
+        {
+//            final PlayerChunkMapEntry entry = chunkMap.getEntry(chunk.x, chunk.z);
+//            if (entry != null)
+//            {
+//                // Reflection is fine here, as not too many chunks should be
+//                // affected by a single use of naturepower.
+//                ReflectionHelper.setPrivateValue(PlayerChunkMapEntry.class, entry, false, "sentToPlayers",
+//                        "field_187290_j", "j");
+//                entry.sendToPlayers();
+//                final ClassInheritanceMultiMap<Entity>[] entityLists = chunk.getEntityLists();
+//                // Ensure range is correct.
+//                minY = Math.max(0, minY);
+//                maxY = Math.min(entityLists.length - 1, maxY);
+//                for (int y = minY; y <= maxY; y++)
+//                {
+//                    // Iterate over the mobs here, and send updates to clients.
+//                    // This is needed, as somehow the entry.sendToPlayers();
+//                    // above removes the entities from the client side mob
+//                    // lists. This is the simplest way I found to re-add them to
+//                    // those lists.
+//                    final ClassInheritanceMultiMap<Entity> e = entityLists[y];
+//                    final Iterator<Entity> iter = e.iterator();
+//                    while (iter.hasNext())
+//                    {
+//                        final Entity mob = iter.next();
+//                        EntityUpdate.sendEntityUpdate(mob);
+//                    }
+//                }
+//            }
+        }
+    }
 
     public static class PlainsChanger implements IBiomeChanger
     {
@@ -245,36 +249,37 @@ public class ActionNaturePower implements IMoveAction
 
         @Override
         public boolean apply(final BlockPos pos, final ServerWorld world)
-        {//TODO biome changers
-//            // This is the predicate we will use for checking whether something
-//            // is a valid spot.
-//            final Predicate<BlockPos> predicate = t ->
-//            {
-//                final BlockState stateHere = world.getBlockState(t);
-//                final BlockState stateUp = world.getBlockState(t.up());
-//                final Block blockHere = stateHere.getBlock();
-//                // If already plains biome, this isn't valid, so
-//                // we can return false.
-//                if (world.getBiome(t) == PlainsChanger.PLAINS) return false;
-//                // Only valid surface blocks are grass
-//                // for this.
-//                final boolean validHere = blockHere instanceof GrassBlock;
-//                // Only counts as plains if it has plants on grass, so say
-//                // flowers, tall grass, etc
-//                final boolean validUp = PokecubeTerrainChecker.isCutablePlant(stateUp);
-//                return validHere && validUp;
-//            };
-//            // Used on a grass, spreads sideways and only converts blocks that
-//            // have plants on top of the grass.
-//            final BlockState state = world.getBlockState(pos);
-//
-//            // Has to be used on grass.
-//            if (state.getBlock() instanceof GrassBlock)
-//            {
-//                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos), predicate);
-//                checker.checkPoints();
-//                return ActionNaturePower.applyChecker(checker, world, PlainsChanger.PLAINS);
-//            }
+        {// TODO biome changers
+         // // This is the predicate we will use for checking whether
+         // something
+         // is a valid spot.
+            final Predicate<BlockPos> predicate = t ->
+            {
+                final BlockState stateHere = world.getBlockState(t);
+                final BlockState stateUp = world.getBlockState(t.up());
+                final Block blockHere = stateHere.getBlock();
+
+                final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
+                if (here == PlainsChanger.PLAINS) return false;
+                // Only valid surface blocks are grass
+                // for this.
+                final boolean validHere = blockHere instanceof GrassBlock;
+                // Only counts as plains if it has plants on grass, so say
+                // flowers, tall grass, etc
+                final boolean validUp = PokecubeTerrainChecker.isCutablePlant(stateUp);
+                return validHere && validUp;
+            };
+            // Used on a grass, spreads sideways and only converts blocks
+            // have plants on top of the grass.
+            final BlockState state = world.getBlockState(pos);
+
+            // Has to be used on grass.
+            if (state.getBlock() instanceof GrassBlock)
+            {
+                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos), predicate);
+                checker.checkPoints();
+                return ActionNaturePower.applyChecker(checker, world, PlainsChanger.PLAINS);
+            }
             return false;
         }
     }
@@ -391,7 +396,8 @@ public class ActionNaturePower implements IMoveAction
                 {
                     vec.addTo(i, 0, j);
                     final Biome here = vec.getBiome(world);
-                    final Biome natural = world.getChunkProvider().getChunkGenerator().getBiomeProvider().getNoiseBiome(vec.intX(), vec.intY(), vec.intZ());
+                    final Biome natural = world.getChunkProvider().getChunkGenerator().getBiomeProvider().getNoiseBiome(
+                            vec.intX(), vec.intY(), vec.intZ());
                     if (natural != here)
                     {
                         vec.setBiome(natural, world);
@@ -417,15 +423,18 @@ public class ActionNaturePower implements IMoveAction
         ActionNaturePower.changer_classes.add(ResetChanger.class);
     }
 
-    public static boolean applyChecker(final PointChecker checker, final World world, final Biome biome)
+    public static boolean applyChecker(final PointChecker checker, final World world, final RegistryKey<Biome> key)
     {
         // Check if > 1 as it will always at least contain the center.
         if (checker.blocks.size() > 1)
         {
             final Set<IChunk> affected = Sets.newHashSet();
-            // ServerWorld sWorld = (ServerWorld) world;
-            // sWorld.getServer().getPlayerList()
-            // PlayerChunkMap chunkMap = sWorld.getPlayerChunkMap();
+            final Biome biome = BiomeDatabase.getBiome(key);
+            final ServerWorld sWorld = (ServerWorld) world;
+            sWorld.getServer().getPlayerList();
+            // This needs to use the chunk manager and send the chunkto watching
+            // players.
+            // final PlayerChunkMap chunkMap = sWorld.getPlayerChunkMap();
             int minY = Integer.MAX_VALUE;
             int maxY = Integer.MIN_VALUE;
             // Apply the biome to all the locations.
@@ -434,10 +443,12 @@ public class ActionNaturePower implements IMoveAction
                 loc.setBiome(biome, world);
                 affected.add(world.getChunk(loc.getPos()));
                 // sWorld.getPlayerChunkMap().markBlockForUpdate(loc.getPos());
+                sWorld.getChunkProvider().markBlockChanged(loc.getPos());
                 minY = Math.min(minY, loc.intY() / 16);
                 maxY = Math.max(maxY, loc.intY() / 16);
             }
-            // updateChunks(chunkMap, affected, minY - 1, maxY + 1);
+            // ActionNaturePower.updateChunks(chunkMap, affected, minY - 1, maxY
+            // + 1);
             return true;
         }
         return false;
@@ -474,6 +485,7 @@ public class ActionNaturePower implements IMoveAction
         if (time + 20 * 3 > attacker.getEntity().getEntityWorld().getGameTime()) return false;
         final BlockPos pos = location.getPos();
         final ServerWorld world = (ServerWorld) attacker.getEntity().getEntityWorld();
+        if(this.changers.isEmpty()) this.init();
         // Check the changers in order, and apply the first one that returns
         // true. TODO hunger cost added here.
         for (final IBiomeChanger changer : this.changers)

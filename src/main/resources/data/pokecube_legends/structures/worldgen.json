@@ -75,7 +75,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/team_rocket;{\"dy\":26}"
+        "pokecube_legends:temples/surface/team_rocket;{\"dy\":26,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {

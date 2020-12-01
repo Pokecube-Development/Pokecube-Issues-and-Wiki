@@ -12,18 +12,17 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
@@ -73,8 +72,6 @@ public class Health
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.debug("Error drawing a box for healthbar! {} {} {}", buffer, e.toString());
-
         }
     }
 
@@ -135,7 +132,7 @@ public class Health
             final int barHeight1 = config.barHeight;
             float size = config.plateSize;
 
-            final float zlevel = 0.0f;
+            float zlevel = 0.0f;
             int r = 0;
             int g = 220;
             int b = 0;
@@ -160,7 +157,7 @@ public class Health
             if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName()) nameComp = ((MobEntity) entity)
                     .getCustomName();
             final float s = 0.5F;
-            final String name = I18n.format(nameComp.getString());
+            final String name = nameComp.getString();
             final float namel = mc.fontRenderer.getStringWidth(name) * s;
             if (namel + 20 > size * 2) size = namel / 2F + 10F;
             float healthSize = size * (health / maxHealth);
@@ -175,6 +172,7 @@ public class Health
                 final int a = 32;
                 Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding, zlevel, 0, 0,
                         0, a, br);
+                zlevel += 0.001f;
             }
             buffer = Utils.makeBuilder(Health.TYPE, buf);
 
@@ -182,8 +180,10 @@ public class Health
             // Gray Space
             healthSize = healthSize * 2 - size;
             Health.blit(buffer, pos, healthSize, 0, size, barHeight1, zlevel, 100, 127, 100, 255, br);
+            zlevel += 0.001f;
             // Health Bar Fill
             Health.blit(buffer, pos, -size, 0, healthSize, barHeight1, zlevel, r, g, b, 255, br);
+            zlevel += 0.001f;
 
             // Exp Bar
             r = 64;
@@ -201,9 +201,11 @@ public class Health
             expSize = expSize * 2 - size;
             // Gray Space
             Health.blit(buffer, pos, expSize, barHeight1, size, barHeight1 + 1, zlevel, 100, 100, 127, 255, br);
+            zlevel += 0.001f;
 
             // Exp Bar Fill
             Health.blit(buffer, pos, -size, barHeight1, expSize, barHeight1 + 1, zlevel, r, g, b, 255, br);
+            zlevel += 0.001f;
 
             mat.push();
             mat.translate(-size, -4.5F, 0F);
@@ -240,8 +242,8 @@ public class Health
             colour = 0xBBBBBB;
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
-            if (isOwner) mc.fontRenderer.drawString(mat, healthStr, (int) (size / (s * s1)) - mc.fontRenderer.getStringWidth(
-                    healthStr) / 2, h, 0xFFFFFFFF);
+            if (isOwner) mc.fontRenderer.drawString(mat, healthStr, (int) (size / (s * s1)) - mc.fontRenderer
+                    .getStringWidth(healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.getLast().getMatrix();
             mc.fontRenderer.renderString(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
@@ -251,8 +253,8 @@ public class Health
             if (PokecubeCore.getConfig().enableDebugInfo && mc.gameSettings.showDebugInfo)
             {
                 final String entityID = entity.getEntityString().toString();
-                mc.fontRenderer.drawString(mat, "ID: \"" + entityID + "\"" + "(" + entity.getEntityId() + ")", 0, h + 16,
-                        0xFFFFFFFF);
+                mc.fontRenderer.drawString(mat, "ID: \"" + entityID + "\"" + "(" + entity.getEntityId() + ")", 0, h
+                        + 16, 0xFFFFFFFF);
             }
             mat.pop();
 

@@ -5,14 +5,16 @@ import net.minecraftforge.eventbus.api.IEventBus;
 
 public class PokecubeStructureProcessors
 {
-    public static IStructureProcessorType<?> FILLER   = IStructureProcessorType.register("pokecube:filter",
+    public static IStructureProcessorType<?> FILLER    = IStructureProcessorType.register("pokecube:filter",
             FillerProcessor.CODEC);
-    public static IStructureProcessorType<?> EXTENDED = IStructureProcessorType.register("pokecube:extrule",
+    public static IStructureProcessorType<?> EXTENDED  = IStructureProcessorType.register("pokecube:extrule",
             ExtendedRuleProcessor.CODEC);
-    public static IStructureProcessorType<?> NOTRULE  = IStructureProcessorType.register("pokecube:notrule",
+    public static IStructureProcessorType<?> NOTRULE   = IStructureProcessorType.register("pokecube:notrule",
             NotRuleProcessor.CODEC);
-    public static IStructureProcessorType<?> STRUCTS  = IStructureProcessorType.register("pokecube:structures",
+    public static IStructureProcessorType<?> STRUCTS   = IStructureProcessorType.register("pokecube:structures",
             PokecubeStructureProcessor.CODEC);
+    public static IStructureProcessorType<?> MARKERAIR = IStructureProcessorType.register("pokecube:marker_to_air",
+            MarkerToAirProcessor.CODEC);
 
     public static void init(final IEventBus bus)
     {

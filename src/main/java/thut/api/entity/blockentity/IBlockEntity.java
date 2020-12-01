@@ -118,7 +118,7 @@ public interface IBlockEntity
                 final Vector3d spot = start.add(diff.mul(i, i, i));
                 pos.set(MathHelper.floor(spot.x), MathHelper.floor(spot.y), MathHelper.floor(spot.z));
                 final BlockState state = world.getBlock(pos);
-                if (state != null && !state.isAir(world, pos))
+                if (state != null && !world.isAirBlock(pos))
                 {
                     final VoxelShape shape = state.getCollisionShape(world, pos);
                     final BlockRayTraceResult hit = shape.rayTrace(start, end, pos);

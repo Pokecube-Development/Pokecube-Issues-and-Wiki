@@ -20,7 +20,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -388,10 +387,10 @@ public class AnimationGui extends Screen
     {
         if (this.bg)
         {
-            RenderSystem.pushMatrix();
-            RenderSystem.translated(0, 0, -900);
+            mat.push();
+            mat.translate(0, 0, -900);
             AbstractGui.fill(mat, 0, 0, this.width, this.height, 0xFF121314);
-            RenderSystem.popMatrix();
+            mat.pop();
         }
         super.render(mat, unk1, unk2, partialTicks);
 
@@ -544,18 +543,19 @@ public class AnimationGui extends Screen
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 40, 40, 20, new StringTextComponent("ground"), b ->
-        {
-            this.ground = !this.ground;
-            b.setMessage(new StringTextComponent( this.ground ?"ground" : "float"));
-        }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 40, 40, 20, new StringTextComponent("ground"),
+                b ->
+                {
+                    this.ground = !this.ground;
+                    b.setMessage(new StringTextComponent(this.ground ? "ground" : "float"));
+                }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 80, 40, 20, new StringTextComponent("F5"), b ->
         {
             AnimationGui.renderMobs.clear();
             RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 100, 40, 20,new StringTextComponent( "BG"), b ->
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 100, 40, 20, new StringTextComponent("BG"), b ->
         {
             this.bg = !this.bg;
         }));
@@ -569,107 +569,118 @@ public class AnimationGui extends Screen
             this.shift[0] = 0;
             this.shift[1] = 0;
         }));
-        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 60, 20, 20, new StringTextComponent("+"), b ->
-        {
-            this.scale += Screen.hasShiftDown() ? 1 : 0.1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 60, 20, 20,new StringTextComponent( "-"), b ->
+        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 60, 20, 20, new StringTextComponent("+"),
+                b ->
+                {
+                    this.scale += Screen.hasShiftDown() ? 1 : 0.1;
+                }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 60, 20, 20, new StringTextComponent("-"), b ->
         {
             this.scale -= Screen.hasShiftDown() ? 1 : 0.1;
         }));
-        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 80, 20, 20, new StringTextComponent("\u25b6"), b ->
-        {
-            this.shift[0] += Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 80, 20, 20,new StringTextComponent( "\u25c0"), b ->
-        {
-            this.shift[0] -= Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 100, 20, 20, new StringTextComponent("\u25bc"), b ->
-        {
-            this.shift[1] += Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 100, 20, 20,new StringTextComponent("\u25b2"), b ->
-        {
-            this.shift[1] -= Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 120, 40, 20,new StringTextComponent( "Icons"), b ->
-        {
-            this.cap = !this.cap;
-            b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 40, 40, 20,new StringTextComponent( "normal"), b ->
-        {
-            this.shiny = !this.shiny;
-            b.setMessage(new StringTextComponent(this.shiny ? "shiny" : "normal"));
-            this.onUpdated();
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 60, 40, 20,new StringTextComponent( "sexe:M"), b ->
-        {
-            final String[] gender = b.getMessage().getString().split(":");
-            if (gender[1].equalsIgnoreCase("f"))
-            {
-                this.sexe = IPokemob.MALE;
-                b.setMessage(new StringTextComponent("sexe:M"));
-            }
-            else if (gender[1].equalsIgnoreCase("m"))
+        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 80, 20, 20, new StringTextComponent(
+                "\u25b6"), b ->
+                {
+                    this.shift[0] += Screen.hasShiftDown() ? 10 : 1;
+                }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 80, 20, 20, new StringTextComponent("\u25c0"),
+                b ->
+                {
+                    this.shift[0] -= Screen.hasShiftDown() ? 10 : 1;
+                }));
+        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 100, 20, 20, new StringTextComponent(
+                "\u25bc"), b ->
+                {
+                    this.shift[1] += Screen.hasShiftDown() ? 10 : 1;
+                }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 100, 20, 20, new StringTextComponent("\u25b2"),
+                b ->
+                {
+                    this.shift[1] -= Screen.hasShiftDown() ? 10 : 1;
+                }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 120, 40, 20, new StringTextComponent("Icons"),
+                b ->
+                {
+                    this.cap = !this.cap;
+                    b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
+                }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 40, 40, 20, new StringTextComponent("normal"),
+                b ->
+                {
+                    this.shiny = !this.shiny;
+                    b.setMessage(new StringTextComponent(this.shiny ? "shiny" : "normal"));
+                    this.onUpdated();
+                }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 60, 40, 20, new StringTextComponent("sexe:M"),
+                b ->
+                {
+                    final String[] gender = b.getMessage().getString().split(":");
+                    if (gender[1].equalsIgnoreCase("f"))
+                    {
+                        this.sexe = IPokemob.MALE;
+                        b.setMessage(new StringTextComponent("sexe:M"));
+                    }
+                    else if (gender[1].equalsIgnoreCase("m"))
             {
                 this.sexe = IPokemob.FEMALE;
                 b.setMessage(new StringTextComponent("sexe:F"));
             }
-            this.holder = AnimationGui.entry.getModel(this.sexe);
-            this.forme_alt.setText("");
-            this.onUpdated();
-        }));
-        this.addButton(new Button(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 10, 10, new StringTextComponent("\u25b6"), b ->
-        {
-            AnimationGui.entry = Database.getEntry(AnimationGui.mob);
-            if (AnimationGui.entry != null)
-            {
-                final List<PokedexEntry> formes = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
-                if (!formes.contains(AnimationGui.entry)) formes.add(AnimationGui.entry);
-                Collections.sort(formes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-                for (int i = 0; i < formes.size(); i++)
-                    if (formes.get(i) == AnimationGui.entry)
+                    this.holder = AnimationGui.entry.getModel(this.sexe);
+                    this.forme_alt.setText("");
+                    this.onUpdated();
+                }));
+        this.addButton(new Button(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 10, 10, new StringTextComponent(
+                "\u25b6"), b ->
+                {
+                    AnimationGui.entry = Database.getEntry(AnimationGui.mob);
+                    if (AnimationGui.entry != null)
                     {
-                        AnimationGui.entry = i + 1 < formes.size() ? formes.get(i + 1) : formes.get(0);
-                        AnimationGui.mob = AnimationGui.entry.getName();
-                        this.holder = AnimationGui.entry.getModel(this.sexe);
-                        this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
-                        this.forme.setText(AnimationGui.mob);
-                        break;
+                        final List<PokedexEntry> formes = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
+                        if (!formes.contains(AnimationGui.entry)) formes.add(AnimationGui.entry);
+                        Collections.sort(formes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+                        for (int i = 0; i < formes.size(); i++)
+                            if (formes.get(i) == AnimationGui.entry)
+                            {
+                                AnimationGui.entry = i + 1 < formes.size() ? formes.get(i + 1) : formes.get(0);
+                                AnimationGui.mob = AnimationGui.entry.getName();
+                                this.holder = AnimationGui.entry.getModel(this.sexe);
+                                this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+                                this.forme.setText(AnimationGui.mob);
+                                break;
+                            }
                     }
-            }
-            this.onUpdated();
-        }));
-        this.addButton(new Button(this.width - 101, yOffset + 85 - yOffset / 2, 10, 10, new StringTextComponent("\u25c0"), b ->
-        {
-            AnimationGui.entry = Database.getEntry(AnimationGui.mob);
-            if (AnimationGui.entry != null)
-            {
-                final List<PokedexEntry> formes = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
-                if (!formes.contains(AnimationGui.entry)) formes.add(AnimationGui.entry);
-                Collections.sort(formes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-                for (int i = 0; i < formes.size(); i++)
-                    if (formes.get(i) == AnimationGui.entry)
+                    this.onUpdated();
+                }));
+        this.addButton(new Button(this.width - 101, yOffset + 85 - yOffset / 2, 10, 10, new StringTextComponent(
+                "\u25c0"), b ->
+                {
+                    AnimationGui.entry = Database.getEntry(AnimationGui.mob);
+                    if (AnimationGui.entry != null)
                     {
-                        AnimationGui.entry = i - 1 >= 0 ? formes.get(i - 1) : formes.get(formes.size() - 1);
-                        AnimationGui.mob = AnimationGui.entry.getName();
-                        this.holder = AnimationGui.entry.getModel(this.sexe);
-                        this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
-                        this.forme.setText(AnimationGui.mob);
-                        break;
+                        final List<PokedexEntry> formes = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
+                        if (!formes.contains(AnimationGui.entry)) formes.add(AnimationGui.entry);
+                        Collections.sort(formes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+                        for (int i = 0; i < formes.size(); i++)
+                            if (formes.get(i) == AnimationGui.entry)
+                            {
+                                AnimationGui.entry = i - 1 >= 0 ? formes.get(i - 1) : formes.get(formes.size() - 1);
+                                AnimationGui.mob = AnimationGui.entry.getName();
+                                this.holder = AnimationGui.entry.getModel(this.sexe);
+                                this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+                                this.forme.setText(AnimationGui.mob);
+                                break;
+                            }
                     }
-            }
-            this.onUpdated();
-        }));
-        this.addButton(new Button(this.width - 101 + 20, yOffset + 108 - yOffset / 2, 10, 10,new StringTextComponent( "\u25b6"), b ->
-        {
-            AnimationGui.entry = Database.getEntry(AnimationGui.mob);
-            if (AnimationGui.entry != null)
-            {
-                final List<FormeHolder> holders = Database.customModels.get(AnimationGui.entry);
-                if (holders != null) try
+                    this.onUpdated();
+                }));
+        this.addButton(new Button(this.width - 101 + 20, yOffset + 108 - yOffset / 2, 10, 10, new StringTextComponent(
+                "\u25b6"), b ->
+                {
+                    AnimationGui.entry = Database.getEntry(AnimationGui.mob);
+                    if (AnimationGui.entry != null)
+                    {
+                        final List<FormeHolder> holders = Database.customModels.get(AnimationGui.entry);
+                        if (holders != null) try
                 {
                     final ResourceLocation key = this.forme_alt.getText().isEmpty() ? null
                             : PokecubeItems.toPokecubeResource(this.forme_alt.getText());
@@ -681,22 +692,23 @@ public class AnimationGui extends Screen
                             break;
                         }
                 }
-                catch (final Exception e)
+                        catch (final Exception e)
                 {
                     PokecubeCore.LOGGER.error("Error cycling forme holder!");
                     this.forme_alt.setText("");
                 }
-                else this.forme_alt.setText("");
-            }
-            this.onUpdated();
-        }));
-        this.addButton(new Button(this.width - 101, yOffset + 108 - yOffset / 2, 10, 10, new StringTextComponent("\u25c0"), b ->
-        {
-            AnimationGui.entry = Database.getEntry(AnimationGui.mob);
-            if (AnimationGui.entry != null)
-            {
-                final List<FormeHolder> holders = Database.customModels.get(AnimationGui.entry);
-                if (holders != null) try
+                        else this.forme_alt.setText("");
+                    }
+                    this.onUpdated();
+                }));
+        this.addButton(new Button(this.width - 101, yOffset + 108 - yOffset / 2, 10, 10, new StringTextComponent(
+                "\u25c0"), b ->
+                {
+                    AnimationGui.entry = Database.getEntry(AnimationGui.mob);
+                    if (AnimationGui.entry != null)
+                    {
+                        final List<FormeHolder> holders = Database.customModels.get(AnimationGui.entry);
+                        if (holders != null) try
                 {
                     final ResourceLocation key = this.forme_alt.getText().isEmpty() ? null
                             : PokecubeItems.toPokecubeResource(this.forme_alt.getText());
@@ -709,15 +721,15 @@ public class AnimationGui extends Screen
                             break;
                         }
                 }
-                catch (final Exception e)
+                        catch (final Exception e)
                 {
                     PokecubeCore.LOGGER.error("Error cycling forme holder!");
                     this.forme_alt.setText("");
                 }
-                else this.forme_alt.setText("");
-            }
-            this.onUpdated();
-        }));
+                        else this.forme_alt.setText("");
+                    }
+                    this.onUpdated();
+                }));
 
         this.onUpdated();
     }
@@ -815,13 +827,13 @@ public class AnimationGui extends Screen
         // left click
         if (m == 0)
         {
-            this.xRenderAngle += dx;
+            this.xRenderAngle -= dx;
             this.yRenderAngle += dy;
         }
         // right click
         if (m == 1)
         {
-            this.xHeadRenderAngle += dx;
+            this.xHeadRenderAngle -= dx;
             this.yHeadRenderAngle += dy;
         }
         return super.mouseDragged(x, y, m, dx, dy);

@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ActionResultType;
@@ -28,16 +27,17 @@ public class MagneticBlock extends BlockBase
 
     @SuppressWarnings("deprecation")
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity entity, Hand hand,
-			BlockRayTraceResult hit) {
+	public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos, final PlayerEntity entity, final Hand hand,
+			final BlockRayTraceResult hit) {
 		super.onBlockActivated(state, world, pos, entity, hand, hit);
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
+		final int x = pos.getX();
+		final int y = pos.getY();
+		final int z = pos.getZ();
 		@SuppressWarnings("unused")
+        final
 		Direction direction = hit.getFace();
 		{
-			java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
+			final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
 			$_dependencies.put("entity", entity);
 			$_dependencies.put("x", x);
 			$_dependencies.put("y", y);
@@ -55,16 +55,14 @@ public class MagneticBlock extends BlockBase
             System.err.println("Failed to WalkEffect!");
             return;
         }
-        int x = (int) dependencies.get("x");
-		int y = (int) dependencies.get("y");
-		int z = (int) dependencies.get("z");
+        final int x = (int) dependencies.get("x");
+		final int y = (int) dependencies.get("y");
+		final int z = (int) dependencies.get("z");
 
-        World world = (World) dependencies.get("world");
+        final World world = (World) dependencies.get("world");
         final Entity entity = (Entity) dependencies.get("entity");
         if (entity instanceof ServerPlayerEntity) {
-        	if (!world.isRemote) {
-				world.createExplosion(null, (int) x, (int) y, (int) z, (float) 3, Explosion.Mode.BREAK);
-			}
+        	if (!world.isRemote) world.createExplosion(null, x, y, z, 3, Explosion.Mode.BREAK);
 
         	if (world instanceof ServerWorld) {
 				//((ServerWorld) world).addEntity(new LightningBoltEntity(null, world));
