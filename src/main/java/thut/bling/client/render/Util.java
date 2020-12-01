@@ -117,7 +117,6 @@ public class Util
         }
         final Color colour = new Color(ret.getColorValue() + 0xFF000000);
         IExtendedModelPart part = model.getParts().get(colorpart);
-
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
             gem = ItemStack.read(stack.getTag().getCompound("gemTag"));

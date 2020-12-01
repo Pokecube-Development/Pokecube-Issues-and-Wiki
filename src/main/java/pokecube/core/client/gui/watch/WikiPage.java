@@ -265,7 +265,6 @@ public class WikiPage extends ListPage<LineEntry>
             }
             catch (final Exception e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

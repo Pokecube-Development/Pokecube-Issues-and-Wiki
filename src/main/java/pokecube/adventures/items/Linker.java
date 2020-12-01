@@ -82,7 +82,6 @@ public class Linker extends Item
                 }
                 catch (final Exception e)
                 {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
