@@ -3,7 +3,6 @@ package pokecube.core.client.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -103,7 +102,7 @@ public class GuiChooseFirstPokemob extends Screen
                         this.index++;
                         if (this.index >= GuiChooseFirstPokemob.starters.length) this.index = 0;
                     }));
-                    final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
+            final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
             this.addButton(this.prev = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset, 50, 20,
                     prev, b ->
                     {
@@ -170,9 +169,7 @@ public class GuiChooseFirstPokemob extends Screen
         if (GuiChooseFirstPokemob.special)
         {
             AbstractGui.drawCenteredString(mat, this.font, I18n.format("gui.pokemob.choose1st.override"), this.width
-                    / 2,
-                    17,
-                    0xffffff);
+                    / 2, 17, 0xffffff);
             return;
         }
         if (GuiChooseFirstPokemob.starters == null || GuiChooseFirstPokemob.starters.length == 0)
@@ -193,9 +190,7 @@ public class GuiChooseFirstPokemob extends Screen
                 0xffffff);
 
         AbstractGui.drawCenteredString(mat, this.font, I18n.format(this.pokedexEntry.getUnlocalizedName()), this.width
-                / 2,
-                45,
-                0xffffff);
+                / 2, 45, 0xffffff);
 
         int n = 0;
         int m = 0;
@@ -204,20 +199,15 @@ public class GuiChooseFirstPokemob extends Screen
         final int l = 40;
         final int k = 150;
 
-        if (this.pokedexEntry.getType2() == PokeType.unknown) AbstractGui.drawCenteredString(mat, this.font,
-                PokeType
+        if (this.pokedexEntry.getType2() == PokeType.unknown) AbstractGui.drawCenteredString(mat, this.font, PokeType
                 .getTranslatedName(this.pokedexEntry.getType1()), this.width / 2, 65, this.pokedexEntry
                         .getType1().colour);
         else
         {
             AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(this.pokedexEntry.getType1()),
-                    this.width
-                            / 2
-                    - 20, 65, this.pokedexEntry.getType1().colour);
+                    this.width / 2 - 20, 65, this.pokedexEntry.getType1().colour);
             AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(this.pokedexEntry.getType2()),
-                    this.width
-                            / 2
-                    + 20, 65, this.pokedexEntry.getType2().colour);
+                    this.width / 2 + 20, 65, this.pokedexEntry.getType2().colour);
         }
         GL11.glPushMatrix();
 
@@ -264,35 +254,23 @@ public class GuiChooseFirstPokemob extends Screen
             final IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(item, null,
                     null);
 
-            RenderSystem.pushMatrix();
-            RenderSystem.enableRescaleNormal();
-            RenderSystem.enableAlphaTest();
-            RenderSystem.defaultAlphaFunc();
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
-                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.translatef((float) x, (float) y, 100.0F);// TODO
-            // zlevel?
-            RenderSystem.translatef(8.0F, 8.0F, 0.0F);
-            RenderSystem.scalef(1.0F, -1.0F, 1.0F);
-            GL11.glScaled(50f, 50f, 50f);
             final MatrixStack matrixstack = new MatrixStack();
             final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
                     .getBufferSource();
+            matrixstack.push();
+            // TODO zlevel?
+            matrixstack.translate((float) x + 8, (float) y + 8, 100.0F);
+            matrixstack.scale(50.0F, -50.0F, 50.0F);
             final boolean flag = !model.isSideLit();
             if (flag) RenderHelper.setupGuiFlatDiffuseLighting();
 
             Minecraft.getInstance().getItemRenderer().renderItem(item,
                     net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, matrixstack,
                     irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, model);
-            irendertypebuffer$impl.finish();
             RenderSystem.enableDepthTest();
             if (flag) RenderHelper.setupGui3DDiffuseLighting();
-
-            RenderSystem.disableAlphaTest();
-            RenderSystem.disableRescaleNormal();
-            RenderSystem.popMatrix();
+            matrixstack.pop();
+            irendertypebuffer$impl.finish();
         }
     }
 
