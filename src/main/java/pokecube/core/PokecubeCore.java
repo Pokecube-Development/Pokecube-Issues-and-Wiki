@@ -160,7 +160,6 @@ public class PokecubeCore
             gen.addProvider(new Drops(gen));
         }
 
-
         @SubscribeEvent
         public static void registerStructures(final RegistryEvent.Register<Structure<?>> event)
         {
@@ -178,8 +177,8 @@ public class PokecubeCore
                 final Predicate<RegistryKey<Biome>> check = k -> BiomeDatabase.contains(k, "ocean") || BiomeDatabase
                         .contains(k, "sandy");
                 // Currently this uses same settings as gold ore.
-                WorldgenHandler.WORLDGEN.get(PokecubeCore.MODID).register(check,
-                        GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(
+                WorldgenHandler.get(PokecubeCore.MODID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
+                        Feature.ORE.withConfiguration(new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, PokecubeItems.FOSSILSTONE
                                         .getDefaultState(), 9)).range(32).square().func_242731_b(2));
             }

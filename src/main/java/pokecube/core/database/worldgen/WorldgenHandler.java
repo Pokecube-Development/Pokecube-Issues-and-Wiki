@@ -247,11 +247,16 @@ public class WorldgenHandler
         public List<JigSawConfig> jigsaws = Lists.newArrayList();
     }
 
-    public static Map<String, WorldgenHandler> WORLDGEN = Maps.newConcurrentMap();
+    private static Map<String, WorldgenHandler> WORLDGEN = Maps.newConcurrentMap();
 
     public static Map<String, CustomJigsawStructure> structs = Maps.newConcurrentMap();
 
     public static Set<RegistryKey<World>> SOFTBLACKLIST = Sets.newHashSet();
+
+    public static WorldgenHandler get(final String modid)
+    {
+        return WorldgenHandler.WORLDGEN.get(modid);
+    }
 
     public final String           MODID;
     public final ResourceLocation ROOT;

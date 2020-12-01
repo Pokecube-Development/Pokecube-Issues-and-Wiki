@@ -56,6 +56,7 @@ import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.proxy.ClientProxy;
 import pokecube.legends.proxy.CommonProxy;
 import pokecube.legends.tileentity.RaidSpawn;
+import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 
 @Mod(value = Reference.ID)
@@ -87,21 +88,22 @@ public class PokecubeLegends
             // Register the fossil stone spawning.
             if (PokecubeLegends.config.generateOres)
             {
-                final Predicate<RegistryKey<Biome>> check = k ->
-                BiomeDatabase.contains(k, "FOREST") || BiomeDatabase.contains(k, "OCEAN") ||
-                BiomeDatabase.contains(k, "HILLS") || BiomeDatabase.contains(k, "PLAINS") ||
-                BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN") ||
-                BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY");
-                WorldgenHandler.WORLDGEN.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
+                final Predicate<RegistryKey<Biome>> check = k -> BiomeDatabase.contains(k, "FOREST") || BiomeDatabase
+                        .contains(k, "OCEAN") || BiomeDatabase.contains(k, "HILLS") || BiomeDatabase.contains(k,
+                                "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN")
+                        || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY");
+                WorldgenHandler.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
                         Feature.ORE.withConfiguration(new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.RUBY_ORE.get()
                                         .getDefaultState(), 5)).range(32).square().func_242731_b(2));
 
-                WorldgenHandler.WORLDGEN.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
+                WorldgenHandler.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
                         Feature.ORE.withConfiguration(new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.SAPPHIRE_ORE.get()
                                         .getDefaultState(), 5)).range(32).square().func_242731_b(2));
             }
+
+            Trees.register();
         }
 
         @SubscribeEvent
