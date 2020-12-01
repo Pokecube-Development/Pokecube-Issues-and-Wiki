@@ -222,7 +222,7 @@ public class WorldgenHandler
 
         public boolean isBlackisted(final RegistryKey<World> dim)
         {
-            if (this._blacklisted.size() != this.dimBlacklist.size())
+            if (this._blacklisted.size() != this.dimBlacklist.size() || this._whitelisted.size() != this.dimWhitelist.size())
             {
                 this._blacklisted.clear();
                 this._whitelisted.clear();
@@ -232,7 +232,7 @@ public class WorldgenHandler
                     this._whitelisted.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
             }
             if (this._whitelisted.contains(dim)) return false;
-            return this._blacklisted.contains(dim);
+            return this._blacklisted.contains(dim) || WorldgenHandler.SOFTBLACKLIST.contains(dim);
         }
     }
 
@@ -286,7 +286,7 @@ public class WorldgenHandler
             }
             catch (final Exception e)
             {
-                if (e instanceof FileNotFoundException) PokecubeMod.LOGGER.warn("No worldgen database found for "
+                if (e instanceof FileNotFoundException) PokecubeMod.LOGGER.debug("No worldgen database found for "
                         + WorldgenHandler.this.MODID);
                 else PokecubeMod.LOGGER.catching(e);
                 return;
@@ -294,15 +294,15 @@ public class WorldgenHandler
 
             PokecubeCore.LOGGER.info("Loaded {} pools and {} jigsaws for {}", WorldgenHandler.this.defaults.pools
                     .size(), WorldgenHandler.this.defaults.jigsaws.size(), WorldgenHandler.this.MODID);
+            final WorldgenHandler handler = WorldgenHandler.this;
 
             // Register the pools.
-            for (final JigSawPool pool : WorldgenHandler.this.defaults.pools)
-                WorldgenHandler.this.patterns.put(pool.name, WorldgenFeatures.register(pool,
-                        WorldgenFeatures.GENERICLIST));
+            for (final JigSawPool pool : handler.defaults.pools)
+                handler.patterns.put(pool.name, WorldgenFeatures.register(pool, WorldgenFeatures.GENERICLIST));
 
             // Register the structrues
-            for (final JigSawConfig struct : WorldgenHandler.this.defaults.jigsaws)
-                WorldgenHandler.this.register(struct, event);
+            for (final JigSawConfig struct : handler.defaults.jigsaws)
+                handler.register(struct, event);
         }
     }
 
@@ -311,9 +311,9 @@ public class WorldgenHandler
     private final Map<BiomeFeature, Predicate<RegistryKey<Biome>>>   features   = Maps.newHashMap();
     private final Map<BiomeStructure, Predicate<RegistryKey<Biome>>> structures = Maps.newHashMap();
 
-    private final Map<String, JigsawPattern> patterns = Maps.newHashMap();
+    public final Map<String, JigsawPattern> patterns = Maps.newHashMap();
 
-    private final Map<JigSawConfig, CustomJigsawStructure> toConfigure = Maps.newHashMap();
+    public final Map<JigSawConfig, CustomJigsawStructure> toConfigure = Maps.newHashMap();
 
     public Structures defaults;
 
@@ -488,7 +488,7 @@ public class WorldgenHandler
             }
     }
 
-    public void register(final JigSawConfig struct, final RegistryEvent.Register<Structure<?>> event)
+    public CustomJigsawStructure register(final JigSawConfig struct, final RegistryEvent.Register<Structure<?>> event)
     {
         final String structName = struct.type.isEmpty() ? struct.name : struct.type;
 
@@ -507,10 +507,11 @@ public class WorldgenHandler
         if (!this.patterns.containsKey(struct.root))
         {
             PokecubeCore.LOGGER.error("No pool found for {}, are you sure it is registered?", struct.root);
-            return;
+            return structure;
         }
         // Add it to our list for configuration
         this.toConfigure.put(struct, structure);
+        return structure;
     }
 
     private static Field illagers = null;

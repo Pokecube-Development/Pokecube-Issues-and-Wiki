@@ -19,6 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -29,6 +30,7 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.JigsawReplacementStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessorList;
 import net.minecraft.world.gen.feature.template.Template;
@@ -99,6 +101,10 @@ public class CustomJigsawPiece extends SingleJigsawPiece
     public String             spawnReplace;
     public MutableBoundingBox mask;
 
+    public PlacementSettings toUse;
+
+    public StructureProcessorList overrideList = null;
+
     boolean maskCheck;
 
     public CustomJigsawPiece(final Either<ResourceLocation, Template> template,
@@ -111,31 +117,45 @@ public class CustomJigsawPiece extends SingleJigsawPiece
     }
 
     @Override
-    protected PlacementSettings func_230379_a_(final Rotation p_230379_1_, final MutableBoundingBox p_230379_2_,
-            final boolean p_230379_3_)
+    public PlacementSettings func_230379_a_(final Rotation direction, final MutableBoundingBox box,
+            final boolean notJigsaw)
     {
-        final PlacementSettings placementsettings = super.func_230379_a_(p_230379_1_, p_230379_2_, p_230379_3_);
-        placementsettings.removeProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+        final PlacementSettings placementsettings = new PlacementSettings();
+        placementsettings.setBoundingBox(box);
+        placementsettings.setRotation(direction);
+        placementsettings.func_215223_c(true);
+        placementsettings.setIgnoreEntities(false);
+        placementsettings.func_237133_d_(true);
+
+        if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
         if (this.opts.getFiller()) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
         if (!this.opts.getIgnoreAir() || !this.opts.getRigid()) placementsettings.addProcessor(
                 BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
         else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
-        return placementsettings;
+
+//        if (this.overrideList == null)
+//        {
+//            this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
+//            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
+//        }
+//        else this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
+
+        return this.toUse = placementsettings;
     }
 
     @Override
     public boolean func_230378_a_(final TemplateManager templates, final ISeedReader seedReader,
             final StructureManager structureManager, final ChunkGenerator chunkGenerator, final BlockPos pos1,
             final BlockPos pos2, final Rotation rotation, final MutableBoundingBox box, final Random rng,
-            final boolean isJigsaw)
+            final boolean notJigsaw)
     {
 
         final Template template = this.getTemplate(templates);
-        final PlacementSettings placementsettings = this.func_230379_a_(rotation, box, isJigsaw);
+        final PlacementSettings placementsettings = this.func_230379_a_(rotation, box, notJigsaw);
         if (!template.func_237146_a_(seedReader, pos1, pos2, placementsettings, rng, 18)) return false;
         else
         {
-            if (this.world == null) this.world = (World) JigsawAssmbler.getForGen(chunkGenerator);
+            if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);
 
             final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, this.world,
                     this.field_236839_c_.left().get().toString(), placementsettings);
@@ -159,7 +179,7 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         }
     }
 
-    Template getTemplate(final TemplateManager manager)
+    public Template getTemplate(final TemplateManager manager)
     {
         return this.field_236839_c_.map(manager::getTemplateDefaulted, Function.identity());
     }
@@ -172,6 +192,20 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         if (!function.isEmpty()) PokecubeCore.LOGGER.debug(function);
 
         this.isSpawn = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
+        if (this.isSpawn)
+        {
+            Vector3i midMask = this.mask.func_215126_f();
+            Vector3i midBox = box.func_215126_f();
+            midMask = new BlockPos(midMask.getX(), 0, midMask.getZ());
+            midBox = new BlockPos(midBox.getX(), 0, midBox.getZ());
+
+            System.out.println(this.maskCheck);
+            System.out.println(Math.sqrt(midMask.distanceSq(midBox)) + " " + Math.sqrt(box.getLength().distanceSq(
+                    Vector3i.NULL_VECTOR)));
+            System.out.println(midMask + " " + midBox);
+            System.out.println(this.spawnReplace);
+        }
+
         if (this.isSpawn && this.maskCheck && this.spawnReplace.equals(function))
         {
             PokecubeCore.LOGGER.info("Overriding an entry as a professor at " + pos);

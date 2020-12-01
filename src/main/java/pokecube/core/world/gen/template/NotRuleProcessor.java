@@ -1,8 +1,9 @@
 package pokecube.core.world.gen.template;
 
+import java.util.List;
 import java.util.Random;
 
-import com.google.common.collect.ImmutableList;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -18,9 +19,11 @@ import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 
 public class NotRuleProcessor extends RuleStructureProcessor
 {
-    private final ImmutableList<RuleEntry> rules;
+    public static final Codec<NotRuleProcessor> CODEC;
 
-    public NotRuleProcessor(final ImmutableList<RuleEntry> rules)
+    private final List<RuleEntry> rules;
+
+    public NotRuleProcessor(final List<RuleEntry> rules)
     {
         super(rules);
         this.rules = rules;
@@ -47,5 +50,13 @@ public class NotRuleProcessor extends RuleStructureProcessor
     protected IStructureProcessorType<?> getType()
     {
         return PokecubeStructureProcessors.NOTRULE;
+    }
+
+    static
+    {
+        CODEC = RuleEntry.field_237108_a_.listOf().fieldOf("rules").xmap(NotRuleProcessor::new, (p_237126_0_) ->
+        {
+            return p_237126_0_.rules;
+        }).codec();
     }
 }

@@ -21,6 +21,7 @@ import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.Template.Palette;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
 
@@ -71,7 +72,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
             boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
                     config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn, blockpos,
-                    this.components, this.rand, biomeIn);
+                    this.components, this.rand, biomeIn, c -> true);
 
             int n = 0;
             while (!built && n++ < 20)
@@ -80,12 +81,10 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                 final Random newRand = new Random(this.rand.nextLong());
                 built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
                         config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
-                        blockpos, this.components, newRand, biomeIn);
+                        blockpos, this.components, newRand, biomeIn, c -> true);
                 PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.components.size());
             }
             if (!built) PokecubeCore.LOGGER.warn("Failed to complete a structure at " + blockpos);
-
-            // TODO post processing steps
 
             // Check if any components are valid spawn spots, if so, set the
             // spawned flag
@@ -100,19 +99,18 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                         // Check if the part needs a shift.
                         p.offset(0, -piece.opts.dy, 0);
 
-                        // TODO decide if we want to do this.
-                        // if (config.struct_config.base_under)
-                        // p.getBoundingBox().minY -= piece.opts.dy;
-
                         // Check if we should place a professor.
-                        if (!PokecubeSerializer.getInstance().hasPlacedProf())
+                        if (!PokecubeSerializer.getInstance().hasPlacedSpawn())
                         {
                             final Template t = piece.getTemplate(templateManagerIn);
+                            if (piece.toUse == null) piece.func_230379_a_(part.getRotation(), part.getBoundingBox(),
+                                    false);
                             components:
                             for (final Palette list : t.blocks)
                             {
                                 boolean foundWorldspawn = false;
                                 String tradeString = "";
+                                BlockPos pos = null;
                                 for (final BlockInfo i : list.func_237157_a_())
                                     if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
                                     {
@@ -122,11 +120,21 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                                         {
                                             final String meta = i.nbt.getString("metadata");
                                             foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
+                                            if (pos == null && foundWorldspawn) pos = i.pos;
                                             if (meta.startsWith("pokecube:mob:trader")) tradeString = meta;
                                         }
                                     }
                                 if (!tradeString.isEmpty() && foundWorldspawn)
                                 {
+                                    final ServerWorld sworld = JigsawAssmbler.getForGen(chunkGenerator);
+                                    final BlockPos spos = Template.transformedBlockPos(piece.toUse, pos).add(blockpos)
+                                            .add(0, part.getBoundingBox().minY, 0);
+                                    PokecubeCore.LOGGER.info("Setting spawn to {} {}", spos, pos);
+                                    sworld.getServer().execute(() ->
+                                    {
+                                        sworld.func_241124_a__(spos, 0);
+                                    });
+                                    PokecubeSerializer.getInstance().setPlacedSpawn();
                                     piece.isSpawn = true;
                                     piece.spawnReplace = tradeString;
                                     piece.mask = new MutableBoundingBox(part.getBoundingBox());
@@ -141,8 +149,9 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
 
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.
-            PokecubeCore.LOGGER.info(config.struct_config.name + " at " + blockpos.getX() + " " + blockpos.getY() + " "
-                    + blockpos.getZ() + " of size " + this.components.size());
+            PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos.getX() + " " + this.getBoundingBox()
+                    .func_215126_f().getY() + " " + blockpos.getZ() + " of size " + this.components.size() + " " + this
+                            .getBoundingBox().getLength());
         }
 
     }

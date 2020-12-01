@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +19,8 @@ import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 
 public class ExtendedRuleProcessor extends RuleStructureProcessor
 {
+    public static final Codec<ExtendedRuleProcessor> CODEC;
+
     private final ImmutableList<RuleEntry> rules;
 
     public ExtendedRuleProcessor(final List<RuleEntry> rules)
@@ -47,5 +50,13 @@ public class ExtendedRuleProcessor extends RuleStructureProcessor
     protected IStructureProcessorType<?> getType()
     {
         return PokecubeStructureProcessors.EXTENDED;
+    }
+
+    static
+    {
+        CODEC = RuleEntry.field_237108_a_.listOf().fieldOf("rules").xmap(ExtendedRuleProcessor::new, (p_237126_0_) ->
+        {
+            return p_237126_0_.rules;
+        }).codec();
     }
 }

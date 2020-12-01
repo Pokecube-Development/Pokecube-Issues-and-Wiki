@@ -78,7 +78,28 @@
         "pokecube_legends:temples/surface/team_rocket;{\"dy\":26}"
       ]
     },
-      
+    {
+      "name":"pokecube_legends:distortic",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+      	"pokecube_legends:islands/dist_tree;{\"weight\":10}",
+        "pokecube_legends:islands/mirror_1;{\"weight\":20}",
+        "pokecube_legends:islands/mirror_2;{\"weight\":30}",
+        "pokecube_legends:islands/mirror_3;{\"weight\":36}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:islands",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+      	"pokecube_legends:islands/island_1;{\"weight\":30}",
+        "pokecube_legends:islands/island_2;{\"weight\":45}",
+        "pokecube_legends:islands/island_3;{\"weight\":50}",
+        "pokecube_legends:islands/island_4;{\"weight\":70}"
+      ]
+    },
     {
       "name":"pokecube_legends:meteor_overworld",
       "rigid":false,
@@ -764,6 +785,40 @@
       }
     },
     {
+      "name":"pokecube_legends:distortic",
+      "root":"pokecube_legends:distortic",
+      "biomeType":"none",
+      "distance":10,
+      "separation":8,
+      "base_under":true,
+      "dimWhitelist":[
+        "pokecube_legends:distorted_world"
+      ],
+      "spawn": {
+      	"values":{
+          "biomes":"pokecube_legends:distorted_biome"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:islands",
+      "root":"pokecube_legends:islands",
+      "biomeType":"none",
+      "distance":10,
+      "separation":8,
+      "base_under":false,
+      "air": true,
+      "height": 10,
+       "dimWhitelist":[
+        "pokecube_legends:distorted_world"
+      ],
+      "spawn": {
+      	"values":{
+          "biomes":"pokecube_legends:distorted_biome"
+        }
+      }
+    },
+    {
       "name":"pokecube_legends:ub001",
       "root":"pokecube_legends:ub001",
       "biomeType":"none",
@@ -774,7 +829,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:ub001"
+          "biomes":"pokecube_legends:ultra_deep_cave"
         }
       }
     },
@@ -789,7 +844,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:ub002"
+          "biomes":"pokecube_legends:ultra_junglee"
         }
       }
     },
@@ -804,7 +859,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:ub003"
+          "biomes":"pokecube_legends:ultra_desert"
         }
       }
     },
@@ -819,7 +874,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:ub004"
+          "biomes":"pokecube_legends:ultra_dark_valley"
         }
       }
     },
@@ -834,7 +889,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:ub005"
+          "biomes":"pokecube_legends:ultra_deep_hills"
         }
       }
     },
@@ -849,7 +904,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:ub005"
+          "biomes":"pokecube_legends:ultra_forgotten_plains"
         }
       }
     },
@@ -866,7 +921,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:ub002"
+          "biomes":"pokecube_legends:ultra_jungle"
         }
       }
     }
