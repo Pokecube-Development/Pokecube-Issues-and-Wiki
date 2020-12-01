@@ -222,7 +222,7 @@ public class WorldgenHandler
 
         public boolean isBlackisted(final RegistryKey<World> dim)
         {
-            if (this._blacklisted.size() != this.dimBlacklist.size())
+            if (this._blacklisted.size() != this.dimBlacklist.size() || this._whitelisted.size() != this.dimWhitelist.size())
             {
                 this._blacklisted.clear();
                 this._whitelisted.clear();
@@ -232,7 +232,7 @@ public class WorldgenHandler
                     this._whitelisted.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
             }
             if (this._whitelisted.contains(dim)) return false;
-            return this._blacklisted.contains(dim);
+            return this._blacklisted.contains(dim) || WorldgenHandler.SOFTBLACKLIST.contains(dim);
         }
     }
 

@@ -12,8 +12,10 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -561,13 +563,8 @@ public class SpawnBiomeMatcher
                 s = s.trim();
                 // Ensure we are a resourcelocation!
                 if (!s.contains(":")) s = "minecraft:" + s;
-                RegistryKey<Biome> biome = null;
-                for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
-                    if (b.getRegistryName().toString().equals(s))
-                    {
-                        biome = b;
-                        break;
-                    }
+                final RegistryKey<Biome> biome = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(
+                        s));
                 if (biome != null) this._validBiomes.add(biome);
             }
         }
@@ -601,14 +598,9 @@ public class SpawnBiomeMatcher
                 s = s.trim();
                 // Ensure we are a resourcelocation!
                 if (!s.contains(":")) s = "minecraft:" + s;
-                RegistryKey<Biome> biome = null;
-                for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
-                    if (b.getRegistryName().toString().equals(s))
-                    {
-                        biome = b;
-                        break;
-                    }
-                if (biome != null) this._blackListBiomes.add(biome);
+                final RegistryKey<Biome> biome = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(
+                        s));
+                this._blackListBiomes.add(biome);
             }
         }
         if (typeBlacklistString != null)

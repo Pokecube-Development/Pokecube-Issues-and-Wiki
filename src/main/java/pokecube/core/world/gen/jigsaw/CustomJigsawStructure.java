@@ -72,7 +72,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
             boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
                     config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn, blockpos,
-                    this.components, this.rand, biomeIn, c->true);
+                    this.components, this.rand, biomeIn, c -> true);
 
             int n = 0;
             while (!built && n++ < 20)
@@ -81,7 +81,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                 final Random newRand = new Random(this.rand.nextLong());
                 built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
                         config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
-                        blockpos, this.components, newRand, biomeIn, c->true);
+                        blockpos, this.components, newRand, biomeIn, c -> true);
                 PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.components.size());
             }
             if (!built) PokecubeCore.LOGGER.warn("Failed to complete a structure at " + blockpos);
@@ -149,8 +149,9 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
 
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.
-            PokecubeCore.LOGGER.info(config.struct_config.name + " at " + blockpos.getX() + " " + blockpos.getY() + " "
-                    + blockpos.getZ() + " of size " + this.components.size());
+            PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos.getX() + " " + this.getBoundingBox()
+                    .func_215126_f().getY() + " " + blockpos.getZ() + " of size " + this.components.size() + " " + this
+                            .getBoundingBox().getLength());
         }
 
     }

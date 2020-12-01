@@ -133,12 +133,12 @@ public class CustomJigsawPiece extends SingleJigsawPiece
                 BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
         else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
 
-        if (this.overrideList == null)
-        {
-            this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
-            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
-        }
-        else this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
+//        if (this.overrideList == null)
+//        {
+//            this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
+//            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
+//        }
+//        else this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
 
         return this.toUse = placementsettings;
     }
