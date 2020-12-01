@@ -85,7 +85,7 @@ public class ForgetTargetTask extends CombatTask
         this.pokemobTarget = null;
         this.battleTime = 0;
         this.ticksSinceSeen = 0;
-        endBattle();
+        this.endBattle();
     }
 
     @Override
@@ -275,7 +275,7 @@ public class ForgetTargetTask extends CombatTask
         if (deAgro)
         {
             this.pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
-            endBattle();
+            this.endBattle();
         }
     }
 
@@ -293,9 +293,10 @@ public class ForgetTargetTask extends CombatTask
     }
 
     private void endBattle(){
-        Battle battle = Battle.battles.get(this.entity);
-        if(battle != null) {
-            battle.end();
-        }
+        final Battle battle = Battle.battles.get(this.entity);
+        if(battle != null) battle.end();
+        this.pokemob.getTargetFinder().clear();
+        this.pokemob.onSetTarget(null, true);
+        BrainUtils.deagro(this.entity);
     }
 }
