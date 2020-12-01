@@ -17,7 +17,6 @@ public class GlobalChunkPos
     {
         this.world = world;
         this.pos = pos;
-        // FIXME this needs to use world keys instead?
         this.hash = world.hashCode() | pos.z * 511 * 511 + pos.x;
     }
 

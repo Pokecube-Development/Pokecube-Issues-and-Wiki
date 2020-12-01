@@ -98,7 +98,6 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuffer();
         this.minecraft.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         final int k = this.getRowLeft();
         final int l = this.y0 + 4 - (int) this.getScrollAmount();
         if (this.renderHeader) this.renderHeader(mat, k, l, tessellator);
@@ -109,8 +108,6 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO,
                 GlStateManager.DestFactor.ONE);
-        RenderSystem.disableAlphaTest();
-        RenderSystem.shadeModel(7425);
         RenderSystem.disableTexture();
 
         final int j1 = this.getMaxScroll();
@@ -143,8 +140,6 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
 
         this.renderDecorations(mat, mouseX, mouseY);
         RenderSystem.enableTexture();
-        RenderSystem.shadeModel(7424);
-        RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
     }
 
@@ -175,19 +170,17 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
                     final int i2 = x + this.x0 + this.width / 2 + k1 / 2;
                     RenderSystem.disableTexture();
                     final float f = this.isFocused() ? 1.0F : 0.5F;
-                    RenderSystem.color4f(f, f, f, 1.0F);
-                    bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
-                    bufferbuilder.pos(l1, i1 + j1 + 2, 0.0D).endVertex();
-                    bufferbuilder.pos(i2, i1 + j1 + 2, 0.0D).endVertex();
-                    bufferbuilder.pos(i2, i1 - 2, 0.0D).endVertex();
-                    bufferbuilder.pos(l1, i1 - 2, 0.0D).endVertex();
+                    bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                    bufferbuilder.pos(l1, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
+                    bufferbuilder.pos(i2, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
+                    bufferbuilder.pos(i2, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
+                    bufferbuilder.pos(l1, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
                     tessellator.draw();
-                    RenderSystem.color4f(0.0F, 0.0F, 0.0F, 1.0F);
-                    bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
-                    bufferbuilder.pos(l1 + 1, i1 + j1 + 1, 0.0D).endVertex();
-                    bufferbuilder.pos(i2 - 1, i1 + j1 + 1, 0.0D).endVertex();
-                    bufferbuilder.pos(i2 - 1, i1 - 1, 0.0D).endVertex();
-                    bufferbuilder.pos(l1 + 1, i1 - 1, 0.0D).endVertex();
+                    bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                    bufferbuilder.pos(l1 + 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
+                    bufferbuilder.pos(i2 - 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
+                    bufferbuilder.pos(i2 - 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
+                    bufferbuilder.pos(l1 + 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
                     tessellator.draw();
                     RenderSystem.enableTexture();
                 }

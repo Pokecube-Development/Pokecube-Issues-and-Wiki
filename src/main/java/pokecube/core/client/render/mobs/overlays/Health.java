@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
@@ -23,7 +24,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.IFormattableTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.database.PokedexEntry;
@@ -143,7 +144,7 @@ public class Health
             r = color.getRed();
             g = color.getGreen();
             b = color.getBlue();
-            ITextComponent nameComp = pokemob.getDisplayName();
+            IFormattableTextComponent nameComp = (IFormattableTextComponent) pokemob.getDisplayName();
             boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
                     .getInstance().player).getData(PokecubePlayerStats.class);
@@ -153,9 +154,9 @@ public class Health
                     || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
             boolean scanned = false;
             nametag = nametag || captureOrHatch || (scanned = stats.hasInspected(pokemob.getPokedexEntry()));
-            if (!nametag) nameComp.getStyle().setObfuscated(true);
-            if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName()) nameComp = ((MobEntity) entity)
-                    .getCustomName();
+            if (!nametag) nameComp.setStyle(nameComp.getStyle().setObfuscated(true));
+            if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName())
+                nameComp = (IFormattableTextComponent) ((MobEntity) entity).getCustomName();
             final float s = 0.5F;
             final String name = nameComp.getString();
             final float namel = mc.fontRenderer.getStringWidth(name) * s;
@@ -225,7 +226,11 @@ public class Health
             s1 = 1.5F;
             mat.scale(s1, s1, s1);
             pos = mat.getLast().getMatrix();
-            mc.fontRenderer.renderString(name, 0, 0, colour, false, pos, buf, false, 0, br);
+            final IRenderTypeBuffer.Impl irendertypebuffer$impl = IRenderTypeBuffer.getImpl(Tessellator.getInstance()
+                    .getBuffer());
+            mc.fontRenderer.func_238416_a_(nameComp.func_241878_f(), 0, 0, colour, false, pos, irendertypebuffer$impl,
+                    false, 0, 15728880);
+            irendertypebuffer$impl.finish();
             s1 = 0.75F;
             mat.pop();
 

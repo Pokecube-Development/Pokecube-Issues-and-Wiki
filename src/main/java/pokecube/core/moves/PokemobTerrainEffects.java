@@ -433,7 +433,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
             final IVertexBuilder builder = buffer.getBuffer(effectType);
             final Matrix4f pos = mat.getLast().getMatrix();
 
-            // FIXME figure out the offsets for this
             mat.push();
 
             if (this.effects.containsKey(WeatherEffectType.RAIN.getIndex())) this.renderEffect(builder, pos, origin,

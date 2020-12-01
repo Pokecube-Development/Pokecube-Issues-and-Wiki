@@ -206,8 +206,8 @@ public class ActionNaturePower implements IMoveAction
         // Send updates about the chunk having changed. If this is not done,
         // the player will need to leave area and return to see the changes
         // on their end.
-        for (final Chunk chunk : affected)
-        {
+//        for (final Chunk chunk : affected)
+//        {
 //            final PlayerChunkMapEntry entry = chunkMap.getEntry(chunk.x, chunk.z);
 //            if (entry != null)
 //            {
@@ -236,7 +236,7 @@ public class ActionNaturePower implements IMoveAction
 //                    }
 //                }
 //            }
-        }
+//        }
     }
 
     public static class PlainsChanger implements IBiomeChanger
@@ -483,13 +483,13 @@ public class ActionNaturePower implements IMoveAction
         if (!MoveEventsHandler.canEffectBlock(attacker, location)) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
         if (time + 20 * 3 > attacker.getEntity().getEntityWorld().getGameTime()) return false;
-        final BlockPos pos = location.getPos();
-        final ServerWorld world = (ServerWorld) attacker.getEntity().getEntityWorld();
+//        final BlockPos pos = location.getPos();
+//        final ServerWorld world = (ServerWorld) attacker.getEntity().getEntityWorld();
         if(this.changers.isEmpty()) this.init();
         // Check the changers in order, and apply the first one that returns
         // true. TODO hunger cost added here.
-        for (final IBiomeChanger changer : this.changers)
-            if (changer.apply(pos, world)) return true;
+//        for (final IBiomeChanger changer : this.changers)
+//            if (changer.apply(pos, world)) return true;
         return false;
     }
 

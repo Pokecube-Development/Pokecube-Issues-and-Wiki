@@ -1,7 +1,8 @@
 package pokecube.nbtedit.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -32,8 +33,8 @@ public class GuiCharacterButton extends Button
         if (this.isHovered()) AbstractGui.fill(mat, this.x, this.y, this.x + GuiCharacterButton.WIDTH, this.y
                 + GuiCharacterButton.HEIGHT, 0x80ffffff);
 
-        if (this.active) RenderSystem.color4f(1, 1, 1, 1);
-        else RenderSystem.color4f(0.5F, 0.5F, 0.5F, 1.0F);
+        if (this.active) GL11.glColor4f(1, 1, 1, 1);
+        else GL11.glColor4f(0.5F, 0.5F, 0.5F, 1.0F);
 
         AbstractGui.blit(mat, this.x, this.y, this.id * GuiCharacterButton.WIDTH, 27, GuiCharacterButton.WIDTH,
                 GuiCharacterButton.HEIGHT, my, my, my, my);

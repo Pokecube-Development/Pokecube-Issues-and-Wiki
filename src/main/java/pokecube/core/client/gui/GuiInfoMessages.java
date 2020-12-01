@@ -4,8 +4,6 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
@@ -68,14 +66,14 @@ public class GuiInfoMessages
         if (event.getType() == ElementType.CHAT && !(minecraft.currentScreen instanceof ChatScreen)) return;
         if (event.getType() != ElementType.CHAT && minecraft.currentScreen != null) return;
 
-        GL11.glPushMatrix();
+        event.mat.push();
         final int texH = minecraft.fontRenderer.FONT_HEIGHT;
         final int trim = PokecubeCore.getConfig().messageWidth;
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
 
         // TODO possbly fix lighitng here?
-        final int[] mess = GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().messageRef, PokecubeCore
+        final int[] mess = GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().messageRef, PokecubeCore
                 .getConfig().messagePos, new int[] { PokecubeCore.getConfig().messageWidth, 7
                         * minecraft.fontRenderer.FONT_HEIGHT }, (float) PokecubeCore.getConfig().messageSize);
         int x = 0, y = 0;
@@ -106,8 +104,7 @@ public class GuiInfoMessages
         int h = 0;
         x = w;
         y = h;
-        GL11.glTranslated(0, -texH * 7, 0);
-        GL11.glTranslated(0, 0, 0);
+        event.mat.translate(0, -texH * 7, 0);
         int num = -1;
         if (event.getType() == ElementType.CHAT)
         {
@@ -153,6 +150,6 @@ public class GuiInfoMessages
             }
             shift++;
         }
-        GL11.glPopMatrix();
+        event.mat.pop();
     }
 }

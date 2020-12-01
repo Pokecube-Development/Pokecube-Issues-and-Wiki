@@ -223,8 +223,8 @@ public class SpawnBiomeMatcher
     private Set<RegistryKey<Biome>> _validBiomes     = Sets.newHashSet();
     private Set<RegistryKey<Biome>> _blackListBiomes = Sets.newHashSet();
 
-    private final Set<Category> _validCats     = Sets.newHashSet();
-    private final Set<Category> _blackListCats = Sets.newHashSet();
+    private Set<Category> _validCats     = Sets.newHashSet();
+    private Set<Category> _blackListCats = Sets.newHashSet();
 
     public Set<String>    _validStructures    = Sets.newHashSet();
     public Set<BiomeType> _validSubBiomes     = Sets.newHashSet();
@@ -691,9 +691,10 @@ public class SpawnBiomeMatcher
     {
         this.parsed = false;
         this.valid = true;
-        this._validBiomes.clear();
-        this._validCats.clear();
-        this._blackListBiomes.clear();
+        this._validBiomes = Sets.newHashSet();
+        this._validCats = Sets.newHashSet();
+        this._blackListCats = Sets.newHashSet();
+        this._blackListBiomes = Sets.newHashSet();
         for (final SpawnBiomeMatcher child : this.children)
             child.reset();
     }

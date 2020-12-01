@@ -314,37 +314,28 @@ public class EventsHandlerClient
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onRenderGUIScreenPre(final GuiScreenEvent.DrawScreenEvent.Pre event)
+    public static void onRenderGUIScreenPre(final GuiScreenEvent.DrawScreenEvent.Post event)
     {
         try
         {
-            if (!(event.getGui() instanceof ContainerScreen) || !Screen.hasAltDown()) return;
+            if (!Screen.hasAltDown()) return;
+            if (!(event.getGui() instanceof ContainerScreen)) return;
             final ContainerScreen<?> gui = (ContainerScreen<?>) event.getGui();
             final List<Slot> slots = gui.getContainer().inventorySlots;
-            final int w = gui.width;
-            final int h = gui.height;
-            final int xSize = gui.getXSize();
-            final int ySize = gui.getYSize();
-            final float zLevel = 800;
-            RenderSystem.pushMatrix();
-            RenderSystem.translatef(0, 0, zLevel);
             for (final Slot slot : slots)
                 if (slot.getHasStack() && PokecubeManager.isFilled(slot.getStack()))
                 {
                     final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getStack(), gui
                             .getMinecraft().world);
                     if (pokemob == null) continue;
-                    final int x = (w - xSize) / 2;
-                    final int y = (h - ySize) / 2;
+
                     int i, j;
-                    i = slot.xPos + 8;
-                    j = slot.yPos + 10;
-                    RenderSystem.pushMatrix();
-                    RenderSystem.translatef(i + x, j + y, 0F);
-                    EventsHandlerClient.renderIcon(pokemob, -8, -12, 16, 16);
-                    RenderSystem.popMatrix();
+                    i = slot.xPos;
+                    j = slot.yPos;
+                    final int x = i + gui.getGuiLeft();
+                    final int y = j + gui.getGuiTop();
+                    EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
-            RenderSystem.popMatrix();
         }
         catch (final Exception e)
         {
@@ -361,17 +352,9 @@ public class EventsHandlerClient
             final PlayerEntity player = Minecraft.getInstance().player;
             final int w = Minecraft.getInstance().getMainWindow().getScaledWidth();
             final int h = Minecraft.getInstance().getMainWindow().getScaledHeight();
-
             int i, j;
             i = -80;
             j = -9;
-
-            final int xSize = 0;
-            final int ySize = 0;
-            final float zLevel = 800;
-            RenderSystem.pushMatrix();
-            RenderSystem.translatef(0, 0, zLevel);
-
             for (int l = 0; l < 9; l++)
             {
                 final ItemStack stack = player.inventory.mainInventory.get(l);
@@ -379,15 +362,13 @@ public class EventsHandlerClient
                 {
                     final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player.getEntityWorld());
                     if (pokemob == null) continue;
-                    final int x = (w - xSize) / 2;
-                    final int y = h - ySize;
-                    RenderSystem.pushMatrix();
-                    RenderSystem.translatef(i + x + 20 * l, j + y, 0F);
-                    EventsHandlerClient.renderIcon(pokemob, -8, -12, 16, 16);
-                    RenderSystem.popMatrix();
+                    int x = w / 2;
+                    x = i + x + 20 * l - 8;
+                    int y = h;
+                    y = j + y - 9;
+                    EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
             }
-            RenderSystem.popMatrix();
         }
     }
 
@@ -432,7 +413,6 @@ public class EventsHandlerClient
                 PokecubeCore.LOGGER.error("no Icon for " + entry, e);
             }
         }
-        final int colour = 0xFFFFFFFF;
 
         int right = left + width;
         int bottom = top + height;
@@ -451,20 +431,16 @@ public class EventsHandlerClient
             bottom = j1;
         }
         Minecraft.getInstance().getTextureManager().bindTexture(tex);
-        final float f3 = (colour >> 24 & 255) / 255.0F;
-        final float f = (colour >> 16 & 255) / 255.0F;
-        final float f1 = (colour >> 8 & 255) / 255.0F;
-        final float f2 = (colour & 255) / 255.0F;
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuffer();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.color4f(f, f1, f2, f3);
+        final int zLevel = 300;
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(left, bottom, 0.0D).tex(0, 0).endVertex();
-        bufferbuilder.pos(right, bottom, 0.0D).tex(1, 0).endVertex();
-        bufferbuilder.pos(right, top, 0.0D).tex(1, 1).endVertex();
-        bufferbuilder.pos(left, top, 0.0D).tex(0, 1).endVertex();
+        bufferbuilder.pos(left, bottom, zLevel).tex(0, 0).endVertex();
+        bufferbuilder.pos(right, bottom, zLevel).tex(1, 0).endVertex();
+        bufferbuilder.pos(right, top, zLevel).tex(1, 1).endVertex();
+        bufferbuilder.pos(left, top, zLevel).tex(0, 1).endVertex();
         tessellator.draw();
         RenderSystem.disableBlend();
     }
