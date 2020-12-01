@@ -46,6 +46,7 @@ import pokecube.core.database.worldgen.WorldgenHandler.Options;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.template.FillerProcessor;
+import pokecube.core.world.gen.template.MarkerToAirProcessor;
 
 public class CustomJigsawPiece extends SingleJigsawPiece
 {
@@ -126,19 +127,18 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         placementsettings.func_215223_c(true);
         placementsettings.setIgnoreEntities(false);
         placementsettings.func_237133_d_(true);
-
         if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
+        if (this.opts.extra.containsKey("markers_to_air")) placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
         if (this.opts.getFiller()) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
         if (!this.opts.getIgnoreAir() || !this.opts.getRigid()) placementsettings.addProcessor(
                 BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
         else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
-
-//        if (this.overrideList == null)
-//        {
-//            this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
-//            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
-//        }
-//        else this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
+        if (this.overrideList == null)
+        {
+            this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
+            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
+        }
+        else this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
 
         return this.toUse = placementsettings;
     }
@@ -158,7 +158,7 @@ public class CustomJigsawPiece extends SingleJigsawPiece
             if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);
 
             final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, this.world,
-                    this.field_236839_c_.left().get().toString(), placementsettings);
+                    this.config.name, placementsettings);
             event.setBiomeType(this.config.biomeType);
             MinecraftForge.EVENT_BUS.post(event);
 

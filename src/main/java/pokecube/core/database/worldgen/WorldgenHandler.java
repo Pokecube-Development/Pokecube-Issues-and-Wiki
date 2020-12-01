@@ -21,6 +21,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -62,6 +63,7 @@ import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
 import pokecube.core.world.gen.jigsaw.JigsawConfig;
+import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class WorldgenHandler
 {
@@ -106,6 +108,8 @@ public class WorldgenHandler
         public Boolean rigid     = null;
         public Boolean ignoreAir = null;
         public Boolean filler    = null;
+
+        public Map<String, JsonElement> extra = Maps.newHashMap();
 
         public String serialize()
         {
@@ -222,7 +226,8 @@ public class WorldgenHandler
 
         public boolean isBlackisted(final RegistryKey<World> dim)
         {
-            if (this._blacklisted.size() != this.dimBlacklist.size() || this._whitelisted.size() != this.dimWhitelist.size())
+            if (this._blacklisted.size() != this.dimBlacklist.size() || this._whitelisted.size() != this.dimWhitelist
+                    .size())
             {
                 this._blacklisted.clear();
                 this._whitelisted.clear();
@@ -509,6 +514,7 @@ public class WorldgenHandler
             PokecubeCore.LOGGER.error("No pool found for {}, are you sure it is registered?", struct.root);
             return structure;
         }
+        PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name, struct.biomeType);
         // Add it to our list for configuration
         this.toConfigure.put(struct, structure);
         return structure;

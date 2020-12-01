@@ -10,6 +10,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BiomeDatabase
 {
@@ -20,6 +21,11 @@ public class BiomeDatabase
     public static RegistryKey<Biome> getKey(final Biome b)
     {
         return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, b.getRegistryName());
+    }
+
+    public static Biome getBiome(final RegistryKey<Biome> key)
+    {
+        return ForgeRegistries.BIOMES.getValue(key.getLocation());
     }
 
     public static boolean isAType(final String name)
