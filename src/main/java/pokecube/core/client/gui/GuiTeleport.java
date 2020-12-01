@@ -3,8 +3,6 @@
  */
 package pokecube.core.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -73,8 +71,8 @@ public class GuiTeleport extends AbstractGui
         final IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob == null) return;
 
-        GL11.glPushMatrix();
-        GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().teleRef, PokecubeCore.getConfig().telePos,
+        event.mat.push();
+        GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().teleRef, PokecubeCore.getConfig().telePos,
                 GuiDisplayPokecubeInfo.teleDims, (float) PokecubeCore.getConfig().teleSize);
 
         final int h = 0;
@@ -101,7 +99,7 @@ public class GuiTeleport extends AbstractGui
             this.fontRenderer.drawString(event.mat, name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }
         i++;
-        GL11.glPopMatrix();
+        event.mat.pop();
 
     }
 

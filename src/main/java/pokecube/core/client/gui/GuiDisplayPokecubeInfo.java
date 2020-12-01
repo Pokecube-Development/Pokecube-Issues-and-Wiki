@@ -11,6 +11,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Predicate;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
@@ -71,8 +72,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     public static int[]                  teleDims   = { 147, 42 };
     public static GuiDisplayPokecubeInfo instance;
 
-    public static int[] applyTransform(final String ref, final List<Integer> offsets, final int[] dims,
-            final float targetSize)
+    public static int[] applyTransform(final MatrixStack mat, final String ref, final List<Integer> offsets,
+            final int[] dims, final float targetSize)
     {
         final Minecraft minecraft = Minecraft.getInstance();
 
@@ -88,40 +89,40 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         switch (ref)
         {
         case "top_left":
-            GL11.glTranslated(w, h, 0);
-            GL11.glScaled(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             break;
         case "middle_left":
             h = scaledHeight / 2 - h - dims[1];
-            GL11.glTranslated(w, h, 0);
-            GL11.glScaled(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             break;
         case "bottom_left":
             h = scaledHeight - h - dims[1];
-            GL11.glTranslated(w, h, 0);
-            GL11.glScaled(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             dy = -1;
             break;
         case "top_right":
             w = scaledWidth - w;
             h = Math.min(h + dims[1], scaledHeight);
-            GL11.glTranslated(w, h, 0);
-            GL11.glScaled(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             dx = -1;
             break;
         case "right_bottom":
             w = scaledWidth - w - dims[0];
             h = scaledHeight - h - dims[1];
-            GL11.glTranslated(w, h, 0);
-            GL11.glScaled(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             dx = -1;
             dy = -1;
             break;
         case "right_middle":
             w = scaledWidth - w - dims[0];
             h = scaledHeight / 2 - h - dims[1];
-            GL11.glTranslated(w, h, 0);
-            GL11.glScaled(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             dx = -1;
             dy = -1;
             break;
@@ -130,12 +131,12 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             y = scaledHeight;
             w = scaledWidth / 2 - w;
             h = scaledHeight - h - dims[1];
-            GL11.glTranslated(w, h, 0);
+            mat.translate(w, h, 0);
             h = (int) (-dims[1] / targetSize - offsets.get(1));
             w = 0;
             dx = -1;
             dy = -1;
-            GL11.glScaled(targetSize, targetSize, targetSize);
+            mat.scale(targetSize, targetSize, targetSize);
             break;
         }
         final int[] ret = { x, y, w, h, dx, dy };
@@ -146,32 +147,6 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     {
         if (GuiDisplayPokecubeInfo.instance == null) GuiDisplayPokecubeInfo.instance = new GuiDisplayPokecubeInfo();
         return GuiDisplayPokecubeInfo.instance;
-    }
-
-    public static float scale(final float scaled, final boolean apply)
-    {
-        if (PokecubeCore.getConfig().guiAutoScale) return 1;
-
-        final Minecraft mc = Minecraft.getInstance();
-        float scaleFactor = 1;
-        final boolean flag = mc.getForceUnicodeFont();
-        int i = mc.gameSettings.guiScale;
-        final int scaledWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
-        final int scaledHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
-        if (i == 0) i = 1000;
-        while (scaleFactor < i && scaledWidth / (scaleFactor + 1) >= 320 && scaledHeight / (scaleFactor + 1) >= 240)
-            ++scaleFactor;
-
-        if (flag && scaleFactor % 2 != 0 && scaleFactor != 1) --scaleFactor;
-        float scaleFactor2 = 1;
-        i = 1000;
-        while (scaleFactor2 < i && scaledWidth / (scaleFactor2 + 1) >= 320 && scaledHeight / (scaleFactor2 + 1) >= 240)
-            ++scaleFactor2;
-
-        if (flag && scaleFactor2 % 2 != 0 && scaleFactor2 != 1) --scaleFactor2;
-        scaleFactor2 *= scaled;
-        if (apply) GL11.glScaled(scaleFactor2 / scaleFactor, scaleFactor2 / scaleFactor, scaleFactor2 / scaleFactor);
-        return scaleFactor2;
     }
 
     public static void sendMoveIndexPacket(final IPokemob pokemob, final int moveIndex)
@@ -239,10 +214,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         final int statusOffsetY = 27;
         final int confuseOffsetX = 12;
         final int confuseOffsetY = 1;
-        GL11.glPushMatrix();
-        GL11.glColor4f(1, 1, 1, 1);
+        evt.mat.push();
 
-        GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().guiRef, PokecubeCore.getConfig().guiPos,
+        GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().guiRef, PokecubeCore.getConfig().guiPos,
                 GuiDisplayPokecubeInfo.guiDims, (float) PokecubeCore.getConfig().guiSize);
         final int w = 0;// trans[0];
         int h = 0;// trans[1];
@@ -312,42 +286,35 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             }
             if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
             {
-                GL11.glTranslated(0, 0, 100);
+
+                evt.mat.translate(0, 0, 100);
                 this.blit(evt.mat, confuseOffsetX + w, confuseOffsetY + h, 0, 211, 24, 16);
-                GL11.glTranslated(0, 0, -100);
+                evt.mat.translate(0, 0, -100);
             }
 
             // Render Name
             if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX + w, nameOffsetY + h, 44, 0, 90, 13);
-            if (this.fontRenderer.getStringWidth(displayName) > 70)
-                displayName = this.fontRenderer.trimStringToWidth(new StringTextComponent(displayName), 70).get(0).toString();
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3 + w, nameOffsetY + 3
-                    + h,
+            if (this.fontRenderer.getStringWidth(displayName) > 70) displayName = this.fontRenderer.trimStringToWidth(
+                    new StringTextComponent(displayName), 70).get(0).toString();
+            this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3 + w, nameOffsetY + 3 + h,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render level
-            GL11.glColor4f(1.0F, 0.5F, 0.0F, 1.0F);
             this.fontRenderer.drawString(evt.mat, "L." + level, nameOffsetX + 88 + w - this.fontRenderer.getStringWidth(
-                    "L."
-                    + level), nameOffsetY + 3 + h, GuiDisplayPokecubeInfo.lightGrey);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    "L." + level), nameOffsetY + 3 + h, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             final int n = this.getPokemobsToDisplay().length;
             final int num = this.fontRenderer.getStringWidth("" + n);
             this.blit(evt.mat, nameOffsetX + 89 + w, nameOffsetY + h, 0, 27, 15, 15);
-            this.fontRenderer.drawString(evt.mat, "" + n, nameOffsetX + 95 - num / 4 + w, nameOffsetY + 4
-                    + h,
+            this.fontRenderer.drawString(evt.mat, "" + n, nameOffsetX + 95 - num / 4 + w, nameOffsetY + 4 + h,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
             RenderSystem.enableBlend();
-            RenderSystem.enableAlphaTest();
-            final int h1 = 1;
             int moveIndex = 0;
             int moveCount = 0;
             for (moveCount = 0; moveCount < 4; moveCount++)
@@ -360,24 +327,21 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 final Move_Base move = MovesUtils.getMoveFromName(pokemob.getMove(index));
                 final boolean disabled = index >= 0 && index < 4 && pokemob.getDisableTimer(index) > 0;
                 if (move != null)
-                {// TODO find out why both needed
-                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                {
+
                     // bind texture
-                    GL11.glPushMatrix();
+                    evt.mat.push();
+
                     this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
                     RenderSystem.enableBlend();
-                    RenderSystem.enableAlphaTest();
-                    this.blit(evt.mat, movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 21 + h1, 91, 13);
+                    this.blit(evt.mat, movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
 
                     // Render colour overlays.
                     if (currentMoveIndex == index)
                     {
                         // Draw selected indictator
-                        GL11.glColor4f(0F, 1F, 1F, 0.5F);
                         RenderSystem.enableBlend();
-                        RenderSystem.enableAlphaTest();
-                        this.blit(evt.mat, movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 21 + h1, 91, 13);
-                        GL11.glColor4f(0F, 1.0F, 1.0F, 1.0F);
+                        this.blit(evt.mat, movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
                         // Draw cooldown box
                         float timer = 1;
                         Move_Base lastMove;
@@ -387,46 +351,38 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                                     .getLastMoveUsed(), (lastMove.getAttackCategory()
                                             & IMoveConstants.CATEGORY_DISTANCE) > 0, false);
                         timer = Math.max(0, Math.min(timer, 1));
-                        GL11.glColor4f(0F, 0.1F, 1.0F, 0.5F);
                         RenderSystem.enableBlend();
-                        RenderSystem.enableAlphaTest();
-                        this.blit(evt.mat, movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 21 + h1, (int) (91
-                                * timer), 13);
-                        GL11.glColor4f(0F, 1.0F, 1.0F, 1.0F);
+                        this.blit(evt.mat, movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer),
+                                13);
                     }
                     if (disabled)
                     {
-                        GL11.glColor4f(1F, 0.0F, 0.0F, 0.5F);
                         RenderSystem.enableBlend();
-                        RenderSystem.enableAlphaTest();
-                        this.blit(evt.mat, movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 21 + h1, 91, 13);
-                        GL11.glColor4f(0F, 1.0F, 1.0F, 1.0F);
+                        this.blit(evt.mat, movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
                     }
 
-                    GL11.glPopMatrix();
-                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    GL11.glPushMatrix();
+                    evt.mat.pop();
+                    evt.mat.push();
                     final Color moveColor = new Color(move.getType(pokemob).colour);
                     GL11.glColor4f(moveColor.getRed() / 255f, moveColor.getGreen() / 255f, moveColor.getBlue() / 255f,
                             1.0F);
-                    this.fontRenderer.drawString(evt.mat, MovesUtils.getMoveName(move.getName()).getString(),
-                            5
+                    this.fontRenderer.drawString(evt.mat, MovesUtils.getMoveName(move.getName()).getString(), 5
                             + movesOffsetX + w, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
-                    GL11.glPopMatrix();
+                    evt.mat.pop();
                 }
             }
 
             // Render Mob
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
-            RenderSystem.enableAlphaTest();
+            // RenderSystem.enableAlphaTest();
             this.blit(evt.mat, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
-            GL11.glColor4f(1, 1, 1, 1);
             pokemob.getEntity().addedToChunk = false;
             GuiPokemobBase.renderMob(pokemob.getEntity(), -30, -25, 0, 0, 0, 0, 0.75f);
             pokemob.getEntity().addedToChunk = true;
         }
-        GL11.glPopMatrix();
+        // GL11.glPopMatrix();
+        evt.mat.pop();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
@@ -443,10 +399,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         final int statusOffsetY = 27;
         final int confuseOffsetX = 12;
         final int confuseOffsetY = 1;
-        GL11.glPushMatrix();
-        GL11.glColor4f(1, 1, 1, 1);
-        GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().targetRef, PokecubeCore.getConfig().targetPos,
-                GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore.getConfig().targetSize);
+        evt.mat.push();
+        GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().targetRef, PokecubeCore
+                .getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore.getConfig().targetSize);
         final int w = 0;
         final int h = 0;
         IPokemob pokemob = this.getCurrentPokemob();
@@ -456,7 +411,6 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final LivingEntity entity = BrainUtils.getAttackTarget(pokemob.getEntity());
             if (entity == null || !entity.isAlive()) break render;
 
-            // GlStateManager.setProfile(GlStateManager.Profile.PLAYER_SKIN);
             // Render HP
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX + w, hpOffsetY + h, 43, 12, 92, 7);
@@ -496,14 +450,13 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 }
                 if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
                 {
-                    GL11.glTranslated(0, 0, 100);
+                    evt.mat.translate(0, 0, 100);
                     this.blit(evt.mat, confuseOffsetX + w, confuseOffsetY + h, 0, 211, 24, 16);
-                    GL11.glTranslated(0, 0, -100);
+                    evt.mat.translate(0, 0, -100);
                 }
             }
 
             // Render Name
-            GL11.glColor4f(1.0F, 0.4F, 0.4F, 1.0F);
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX + w, nameOffsetY + h, 44, 0, 90, 13);
             final String displayName = entity.getDisplayName().getString();
@@ -511,23 +464,19 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             {
 
             }
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3 + w, nameOffsetY + 3
-                    + h,
+            this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3 + w, nameOffsetY + 3 + h,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Box behind Mob
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
-            RenderSystem.enableAlphaTest();
             this.blit(evt.mat, mobOffsetX + w, mobOffsetY + h, 0, 0, 42, 42);
 
             // Render Mob
-            GL11.glColor4f(1, 1, 1, 1);
             GuiPokemobBase.renderMob(entity, -30, -25, 0, 0, 0, 0, 0.75f);
 
         }
-        GL11.glPopMatrix();
+        evt.mat.pop();
     }
 
     /** @return the currently selected pokemob */
@@ -565,8 +514,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
             if (e1.ticksExisted == e2.ticksExisted)
             {
-                if (o2.getLevel() == o1.getLevel()) return o1.getDisplayName().getString().compareTo(o2
-                        .getDisplayName().getString());
+                if (o2.getLevel() == o1.getLevel()) return o1.getDisplayName().getString().compareTo(o2.getDisplayName()
+                        .getString());
                 return o2.getLevel() - o1.getLevel();
             }
             return e1.ticksExisted - e2.ticksExisted;
