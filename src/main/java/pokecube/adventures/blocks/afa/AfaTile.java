@@ -1,6 +1,5 @@
 package pokecube.adventures.blocks.afa;
 
-import java.beans.Statement;
 import java.util.Random;
 
 import org.nfunk.jep.JEP;
@@ -253,7 +252,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     }
 
     @Override
-    public void read(BlockState state, final CompoundNBT nbt)
+    public void read(final BlockState state, final CompoundNBT nbt)
     {
         super.read(state, nbt);
         this.energy = nbt.getInt("energy");
