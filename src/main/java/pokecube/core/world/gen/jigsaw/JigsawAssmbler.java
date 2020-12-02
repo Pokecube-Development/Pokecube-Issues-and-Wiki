@@ -410,7 +410,8 @@ public class JigsawAssmbler
                                     if (!once.isEmpty())
                                     {
                                         this.once_added.add(once);
-                                        PokecubeCore.LOGGER.debug("added core part: {}", once);
+                                        if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(
+                                                "added core part: {}", once);
                                     }
                                     if (current_depth + 1 <= this.depth) this.availablePieces.addLast(new Entry(
                                             abstractvillagepiece, atomicreference1, l, current_depth + 1));
