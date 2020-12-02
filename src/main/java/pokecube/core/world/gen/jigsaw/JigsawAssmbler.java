@@ -147,7 +147,7 @@ public class JigsawAssmbler
             final Random rand, final Biome biome, final int default_k, final Predicate<JigsawPiece> isValid)
     {
         this.validator = isValid;
-        PokecubeCore.LOGGER.debug("Jigsaw starting build");
+        if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Jigsaw starting build");
         this.init(depth, pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome);
 
         if (this.config.water || this.config.air) this.SURFACE_TYPE = this.config.water ? Type.OCEAN_FLOOR_WG
@@ -410,7 +410,8 @@ public class JigsawAssmbler
                                     if (!once.isEmpty())
                                     {
                                         this.once_added.add(once);
-                                        PokecubeCore.LOGGER.debug("added core part: {}", once);
+                                        if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(
+                                                "added core part: {}", once);
                                     }
                                     if (current_depth + 1 <= this.depth) this.availablePieces.addLast(new Entry(
                                             abstractvillagepiece, atomicreference1, l, current_depth + 1));

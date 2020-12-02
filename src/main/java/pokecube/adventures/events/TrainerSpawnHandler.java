@@ -275,7 +275,7 @@ public class TrainerSpawnHandler
             }
             // We apply it regardless, as this initializes defaults.
             TrainerSpawnHandler.applyFunction(event.worldActual, mob, thing, leader);
-            PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
+            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.worldActual, SpawnReason.STRUCTURE)))
             {
                 event.worldBlocks.addEntity(mob);

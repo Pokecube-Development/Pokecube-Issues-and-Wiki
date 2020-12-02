@@ -102,6 +102,26 @@ public class WorldgenFeatures
             size += second;
             pairs.add(pair);
         }
+
+        // Now add values from the included pools
+        for (final String s : pool.includes)
+        {
+            final ResourceLocation incl = new ResourceLocation(s);
+            if (!WorldGenRegistries.JIGSAW_POOL.containsKey(incl))
+            {
+                PokecubeCore.LOGGER.error("Warning, No pool by name {} was found!", s);
+                continue;
+            }
+            final JigsawPattern toInclude = WorldGenRegistries.JIGSAW_POOL.getOrDefault(incl);
+            PokecubeCore.LOGGER.debug("Adding parts from {} to {}", s, pool.name);
+            toInclude.rawTemplates.forEach(p ->
+            {
+                final Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer> pair = Pair.of(t -> p
+                        .getFirst(), p.getSecond());
+                pairs.add(pair);
+            });
+        }
+
         final JigsawPattern pattern = new JigsawPattern(new ResourceLocation(pool.name), new ResourceLocation(
                 pool.target), pairs, placement);
         PokecubeCore.LOGGER.debug("Registered Pattern/Pool: {}, with target: {}, of size: {}({},{})", pool.name,

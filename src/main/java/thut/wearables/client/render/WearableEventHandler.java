@@ -98,20 +98,20 @@ public class WearableEventHandler
     @SubscribeEvent
     public void onToolTip(final ItemTooltipEvent evt)
     {
-        if (evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).isPresent()
-                || evt.getItemStack().getItem() instanceof IWearable)
+        if (evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).isPresent() || evt.getItemStack()
+                .getItem() instanceof IWearable)
         {
             IWearable wear = evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null) wear = (IWearable) evt.getItemStack().getItem();
             final EnumWearable slot = wear.getSlot(evt.getItemStack());
-            String key = I18n.format(this.keys[slot.index].getTranslationKey());
+            String key = this.keys[slot.index].func_238171_j_().getString();
             String message = "";
             switch (slot.slots)
             {
             case 2:
                 message = I18n.format("wearables.keyuse.left", key);
                 evt.getToolTip().add(new StringTextComponent(message));
-                key = I18n.format(this.keys[slot.index + 1].getTranslationKey());
+                key = this.keys[slot.index + 1].func_238171_j_().getString();
                 message = I18n.format("wearables.keyuse.right", key);
                 evt.getToolTip().add(new StringTextComponent(message));
                 break;
