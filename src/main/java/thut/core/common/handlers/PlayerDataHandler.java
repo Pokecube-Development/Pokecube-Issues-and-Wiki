@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -19,6 +18,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -149,13 +149,9 @@ public class PlayerDataHandler
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = Paths.get(server.getDataDirectory().toURI());
-        // on single player, these are inside a saves directory
-        if (!server.isDedicatedServer()) path = path.resolve("saves");
-        // This is to the world save location
-        path = path.resolve(server.getServerConfiguration().getWorldName());
+        Path path = server.func_240776_a_(new FolderName("thutcore"));
         // This is to the uuid specific folder
-        path = path.resolve("thutcore").resolve("uuid");
+        path = path.resolve("uuid");
         final File dir = path.toFile();
         // and this if the file itself
         path = path.resolve(fileName + ".dat");

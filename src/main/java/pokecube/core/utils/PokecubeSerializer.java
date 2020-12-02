@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
@@ -130,35 +130,35 @@ public class PokecubeSerializer
 
     public void setPlacedCenter()
     {
-        PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
-        PokecubeSerializer.getInstance().save();
+        this.customData.putBoolean("start_pokecentre", true);
+        this.save();
     }
 
     public void setPlacedSpawn()
     {
-        PokecubeSerializer.getInstance().customData.putBoolean("set_world_spawn", true);
-        PokecubeSerializer.getInstance().save();
+        this.customData.putBoolean("set_world_spawn", true);
+        this.save();
     }
 
     public void setPlacedProf()
     {
-        PokecubeSerializer.getInstance().customData.putBoolean("set_professor", true);
-        PokecubeSerializer.getInstance().save();
+        this.customData.putBoolean("set_professor", true);
+        this.save();
     }
 
     public boolean hasPlacedProf()
     {
-        return PokecubeSerializer.getInstance().customData.contains("set_professor");
+        return this.customData.contains("set_professor");
     }
 
     public boolean hasPlacedSpawn()
     {
-        return PokecubeSerializer.getInstance().customData.contains("set_world_spawn");
+        return this.customData.contains("set_world_spawn");
     }
 
     public boolean hasPlacedCenter()
     {
-        return PokecubeSerializer.getInstance().customData.contains("start_pokecentre");
+        return this.customData.contains("start_pokecentre");
     }
 
     public boolean hasPlacedSpawnOrCenter()
@@ -200,15 +200,9 @@ public class PokecubeSerializer
     public static File getSafeFile()
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = Paths.get(server.getDataDirectory().toURI());
-        // on single player, these are inside a saves directory
-        if (!server.isDedicatedServer()) path = path.resolve("saves");
-        // This is to the world save location
-        path = path.resolve(server.getServerConfiguration().getWorldName());
-        // This is to the uuid specific folder
-        path = path.resolve(PokecubeSerializer.POKECUBE);
+        Path path = server.func_240776_a_(new FolderName(PokecubeSerializer.POKECUBE));
+        // The directory the file is in
         final File dir = path.toFile();
-        // and this if the file itself
         path = path.resolve("global.dat");
         final File file = path.toFile();
         if (!file.exists()) dir.mkdirs();
