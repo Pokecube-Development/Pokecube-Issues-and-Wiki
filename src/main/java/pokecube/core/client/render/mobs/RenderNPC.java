@@ -2,6 +2,7 @@ package pokecube.core.client.render.mobs;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -43,8 +44,8 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final IMobTexturable mob = entityIn.getCapability(TextureableCaps.CAPABILITY).orElse(null);
-        if (mob instanceof NPCCap<?>)
-            this.entityModel = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim : this.normal;
+        if (mob instanceof NPCCap<?>) this.entityModel = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim
+                : this.normal;
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
@@ -59,7 +60,9 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
     @Override
     protected boolean canRenderName(final T entity)
     {
-        return PokecubeCore.getConfig().npcNameTags && super.canRenderName(entity);
+        final Minecraft minecraft = Minecraft.getInstance();
+        return PokecubeCore.getConfig().npcNameTags && entity.canEntityBeSeen(minecraft.getRenderViewEntity())
+                && super.canRenderName(entity);
     }
 
 }
