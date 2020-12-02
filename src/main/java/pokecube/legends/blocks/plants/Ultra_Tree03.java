@@ -5,12 +5,13 @@ import java.util.Random;
 import net.minecraft.block.trees.Tree;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Features;
+import pokecube.legends.worldgen.trees.Trees;
 
 public class Ultra_Tree03 extends Tree {
 
 	@Override
-	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(final Random randomIn, final boolean b) {
-		return Features.SPRUCE;
-	}
+    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(final Random randomIn, final boolean b)
+    {
+        return Trees.ULTRA_TREE03;
+    }
 }

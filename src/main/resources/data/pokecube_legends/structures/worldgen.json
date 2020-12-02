@@ -75,9 +75,21 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/team_rocket;{\"dy\":26,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/rocket_top_1;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_2;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_3;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_4;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
+    {
+      "name":"pokecube_legends:temples/surface/rocket_top",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/team_rocket;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+	
     {
       "name":"pokecube_legends:distortic",
       "rigid":false,
@@ -645,7 +657,8 @@
       "base_under":false,
       "spawn":{
         "values":{
-          "category":"plains"
+          "category":"plains",
+		  "categoryBlacklist":"ocean,beach"
         }
       }
     },
@@ -894,8 +907,8 @@
       }
     },
     {
-      "name":"pokecube_legends:ub005",
-      "root":"pokecube_legends:ub005",
+      "name":"pokecube_legends:ub006",
+      "root":"pokecube_legends:ub006",
       "biomeType":"none",
       "distance":5,
       "separation":1,
