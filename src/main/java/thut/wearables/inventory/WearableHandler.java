@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.LogicalSide;
@@ -23,13 +23,9 @@ public class WearableHandler
     private static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = Paths.get(server.getDataDirectory().toURI());
-        // on single player, these are inside a saves directory
-        if (!server.isDedicatedServer()) path = path.resolve("saves");
-        // This is to the world save location
-        path = path.resolve(server.getServerConfiguration().getWorldName());
+        Path path = server.func_240776_a_(new FolderName("wearables"));
         // This is to the uuid specific folder
-        path = path.resolve("wearables").resolve("uuid");
+        path = path.resolve("uuid");
         final File dir = path.toFile();
         // and this if the file itself
         path = path.resolve(fileName + ".dat");
