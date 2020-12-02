@@ -19,9 +19,14 @@ public class ChunkCoordinate
 
     public static boolean isWithin(final GlobalPos a, final GlobalPos b, final int tolerance)
     {
-        final int dx = Math.abs(a.getPos().getX() - b.getPos().getX());
-        final int dy = Math.abs(a.getPos().getY() - b.getPos().getY());
-        final int dz = Math.abs(a.getPos().getZ() - b.getPos().getZ());
-        return a.getDimension().equals(b.getDimension()) && dx <= tolerance && dz <= tolerance && dy <= tolerance;
+        return a.getDimension().equals(b.getDimension()) && ChunkCoordinate.isWithin(a.getPos(), b.getPos(), tolerance);
+    }
+
+    public static boolean isWithin(final BlockPos a, final BlockPos b, final int tolerance)
+    {
+        final int dx = Math.abs(a.getX() - b.getX());
+        final int dy = Math.abs(a.getY() - b.getY());
+        final int dz = Math.abs(a.getZ() - b.getZ());
+        return dx <= tolerance && dz <= tolerance && dy <= tolerance;
     }
 }

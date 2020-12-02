@@ -167,7 +167,6 @@ public class SpawnListEntry
         }
         if (!rate.isEmpty()) this.output.add(new StringTextComponent(ind + rate));
         this.output.add(new StringTextComponent(""));
-        System.out.println(this.output.size());
     }
 
     public List<LineEntry> getLines(final ScrollGui<LineEntry> parent, final IClickListener listener)
@@ -175,7 +174,6 @@ public class SpawnListEntry
         final List<LineEntry> lines = Lists.newArrayList();
         for (final ITextComponent s : this.output)
             lines.add(new LineEntry(parent, 0, 0, this.fontRender, s, 0xFFFFFFFF).setClickListner(listener));
-        System.out.println(lines.size());
         return lines;
     }
 }

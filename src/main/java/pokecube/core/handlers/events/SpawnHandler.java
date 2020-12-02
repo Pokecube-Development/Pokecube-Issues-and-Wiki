@@ -1,6 +1,5 @@
 package pokecube.core.handlers.events;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +10,7 @@ import java.util.Random;
 import org.nfunk.jep.JEP;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
@@ -82,9 +82,9 @@ public final class SpawnHandler
     {
         public final int          range;
         public final ForbidReason reason;
-        public final GlobalPos    origin;
+        public final BlockPos     origin;
 
-        public ForbiddenEntry(final int range, final ForbidReason reason, final GlobalPos origin)
+        public ForbiddenEntry(final int range, final ForbidReason reason, final BlockPos origin)
         {
             this.range = range;
             this.reason = reason;
@@ -135,7 +135,7 @@ public final class SpawnHandler
 
     public static Variance DEFAULT_VARIANCE = new Variance();
 
-    private static final Map<GlobalPos, ForbiddenEntry> forbiddenSpawningCoords = new HashMap<>();
+    private static final Map<RegistryKey<World>, Map<BlockPos, ForbiddenEntry>> forbidReasons = new HashMap<>();
 
     public static HashMap<BiomeType, Variance> subBiomeLevels = new HashMap<>();
 
@@ -160,19 +160,21 @@ public final class SpawnHandler
     public static boolean expFunction = false;
     public static int     capLevel    = 50;
 
-    public static boolean addForbiddenSpawningCoord(final BlockPos pos, final World dimensionId, final int distance)
+    public static boolean addForbiddenSpawningCoord(final BlockPos pos, final World dim, final int range,
+            final ForbidReason reason)
     {
-        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), dimensionId, distance,
-                ForbidReason.REPEL);
+        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(dim.getDimensionKey());
+        if (entries == null) SpawnHandler.forbidReasons.put(dim.getDimensionKey(), entries = Maps.newHashMap());
+        if (entries.containsKey(pos)) return false;
+        entries.put(pos, new ForbiddenEntry(range, reason, pos));
+        return true;
     }
 
     public static boolean addForbiddenSpawningCoord(final int x, final int y, final int z, final World dim,
             final int range, final ForbidReason reason)
     {
-        final GlobalPos coord = ChunkCoordinate.getChunkCoordFromWorldCoord(new BlockPos(x, y, z), dim);
-        if (SpawnHandler.forbiddenSpawningCoords.containsKey(coord)) return false;
-        SpawnHandler.forbiddenSpawningCoords.put(coord, new ForbiddenEntry(range, reason, coord));
-        return true;
+        final BlockPos coord = new BlockPos(x, y, z);
+        return SpawnHandler.addForbiddenSpawningCoord(coord, dim, range, reason);
     }
 
     public static boolean canPokemonSpawnHere(final Vector3 location, final World world, final PokedexEntry entry)
@@ -224,7 +226,7 @@ public final class SpawnHandler
 
     public static void clear()
     {
-        SpawnHandler.forbiddenSpawningCoords.clear();
+        SpawnHandler.forbidReasons.clear();
     }
 
     public static MobEntity creatureSpecificInit(final MobEntity MobEntity, final World world, final double posX,
@@ -294,11 +296,12 @@ public final class SpawnHandler
 
     public static ForbiddenEntry getForbiddenEntry(final World world, final int x, final int y, final int z)
     {
-        final ArrayList<GlobalPos> coords = new ArrayList<>(SpawnHandler.forbiddenSpawningCoords.keySet());
-        final GlobalPos here = ChunkCoordinate.getChunkCoordFromWorldCoord(new BlockPos(x, y, z), world);
-        for (final GlobalPos coord : coords)
+        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.getDimensionKey());
+        if (entries == null) return null;
+        final BlockPos here = new BlockPos(x, y, z);
+        for (final BlockPos coord : entries.keySet())
         {
-            final ForbiddenEntry entry = SpawnHandler.forbiddenSpawningCoords.get(coord);
+            final ForbiddenEntry entry = entries.get(coord);
             final int tolerance = entry.range;
             if (ChunkCoordinate.isWithin(coord, here, tolerance)) return entry;
         }
@@ -653,8 +656,9 @@ public final class SpawnHandler
 
     public static boolean removeForbiddenSpawningCoord(final int x, final int y, final int z, final World world)
     {
-        final GlobalPos coord = ChunkCoordinate.getChunkCoordFromWorldCoord(new BlockPos(x, y, z), world);
-        return SpawnHandler.forbiddenSpawningCoords.remove(coord) != null;
+        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.getDimensionKey());
+        if (entries == null) return false;
+        return entries.remove(new BlockPos(x, y, z)) != null;
     }
 
     public JEP parser = new JEP();

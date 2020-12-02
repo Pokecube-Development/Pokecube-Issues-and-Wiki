@@ -30,6 +30,7 @@ import com.mojang.serialization.DataResult;
 
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.World;
@@ -53,12 +54,15 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
@@ -443,6 +447,18 @@ public class WorldgenHandler
                 tempMap.put(structure, DimensionStructuresSettings.field_236191_b_.get(structure));
                 serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
             }
+
+            // If we are the first one, we will check for a spawn location, just
+            // to initialize things.
+            if (this.MODID == PokecubeCore.MODID && !PokecubeSerializer.getInstance().hasPlacedSpawn() && key.equals(
+                    World.OVERWORLD)) serverWorld.getServer().execute(() ->
+                    {
+                        final ResourceLocation location = new ResourceLocation("pokecube:village");
+                        final IForgeRegistry<Structure<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
+                        final Structure<?> structure = reg.getValue(location);
+                        if (reg.containsKey(location)) serverWorld.getWorld().func_241117_a_(structure, BlockPos.ZERO,
+                                50, false);
+                    });
 
         }
     }
