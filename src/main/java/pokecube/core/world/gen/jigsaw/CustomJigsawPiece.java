@@ -19,7 +19,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -127,12 +126,15 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         placementsettings.func_215223_c(true);
         placementsettings.setIgnoreEntities(false);
         placementsettings.func_237133_d_(true);
+
         if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
-        if (this.opts.extra.containsKey("markers_to_air")) placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
-        if (this.opts.getFiller()) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
-        if (!this.opts.getIgnoreAir() || !this.opts.getRigid()) placementsettings.addProcessor(
+        if (this.opts.extra.containsKey("markers_to_air")) placementsettings.addProcessor(
+                MarkerToAirProcessor.PROCESSOR);
+        if (this.opts.filler) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
+        if (!this.opts.ignoreAir || !this.opts.rigid) placementsettings.addProcessor(
                 BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
         else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+
         if (this.overrideList == null)
         {
             this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
@@ -157,13 +159,14 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         {
             if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);
 
-            final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, this.world,
-                    this.config.name, placementsettings);
-            event.setBiomeType(this.config.biomeType);
-            MinecraftForge.EVENT_BUS.post(event);
-
+            if (this.config.name != null)
+            {
+                final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, this.world,
+                        this.config.name, placementsettings);
+                event.setBiomeType(this.config.biomeType);
+                MinecraftForge.EVENT_BUS.post(event);
+            }
             this.maskCheck = this.mask != null && this.mask.intersectsWith(box);
-
             final List<BlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
             for (final BlockInfo info : data)
             {
@@ -192,23 +195,10 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         if (!function.isEmpty()) PokecubeCore.LOGGER.debug(function);
 
         this.isSpawn = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
-        if (this.isSpawn)
-        {
-            Vector3i midMask = this.mask.func_215126_f();
-            Vector3i midBox = box.func_215126_f();
-            midMask = new BlockPos(midMask.getX(), 0, midMask.getZ());
-            midBox = new BlockPos(midBox.getX(), 0, midBox.getZ());
-
-            System.out.println(this.maskCheck);
-            System.out.println(Math.sqrt(midMask.distanceSq(midBox)) + " " + Math.sqrt(box.getLength().distanceSq(
-                    Vector3i.NULL_VECTOR)));
-            System.out.println(midMask + " " + midBox);
-            System.out.println(this.spawnReplace);
-        }
 
         if (this.isSpawn && this.maskCheck && this.spawnReplace.equals(function))
         {
-            PokecubeCore.LOGGER.info("Overriding an entry as a professor at " + pos);
+            PokecubeCore.LOGGER.debug("Overriding an entry as a professor at " + pos);
             function = PokecubeCore.getConfig().professor_override;
             PokecubeSerializer.getInstance().setPlacedProf();
         }

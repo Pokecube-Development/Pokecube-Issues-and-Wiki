@@ -14,7 +14,8 @@ import net.minecraft.world.gen.feature.template.Template;
 public class FillerProcessor extends StructureProcessor
 {
     public static final Codec<StructureProcessor> CODEC;
-    public static final StructureProcessor        PROCESSOR = new FillerProcessor();
+
+    public static final StructureProcessor PROCESSOR = new FillerProcessor();
 
     public FillerProcessor()
     {

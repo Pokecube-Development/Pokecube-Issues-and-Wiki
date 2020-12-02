@@ -71,6 +71,7 @@ public class WorldgenFeatures
         int size = 0;
         for (final String option : pool.options)
         {
+            StructureProcessorList listToUse = default_list;
             int second = 1;
             final String[] args = option.split(";");
             Options opts = new Options();
@@ -79,12 +80,25 @@ public class WorldgenFeatures
                 opts = Options.deserialize(args[1]);
                 second = opts.weight;
             }
-            if (opts.filler == null) opts.setFiller(pool.filler);
-            if (opts.ignoreAir == null) opts.setFiller(pool.ignoreAir);
-            if (opts.rigid == null) opts.setRigid(pool.rigid);
+            if (!opts.override)
+            {
+                opts.filler = pool.filler;
+                opts.ignoreAir = pool.ignoreAir;
+                opts.rigid = pool.rigid;
+            }
+            if (!pool.proc_list.isEmpty())
+            {
+                listToUse = default_list;
+                if (pool.proc_list.equals("empty")) listToUse = WorldGenRegistries.STRUCTURE_PROCESSOR_LIST
+                        .getOrDefault(new ResourceLocation("empty"));
+                else
+                {
+                    // TODO handle custom lists here?
+                }
+            }
 
             final Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer> pair = Pair.of(WorldgenFeatures
-                    .makePiece(args[0], default_list, opts), second);
+                    .makePiece(args[0], listToUse, opts), second);
             size += second;
             pairs.add(pair);
         }

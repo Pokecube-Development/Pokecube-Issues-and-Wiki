@@ -392,9 +392,9 @@
       	"pokecube_legends:ultraspace/all_02;{\"weight\":20}",
       	"pokecube_legends:ultraspace/all_03;{\"weight\":20}",
         "pokecube_legends:ultraspace/ub04_1;{\"weight\":30}",
-		"pokecube_legends:ultraspace/ub04_2;{\"weight\":30}",
-		"pokecube_legends:ultraspace/ub04_3;{\"weight\":30}",
-		"pokecube_legends:ultraspace/ub04_4;{\"weight\":55}",
+        "pokecube_legends:ultraspace/ub04_2;{\"weight\":30}",
+        "pokecube_legends:ultraspace/ub04_3;{\"weight\":30}",
+        "pokecube_legends:ultraspace/ub04_4;{\"weight\":55}",
         "pokecube_legends:ultraspace/ub04_max;{\"weight\":100}"
       ]
     },
@@ -407,7 +407,7 @@
       	"pokecube_legends:ultraspace/all_02;{\"weight\":20}",
       	"pokecube_legends:ultraspace/all_03;{\"weight\":20}",
         "pokecube_legends:ultraspace/ub05_1;{\"weight\":30}",
-		"pokecube_legends:ultraspace/ub05_2;{\"weight\":30}"
+        "pokecube_legends:ultraspace/ub05_2;{\"weight\":30}"
       ]
     },
     {
@@ -419,7 +419,7 @@
       	"pokecube_legends:ultraspace/all_02;{\"weight\":20}",
       	"pokecube_legends:ultraspace/all_03;{\"weight\":20}",
         "pokecube_legends:ultraspace/ub06_1;{\"weight\":40}",
-		"pokecube_legends:ultraspace/ub06_2;{\"weight\":40}"
+        "pokecube_legends:ultraspace/ub06_2;{\"weight\":40}"
       ]
     }
   ],
@@ -929,6 +929,7 @@
       "separation":2,
       "height":8,
       "air":true,
+      "base_under": false,
       "dimWhitelist":[
         "pokecube_legends:ultraspace"
       ],

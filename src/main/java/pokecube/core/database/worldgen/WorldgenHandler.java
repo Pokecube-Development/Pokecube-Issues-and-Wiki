@@ -109,9 +109,11 @@ public class WorldgenHandler
         public String flag   = "";
         public int    dy     = 0;
 
-        public Boolean rigid     = null;
-        public Boolean ignoreAir = null;
-        public Boolean filler    = null;
+        public boolean rigid     = true;
+        public boolean ignoreAir = true;
+        public boolean filler    = false;
+
+        public boolean override = false;
 
         public Map<String, JsonElement> extra = Maps.newHashMap();
 
@@ -124,39 +126,6 @@ public class WorldgenHandler
         {
             return WorldgenHandler.GSON.fromJson(structstring, Options.class);
         }
-
-        public Boolean getFiller()
-        {
-            if (this.filler == null) this.filler = false;
-            return this.filler;
-        }
-
-        public void setFiller(final Boolean filler)
-        {
-            this.filler = filler;
-        }
-
-        public Boolean getIgnoreAir()
-        {
-            if (this.ignoreAir == null) this.ignoreAir = true;
-            return this.ignoreAir;
-        }
-
-        public void setIgnoreAir(final Boolean ignoreAir)
-        {
-            this.ignoreAir = ignoreAir;
-        }
-
-        public Boolean getRigid()
-        {
-            if (this.rigid == null) this.rigid = true;
-            return this.rigid;
-        }
-
-        public void setRigid(final Boolean rigid)
-        {
-            this.rigid = rigid;
-        }
     }
 
     public static class JigSawPool
@@ -164,6 +133,7 @@ public class WorldgenHandler
         public String       name;
         public String       target    = "empty";
         public String       biomeType = "none";
+        public String       proc_list = "";
         public List<String> options   = Lists.newArrayList();
         public boolean      rigid     = true;
         public boolean      ignoreAir = true;
