@@ -10,6 +10,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -185,9 +186,16 @@ public class WorldgenHandler
         public StructureSeparationSettings toSettings()
         {
             // Make seed based on name
-            if (this.seed == -1) this.seed = this.name.hashCode();
-            // Seed must be positive apparently.
-            if (this.seed < 0) this.seed *= -1;
+            if (this.seed == -1)
+            {
+                this.seed = this.name.hashCode();
+                // Seed must be positive apparently.
+                if (this.seed < 0) this.seed *= -1;
+                final Random rand = new Random(this.seed);
+                // Ensure the seed is "large"
+                while (this.seed < 1e6)
+                    this.seed = rand.nextInt();
+            }
             return new StructureSeparationSettings(this.distance, this.separation, this.seed);
         }
 
