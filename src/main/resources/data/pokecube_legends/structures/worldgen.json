@@ -658,7 +658,7 @@
       "spawn":{
         "values":{
           "category":"plains",
-		  "categoryBlacklist":"ocean,beach"
+          "categoryBlacklist":"ocean,beach"
         }
       }
     },

@@ -131,8 +131,10 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         if (this.opts.extra.containsKey("markers_to_air")) placementsettings.addProcessor(
                 MarkerToAirProcessor.PROCESSOR);
         if (this.opts.filler) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
-        if (!this.opts.ignoreAir || !this.opts.rigid) placementsettings.addProcessor(
-                BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
+
+        final boolean shouldIgnoreAire = this.opts.ignoreAir || !this.opts.rigid;
+
+        if (shouldIgnoreAire) placementsettings.addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
         else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
 
         if (this.overrideList == null)

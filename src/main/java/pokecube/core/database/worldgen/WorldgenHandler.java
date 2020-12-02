@@ -153,7 +153,6 @@ public class WorldgenHandler
 
         public String       name;
         public String       root;
-        public float        chance       = 1;
         public int          offset       = 1;
         public int          size         = 4;
         public int          distance     = 8;
@@ -169,7 +168,6 @@ public class WorldgenHandler
         public int          variance     = 50;
         public int          priority     = 100;
         public int          seed         = -1;
-        public boolean      atSpawn      = false;
         public List<String> needed_once  = Lists.newArrayList();
         public List<String> dimBlacklist = Lists.newArrayList();
         public List<String> dimWhitelist = Lists.newArrayList();
