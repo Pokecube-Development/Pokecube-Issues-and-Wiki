@@ -198,7 +198,7 @@ public class TypeTrainer extends NpcType
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                task = new AgroTargets(npc, 0.05f, 1200, z -> CapabilityPokemob.getPokemobFor(z) != null)
+                task = new AgroTargets(npc, 0.005f, 1200, z -> CapabilityPokemob.getPokemobFor(z) != null)
                         .setRunCondition(noRunWhileRest);
                 list.add(Pair.of(1, (Task<? super LivingEntity>) task));
                 task = new CaptureMob(npc, 1);
@@ -209,7 +209,7 @@ public class TypeTrainer extends NpcType
             if (Config.instance.trainersBattleEachOther)
             {
                 final Predicate<LivingEntity> shouldRun = noRunWhileMeet.and(noRunWhileRest);
-                task = new AgroTargets(npc, 0.05f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(
+                task = new AgroTargets(npc, 0.0015f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(
                         shouldRun);
                 list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             }

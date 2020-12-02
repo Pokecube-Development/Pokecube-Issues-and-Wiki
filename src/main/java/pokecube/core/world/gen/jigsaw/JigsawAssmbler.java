@@ -147,7 +147,7 @@ public class JigsawAssmbler
             final Random rand, final Biome biome, final int default_k, final Predicate<JigsawPiece> isValid)
     {
         this.validator = isValid;
-        PokecubeCore.LOGGER.debug("Jigsaw starting build");
+        if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Jigsaw starting build");
         this.init(depth, pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome);
 
         if (this.config.water || this.config.air) this.SURFACE_TYPE = this.config.water ? Type.OCEAN_FLOOR_WG

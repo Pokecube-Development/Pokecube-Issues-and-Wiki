@@ -78,8 +78,8 @@ public class CustomJigsawPiece extends SingleJigsawPiece
 
     private static boolean shouldApply(final BlockPos pos, final World worldIn)
     {
-        Set<BlockPos> poses = CustomJigsawPiece.sent_events.get(worldIn.getDimensionKey());
-        if (poses == null) CustomJigsawPiece.sent_events.put(worldIn.getDimensionKey(), poses = Sets.newHashSet());
+        final Set<BlockPos> poses = CustomJigsawPiece.sent_events.get(worldIn.getDimensionKey());
+        if (poses == null) return true;
         return !poses.contains(pos.toImmutable());
     }
 
@@ -175,11 +175,6 @@ public class CustomJigsawPiece extends SingleJigsawPiece
                 final BlockPos blockpos = Template.transformedBlockPos(placementsettings, info.pos).add(pos1);
                 this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
             }
-
-            for (final Template.BlockInfo template$blockinfo : Template.processBlockInfos(seedReader, pos1, pos2,
-                    placementsettings, data, template))
-                this.handleDataMarker(seedReader, template$blockinfo, pos1, rotation, rng, box);
-
             return true;
         }
     }
@@ -194,7 +189,6 @@ public class CustomJigsawPiece extends SingleJigsawPiece
             final Rotation rotationIn, final Random rand, final MutableBoundingBox box)
     {
         String function = info.nbt != null ? info.nbt.getString("metadata") : "";
-        if (!function.isEmpty()) PokecubeCore.LOGGER.debug(function);
 
         this.isSpawn = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
 
@@ -218,7 +212,6 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         }
         else if (CustomJigsawPiece.shouldApply(pos, this.world))
         {
-            PokecubeCore.LOGGER.info(function);
             final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerWorld) this.world,
                     rand, box);
             MinecraftForge.EVENT_BUS.post(event);

@@ -149,9 +149,9 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
 
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.
-            PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos.getX() + " " + this.getBoundingBox()
-                    .func_215126_f().getY() + " " + blockpos.getZ() + " of size " + this.components.size() + " " + this
-                            .getBoundingBox().getLength());
+            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos
+                    .getX() + " " + this.getBoundingBox().func_215126_f().getY() + " " + blockpos.getZ() + " of size "
+                    + this.components.size() + " " + this.getBoundingBox().getLength());
         }
 
     }
