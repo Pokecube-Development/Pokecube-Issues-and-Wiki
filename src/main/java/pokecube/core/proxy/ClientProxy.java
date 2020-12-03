@@ -1,14 +1,16 @@
 package pokecube.core.proxy;
 
-import java.security.MessageDigest;
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.hash.Hashing;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 
@@ -19,7 +21,7 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.texture.Texture;
+import net.minecraft.client.renderer.texture.DownloadingTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.settings.KeyBinding;
@@ -72,7 +74,6 @@ import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.ShoulderLayer.IShoulderHolder;
 import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
-import pokecube.core.client.render.util.URLSkinTexture;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.npc.NpcMob;
@@ -204,20 +205,24 @@ public class ClientProxy extends CommonProxy
         if (ClientProxy.urlSkins.containsKey(urlSkin)) return ClientProxy.urlSkins.get(urlSkin);
         try
         {
-            final MessageDigest digest = MessageDigest.getInstance("MD5");
-            final byte[] hash = digest.digest(urlSkin.getBytes("UTF-8"));
-            final StringBuilder sb = new StringBuilder(2 * hash.length);
-            for (final byte b : hash)
-                sb.append(String.format("%02x", b & 0xff));
-            final ResourceLocation resourcelocation = new ResourceLocation("skins/" + sb.toString());
             final TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
-            final Texture object = new URLSkinTexture(null, urlSkin, DefaultPlayerSkin.getDefaultSkinLegacy());
-            texturemanager.loadTexture(resourcelocation, object);
+            final File file0 = new File(Minecraft.getInstance().gameDir, "assets/");
+            final String s = Hashing.sha1().hashUnencodedChars(FilenameUtils.getBaseName(urlSkin)).toString();
+            final ResourceLocation resourcelocation = new ResourceLocation("skins/" + s);
+            final File file1 = new File(new File(file0, "skins"), s.length() > 2 ? s.substring(0, 2) : "xx");
+            file1.mkdirs();
+            final File file2 = new File(file1, s);
+            final DownloadingTexture downloadingtexture = new DownloadingTexture(file2, urlSkin, DefaultPlayerSkin
+                    .getDefaultSkinLegacy(), true, () ->
+                    {
+                    });
+            texturemanager.loadTexture(resourcelocation, downloadingtexture);
             ClientProxy.urlSkins.put(urlSkin, resourcelocation);
         }
         catch (final Exception e)
         {
             e.printStackTrace();
+            return DefaultPlayerSkin.getDefaultSkinLegacy();
         }
         return ClientProxy.urlSkins.get(urlSkin);
     }
@@ -297,10 +302,6 @@ public class ClientProxy extends CommonProxy
         // Forward this to PCEdit mod:
         NBTEdit.setupClient(event);
 
-        // Register to model loading registry
-        // TODO see if this was needed
-        // OBJLoader.INSTANCE.addDomain(PokecubeCore.MODID);
-
         // Register the gui side of the screens.
         PokecubeCore.LOGGER.debug("Init Screen Factories");
 
@@ -360,7 +361,7 @@ public class ClientProxy extends CommonProxy
     private final Map<SoundEvent, Float>         move_volumes      = Maps.newHashMap();
     private final Map<SoundEvent, Vector3>       move_positions    = Maps.newHashMap();
 
-//    @SubscribeEvent
+    // @SubscribeEvent
     public void worldTick(final ClientTickEvent event)
     {
         final Set<SoundEvent> stale = Sets.newHashSet();

@@ -99,10 +99,4 @@ public class Spawn extends Page
             PacketTrainer.ASSEMBLER.sendToServer(message);
         }));
     }
-
-    @Override
-    public void init()
-    {
-        super.init();
-    }
 }

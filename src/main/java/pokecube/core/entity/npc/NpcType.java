@@ -39,17 +39,18 @@ public class NpcType
         }
     }
 
-    private static final Map<String, NpcType> typeMap   = Maps.newHashMap();
+    public static final Map<String, NpcType> typeMap = Maps.newHashMap();
 
-    public static final NpcType               NONE      = new NpcType("none");
-    public static final NpcType               PROFESSOR = new NpcType("professor");
-    public static final NpcType               HEALER    = new NpcType("healer");
-    public static final NpcType               TRADER    = new NpcType("trader");
+    public static final NpcType NONE      = new NpcType("none");
+    public static final NpcType PROFESSOR = new NpcType("professor");
+    public static final NpcType HEALER    = new NpcType("healer");
+    public static final NpcType TRADER    = new NpcType("trader");
 
     static
     {
         final IInteract trade = (player, hand, mob) ->
         {
+            if (player.isSneaking()) return false;
             final boolean validCustomer = mob.getCustomer() == null;
             if (validCustomer && !mob.getOffers().isEmpty())
             {
@@ -64,6 +65,7 @@ public class NpcType
         {
             if (player instanceof ServerPlayerEntity && !PokecubeSerializer.getInstance().hasStarter(player))
             {
+                if (player.isSneaking()) return false;
                 PacketChoose packet;
                 final boolean special = false;
                 final boolean pick = false;
@@ -75,12 +77,10 @@ public class NpcType
         };
         final IInteract heal = (player, hand, mob) ->
         {
-            if (player instanceof ServerPlayerEntity) player
-            .openContainer(
-                    new SimpleNamedContainerProvider(
-                            (id, playerInventory, playerIn) -> new HealerContainer(id, playerInventory,
-                                    IWorldPosCallable.of(mob.world, mob.getPosition())),
-                            player.getDisplayName()));
+            if (player.isSneaking()) return false;
+            if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
+                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, IWorldPosCallable.of(
+                            mob.world, mob.getPosition())), player.getDisplayName()));
             return true;
         };
         // Initialize the interactions for these defaults.
@@ -114,24 +114,30 @@ public class NpcType
         this.femaleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_female.png");
     }
 
-    /** @param maleTex
-     *            the maleTex to set */
+    /**
+     * @param maleTex
+     *            the maleTex to set
+     */
     public NpcType setMaleTex(final ResourceLocation maleTex)
     {
         this.maleTex = maleTex;
         return this;
     }
 
-    /** @param femaleTex
-     *            the femaleTex to set */
+    /**
+     * @param femaleTex
+     *            the femaleTex to set
+     */
     public NpcType setFemaleTex(final ResourceLocation femaleTex)
     {
         this.femaleTex = femaleTex;
         return this;
     }
 
-    /** @param interaction
-     *            the interaction to set */
+    /**
+     * @param interaction
+     *            the interaction to set
+     */
     public NpcType setInteraction(final IInteract interaction)
     {
         this.interaction = interaction;

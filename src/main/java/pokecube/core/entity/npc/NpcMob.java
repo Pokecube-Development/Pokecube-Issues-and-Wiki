@@ -98,6 +98,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         return ImmutableList.copyOf(temp);
     }
 
+    public void setTypedName(final String name)
+    {
+        this.name = "pokecube." + this.getNpcType().getName() + ".named:" + name;
+    }
+
     @Override
     protected void initBrain(final Brain<VillagerEntity> brain)
     {
@@ -184,11 +189,17 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         return spawnDataIn;
     }
 
-    public ResourceLocation getTex()
+    public ResourceLocation getBaseTex()
+    {
+        return this.isMale() ? this.getNpcType().getMaleTex() : this.getNpcType().getFemaleTex();
+    }
+
+    public final ResourceLocation getTex()
     {
         if (!this.playerName.isEmpty()) return PokecubeCore.proxy.getPlayerSkin(this.playerName);
         else if (!this.customTex.isEmpty()) return new ResourceLocation(this.customTex);
-        return this.isMale() ? this.getNpcType().getMaleTex() : this.getNpcType().getFemaleTex();
+        else if (!this.urlSkin.isEmpty()) return PokecubeCore.proxy.getUrlSkin(this.urlSkin);
+        return this.getBaseTex();
     }
 
     @Override

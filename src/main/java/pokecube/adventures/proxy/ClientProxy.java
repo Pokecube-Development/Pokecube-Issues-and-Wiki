@@ -6,24 +6,32 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.InputMappings;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import pokecube.adventures.Config;
@@ -45,6 +53,7 @@ import pokecube.adventures.client.gui.items.Bag;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.bag.BagContainer;
+import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.client.render.mobs.RenderNPC;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
@@ -79,6 +88,27 @@ public class ClientProxy extends CommonProxy
 
     private static Map<TypeTrainer, ResourceLocation> males   = Maps.newHashMap();
     private static Map<TypeTrainer, ResourceLocation> females = Maps.newHashMap();
+
+    public static KeyBinding trainerEditKey;
+
+    @SubscribeEvent
+    public void onKey(final InputEvent.KeyInputEvent event)
+    {
+        if (ClientProxy.trainerEditKey.isPressed())
+        {
+            final RayTraceResult pos = Minecraft.getInstance().objectMouseOver;
+            Entity target = null;
+            switch (pos.getType())
+            {
+            case ENTITY:
+                target = ((EntityRayTraceResult) pos).getEntity();
+                break;
+            default:
+                break;
+            }
+            PacketTrainer.requestEdit(target);
+        }
+    }
 
     @Override
     public ResourceLocation getTrainerSkin(final LivingEntity mob, final TypeTrainer type, final byte gender)
@@ -182,6 +212,10 @@ public class ClientProxy extends CommonProxy
         // Register config gui
         ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeAdv.config, parent)));
+
+        ClientProxy.trainerEditKey = new KeyBinding("EditTrainer", InputMappings.INPUT_INVALID.getKeyCode(),
+                "Pokecube");
+        ClientRegistry.registerKeyBinding(ClientProxy.trainerEditKey);
     }
 
     @Override

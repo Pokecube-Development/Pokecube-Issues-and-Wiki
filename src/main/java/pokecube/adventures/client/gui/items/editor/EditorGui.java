@@ -118,6 +118,7 @@ public class EditorGui extends Screen
     public void init(final Minecraft mc, final int width, final int height)
     {
         super.init(mc, width, height);
+        EditorGui.lastPage = 0;
         // Here we just init current, it will then decide on what to do.
         this.current_page = this.createPage(EditorGui.lastPage);
         this.current_page.init(mc, width, height);
@@ -138,14 +139,25 @@ public class EditorGui extends Screen
         }
     }
 
+    boolean resizing = false;
+
     @Override
     public void init()
     {
         super.init();
         // Here we just init current, it will then decide on what to do.
-        this.current_page = this.createPage(EditorGui.lastPage);
+        if (!this.resizing) this.current_page = this.createPage(EditorGui.lastPage);
         this.current_page.init();
         this.current_page.onPageOpened();
+        this.resizing = false;
+    }
+
+    @Override
+    public void resize(final Minecraft minecraft, final int width, final int height)
+    {
+        this.resizing = true;
+        super.resize(minecraft, width, height);
+        this.current_page.resize(minecraft, width, height);
     }
 
     public void changePage(final int newIndex)
@@ -154,10 +166,8 @@ public class EditorGui extends Screen
         if (this.current_page != null) this.current_page.onPageClosed();
         this.index = newIndex;
         this.current_page = this.createPage(this.index);
-        EditorGui.lastPage = this.index;
         this.current_page.init(this.minecraft, this.width, this.height);
         this.current_page.onPageOpened();
-        System.out.println("test");
     }
 
     public Page createPage(final int index)
