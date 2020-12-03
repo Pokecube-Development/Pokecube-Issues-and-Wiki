@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.blockstates;
+package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -19,9 +19,9 @@ import net.minecraftforge.common.ToolType;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.ItemInit;
 
-public class GrassJungleBlock extends BlockBase
+public class GrassAgedBlock extends BlockBase
 {
-    public GrassJungleBlock(final String name, final Material material)
+    public GrassAgedBlock(final String name, final Material material)
     {
         super(name, Properties.create(material).sound(SoundType.PLANT).hardnessAndResistance(1, 2).harvestTool(
                 ToolType.SHOVEL).harvestLevel(1));
@@ -41,7 +41,7 @@ public class GrassJungleBlock extends BlockBase
         {
             final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
             $_dependencies.put("entity", entity);
-            GrassJungleBlock.executeProcedure($_dependencies);
+            GrassAgedBlock.executeProcedure($_dependencies);
         }
     }
 
@@ -59,7 +59,7 @@ public class GrassJungleBlock extends BlockBase
                     (((PlayerEntity) entity).inventory.armorInventory.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()) || 
                     (((PlayerEntity) entity).inventory.armorInventory.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())) 
                 {
-        	((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.POISON, 120, 1));
+        	((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.WITHER, 120, 1));
                 }
         }
     }

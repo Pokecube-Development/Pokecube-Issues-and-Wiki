@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.blockstates;
+package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -19,14 +19,14 @@ import net.minecraftforge.common.ToolType;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.ItemInit;
 
-public class GrassAgedBlock extends BlockBase
+public class SandDistorBlock extends BlockBase
 {
-    public GrassAgedBlock(final String name, final Material material)
+    public SandDistorBlock(final String name, final Material material)
     {
-        super(name, Properties.create(material).sound(SoundType.PLANT).hardnessAndResistance(1, 2).harvestTool(
-                ToolType.SHOVEL).harvestLevel(1));
+        super(name, Properties.create(material).sound(SoundType.SCAFFOLDING).hardnessAndResistance(4, 5).harvestTool(
+                ToolType.SHOVEL).harvestLevel(2));
     }
-
+    
     @Override
     public boolean canSustainPlant(final BlockState state, final IBlockReader world, final BlockPos pos,
             final Direction direction, final IPlantable plantable)
@@ -41,7 +41,7 @@ public class GrassAgedBlock extends BlockBase
         {
             final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
             $_dependencies.put("entity", entity);
-            GrassAgedBlock.executeProcedure($_dependencies);
+            SandDistorBlock.executeProcedure($_dependencies);
         }
     }
 
@@ -49,7 +49,7 @@ public class GrassAgedBlock extends BlockBase
     {
         if (dependencies.get("entity") == null)
         {
-            System.err.println("Failed to WalkGrassEffect!");
+            System.err.println("Failed to WalkEffect!");
             return;
         }
         final Entity entity = (Entity) dependencies.get("entity");
@@ -59,7 +59,7 @@ public class GrassAgedBlock extends BlockBase
                     (((PlayerEntity) entity).inventory.armorInventory.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()) || 
                     (((PlayerEntity) entity).inventory.armorInventory.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())) 
                 {
-        	((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.WITHER, 120, 1));
+        	((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 120, 1));
                 }
         }
     }

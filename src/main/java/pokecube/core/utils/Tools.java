@@ -247,6 +247,15 @@ public class Tools
         return Tools.getPointedEntity(entity, distance, null);
     }
 
+    public static boolean isRidingOrRider(final Entity a, final Entity b)
+    {
+        for (final Entity c : a.getRecursivePassengers())
+            if (b.equals(c)) return true;
+        for (final Entity c : b.getRecursivePassengers())
+            if (a.equals(c)) return true;
+        return false;
+    }
+
     public static Entity getPointedEntity(final Entity entity, double distance, final Predicate<Entity> selector)
     {
         final Vector3 pos = Vector3.getNewVector().set(entity, true);
@@ -255,14 +264,15 @@ public class Tools
         final Vector3d vec31 = entity.getLook(0);
         Predicate<Entity> predicate = EntityPredicates.NOT_SPECTATING.and(c -> entity.canBeCollidedWith());
         if (selector != null) predicate = predicate.and(selector);
-        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.canBeCollidedWith() && !c
-                .isRidingOrBeingRiddenBy(entity));
+        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.canBeCollidedWith() && !Tools
+                .isRidingOrRider(entity, c));
         return pos.firstEntityExcluding(distance, vec31, entity.getEntityWorld(), entity, predicate);
     }
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
     {
-        final Vector3d vec3 = new Vector3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
+        final Vector3d vec3 = new Vector3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity
+                .getPosZ());
         final double d0 = distance;
         final Vector3d vec31 = entity.getLook(0);
         final Vector3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);

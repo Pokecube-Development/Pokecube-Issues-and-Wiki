@@ -225,7 +225,6 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = pokemob.getMaxHealth();
             float ratio = pokemob.getHealth() / total;
-            ratio = 0.5f;
             int x = hpOffsetX + 1;
             int y = hpOffsetY + 1;
             int width = (int) (92 * ratio);
