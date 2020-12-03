@@ -16,8 +16,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> impleme
             final int offsetY)
     {
         this.top = offsetY;
-        this.button = new TexButton(offsetX, offsetY, 130, 20, page.getTitle(), b -> parent.watch.changePage(index),
-                TexButton.NAMEONHOVOR).noName();
+        this.button = new TexButton(offsetX, offsetY, 130, 20, page.getTitle(), b -> parent.watch.changePage(index));
         this.button.visible = false;
         this.button.active = false;
         parent.addButton(this.button);
