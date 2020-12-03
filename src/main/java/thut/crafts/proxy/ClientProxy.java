@@ -26,7 +26,6 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
@@ -49,13 +48,6 @@ public class ClientProxy extends CommonProxy
     KeyBinding DOWN;
     KeyBinding ROTATERIGHT;
     KeyBinding ROTATELEFT;
-
-    @SubscribeEvent
-    public void move(final InputUpdateEvent event)
-    {
-        // event.getMovementInput().forwardKeyDown = true;
-        // event.getMovementInput().moveForward = 5f;
-    }
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
@@ -199,7 +191,5 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(this.ROTATERIGHT);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
-        // RenderingRegistry.registerEntityRenderingHandler(EntityTest.TYPE,
-        // TestMobRender::new);
     }
 }

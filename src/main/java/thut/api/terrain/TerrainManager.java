@@ -13,13 +13,23 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.server.permission.DefaultPermissionLevel;
+import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain.DefaultProvider;
 
 public class TerrainManager
 {
+    public static final String EDIT_SUBBIOMES_PERM = "thutcore.subbiome.can_edit";
+
     public static final ResourceLocation TERRAINCAP = new ResourceLocation("thutcore", "terrain");
     private static TerrainManager        terrain;
+
+    public static void init()
+    {
+        PermissionAPI.registerNode(TerrainManager.EDIT_SUBBIOMES_PERM, DefaultPermissionLevel.OP,
+                "Is the player allowed to edit subbiomes");
+    }
 
     public static void clear()
     {
