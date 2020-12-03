@@ -107,7 +107,7 @@ public class WorldgenFeatures
         for (final String s : pool.includes)
         {
             final ResourceLocation incl = new ResourceLocation(s);
-            if (!WorldGenRegistries.JIGSAW_POOL.containsKey(incl))
+            if (!WorldGenRegistries.JIGSAW_POOL.keySet().contains(incl))
             {
                 PokecubeCore.LOGGER.error("Warning, No pool by name {} was found!", s);
                 continue;
