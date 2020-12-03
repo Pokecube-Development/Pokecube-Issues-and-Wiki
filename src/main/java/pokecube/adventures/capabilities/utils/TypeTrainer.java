@@ -149,7 +149,8 @@ public class TypeTrainer extends NpcType
             {
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
                 final int num = PokecubeAdv.config.trainer_crowding_number;
-                if (TrainerTracker.countTrainers(e.getEntityWorld(), Vector3.getNewVector().set(e), dist) > num) return false;
+                if (TrainerTracker.countTrainers(e.getEntityWorld(), Vector3.getNewVector().set(e), dist) > num)
+                    return false;
                 return true;
             };
             final Predicate<LivingEntity> noRunWhileRest = e ->
@@ -453,9 +454,9 @@ public class TypeTrainer extends NpcType
         super(name);
         TypeTrainer.addTrainer(name, this);
         this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
-                + "female.png"));
-        this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
-                + "male.png"));
+                + "_female.png"));
+        this.setMaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
+                + "_male.png"));
     }
 
     public Collection<MerchantOffer> getRecipes(final Random rand)
@@ -471,6 +472,7 @@ public class TypeTrainer extends NpcType
     public ResourceLocation getTexture(final LivingEntity trainer)
     {
         final IHasPokemobs cap = TrainerCaps.getHasPokemobs(trainer);
+        this.checkedTex = false;
         if (!this.checkedTex)
         {
             this.checkedTex = true;

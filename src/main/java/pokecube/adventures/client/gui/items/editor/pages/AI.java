@@ -1,34 +1,37 @@
 package pokecube.adventures.client.gui.items.editor.pages;
 
-import java.io.IOException;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.Button.IPressable;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs.LevelMode;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
-import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.utils.CapHolders;
-import pokecube.core.utils.TimePeriod;
+import pokecube.core.client.gui.helper.GuardEntry;
+import pokecube.core.client.gui.helper.RouteEditHelper;
+import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.network.packets.PacketSyncRoutes;
 
 public class AI extends Page
 {
-    TextFieldWidget roamDistance;
-    TextFieldWidget startTime;
-    TextFieldWidget endTime;
-    TextFieldWidget resetTime;
+    ScrollGui<GuardEntry> guardList;
+
+    TextFieldWidget resetTimeLose;
+    TextFieldWidget resetTimeWin;
     TextFieldWidget battleCooldown;
     TextFieldWidget faceDirection;
 
@@ -37,240 +40,154 @@ public class AI extends Page
         super(new StringTextComponent(""), parent);
     }
 
-    protected void actionPerformed(final int id) throws IOException
+    @Override
+    public void onPageOpened()
     {
-        ITextComponent mess;
-        PacketTrainer packet;
-        INBT tag;
-        final DefaultPokemobs trainer = (DefaultPokemobs) this.parent.trainer;
-        switch (id)
-        {
-        case 0:
-            this.parent.changePage(0);
-            break;
-        case 1:
-            this.parent.aiStates.setAIState(IHasNPCAIStates.STATIONARY, !this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.STATIONARY));
+        this.children.clear();
+        this.buttons.clear();
+        super.onPageOpened();
 
-            final IGuardAICapability guard = this.parent.guard;
-            guard.getPrimaryTask().setPos(this.parent.entity.getPosition());
-            guard.getPrimaryTask().setActiveTime(!this.parent.aiStates.getAIState(IHasNPCAIStates.STATIONARY)
-                    ? new TimePeriod(0, 0)
-                    : TimePeriod.fullDay);
-            this.sendGuardUpdate();
-            this.sendAIUpdate();
-            mess = new TranslationTextComponent("traineredit.set.stationary." + this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.STATIONARY));
-            this.parent.mc.player.sendStatusMessage(mess, true);
-            break;
-        case 2:
-            this.parent.aiStates.setAIState(IHasNPCAIStates.FIXEDDIRECTION, !this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.FIXEDDIRECTION));
-            this.sendAIUpdate();
-            mess = new TranslationTextComponent("traineredit.set.norotates." + this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.FIXEDDIRECTION));
-            this.parent.mc.player.sendStatusMessage(mess, true);
-            break;
-        case 3:
-            trainer.notifyDefeat = !trainer.notifyDefeat;
-            this.onPageClosed();
-            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
-            packet.getTag().put("T", tag);
-            packet.getTag().putInt("I", this.parent.entity.getEntityId());
-            PacketTrainer.ASSEMBLER.sendToServer(packet);
+        final int x = this.width / 2;
+        final int y = this.height / 2;
+
+        this.guardList = new ScrollGui<>(this, this.minecraft, 92, 120, 35, x + 30, y - 65);
+
+        final Function<CompoundNBT, CompoundNBT> function = t ->
+        {
+            PacketSyncRoutes.sendServerPacket(this.parent.entity, t);
             this.onPageOpened();
-            mess = new TranslationTextComponent("traineredit.set.notify." + trainer.notifyDefeat);
-            this.parent.mc.player.sendStatusMessage(mess, true);
-            break;
-        case 4:
-            this.parent.aiStates.setAIState(IHasNPCAIStates.PERMFRIENDLY, !this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.PERMFRIENDLY));
-            this.sendAIUpdate();
-            mess = new TranslationTextComponent("traineredit.set.friendly." + this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.PERMFRIENDLY));
-            this.parent.mc.player.sendStatusMessage(mess, true);
-            break;
-        case 5:
-            trainer.setLevelMode(LevelMode.values()[(trainer.getLevelMode().ordinal() + 1) % LevelMode
-                    .values().length]);
-            this.onPageClosed();
-            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
-            packet.getTag().put("T", tag);
-            packet.getTag().putInt("I", this.parent.entity.getEntityId());
-            PacketTrainer.ASSEMBLER.sendToServer(packet);
-            this.onPageOpened();
-            final String levelsButton = I18n.format("traineredit.button.levels." + this.parent.trainer.getLevelMode());
-            mess = new TranslationTextComponent("traineredit.set.levels", levelsButton);
-            this.parent.mc.player.sendStatusMessage(mess, true);
-            break;
-        case 6:
-            this.parent.aiStates.setAIState(IHasNPCAIStates.MATES, !this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.MATES));
-            this.sendAIUpdate();
-            mess = new TranslationTextComponent("traineredit.set.mates." + this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.MATES));
-            this.parent.mc.player.sendStatusMessage(mess, true);
-            break;
-        case 7:
-            this.parent.aiStates.setAIState(IHasNPCAIStates.INVULNERABLE, !this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.INVULNERABLE));
-            this.sendAIUpdate();
-            mess = new TranslationTextComponent("traineredit.set.invulnerable." + this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.INVULNERABLE));
-            this.parent.mc.player.sendStatusMessage(mess, true);
-            break;
-        case 8:
-            this.parent.aiStates.setAIState(IHasNPCAIStates.TRADES, !this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.TRADES));
-            this.sendAIUpdate();
-            mess = new TranslationTextComponent("traineredit.set.trade." + this.parent.aiStates.getAIState(
-                    IHasNPCAIStates.TRADES));
-            this.parent.mc.player.sendStatusMessage(mess, true);
-            break;
-        case 9:
-            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            // Reset defeat list.
-            packet.getTag().putBoolean("RDL", true);
-            packet.getTag().putInt("I", this.parent.entity.getEntityId());
-            PacketTrainer.ASSEMBLER.sendToServer(packet);
-            break;
+            return t;
+        };
+        int dx = 3;
+        int dy = 25;
+        RouteEditHelper.getGuiList(this.guardList, this.parent.guard, function, this.parent.entity, this, 60, dx, dy,
+                50);
+        this.children.add(this.guardList);
+
+        dx = -121;
+        dy = -73;
+        final int sy = 12;
+        int i = 0;
+
+        this.resetTimeLose = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 50, 10, new StringTextComponent(
+                ""));
+        this.resetTimeWin = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 50, 10, new StringTextComponent(
+                ""));
+        this.battleCooldown = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 50, 10, new StringTextComponent(
+                ""));
+        this.faceDirection = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 30, 10, new StringTextComponent(
+                ""));
+
+        final Predicate<String> intValid = input ->
+        {
+            try
+            {
+                Integer.parseInt(input);
+                return true;
+            }
+            catch (final NumberFormatException e)
+            {
+                return input.isEmpty();
+            }
+        };
+        final Predicate<String> floatValid = input ->
+        {
+            try
+            {
+                Float.parseFloat(input);
+                return true;
+            }
+            catch (final NumberFormatException e)
+            {
+                return input.isEmpty();
+            }
+        };
+
+        this.resetTimeLose.setValidator(intValid);
+        this.resetTimeWin.setValidator(intValid);
+        this.battleCooldown.setValidator(intValid);
+        this.faceDirection.setValidator(floatValid);
+
+        this.faceDirection.setText(this.parent.aiStates.getDirection() + "");
+        this.addButton(this.faceDirection);
+
+        if (this.parent.trainer instanceof DefaultPokemobs)
+        {
+            final DefaultPokemobs trainer = (DefaultPokemobs) this.parent.trainer;
+
+            this.resetTimeLose.setText(trainer.resetTimeLose + "");
+            this.resetTimeWin.setText(trainer.resetTimeWin + "");
+            this.battleCooldown.setText(trainer.battleCooldown + "");
+
+            this.addButton(this.resetTimeLose);
+            this.addButton(this.resetTimeWin);
+            this.addButton(this.battleCooldown);
         }
+
+        int index = 0;
+        for (final AIState state : AIState.values())
+        {
+            if (state.isTemporary()) continue;
+            index++;
+            final IPressable action = b ->
+            {
+                final boolean flag = !this.parent.aiStates.getAIState(state);
+                this.parent.aiStates.setAIState(state, flag);
+                b.setFGColor(flag ? 0x00FF00 : 0xFF0000);
+                this.onChanged();
+            };
+            final Button press = new Button(x - 123, y - 10 + index * 12, 100, 12, new StringTextComponent(state
+                    .name()), action);
+            press.setFGColor(this.parent.aiStates.getAIState(state) ? 0x00FF00 : 0xFF0000);
+            this.addButton(press);
+        }
+
+        this.addButton(new Button(x + 73, y + 64, 50, 12, new TranslationTextComponent("traineredit.button.home"), b ->
+        {
+            this.closeCallback.run();
+        }));
     }
 
     @Override
-    public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
+    public boolean keyPressed(final int keyCode, final int scanCode, final int modifiers)
     {
-        if (keyCode == GLFW.GLFW_KEY_ENTER) for (int i = 0; i < 6; i++)
-            if (this.updateField(i)) return true;
-
-        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
-    }
-
-    private boolean updateField(final int i)
-    {
-        TextFieldWidget field = null;
-
-        switch (i)
+        if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
-        case 0:
-            field = this.roamDistance;
-            break;
-        case 1:
-            field = this.startTime;
-            break;
-        case 2:
-            field = this.endTime;
-            break;
-        case 3:
-            field = this.resetTime;
-            break;
-        case 4:
-            field = this.battleCooldown;
-            break;
-        case 5:
-            field = this.faceDirection;
-            break;
+            this.onChanged();
+            return true;
         }
+        if (this.guardList.keyPressed(keyCode, scanCode, modifiers)) return true;
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
 
-        if (field == null || !field.isFocused()) return false;
-        final String value = field.getText();
-        float argFloat;
-        int argInt;
-        TimePeriod time = null;
-        float start, end;
-        final IGuardAICapability guard = this.parent.guard;
-        TimePeriod old = guard.getPrimaryTask().getActiveTime();
-        if (old == null) old = new TimePeriod(0, 0);
-        start = (float) old.startTime;
-        end = (float) old.endTime;
-        PacketTrainer packet;
-        INBT tag;
-        ITextComponent mess = null;
-        switch (i)
+    @Override
+    public void render(final MatrixStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.guardList.render(matrixStack, mouseX, mouseY, partialTicks);
+
+        final int x = this.parent.width / 2 - 67;
+        final int y = this.parent.height / 2 - 72;
+        final int dy = 12;
+        int i = 0;
+        this.font.drawString(matrixStack, I18n.format("Loss Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.drawString(matrixStack, I18n.format("Win Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.drawString(matrixStack, I18n.format("Battle Cooldown"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.drawString(matrixStack, I18n.format("Fixed Facing"), x - 20, y + dy * i++, 0xFFFFFFFF);
+
+        this.font.drawString(matrixStack, I18n.format("Guard Locations"), x + 100, y, 0xFFFFFFFF);
+    }
+
+    private void onChanged()
+    {
+        if (this.parent.aiStates instanceof ICapabilitySerializable)
         {
-        case 0:
-            argFloat = value.isEmpty() ? 0 : Float.parseFloat(value);
-            guard.getPrimaryTask().setRoamDistance(argFloat);
-            mess = new TranslationTextComponent("traineredit.set.guarddist", argFloat);
-            this.sendGuardUpdate();
-            break;
-        case 1:
-            start = value.isEmpty() ? 0 : Float.parseFloat(value);
-            end = Float.parseFloat(this.endTime.getText());
-            time = new TimePeriod(start, end);
-            guard.getPrimaryTask().setActiveTime(time);
-            this.sendGuardUpdate();
-            break;
-        case 2:
-            end = value.isEmpty() ? 0 : Float.parseFloat(value);
-            start = Float.parseFloat(this.startTime.getText());
-            time = new TimePeriod(start, end);
-            guard.getPrimaryTask().setActiveTime(time);
-            this.sendGuardUpdate();
-            break;
-        case 3:
-            argInt = value.isEmpty() ? 0 : Integer.parseInt(value);
-            ((DefaultPokemobs) this.parent.trainer).resetTimeLose = argInt;
-            this.onPageClosed();
-            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
-            packet.getTag().put("T", tag);
-            packet.getTag().putInt("I", this.parent.entity.getEntityId());
-            PacketTrainer.ASSEMBLER.sendToServer(packet);
-            this.onPageOpened();
-            mess = new TranslationTextComponent("traineredit.set.cooldown_p", argInt);
-            break;
-        case 4:
-            argInt = value.isEmpty() ? 0 : Integer.parseInt(value);
-            ((DefaultPokemobs) this.parent.trainer).battleCooldown = argInt;
-            this.onPageClosed();
-            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
-            packet.getTag().put("T", tag);
-            packet.getTag().putInt("I", this.parent.entity.getEntityId());
-            PacketTrainer.ASSEMBLER.sendToServer(packet);
-            this.onPageOpened();
-            mess = new TranslationTextComponent("traineredit.set.cooldown_g", argInt);
-            break;
-        case 5:
-            argFloat = value.isEmpty() ? 0 : Float.parseFloat(value);
-            this.parent.aiStates.setDirection(argFloat);
-            this.onPageClosed();
-            this.sendAIUpdate();
-            this.onPageOpened();
-            mess = new TranslationTextComponent("traineredit.set.look", argFloat);
-            break;
+            final ICapabilitySerializable<? extends INBT> ser = (ICapabilitySerializable<?>) this.parent.aiStates;
+            final INBT tag = ser.serializeNBT();
+            final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
+            message.getTag().putInt("I", this.parent.entity.getEntityId());
+            message.getTag().put("__ai__", tag);
+            PacketTrainer.ASSEMBLER.sendToServer(message);
         }
-        if (time != null) mess = new TranslationTextComponent("traineredit.set.guardtime", time.startTick,
-                time.endTick);
-        if (mess != null) this.parent.mc.player.sendStatusMessage(mess, true);
-        return mess != null || time != null;
-    }
-
-    private void sendGuardUpdate()
-    {
-        this.onPageClosed();
-        final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-        final IGuardAICapability guard = this.parent.guard;
-        final INBT tag = CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP, guard, null);
-        packet.getTag().put("T", tag);
-        packet.getTag().putByte("V", (byte) 4);
-        packet.getTag().putInt("I", this.parent.entity.getEntityId());
-        PacketTrainer.ASSEMBLER.sendToServer(packet);
-        this.onPageOpened();
-    }
-
-    private void sendAIUpdate()
-    {
-        this.onPageClosed();
-        final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-        final INBT tag = CapabilityNPCAIStates.storage.writeNBT(TrainerCaps.AISTATES_CAP, this.parent.aiStates, null);
-        packet.getTag().put("T", tag);
-        packet.getTag().putByte("V", (byte) 3);
-        packet.getTag().putInt("I", this.parent.entity.getEntityId());
-        PacketTrainer.ASSEMBLER.sendToServer(packet);
-        this.onPageOpened();
     }
 }

@@ -3,7 +3,6 @@ package pokecube.adventures.entity.trainer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
-import java.util.Random;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,10 +24,10 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasTrades.IHasTrades;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
-import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
@@ -49,10 +48,9 @@ public abstract class TrainerBase extends NpcMob
     public IHasRewards     rewardsCap;
     public IHasNPCAIStates aiStates;
     public IHasTrades      trades;
-    int                    despawncounter  = 0;
-    public String          customTrades    = "";
-    boolean                fixedTrades     = false;
-    boolean                fixedMobs       = false;
+
+    int     despawncounter = 0;
+    boolean fixedMobs      = false;
 
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
@@ -63,7 +61,7 @@ public abstract class TrainerBase extends NpcMob
         this.aiStates = this.getCapability(TrainerCaps.AISTATES_CAP).orElse(null);
         this.trades = this.getCapability(TrainerCaps.TRADES_CAP).orElse(null);
 
-        this.aiStates.setAIState(IHasNPCAIStates.TRADES, PokecubeAdv.config.trainersTradeItems
+        this.aiStates.setAIState(AIState.TRADES, PokecubeAdv.config.trainersTradeItems
                 || PokecubeAdv.config.trainersTradeMobs);
     }
 
@@ -72,7 +70,7 @@ public abstract class TrainerBase extends NpcMob
         final boolean friend = this.pokemobsCap.friendlyCooldown >= 0;
         final boolean pity = this.pokemobsCap.defeated(player);
         final boolean lost = this.pokemobsCap.defeatedBy(player);
-        return this.aiStates.getAIState(IHasNPCAIStates.TRADES) && (friend || pity || lost);
+        return this.aiStates.getAIState(AIState.TRADES) && (friend || pity || lost);
     }
 
     @Override
@@ -89,7 +87,7 @@ public abstract class TrainerBase extends NpcMob
         {
             if (this.pokemobsCap.getType() != null && !this.getEntityWorld().isRemote && stack.isEmpty())
             {
-                String message = this.getName() + " " + this.aiStates.getAIState(IHasNPCAIStates.STATIONARY) + " "
+                String message = this.getName() + " " + this.aiStates.getAIState(AIState.STATIONARY) + " "
                         + this.pokemobsCap.countPokemon() + " ";
                 for (int ind = 0; ind < this.pokemobsCap.getMaxPokemobCount(); ind++)
                 {
@@ -217,8 +215,10 @@ public abstract class TrainerBase extends NpcMob
         super.remove();
     }
 
+    @Override
     public void resetTrades()
     {
+        super.resetTrades();
         this.trades.setOffers(this.offers = null);
     }
 
@@ -248,28 +248,9 @@ public abstract class TrainerBase extends NpcMob
     protected abstract void addMobTrades(final PlayerEntity player, final ItemStack stack);
 
     @Override
-    protected void populateTradeData()
+    protected void onSetOffers()
     {
-        final Random rand = new Random(this.getUniqueID().getLeastSignificantBits());
-        if (this.offers != null) this.offers.clear();
-        if (this.customTrades.isEmpty()) this.getOffers().addAll(this.pokemobsCap.getType().getRecipes(rand));
-        else
-        {
-            final TrainerTrades trades = TypeTrainer.tradesMap.get(this.customTrades);
-            if (trades != null) trades.addTrades(this.getOffers(), rand);
-        }
-    }
-
-    @Override
-    public MerchantOffers getOffers()
-    {
-        if (this.offers == null)
-        {
-            this.offers = new MerchantOffers();
-            this.trades.setOffers(this.offers);
-            this.populateTradeData();
-        }
-        return this.offers;
+        this.trades.setOffers(this.offers);
     }
 
     @Override
@@ -319,7 +300,8 @@ public abstract class TrainerBase extends NpcMob
     @Override
     public void setMale(final boolean male)
     {
-        if (male) this.pokemobsCap.setGender((byte) (male ? 1 : 2));
+        super.setMale(male);
+        this.pokemobsCap.setGender((byte) (male ? 1 : 2));
     }
 
     @Override
