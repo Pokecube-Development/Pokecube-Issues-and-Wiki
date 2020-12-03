@@ -203,10 +203,11 @@ def gitVersion(value) {
     def desc = (raw == null ? 'unknown-offset-hash' : grgit.describe(longDescr: true)).split('-') as List
     def vers = desc.get(1)
     def splis = vers.split(/[.]/)
+    def majver = splis[0].toInteger()
     def subver = splis[1].toInteger()
     def offset = splis[2].toInteger()
     def ver = offset + 1
-    if (subver < version_minor.toInteger()){
+    if (subver < version_minor.toInteger() || majver < version_major.toInteger()){
         ver = 0
     }
     return "${value}.${ver}"
