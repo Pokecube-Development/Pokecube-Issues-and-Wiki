@@ -61,8 +61,8 @@ public class ProgressPage extends PageWithSubPages<Progress>
     @Override
     public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 8;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
         AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFF78C850);
         AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x, y + 10, 0xFF78C850);
     }

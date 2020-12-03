@@ -68,8 +68,8 @@ public class SpawnsPage extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        final int offsetX = (this.watch.width - 160) / 2 + 5;
-        final int offsetY = (this.watch.height - 160) / 2 + 25;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 5;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 25;
         final int max = this.font.FONT_HEIGHT;
         final int height = max * 12;
         final QName local = new QName("Local_Rate");
@@ -162,8 +162,8 @@ public class SpawnsPage extends ListPage<LineEntry>
             this.initList();
             this.last = PacketPokedex.selectedLoc.size();
         }
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 17;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 17;
         AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x, y, 0xFFFFFFFF);
         super.render(mat, mouseX, mouseY, partialTicks);
     }

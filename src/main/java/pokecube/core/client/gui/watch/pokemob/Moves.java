@@ -19,6 +19,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
@@ -38,8 +39,8 @@ public class Moves extends ListPage<LineEntry>
     @Override
     void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 8;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
         if (this.watch.canEdit(this.parent.pokemob)) this.drawMoves(mat, x, y, mouseX, mouseY);
     }
 
@@ -113,8 +114,8 @@ public class Moves extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        int offsetX = (this.watch.width - 160) / 2 + 46;
-        int offsetY = (this.watch.height - 160) / 2 + 82;
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 46;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 82;
         final int height = this.font.FONT_HEIGHT * 6;
         int width = 111;
 
@@ -183,8 +184,8 @@ public class Moves extends ListPage<LineEntry>
         {
             for (final int[] moveOffset : this.moveOffsets)
                 if (moveOffset[2] != 0) return true;
-            final int x = (this.watch.width - 160) / 2 + 80;
-            final int y = (this.watch.height - 160) / 2 + 8;
+            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
             final int dx = -30;
             final int dy = 20;
             final int x1 = (int) (mouseX - (x + dx));
@@ -217,8 +218,8 @@ public class Moves extends ListPage<LineEntry>
                 }
             if (heldIndex != -1)
             {
-                final int x = (this.watch.width - 160) / 2 + 80;
-                final int y = (this.watch.height - 160) / 2 + 8;
+                final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+                final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
                 final int dx = -30;
                 final int dy = 20;
                 final int x1 = (int) (mouseX - (x + dx));
@@ -244,8 +245,8 @@ public class Moves extends ListPage<LineEntry>
                     this.moveOffsets[i][2] = 0;
                 }
             if (oldIndex == -1) return false;
-            final int x = (this.watch.width - 160) / 2 + 80;
-            final int y = (this.watch.height - 160) / 2 + 8;
+            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
             final int dx = -30;
             final int dy = 20;
             final int x1 = (int) (mouseX - (x + dx));

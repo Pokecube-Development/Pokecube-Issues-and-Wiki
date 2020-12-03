@@ -29,8 +29,8 @@ public abstract class Progress extends WatchPage
     @Override
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 30;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
         int dy = 0;
         final int colour = 0xFFFFFFFF;
         for (final String s : this.lines)

@@ -74,6 +74,9 @@ public class GuiPokeWatch extends Screen
         }
     }
 
+    public static int GUIW = 160;
+    public static int GUIH = 160;
+
     public WatchPage current_page = null;
 
     public final IPokemob     pokemob;
@@ -203,10 +206,14 @@ public class GuiPokeWatch extends Screen
     @Override
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
+        // TODO remove these sets once final sizes are chosen
+        GuiPokeWatch.GUIW = 160;
+        GuiPokeWatch.GUIH = 160;
+
         this.minecraft.textureManager.bindTexture(GuiPokeWatch.TEXTURE);
-        final int j2 = (this.width - 160) / 2;
-        final int k2 = (this.height - 160) / 2;
-        this.blit(mat, j2, k2, 0, 0, 160, 160);
+        final int j2 = (this.width - GuiPokeWatch.GUIW) / 2;
+        final int k2 = (this.height - GuiPokeWatch.GUIH) / 2;
+        this.blit(mat, j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
         super.render(mat, mouseX, mouseY, partialTicks);
         try
         {

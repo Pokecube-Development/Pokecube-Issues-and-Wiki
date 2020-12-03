@@ -10,6 +10,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob.Stats;
@@ -186,8 +187,8 @@ public class StatsInfo extends PokeInfoPage
     @Override
     void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 8;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
         if (this.watch.canEdit(this.parent.pokemob)) this.drawInfo(mat, x, y);
         else this.drawBaseStats(mat, x, y);
     }

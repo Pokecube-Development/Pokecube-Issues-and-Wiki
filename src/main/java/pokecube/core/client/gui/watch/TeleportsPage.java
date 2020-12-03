@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
@@ -183,8 +182,7 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
     }
 
-    protected List<TeleDest>        locations;
-    protected List<TextFieldWidget> teleNames = Lists.newArrayList();
+    protected List<TeleDest> locations;
 
     public TeleportsPage(final GuiPokeWatch watch)
     {
@@ -196,16 +194,14 @@ public class TeleportsPage extends ListPage<TeleOption>
     {
         super.initList();
         this.locations = TeleportHandler.getTeleports(this.watch.player.getCachedUniqueIdString());
-        this.teleNames.clear();
-        final int offsetX = (this.watch.width - 160) / 2 + 10;
-        final int offsetY = (this.watch.height - 160) / 2 + 24;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 10;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 24;
         final int height = 120;
         final int width = 146;
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)
         {
             final TextFieldWidget name = new TextFieldWidget(this.font, 0, 0, 104, 10, new StringTextComponent(""));
-            this.teleNames.add(name);
             name.setText(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));
         }

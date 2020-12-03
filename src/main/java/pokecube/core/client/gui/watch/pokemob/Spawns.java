@@ -3,6 +3,7 @@ package pokecube.core.client.gui.watch.pokemob;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.SpawnListEntry;
@@ -35,8 +36,8 @@ public class Spawns extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        final int offsetX = (this.watch.width - 160) / 2 + 45;
-        final int offsetY = (this.watch.height - 160) / 2 + 27;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 45;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 27;
         final int height = 110;
         final int max = this.font.FONT_HEIGHT;
         this.list = new ScrollGui<>(this, this.minecraft, 110, 10 * max, max, offsetX, offsetY);
