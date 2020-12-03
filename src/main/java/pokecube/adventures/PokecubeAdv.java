@@ -59,7 +59,6 @@ import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.adventures.items.Linker;
-import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.proxy.ClientProxy;
@@ -158,7 +157,6 @@ public class PokecubeAdv
             event.getRegistry().register(PokecubeAdv.EXPSHARE);
             event.getRegistry().register(PokecubeAdv.LINKER);
             event.getRegistry().register(PokecubeAdv.BAG);
-            event.getRegistry().register(PokecubeAdv.TRAINEREDITOR);
 
             // Register the badges
             for (final PokeType type : PokeType.values())
@@ -227,7 +225,6 @@ public class PokecubeAdv
     public static final Item EXPSHARE;
     public static final Item LINKER;
     public static final Item BAG;
-    public static final Item TRAINEREDITOR;
 
     public static final Map<PokeType, Item> BADGES   = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
@@ -245,7 +242,6 @@ public class PokecubeAdv
         EXPSHARE = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
         LINKER = new Linker(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
         BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
-        TRAINEREDITOR = new TrainerEditor(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
     }
 
     private static void init()
@@ -261,7 +257,6 @@ public class PokecubeAdv
         PokecubeAdv.EXPSHARE.setRegistryName(PokecubeAdv.MODID, "exp_share");
         PokecubeAdv.LINKER.setRegistryName(PokecubeAdv.MODID, "linker");
         PokecubeAdv.BAG.setRegistryName(PokecubeAdv.MODID, "bag");
-        PokecubeAdv.TRAINEREDITOR.setRegistryName(PokecubeAdv.MODID, "trainer_editor");
 
         // Initialize advancement triggers
         Triggers.init();

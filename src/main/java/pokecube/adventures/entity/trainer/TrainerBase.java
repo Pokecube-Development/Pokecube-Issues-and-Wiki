@@ -76,6 +76,12 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
+    public ResourceLocation getBaseTex()
+    {
+        return PokecubeAdv.proxy.getTrainerSkin(this, (TypeTrainer) this.getNpcType(), (byte) (this.isMale() ? 1 : 2));
+    }
+
+    @Override
     public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
     {
         final ItemStack stack = player.getHeldItem(hand);
@@ -230,11 +236,16 @@ public abstract class TrainerBase extends NpcMob
         super.setCustomer(player);
     }
 
+    @Override
+    public void setNpcType(final NpcType type)
+    {
+        super.setNpcType(type);
+        if (this.pokemobsCap != null && type instanceof TypeTrainer) this.pokemobsCap.setType((TypeTrainer) type);
+    }
+
     public abstract void initTeam(int level);
 
     protected abstract void addMobTrades(final PlayerEntity player, final ItemStack stack);
-
-    public abstract void setRandomName(String name);
 
     @Override
     protected void populateTradeData()

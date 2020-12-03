@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Util;
@@ -22,16 +23,24 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.abilities.AbilityManager;
+import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.ReadTag;
 import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.Nature;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.CapHolders;
 import thut.api.maths.Vector3;
+import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.NBTPacket;
 import thut.core.common.network.PacketAssembly;
 
@@ -45,6 +54,8 @@ public class PacketTrainer extends NBTPacket
     public static final String EDITMOB      = "pokecube_adventures.traineredit.mob";
     public static final String EDITTRAINER  = "pokecube_adventures.traineredit.trainer";
     public static final String SPAWNTRAINER = "pokecube_adventures.traineredit.spawn";
+
+    public static final byte REQUESTEDIT = -1;
 
     public static final byte UPDATETRAINER = 0;
     public static final byte NOTIFYDEFEAT  = 1;
@@ -64,6 +75,13 @@ public class PacketTrainer extends NBTPacket
                 "Allowed to edit trainer with trainer editor");
         PermissionAPI.registerNode(PacketTrainer.SPAWNTRAINER, DefaultPermissionLevel.OP,
                 "Allowed to spawn trainer with trainer editor");
+    }
+
+    public static void requestEdit(final Entity target)
+    {
+        final PacketTrainer packet = new PacketTrainer(PacketTrainer.REQUESTEDIT);
+        packet.getTag().putInt("I", target == null ? -1 : target.getEntityId());
+        PacketTrainer.ASSEMBLER.sendToServer(packet);
     }
 
     public static void sendEditOpenPacket(final Entity target, final ServerPlayerEntity editor)
@@ -156,10 +174,23 @@ public class PacketTrainer extends NBTPacket
     @Override
     protected void onCompleteServer(final ServerPlayerEntity player)
     {
+        this.message = this.getTag().getByte("__message__");
+        String type;
+        String name;
+        boolean male;
+        final int id = this.getTag().getInt("I");
+        type = this.getTag().getString("T");
+        name = this.getTag().getString("N");
+        male = this.getTag().getBoolean("G");
+        Entity mob;
+        IHasPokemobs mobHolder;
         switch (this.message)
         {
+        case REQUESTEDIT:
+            mob = id == -1 ? null : player.getEntityWorld().getEntityByID(id);
+            PacketTrainer.sendEditOpenPacket(mob, player);
+            break;
         case SPAWN:
-
             if (!PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
             {
                 player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
@@ -167,8 +198,9 @@ public class PacketTrainer extends NBTPacket
                 return;
             }
 
-            final String type = this.getTag().getString("T");
-            final int level = this.getTag().getInt("L");
+            PokecubeCore.LOGGER.debug("Recieved Trainer Spawn Packet");
+
+            int level = this.getTag().getInt("L");
             final boolean leader = this.getTag().getBoolean("C");
             final Vector3 vec = Vector3.getNewVector().set(player);
             String args = "pokecube_adventures:" + (leader ? "leader" : "trainer");
@@ -184,9 +216,101 @@ public class PacketTrainer extends NBTPacket
             }
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
-            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(), (ServerWorld) player
-                    .getEntityWorld(), player.getRNG(), MutableBoundingBox.getNewBoundingBox());
+            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(),
+                    (ServerWorld) player.getEntityWorld(), player.getRNG(), MutableBoundingBox.getNewBoundingBox());
             TrainerSpawnHandler.StructureSpawn(event);
+            break;
+        case UPDATETRAINER:
+            if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
+            {
+                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                        Util.DUMMY_UUID);
+                return;
+            }
+            mob = player.getEntityWorld().getEntityByID(id);
+            mobHolder = TrainerCaps.getHasPokemobs(mob);
+            if (mob instanceof NpcMob)
+            {
+                final NpcMob npc = (NpcMob) mob;
+                final NpcType newType = mobHolder != null ? TypeTrainer.getTrainer(type) : NpcType.byType(type);
+                npc.setNpcType(newType);
+                npc.setMale(male);
+                npc.setTypedName(name);
+                npc.urlSkin = this.getTag().getString("uS");
+                npc.playerName = this.getTag().getString("pS");
+                npc.customTex = this.getTag().getString("cS");
+                EntityUpdate.sendEntityUpdate(npc);
+            }
+            break;
+        case KILLTRAINER:
+            if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
+            {
+                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                        Util.DUMMY_UUID);
+                return;
+            }
+            mob = player.getEntityWorld().getEntityByID(id);
+            if (mob != null) mob.remove();
+            break;
+        case UPDATEMOB:
+            mob = player.getEntityWorld().getEntityByID(id);
+            mobHolder = TrainerCaps.getHasPokemobs(mob);
+            // This means we are editing a mob of a trainer.
+            if (this.getTag().contains("__trainers__") && mobHolder != null)
+            {
+                final int index = this.getTag().getInt("__trainers__");
+                ItemStack cube = ItemStack.EMPTY;
+                if (this.getTag().contains("__pokemob__"))
+                {
+                    final CompoundNBT mobtag = this.getTag().getCompound("__pokemob__");
+                    cube = ItemStack.read(mobtag);
+                }
+                mobHolder.setPokemob(index, cube);
+                EntityUpdate.sendEntityUpdate(mob);
+            }
+            else if (this.getTag().contains("__pokemob__"))
+            {
+                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                if (pokemob != null)
+                {
+                    final CompoundNBT mobtag = this.getTag().getCompound("__pokemob__");
+                    for (int i = 0; i < 4; i++)
+                    {
+                        final String move = mobtag.getString("m_" + i);
+                        pokemob.setMove(i, move);
+                    }
+                    for (int i = 0; i < 6; i++)
+                    {
+                        final byte iv = mobtag.getByte("iv_" + i);
+                        final byte[] ivs = pokemob.getIVs();
+                        ivs[i] = iv;
+                        pokemob.setIVs(ivs);
+                        final byte ev = mobtag.getByte("ev_" + i);
+                        final byte[] evs = pokemob.getEVs();
+                        evs[i] = ev;
+                        pokemob.setEVs(evs);
+                    }
+                    final String ability = mobtag.getString("a");
+                    level = mobtag.getInt("l");
+                    final String nature = mobtag.getString("n");
+                    final float size = mobtag.getFloat("s");
+                    final boolean shiny = mobtag.getBoolean("sh");
+                    male = mobtag.getBoolean("g");
+                    final byte old = pokemob.getSexe();
+                    if (old == IPokemob.MALE || old == IPokemob.FEMALE)
+                    {
+                        final byte newSexe = old == IPokemob.MALE ? IPokemob.FEMALE : IPokemob.MALE;
+                        pokemob.setSexe(newSexe);
+                    }
+                    pokemob.setNature(Nature.valueOf(nature));
+                    pokemob.setAbility(AbilityManager.getAbility(ability));
+                    pokemob.setShiny(shiny);
+                    pokemob.setSize(size);
+
+                    pokemob.onGenesChanged();
+                    EntityUpdate.sendEntityUpdate(mob);
+                }
+            }
             break;
         }
     }

@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -44,8 +43,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
 
     static
     {
-        TYPE = EntityType.Builder.create(TrainerNpc::new, EntityClassification.CREATURE)
-                .setCustomClientFactory((s, w) -> TrainerNpc.TYPE.create(w)).build("trainer");
+        TYPE = EntityType.Builder.create(TrainerNpc::new, EntityClassification.CREATURE).setCustomClientFactory((s,
+                w) -> TrainerNpc.TYPE.create(w)).build("trainer");
     }
 
     boolean     added       = false;
@@ -62,12 +61,6 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     protected void addMobTrades(final PlayerEntity player, final ItemStack stack)
     {
         if (this.getCustomer() != null && PokecubeAdv.config.trainersTradeMobs) this.addMobTrades(stack);
-    }
-
-    @Override
-    public ResourceLocation getTex()
-    {
-        return PokecubeAdv.proxy.getTrainerSkin(this, (TypeTrainer) this.getNpcType(), (byte) (this.isMale() ? 1 : 2));
     }
 
     protected void addMobTrades(final ItemStack buy1)
@@ -139,8 +132,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     private int getBaseStats(final IPokemob mob)
     {
         final PokedexEntry entry = mob.getPokedexEntry();
-        return entry.getStatHP() + entry.getStatATT() + entry.getStatDEF() + entry.getStatATTSPE()
-        + entry.getStatDEFSPE() + entry.getStatVIT();
+        return entry.getStatHP() + entry.getStatATT() + entry.getStatDEF() + entry.getStatATTSPE() + entry
+                .getStatDEFSPE() + entry.getStatVIT();
     }
 
     @Override
@@ -199,27 +192,21 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         if (this.name.isEmpty())
         {
             final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty()) this.setRandomName(names.get(new Random().nextInt(names.size())));
+            if (!names.isEmpty()) this.setTypedName(names.get(new Random().nextInt(names.size())));
             this.setCustomName(this.getDisplayName());
         }
     }
 
     @Override
-    public void setRandomName(final String name)
-    {
-        this.name = "pokecube." + this.getNpcType().getName() + ".named:" + name;
-    }
-
-    @Override
     public void writeAdditional(final CompoundNBT compound)
     {
-        if (this.getHeldItem(Hand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty())
-            this.setHeldItem(Hand.OFF_HAND, this.pokemobsCap.getType().held.copy());
+        if (this.getHeldItem(Hand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty()) this.setHeldItem(
+                Hand.OFF_HAND, this.pokemobsCap.getType().held.copy());
         if (!this.pokemobsCap.getType().bag.isEmpty())
         {
             final PlayerWearables worn = ThutWearables.getWearables(this);
-            if (worn.getWearable(EnumWearable.BACK).isEmpty())
-                worn.setWearable(EnumWearable.BACK, this.pokemobsCap.getType().bag.copy());
+            if (worn.getWearable(EnumWearable.BACK).isEmpty()) worn.setWearable(EnumWearable.BACK, this.pokemobsCap
+                    .getType().bag.copy());
         }
         this.setTypes(); // Ensure types are valid before saving.
         super.writeAdditional(compound);

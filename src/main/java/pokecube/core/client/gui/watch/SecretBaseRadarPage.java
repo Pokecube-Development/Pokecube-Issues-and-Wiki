@@ -58,8 +58,8 @@ public class SecretBaseRadarPage extends WatchPage
     {
 
         GL11.glPushMatrix();
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 8;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
 
         GL11.glTranslated(x, y + 72, 0);
         double xCoord = 0;

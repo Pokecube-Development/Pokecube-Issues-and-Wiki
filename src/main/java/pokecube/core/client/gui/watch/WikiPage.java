@@ -130,8 +130,8 @@ public class WikiPage extends ListPage<LineEntry>
     @Override
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int offsetX = (this.watch.width - 160) / 2 + 10;
-        final int offsetY = (this.watch.height - 160) / 2 + 20;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 10;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 20;
         AbstractGui.fill(mat, offsetX - 2, offsetY - 1, offsetX + 132, offsetY + 122, 0xFFFDF8EC);
         super.render(mat, mouseX, mouseY, partialTicks);
     }
@@ -144,8 +144,8 @@ public class WikiPage extends ListPage<LineEntry>
             if (reward instanceof FreeTranslatedReward) books.add((FreeTranslatedReward) reward);
 
         books.sort((o1, o2) -> o1.key.compareTo(o2.key));
-        final int offsetX = (this.watch.width - 160) / 2 + 20;
-        final int offsetY = (this.watch.height - 160) / 2 + 20;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 20;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 20;
         final int height = 120;
 
         if (this.list != null) this.children.remove(this.list);

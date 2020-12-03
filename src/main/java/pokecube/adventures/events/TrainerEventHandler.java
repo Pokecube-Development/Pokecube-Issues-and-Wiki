@@ -53,7 +53,6 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.Linker;
-import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
@@ -398,13 +397,6 @@ public class TrainerEventHandler
         if (evt.getItemStack().getItem() instanceof Linker && evt.getPlayer() instanceof ServerPlayerEntity && Linker
                 .interact((ServerPlayerEntity) evt.getPlayer(), target, evt.getItemStack())) evt.setCanceled(true);
 
-        if (!target.isCrouching() && pokemobs != null && evt.getItemStack().getItem() instanceof TrainerEditor)
-        {
-            evt.setCanceled(true);
-            if (evt.getPlayer() instanceof ServerPlayerEntity) PacketTrainer.sendEditOpenPacket(target,
-                    (ServerPlayerEntity) evt.getPlayer());
-            return;
-        }
         if (messages != null)
         {
             MessageState state = MessageState.INTERACT;

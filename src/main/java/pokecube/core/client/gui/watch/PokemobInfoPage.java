@@ -233,8 +233,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     @Override
     public void postPageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 8;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
         if (this.pokemob != null)
         {
             // Draw hovored tooltip with pokemob's name
@@ -254,7 +254,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 for (final String s : text)
                     box = Math.max(box, this.font.getStringWidth(s) + 2);
 
-                AbstractGui.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1, 0xFF78C850);
+                AbstractGui.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1,
+                        0xFF78C850);
                 for (final String s : text)
                 {
                     AbstractGui.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
@@ -383,7 +384,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             AbstractGui.drawString(mat, this.font, type1, x + dx, y + dy, colour);
             colour = this.pokemob.getType2().colour;
             dy = 62;
-            if (this.pokemob.getType2() != PokeType.unknown) AbstractGui.drawString(mat, this.font, type2, x + dx, y + dy, colour);
+            if (this.pokemob.getType2() != PokeType.unknown) AbstractGui.drawString(mat, this.font, type2, x + dx, y
+                    + dy, colour);
 
             // Draw box around where type displays
             dx = -76;

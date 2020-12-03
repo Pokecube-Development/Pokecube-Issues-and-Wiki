@@ -13,6 +13,7 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
@@ -72,8 +73,8 @@ public class Breeding extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        int offsetX = (this.watch.width - 160) / 2 + 20;
-        int offsetY = (this.watch.height - 160) / 2 + 85;
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 20;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 85;
         final int height = this.font.FONT_HEIGHT * 12;
         int width = 135;
 
