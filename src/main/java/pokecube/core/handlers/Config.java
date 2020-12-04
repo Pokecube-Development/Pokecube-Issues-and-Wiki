@@ -384,6 +384,7 @@ public class Config extends ConfigData
     @Configure(category = Config.world)
     public List<String> softWorldgenDimBlacklist = Lists.newArrayList(
     //@formatter:off
+            "pokecube:secret_base",
             "pokecube_legends:distorted_world",
             "pokecube_legends:ultraspace"
             );
@@ -714,6 +715,8 @@ public class Config extends ConfigData
         WorldgenHandler.SOFTBLACKLIST.clear();
         for (final String s : this.softWorldgenDimBlacklist)
             WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
+        WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(
+                "pokecube:secret_base")));
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
         SpawnHandler.MAXNUM = this.mobSpawnNumber;

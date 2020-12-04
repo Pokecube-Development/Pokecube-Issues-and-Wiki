@@ -1292,8 +1292,7 @@
               "drops": [
                 {
                   "values": {
-                    "id": "minecraft:dye",
-                    "n": "1"
+                    "id": "minecraft:inc_sac"
                   }
                 }
               ]
@@ -1322,8 +1321,7 @@
               "drops": [
                 {
                   "values": {
-                    "id": "minecraft:dye",
-                    "n": "1"
+                    "id": "minecraft:inc_sac"
                   }
                 }
               ]
