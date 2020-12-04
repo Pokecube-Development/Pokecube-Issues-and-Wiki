@@ -415,6 +415,11 @@ public class WorldgenHandler
 
                 // Check the blacklist for here.
                 if (struct.isBlackisted(key)) continue;
+                
+                if(key.toString().contains("secret_base"))
+                {
+                    throw new IllegalAccessError(struct.name);
+                }
 
                 // Actually register the structure to the chunk provider,
                 // without this it won't generate!
