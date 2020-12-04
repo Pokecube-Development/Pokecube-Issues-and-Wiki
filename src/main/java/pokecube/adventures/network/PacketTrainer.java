@@ -2,7 +2,6 @@ package pokecube.adventures.network;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -256,8 +255,7 @@ public class PacketTrainer extends NBTPacket
                     @SuppressWarnings("unchecked")
                     final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) rewards;
                     ser.deserializeNBT(this.getTag().get("__rewards__"));
-                    Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Updated rewards list"),
-                            true);
+                    player.sendStatusMessage(new StringTextComponent("Updated rewards list"), true);
                 }
                 catch (final Exception e)
                 {
@@ -274,8 +272,7 @@ public class PacketTrainer extends NBTPacket
                     @SuppressWarnings("unchecked")
                     final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) aiStates;
                     ser.deserializeNBT(this.getTag().get("__ai__"));
-                    Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Updated AI Setting"),
-                            true);
+                    player.sendStatusMessage(new StringTextComponent("Updated AI Setting"), true);
                 }
                 catch (final Exception e)
                 {
@@ -293,8 +290,7 @@ public class PacketTrainer extends NBTPacket
                     @SuppressWarnings("unchecked")
                     final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) messages;
                     ser.deserializeNBT(this.getTag().get("__messages__"));
-                    Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Updated AI Setting"),
-                            true);
+                    player.sendStatusMessage(new StringTextComponent("Updated AI Setting"), true);
                 }
                 catch (final Exception e)
                 {
