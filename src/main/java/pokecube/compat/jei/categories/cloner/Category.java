@@ -1,5 +1,10 @@
 package pokecube.compat.jei.categories.cloner;
 
+import java.awt.Rectangle;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
@@ -9,6 +14,8 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.util.Translator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
 
@@ -63,6 +70,16 @@ public class Category implements IRecipeCategory<Wrapper>
     public Class<? extends Wrapper> getRecipeClass()
     {
         return Wrapper.class;
+    }
+
+    @Override
+    public List<ITextComponent> getTooltipStrings(final Wrapper recipe, final double mouseX, final double mouseY)
+    {
+        final List<ITextComponent> tooltips = Lists.newArrayList();
+        final Rectangle arrow = new Rectangle(44, 18, 32, 17);
+        if (!arrow.contains(mouseX, mouseY)) return tooltips;
+        tooltips.add(new TranslationTextComponent("gui.jei.cloner.need_egg"));
+        return tooltips;
     }
 
     @Override

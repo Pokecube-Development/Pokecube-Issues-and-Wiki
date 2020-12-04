@@ -61,6 +61,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.IHasCommands.Command;
@@ -376,11 +377,12 @@ public class EventsHandlerClient
             final int height)
     {
         final PokedexEntry entry = realMob.getPokedexEntry();
-        EventsHandlerClient.renderIcon(entry, left, top, width, height, realMob.isShiny());
+        EventsHandlerClient.renderIcon(entry, realMob.getCustomHolder(), realMob.getSexe() == IPokemob.FEMALE, left,
+                top, width, height, realMob.isShiny());
     }
 
-    public static void renderIcon(final PokedexEntry entry, int left, int top, final int width, final int height,
-            final boolean shiny)
+    public static void renderIcon(final PokedexEntry entry, final FormeHolder holder, final boolean female, int left,
+            int top, final int width, final int height, final boolean shiny)
     {
         ResourceLocation[] texs = EventsHandlerClient.icons.get(entry);
         ResourceLocation tex = null;
@@ -389,9 +391,25 @@ public class EventsHandlerClient
         {
             texs = new ResourceLocation[2];
             EventsHandlerClient.icons.put(entry, texs);
-            final String texture = entry.getModId() + ":" + entry.getTexture((byte) 0).replace("/entity/",
-                    "/entity_icon/");
-            final String textureS = entry.hasShiny ? texture.replace(".png", "s.png") : texture;
+            final String path = entry.texturePath.replace("entity", "entity_icon");
+
+            String name = holder == null ? entry.getTrimmedName() : holder.key.getPath();
+
+            final boolean genderDiff = entry.textureDetails[1] != null || entry.getModel((byte) 0) != entry.getModel(
+                    (byte) 1);
+
+            String maleTex = "_male";
+            String femaleTex = "_female";
+
+            if (entry.textureDetails[1] != null) femaleTex = entry.textureDetails[1][0];
+            if (entry.textureDetails[0] != null) maleTex = entry.textureDetails[0][0];
+
+            if (genderDiff && holder == null) name = name + (female ? femaleTex : maleTex);
+
+            String texture = entry.getModId() + ":" + path + name;
+            final String textureS = entry.hasShiny ? texture + "s.png" : texture + ".png";
+            texture = texture + ".png";
+
             tex = new ResourceLocation(texture);
             texs[0] = tex;
             try

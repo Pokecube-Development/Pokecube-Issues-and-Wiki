@@ -1,6 +1,7 @@
 package pokecube.compat.jei.ingredients;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 
 public class Pokemob implements IIngredientType<PokedexEntry>
 {
@@ -81,7 +84,9 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         @Override
         public void render(final MatrixStack stack, final int x, final int y, final Pokemob pokemob)
         {
-            if (pokemob != null) EventsHandlerClient.renderIcon(pokemob.entry, x, y, 16, 16, false);
+            if (pokemob != null) EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder,
+                    pokemob.entry.isGenderForme && pokemob.entry == pokemob.entry.getBaseForme().getForGender(
+                            IPokemob.FEMALE), x, y, 16, 16, false);
         }
 
     }
@@ -93,13 +98,19 @@ public class Pokemob implements IIngredientType<PokedexEntry>
 
     private static final List<Pokemob> ALL = Lists.newArrayList();
 
-    public static final Map<PokedexEntry, Pokemob> ALLMAP = Maps.newHashMap();
+    public static final Map<PokedexEntry, Pokemob> ALLMAP  = Maps.newHashMap();
+    public static final Map<FormeHolder, Pokemob>  FORMMAP = Maps.newHashMap();
 
     public final PokedexEntry entry;
+    public final FormeHolder  holder;
 
-    public Pokemob(final PokedexEntry entry)
+    public final byte gender;
+
+    public Pokemob(final PokedexEntry entry, final FormeHolder holder, final byte gender)
     {
         this.entry = entry;
+        this.holder = holder;
+        this.gender = gender;
     }
 
     @Override
@@ -113,8 +124,19 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         final List<Pokemob> toAdd = Pokemob.ALL;
         if (!toAdd.isEmpty()) return toAdd;
         for (final PokedexEntry entry : Database.getSortedFormes())
-            if (entry != Database.missingno) toAdd.add(new Pokemob(entry));
-        Pokemob.ALL.forEach(p -> Pokemob.ALLMAP.put(p.entry, p));
+            if (entry != Database.missingno)
+            {
+                final List<FormeHolder> formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
+                Pokemob add = new Pokemob(entry, null, (byte) 0);
+                Pokemob.ALLMAP.put(entry, add);
+                toAdd.add(add);
+                for (final FormeHolder holder : formes)
+                {
+                    add = new Pokemob(entry, holder, (byte) 0);
+                    Pokemob.FORMMAP.put(holder, add);
+                    toAdd.add(add);
+                }
+            }
         return toAdd;
     }
 
