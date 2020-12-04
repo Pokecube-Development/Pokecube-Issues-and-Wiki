@@ -3,6 +3,8 @@ package thut.core.common;
 import java.io.File;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +16,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.INBT;
@@ -26,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -92,6 +94,52 @@ public class ThutCore
             event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
         }
 
+        public static EntityRayTraceResult rayTraceEntities(final Entity shooter, final Vector3d startVec,
+                final Vector3d endVec, final AxisAlignedBB boundingBox, final Predicate<Entity> filter,
+                final double distance)
+        {
+            final World world = shooter.world;
+            double d0 = distance;
+            Entity entity = null;
+            Vector3d vector3d = null;
+
+            for (final Entity entity1 : world.getEntitiesInAABBexcluding(shooter, boundingBox, filter))
+            {
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(entity1.getCollisionBorderSize());
+                final Optional<Vector3d> optional = axisalignedbb.rayTrace(startVec, endVec);
+                if (axisalignedbb.contains(startVec))
+                {
+                    if (d0 >= 0.0D)
+                    {
+                        entity = entity1;
+                        vector3d = optional.orElse(startVec);
+                        d0 = 0.0D;
+                    }
+                }
+                else if (optional.isPresent())
+                {
+                    final Vector3d vector3d1 = optional.get();
+                    final double d1 = startVec.squareDistanceTo(vector3d1);
+                    if (d1 < d0 || d0 == 0.0D) if (entity1.getLowestRidingEntity() == shooter.getLowestRidingEntity()
+                            && !entity1.canRiderInteract())
+                    {
+                        if (d0 == 0.0D)
+                        {
+                            entity = entity1;
+                            vector3d = vector3d1;
+                        }
+                    }
+                    else
+                    {
+                        entity = entity1;
+                        vector3d = vector3d1;
+                        d0 = d1;
+                    }
+                }
+            }
+            return entity == null ? null : new EntityRayTraceResult(entity, vector3d);
+        }
+
         @SubscribeEvent
         public static void interact(final RightClickBlock event)
         {
@@ -102,7 +150,7 @@ public class ThutCore
                 final Vector3d face = event.getPlayer().getEyePosition(0);
                 final Vector3d look = event.getPlayer().getLookVec();
                 final AxisAlignedBB box = event.getPlayer().getBoundingBox().grow(3, 3, 3);
-                final EntityRayTraceResult var = ProjectileHelper.rayTraceEntities(player, face, look, box,
+                final EntityRayTraceResult var = MobEvents.rayTraceEntities(player, face, look, box,
                         e -> e instanceof IBlockEntity, 3);
                 if (var != null && var.getType() == EntityRayTraceResult.Type.ENTITY)
                 {

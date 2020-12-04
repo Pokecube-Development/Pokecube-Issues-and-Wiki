@@ -51,8 +51,7 @@ public class BiomeDatabase
     {
         if (!BiomeDatabase.isAType(type)) return false;
         final BiomeDictionary.Type t = BiomeDatabase.TYPES.get(type);
-        final RegistryKey<Biome> key = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, b.getRegistryName());
-        return BiomeDictionary.hasType(key, t);
+        return BiomeDictionary.hasType(b, t);
     }
 
     public static String getBiomeName(final Biome biome)

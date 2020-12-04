@@ -11,7 +11,7 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.util.Translator;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -39,7 +39,7 @@ public class Category implements IRecipeCategory<Wrapper>
         this.guiHelper = guiHelper;
         this.background = guiHelper.createDrawable(Category.GUI, 29, 16, Category.width, Category.height);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(PokecubeAdv.CLONER));
-        this.localizedName = Translator.translateToLocal("block.pokecube_adventures.cloner");
+        this.localizedName = I18n.format("block.pokecube_adventures.cloner");
     }
 
     @Override

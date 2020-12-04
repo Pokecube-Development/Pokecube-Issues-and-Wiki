@@ -12,7 +12,7 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.util.Translator;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -39,7 +39,7 @@ public class Category implements IRecipeCategory<Evolution>
     {
         final ResourceLocation location = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/evorecipe.png");
         this.background = guiHelper.createDrawable(location, 29, 16, Category.width, Category.height);
-        this.localizedName = Translator.translateToLocal("gui.jei.pokemobs");
+        this.localizedName = I18n.format("gui.jei.pokemobs");
         this.icon = guiHelper.createDrawable(Category.TABS, 32, 0, 16, 16);
     }
 
