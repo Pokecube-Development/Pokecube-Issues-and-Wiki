@@ -24,9 +24,7 @@ import pokecube.adventures.client.gui.items.editor.pages.LivePokemob;
 import pokecube.adventures.client.gui.items.editor.pages.Messages;
 import pokecube.adventures.client.gui.items.editor.pages.Pokemob;
 import pokecube.adventures.client.gui.items.editor.pages.Rewards;
-import pokecube.adventures.client.gui.items.editor.pages.Routes;
 import pokecube.adventures.client.gui.items.editor.pages.Spawn;
-import pokecube.adventures.client.gui.items.editor.pages.Trades;
 import pokecube.adventures.client.gui.items.editor.pages.Trainer;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.core.PokecubeCore;
@@ -70,8 +68,6 @@ public class EditorGui extends Screen
         EditorGui.PAGELIST.add(Messages.class);
         EditorGui.PAGELIST.add(Pokemob.class);
         EditorGui.PAGELIST.add(Rewards.class);
-        EditorGui.PAGELIST.add(Routes.class);
-        EditorGui.PAGELIST.add(Trades.class);
     }
 
     public static int lastPage = 0;
@@ -129,6 +125,13 @@ public class EditorGui extends Screen
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         super.render(mat, mouseX, mouseY, partialTicks);
+
+        this.minecraft.textureManager.bindTexture(new ResourceLocation(PokecubeAdv.MODID,
+                "textures/gui/traineredit.png"));
+        final int j2 = (this.width - 256) / 2;
+        final int k2 = (this.height - 160) / 2;
+        this.blit(mat, j2, k2, 0, 0, 256, 160);
+
         try
         {
             this.current_page.render(mat, mouseX, mouseY, partialTicks);
@@ -145,11 +148,6 @@ public class EditorGui extends Screen
     public void init()
     {
         super.init();
-        // Here we just init current, it will then decide on what to do.
-        if (!this.resizing) this.current_page = this.createPage(EditorGui.lastPage);
-        this.current_page.init();
-        this.current_page.onPageOpened();
-        this.resizing = false;
     }
 
     @Override

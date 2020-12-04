@@ -114,13 +114,12 @@ public class ClientProxy extends CommonProxy
     public ResourceLocation getTrainerSkin(final LivingEntity mob, final TypeTrainer type, final byte gender)
     {
         ResourceLocation texture = null;
-        boolean male;
-        if (male = gender == 1) texture = ClientProxy.males.get(type);
+        final boolean male = gender == 1;
+        if (male) texture = ClientProxy.males.get(type);
         else texture = ClientProxy.females.get(type);
         if (texture == null)
         {
             texture = type.getTexture(mob);
-
             if (male) ClientProxy.males.put(type, texture);
             else ClientProxy.females.put(type, texture);
         }

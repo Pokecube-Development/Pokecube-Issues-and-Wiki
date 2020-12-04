@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -43,6 +42,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
     final Button                             confirm;
     final Button                             moveUp;
     final Button                             moveDown;
+    final Button                             update;
     final Function<CompoundNBT, CompoundNBT> function;
     final int                                guiX;
     final int                                guiY;
@@ -63,8 +63,14 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.delete.setFGColor(0xFFFF0000);
         this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b -> this.confirmClicked(b));
         this.confirm.active = false;
+
+        if (index == guard.getTasks().size()) this.delete.active = false;
+
         this.moveUp = new Button(0, 0, 10, 10, new StringTextComponent("\u21e7"), b -> this.moveUpClicked(b));
         this.moveDown = new Button(0, 0, 10, 10, new StringTextComponent("\u21e9"), b -> this.moveDownClicked(b));
+
+        this.update = new Button(0, 0, 20, 10, new StringTextComponent("btn"), b -> this.update());
+
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
         this.moveDown.active = index < guard.getTasks().size() - 1;
         this.function = function;
@@ -76,6 +82,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.confirm.visible = false;
         this.moveUp.visible = false;
         this.moveDown.visible = false;
+        this.update.visible = false;
         this.location.visible = false;
         this.timeperiod.visible = false;
         this.variation.visible = false;
@@ -88,6 +95,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         parent.addButton(this.delete);
         parent.addButton(this.confirm);
         parent.addButton(this.moveUp);
+        parent.addButton(this.update);
         parent.addButton(this.moveDown);
         parent.addButton(this.location);
         parent.addButton(this.timeperiod);
@@ -216,11 +224,13 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.location.visible = false;
         this.timeperiod.visible = false;
         this.variation.visible = false;
+        this.update.visible = false;
     }
 
     @Override
-    public void render(final MatrixStack mat, final int slotIndex, int y, int x, final int listWidth, final int slotHeight, final int mouseX,
-            final int mouseY, final boolean isSelected, final float partialTicks)
+    public void render(final MatrixStack mat, final int slotIndex, int y, int x, final int listWidth,
+            final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+            final float partialTicks)
     {
         this.delete.visible = true;
         this.confirm.visible = true;
@@ -229,6 +239,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.location.visible = true;
         this.timeperiod.visible = true;
         this.variation.visible = true;
+        this.update.visible = true;
 
         x += this.guiX;
         y += this.guiY;
@@ -251,6 +262,9 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.moveDown.y = y - 5 - 10;
         this.moveDown.x = x - 2 + 10 + this.location.getWidth();
 
+        this.update.y = y - 5 - 20;
+        this.update.x = x - 1 + this.location.getWidth();
+
         RenderHelper.disableStandardItemLighting();
         this.location.render(mat, mouseX, mouseY, partialTicks);
         this.timeperiod.render(mat, mouseX, mouseY, partialTicks);
@@ -260,7 +274,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.confirm.render(mat, mouseX, mouseY, partialTicks);
         this.moveUp.render(mat, mouseX, mouseY, partialTicks);
         this.moveDown.render(mat, mouseX, mouseY, partialTicks);
-        GL11.glColor3f(1, 1, 1);
+        this.update.render(mat, mouseX, mouseY, partialTicks);
     }
 
     public void reOrder(final int dir)
@@ -317,7 +331,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         catch (final NumberFormatException e)
         {
             final ITextComponent mess = new TranslationTextComponent("traineredit.info.dist.formatinfo");
-            this.parent.getMinecraft().player.sendStatusMessage(mess, true);
+            this.parent.getMinecraft().player.sendStatusMessage(mess, false);
             return;
         }
         if (loc != null && time != null)
@@ -339,7 +353,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
             data.putInt("I", this.entity.getEntityId());
             this.function.apply(data);
             final ITextComponent mess = new TranslationTextComponent("pokemob.route.updated");
-            this.parent.getMinecraft().player.sendStatusMessage(mess, true);
+            this.parent.getMinecraft().player.sendStatusMessage(mess, false);
         }
     }
 }

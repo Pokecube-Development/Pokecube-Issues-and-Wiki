@@ -13,6 +13,11 @@ public abstract class Page extends Screen implements IGuiEventListener
     public final EditorGui       parent;
     private final ITextComponent title;
 
+    // this can be easily called by buttons to go back to previous page.
+    public Runnable closeCallback = () ->
+    {
+    };
+
     public Page(final ITextComponent title, final EditorGui parent)
     {
         super(title);

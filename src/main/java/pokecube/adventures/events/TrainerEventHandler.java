@@ -43,6 +43,7 @@ import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.TrainerCaps;
@@ -104,11 +105,15 @@ public class TrainerEventHandler
         {
             final Random rand = new Random(this.mob.getUniqueID().getLeastSignificantBits());
             final String type = this.mob.getNpcType() == NpcType.PROFESSOR ? "professor" : "merchant";
-            final TrainerTrades trades = TypeTrainer.tradesMap.get(type);
-            if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+            TrainerTrades trades = TypeTrainer.tradesMap.get(type);
+            if (!this.mob.customTrades.isEmpty())
+            {
+                trades = TypeTrainer.tradesMap.get(this.mob.customTrades);
+                if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+            }
+            else if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
             else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
         }
-
     }
 
     private static class NpcOffer implements Consumer<MerchantOffer>
@@ -356,7 +361,7 @@ public class TrainerEventHandler
 
     private static void initTrainer(final LivingEntity npc, final SpawnReason reason)
     {
-        if (npc instanceof NpcMob && !(npc instanceof TrainerBase))
+        if (npc instanceof NpcMob)
         {
             ((NpcMob) npc).setInitOffers(new NpcOffers((NpcMob) npc));
             ((NpcMob) npc).setUseOffers(new NpcOffer((NpcMob) npc));
@@ -486,7 +491,7 @@ public class TrainerEventHandler
             }
             else pokemobHolder.setOutMob(evt.pokemob);
             final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(owner);
-            if (aiStates != null) aiStates.setAIState(IHasNPCAIStates.THROWING, false);
+            if (aiStates != null) aiStates.setAIState(AIState.THROWING, false);
         }
     }
 

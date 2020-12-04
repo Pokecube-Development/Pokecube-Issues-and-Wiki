@@ -2,11 +2,13 @@ package pokecube.adventures.network;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -15,13 +17,18 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasRewards;
+import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCMessages;
+import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
@@ -109,11 +116,17 @@ public class PacketTrainer extends NBTPacket
             final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(target);
             final IGuardAICapability guard = target.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
             final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
+            final IHasRewards rewards = TrainerCaps.getHasRewards(target);
+            final IHasMessages messages = TrainerCaps.getMessages(target);
             if (ai != null) tag.put("A", CapabilityNPCAIStates.storage.writeNBT(TrainerCaps.AISTATES_CAP, ai, null));
             if (guard != null) tag.put("G", CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP, guard,
                     null));
             if (pokemobs != null) tag.put("P", CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP,
                     pokemobs, null));
+            if (rewards != null) tag.put("R", CapabilityHasRewards.storage.writeNBT(TrainerCaps.REWARDS_CAP, rewards,
+                    null));
+            if (messages != null) tag.put("M", CapabilityNPCMessages.storage.writeNBT(TrainerCaps.MESSAGES_CAP,
+                    messages, null));
             packet.getTag().put("C", tag);
         }
         PacketTrainer.ASSEMBLER.sendTo(packet, editor);
@@ -144,7 +157,6 @@ public class PacketTrainer extends NBTPacket
         switch (this.message)
         {
         case UPDATETRAINER:
-
             // O for Open Gui Packet.
             if (this.getTag().getBoolean("O"))
             {
@@ -156,12 +168,18 @@ public class PacketTrainer extends NBTPacket
                     final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(mob);
                     final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
                     final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(mob);
+                    final IHasRewards rewards = TrainerCaps.getHasRewards(mob);
+                    final IHasMessages messages = TrainerCaps.getMessages(mob);
                     if (nbt.contains("A")) if (ai != null) CapabilityNPCAIStates.storage.readNBT(
                             TrainerCaps.AISTATES_CAP, ai, null, nbt.get("A"));
                     if (nbt.contains("G")) if (guard != null) CapHolders.GUARDAI_CAP.getStorage().readNBT(
                             CapHolders.GUARDAI_CAP, guard, null, nbt.get("G"));
                     if (nbt.contains("P")) if (pokemobs != null) CapabilityHasPokemobs.storage.readNBT(
                             TrainerCaps.HASPOKEMOBS_CAP, pokemobs, null, nbt.get("P"));
+                    if (nbt.contains("R")) if (rewards != null) CapabilityHasRewards.storage.readNBT(
+                            TrainerCaps.REWARDS_CAP, rewards, null, nbt.get("R"));
+                    if (nbt.contains("M")) if (messages != null) CapabilityNPCMessages.storage.readNBT(
+                            TrainerCaps.MESSAGES_CAP, messages, null, nbt.get("M"));
                 }
                 net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new EditorGui(mob));
                 return;
@@ -179,10 +197,11 @@ public class PacketTrainer extends NBTPacket
         String name;
         boolean male;
         final int id = this.getTag().getInt("I");
-        type = this.getTag().getString("T");
+        type = this.getTag().getString("__type__");
         name = this.getTag().getString("N");
         male = this.getTag().getBoolean("G");
         Entity mob;
+        mob = player.getEntityWorld().getEntityByID(id);
         IHasPokemobs mobHolder;
         switch (this.message)
         {
@@ -227,19 +246,82 @@ public class PacketTrainer extends NBTPacket
                         Util.DUMMY_UUID);
                 return;
             }
-            mob = player.getEntityWorld().getEntityByID(id);
-            mobHolder = TrainerCaps.getHasPokemobs(mob);
-            if (mob instanceof NpcMob)
+
+            // Here we are editing a rewards list for a trainer
+            if (this.getTag().contains("__rewards__"))
             {
-                final NpcMob npc = (NpcMob) mob;
-                final NpcType newType = mobHolder != null ? TypeTrainer.getTrainer(type) : NpcType.byType(type);
-                npc.setNpcType(newType);
-                npc.setMale(male);
-                npc.setTypedName(name);
-                npc.urlSkin = this.getTag().getString("uS");
-                npc.playerName = this.getTag().getString("pS");
-                npc.customTex = this.getTag().getString("cS");
-                EntityUpdate.sendEntityUpdate(npc);
+                final IHasRewards rewards = TrainerCaps.getHasRewards(mob);
+                if (rewards instanceof ICapabilitySerializable) try
+                {
+                    @SuppressWarnings("unchecked")
+                    final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) rewards;
+                    ser.deserializeNBT(this.getTag().get("__rewards__"));
+                    Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Updated rewards list"),
+                            true);
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            // Here we edit the AI holder
+            if (this.getTag().contains("__ai__"))
+            {
+                final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(mob);
+                if (aiStates instanceof ICapabilitySerializable) try
+                {
+                    @SuppressWarnings("unchecked")
+                    final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) aiStates;
+                    ser.deserializeNBT(this.getTag().get("__ai__"));
+                    Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Updated AI Setting"),
+                            true);
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            // Here we edit the Messages holder
+            if (this.getTag().contains("__messages__"))
+            {
+                final IHasMessages messages = TrainerCaps.getMessages(mob);
+                PokecubeCore.LOGGER.debug("Editing Messages");
+                if (messages instanceof ICapabilitySerializable) try
+                {
+                    @SuppressWarnings("unchecked")
+                    final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) messages;
+                    ser.deserializeNBT(this.getTag().get("__messages__"));
+                    Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Updated AI Setting"),
+                            true);
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            // Here we edit the mob itself
+            if (!type.isEmpty())
+            {
+                mobHolder = TrainerCaps.getHasPokemobs(mob);
+                if (mob instanceof NpcMob)
+                {
+                    final NpcMob npc = (NpcMob) mob;
+                    final NpcType newType = mobHolder != null ? TypeTrainer.getTrainer(type) : NpcType.byType(type);
+                    npc.setNpcType(newType);
+                    npc.setMale(male);
+                    if (this.getTag().getBoolean("rawName")) npc.name = name;
+                    else npc.setTypedName(name);
+                    npc.urlSkin = this.getTag().getString("uS");
+                    npc.playerName = this.getTag().getString("pS");
+                    npc.customTex = this.getTag().getString("cS");
+                    final String prev = npc.customTrades;
+                    npc.customTrades = this.getTag().getString("cT");
+                    if (!prev.equals(npc.customTrades)) npc.resetTrades();
+                    EntityUpdate.sendEntityUpdate(npc);
+                }
             }
             break;
         case KILLTRAINER:
@@ -267,6 +349,7 @@ public class PacketTrainer extends NBTPacket
                 }
                 mobHolder.setPokemob(index, cube);
                 EntityUpdate.sendEntityUpdate(mob);
+                if (this.getTag().getBoolean("__reopen__")) PacketTrainer.sendEditOpenPacket(mob, player);
             }
             else if (this.getTag().contains("__pokemob__"))
             {

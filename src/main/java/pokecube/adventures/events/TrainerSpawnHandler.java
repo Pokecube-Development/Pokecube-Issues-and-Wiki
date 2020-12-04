@@ -40,7 +40,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
@@ -132,8 +132,8 @@ public class TrainerSpawnHandler
         if (ttype == null) return null;
         final int level = SpawnHandler.getSpawnLevel(w, v, Database.getEntry(1));
         final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w).setType(ttype).setLevel(level);
-        trainer.aiStates.setAIState(IHasNPCAIStates.MATES, true);
-        trainer.aiStates.setAIState(IHasNPCAIStates.TRADES, true);
+        trainer.aiStates.setAIState(AIState.MATES, true);
+        trainer.aiStates.setAIState(AIState.TRADES, true);
         return trainer;
     }
 

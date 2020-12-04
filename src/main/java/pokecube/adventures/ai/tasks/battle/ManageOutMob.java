@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.Config;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -46,13 +46,13 @@ public class ManageOutMob extends BaseBattleTask
                 }
             return;
         }
-        if (this.aiTracker.getAIState(IHasNPCAIStates.THROWING)) return;
+        if (this.aiTracker.getAIState(AIState.THROWING)) return;
 
         final int cooldown = this.trainer.getTarget() instanceof PlayerEntity ? this.trainer.getAttackCooldown() : 0;
 
         // If no mob was found, then it means trainer was not throwing cubes, as
         // those are counted along with active pokemobs.
-        this.aiTracker.setAIState(IHasNPCAIStates.THROWING, false);
+        this.aiTracker.setAIState(AIState.THROWING, false);
         // If the trainer is on attack cooldown, then check if to send message
         // about next pokemob, or to return early.
         if (cooldown > 0)
@@ -60,7 +60,7 @@ public class ManageOutMob extends BaseBattleTask
             // If no next pokemob, reset trainer and return early.
             if (this.trainer.getNextPokemob().isEmpty())
             {
-                this.aiTracker.setAIState(IHasNPCAIStates.INBATTLE, false);
+                this.aiTracker.setAIState(AIState.INBATTLE, false);
                 this.trainer.onLose(this.trainer.getTarget());
                 return;
             }

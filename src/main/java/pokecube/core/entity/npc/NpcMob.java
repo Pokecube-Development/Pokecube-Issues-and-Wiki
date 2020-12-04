@@ -74,6 +74,9 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public Vector3    location   = null;
     public GuardAI    guardAI;
 
+    public String  customTrades = "";
+    public boolean fixedTrades  = false;
+
     private Consumer<MerchantOffers> init_offers = t ->
     {
     };
@@ -233,6 +236,8 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         this.playerName = nbt.getString("playerName");
         this.urlSkin = nbt.getString("urlSkin");
         this.customTex = nbt.getString("customTex");
+        this.fixedTrades = nbt.getBoolean("fixedTrades");
+        this.customTrades = nbt.getString("customTrades");
         try
         {
             if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
@@ -299,6 +304,8 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         nbt.putString("playerName", this.playerName);
         nbt.putString("urlSkin", this.urlSkin);
         nbt.putString("customTex", this.customTex);
+        nbt.putBoolean("fixedTrades", this.fixedTrades);
+        nbt.putString("customTrades", this.customTrades);
         nbt.putString("type", this.getNpcType().getName());
     }
 
@@ -321,6 +328,27 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         this.use_offer.accept(offer);
         super.onVillagerTrade(offer);
+    }
+
+    public void resetTrades()
+    {
+        this.offers = null;
+    }
+
+    protected void onSetOffers()
+    {
+    }
+
+    @Override
+    public MerchantOffers getOffers()
+    {
+        if (this.offers == null)
+        {
+            this.offers = new MerchantOffers();
+            this.onSetOffers();
+            this.populateTradeData();
+        }
+        return this.offers;
     }
 
     @Override

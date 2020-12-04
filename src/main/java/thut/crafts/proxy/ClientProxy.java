@@ -3,7 +3,6 @@ package thut.crafts.proxy;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -14,6 +13,7 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -26,7 +26,6 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
@@ -49,13 +48,6 @@ public class ClientProxy extends CommonProxy
     KeyBinding DOWN;
     KeyBinding ROTATERIGHT;
     KeyBinding ROTATELEFT;
-
-    @SubscribeEvent
-    public void move(final InputUpdateEvent event)
-    {
-        // event.getMovementInput().forwardKeyDown = true;
-        // event.getMovementInput().moveForward = 5f;
-    }
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
@@ -181,15 +173,15 @@ public class ClientProxy extends CommonProxy
     @Override
     public void setupClient(final FMLClientSetupEvent event)
     {
-        this.UP = new KeyBinding("crafts.key.up", GLFW.GLFW_KEY_SPACE, "keys.crafts");
-        this.DOWN = new KeyBinding("crafts.key.down", GLFW.GLFW_KEY_LEFT_CONTROL, "keys.crafts");
+        this.UP = new KeyBinding("crafts.key.up", InputMappings.INPUT_INVALID.getKeyCode(), "keys.crafts");
+        this.DOWN = new KeyBinding("crafts.key.down", InputMappings.INPUT_INVALID.getKeyCode(), "keys.crafts");
 
         final KeyConflictContext inGame = KeyConflictContext.IN_GAME;
         this.UP.setKeyConflictContext(inGame);
         this.DOWN.setKeyConflictContext(inGame);
 
-        this.ROTATERIGHT = new KeyBinding("crafts.key.left", GLFW.GLFW_KEY_RIGHT_BRACKET, "keys.crafts");
-        this.ROTATELEFT = new KeyBinding("crafts.key.right", GLFW.GLFW_KEY_LEFT_BRACKET, "keys.crafts");
+        this.ROTATERIGHT = new KeyBinding("crafts.key.left", InputMappings.INPUT_INVALID.getKeyCode(), "keys.crafts");
+        this.ROTATELEFT = new KeyBinding("crafts.key.right", InputMappings.INPUT_INVALID.getKeyCode(), "keys.crafts");
         this.ROTATELEFT.setKeyConflictContext(inGame);
         this.ROTATERIGHT.setKeyConflictContext(inGame);
 
@@ -199,7 +191,5 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(this.ROTATERIGHT);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
-        // RenderingRegistry.registerEntityRenderingHandler(EntityTest.TYPE,
-        // TestMobRender::new);
     }
 }
