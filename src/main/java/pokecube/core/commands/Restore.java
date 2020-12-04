@@ -179,7 +179,7 @@ public class Restore
             tag = copy.write(new CompoundNBT());
             final ClickEvent click = new ClickEvent(Action.RUN_COMMAND, command);
             final IFormattableTextComponent sub = (IFormattableTextComponent) stack.getTextComponent();
-            sub.getStyle().setClickEvent(click);
+            sub.setStyle(sub.getStyle().setClickEvent(click));
             sub.appendString(" ");
             message.append(sub);
             final int size = message.toString().getBytes().length;

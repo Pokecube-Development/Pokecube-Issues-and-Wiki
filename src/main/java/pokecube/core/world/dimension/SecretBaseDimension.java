@@ -180,12 +180,12 @@ public class SecretBaseDimension
             }
             else if ((pos.x - 1) % 16 == 0 || (pos.z - 1) % 16 == 0 || (pos.x + 1) % 16 == 0 || (pos.z + 1) % 16 == 0)
             {
-                final BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
-                final BlockState state = Blocks.BARRIER.getDefaultState();
-                for (int i = 0; i < h; ++i)
-                    for (int j = 0; j < 16; ++j)
-                        for (int k = 0; k < 16; ++k)
-                            chunk.setBlockState(blockpos$mutableblockpos.setPos(j, i, k), state, false);
+//                final BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
+//                final BlockState state = Blocks.BARRIER.getDefaultState();
+//                for (int i = 0; i < h; ++i)
+//                    for (int j = 0; j < 16; ++j)
+//                        for (int k = 0; k < 16; ++k)
+//                            chunk.setBlockState(blockpos$mutableblockpos.setPos(j, i, k), state, false);
             }
         }
     }
