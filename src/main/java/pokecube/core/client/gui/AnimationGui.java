@@ -267,9 +267,14 @@ public class AnimationGui extends Screen
 
         final boolean genderDiff = AnimationGui.entry.textureDetails[1] != null || AnimationGui.entry.getModel(
                 (byte) 0) != AnimationGui.entry.getModel((byte) 1);
+        String origName = AnimationGui.entry.getTrimmedName();
+        if (AnimationGui.entry.isGenderForme) origName = AnimationGui.entry.getBaseForme().getTrimmedName();
         if (genderDiff && this.holder == null) name = name + "_" + (this.sexe == IPokemob.FEMALE ? "female" : "male");
 
         final File outfile = new File(dir, name + (this.shiny && AnimationGui.entry.hasShiny ? "s" : "") + ".png");
+        File outfile2 = null;
+        if (!name.equals(origName)) outfile2 = new File(dir, origName + (this.shiny && AnimationGui.entry.hasShiny ? "s"
+                : "") + ".png");
 
         GL11.glPixelStorei(3333, 1);
         GL11.glPixelStorei(3317, 1);
@@ -364,7 +369,11 @@ public class AnimationGui extends Screen
 
         try
         {
-            if (!scaled) ImageIO.write(image, "png", outfile);
+            if (!scaled)
+            {
+                ImageIO.write(image, "png", outfile);
+                if (outfile2 != null) ImageIO.write(image, "png", outfile2);
+            }
             return !scaled;
         }
         catch (final IOException e)

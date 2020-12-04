@@ -1,5 +1,6 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
@@ -14,6 +15,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
@@ -115,6 +117,16 @@ public class RecipeClone extends PoweredRecipe
             return this.getEntry(inventory);
         }
 
+        default PokedexEntry getDefault()
+        {
+            return Database.missingno;
+        }
+
+        default List<Ingredient> getInputs()
+        {
+            return Collections.emptyList();
+        }
+
         default int priority()
         {
             return 100;
@@ -131,7 +143,7 @@ public class RecipeClone extends PoweredRecipe
         }
     }
 
-    public static int                                  ENERGYCOST = 10000;
+    public static int ENERGYCOST = 10000;
 
     public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeClone.ENERGYCOST;
     private static List<RecipeClone>           recipeList = Lists.newArrayList();

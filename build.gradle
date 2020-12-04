@@ -85,8 +85,15 @@ repositories {
         name "Mobius Repo"
         url "https://tehnut.info/maven"
     }*/
-    maven { // JEI
-        url "http://dvs1.progwml6.com/files/maven"
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+      }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
     }
     maven {
         name 'OC Repo'
@@ -115,7 +122,10 @@ dependencies {
     //implementation "libs:thutessentials-1.15.2-3.0.16-deobf"
     
     //JEI
-    implementation fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
+    // compile against the JEI API but do not include it at runtime
+    compileOnly fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}:api")
+    // at runtime, use the full JEI jar
+    runtimeOnly fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
     
     //WHYLA
     //implementation fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")

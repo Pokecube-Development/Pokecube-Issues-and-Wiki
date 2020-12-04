@@ -76,6 +76,18 @@ public class RecipeHandlers
             }
 
             @Override
+            public PokedexEntry getDefault()
+            {
+                return this.entry;
+            }
+
+            @Override
+            public List<Ingredient> getInputs()
+            {
+                return this.stacks;
+            }
+
+            @Override
             public boolean complete(final IPoweredProgress tile)
             {
                 final World world = ((TileEntity) tile).getWorld();
