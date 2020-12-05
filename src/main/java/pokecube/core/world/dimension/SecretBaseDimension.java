@@ -37,6 +37,7 @@ import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -60,6 +61,7 @@ public class SecretBaseDimension
     public static void onConstruct(final IEventBus bus)
     {
         Registry.register(Registry.CHUNK_GENERATOR_CODEC, "pokecube:secret_base", SecretChunkGenerator.CODEC);
+        MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
     }
 
     public static void sendToBase(final ServerPlayerEntity player, final UUID baseOwner)
@@ -238,24 +240,24 @@ public class SecretBaseDimension
     {
         final World world = PokecubeCore.proxy.getWorld();
         if (world == null) return;
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().getRegistryName().equals(
-                SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(SecretBaseDimension.WORLD_KEY) == 0) world
+                .getWorldBorder().setSize(2999984);
     }
 
     @SubscribeEvent
     public static void worldTick(final WorldTickEvent event)
     {
         final World world = event.world;
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().getRegistryName().equals(
-                SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(SecretBaseDimension.WORLD_KEY) == 0) world
+                .getWorldBorder().setSize(2999984);
     }
 
     @SubscribeEvent
     public static void worldLoad(final WorldEvent.Load event)
     {
         final World world = (World) event.getWorld();
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().getRegistryName().equals(
-                SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(SecretBaseDimension.WORLD_KEY) == 0) world
+                .getWorldBorder().setSize(2999984);
     }
 
     public static List<GlobalPos> getNearestBases(final GlobalPos here, final int baseRadarRange)

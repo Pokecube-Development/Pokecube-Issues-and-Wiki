@@ -415,11 +415,8 @@ public class WorldgenHandler
 
                 // Check the blacklist for here.
                 if (struct.isBlackisted(key)) continue;
-                
-                if(key.toString().contains("secret_base"))
-                {
-                    throw new IllegalAccessError(struct.name);
-                }
+
+                if (key.toString().contains("secret_base")) throw new IllegalAccessError(struct.name);
 
                 // Actually register the structure to the chunk provider,
                 // without this it won't generate!
@@ -485,7 +482,7 @@ public class WorldgenHandler
         }
         for (final BiomeFeature feat : this.features.keySet())
             if (this.features.get(feat).test(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName()))) event
-                    .getGeneration().getFeatures(feat.stage).add(() -> feat.feature);
+                    .getGeneration().withFeature(feat.stage, feat.feature);
         for (final BiomeStructure feat : this.structures.keySet())
             if (this.structures.get(feat).test(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName())))
             {

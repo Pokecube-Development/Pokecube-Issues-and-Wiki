@@ -6000,7 +6000,7 @@
           {
             "values": {
               "types": "cave,sandy",
-              "rate": "0.001"
+              "rate": "0.01"
             }
           }
         ]
