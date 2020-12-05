@@ -445,7 +445,7 @@ public class AnimationGui extends Screen
             entity.limbSwing += 0.0125;
             final float zoom = this.scale;
 
-            GuiPokemobBase.renderMob(entity, j, k, this.yRenderAngle, this.xRenderAngle + 180, this.yHeadRenderAngle,
+            GuiPokemobBase.renderMob(entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
                     this.xHeadRenderAngle, zoom);
         }
 
