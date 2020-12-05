@@ -4,6 +4,7 @@
 package pokecube.core.entity.pokemobs;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -422,5 +423,24 @@ public class EntityPokemob extends PokemobHasParts
     public boolean canDespawn(final double distanceToClosestPlayer)
     {
         return this.cullCheck(distanceToClosestPlayer);
+    }
+
+    @Override
+    public void readAdditional(final CompoundNBT compound)
+    {
+        super.readAdditional(compound);
+        if (compound.contains("OwnerUUID")) try
+        {
+            final UUID id = UUID.fromString(compound.getString("OwnerUUID"));
+            if (id != null)
+            {
+                this.setOwnerId(id);
+                this.setTamed(true);
+            }
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error recovering old owner!");
+        }
     }
 }
