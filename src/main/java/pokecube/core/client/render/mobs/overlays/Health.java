@@ -60,20 +60,14 @@ public class Health
             final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
             final int brightness)
     {
-        try
-        {
-            final float u0 = 0;
-            final float u1 = 90f / 256f;
-            final float v0 = 48f / 256f;
-            final float v1 = 64f / 256f;
-            buffer.pos(pos, x1, y1, z).color(r, g, b, a).tex(u0, v1).lightmap(brightness).endVertex();
-            buffer.pos(pos, x1, y2, z).color(r, g, b, a).tex(u1, v1).lightmap(brightness).endVertex();
-            buffer.pos(pos, x2, y2, z).color(r, g, b, a).tex(u1, v0).lightmap(brightness).endVertex();
-            buffer.pos(pos, x2, y1, z).color(r, g, b, a).tex(u0, v0).lightmap(brightness).endVertex();
-        }
-        catch (final Exception e)
-        {
-        }
+        final float u0 = 0;
+        final float u1 = 90f / 256f;
+        final float v0 = 48f / 256f;
+        final float v1 = 64f / 256f;
+        buffer.pos(pos, x1, y1, z).color(r, g, b, a).tex(u0, v1).lightmap(brightness).endVertex();
+        buffer.pos(pos, x1, y2, z).color(r, g, b, a).tex(u1, v1).lightmap(brightness).endVertex();
+        buffer.pos(pos, x2, y2, z).color(r, g, b, a).tex(u1, v0).lightmap(brightness).endVertex();
+        buffer.pos(pos, x2, y1, z).color(r, g, b, a).tex(u0, v0).lightmap(brightness).endVertex();
     }
 
     public static void renderHealthBar(final LivingEntity passedEntity, final MatrixStack mat,

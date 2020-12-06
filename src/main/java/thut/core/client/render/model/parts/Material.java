@@ -123,8 +123,8 @@ public class Material extends RenderState
 
     private RenderType makeRenderType(final ResourceLocation tex)
     {
-        if (this.types.containsKey(tex)) return this.types.get(tex);
         this.tex = tex;
+        if (this.types.containsKey(tex)) return this.types.get(tex);
         final RenderType.State.Builder builder = RenderType.State.getBuilder();
         // No blur, No MipMap
         builder.texture(new RenderState.TextureState(tex, false, false));
