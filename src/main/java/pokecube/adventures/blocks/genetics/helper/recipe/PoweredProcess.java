@@ -13,17 +13,19 @@ public class PoweredProcess
     public static PoweredRecipe findRecipe(final IPoweredProgress tile, final World world)
     {
         if (!tile.getStackInSlot(tile.getOutputSlot()).isEmpty()) return null;
+        PoweredRecipe output = null;
         final RecipeClone cloneRecipe = new RecipeClone(RecipePokeAdv.REVIVE.getId());
-        if (tile.isValid(RecipeClone.class) && cloneRecipe.matches(tile.getCraftMatrix(), world)) return cloneRecipe;
-
         final RecipeSplice spliceRecipe = new RecipeSplice(RecipePokeAdv.SPLICE.getId());
-        if (tile.isValid(RecipeSplice.class) && spliceRecipe.matches(tile.getCraftMatrix(), world)) return spliceRecipe;
-
         final RecipeExtract extractRecipe = new RecipeExtract(RecipePokeAdv.EXTRACT.getId());
-        if (tile.isValid(RecipeExtract.class) && extractRecipe.matches(tile.getCraftMatrix(), world))
-            return extractRecipe;
-
-        return null;
+        // This one checks if it matches, as has no item output.
+        if (tile.isValid(RecipeClone.class) && cloneRecipe.matches(tile.getCraftMatrix(), world)) output = cloneRecipe;
+        // This checks for item output
+        else if (tile.isValid(RecipeSplice.class) && !spliceRecipe.getCraftingResult(tile.getCraftMatrix()).isEmpty())
+            output = spliceRecipe;
+        // This checks for item output also
+        else if (tile.isValid(RecipeExtract.class) && !extractRecipe.getCraftingResult(tile.getCraftMatrix()).isEmpty())
+            output = extractRecipe;
+        return output;
     }
 
     public static PoweredProcess load(final CompoundNBT tag, final BaseGeneticsTile tile)
