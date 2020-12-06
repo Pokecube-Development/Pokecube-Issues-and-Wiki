@@ -156,7 +156,6 @@ public abstract class Mesh
             this.rgbabro[4] = j << 20 | j << 4;
         }
         this.doRender(mat, buffer, texturer);
-        this.material.postRender(mat);
     }
 
     public void setMaterial(final Material material)

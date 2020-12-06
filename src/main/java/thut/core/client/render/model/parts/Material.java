@@ -168,8 +168,4 @@ public class Material extends RenderState
         final RenderType type = this.makeRenderType(this.tex);
         return Material.getOrAdd(this, type, Material.lastImpl);
     }
-
-    public void postRender(final MatrixStack mat)
-    {
-    }
 }
