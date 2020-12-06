@@ -1,6 +1,7 @@
 package thut.core.proxy;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -133,6 +134,17 @@ public class ClientProxy extends CommonProxy
         event.getLeft().add(msg);
     }
 
+    BiomeType getSubbiome(final ItemStack held)
+    {
+        if (held.getDisplayName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
+        {
+            final String[] args = held.getDisplayName().getString().split("->");
+            if (args.length != 2) return null;
+            return BiomeType.getBiome(args[1].trim());
+        }
+        return null;
+    }
+
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void RenderBounds(final RenderWorldLastEvent event)
@@ -141,7 +153,7 @@ public class ClientProxy extends CommonProxy
         final PlayerEntity player = Minecraft.getInstance().player;
         if (!(held = player.getHeldItemMainhand()).isEmpty() || !(held = player.getHeldItemOffhand()).isEmpty())
         {
-            if (!this.isSubbiomeEditor(held)) return;
+            if (this.getSubbiome(held) == null) return;
             if (held.getTag() != null && held.getTag().contains("min"))
             {
                 final Minecraft mc = Minecraft.getInstance();
