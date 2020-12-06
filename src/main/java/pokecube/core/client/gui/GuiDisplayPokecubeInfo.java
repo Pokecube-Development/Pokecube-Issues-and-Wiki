@@ -438,9 +438,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             this.blit(evt.mat, mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
 
             // Render Mob
-            pokemob.getEntity().addedToChunk = false;
             GuiPokemobBase.renderMob(entity, mobOffsetX, mobOffsetY, 0, 0, 0, 0, 0.75f);
-            pokemob.getEntity().addedToChunk = true;
 
         }
         evt.mat.pop();
