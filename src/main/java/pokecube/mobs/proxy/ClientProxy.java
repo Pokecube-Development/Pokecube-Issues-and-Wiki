@@ -7,33 +7,23 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.megastuff.WearablesCompat.WearablesRenderer;
-import pokecube.mobs.client.smd.SMDModel;
 import thut.bling.client.render.Util;
-import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 
 public class ClientProxy extends CommonProxy
 {
-    @Override
-    public void setupClient(final FMLClientSetupEvent event)
-    {
-        // // Register smd format for models
-        ModelFactory.registerIModel("smd", SMDModel::new);
-    }
-
     @Override
     public void initWearables()
     {

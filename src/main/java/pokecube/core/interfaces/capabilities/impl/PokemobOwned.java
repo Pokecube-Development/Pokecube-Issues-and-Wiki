@@ -25,7 +25,6 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
@@ -63,9 +62,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         final Entity owner = this.getOwner();
         // Ensure this is actually client side before sending this.
-        if (PokecubeCore.proxy.isClientSide() && PokecubeCore.proxy.getPlayer().getUniqueID().equals(this.getOwnerId()))
-            GuiInfoMessages.addMessage(message);
-        else if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
+        if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
         {
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getString());
             final MoveMessageEvent event = new MoveMessageEvent(this, message);

@@ -108,15 +108,6 @@ public class PokecubeMobs
         XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeMobs.MODID, "database/rewards.json"));
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register setup for proxy
-        bus.addListener(PokecubeMobs.proxy::setup);
-        // Register the doClientStuff method for modloading
-        bus.addListener(PokecubeMobs.proxy::setupClient);
-        // Register the loaded method for modloading
-        bus.addListener(PokecubeMobs.proxy::loaded);
-        // Just generally register it to event bus.
-        bus.register(PokecubeMobs.proxy);
-
         new WorldgenHandler(PokecubeMobs.MODID, bus);
 
         MoveRegister.init();

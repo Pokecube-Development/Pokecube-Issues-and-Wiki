@@ -60,6 +60,7 @@ import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.init.ClientSetupHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -73,7 +74,6 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketChangeForme;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
-import pokecube.core.proxy.ClientProxy;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -136,19 +136,19 @@ public class EventsHandlerClient
                 controller.leftInputDown = ((ClientPlayerEntity) event.player).movementInput.leftKeyDown;
                 controller.rightInputDown = ((ClientPlayerEntity) event.player).movementInput.rightKeyDown;
 
-                final boolean up = ClientProxy.mobUp.isKeyDown();
-                final boolean down = ClientProxy.mobDown.isKeyDown();
+                final boolean up = ClientSetupHandler.mobUp.isKeyDown();
+                final boolean down = ClientSetupHandler.mobDown.isKeyDown();
 
                 controller.upInputDown = up;
                 controller.downInputDown = down;
                 controller.followOwnerLook = PokecubeCore.getConfig().riddenMobsTurnWithLook;
 
-                if (ClientProxy.throttleDown.isKeyDown())
+                if (ClientSetupHandler.throttleDown.isKeyDown())
                 {
                     controller.throttle -= 0.05;
                     controller.throttle = Math.max(controller.throttle, 0.01);
                 }
-                else if (ClientProxy.throttleUp.isKeyDown())
+                else if (ClientSetupHandler.throttleUp.isKeyDown())
                 {
                     controller.throttle += 0.05;
                     controller.throttle = Math.min(controller.throttle, 1);
@@ -250,45 +250,45 @@ public class EventsHandlerClient
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(player.getRidingEntity());
             if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
         }
-        if (ClientProxy.animateGui.isPressed() && Minecraft.getInstance().currentScreen == null) Minecraft.getInstance()
+        if (ClientSetupHandler.animateGui.isPressed() && Minecraft.getInstance().currentScreen == null) Minecraft.getInstance()
                 .displayGuiScreen(new AnimationGui());
-        if (ClientProxy.mobMegavolve.isPressed())
+        if (ClientSetupHandler.mobMegavolve.isPressed())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
             if (current != null && !current.getGeneralState(GeneralStates.EVOLVING)) PacketChangeForme
                     .sendPacketToServer(current.getEntity(), null);
         }
-        if (ClientProxy.arrangeGui.isPressed()) GuiArranger.toggle = !GuiArranger.toggle;
-        if (ClientProxy.noEvolve.isPressed() && GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null)
+        if (ClientSetupHandler.arrangeGui.isPressed()) GuiArranger.toggle = !GuiArranger.toggle;
+        if (ClientSetupHandler.noEvolve.isPressed() && GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null)
             GuiDisplayPokecubeInfo.instance().getCurrentPokemob().cancelEvolve();
-        if (ClientProxy.nextMob.isPressed()) GuiDisplayPokecubeInfo.instance().nextPokemob();
-        if (ClientProxy.previousMob.isPressed()) GuiDisplayPokecubeInfo.instance().previousPokemob();
-        if (ClientProxy.nextMove.isPressed())
+        if (ClientSetupHandler.nextMob.isPressed()) GuiDisplayPokecubeInfo.instance().nextPokemob();
+        if (ClientSetupHandler.previousMob.isPressed()) GuiDisplayPokecubeInfo.instance().previousPokemob();
+        if (ClientSetupHandler.nextMove.isPressed())
         {
             int num = Screen.hasControlDown() ? 2 : 1;
             if (Screen.hasShiftDown()) num++;
             if (GuiTeleport.instance().getState()) GuiTeleport.instance().nextMove();
             else GuiDisplayPokecubeInfo.instance().nextMove(num);
         }
-        if (ClientProxy.previousMove.isPressed())
+        if (ClientSetupHandler.previousMove.isPressed())
         {
             int num = Screen.hasControlDown() ? 2 : 1;
             if (Screen.hasShiftDown()) num++;
             if (GuiTeleport.instance().getState()) GuiTeleport.instance().previousMove();
             else GuiDisplayPokecubeInfo.instance().previousMove(num);
         }
-        if (ClientProxy.mobBack.isPressed()) if (GuiTeleport.instance().getState()) GuiTeleport.instance().setState(
+        if (ClientSetupHandler.mobBack.isPressed()) if (GuiTeleport.instance().getState()) GuiTeleport.instance().setState(
                 false);
         else GuiDisplayPokecubeInfo.instance().pokemobBack();
-        if (ClientProxy.mobAttack.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobAttack();
-        if (ClientProxy.mobStance.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobStance();
+        if (ClientSetupHandler.mobAttack.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobAttack();
+        if (ClientSetupHandler.mobStance.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobStance();
 
-        if (ClientProxy.mobMove1.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(0);
-        if (ClientProxy.mobMove2.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(1);
-        if (ClientProxy.mobMove3.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(2);
-        if (ClientProxy.mobMove4.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(3);
+        if (ClientSetupHandler.mobMove1.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(0);
+        if (ClientSetupHandler.mobMove2.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(1);
+        if (ClientSetupHandler.mobMove3.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(2);
+        if (ClientSetupHandler.mobMove4.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(3);
 
-        if (ClientProxy.gzmove.isPressed())
+        if (ClientSetupHandler.gzmove.isPressed())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
             if (current != null) PacketCommand.sendCommand(current, Command.STANCE, new StanceHandler(!current
