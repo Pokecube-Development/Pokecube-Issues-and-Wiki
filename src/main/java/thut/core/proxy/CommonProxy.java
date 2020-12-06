@@ -72,7 +72,7 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == Hand.OFF_HAND || evt.getPlayer() instanceof ServerPlayerEntity || evt.getItemStack()
+        if (evt.getHand() == Hand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayerEntity) || evt.getItemStack()
                 .isEmpty() || !evt.getPlayer().isSneaking() || !this.isSubbiomeEditor((ServerPlayerEntity) evt
                         .getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
@@ -116,7 +116,7 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == Hand.OFF_HAND || evt.getPlayer() instanceof ServerPlayerEntity || evt.getItemStack()
+        if (evt.getHand() == Hand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayerEntity) || evt.getItemStack()
                 .isEmpty() || !evt.getPlayer().isSneaking() || !this.isSubbiomeEditor((ServerPlayerEntity) evt
                         .getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
