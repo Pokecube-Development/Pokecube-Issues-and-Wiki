@@ -20,8 +20,8 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.core.PokecubeCore;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class ThutTeleporter
 {
@@ -39,7 +39,7 @@ public class ThutTeleporter
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error loading value", e);
+                ThutCore.LOGGER.error("Error loading value", e);
                 return null;
             }
             return new TeleDest().setLoc(pos, loc).setPos(pos).setName(name).setIndex(index);
