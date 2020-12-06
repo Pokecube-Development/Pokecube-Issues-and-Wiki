@@ -16,7 +16,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.packets.CustomNBTPacket;
 import pokecube.nbtedit.packets.EntityNBTPacket;
-import pokecube.nbtedit.packets.PacketHandler;
 import pokecube.nbtedit.packets.TileNBTPacket;
 
 public class GuiEditNBTTree extends Screen
@@ -96,9 +95,10 @@ public class GuiEditNBTTree extends Screen
     {
         this.minecraft.keyboardListener.enableRepeatEvents(true);
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
-        this.addButton(new Button(this.width / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Save"), b -> this.quitWithSave()));
-        this.addButton(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Quit"), b -> this
-                .quitWithoutSaving()));
+        this.addButton(new Button(this.width / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Save"),
+                b -> this.quitWithSave()));
+        this.addButton(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Quit"),
+                b -> this.quitWithoutSaving()));
         this.children.add(this.guiTree);
     }
 
@@ -162,7 +162,7 @@ public class GuiEditNBTTree extends Screen
                 CustomNBTPacket.ASSEMBLER.sendToServer(p);
             }
         }
-        else PacketHandler.INSTANCE.sendToServer(new TileNBTPacket(new BlockPos(this.entityOrX, this.y, this.z),
+        else TileNBTPacket.ASSEMBLER.sendToServer(new TileNBTPacket(new BlockPos(this.entityOrX, this.y, this.z),
                 this.guiTree.getNBTTree().toCompoundNBT()));
         Minecraft.getInstance().displayGuiScreen(null);
 
@@ -173,8 +173,8 @@ public class GuiEditNBTTree extends Screen
     {
         this.renderBackground(mat);
         this.guiTree.render(mat, x, y, par3);
-        AbstractGui.drawCenteredString(mat,this.font, this.screenTitle, this.width / 2, 5, 16777215);
-        super.render(mat,x, y, par3);
+        AbstractGui.drawCenteredString(mat, this.font, this.screenTitle, this.width / 2, 5, 16777215);
+        super.render(mat, x, y, par3);
     }
 
     @Override
