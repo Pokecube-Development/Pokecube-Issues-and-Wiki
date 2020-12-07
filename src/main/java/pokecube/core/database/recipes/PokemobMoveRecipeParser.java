@@ -169,9 +169,15 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             final ItemStack stack = this.recipe.getCraftingResult(inven);
             if (stack.isEmpty()) return false;
             final List<ItemStack> remains = this.recipe.getRemainingItems(inven);
-            matches.forEach(e -> e.remove());
+            matches.forEach(e ->
+            {
+                final ItemStack item = e.getItem();
+                item.shrink(1);
+                if (e.getItem().isEmpty()) e.remove();
+            });
             ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
             world.addEntity(drop);
+            System.out.println(remains);
             for (final ItemStack left : remains)
                 if (!left.isEmpty())
                 {
