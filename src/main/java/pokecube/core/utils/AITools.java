@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
@@ -14,7 +15,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
+import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
@@ -134,6 +138,29 @@ public class AITools
 
         for (final String s : PokecubeCore.getConfig().aggroBlacklistTags)
             AITools.invalidTags.add(s);
+    }
+
+    public static boolean shouldBeAbleToAgro(final LivingEntity entity, final Entity target)
+    {
+        // Never target self
+        if (target == entity) return false;
+        // Never target blacklisted things
+        if (!AITools.validTargets.test(target)) return false;
+        // Only target living entities
+        if (!(target instanceof LivingEntity)) return false;
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        // Some pokemob specific checks
+        if (pokemob != null)
+        {
+            // Wild pokemobs can target whatever they feel like
+            if (pokemob.getOwnerId() == null) return true;
+            // Pokemobs fighting over mates don't care if they are wild
+            if (pokemob.getCombatState(CombatStates.MATEFIGHT)) return true;
+        }
+        // Otherwise, prevent combat on same team
+        if (TeamManager.sameTeam(entity, target)) return false;
+        // If we got to here, it was a valid target
+        return true;
     }
 
 }
