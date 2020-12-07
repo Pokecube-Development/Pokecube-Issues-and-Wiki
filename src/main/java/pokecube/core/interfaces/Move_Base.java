@@ -1,8 +1,5 @@
 package pokecube.core.interfaces;
 
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -134,16 +131,6 @@ public abstract class Move_Base
      * @param attacked
      */
     public abstract void attack(IPokemob attacker, Entity attacked);
-
-    /**
-     * First stage of attack use, this is called when the attack is being
-     * initiated.<br>
-     * This version is called for an attack at a location.
-     *
-     * @param attacker
-     * @param location
-     */
-    public abstract void attack(IPokemob attacker, Vector3 location, Predicate<Entity> valid, Consumer<Entity> onHit);
 
     /**
      * Applys world effects of the move
@@ -459,7 +446,7 @@ public abstract class Move_Base
      */
     public Move_Base setNotInterceptable()
     {
-        this.move.setNotIntercepable(true);
+        this.move.setCanHitNonTarget(false);
         return this;
     }
 
