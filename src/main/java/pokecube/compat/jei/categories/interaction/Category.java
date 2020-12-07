@@ -37,8 +37,7 @@ public class Category implements IRecipeCategory<InteractRecipe>
 
     public Category(final IGuiHelper guiHelper)
     {
-        final ResourceLocation location = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/evorecipe.png");
-        this.background = guiHelper.createDrawable(location, 29, 16, 116, 54);
+        this.background = guiHelper.createDrawable(Category.GUI, 29, 16, 116, 54);
         this.localizedName = I18n.format("gui.jei.pokemobs.interact");
         this.icon = guiHelper.createDrawable(Category.TABS, 48, 0, 16, 16);
     }

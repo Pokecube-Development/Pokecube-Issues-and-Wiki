@@ -71,6 +71,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     public static class RecipeMove implements IMoveAction
     {
+        public static final List<RecipeMove> ALLRECIPES = Lists.newArrayList();
+
         public final String          name;
         public final ShapelessRecipe recipe;
         public final int             hungerCost;
@@ -104,8 +106,9 @@ public class PokemobMoveRecipeParser implements IRecipeParser
                 else recipeItemsIn.add(Ingredient.fromStacks(Tools.getStack(value.getValues())));
             }
 
-            this.recipe = new ShapelessRecipe(new ResourceLocation("pokecube:loaded_" + this.name), "pokecube_mobes",
+            this.recipe = new ShapelessRecipe(new ResourceLocation("pokecube:loaded_" + this.name), "pokecube_moves",
                     recipeOutputIn, recipeItemsIn);
+            RecipeMove.ALLRECIPES.add(this);
         }
 
         @Override
