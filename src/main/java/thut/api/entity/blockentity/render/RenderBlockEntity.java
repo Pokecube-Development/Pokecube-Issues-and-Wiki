@@ -78,10 +78,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final int yMin = MathHelper.floor(blockEntity.getMin().getY());
             final int yMax = MathHelper.floor(blockEntity.getMax().getY());
 
-            final double dx = (xMax - xMin) / 2 + 0.5;
-            final double dz = (zMax - zMin) / 2 + 0.5;
-
-            mat.translate(-dx, 0, -dz);
+            mat.translate(xMin, 0, zMin);
 
             mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
             mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
@@ -130,7 +127,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         {
             final BlockState actualstate = state;// .getBlock().getStateAtViewpoint(state,
                                                  // entity.getFakeWorld(), pos);
-            this.renderBakedBlockModel(entity, actualstate, entity.getFakeWorld(), realpos, pos, mat, bufferIn, packedLightIn);
+            this.renderBakedBlockModel(entity, actualstate, entity.getFakeWorld(), realpos, pos, mat, bufferIn,
+                    packedLightIn);
         }
     }
 
@@ -185,11 +183,9 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             {
                 final BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRendererDispatcher();
                 final IBakedModel model = blockRenderer.getModelForState(state);
-                blockRenderer.getBlockModelRenderer().renderModel((IBlockDisplayReader) world, model, state,
-                        real_pos,
-                        mat,
-                        bufferIn.getBuffer(type), false, new Random(), state.getPositionRandom(rpos), packedLightIn,
-                        data);
+                blockRenderer.getBlockModelRenderer().renderModel((IBlockDisplayReader) world, model, state, real_pos,
+                        mat, bufferIn.getBuffer(type), false, new Random(), state.getPositionRandom(rpos),
+                        packedLightIn, data);
             }
     }
 }

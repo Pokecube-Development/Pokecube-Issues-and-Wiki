@@ -27,7 +27,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBloc
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -53,8 +52,6 @@ import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
-import pokecube.legends.proxy.ClientProxy;
-import pokecube.legends.proxy.CommonProxy;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
@@ -114,8 +111,6 @@ public class PokecubeLegends
         }
     }
 
-    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-
     public static final Config config = new Config();
 
     public PokecubeLegends()
@@ -130,15 +125,6 @@ public class PokecubeLegends
 
         DBLoader.trainerDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trainers.json"));
         DBLoader.tradeDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trades.json"));
-
-        // Register setup for proxy
-        modEventBus.addListener(PokecubeLegends.proxy::setup);
-        // Register the doClientStuff method for modloading
-        modEventBus.addListener(PokecubeLegends.proxy::setupClient);
-        // Register the loaded method for modloading
-        modEventBus.addListener(PokecubeLegends.proxy::loaded);
-        // Just generally register it to event bus.
-        modEventBus.register(PokecubeLegends.proxy);
 
         new WorldgenHandler(Reference.ID, modEventBus);
 

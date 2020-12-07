@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.stream.Stream;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
@@ -17,6 +18,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.server.permission.DefaultPermissionLevel;
+import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.LinkableCaps;
 import thut.api.TickHandler;
 import thut.api.maths.Vector3;
@@ -29,6 +32,8 @@ import thut.core.common.world.mobs.data.SyncHandler;
 
 public class CommonProxy implements Proxy
 {
+    public static final String SET_SUBBIOME = "thutcore.subbiome.set";
+
     @Override
     public void setup(final FMLCommonSetupEvent event)
     {
@@ -47,10 +52,14 @@ public class CommonProxy implements Proxy
         MinecraftForge.EVENT_BUS.register(this);
 
         TerrainManager.init();
+
+        PermissionAPI.registerNode(CommonProxy.SET_SUBBIOME, DefaultPermissionLevel.OP,
+                "Able to set subbiomes via items");
     }
 
-    BiomeType getSubbiome(final ItemStack held)
+    BiomeType getSubbiome(final ServerPlayerEntity player, final ItemStack held)
     {
+        if (!PermissionAPI.hasPermission(player, CommonProxy.SET_SUBBIOME)) return null;
         if (held.getDisplayName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
         {
             final String[] args = held.getDisplayName().getString().split("->");
@@ -60,16 +69,17 @@ public class CommonProxy implements Proxy
         return null;
     }
 
-    protected boolean isSubbiomeEditor(final ItemStack held)
+    protected boolean isSubbiomeEditor(final ServerPlayerEntity player, final ItemStack held)
     {
-        return this.getSubbiome(held) != null;
+        return this.getSubbiome(player, held) != null;
     }
 
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isRemote || evt.getItemStack().isEmpty() || !evt
-                .getPlayer().isSneaking() || !this.isSubbiomeEditor(evt.getItemStack())) return;
+        if (evt.getHand() == Hand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayerEntity) || evt.getItemStack()
+                .isEmpty() || !evt.getPlayer().isSneaking() || !this.isSubbiomeEditor((ServerPlayerEntity) evt
+                        .getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
@@ -81,7 +91,7 @@ public class CommonProxy implements Proxy
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
             if (!worldIn.isRemote)
             {
-                final BiomeType subbiome = this.getSubbiome(itemstack);
+                final BiomeType subbiome = this.getSubbiome((ServerPlayerEntity) evt.getPlayer(), itemstack);
                 final MutableBoundingBox box = new MutableBoundingBox(min, max);
                 final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
                         box.maxZ);
@@ -111,8 +121,9 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isRemote || evt.getItemStack().isEmpty() || !evt
-                .getPlayer().isSneaking() || !this.isSubbiomeEditor(evt.getItemStack())) return;
+        if (evt.getHand() == Hand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayerEntity) || evt.getItemStack()
+                .isEmpty() || !evt.getPlayer().isSneaking() || !this.isSubbiomeEditor((ServerPlayerEntity) evt
+                        .getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
@@ -127,7 +138,7 @@ public class CommonProxy implements Proxy
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
             if (!worldIn.isRemote)
             {
-                final BiomeType subbiome = this.getSubbiome(itemstack);
+                final BiomeType subbiome = this.getSubbiome((ServerPlayerEntity) evt.getPlayer(), itemstack);
                 final MutableBoundingBox box = new MutableBoundingBox(min, max);
                 final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
                         box.maxZ);

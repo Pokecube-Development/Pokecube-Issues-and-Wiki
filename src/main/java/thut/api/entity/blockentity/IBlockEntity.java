@@ -52,7 +52,7 @@ public interface IBlockEntity
                         temp = pos.add(i, j, k);
                         final BlockState state = world.getBlockState(temp);
                         if (IBlockEntity.BLOCKBLACKLIST.contains(state.getBlock().getRegistryName())) return null;
-                        valid = valid || !state.getBlock().isAir(state, world, pos);
+                        valid = valid || !state.getBlock().isAir(state, world, temp);
                         ret[i - xMin][j - yMin][k - zMin] = state;
                     }
             return valid ? ret : null;
@@ -94,7 +94,7 @@ public interface IBlockEntity
             min = new BlockPos(box.minX, box.minY, box.minZ);
             max = new BlockPos(box.maxX, box.maxY, box.maxZ);
             final IBlockEntity entity = (IBlockEntity) ret;
-            ret.setPosition(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+            ret.setPosition(pos.getX(), pos.getY(), pos.getZ());
             final BlockState[][][] blocks = BlockEntityFormer.checkBlocks(world, min, max, pos);
             if (blocks == null) return null;
             entity.setBlocks(blocks);
@@ -106,7 +106,8 @@ public interface IBlockEntity
             return ret;
         }
 
-        public static RayTraceResult rayTraceInternal(final Vector3d start, final Vector3d end, final IBlockEntity toTrace)
+        public static RayTraceResult rayTraceInternal(final Vector3d start, final Vector3d end,
+                final IBlockEntity toTrace)
         {
             Vector3d diff = end.subtract(start);
             final double l = diff.length();
@@ -188,12 +189,14 @@ public interface IBlockEntity
                         // whether the entity is rotated, and then also call the
                         // block's rotate method as well before placing the
                         // BlockState.
-                        final BlockPos pos = new BlockPos(i + xMin + entity.getPosX(), j + yMin + entity.getPosY(), k + zMin
-                                + entity.getPosZ());
+                        final BlockPos pos = new BlockPos(i + xMin + entity.getPosX(), j + yMin + entity.getPosY(), k
+                                + zMin + entity.getPosZ());
                         final BlockState state = toRevert.getFakeWorld().getBlock(pos);
                         final TileEntity tile = toRevert.getFakeWorld().getTile(pos);
                         if (state != null)
                         {
+                            if (!entity.getEntityWorld().isAirBlock(pos)) entity.getEntityWorld().destroyBlock(pos,
+                                    true);
                             entity.getEntityWorld().setBlockState(pos, state);
                             if (tile != null)
                             {
@@ -271,6 +274,11 @@ public interface IBlockEntity
     BlockPos getMax();
 
     BlockPos getMin();
+
+    default BlockPos getSize()
+    {
+        return this.getMax().subtract(this.getMin());
+    }
 
     BlockPos getOriginalPos();
 

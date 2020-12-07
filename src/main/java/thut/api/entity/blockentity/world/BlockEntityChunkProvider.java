@@ -99,9 +99,7 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     private boolean intersects(final AxisAlignedBB other)
     {
         final IBlockEntity mob = this.world.getBlockEntity();
-        final BlockPos pos = ((Entity) mob).getPosition();
-        final AxisAlignedBB thisBox = new AxisAlignedBB(mob.getMin().add(pos).add(-1, -1, -1),
-                mob.getMax().add(pos).add(1, 1, 1));
+        final AxisAlignedBB thisBox = ((Entity) mob).getBoundingBox();
         if (thisBox.intersects(other)) return true;
         return false;
     }

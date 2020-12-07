@@ -427,15 +427,10 @@ public class PokecubeCore
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        bus.addListener(PokecubeCore.proxy::setup);
-        // Register the doClientStuff method for modloading
-        bus.addListener(PokecubeCore.proxy::setupClient);
         // Register imc comms sender
         bus.addListener(this::enqueueIMC);
         // Register imc comms listender
         bus.addListener(this::processIMC);
-        // Register the loaded method for modloading
-        bus.addListener(PokecubeCore.proxy::loaded);
 
         RecipeHandler.RECIPE_SERIALIZERS.register(bus);
         SecretBaseDimension.onConstruct(bus);

@@ -69,6 +69,7 @@ public class ClientProxy extends CommonProxy
                 controller.rightInputDown = player.movementInput.rightKeyDown;
                 controller.upInputDown = this.UP.isKeyDown();
                 controller.downInputDown = this.DOWN.isKeyDown();
+
                 if (ThutCrafts.conf.canRotate)
                 {
                     controller.rightRotateDown = this.ROTATERIGHT.isKeyDown();

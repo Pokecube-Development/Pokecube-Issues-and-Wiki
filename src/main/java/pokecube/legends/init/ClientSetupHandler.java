@@ -1,4 +1,4 @@
-package pokecube.legends.proxy;
+package pokecube.legends.init;
 
 import java.util.function.Predicate;
 
@@ -10,10 +10,13 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
@@ -22,14 +25,15 @@ import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.tileentity.RaidSpawn;
 import thut.core.client.gui.ConfigGui;
 
-public class ClientProxy extends CommonProxy
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
+public class ClientSetupHandler
 {
-    final Predicate<Material> notSolid = m -> m == Material.GLASS || m == Material.ICE ||
+    static final Predicate<Material> notSolid = m -> m == Material.GLASS || m == Material.ICE ||
     		m == Material.PACKED_ICE || m == Material.LEAVES || m == Material.ANVIL;
 
-    @Override
-    public void setupClient(final FMLClientSetupEvent event)
-    {    	
+    @SubscribeEvent
+    public static void setupClient(final FMLClientSetupEvent event)
+    {
     	for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries())
         {
     		final Block b = reg.get();
@@ -38,7 +42,7 @@ public class ClientProxy extends CommonProxy
                 for (final BlockState state : b.getStateContainer().getValidStates())
                 {
                     final Material m = state.getMaterial();
-                    if (this.notSolid.test(m))
+                    if (ClientSetupHandler.notSolid.test(m))
                     {
                         fullCube = false;
                         break;
@@ -60,7 +64,7 @@ public class ClientProxy extends CommonProxy
                 }
             if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
         }
-    	
+
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
         {
             final Block b = reg.get();
@@ -68,7 +72,7 @@ public class ClientProxy extends CommonProxy
                 for (final BlockState state : b.getStateContainer().getValidStates())
                 {
                     final Material m = state.getMaterial();
-                    if (this.notSolid.test(m))
+                    if (ClientSetupHandler.notSolid.test(m))
                     {
                         fullCube = false;
                         break;
@@ -93,7 +97,7 @@ public class ClientProxy extends CommonProxy
 
         // Renderer for raid spawn
         ClientRegistry.bindTileEntityRenderer(RaidSpawn.TYPE, Raid::new);
-        
+
         // Register config gui
         ModList.get().getModContainerById(Reference.ID).ifPresent(c -> c.registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeLegends.config, parent)));
