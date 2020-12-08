@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.Style;
@@ -19,6 +20,7 @@ import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class Breeding extends ListPage<LineEntry>
@@ -32,9 +34,21 @@ public class Breeding extends ListPage<LineEntry>
         this.parent = parent;
     }
 
+    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
+    		"textures/gui/pokewatchgui_breeding.png");
+    
+    @Override
+    public void renderBackground(final MatrixStack mat) 
+    {
+    	this.minecraft.textureManager.bindTexture(Breeding.TEXTURE_BASE);
+    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+    }
+    
     @Override
     void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
-    {
+    {	
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         final int num = PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList())
                 .size();
@@ -73,16 +87,16 @@ public class Breeding extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 20;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 85;
-        final int height = this.font.FONT_HEIGHT * 12;
-        int width = 135;
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+        final int height = this.font.FONT_HEIGHT * 7;
+        int width = 90; //135
 
         final int colour = 0xFFFFFFFF;
 
-        width = 111;
-        final int dx = 25;
-        final int dy = -57;
+        width = 90;
+        final int dx = 55;
+        final int dy = 10;
         offsetY += dy;
         offsetX += dx;
 

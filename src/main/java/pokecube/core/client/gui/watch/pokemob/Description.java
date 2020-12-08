@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -18,6 +19,7 @@ import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.interfaces.PokecubeMod;
 
 public class Description extends ListPage<LineEntry>
 {
@@ -29,6 +31,18 @@ public class Description extends ListPage<LineEntry>
         this.parent = parent;
     }
 
+    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
+    		"textures/gui/pokewatchgui_desc.png");
+    
+    @Override
+    public void renderBackground(final MatrixStack mat)
+    {
+    	this.minecraft.textureManager.bindTexture(Description.TEXTURE_BASE);
+    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+    }
+    
     @Override
     public boolean handleComponentClicked(final Style component)
     {
@@ -45,16 +59,17 @@ public class Description extends ListPage<LineEntry>
         }
         return false;
     }
-
+    
     @Override
     public void initList()
     {
         super.initList();
-        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 20;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 85;
-        final int height = this.font.FONT_HEIGHT * 12;
-        final int dx = 25;
-        final int dy = -57;
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+        
+        final int height = this.font.FONT_HEIGHT * 8;
+        final int dx = 49;
+        final int dy = -1;
         offsetY += dy;
         offsetX += dx;
 
