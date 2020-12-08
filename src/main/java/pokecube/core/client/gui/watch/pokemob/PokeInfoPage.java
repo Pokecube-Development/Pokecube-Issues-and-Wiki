@@ -12,15 +12,14 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.EventsHandlerClient;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.network.packets.PacketPokedex;
 
@@ -32,12 +31,10 @@ public abstract class PokeInfoPage extends WatchPage
     static int                entryIndex = 0;
     static int                formIndex  = 0;
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_pokedex.png");
-    
-    public PokeInfoPage(final PokemobInfoPage parent, final String title)
+    public PokeInfoPage(final PokemobInfoPage parent, final String title, final ResourceLocation day,
+            final ResourceLocation night)
     {
-        super(new TranslationTextComponent("pokewatch.title.pokeinfo." + title), parent.watch);
+        super(new TranslationTextComponent("pokewatch.title.pokeinfo." + title), parent.watch, day, night);
         this.parent = parent;
     }
 
@@ -61,7 +58,9 @@ public abstract class PokeInfoPage extends WatchPage
         final int y = this.watch.height / 2 - 5;
         final ITextComponent next = new StringTextComponent(">");
         final ITextComponent prev = new StringTextComponent("<");
-        this.addButton(new TexButton(x - 66, y + 35, 12, 20, next, b ->
+        final ITextComponent form = new StringTextComponent("\u2500");
+        final ITextComponent cry = new StringTextComponent("\u266B");
+        final TexButton nextBtn = this.addButton(new TexButton(x - 66, y + 35, 12, 20, next, b ->
         {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
@@ -69,8 +68,8 @@ public abstract class PokeInfoPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
             this.parent.initPages(this.parent.pokemob);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(212,0,12,20)));
-        this.addButton(new TexButton(x - 96, y + 35, 12, 20, prev, b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
+        final TexButton prevBtn = this.addButton(new TexButton(x - 96, y + 35, 12, 20, prev, b ->
         {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
@@ -78,8 +77,8 @@ public abstract class PokeInfoPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
             this.parent.initPages(this.parent.pokemob);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(212,0,12,20)));
-        this.addButton(new TexButton(x - 85, y + 35, 20, 10, new StringTextComponent("\u2500"), b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
+        final TexButton formBtn = this.addButton(new TexButton(x - 85, y + 35, 20, 10, form, b ->
         { // Cycle Form, only if not a real mob
             if (this.parent.pokemob.getEntity().addedToChunk) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
@@ -103,11 +102,16 @@ public abstract class PokeInfoPage extends WatchPage
                 this.parent.initPages(this.parent.pokemob.megaEvolve(entry));
             }
             this.parent.pokemob.setCustomHolder(holder);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(224,0,20,10)));
-        this.addButton(new TexButton(x - 85, y + 45, 20, 10, new StringTextComponent("\u266B"), b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
+        final TexButton cryBtn = this.addButton(new TexButton(x - 85, y + 45, 20, 10, cry, b ->
         {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(224,0,20,10)));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
+
+        nextBtn.setFGColor(0x444444);
+        prevBtn.setFGColor(0x444444);
+        formBtn.setFGColor(0x444444);
+        cryBtn.setFGColor(0x444444);
     }
 
     @Override

@@ -23,26 +23,19 @@ import pokecube.core.interfaces.PokecubeMod;
 
 public class Description extends ListPage<LineEntry>
 {
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_desc.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_desc_nm.png");
+
     final PokemobInfoPage parent;
 
     public Description(final PokemobInfoPage parent)
     {
-        super(parent, "description");
+        super(parent, "description", Description.TEX_DM, Description.TEX_NM);
         this.parent = parent;
     }
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_desc.png");
-    
-    @Override
-    public void renderBackground(final MatrixStack mat)
-    {
-    	this.minecraft.textureManager.bindTexture(Description.TEXTURE_BASE);
-    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
-    }
-    
     @Override
     public boolean handleComponentClicked(final Style component)
     {
@@ -59,19 +52,21 @@ public class Description extends ListPage<LineEntry>
         }
         return false;
     }
-    
+
     @Override
     public void initList()
     {
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        
+
         final int height = this.font.FONT_HEIGHT * 8;
         final int dx = 49;
         final int dy = -1;
         offsetY += dy;
         offsetX += dx;
+
+        final int textColour = 0x333333;
 
         new IClickListener()
         {
@@ -88,13 +83,14 @@ public class Description extends ListPage<LineEntry>
             }
         };
         IFormattableTextComponent line;
-        final IFormattableTextComponent page = (IFormattableTextComponent) this.parent.pokemob.getPokedexEntry().getDescription();
+        final IFormattableTextComponent page = (IFormattableTextComponent) this.parent.pokemob.getPokedexEntry()
+                .getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 107, height, this.font.FONT_HEIGHT, offsetX, offsetY);
         final List<IFormattableTextComponent> list = ListHelper.splitText(page, 100, this.font, false);
         for (final ITextComponent element : list)
         {
             line = (IFormattableTextComponent) element;
-            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF));
+            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour));
         }
     }
 

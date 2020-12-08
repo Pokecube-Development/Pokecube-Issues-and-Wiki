@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -22,7 +23,6 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
@@ -51,15 +51,17 @@ public class WikiPage extends ListPage<LineEntry>
         }
     }
 
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_wiki.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_wiki_nm.png");
+
     private int                        index = 0;
     private final Map<String, Integer> refs  = Maps.newHashMap();
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_wiki.png");
-    
     public WikiPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.title.wiki"), watch);
+        super(new TranslationTextComponent("pokewatch.title.wiki"), watch, WikiPage.TEX_DM, WikiPage.TEX_NM);
     }
 
     @Override
@@ -120,29 +122,31 @@ public class WikiPage extends ListPage<LineEntry>
         final int y = this.watch.height / 2 - 5;
         final ITextComponent next = new StringTextComponent(">");
         final ITextComponent prev = new StringTextComponent("<");
-        this.addButton(new TexButton(x + 94, y - 70, 12, 12, next, b ->
+        final TexButton nextBtn = this.addButton(new TexButton(x + 94, y - 70, 12, 12, next, b ->
         {
             this.index++;
             this.setList();
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
-        this.addButton(new TexButton(x - 94, y - 70, 12, 12, prev, b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        final TexButton prevBtn = this.addButton(new TexButton(x - 94, y - 70, 12, 12, prev, b ->
         {
             this.index--;
             this.setList();
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
         this.setList();
+
+        nextBtn.setFGColor(0x444444);
+        prevBtn.setFGColor(0x444444);
     }
 
     @Override
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderBackground(final MatrixStack matrixStack)
     {
-    	this.minecraft.textureManager.bindTexture(WikiPage.TEXTURE_BASE);
+        super.renderBackground(matrixStack);
+
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        //AbstractGui.fill(mat, offsetX - 50, offsetY - 4, offsetX + 132, offsetY + 90, 0xFFFDF8EC); //offsetT + 122
-        //super.render(mat, mouseX, mouseY, partialTicks);
-        this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
-        super.render(mat, mouseX, mouseY, partialTicks);
+        AbstractGui.fill(matrixStack, offsetX + 55, offsetY + 30, offsetX + 200, offsetY + 120, 0xFFFDF8EC);
+
     }
 
     private void setList()

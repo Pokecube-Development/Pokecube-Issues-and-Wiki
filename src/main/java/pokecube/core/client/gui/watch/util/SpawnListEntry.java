@@ -21,6 +21,7 @@ import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraft.world.biome.Biome;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.SpawnBiomeMatcher;
@@ -172,8 +173,9 @@ public class SpawnListEntry
     public List<LineEntry> getLines(final ScrollGui<LineEntry> parent, final IClickListener listener)
     {
         final List<LineEntry> lines = Lists.newArrayList();
+        final int textColour = GuiPokeWatch.nightMode ? 0xFFFFFF : 0x333333;
         for (final ITextComponent s : this.output)
-            lines.add(new LineEntry(parent, 0, 0, this.fontRender, s, 0xFFFFFFFF).setClickListner(listener));
+            lines.add(new LineEntry(parent, 0, 0, this.fontRender, s, textColour).setClickListner(listener));
         return lines;
     }
 }

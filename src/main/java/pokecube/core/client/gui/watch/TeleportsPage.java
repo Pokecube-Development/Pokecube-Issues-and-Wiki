@@ -184,25 +184,19 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
     }
 
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_teleport.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_teleport_nm.png");
+
     protected List<TeleDest> locations;
 
     public TeleportsPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.title.teleports"), watch);
+        super(new TranslationTextComponent("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM,
+                TeleportsPage.TEX_NM);
     }
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_teleport.png");
-    
-    @Override
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
-    {
-    	this.minecraft.textureManager.bindTexture(TeleportsPage.TEXTURE_BASE);
-    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
-    }
-    
     @Override
     public void initList()
     {

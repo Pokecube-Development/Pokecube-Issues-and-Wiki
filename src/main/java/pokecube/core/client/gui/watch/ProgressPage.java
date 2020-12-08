@@ -11,7 +11,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.progress.GlobalProgress;
@@ -45,12 +44,15 @@ public class ProgressPage extends PageWithSubPages<Progress>
         }
     }
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_trainer.png");
-    
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_trainer.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_trainer_nm.png");
+
     public ProgressPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.progress.main.title"), watch);
+        super(new TranslationTextComponent("pokewatch.progress.main.title"), watch, ProgressPage.TEX_DM,
+                ProgressPage.TEX_NM);
     }
 
     @Override
@@ -68,12 +70,12 @@ public class ProgressPage extends PageWithSubPages<Progress>
     @Override
     public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-    	this.minecraft.textureManager.bindTexture(ProgressPage.TEXTURE_BASE);
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        this.blit(mat, x, y, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
-        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 10, 0xFF78C850);
-        AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 20, 0xFF78C850);
+        final int colour = 0xFF78C850;
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 10, colour);
+        AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 20,
+                colour);
     }
 
     @Override
@@ -83,13 +85,16 @@ public class ProgressPage extends PageWithSubPages<Progress>
         final int y = this.watch.height / 2 - 5;
         final ITextComponent next = new StringTextComponent(">");
         final ITextComponent prev = new StringTextComponent("<");
-        this.addButton(new TexButton(x + 90, y - 70, 12, 12, next, b ->
+        final TexButton nextBtn = this.addButton(new TexButton(x + 90, y - 70, 12, 12, next, b ->
         {
             this.changePage(this.index + 1);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
-        this.addButton(new TexButton(x - 90, y - 70, 12, 12, prev, b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        final TexButton prevBtn = this.addButton(new TexButton(x - 90, y - 70, 12, 12, prev, b ->
         {
             this.changePage(this.index - 1);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+
+        nextBtn.setFGColor(0x444444);
+        prevBtn.setFGColor(0x444444);
     }
 }

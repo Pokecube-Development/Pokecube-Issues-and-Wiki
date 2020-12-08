@@ -14,29 +14,21 @@ import pokecube.core.network.packets.PacketPokedex;
 
 public class Spawns extends ListPage<LineEntry>
 {
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_spawn.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_spawn_nm.png");
 
     int last = 0;
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_spawn.png");
-    
     public Spawns(final PokemobInfoPage parent)
     {
-        super(parent, "spawns");
+        super(parent, "spawns", Spawns.TEX_DM, Spawns.TEX_NM);
     }
 
     @Override
-    public void renderBackground(MatrixStack mat) 
-    {
-    	this.minecraft.textureManager.bindTexture(Spawns.TEXTURE_BASE);
-    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
-    }
-    
-    @Override
     void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
-    {	
+    {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedMob.size())
         {
@@ -53,13 +45,13 @@ public class Spawns extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
         final int height = this.font.FONT_HEIGHT * 7;
-        int width = 110;
-        
+        final int width = 110;
+
         final int dx = 50;
         final int dy = 5;
         offsetX += dx;
         offsetY += dy;
-        
+
         this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.FONT_HEIGHT / 2,
         		this.font.FONT_HEIGHT, offsetX, offsetY);
         for (final SpawnBiomeMatcher matcher : PacketPokedex.selectedMob)

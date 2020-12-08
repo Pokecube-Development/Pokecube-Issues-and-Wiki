@@ -2,32 +2,24 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.client.gui.helper.ScrollGui;
-import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 
 public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> extends PokeInfoPage
 {
     ScrollGui<T> list;
 
-    public ListPage(final PokemobInfoPage parent, final String title)
+    public ListPage(final PokemobInfoPage parent, final String title, final ResourceLocation day, final ResourceLocation night)
     {
-        super(parent, title);
+        super(parent, title, day, night);
     }
 
     @Override
     void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
-    }
-
-    protected void drawTitle(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
-    {
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-        //AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
     }
 
     @Override

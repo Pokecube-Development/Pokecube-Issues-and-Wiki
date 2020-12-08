@@ -31,28 +31,21 @@ import pokecube.core.moves.MovesUtils;
 
 public class Moves extends ListPage<LineEntry>
 {
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_moves.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_moves_nm.png");
+
     private int[][] moveOffsets;
 
     public Moves(final PokemobInfoPage parent)
     {
-        super(parent, "moves");
+        super(parent, "moves", Moves.TEX_DM, Moves.TEX_NM);
     }
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_moves.png");
-    
-    @Override
-    public void renderBackground(final MatrixStack mat) 
-    {
-    	this.minecraft.textureManager.bindTexture(Moves.TEXTURE_BASE);
-    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
-    }
-    
     @Override
     void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
-    {    	
+    {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
         if (this.watch.canEdit(this.parent.pokemob)) this.drawMoves(mat, x, y, mouseX, mouseY);
@@ -60,8 +53,9 @@ public class Moves extends ListPage<LineEntry>
 
     private void drawMoves(final MatrixStack mat, final int x, final int y, final int mouseX, final int mouseY)
     {
-        final int dx = 70; //-30
+        final int dx = 70; // -30
         final int dy = 30; // 20
+
         int held = -1;
         final int mx = mouseX - (x + dx);
         final int my = mouseY - (y + dy);
@@ -102,8 +96,12 @@ public class Moves extends ListPage<LineEntry>
         {
             final int[] offset = this.moveOffsets[held];
             final Move_Base move = MovesUtils.getMoveFromName(this.parent.pokemob.getMove(offset[3]));
-            if (move != null) AbstractGui.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(),
-                    x + dx, y + dy + offset[1], move.getType(this.parent.pokemob).colour);
+            if (move != null)
+            {
+                final int oy = 10;
+                AbstractGui.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx, y
+                        + dy + offset[1] + oy, move.getType(this.parent.pokemob).colour);
+            }
         }
     }
 
@@ -131,13 +129,13 @@ public class Moves extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
         final int height = this.font.FONT_HEIGHT * 6;
-        
+
         final int dx = 46;
         final int dy = 25;
         offsetY += dy;
         offsetX += dx;
-        
-        int width = 111;
+
+        final int width = 111;
 
         final int colour = 0xFFFFFFFF;
 
@@ -160,34 +158,36 @@ public class Moves extends ListPage<LineEntry>
         this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.FONT_HEIGHT, offsetX, offsetY);
         final PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
         final Set<String> added = Sets.newHashSet();
-        if(!this.watch.canEdit(this.parent.pokemob))
+        if (!this.watch.canEdit(this.parent.pokemob))
         {
-	        for (int i = 0; i < 100; i++)
-	        {
-	            final List<String> moves = entry.getMovesForLevel(i, i - 1);
-	            for (final String s : moves)
-	            {
-	                added.add(s);
-	                final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
-	                moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
-	                final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.lvl", i, moveName);
-	                main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
-	                        new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(new HoverEvent(
-	                                HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
-	                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
-	            }
-	        }
-	        for (final String s : entry.getMoves())
-	        {
-	            added.add(s);
-	            final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
-	            moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
-	            final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.tm", moveName);
-	            main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
-	                    new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(new HoverEvent(
-	                            HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
-	            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
-	        }
+            for (int i = 0; i < 100; i++)
+            {
+                final List<String> moves = entry.getMovesForLevel(i, i - 1);
+                for (final String s : moves)
+                {
+                    added.add(s);
+                    final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
+                    moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
+                    final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.lvl", i,
+                            moveName);
+                    main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN))
+                            .setClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(
+                                    new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
+                    this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(
+                            listener));
+                }
+            }
+            for (final String s : entry.getMoves())
+            {
+                added.add(s);
+                final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
+                moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
+                final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.tm", moveName);
+                main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
+                        new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(new HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
+                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
+            }
         }
     }
 
@@ -198,19 +198,39 @@ public class Moves extends ListPage<LineEntry>
         {
             for (final int[] moveOffset : this.moveOffsets)
                 if (moveOffset[2] != 0) return true;
-            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
-            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-            final int dx = 30; //-30
-            final int dy = 30;
+
+            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+
+            final int dx = 150;
+            final int dy = 48;
+
+            // The top left move corner should be (x + dx, y + dy)
+
             final int x1 = (int) (mouseX - (x + dx));
             final int y1 = (int) (mouseY - (y + dy));
-            final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 52;
+
+            // If we are somewhere in here, we are probably clicking a move
+            final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 58;
+
             if (inBox)
             {
                 int index = y1 / 10;
                 index = Math.min(index, 4);
+                // This tells is how far down the move is, this is used as the
+                // 5th slot is different spacing, otherwise could just use
+                // index * 10
+                final int indexShift = this.moveOffsets[index][1] - this.moveOffsets[0][1];
+
+                // This marks the move as "selected"
                 this.moveOffsets[index][2] = 1;
-                this.moveOffsets[index][4] = y1 - 10 * index;
+                // This records the original location of the mouse relative to
+                // the move
+                this.moveOffsets[index][4] = y1 - indexShift;
+
+                // Apply the same shift as in dragged, to ensure we don't jitter
+                // when clicked.
+                this.moveOffsets[index][1] = y1 - this.moveOffsets[index][4];
                 return true;
             }
         }
@@ -232,15 +252,27 @@ public class Moves extends ListPage<LineEntry>
                 }
             if (heldIndex != -1)
             {
-                final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
-                final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-                final int dx = 30; //-30
-                final int dy = 30;
+                final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+                final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+
+                final int dx = 150;
+                final int dy = 48;
+
+                // The top left move corner should be (x + dx, y + dy)
+
                 final int x1 = (int) (mouseX - (x + dx));
                 final int y1 = (int) (mouseY - (y + dy));
-                final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 52;
-                if (inBox) this.moveOffsets[heldIndex][1] = y1 - this.moveOffsets[heldIndex][4];
-                if (inBox) return true;
+
+                // If we are somewhere in here, we are probably clicking a move
+                final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 58;
+
+                if (inBox)
+                {
+                    // Offset the location of the move by how much we have moved
+                    // the mouse since it was clicked.
+                    this.moveOffsets[heldIndex][1] = y1 - this.moveOffsets[heldIndex][4];
+                    return true;
+                }
             }
         }
         return super.mouseDragged(mouseX, mouseY, mouseButton, d2, d3);
@@ -259,13 +291,21 @@ public class Moves extends ListPage<LineEntry>
                     this.moveOffsets[i][2] = 0;
                 }
             if (oldIndex == -1) return false;
-            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
-            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-            final int dx = 30; //-30
-            final int dy = 30;
+
+            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+
+            final int dx = 150;
+            final int dy = 48;
+
+            // The top left move corner should be (x + dx, y + dy)
+
             final int x1 = (int) (mouseX - (x + dx));
             final int y1 = (int) (mouseY - (y + dy));
-            final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 52;
+
+            // If we are somewhere in here, we are probably clicking a move
+            final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 58;
+
             if (inBox)
             {
                 int index = y1 / 10;

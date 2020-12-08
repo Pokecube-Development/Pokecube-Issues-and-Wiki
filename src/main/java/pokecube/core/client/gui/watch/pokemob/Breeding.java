@@ -25,30 +25,23 @@ import pokecube.core.network.packets.PacketPokedex;
 
 public class Breeding extends ListPage<LineEntry>
 {
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_breeding.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_breeding_nm.png");
+
     int                   last = 0;
     final PokemobInfoPage parent;
 
     public Breeding(final PokemobInfoPage parent)
     {
-        super(parent, "breeding");
+        super(parent, "breeding", Breeding.TEX_DM, Breeding.TEX_NM);
         this.parent = parent;
     }
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_breeding.png");
-    
-    @Override
-    public void renderBackground(final MatrixStack mat) 
-    {
-    	this.minecraft.textureManager.bindTexture(Breeding.TEXTURE_BASE);
-    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
-    }
-    
     @Override
     void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
-    {	
+    {
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         final int num = PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList())
                 .size();

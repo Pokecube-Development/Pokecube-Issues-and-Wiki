@@ -14,7 +14,7 @@ import net.minecraft.util.text.ITextComponent;
 
 public class TexButton extends Button
 {
-    public static final ITooltip NAMEONHOVOR = (button, matrixStack, mouseX, mouseY) ->
+    public static final ITooltip NAMEONHOVER = (button, matrixStack, mouseX, mouseY) ->
     {
         final Minecraft minecraft = Minecraft.getInstance();
         final FontRenderer fontrenderer = minecraft.fontRenderer;
@@ -23,6 +23,50 @@ public class TexButton extends Button
         AbstractGui.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x + button.getWidth() / 2,
                 button.y + (button.getHeightRealms() - 8) / 2, j | MathHelper.ceil(255.0F) << 24);
     };
+
+    public static class ShiftedTooltip implements ITooltip
+    {
+        int dx;
+        int dy;
+        int alpha = 255;
+
+        boolean shadowed = true;
+
+        public ShiftedTooltip(final int dx, final int dy, final int alpha)
+        {
+            this.dx = dx;
+            this.dy = dy;
+            this.alpha = alpha;
+        }
+
+        public ShiftedTooltip(final int dx, final int dy)
+        {
+            this(dx, dy, 255);
+        }
+
+        public ShiftedTooltip noShadow()
+        {
+            this.shadowed = false;
+            return this;
+        }
+
+        @Override
+        public void onTooltip(final Button button, final MatrixStack matrixStack, final int mouseX, final int mouseY)
+        {
+            final Minecraft minecraft = Minecraft.getInstance();
+            final FontRenderer fontrenderer = minecraft.fontRenderer;
+            final int j = button.getFGColor();
+            if (this.shadowed) AbstractGui.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x
+                    + this.dx, button.y + this.dy, j | this.alpha << 24);
+            else
+            {
+                final String msg = button.getMessage().getString();
+                final float dx = fontrenderer.getStringWidth(msg) / 2f;
+                fontrenderer.drawString(matrixStack, msg, button.x + this.dx - dx, button.y + this.dy, j
+                        | this.alpha << 24);
+            }
+        }
+    }
 
     public static interface IntFunc
     {
@@ -147,8 +191,13 @@ public class TexButton extends Button
         this.render.render(this, matrixStack, mouseX, mouseY, partialTicks);
         this.renderBg(matrixStack, minecraft, mouseX, mouseY);
         final int j = this.getFGColor();
-        if (this.renderName) AbstractGui.drawCenteredString(matrixStack, fontrenderer, this.getMessage(), this.x
-                + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0F) << 24);
+        if (this.renderName)
+        {
+            final String msg = this.getMessage().getString();
+            final float dx = fontrenderer.getStringWidth(msg) / 2f;
+            fontrenderer.drawString(matrixStack, msg, this.x + this.getWidth() / 2 - dx, this.y + (this
+                    .getHeightRealms() - 8) / 2, j | 255 << 24);
+        }
         if (this.isHovered()) this.renderToolTip(matrixStack, mouseX, mouseY);
     }
 }

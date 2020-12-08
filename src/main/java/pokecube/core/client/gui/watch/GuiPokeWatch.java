@@ -3,6 +3,7 @@ package pokecube.core.client.gui.watch;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
+
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -24,13 +25,14 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class GuiPokeWatch extends Screen
-{	
+{
     private static class MissingPage extends WatchPage
     {
 
         public MissingPage(final GuiPokeWatch watch)
         {
-            super(new TranslationTextComponent("pokewatch.title.blank"), watch);
+            super(new TranslationTextComponent("pokewatch.title.blank"), watch, GuiPokeWatch.TEX_DM,
+                    GuiPokeWatch.TEX_NM);
             this.font = Minecraft.getInstance().fontRenderer;
         }
 
@@ -45,8 +47,14 @@ public class GuiPokeWatch extends Screen
 
     }
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_start.png");
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_start.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_start_nm.png");
+
+    public static final ResourceLocation TEXTURE_BASE = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui.png");
+
     public static List<Class<? extends WatchPage>> PAGELIST = Lists.newArrayList();
 
     static
@@ -75,6 +83,18 @@ public class GuiPokeWatch extends Screen
         }
     }
 
+    private final static ResourceLocation WIDGETS    = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER
+            + "widgets.png");
+    private final static ResourceLocation WIDGETS_NM = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER
+            + "widgets_nm.png");
+
+    public static ResourceLocation getWidgetTex()
+    {
+        return GuiPokeWatch.nightMode ? GuiPokeWatch.WIDGETS_NM : GuiPokeWatch.WIDGETS;
+    }
+
+    public static boolean nightMode = false;
+
     public static int GUIW = 256;
     public static int GUIH = 180;
 
@@ -83,10 +103,10 @@ public class GuiPokeWatch extends Screen
     public final IPokemob     pokemob;
     public final PlayerEntity player;
     public int                index = 0;
-    
+
     public GuiPokeWatch(final PlayerEntity player, final IPokemob pokemob)
     {
-        super(new TranslationTextComponent("pokecube.watch"));      
+        super(new TranslationTextComponent("pokecube.watch"));
         this.pokemob = pokemob;
         if (this.pokemob != null)
         {
@@ -106,8 +126,10 @@ public class GuiPokeWatch extends Screen
 
     public boolean canEdit(final IPokemob pokemob)
     {
-        return pokemob.getEntity().addedToChunk && (this.player.getUniqueID().equals(pokemob.getOwnerId())
-                || this.player.abilities.isCreativeMode);
+        // Not a real mob
+        if (!pokemob.getEntity().addedToChunk) return false;
+        // Otherwise, check if owned, or if player is creative mode
+        return this.player.getUniqueID().equals(pokemob.getOwnerId()) || this.player.abilities.isCreativeMode;
     }
 
     public void changePage(final int newIndex)
@@ -124,7 +146,6 @@ public class GuiPokeWatch extends Screen
         GuiPokeWatch.lastPage = this.index;
         this.current_page.init(this.minecraft, this.width, this.height);
         this.current_page.onPageOpened();
-        this.setFocusedDefault(this.current_page);
     }
 
     public WatchPage createPage(final int index)
@@ -174,6 +195,8 @@ public class GuiPokeWatch extends Screen
     @Override
     public void init()
     {
+        this.buttons.clear();
+        this.children.clear();
         super.init();
         this.current_page = this.createPage(GuiPokeWatch.lastPage);
         this.current_page.init();
@@ -182,38 +205,39 @@ public class GuiPokeWatch extends Screen
         final ITextComponent next = new TranslationTextComponent("block.pc.next");
         final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
         final ITextComponent home = new TranslationTextComponent("pokewatch.button.home");
-        
-        this.addButton(new TexButton(x + 14, y + 40, 17, 17, next, b ->
+        final TexButton nextBtn = this.addButton(new TexButton(x + 14, y + 40, 17, 17, next, b ->
         {
             int index = this.index;
             if (index < GuiPokeWatch.PAGELIST.size() - 1) index++;
             else index = 0;
             this.changePage(index);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(144,0,17,17)));
-        this.addButton(new TexButton(x - 33, y + 40, 17, 17, prev, b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)));
+        final TexButton prevBtn = this.addButton(new TexButton(x - 33, y + 40, 17, 17, prev, b ->
         {
             int index = this.index;
             if (index > 0) index--;
             else index = GuiPokeWatch.PAGELIST.size() - 1;
             this.changePage(index);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(144,0,17,17)));
-        this.addButton(new TexButton(x - 17, y + 40, 32, 17, home, b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)));
+        final TexButton homeBtn = this.addButton(new TexButton(x - 17, y + 40, 32, 17, home, b ->
         {
             final int index = 0;
             this.changePage(index, true);
-        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(168,0,32,17)));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(168, 0, 32, 17)));
+
+        nextBtn.setFGColor(0x444444);
+        prevBtn.setFGColor(0x444444);
+        homeBtn.setFGColor(0x444444);
+
         this.current_page.onPageOpened();
     }
 
     @Override
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.minecraft.textureManager.bindTexture(GuiPokeWatch.TEXTURE_BASE);
-        final int j2 = (this.width - GuiPokeWatch.GUIW) / 2;
-        final int k2 = (this.height - GuiPokeWatch.GUIH) / 2;
-        this.blit(mat, j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
         try
         {
+            this.current_page.renderBackground(mat);
             this.current_page.render(mat, mouseX, mouseY, partialTicks);
         }
         catch (final Exception e)

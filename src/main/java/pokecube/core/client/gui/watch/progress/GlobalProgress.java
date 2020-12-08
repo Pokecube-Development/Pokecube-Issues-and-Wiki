@@ -3,14 +3,13 @@ package pokecube.core.client.gui.watch.progress;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -23,7 +22,6 @@ import pokecube.core.network.packets.PacketPokedex;
 
 public class GlobalProgress extends Progress
 {
-    Button button;
 
     public GlobalProgress(final GuiPokeWatch watch)
     {
@@ -60,12 +58,16 @@ public class GlobalProgress extends Progress
 
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        this.addButton(this.button = new TexButton(x - 50, y + 25, 100, 12, new TranslationTextComponent(
-                "pokewatch.progress.inspect"), b ->
-                {
-                    PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager()
-                            .getCurrentLanguage().getCode());
-                }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(0,72,100,12)));
+
+        final ITextComponent inspect = new TranslationTextComponent("pokewatch.progress.inspect");
+
+        final TexButton inspectBtn = this.addButton(new TexButton(x - 50, y + 25, 100, 12, inspect, b ->
+        {
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getCurrentLanguage()
+                    .getCode());
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
+
+        inspectBtn.setFGColor(0x444444);
 
         for (final IFormattableTextComponent line : ListHelper.splitText(captureLine, 190, this.font, false))
             this.lines.add(line.getString());

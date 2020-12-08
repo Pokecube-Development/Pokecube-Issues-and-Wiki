@@ -38,12 +38,14 @@ public class SpawnsPage extends ListPage<LineEntry>
     int     index = 1;
     boolean repel = false;
 
-    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
-    		"textures/gui/pokewatchgui_location.png");
-    
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_location.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_location_nm.png");
+
     public SpawnsPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.title.spawns"), watch);
+        super(new TranslationTextComponent("pokewatch.title.spawns"), watch, SpawnsPage.TEX_DM, SpawnsPage.TEX_NM);
         for (final Class<? extends WatchPage> clazz : GuiPokeWatch.PAGELIST)
             if (clazz == PokemobInfoPage.class)
             {
@@ -77,12 +79,12 @@ public class SpawnsPage extends ListPage<LineEntry>
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int max = this.font.FONT_HEIGHT;
         final int height = max * 6;
-        
+
         final int dx = 55;
         final int dy = 40;
         offsetX += dx;
         offsetY += dy;
-        
+
         final QName local = new QName("Local_Rate");
         final List<PokedexEntry> names = Lists.newArrayList(PacketPokedex.selectedLoc.keySet());
         final Map<PokedexEntry, Float> rates = Maps.newHashMap();
@@ -173,11 +175,10 @@ public class SpawnsPage extends ListPage<LineEntry>
             this.initList();
             this.last = PacketPokedex.selectedLoc.size();
         }
-        this.minecraft.textureManager.bindTexture(SpawnsPage.TEXTURE_BASE);
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        this.blit(mat, x, y, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
-        AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x + 130, y + 30, 0xFFFFFFFF);
+        final int colour = 0xFF78C850;
+        AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x + 130, y + 30, colour);
         super.render(mat, mouseX, mouseY, partialTicks);
     }
 }
