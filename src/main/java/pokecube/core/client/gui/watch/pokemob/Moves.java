@@ -9,6 +9,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -25,6 +26,7 @@ import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.Move_Base;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 
 public class Moves extends ListPage<LineEntry>
@@ -36,9 +38,21 @@ public class Moves extends ListPage<LineEntry>
         super(parent, "moves");
     }
 
+    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
+    		"textures/gui/pokewatchgui_moves.png");
+    
+    @Override
+    public void renderBackground(final MatrixStack mat) 
+    {
+    	this.minecraft.textureManager.bindTexture(Moves.TEXTURE_BASE);
+    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+    }
+    
     @Override
     void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
-    {
+    {    	
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
         if (this.watch.canEdit(this.parent.pokemob)) this.drawMoves(mat, x, y, mouseX, mouseY);
@@ -46,8 +60,8 @@ public class Moves extends ListPage<LineEntry>
 
     private void drawMoves(final MatrixStack mat, final int x, final int y, final int mouseX, final int mouseY)
     {
-        final int dx = -30;
-        final int dy = 20;
+        final int dx = 70; //-30
+        final int dy = 30; // 20
         int held = -1;
         final int mx = mouseX - (x + dx);
         final int my = mouseY - (y + dy);
@@ -101,11 +115,11 @@ public class Moves extends ListPage<LineEntry>
         this.moveOffsets = new int[][]{
         // i = index, b = selected, dc = cursor offset
         //   dx  dy  b  i  dc
-            {00, 00, 0, 0, 0},
-            {00, 10, 0, 1, 0},
-            {00, 20, 0, 2, 0},
-            {00, 30, 0, 3, 0},
-            {00, 42, 0, 4, 0}
+            {-10, 10, 0, 0, 0},
+            {-10, 20, 0, 1, 0},
+            {-10, 30, 0, 2, 0},
+            {-10, 40, 0, 3, 0},
+            {-10, 58, 0, 4, 0}
         };
         //@formatter:on
     }
@@ -114,21 +128,18 @@ public class Moves extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 46;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 82;
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
         final int height = this.font.FONT_HEIGHT * 6;
+        
+        final int dx = 46;
+        final int dy = 25;
+        offsetY += dy;
+        offsetX += dx;
+        
         int width = 111;
 
         final int colour = 0xFFFFFFFF;
-
-        if (!this.watch.canEdit(this.parent.pokemob))
-        {
-            width = 111;
-            final int dx = 0;
-            final int dy = -60;
-            offsetY += dy;
-            offsetX += dx;
-        }
 
         final Moves thisObj = this;
         final IClickListener listener = new IClickListener()
@@ -149,31 +160,34 @@ public class Moves extends ListPage<LineEntry>
         this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.FONT_HEIGHT, offsetX, offsetY);
         final PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
         final Set<String> added = Sets.newHashSet();
-        for (int i = 0; i < 100; i++)
+        if(!this.watch.canEdit(this.parent.pokemob))
         {
-            final List<String> moves = entry.getMovesForLevel(i, i - 1);
-            for (final String s : moves)
-            {
-                added.add(s);
-                final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
-                moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
-                final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.lvl", i, moveName);
-                main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
-                        new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(new HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
-                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
-            }
-        }
-        for (final String s : entry.getMoves())
-        {
-            added.add(s);
-            final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
-            moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
-            final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.tm", moveName);
-            main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
-                    new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(new HoverEvent(
-                            HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
-            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
+	        for (int i = 0; i < 100; i++)
+	        {
+	            final List<String> moves = entry.getMovesForLevel(i, i - 1);
+	            for (final String s : moves)
+	            {
+	                added.add(s);
+	                final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
+	                moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
+	                final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.lvl", i, moveName);
+	                main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
+	                        new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(new HoverEvent(
+	                                HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
+	                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
+	            }
+	        }
+	        for (final String s : entry.getMoves())
+	        {
+	            added.add(s);
+	            final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
+	            moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
+	            final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.tm", moveName);
+	            main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
+	                    new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(new HoverEvent(
+	                            HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
+	            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
+	        }
         }
     }
 
@@ -186,8 +200,8 @@ public class Moves extends ListPage<LineEntry>
                 if (moveOffset[2] != 0) return true;
             final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
             final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-            final int dx = -30;
-            final int dy = 20;
+            final int dx = 30; //-30
+            final int dy = 30;
             final int x1 = (int) (mouseX - (x + dx));
             final int y1 = (int) (mouseY - (y + dy));
             final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 52;
@@ -220,8 +234,8 @@ public class Moves extends ListPage<LineEntry>
             {
                 final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
                 final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-                final int dx = -30;
-                final int dy = 20;
+                final int dx = 30; //-30
+                final int dy = 30;
                 final int x1 = (int) (mouseX - (x + dx));
                 final int y1 = (int) (mouseY - (y + dy));
                 final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 52;
@@ -247,8 +261,8 @@ public class Moves extends ListPage<LineEntry>
             if (oldIndex == -1) return false;
             final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
             final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-            final int dx = -30;
-            final int dy = 20;
+            final int dx = 30; //-30
+            final int dy = 30;
             final int x1 = (int) (mouseX - (x + dx));
             final int y1 = (int) (mouseY - (y + dy));
             final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 52;
@@ -261,11 +275,11 @@ public class Moves extends ListPage<LineEntry>
             }
             //@formatter:off
             this.moveOffsets = new int[][]{
-                {00, 00, 0, 0, 0},
-                {00, 10, 0, 1, 0},
-                {00, 20, 0, 2, 0},
-                {00, 30, 0, 3, 0},
-                {00, 42, 0, 4, 0}
+                {-10, 10, 0, 0, 0},
+                {-10, 20, 0, 1, 0},
+                {-10, 30, 0, 2, 0},
+                {-10, 40, 0, 3, 0},
+                {-10, 58, 0, 4, 0}
             };
             //@formatter:on
             if (inBox) return true;

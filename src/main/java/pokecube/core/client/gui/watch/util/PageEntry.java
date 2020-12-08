@@ -11,6 +11,15 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> impleme
 {
     public final Button button;
     final int           top;
+    
+    public PageEntry(final WatchPage parent, final WatchPage page, final int index, final int offsetY, Button button)
+    {
+        this.top = offsetY;
+        this.button = button;
+        this.button.visible = false;
+        this.button.active = false;
+        parent.addButton(this.button);
+    }
 
     public PageEntry(final WatchPage parent, final WatchPage page, final int index, final int offsetX,
             final int offsetY)

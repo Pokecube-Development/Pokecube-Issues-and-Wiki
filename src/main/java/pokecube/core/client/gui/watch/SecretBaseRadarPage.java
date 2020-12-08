@@ -9,14 +9,18 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
+import pokecube.core.interfaces.PokecubeMod;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 
@@ -49,10 +53,13 @@ public class SecretBaseRadarPage extends WatchPage
         super.onPageOpened();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        this.addButton(new Button(x + 64, y - 70, 12, 12, new StringTextComponent(""),
-                b -> SecretBaseRadarPage.meteors = !SecretBaseRadarPage.meteors));
+        this.addButton(new TexButton(x + 95, y - 70, 12, 12, new StringTextComponent(""),
+                b -> SecretBaseRadarPage.meteors = !SecretBaseRadarPage.meteors).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
     }
 
+    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
+    		"textures/gui/pokewatchgui_meteor.png");
+    
     @Override
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
@@ -142,7 +149,11 @@ public class SecretBaseRadarPage extends WatchPage
         }
         GL11.glPopMatrix();
         GlStateManager.enableTexture();
-        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0x78C850);
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 65, y, 0x78C850);
+        this.minecraft.textureManager.bindTexture(SecretBaseRadarPage.TEXTURE_BASE);
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+        this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
         super.render(mat, mouseX, mouseY, partialTicks);
     }
 }

@@ -84,7 +84,7 @@ public class PerTypeProgress extends Progress
         super.init();
         final int x = this.watch.width / 2 - 30;
         final int y = this.watch.height / 2 + 53;
-        this.text = new TextFieldWidget(this.font, x, y, 60, 10, new StringTextComponent(""));
+        this.text = new TextFieldWidget(this.font, x, y - 30, 60, 10, new StringTextComponent(""));
         this.addButton(this.text);
     }
 
@@ -131,16 +131,16 @@ public class PerTypeProgress extends Progress
         final TranslationTextComponent nearbyLine = new TranslationTextComponent("pokewatch.progress.global.nearby",
                 otherMobs.size());
 
-        for (final IFormattableTextComponent line : ListHelper.splitText(captureLine, 140, this.font, false))
+        for (final IFormattableTextComponent line : ListHelper.splitText(captureLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(killLine, 140, this.font, false))
+        for (final IFormattableTextComponent line : ListHelper.splitText(killLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(hatchLine, 140, this.font, false))
+        for (final IFormattableTextComponent line : ListHelper.splitText(hatchLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(nearbyLine, 140, this.font, false))
+        for (final IFormattableTextComponent line : ListHelper.splitText(nearbyLine, 190, this.font, false))
             this.lines.add(line.getString());
     }
 

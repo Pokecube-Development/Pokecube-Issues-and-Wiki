@@ -27,7 +27,7 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
+        //AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -28,6 +29,7 @@ import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class SpawnsPage extends ListPage<LineEntry>
@@ -36,6 +38,9 @@ public class SpawnsPage extends ListPage<LineEntry>
     int     index = 1;
     boolean repel = false;
 
+    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
+    		"textures/gui/pokewatchgui_location.png");
+    
     public SpawnsPage(final GuiPokeWatch watch)
     {
         super(new TranslationTextComponent("pokewatch.title.spawns"), watch);
@@ -68,10 +73,16 @@ public class SpawnsPage extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 5;
-        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 25;
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int max = this.font.FONT_HEIGHT;
-        final int height = max * 12;
+        final int height = max * 6;
+        
+        final int dx = 55;
+        final int dy = 40;
+        offsetX += dx;
+        offsetY += dy;
+        
         final QName local = new QName("Local_Rate");
         final List<PokedexEntry> names = Lists.newArrayList(PacketPokedex.selectedLoc.keySet());
         final Map<PokedexEntry, Float> rates = Maps.newHashMap();
@@ -108,7 +119,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
             for (final IFormattableTextComponent entry : list)
             {
-                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, entry, 0xFFFFFFFF);
+                final LineEntry line = new LineEntry(this.list, 20, 20, this.font, entry, 0xFFFFFFFF);
                 this.list.addEntry(line);
             }
         }
@@ -119,7 +130,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
             for (final IFormattableTextComponent entry : list)
             {
-                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, entry, 0xFFFFFFFF);
+                final LineEntry line = new LineEntry(this.list, 20, 30, this.font, entry, 0xFFFFFFFF);
                 this.list.addEntry(line);
             }
         }
@@ -162,9 +173,11 @@ public class SpawnsPage extends ListPage<LineEntry>
             this.initList();
             this.last = PacketPokedex.selectedLoc.size();
         }
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 17;
-        AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x, y, 0xFFFFFFFF);
+        this.minecraft.textureManager.bindTexture(SpawnsPage.TEXTURE_BASE);
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+        this.blit(mat, x, y, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+        AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x + 130, y + 30, 0xFFFFFFFF);
         super.render(mat, mouseX, mouseY, partialTicks);
     }
 }

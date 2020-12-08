@@ -29,13 +29,14 @@ public abstract class Progress extends WatchPage
     @Override
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        int dy = 0;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2; //+80
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2; //+30
+        int dy = 35;
+        int dx = 130;
         final int colour = 0xFFFFFFFF;
         for (final String s : this.lines)
         {
-            AbstractGui.drawCenteredString(mat, this.font, s, x, y + dy, colour);
+            AbstractGui.drawCenteredString(mat, this.font, s, x + dx, y + dy, colour);
             dy += this.font.FONT_HEIGHT;
             if (s.isEmpty()) dy -= this.font.FONT_HEIGHT / 1.5f;
         }

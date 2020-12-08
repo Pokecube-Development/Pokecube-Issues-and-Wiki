@@ -63,6 +63,7 @@
     "pokewatch.title.pokeinfo.search": "Search",
     "pokewatch.title.pokeinfo.spawns": "Spawns",
     "pokewatch.title.pokeinfo.description": "Description",
+    "pokewatch.title.pokeinfo.extra": "Battle",
 
     "pokewatch.moves.lvl": "L.%1$s: %2$s",
     "pokewatch.moves.tm": "TM: %1$s",
@@ -112,6 +113,7 @@
     "pokewatch.TVIVEV": "TV   IV   EV",
     "pokewatch.ability": "AB: %s",
     "pokewatch.size": "Size: %s",
+    "pokewatch.nature": "Nature: %s",
     
     "_comment": "Pokemob Gui",
 

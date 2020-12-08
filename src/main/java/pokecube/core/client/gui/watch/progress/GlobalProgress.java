@@ -10,7 +10,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
+import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
@@ -57,23 +60,23 @@ public class GlobalProgress extends Progress
 
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        this.addButton(this.button = new Button(x - 50, y + 57, 100, 12, new TranslationTextComponent(
+        this.addButton(this.button = new TexButton(x - 50, y + 25, 100, 12, new TranslationTextComponent(
                 "pokewatch.progress.inspect"), b ->
                 {
                     PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager()
                             .getCurrentLanguage().getCode());
-                }));
+                }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(0,72,100,12)));
 
-        for (final IFormattableTextComponent line : ListHelper.splitText(captureLine, 120, this.font, false))
+        for (final IFormattableTextComponent line : ListHelper.splitText(captureLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(killLine, 120, this.font, false))
+        for (final IFormattableTextComponent line : ListHelper.splitText(killLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(hatchLine, 120, this.font, false))
+        for (final IFormattableTextComponent line : ListHelper.splitText(hatchLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(nearbyLine, 120, this.font, false))
+        for (final IFormattableTextComponent line : ListHelper.splitText(nearbyLine, 190, this.font, false))
             this.lines.add(line.getString());
     }
 

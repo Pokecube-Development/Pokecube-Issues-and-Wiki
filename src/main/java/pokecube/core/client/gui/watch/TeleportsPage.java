@@ -10,11 +10,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.ThutTeleporter.TeleDest;
@@ -189,13 +191,25 @@ public class TeleportsPage extends ListPage<TeleOption>
         super(new TranslationTextComponent("pokewatch.title.teleports"), watch);
     }
 
+    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
+    		"textures/gui/pokewatchgui_teleport.png");
+    
+    @Override
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    {
+    	this.minecraft.textureManager.bindTexture(TeleportsPage.TEXTURE_BASE);
+    	int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+    	this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+    }
+    
     @Override
     public void initList()
     {
         super.initList();
         this.locations = TeleportHandler.getTeleports(this.watch.player.getCachedUniqueIdString());
-        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 10;
-        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 24;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 55;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 27;
         final int height = 120;
         final int width = 146;
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
