@@ -147,12 +147,13 @@ public class JsonMoves
         public String soundEffectSource;
         public String soundEffectTarget;
 
-        public boolean             multiTarget     = false;
-        public boolean             interceptable   = true;
-        public String              preset;
-        public boolean             ohko            = false;
-        public boolean             protectionMoves = false;
-        public int                 extraInfo       = -1;
+        public boolean multiTarget     = false;
+        public boolean interceptable   = true;
+        public String  preset;
+        public boolean ohko            = false;
+        public boolean protectionMoves = false;
+        public int     extraInfo       = -1;
+
         public List<AnimationJson> animations;
     }
 

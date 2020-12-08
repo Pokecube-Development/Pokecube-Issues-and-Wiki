@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
@@ -303,18 +302,6 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static boolean doAttack(final Move_Base move, final IPokemob attacker, final Vector3 attacked,
-            final Predicate<Entity> valid, final Consumer<Entity> onHit)
-    {
-        if (move != null) move.attack(attacker, attacked, valid, onHit);
-        else
-        {
-            PokecubeCore.LOGGER.error("Invalid Move Use!");
-            return false;
-        }
-        return true;
-    }
-
     public static int getAttackDelay(final IPokemob attacker, final String moveName, final boolean distanced,
             final boolean playerTarget)
     {
@@ -407,11 +394,8 @@ public class MovesUtils implements IMoveConstants
     {
         float ret = 1;
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
-        if (type == PokeType.getType("dragon"))
-        {
-            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY))
-                ret = 0.5f;
-        }
+        if (type == PokeType.getType("dragon")) if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY))
+            ret = 0.5f;
         if (type == PokeType.getType("electric") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
         {
             if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC))
@@ -421,11 +405,8 @@ public class MovesUtils implements IMoveConstants
                 ret *= 0.33f;
         }
 
-        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
-        {
-            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS))
-                ret = 1.5f;
-        }
+        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5)) if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS))
+            ret = 1.5f;
 
         if (type == PokeType.getType("water"))
         {

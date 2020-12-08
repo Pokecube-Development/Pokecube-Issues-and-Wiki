@@ -3,30 +3,21 @@
  */
 package pokecube.core.moves.templates;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.events.pokemob.combat.MoveUse;
@@ -39,7 +30,6 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
@@ -162,57 +152,6 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         boolean doAttack = true;
         if (!self) doAttack = attacked != attacker;
         if (doAttack) this.onAttack(packet);
-    }
-
-    @Override
-    public void attack(final IPokemob attacker, final Vector3 location, final Predicate<Entity> valid,
-            final Consumer<Entity> onHit)
-    {
-        final List<Entity> targets = new ArrayList<>();
-
-        final Entity entity = attacker.getEntity();
-
-        if (!this.move.isNotIntercepable() && attacker.inCombat())
-        {
-            final Vector3d loc1 = new Vector3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
-            final Vector3d loc2 = new Vector3d(location.x, location.y, location.z);
-            final BlockRayTraceResult result = entity.getEntityWorld().rayTraceBlocks(new RayTraceContext(loc1, loc2,
-                    RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, entity));
-            // TODO check if this is relative or absolute positon.
-            if (result != null) location.set(result.getHitVec());
-        }
-        if (this.move.isMultiTarget()) targets.addAll(MovesUtils.targetsHit(entity, location));
-        else if (!this.move.isNotIntercepable()) targets.add(MovesUtils.targetHit(entity, location));
-        else
-        {
-            final List<Entity> subTargets = new ArrayList<>();
-            if (subTargets.contains(attacker.getEntity())) subTargets.remove(attacker.getEntity());
-            targets.addAll(subTargets);
-        }
-        while (targets.contains(null))
-            targets.remove(null);
-        if ((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0)
-        {
-            targets.clear();
-            targets.add(entity);
-        }
-        final int n = targets.size();
-        this.playSounds(entity, null, location);
-        if (n > 0)
-        {
-            for (final Entity e : targets)
-                if (e != null && valid.test(e))
-                {
-                    this.attack(attacker, e);
-                    onHit.accept(e);
-                }
-        }
-        else if (BrainUtils.hasAttackTarget(attacker.getEntity()))
-        {
-            final LivingEntity target = BrainUtils.getAttackTarget(attacker.getEntity());
-            MovesUtils.displayEfficiencyMessages(attacker, target, -1, 0);
-        }
-        this.doWorldAction(attacker, location);
     }
 
     @Override
@@ -370,11 +309,6 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
                 if (hitModifier < Math.random()) efficiency = -1;
             }
-        }
-        if (attacked != attackerMob && targetPokemob != null)
-        {
-            BrainUtils.initiateCombat((MobEntity) attacked, attackerMob);
-            targetPokemob.setCombatState(CombatStates.ANGRY, true);
         }
         if (efficiency > 0 && packet.applyOngoing)
         {

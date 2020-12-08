@@ -24,6 +24,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.PokedexEntry.InteractionLogic;
 import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
+import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
 import pokecube.core.interfaces.IPokemob;
 
 @JeiPlugin
@@ -52,13 +53,16 @@ public class Compat implements IModPlugin
     @Override
     public void registerCategories(final IRecipeCategoryRegistration registration)
     {
+        // Makes sure the ingredients were initialized
         Pokemob.getIngredients();
         final IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
+        // Then register the categories
         registration.addRecipeCategories(
         //@formatter:off
                 new pokecube.compat.jei.categories.cloner.Category(helper),
                 new pokecube.compat.jei.categories.evolution.Category(helper),
-                new pokecube.compat.jei.categories.interaction.Category(helper)
+                new pokecube.compat.jei.categories.interaction.Category(helper),
+                new pokecube.compat.jei.categories.move.Category(helper)
         );//@formatter:on
 
     }
@@ -136,7 +140,6 @@ public class Compat implements IModPlugin
         }
         registration.addRecipes(evos, pokecube.compat.jei.categories.evolution.Category.GUID);
         registration.addRecipes(interactions, pokecube.compat.jei.categories.interaction.Category.GUID);
-
+        registration.addRecipes(RecipeMove.ALLRECIPES, pokecube.compat.jei.categories.move.Category.GUID);
     }
-
 }

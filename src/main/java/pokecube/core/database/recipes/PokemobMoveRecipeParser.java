@@ -71,6 +71,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     public static class RecipeMove implements IMoveAction
     {
+        public static final List<RecipeMove> ALLRECIPES = Lists.newArrayList();
+
         public final String          name;
         public final ShapelessRecipe recipe;
         public final int             hungerCost;
@@ -104,8 +106,9 @@ public class PokemobMoveRecipeParser implements IRecipeParser
                 else recipeItemsIn.add(Ingredient.fromStacks(Tools.getStack(value.getValues())));
             }
 
-            this.recipe = new ShapelessRecipe(new ResourceLocation("pokecube:loaded_" + this.name), "pokecube_mobes",
+            this.recipe = new ShapelessRecipe(new ResourceLocation("pokecube:loaded_" + this.name), "pokecube_moves",
                     recipeOutputIn, recipeItemsIn);
+            RecipeMove.ALLRECIPES.add(this);
         }
 
         @Override
@@ -166,9 +169,15 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             final ItemStack stack = this.recipe.getCraftingResult(inven);
             if (stack.isEmpty()) return false;
             final List<ItemStack> remains = this.recipe.getRemainingItems(inven);
-            matches.forEach(e -> e.remove());
+            matches.forEach(e ->
+            {
+                final ItemStack item = e.getItem();
+                item.shrink(1);
+                if (e.getItem().isEmpty()) e.remove();
+            });
             ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
             world.addEntity(drop);
+            System.out.println(remains);
             for (final ItemStack left : remains)
                 if (!left.isEmpty())
                 {
