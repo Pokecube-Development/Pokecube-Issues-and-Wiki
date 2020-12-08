@@ -81,10 +81,10 @@ repositories {
         url 'https://squiddev.cc/maven/' 
     }
     //TODO check dependency
-  /*  maven { // The repo from which to get waila
+    maven { // The repo from which to get waila
         name "Mobius Repo"
-        url "https://tehnut.info/maven"
-    }*/
+        url "https://maven.tehnut.info"
+    }
     maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
@@ -119,7 +119,7 @@ dependencies {
     //implementation "libs:lostcities-${version_lostcities}"
     
     //Thut Essentials
-    //implementation "libs:thutessentials-1.15.2-3.0.16-deobf"
+    implementation "libs:thutessentials-1.16.4-4.0.3-deobf"
     
     //JEI
     // compile against the JEI API but do not include it at runtime
@@ -128,10 +128,11 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
     
     //WHYLA
-    //implementation fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")
+    compileOnly fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}:api")
+    runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")
     
     //Minecolonies
-    //implementation fg.deobf("libs:minecolonies-${version_minecolonies}")
+    implementation fg.deobf("libs:minecolonies-0.13.437-RELEASE-api")
     
     //Immersive Enginnering
     //implementation "blusunrize:ImmersiveEngineering:0.15-+"

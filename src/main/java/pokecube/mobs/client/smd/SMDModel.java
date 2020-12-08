@@ -14,10 +14,10 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import pokecube.mobs.client.smd.impl.Bone;
 import pokecube.mobs.client.smd.impl.Face;
 import pokecube.mobs.client.smd.impl.Helpers;
@@ -75,6 +75,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
     private final HashMap<String, IExtendedModelPart> nullPartsMap = Maps.newHashMap();
     private final HashMap<String, IExtendedModelPart> subPartsMap  = Maps.newHashMap();
+
+    private final List<String> order = Lists.newArrayList();
 
     private final Set<String>    nullHeadSet = Sets.newHashSet();
     private final Set<String>    animations  = Sets.newHashSet();
@@ -371,5 +373,12 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setAnimationHolder(final IAnimationHolder holder)
     {
         this.currentHolder = holder;
+    }
+
+    @Override
+    public List<String> getRenderOrder()
+    {
+        // TODO see what we need to do for this for wearables support later.
+        return this.order;
     }
 }

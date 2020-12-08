@@ -234,6 +234,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         public void setAnimationHolder(final IAnimationHolder holder)
         {
             this.currentHolder = holder;
+            if (this.animator != null) this.animator.setAnimationHolder(holder);
             this.wrapper.imodel.setAnimationHolder(holder);
         }
 
@@ -654,7 +655,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     }
 
     @Override
-    protected RenderType func_230496_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b, final boolean bool_c)
+    protected RenderType func_230496_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b,
+            final boolean bool_c)
     {
         final RenderType.State rendertype$state = RenderType.State.getBuilder().texture(new RenderState.TextureState(
                 this.getEntityTexture(entity), false, false)).transparency(new RenderState.TransparencyState(

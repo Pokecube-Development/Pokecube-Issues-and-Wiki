@@ -381,4 +381,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         this.currentHolder = holder;
     }
+
+    @Override
+    public List<String> getRenderOrder()
+    {
+        return this.order;
+    }
 }

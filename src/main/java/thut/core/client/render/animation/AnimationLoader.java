@@ -52,10 +52,10 @@ public class AnimationLoader
         final Vector3 vect = Vector3.getNewVector().set(default_);
         String[] r;
         r = shift.split(",");
-        if (r.length == 1)
-            vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()));
-        else if (r.length == 3)
-            vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()));
+        if (r.length == 1) vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0]
+                .trim()));
+        else if (r.length == 3) vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(
+                r[2].trim()));
         return vect;
     }
 
@@ -70,8 +70,8 @@ public class AnimationLoader
         t = Integer.parseInt(time);
         try
         {
-            ro.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()),
-                    Float.parseFloat(r[3].trim()));
+            ro.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()), Float
+                    .parseFloat(r[3].trim()));
             ro.toQuaternion();
         }
         catch (final Exception e)
@@ -335,9 +335,9 @@ public class AnimationLoader
     public static void setHeadCaps(final Node node, final float[] toFill, final float[] toFill1)
     {
         if (node.getAttributes() == null) return;
-        if (node.getAttributes().getNamedItem("headCap") != null)
-            AnimationLoader.setHeadCaps(node.getAttributes().getNamedItem("headCap").getNodeValue(), toFill);
-        if (node.getAttributes().getNamedItem("headCap1") != null)
-            AnimationLoader.setHeadCaps(node.getAttributes().getNamedItem("headCap1").getNodeValue(), toFill1);
+        if (node.getAttributes().getNamedItem("headCap") != null) AnimationLoader.setHeadCaps(node.getAttributes()
+                .getNamedItem("headCap").getNodeValue(), toFill);
+        if (node.getAttributes().getNamedItem("headCap1") != null) AnimationLoader.setHeadCaps(node.getAttributes()
+                .getNamedItem("headCap1").getNodeValue(), toFill1);
     }
 }

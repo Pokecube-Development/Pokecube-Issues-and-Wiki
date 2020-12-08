@@ -25,9 +25,13 @@ public class GuiWearables extends DisplayEffectsScreen<ContainerWearables>
     }
 
     @Override
+    protected void drawGuiContainerForegroundLayer(final MatrixStack matrixStack, final int x, final int y)
+    {
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float p_146976_1_,
-            final int p_146976_2_,
-            final int p_146976_3_)
+            final int p_146976_2_, final int p_146976_3_)
     {
         this.minecraft.getTextureManager().bindTexture(GuiWearables.background);
         final int i = this.guiLeft;

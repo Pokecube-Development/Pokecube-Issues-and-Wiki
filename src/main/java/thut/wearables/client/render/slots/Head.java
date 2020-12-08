@@ -3,34 +3,22 @@ package thut.wearables.client.render.slots;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.model.IHasHead;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.vector.Vector3f;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
 
 public class Head
 {
-    public static void render(final MatrixStack mat, final IRenderTypeBuffer buff, final IWearable wearable,
-            final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
-            final float partialTicks, final boolean thinArms, final int brightness, final int overlay,
-            final IHasHead theModel)
+    public static void preOffset(final MatrixStack mat, final boolean childModel, final boolean sneaking)
     {
-        if (wearable == null) return;
-
-        if (wearable.customOffsets())
-        {
-            wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-            return;
-        }
-        float[] offsetArr;
-
-        mat.push();
-        if (wearer.isCrouching() && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null) mat.translate(
+        float[] offsetArr = new float[3];
+        if (sneaking && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null) mat.translate(
                 offsetArr[0], offsetArr[1], offsetArr[2]);
-        if (wearer.isChild())
+        if (childModel)
         {
             final float af = 2.0F;
             final float af1 = 1.4F;
@@ -38,10 +26,11 @@ public class Head
             mat.scale(af1 / af, af1 / af, af1 / af);
             mat.translate(0.0F, 16.0F, 0.0F);
         }
+    }
 
-        // Translate to head
-        theModel.getModelHead().translateRotate(mat);
-
+    public static boolean postOffset(final MatrixStack mat, final int index, final EnumWearable slot)
+    {
+        float[] offsetArr = new float[3];
         mat.translate(0, -0.25f, 0);
         boolean render = false;
         switch (slot)
@@ -85,7 +74,27 @@ public class Head
             break;
 
         }
-        if (render) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+        return render;
+    }
+
+    public static void render(final MatrixStack mat, final IRenderTypeBuffer buff, final IWearable wearable,
+            final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
+            final float partialTicks, final boolean thinArms, final int brightness, final int overlay,
+            final IHasHead theModel)
+    {
+        if (wearable == null) return;
+
+        if (wearable.customOffsets())
+        {
+            wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+            return;
+        }
+        mat.push();
+        Head.preOffset(mat, wearer.isChild(), wearer.isSneaking());
+        // Translate to head
+        theModel.getModelHead().translateRotate(mat);
+        if (Head.postOffset(mat, index, slot)) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness,
+                overlay);
         mat.pop();
     }
 

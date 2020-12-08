@@ -13,14 +13,8 @@ public class Vector4
 {
     public static Vector4 fromAngles(final float x, final float y, final float z)
     {
-        Vector4 angle = null;
-        if (z != 0) angle = new Vector4(0, 0, 1, z);
-        if (x != 0) if (angle != null) angle = angle.addAngles(new Vector4(1, 0, 0, x));
-        else angle = new Vector4(1, 0, 0, x);
-        if (y != 0) if (angle != null) angle = angle.addAngles(new Vector4(0, 1, 0, y));
-        else angle = new Vector4(0, 1, 0, y);
-        if (angle == null) angle = new Vector4();
-        return angle;
+        final Quaternion quat = new Quaternion(x, y, z, true);
+        return new Vector4(quat);
     }
 
     public float       x, y, z, w;
@@ -183,9 +177,11 @@ public class Vector4
         return this.addAngles(temp);
     }
 
-    /** The default is axis angle for use with openGL
+    /**
+     * The default is axis angle for use with openGL
      *
-     * @return */
+     * @return
+     */
     public Vector4 toAxisAngle()
     {
         final float qw = this.w;
@@ -229,7 +225,7 @@ public class Vector4
     public String toIntString()
     {
         return "x:" + MathHelper.floor(this.x) + " y:" + MathHelper.floor(this.y) + " z:" + MathHelper.floor(this.z)
-        + " w:" + MathHelper.floor(this.w);
+                + " w:" + MathHelper.floor(this.w);
     }
 
     public Vector4 toQuaternion()

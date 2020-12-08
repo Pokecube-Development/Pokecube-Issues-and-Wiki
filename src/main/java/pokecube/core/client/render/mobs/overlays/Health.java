@@ -51,6 +51,19 @@ public class Health
     private static final RenderType TYPE       = RenderType.getText(Resources.GUI_BATTLE);
     private static final RenderType BACKGROUND = RenderType.getTextSeeThrough(Resources.GUI_BATTLE);
 
+    public static boolean obfuscateName(final IPokemob pokemob)
+    {
+        boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
+        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
+                .getData(PokecubePlayerStats.class);
+        PokedexEntry name_entry = pokemob.getPokedexEntry();
+        if (name_entry.isMega || name_entry.isGenderForme) name_entry = name_entry.getBaseForme();
+        final boolean captureOrHatch = StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
+                || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
+        nametag = nametag || captureOrHatch || stats.hasInspected(pokemob.getPokedexEntry());
+        return !nametag;
+    }
+
     public static Entity getEntityLookedAt(final Entity e)
     {
         return Tools.getPointedEntity(e, 32);
@@ -139,15 +152,7 @@ public class Health
             g = color.getGreen();
             b = color.getBlue();
             IFormattableTextComponent nameComp = (IFormattableTextComponent) pokemob.getDisplayName();
-            boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
-            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
-                    .getInstance().player).getData(PokecubePlayerStats.class);
-            PokedexEntry name_entry = pokemob.getPokedexEntry();
-            if (name_entry.isMega || name_entry.isGenderForme) name_entry = name_entry.getBaseForme();
-            final boolean captureOrHatch = StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
-                    || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
-            boolean scanned = false;
-            nametag = nametag || captureOrHatch || (scanned = stats.hasInspected(pokemob.getPokedexEntry()));
+            final boolean nametag = !Health.obfuscateName(pokemob);
             if (!nametag) nameComp.setStyle(nameComp.getStyle().setObfuscated(true));
             if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName())
                 nameComp = (IFormattableTextComponent) ((MobEntity) entity).getCustomName();
@@ -207,7 +212,10 @@ public class Health
             mat.scale(s, s, s);
 
             final UUID owner = pokemob.getOwnerId();
+            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
+                    .getInstance().player).getData(PokecubePlayerStats.class);
             final boolean isOwner = viewerID.equals(owner);
+            final boolean scanned = stats.hasInspected(pokemob.getPokedexEntry());
             int colour = isOwner ? config.ownedNameColour
                     : owner == null ? nametag ? scanned ? config.scannedNameColour : config.caughtNamedColour
                             : config.unknownNameColour : config.otherOwnedNameColour;
