@@ -6,16 +6,20 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.progress.GlobalProgress;
 import pokecube.core.client.gui.watch.progress.PerMobProgress;
 import pokecube.core.client.gui.watch.progress.PerTypeProgress;
 import pokecube.core.client.gui.watch.progress.Progress;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
+import pokecube.core.interfaces.PokecubeMod;
 
 public class ProgressPage extends PageWithSubPages<Progress>
 {
@@ -41,6 +45,9 @@ public class ProgressPage extends PageWithSubPages<Progress>
         }
     }
 
+    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
+    		"textures/gui/pokewatchgui_trainer.png");
+    
     public ProgressPage(final GuiPokeWatch watch)
     {
         super(new TranslationTextComponent("pokewatch.progress.main.title"), watch);
@@ -61,10 +68,12 @@ public class ProgressPage extends PageWithSubPages<Progress>
     @Override
     public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
-        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFF78C850);
-        AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x, y + 10, 0xFF78C850);
+    	this.minecraft.textureManager.bindTexture(ProgressPage.TEXTURE_BASE);
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+        this.blit(mat, x, y, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 10, 0xFF78C850);
+        AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 20, 0xFF78C850);
     }
 
     @Override
@@ -74,13 +83,13 @@ public class ProgressPage extends PageWithSubPages<Progress>
         final int y = this.watch.height / 2 - 5;
         final ITextComponent next = new StringTextComponent(">");
         final ITextComponent prev = new StringTextComponent("<");
-        this.addButton(new Button(x + 64, y - 70, 12, 12, next, b ->
+        this.addButton(new TexButton(x + 90, y - 70, 12, 12, next, b ->
         {
             this.changePage(this.index + 1);
-        }));
-        this.addButton(new Button(x - 76, y - 70, 12, 12, prev, b ->
+        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
+        this.addButton(new TexButton(x - 90, y - 70, 12, 12, prev, b ->
         {
             this.changePage(this.index - 1);
-        }));
+        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
     }
 }

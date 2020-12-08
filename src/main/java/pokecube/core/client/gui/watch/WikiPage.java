@@ -10,12 +10,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -23,8 +22,11 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
+import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.client.gui.watch.util.ListPage;
@@ -33,6 +35,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile
 import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile.Page;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
+import pokecube.core.interfaces.PokecubeMod;
 
 public class WikiPage extends ListPage<LineEntry>
 {
@@ -51,6 +54,9 @@ public class WikiPage extends ListPage<LineEntry>
     private int                        index = 0;
     private final Map<String, Integer> refs  = Maps.newHashMap();
 
+    public static final ResourceLocation           TEXTURE_BASE  = new ResourceLocation(PokecubeMod.ID,
+    		"textures/gui/pokewatchgui_wiki.png");
+    
     public WikiPage(final GuiPokeWatch watch)
     {
         super(new TranslationTextComponent("pokewatch.title.wiki"), watch);
@@ -114,25 +120,28 @@ public class WikiPage extends ListPage<LineEntry>
         final int y = this.watch.height / 2 - 5;
         final ITextComponent next = new StringTextComponent(">");
         final ITextComponent prev = new StringTextComponent("<");
-        this.addButton(new Button(x + 64, y - 70, 12, 12, next, b ->
+        this.addButton(new TexButton(x + 94, y - 70, 12, 12, next, b ->
         {
             this.index++;
             this.setList();
-        }));
-        this.addButton(new Button(x - 76, y - 70, 12, 12, prev, b ->
+        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
+        this.addButton(new TexButton(x - 94, y - 70, 12, 12, prev, b ->
         {
             this.index--;
             this.setList();
-        }));
+        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
         this.setList();
     }
 
     @Override
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 10;
-        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 20;
-        AbstractGui.fill(mat, offsetX - 2, offsetY - 1, offsetX + 132, offsetY + 122, 0xFFFDF8EC);
+    	this.minecraft.textureManager.bindTexture(WikiPage.TEXTURE_BASE);
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+        //AbstractGui.fill(mat, offsetX - 50, offsetY - 4, offsetX + 132, offsetY + 90, 0xFFFDF8EC); //offsetT + 122
+        //super.render(mat, mouseX, mouseY, partialTicks);
+        this.blit(mat, offsetX, offsetY, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
         super.render(mat, mouseX, mouseY, partialTicks);
     }
 
@@ -144,13 +153,13 @@ public class WikiPage extends ListPage<LineEntry>
             if (reward instanceof FreeTranslatedReward) books.add((FreeTranslatedReward) reward);
 
         books.sort((o1, o2) -> o1.key.compareTo(o2.key));
-        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 20;
-        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 20;
-        final int height = 120;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 70;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+        final int height = 85; // 100
 
         if (this.list != null) this.children.remove(this.list);
 
-        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.FONT_HEIGHT + 2, offsetX, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.FONT_HEIGHT + 2, offsetX - 5, offsetY);
         if (books.isEmpty()) return;
         if (this.index < 0) this.index = books.size() - 1;
         if (this.index >= books.size()) this.index = 0;

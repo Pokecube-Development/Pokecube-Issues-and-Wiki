@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -14,7 +13,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Util;
@@ -23,7 +21,11 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.watch.pokemob.Bonus;
 import pokecube.core.client.gui.watch.pokemob.Breeding;
 import pokecube.core.client.gui.watch.pokemob.Description;
 import pokecube.core.client.gui.watch.pokemob.Moves;
@@ -47,12 +49,13 @@ import thut.core.common.handlers.PlayerDataHandler;
 public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 {
     public static int savedIndex = 0;
-
+  
     public static List<Class<? extends PokeInfoPage>> PAGELIST = Lists.newArrayList();
 
     static
     {
         PokemobInfoPage.PAGELIST.add(StatsInfo.class);
+        PokemobInfoPage.PAGELIST.add(Bonus.class);
         PokemobInfoPage.PAGELIST.add(Moves.class);
         PokemobInfoPage.PAGELIST.add(Spawns.class);
         PokemobInfoPage.PAGELIST.add(Breeding.class);
@@ -80,6 +83,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     {
         super(new TranslationTextComponent("pokewatch.title.pokeinfo"), watch);
         this.pokemob = watch.pokemob;
+
     }
 
     @Override
@@ -164,13 +168,14 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         return PokemobInfoPage.makePage(PokemobInfoPage.PAGELIST.get(index), this);
     }
 
+    //Search Bar
     @Override
     public void init()
     {
         super.init();
-        final int x = this.watch.width / 2 - 70;
-        final int y = this.watch.height / 2 + 53;
-        this.search = new TextFieldWidget(this.font, x, y, 140, 10, new StringTextComponent(""));
+        final int x = this.watch.width / 2 + 90;
+        final int y = this.watch.height / 2 + 30;
+        this.search = new TextFieldWidget(this.font, x - 200, y - 109, 100, 10, new StringTextComponent(""));
         this.addButton(this.search);
         this.index = PokemobInfoPage.savedIndex;
     }
@@ -240,7 +245,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Draw hovored tooltip with pokemob's name
             int mx = mouseX - x;
             int my = mouseY - y;
-            if (mx > -75 && mx < -75 + 40) if (my > 10 && my < 10 + 40)
+            if (mx > -35 && mx < -35 + 50) if (my > 25 && my < 25 + 50)
             {
                 final List<String> text = Lists.newArrayList();
                 text.add(this.pokemob.getPokedexEntry().getTranslatedName());
@@ -270,6 +275,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     @Override
     public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
+    	if (this.current_page != null) this.current_page.renderBackground(mat);
         if (!this.watch.canEdit(this.pokemob))
         {
             final String name = PokecubePlayerDataHandler.getCustomDataTag(this.watch.player).getString("WEntry");
@@ -288,27 +294,20 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             }
         }
 
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 8;
-        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFF78C850);
-        AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x, y + 10, 0xFF78C850);
-        int dx = -76;
-        int dy = 10;
-        int dr = 40;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIW) / 2 + 30;
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 70, y + 17, 0xFF78C850);
+        AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 70, y + 27, 0xFF78C850);
+        int dx = -76; //-76
+        int dy = 10; //10
         int colour = 0xFF78C850;
-
-        // Draw a box around where pokemob displays
-        this.vLine(mat, x + dx, y + dy, y + dy + dr, colour);
-        this.vLine(mat, x + dx + dr, y + dy, y + dy + dr, colour);
-        this.hLine(mat, x + dx, x + dx + dr, y + dy, colour);
-        this.hLine(mat, x + dx, x + dx + dr, y + dy + dr, colour);
 
         // Draw Pokemob
         if (this.pokemob != null)
         {
 
             // Draw the icon indicating capture/inspect status.
-            this.minecraft.getTextureManager().bindTexture(GuiPokeWatch.TEXTURE);
+            this.minecraft.getTextureManager().bindTexture(GuiPokeWatch.TEXTURE_BASE);
             final PokedexEntry pokedexEntry = this.pokemob.getPokedexEntry();
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
                     .getInstance().player).getData(PokecubePlayerStats.class);
@@ -320,16 +319,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             if (!fullColour && pokedexEntry.isMega) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
                     Minecraft.getInstance().player) > 0 || StatsCollector.getHatched(pokedexEntry.getBaseForme(),
                             Minecraft.getInstance().player) > 0;
-
-            // Select which box to draw via position.
-            if (fullColour) dr = 0;
-            else if (stats.hasInspected(pokedexEntry)) dr = 9;
-            else dr = 18;
-            GL11.glColor3f(1, 1, 1);
-            dx = -75;
-            dy = 11;
-            // Draw the box.
-            this.blit(mat, x + dx, y + dy, dr, 247, 9, 9);
 
             IPokemob pokemob = this.renderMob;
             // Copy the stuff to the render mob if this mob is in world
@@ -352,10 +341,10 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             }
 
             final float yaw = Util.milliTime() / 20;
-            dx = -110;
-            dy = -18;
+            dx = -69;
+            dy = 40;
             // Draw the actual pokemob
-            GuiPokemobBase.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 0.75f);
+            GuiPokemobBase.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 1.5f);
             // Draw gender, types and lvl
             int genderColor = 0xBBBBBB;
             String gender = "";
@@ -370,33 +359,22 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 gender = "\u2640";
             }
             final String level = "L. " + this.pokemob.getLevel();
-            dx = -74;
-            dy = 42;
+            dx = -80;
+            dy = 112;
             AbstractGui.drawString(mat, this.font, level, x + dx, y + dy, 0xffffff);
-            dx = -40;
-            AbstractGui.drawCenteredString(mat, this.font, gender, x + dx, y + dy, genderColor);
+            dx = -77;
+            AbstractGui.drawCenteredString(mat, this.font, gender, x + dx, y + 100, genderColor);
             this.pokemob.getType1();
             final String type1 = PokeType.getTranslatedName(this.pokemob.getType1());
             final String type2 = PokeType.getTranslatedName(this.pokemob.getType2());
-            dx = -74;
-            dy = 52;
+            dx = -33;
+            dy = 102;
             colour = this.pokemob.getType1().colour;
             AbstractGui.drawString(mat, this.font, type1, x + dx, y + dy, colour);
             colour = this.pokemob.getType2().colour;
-            dy = 62;
+            dy = 114;
             if (this.pokemob.getType2() != PokeType.unknown) AbstractGui.drawString(mat, this.font, type2, x + dx, y
                     + dy, colour);
-
-            // Draw box around where type displays
-            dx = -76;
-            dy = 50;
-            dr = 20;
-            colour = 0xFF78C850;
-            this.vLine(mat, x + dx, y + dy, y + dy + dr, colour);
-            this.vLine(mat, x + dx + 2 * dr, y + dy, y + dy + dr, colour);
-            dr = 40;
-            this.hLine(mat, x + dx, x + dx + dr, y + dy + dr / 2, colour);
-
         }
     }
 
@@ -409,16 +387,16 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final int y = this.watch.height / 2 - 5;
         final ITextComponent next = new StringTextComponent(">");
         final ITextComponent prev = new StringTextComponent("<");
-        this.addButton(new Button(x + 64, y - 70, 12, 12, next, b ->
+        this.addButton(new TexButton(x + 95, y - 74, 12, 12, next, b ->
         {
             this.changePage(this.index + 1);
             PokemobInfoPage.savedIndex = this.index;
-        }));
-        this.addButton(new Button(x - 76, y - 70, 12, 12, prev, b ->
+        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
+        this.addButton(new TexButton(x + 81, y - 74, 12, 12, prev, b ->
         {
             this.changePage(this.index - 1);
             PokemobInfoPage.savedIndex = this.index;
-        }));
+        }).setTex(Resources.GUI_POKEWATCH).setRender(new UVImgRender(200,0,12,12)));
         this.addButton(this.search);
     }
 }
