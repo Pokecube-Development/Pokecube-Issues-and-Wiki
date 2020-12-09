@@ -282,7 +282,7 @@ public class GuiChooseFirstPokemob extends Screen
 
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             pokemob.setShiny(false);
-            pokemob.setSize(4);
+            pokemob.setSize(1);
 
             if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
             //@formatter:off

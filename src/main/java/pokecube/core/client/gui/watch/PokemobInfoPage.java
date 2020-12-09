@@ -78,10 +78,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     IPokemob        renderMob;
     TextFieldWidget search;
 
-    // This is used to delay the actual mob rendering, which should prevent
-    // issues with it rendering a "missingno" for a tick or so.
-    private int switchTimer = 0;
-
     public PokemobInfoPage(final GuiPokeWatch watch)
     {
         super(new TranslationTextComponent("pokewatch.title.pokeinfo"), watch, GuiPokeWatch.TEX_DM,
@@ -192,8 +188,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             if (entry == null) entry = Pokedex.getInstance().getFirstEntry();
             pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
         }
-        // This gives time to load the model, so it doesn't flash as a missingno
-        this.switchTimer = 3;
         this.pokemob = pokemob;
         this.renderMob = pokemob;
         this.search.setVisible(!this.watch.canEdit(pokemob));
@@ -376,10 +370,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             dx = -69;
             dy = 40;
             // Draw the actual pokemob
-            final boolean invis = this.switchTimer-- > 0;
-            if (invis) pokemob.setRGBA(0, 0, 0, 0);
             GuiPokemobBase.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 1.5f);
-            if (invis) pokemob.setRGBA(255, 255, 255, 255);
+
             // Draw gender, types and lvl
             int genderColor = 0xBBBBBB;
             String gender = "";
