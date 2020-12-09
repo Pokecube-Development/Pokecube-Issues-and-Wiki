@@ -7,12 +7,16 @@ import com.mojang.serialization.Codec;
 import net.minecraft.block.Blocks;
 import net.minecraft.state.properties.StructureMode;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
@@ -43,6 +47,41 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
     {
         if (super.getDecorationStage() == null) return Decoration.SURFACE_STRUCTURES;
         else return super.getDecorationStage();
+    }
+
+    @Override
+    protected boolean func_230365_b_()
+    {
+        // End structures return false here, we might need to see about
+        // adjustments to account for that, will call super for now just as an
+        // initial test.
+        return super.func_230365_b_();
+    }
+
+    @Override
+    protected boolean func_230363_a_(final ChunkGenerator generator, final BiomeProvider biomes, final long seed,
+            final SharedSeedRandom rand, final int x, final int z, final Biome biome, final ChunkPos pos,
+            final JigsawConfig config)
+    {
+        if (!config.struct_config.allow_void)
+        {
+            final int y = CustomJigsawStructure.getMinY(x, z, generator);
+            if (y <= 5) return false;
+        }
+        // Super just returns true, but we will call it anyway incase it is
+        // needed/mixined/etc
+        return super.func_230363_a_(generator, biomes, seed, rand, x, z, biome, pos, config);
+    }
+
+    private static int getMinY(final int chunkX, final int chunkZ, final ChunkGenerator generatorIn)
+    {
+        final int k = (chunkX << 4) + 7;
+        final int l = (chunkZ << 4) + 7;
+        final int i1 = generatorIn.getNoiseHeightMinusOne(k + 5, l + 5, Heightmap.Type.WORLD_SURFACE_WG);
+        final int j1 = generatorIn.getNoiseHeightMinusOne(k + 5, l - 5, Heightmap.Type.WORLD_SURFACE_WG);
+        final int k1 = generatorIn.getNoiseHeightMinusOne(k - 5, l + 5, Heightmap.Type.WORLD_SURFACE_WG);
+        final int l1 = generatorIn.getNoiseHeightMinusOne(k - 5, l - 5, Heightmap.Type.WORLD_SURFACE_WG);
+        return Math.min(Math.min(i1, j1), Math.min(k1, l1));
     }
 
     /**

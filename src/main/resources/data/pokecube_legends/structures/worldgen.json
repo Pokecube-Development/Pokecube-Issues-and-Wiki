@@ -92,7 +92,7 @@
 	
     {
       "name":"pokecube_legends:distortic",
-      "rigid":false,
+      "rigid":true,
       "ignoreAir":true,
       "options":[
       	"pokecube_legends:islands/dist_tree;{\"weight\":10}",
@@ -103,7 +103,7 @@
     },
     {
       "name":"pokecube_legends:islands",
-      "rigid":false,
+      "rigid":true,
       "ignoreAir":true,
       "options":[
       	"pokecube_legends:islands/island_1;{\"weight\":30}",
@@ -802,7 +802,7 @@
       "root":"pokecube_legends:distortic",
       "biomeType":"none",
       "distance":10,
-      "separation":8,
+      "separation":2,
       "base_under":true,
       "dimWhitelist":[
         "pokecube_legends:distorted_world"
@@ -818,8 +818,9 @@
       "root":"pokecube_legends:islands",
       "biomeType":"none",
       "distance":10,
-      "separation":8,
+      "separation":2,
       "base_under":false,
+      "allow_void":true,
       "air": true,
       "height": 10,
        "dimWhitelist":[
