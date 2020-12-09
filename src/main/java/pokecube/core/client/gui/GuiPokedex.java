@@ -22,13 +22,17 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.gui.watch.util.LineEntry;
+import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -171,10 +175,38 @@ public class GuiPokedex extends Screen
         final IFormattableTextComponent page = (IFormattableTextComponent) GuiPokedex.pokedexEntry.getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.FONT_HEIGHT, offsetX, offsetY);
         final List<IFormattableTextComponent> list = ListHelper.splitText(page, 100, this.font, false);
+
+        final IClickListener listen = new IClickListener()
+        {
+            @Override
+            public boolean handleClick(final Style component)
+            {
+                if (component != null)
+                {
+                    final ClickEvent clickevent = component.getClickEvent();
+                    if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
+                    {
+                        final PokedexEntry entry = Database.getEntry(clickevent.getValue());
+                        if (entry != null)
+                        {
+                            GuiPokedex.pokedexEntry = entry;
+                            GuiPokedex.this.initList();
+                            PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+            @Override
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
+            {
+            }
+        };
         for (final ITextComponent element : list)
         {
             line = (IFormattableTextComponent) element;
-            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF));
+            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF).setClickListner(listen));
         }
         this.children.add(this.list);
     }

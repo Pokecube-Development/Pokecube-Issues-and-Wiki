@@ -43,7 +43,7 @@ public class ModelFactory
             {
                 final IFactory<?> factory = ModelFactory.modelFactories.get(ext1);
                 final ResourceLocation model1 = new ResourceLocation(location.getNamespace(), path + "." + ext1);
-                ThutCore.LOGGER.debug("Checking " + model1);
+                if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Checking " + model1);
                 ret = factory.create(model1);
                 ext = ext1;
                 if (ret != null && ret.isValid()) break;
@@ -52,7 +52,7 @@ public class ModelFactory
             if (!ret.isValid()) ThutCore.LOGGER.error("No Model found for " + location);
             else
             {
-                ThutCore.LOGGER.debug("Successfully loaded model for " + location);
+                if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Successfully loaded model for " + location);
                 model.extension = ext;
             }
             return ret.init(callback);

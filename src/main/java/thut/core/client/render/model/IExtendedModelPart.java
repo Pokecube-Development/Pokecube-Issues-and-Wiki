@@ -74,6 +74,10 @@ public interface IExtendedModelPart extends IModelCustom
         IExtendedModelPart.sort(order, this.getSubParts());
     }
 
+
+    Vector3 minBound();
+    Vector3 maxBound();
+
     Vector4 getDefaultRotations();
 
     Vector3 getDefaultTranslations();

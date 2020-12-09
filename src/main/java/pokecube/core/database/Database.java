@@ -230,18 +230,6 @@ public class Database
         Database.data.put(entry.getPokedexNb(), entry);
     }
 
-    public static void addHeldData(final String file)
-    {
-        final ResourceLocation loc = PokecubeItems.toPokecubeResource(file);
-        Database.heldDatabases.add(loc);
-    }
-
-    public static void addSpawnData(final String file)
-    {
-        final ResourceLocation loc = PokecubeItems.toPokecubeResource(file);
-        Database.spawnDatabases.add(loc);
-    }
-
     /**
      * Replaces a dummy base form with the first form in the sorted list.
      *
@@ -774,54 +762,6 @@ public class Database
             }
     }
 
-    private static void loadSpawns()
-    {
-        for (final ResourceLocation s : Database.spawnDatabases)
-            if (s != null) Database.loadSpawns(s);
-    }
-
-    /**
-     * This method should only be called for override files, such as the one
-     * added by Pokecube Compat
-     *
-     * @param file
-     */
-    private static void loadSpawns(final ResourceLocation file)
-    {
-        try
-        {
-            final Reader reader = new InputStreamReader(Database.resourceManager.getResource(file).getInputStream());
-            final XMLSpawns database = PokedexEntryLoader.gson.fromJson(reader, XMLSpawns.class);
-            reader.close();
-            for (final XMLSpawnEntry xmlEntry : database.pokemon)
-            {
-                final PokedexEntry entry = Database.getEntry(xmlEntry.name);
-                if (entry == null)
-                {
-                    new NullPointerException(xmlEntry.name + " not found").printStackTrace();
-                    continue;
-                }
-                if (entry.isGenderForme) continue;
-                if (xmlEntry.isStarter() != null) entry.isStarter = xmlEntry.isStarter();
-                SpawnData data = entry.getSpawnData();
-                if (xmlEntry.overwrite || data == null)
-                {
-                    data = new SpawnData(entry);
-                    entry.setSpawnData(data);
-                    PokecubeCore.LOGGER.debug("Overwriting spawns for " + entry);
-                }
-                else if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Editing spawns for " + entry);
-                PokedexEntryLoader.handleAddSpawn(data, xmlEntry);
-                Database.spawnables.remove(entry);
-                if (!data.matchers.isEmpty()) Database.spawnables.add(entry);
-            }
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.error("Error with " + file, e);
-        }
-    }
-
     private static void loadStarterPack()
     {
         Database.starterPack.clear();
@@ -917,7 +857,6 @@ public class Database
     public static void postResourcesLoaded()
     {
         PokedexEntryLoader.postInit();
-        Database.loadSpawns();
         Database.loadStarterPack();
         Database.loadRecipes();
         PokedexInspector.init();

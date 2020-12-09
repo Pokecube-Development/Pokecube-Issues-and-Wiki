@@ -51,7 +51,9 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
         final boolean inBounds = this.isMouseOver(x, y);
         if (inBounds)
         {
-            this.listener.handleClick(this.line.getStyle());
+            if (this.listener.handleClick(this.line.getStyle())) return true;
+            for (final ITextComponent comp : this.line.getSiblings())
+                if (this.listener.handleClick(comp.getStyle())) return true;
             return true;
         }
         return false;

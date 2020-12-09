@@ -2,6 +2,7 @@ package pokecube.core.client.gui;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
@@ -19,8 +20,11 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -41,6 +45,7 @@ import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -55,6 +60,8 @@ import thut.core.common.ThutCore;
 public class AnimationGui extends Screen
 {
     private static Map<PokedexEntry, IPokemob> renderMobs = Maps.newHashMap();
+
+    private static Object2FloatOpenHashMap<PokedexEntry> sizes = new Object2FloatOpenHashMap<>();
 
     public static IPokemob getRenderMob(final PokedexEntry entry)
     {
@@ -73,6 +80,30 @@ public class AnimationGui extends Screen
         ret.read(realMob.write());
         ret.onGenesChanged();
         return ret;
+    }
+
+    public static void printSizes()
+    {
+        final Map<String, Float> sizeMap = Maps.newHashMap();
+        for (final PokedexEntry e : AnimationGui.sizes.keySet())
+            sizeMap.put(e.getTrimmedName(), new Float(AnimationGui.sizes.getOrDefault(e, 0f)));
+
+        try
+        {
+            final JsonObject main = new JsonObject();
+            final List<String> entries = Lists.newArrayList(sizeMap.keySet());
+            Collections.sort(entries);
+            entries.forEach(e -> main.add(e, new JsonPrimitive(sizeMap.get(e))));
+            final String json = PokedexEntryLoader.gson.toJson(main);
+            final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("sizes.json").toFile();
+            final FileWriter out = new FileWriter(dir);
+            out.write(json);
+            out.close();
+        }
+        catch (final IOException e1)
+        {
+            e1.printStackTrace();
+        }
     }
 
     static String mob = "";
@@ -365,6 +396,7 @@ public class AnimationGui extends Screen
                 dims.x = dims.y;
                 scaled = true;
             }
+            AnimationGui.sizes.put(AnimationGui.entry, dims.y);
         }
 
         try
@@ -445,8 +477,13 @@ public class AnimationGui extends Screen
             entity.limbSwing += 0.0125;
             final float zoom = this.scale;
 
+            final float l = AnimationGui.entry.getModelSize().lengthSquared();
+            // Sometimes things go bad and this happens
+            if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
+            GuiPokemobBase.autoScale = false;
             GuiPokemobBase.renderMob(entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
                     this.xHeadRenderAngle, zoom);
+            GuiPokemobBase.autoScale = true;
         }
 
         if (this.cap)
@@ -568,6 +605,11 @@ public class AnimationGui extends Screen
         {
             this.bg = !this.bg;
         }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 120, 40, 10, new StringTextComponent("WRTSIZE"),
+                b ->
+                {
+                    AnimationGui.printSizes();
+                }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 20, 40, 20, new StringTextComponent("Reset"), b ->
         {
             this.xRenderAngle = 0;

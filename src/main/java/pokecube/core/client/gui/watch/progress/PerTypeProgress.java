@@ -41,7 +41,7 @@ public class PerTypeProgress extends Progress
     {
         super(new TranslationTextComponent("pokewatch.progress.type.title"), watch);
         if (PerTypeProgress.NAMES.isEmpty()) for (final PokeType type : PokeType.values())
-            PerTypeProgress.NAMES.add(PokeType.getTranslatedName(type));
+            PerTypeProgress.NAMES.add(PokeType.getTranslatedName(type).getString());
     }
 
     @Override
@@ -53,10 +53,10 @@ public class PerTypeProgress extends Progress
             final List<String> ret = new ArrayList<>();
             for (final PokeType type : PokeType.values())
             {
-                final String check = ThutCore.trim(PokeType.getTranslatedName(type));
+                final String check = ThutCore.trim(PokeType.getTranslatedName(type).getString());
                 if (check.startsWith(ThutCore.trim(text)))
                 {
-                    final String name = PokeType.getTranslatedName(type);
+                    final String name = PokeType.getTranslatedName(type).getString();
                     ret.add(name);
                 }
             }
@@ -68,11 +68,11 @@ public class PerTypeProgress extends Progress
             final PokeType newType = PokeType.getType(this.text.getText());
             if (newType != null)
             {
-                this.text.setText(PokeType.getTranslatedName(newType));
+                this.text.setText(PokeType.getTranslatedName(newType).getString());
                 this.type = newType;
                 this.onPageOpened();
             }
-            else this.text.setText(PokeType.getTranslatedName(this.type));
+            else this.text.setText(PokeType.getTranslatedName(this.type).getString());
             return true;
         }
         return super.keyPressed(keyCode, b, c);
@@ -97,7 +97,7 @@ public class PerTypeProgress extends Progress
             final int index = PokeType.values().length == 0 ? 0 : 1;
             this.type = PokeType.values()[index];
         }
-        this.text.setText(PokeType.getTranslatedName(this.type));
+        this.text.setText(PokeType.getTranslatedName(this.type).getString());
 
         final int total_of_type = SpecialCaseRegister.countSpawnableTypes(this.type);
 

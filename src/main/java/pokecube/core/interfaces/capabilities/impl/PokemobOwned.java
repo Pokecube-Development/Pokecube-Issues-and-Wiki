@@ -294,7 +294,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
             final PlayerEntity player = (PlayerEntity) owner;
             boolean noRoom = false;
-            final boolean ownerDead = !player.isAlive() || player.getHealth() <= 0;
+            final boolean ownerDead = player.getHealth() <= 0;
             if (ownerDead || player.inventory.getFirstEmptyStack() == -1) noRoom = true;
             if (noRoom)
             {
