@@ -1,6 +1,12 @@
 package thut.api.terrain;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
@@ -328,16 +334,12 @@ public class TerrainSegment
 
     void checkToSave()
     {
-        final int subCount = this.biomes.length;
-        for (int i = 0; i < subCount; i++)
-        {
-            final int temp1 = this.biomes[i];
-            if (TerrainSegment.saveChecker.test(temp1))
+        for (final int i : this.biomes)
+            if (TerrainSegment.saveChecker.test(i))
             {
                 this.toSave = true;
                 return;
             }
-        }
         this.toSave = false;
     }
 

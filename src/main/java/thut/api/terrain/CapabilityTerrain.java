@@ -39,7 +39,7 @@ public class CapabilityTerrain
         @Override
         public ITerrainProvider setChunk(final IChunk chunk)
         {
-            this.chunk = chunk;
+            if (this.chunk == null) this.chunk = chunk;
             return this;
         }
 
