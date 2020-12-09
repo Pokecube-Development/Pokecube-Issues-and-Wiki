@@ -27,6 +27,13 @@ public class BerryCrop extends CropsBlock
     }
 
     @Override
+    public boolean ticksRandomly(final BlockState state)
+    {
+        // Unlike vanilla crops, we still do something when max age
+        return true;
+    }
+
+    @Override
     public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
         super.randomTick(state, worldIn, pos, random);

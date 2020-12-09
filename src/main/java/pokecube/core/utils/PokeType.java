@@ -1,6 +1,10 @@
 package pokecube.core.utils;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
@@ -40,11 +44,14 @@ public enum PokeType implements IExtensibleEnum
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static String getTranslatedName(final PokeType type)
+    public static IFormattableTextComponent getTranslatedName(final PokeType type)
     {
+        IFormattableTextComponent ret = new StringTextComponent(type.name);
         final String translated = I18n.format(PokeType.getUnlocalizedName(type));
-        if (translated == null || translated.startsWith("type.")) return type.name;
-        return translated;
+        if (translated != null && !translated.startsWith("type.")) ret = new TranslationTextComponent(PokeType
+                .getUnlocalizedName(type));
+        ret.setStyle(ret.getStyle().setColor(Color.fromInt(type.colour)));
+        return ret;
     }
 
     public static PokeType getType(String name)

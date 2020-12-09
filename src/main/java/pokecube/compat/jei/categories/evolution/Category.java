@@ -16,7 +16,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeItems;
@@ -80,10 +79,7 @@ public class Category implements IRecipeCategory<Evolution>
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return tooltips;
         final EvolutionData data = recipe.data;
-        final String[] messages = data.getEvoString().split("\n");
-        // index 0 is just the header..
-        for (int i = 1; i < messages.length; i++)
-            tooltips.add(new StringTextComponent(messages[i]));
+        tooltips.addAll(data.getEvoClauses());
         return tooltips;
     }
 

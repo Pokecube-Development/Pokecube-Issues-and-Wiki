@@ -34,8 +34,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -132,54 +134,38 @@ public class PokedexEntry
         }
 
         @OnlyIn(Dist.CLIENT)
-        public String getEvoString()
+        public List<IFormattableTextComponent> getEvoClauses()
         {
-            /*
-             * //@formatter:off
-             *
-             *  It should work as follows:
-             *
-             *  X evolves into Y under the following circumstances:
-             *  - Upon reaching level L
-             *  - When sufficiently Happy
-             *  - When Raining
-             *  - Etc
-             *
-             *
-             */
-            // @formatter:on
-            final PokedexEntry entry = this.preEvolution;
-            final PokedexEntry nex = this.evolution;
-            String subEvo = I18n.format("pokemob.description.evolve.to", entry.getTranslatedName(), nex
-                    .getTranslatedName());
-            if (this.level > 0) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.level", this.level);
-            if (this.traded) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.traded");
-            if (this.gender == 1) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.male");
-            if (this.gender == 2) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.female");
-            if (!this.item.isEmpty()) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.item", this.item
-                    .getDisplayName().getString());
+            final List<IFormattableTextComponent> comps = Lists.newArrayList();
+            if (this.level > 0) comps.add(new TranslationTextComponent("pokemob.description.evolve.level", this.level));
+            if (this.traded) comps.add(new TranslationTextComponent("pokemob.description.evolve.traded"));
+            if (this.gender == 1) comps.add(new TranslationTextComponent("pokemob.description.evolve.male"));
+            if (this.gender == 2) comps.add(new TranslationTextComponent("pokemob.description.evolve.female"));
+            if (!this.item.isEmpty()) comps.add(new TranslationTextComponent("pokemob.description.evolve.item",
+                    this.item.getDisplayName().getString()));
             else if (this.preset != null)
             {
                 final ItemStack stack = PokecubeItems.getStack(this.preset);
-                if (!stack.isEmpty()) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.item", stack
-                        .getDisplayName().getString());
+                if (!stack.isEmpty()) comps.add(new TranslationTextComponent("pokemob.description.evolve.item", stack
+                        .getDisplayName().getString()));
             }
-            if (this.happy) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.happy");
-            if (this.dawnOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.dawn");
-            if (this.duskOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.dusk");
-            if (this.dayOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.day");
-            if (this.nightOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.night");
-            if (this.rainOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.rain");
+            if (this.happy) comps.add(new TranslationTextComponent("pokemob.description.evolve.happy"));
+            if (this.dawnOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.dawn"));
+            if (this.duskOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.dusk"));
+            if (this.dayOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.day"));
+            if (this.nightOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.night"));
+            if (this.rainOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.rain"));
 
             // TODO add in info related to needed formes.
 
             if (this.randomFactor != 1)
             {
                 final String var = (int) (100 * this.randomFactor) + "%";
-                subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.chance", var);
+                comps.add(new TranslationTextComponent("pokemob.description.evolve.chance", var));
             }
-            if (this.move != null && !this.move.isEmpty()) subEvo = subEvo + "\n" + I18n.format(
-                    "pokemob.description.evolve.move", MovesUtils.getMoveName(this.move).getUnformattedComponentText());
+            if (this.move != null && !this.move.isEmpty()) comps.add(new TranslationTextComponent(
+                    "pokemob.description.evolve.move", MovesUtils.getMoveName(this.move)
+                            .getUnformattedComponentText()));
             if (this.matcher != null)
             {
                 this.matcher.reset();
@@ -202,8 +188,35 @@ public class PokedexEntry
                         if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
                     }
                 }
-                subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.locations", biomeNames);
+                comps.add(new TranslationTextComponent("pokemob.description.evolve.locations", biomeNames));
             }
+            return comps;
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        public IFormattableTextComponent getEvoString()
+        {
+            /*
+             * //@formatter:off
+             *
+             *  It should work as follows:
+             *
+             *  X evolves into Y under the following circumstances:
+             *  - Upon reaching level L
+             *  - When sufficiently Happy
+             *  - When Raining
+             *  - Etc
+             *
+             *
+             */
+            // @formatter:on
+            final PokedexEntry entry = this.preEvolution;
+            final PokedexEntry nex = this.evolution;
+            final IFormattableTextComponent subEvo = new TranslationTextComponent("pokemob.description.evolve.to", entry
+                    .getTranslatedName(), nex.getTranslatedName());
+            final List<IFormattableTextComponent> list = this.getEvoClauses();
+            for (final IFormattableTextComponent item : list)
+                subEvo.appendString("\n").append(item);
             return subEvo;
         }
 
@@ -1417,26 +1430,28 @@ public class PokedexEntry
     @OnlyIn(Dist.CLIENT)
     public ITextComponent getDescription()
     {
-        if (this.description == null)
+        // if (this.description == null)
         {
             final PokedexEntry entry = this;
-            String typeString = PokeType.getTranslatedName(entry.getType1());
-            if (entry.getType2() != PokeType.unknown) typeString += "/" + PokeType.getTranslatedName(entry.getType2());
-            final String typeDesc = I18n.format("pokemob.description.type", entry.getTranslatedName(), typeString);
-            String evoString = null;
+            final IFormattableTextComponent typeString = PokeType.getTranslatedName(entry.getType1());
+            if (entry.getType2() != PokeType.unknown) typeString.appendString("/").append(PokeType.getTranslatedName(
+                    entry.getType2()));
+            final IFormattableTextComponent typeDesc = new TranslationTextComponent("pokemob.description.type", entry
+                    .getTranslatedName(), typeString);
+            IFormattableTextComponent evoString = null;
             if (entry.canEvolve()) for (final EvolutionData d : entry.evolutions)
             {
                 if (d.evolution == null) continue;
                 if (evoString == null) evoString = d.getEvoString();
-                else evoString = evoString + "\n" + d.getEvoString();
-                evoString = evoString + "\n";
+                else evoString = evoString.appendString("\n").append(d.getEvoString());
+                evoString.appendString("\n");
             }
-            String descString = typeDesc;
-            if (evoString != null) descString = descString + "\n" + evoString;
-            if (entry._evolvesFrom != null) descString = descString + "\n" + I18n.format(
-                    "pokemob.description.evolve.from", entry.getTranslatedName(), entry._evolvesFrom
-                            .getTranslatedName());
-            this.description = new StringTextComponent(descString);
+            IFormattableTextComponent descString = typeDesc;
+            if (evoString != null) descString = descString.appendString("\n").append(evoString);
+            if (entry._evolvesFrom != null) descString = descString.appendString("\n").append(
+                    new TranslationTextComponent("pokemob.description.evolve.from", entry.getTranslatedName(),
+                            entry._evolvesFrom.getTranslatedName()));
+            this.description = descString;
         }
         return this.description;
     }
@@ -1680,10 +1695,17 @@ public class PokedexEntry
         return ret;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public String getTranslatedName()
+    private IFormattableTextComponent nameComp;
+
+    public IFormattableTextComponent getTranslatedName()
     {
-        return I18n.format(this.getUnlocalizedName());
+        if (this.nameComp == null)
+        {
+            this.nameComp = new TranslationTextComponent(this.getUnlocalizedName());
+            this.nameComp.setStyle(this.nameComp.getStyle().setClickEvent(new ClickEvent(
+                    net.minecraft.util.text.event.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
+        }
+        return this.nameComp;
     }
 
     /**

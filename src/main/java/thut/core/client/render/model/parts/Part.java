@@ -47,6 +47,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector4 rotations = new Vector4();
     public Vertex  scale     = new Vertex(1, 1, 1);
 
+    Vector3 min = Vector3.getNewVector();
+    Vector3 max = Vector3.getNewVector();
+
     public int red = 255, green = 255, blue = 255, alpha = 255;
 
     public int brightness = 15728640;
@@ -62,6 +65,37 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Part(final String name)
     {
         this.name = name;
+    }
+
+    private void initBounds()
+    {
+        if (!(this.max.isEmpty() && this.min.isEmpty())) return;
+        for (final Mesh shape : this.shapes)
+            for (final Vertex v : shape.vertices)
+            {
+
+                this.min.x = Math.min(this.min.x, v.x);
+                this.min.y = Math.min(this.min.y, v.y);
+                this.min.z = Math.min(this.min.z, v.z);
+
+                this.max.x = Math.max(this.max.x, v.x);
+                this.max.y = Math.max(this.max.y, v.y);
+                this.max.z = Math.max(this.max.z, v.z);
+            }
+    }
+
+    @Override
+    public Vector3 minBound()
+    {
+        this.initBounds();
+        return this.min;
+    }
+
+    @Override
+    public Vector3 maxBound()
+    {
+        this.initBounds();
+        return this.max;
     }
 
     @Override

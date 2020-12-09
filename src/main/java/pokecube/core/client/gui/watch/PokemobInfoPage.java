@@ -216,10 +216,10 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final int my = (int) (mouseY - y);
 
             // The box to click goes from (ox, oy) -> (ox + dx, oy + dy)
-            int ox = 10;
-            int oy = 93;
-            int dx = 7;
-            int dy = 7;
+            int ox = 8;
+            int oy = 90;
+            int dx = 10;
+            int dy = 10;
 
             // Click for toggling if it is male or female
             if (mx > ox && mx < ox + dx && my > oy && my < oy + dy)
@@ -267,11 +267,11 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             if (mx > -35 && mx < -35 + 50) if (my > 25 && my < 25 + 50)
             {
                 final List<String> text = Lists.newArrayList();
-                text.add(this.pokemob.getPokedexEntry().getTranslatedName());
+                text.add(this.pokemob.getPokedexEntry().getTranslatedName().getString());
                 if (!this.pokemob.getPokemonNickname().isEmpty()) text.add("\"" + this.pokemob.getPokemonNickname()
                         + "\"");
                 GlStateManager.disableDepthTest();
-                mx = -35;
+                mx = -65;
                 my = 20;
                 final int dy = this.font.FONT_HEIGHT;
                 int box = 0;
@@ -325,11 +325,12 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         // We only want to draw the level if we are actually inspecting a
         // pokemob.
         // Otherwise this will just show as lvl 1
-        final boolean drawLevel = this.watch.pokemob != null && this.watch.pokemob.getEntity().addedToChunk;
+        boolean drawLevel = this.watch.pokemob != null && this.watch.pokemob.getEntity().addedToChunk;
 
         // Draw Pokemob
         if (this.pokemob != null)
         {
+            if(drawLevel) drawLevel = this.watch.pokemob.getPokedexEntry() == this.pokemob.getPokedexEntry();
 
             // Draw the icon indicating capture/inspect status.
             this.minecraft.getTextureManager().bindTexture(GuiPokeWatch.TEXTURE_BASE);
@@ -364,6 +365,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
                 else pokemob.setRGBA(15, 15, 15, 255);
             }
+            pokemob.setSize(1);
 
             final float yaw = Util.milliTime() / 20;
             dx = -69;
@@ -385,23 +387,31 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             }
             final String level = "L. " + this.pokemob.getLevel();
             dx = -80;
-            dy = 112;
+            dy = 105;
             // Only draw the lvl if it is a real mob, otherwise it will just say
             // L.1
             final int lvlColour = GuiPokeWatch.nightMode ? 0xFFFFFF : 0x444444;
             if (drawLevel) this.font.drawString(mat, level, x + dx, y + dy, lvlColour);
-            dx = -77;
-            this.font.drawString(mat, gender, x + dx, y + 100, genderColor);
+            dx = -80;
+            dy = 97;
+            this.font.drawString(mat, gender, x + dx, y + dy, genderColor);
             this.pokemob.getType1();
-            final String type1 = PokeType.getTranslatedName(this.pokemob.getType1());
-            final String type2 = PokeType.getTranslatedName(this.pokemob.getType2());
-            dx = -33;
-            dy = 102;
+            final String type1 = PokeType.getTranslatedName(this.pokemob.getType1()).getString();
+            dx = -80;
+            dy = 114;
             colour = this.pokemob.getType1().colour;
             this.font.drawString(mat, type1, x + dx, y + dy, colour);
-            colour = this.pokemob.getType2().colour;
             dy = 114;
-            if (this.pokemob.getType2() != PokeType.unknown) this.font.drawString(mat, type2, x + dx, y + dy, colour);
+            if (this.pokemob.getType2() != PokeType.unknown)
+            {
+                final String slash = "/";
+                colour = this.pokemob.getType2().colour;
+                dx += this.font.getStringWidth(type1);
+                this.font.drawString(mat, slash, x + dx, y + dy, 0x444444);
+                final String type2 = PokeType.getTranslatedName(this.pokemob.getType2()).getString();
+                dx += this.font.getStringWidth(slash);
+                this.font.drawString(mat, type2, x + dx, y + dy, colour);
+            }
         }
     }
 

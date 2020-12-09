@@ -1,7 +1,16 @@
 package pokecube.core.client.gui.pokemob;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.lwjgl.glfw.GLFW;
 
+import com.google.common.collect.Maps;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
@@ -11,6 +20,8 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.resources.IResource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
@@ -18,6 +29,9 @@ import net.minecraft.util.text.StringTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
+import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -25,6 +39,43 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {
+    public static ResourceLocation SIZEMAP = new ResourceLocation(PokecubeCore.MODID, "pokemobs_gui_sizes.json");
+
+    public static boolean autoScale = true;
+
+    public static Map<PokedexEntry, Float> sizeMap = Maps.newHashMap();
+
+    public static void initSizeMap()
+    {
+        IResource res = null;
+        try
+        {
+            res = Minecraft.getInstance().getResourceManager().getResource(GuiPokemobBase.SIZEMAP);
+            final InputStream in = res.getInputStream();
+            final JsonObject json = PokedexEntryLoader.gson.fromJson(new InputStreamReader(in), JsonObject.class);
+            for (final Entry<String, JsonElement> entry : json.entrySet())
+            {
+                final String key = entry.getKey();
+                try
+                {
+                    final Float value = entry.getValue().getAsFloat();
+                    GuiPokemobBase.sizeMap.put(Database.getEntry(key), value);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error loading size for {}", key);
+                }
+            }
+            res.close();
+        }
+        catch (final IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
     public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
             final float yaw, final float headPitch, final float headYaw, float scale)
     {
@@ -34,10 +85,27 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         scale *= 30;
         if (pokemob != null)
         {
-            final float mobScale = pokemob.getSize();
-            final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+            float mobScale = pokemob.getSize();
+
+            if (GuiPokemobBase.autoScale)
+            {
+                final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
+                // System.out.println(GuiPokemobBase.sizeMap.size());
+                if (value != null) mobScale = value*2.0f;
+                else
+                {
+                    final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+                    mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+                }
+            }
+            else
+            {
+                final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+                mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+            }
+
             if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
-            else scale /= Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+            else scale /= mobScale;
         }
         final MatrixStack matrixstack = new MatrixStack();
         matrixstack.translate(j + 55, k + 60, 50.0F);

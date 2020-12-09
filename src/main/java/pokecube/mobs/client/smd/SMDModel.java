@@ -22,6 +22,8 @@ import pokecube.mobs.client.smd.impl.Bone;
 import pokecube.mobs.client.smd.impl.Face;
 import pokecube.mobs.client.smd.impl.Helpers;
 import pokecube.mobs.client.smd.impl.Model;
+import pokecube.mobs.client.smd.impl.MutableVertex;
+import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Matrix4f;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationXML.Mat;
@@ -56,6 +58,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             try
             {
                 this.toLoad.wrapped = new Model(this.res);
+                this.toLoad.initBounds();
                 this.toLoad.wrapped.usesMaterials = true;
                 this.toLoad.animations.addAll(this.toLoad.wrapped.anims.keySet());
                 this.toLoad.mats.addAll(this.toLoad.wrapped.body.matsToFaces.keySet());
@@ -85,6 +88,9 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
     protected boolean valid  = true;
     protected boolean loaded = false;
+
+    Vector3 min = Vector3.getNewVector();
+    Vector3 max = Vector3.getNewVector();
 
     Model             wrapped;
     IPartTexturer     texturer;
@@ -129,6 +135,37 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             // We failed to load, so not valid!
             this.valid = false;
         }
+    }
+
+    private void initBounds()
+    {
+        if (!(this.max.isEmpty() && this.min.isEmpty())) return;
+        for (final MutableVertex v : this.wrapped.body.verts)
+        {
+            this.min.x = Math.min(this.min.x, v.x);
+            this.min.y = Math.min(this.min.y, v.y);
+            this.min.z = Math.min(this.min.z, v.z);
+
+            this.max.x = Math.max(this.max.x, v.x);
+            this.max.y = Math.max(this.max.y, v.y);
+            this.max.z = Math.max(this.max.z, v.z);
+        }
+        // Seems we have some differing scale requirements, so lets do this to
+        // account for that.
+        this.min.scalarMultBy(0.2);
+        this.max.scalarMultBy(0.2);
+    }
+
+    @Override
+    public Vector3 minBound()
+    {
+        return this.min;
+    }
+
+    @Override
+    public Vector3 maxBound()
+    {
+        return this.max;
     }
 
     @Override

@@ -12,6 +12,7 @@ import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
+import thut.core.common.ThutCore;
 
 public abstract class Mesh
 {
@@ -76,7 +77,7 @@ public abstract class Mesh
     }
 
     private final net.minecraft.util.math.vector.Vector3f dummy3 = new net.minecraft.util.math.vector.Vector3f();
-    private final Vector4f                               dummy4 = new Vector4f();
+    private final Vector4f                                dummy4 = new Vector4f();
 
     protected void doRender(final MatrixStack mat, final IVertexBuilder buffer, final IPartTexturer texturer)
     {
@@ -98,6 +99,12 @@ public abstract class Mesh
         final Matrix3f norms = matrixstack$entry.getNormal();
         final Vector4f dp = this.dummy4;
         final net.minecraft.util.math.vector.Vector3f dn = this.dummy3;
+
+        if (this.order.length % 3 != 0)
+        {
+            ThutCore.LOGGER.error("Mesh with illegal size! " + this.name);
+            return;
+        }
 
         for (final Integer i : this.order)
         {

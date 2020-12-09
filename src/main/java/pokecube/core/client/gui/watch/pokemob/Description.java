@@ -68,7 +68,7 @@ public class Description extends ListPage<LineEntry>
 
         final int textColour = 0x333333;
 
-        new IClickListener()
+        final IClickListener listen = new IClickListener()
         {
             @Override
             public boolean handleClick(final Style component)
@@ -90,7 +90,7 @@ public class Description extends ListPage<LineEntry>
         for (final ITextComponent element : list)
         {
             line = (IFormattableTextComponent) element;
-            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour));
+            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour).setClickListner(listen));
         }
     }
 
