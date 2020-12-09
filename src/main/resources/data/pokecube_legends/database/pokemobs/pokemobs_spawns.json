@@ -104,7 +104,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "mesa",
+              "types": "mesa",
               "rate": "0.0"
             }
           },

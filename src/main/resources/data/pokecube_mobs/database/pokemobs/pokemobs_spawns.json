@@ -338,7 +338,7 @@
             "values": {
               "maxLight": "0.5",
               "types": "all",
-              "biomesBlacklist":"pokecube_legends:distortic_world",
+              "biomesBlacklist":"pokecube_legends:distorted_biome",
               "min": "3",
               "rate": "0.25",
               "max": "8",
@@ -1986,7 +1986,7 @@
               "key": "unown_*"
             },
             "values": {
-              "biomes": "pokecube_legends:distortic_world",
+              "biomes": "pokecube_legends:distorted_biome",
               "rate": "0.3"
             }
           }
@@ -4625,7 +4625,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist":"pokecube_legends:distortic_world",
+              "biomesBlacklist":"pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.001",
               "max": "1"
@@ -4682,7 +4682,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist":"pokecube_legends:distortic_world",
+              "biomesBlacklist":"pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -6012,7 +6012,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:distortic_world",
+              "biomes": "pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -6213,7 +6213,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist":"pokecube_legends:distortic_world",
+              "biomesBlacklist":"pokecube_legends:distorted_biome",
               "rate": "0.05",
               "night": "false"
             }
@@ -7502,9 +7502,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub001",
+              "biomes": "pokecube_legends:ultra_deep_cave",
               "min": "1",
-              "rate": "0.4",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7517,9 +7517,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub002",
+              "biomes": "pokecube_legends:ultra_jungle",
               "min": "1",
-              "rate": "0.4",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7532,9 +7532,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub003",
+              "biomes": "pokecube_legends:ultra_desert",
               "min": "1",
-              "rate": "0.4",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7547,9 +7547,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub005",
+              "biomes": "pokecube_legends:ultra_deep_hills",
               "min": "1",
-              "rate": "0.4",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7562,9 +7562,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub003",
+              "biomes": "pokecube_legends:ultra_desert",
               "min": "1",
-              "rate": "0.3",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7577,9 +7577,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub006",
+              "biomes": "pokecube_legends:ultra_forgotten_plains",
               "min": "1",
-              "rate": "0.4",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7592,9 +7592,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub004",
+              "biomes": "pokecube_legends:ultra_dark_valley",
               "min": "1",
-              "rate": "0.3",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7607,7 +7607,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004,pokecube_legends:ub005,pokecube_legends:ub006",
+              "biomes": "pokecube_legends:ultra_deep_cave,pokecube_legends:ultra_jungle,pokecube_legends:ultra_desert,pokecube_legends:ultra_deep_hills,pokecube_legends:ultra_dark_valley,pokecube_legends:ultra_forgotten_plains",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -7622,9 +7622,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub002",
+              "biomes": "pokecube_legends:ultra_jungle",
               "min": "1",
-              "rate": "0.4",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7637,9 +7637,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub005",
+              "biomes": "pokecube_legends:ultra_deep_hills",
               "min": "1",
-              "rate": "0.4",
+              "rate": "0.2",
               "max": "1"
             }
           }
@@ -7652,9 +7652,9 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:ub001",
+              "biomes": "pokecube_legends:ultra_deep_cave",
               "min": "1",
-              "rate": "0.4",
+              "rate": "0.2",
               "max": "1"
             }
           }
