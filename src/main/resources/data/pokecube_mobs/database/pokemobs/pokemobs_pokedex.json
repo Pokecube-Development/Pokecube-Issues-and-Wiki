@@ -71208,7 +71208,7 @@
             "1": "faketears,slackoff,afteryou,block,copycat,encore,roleplay,protect,recycle,mimic,lightscreen,reflect,safeguard,dazzlinggleam,mistyterrain,pound,rapidspin,batonpass,iceshard",
             "12": "confusion",
             "16": "allyswitch",
-            "20": "icewind",
+            "20": "icywind",
             "24": "doublekick",
             "28": "psybeam",
             "32": "hypnosis",
@@ -73734,7 +73734,7 @@
           }
         },
         "misc": {
-          "moves": "grassyglide,lastout,megapunch,megakick,hyperbeam,gigaimpact,magicalleaf,solarbeam,solarblade,dig,rest,rockslide,thief,snore,protect,scaryface,gigadrain,sunnyday,facade,swift,revenge,brickbreak,rocktomb,bulletseed,mudshot,uturn,payback,assurance,fling,drainpunch,round,acrobatics,snarl,grassyterrain,brutalswing,stompingtantrum,bodyslam,lowkick,substitute,endure,sleeptalk,encore,irontail,crunch,taunt,superpower,hypervoice,bulkup,closecombat,darkpulse,seedbomb,energyball,nastyplot,powerwhip,grassknot,darkestlariat,throatchop"
+          "moves": "grassyglide,lashout,megapunch,megakick,hyperbeam,gigaimpact,magicalleaf,solarbeam,solarblade,dig,rest,rockslide,thief,snore,protect,scaryface,gigadrain,sunnyday,facade,swift,revenge,brickbreak,rocktomb,bulletseed,mudshot,uturn,payback,assurance,fling,drainpunch,round,acrobatics,snarl,grassyterrain,brutalswing,stompingtantrum,bodyslam,lowkick,substitute,endure,sleeptalk,encore,irontail,crunch,taunt,superpower,hypervoice,bulkup,closecombat,darkpulse,seedbomb,energyball,nastyplot,powerwhip,grassknot,darkestlariat,throatchop"
         }
       }
     },
@@ -73959,7 +73959,7 @@
           }
         },
         "misc": {
-          "moves": "hyperbeam, gigaimpact, rest, snore, protect, scaryface, icewind, hail, facade, iciclecrash, mudshot, payback, assurance, avalanche, round, bulldoze, snarl, smartstrike, stompingtantrum, swordsdance, bodyslam, icebeam, blizzard, substitute, outrage, endure, sleeptalk, megahorn, crunch, uproar, taunt, superpower, irondefense, closecombat, heavyslam, highhorsepower, throatchop, bodypress, lashout"
+          "moves": "hyperbeam, gigaimpact, rest, snore, protect, scaryface, icywind, hail, facade, iciclecrash, mudshot, payback, assurance, avalanche, round, bulldoze, snarl, smartstrike, stompingtantrum, swordsdance, bodyslam, icebeam, blizzard, substitute, outrage, endure, sleeptalk, megahorn, crunch, uproar, taunt, superpower, irondefense, closecombat, heavyslam, highhorsepower, throatchop, bodypress, lashout"
         }
       }
     },

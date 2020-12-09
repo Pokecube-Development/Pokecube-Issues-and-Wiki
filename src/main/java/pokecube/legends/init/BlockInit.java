@@ -47,6 +47,7 @@ import pokecube.legends.blocks.normalblocks.UltraTorch1Wall;
 import pokecube.legends.blocks.plants.Ultra_Tree01;
 import pokecube.legends.blocks.plants.Ultra_Tree02;
 import pokecube.legends.blocks.plants.Ultra_Tree03;
+import pokecube.legends.blocks.plants.Distortic_Tree;
 
 public class BlockInit
 {
@@ -94,6 +95,7 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_SAPLING_UB01;
     public static final RegistryObject<Block> ULTRA_SAPLING_UB02;
     public static final RegistryObject<Block> ULTRA_SAPLING_UB03;
+    public static final RegistryObject<Block> DISTORTIC_SAPLING;
 
     public static final RegistryObject<Block> ULTRA_LOGUB01;
     public static final RegistryObject<Block> ULTRA_PLANKUB01;
@@ -106,6 +108,10 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_LOGUB03;
     public static final RegistryObject<Block> ULTRA_PLANKUB03;
     public static final RegistryObject<Block> ULTRA_LEAVEUB03;
+    
+    public static final RegistryObject<Block> DISTORTIC_LOG;
+    public static final RegistryObject<Block> DISTORTIC_PLANK;
+    public static final RegistryObject<Block> DISTORTIC_LEAVE;
 
     // Portal
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
@@ -225,6 +231,8 @@ public class BlockInit
         		() -> new Ultra_Tree02(), Block.Properties.from(Blocks.OAK_SAPLING)));
         ULTRA_SAPLING_UB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_sapling03", () -> new SaplingBase(
         		() -> new Ultra_Tree03(), Block.Properties.from(Blocks.OAK_SAPLING)));
+        DISTORTIC_SAPLING 		= PokecubeLegends.BLOCKS_TAB.register("distortic_sapling", () -> new SaplingBase(
+        		() -> new Distortic_Tree(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
         //Plants (LOG/LEAVE/PLANKS)
 
@@ -239,6 +247,10 @@ public class BlockInit
         ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03",   () -> Blocks.createLogBlock(MaterialColor.GOLD, MaterialColor.BROWN));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
+        
+        DISTORTIC_LOG 		= PokecubeLegends.BLOCKS_TAB.register("distortic_log",   () -> Blocks.createLogBlock(MaterialColor.PURPLE, MaterialColor.BLUE));
+        DISTORTIC_PLANK 	= PokecubeLegends.BLOCKS_TAB.register("distortic_plank", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
+        DISTORTIC_LEAVE 	= PokecubeLegends.BLOCKS_TAB.register("distortic_leave", () -> new LeavesBlock(Block.Properties.from(Blocks.JUNGLE_LEAVES).notSolid()));
 
         // Mirage Spot (Hoopa Ring)
         BLOCK_PORTALWARP 	= PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", Block.Properties

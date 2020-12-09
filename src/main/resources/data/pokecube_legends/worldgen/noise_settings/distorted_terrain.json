@@ -34,9 +34,6 @@
     "Name": "pokecube_legends:distortic_stone"
   },
   "default_fluid": {
-    "Properties": {
-      "level": "0"
-    },
     "Name": "pokecube_legends:distortic_mirror"
   }
 }

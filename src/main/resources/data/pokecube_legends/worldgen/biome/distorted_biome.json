@@ -8,7 +8,7 @@
       "offset": 2.0
     },
     "sky_color": 4766,
-    "fog_color": 7058318,
+    "fog_color": 4766,
     "water_color": 12245481,
     "water_fog_color": 5796478,
     "grass_color": 7418711,
@@ -23,16 +23,18 @@
   },
   "features": [
     [],
+    [],
+    [],
+    [],
+    [],
+    [],
     [
-      "minecraft:lake_water"
+    "pokecube_legends:ore_mirror"
     ],
     [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
+    [
+    "pokecube_legends:distorted_vegetation"
+    ],
     []
   ],
   "starts": [],
