@@ -165,6 +165,7 @@ public class WorldgenHandler
         public boolean      base_under   = true;
         public boolean      water        = false;
         public boolean      air          = false;
+        public boolean      allow_void   = false;
         public int          height       = 0;
         public int          variance     = 50;
         public int          priority     = 100;

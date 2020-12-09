@@ -57,6 +57,7 @@ public class Impl
         @Override
         public String getTeam(final Entity entityIn)
         {
+            if (entityIn.getEntityWorld().isRemote) return "";
             final IOwnable ownable = OwnableCaps.getOwnable(entityIn);
             UUID id = ownable != null ? ownable.getOwnerId() : null;
             if (id == null) id = entityIn.getUniqueID();

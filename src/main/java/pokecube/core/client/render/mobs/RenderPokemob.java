@@ -177,6 +177,10 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
 
         public Vector5 rotations = new Vector5();
 
+        // This will decrement if above 0, and if so, we don't render, this
+        // gives some time to actually load the model.
+        protected int loadTimer = 3;
+
         IAnimationHolder currentHolder = null;
 
         public Holder(final PokedexEntry entry)
@@ -627,6 +631,11 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
         }
         if (holder.wrapper != null && !holder.wrapper.isLoaded()) return;
+
+        // This gives time for the model to actually finish loading in.
+        if (holder.loadTimer-- > 0) return;
+        holder.loadTimer = 0;
+
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
                 || holder.texture == null) holder = RenderPokemob.getMissingNo();
 

@@ -25,9 +25,10 @@ public class ClientSetupHandler
 
         // Override the pokemobs gui size map with ours
         GuiPokemobBase.SIZEMAP = new ResourceLocation(PokecubeMobs.MODID, "pokemobs_gui_sizes.json");
+        GuiPokemobBase.initSizeMap();
     }
 
-    @Mod.EventBusSubscriber
+    @Mod.EventBusSubscriber(value = Dist.CLIENT)
     public static class Listener extends ReloadListener<Object>
     {
         @SubscribeEvent
@@ -39,7 +40,6 @@ public class ClientSetupHandler
         @Override
         protected Object prepare(final IResourceManager resourceManagerIn, final IProfiler profilerIn)
         {
-            GuiPokemobBase.initSizeMap();
             return null;
         }
 
@@ -47,7 +47,7 @@ public class ClientSetupHandler
         protected void apply(final Object objectIn, final IResourceManager resourceManagerIn,
                 final IProfiler profilerIn)
         {
-
+            GuiPokemobBase.initSizeMap();
         }
 
     }
