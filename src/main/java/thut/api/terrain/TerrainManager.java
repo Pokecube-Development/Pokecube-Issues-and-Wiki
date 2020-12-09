@@ -37,6 +37,7 @@ public class TerrainManager
 
     public static boolean isAreaLoaded(final IWorld world, final BlockPos blockPos, final double distance)
     {
+        if (world.isRemote()) return world.getChunk(blockPos) != null;
         DimensionType dim = null;
         if (world != null && world.getDimension() != null) dim = world.getDimension().getType();
         return TerrainManager.isAreaLoaded(dim, blockPos, distance);
