@@ -57,12 +57,21 @@ public class Material extends RenderState
     private static IVertexBuilder getOrAdd(final Material mat, final RenderType type, final IRenderTypeBuffer buffer)
     {
         final Impl impl = (Impl) buffer;
-        IVertexBuilder buff = impl.getBuffer(type);
+        IVertexBuilder buff;
 
         final boolean transp = mat.alpha < 1 || mat.transluscent;
         // This means we didn't actually make one for this texture!
-        if (transp && buff == impl.buffer)
+        if (transp)
         {
+            buff = impl.fixedBuffers.get(type);
+
+            // No need to add it to the fixed buffers,
+            // just call this to get it directly.
+
+            // If we don't do this, then it might make an empty buffer anyway,
+            // which can then throw errors about not filled verticies.
+            if (buff != null) return impl.getBuffer(type);
+
             final BufferBuilder builder = new BufferBuilder(256);
 
             final Object2ObjectLinkedOpenHashMap<RenderType, BufferBuilder> fixed = (Object2ObjectLinkedOpenHashMap<RenderType, BufferBuilder>) impl.fixedBuffers;
@@ -85,7 +94,7 @@ public class Material extends RenderState
             impl.startedBuffers.add(builder);
             buff = builder;
         }
-
+        else buff = impl.getBuffer(type);
         return buff;
     }
 
@@ -99,7 +108,7 @@ public class Material extends RenderState
         {
         });
         this.name = name;
-        this.render_name = "thutcore:mat_" + name;
+        this.render_name = "thutcore:mat_" + name + "_";
     }
 
     public Material(final String name, final String texture, final Vector3f diffuse, final Vector3f specular,
