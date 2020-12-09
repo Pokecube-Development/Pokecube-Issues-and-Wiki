@@ -118,6 +118,12 @@ public class CapabilityHasPokemobs
                 // If this is the case, then this mob is not re-battleable.
                 if (resetTime <= 0) return true;
                 final DefeatEntry s = this.map.get(in.getCachedUniqueIdString());
+                // If it was somehow corrupted on load, just return false.
+                if (s == null)
+                {
+                    this.map.remove(in.getCachedUniqueIdString());
+                    return false;
+                }
                 // Otherwise check the diff.
                 final long diff = PokecubeCore.proxy.getWorld().getGameTime() - s.time;
                 if (diff > resetTime) return false;

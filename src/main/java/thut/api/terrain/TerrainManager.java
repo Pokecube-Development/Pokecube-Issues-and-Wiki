@@ -79,8 +79,8 @@ public class TerrainManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         DimensionType dim = null;
-        if (evt.getWorld() != null && evt.getWorld().getDimension() != null) dim = evt.getWorld().getDimension()
-                .getType();
+        if (evt.getWorld() != null && evt.getWorld().getDimension() != null && !evt.getWorld().isRemote()) dim = evt
+                .getWorld().getDimension().getType();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
@@ -90,8 +90,8 @@ public class TerrainManager
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
         DimensionType dim = null;
-        if (evt.getWorld() != null && evt.getWorld().getDimension() != null) dim = evt.getWorld().getDimension()
-                .getType();
+        if (evt.getWorld() != null && evt.getWorld().getDimension() != null && !evt.getWorld().isRemote()) dim = evt
+                .getWorld().getDimension().getType();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 

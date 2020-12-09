@@ -131,7 +131,7 @@ public interface ITerrainProvider
         // Include the value for y
         final BlockPos pos = new BlockPos(temp.x, y, temp.z);
         final DimensionType dim = world.getDimension().getType();
-        final IChunk chunk = ITerrainProvider.getChunk(dim, temp);
+        final IChunk chunk = world.isRemote() ? world.getChunk(p) : ITerrainProvider.getChunk(dim, temp);
         final boolean real = chunk != null && chunk instanceof ICapabilityProvider;
         // This means it occurs during worldgen?
         if (!real)

@@ -48,6 +48,8 @@ public class CommonProxy implements Proxy
         MinecraftForge.EVENT_BUS.register(MobEvents.class);
         MinecraftForge.EVENT_BUS.register(SyncHandler.class);
 
+        MinecraftForge.EVENT_BUS.register(this);
+
         PermissionAPI.registerNode(CommonProxy.SET_SUBBIOME, DefaultPermissionLevel.OP,
                 "Able to set subbiomes via items");
     }
