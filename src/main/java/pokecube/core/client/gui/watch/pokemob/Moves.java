@@ -82,8 +82,8 @@ public class Moves extends ListPage<LineEntry>
                     text = I18n.format("pokewatch.moves.pwr", text);
                     GlStateManager.disableDepthTest();
                     final int box = Math.max(10, this.font.getStringWidth(text) + 2);
-                    final int mx1 = 75 - box;
-                    final int my1 = offset[1] + 18;
+                    final int mx1 = 65 - box;
+                    final int my1 = offset[1] + 30;
                     final int dy1 = this.font.FONT_HEIGHT;
                     AbstractGui.fill(mat, x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
                     AbstractGui.fill(mat, x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
@@ -345,7 +345,7 @@ public class Moves extends ListPage<LineEntry>
             GlStateManager.disableDepthTest();
             final int box = Math.max(10, this.font.getStringWidth(text) + 2);
             final int mx = 100 - box;
-            final int my = -10;
+            final int my = -0;
             final int dy = this.font.FONT_HEIGHT;
             AbstractGui.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
             AbstractGui.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);

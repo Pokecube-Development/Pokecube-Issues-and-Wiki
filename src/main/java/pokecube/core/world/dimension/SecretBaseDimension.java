@@ -240,24 +240,24 @@ public class SecretBaseDimension
     {
         final World world = PokecubeCore.proxy.getWorld();
         if (world == null) return;
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(SecretBaseDimension.WORLD_KEY) == 0) world
-                .getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(
+                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setSize(2999984);
     }
 
     @SubscribeEvent
     public static void worldTick(final WorldTickEvent event)
     {
         final World world = event.world;
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(SecretBaseDimension.WORLD_KEY) == 0) world
-                .getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(
+                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setSize(2999984);
     }
 
     @SubscribeEvent
     public static void worldLoad(final WorldEvent.Load event)
     {
         final World world = (World) event.getWorld();
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(SecretBaseDimension.WORLD_KEY) == 0) world
-                .getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(
+                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setSize(2999984);
     }
 
     public static List<GlobalPos> getNearestBases(final GlobalPos here, final int baseRadarRange)
