@@ -124,8 +124,8 @@ public interface ITerrainProvider
      */
     default TerrainSegment getTerrain(final IWorld world, final BlockPos p)
     {
-        if(!(world instanceof World)) return new TerrainSegment(p);
-        final World rworld = (World)world;
+        if (!(world instanceof World)) return new TerrainSegment(p);
+        final World rworld = (World) world;
         // Convert the pos to a chunk pos
         final ChunkPos temp = new ChunkPos(p);
         int y = p.getY() >> 4;
@@ -134,7 +134,7 @@ public interface ITerrainProvider
         // Include the value for y
         final BlockPos pos = new BlockPos(temp.x, y, temp.z);
         final RegistryKey<World> dim = rworld.getDimensionKey();
-        final IChunk chunk = ITerrainProvider.getChunk(dim, temp);
+        final IChunk chunk = world.isRemote() ? world.getChunk(p) : ITerrainProvider.getChunk(dim, temp);
         final boolean real = chunk != null && chunk instanceof ICapabilityProvider;
         // This means it occurs during worldgen?
         if (!real)

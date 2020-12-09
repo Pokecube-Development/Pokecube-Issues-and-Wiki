@@ -254,11 +254,11 @@ public class PokecubeSerializer
         temp = tag.get(PokecubeSerializer.BASES);
         if (temp instanceof ListNBT)
         {
-            final ListNBT tagListMeteors = (ListNBT) temp;
-            if (tagListMeteors.size() > 0) meteors:
-            for (int i = 0; i < tagListMeteors.size(); i++)
+            final ListNBT tagListBases = (ListNBT) temp;
+            if (tagListBases.size() > 0) meteors:
+            for (int i = 0; i < tagListBases.size(); i++)
             {
-                final CompoundNBT pokemobData = tagListMeteors.getCompound(i);
+                final CompoundNBT pokemobData = tagListBases.getCompound(i);
                 if (pokemobData != null) try
                 {
                     final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result()
@@ -400,7 +400,7 @@ public class PokecubeSerializer
         for (final GlobalPos v : this.bases)
         {
             final INBT nbt = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
-            tagListMeteors.add(nbt);
+            tagListBases.add(nbt);
         }
         tag.put(PokecubeSerializer.BASES, tagListBases);
         final CompoundNBT tms = new CompoundNBT();
