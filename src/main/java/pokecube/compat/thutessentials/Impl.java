@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.SpawnBiomeMatcher;
@@ -19,6 +20,9 @@ import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.TeamManager.ITeamProvider;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
+import thut.api.entity.TeleLoadEvent;
+import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.essentials.Essentials;
 import thut.essentials.land.LandManager;
 import thut.essentials.land.LandManager.LandTeam;
 import thut.essentials.util.world.IHasStructures;
@@ -81,13 +85,31 @@ public class Impl
             }
             return false;
         }
+    }
 
+    private static class TeleDestManager
+    {
+        public static void initMatcher(final TeleLoadEvent event)
+        {
+            // We handle this identically to the equivalent in Essentials for
+            // its own type of TeleDest.
+            final TeleDest dest = event.getOverride();
+            if (dest == null) return;
+            if (dest.version != Essentials.config.dim_verison)
+            {
+                if (!Essentials.config.versioned_dim_keys.contains(dest.getPos().getDimension().getLocation())) return;
+                Essentials.LOGGER.info("Invalidating stale teledest {} ({})", dest.getName(), dest.getPos());
+                event.setCanceled(true);
+                event.setOverride(null);
+            }
+        }
     }
 
     public static void register()
     {
         PokecubeCore.LOGGER.debug("Registering ThutEssentials Support");
         MinecraftForge.EVENT_BUS.register(Impl.class);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, TeleDestManager::initMatcher);
     }
 
     @SubscribeEvent
