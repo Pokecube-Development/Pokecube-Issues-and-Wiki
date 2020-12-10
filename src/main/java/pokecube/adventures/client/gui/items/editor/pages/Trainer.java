@@ -10,7 +10,6 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
@@ -72,9 +71,9 @@ public class Trainer extends Page
 
         if (this.parent.trainer != null)
         {
-            this.index = this.index % TypeTrainer.typeMap.size();
+            this.index = this.index % NpcType.typeMap.size();
             types.clear();
-            types.addAll(TypeTrainer.typeMap.keySet());
+            types.addAll(NpcType.typeMap.keySet());
             types.sort((s1, s2) -> s1.compareTo(s2));
         }
         if (this.parent.entity instanceof NpcMob)

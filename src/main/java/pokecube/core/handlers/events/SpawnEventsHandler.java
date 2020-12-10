@@ -121,15 +121,18 @@ public class SpawnEventsHandler
             final boolean nurse = function.startsWith("nurse");
             final boolean professor = function.startsWith("professor");
             final boolean trader = function.startsWith("trader");
-            if (nurse || professor || trader)
+            final boolean npc = function.startsWith("npc");
+            if (nurse || professor || trader || npc)
             {
                 final NpcMob mob = NpcMob.TYPE.create(event.worldActual);
-                mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
-                if (nurse) mob.setMale(false);
+
                 mob.enablePersistence();
                 mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
                 mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(
                         event.pos), SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
+
+                mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
+                if (nurse) mob.setMale(false);
 
                 JsonObject thing = new JsonObject();
                 if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
@@ -166,6 +169,8 @@ public class SpawnEventsHandler
     public static void applyFunction(final NpcMob npc, final JsonObject thing)
     {
         if (thing.has("name")) npc.name = thing.get("name").getAsString();
+        if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
+        if (thing.has("type")) npc.setNpcType(NpcType.byType(thing.get("type").getAsString()));
         if (thing.has("gender"))
         {
             final boolean male = thing.get("gender").getAsString().equalsIgnoreCase("male") ? true

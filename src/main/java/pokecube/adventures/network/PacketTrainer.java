@@ -16,6 +16,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
@@ -29,9 +30,7 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.TrainerCaps;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
-import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.PokedexEntryLoader;
@@ -219,24 +218,34 @@ public class PacketTrainer extends NBTPacket
             PokecubeCore.LOGGER.debug("Recieved Trainer Spawn Packet");
 
             int level = this.getTag().getInt("L");
-            final boolean leader = this.getTag().getBoolean("C");
             final Vector3 vec = Vector3.getNewVector().set(player);
-            String args = "pokecube_adventures:" + (leader ? "leader" : "trainer");
+            String args = "pokecube:mob:npc";
             final JsonObject thing = new JsonObject();
+
+            final String npckey = this.getTag().getString("_npc_");
+            if (npckey.equals("trainer")) args = "pokecube_adventures:trainer";
+            if (npckey.equals("leader")) args = "pokecube_adventures:leader";
+
             thing.addProperty("level", level);
+
+            // Type deals with the npc mob itself, trainerType also does extra
+            // processing if this is a trainer npc
+            thing.addProperty("type", type);
             thing.addProperty("trainerType", type);
+
+            if (this.getTag().contains("_g_")) thing.addProperty("gender", this.getTag().getString("_g_"));
             if (this.getTag().getBoolean("S"))
             {
                 final GuardInfo info = new GuardInfo();
-                info.time = "day";
-                info.roam = 2;
+                info.time = "allday";
+                info.roam = 0;
                 thing.add("guard", PokedexEntryLoader.gson.toJsonTree(info));
             }
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(),
                     (ServerWorld) player.getEntityWorld(), player.getRNG(), MutableBoundingBox.getNewBoundingBox());
-            TrainerSpawnHandler.StructureSpawn(event);
+            MinecraftForge.EVENT_BUS.post(event);
             break;
         case UPDATETRAINER:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
@@ -305,7 +314,7 @@ public class PacketTrainer extends NBTPacket
                 if (mob instanceof NpcMob)
                 {
                     final NpcMob npc = (NpcMob) mob;
-                    final NpcType newType = mobHolder != null ? TypeTrainer.getTrainer(type) : NpcType.byType(type);
+                    final NpcType newType = NpcType.byType(type);
                     npc.setNpcType(newType);
                     npc.setMale(male);
                     if (this.getTag().getBoolean("rawName")) npc.name = name;

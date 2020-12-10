@@ -192,17 +192,12 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         return spawnDataIn;
     }
 
-    public ResourceLocation getBaseTex()
-    {
-        return this.isMale() ? this.getNpcType().getMaleTex() : this.getNpcType().getFemaleTex();
-    }
-
     public final ResourceLocation getTex()
     {
         if (!this.playerName.isEmpty()) return PokecubeCore.proxy.getPlayerSkin(this.playerName);
         else if (!this.customTex.isEmpty()) return new ResourceLocation(this.customTex);
         else if (!this.urlSkin.isEmpty()) return PokecubeCore.proxy.getUrlSkin(this.urlSkin);
-        return this.getBaseTex();
+        return this.isMale() ? this.getNpcType().getMaleTex() : this.getNpcType().getFemaleTex();
     }
 
     @Override

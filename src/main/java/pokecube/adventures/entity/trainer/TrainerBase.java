@@ -74,12 +74,6 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public ResourceLocation getBaseTex()
-    {
-        return PokecubeAdv.proxy.getTrainerSkin(this, (TypeTrainer) this.getNpcType(), (byte) (this.isMale() ? 1 : 2));
-    }
-
-    @Override
     public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
     {
         final ItemStack stack = player.getHeldItem(hand);
