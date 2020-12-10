@@ -14,13 +14,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
@@ -39,8 +38,8 @@ import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.network.packets.PacketPokedex;
-import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -75,7 +74,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     }
 
     public IPokemob pokemob;
-    IPokemob        renderMob;
+
     TextFieldWidget search;
 
     public PokemobInfoPage(final GuiPokeWatch watch)
@@ -152,7 +151,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             if (newEntry != null)
             {
                 this.search.setText(newEntry.getName());
-                this.pokemob = EventsHandlerClient.getRenderMob(newEntry, this.watch.player.getEntityWorld());
+                this.pokemob = AnimationGui.getRenderMob(newEntry);
                 this.initPages(this.pokemob);
             }
             else this.search.setText(entry.getName());
@@ -186,10 +185,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final String name = PokecubePlayerDataHandler.getCustomDataTag(this.watch.player).getString("WEntry");
             PokedexEntry entry = Database.getEntry(name);
             if (entry == null) entry = Pokedex.getInstance().getFirstEntry();
-            pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
+            pokemob = AnimationGui.getRenderMob(entry);
         }
         this.pokemob = pokemob;
-        this.renderMob = pokemob;
         this.search.setVisible(!this.watch.canEdit(pokemob));
         this.search.setText(pokemob.getPokedexEntry().getName());
         PacketPokedex.sendSpecificSpawnsRequest(pokemob.getPokedexEntry());
@@ -198,16 +196,22 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         this.changePage(this.index);
     }
 
+    long lastClick = 0;
+
     @Override
     public boolean mouseClicked(final double mouseX, final double mouseY, final int mouseButton)
     {
         final boolean ret = super.mouseClicked(mouseX, mouseY, mouseButton);
+
+        // Implement some flood control for this.
+        if (System.currentTimeMillis() - this.lastClick < 30) return ret;
+        this.lastClick = System.currentTimeMillis();
+
         // change gender if clicking on the gender, and shininess otherwise
         if (!this.watch.canEdit(this.pokemob))
         {
             // If it is actually a real mob, swap it out for the fake one.
-            if (this.pokemob.getEntity().addedToChunk) this.pokemob = this.renderMob = EventsHandlerClient.getRenderMob(
-                    this.pokemob.getPokedexEntry(), this.watch.player.getEntityWorld());
+            if (this.pokemob.getEntity().addedToChunk) this.pokemob = AnimationGui.getRenderMob(this.pokemob);
 
             final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
             final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
@@ -232,6 +236,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                     this.pokemob.setSexe(IPokemob.MALE);
                     break;
                 }
+                this.pokemob.onGenesChanged();
                 return ret;
             }
 
@@ -302,10 +307,10 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 this.search.setText(name);
                 final PokedexEntry entry = this.pokemob.getPokedexEntry();
                 final PokedexEntry newEntry = Database.getEntry(this.search.getText());
-                if (newEntry != null)
+                if (newEntry != null && newEntry != entry)
                 {
                     this.search.setText(newEntry.getName());
-                    this.pokemob = EventsHandlerClient.getRenderMob(newEntry, this.watch.player.getEntityWorld());
+                    this.pokemob = AnimationGui.getRenderMob(newEntry);
                     this.initPages(this.pokemob);
                 }
                 else this.search.setText(entry.getName());
@@ -345,42 +350,40 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                     Minecraft.getInstance().player) > 0 || StatsCollector.getHatched(pokedexEntry.getBaseForme(),
                             Minecraft.getInstance().player) > 0;
 
-            IPokemob pokemob = this.renderMob;
+            IPokemob pokemob = this.pokemob;
             // Copy the stuff to the render mob if this mob is in world
             if (pokemob.getEntity().addedToChunk)
             {
-                final IPokemob newMob = EventsHandlerClient.getRenderMob(pokemob.getPokedexEntry(), pokemob.getEntity()
-                        .getEntityWorld());
-                newMob.read(pokemob.write());
-                pokemob = this.renderMob = newMob;
+                final IPokemob newMob = AnimationGui.getRenderMob(pokemob);
+                pokemob = newMob;
             }
-            else
-            {
-                final LivingEntity player = this.watch.player;
-                EntityTools.copyEntityTransforms(pokemob.getEntity(), player);
 
-                // Set colouring accordingly.
-                if (fullColour) pokemob.setRGBA(255, 255, 255, 255);
-                else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
-                else pokemob.setRGBA(15, 15, 15, 255);
-            }
+            pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+            pokemob.setGeneralState(GeneralStates.EVOLVING, false);
+
+            // Set colouring accordingly.
+            if (fullColour) pokemob.setRGBA(255, 255, 255, 255);
+            else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
+            else pokemob.setRGBA(15, 15, 15, 255);
+
             pokemob.setSize(1);
 
             final float yaw = Util.milliTime() / 20;
             dx = -69;
             dy = 40;
+
             // Draw the actual pokemob
             GuiPokemobBase.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 1.5f);
 
             // Draw gender, types and lvl
             int genderColor = 0xBBBBBB;
             String gender = "";
-            if (this.pokemob.getSexe() == IPokemob.MALE)
+            if (pokemob.getSexe() == IPokemob.MALE)
             {
                 genderColor = 0x0011CC;
                 gender = "\u2642";
             }
-            else if (this.pokemob.getSexe() == IPokemob.FEMALE)
+            else if (pokemob.getSexe() == IPokemob.FEMALE)
             {
                 genderColor = 0xCC5555;
                 gender = "\u2640";
@@ -395,20 +398,20 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             dx = -80;
             dy = 97;
             this.font.drawString(mat, gender, x + dx, y + dy, genderColor);
-            this.pokemob.getType1();
-            final String type1 = PokeType.getTranslatedName(this.pokemob.getType1()).getString();
+            pokemob.getType1();
+            final String type1 = PokeType.getTranslatedName(pokemob.getType1()).getString();
             dx = -80;
             dy = 114;
-            colour = this.pokemob.getType1().colour;
+            colour = pokemob.getType1().colour;
             this.font.drawString(mat, type1, x + dx, y + dy, colour);
             dy = 114;
-            if (this.pokemob.getType2() != PokeType.unknown)
+            if (pokemob.getType2() != PokeType.unknown)
             {
                 final String slash = "/";
-                colour = this.pokemob.getType2().colour;
+                colour = pokemob.getType2().colour;
                 dx += this.font.getStringWidth(type1);
                 this.font.drawString(mat, slash, x + dx, y + dy, 0x444444);
-                final String type2 = PokeType.getTranslatedName(this.pokemob.getType2()).getString();
+                final String type2 = PokeType.getTranslatedName(pokemob.getType2()).getString();
                 dx += this.font.getStringWidth(slash);
                 this.font.drawString(mat, type2, x + dx, y + dy, colour);
             }

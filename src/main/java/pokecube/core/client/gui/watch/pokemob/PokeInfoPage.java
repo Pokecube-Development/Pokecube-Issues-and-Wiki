@@ -101,7 +101,11 @@ public abstract class PokeInfoPage extends WatchPage
                 holder = entry.getModel(this.parent.pokemob.getSexe());
                 this.parent.initPages(this.parent.pokemob.megaEvolve(entry));
             }
+            // This initializes the model holder
             this.parent.pokemob.setCustomHolder(holder);
+            // This ensures the textures/etc are reset to account for the new
+            // model holder.
+            this.parent.pokemob.onGenesChanged();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
         final TexButton cryBtn = this.addButton(new TexButton(x - 85, y + 45, 20, 10, cry, b ->
         {

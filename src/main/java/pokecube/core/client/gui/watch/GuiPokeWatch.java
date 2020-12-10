@@ -142,10 +142,8 @@ public class GuiPokeWatch extends Screen
         if (!force && newIndex == this.index) return;
         if (this.current_page != null) this.current_page.onPageClosed();
         this.index = newIndex;
-        this.current_page = this.createPage(this.index);
         GuiPokeWatch.lastPage = this.index;
-        this.current_page.init(this.minecraft, this.width, this.height);
-        this.current_page.onPageOpened();
+        this.init(this.minecraft, this.width, this.height);
     }
 
     public WatchPage createPage(final int index)

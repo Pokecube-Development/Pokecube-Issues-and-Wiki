@@ -70,6 +70,7 @@ public class AnimationGui extends Screen
         {
             final MobEntity mob = PokecubeCore.createPokemob(entry, PokecubeCore.proxy.getWorld());
             ret = CapabilityPokemob.getPokemobFor(mob);
+            AnimationGui.renderMobs.put(entry, ret);
         }
         return ret;
     }

@@ -1430,7 +1430,7 @@ public class PokedexEntry
     @OnlyIn(Dist.CLIENT)
     public ITextComponent getDescription()
     {
-        // if (this.description == null)
+        if (this.description == null)
         {
             final PokedexEntry entry = this;
             final IFormattableTextComponent typeString = PokeType.getTranslatedName(entry.getType1());
