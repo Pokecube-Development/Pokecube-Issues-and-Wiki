@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "pokecube_legends:blocks/ultra_plank02",
+    "top": "pokecube_legends:blocks/ultra_plank02",
+    "side": "pokecube_legends:blocks/ultra_plank02"
+  }
+}

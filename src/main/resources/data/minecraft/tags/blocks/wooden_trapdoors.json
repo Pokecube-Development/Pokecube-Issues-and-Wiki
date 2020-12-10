@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:inverted_trapdoor"
+    "pokecube_legends:inverted_trapdoor",
+    "pokecube_legends:temporal_trapdoor"
   ]
 }

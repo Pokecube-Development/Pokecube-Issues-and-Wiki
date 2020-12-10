@@ -106,10 +106,11 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_SAPLING_UB03;
 
     public static final RegistryObject<Block> ULTRA_LOGUB01;
+    public static final RegistryObject<Block> ULTRA_PLANKUB01;
+    public static final RegistryObject<Block> ULTRA_LEAVEUB01;
     public static final RegistryObject<Block> INVERTED_WOOD;
     public static final RegistryObject<Block> STRIP_INVERTED_LOG;
     public static final RegistryObject<Block> STRIP_INVERTED_WOOD;
-    public static final RegistryObject<Block> ULTRA_PLANKUB01;
     public static final RegistryObject<Block> INVERTED_STAIRS;
     public static final RegistryObject<Block> INVERTED_SLAB;
     public static final RegistryObject<Block> INVERTED_FENCE;
@@ -118,11 +119,21 @@ public class BlockInit
     public static final RegistryObject<Block> INVERTED_DOOR;
     public static final RegistryObject<Block> INVERTED_BUTTON;
     public static final RegistryObject<Block> INVERTED_PR_PLATE;
-    public static final RegistryObject<Block> ULTRA_LEAVEUB01;
 
     public static final RegistryObject<Block> ULTRA_LOGUB02;
     public static final RegistryObject<Block> ULTRA_PLANKUB02;
     public static final RegistryObject<Block> ULTRA_LEAVEUB02;
+    public static final RegistryObject<Block> TEMPORAL_WOOD;
+    public static final RegistryObject<Block> STRIP_TEMPORAL_LOG;
+    public static final RegistryObject<Block> STRIP_TEMPORAL_WOOD;
+    public static final RegistryObject<Block> TEMPORAL_STAIRS;
+    public static final RegistryObject<Block> TEMPORAL_SLAB;
+    public static final RegistryObject<Block> TEMPORAL_FENCE;
+    public static final RegistryObject<Block> TEMPORAL_FENCE_GATE;
+    public static final RegistryObject<Block> TEMPORAL_TRAPDOOR;
+    public static final RegistryObject<Block> TEMPORAL_DOOR;
+    public static final RegistryObject<Block> TEMPORAL_BUTTON;
+    public static final RegistryObject<Block> TEMPORAL_PR_PLATE;
 
     public static final RegistryObject<Block> ULTRA_LOGUB03;
     public static final RegistryObject<Block> ULTRA_PLANKUB03;
@@ -273,9 +284,30 @@ public class BlockInit
         INVERTED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("inverted_door", () -> new GenericDoorBlock(
         		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
-        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        TEMPORAL_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("temporal_wood", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_TEMPORAL_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_log", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_WOOD)));
+        STRIP_TEMPORAL_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_wood", () -> new LogBlock(MaterialColor.WOOD,
+        		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        TEMPORAL_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("temporal_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        TEMPORAL_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("temporal_stairs", () -> new GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), 
+        		Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
+        ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(
+        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        TEMPORAL_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("temporal_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        TEMPORAL_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_pressure_plate", () -> new GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, 
+        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        TEMPORAL_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("temporal_trapdoor", () -> new GenericTrapDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        TEMPORAL_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        TEMPORAL_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("temporal_button", () -> new GenericButtonBlock(
+        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        TEMPORAL_DOOR		= PokecubeLegends.BLOCKS_TAB.register("temporal_door", () -> new GenericDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
         ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
