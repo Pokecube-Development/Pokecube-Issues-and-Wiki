@@ -104,7 +104,7 @@ public class PokemobEventsHandler
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
         if (pokemob != null)
         {
-            if (pokemob.getOwnerId() != null && !(event.getEntity() instanceof PlayerEntity))
+            if (pokemob.getOwnerId() != null)
             {
                 event.setCanceled(true);
                 return;

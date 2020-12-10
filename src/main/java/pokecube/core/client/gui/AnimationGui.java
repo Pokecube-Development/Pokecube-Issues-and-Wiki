@@ -32,6 +32,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -49,11 +50,14 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.network.packets.PacketPokedex;
+import pokecube.core.utils.EntityTools;
 import thut.api.entity.IMobColourable;
+import thut.api.entity.genetics.GeneRegistry;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
 
@@ -78,8 +82,19 @@ public class AnimationGui extends Screen
     public static IPokemob getRenderMob(final IPokemob realMob)
     {
         final IPokemob ret = AnimationGui.getRenderMob(realMob.getPokedexEntry());
-        ret.read(realMob.write());
-        ret.onGenesChanged();
+        if (ret != realMob)
+        {
+            EntityTools.copyEntityTransforms(ret.getEntity(), realMob.getEntity());
+            ret.read(realMob.write());
+            ret.onGenesChanged();
+            if (ret instanceof DefaultPokemob && realMob instanceof DefaultPokemob)
+            {
+                final DefaultPokemob from = (DefaultPokemob) realMob;
+                final DefaultPokemob to = (DefaultPokemob) ret;
+                final INBT tag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, from.genes, null);
+                GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
+            }
+        }
         return ret;
     }
 

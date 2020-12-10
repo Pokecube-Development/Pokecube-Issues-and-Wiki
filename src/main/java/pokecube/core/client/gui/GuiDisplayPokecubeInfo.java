@@ -355,9 +355,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             this.blit(evt.mat, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
-            pokemob.getEntity().addedToChunk = false;
             GuiPokemobBase.renderMob(pokemob.getEntity(), -30, -25, 0, 0, 0, 0, 0.75f);
-            pokemob.getEntity().addedToChunk = true;
         }
         evt.mat.pop();
     }
