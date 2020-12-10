@@ -30,6 +30,7 @@ public class ThutTeleporter
             final Vector3 loc = Vector3.readFromNBT(nbt, "v");
             final String name = nbt.getString("name");
             final int index = nbt.getInt("i");
+            final int version = nbt.getInt("_v_");
             GlobalPos pos = null;
             try
             {
@@ -40,7 +41,13 @@ public class ThutTeleporter
                 ThutCore.LOGGER.error("Error loading value", e);
                 return null;
             }
-            return new TeleDest().setLoc(pos, loc).setPos(pos).setName(name).setIndex(index);
+            final TeleDest dest = new TeleDest().setLoc(pos, loc).setPos(pos).setName(name).setIndex(index).setVersion(
+                    version);
+            final TeleLoadEvent event = new TeleLoadEvent(dest);
+            // This returns true if the event is cancelled.
+            if (MinecraftForge.EVENT_BUS.post(event)) return null;
+            // The event can override the destination, it defaults to dest.
+            return event.getOverride();
         }
 
         public GlobalPos loc;
@@ -50,6 +57,10 @@ public class ThutTeleporter
         private String name;
 
         public int index;
+
+        // This can be used for tracking things like if worlds update and
+        // teledests need resetting, etc.
+        public int version = 0;
 
         public TeleDest()
         {
@@ -72,6 +83,12 @@ public class ThutTeleporter
                         .getPos().getZ());
                 this.name = this.loc.getPos().toString() + " " + this.loc.getDimension().getRegistryName();
             }
+            return this;
+        }
+
+        public TeleDest setVersion(final int version)
+        {
+            this.version = version;
             return this;
         }
 
@@ -108,6 +125,7 @@ public class ThutTeleporter
             nbt.put("pos", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, this.loc).get().left().get());
             nbt.putString("name", this.name);
             nbt.putInt("i", this.index);
+            nbt.putInt("_v_", this.version);
         }
 
         public void shift(final double dx, final int dy, final double dz)

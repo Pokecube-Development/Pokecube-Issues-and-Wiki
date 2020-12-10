@@ -119,7 +119,7 @@ dependencies {
     //implementation "libs:lostcities-${version_lostcities}"
     
     //Thut Essentials
-    implementation "libs:thutessentials-1.16.4-4.0.3-deobf"
+    implementation "libs:thutessentials-1.16.4-4.1.0-deobf"
     
     //JEI
     // compile against the JEI API but do not include it at runtime
