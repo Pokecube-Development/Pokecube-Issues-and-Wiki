@@ -26,6 +26,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.moves.Battle;
 
 public class ForgetTargetTask extends CombatTask
 {
@@ -292,9 +293,10 @@ public class ForgetTargetTask extends CombatTask
         return this.entityTarget != null;
     }
 
-    private void endBattle(){
-        final Battle battle = Battle.battles.get(this.entity);
-        if(battle != null) battle.end();
+    private void endBattle()
+    {
+        final Battle battle = Battle.getBattle(this.entity);
+        if (battle != null) battle.removeFromBattle(this.entity);
         this.pokemob.getTargetFinder().clear();
         this.pokemob.onSetTarget(null, true);
         BrainUtils.deagro(this.entity);
