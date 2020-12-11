@@ -15,9 +15,11 @@ import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -58,6 +60,8 @@ public class ItemGenerator
 
     public static Map<String, Block> logs   = Maps.newHashMap();
     public static Map<String, Block> woods  = Maps.newHashMap();
+    public static Map<String, Block> stripped_logs   = Maps.newHashMap();
+    public static Map<String, Block> stripped_woods  = Maps.newHashMap();
     public static Map<String, Block> leaves = Maps.newHashMap();
     public static Map<String, Block> planks = Maps.newHashMap();
 
@@ -125,6 +129,19 @@ public class ItemGenerator
             block.setRegistryName(PokecubeCore.MODID, name + "_wood");
             ItemGenerator.woods.put(name, block);
             registry.register(block);
+
+            // Stripped Logs
+            block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
+                    MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
+            block.setRegistryName(PokecubeCore.MODID, "stripped_" + name + "_log");
+            ItemGenerator.stripped_logs.put(name, block);
+            registry.register(block);
+
+            // Stripped Woods
+            block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
+                    MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
+            block.setRegistryName(PokecubeCore.MODID, "stripped_" + name + "_wood");
+            ItemGenerator.stripped_woods.put(name, block);
             registry.register(block);
 
             // Planks
@@ -220,6 +237,10 @@ public class ItemGenerator
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.logs.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.woods.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.woods.get(name).getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.stripped_logs.get(name), new Item.Properties().group(
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_logs.get(name).getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.stripped_woods.get(name), new Item.Properties().group(
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_woods.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.planks.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.planks.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().group(
@@ -229,6 +250,23 @@ public class ItemGenerator
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
     }
+    
+	public static void addStrippable(Block logs, Block strippedLogs) 
+	{
+		AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
+		AxeItem.BLOCK_STRIPPING_MAP.put(logs, strippedLogs);
+	}
+	
+	public static void strippableBlocks()
+	{
+        final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
+        Collections.sort(names);
+        for (final String name : names)
+        {
+        	addStrippable(ItemGenerator.logs.get(name),  ItemGenerator.stripped_logs.get(name));
+        	addStrippable(ItemGenerator.woods.get(name), ItemGenerator.stripped_woods.get(name));
+        }
+	}
 
     public static void postInitItems()
     {

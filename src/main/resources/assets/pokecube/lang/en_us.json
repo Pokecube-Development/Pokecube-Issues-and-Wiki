@@ -351,6 +351,20 @@
     "block.pokecube.oran_wood": "Oran Wood",
     "block.pokecube.pecha_wood": "Pecha Wood",
     "block.pokecube.sitrus_wood": "Sitrus Wood",
+
+    "block.pokecube.stripped_enigma_log": "Stripped Enigma Log",
+    "block.pokecube.stripped_leppa_log": "Stripped Leppa Log",
+    "block.pokecube.stripped_nanab_log": "Stripped Nanab Log",
+    "block.pokecube.stripped_oran_log": "Stripped Oran Log",
+    "block.pokecube.stripped_pecha_log": "Stripped Pecha Log",
+    "block.pokecube.stripped_sitrus_log": "Stripped Sitrus Log",
+
+    "block.pokecube.stripped_enigma_wood": "Stripped Enigma Wood",
+    "block.pokecube.stripped_leppa_wood": "Stripped Leppa Wood",
+    "block.pokecube.stripped_nanab_wood": "Stripped Nanab Wood",
+    "block.pokecube.stripped_oran_wood": "Stripped Oran Wood",
+    "block.pokecube.stripped_pecha_wood": "Stripped Pecha Wood",
+    "block.pokecube.stripped_sitrus_wood": "Stripped Sitrus Wood",
     
     "_comment": "Items",
 
