@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:aged_slab",
     "pokecube_legends:inverted_slab",
     "pokecube_legends:temporal_slab"
   ]

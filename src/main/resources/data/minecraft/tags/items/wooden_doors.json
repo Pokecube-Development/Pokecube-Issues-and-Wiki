@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:aged_door",
     "pokecube_legends:inverted_door",
     "pokecube_legends:temporal_door"
   ]

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:aged_button",
     "pokecube_legends:inverted_button",
     "pokecube_legends:temporal_button"
   ]

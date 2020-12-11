@@ -1,7 +1,8 @@
 {
-    "replace": false,
-    "values": [
-        "pokecube_legends:inverted_fence",
-    	"pokecube_legends:temporal_fence"
-    ]
+  "replace": false,
+  "values": [
+    "pokecube_legends:aged_fence",
+    "pokecube_legends:inverted_fence",
+    "pokecube_legends:temporal_fence"
+  ]
 }

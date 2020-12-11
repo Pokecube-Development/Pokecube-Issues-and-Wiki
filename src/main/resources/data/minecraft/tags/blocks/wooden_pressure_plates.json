@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:aged_pressure_plate",
     "pokecube_legends:inverted_pressure_plate",
     "pokecube_legends:temporal_pressure_plate"
   ]

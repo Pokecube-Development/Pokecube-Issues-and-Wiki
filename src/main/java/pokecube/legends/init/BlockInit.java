@@ -1,5 +1,11 @@
 package pokecube.legends.init;
 
+import com.google.common.collect.Maps;
+
+import java.util.Map;
+
+import com.google.common.collect.ImmutableMap.Builder;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -17,11 +23,13 @@ import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
@@ -138,6 +146,17 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_LOGUB03;
     public static final RegistryObject<Block> ULTRA_PLANKUB03;
     public static final RegistryObject<Block> ULTRA_LEAVEUB03;
+    public static final RegistryObject<Block> AGED_WOOD;
+    public static final RegistryObject<Block> STRIP_AGED_LOG;
+    public static final RegistryObject<Block> STRIP_AGED_WOOD;
+    public static final RegistryObject<Block> AGED_STAIRS;
+    public static final RegistryObject<Block> AGED_SLAB;
+    public static final RegistryObject<Block> AGED_FENCE;
+    public static final RegistryObject<Block> AGED_FENCE_GATE;
+    public static final RegistryObject<Block> AGED_TRAPDOOR;
+    public static final RegistryObject<Block> AGED_DOOR;
+    public static final RegistryObject<Block> AGED_BUTTON;
+    public static final RegistryObject<Block> AGED_PR_PLATE;
 
     // Portal
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
@@ -309,9 +328,30 @@ public class BlockInit
         TEMPORAL_DOOR		= PokecubeLegends.BLOCKS_TAB.register("temporal_door", () -> new GenericDoorBlock(
         		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
-        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
+        AGED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("aged_wood", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_AGED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_aged_log", () -> new LogBlock(MaterialColor.WOOD, 
+        		Block.Properties.from(Blocks.OAK_WOOD)));
+        STRIP_AGED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_aged_wood", () -> new LogBlock(MaterialColor.WOOD,
+        		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        AGED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("aged_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        AGED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("aged_stairs", () -> new GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), 
+        		Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
+        ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(
+        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        AGED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("aged_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        AGED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("aged_pressure_plate", () -> new GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, 
+        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        AGED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("aged_trapdoor", () -> new GenericTrapDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        AGED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("aged_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        AGED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new GenericButtonBlock(
+        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        AGED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("aged_door", () -> new GenericDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
         // Mirage Spot (Hoopa Ring)
         BLOCK_PORTALWARP 	= PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", Block.Properties
@@ -439,15 +479,18 @@ public class BlockInit
         }
     }
     
-//	public static void addStrippable(final RegistryObject<Block> log, RegistryObject<Block> strippedLog) {
+//	public static void addStrippable(RegistryObject<Block> log, RegistryObject<Block> strippedLog) {
 //		AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
 //		AxeItem.BLOCK_STRIPPING_MAP.put(log, strippedLog);
 //	}
 //	
-//	public void strippableBlocks(FMLCommonSetupEvent e) 
+//	public static void strippableBlocks(FMLCommonSetupEvent e) 
 //	{
-//		addStrippable(ULTRA_LOGUB01, STRIPPED_INVERTED_LOG);
-//		addStrippable(INVERTED_WOOD, STRIPPED_INVERTED_WOOD);
+//		addStrippable(ULTRA_LOGUB03, STRIP_AGED_LOG);
+//		addStrippable(AGED_WOOD, 	 STRIP_AGED_WOOD);
+//		addStrippable(ULTRA_LOGUB01, STRIP_INVERTED_LOG);
+//		addStrippable(INVERTED_WOOD, STRIP_INVERTED_WOOD);
+//		addStrippable(ULTRA_LOGUB02, STRIP_TEMPORAL_LOG);
+//		addStrippable(TEMPORAL_WOOD, STRIP_TEMPORAL_WOOD);
 //	}
-
 }

@@ -12,12 +12,12 @@
         "group": "pokecube_legends",
         "ingredients": [
           {
-            "item": "pokecube_legends:ultra_log03"
+            "tag": "pokecube_legends:aged_logs"
           }
         ],
         "result": {
           "item": "pokecube_legends:ultra_plank03",
-          "count": 6
+          "count": 4
         }
       }
     }

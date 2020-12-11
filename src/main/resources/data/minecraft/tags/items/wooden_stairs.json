@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:aged_stairs",
     "pokecube_legends:inverted_stairs",
     "pokecube_legends:temporal_stairs"
   ]

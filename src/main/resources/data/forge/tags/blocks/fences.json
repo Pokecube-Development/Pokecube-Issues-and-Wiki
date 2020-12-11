@@ -1,6 +1,6 @@
 {
-    "replace": false,
-    "values": [
-        "#forge:fences/wooden"
-    ]
+  "replace": false,
+  "values": [
+    "#forge:fences/wooden"
+  ]
 }
