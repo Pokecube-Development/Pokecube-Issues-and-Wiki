@@ -358,6 +358,12 @@ public class PokemobEventsHandler
         if (pokemob == null) return;
         pokemob.setEntity((MobEntity) mob);
         pokemob.initAI();
+        final IPokemob modified = pokemob.onAddedInit();
+        if (modified != pokemob)
+        {
+            pokemob.markRemoved();
+            if (mob.getEntityWorld() instanceof ServerWorld) mob.getEntityWorld().addEntity(modified.getEntity());
+        }
     }
 
     public static void processInteract(final PlayerInteractEvent evt, final Entity target)
@@ -629,6 +635,12 @@ public class PokemobEventsHandler
 
         if (pokemob != null)
         {
+            if (pokemob.isRemoved())
+            {
+                pokemob.getEntity().remove(false);
+                return;
+            }
+
             // Reset death time if we are not dead.
             if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
             // Tick the logic stuff for this mob.

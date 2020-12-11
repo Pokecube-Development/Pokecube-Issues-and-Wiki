@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
@@ -34,6 +35,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -41,10 +44,17 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntry.SpawnData;
+import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
 import pokecube.core.events.pokemob.FaintEvent;
+import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.events.pokemob.SpawnEvent.Variance;
+import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
@@ -55,6 +65,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -217,6 +228,54 @@ public class EntityPokemob extends PokemobHasParts
     public boolean isSitting()
     {
         return this.pokemobCap.getLogicState(LogicStates.SITTING);
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
+            final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
+    {
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this);
+        if (pokemob == null) return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
+        final SpawnData entry = pokeEntry.getSpawnData();
+        if (entry == null) return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        final Vector3 loc = Vector3.getNewVector().set(this);
+        final SpawnBiomeMatcher matcher = entry.getMatcher(worldIn, loc);
+
+        final int overrideLevel = entry.getLevel(matcher);
+        final Variance variance = entry.getVariance(matcher);
+        if (pokemob != null)
+        {
+            final long time = System.nanoTime();
+            int maxXP = 10;
+            int level = 1;
+            if (SpawnHandler.expFunction && overrideLevel == -1)
+            {
+                maxXP = SpawnHandler.getSpawnXp(this.world, loc, pokemob.getPokedexEntry(), variance, overrideLevel);
+                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), loc, this.world, Tools
+                        .levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), maxXP), variance);
+                PokecubeCore.POKEMOB_BUS.post(event);
+                level = event.getLevel();
+            }
+            else if (overrideLevel == -1) level = SpawnHandler.getSpawnLevel(this.world, loc, pokemob.getPokedexEntry(),
+                    variance, overrideLevel);
+            else
+            {
+                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), loc, this.world,
+                        overrideLevel, variance);
+                PokecubeCore.POKEMOB_BUS.post(event);
+                level = event.getLevel();
+            }
+            maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
+            pokemob.getEntity().getPersistentData().putInt("spawnExp", maxXP);
+            final double dt = (System.nanoTime() - time) / 10e3D;
+            if (PokecubeMod.debug && dt > 100)
+            {
+                final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
+                PokecubeCore.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
+            }
+        }
+        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override

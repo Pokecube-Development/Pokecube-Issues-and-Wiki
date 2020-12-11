@@ -254,41 +254,10 @@ public final class SpawnHandler
         };
         if (ForgeEventFactory.doSpecialSpawn(MobEntity, world, (float) posX, (float) posY, (float) posZ, spawner,
                 SpawnReason.NATURAL)) return null;
-        final int overrideLevel = entry.getLevel(matcher);
-        final Variance variance = entry.getVariance(matcher);
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
-            final long time = System.nanoTime();
-            int maxXP = 10;
-            int level = 1;
-            if (SpawnHandler.expFunction && overrideLevel == -1)
-            {
-                maxXP = SpawnHandler.getSpawnXp(world, spawnPoint, pokemob.getPokedexEntry(), variance, overrideLevel);
-                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), spawnPoint, world, Tools
-                        .levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), maxXP), variance);
-                PokecubeCore.POKEMOB_BUS.post(event);
-                level = event.getLevel();
-            }
-            else if (overrideLevel == -1) level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(posX,
-                    posY, posZ), pokemob.getPokedexEntry(), variance, overrideLevel);
-            else
-            {
-                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), spawnPoint, world,
-                        overrideLevel, variance);
-                PokecubeCore.POKEMOB_BUS.post(event);
-                level = event.getLevel();
-            }
-            maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
-            pokemob.getEntity().getPersistentData().putInt("spawnExp", maxXP);
-            pokemob = pokemob.spawnInit(matcher.spawnRule);
-            final double dt = (System.nanoTime() - time) / 10e3D;
-            if (PokecubeMod.debug && dt > 100)
-            {
-                final Vector3 v = Vector3.getNewVector().set(posX, posY, posZ);
-                final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
-                PokecubeCore.LOGGER.info(String.format(toLog, v.getPos(), dt, pokemob.getDisplayName().getString()));
-            }
+            pokemob.spawnInit(matcher.spawnRule);
             return pokemob.getEntity();
         }
         return null;
@@ -849,6 +818,8 @@ public final class SpawnHandler
                             }
                             final SpawnEvent.Post evt = new SpawnEvent.Post(dbe, v3, world, pokemob);
                             PokecubeCore.POKEMOB_BUS.post(evt);
+                            entity.onInitialSpawn(world, world.getDifficultyForLocation(v.getPos()),
+                                    SpawnReason.NATURAL, null, null);
                             world.addEntity(entity);
                             totalSpawnCount++;
                         }

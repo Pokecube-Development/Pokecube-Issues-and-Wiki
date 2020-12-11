@@ -324,8 +324,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default double getMovementSpeed()
     {
-        final ModifiableAttributeInstance iattributeinstance = this.getEntity().getAttribute(
-                Attributes.MOVEMENT_SPEED);
+        final ModifiableAttributeInstance iattributeinstance = this.getEntity().getAttribute(Attributes.MOVEMENT_SPEED);
         final boolean swimming = this.getEntity().isInWater() || this.getEntity().isInLava() && this.getEntity()
                 .isImmuneToFire();
         final boolean flying = !swimming && !this.getEntity().isOnGround();
@@ -421,8 +420,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default boolean moveToShoulder(final PlayerEntity player)
     {
-        if (this.getEntity() instanceof ShoulderRidingEntity) if (player instanceof ServerPlayerEntity)return ((ShoulderRidingEntity) this.getEntity()).func_213439_d(
-                (ServerPlayerEntity) player);
+        if (this.getEntity() instanceof ShoulderRidingEntity) if (player instanceof ServerPlayerEntity)
+            return ((ShoulderRidingEntity) this.getEntity()).func_213439_d((ServerPlayerEntity) player);
         return false;
     }
 
@@ -525,6 +524,31 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         this.resetLoveStatus();
         return this.spawnInit(null);
     }
+
+    /**
+     * This is called when the mob is added to the world, it can return a
+     * different pokemob if it evolves, in that case, this will have
+     * markRemoved() called for it.
+     *
+     * @return
+     */
+    default IPokemob onAddedInit()
+    {
+        return this;
+    }
+
+    /**
+     * This is called to mark this pokemob as "removed", if that is the case, it
+     * will immediately despawn the next tick, without drops, etc
+     */
+    void markRemoved();
+
+    /**
+     * Returns true if markRemoved() was called!
+     *
+     * @return
+     */
+    boolean isRemoved();
 
     IPokemob spawnInit(SpawnRule info);
 
