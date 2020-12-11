@@ -23,6 +23,7 @@ import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.entity.pokemobs.AnimalChest;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -180,6 +181,8 @@ public abstract class PokemobBase implements IPokemob
 
     protected int timeSinceCombat = 0;
 
+    protected SpawnRule spawnInitRule = null;
+
     // Here we have all of the genes currently used.
     Alleles genesSize;
     Alleles genesIVs;
@@ -231,6 +234,8 @@ public abstract class PokemobBase implements IPokemob
     protected CompoundNBT loadedTasks;
 
     protected List<Logic> logic = Lists.newArrayList();
+
+    protected boolean isRemoved = false;
 
     @Override
     public DataSync dataSync()
