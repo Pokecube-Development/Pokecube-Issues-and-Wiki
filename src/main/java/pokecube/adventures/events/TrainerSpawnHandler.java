@@ -292,8 +292,9 @@ public class TrainerSpawnHandler
 
         // Then apply trainer specific stuff.
         int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(npc), Database.missingno);
-        if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
         if (thing.has("level")) level = thing.get("level").getAsInt();
+        // This is somewhat deprecated in favour of the "type" tag for npcs, but
+        // it will work here as well.
         if (thing.has("trainerType"))
         {
             final TypeTrainer type = TypeTrainer.typeMap.get(thing.get("trainerType").getAsString());

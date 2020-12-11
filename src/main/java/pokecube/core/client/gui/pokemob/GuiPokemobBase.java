@@ -28,6 +28,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -79,19 +80,23 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
             final float yaw, final float headPitch, final float headYaw, float scale)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        LivingEntity renderMob = entity;
         final int j = dx;
         final int k = dy;
         scale *= 30;
         if (pokemob != null)
         {
-            float mobScale = pokemob.getSize();
+            if (entity.addedToChunk) pokemob = AnimationGui.getRenderMob(pokemob);
+
+            pokemob.setSize(1);
+            renderMob = pokemob.getEntity();
+            float mobScale = 1;
 
             if (GuiPokemobBase.autoScale)
             {
                 final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
-                // System.out.println(GuiPokemobBase.sizeMap.size());
-                if (value != null) mobScale = value*2.0f;
+                if (value != null) mobScale = value * 2.0f;
                 else
                 {
                     final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
@@ -125,7 +130,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
                 .getBufferSource();
         RenderMobOverlays.enabled = false;
-        entityrenderermanager.renderEntityStatic(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixstack,
+        entityrenderermanager.renderEntityStatic(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixstack,
                 irendertypebuffer$impl, 15728880);
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.finish();

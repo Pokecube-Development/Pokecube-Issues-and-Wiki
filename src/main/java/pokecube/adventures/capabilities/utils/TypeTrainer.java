@@ -469,19 +469,38 @@ public class TypeTrainer extends NpcType
     }
 
     @OnlyIn(Dist.CLIENT)
-    public ResourceLocation getTexture(final LivingEntity trainer)
+    private void checkTex()
     {
-        final IHasPokemobs cap = TrainerCaps.getHasPokemobs(trainer);
-        this.checkedTex = false;
         if (!this.checkedTex)
         {
             this.checkedTex = true;
+            // Initial pass to find a tex
             if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
                     PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + ".png"));
             if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH
                     + Database.trim(this.getName()) + ".png"));
+
+            // Second pass to override with vanilla
+            if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
+                    "textures/entity/alex.png"));
+            if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation("textures/entity/steve.png"));
         }
-        return cap.getGender() == 1 ? this.getMaleTex() : this.getFemaleTex();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public ResourceLocation getMaleTex()
+    {
+        this.checkTex();
+        return super.getMaleTex();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public ResourceLocation getFemaleTex()
+    {
+        this.checkTex();
+        return super.getFemaleTex();
     }
 
     private void initLoot()

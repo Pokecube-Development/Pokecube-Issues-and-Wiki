@@ -59,7 +59,7 @@ public class SpawnListEntry
 
         if (entry != null)
         {
-            final IFormattableTextComponent name = new StringTextComponent(entry.getTranslatedName() + ":");
+            final IFormattableTextComponent name = entry.getTranslatedName().deepCopy().appendString(":");
             name.setStyle(name.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getTrimmedName()))
                     .setColor(Color.fromTextFormatting(TextFormatting.GREEN)));
             this.output.add(name);

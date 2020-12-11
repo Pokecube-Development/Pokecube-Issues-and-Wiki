@@ -113,6 +113,8 @@ public class EditorGui extends Screen
     @Override
     public void init(final Minecraft mc, final int width, final int height)
     {
+        this.children.clear();
+        this.buttons.clear();
         super.init(mc, width, height);
         EditorGui.lastPage = 0;
         // Here we just init current, it will then decide on what to do.
@@ -131,7 +133,6 @@ public class EditorGui extends Screen
         final int j2 = (this.width - 256) / 2;
         final int k2 = (this.height - 160) / 2;
         this.blit(mat, j2, k2, 0, 0, 256, 160);
-
         try
         {
             this.current_page.render(mat, mouseX, mouseY, partialTicks);
@@ -155,7 +156,7 @@ public class EditorGui extends Screen
     {
         this.resizing = true;
         super.resize(minecraft, width, height);
-        this.current_page.resize(minecraft, width, height);
+        this.init(this.mc, width, height);
     }
 
     public void changePage(final int newIndex)

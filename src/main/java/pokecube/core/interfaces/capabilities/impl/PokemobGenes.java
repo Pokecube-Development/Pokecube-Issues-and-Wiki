@@ -331,6 +331,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     {
         // Reset this incase gender or shininess changed..
         this.textures = null;
+        this.texs.clear();
+        this.shinyTexs.clear();
 
         this.genesSpecies = null;
         this.getPokedexEntry();

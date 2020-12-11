@@ -49,7 +49,12 @@ public class Pokemob extends Page
     TextFieldWidget[] evs = new TextFieldWidget[6];
 
     boolean shiny;
-    boolean male;
+
+    byte gender;
+
+    int abilIndex = 0;
+
+    Nature nat;
 
     public int index = -1;
 
@@ -157,8 +162,7 @@ public class Pokemob extends Page
 
         int level = 1;
         float size = 1;
-        final byte sexe;
-        this.male = false;
+        this.gender = 0;
         this.shiny = false;
         String nature = "";
         String ability = "";
@@ -166,18 +170,19 @@ public class Pokemob extends Page
         PokedexEntry entry = null;
         if (this.pokemob != null)
         {
+            this.abilIndex = this.pokemob.getAbilityIndex();
+            this.nat = this.pokemob.getNature();
             this.pokemob.onGenesChanged();
+            this.gender = this.pokemob.getSexe();
             entry = this.pokemob.getPokedexEntry();
             name = entry.getName();
             level = this.pokemob.getLevel();
             nature = this.pokemob.getNature() + "";
             if (this.pokemob.getAbility() != null) ability = this.pokemob.getAbility().toString();
             size = this.pokemob.getSize();
-            sexe = this.pokemob.getSexe();
             this.shiny = this.pokemob.isShiny();
         }
-        else sexe = 0;
-        final String gender = sexe == IPokemob.MALE ? "\u2642" : sexe == IPokemob.FEMALE ? "\u2640" : "o";
+        final String gender = this.gender == IPokemob.MALE ? "\u2642" : this.gender == IPokemob.FEMALE ? "\u2640" : "o";
         this.nature.setText("" + nature);
         this.ability.setText("" + ability);
         this.size.setText("" + size);
@@ -191,25 +196,21 @@ public class Pokemob extends Page
 
         this.addButton(new Button(xOffset - 100, yOffset + 62, 12, 12, next, b ->
         {
-            if (this.pokemob != null)
-            {
-                Nature here = this.pokemob.getNature();
-                int index = here.ordinal();
-                here = Nature.values()[++index % Nature.values().length];
-                this.pokemob.setNature(here);
-                this.nature.setText("" + here);
-                this.nature.moveCursorBy(-100);
-                this.onChanged();
-            }
+            int index = this.nat.ordinal() + 1;
+            if (index > Nature.values().length - 1) index = 0;
+            this.nat = Nature.values()[index];
+            this.pokemob.setNature(this.nat);
+            this.nature.setText("" + this.nat);
+            this.nature.moveCursorBy(-100);
+            this.onChanged();
         }));
         this.addButton(new Button(xOffset - 112, yOffset + 62, 12, 12, prev, b ->
         {
-            Nature here = this.pokemob.getNature();
-            int index = here.ordinal();
-            if (index == 0) index = Nature.values().length;
-            here = Nature.values()[--index % Nature.values().length];
-            this.pokemob.setNature(here);
-            this.nature.setText("" + here);
+            int index = this.nat.ordinal() - 1;
+            if (index < 0) index = Nature.values().length - 1;
+            this.nat = Nature.values()[index];
+            this.pokemob.setNature(this.nat);
+            this.nature.setText("" + this.nat);
             this.nature.moveCursorBy(-100);
             this.onChanged();
         }));
@@ -218,24 +219,21 @@ public class Pokemob extends Page
         {
             if (this.pokemob != null)
             {
-                int index = this.pokemob.getAbilityIndex() + 1;
-                index %= 3;
-                this.pokemob.setAbilityIndex(index);
-                this.pokemob.setAbility(this.pokemob.getPokedexEntry().getAbility(index, this.pokemob));
+                this.abilIndex = this.abilIndex + 1;
+                if (this.abilIndex > 2) this.abilIndex = 0;
+                this.pokemob.setAbilityIndex(this.abilIndex);
+                this.pokemob.setAbility(this.pokemob.getPokedexEntry().getAbility(this.abilIndex, this.pokemob));
                 this.ability.setText("" + this.pokemob.getAbility());
-                this.pokemob.onGenesChanged();
                 this.ability.moveCursorBy(-100);
                 this.onChanged();
             }
         }));
         this.addButton(new Button(xOffset - 52, yOffset + 62, 12, 12, prev, b ->
         {
-            int index = this.pokemob.getAbilityIndex() - 1;
-            if (index < 0) index = 2;
-            index %= 3;
-            this.pokemob.setAbilityIndex(index);
-            this.pokemob.setAbility(this.pokemob.getPokedexEntry().getAbility(index, this.pokemob));
-            this.pokemob.onGenesChanged();
+            this.abilIndex = this.abilIndex - 1;
+            if (this.abilIndex < 0) this.abilIndex = 2;
+            this.pokemob.setAbilityIndex(this.abilIndex);
+            this.pokemob.setAbility(this.pokemob.getPokedexEntry().getAbility(this.abilIndex, this.pokemob));
             this.ability.setText("" + this.pokemob.getAbility());
             this.ability.moveCursorBy(-100);
             this.onChanged();
@@ -246,23 +244,25 @@ public class Pokemob extends Page
                 {
                     this.closeCallback.run();
                 }));
-        this.addButton(new Button(xOffset + 73, yOffset + 52, 50, 12, new TranslationTextComponent(
-                "Apply"), b ->
-                {
-                    this.onChanged();
-                }));
-        this.addButton(new Button(xOffset + 73, yOffset + 40, 50, 12, new TranslationTextComponent(this.pokemob == null
-                ? "traineredit.button.newpokemob"
-                : "traineredit.button.delete"), b ->
-                {
-                    if (this.pokemob != null) this.deleteCallback.run();
-                    else
-                    {
-                        this.onChanged();
-                        if (this.pokemob != null) b.setMessage(new TranslationTextComponent(
-                                "traineredit.button.delete"));
-                    }
-                }));
+        this.addButton(new Button(xOffset + 73, yOffset + 52, 50, 12, new TranslationTextComponent("Apply"), b ->
+        {
+            this.onChanged();
+        }));
+
+        // Live pokemob editing doesn't have this option, so the deleteCallback
+        // will be null in that case.
+        if (this.deleteCallback != null) this.addButton(new Button(xOffset + 73, yOffset + 40, 50, 12,
+                new TranslationTextComponent(this.pokemob == null ? "traineredit.button.newpokemob"
+                        : "traineredit.button.delete"), b ->
+                        {
+                            if (this.pokemob != null) this.deleteCallback.run();
+                            else
+                            {
+                                this.onChanged();
+                                if (this.pokemob != null) b.setMessage(new TranslationTextComponent(
+                                        "traineredit.button.delete"));
+                            }
+                        }));
 
         this.addButton(new Button(xOffset - 122, yOffset - 67, 10, 10, new StringTextComponent(gender), b ->
         {
@@ -271,12 +271,12 @@ public class Pokemob extends Page
                 final byte old = this.pokemob.getSexe();
                 if (old == IPokemob.MALE || old == IPokemob.FEMALE)
                 {
-                    final byte newSexe = old == IPokemob.MALE ? IPokemob.FEMALE : IPokemob.MALE;
-                    this.pokemob.setSexe(newSexe);
-                    final String newgender = newSexe == IPokemob.MALE ? "\u2642"
-                            : sexe == IPokemob.FEMALE ? "\u2640" : "o";
+                    this.gender = old == IPokemob.MALE ? IPokemob.FEMALE
+                            : old == IPokemob.FEMALE ? IPokemob.MALE : this.gender;
+                    this.pokemob.setSexe(this.gender);
+                    final String newgender = this.gender == IPokemob.MALE ? "\u2642"
+                            : this.gender == IPokemob.FEMALE ? "\u2640" : "o";
                     b.setMessage(new StringTextComponent(newgender));
-                    PokecubeCore.LOGGER.debug("Editing Gender");
                     this.onChanged();
                 }
             }
@@ -289,7 +289,6 @@ public class Pokemob extends Page
                         this.shiny = !this.pokemob.isShiny();
                         this.pokemob.setShiny(this.shiny);
                         b.setMessage(new StringTextComponent(this.shiny ? "Y" : "N"));
-                        PokecubeCore.LOGGER.debug("Editing Shininess");
                         this.onChanged();
                     }
                 }));
@@ -328,7 +327,6 @@ public class Pokemob extends Page
                 }
                 int level = 1;
                 float size = 1;
-                this.male = false;
                 this.shiny = false;
                 String nature = "";
                 String ability = "";
@@ -339,9 +337,12 @@ public class Pokemob extends Page
                     name = entry.getName();
                     level = this.pokemob.getLevel();
                     nature = this.pokemob.getNature() + "";
+                    this.nat = this.pokemob.getNature();
                     if (this.pokemob.getAbility() != null) ability = this.pokemob.getAbility().toString();
                     size = this.pokemob.getSize();
                     this.shiny = this.pokemob.isShiny();
+                    this.gender = this.pokemob.getSexe();
+                    this.abilIndex = this.pokemob.getAbilityIndex();
                 }
                 this.nature.setText("" + nature);
                 this.ability.setText("" + ability);
@@ -386,11 +387,11 @@ public class Pokemob extends Page
             this.pokemob.setSize(Float.parseFloat(this.size.getText()));
             info.putFloat("s", Float.parseFloat(this.size.getText()));
 
-            this.pokemob.setNature(Nature.valueOf(this.nature.getText()));
-            info.putString("n", this.nature.getText());
+            this.pokemob.setNature(this.nat);
+            info.putString("n", this.nat.name());
 
             info.putBoolean("sh", this.shiny);
-            info.putBoolean("g", this.male);
+            info.putByte("g", this.gender);
         }
 
         // Case where we are editing a trainer

@@ -1,11 +1,13 @@
 package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.Vector;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
@@ -219,10 +221,14 @@ public abstract class PokemobBase implements IPokemob
      * animated textures
      */
     protected ResourceLocation[] textures;
+
+    protected final Map<ResourceLocation, ResourceLocation>   shinyTexs = Maps.newHashMap();
+    protected final Map<ResourceLocation, ResourceLocation[]> texs      = Maps.newHashMap();
+
     /**
      * This is the nbt of searalizable tasks.
      */
-    protected CompoundNBT        loadedTasks;
+    protected CompoundNBT loadedTasks;
 
     protected List<Logic> logic = Lists.newArrayList();
 
