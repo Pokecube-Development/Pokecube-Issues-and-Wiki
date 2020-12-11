@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "pokecube:log_enigma",
-    "pokecube:log_leppa",
-    "pokecube:log_nanab",
-    "pokecube:log_oran",
-    "pokecube:log_pecha",
-    "pokecube:log_sitrus"
+    "#pokecube:enigma_logs",
+    "#pokecube:leppa_logs",
+    "#pokecube:nanab_logs",
+    "#pokecube:oran_logs",
+    "#pokecube:pecha_logs",
+    "#pokecube:sitrus_logs"
   ]
 }

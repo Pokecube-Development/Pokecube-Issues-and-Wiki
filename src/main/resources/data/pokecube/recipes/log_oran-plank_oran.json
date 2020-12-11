@@ -12,7 +12,7 @@
         "group": "pokecube",
         "ingredients": [
           {
-            "item": "pokecube:log_oran"
+            "tag": "pokecube:oran_logs"
           }
         ],
         "result": {

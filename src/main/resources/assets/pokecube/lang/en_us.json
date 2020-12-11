@@ -344,6 +344,13 @@
     "block.pc.option.bind": "Bind",
     "block.pc.option.release": "Release",
     "block.pc.option.confirm": "Confirm",
+
+    "block.pokecube.enigma_wood": "Enigma Wood",
+    "block.pokecube.leppa_wood": "Leppa Wood",
+    "block.pokecube.nanab_wood": "Nanab Wood",
+    "block.pokecube.oran_wood": "Oran Wood",
+    "block.pokecube.pecha_wood": "Pecha Wood",
+    "block.pokecube.sitrus_wood": "Sitrus Wood",
     
     "_comment": "Items",
 

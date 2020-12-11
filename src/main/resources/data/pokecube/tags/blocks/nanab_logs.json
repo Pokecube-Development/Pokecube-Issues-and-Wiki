@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:log_nanab",
+    "pokecube:nanab_wood",
+    "pokecube:stripped_nanab_log",
+    "pokecube:stripped_nanab_wood"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "pokecube:block/leppa_log",
+    "side": "pokecube:block/leppa_log"
+  }
+}

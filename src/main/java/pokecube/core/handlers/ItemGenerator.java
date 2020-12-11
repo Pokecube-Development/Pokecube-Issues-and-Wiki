@@ -57,6 +57,7 @@ public class ItemGenerator
     public static final List<String> onlyBerryLeaves = Lists.newArrayList();
 
     public static Map<String, Block> logs   = Maps.newHashMap();
+    public static Map<String, Block> woods  = Maps.newHashMap();
     public static Map<String, Block> leaves = Maps.newHashMap();
     public static Map<String, Block> planks = Maps.newHashMap();
 
@@ -111,18 +112,19 @@ public class ItemGenerator
         {
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
 
-            // Log
+            // Logs
             Block block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
-                    MaterialColor.BROWN).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
+                    MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "log_" + name);
             ItemGenerator.logs.put(name, block);
             registry.register(block);
 
-            // Leaves
-            block = new BerryLeaf(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly()
-                    .notSolid().sound(SoundType.PLANT), index);
-            block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
-            ItemGenerator.leaves.put(name, block);
+            // Woods
+            block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
+                    MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
+            block.setRegistryName(PokecubeCore.MODID, name + "_wood");
+            ItemGenerator.woods.put(name, block);
+            registry.register(block);
             registry.register(block);
 
             // Planks
@@ -130,6 +132,13 @@ public class ItemGenerator
                     .hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "plank_" + name);
             ItemGenerator.planks.put(name, block);
+            registry.register(block);
+
+            // Leaves
+            block = new BerryLeaf(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly()
+                    .notSolid().sound(SoundType.PLANT), index);
+            block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
+            ItemGenerator.leaves.put(name, block);
             registry.register(block);
         }
 
@@ -209,6 +218,8 @@ public class ItemGenerator
         {
             registry.register(new BlockItem(ItemGenerator.logs.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.logs.get(name).getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.woods.get(name), new Item.Properties().group(
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.woods.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.planks.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.planks.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().group(
