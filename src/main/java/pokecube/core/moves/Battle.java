@@ -98,7 +98,15 @@ public class Battle
 
         if (existingA != null && existingB != null)
         {
-            PokecubeCore.LOGGER.warn("Warning, already a battle here! what do?");
+            // This only occurs if the mob had de-agroed quickly before
+            // re-agroing, so we will tell the battle to re-add the one to it.
+            if (existingA == existingB)
+            {
+                // Need to ensure the mobs are still agressed.
+                existingA.addToBattle(mobA, mobB);
+                return true;
+            }
+            PokecubeCore.LOGGER.warn("Need to merge battles! what do?");
             return false;
         }
         if (existingA != null) existingA.addToBattle(mobA, mobB);
