@@ -7397,7 +7397,15 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "the_end,pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004,pokecube_legends:ub005,pokecube_legends:ub006",
+              "biomes": "the_end",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          },
+		  {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave,pokecube_legends:ultra_jungle,pokecube_legends:ultra_desert,pokecube_legends:ultra_deep_hills,pokecube_legends:ultra_dark_valley,pokecube_legends:ultra_forgotten_plains",
               "min": "1",
               "rate": "0.01",
               "max": "1"

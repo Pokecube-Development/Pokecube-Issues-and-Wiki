@@ -6,7 +6,7 @@
   <metadata head="head" headCap="-70,70" headCap1="-60,60" headAxis="2" headAxis2="0" headDir="-1"/>
   <customTex default="thwackey">
 	<part name="Head" tex="thwackeyeye"/>
-	<animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
+	<animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
 	<part name="Mouth" tex="thwackeymouth"/>
 	<animation diffs="0,0.5" part="Mouth" trigger="random:0.005:5"/>
 	</customTex>
