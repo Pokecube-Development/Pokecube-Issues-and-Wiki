@@ -144,7 +144,6 @@ public class Impl
     public static void recallOutMobsOnUnload(final ChunkEvent.Unload event)
     {
         if (event.getWorld() == null || event.getWorld().isRemote()) return;
-        System.out.println(event.getWorld()+" "+event.getChunk());
         if (!(event.getWorld() instanceof ServerWorld && event.getChunk() instanceof Chunk)) return;
         final ServerWorld world = (ServerWorld) event.getWorld();
         if (!Essentials.config.versioned_dim_keys.contains(world.getDimensionKey().getLocation())) return;
@@ -154,7 +153,6 @@ public class Impl
             list.forEach(e ->
             {
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
-                System.out.println(pokemob);
                 if (pokemob != null && pokemob.getOwnerId() != null || e instanceof EntityPokecube) mobs.add(e);
             });
         PCEventsHandler.recallAll(mobs, true);
