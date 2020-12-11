@@ -474,10 +474,16 @@ public class TypeTrainer extends NpcType
         if (!this.checkedTex)
         {
             this.checkedTex = true;
+            // Initial pass to find a tex
             if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
                     PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + ".png"));
             if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH
                     + Database.trim(this.getName()) + ".png"));
+
+            // Second pass to override with vanilla
+            if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
+                    "textures/entity/alex.png"));
+            if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation("textures/entity/steve.png"));
         }
     }
 

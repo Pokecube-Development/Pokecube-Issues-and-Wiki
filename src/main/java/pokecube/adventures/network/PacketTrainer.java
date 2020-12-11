@@ -44,6 +44,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.CapHolders;
+import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.NBTPacket;
@@ -340,6 +341,12 @@ public class PacketTrainer extends NBTPacket
             if (mob != null) mob.remove();
             break;
         case UPDATEMOB:
+            if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITMOB))
+            {
+                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                        Util.DUMMY_UUID);
+                return;
+            }
             mob = player.getEntityWorld().getEntityByID(id);
             mobHolder = TrainerCaps.getHasPokemobs(mob);
             // This means we are editing a mob of a trainer.
@@ -383,17 +390,13 @@ public class PacketTrainer extends NBTPacket
                     final String nature = mobtag.getString("n");
                     final float size = mobtag.getFloat("s");
                     final boolean shiny = mobtag.getBoolean("sh");
-                    male = mobtag.getBoolean("g");
-                    final byte old = pokemob.getSexe();
-                    if (old == IPokemob.MALE || old == IPokemob.FEMALE)
-                    {
-                        final byte newSexe = old == IPokemob.MALE ? IPokemob.FEMALE : IPokemob.MALE;
-                        pokemob.setSexe(newSexe);
-                    }
+                    final byte gender = mobtag.getByte("g");
+                    pokemob.setSexe(gender);
                     pokemob.setNature(Nature.valueOf(nature));
                     pokemob.setAbility(AbilityManager.getAbility(ability));
                     pokemob.setShiny(shiny);
                     pokemob.setSize(size);
+                    pokemob.setExp(Tools.levelToXp(pokemob.getExperienceMode(), level), false);
 
                     pokemob.onGenesChanged();
                     EntityUpdate.sendEntityUpdate(mob);
