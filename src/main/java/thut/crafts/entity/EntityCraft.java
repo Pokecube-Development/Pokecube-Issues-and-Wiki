@@ -10,7 +10,6 @@ import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -92,8 +91,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     public EntityCraft(final EntityType<EntityCraft> type, final World par1World)
     {
         super(type, par1World);
-        this.ignoreFrustumCheck = true;
-        this.hurtResistantTime = 0;
     }
 
     @Override
@@ -266,12 +263,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         return new CraftInteractHandler(this);
     }
 
-    @Override
-    public void doMotion()
-    {
-        this.move(MoverType.SELF, this.getMotion());
-    }
-
     public int getEnergy()
     {
         return this.energy;
@@ -371,7 +362,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         double dx = this.getPosX();
         double dy = this.getPosY();
         double dz = this.getPosZ();
-        this.setPosition(pos.getX() + 0.5, Math.round(this.getPosY()), pos.getZ() + 0.5);
+        this.setPosition(pos.getX(), Math.round(this.getPosY()), pos.getZ());
         dx -= this.getPosX();
         dy -= this.getPosY();
         dz -= this.getPosZ();

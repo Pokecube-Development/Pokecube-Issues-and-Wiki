@@ -78,10 +78,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final int yMin = MathHelper.floor(blockEntity.getMin().getY());
             final int yMax = MathHelper.floor(blockEntity.getMax().getY());
 
-            final double dx = (xMax - xMin) / 2 + 0.5;
-            final double dz = (zMax - zMin) / 2 + 0.5;
-
-            mat.translate(-dx, 0, -dz);
+            mat.translate(xMin, 0, zMin);
 
             mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
             mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));

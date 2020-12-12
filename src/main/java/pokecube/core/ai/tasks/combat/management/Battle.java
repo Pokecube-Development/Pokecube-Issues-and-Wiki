@@ -54,7 +54,8 @@ public class Battle
         if (this.mob instanceof MobEntity)
         {
             BrainUtils.initiateCombat((MobEntity) this.mob, this.mainTarget);
-            if (this.pokemob != null && this.pokemob.getAbility() != null) this.pokemob.getAbility().start(this.pokemob);
+            if (this.pokemob != null && this.pokemob.getAbility() != null) this.pokemob.getAbility().start(
+                    this.pokemob);
         }
     }
 
@@ -85,7 +86,7 @@ public class Battle
             if (!this.enemies.isEmpty()) this.start();
 
         }
-        else
+        if (!this.enemies.isEmpty())
         {
             BrainUtils.deagro(this.mob);
             BrainUtils.deagro(this.mainTarget);

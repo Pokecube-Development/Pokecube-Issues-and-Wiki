@@ -21,6 +21,7 @@ import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class ThutTeleporter
 {
@@ -32,7 +33,15 @@ public class ThutTeleporter
             final String name = nbt.getString("name");
             final int index = nbt.getInt("i");
             GlobalPos pos = null;
-            pos = GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE, nbt.get("pos")));
+            try
+            {
+                pos = GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE, nbt.get("pos")));
+            }
+            catch (final Exception e)
+            {
+                ThutCore.LOGGER.error("Error loading value", e);
+                return null;
+            }
             return new TeleDest().setLoc(pos, loc).setPos(pos).setName(name).setIndex(index);
         }
 
@@ -155,8 +164,7 @@ public class ThutTeleporter
         private final TeleDest    dest;
         private final boolean     sound;
 
-        public TransferTicker(final ServerWorld destWorld, final Entity entity,
-                final TeleDest dest,
+        public TransferTicker(final ServerWorld destWorld, final Entity entity, final TeleDest dest,
                 final boolean sound)
         {
             this.entity = entity;
@@ -175,8 +183,7 @@ public class ThutTeleporter
                 ThutTeleporter.transferMob(this.destWorld, this.dest, this.entity);
                 if (this.sound)
                 {
-                    this.destWorld.playSound(this.dest.subLoc.x, this.dest.subLoc.y,
-                            this.dest.subLoc.z,
+                    this.destWorld.playSound(this.dest.subLoc.x, this.dest.subLoc.y, this.dest.subLoc.z,
                             SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                     this.entity.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
                 }
@@ -210,8 +217,7 @@ public class ThutTeleporter
                 if (sound)
                 {
                     destWorld.playSound(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z,
-                            SoundEvents.ENTITY_ENDERMAN_TELEPORT,
-                            SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                            SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                     player.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
                 }
                 player.invulnerableDimensionChange = false;
@@ -250,8 +256,8 @@ public class ThutTeleporter
     {
         if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
                 new net.minecraftforge.event.entity.EntityJoinWorldEvent(entity, world))) return;
-        final IChunk ichunk = world.getChunk(MathHelper.floor(entity.getPosX() / 16.0D), MathHelper.floor(entity.getPosZ()
-                / 16.0D), ChunkStatus.FULL, true);
+        final IChunk ichunk = world.getChunk(MathHelper.floor(entity.getPosX() / 16.0D), MathHelper.floor(entity
+                .getPosZ() / 16.0D), ChunkStatus.FULL, true);
         if (ichunk instanceof Chunk) ichunk.addEntity(entity);
         world.addEntityIfNotDuplicate(entity);
     }
@@ -269,8 +275,7 @@ public class ThutTeleporter
             final ServerPlayerEntity player = (ServerPlayerEntity) entity;
             player.invulnerableDimensionChange = true;
             ((ServerPlayerEntity) entity).connection.setPlayerLocation(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z,
-                    entity.rotationYaw,
-                    entity.rotationPitch);
+                    entity.rotationYaw, entity.rotationPitch);
             ((ServerPlayerEntity) entity).connection.captureCurrentPosition();
             player.invulnerableDimensionChange = false;
         }

@@ -10,6 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MoverType;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -27,6 +29,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -141,11 +144,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void applyEntityCollision(final Entity entity)
     {
-        if (this.collider == null)
-        {
-            this.collider = new BlockEntityUpdater(this);
-            this.collider.onSetPosition();
-        }
+        if (this.collider == null) this.collider = new BlockEntityUpdater(this);
         if (!entity.canBePushed()) return;
         try
         {
@@ -238,13 +237,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public void checkCollision()
     {
-        final int xMin = this.boundMin.getX();
-        final int zMin = this.boundMin.getZ();
-        final int xMax = this.boundMax.getX();
-        final int zMax = this.boundMax.getZ();
-
-        final List<?> list = this.world.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.getPosX() + (xMin
-                - 2), this.getPosY(), this.getPosZ() + (zMin - 2), this.getPosX() + xMax + 2, this.getPosY() + 64, this.getPosZ() + zMax + 2));
+        final List<?> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().grow(2));
         if (list != null && !list.isEmpty())
         {
             if (list.size() == 1 && this.getRecursivePassengers() != null && !this.getRecursivePassengers().isEmpty())
@@ -265,7 +258,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    abstract protected void doMotion();
+    public final void doMotion()
+    {
+        final Vec3d v = this.getMotion();
+        this.move(MoverType.SELF, v);
+    }
 
     @Override
     public Iterable<ItemStack> getArmorInventoryList()
@@ -437,6 +434,29 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
+    public void recalculateSize()
+    {
+        // if (this.collider != null)
+        // this.setBoundingBox(this.collider.getBoundingBox());
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox()
+    {
+        AxisAlignedBB box = super.getBoundingBox();
+        final BlockPos size = this.getSize();
+        if (this.collider != null && (box.getXSize() != size.getX() + 1 || box.getYSize() != size.getY() + 1 || box
+                .getZSize() != size.getZ() + 1)) box = this.collider.getBoundingBox();
+        return box;
+    }
+
+    @Override
+    protected AxisAlignedBB getBoundingBox(final Pose pose)
+    {
+        return this.getBoundingBox();
+    }
+
+    @Override
     public void readSpawnData(final PacketBuffer data)
     {
         this.readAdditional(data.readCompoundTag());
@@ -517,10 +537,19 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
+    public void resetPositionToBB()
+    {
+        final AxisAlignedBB box = this.getBoundingBox();
+        this.setRawPosition(box.minX, box.minY, box.minZ);
+        // Forge - Process chunk registration after moving.
+        if (this.isAddedToWorld() && !this.world.isRemote && this.world instanceof ServerWorld)
+            ((ServerWorld) this.world).chunkCheck(this);
+    }
+
+    @Override
     public void setPosition(final double x, final double y, final double z)
     {
-        super.setPosition(x, y, z);
-        if (this.collider != null) this.collider.onSetPosition();
+        super.setRawPosition(x, y, z);
     }
 
     @Override
@@ -538,11 +567,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.prevPosY = this.getPosY();
         this.prevPosZ = this.getPosZ();
 
-        if (this.collider == null)
-        {
-            this.collider = new BlockEntityUpdater(this);
-            this.collider.onSetPosition();
-        }
+        if (this.collider == null) this.collider = new BlockEntityUpdater(this);
+        this.setBoundingBox(this.collider.getBoundingBox());
 
         if (this.isServerWorld())
         {
@@ -563,8 +589,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         else if (dx == dy && dy == dz && dz == 0 && !this.world.isRemote)
         {
             final BlockPos pos = this.getPosition();
-            final boolean update = this.getPosX() != pos.getX() + 0.5 || this.getPosY() != Math.round(this.getPosY())
-                    || this.getPosZ() != pos.getZ() + 0.5;
+            final boolean update = this.getPosX() != pos.getX() || this.getPosY() != Math.round(this.getPosY()) || this
+                    .getPosZ() != pos.getZ();
             if (update) this.onGridAlign();
         }
         this.checkCollision();

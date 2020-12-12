@@ -49,6 +49,12 @@ public class BlockEntityUpdater
     {
         this.blockEntity = rocket;
         this.theEntity = (Entity) rocket;
+
+        final Vec3d here = this.theEntity.getPositionVec();
+        this.theEntity.setBoundingBox(this.getBoundingBox());
+        this.theEntity.setPosition(here.x, here.y, here.z);
+        final Vec3d shifted = this.theEntity.getPositionVec();
+        if (here.subtract(shifted).lengthSquared() > 0.25) System.out.println(here.subtract(shifted));
     }
 
     public VoxelShape buildShape()
@@ -63,13 +69,11 @@ public class BlockEntityUpdater
         final BlockPos origin = mob.getPosition();
         final IBlockReader world = this.blockEntity.getFakeWorld();
 
-        final int xMin = MathHelper.floor(this.blockEntity.getMin().getX());
-        final int xMax = MathHelper.floor(this.blockEntity.getMax().getX());
-        final int zMin = MathHelper.floor(this.blockEntity.getMin().getZ());
-        final int zMax = MathHelper.floor(this.blockEntity.getMax().getZ());
+        final int xMin = this.blockEntity.getMin().getX();
+        final int zMin = this.blockEntity.getMin().getZ();
 
-        final double dx = (xMax - xMin) / 2 + 0.5;
-        final double dz = (zMax - zMin) / 2 + 0.5;
+        final double dx = xMin;
+        final double dz = zMin;
 
         for (int i = 0; i < sizeX; i++)
             for (int j = 0; j < sizeY; j++)
@@ -345,41 +349,46 @@ public class BlockEntityUpdater
         }
     }
 
-    public void onSetPosition()
+    public AxisAlignedBB getBoundingBox()
     {
         double xMin, yMin, zMin, xMax, yMax, zMax;
-        xMin = this.theEntity.getPosX() + this.blockEntity.getMin().getX() - 0.5;
-        yMin = this.theEntity.getPosY() + this.blockEntity.getMin().getY();
-        zMin = this.theEntity.getPosZ() + this.blockEntity.getMin().getZ() - 0.5;
-        xMax = this.theEntity.getPosX() + this.blockEntity.getMax().getX() + 0.5;
-        yMax = this.theEntity.getPosY() + this.blockEntity.getMax().getY() + 1;
-        zMax = this.theEntity.getPosZ() + this.blockEntity.getMax().getZ() + 0.5;
-        this.theEntity.setBoundingBox(new AxisAlignedBB(xMin, yMin, zMin, xMax, yMax, zMax));
+        final BlockPos size = this.blockEntity.getSize();
+
+        final double x0 = this.theEntity.getPosX();
+        final double y0 = this.theEntity.getPosY();
+        final double z0 = this.theEntity.getPosZ();
+
+        xMin = x0;
+        yMin = y0;
+        zMin = z0;
+
+        xMax = x0 + size.getX() + 1;
+        yMax = y0 + size.getY() + 1;
+        zMax = z0 + size.getZ() + 1;
+
+        return new AxisAlignedBB(xMin, yMin, zMin, xMax, yMax, zMax);
     }
 
     public void onUpdate()
     {
         if (this.blockEntity.getBlocks() == null) return;
-        final double wMax = this.theEntity.getEntityWorld().getMaxEntityRadius();
-        double uMax = -1;
-        if (wMax < this.blockEntity.getBlocks().length) uMax = this.blockEntity.getBlocks().length;
-        if (wMax < this.blockEntity.getBlocks()[0].length) uMax = this.blockEntity.getBlocks()[0].length;
-        if (wMax < this.blockEntity.getBlocks()[0][0].length) uMax = this.blockEntity.getBlocks()[0][0].length;
+        final BlockPos dims = this.blockEntity.getSize();
+        final double uMax = Math.max(dims.getX(), Math.max(dims.getY(), dims.getZ()));
         this.theEntity.getEntityWorld().increaseMaxEntityRadius(uMax);
         EntitySize size = this.theEntity.getSize(this.theEntity.getPose());
-        size = EntitySize.fixed(1 + this.blockEntity.getMax().getX() - this.blockEntity.getMin().getX(),
-                this.blockEntity.getMax().getY());
-        this.blockEntity.setSize(size);
+        if (size.width != dims.getX() + 1)
+        {
+            size = EntitySize.fixed(1 + dims.getX(), this.blockEntity.getMax().getY());
+            this.blockEntity.setSize(size);
+        }
         double y;
         if (this.theEntity.getMotion().y == 0 && this.theEntity.getPosY() != (y = Math.round(this.theEntity.getPosY())))
             this.theEntity.setPosition(this.theEntity.getPosX(), y, this.theEntity.getPosZ());
         final BlockPos.Mutable pos = new BlockPos.Mutable();
-        final int xMin = this.blockEntity.getMin().getX();
-        final int zMin = this.blockEntity.getMin().getZ();
-        final int yMin = this.blockEntity.getMin().getY();
-        final int sizeX = this.blockEntity.getTiles().length;
-        final int sizeY = this.blockEntity.getTiles()[0].length;
-        final int sizeZ = this.blockEntity.getTiles()[0][0].length;
+
+        final int sizeX = dims.getX();
+        final int sizeY = dims.getY();
+        final int sizeZ = dims.getZ();
 
         final World world = this.blockEntity.getFakeWorld() instanceof World ? (World) this.blockEntity.getFakeWorld()
                 : this.theEntity.getEntityWorld();
@@ -388,8 +397,8 @@ public class BlockEntityUpdater
             for (int j = 0; j < sizeY; j++)
                 for (int k = 0; k < sizeZ; k++)
                 {
-                    pos.setPos(i + xMin + this.theEntity.getPosX(), j + yMin + this.theEntity.getPosY(), k + zMin
-                            + this.theEntity.getPosZ());
+                    pos.setPos(i + this.theEntity.getPosX(), j + this.theEntity.getPosY(), k + this.theEntity
+                            .getPosZ());
 
                     // TODO rotate here by entity rotation.
                     final TileEntity tile = this.blockEntity.getTiles()[i][j][k];

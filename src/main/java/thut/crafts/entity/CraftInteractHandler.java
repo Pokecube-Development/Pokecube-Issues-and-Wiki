@@ -75,9 +75,6 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
             if (this.craft.getSeatCount() == 0)
             {
                 final BlockPos.Mutable pos1 = new BlockPos.Mutable();
-                final int xMin = this.craft.getMin().getX();
-                final int zMin = this.craft.getMin().getZ();
-                final int yMin = this.craft.getMin().getY();
                 final int sizeX = this.craft.getTiles().length;
                 final int sizeY = this.craft.getTiles()[0].length;
                 final int sizeZ = this.craft.getTiles()[0][0].length;
@@ -85,18 +82,18 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                     for (int j = 0; j < sizeY; j++)
                         for (int k = 0; k < sizeZ; k++)
                         {
-                            pos1.setPos(i + xMin + this.craft.getPosX(), j + yMin + this.craft.getPosY(), k + zMin
-                                    + this.craft.getPosZ());
+                            pos1.setPos(i + this.craft.getPosX(), j + this.craft.getPosY(), k + this.craft.getPosZ());
                             final BlockState state1 = this.craft.getFakeWorld().getBlock(pos1);
                             if (state1.getBlock() instanceof StairsBlock)
                             {
-                                final Vector3f seat = new Vector3f(i + xMin, j + yMin + 0.5f, k + zMin);
+                                final Vector3f seat = new Vector3f(i + 0.5f, j + 0.5f, k + 0.5f);
                                 this.craft.addSeat(seat);
                             }
                         }
             }
             final BlockPos pos2 = new BlockPos(this.craft.getPositionVector());
             pos = pos.subtract(pos2);
+
             for (int i = 0; i < this.craft.getSeatCount(); i++)
             {
                 final Seat seat = this.craft.getSeat(i);

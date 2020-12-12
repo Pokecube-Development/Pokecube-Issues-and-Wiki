@@ -43,7 +43,7 @@ public class CommonProxy implements Proxy
             final AxisAlignedBB box = new AxisAlignedBB(min, max);
             min = new BlockPos(box.minX, box.minY, box.minZ);
             max = new BlockPos(box.maxX, box.maxY, box.maxZ);
-            final BlockPos mid = min.add((max.getX() - min.getX()) / 2, 0, (max.getZ() - min.getZ()) / 2);
+            final BlockPos mid = min;
             min = min.subtract(mid);
             max = max.subtract(mid);
             final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
@@ -96,7 +96,7 @@ public class CommonProxy implements Proxy
             final AxisAlignedBB box = new AxisAlignedBB(min, max);
             min = new BlockPos(box.minX, box.minY, box.minZ);
             max = new BlockPos(box.maxX, box.maxY, box.maxZ);
-            final BlockPos mid = min.add((max.getX() - min.getX()) / 2, 0, (max.getZ() - min.getZ()) / 2);
+            final BlockPos mid = min;
             min = min.subtract(mid);
             max = max.subtract(mid);
             final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
