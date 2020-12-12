@@ -10,11 +10,19 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.LogBlock;
+import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.TrapDoorBlock;
+import net.minecraft.block.WoodButtonBlock;
+import net.minecraft.block.Block.Properties;
+import net.minecraft.block.PressurePlateBlock.Sensitivity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.AxeItem;
@@ -65,6 +73,7 @@ public class ItemGenerator
     public static Map<String, Block> stripped_logs   = Maps.newHashMap();
     public static Map<String, Block> stripped_woods  = Maps.newHashMap();
     public static Map<String, Block> slabs  = Maps.newHashMap();
+    public static Map<String, Block> stairs  = Maps.newHashMap();
     public static Map<String, Block> leaves = Maps.newHashMap();
     public static Map<String, Block> planks = Maps.newHashMap();
 
@@ -260,6 +269,38 @@ public class ItemGenerator
         for (final String name : ItemGenerator.onlyBerryLeaves)
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
+    }
+
+    public static class GenericWoodStairs extends StairsBlock 
+    {
+        @SuppressWarnings("deprecation")
+		public GenericWoodStairs(BlockState state, Properties properties) {
+            super(state, properties);
+        }
+    }
+
+    public static class GenericTrapDoorBlock extends TrapDoorBlock {
+        public GenericTrapDoorBlock(Properties properties) {
+            super(properties);
+        }
+    }
+
+    public static class GenericDoorBlock extends DoorBlock {
+        public GenericDoorBlock(Properties properties) {
+            super(properties);
+        }
+    }
+
+    public static class GenericButtonBlock extends WoodButtonBlock {
+        public GenericButtonBlock(Properties properties) {
+            super(properties);
+        }
+    }
+
+    public static class GenericPressurePlate extends PressurePlateBlock {
+        public GenericPressurePlate(Sensitivity sesitivity, Properties properties) {
+            super(sesitivity, properties);
+        }
     }
     
 	public static void addStrippable(Block logs, Block strippedLogs) 
