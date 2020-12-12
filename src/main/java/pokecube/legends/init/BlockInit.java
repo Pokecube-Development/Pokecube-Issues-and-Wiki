@@ -279,6 +279,8 @@ public class BlockInit
         		() -> new Ultra_Tree03(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
         //Woods (LOG/LEAVES/PLANKS)
+        ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(
+        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
         ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, 
         		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
         INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new LogBlock(MaterialColor.WOOD, 
@@ -288,23 +290,23 @@ public class BlockInit
         STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        INVERTED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("inverted_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("inverted_stairs", () -> new ItemGenerator.GenericWoodStairs(
         		Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
-        ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(
-        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        INVERTED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("inverted_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("inverted_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        INVERTED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
         		PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        INVERTED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("inverted_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
-        INVERTED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new ItemGenerator.GenericButtonBlock(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        INVERTED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("inverted_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
         INVERTED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("inverted_door", () -> new ItemGenerator.GenericDoorBlock(
         		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
+        ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(
+        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
         ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, 
         		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
         TEMPORAL_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("temporal_wood", () -> new LogBlock(MaterialColor.WOOD, 
@@ -314,23 +316,23 @@ public class BlockInit
         STRIP_TEMPORAL_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        TEMPORAL_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("temporal_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         TEMPORAL_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("temporal_stairs", () -> new ItemGenerator.GenericWoodStairs(
         		Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
-        ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(
-        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        TEMPORAL_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("temporal_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         TEMPORAL_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("temporal_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        TEMPORAL_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         TEMPORAL_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
         		PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        TEMPORAL_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("temporal_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
-        TEMPORAL_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         TEMPORAL_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("temporal_button", () -> new ItemGenerator.GenericButtonBlock(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        TEMPORAL_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("temporal_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
         TEMPORAL_DOOR		= PokecubeLegends.BLOCKS_TAB.register("temporal_door", () -> new ItemGenerator.GenericDoorBlock(
         		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
+        ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(
+        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
         ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD, 
         		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
         AGED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("aged_wood", () -> new LogBlock(MaterialColor.WOOD, 
@@ -340,20 +342,18 @@ public class BlockInit
         STRIP_AGED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_aged_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        AGED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("aged_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("aged_stairs", () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), 
         		Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
-        ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(
-        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
+        AGED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("aged_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("aged_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
+        AGED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("aged_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("aged_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
         		PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        AGED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("aged_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
-        AGED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("aged_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new ItemGenerator.GenericButtonBlock(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        AGED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("aged_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
+        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
         AGED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("aged_door", () -> new ItemGenerator.GenericDoorBlock(
         		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
