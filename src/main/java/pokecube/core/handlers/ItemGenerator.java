@@ -23,7 +23,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.block.WoodButtonBlock;
-import net.minecraft.block.Block.Properties;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -31,7 +30,6 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -75,11 +73,13 @@ public class ItemGenerator
     public static Map<String, Block> woods  = Maps.newHashMap();
     public static Map<String, Block> stripped_logs   = Maps.newHashMap();
     public static Map<String, Block> stripped_woods  = Maps.newHashMap();
+    public static Map<String, Block> planks = Maps.newHashMap();
     public static Map<String, Block> stairs  = Maps.newHashMap();
     public static Map<String, Block> slabs  = Maps.newHashMap();
     public static Map<String, Block> fences  = Maps.newHashMap();
     public static Map<String, Block> fence_gates  = Maps.newHashMap();
-    public static Map<String, Block> planks = Maps.newHashMap();
+    public static Map<String, Block> pressure_plates  = Maps.newHashMap();
+    public static Map<String, Block> buttons  = Maps.newHashMap();
 
     public static void makeBerries(final IForgeRegistry<Item> registry)
     {
@@ -167,35 +167,47 @@ public class ItemGenerator
             ItemGenerator.stripped_woods.put(name, block);
             registry.register(block);
 
-            // Stairs
-            block = new GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS));
-            block.setRegistryName(PokecubeCore.MODID, name + "_stairs");
-            ItemGenerator.stairs.put(name, block);
-            registry.register(block);
-
-            // Slabs
-            block = new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS));
-            block.setRegistryName(PokecubeCore.MODID, name + "_slab");
-            ItemGenerator.slabs.put(name, block);
-            registry.register(block);
-
-            // Fences
-            block = new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS));
-            block.setRegistryName(PokecubeCore.MODID, name + "_fence");
-            ItemGenerator.fences.put(name, block);
-            registry.register(block);
-
-            // Fence Gates
-            block = new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS));
-            block.setRegistryName(PokecubeCore.MODID, name + "_fence_gate");
-            ItemGenerator.fence_gates.put(name, block);
-            registry.register(block);
-
             // Planks
             block = new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD)
                     .hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "plank_" + name);
             ItemGenerator.planks.put(name, block);
+            registry.register(block);
+
+            // Stairs
+            block = new GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_STAIRS));
+            block.setRegistryName(PokecubeCore.MODID, name + "_stairs");
+            ItemGenerator.stairs.put(name, block);
+            registry.register(block);
+
+            // Slabs
+            block = new SlabBlock(Block.Properties.from(Blocks.OAK_SLAB));
+            block.setRegistryName(PokecubeCore.MODID, name + "_slab");
+            ItemGenerator.slabs.put(name, block);
+            registry.register(block);
+
+            // Fences
+            block = new FenceBlock(Block.Properties.from(Blocks.OAK_FENCE));
+            block.setRegistryName(PokecubeCore.MODID, name + "_fence");
+            ItemGenerator.fences.put(name, block);
+            registry.register(block);
+
+            // Fence Gates
+            block = new FenceGateBlock(Block.Properties.from(Blocks.OAK_FENCE_GATE));
+            block.setRegistryName(PokecubeCore.MODID, name + "_fence_gate");
+            ItemGenerator.fence_gates.put(name, block);
+            registry.register(block);
+
+            // Pressure Plates
+            block = new GenericPressurePlate(Sensitivity.EVERYTHING, Block.Properties.from(Blocks.OAK_PRESSURE_PLATE));
+            block.setRegistryName(PokecubeCore.MODID, name + "_pressure_plate");
+            ItemGenerator.pressure_plates.put(name, block);
+            registry.register(block);
+
+            // Buttons
+            block = new GenericWoodButton(Block.Properties.from(Blocks.OAK_BUTTON));
+            block.setRegistryName(PokecubeCore.MODID, name + "_button");
+            ItemGenerator.buttons.put(name, block);
             registry.register(block);
         }
 
@@ -293,6 +305,10 @@ public class ItemGenerator
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.fences.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.fence_gates.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.fence_gates.get(name).getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.pressure_plates.get(name), new Item.Properties().group(
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.pressure_plates.get(name).getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.buttons.get(name), new Item.Properties().group(
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.buttons.get(name).getRegistryName()));
         }
         for (final String name : ItemGenerator.onlyBerryLeaves)
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().group(
@@ -319,8 +335,8 @@ public class ItemGenerator
         }
     }
 
-    public static class GenericButtonBlock extends WoodButtonBlock {
-        public GenericButtonBlock(Properties properties) {
+    public static class GenericWoodButton extends WoodButtonBlock {
+        public GenericWoodButton(Properties properties) {
             super(properties);
         }
     }

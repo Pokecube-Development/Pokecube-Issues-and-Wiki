@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends",
+  "ingredients": [
+    {
+      "item": "pokecube:plank_oran"
+    }
+  ],
+  "result": {
+    "item": "pokecube:oran_button"
+  }
+}

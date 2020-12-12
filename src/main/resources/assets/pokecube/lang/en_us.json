@@ -393,6 +393,20 @@
     "block.pokecube.oran_fence_gate": "Oran Fence Gate",
     "block.pokecube.pecha_fence_gate": "Pecha Fence Gate",
     "block.pokecube.sitrus_fence_gate": "Sitrus Fence Gate",
+
+    "block.pokecube.enigma_pressure_plate": "Enigma Pressure Plate",
+    "block.pokecube.leppa_pressure_plate": "Leppa Pressure Plate",
+    "block.pokecube.nanab_pressure_plate": "Nanab Pressure Plate",
+    "block.pokecube.oran_pressure_plate": "Oran Pressure Plate",
+    "block.pokecube.pecha_pressure_plate": "Pecha Pressure Plate",
+    "block.pokecube.sitrus_pressure_plate": "Sitrus Pressure Plate",
+
+    "block.pokecube.enigma_button": "Enigma Button",
+    "block.pokecube.leppa_button": "Leppa Button",
+    "block.pokecube.nanab_button": "Nanab Button",
+    "block.pokecube.oran_button": "Oran Button",
+    "block.pokecube.pecha_button": "Pecha Button",
+    "block.pokecube.sitrus_button": "Sitrus Button",
     
     "_comment": "Items",
 

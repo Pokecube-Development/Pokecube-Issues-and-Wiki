@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends",
+  "ingredients": [
+    {
+      "item": "pokecube:plank_sitrus"
+    }
+  ],
+  "result": {
+    "item": "pokecube:sitrus_button"
+  }
+}

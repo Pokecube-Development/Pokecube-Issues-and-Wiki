@@ -298,7 +298,7 @@ public class BlockInit
         INVERTED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
         		PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new ItemGenerator.GenericButtonBlock(
+        INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new ItemGenerator.GenericWoodButton(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
         INVERTED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("inverted_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
         		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
@@ -324,7 +324,7 @@ public class BlockInit
         TEMPORAL_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
         		PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        TEMPORAL_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("temporal_button", () -> new ItemGenerator.GenericButtonBlock(
+        TEMPORAL_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("temporal_button", () -> new ItemGenerator.GenericWoodButton(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
         TEMPORAL_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("temporal_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
         		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
@@ -350,7 +350,7 @@ public class BlockInit
         AGED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("aged_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
         		PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        AGED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new ItemGenerator.GenericButtonBlock(
+        AGED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new ItemGenerator.GenericWoodButton(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
         AGED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("aged_trapdoor", () -> new ItemGenerator.GenericTrapDoorBlock(
         		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
