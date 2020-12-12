@@ -74218,6 +74218,7 @@
         "expMode": "Slow",
         "logics": {},
         "formeItems": {},
+        "genderRatio": 255,
         "movementType": "floating"
       },
       "moves": {
