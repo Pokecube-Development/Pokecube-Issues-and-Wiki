@@ -10,8 +10,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.RotatedPillarBlock;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -62,6 +64,7 @@ public class ItemGenerator
     public static Map<String, Block> woods  = Maps.newHashMap();
     public static Map<String, Block> stripped_logs   = Maps.newHashMap();
     public static Map<String, Block> stripped_woods  = Maps.newHashMap();
+    public static Map<String, Block> slabs  = Maps.newHashMap();
     public static Map<String, Block> leaves = Maps.newHashMap();
     public static Map<String, Block> planks = Maps.newHashMap();
 
@@ -142,6 +145,12 @@ public class ItemGenerator
                     MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "stripped_" + name + "_wood");
             ItemGenerator.stripped_woods.put(name, block);
+            registry.register(block);
+
+            // Slabs
+            block = new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS));
+            block.setRegistryName(PokecubeCore.MODID, name + "_slab");
+            ItemGenerator.slabs.put(name, block);
             registry.register(block);
 
             // Planks
@@ -241,6 +250,8 @@ public class ItemGenerator
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_logs.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.stripped_woods.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_woods.get(name).getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.slabs.get(name), new Item.Properties().group(
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.slabs.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.planks.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.planks.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().group(

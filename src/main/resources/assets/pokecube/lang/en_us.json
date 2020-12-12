@@ -365,6 +365,13 @@
     "block.pokecube.stripped_oran_wood": "Stripped Oran Wood",
     "block.pokecube.stripped_pecha_wood": "Stripped Pecha Wood",
     "block.pokecube.stripped_sitrus_wood": "Stripped Sitrus Wood",
+
+    "block.pokecube.enigma_slab": "Enigma Slab",
+    "block.pokecube.leppa_slab": "Leppa Slab",
+    "block.pokecube.nanab_slab": "Nanab Slab",
+    "block.pokecube.oran_slab": "Oran Slab",
+    "block.pokecube.pecha_slab": "Pecha Slab",
+    "block.pokecube.sitrus_slab": "Sitrus Slab",
     
     "_comment": "Items",
 

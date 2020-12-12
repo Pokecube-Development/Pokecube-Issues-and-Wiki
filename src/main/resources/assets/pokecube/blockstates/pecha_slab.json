@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube:block/pecha_slab"
+    },
+    "type=double": {
+      "model": "pokecube:block/plank_pecha"
+    },
+    "type=top": {
+      "model": "pokecube:block/pecha_slab_top"
+    }
+  }
+}
