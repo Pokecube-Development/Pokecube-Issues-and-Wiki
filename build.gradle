@@ -136,6 +136,10 @@ dependencies {
     
     //Immersive Enginnering
     //implementation "blusunrize:ImmersiveEngineering:0.15-+"
+    
+    // Advanced Rocketry
+    implementation fg.deobf("libs:AdvancedRocketry-1.16.3-1.7.1-api")
+    implementation fg.deobf("libs:LibVulpes-1.16.3-1.0.1-api")
 
 }
 
