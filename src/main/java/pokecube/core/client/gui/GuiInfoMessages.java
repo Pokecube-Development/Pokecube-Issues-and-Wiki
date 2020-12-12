@@ -13,11 +13,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
 import pokecube.core.client.gui.helper.ListHelper;
@@ -56,8 +52,6 @@ public class GuiInfoMessages
         GuiInfoMessages.recent.clear();
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
     public static void draw(final RenderMoveMessages event)
     {
         if (PokecubeCore.getConfig().battleLogInChat) return;

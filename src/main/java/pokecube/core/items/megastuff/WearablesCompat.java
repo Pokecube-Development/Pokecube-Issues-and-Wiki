@@ -2,7 +2,6 @@ package pokecube.core.items.megastuff;
 
 import java.awt.Color;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -21,7 +20,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.models.ModelRing;
@@ -306,21 +304,7 @@ public class WearablesCompat
         });
     }
 
-    public static void init()
-    {
-        MegaCapability.checker = (player, toEvolve) ->
-        {
-            final Set<ItemStack> worn = thut.wearables.ThutWearables.getWearables(player).getWearables();
-            for (final ItemStack stack1 : worn)
-                if (stack1 != null) if (MegaCapability.matches(stack1, toEvolve)) return true;
-            for (final ItemStack stack2 : player.inventory.armorInventory)
-                if (stack2 != null) if (MegaCapability.matches(stack2, toEvolve)) return true;
-            return false;
-        };
-    }
-
-    @SubscribeEvent
-    public static void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
+    public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
     {
         if (event.getCapabilities().containsKey(WearablesCompat.WEARABLESKEY)) return;
         if (event.getObject().getItem() instanceof ItemMegawearable)

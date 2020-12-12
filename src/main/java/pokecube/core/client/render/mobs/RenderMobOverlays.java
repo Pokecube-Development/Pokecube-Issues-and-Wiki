@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.client.render.mobs.overlays.ExitCube;
@@ -23,7 +22,6 @@ public class RenderMobOverlays
 {
     public static boolean enabled = true;
 
-    @SubscribeEvent
     public static void renderSpecial(final RenderLivingEvent.Pre<MobEntity, EntityModel<MobEntity>> event)
     {
         if (!RenderMobOverlays.enabled) return;

@@ -21,7 +21,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.world.WorldEvent.Load;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
@@ -295,8 +294,7 @@ public class PokemobTracker
         return pokemobs;
     }
 
-    @SubscribeEvent
-    public static void worldLoadEvent(final Load evt)
+    public static void onWorldLoad(final Load evt)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(evt.getWorld());
         if (evt.getWorld().isRemote())

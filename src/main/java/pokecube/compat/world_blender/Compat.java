@@ -1,9 +1,5 @@
 package pokecube.compat.world_blender;
 
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -23,22 +19,15 @@ public class Compat
         PokecubeCore.LOGGER.debug("Checking World Blender: " + ModList.get().isLoaded(Compat.MODID));
         if (ModList.get().isLoaded(Compat.MODID))
         {
-            PokecubeCore.POKEMOB_BUS.register(Compat.class);
+            PokecubeCore.POKEMOB_BUS.addListener(Compat::registerDatabases);
             FMLJavaModLoadingContext.get().getModEventBus().register(Compat.class);
             new WorldgenHandler(Compat.MODID, FMLJavaModLoadingContext.get().getModEventBus());
         }
     }
 
-    @SubscribeEvent
     public static void registerDatabases(final InitDatabase.Pre evt)
     {
         PokecubeCore.LOGGER.debug("Registering World Blender Databases");
         Database.addDatabase("world_blender:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOW)
-    public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
-    {
-        PokecubeCore.LOGGER.debug("Registering World Blender Features");
     }
 }

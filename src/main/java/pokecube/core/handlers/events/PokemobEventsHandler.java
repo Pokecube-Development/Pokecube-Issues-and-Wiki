@@ -46,7 +46,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -90,8 +89,46 @@ public class PokemobEventsHandler
 {
     private static Map<DyeColor, ITag<Item>> DYETAGS = Maps.newHashMap();
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void dropEvent(final LivingDropsEvent event)
+    public static void register()
+    {
+        // This handles exp yield from lucky eggs and exp_shares.
+        PokecubeCore.POKEMOB_BUS.addListener(PokemobEventsHandler::onKillEvent);
+
+        // Highest to prevent other things from trying to do things with our
+        // drops if we cancel them, and to allow us to add things properly to
+        // the drops. This adds the inventory items to the drops list for wild
+        // pokemobs, and prevents drops for pokemobs which have been revived or
+        // are tame
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, PokemobEventsHandler::onLivingDrops);
+        // Handles interactions on right clicking the pokemob, such as: item
+        // use, riding, opening gui, picking up, etc
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onInteractSpecific);
+        // This handles pokemob damage stuff. It deals with: cancelling damage
+        // on invalid targets, adjusting damage amount by the scaling configs
+        // and preventing player suffocating while riding a pokemob into a
+        // cieling.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingHurt);
+
+        // This ensures that the damage sources apply for the correct entity,
+        // this part is for support for mods like customnpcs
+        // It also handles exp gain for the pokemobs when they kill something.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingDeath);
+        // This deals with pokemob initialization, it initializes the AI, and
+        // also does some checks for things like evolution, etc
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onJoinWorld);
+        // This synchronizes genetics over to the clients when they start
+        // tracking the mob locally.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobTracking);
+        // This syncs rotation of the ridden pokemob with the rider.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onWorldTick);
+        // This pauses the pokemobs if too close to the edge of the loaded area,
+        // preventing them from chunkloading during their AI. It also then
+        // ensures their UUID is correct after evolution, and then ticks the
+        // "logic" section of their AI.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobTick);
+    }
+
+    private static void onLivingDrops(final LivingDropsEvent event)
     {
         // Once it has been revived, we don't drop anything anymore
         if (event.getEntity().getPersistentData().getBoolean(TagNames.REVIVED))
@@ -124,7 +161,193 @@ public class PokemobEventsHandler
         }
     }
 
-    public static Map<DyeColor, ITag<Item>> getDyeTagMap()
+    private static void onInteract(final PlayerInteractEvent.EntityInteract evt)
+    {
+        final String ID = "LastSuccessInteractEvent";
+        final long time = evt.getEntity().getPersistentData().getLong(ID);
+        if (time == evt.getEntity().getEntityWorld().getGameTime())
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        PokemobEventsHandler.processInteract(evt, evt.getTarget());
+        if (evt.isCanceled()) evt.getEntity().getPersistentData().putLong(ID, evt.getEntity().getEntityWorld()
+                .getGameTime());
+    }
+
+    private static void onInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
+    {
+        final String ID = "LastSuccessInteractEvent";
+        final long time = evt.getEntity().getPersistentData().getLong(ID);
+        if (time == evt.getEntity().getEntityWorld().getGameTime())
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        PokemobEventsHandler.processInteract(evt, evt.getTarget());
+        if (evt.isCanceled()) evt.getEntity().getPersistentData().putLong(ID, evt.getEntity().getEntityWorld()
+                .getGameTime());
+    }
+
+    private static void onLivingHurt(final LivingHurtEvent evt)
+    {
+        /*
+         * No harming invalid targets, only apply this to pokemob related damage
+         * sources
+         */
+        if (evt.getSource() instanceof IPokedamage && !AITools.validTargets.test(evt.getEntity()))
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        // check if configs say this damage can't happen
+        if (pokemob != null && !AITools.validToHitPokemob.test(evt.getSource()))
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        // Apply scaling from config for this
+        if (pokemob != null && evt.getSource().getTrueSource() instanceof PlayerEntity) evt.setAmount((float) (evt
+                .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
+
+        // Prevent suffocating the player if they are in wall while riding
+        // pokemob.
+        if (evt.getEntity() instanceof PlayerEntity && evt.getSource() == DamageSource.IN_WALL)
+        {
+            pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getRidingEntity());
+            if (pokemob != null) evt.setCanceled(true);
+        }
+    }
+
+    private static void onKillEvent(final KillEvent evt)
+    {
+        final IPokemob killer = evt.killer;
+        final IPokemob killed = evt.killed;
+        // Handles extra EXP gain from lucky egg and exp share.
+        if (killer != null && evt.giveExp)
+        {
+            final LivingEntity owner = killer.getOwner();
+            final ItemStack stack = killer.getHeldItem();
+            if (ItemList.is(new ResourceLocation("pokecube", "luckyegg"), stack))
+            {
+                final int exp = killer.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor, killed
+                        .getBaseXP(), killed.getLevel());
+                killer.setExp(exp, true);
+            }
+            if (owner != null)
+            {
+                final List<Entity> pokemobs = PCEventsHandler.getOutMobs(owner, false);
+                pokemobs.removeIf(e -> !e.isAlive());
+                for (final Entity mob : pokemobs)
+                {
+                    final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+                    if (poke != null && poke.getEntity().getHealth() > 0 && ItemList.is(new ResourceLocation("pokecube",
+                            "exp_share"), poke.getHeldItem()) && !poke.getLogicState(LogicStates.SITTING))
+                    {
+                        final int exp = poke.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor,
+                                killed.getBaseXP(), killed.getLevel());
+                        poke.setExp(exp, true);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void onLivingDeath(final LivingDeathEvent evt)
+    {
+        final DamageSource damageSource = evt.getSource();
+        // Handle transferring the kill info over, This is in place for mod
+        // support.
+        if (damageSource instanceof PokemobDamageSource && evt.getEntity().getEntityWorld() instanceof ServerWorld)
+            damageSource.getImmediateSource().func_241847_a((ServerWorld) evt.getEntity().getEntityWorld(),
+                    (LivingEntity) evt.getEntity());
+
+        // Handle exp gain for the mob.
+        final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getImmediateSource());
+        if (attacker != null && damageSource.getImmediateSource() instanceof MobEntity) PokemobEventsHandler.handleExp(
+                (MobEntity) damageSource.getImmediateSource(), attacker, (LivingEntity) evt.getEntity());
+    }
+
+    private static void onJoinWorld(final EntityJoinWorldEvent event)
+    {
+        final Entity mob = event.getEntity();
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        if (pokemob == null) return;
+        pokemob.setEntity((MobEntity) mob);
+        pokemob.initAI();
+        final IPokemob modified = pokemob.onAddedInit();
+        if (modified != pokemob)
+        {
+            pokemob.markRemoved();
+            if (mob.getEntityWorld() instanceof ServerWorld) mob.getEntityWorld().addEntity(modified.getEntity());
+        }
+    }
+
+    private static void onMobTracking(final StartTracking event)
+    {
+        // Sync genes over to players when they start tracking a pokemob
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
+        final IMobGenetics genes = event.getTarget().getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
+        if (pokemob != null && event.getEntity() instanceof ServerPlayerEntity) for (final Alleles allele : genes
+                .getAlleles().values())
+            PacketSyncGene.syncGene(event.getTarget(), allele, (ServerPlayerEntity) event.getPlayer());
+    }
+
+    private static void onWorldTick(final WorldTickEvent evt)
+    {
+        for (final PlayerEntity player : evt.world.getPlayers())
+            if (player.getRidingEntity() instanceof LivingEntity && CapabilityPokemob.getPokemobFor(player
+                    .getRidingEntity()) != null)
+            {
+                final LivingEntity ridden = (LivingEntity) player.getRidingEntity();
+                EntityTools.copyEntityTransforms(ridden, player);
+            }
+    }
+
+    private static void onMobTick(final LivingUpdateEvent evt)
+    {
+        final World dim = evt.getEntity().getEntityWorld();
+        if (!TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold))
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        // Prevent moving if it is liable to take us out of a loaded area
+        final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
+                .getMotion().z * evt.getEntity().getMotion().z);
+        final boolean tooFast = !TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold + dist);
+        if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
+
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
+        {
+            final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
+            evt.getEntity().getPersistentData().remove("old_uuid");
+            if (pokemob != null) PokemobTracker.removePokemob(pokemob);
+            evt.getEntity().setUniqueId(id);
+            if (pokemob != null) PokemobTracker.addPokemob(pokemob);
+        }
+
+        if (pokemob != null)
+        {
+            if (pokemob.isRemoved())
+            {
+                pokemob.getEntity().remove(false);
+                return;
+            }
+
+            // Reset death time if we are not dead.
+            if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
+            // Tick the logic stuff for this mob.
+            for (final Logic l : pokemob.getTickLogic())
+                if (l.shouldRun()) l.tick(evt.getEntity().getEntityWorld());
+        }
+    }
+
+    private static Map<DyeColor, ITag<Item>> getDyeTagMap()
     {
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
@@ -207,68 +430,6 @@ public class PokemobEventsHandler
         return false;
     }
 
-    @SubscribeEvent
-    public static void interactEvent(final PlayerInteractEvent.EntityInteract evt)
-    {
-        final String ID = "LastSuccessInteractEvent";
-        final long time = evt.getEntity().getPersistentData().getLong(ID);
-        if (time == evt.getEntity().getEntityWorld().getGameTime())
-        {
-            evt.setCanceled(true);
-            return;
-        }
-        PokemobEventsHandler.processInteract(evt, evt.getTarget());
-        if (evt.isCanceled()) evt.getEntity().getPersistentData().putLong(ID, evt.getEntity().getEntityWorld()
-                .getGameTime());
-    }
-
-    @SubscribeEvent
-    public static void interactEvent(final PlayerInteractEvent.EntityInteractSpecific evt)
-    {
-        final String ID = "LastSuccessInteractEvent";
-        final long time = evt.getEntity().getPersistentData().getLong(ID);
-        if (time == evt.getEntity().getEntityWorld().getGameTime())
-        {
-            evt.setCanceled(true);
-            return;
-        }
-        PokemobEventsHandler.processInteract(evt, evt.getTarget());
-        if (evt.isCanceled()) evt.getEntity().getPersistentData().putLong(ID, evt.getEntity().getEntityWorld()
-                .getGameTime());
-    }
-
-    @SubscribeEvent
-    public static void livingHurtEvent(final LivingHurtEvent evt)
-    {
-        /*
-         * No harming invalid targets, only apply this to pokemob related damage
-         * sources
-         */
-        if (evt.getSource() instanceof IPokedamage && !AITools.validTargets.test(evt.getEntity()))
-        {
-            evt.setCanceled(true);
-            return;
-        }
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        // check if configs say this damage can't happen
-        if (pokemob != null && !AITools.validToHitPokemob.test(evt.getSource()))
-        {
-            evt.setCanceled(true);
-            return;
-        }
-        // Apply scaling from config for this
-        if (pokemob != null && evt.getSource().getTrueSource() instanceof PlayerEntity) evt.setAmount((float) (evt
-                .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
-
-        // Prevent suffocating the player if they are in wall while riding
-        // pokemob.
-        if (evt.getEntity() instanceof PlayerEntity && evt.getSource() == DamageSource.IN_WALL)
-        {
-            pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getRidingEntity());
-            if (pokemob != null) evt.setCanceled(true);
-        }
-    }
-
     private static boolean isRidable(final Entity rider, final IPokemob pokemob)
     {
         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -299,74 +460,7 @@ public class PokemobEventsHandler
                 * 1.4;
     }
 
-    @SubscribeEvent
-    public static void KillEvent(final KillEvent evt)
-    {
-        final IPokemob killer = evt.killer;
-        final IPokemob killed = evt.killed;
-        // Handles extra EXP gain from lucky egg and exp share.
-        if (killer != null && evt.giveExp)
-        {
-            final LivingEntity owner = killer.getOwner();
-            final ItemStack stack = killer.getHeldItem();
-            if (ItemList.is(new ResourceLocation("pokecube", "luckyegg"), stack))
-            {
-                final int exp = killer.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor, killed
-                        .getBaseXP(), killed.getLevel());
-                killer.setExp(exp, true);
-            }
-            if (owner != null)
-            {
-                final List<Entity> pokemobs = PCEventsHandler.getOutMobs(owner, false);
-                pokemobs.removeIf(e -> !e.isAlive());
-                for (final Entity mob : pokemobs)
-                {
-                    final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
-                    if (poke != null && poke.getEntity().getHealth() > 0 && ItemList.is(new ResourceLocation("pokecube",
-                            "exp_share"), poke.getHeldItem()) && !poke.getLogicState(LogicStates.SITTING))
-                    {
-                        final int exp = poke.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor,
-                                killed.getBaseXP(), killed.getLevel());
-                        poke.setExp(exp, true);
-                    }
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void livingDeath(final LivingDeathEvent evt)
-    {
-        final DamageSource damageSource = evt.getSource();
-        // Handle transferring the kill info over, This is in place for mod
-        // support.
-        if (damageSource instanceof PokemobDamageSource && evt.getEntity().getEntityWorld() instanceof ServerWorld)
-            damageSource.getImmediateSource().func_241847_a((ServerWorld) evt.getEntity().getEntityWorld(),
-                    (LivingEntity) evt.getEntity());
-
-        // Handle exp gain for the mob.
-        final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getImmediateSource());
-        if (attacker != null && damageSource.getImmediateSource() instanceof MobEntity) PokemobEventsHandler.handleExp(
-                (MobEntity) damageSource.getImmediateSource(), attacker, (LivingEntity) evt.getEntity());
-    }
-
-    @SubscribeEvent
-    public static void onJoinWorld(final EntityJoinWorldEvent event)
-    {
-        final Entity mob = event.getEntity();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-        if (pokemob == null) return;
-        pokemob.setEntity((MobEntity) mob);
-        pokemob.initAI();
-        final IPokemob modified = pokemob.onAddedInit();
-        if (modified != pokemob)
-        {
-            pokemob.markRemoved();
-            if (mob.getEntityWorld() instanceof ServerWorld) mob.getEntityWorld().addEntity(modified.getEntity());
-        }
-    }
-
-    public static void processInteract(final PlayerInteractEvent evt, final Entity target)
+    private static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
         if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(target);
@@ -582,71 +676,4 @@ public class PokemobEventsHandler
             return;
         }
     }
-
-    @SubscribeEvent
-    public static void startTracking(final StartTracking event)
-    {
-        // Sync genes over to players when they start tracking a pokemob
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
-        final IMobGenetics genes = event.getTarget().getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
-        if (pokemob != null && event.getEntity() instanceof ServerPlayerEntity) for (final Alleles allele : genes
-                .getAlleles().values())
-            PacketSyncGene.syncGene(event.getTarget(), allele, (ServerPlayerEntity) event.getPlayer());
-    }
-
-    @SubscribeEvent
-    public static void tick(final WorldTickEvent evt)
-    {
-        for (final PlayerEntity player : evt.world.getPlayers())
-            if (player.getRidingEntity() instanceof LivingEntity && CapabilityPokemob.getPokemobFor(player
-                    .getRidingEntity()) != null)
-            {
-                final LivingEntity ridden = (LivingEntity) player.getRidingEntity();
-                EntityTools.copyEntityTransforms(ridden, player);
-            }
-    }
-
-    @SubscribeEvent
-    public static void tick(final LivingUpdateEvent evt)
-    {
-        final World dim = evt.getEntity().getEntityWorld();
-        if (!TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
-                .getConfig().movementPauseThreshold))
-        {
-            evt.setCanceled(true);
-            return;
-        }
-        // Prevent moving if it is liable to take us out of a loaded area
-        final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
-                .getMotion().z * evt.getEntity().getMotion().z);
-        final boolean tooFast = !TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
-                .getConfig().movementPauseThreshold + dist);
-        if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
-
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
-        {
-            final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
-            evt.getEntity().getPersistentData().remove("old_uuid");
-            if (pokemob != null) PokemobTracker.removePokemob(pokemob);
-            evt.getEntity().setUniqueId(id);
-            if (pokemob != null) PokemobTracker.addPokemob(pokemob);
-        }
-
-        if (pokemob != null)
-        {
-            if (pokemob.isRemoved())
-            {
-                pokemob.getEntity().remove(false);
-                return;
-            }
-
-            // Reset death time if we are not dead.
-            if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
-            // Tick the logic stuff for this mob.
-            for (final Logic l : pokemob.getTickLogic())
-                if (l.shouldRun()) l.tick(evt.getEntity().getEntityWorld());
-        }
-    }
-
 }

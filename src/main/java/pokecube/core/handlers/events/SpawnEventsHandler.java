@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
@@ -42,9 +41,28 @@ import thut.api.terrain.TerrainManager;
 
 public class SpawnEventsHandler
 {
+    public static void register()
+    {
+        // This caps the level chosen based on the configs, it is highest to
+        // then allow addons to override it later.
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnEventsHandler::CapLevel);
+        // This cancels the event if this world is blacklisted for pokemob
+        // spawning.
+        PokecubeCore.POKEMOB_BUS.addListener(SpawnEventsHandler::onSpawnCheck);
+        // This determines which pokemob should be slated for spawn, It is
+        // highest so addons can override the picked mob later.
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnEventsHandler::PickSpawn);
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void CapLevel(final SpawnEvent.Level event)
+        // This handles spawning in the NPCs, etc from the structure blocks with
+        // appropriate data markers.
+        MinecraftForge.EVENT_BUS.addListener(SpawnEventsHandler::onReadStructTag);
+        // This handles setting of the subbiomes for structures as they spawn
+        // in, it is lowest, and not listening for cancalling incase addons make
+        // adjustments first.
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, SpawnEventsHandler::onStructureSpawn);
+    }
+
+    private static void CapLevel(final SpawnEvent.Level event)
     {
         int level = event.getInitialLevel();
         if (SpawnHandler.lvlCap) level = Math.min(level, SpawnHandler.capLevel);
@@ -56,14 +74,12 @@ public class SpawnEventsHandler
      *
      * @param event
      */
-    @SubscribeEvent
-    public static void onSpawnCheck(final SpawnEvent.Check event)
+    private static void onSpawnCheck(final SpawnEvent.Check event)
     {
         if (!SpawnHandler.canSpawnInWorld((World) event.world)) event.setCanceled(true);
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void PickSpawn(final SpawnEvent.Pick.Pre event)
+    private static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
         final IWorld world = event.world;
@@ -112,8 +128,7 @@ public class SpawnEventsHandler
         event.setPick(dbe);
     }
 
-    @SubscribeEvent
-    public static void StructureSpawn(final StructureEvent.ReadTag event)
+    private static void onReadStructTag(final StructureEvent.ReadTag event)
     {
         if (event.function.startsWith("pokecube:mob:"))
         {
@@ -160,6 +175,22 @@ public class SpawnEventsHandler
         }
     }
 
+    private static void onStructureSpawn(final StructureEvent.BuildStructure event)
+    {
+        if (event.getBiomeType() != null)
+        {
+            final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
+            final MutableBoundingBox box = event.getBoundingBox();
+            final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
+                    box.maxZ);
+            final IWorld world = event.getWorld();
+            poses.forEach((p) ->
+            {
+                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
+            });
+        }
+    }
+
     public static class GuardInfo
     {
         public String time = "";
@@ -203,20 +234,4 @@ public class SpawnEventsHandler
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void StructureSpawn(final StructureEvent.BuildStructure event)
-    {
-        if (event.getBiomeType() != null)
-        {
-            final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
-            final MutableBoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
-                    box.maxZ);
-            final IWorld world = event.getWorld();
-            poses.forEach((p) ->
-            {
-                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
-            });
-        }
-    }
 }

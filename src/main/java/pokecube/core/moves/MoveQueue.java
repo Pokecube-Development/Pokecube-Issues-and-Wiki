@@ -9,10 +9,11 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
@@ -26,21 +27,24 @@ public class MoveQueue
     {
         private static final Map<IWorld, MoveQueue> queues = Maps.newHashMap();
 
-        @SubscribeEvent
-        public static void load(final WorldEvent.Load evt)
+        public static void register()
         {
-            MoveQueuer.queues.put(evt.getWorld(), new MoveQueue(evt.getWorld()));
+            // Registers a queue for the world when it loads in
+            MinecraftForge.EVENT_BUS.addListener(MoveQueuer::onWorldLoad);
+            // Handles ticking the move queue for the given world, applying the
+            // effects in the correct order, etc.
+            MinecraftForge.EVENT_BUS.addListener(MoveQueuer::onWorldTick);
+            // Remove the queue for this world from the maps
+            MinecraftForge.EVENT_BUS.addListener(MoveQueuer::onWorldUnload);
         }
 
-        public static void queueMove(final EntityMoveUse move)
+        private static void onWorldLoad(final WorldEvent.Load evt)
         {
-            final MoveQueue queue = MoveQueuer.queues.get(move.getEntityWorld());
-            if (queue == null) throw new NullPointerException("why is world queue null?");
-            if (move.getUser() != null) queue.moves.add(move);
+            if (evt.getWorld() instanceof ServerWorld) MoveQueuer.queues.put(evt.getWorld(), new MoveQueue(evt
+                    .getWorld()));
         }
 
-        @SubscribeEvent
-        public static void tick(final WorldTickEvent evt)
+        private static void onWorldTick(final WorldTickEvent evt)
         {
             if (evt.phase == Phase.END && evt.side == LogicalSide.SERVER)
             {
@@ -48,8 +52,7 @@ public class MoveQueue
                 if (queue == null)
                 {
                     PokecubeCore.LOGGER.error("Critical Error with world for dimension " + evt.world.getDimensionType()
-                             + " It is somehow ticking when not loaded, this should not happen.",
-                            new Exception());
+                            + " It is somehow ticking when not loaded, this should not happen.", new Exception());
                     return;
                 }
                 final long time = System.nanoTime();
@@ -61,10 +64,16 @@ public class MoveQueue
             }
         }
 
-        @SubscribeEvent
-        public static void unload(final WorldEvent.Unload evt)
+        private static void onWorldUnload(final WorldEvent.Unload evt)
         {
             MoveQueuer.queues.remove(evt.getWorld());
+        }
+
+        public static void queueMove(final EntityMoveUse move)
+        {
+            final MoveQueue queue = MoveQueuer.queues.get(move.getEntityWorld());
+            if (queue == null) throw new NullPointerException("why is world queue null?");
+            if (move.getUser() != null) queue.moves.add(move);
         }
     }
 

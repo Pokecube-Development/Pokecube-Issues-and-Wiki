@@ -89,8 +89,10 @@ import pokecube.core.inventory.tms.TMInventory;
 import pokecube.core.inventory.trade.TradeInventory;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.megastuff.MegaCapability;
+import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokecube;
@@ -98,6 +100,8 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
+import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
+import pokecube.nbtedit.NBTEdit;
 import thut.api.entity.ShearableCaps;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandConfigs;
@@ -240,14 +244,87 @@ public class EventsHandler
 
     public static double juiceChance = 3.5;
 
-    @SubscribeEvent
-    /**
-     * Used to make sure that when riding pokemobs underwater, you can mine at
-     * a reasonable speed.
-     *
-     * @param evt
-     */
-    public static void breakSpeedCheck(final PlayerEvent.BreakSpeed evt)
+    public static void register()
+    {
+        // Allows mining properly while riding dive pokemobs.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onBreakSpeedCheck);
+
+        // This adds: AffectCapability, PokemobCapability + supporting (data,
+        // genetics, textures, shearable) as well as NPCMob capabilities for
+        // textures.
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventsHandler::onEntityCaps);
+        // This one does the mega wearable caps for worn items
+        MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, EventsHandler::onItemCaps);
+        // This does inventory capabilities for:
+        // TM machine, Trading Maching and PCs
+        MinecraftForge.EVENT_BUS.addGenericListener(TileEntity.class, EventsHandler::onTileCaps);
+        // This is being used as an earlier "world load" like event, for
+        // re-setting the pokecube serializer for the overworld.
+        MinecraftForge.EVENT_BUS.addGenericListener(World.class, EventsHandler::onWorldCaps);
+
+        // This handles preventing blacklisted mobs from joining a world, for
+        // the disable<thing> configs. It also adds the creepers avoid psychic
+        // types AI, and does some cleanup for shoulder mobs.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onMobJoinWorld);
+        // This handles one part of preventing natural spawns for the
+        // deactivate<thing> configs.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCheckSpawnPotential);
+        // This is another stage of the above.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCheckSpawnCheck);
+
+        // Here we handle bed healing if enabled in configs
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerWakeUp);
+        // This ticks ongoing effects (like burn, poison, etc) as well as deals
+        // with updating terrain segments as players move around.
+        // TODO move that second part to an enterChunkEvent.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onLivingUpdate);
+        // This synchronizes stats and data for the player, and sends the
+        // GuiOnLogin if enabled and required.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerLogin);
+        // This one handles not sending "hidden" pokecubes to the player, for
+        // loot-pokecubes which the player is not allowed to pick up yet.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPokecubeWatch);
+
+        // This initializes some things in the Database, is HIGHEST to ensure
+        // that is finished before addons do their own things. It also does some
+        // cleanup in the ClientProxy. TODO move that cleanup elsewhere!
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandler::onServerAboutToStart);
+        // Does some debug output in pokecube tags if enabled.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarting);
+        // Tells Database to do some final cleanup for pokedex entries.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarted);
+        // Cleans up some things for when server next starts.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStopped);
+        // Registers our commands.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCommandRegister);
+        // This deals with running the tasks scheduled via
+        // EventsHandler::shedule, as well as ticking the pokemob spawner.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onWorldTick);
+        // This attempts to recall the mobs following the player when they
+        // change dimension.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onChangeDimension);
+        // This handles preventing players from being kicked for flying, if they
+        // are riding a pokemob that can fly.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerTick);
+        // This saves the pokecube Serializer
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onWorldSave);
+
+        // now let our other handlers register their stuff
+
+        MoveEventsHandler.register();
+        PCEventsHandler.register();
+        PokemobEventsHandler.register();
+        SpawnEventsHandler.register();
+        StatsHandler.register();
+        MoveQueuer.register();
+
+        // Here we register the onWorldLoad for pokemob tracker, this handles
+        // initializing the tracked pokemob maps, etc.
+        MinecraftForge.EVENT_BUS.addListener(PokemobTracker::onWorldLoad);
+
+    }
+
+    private static void onBreakSpeedCheck(final PlayerEvent.BreakSpeed evt)
     {
         final Entity ridden = evt.getEntity().getRidingEntity();
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(ridden);
@@ -260,8 +337,7 @@ public class EventsHandler
         }
     }
 
-    @SubscribeEvent
-    public static void capabilityEntities(final AttachCapabilitiesEvent<Entity> event)
+    private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!(event.getObject() instanceof LivingEntity)) return;
         if (event.getObject() instanceof LivingEntity && !event.getCapabilities().containsKey(
@@ -295,18 +371,18 @@ public class EventsHandler
         }
     }
 
-    @SubscribeEvent
-    public static void capabilityItemStacks(final AttachCapabilitiesEvent<ItemStack> event)
+    private static void onItemCaps(final AttachCapabilitiesEvent<ItemStack> event)
     {
         UsableItemEffects.registerCapabilities(event);
+        GeneticsManager.registerCapabilities(event);
+        WearablesCompat.registerCapabilities(event);
         if (!MegaCapability.isStoneOrWearable(event.getObject())) return;
         final ResourceLocation key = new ResourceLocation("pokecube:megawearable");
         if (event.getCapabilities().containsKey(key)) return;
         event.addCapability(key, new MegaCapability(event.getObject()));
     }
 
-    @SubscribeEvent
-    public static void capabilityTileEntities(final AttachCapabilitiesEvent<TileEntity> event)
+    private static void onTileCaps(final AttachCapabilitiesEvent<TileEntity> event)
     {
         final ResourceLocation key = new ResourceLocation("pokecube:tile_inventory");
         if (event.getCapabilities().containsKey(key)) return;
@@ -316,8 +392,13 @@ public class EventsHandler
         if (event.getObject() instanceof PCTile) event.addCapability(key, new PCWrapper((PCTile) event.getObject()));
     }
 
-    @SubscribeEvent
-    public static void EntityJoinWorld(final EntityJoinWorldEvent evt)
+    private static void onWorldCaps(final AttachCapabilitiesEvent<World> event)
+    {
+        if (event.getObject() instanceof ServerWorld && event.getObject().getDimensionKey().equals(World.OVERWORLD))
+            PokecubeSerializer.newInstance((ServerWorld) event.getObject());
+    }
+
+    private static void onMobJoinWorld(final EntityJoinWorldEvent evt)
     {
         if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(evt.getEntity()))
         {
@@ -348,16 +429,14 @@ public class EventsHandler
         }
     }
 
-    @SubscribeEvent
-    public static void checkSpawns(final PotentialSpawns evt)
+    private static void onCheckSpawnPotential(final PotentialSpawns evt)
     {
         final boolean disabled = evt.getType() == EntityClassification.MONSTER ? PokecubeCore
                 .getConfig().deactivateMonsters : PokecubeCore.getConfig().deactivateAnimals;
         if (disabled) evt.getList().removeIf(e -> e.type.getRegistryName().getNamespace().equals("minecraft"));
     }
 
-    @SubscribeEvent
-    public static void denySpawns(final LivingSpawnEvent.CheckSpawn event)
+    private static void onCheckSpawnCheck(final LivingSpawnEvent.CheckSpawn event)
     {
         // Only deny them from these reasons.
         if (!(event.getSpawnReason() == SpawnReason.NATURAL || event.getSpawnReason() == SpawnReason.CHUNK_GENERATION
@@ -369,8 +448,7 @@ public class EventsHandler
                 .setResult(Result.DENY);
     }
 
-    @SubscribeEvent
-    public static void playerWakeUp(final PlayerWakeUpEvent evt)
+    private static void onPlayerWakeUp(final PlayerWakeUpEvent evt)
     {
         if (!PokecubeCore.getConfig().bedsHeal) return;
         for (int i = 0; i < evt.getPlayer().inventory.getSizeInventory(); i++)
@@ -380,8 +458,7 @@ public class EventsHandler
         }
     }
 
-    @SubscribeEvent
-    public static void livingUpdate(final LivingUpdateEvent evt)
+    private static void onLivingUpdate(final LivingUpdateEvent evt)
     {
         final IPokemob poke = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (poke != null) poke.onTick();
@@ -411,26 +488,14 @@ public class EventsHandler
         }
     }
 
-    public static void sendInitInfo(final ServerPlayerEntity player)
-    {
-        PacketDataSync.sendInitPacket(player, "pokecube-data");
-        PacketDataSync.sendInitPacket(player, "pokecube-stats");
-        PacketPokedex.sendLoginPacket(player);
-        if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
-        else if (!PokecubeSerializer.getInstance().hasStarter(player)) player.sendMessage(new TranslationTextComponent(
-                "pokecube.login.find_prof_or_config"), Util.DUMMY_UUID);
-    }
-
-    @SubscribeEvent
-    public static void PlayerLoggin(final PlayerLoggedInEvent evt)
+    private static void onPlayerLogin(final PlayerLoggedInEvent evt)
     {
         final PlayerEntity player = evt.getPlayer();
         if (!player.isServerWorld()) return;
         EventsHandler.sendInitInfo((ServerPlayerEntity) player);
     }
 
-    @SubscribeEvent
-    public static void PokecubeWatchEvent(final StartTracking event)
+    private static void onPokecubeWatch(final StartTracking event)
     {
         // Check if the pokecube is loot, and is not collectable by the player,
         // if this is the case, it should be set invisible.
@@ -443,74 +508,40 @@ public class EventsHandler
         }
     }
 
-    public static void recallAllPokemobs(final LivingEntity user)
-    {
-        if (!user.isServerWorld()) return;
-        final List<Entity> pokemobs = PokemobTracker.getMobs(user, e -> EventsHandler.validRecall(user, e, null,
-                false));
-        PCEventsHandler.recallAll(pokemobs, true);
-    }
-
-    public static void recallAllPokemobsExcluding(final ServerPlayerEntity player, final IPokemob excluded,
-            final boolean includeStaying)
-    {
-        final List<Entity> pokemobs = PokemobTracker.getMobs(player, e -> EventsHandler.validRecall(player, e, excluded,
-                includeStaying));
-        PCEventsHandler.recallAll(pokemobs, true);
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void serverAboutToStart(final FMLServerAboutToStartEvent event)
+    private static void onServerAboutToStart(final FMLServerAboutToStartEvent event)
     {
         Database.swapManager(event.getServer());
         PokecubeCore.proxy.serverAboutToStart(event);
     }
 
-    @SubscribeEvent
-    public static void serverSopped(final FMLServerStoppedEvent event)
-    {
-        // Reset this.
-        PokecubeSerializer.clearInstance();
-        // TODO structure stuff
-        // JigsawPieces.sent_events.clear();
-        EventsHandler.scheduledTasks.clear();
-    }
-
-    @SubscribeEvent
-    public static void serverStarted(final FMLServerStartedEvent event)
-    {
-        Database.postServerLoaded();
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    /**
-     * Register the commands.
-     *
-     * @param event
-     */
-    public static void serverStarting(final FMLServerStartingEvent event)
+    private static void onServerStarting(final FMLServerStartingEvent event)
     {
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void registerServerCommands(final RegisterCommandsEvent event)
+    private static void onServerStarted(final FMLServerStartedEvent event)
+    {
+        Database.postServerLoaded();
+    }
+
+    private static void onServerStopped(final FMLServerStoppedEvent event)
+    {
+        // Reset this.
+        PokecubeSerializer.clearInstance();
+        CustomJigsawPiece.sent_events.clear();
+        EventsHandler.scheduledTasks.clear();
+    }
+
+    private static void onCommandRegister(final RegisterCommandsEvent event)
     {
         PokecubeCore.LOGGER.info("Registering Commands");
         CommandConfigs.register(PokecubeCore.getConfig(), event.getDispatcher(), "pokesettings");
         CommandManager.register(event.getDispatcher());
+        NBTEdit.registerCommands(event);
     }
 
-    @SubscribeEvent
-    public static void capabilityWorld(final AttachCapabilitiesEvent<World> event)
-    {
-        if (event.getObject() instanceof ServerWorld && event.getObject().getDimensionKey().equals(World.OVERWORLD))
-            PokecubeSerializer.newInstance((ServerWorld) event.getObject());
-    }
-
-    @SubscribeEvent
-    public static void tickEvent(final WorldTickEvent evt)
+    private static void onWorldTick(final WorldTickEvent evt)
     {
         if (evt.phase != Phase.END || !(evt.world instanceof ServerWorld)) return;
         final RegistryKey<World> dim = evt.world.getDimensionKey();
@@ -535,20 +566,17 @@ public class EventsHandler
         if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick((ServerWorld) evt.world);
     }
 
-    @SubscribeEvent
-    public static void travelToDimension(final EntityTravelToDimensionEvent evt)
+    private static void onChangeDimension(final EntityTravelToDimensionEvent evt)
     {
         final Entity entity = evt.getEntity();
         if (entity.getEntityWorld().isRemote) return;
         // Recall the pokemobs if the player changes dimension.
-
         final List<Entity> pokemobs = new ArrayList<>(((ServerWorld) entity.getEntityWorld()).getEntities(null,
                 e -> EventsHandler.validFollowing(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 
-    @SubscribeEvent
-    public static void playerTick(final PlayerTickEvent event)
+    private static void onPlayerTick(final PlayerTickEvent event)
     {
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayerEntity)
         {
@@ -560,6 +588,45 @@ public class EventsHandler
                 player.connection.vehicleFloatingTickCount = 0;
             }
         }
+    }
+
+    private static void onWorldSave(final WorldEvent.Save evt)
+    {
+        if (!(evt.getWorld() instanceof ServerWorld)) return;
+        // Save the pokecube data whenever the overworld saves.
+        if (((World) evt.getWorld()).getDimensionKey().equals(World.OVERWORLD))
+        {
+            final long time = System.nanoTime();
+            PokecubeSerializer.getInstance().save();
+            final double dt = (System.nanoTime() - time) / 1000000d;
+            if (dt > 20) System.err.println("Took " + dt + "ms to save pokecube data");
+        }
+    }
+
+    public static void sendInitInfo(final ServerPlayerEntity player)
+    {
+        PacketDataSync.sendInitPacket(player, "pokecube-data");
+        PacketDataSync.sendInitPacket(player, "pokecube-stats");
+        PacketPokedex.sendLoginPacket(player);
+        if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
+        else if (!PokecubeSerializer.getInstance().hasStarter(player)) player.sendMessage(new TranslationTextComponent(
+                "pokecube.login.find_prof_or_config"), Util.DUMMY_UUID);
+    }
+
+    public static void recallAllPokemobs(final LivingEntity user)
+    {
+        if (!user.isServerWorld()) return;
+        final List<Entity> pokemobs = PokemobTracker.getMobs(user, e -> EventsHandler.validRecall(user, e, null,
+                false));
+        PCEventsHandler.recallAll(pokemobs, true);
+    }
+
+    public static void recallAllPokemobsExcluding(final ServerPlayerEntity player, final IPokemob excluded,
+            final boolean includeStaying)
+    {
+        final List<Entity> pokemobs = PokemobTracker.getMobs(player, e -> EventsHandler.validRecall(player, e, excluded,
+                includeStaying));
+        PCEventsHandler.recallAll(pokemobs, true);
     }
 
     /**
@@ -621,19 +688,5 @@ public class EventsHandler
             }
         }
         return false;
-    }
-
-    @SubscribeEvent
-    public static void WorldSave(final WorldEvent.Save evt)
-    {
-        if (!(evt.getWorld() instanceof ServerWorld)) return;
-        // Save the pokecube data whenever the overworld saves.
-        if (((World) evt.getWorld()).getDimensionKey().equals(World.OVERWORLD))
-        {
-            final long time = System.nanoTime();
-            PokecubeSerializer.getInstance().save();
-            final double dt = (System.nanoTime() - time) / 1000000d;
-            if (dt > 20) System.err.println("Took " + dt + "ms to save pokecube data");
-        }
     }
 }

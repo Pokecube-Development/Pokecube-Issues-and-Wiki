@@ -2,7 +2,6 @@ package pokecube.core.init;
 
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,11 +13,7 @@ import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.database.worldgen.WorldgenHandler;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.handlers.events.PCEventsHandler;
-import pokecube.core.handlers.events.PokemobEventsHandler;
-import pokecube.core.handlers.events.SpawnEventsHandler;
-import pokecube.core.handlers.events.StatsHandler;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemobUseable;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
@@ -28,8 +23,6 @@ import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.items.megastuff.MegaCapability;
-import pokecube.core.items.megastuff.WearablesCompat;
-import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.zmoves.CapabilityZMove;
 import pokecube.core.moves.zmoves.ZPower;
@@ -46,18 +39,8 @@ public class SetupHandler
     {
         PokecubeCore.LOGGER.info("Hello from Common Proxy setup!");
 
-        // Register some event handlers
-        PokecubeCore.POKEMOB_BUS.register(StatsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(SpawnEventsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(PCEventsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
-
-        MinecraftForge.EVENT_BUS.register(GeneticsManager.class);
-        MinecraftForge.EVENT_BUS.register(PCEventsHandler.class);
-        MinecraftForge.EVENT_BUS.register(PokemobEventsHandler.class);
-        MinecraftForge.EVENT_BUS.register(WearablesCompat.class);
-        MinecraftForge.EVENT_BUS.register(NBTEdit.class);
-        MinecraftForge.EVENT_BUS.register(MoveQueuer.class);
+        // Registers the event listeners.
+        EventsHandler.register();
 
         // Initialize the capabilities.
         CapabilityManager.INSTANCE.register(IGuardAICapability.class, new IGuardAICapability.Storage(),
