@@ -386,6 +386,13 @@
     "block.pokecube.oran_fence": "Oran Fence",
     "block.pokecube.pecha_fence": "Pecha Fence",
     "block.pokecube.sitrus_fence": "Sitrus Fence",
+
+    "block.pokecube.enigma_fence_gate": "Enigma Fence Gate",
+    "block.pokecube.leppa_fence_gate": "Leppa Fence Gate",
+    "block.pokecube.nanab_fence_gate": "Nanab Fence Gate",
+    "block.pokecube.oran_fence_gate": "Oran Fence Gate",
+    "block.pokecube.pecha_fence_gate": "Pecha Fence Gate",
+    "block.pokecube.sitrus_fence_gate": "Sitrus Fence Gate",
     
     "_comment": "Items",
 
