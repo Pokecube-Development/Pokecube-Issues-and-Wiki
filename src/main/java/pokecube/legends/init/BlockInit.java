@@ -479,7 +479,8 @@ public class BlockInit
         }
     }
     
-//	public static void addStrippable(RegistryObject<Block> log, RegistryObject<Block> strippedLog) {
+//	public static void addStrippable(RegistryObject<Block> log, RegistryObject<Block> strippedLog) 
+//	{
 //		AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
 //		AxeItem.BLOCK_STRIPPING_MAP.put(log, strippedLog);
 //	}
