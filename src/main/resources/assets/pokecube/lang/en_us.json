@@ -372,6 +372,13 @@
     "block.pokecube.oran_slab": "Oran Slab",
     "block.pokecube.pecha_slab": "Pecha Slab",
     "block.pokecube.sitrus_slab": "Sitrus Slab",
+
+    "block.pokecube.enigma_stairs": "Enigma Stairs",
+    "block.pokecube.leppa_stairs": "Leppa Stairs",
+    "block.pokecube.nanab_stairs": "Nanab Stairs",
+    "block.pokecube.oran_stairs": "Oran Stairs",
+    "block.pokecube.pecha_stairs": "Pecha Stairs",
+    "block.pokecube.sitrus_stairs": "Sitrus Stairs",
     
     "_comment": "Items",
 
