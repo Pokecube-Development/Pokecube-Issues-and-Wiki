@@ -29,6 +29,7 @@ import pokecube.core.interfaces.IPokemob.ITargetFinder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.moves.Battle;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokemobTracker;
@@ -72,7 +73,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (!mobs.isEmpty()) return;
 
             // Divert the target over.
-            Battle.createBattle(event.getEntityLiving(), (LivingEntity) mob);
+            Battle.createOrAddToBattle(event.getEntityLiving(), (LivingEntity) mob);
         }
     }
 
@@ -92,7 +93,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (!BrainUtils.hasAttackTarget(hurt) && AITools.shouldBeAbleToAgro(hurt, user))
             {
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Retaliation Target.");
-                Battle.createBattle(hurt, (LivingEntity) user);
+                Battle.createOrAddToBattle(hurt, (LivingEntity) user);
             }
         }
     }
@@ -152,7 +153,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Agro the target.
         if (newtarget != null)
         {
-            Battle.createBattle(this.entity, newtarget);
+            this.initiateBattle(newtarget);
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Guard Target.");
             return true;
         }
@@ -196,7 +197,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             final LivingEntity targ = BrainUtils.getAttackTarget(entity);
             if (entity instanceof MobEntity && targ != null && targ.equals(owner) && this.validGuardTarget.test(entity))
             {
-                Battle.createBattle(this.entity, entity);
+                this.initiateBattle(entity);
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting target who hit owner.");
                 return true;
             }
@@ -216,8 +217,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (this.targetId != null)
         {
             final Entity mob = this.world.getEntityByUuid(this.targetId);
-            if (!(mob instanceof LivingEntity) && !BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob)
-                    && !Battle.createBattle(this.entity, (LivingEntity) mob)) this.clear();
+            if (!(mob instanceof LivingEntity) && !BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob) && !this
+                    .initiateBattle((LivingEntity) mob)) this.clear();
 
             // Reset target ID here, so we don't keep looking for it.
             if (this.forgetTimer-- <= 0) this.targetId = null;
@@ -269,9 +270,14 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         }
     }
 
-    private void initiateBattle(final LivingEntity target)
+    private boolean initiateBattle(final LivingEntity target)
     {
-        if (!Battle.createBattle(this.entity, target)) this.clear();
+        if (!Battle.createOrAddToBattle(this.entity, target))
+        {
+            this.clear();
+            return false;
+        }
+        return true;
     }
 
     @Override
