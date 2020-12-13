@@ -54,7 +54,7 @@ public class Pokemob extends Page
 
     int abilIndex = 0;
 
-    Nature nat;
+    Nature nat = Nature.ADAMANT;
 
     public int index = -1;
 
