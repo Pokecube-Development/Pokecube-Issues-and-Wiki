@@ -2,13 +2,11 @@ package pokecube.core.proxy;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.hash.Hashing;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
@@ -30,12 +28,11 @@ import net.minecraft.world.FoliageColors;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerTile;
-import pokecube.core.client.MoveSound;
+import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.PokecenterSound;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.ItemGenerator;
@@ -45,7 +42,7 @@ import thut.api.maths.Vector3;
 
 public class ClientProxy extends CommonProxy
 {
-
+    private static final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
 
     private static Map<String, ResourceLocation> players  = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
@@ -142,39 +139,12 @@ public class ClientProxy extends CommonProxy
         return ClientProxy.urlSkins.get(urlSkin);
     }
 
-    private final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
-    private final Map<SoundEvent, Integer>       move_sounds       = Maps.newHashMap();
-    private final Map<SoundEvent, Float>         move_volumes      = Maps.newHashMap();
-    private final Map<SoundEvent, Vector3>       move_positions    = Maps.newHashMap();
-
-    // @SubscribeEvent
-    public void worldTick(final ClientTickEvent event)
-    {
-        final Set<SoundEvent> stale = Sets.newHashSet();
-        for (final Map.Entry<SoundEvent, Integer> entry : this.move_sounds.entrySet())
-        {
-            final Integer tick = entry.getValue() - 1;
-            if (tick < 0) stale.add(entry.getKey());
-            entry.setValue(tick);
-        }
-        final PlayerEntity player = Minecraft.getInstance().player;
-        final Vector3 pos2 = Vector3.getNewVector().set(player);
-        for (final SoundEvent e : stale)
-        {
-            final Vector3 pos = this.move_positions.remove(e);
-            this.move_sounds.remove(e);
-            final float scale = this.move_volumes.remove(e);
-            final float volume = MoveSound.getVolume(pos, pos2, scale);
-            if (volume > 0) Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos, scale));
-        }
-    }
-
     @Override
     public void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        this.move_positions.clear();
-        this.move_sounds.clear();
-        this.pokecenter_sounds.clear();
+        EventsHandlerClient.move_positions.clear();
+        EventsHandlerClient.move_sounds.clear();
+        ClientProxy.pokecenter_sounds.clear();
     }
 
     @Override
@@ -185,23 +155,23 @@ public class ClientProxy extends CommonProxy
         final double dist = pos1.distanceTo(pos);
         // Implement a speed of sound delay to this.
         final int delay = (int) (dist * 20.0 / 340.0);
-        this.move_sounds.put(event, delay);
-        this.move_positions.put(event, pos.copy());
-        this.move_volumes.put(event, volume);
+        EventsHandlerClient.move_sounds.put(event, delay);
+        EventsHandlerClient.move_positions.put(event, pos.copy());
+        EventsHandlerClient.move_volumes.put(event, volume);
     }
 
     @Override
     public void pokecenterloop(final HealerTile tileIn, final boolean play)
     {
-        if (play && !this.pokecenter_sounds.containsKey(tileIn.getPos()))
+        if (play && !ClientProxy.pokecenter_sounds.containsKey(tileIn.getPos()))
         {
             final PokecenterSound sound = new PokecenterSound(tileIn);
             Minecraft.getInstance().getSoundHandler().play(sound);
-            this.pokecenter_sounds.put(tileIn.getPos(), sound);
+            ClientProxy.pokecenter_sounds.put(tileIn.getPos(), sound);
         }
-        else if (!play && this.pokecenter_sounds.containsKey(tileIn.getPos()))
+        else if (!play && ClientProxy.pokecenter_sounds.containsKey(tileIn.getPos()))
         {
-            final PokecenterSound sound = this.pokecenter_sounds.remove(tileIn.getPos());
+            final PokecenterSound sound = ClientProxy.pokecenter_sounds.remove(tileIn.getPos());
             sound.stopped = true;
             Minecraft.getInstance().getSoundHandler().stop(sound);
         }

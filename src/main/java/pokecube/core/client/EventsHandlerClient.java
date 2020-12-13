@@ -31,6 +31,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
@@ -43,6 +44,7 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.core.PokecubeCore;
@@ -78,11 +80,16 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
+import thut.api.maths.Vector3;
 
 public class EventsHandlerClient
 {
     public static HashMap<PokedexEntry, IPokemob>        renderMobs = new HashMap<>();
     private static Map<PokedexEntry, ResourceLocation[]> icons      = Maps.newHashMap();
+
+    public static final Map<SoundEvent, Integer> move_sounds    = Maps.newHashMap();
+    public static final Map<SoundEvent, Float>   move_volumes   = Maps.newHashMap();
+    public static final Map<SoundEvent, Vector3> move_positions = Maps.newHashMap();
 
     private static final Set<PlayerRenderer> addedLayers = Sets.newHashSet();
 
@@ -97,6 +104,10 @@ public class EventsHandlerClient
     {
         // This handles ridden input controls, auto-recalling of pokemobs, and
         // auto-selection of moves.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onPlayerTick);
+
+        // This deals with ensuring the pokmeob move sounds are properly queued
+        // for playing.
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onClientTick);
 
         // Here we remove the fog from rendering if we are riding a pokemob that
@@ -124,7 +135,6 @@ public class EventsHandlerClient
         // And this does it for the hotbar.
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onRenderHotbar);
 
-
         // Now for some additional client side handlers
 
         // Register the event for drawing the move messages
@@ -151,7 +161,28 @@ public class EventsHandlerClient
         return ret;
     }
 
-    public static void onClientTick(final TickEvent.PlayerTickEvent event)
+    private static void onClientTick(final ClientTickEvent event)
+    {
+        final Set<SoundEvent> stale = Sets.newHashSet();
+        for (final Map.Entry<SoundEvent, Integer> entry : EventsHandlerClient.move_sounds.entrySet())
+        {
+            final Integer tick = entry.getValue() - 1;
+            if (tick < 0) stale.add(entry.getKey());
+            entry.setValue(tick);
+        }
+        final PlayerEntity player = Minecraft.getInstance().player;
+        final Vector3 pos2 = Vector3.getNewVector().set(player);
+        for (final SoundEvent e : stale)
+        {
+            final Vector3 pos = EventsHandlerClient.move_positions.remove(e);
+            EventsHandlerClient.move_sounds.remove(e);
+            final float scale = EventsHandlerClient.move_volumes.remove(e);
+            final float volume = MoveSound.getVolume(pos, pos2, scale);
+            if (volume > 0) Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos, scale));
+        }
+    }
+
+    public static void onPlayerTick(final TickEvent.PlayerTickEvent event)
     {
         if (event.phase == Phase.START || event.player != Minecraft.getInstance().player) return;
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
