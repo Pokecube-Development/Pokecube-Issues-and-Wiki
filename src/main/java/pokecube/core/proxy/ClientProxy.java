@@ -48,6 +48,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerTile;
@@ -347,6 +348,10 @@ public class ClientProxy extends CommonProxy
             RenderTypeLookup.setRenderLayer(fruit, RenderType.getCutoutMipped());
         for (final Block leaf : ItemGenerator.leaves.values())
             RenderTypeLookup.setRenderLayer(leaf, RenderType.getCutoutMipped());
+        for (final Block trapdoor : ItemGenerator.trapdoors.values())
+            RenderTypeLookup.setRenderLayer(trapdoor, RenderType.getCutoutMipped());
+        for (final Block door : ItemGenerator.doors.values())
+            RenderTypeLookup.setRenderLayer(door, RenderType.getCutoutMipped());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c -> c.registerExtensionPoint(

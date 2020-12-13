@@ -80,6 +80,8 @@ public class ItemGenerator
     public static Map<String, Block> fence_gates  = Maps.newHashMap();
     public static Map<String, Block> pressure_plates  = Maps.newHashMap();
     public static Map<String, Block> buttons  = Maps.newHashMap();
+    public static Map<String, Block> trapdoors  = Maps.newHashMap();
+    public static Map<String, Block> doors  = Maps.newHashMap();
 
     public static void makeBerries(final IForgeRegistry<Item> registry)
     {
@@ -209,6 +211,18 @@ public class ItemGenerator
             block.setRegistryName(PokecubeCore.MODID, name + "_button");
             ItemGenerator.buttons.put(name, block);
             registry.register(block);
+
+            // Trapdoors
+            block = new GenericTrapDoor(Block.Properties.from(Blocks.OAK_TRAPDOOR).notSolid());
+            block.setRegistryName(PokecubeCore.MODID, name + "_trapdoor");
+            ItemGenerator.trapdoors.put(name, block);
+            registry.register(block);
+
+            // Doors
+            block = new GenericDoor(Block.Properties.from(Blocks.OAK_DOOR).notSolid());
+            block.setRegistryName(PokecubeCore.MODID, name + "_door");
+            ItemGenerator.doors.put(name, block);
+            registry.register(block);
         }
 
         for (final String name : ItemGenerator.onlyBerryLeaves)
@@ -309,6 +323,10 @@ public class ItemGenerator
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.pressure_plates.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.buttons.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.buttons.get(name).getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.trapdoors.get(name), new Item.Properties().group(
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.trapdoors.get(name).getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.doors.get(name), new Item.Properties().group(
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.doors.get(name).getRegistryName()));
         }
         for (final String name : ItemGenerator.onlyBerryLeaves)
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().group(
@@ -323,14 +341,14 @@ public class ItemGenerator
         }
     }
 
-    public static class GenericTrapDoorBlock extends TrapDoorBlock {
-        public GenericTrapDoorBlock(Properties properties) {
+    public static class GenericTrapDoor extends TrapDoorBlock {
+        public GenericTrapDoor(Properties properties) {
             super(properties);
         }
     }
 
-    public static class GenericDoorBlock extends DoorBlock {
-        public GenericDoorBlock(Properties properties) {
+    public static class GenericDoor extends DoorBlock {
+        public GenericDoor(Properties properties) {
             super(properties);
         }
     }

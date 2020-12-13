@@ -407,6 +407,20 @@
     "block.pokecube.oran_button": "Oran Button",
     "block.pokecube.pecha_button": "Pecha Button",
     "block.pokecube.sitrus_button": "Sitrus Button",
+
+    "block.pokecube.enigma_trapdoor": "Enigma Trapdoor",
+    "block.pokecube.leppa_trapdoor": "Leppa Trapdoor",
+    "block.pokecube.nanab_trapdoor": "Nanab Trapdoor",
+    "block.pokecube.oran_trapdoor": "Oran Trapdoor",
+    "block.pokecube.pecha_trapdoor": "Pecha Trapdoor",
+    "block.pokecube.sitrus_trapdoor": "Sitrus Trapdoor",
+
+    "block.pokecube.enigma_door": "Enigma Door",
+    "block.pokecube.leppa_door": "Leppa Door",
+    "block.pokecube.nanab_door": "Nanab Door",
+    "block.pokecube.oran_door": "Oran Door",
+    "block.pokecube.pecha_door": "Pecha Door",
+    "block.pokecube.sitrus_door": "Sitrus Door",
     
     "_comment": "Items",
 
