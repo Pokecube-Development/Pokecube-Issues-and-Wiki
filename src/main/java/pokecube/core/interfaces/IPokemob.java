@@ -215,9 +215,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     DataSync dataSync();
 
-    @Override
-    void eat(Object eaten);
-
     default boolean floats()
     {
         return this.getPokedexEntry().floats() && !this.isGrounded();

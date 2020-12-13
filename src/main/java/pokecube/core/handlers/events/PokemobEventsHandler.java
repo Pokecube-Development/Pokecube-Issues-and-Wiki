@@ -103,6 +103,9 @@ public class PokemobEventsHandler
         // Handles interactions on right clicking the pokemob, such as: item
         // use, riding, opening gui, picking up, etc
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onInteractSpecific);
+        // This is done twice as some events only send one rather than the other
+        // from client side!
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onInteract);
         // This handles pokemob damage stuff. It deals with: cancelling damage
         // on invalid targets, adjusting damage amount by the scaling configs
         // and preventing player suffocating while riding a pokemob into a

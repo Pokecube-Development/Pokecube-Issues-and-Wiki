@@ -228,7 +228,7 @@ public class EventsHandlerClient
                 .getInstance().objectMouseOver == null || Minecraft.getInstance().objectMouseOver
                         .getType() == Type.MISS)
         {
-            final Entity entity = Tools.getPointedEntity(player, 5);
+            final Entity entity = Tools.getPointedEntity(player, 6);
             if (entity != null) hands:
             for (final Hand hand : Hand.values())
                 if (Minecraft.getInstance().playerController.interactWithEntity(player, entity,

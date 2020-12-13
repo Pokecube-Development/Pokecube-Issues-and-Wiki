@@ -1,5 +1,8 @@
 package thut.api.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * These mobs will attempt to eat items, blocks, or other mobs.
  *
@@ -10,10 +13,14 @@ public interface IHungrymob
     /**
      * Called when the mob eats the Object e. e can be any entity, will often
      * be an ItemEntity.
+     * The return is whatever is "left" after eating, in the case of an
+     * itemEntity or ItemStack, this is the remaining items. Note, this is
+     * nullable!
      *
      * @param e
      */
-    public void eat(Object e);
+    @Nullable
+    public <T> T eat(@Nonnull T e);
 
     /** Mob eats berries */
     public boolean eatsBerries();
