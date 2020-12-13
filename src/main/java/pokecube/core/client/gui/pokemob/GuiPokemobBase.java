@@ -177,13 +177,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         this.blit(mat, k, l, 0, 0, this.xSize, this.ySize);
         if (this.container.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.ySize, 90, 18);
         this.blit(mat, k + 7, l + 35, 0, this.ySize + 54, 18, 18);
-        if (this.container.pokemob != null)
-        {
-            final boolean prev = this.container.pokemob.getEntity().addedToChunk;
-            this.container.pokemob.getEntity().addedToChunk = false;
-            GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
-            this.container.pokemob.getEntity().addedToChunk = prev;
-        }
+        if (this.container.pokemob != null) GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
     }
 
     /**
