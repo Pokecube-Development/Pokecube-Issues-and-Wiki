@@ -451,19 +451,19 @@ public class BlockInit
         }
     }
     
-//	public static void addStrippable(RegistryObject<Block> log, RegistryObject<Block> strippedLog) 
-//	{
-//		AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
-//		AxeItem.BLOCK_STRIPPING_MAP.put(log, strippedLog);
-//	}
-//	
-//	public static void strippableBlocks(FMLCommonSetupEvent e) 
-//	{
-//		addStrippable(ULTRA_LOGUB03, STRIP_AGED_LOG);
-//		addStrippable(AGED_WOOD, 	 STRIP_AGED_WOOD);
-//		addStrippable(ULTRA_LOGUB01, STRIP_INVERTED_LOG);
-//		addStrippable(INVERTED_WOOD, STRIP_INVERTED_WOOD);
-//		addStrippable(ULTRA_LOGUB02, STRIP_TEMPORAL_LOG);
-//		addStrippable(TEMPORAL_WOOD, STRIP_TEMPORAL_WOOD);
-//	}
+	public static void addStrippable(RegistryObject<Block> log, RegistryObject<Block> strippedLog) 
+	{
+		AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
+		AxeItem.BLOCK_STRIPPING_MAP.put(log.get(), strippedLog.get());
+	}
+	
+	public static void strippableBlocks() 
+	{
+		addStrippable(ULTRA_LOGUB03, STRIP_AGED_LOG);
+		addStrippable(AGED_WOOD, 	 STRIP_AGED_WOOD);
+		addStrippable(ULTRA_LOGUB01, STRIP_INVERTED_LOG);
+		addStrippable(INVERTED_WOOD, STRIP_INVERTED_WOOD);
+		addStrippable(ULTRA_LOGUB02, STRIP_TEMPORAL_LOG);
+		addStrippable(TEMPORAL_WOOD, STRIP_TEMPORAL_WOOD);
+	}
 }

@@ -157,7 +157,7 @@ public class PokecubeLegends
         modEventBus.addListener(PokecubeLegends.proxy::loaded);
         // Just generally register it to event bus.
         modEventBus.register(PokecubeLegends.proxy);
-//        modEventBus.addListener(this::loadComplete);
+        modEventBus.addListener(this::loadComplete);
 
         PokecubeLegends.BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
@@ -167,9 +167,9 @@ public class PokecubeLegends
         ItemInit.init();
     }
 
-//    private void loadComplete(FMLLoadCompleteEvent event) {
-//        BlockInit.strippableBlocks();
-//    }
+    private void loadComplete(FMLLoadCompleteEvent event) {
+        BlockInit.strippableBlocks();
+    }
 
     @SubscribeEvent
     public void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
