@@ -1,0 +1,15 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:distortic_plank"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:distortic_pressure_plate"
+  }
+}

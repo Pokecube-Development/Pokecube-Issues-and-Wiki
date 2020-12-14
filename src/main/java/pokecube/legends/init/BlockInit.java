@@ -153,6 +153,17 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_LOG;
     public static final RegistryObject<Block> DISTORTIC_PLANK;
     public static final RegistryObject<Block> DISTORTIC_LEAVE;
+    public static final RegistryObject<Block> DISTORTIC_WOOD;
+    public static final RegistryObject<Block> STRIP_DISTORTIC_LOG;
+    public static final RegistryObject<Block> STRIP_DISTORTIC_WOOD;
+    public static final RegistryObject<Block> DISTORTIC_STAIRS;
+    public static final RegistryObject<Block> DISTORTIC_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_FENCE;
+    public static final RegistryObject<Block> DISTORTIC_FENCE_GATE;
+    public static final RegistryObject<Block> DISTORTIC_TRAPDOOR;
+    public static final RegistryObject<Block> DISTORTIC_DOOR;
+    public static final RegistryObject<Block> DISTORTIC_BUTTON;
+    public static final RegistryObject<Block> DISTORTIC_PR_PLATE;
 
     // Portal
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
@@ -323,7 +334,18 @@ public class BlockInit
 
         DISTORTIC_LEAVE 	= PokecubeLegends.BLOCKS_TAB.register("distortic_leave", () -> new LeavesBlock(Block.Properties.from(Blocks.JUNGLE_LEAVES).notSolid()));
         DISTORTIC_LOG 		= PokecubeLegends.BLOCKS_TAB.register("distortic_log",   () -> Blocks.createLogBlock(MaterialColor.PURPLE, MaterialColor.BLUE));
+        DISTORTIC_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("distortic_wood", () -> Blocks.createLogBlock(MaterialColor.PURPLE, MaterialColor.BLUE));
+        STRIP_DISTORTIC_LOG = PokecubeLegends.BLOCKS_TAB.register("stripped_distortic_log", () -> Blocks.createLogBlock(MaterialColor.PURPLE, MaterialColor.BLUE));
+        STRIP_DISTORTIC_WOOD= PokecubeLegends.BLOCKS_TAB.register("stripped_distortic_wood", () -> Blocks.createLogBlock(MaterialColor.PURPLE, MaterialColor.BLUE));
         DISTORTIC_PLANK 	= PokecubeLegends.BLOCKS_TAB.register("distortic_plank", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
+        DISTORTIC_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("distortic_stairs", () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
+        DISTORTIC_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("distortic_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_SLAB)));
+        DISTORTIC_FENCE 	= PokecubeLegends.BLOCKS_TAB.register("distortic_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_FENCE)));
+        DISTORTIC_FENCE_GATE= PokecubeLegends.BLOCKS_TAB.register("distortic_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_FENCE_GATE)));
+        DISTORTIC_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("distortic_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        DISTORTIC_BUTTON	= PokecubeLegends.BLOCKS_TAB.register("distortic_button", () -> new ItemGenerator.GenericWoodButton(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        DISTORTIC_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("distortic_trapdoor", () -> new ItemGenerator.GenericTrapDoor(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        DISTORTIC_DOOR		= PokecubeLegends.BLOCKS_TAB.register("distortic_door", () -> new ItemGenerator.GenericDoor(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
         // Mirage Spot (Hoopa Ring)
         BLOCK_PORTALWARP 	= PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", Block.Properties
@@ -427,11 +449,13 @@ public class BlockInit
 	
 	public static void strippableBlocks() 
 	{
-		addStrippable(ULTRA_LOGUB03, STRIP_AGED_LOG);
-		addStrippable(AGED_WOOD, 	 STRIP_AGED_WOOD);
-		addStrippable(ULTRA_LOGUB01, STRIP_INVERTED_LOG);
-		addStrippable(INVERTED_WOOD, STRIP_INVERTED_WOOD);
-		addStrippable(ULTRA_LOGUB02, STRIP_TEMPORAL_LOG);
-		addStrippable(TEMPORAL_WOOD, STRIP_TEMPORAL_WOOD);
+		addStrippable(ULTRA_LOGUB03,  STRIP_AGED_LOG);
+		addStrippable(AGED_WOOD, 	  STRIP_AGED_WOOD);
+		addStrippable(DISTORTIC_LOG,  STRIP_DISTORTIC_LOG);
+		addStrippable(DISTORTIC_WOOD, STRIP_DISTORTIC_WOOD);
+		addStrippable(ULTRA_LOGUB01,  STRIP_INVERTED_LOG);
+		addStrippable(INVERTED_WOOD,  STRIP_INVERTED_WOOD);
+		addStrippable(ULTRA_LOGUB02,  STRIP_TEMPORAL_LOG);
+		addStrippable(TEMPORAL_WOOD,  STRIP_TEMPORAL_WOOD);
 	}
 }
