@@ -7,7 +7,6 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -31,8 +30,27 @@ import pokecube.core.utils.Permissions;
 
 public class StatsHandler
 {
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void canCapture(final CaptureEvent.Pre evt)
+    public static void register()
+    {
+        // This checks if the capture is allowed, and cancels the event
+        // otherwise. It checks things such as: if the pokecube can capture it,
+        // if the player is allowed to capture it, and if the pokemob is already
+        // tamed, etc.
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, StatsHandler::canCapture);
+
+        // From here down, they are lowest, false to allow addons to override
+        // the behaviour.
+        // These just record the given event for use in things like pokedex
+        // stats, etc
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordCapture);
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordEvolve);
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordHatch);
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordKill);
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordTrade);
+
+    }
+
+    private static void canCapture(final CaptureEvent.Pre evt)
     {
         final ResourceLocation id = PokecubeItems.getCubeId(evt.filledCube);
         if (IPokecube.BEHAVIORS.containsKey(id))
@@ -101,8 +119,7 @@ public class StatsHandler
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordCapture(final CaptureEvent.Post evt)
+    private static void recordCapture(final CaptureEvent.Post evt)
     {
         final ResourceLocation id = PokecubeItems.getCubeId(evt.filledCube);
         if (IPokecube.BEHAVIORS.containsKey(id))
@@ -114,27 +131,23 @@ public class StatsHandler
         StatsCollector.addCapture(evt.caught);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordEvolve(final EvolveEvent.Post evt)
+    private static void recordEvolve(final EvolveEvent.Post evt)
     {
         if (evt.mob.isShadow()) return;
         StatsCollector.addCapture(evt.mob);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordHatch(final EggEvent.Hatch evt)
+    private static void recordHatch(final EggEvent.Hatch evt)
     {
         StatsCollector.addHatched(evt.egg);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordKill(final KillEvent evt)
+    private static void recordKill(final KillEvent evt)
     {
         if (!evt.killed.isShadow()) StatsCollector.addKill(evt.killed, evt.killer);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordTrade(final TradeEvent evt)
+    private static void recordTrade(final TradeEvent evt)
     {
         if (evt.mob == null || evt.mob.isShadow()) return;
         StatsCollector.addCapture(evt.mob);

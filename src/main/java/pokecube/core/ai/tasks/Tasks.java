@@ -39,6 +39,7 @@ import pokecube.core.ai.tasks.idle.MateTask;
 import pokecube.core.ai.tasks.utility.GatherTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UseMoveTask;
+import pokecube.core.events.pokemob.InitAIEvent.Init;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.CapHolders;
@@ -110,6 +111,9 @@ public class Tasks
         list.add(Tasks.lookAtMany());
         list.add(Tasks.lookAtPlayerOrVillager());
 
+        // Send the event to let anyone edit the tasks if needed.
+        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
+
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
         {
@@ -157,6 +161,9 @@ public class Tasks
 
         task = new SwimTask(pokemob, 0.4F, 0.8F);
         list.add(Pair.of(0, (Task<? super LivingEntity>) task));
+
+        // Send the event to let anyone edit the tasks if needed.
+        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
@@ -210,6 +217,9 @@ public class Tasks
 
         task = new SwimTask(pokemob, 0.4F, 0.8F);
         list.add(Pair.of(0, (Task<? super LivingEntity>) task));
+
+        // Send the event to let anyone edit the tasks if needed.
+        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)

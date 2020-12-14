@@ -66,7 +66,6 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
-import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -256,26 +255,6 @@ public class TrainerEventHandler
         if (time == evt.getTarget().getEntityWorld().getGameTime()) return;
         TrainerEventHandler.processInteract(evt, evt.getTarget());
         evt.getTarget().getPersistentData().putLong(ID, evt.getTarget().getEntityWorld().getGameTime());
-    }
-
-    /**
-     * For custom item interactions with pokemobs.
-     *
-     * @param event
-     */
-    @SubscribeEvent
-    public static void interactWithPokemob(final InteractEvent event)
-    {
-        // final PlayerEntity player = event.player;
-        // final Hand hand = event.event.getHand();
-        // final ItemStack held = player.getHeldItem(hand);
-        // TODO trainer edit item
-        // if (held.getItem() instanceof ItemTrainer)
-        // {
-        // PacketTrainer.sendEditOpenPacket(event.pokemob.getEntity(),
-        // (ServerPlayerEntity) player);
-        // event.setResult(Result.DENY);
-        // }
     }
 
     @SubscribeEvent

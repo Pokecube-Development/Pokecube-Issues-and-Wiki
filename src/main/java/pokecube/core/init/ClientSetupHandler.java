@@ -11,7 +11,6 @@ import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
@@ -23,7 +22,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.EventsHandlerClient;
-import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
 import pokecube.core.client.gui.blocks.TMs;
@@ -35,7 +33,6 @@ import pokecube.core.client.gui.pokemob.GuiPokemobRoutes;
 import pokecube.core.client.gui.pokemob.GuiPokemobStorage;
 import pokecube.core.client.render.RenderMoves;
 import pokecube.core.client.render.mobs.RenderEgg;
-import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderNPC;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
@@ -99,9 +96,7 @@ public class ClientSetupHandler
         CapabilityAnimation.registerAnimateClass(GenericPokemob.class);
 
         // Register event handlers
-        MinecraftForge.EVENT_BUS.register(EventsHandlerClient.class);
-        MinecraftForge.EVENT_BUS.register(GuiInfoMessages.class);
-        MinecraftForge.EVENT_BUS.register(RenderMobOverlays.class);
+        EventsHandlerClient.register();
 
         // Register keybinds
         PokecubeCore.LOGGER.debug("Init Keybinds");

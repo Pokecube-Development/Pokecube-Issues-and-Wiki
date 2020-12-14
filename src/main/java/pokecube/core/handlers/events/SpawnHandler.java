@@ -840,7 +840,7 @@ public final class SpawnHandler
         return totalSpawnCount;
     }
 
-    public void spawn(final ServerWorld world)
+    private void spawn(final ServerWorld world)
     {
         final List<ServerPlayerEntity> players = world.getPlayers();
         if (players.isEmpty()) return;

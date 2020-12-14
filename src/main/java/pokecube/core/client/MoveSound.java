@@ -17,8 +17,8 @@ public class MoveSound extends TickableSound
     public static float getVolume(final Vector3 pos1, final Vector3 pos2, final float volumeScale)
     {
         final double dist = pos2.distanceTo(pos1);
-        if (dist > 20) return 0;
-        float volume = (float) (15.0f / dist) * volumeScale;
+        if (dist > 32) return 0;
+        float volume = (float) (1f / dist) * volumeScale;
         volume = Math.min(1, volume);
         return volume;
     }

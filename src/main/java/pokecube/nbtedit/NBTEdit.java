@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -84,7 +83,6 @@ public class NBTEdit
         NBTEdit.log(Level.TRACE, sb);
     }
 
-    @SubscribeEvent
     public static void registerCommands(final RegisterCommandsEvent event)
     {
         CommandNBTEdit.register(event.getDispatcher());

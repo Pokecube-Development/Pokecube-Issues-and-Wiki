@@ -45,6 +45,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.BusBuilder;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -75,9 +76,6 @@ import pokecube.core.handlers.ItemHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.data.Drops;
 import pokecube.core.handlers.data.Recipes;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.PokemobEventsHandler;
-import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
@@ -97,7 +95,6 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.ClientProxy;
 import pokecube.core.proxy.CommonProxy;
-import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.PokecubeStructureProcessors;
@@ -417,13 +414,10 @@ public class PokecubeCore
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeCore.config, PokecubeCore.MODID, PokecubeCore.MODID);
 
-        PokecubeCore.POKEMOB_BUS.register(MobLoader.class);
-        PokecubeCore.POKEMOB_BUS.register(SpawnEventsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
-
-        MinecraftForge.EVENT_BUS.register(SpawnEventsHandler.class);
-        MinecraftForge.EVENT_BUS.register(EventsHandler.class);
-        MinecraftForge.EVENT_BUS.register(PokemobTracker.class);
+        // Register a listener for the default pokecube databases. The priority
+        // is lowest so that ours end up appended to the end of the list, rather
+        // than the beginning, so addon stuff has higher priority.
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, MobLoader::registerDatabases);
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 

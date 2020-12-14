@@ -214,10 +214,9 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         if (this.loadedTasks != null) for (final IAIRunnable task : this.tasks)
             if (this.loadedTasks.contains(task.getIdentifier()) && task instanceof INBTSerializable)
                 INBTSerializable.class.cast(task).deserializeNBT(this.loadedTasks.get(task.getIdentifier()));
-
         // Send notification event of AI initilization, incase anyone wants to
         // affect it.
-        PokecubeCore.POKEMOB_BUS.post(new InitAIEvent(this));
+        PokecubeCore.POKEMOB_BUS.post(new InitAIEvent.Post(this));
     }
 
     @Override

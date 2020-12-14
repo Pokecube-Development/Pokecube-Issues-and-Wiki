@@ -267,6 +267,9 @@ public class PokecubeAdv
 
     public static final String TRAINERTEXTUREPATH = PokecubeAdv.MODID + ":textures/trainer/";
 
+    // This proxy is used for the following:
+    //
+    // Server vs client implementations of Wearable, the client one has extended rendering functions.
     public final static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     private static final String NETVERSION = "1.0.1";
