@@ -19,7 +19,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;

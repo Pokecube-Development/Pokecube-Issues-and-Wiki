@@ -4,11 +4,17 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.UVImgRender;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
@@ -25,9 +31,10 @@ public abstract class PokeInfoPage extends WatchPage
     static int                entryIndex = 0;
     static int                formIndex  = 0;
 
-    public PokeInfoPage(final PokemobInfoPage parent, final String title)
+    public PokeInfoPage(final PokemobInfoPage parent, final String title, final ResourceLocation day,
+            final ResourceLocation night)
     {
-        super(new TranslationTextComponent("pokewatch.title.pokeinfo." + title), parent.watch);
+        super(new TranslationTextComponent("pokewatch.title.pokeinfo." + title), parent.watch, day, night);
         this.parent = parent;
     }
 
@@ -41,7 +48,7 @@ public abstract class PokeInfoPage extends WatchPage
     {
     }
 
-    abstract void drawInfo(int mouseX, int mouseY, float partialTicks);
+    abstract void drawInfo(MatrixStack mat, int mouseX, int mouseY, float partialTicks);
 
     @Override
     public void init()
@@ -49,9 +56,11 @@ public abstract class PokeInfoPage extends WatchPage
         super.init();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final String next = ">";
-        final String prev = "<";
-        this.addButton(new Button(x - 46, y + 4, 12, 20, next, b ->
+        final ITextComponent next = new StringTextComponent(">");
+        final ITextComponent prev = new StringTextComponent("<");
+        final ITextComponent form = new StringTextComponent("\u2500");
+        final ITextComponent cry = new StringTextComponent("\u266B");
+        final TexButton nextBtn = this.addButton(new TexButton(x - 66, y + 35, 12, 20, next, b ->
         {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
@@ -59,8 +68,8 @@ public abstract class PokeInfoPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
             this.parent.initPages(this.parent.pokemob);
-        }));
-        this.addButton(new Button(x - 76, y + 4, 12, 20, prev, b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
+        final TexButton prevBtn = this.addButton(new TexButton(x - 96, y + 35, 12, 20, prev, b ->
         {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
@@ -68,8 +77,8 @@ public abstract class PokeInfoPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
             this.parent.initPages(this.parent.pokemob);
-        }));
-        this.addButton(new Button(x - 65, y + 4, 20, 9, "\u2500", b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
+        final TexButton formBtn = this.addButton(new TexButton(x - 85, y + 35, 20, 10, form, b ->
         { // Cycle Form, only if not a real mob
             if (this.parent.pokemob.getEntity().addedToChunk) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
@@ -92,19 +101,28 @@ public abstract class PokeInfoPage extends WatchPage
                 holder = entry.getModel(this.parent.pokemob.getSexe());
                 this.parent.initPages(this.parent.pokemob.megaEvolve(entry));
             }
+            // This initializes the model holder
             this.parent.pokemob.setCustomHolder(holder);
-        }));
-        this.addButton(new Button(x - 65, y + 13, 20, 10, "\u266B", b ->
+            // This ensures the textures/etc are reset to account for the new
+            // model holder.
+            this.parent.pokemob.onGenesChanged();
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
+        final TexButton cryBtn = this.addButton(new TexButton(x - 85, y + 45, 20, 10, cry, b ->
         {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
-        }));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
+
+        nextBtn.setFGColor(0x444444);
+        prevBtn.setFGColor(0x444444);
+        formBtn.setFGColor(0x444444);
+        cryBtn.setFGColor(0x444444);
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.drawInfo(mouseX, mouseY, partialTicks);
-        super.render(mouseX, mouseY, partialTicks);
+        this.drawInfo(mat, mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 
 }

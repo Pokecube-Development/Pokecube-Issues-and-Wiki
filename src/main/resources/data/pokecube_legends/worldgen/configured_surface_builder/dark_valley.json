@@ -1,0 +1,14 @@
+{
+  "config": {
+    "top_material": {
+      "Name": "pokecube_legends:ultracobbles"
+    },
+    "under_material": {
+      "Name": "pokecube_legends:ultracobbles"
+    },
+    "underwater_material": {
+      "Name": "pokecube_legends:ultracobbles"
+    }
+  },
+  "type": "minecraft:default"
+}

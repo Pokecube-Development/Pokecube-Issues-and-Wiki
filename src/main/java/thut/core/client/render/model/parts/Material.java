@@ -16,30 +16,41 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.IRenderTypeBuffer.Impl;
 import net.minecraft.client.renderer.RenderState;
-import net.minecraft.client.renderer.RenderState.CullState;
-import net.minecraft.client.renderer.RenderState.DepthTestState;
-import net.minecraft.client.renderer.RenderState.ShadeModelState;
-import net.minecraft.client.renderer.RenderState.WriteMaskState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.vecmath.Vector3f;
 
-public class Material
+public class Material extends RenderState
 {
-    public final String     name;
-    private final String    render_name;
-    public String           texture;
-    public Vector3f         diffuseColor;
-    public Vector3f         specularColor;
-    public Vector3f         emissiveColor;
+    protected static final RenderState.TransparencyState DEFAULTTRANSP = new RenderState.TransparencyState(
+            "material_transparency", () ->
+            {
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+            }, () ->
+            {
+                RenderSystem.disableBlend();
+            });
+
+    protected static final DepthTestState LESSTHAN = new DepthTestState("<", 513);
+
+    public final String  name;
+    private final String render_name;
+
+    public String   texture;
+    public Vector3f diffuseColor;
+    public Vector3f specularColor;
+    public Vector3f emissiveColor;
+
     public ResourceLocation tex;
-    public float            emissiveMagnitude;
-    public float            ambientIntensity;
-    public float            shininess;
-    public float            alpha        = 1;
-    public boolean          transluscent = false;
-    public boolean          flat         = true;
+
+    public float   emissiveMagnitude;
+    public float   ambientIntensity;
+    public float   shininess;
+    public float   alpha        = 1;
+    public boolean transluscent = false;
+    public boolean flat         = true;
 
     static IRenderTypeBuffer.Impl lastImpl = null;
 
@@ -87,15 +98,17 @@ public class Material
         return buff;
     }
 
-    IVertexBuilder    override_buff = null;
-    IRenderTypeBuffer typeBuff      = null;
-
     private final Map<ResourceLocation, RenderType> types = Maps.newHashMap();
 
     public Material(final String name)
     {
+        super(name, () ->
+        {
+        }, () ->
+        {
+        });
         this.name = name;
-        this.render_name = "thutcore:mat_" + name;
+        this.render_name = "thutcore:mat_" + name + "_";
     }
 
     public Material(final String name, final String texture, final Vector3f diffuse, final Vector3f specular,
@@ -122,31 +135,38 @@ public class Material
         this.tex = tex;
         if (this.types.containsKey(tex)) return this.types.get(tex);
         final RenderType.State.Builder builder = RenderType.State.getBuilder();
+        // No blur, No MipMap
         builder.texture(new RenderState.TextureState(tex, false, false));
-        builder.transparency(new RenderState.TransparencyState("material_transparency", () ->
-        {
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-        }, () ->
-        {
-            RenderSystem.disableBlend();
-        }));
-        if (this.emissiveMagnitude == 0) builder.diffuseLighting(new RenderState.DiffuseLightingState(true));
-        builder.alpha(new RenderState.AlphaState(0.003921569F));
-        builder.lightmap(new RenderState.LightmapState(true));
-        builder.overlay(new RenderState.OverlayState(true));
+
+        builder.transparency(Material.DEFAULTTRANSP);
+
+        // Some materials are "emissive", so for those, we don't do this.
+        if (this.emissiveMagnitude == 0) builder.diffuseLighting(RenderState.DIFFUSE_LIGHTING_ENABLED);
+        // Normal alpha
+        builder.alpha(RenderState.DEFAULT_ALPHA);
+
+        // These are needed in general for world lighting
+        builder.lightmap(RenderState.LIGHTMAP_ENABLED);
+        builder.overlay(RenderState.OVERLAY_ENABLED);
+
         final boolean transp = this.alpha < 1 || this.transluscent;
         if (transp)
         {
-            builder.writeMask(new WriteMaskState(true, false));
-            builder.depthTest(new DepthTestState(513));
+            // These act like masking
+            builder.writeMask(RenderState.COLOR_WRITE);
+            builder.depthTest(Material.LESSTHAN);
         }
-        else builder.cull(new CullState(false));
-        if (!this.flat) builder.shadeModel(new ShadeModelState(true));
+        // Otheerwise disable culling entirely
+        else builder.cull(RenderState.CULL_DISABLED);
+
+        // Some models have extra bits that are not flat shaded, like coatings
+        if (!this.flat) builder.shadeModel(RenderState.SHADE_ENABLED);
         final RenderType.State rendertype$state = builder.build(true);
+
         final String id = this.render_name + tex;
         final RenderType type = RenderType.makeType(id, DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256, true,
                 false, rendertype$state);
+
         this.types.put(tex, type);
         return type;
     }
@@ -156,9 +176,5 @@ public class Material
         if (this.tex == null || Material.lastImpl == null) return buffer;
         final RenderType type = this.makeRenderType(this.tex);
         return Material.getOrAdd(this, type, Material.lastImpl);
-    }
-
-    public void postRender(final MatrixStack mat)
-    {
     }
 }

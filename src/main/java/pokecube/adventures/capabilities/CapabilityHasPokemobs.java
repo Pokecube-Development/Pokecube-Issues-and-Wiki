@@ -30,6 +30,7 @@ import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
@@ -424,7 +425,7 @@ public class CapabilityHasPokemobs
         {
             // If someone punches us, we will retaliate, so no permafriendly
             // then.
-            if (this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY) && this.user.getAttackingEntity() == null)
+            if (this.aiStates.getAIState(AIState.PERMFRIENDLY) && this.user.getAttackingEntity() == null)
             {
                 this.friendlyCooldown = 10;
                 return;
@@ -436,19 +437,19 @@ public class CapabilityHasPokemobs
                 this.setAttackCooldown(-1);
                 this.setNextSlot(0);
             }
-            else if (this.getOutMob() == null && !this.aiStates.getAIState(IHasNPCAIStates.THROWING)) this
+            else if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING)) this
                     .setAttackCooldown(this.getAttackCooldown() - 1);
-            if (this.aiStates.getAIState(IHasNPCAIStates.INBATTLE)) return;
+            if (this.aiStates.getAIState(AIState.INBATTLE)) return;
             if (!done && this.getTarget() != null) this.onSetTarget(null);
         }
 
         @Override
         public void onAddMob()
         {
-            if (this.getTarget() == null || this.aiStates.getAIState(IHasNPCAIStates.THROWING) || this
+            if (this.getTarget() == null || this.aiStates.getAIState(AIState.THROWING) || this
                     .getOutMob() != null || !this.getNextPokemob().isEmpty()) return;
-            this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
-            if (this.getOutMob() == null && !this.aiStates.getAIState(IHasNPCAIStates.THROWING)) if (this
+            this.aiStates.setAIState(AIState.INBATTLE, false);
+            if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING)) if (this
                     .getCooldown() <= this.user.getEntityWorld().getGameTime())
             {
                 this.onLose(this.getTarget());
@@ -533,8 +534,8 @@ public class CapabilityHasPokemobs
         public void resetPokemob()
         {
             this.setNextSlot(0);
-            this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
-            this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
+            this.aiStates.setAIState(AIState.THROWING, false);
+            this.aiStates.setAIState(AIState.INBATTLE, false);
             EventsHandler.recallAllPokemobs(this.user);
             this.setOutMob(null);
         }
@@ -656,8 +657,8 @@ public class CapabilityHasPokemobs
                 // Notify the watchers that a target was actually set.
                 for (final ITargetWatcher watcher : watchers)
                     watcher.onSet(null);
-                this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
-                this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
+                this.aiStates.setAIState(AIState.THROWING, false);
+                this.aiStates.setAIState(AIState.INBATTLE, false);
                 BrainUtils.deagro(this.getTrainer());
                 this.getTrainer().getBrain().removeMemory(MemoryTypes.BATTLETARGET);
                 this.getTrainer().getBrain().switchTo(Activity.IDLE);
@@ -679,18 +680,18 @@ public class CapabilityHasPokemobs
                 this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(), target
                         .getDisplayName());
                 this.messages.doAction(MessageState.AGRESS, target, this.user);
-                this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, true);
+                this.aiStates.setAIState(AIState.INBATTLE, true);
             }
             if (target == null)
             {
-                if (old != null && this.aiStates.getAIState(IHasNPCAIStates.INBATTLE))
+                if (old != null && this.aiStates.getAIState(AIState.INBATTLE))
                 {
                     this.messages.sendMessage(MessageState.DEAGRESS, old, this.user.getDisplayName(), old
                             .getDisplayName());
                     this.messages.doAction(MessageState.DEAGRESS, target, this.user);
                 }
-                this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
-                this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
+                this.aiStates.setAIState(AIState.THROWING, false);
+                this.aiStates.setAIState(AIState.INBATTLE, false);
             }
             // Notify the watchers that a target was actually set.
             for (final ITargetWatcher watcher : watchers)
@@ -716,12 +717,12 @@ public class CapabilityHasPokemobs
         @Override
         public void throwCubeAt(final Entity target)
         {
-            if (target == null || this.aiStates.getAIState(IHasNPCAIStates.THROWING) || !(target
+            if (target == null || this.aiStates.getAIState(AIState.THROWING) || !(target
                     .getEntityWorld() instanceof ServerWorld)) return;
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())
             {
-                this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, true);
+                this.aiStates.setAIState(AIState.INBATTLE, true);
                 final IPokecube cube = (IPokecube) i.getItem();
                 final Vector3 here = Vector3.getNewVector().set(this.user);
                 final Vector3 t = Vector3.getNewVector().set(target);
@@ -733,7 +734,7 @@ public class CapabilityHasPokemobs
                 {
                     thrown.autoRelease = 20;
                     thrown.canBePickedUp = false;
-                    this.aiStates.setAIState(IHasNPCAIStates.THROWING, true);
+                    this.aiStates.setAIState(AIState.THROWING, true);
                     this.attackCooldown = Config.instance.trainerSendOutDelay;
                     this.messages.sendMessage(MessageState.SENDOUT, target, this.user.getDisplayName(), i
                             .getDisplayName(), target.getDisplayName());

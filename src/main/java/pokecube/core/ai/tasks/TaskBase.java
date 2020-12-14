@@ -10,10 +10,10 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IMoveConstants;
@@ -68,17 +68,17 @@ public abstract class TaskBase extends RootTask<AgeableEntity> implements ITask
     /** Thread safe sound playing. */
     public static class PlaySound implements IRunnable
     {
-        final DimensionType dim;
+        final RegistryKey<World> dim;
         final Vector3       loc;
         final SoundEvent    sound;
         final SoundCategory cat;
         final float         volume;
         final float         pitch;
 
-        public PlaySound(final DimensionType dim, final Vector3 loc, final SoundEvent sound, final SoundCategory cat,
+        public PlaySound(final RegistryKey<World> registryKey, final Vector3 loc, final SoundEvent sound, final SoundCategory cat,
                 final float volume, final float pitch)
         {
-            this.dim = dim;
+            this.dim = registryKey;
             this.sound = sound;
             this.volume = volume;
             this.loc = loc;
@@ -89,7 +89,7 @@ public abstract class TaskBase extends RootTask<AgeableEntity> implements ITask
         @Override
         public boolean run(final World world)
         {
-            if (this.dim != world.getDimension().getType()) return false;
+            if (this.dim != world.getDimensionKey()) return false;
             world.playSound(null, this.loc.x, this.loc.y, this.loc.z, this.sound, this.cat, this.volume, this.pitch);
             return true;
         }

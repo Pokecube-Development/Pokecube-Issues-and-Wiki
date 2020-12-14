@@ -16,10 +16,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTDynamicOps;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.StringTextComponent;
@@ -50,7 +51,6 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
@@ -163,40 +163,32 @@ public class PacketPokedex extends Packet
     public static void sendSecretBaseInfoPacket(final ServerPlayerEntity player, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex();
-        final ListNBT list = new ListNBT();
-        // TODO secret bases
+        ListNBT list = new ListNBT();
         final BlockPos pos = player.getPosition();
-        final GlobalPos here = GlobalPos.of(player.getEntityWorld().getDimension().getType(), pos);
+        final GlobalPos here = GlobalPos.getPosition(player.getEntityWorld().getDimensionKey(), pos);
         for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
         {
-            final INBT tag = c.serialize(NBTDynamicOps.INSTANCE);
-            list.add(tag);
+            final CompoundNBT nbt = NBTUtil.writeBlockPos(c.getPos());
+            list.add(nbt);
         }
-        packet.data.put("B", list);
+        packet.data.put("_bases_", list);
         packet.data.putBoolean("M", watch);
         packet.data.putInt("R", PokecubeCore.getConfig().baseRadarRange);
-        final List<GlobalPos> meteors = PokecubeSerializer.getInstance().meteors;
-        if (!meteors.isEmpty())
+        final List<GlobalPos> meteors = Lists.newArrayList(PokecubeSerializer.getInstance().meteors);
+        meteors.removeIf(p -> p.getDimension() != here.getDimension());
+        meteors.sort((c1, c2) ->
         {
-            double dist = Double.MAX_VALUE;
-            GlobalPos closest = null;
-            double check = 0;
-            for (final GlobalPos loc : meteors)
-            {
-                if (loc.getDimension() != here.getDimension()) continue;
-                check = PokecubeSerializer.distSq(loc, here);
-                if (check < dist)
-                {
-                    closest = loc;
-                    dist = check;
-                }
-            }
-            if (closest != null)
-            {
-                final INBT tag = closest.serialize(NBTDynamicOps.INSTANCE);
-                packet.data.put("V", tag);
-            }
+            final int d1 = c1.getPos().compareTo(pos);
+            final int d2 = c2.getPos().compareTo(pos);
+            return d2 - d1;
+        });
+        list = new ListNBT();
+        for (int i = 0; i < Math.min(10, meteors.size()); i++)
+        {
+            final CompoundNBT nbt = NBTUtil.writeBlockPos(meteors.get(i).getPos());
+            list.add(nbt);
         }
+        packet.data.put("_meteors_", list);
         packet.message = PacketPokedex.BASERADAR;
         PokecubeCore.packets.sendTo(packet, player);
     }
@@ -274,17 +266,25 @@ public class PacketPokedex extends Packet
                 PacketPokedex.values.add(this.data.getString("" + i));
             return;
         case BASERADAR:
-            if (this.data.contains("V")) pokecube.core.client.gui.watch.SecretBaseRadarPage.closestMeteor = new Vector4(
-                    this.data.getCompound("V"));
-            else pokecube.core.client.gui.watch.SecretBaseRadarPage.closestMeteor = null;
-            if (!this.data.contains("B") || !(this.data.get("B") instanceof ListNBT)) return;
-            final ListNBT list = (ListNBT) this.data.get("B");
-            pokecube.core.client.gui.watch.SecretBaseRadarPage.bases.clear();
-            for (int i = 0; i < list.size(); i++)
+            if (this.data.contains("_meteors_") && this.data.get("_meteors_") instanceof ListNBT)
             {
-                final CompoundNBT tag = list.getCompound(i);
-                final Vector4 c = new Vector4(tag);
-                pokecube.core.client.gui.watch.SecretBaseRadarPage.bases.add(c);
+                final ListNBT list = (ListNBT) this.data.get("_meteors_");
+                pokecube.core.client.gui.watch.SecretBaseRadarPage.meteors.clear();
+                for (int i = 0; i < list.size(); i++)
+                {
+                    final CompoundNBT tag = list.getCompound(i);
+                    pokecube.core.client.gui.watch.SecretBaseRadarPage.meteors.add(NBTUtil.readBlockPos(tag));
+                }
+            }
+            if (this.data.contains("_bases_") && this.data.get("_bases_") instanceof ListNBT)
+            {
+                final ListNBT list = (ListNBT) this.data.get("_bases_");
+                pokecube.core.client.gui.watch.SecretBaseRadarPage.bases.clear();
+                for (int i = 0; i < list.size(); i++)
+                {
+                    final CompoundNBT tag = list.getCompound(i);
+                    pokecube.core.client.gui.watch.SecretBaseRadarPage.bases.add(NBTUtil.readBlockPos(tag));
+                }
             }
             pokecube.core.client.gui.watch.SecretBaseRadarPage.baseRange = this.data.getInt("R");
             return;
@@ -498,7 +498,7 @@ public class PacketPokedex extends Packet
                         }
                         if (hasBiomes) break;
                     }
-                    if (hasBiomes) for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
+                    if (hasBiomes) for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
                         if (b != null) if (data.isValid(b)) biomes.add(b.getRegistryName().toString());
                     for (final BiomeType b : BiomeType.values())
                         if (data.isValid(b)) biomes.add(b.readableName);
@@ -518,14 +518,14 @@ public class PacketPokedex extends Packet
             final int index = this.data.getInt("I");
             final TeleDest loc = TeleportHandler.getTeleport(player.getCachedUniqueIdString(), index);
             TeleportHandler.unsetTeleport(index, player.getCachedUniqueIdString());
-            player.sendMessage(new StringTextComponent("Deleted " + loc.getName()));
+            player.sendMessage(new StringTextComponent("Deleted " + loc.getName()), Util.DUMMY_UUID);
             PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
             PacketDataSync.sendInitPacket(player, "pokecube-data");
             return;
         case RENAME:
             final String name = this.data.getString("N");
             TeleportHandler.renameTeleport(player.getCachedUniqueIdString(), this.data.getInt("I"), name);
-            player.sendMessage(new StringTextComponent("Set teleport as " + name));
+            player.sendMessage(new StringTextComponent("Set teleport as " + name), Util.DUMMY_UUID);
             PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
             PacketDataSync.sendInitPacket(player, "pokecube-data");
             return;
@@ -537,11 +537,13 @@ public class PacketPokedex extends Packet
 
             if (!reward)
             {
-                if (inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.available"));
+                if (inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.available"),
+                        Util.DUMMY_UUID);
             }
             else
             {
-                if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"));
+                if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"),
+                        Util.DUMMY_UUID);
                 player.closeScreen();
             }
             return;

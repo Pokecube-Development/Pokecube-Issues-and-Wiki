@@ -8,7 +8,9 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -23,7 +25,7 @@ public class CommonProxy implements Proxy
 
     boolean reg = false;
 
-    public boolean checkPermission(CommandSource cs)
+    public boolean checkPermission(final CommandSource cs)
     {
         ServerPlayerEntity player;
         try
@@ -37,7 +39,7 @@ public class CommonProxy implements Proxy
         return this.checkPermission(player);
     }
 
-    public boolean checkPermission(ServerPlayerEntity player)
+    public boolean checkPermission(final ServerPlayerEntity player)
     {
         if (!this.reg) PermissionAPI.registerNode(NBTEdit.MODID, DefaultPermissionLevel.OP,
                 "Allowed to use nbt edit commands.");
@@ -52,28 +54,28 @@ public class CommonProxy implements Proxy
         return FMLPaths.GAMEDIR.get().toFile();
     }
 
-    public void openEditGUI(BlockPos pos, CompoundNBT tag)
+    public void openEditGUI(final BlockPos pos, final CompoundNBT tag)
     {
 
     }
 
-    public void openEditGUI(int entityID, CompoundNBT tag)
+    public void openEditGUI(final int entityID, final CompoundNBT tag)
     {
 
     }
 
-    public void openEditGUI(int entityID, String customName, CompoundNBT tag)
+    public void openEditGUI(final int entityID, final String customName, final CompoundNBT tag)
     {
 
     }
 
-    public void sendMessage(PlayerEntity player, String message, TextFormatting color)
+    public void sendMessage(final PlayerEntity player, final String message, final TextFormatting color)
     {
         if (player != null)
         {
             final ITextComponent component = new StringTextComponent(message);
-            component.getStyle().setColor(color);
-            player.sendMessage(component);
+            component.getStyle().setColor(Color.fromTextFormatting(color));
+            player.sendMessage(component, Util.DUMMY_UUID);
         }
     }
 

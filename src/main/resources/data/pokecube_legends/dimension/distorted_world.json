@@ -1,0 +1,13 @@
+{
+  "type": "pokecube_legends:distorted_world",
+  "generator": {
+  	"type": "minecraft:noise",
+    "seed": 0,
+  	"biome_source": {
+  	  "type": "minecraft:fixed",
+      "biome": "pokecube_legends:distorted_biome",
+      "seed": 0
+    },
+    "settings": "pokecube_legends:distorted_terrain"
+  }
+}

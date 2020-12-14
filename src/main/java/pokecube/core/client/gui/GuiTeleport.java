@@ -3,8 +3,6 @@
  */
 package pokecube.core.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -73,8 +71,8 @@ public class GuiTeleport extends AbstractGui
         final IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob == null) return;
 
-        GL11.glPushMatrix();
-        GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().teleRef, PokecubeCore.getConfig().telePos,
+        event.mat.push();
+        GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().teleRef, PokecubeCore.getConfig().telePos,
                 GuiDisplayPokecubeInfo.teleDims, (float) PokecubeCore.getConfig().teleSize);
 
         final int h = 0;
@@ -85,8 +83,8 @@ public class GuiTeleport extends AbstractGui
         final int dir = GuiTeleport.direction;
         // bind texture
         this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
-        this.blit(xOffset + w, yOffset + h, 44, 0, 90, 13);
-        this.fontRenderer.drawString(I18n.format("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
+        this.blit(event.mat, xOffset + w, yOffset + h, 44, 0, 90, 13);
+        this.fontRenderer.drawString(event.mat, I18n.format("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
                 GuiTeleport.lightGrey);
 
         final TeleDest location = TeleportHandler.getTeleport(this.minecraft.player.getCachedUniqueIdString());
@@ -97,11 +95,11 @@ public class GuiTeleport extends AbstractGui
             if (dir == -1) shift -= 25;
             // bind texture
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
-            this.blit(xOffset + w, shift, 44, 22, 91, 12);
-            this.fontRenderer.drawString(name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
+            this.blit(event.mat, xOffset + w, shift, 44, 22, 91, 12);
+            this.fontRenderer.drawString(event.mat, name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }
         i++;
-        GL11.glPopMatrix();
+        event.mat.pop();
 
     }
 

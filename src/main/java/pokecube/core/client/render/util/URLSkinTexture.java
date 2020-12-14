@@ -14,7 +14,7 @@ public class URLSkinTexture extends DownloadingTexture
 
     public URLSkinTexture(final File file, final String url, final ResourceLocation resource)
     {
-        super(file, url, resource, true, (Runnable) null);
+        super(file, url, resource, false, (Runnable) null);
     }
 
 }

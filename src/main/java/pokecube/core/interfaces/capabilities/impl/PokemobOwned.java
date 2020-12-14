@@ -25,7 +25,6 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
@@ -63,11 +62,9 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         final Entity owner = this.getOwner();
         // Ensure this is actually client side before sending this.
-        if (PokecubeCore.proxy.isClientSide() && PokecubeCore.proxy.getPlayer().getUniqueID().equals(this.getOwnerId()))
-            GuiInfoMessages.addMessage(message);
-        else if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
+        if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getFormattedText());
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getString());
             final MoveMessageEvent event = new MoveMessageEvent(this, message);
             PokecubeCore.MOVE_BUS.post(event);
             PacketPokemobMessage.sendMessage((PlayerEntity) owner, this.getEntity().getEntityId(), event.message);
@@ -297,7 +294,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
             final PlayerEntity player = (PlayerEntity) owner;
             boolean noRoom = false;
-            final boolean ownerDead = !player.isAlive() || player.getHealth() <= 0;
+            final boolean ownerDead = player.getHealth() <= 0;
             if (ownerDead || player.inventory.getFirstEmptyStack() == -1) noRoom = true;
             if (noRoom)
             {
@@ -481,7 +478,16 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     public IPokemob spawnInit(final SpawnRule info)
     {
         this.resetLoveStatus();
+        final IPokemob pokemob = this;
+        this.spawnInitRule = info;
+        return pokemob;
+    }
+
+    @Override
+    public IPokemob onAddedInit()
+    {
         IPokemob pokemob = this;
+        if (this.spawnInitRule == null) return this;
         int maxXP = this.getEntity().getPersistentData().getInt("spawnExp");
         /*
          * Check to see if the mob has spawnExp defined in its data. If not, it
@@ -513,22 +519,31 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         // Set exp and held items.
         pokemob = pokemob.setForSpawn(maxXP);
         // Only set this if we haven't had one set yet already
-        if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(this.getEntity()));
+        if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(pokemob.getEntity()));
 
         // Make sure heath is valid numbers.
         if (pokemob instanceof PokemobOwned) ((PokemobOwned) pokemob).updateHealth();
         pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
 
         // If we have some spawn info, lets process it.
-        if (info != null)
+        if (this.spawnInitRule != null)
         {
-            final FormeHolder holder = info.getForme(pokemob.getPokedexEntry());
+            final FormeHolder holder = this.spawnInitRule.getForme(pokemob.getPokedexEntry());
             if (holder != null) pokemob.setCustomHolder(holder);
         }
-
-        // Reset love status to prevent immediate eggs
-        this.resetLoveStatus();
-
+        if (pokemob != this) pokemob.spawnInit(this.spawnInitRule);
         return pokemob;
+    };
+
+    @Override
+    public void markRemoved()
+    {
+        this.isRemoved = true;
+    }
+
+    @Override
+    public boolean isRemoved()
+    {
+        return this.isRemoved;
     }
 }

@@ -44,9 +44,11 @@ public abstract class BlingRenderBase
         return textures;
     }
 
-    /** This should setup the models if they are not setup, it will be called at
+    /**
+     * This should setup the models if they are not setup, it will be called at
      * the begining of the render, so should do nothing if there is no setup to
-     * do. */
+     * do.
+     */
     protected abstract void initModels();
 
     public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
@@ -56,6 +58,14 @@ public abstract class BlingRenderBase
         this.initModels();
         final IModel model = this.getModel(slot, stack);
         final ResourceLocation[] textures = this.getTextures(slot, stack);
+        if (stack.hasTag() && stack.getTag().contains("gemTag") && !stack.getTag().contains("gem"))
+        {
+            final ItemStack gem = ItemStack.read(stack.getTag().getCompound("gemTag"));
+            final ResourceLocation id = gem.getItem().getRegistryName();
+            // TODO better way to do this.
+            final String tex = id.getNamespace() + ":textures/item/" + id.getPath() + ".png";
+            stack.getTag().putString("gem", tex);
+        }
         // TODO remove hardcoded allowance for eyes to be textures instead of
         // models.
         if (model == null && slot != EnumWearable.EYE) return;

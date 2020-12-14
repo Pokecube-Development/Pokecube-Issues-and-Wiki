@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -17,7 +18,6 @@ import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.PressurePlateBlock;
-import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;

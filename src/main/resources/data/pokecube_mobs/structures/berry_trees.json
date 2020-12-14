@@ -11,18 +11,18 @@
       "name":"pokecube_mobs:berry_trees/trees",
       "rigid":true,
       "options":[
-        "pokecube_mobs:berry_trees/enigma;{\"berry\":\"enigma\"}",
-        "pokecube_mobs:berry_trees/grepa;{\"berry\":\"grepa\"}",
-        "pokecube_mobs:berry_trees/hondew;{\"berry\":\"hondew\"}",
-        "pokecube_mobs:berry_trees/kelpsy;{\"berry\":\"kelpsy\"}",
-        "pokecube_mobs:berry_trees/leppa;{\"berry\":\"leppa\"}",
-        "pokecube_mobs:berry_trees/nanab;{\"berry\":\"nanab\"}",
-        "pokecube_mobs:berry_trees/oran;{\"berry\":\"oran\"}",
-        "pokecube_mobs:berry_trees/pecha;{\"berry\":\"pecha\"}",
-        "pokecube_mobs:berry_trees/pomeg;{\"berry\":\"pomeg\"}",
-        "pokecube_mobs:berry_trees/qualot;{\"berry\":\"qualot\"}",
-        "pokecube_mobs:berry_trees/sitrus;{\"berry\":\"sitrus\"}",
-        "pokecube_mobs:berry_trees/tamato;{\"berry\":\"tamato\"}"
+        "pokecube_mobs:berry_trees/enigma;{\"flag\":\"enigma\"}",
+        "pokecube_mobs:berry_trees/grepa;{\"flag\":\"grepa\"}",
+        "pokecube_mobs:berry_trees/hondew;{\"flag\":\"hondew\"}",
+        "pokecube_mobs:berry_trees/kelpsy;{\"flag\":\"kelpsy\"}",
+        "pokecube_mobs:berry_trees/leppa;{\"flag\":\"leppa\"}",
+        "pokecube_mobs:berry_trees/nanab;{\"flag\":\"nanab\"}",
+        "pokecube_mobs:berry_trees/oran;{\"flag\":\"oran\"}",
+        "pokecube_mobs:berry_trees/pecha;{\"flag\":\"pecha\"}",
+        "pokecube_mobs:berry_trees/pomeg;{\"flag\":\"pomeg\"}",
+        "pokecube_mobs:berry_trees/qualot;{\"flag\":\"qualot\"}",
+        "pokecube_mobs:berry_trees/sitrus;{\"flag\":\"sitrus\"}",
+        "pokecube_mobs:berry_trees/tamato;{\"flag\":\"tamato\"}"
       ]
     }
   ],

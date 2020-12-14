@@ -43,6 +43,7 @@ import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.TrainerCaps;
@@ -53,7 +54,6 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.Linker;
-import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
@@ -66,7 +66,6 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
-import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -105,11 +104,15 @@ public class TrainerEventHandler
         {
             final Random rand = new Random(this.mob.getUniqueID().getLeastSignificantBits());
             final String type = this.mob.getNpcType() == NpcType.PROFESSOR ? "professor" : "merchant";
-            final TrainerTrades trades = TypeTrainer.tradesMap.get(type);
-            if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+            TrainerTrades trades = TypeTrainer.tradesMap.get(type);
+            if (!this.mob.customTrades.isEmpty())
+            {
+                trades = TypeTrainer.tradesMap.get(this.mob.customTrades);
+                if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+            }
+            else if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
             else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
         }
-
     }
 
     private static class NpcOffer implements Consumer<MerchantOffer>
@@ -254,26 +257,6 @@ public class TrainerEventHandler
         evt.getTarget().getPersistentData().putLong(ID, evt.getTarget().getEntityWorld().getGameTime());
     }
 
-    /**
-     * For custom item interactions with pokemobs.
-     *
-     * @param event
-     */
-    @SubscribeEvent
-    public static void interactWithPokemob(final InteractEvent event)
-    {
-        // final PlayerEntity player = event.player;
-        // final Hand hand = event.event.getHand();
-        // final ItemStack held = player.getHeldItem(hand);
-        // TODO trainer edit item
-        // if (held.getItem() instanceof ItemTrainer)
-        // {
-        // PacketTrainer.sendEditOpenPacket(event.pokemob.getEntity(),
-        // (ServerPlayerEntity) player);
-        // event.setResult(Result.DENY);
-        // }
-    }
-
     @SubscribeEvent
     /**
      * This manages invulnerability of npcs to pokemobs, as well as managing
@@ -357,7 +340,7 @@ public class TrainerEventHandler
 
     private static void initTrainer(final LivingEntity npc, final SpawnReason reason)
     {
-        if (npc instanceof NpcMob && !(npc instanceof TrainerBase))
+        if (npc instanceof NpcMob)
         {
             ((NpcMob) npc).setInitOffers(new NpcOffers((NpcMob) npc));
             ((NpcMob) npc).setUseOffers(new NpcOffer((NpcMob) npc));
@@ -398,13 +381,6 @@ public class TrainerEventHandler
         if (evt.getItemStack().getItem() instanceof Linker && evt.getPlayer() instanceof ServerPlayerEntity && Linker
                 .interact((ServerPlayerEntity) evt.getPlayer(), target, evt.getItemStack())) evt.setCanceled(true);
 
-        if (!target.isCrouching() && pokemobs != null && evt.getItemStack().getItem() instanceof TrainerEditor)
-        {
-            evt.setCanceled(true);
-            if (evt.getPlayer() instanceof ServerPlayerEntity) PacketTrainer.sendEditOpenPacket(target,
-                    (ServerPlayerEntity) evt.getPlayer());
-            return;
-        }
         if (messages != null)
         {
             MessageState state = MessageState.INTERACT;
@@ -494,7 +470,7 @@ public class TrainerEventHandler
             }
             else pokemobHolder.setOutMob(evt.pokemob);
             final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(owner);
-            if (aiStates != null) aiStates.setAIState(IHasNPCAIStates.THROWING, false);
+            if (aiStates != null) aiStates.setAIState(AIState.THROWING, false);
         }
     }
 

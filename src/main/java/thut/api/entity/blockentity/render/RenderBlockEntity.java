@@ -11,12 +11,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.IBakedModel;
@@ -28,8 +26,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.ILightReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
@@ -125,7 +125,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         if (state == null) state = Blocks.AIR.getDefaultState();
         if (state.getMaterial() != Material.AIR)
         {
-            final BlockState actualstate = state.getBlock().getExtendedState(state, entity.getFakeWorld(), pos);
+            final BlockState actualstate = state;// .getBlock().getStateAtViewpoint(state,
+                                                 // entity.getFakeWorld(), pos);
             this.renderBakedBlockModel(entity, actualstate, entity.getFakeWorld(), realpos, pos, mat, bufferIn,
                     packedLightIn);
         }
@@ -175,16 +176,16 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final int packedLightIn)
     {
         final IModelData data = Minecraft.getInstance().getBlockRendererDispatcher().getModelForState(state)
-                .getModelData((ILightReader) world, real_pos, state, EmptyModelData.INSTANCE);
+                .getModelData((IBlockDisplayReader) world, real_pos, state, EmptyModelData.INSTANCE);
         final BlockPos rpos = relPos.add(entity.getOriginalPos());
         for (final RenderType type : RenderType.getBlockRenderTypes())
             if (RenderTypeLookup.canRenderInLayer(state, type))
             {
                 final BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRendererDispatcher();
                 final IBakedModel model = blockRenderer.getModelForState(state);
-                blockRenderer.getBlockModelRenderer().renderModel((ILightReader) world, model, state, real_pos, mat,
-                        bufferIn.getBuffer(type), false, new Random(), state.getPositionRandom(rpos), packedLightIn,
-                        data);
+                blockRenderer.getBlockModelRenderer().renderModel((IBlockDisplayReader) world, model, state, real_pos,
+                        mat, bufferIn.getBuffer(type), false, new Random(), state.getPositionRandom(rpos),
+                        packedLightIn, data);
             }
     }
 }

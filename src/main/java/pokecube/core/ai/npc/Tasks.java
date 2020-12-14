@@ -1,10 +1,13 @@
 package pokecube.core.ai.npc;
 
+import java.util.Optional;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -25,6 +28,7 @@ import net.minecraft.entity.ai.brain.task.FindHidingPlaceTask;
 import net.minecraft.entity.ai.brain.task.FindInteractionAndLookTargetTask;
 import net.minecraft.entity.ai.brain.task.FindWalkTargetAfterRaidVictoryTask;
 import net.minecraft.entity.ai.brain.task.FindWalkTargetTask;
+import net.minecraft.entity.ai.brain.task.FirstShuffledTask;
 import net.minecraft.entity.ai.brain.task.ForgetRaidTask;
 import net.minecraft.entity.ai.brain.task.GatherPOITask;
 import net.minecraft.entity.ai.brain.task.GiveHeroGiftsTask;
@@ -33,8 +37,8 @@ import net.minecraft.entity.ai.brain.task.HideFromRaidOnBellRingTask;
 import net.minecraft.entity.ai.brain.task.InteractWithDoorTask;
 import net.minecraft.entity.ai.brain.task.InteractWithEntityTask;
 import net.minecraft.entity.ai.brain.task.JumpOnBedTask;
+import net.minecraft.entity.ai.brain.task.MultiTask;
 import net.minecraft.entity.ai.brain.task.PanicTask;
-import net.minecraft.entity.ai.brain.task.PickupFoodTask;
 import net.minecraft.entity.ai.brain.task.RingBellTask;
 import net.minecraft.entity.ai.brain.task.ShareItemsTask;
 import net.minecraft.entity.ai.brain.task.ShowWaresTask;
@@ -101,12 +105,12 @@ public class Tasks
                 Pair.of(0, new WakeUpTask()),
                 Pair.of(0, new HideFromRaidOnBellRingTask()),
                 Pair.of(0, new BeginRaidTask()),
-                Pair.of(1, new WalkToTargetTask(200)),
+                Pair.of(1, new WalkToTargetTask()),
                 Pair.of(2, new TradeTask(speed)),
-                Pair.of(5, new PickupFoodTask()),
-                Pair.of(10, new GatherPOITask(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE, true)),
-                Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false)),
-                Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING,MemoryModuleType.MEETING_POINT, true)),
+               // Pair.of(5, new PickupFoodTask()), TODO decide on if we want to do this?
+                Pair.of(10, new GatherPOITask(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),
+                Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte)14))),
+                Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte)14))),
                 Pair.of(10, new AssignProfessionTask()), Pair.of(10, new ChangeJobTask())
         );
     }
@@ -118,8 +122,8 @@ public class Tasks
                 Tasks.lookAtPlayerOrVillager(),
                 Pair.of(5, new ShuffledTask<>(ImmutableList.of(
                     Pair.of(new SpawnGolemTask(), 7),
-                    Pair.of(new WorkTask(MemoryModuleType.JOB_SITE, 4), 2),
-                    Pair.of(new WalkTowardsPosTask(MemoryModuleType.JOB_SITE, 1, 10), 5),
+                    Pair.of(new WorkTask(MemoryModuleType.JOB_SITE, 0.4F,  4), 2),
+                    Pair.of(new WalkTowardsPosTask(MemoryModuleType.JOB_SITE, 0.4F, 1, 10), 5),
                     Pair.of(new WalkTowardsRandomSecondaryPosTask(MemoryModuleType.SECONDARY_JOB_SITE, 0.4F, 1, 6, MemoryModuleType.JOB_SITE), 5),
                     Pair.of(new FarmTask(), profession == VillagerProfession.FARMER ? 2 : 5)
                     ))),
@@ -136,7 +140,7 @@ public class Tasks
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> play(final float walkingSpeed)
     {
         return ImmutableList.of(
-                Pair.of(0, new WalkToTargetTask(100)),
+                Pair.of(0, new WalkToTargetTask()),
                 Tasks.lookAtMany(),
                 Pair.of(5, new WalkToVillagerBabiesTask()),
                 Pair.of(5, new ShuffledTask<>(
@@ -179,7 +183,7 @@ public class Tasks
         return ImmutableList.of(
                 Pair.of(2, new ShuffledTask<>(
                     ImmutableList.of(
-                    Pair.of(new WorkTask(MemoryModuleType.MEETING_POINT, 40), 2),
+                    Pair.of(new WorkTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
                     Pair.of(new CongregateTask(), 2)
                     ))),
                 Pair.of(10, new ShowWaresTask(400, 1600)),
@@ -203,10 +207,10 @@ public class Tasks
             final VillagerProfession profession, final float p_220641_1_)
     {
         return ImmutableList.of(
-                Pair.of(2, new ShuffledTask<>(
+                Pair.of(2, new FirstShuffledTask<>(
                     ImmutableList.of(
                     Pair.of(InteractWithEntityTask.func_220445_a(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, p_220641_1_, 2), 2),
-                    Pair.of(new InteractWithEntityTask<>(EntityType.VILLAGER, 8, VillagerEntity::canBreed, VillagerEntity::canBreed, MemoryModuleType.BREED_TARGET, p_220641_1_, 2), 1),
+                    Pair.of(new InteractWithEntityTask<>(EntityType.VILLAGER, 8, AgeableEntity::canBreed, AgeableEntity::canBreed, MemoryModuleType.BREED_TARGET, p_220641_1_, 2), 1),
                     Pair.of(InteractWithEntityTask.func_220445_a(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, p_220641_1_, 2), 1),
                     Pair.of(new FindWalkTargetTask(p_220641_1_), 1),
                     Pair.of(new WalkTowardsLookTargetTask(p_220641_1_, 2), 1),

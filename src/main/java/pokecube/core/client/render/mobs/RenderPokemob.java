@@ -25,9 +25,10 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -176,6 +177,10 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
 
         public Vector5 rotations = new Vector5();
 
+        // This will decrement if above 0, and if so, we don't render, this
+        // gives some time to actually load the model.
+        protected int loadTimer = 3;
+
         IAnimationHolder currentHolder = null;
 
         public Holder(final PokedexEntry entry)
@@ -233,6 +238,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         public void setAnimationHolder(final IAnimationHolder holder)
         {
             this.currentHolder = holder;
+            if (this.animator != null) this.animator.setAnimationHolder(holder);
             this.wrapper.imodel.setAnimationHolder(holder);
         }
 
@@ -295,7 +301,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             if (!this.wrapper.isLoaded()) return "not_loaded_yet!";
             String phase = "idle";
             if (this.model == null || pokemob == null) return phase;
-            final Vec3d velocity = entity.getMotion();
+            final Vector3d velocity = entity.getMotion();
             final float dStep = entity.limbSwingAmount - entity.prevLimbSwingAmount;
             final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
             final float stationary = 0.00001f;
@@ -347,10 +353,10 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             }
 
             BlockPos pos;
-            final boolean flying = !entity.onGround && !(entity.getPosY() - (int) entity.getPosY() < 0.01f && entity
+            final boolean flying = !entity.isOnGround() && !(entity.getPosY() - (int) entity.getPosY() < 0.01f && entity
                     .getEntityWorld().getBlockState(pos = entity.getPosition().down()).isTopSolid(entity
-                            .getEntityWorld(), pos, entity));
-            final boolean walking = entity.onGround && walkspeed > stationary;
+                            .getEntityWorld(), pos, entity, Direction.UP));
+            final boolean walking = entity.isOnGround() && walkspeed > stationary;
             final boolean swimming = entity.isInWater();
 
             if (asleep && this.hasAnimation("sleeping", entity))
@@ -625,6 +631,11 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
         }
         if (holder.wrapper != null && !holder.wrapper.isLoaded()) return;
+
+        // This gives time for the model to actually finish loading in.
+        if (holder.loadTimer-- > 0) return;
+        holder.loadTimer = 0;
+
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
                 || holder.texture == null) holder = RenderPokemob.getMissingNo();
 
@@ -653,7 +664,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     }
 
     @Override
-    protected RenderType func_230042_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b)
+    protected RenderType func_230496_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b,
+            final boolean bool_c)
     {
         final RenderType.State rendertype$state = RenderType.State.getBuilder().texture(new RenderState.TextureState(
                 this.getEntityTexture(entity), false, false)).transparency(new RenderState.TransparencyState(

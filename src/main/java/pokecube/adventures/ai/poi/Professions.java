@@ -13,10 +13,10 @@ public class Professions
 
     public static void register(final Register<VillagerProfession> event)
     {
-        Professions.HEALER = VillagerProfession.register("pokecube_adventures:healer", PointsOfInterest.HEALER,
+        Professions.HEALER = VillagerProfession.register("pokecube_adventures:healer", PointsOfInterest.HEALER.get(),
                 ImmutableSet.of(), ImmutableSet.of(), null);
-        Professions.PROFESSOR = VillagerProfession.register("pokecube_adventures:professor", PointsOfInterest.GENELAB,
-                ImmutableSet.of(), ImmutableSet.of(), null);
+        Professions.PROFESSOR = VillagerProfession.register("pokecube_adventures:professor", PointsOfInterest.GENELAB
+                .get(), ImmutableSet.of(), ImmutableSet.of(), null);
         NpcType.HEALER.setProfession(Professions.HEALER);
         NpcType.PROFESSOR.setProfession(Professions.PROFESSOR);
     }

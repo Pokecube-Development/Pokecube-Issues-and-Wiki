@@ -193,6 +193,8 @@ public class AnimationChanger implements IAnimationChanger
     public void setAnimationHolder(final IAnimationHolder holder)
     {
         this.currentHolder = holder;
+        for (final IAnimationChanger child : this.children)
+            child.setAnimationHolder(holder);
     }
 
 }

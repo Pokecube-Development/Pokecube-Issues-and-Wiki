@@ -4,6 +4,7 @@
 package pokecube.core.entity.pokemobs;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -12,6 +13,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
@@ -26,13 +28,15 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -40,10 +44,17 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntry.SpawnData;
+import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
 import pokecube.core.events.pokemob.FaintEvent;
+import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.events.pokemob.SpawnEvent.Variance;
+import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
@@ -54,6 +65,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -80,7 +92,7 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public AgeableEntity createChild(final AgeableEntity ageable)
+    public AgeableEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity ageable)
     {
         final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
         if (other == null) return null;
@@ -163,9 +175,10 @@ public class EntityPokemob extends PokemobHasParts
                 final double d2 = this.rand.nextGaussian() * 0.02D;
                 final double d0 = this.rand.nextGaussian() * 0.02D;
                 final double d1 = this.rand.nextGaussian() * 0.02D;
-                this.world.addParticle(ParticleTypes.POOF, this.getPosX() + this.rand.nextFloat() * this.getWidth() * 2.0F
-                        - this.getWidth(), this.getPosY() + this.rand.nextFloat() * this.getHeight(), this.getPosZ() + this.rand
-                                .nextFloat() * this.getWidth() * 2.0F - this.getWidth(), d2, d0, d1);
+                this.world.addParticle(ParticleTypes.POOF, this.getPosX() + this.rand.nextFloat() * this.getWidth()
+                        * 2.0F - this.getWidth(), this.getPosY() + this.rand.nextFloat() * this.getHeight(), this
+                                .getPosZ() + this.rand.nextFloat() * this.getWidth() * 2.0F - this.getWidth(), d2, d0,
+                        d1);
             }
         }
         if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer)
@@ -185,7 +198,7 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public void travel(final Vec3d dr)
+    public void travel(final Vector3d dr)
     {
         if (this.isServerWorld() && this.isInWater() && this.pokemobCap.swims())
         {
@@ -215,6 +228,54 @@ public class EntityPokemob extends PokemobHasParts
     public boolean isSitting()
     {
         return this.pokemobCap.getLogicState(LogicStates.SITTING);
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
+            final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
+    {
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this);
+        if (pokemob == null) return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
+        final SpawnData entry = pokeEntry.getSpawnData();
+        if (entry == null) return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        final Vector3 loc = Vector3.getNewVector().set(this);
+        final SpawnBiomeMatcher matcher = entry.getMatcher(worldIn, loc);
+
+        final int overrideLevel = entry.getLevel(matcher);
+        final Variance variance = entry.getVariance(matcher);
+        if (pokemob != null)
+        {
+            final long time = System.nanoTime();
+            int maxXP = 10;
+            int level = 1;
+            if (SpawnHandler.expFunction && overrideLevel == -1)
+            {
+                maxXP = SpawnHandler.getSpawnXp(this.world, loc, pokemob.getPokedexEntry(), variance, overrideLevel);
+                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), loc, this.world, Tools
+                        .levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), maxXP), variance);
+                PokecubeCore.POKEMOB_BUS.post(event);
+                level = event.getLevel();
+            }
+            else if (overrideLevel == -1) level = SpawnHandler.getSpawnLevel(this.world, loc, pokemob.getPokedexEntry(),
+                    variance, overrideLevel);
+            else
+            {
+                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), loc, this.world,
+                        overrideLevel, variance);
+                PokecubeCore.POKEMOB_BUS.post(event);
+                level = event.getLevel();
+            }
+            maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
+            pokemob.getEntity().getPersistentData().putInt("spawnExp", maxXP);
+            final double dt = (System.nanoTime() - time) / 10e3D;
+            if (PokecubeMod.debug && dt > 100)
+            {
+                final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
+                PokecubeCore.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
+            }
+        }
+        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override
@@ -261,10 +322,10 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public void setSitting(final boolean sitting)
+    public void func_233687_w_(final boolean sitting)
     {
         this.pokemobCap.setLogicState(LogicStates.SITTING, sitting);
-        super.setSitting(sitting);
+        super.func_233687_w_(sitting);
     }
 
     @Override
@@ -273,9 +334,10 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    protected void handleFluidJump(final Tag<Fluid> fluidTag)
+    protected void handleFluidJump(final ITag<Fluid> fluidTag)
     {
-        this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(LivingEntity.SWIM_SPEED).getValue(), 0.0D));
+        this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(
+                net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
     }
 
     @Override
@@ -420,5 +482,24 @@ public class EntityPokemob extends PokemobHasParts
     public boolean canDespawn(final double distanceToClosestPlayer)
     {
         return this.cullCheck(distanceToClosestPlayer);
+    }
+
+    @Override
+    public void readAdditional(final CompoundNBT compound)
+    {
+        super.readAdditional(compound);
+        if (compound.contains("OwnerUUID")) try
+        {
+            final UUID id = UUID.fromString(compound.getString("OwnerUUID"));
+            if (id != null)
+            {
+                this.setOwnerId(id);
+                this.setTamed(true);
+            }
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error recovering old owner!");
+        }
     }
 }

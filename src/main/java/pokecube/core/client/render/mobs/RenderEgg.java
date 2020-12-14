@@ -128,7 +128,7 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
     }
 
     @Override
-    protected RenderType func_230042_a_(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b)
+    protected RenderType func_230496_a_(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b, final boolean bool_c)
     {
         final RenderType.State rendertype$state = RenderType.State.getBuilder().texture(new RenderState.TextureState(
                 this.getEntityTexture(entity), false, false)).transparency(new RenderState.TransparencyState(

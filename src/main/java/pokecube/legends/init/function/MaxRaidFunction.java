@@ -11,14 +11,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootTable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootTable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -106,7 +106,7 @@ public class MaxRaidFunction
         {
             final int level = new Random().nextInt(100);
             pokemob.setExp(Tools.levelToXp(entityToSpawn.getEvolutionMode(), level), false);
-            final Long time = entity.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+            final Long time = entity.getServer().getWorld(World.OVERWORLD).getGameTime();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
             pokemob.setCombatState(CombatStates.DYNAMAX, true);

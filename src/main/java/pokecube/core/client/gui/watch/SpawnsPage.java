@@ -8,13 +8,19 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.RenderComponentsUtil;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.Difficulty;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
@@ -23,6 +29,7 @@ import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class SpawnsPage extends ListPage<LineEntry>
@@ -31,9 +38,14 @@ public class SpawnsPage extends ListPage<LineEntry>
     int     index = 1;
     boolean repel = false;
 
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_location.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_location_nm.png");
+
     public SpawnsPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.title.spawns"), watch);
+        super(new TranslationTextComponent("pokewatch.title.spawns"), watch, SpawnsPage.TEX_DM, SpawnsPage.TEX_NM);
         for (final Class<? extends WatchPage> clazz : GuiPokeWatch.PAGELIST)
             if (clazz == PokemobInfoPage.class)
             {
@@ -43,9 +55,11 @@ public class SpawnsPage extends ListPage<LineEntry>
     }
 
     @Override
-    public boolean handleComponentClicked(final ITextComponent component)
+    public boolean handleComponentClicked(final Style component)
     {
-        final PokedexEntry e = Database.getEntry(component.getUnformattedComponentText());
+        ClickEvent clickevent;
+        if (component == null || (clickevent = component.getClickEvent()) == null) return false;
+        final PokedexEntry e = Database.getEntry(clickevent.getValue());
         if (e != null)
         {
             PacketPokedex.updateWatchEntry(e);
@@ -61,10 +75,16 @@ public class SpawnsPage extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        final int offsetX = (this.watch.width - 160) / 2 + 5;
-        final int offsetY = (this.watch.height - 160) / 2 + 25;
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int max = this.font.FONT_HEIGHT;
-        final int height = max * 12;
+        final int height = max * 6;
+
+        final int dx = 55;
+        final int dy = 40;
+        offsetX += dx;
+        offsetY += dy;
+
         final QName local = new QName("Local_Rate");
         final List<PokedexEntry> names = Lists.newArrayList(PacketPokedex.selectedLoc.keySet());
         final Map<PokedexEntry, Float> rates = Maps.newHashMap();
@@ -83,13 +103,13 @@ public class SpawnsPage extends ListPage<LineEntry>
         final IClickListener listener = new IClickListener()
         {
             @Override
-            public boolean handleClick(final ITextComponent component)
+            public boolean handleClick(final Style component)
             {
                 return SpawnsPage.this.handleComponentClicked(component);
             }
 
             @Override
-            public void handleHovor(final ITextComponent component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
                 // TODO possibly handle hovor text?
             }
@@ -97,23 +117,22 @@ public class SpawnsPage extends ListPage<LineEntry>
 
         if (this.repel = PacketPokedex.repelled)
         {
-            final ITextComponent comp = new TranslationTextComponent("pokewatch.spawns.repelled");
-            final List<ITextComponent> list = RenderComponentsUtil.splitText(comp, 120, this.font, true, true);
-
-            for (final ITextComponent entry : list)
+            final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.repelled");
+            final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            for (final IFormattableTextComponent entry : list)
             {
-                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, entry, 0xFFFFFFFF);
+                final LineEntry line = new LineEntry(this.list, 20, 20, this.font, entry, 0xFFFFFFFF);
                 this.list.addEntry(line);
             }
         }
 
         if (Minecraft.getInstance().world.getDifficulty() == Difficulty.PEACEFUL)
         {
-            final ITextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
-            final List<ITextComponent> list = RenderComponentsUtil.splitText(comp, 120, this.font, true, true);
-            for (final ITextComponent entry : list)
+            final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
+            final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            for (final IFormattableTextComponent entry : list)
             {
-                final LineEntry line = new LineEntry(this.list, 0, 0, this.font, entry, 0xFFFFFFFF);
+                final LineEntry line = new LineEntry(this.list, 20, 30, this.font, entry, 0xFFFFFFFF);
                 this.list.addEntry(line);
             }
         }
@@ -123,7 +142,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, PacketPokedex.selectedLoc.get(pokeEntry),
                     pokeEntry, height, height, offsetY);
             final List<LineEntry> lines = entry.getLines(this.list, listener);
-            int num = 4;
+            int num = 5;
             final ITextComponent water0 = new TranslationTextComponent("pokewatch.spawns.water_only");
             final ITextComponent water1 = new TranslationTextComponent("pokewatch.spawns.water_optional");
             while (lines.size() > num)
@@ -148,7 +167,7 @@ public class SpawnsPage extends ListPage<LineEntry>
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedLoc.size() || this.repel != PacketPokedex.repelled)
@@ -156,9 +175,10 @@ public class SpawnsPage extends ListPage<LineEntry>
             this.initList();
             this.last = PacketPokedex.selectedLoc.size();
         }
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 17;
-        this.drawCenteredString(this.font, I18n.format("pokewatch.spawns.info"), x, y, 0xFFFFFFFF);
-        super.render(mouseX, mouseY, partialTicks);
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+        final int colour = 0xFF78C850;
+        AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x + 130, y + 30, colour);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 }

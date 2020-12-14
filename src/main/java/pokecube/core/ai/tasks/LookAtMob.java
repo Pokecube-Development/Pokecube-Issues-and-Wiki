@@ -67,7 +67,7 @@ public class LookAtMob extends RootTask<LivingEntity>
                 return mob.getDistanceSq(entityIn) <= this.distance_squared;
             }).findFirst().ifPresent((mob) ->
             {
-                brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityPosWrapper(mob));
+                brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityPosWrapper(mob, true));
             });
         });
     }

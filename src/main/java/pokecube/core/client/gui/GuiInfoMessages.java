@@ -4,21 +4,19 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
+import pokecube.core.client.gui.helper.ListHelper;
 
 public class GuiInfoMessages
 {
@@ -35,15 +33,16 @@ public class GuiInfoMessages
             PokecubeCore.LOGGER.warn("Null message was sent!", new NullPointerException());
             return;
         }
-        PokecubeCore.LOGGER.debug("Recieved Message: " + message.getFormattedText());
+        PokecubeCore.LOGGER.debug("Recieved Message: " + message.getString());
         if (PokecubeCore.getConfig().battleLogInChat)
         {
-            if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message);
+            if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message,
+                    Util.DUMMY_UUID);
             return;
         }
-        GuiInfoMessages.messages.push(message.getFormattedText());
+        GuiInfoMessages.messages.push(message.getString());
         GuiInfoMessages.time = Minecraft.getInstance().player.ticksExisted;
-        GuiInfoMessages.recent.addFirst(message.getFormattedText());
+        GuiInfoMessages.recent.addFirst(message.getString());
         if (GuiInfoMessages.messages.size() > 100) GuiInfoMessages.messages.remove(0);
     }
 
@@ -53,8 +52,6 @@ public class GuiInfoMessages
         GuiInfoMessages.recent.clear();
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
     public static void draw(final RenderMoveMessages event)
     {
         if (PokecubeCore.getConfig().battleLogInChat) return;
@@ -63,14 +60,14 @@ public class GuiInfoMessages
         if (event.getType() == ElementType.CHAT && !(minecraft.currentScreen instanceof ChatScreen)) return;
         if (event.getType() != ElementType.CHAT && minecraft.currentScreen != null) return;
 
-        GL11.glPushMatrix();
+        event.mat.push();
         final int texH = minecraft.fontRenderer.FONT_HEIGHT;
         final int trim = PokecubeCore.getConfig().messageWidth;
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
 
         // TODO possbly fix lighitng here?
-        final int[] mess = GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().messageRef, PokecubeCore
+        final int[] mess = GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().messageRef, PokecubeCore
                 .getConfig().messagePos, new int[] { PokecubeCore.getConfig().messageWidth, 7
                         * minecraft.fontRenderer.FONT_HEIGHT }, (float) PokecubeCore.getConfig().messageSize);
         int x = 0, y = 0;
@@ -101,8 +98,7 @@ public class GuiInfoMessages
         int h = 0;
         x = w;
         y = h;
-        GL11.glTranslated(0, -texH * 7, 0);
-        GL11.glTranslated(0, 0, 0);
+        event.mat.translate(0, -texH * 7, 0);
         int num = -1;
         if (event.getType() == ElementType.CHAT)
         {
@@ -134,19 +130,20 @@ public class GuiInfoMessages
             int index = l + GuiInfoMessages.offset;
             if (index < 0) index = 0;
             if (index > size) break;
-            final String mess2 = toUse.get(index);
-            final List<String> mess1 = minecraft.fontRenderer.listFormattedStringToWidth(mess2, trim);
+            final StringTextComponent mess2 = new StringTextComponent(toUse.get(index));
+            final List<IFormattableTextComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.fontRenderer,
+                    true);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
-                AbstractGui.fill(w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.fontRenderer.drawString(mess1.get(j), x - trim, ph, 0xffffff);
+                AbstractGui.fill(event.mat, w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
+                minecraft.fontRenderer.drawString(event.mat, mess1.get(j).getString(), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;
         }
-        GL11.glPopMatrix();
+        event.mat.pop();
     }
 }

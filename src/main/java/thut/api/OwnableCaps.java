@@ -31,6 +31,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.block.IOwnableTE;
+import thut.core.common.ThutCore;
 
 public class OwnableCaps
 {
@@ -181,7 +182,15 @@ public class OwnableCaps
             if (nbt.contains("p"))
             {
                 this.playerOwned = nbt.getBoolean("p");
-                this.ownerId = nbt.getUniqueId("o");
+                try
+                {
+                    this.ownerId = nbt.getUniqueId("o");
+                }
+                catch (final Exception e)
+                {
+                    ThutCore.LOGGER.error("Error loading in UUID");
+                    this.ownerId = new UUID(nbt.getLong("oMost"), nbt.getLong("oLeast"));
+                }
             }
         }
 
@@ -319,7 +328,7 @@ public class OwnableCaps
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags
-                    .getCollection().getOrCreate(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
+                    .getCollection().getTagByID(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
                     && ((IOwnableTE) ownable).getOwnerId() != null) event.getWorld().destroyBlock(event.getPos(), true);
         }
     }

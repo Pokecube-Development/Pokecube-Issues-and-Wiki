@@ -1,8 +1,10 @@
 package pokecube.core.client.gui.pokemob;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.AbstractGui;
@@ -10,6 +12,9 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.pokemob.IHasCommands.Command;
@@ -30,7 +35,7 @@ public class GuiPokemob extends GuiPokemobBase
 
         public HungerBar(final int xIn, final int yIn, final int widthIn, final int heightIn, final IHungrymob mob)
         {
-            super(xIn, yIn, widthIn, heightIn, "pokemob.gui.hungerbar");
+            super(xIn, yIn, widthIn, heightIn, new TranslationTextComponent("pokemob.gui.hungerbar"));
             this.mob = mob;
         }
 
@@ -40,13 +45,7 @@ public class GuiPokemob extends GuiPokemobBase
         }
 
         @Override
-        public void render(final int mx, final int my, final float tick)
-        {
-            super.render(mx, my, tick);
-        }
-
-        @Override
-        public void renderButton(final int mx, final int my, final float tick)
+        public void renderButton(final MatrixStack mat, final int mx, final int my, final float tick)
         {
             // Render the hunger bar for the pokemob.
             // Get the hunger values.
@@ -61,7 +60,7 @@ public class GuiPokemob extends GuiPokemobBase
 
             int col = 0xFF555555;
             // Fill the background
-            AbstractGui.fill(this.x, this.y, this.x + this.width, this.y + this.height, col);
+            AbstractGui.fill(mat, this.x, this.y, this.x + this.width, this.y + this.height, col);
             col = 0xFFFFFFFF;
             int col1 = 0xFF000000;
             int greenness = (int) (2 * (current - 0.35) * 0xFF);
@@ -71,7 +70,7 @@ public class GuiPokemob extends GuiPokemobBase
             greenness = Math.max(0, greenness);
             col1 |= redness << 16 | greenness << 8;
             // Fill the bar
-            this.fillGradient(this.x, this.y, this.x + (int) (this.width * current), this.y + this.height, col, col1);
+            this.fillGradient(mat, this.x, this.y, this.x + (int) (this.width * current), this.y + this.height, col, col1);
         }
 
     }
@@ -99,18 +98,18 @@ public class GuiPokemob extends GuiPokemobBase
         // Button height
         int h = 10;
 
-        this.addButton(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h, I18n
-                .format("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
-                        new StanceHandler(!this.container.pokemob.getLogicState(LogicStates.SITTING),
+        this.addButton(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h,
+                new TranslationTextComponent("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.container.pokemob,
+                        Command.STANCE, new StanceHandler(!this.container.pokemob.getLogicState(LogicStates.SITTING),
                                 StanceHandler.SIT))));
-        this.addButton(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h, I18n
-                .format("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
-                        new StanceHandler(!this.container.pokemob.getGeneralState(GeneralStates.STAYING),
-                                StanceHandler.STAY))));
-        this.addButton(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h, I18n
-                .format("pokemob.gui.guard"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
-                        new StanceHandler(!this.container.pokemob.getCombatState(CombatStates.GUARDING),
-                                StanceHandler.GUARD))));
+        this.addButton(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h,
+                new TranslationTextComponent("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.container.pokemob,
+                        Command.STANCE, new StanceHandler(!this.container.pokemob.getGeneralState(
+                                GeneralStates.STAYING), StanceHandler.STAY))));
+        this.addButton(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h,
+                new TranslationTextComponent("pokemob.gui.guard"), c -> PacketCommand.sendCommand(
+                        this.container.pokemob, Command.STANCE, new StanceHandler(!this.container.pokemob
+                                .getCombatState(CombatStates.GUARDING), StanceHandler.GUARD))));
         // Bar width
         w = 89;
         // Bar height
@@ -123,22 +122,22 @@ public class GuiPokemob extends GuiPokemobBase
         yOffset = 77;
         w = 30;
         h = 10;
-        this.addButton(new Button(this.width / 2 - xOffset + 60, this.height / 2 - yOffset, w, h, I18n.format(
-                "pokemob.gui.ai"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.AI, this.container.pokemob
-                        .getEntity().getEntityId())));
-        this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset, w, h, I18n.format(
-                "pokemob.gui.storage"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE,
-                        this.container.pokemob.getEntity().getEntityId())));
-        this.addButton(new Button(this.width / 2 - xOffset + 00, this.height / 2 - yOffset, w, h, I18n.format(
-                "pokemob.gui.routes"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES,
-                        this.container.pokemob.getEntity().getEntityId())));
+        this.addButton(new Button(this.width / 2 - xOffset + 60, this.height / 2 - yOffset, w, h,
+                new TranslationTextComponent("pokemob.gui.ai"), c -> PacketPokemobGui.sendPagePacket(
+                        PacketPokemobGui.AI, this.container.pokemob.getEntity().getEntityId())));
+        this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset, w, h,
+                new TranslationTextComponent("pokemob.gui.storage"), c -> PacketPokemobGui.sendPagePacket(
+                        PacketPokemobGui.STORAGE, this.container.pokemob.getEntity().getEntityId())));
+        this.addButton(new Button(this.width / 2 - xOffset + 00, this.height / 2 - yOffset, w, h,
+                new TranslationTextComponent("pokemob.gui.routes"), c -> PacketPokemobGui.sendPagePacket(
+                        PacketPokemobGui.ROUTES, this.container.pokemob.getEntity().getEntityId())));
     }
 
     /** Draws the screen and all the components in it. */
     @Override
-    public void render(final int x, final int y, final float z)
+    public void render(final MatrixStack mat, final int x, final int y, final float z)
     {
-        super.render(x, y, z);
+        super.render(mat, x, y, z);
         final List<String> text = Lists.newArrayList();
         if (this.container.pokemob == null) return;
 
@@ -157,7 +156,9 @@ public class GuiPokemob extends GuiPokemobBase
         if (this.sit.isMouseOver(x, y)) if (sitting) text.add(I18n.format("pokemob.stance.sit"));
         else text.add(I18n.format("pokemob.stance.no_sit"));
         if (this.bar.isMouseOver(x, y)) text.add(I18n.format("pokemob.bar.value", this.bar.value));
-        if (!text.isEmpty()) this.renderTooltip(text, x, y);
-        this.renderHoveredToolTip(x, y);
+        final List<ITextComponent> msgs = new ArrayList<>();
+        for(final String s: text) msgs.add(new StringTextComponent(s));
+        if (!text.isEmpty()) this.renderWrappedToolTip(mat, msgs, x, y, this.font);
+        this.renderHoveredTooltip(mat, x, y);
     }
 }

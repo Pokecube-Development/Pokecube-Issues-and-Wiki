@@ -65,7 +65,7 @@ public class ContainerWearables extends Container
 
         @Override
         @OnlyIn(Dist.CLIENT)
-        public Pair<ResourceLocation, ResourceLocation> func_225517_c_()
+        public Pair<ResourceLocation, ResourceLocation> getBackground()
         {
             return Pair.of(PlayerContainer.LOCATION_BLOCKS_TEXTURE, this.LOCATION);
         }
@@ -176,7 +176,7 @@ public class ContainerWearables extends Container
                 @Override
                 @Nullable
                 @OnlyIn(Dist.CLIENT)
-                public Pair<ResourceLocation, ResourceLocation> func_225517_c_()
+                public Pair<ResourceLocation, ResourceLocation> getBackground()
                 {
                     return Pair.of(PlayerContainer.LOCATION_BLOCKS_TEXTURE,
                             ContainerWearables.ARMOR_SLOT_TEXTURES[entityequipmentslot.getIndex()]);
@@ -207,7 +207,7 @@ public class ContainerWearables extends Container
             @Override
             @Nullable
             @OnlyIn(Dist.CLIENT)
-            public Pair<ResourceLocation, ResourceLocation> func_225517_c_()
+            public Pair<ResourceLocation, ResourceLocation> getBackground()
             {
                 return Pair.of(PlayerContainer.LOCATION_BLOCKS_TEXTURE, PlayerContainer.EMPTY_ARMOR_SLOT_SHIELD);
             }

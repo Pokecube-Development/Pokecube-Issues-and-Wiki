@@ -1,9 +1,5 @@
 package pokecube.core.interfaces.capabilities.impl;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,9 +9,7 @@ import pokecube.core.interfaces.IPokemob;
 
 public abstract class PokemobSided extends PokemobBase
 {
-    private final Map<ResourceLocation, ResourceLocation>   shinyTexs    = Maps.newHashMap();
-    private final Map<ResourceLocation, ResourceLocation[]> texs         = Maps.newHashMap();
-    protected FormeHolder                                   forme_holder = null;
+    protected FormeHolder forme_holder = null;
 
     @Override
     @OnlyIn(Dist.CLIENT)

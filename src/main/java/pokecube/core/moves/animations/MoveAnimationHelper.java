@@ -9,7 +9,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -158,7 +158,7 @@ public class MoveAnimationHelper
             final int range = 4;
 
             final Minecraft mc = Minecraft.getInstance();
-            final Vec3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
+            final Vector3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
             final MatrixStack mat = event.getMatrixStack();
             mat.push();
             mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);

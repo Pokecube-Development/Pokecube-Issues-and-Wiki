@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.nfunk.jep.JEP;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -251,9 +252,9 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     }
 
     @Override
-    public void read(final CompoundNBT nbt)
+    public void read(final BlockState state, final CompoundNBT nbt)
     {
-        super.read(nbt);
+        super.read(state, nbt);
         this.energy = nbt.getInt("energy");
         this.noEnergyNeed = nbt.getBoolean("noEnergyNeed");
         this.shift = nbt.getIntArray("shift");

@@ -2,6 +2,7 @@ package pokecube.legends.conditions;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -19,7 +20,7 @@ public class Mew extends Condition
         if (caught < Database.spawnables.size() - 1)
         {
             if (trainer instanceof PlayerEntity) ((PlayerEntity) trainer).sendMessage(new TranslationTextComponent(
-                    "pokecube_legends.mew.badges"));
+                    "pokecube_legends.mew.badges"), Util.DUMMY_UUID);
             ActionTeleport.teleportRandomly(pokemon.getEntity());
             return false;
         }

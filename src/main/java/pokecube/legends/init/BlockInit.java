@@ -17,6 +17,7 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapDoorBlock;
@@ -35,16 +36,6 @@ import pokecube.core.handlers.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.SaplingBase;
-import pokecube.legends.blocks.blockstates.DarkStoneBlock;
-import pokecube.legends.blocks.blockstates.GrassAgedBlock;
-import pokecube.legends.blocks.blockstates.GrassDistorticBlock;
-import pokecube.legends.blocks.blockstates.GrassJungleBlock;
-import pokecube.legends.blocks.blockstates.GrassMussBlock;
-import pokecube.legends.blocks.blockstates.MagneticBlock;
-import pokecube.legends.blocks.blockstates.SandDistorBlock;
-import pokecube.legends.blocks.blockstates.SandUltraBlock;
-import pokecube.legends.blocks.blockstates.UltraTorch1;
-import pokecube.legends.blocks.blockstates.UltraTorch1Wall;
 import pokecube.legends.blocks.customblocks.HeatranBlock;
 import pokecube.legends.blocks.customblocks.KeldeoBlock;
 import pokecube.legends.blocks.customblocks.LegendaryBlock;
@@ -63,9 +54,20 @@ import pokecube.legends.blocks.customblocks.TroughBlock;
 import pokecube.legends.blocks.customblocks.VictiniBlock;
 import pokecube.legends.blocks.customblocks.XerneasCore;
 import pokecube.legends.blocks.customblocks.YveltalEgg;
+import pokecube.legends.blocks.normalblocks.DarkStoneBlock;
+import pokecube.legends.blocks.normalblocks.GrassAgedBlock;
+import pokecube.legends.blocks.normalblocks.GrassDistorticBlock;
+import pokecube.legends.blocks.normalblocks.GrassJungleBlock;
+import pokecube.legends.blocks.normalblocks.GrassMussBlock;
+import pokecube.legends.blocks.normalblocks.MagneticBlock;
+import pokecube.legends.blocks.normalblocks.SandDistorBlock;
+import pokecube.legends.blocks.normalblocks.SandUltraBlock;
+import pokecube.legends.blocks.normalblocks.UltraTorch1;
+import pokecube.legends.blocks.normalblocks.UltraTorch1Wall;
 import pokecube.legends.blocks.plants.Ultra_Tree01;
 import pokecube.legends.blocks.plants.Ultra_Tree02;
 import pokecube.legends.blocks.plants.Ultra_Tree03;
+import pokecube.legends.blocks.plants.Distortic_Tree;
 
 public class BlockInit
 {
@@ -113,6 +115,7 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_SAPLING_UB01;
     public static final RegistryObject<Block> ULTRA_SAPLING_UB02;
     public static final RegistryObject<Block> ULTRA_SAPLING_UB03;
+    public static final RegistryObject<Block> DISTORTIC_SAPLING;
 
     public static final RegistryObject<Block> ULTRA_LOGUB01;
     public static final RegistryObject<Block> ULTRA_PLANKUB01;
@@ -158,6 +161,10 @@ public class BlockInit
     public static final RegistryObject<Block> AGED_DOOR;
     public static final RegistryObject<Block> AGED_BUTTON;
     public static final RegistryObject<Block> AGED_PR_PLATE;
+    
+    public static final RegistryObject<Block> DISTORTIC_LOG;
+    public static final RegistryObject<Block> DISTORTIC_PLANK;
+    public static final RegistryObject<Block> DISTORTIC_LEAVE;
 
     // Portal
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
@@ -277,69 +284,52 @@ public class BlockInit
         		() -> new Ultra_Tree02(), Block.Properties.from(Blocks.OAK_SAPLING)));
         ULTRA_SAPLING_UB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_sapling03", () -> new SaplingBase(
         		() -> new Ultra_Tree03(), Block.Properties.from(Blocks.OAK_SAPLING)));
+        DISTORTIC_SAPLING 		= PokecubeLegends.BLOCKS_TAB.register("distortic_sapling", () -> new SaplingBase(
+        		() -> new Distortic_Tree(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
-        //Woods (LOG/LEAVES/PLANKS)
-        ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(
-        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, 
-        		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
-        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new LogBlock(MaterialColor.WOOD, 
-        		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.WOOD, 
+        //Woods (LOGS/LEAVES/PLANKS)
+        ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
+		ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01",   () -> Blocks.createLogBlock(MaterialColor.PURPLE, MaterialColor.BLUE_TERRACOTTA));
+        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new LogBlock(MaterialColor.PURPLE, Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.BLUE, 
         		Block.Properties.from(Blocks.OAK_WOOD)));
-        STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new LogBlock(MaterialColor.WOOD,
+        STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new LogBlock(MaterialColor.BLUE,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        INVERTED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("inverted_stairs", () -> new ItemGenerator.GenericWoodStairs(
-        		Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
+        INVERTED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("inverted_stairs", () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
         INVERTED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("inverted_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("inverted_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
-        INVERTED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
-        		PressurePlateBlock.Sensitivity.EVERYTHING, 
+        INVERTED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new ItemGenerator.GenericWoodButton(
-        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        INVERTED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("inverted_trapdoor", () -> new ItemGenerator.GenericTrapDoor(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
-        INVERTED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("inverted_door", () -> new ItemGenerator.GenericDoor(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new ItemGenerator.GenericWoodButton(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        INVERTED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("inverted_trapdoor", () -> new ItemGenerator.GenericTrapDoor(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        INVERTED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("inverted_door", () -> new ItemGenerator.GenericDoor(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
-        ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(
-        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, 
-        		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
-        TEMPORAL_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("temporal_wood", () -> new LogBlock(MaterialColor.WOOD, 
-        		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_TEMPORAL_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_log", () -> new LogBlock(MaterialColor.WOOD, 
+        ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
+        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02",   () -> Blocks.createLogBlock(MaterialColor.GREEN, MaterialColor.YELLOW));
+        TEMPORAL_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("temporal_wood", () -> new LogBlock(MaterialColor.GREEN, Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_TEMPORAL_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_log", () -> new LogBlock(MaterialColor.LIME, 
         		Block.Properties.from(Blocks.OAK_WOOD)));
-        STRIP_TEMPORAL_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_wood", () -> new LogBlock(MaterialColor.WOOD,
+        STRIP_TEMPORAL_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_wood", () -> new LogBlock(MaterialColor.LIME,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        TEMPORAL_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("temporal_stairs", () -> new ItemGenerator.GenericWoodStairs(
-        		Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
+        TEMPORAL_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("temporal_stairs", () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
         TEMPORAL_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("temporal_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         TEMPORAL_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("temporal_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         TEMPORAL_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
-        TEMPORAL_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
-        		PressurePlateBlock.Sensitivity.EVERYTHING, 
+        TEMPORAL_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        TEMPORAL_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("temporal_button", () -> new ItemGenerator.GenericWoodButton(
-        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        TEMPORAL_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("temporal_trapdoor", () -> new ItemGenerator.GenericTrapDoor(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
-        TEMPORAL_DOOR		= PokecubeLegends.BLOCKS_TAB.register("temporal_door", () -> new ItemGenerator.GenericDoor(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        TEMPORAL_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("temporal_button", () -> new ItemGenerator.GenericWoodButton(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        TEMPORAL_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("temporal_trapdoor", () -> new ItemGenerator.GenericTrapDoor(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        TEMPORAL_DOOR		= PokecubeLegends.BLOCKS_TAB.register("temporal_door", () -> new ItemGenerator.GenericDoor(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
 
-        ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(
-        		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD, 
-        		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
-        AGED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("aged_wood", () -> new LogBlock(MaterialColor.WOOD, 
-        		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_AGED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_aged_log", () -> new LogBlock(MaterialColor.WOOD, 
+        ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES).notSolid()));
+        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03",   () -> Blocks.createLogBlock(MaterialColor.GOLD, MaterialColor.BROWN));
+        AGED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("aged_wood", () -> new LogBlock(MaterialColor.GOLD, Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
+        STRIP_AGED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_aged_log", () -> new LogBlock(MaterialColor.BROWN, 
         		Block.Properties.from(Blocks.OAK_WOOD)));
-        STRIP_AGED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_aged_wood", () -> new LogBlock(MaterialColor.WOOD,
+        STRIP_AGED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_aged_wood", () -> new LogBlock(MaterialColor.BROWN,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("aged_stairs", () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), 
@@ -347,19 +337,19 @@ public class BlockInit
         AGED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("aged_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("aged_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("aged_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
-        AGED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("aged_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
-        		PressurePlateBlock.Sensitivity.EVERYTHING, 
+        AGED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("aged_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, 
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        AGED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new ItemGenerator.GenericWoodButton(
-        		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
-        AGED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("aged_trapdoor", () -> new ItemGenerator.GenericTrapDoor(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
-        AGED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("aged_door", () -> new ItemGenerator.GenericDoor(
-        		Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        AGED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new ItemGenerator.GenericWoodButton(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
+        AGED_TRAPDOOR	= PokecubeLegends.BLOCKS_TAB.register("aged_trapdoor", () -> new ItemGenerator.GenericTrapDoor(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        AGED_DOOR		= PokecubeLegends.BLOCKS_TAB.register("aged_door", () -> new ItemGenerator.GenericDoor(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f).notSolid()));
+        
+        DISTORTIC_LOG 		= PokecubeLegends.BLOCKS_TAB.register("distortic_log",   () -> Blocks.createLogBlock(MaterialColor.PURPLE, MaterialColor.BLUE));
+        DISTORTIC_PLANK 	= PokecubeLegends.BLOCKS_TAB.register("distortic_plank", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
+        DISTORTIC_LEAVE 	= PokecubeLegends.BLOCKS_TAB.register("distortic_leave", () -> new LeavesBlock(Block.Properties.from(Blocks.JUNGLE_LEAVES).notSolid()));
 
         // Mirage Spot (Hoopa Ring)
         BLOCK_PORTALWARP 	= PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", Block.Properties
-                .create(Material.ROCK).sound(SoundType.METAL).hardnessAndResistance(2000, 2000).lightValue(9)).setShape(VoxelShapes
+                .create(Material.ROCK).sound(SoundType.METAL).hardnessAndResistance(2000, 2000)).setShape(VoxelShapes
                         .create(0.05, 0, 0.05, 1, 3, 1)).setInfoBlockName("portalwarp"));
 
         // Legendary Spawns
@@ -370,10 +360,10 @@ public class BlockInit
                 Material.IRON).noInfoBlock());
         TROUGH_BLOCK 	= PokecubeLegends.BLOCKS.register("trough_block", () -> new TroughBlock("trough_block",
         		Block.Properties.create(Material.IRON).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-                .harvestLevel(2).sound(SoundType.ANVIL).lightValue(4).variableOpacity()).noInfoBlock());
+                .harvestLevel(2).sound(SoundType.ANVIL).setLightLevel(b->4).variableOpacity()).noInfoBlock());
         HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new HeatranBlock("heatran_block",
         		Block.Properties.create(Material.LAVA).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-                .harvestLevel(2).sound(SoundType.CORAL).lightValue(4).variableOpacity()).noInfoBlock());
+                .harvestLevel(2).sound(SoundType.CORAL).setLightLevel(b->4).variableOpacity()).noInfoBlock());
         ///
         REGISTEEL_CORE 		= PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
                 Material.IRON, 15, SoundType.METAL ,ToolType.PICKAXE, 2).noInfoBlock());
@@ -390,23 +380,23 @@ public class BlockInit
         ///
         TIMESPACE_CORE 		= PokecubeLegends.BLOCKS.register("timerspawn", () -> new SpaceCoreBlock("timerspawn",
                 Block.Properties.create(Material.ORGANIC).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
-                        .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         NATURE_CORE 		= PokecubeLegends.BLOCKS.register("naturespawn", () -> new NatureCoreBlock("naturespawn",
                 Block.Properties.create(Material.ROCK).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
-                        .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         KELDEO_CORE 		= PokecubeLegends.BLOCKS.register("keldeoblock", () -> new KeldeoBlock("keldeoblock",
                 Block.Properties.create(Material.ROCK).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
-                        .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
         VICTINI_CORE 		= PokecubeLegends.BLOCKS.register("victiniblock", () -> new VictiniBlock("victiniblock",
                 Block.Properties.create(Material.IRON).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-                        .harvestLevel(2).sound(SoundType.ANVIL).lightValue(4).variableOpacity()).setShape(VoxelShapes
+                        .harvestLevel(2).sound(SoundType.ANVIL).variableOpacity()).setShape(VoxelShapes
                                 .create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
         YVELTAL_CORE 		= PokecubeLegends.BLOCKS.register("yveltal_egg", () -> new YveltalEgg("yveltal_egg",
                 Block.Properties.create(Material.IRON).hardnessAndResistance(2000, 2000).sound(SoundType.WOOD)
-                        .lightValue(2).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         XERNEAS_CORE 		= PokecubeLegends.BLOCKS.register("xerneas_tree", () -> new XerneasCore("xerneas_tree",
                 Block.Properties.create(Material.IRON).hardnessAndResistance(2000, 2000).sound(SoundType.WOOD)
-                        .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                        .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
 
         // Ores
         RUBY_ORE 			= PokecubeLegends.BLOCKS.register("ruby_ore", () -> new BlockBase("ruby_ore", Block.Properties.create(
@@ -416,14 +406,14 @@ public class BlockInit
                 Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         RUBY_BLOCK		 	= PokecubeLegends.BLOCKS.register("ruby_block", () -> new Block(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL).lightValue(4).harvestTool(ToolType.PICKAXE)));
+                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)));
         SAPPHIRE_BLOCK 		= PokecubeLegends.BLOCKS.register("sapphire_block", () -> new Block(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL).lightValue(4).harvestTool(ToolType.PICKAXE)));
+                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)));
         SPECTRUM_ORE 		= PokecubeLegends.BLOCKS_TAB.register("spectrum_ore", () -> new BlockBase("spectrum_ore",
                 Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         SPECTRUM_BLOCK		= PokecubeLegends.BLOCKS_TAB.register("spectrum_block", () -> new Block(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(5.0f, 7).sound(SoundType.ANVIL).lightValue(4).harvestTool(ToolType.PICKAXE)));
+                Material.IRON).hardnessAndResistance(5.0f, 7).sound(SoundType.ANVIL).setLightLevel(b->4).harvestTool(ToolType.PICKAXE)));
 
 //        COSMIC_DUST_ORE 		= PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new BlockBase("cosmic_dust_ore",
 //                Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(

@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -18,6 +19,7 @@ import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.handlers.events.EventsHandler;
@@ -69,18 +71,18 @@ public class Config extends ConfigData
     public List<String> snag_cube_blacklist = Lists.newArrayList("ender_dragon", "wither");
 
     @Configure(category = Config.misc)
-    public boolean defaultInteractions = true;
+    public boolean defaultInteractions  = true;
     @Configure(category = Config.misc)
-    public boolean berryBreeding       = true;
+    public boolean berryBreeding        = true;
     @Configure(category = Config.misc)
-    public boolean legendsBreed        = false;
+    public boolean legendsBreed         = false;
     @Configure(category = Config.misc)
-    public boolean bedsHeal            = true;
+    public boolean bedsHeal             = true;
     /** does defeating a tame pokemob give exp */
     @Configure(category = Config.misc)
-    public boolean trainerExp          = true;
+    public boolean trainerExp           = true;
     @Configure(category = Config.misc)
-    public boolean pcOnDrop            = true;
+    public boolean pcOnDrop             = true;
     @Configure(category = Config.misc)
     public boolean pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc)
@@ -378,6 +380,15 @@ public class Config extends ConfigData
     public boolean villagePokecenters   = true;
     @Configure(category = Config.world)
     public boolean chunkLoadPokecenters = false;
+
+    @Configure(category = Config.world)
+    public List<String> softWorldgenDimBlacklist = Lists.newArrayList(
+    //@formatter:off
+            "pokecube:secret_base",
+            "pokecube_legends:distorted_world",
+            "pokecube_legends:ultraspace"
+            );
+    //@formatter:on
 
     @Configure(category = Config.world)
     public String       baseSizeFunction    = "8 + c/10 + h/10 + k/20";
@@ -698,9 +709,14 @@ public class Config extends ConfigData
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
 
-        // TODO Init secret bases.
+        // TODO Init secret bases resizing
         // DimensionSecretBase.init(baseSizeFunction);
         PokecubeTerrainChecker.initStructMap();
+        WorldgenHandler.SOFTBLACKLIST.clear();
+        for (final String s : this.softWorldgenDimBlacklist)
+            WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
+        WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(
+                "pokecube:secret_base")));
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
         SpawnHandler.MAXNUM = this.mobSpawnNumber;
@@ -825,24 +841,28 @@ public class Config extends ConfigData
         if (this.configDatabases.size() != EnumDatabase.values().length) this.configDatabases = Lists.newArrayList(
                 new String[] { "", "", "" });
 
+        // TODO figure out dimension blacklists.
         SpawnHandler.dimensionBlacklist.clear();
-        for (final String i : this.spawnDimBlacklist)
-        {
-            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-            if (type != null) SpawnHandler.dimensionBlacklist.add(type);
-        }
+        // for (final String i : this.spawnDimBlacklist)
+        // {
+        // final DimensionType type = DimensionType.byName(new
+        // ResourceLocation(i));
+        // if (type != null) SpawnHandler.dimensionBlacklist.add(type);
+        // }
         SpawnHandler.dimensionWhitelist.clear();
-        for (final String i : this.spawnDimWhitelist)
-        {
-            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-            if (type != null) SpawnHandler.dimensionWhitelist.add(type);
-        }
+        // for (final String i : this.spawnDimWhitelist)
+        // {
+        // final DimensionType type = DimensionType.byName(new
+        // ResourceLocation(i));
+        // if (type != null) SpawnHandler.dimensionWhitelist.add(type);
+        // }
         LogicMountedControl.BLACKLISTED.clear();
-        for (final String i : this.blackListedFlyDims)
-        {
-            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
-            if (type != null) LogicMountedControl.BLACKLISTED.add(type);
-        }
+        // for (final String i : this.blackListedFlyDims)
+        // {
+        // final DimensionType type = DimensionType.byName(new
+        // ResourceLocation(i));
+        // if (type != null) LogicMountedControl.BLACKLISTED.add(type);
+        // }
 
         boolean failed = false;
         if (this.dodgeSounds.size() == 0) failed = true;

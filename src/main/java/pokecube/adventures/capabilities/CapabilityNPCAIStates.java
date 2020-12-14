@@ -12,8 +12,9 @@ public class CapabilityNPCAIStates
 {
     public static class DefaultAIStates implements IHasNPCAIStates, ICapabilitySerializable<INBT>
     {
-        int                                         state  = 0;
-        float                                       direction;
+        int   state = 0;
+        float direction;
+
         private final LazyOptional<IHasNPCAIStates> holder = LazyOptional.of(() -> this);
 
         public DefaultAIStates()
@@ -27,9 +28,9 @@ public class CapabilityNPCAIStates
         }
 
         @Override
-        public boolean getAIState(final int state)
+        public boolean getAIState(final AIState state)
         {
-            return (this.state & state) > 0;
+            return (this.state & state.mask) > 0;
         }
 
         @Override
@@ -57,10 +58,10 @@ public class CapabilityNPCAIStates
         }
 
         @Override
-        public void setAIState(final int state, final boolean flag)
+        public void setAIState(final AIState state, final boolean flag)
         {
-            if (flag) this.state = Integer.valueOf(this.state | state);
-            else this.state = Integer.valueOf(this.state & -state - 1);
+            if (flag) this.state = Integer.valueOf(this.state | state.mask);
+            else this.state = Integer.valueOf(this.state & -state.mask - 1);
         }
 
         @Override
@@ -79,23 +80,45 @@ public class CapabilityNPCAIStates
 
     public static interface IHasNPCAIStates
     {
-        public static final int STATIONARY     = 1 << 0;
-        public static final int INBATTLE       = 1 << 1;
-        public static final int THROWING       = 1 << 2;
-        public static final int PERMFRIENDLY   = 1 << 3;
-        public static final int FIXEDDIRECTION = 1 << 4;
-        public static final int MATES          = 1 << 5;
-        public static final int INVULNERABLE   = 1 << 6;
-        public static final int TRADES         = 1 << 7;
+        public static enum AIState
+        {
+            STATIONARY(1 << 0), INBATTLE(1 << 1, true), THROWING(1 << 2, true), PERMFRIENDLY(1 << 3), FIXEDDIRECTION(
+                    1 << 4), MATES(1 << 5), INVULNERABLE(1 << 6), TRADES(1 << 7);
 
-        boolean getAIState(int state);
+            private final int mask;
+
+            private final boolean temporary;
+
+            private AIState(final int mask)
+            {
+                this(mask, false);
+            }
+
+            private AIState(final int mask, final boolean temporary)
+            {
+                this.mask = mask;
+                this.temporary = temporary;
+            }
+
+            public int getMask()
+            {
+                return this.mask;
+            }
+
+            public boolean isTemporary()
+            {
+                return temporary;
+            }
+        }
+
+        boolean getAIState(AIState state);
 
         /** @return Direction to face if FIXEDDIRECTION */
         public float getDirection();
 
         int getTotalState();
 
-        void setAIState(int state, boolean flag);
+        void setAIState(AIState state, boolean flag);
 
         /**
          * @param direction

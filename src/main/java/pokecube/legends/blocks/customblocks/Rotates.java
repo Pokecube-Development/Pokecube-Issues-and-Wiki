@@ -6,7 +6,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -55,7 +55,7 @@ public class Rotates extends BlockBase
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         return this.getDefaultState().with(Rotates.FACING, context.getPlacementHorizontalFacing().getOpposite()).with(
                 Rotates.WATERLOGGED, ifluidstate.isTagged(FluidTags.WATER) && ifluidstate.getLevel() == 8);
     }
@@ -63,7 +63,7 @@ public class Rotates extends BlockBase
     // Adds Waterlogging
     @SuppressWarnings("deprecation")
     @Override
-    public IFluidState getFluidState(final BlockState state)
+    public FluidState getFluidState(final BlockState state)
     {
         return state.get(Rotates.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }

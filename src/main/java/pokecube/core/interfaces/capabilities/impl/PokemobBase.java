@@ -1,19 +1,21 @@
 package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.Vector;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +23,7 @@ import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.entity.pokemobs.AnimalChest;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -178,6 +181,8 @@ public abstract class PokemobBase implements IPokemob
 
     protected int timeSinceCombat = 0;
 
+    protected SpawnRule spawnInitRule = null;
+
     // Here we have all of the genes currently used.
     Alleles genesSize;
     Alleles genesIVs;
@@ -219,12 +224,18 @@ public abstract class PokemobBase implements IPokemob
      * animated textures
      */
     protected ResourceLocation[] textures;
+
+    protected final Map<ResourceLocation, ResourceLocation>   shinyTexs = Maps.newHashMap();
+    protected final Map<ResourceLocation, ResourceLocation[]> texs      = Maps.newHashMap();
+
     /**
      * This is the nbt of searalizable tasks.
      */
-    protected CompoundNBT        loadedTasks;
+    protected CompoundNBT loadedTasks;
 
     protected List<Logic> logic = Lists.newArrayList();
+
+    protected boolean isRemoved = false;
 
     @Override
     public DataSync dataSync()
@@ -264,13 +275,12 @@ public abstract class PokemobBase implements IPokemob
 
     protected void setMaxHealth(final float maxHealth)
     {
-        final IAttributeInstance health = this.getEntity().getAttribute(SharedMonsterAttributes.MAX_HEALTH);
-        final List<AttributeModifier> mods = Lists.newArrayList(health.func_225505_c_());
-        for (final AttributeModifier modifier : mods)
+        final ModifiableAttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
+        for (final AttributeModifier modifier : health.getModifierListCopy())
             health.removeModifier(modifier);
         final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax", this
                 .getDynamaxFactor(), Operation.MULTIPLY_BASE);
-        if (this.getCombatState(CombatStates.DYNAMAX)) health.applyModifier(dynahealth);
+        if (this.getCombatState(CombatStates.DYNAMAX)) health.applyNonPersistentModifier(dynahealth);
         health.setBaseValue(maxHealth);
     }
 

@@ -2,6 +2,7 @@ package pokecube.nbtedit.gui;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.util.text.StringTextComponent;
 
 public class TextFieldWidget2 extends TextFieldWidget
 {
@@ -10,7 +11,7 @@ public class TextFieldWidget2 extends TextFieldWidget
     public TextFieldWidget2(final FontRenderer font, final int x, final int y, final int w, final int h,
             final boolean allowSection)
     {
-        super(font, x, y, w, h, "");
+        super(font, x, y, w, h, new StringTextComponent(""));
         this.allowSection = allowSection;
     }
 

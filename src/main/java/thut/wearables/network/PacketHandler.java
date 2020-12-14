@@ -16,12 +16,12 @@ public class PacketHandler
 {
     private static boolean canClientConnect(final String versionClient, final String versionServer)
     {
-        return versionClient.equals(versionServer);
+        return true;
     }
 
     private static boolean canServerConnect(final String versionClient, final String versionServer)
     {
-        return versionClient.equals(versionServer);
+        return true;
     }
 
     private final SimpleChannel INSTANCE;

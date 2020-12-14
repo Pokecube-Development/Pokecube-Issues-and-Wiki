@@ -2,6 +2,7 @@ package pokecube.core.client.gui;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
@@ -19,8 +20,11 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -28,7 +32,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.PokecubeCore;
@@ -39,20 +46,26 @@ import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.network.packets.PacketPokedex;
+import pokecube.core.utils.EntityTools;
 import thut.api.entity.IMobColourable;
+import thut.api.entity.genetics.GeneRegistry;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
 
 public class AnimationGui extends Screen
 {
     private static Map<PokedexEntry, IPokemob> renderMobs = Maps.newHashMap();
+
+    private static Object2FloatOpenHashMap<PokedexEntry> sizes = new Object2FloatOpenHashMap<>();
 
     public static IPokemob getRenderMob(final PokedexEntry entry)
     {
@@ -61,6 +74,7 @@ public class AnimationGui extends Screen
         {
             final MobEntity mob = PokecubeCore.createPokemob(entry, PokecubeCore.proxy.getWorld());
             ret = CapabilityPokemob.getPokemobFor(mob);
+            AnimationGui.renderMobs.put(entry, ret);
         }
         return ret;
     }
@@ -68,9 +82,45 @@ public class AnimationGui extends Screen
     public static IPokemob getRenderMob(final IPokemob realMob)
     {
         final IPokemob ret = AnimationGui.getRenderMob(realMob.getPokedexEntry());
-        ret.read(realMob.write());
-        ret.onGenesChanged();
+        if (ret != realMob)
+        {
+            EntityTools.copyEntityTransforms(ret.getEntity(), realMob.getEntity());
+            ret.read(realMob.write());
+            ret.onGenesChanged();
+            if (ret instanceof DefaultPokemob && realMob instanceof DefaultPokemob)
+            {
+                final DefaultPokemob from = (DefaultPokemob) realMob;
+                final DefaultPokemob to = (DefaultPokemob) ret;
+                final INBT tag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, from.genes,
+                        null);
+                GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
+            }
+        }
         return ret;
+    }
+
+    public static void printSizes()
+    {
+        final Map<String, Float> sizeMap = Maps.newHashMap();
+        for (final PokedexEntry e : AnimationGui.sizes.keySet())
+            sizeMap.put(e.getTrimmedName(), new Float(AnimationGui.sizes.getOrDefault(e, 0f)));
+
+        try
+        {
+            final JsonObject main = new JsonObject();
+            final List<String> entries = Lists.newArrayList(sizeMap.keySet());
+            Collections.sort(entries);
+            entries.forEach(e -> main.add(e, new JsonPrimitive(sizeMap.get(e))));
+            final String json = PokedexEntryLoader.gson.toJson(main);
+            final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("sizes.json").toFile();
+            final FileWriter out = new FileWriter(dir);
+            out.write(json);
+            out.close();
+        }
+        catch (final IOException e1)
+        {
+            e1.printStackTrace();
+        }
     }
 
     static String mob = "";
@@ -150,7 +200,7 @@ public class AnimationGui extends Screen
         this.toRender = AnimationGui.getRenderMob(AnimationGui.entry);
         this.toRender.setSexe(this.sexe);
         this.toRender.setShiny(this.shiny);
-        this.toRender.getEntity().onGround = this.ground;
+        this.toRender.getEntity().setOnGround(this.ground);
         this.toRender.setCustomHolder(this.holder);
 
         try
@@ -265,9 +315,14 @@ public class AnimationGui extends Screen
 
         final boolean genderDiff = AnimationGui.entry.textureDetails[1] != null || AnimationGui.entry.getModel(
                 (byte) 0) != AnimationGui.entry.getModel((byte) 1);
+        String origName = AnimationGui.entry.getTrimmedName();
+        if (AnimationGui.entry.isGenderForme) origName = AnimationGui.entry.getBaseForme().getTrimmedName();
         if (genderDiff && this.holder == null) name = name + "_" + (this.sexe == IPokemob.FEMALE ? "female" : "male");
 
         final File outfile = new File(dir, name + (this.shiny && AnimationGui.entry.hasShiny ? "s" : "") + ".png");
+        File outfile2 = null;
+        if (!name.equals(origName)) outfile2 = new File(dir, origName + (this.shiny && AnimationGui.entry.hasShiny ? "s"
+                : "") + ".png");
 
         GL11.glPixelStorei(3333, 1);
         GL11.glPixelStorei(3317, 1);
@@ -358,11 +413,16 @@ public class AnimationGui extends Screen
                 dims.x = dims.y;
                 scaled = true;
             }
+            AnimationGui.sizes.put(AnimationGui.entry, dims.y);
         }
 
         try
         {
-            if (!scaled) ImageIO.write(image, "png", outfile);
+            if (!scaled)
+            {
+                ImageIO.write(image, "png", outfile);
+                if (outfile2 != null) ImageIO.write(image, "png", outfile2);
+            }
             return !scaled;
         }
         catch (final IOException e)
@@ -381,25 +441,25 @@ public class AnimationGui extends Screen
     }
 
     @Override
-    public void render(final int unk1, final int unk2, final float partialTicks)
+    public void render(final MatrixStack mat, final int unk1, final int unk2, final float partialTicks)
     {
         if (this.bg)
         {
-            RenderSystem.pushMatrix();
-            RenderSystem.translated(0, 0, -900);
-            AbstractGui.fill(0, 0, this.width, this.height, 0xFF121314);
-            RenderSystem.popMatrix();
+            mat.push();
+            mat.translate(0, 0, -900);
+            AbstractGui.fill(mat, 0, 0, this.width, this.height, 0xFF121314);
+            mat.pop();
         }
-        super.render(unk1, unk2, partialTicks);
+        super.render(mat, unk1, unk2, partialTicks);
 
         final int yOffset = this.height / 2;
-        this.font.drawString("State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
-        this.font.drawString("State-Combat", this.width - 101, yOffset - 22 - yOffset / 2, 0xFFFFFF);
-        this.font.drawString("State-Logic", this.width - 101, yOffset - 02 - yOffset / 2, 0xFFFFFF);
+        this.font.drawString(mat, "State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
+        this.font.drawString(mat, "State-Combat", this.width - 101, yOffset - 22 - yOffset / 2, 0xFFFFFF);
+        this.font.drawString(mat, "State-Logic", this.width - 101, yOffset - 02 - yOffset / 2, 0xFFFFFF);
 
-        this.font.drawString("Animation", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
-        this.font.drawString("              Info:", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
-        this.font.drawString("Forme", this.width - 101, yOffset / 2 + 60, 0xFFFFFF);
+        this.font.drawString(mat, "Animation", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
+        this.font.drawString(mat, "              Info:", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
+        this.font.drawString(mat, "Forme", this.width - 101, yOffset / 2 + 60, 0xFFFFFF);
 
         if (this.toRender != null)
         {
@@ -434,8 +494,13 @@ public class AnimationGui extends Screen
             entity.limbSwing += 0.0125;
             final float zoom = this.scale;
 
-            GuiPokemobBase.renderMob(entity, j, k, this.yRenderAngle, this.xRenderAngle + 180, this.yHeadRenderAngle,
+            final float l = AnimationGui.entry.getModelSize().lengthSquared();
+            // Sometimes things go bad and this happens
+            if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
+            GuiPokemobBase.autoScale = false;
+            GuiPokemobBase.renderMob(entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
                     this.xHeadRenderAngle, zoom);
+            GuiPokemobBase.autoScale = true;
         }
 
         if (this.cap)
@@ -495,14 +560,16 @@ public class AnimationGui extends Screen
         if (AnimationGui.entry == null) AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
         if (AnimationGui.entry != null) AnimationGui.mob = AnimationGui.entry.getName();
 
-        this.anim = new TextFieldWidget(this.font, this.width - 101, yOffset + 43 - yOffset / 2, 100, 10, "");
-        this.state_g = new TextFieldWidget(this.font, this.width - 101, yOffset - 33 - yOffset / 2, 100, 10, "");
-        this.state_c = new TextFieldWidget(this.font, this.width - 101, yOffset - 13 - yOffset / 2, 100, 10, "");
-        this.state_l = new TextFieldWidget(this.font, this.width - 101, yOffset + 07 - yOffset / 2, 100, 10, "");
-        this.forme = new TextFieldWidget(this.font, this.width - 101, yOffset + 73 - yOffset / 2, 100, 10, "");
-        this.forme_alt = new TextFieldWidget(this.font, this.width - 101, yOffset + 97 - yOffset / 2, 100, 10, "");
-        this.rngValue = new TextFieldWidget(this.font, this.width - 101, yOffset + 123 - yOffset / 2, 100, 10, "");
-        this.dyeColour = new TextFieldWidget(this.font, this.width - 21, yOffset + 28 - yOffset / 2, 20, 10, "");
+        final ITextComponent blank = new StringTextComponent("");
+
+        this.anim = new TextFieldWidget(this.font, this.width - 101, yOffset + 43 - yOffset / 2, 100, 10, blank);
+        this.state_g = new TextFieldWidget(this.font, this.width - 101, yOffset - 33 - yOffset / 2, 100, 10, blank);
+        this.state_c = new TextFieldWidget(this.font, this.width - 101, yOffset - 13 - yOffset / 2, 100, 10, blank);
+        this.state_l = new TextFieldWidget(this.font, this.width - 101, yOffset + 07 - yOffset / 2, 100, 10, blank);
+        this.forme = new TextFieldWidget(this.font, this.width - 101, yOffset + 73 - yOffset / 2, 100, 10, blank);
+        this.forme_alt = new TextFieldWidget(this.font, this.width - 101, yOffset + 97 - yOffset / 2, 100, 10, blank);
+        this.rngValue = new TextFieldWidget(this.font, this.width - 101, yOffset + 123 - yOffset / 2, 100, 10, blank);
+        this.dyeColour = new TextFieldWidget(this.font, this.width - 21, yOffset + 28 - yOffset / 2, 20, 10, blank);
         this.forme.setText(AnimationGui.mob);
         this.dyeColour.setText(AnimationGui.entry.defaultSpecial + "");
         this.anim.setText("idle");
@@ -515,19 +582,57 @@ public class AnimationGui extends Screen
         this.addButton(this.rngValue);
         this.addButton(this.dyeColour);
 
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset, 40, 20, "next", b ->
+        final ITextComponent icons = new StringTextComponent("Icons");
+        final ITextComponent up = new StringTextComponent("\u25bc");
+        final ITextComponent down = new StringTextComponent("\u25b2");
+        final ITextComponent right = new StringTextComponent("\u25b6");
+        final ITextComponent left = new StringTextComponent("\u25c0");
+        final ITextComponent next = new StringTextComponent("next");
+        final ITextComponent prev = new StringTextComponent("prev");
+        final ITextComponent plus = new StringTextComponent("+");
+        final ITextComponent minus = new StringTextComponent("-");
+
+        final ITextComponent reset = new StringTextComponent("reset");
+        final ITextComponent f5 = new StringTextComponent("f5");
+        final ITextComponent bg = new StringTextComponent("bg");
+
+        int dy = -120;
+
+        final Button iconBtn = this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, icons, b ->
         {
-            final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
-            if (num != AnimationGui.entry) AnimationGui.entry = num;
-            else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
-            AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
-            this.forme.setText(AnimationGui.mob);
-            this.holder = AnimationGui.entry.getModel(this.sexe);
-            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
-            PacketPokedex.updateWatchEntry(AnimationGui.entry);
-            this.onUpdated();
+            this.cap = !this.cap;
+            b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
         }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 20, 40, 20, "prev", b ->
+        iconBtn.setFGColor(0xFFFF0000);
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20, up, b ->
+        {
+            this.shift[1] += Screen.hasShiftDown() ? 10 : 1;
+        }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 20, 20, down, b ->
+        {
+            this.shift[1] -= Screen.hasShiftDown() ? 10 : 1;
+        }));
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20, right, b ->
+        {
+            this.shift[0] += Screen.hasShiftDown() ? 10 : 1;
+        }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 20, 20, left, b ->
+        {
+            this.shift[0] -= Screen.hasShiftDown() ? 10 : 1;
+        }));
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20, plus, b ->
+        {
+            this.scale += Screen.hasShiftDown() ? 1 : 0.1;
+        }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 20, 20, minus, b ->
+        {
+            this.scale -= Screen.hasShiftDown() ? 1 : 0.1;
+        }));
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, prev, b ->
         {
             final PokedexEntry num = Pokedex.getInstance().getPrevious(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;
@@ -539,22 +644,21 @@ public class AnimationGui extends Screen
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 40, 40, 20, "ground", b ->
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, next, b ->
         {
-            this.ground = !this.ground;
-            b.setMessage(this.ground ? "ground" : "float");
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 80, 40, 20, "F5", b ->
-        {
-            AnimationGui.renderMobs.clear();
-            RenderPokemob.reloadModel(AnimationGui.entry);
+            final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
+            if (num != AnimationGui.entry) AnimationGui.entry = num;
+            else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
+            AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
+            this.forme.setText(AnimationGui.mob);
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+            PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 100, 40, 20, "BG", b ->
-        {
-            this.bg = !this.bg;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 20, 40, 20, "Reset", b ->
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, reset, b ->
         {
             this.xRenderAngle = 0;
             this.yRenderAngle = 0;
@@ -564,59 +668,55 @@ public class AnimationGui extends Screen
             this.shift[0] = 0;
             this.shift[1] = 0;
         }));
-        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 60, 20, 20, "+", b ->
-        {
-            this.scale += Screen.hasShiftDown() ? 1 : 0.1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 60, 20, 20, "-", b ->
-        {
-            this.scale -= Screen.hasShiftDown() ? 1 : 0.1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 80, 20, 20, "\u25b6", b ->
-        {
-            this.shift[0] += Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 80, 20, 20, "\u25c0", b ->
-        {
-            this.shift[0] -= Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset + 20, yOffset - 100, 20, 20, "\u25bc", b ->
-        {
-            this.shift[1] += Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 100, 20, 20, "\u25b2", b ->
-        {
-            this.shift[1] -= Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 120, 40, 20, "Icons", b ->
-        {
-            this.cap = !this.cap;
-            b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 40, 40, 20, "normal", b ->
-        {
-            this.shiny = !this.shiny;
-            b.setMessage(this.shiny ? "shiny" : "normal");
-            this.onUpdated();
-        }));
-        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 60, 40, 20, "sexe:M", b ->
-        {
-            final String[] gender = b.getMessage().split(":");
-            if (gender[1].equalsIgnoreCase("f"))
-            {
-                this.sexe = IPokemob.MALE;
-                b.setMessage("sexe:M");
-            }
-            else if (gender[1].equalsIgnoreCase("m"))
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, new StringTextComponent("normal"),
+                b ->
+                {
+                    this.shiny = !this.shiny;
+                    b.setMessage(new StringTextComponent(this.shiny ? "shiny" : "normal"));
+                    this.onUpdated();
+                }));
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, new StringTextComponent("sexe:M"),
+                b ->
+                {
+                    final String[] gender = b.getMessage().getString().split(":");
+                    if (gender[1].equalsIgnoreCase("f"))
+                    {
+                        this.sexe = IPokemob.MALE;
+                        b.setMessage(new StringTextComponent("sexe:M"));
+                    }
+                    else if (gender[1].equalsIgnoreCase("m"))
             {
                 this.sexe = IPokemob.FEMALE;
-                b.setMessage("sexe:F");
+                b.setMessage(new StringTextComponent("sexe:F"));
             }
-            this.holder = AnimationGui.entry.getModel(this.sexe);
-            this.forme_alt.setText("");
+                    this.holder = AnimationGui.entry.getModel(this.sexe);
+                    this.forme_alt.setText("");
+                    this.onUpdated();
+                }));
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, f5, b ->
+        {
+            AnimationGui.renderMobs.clear();
+            RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 10, 10, "\u25b6", b ->
+        dy += 20;
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, bg, b ->
+        {
+            this.bg = !this.bg;
+        }));
+        dy += 40;
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 10, new StringTextComponent("WRTSIZE"),
+                b ->
+                {
+                    AnimationGui.printSizes();
+                }));
+
+        // Buttons from here down are on the right side of the screen
+
+        this.addButton(new Button(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 10, 10, right, b ->
         {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
@@ -637,7 +737,7 @@ public class AnimationGui extends Screen
             }
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width - 101, yOffset + 85 - yOffset / 2, 10, 10, "\u25c0", b ->
+        this.addButton(new Button(this.width - 101, yOffset + 85 - yOffset / 2, 10, 10, left, b ->
         {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
@@ -658,7 +758,7 @@ public class AnimationGui extends Screen
             }
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width - 101 + 20, yOffset + 108 - yOffset / 2, 10, 10, "\u25b6", b ->
+        this.addButton(new Button(this.width - 101 + 20, yOffset + 108 - yOffset / 2, 10, 10, right, b ->
         {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
@@ -685,7 +785,7 @@ public class AnimationGui extends Screen
             }
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width - 101, yOffset + 108 - yOffset / 2, 10, 10, "\u25c0", b ->
+        this.addButton(new Button(this.width - 101, yOffset + 108 - yOffset / 2, 10, 10, left, b ->
         {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
@@ -810,13 +910,13 @@ public class AnimationGui extends Screen
         // left click
         if (m == 0)
         {
-            this.xRenderAngle += dx;
+            this.xRenderAngle -= dx;
             this.yRenderAngle += dy;
         }
         // right click
         if (m == 1)
         {
-            this.xHeadRenderAngle += dx;
+            this.xHeadRenderAngle -= dx;
             this.yHeadRenderAngle += dy;
         }
         return super.mouseDragged(x, y, m, dx, dy);

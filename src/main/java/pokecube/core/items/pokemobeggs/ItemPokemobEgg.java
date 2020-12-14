@@ -23,8 +23,9 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameRules;
@@ -276,7 +277,7 @@ public class ItemPokemobEgg extends Item
             {
                 final LivingEntity owner = mob.getOwner();
                 owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName()
-                        .getFormattedText()));
+                        .getString()), Util.DUMMY_UUID);
                 if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(
                         world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.getRNG().nextInt(7) + 1));
             }
@@ -378,7 +379,7 @@ public class ItemPokemobEgg extends Item
     {
         final World worldIn = context.getWorld();
         if (worldIn.isRemote) return ActionResultType.SUCCESS;
-        final Vec3d hit = context.getHitVec();
+        final Vector3d hit = context.getHitVec();
         final Vector3 loc = Vector3.getNewVector().set(hit);
         final ItemStack stack = context.getItem();
         final PlayerEntity playerIn = context.getPlayer();

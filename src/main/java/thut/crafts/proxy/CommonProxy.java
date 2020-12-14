@@ -4,9 +4,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,7 +51,7 @@ public class CommonProxy implements Proxy
             if (max.getY() - min.getY() > 10 || dw > 2 * 5 + 1)
             {
                 final String message = "msg.craft.toobig";
-                if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message));
+                if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
                 return;
             }
             if (!worldIn.isRemote)
@@ -58,7 +59,7 @@ public class CommonProxy implements Proxy
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
                         EntityCraft.CRAFTTYPE);
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                playerIn.sendMessage(new TranslationTextComponent(message));
+                playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
             }
             itemstack.getTag().remove("min");
             evt.setCanceled(true);
@@ -70,7 +71,7 @@ public class CommonProxy implements Proxy
             Vector3.getNewVector().set(pos).writeToNBT(min, "");
             itemstack.getTag().put("min", min);
             final String message = "msg.craft.setcorner";
-            if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message, pos));
+            if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.DUMMY_UUID);
             evt.setCanceled(true);
             itemstack.getTag().putLong("time", worldIn.getGameTime());
         }
@@ -88,8 +89,8 @@ public class CommonProxy implements Proxy
                 .getLong("time") != worldIn.getGameTime())
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
-            final Vec3d loc = playerIn.getPositionVector().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookVec()
-                    .scale(2));
+            final Vector3d loc = playerIn.getPositionVec().add(0, playerIn.getEyeHeight(), 0).add(playerIn
+                    .getLookVec().scale(2));
             final BlockPos pos = new BlockPos(loc);
             BlockPos min = pos;
             BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
@@ -103,7 +104,7 @@ public class CommonProxy implements Proxy
             if (max.getY() - min.getY() > 15 || dw > 2 * 10 + 1)
             {
                 final String message = "msg.craft.toobig";
-                if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message));
+                if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
                 return;
             }
             if (!worldIn.isRemote)
@@ -111,7 +112,7 @@ public class CommonProxy implements Proxy
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
                         EntityCraft.CRAFTTYPE);
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                playerIn.sendMessage(new TranslationTextComponent(message));
+                playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
             }
             itemstack.getTag().remove("min");
         }

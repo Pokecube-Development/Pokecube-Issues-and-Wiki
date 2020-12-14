@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -16,14 +15,19 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.berries.ItemBerry;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.lib.ItemStackTools;
 
 public abstract class PokemobHungry extends PokemobMoves
 {
     public static final ResourceLocation LEPPABERRY = new ResourceLocation(PokecubeCore.MODID, "berry_leppa");
 
+    @SuppressWarnings("unchecked")
+    <T> T cast(final Object o)
+    {
+        return (T) o;
+    }
+
     @Override
-    public void eat(final Object e)
+    public <T> T eat(T e)
     {
         int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
         ItemStack item = e instanceof ItemStack ? (ItemStack) e : ItemStack.EMPTY;
@@ -34,8 +38,8 @@ public abstract class PokemobHungry extends PokemobMoves
             if (usable != null)
             {
                 final ActionResult<ItemStack> result = usable.onUse(this, item, this.getEntity());
-                if (result.getType() == ActionResultType.SUCCESS) ItemStackTools.addItemStackToInventory(result
-                        .getResult(), this.getInventory(), 1);
+                if (e instanceof ItemEntity) ((ItemEntity) e).setItem(result.getResult());
+                else e = this.cast(result.getResult());
             }
             if (ItemList.is(PokemobHungry.LEPPABERRY, item)) hungerValue *= 2;
             if (item.getItem() instanceof ItemBerry)
@@ -53,7 +57,7 @@ public abstract class PokemobHungry extends PokemobMoves
         this.setHungerTime(this.getHungerTime() - hungerValue);
         this.hungerCooldown = 0;
         this.setCombatState(CombatStates.HUNTING, false);
-        if (!this.getEntity().isAlive()) return;
+        if (!this.getEntity().isAlive()) return null;
         final float missingHp = this.getMaxHealth() - this.getHealth();
         final float toHeal = this.getHealth() + Math.max(1, missingHp * 0.25f);
         this.setHealth(Math.min(toHeal, this.getMaxHealth()));
@@ -69,6 +73,7 @@ public abstract class PokemobHungry extends PokemobMoves
                 this.setExp(this.getExp() + n, true);
             }
         }
+        return e;
     }
 
     @Override

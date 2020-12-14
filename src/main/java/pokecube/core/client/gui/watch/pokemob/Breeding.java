@@ -2,7 +2,11 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import java.util.Collections;
 
-import net.minecraft.util.text.ITextComponent;
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -10,26 +14,33 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class Breeding extends ListPage<LineEntry>
 {
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_breeding.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_breeding_nm.png");
+
     int                   last = 0;
     final PokemobInfoPage parent;
 
     public Breeding(final PokemobInfoPage parent)
     {
-        super(parent, "breeding");
+        super(parent, "breeding", Breeding.TEX_DM, Breeding.TEX_NM);
         this.parent = parent;
     }
 
     @Override
-    void drawInfo(final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         final int num = PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList())
@@ -44,13 +55,16 @@ public class Breeding extends ListPage<LineEntry>
     }
 
     @Override
-    public boolean handleComponentClicked(final ITextComponent component)
+    public boolean handleComponentClicked(final Style component)
     {
         if (component != null)
         {
-            ClickEvent clickevent = component.getStyle().getClickEvent();
-            if (clickevent == null) for (final ITextComponent sib : component.getSiblings())
-                if (sib != null && (clickevent = sib.getStyle().getClickEvent()) != null) break;
+            final ClickEvent clickevent = component.getClickEvent();
+            // TODO see if we need a sub style somehow?
+            // if (clickevent == null) for (final ITextComponent sib :
+            // component.getSiblings())
+            // if (sib != null && (clickevent = sib.getStyle().getClickEvent())
+            // != null) break;
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
@@ -66,16 +80,16 @@ public class Breeding extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        int offsetX = (this.watch.width - 160) / 2 + 20;
-        int offsetY = (this.watch.height - 160) / 2 + 85;
-        final int height = this.font.FONT_HEIGHT * 12;
-        int width = 135;
+        int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+        final int height = this.font.FONT_HEIGHT * 7;
+        int width = 90; //135
 
         final int colour = 0xFFFFFFFF;
 
-        width = 111;
-        final int dx = 25;
-        final int dy = -57;
+        width = 90;
+        final int dx = 55;
+        final int dy = 10;
         offsetY += dy;
         offsetX += dx;
 
@@ -83,30 +97,29 @@ public class Breeding extends ListPage<LineEntry>
         final IClickListener listener = new IClickListener()
         {
             @Override
-            public boolean handleClick(final ITextComponent component)
+            public boolean handleClick(final Style component)
             {
                 return thisObj.handleComponentClicked(component);
             }
 
             @Override
-            public void handleHovor(final ITextComponent component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
-                thisObj.renderComponentHoverEffect(component, x, y);
+                thisObj.renderComponentHoverEffect(mat, component, x, y);
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.FONT_HEIGHT / 2,
                 this.font.FONT_HEIGHT, offsetX, offsetY);
-        ITextComponent main = new TranslationTextComponent(ourEntry.getUnlocalizedName());
+        IFormattableTextComponent main = new TranslationTextComponent(ourEntry.getUnlocalizedName());
         if (ourEntry.breeds) for (final String name : PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(),
                 Collections.emptyList()))
         {
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
             main = new TranslationTextComponent(entry.getUnlocalizedName());
-            main.setStyle(new Style());
-            main.getStyle().setColor(TextFormatting.GREEN);
-            main.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName()));
+            main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
+                    new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
         }
     }

@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -23,7 +23,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import pokecube.adventures.blocks.genetics.extractor.ExtractorBlock;
 import pokecube.core.blocks.InteractableBlock;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
@@ -123,7 +122,7 @@ public class SiphonBlock extends InteractableHorizontalBlock implements IWaterLo
 
     @Override
     @SuppressWarnings("deprecation")
-    public IFluidState getFluidState(BlockState state) 
+    public FluidState getFluidState(BlockState state) 
     {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }

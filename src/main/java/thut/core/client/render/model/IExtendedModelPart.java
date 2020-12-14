@@ -11,9 +11,9 @@ import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 
 public interface IExtendedModelPart extends IModelCustom
 {
@@ -74,6 +74,10 @@ public interface IExtendedModelPart extends IModelCustom
         IExtendedModelPart.sort(order, this.getSubParts());
     }
 
+
+    Vector3 minBound();
+    Vector3 maxBound();
+
     Vector4 getDefaultRotations();
 
     Vector3 getDefaultTranslations();
@@ -85,6 +89,8 @@ public interface IExtendedModelPart extends IModelCustom
     int[] getRGBABrO();
 
     <T extends IExtendedModelPart> HashMap<String, T> getSubParts();
+
+    List<String> getRenderOrder();
 
     String getType();
 

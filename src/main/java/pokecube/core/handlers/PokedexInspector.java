@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -54,7 +55,7 @@ public class PokedexInspector
                 if (giveReward)
                 {
                     tag.putBoolean(this.tagString, true);
-                    entity.sendMessage(new TranslationTextComponent(this.message));
+                    entity.sendMessage(new TranslationTextComponent(this.message), Util.DUMMY_UUID);
                     final PlayerEntity PlayerEntity = (PlayerEntity) entity;
                     Tools.giveItem(PlayerEntity, reward);
                     PokecubePlayerDataHandler.saveCustomData(entity.getCachedUniqueIdString());

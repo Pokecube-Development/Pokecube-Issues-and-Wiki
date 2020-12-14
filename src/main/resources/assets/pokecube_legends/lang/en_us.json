@@ -74,14 +74,14 @@
 	"item.pokecube_legends.ultra_boots": 		"Ultra Armor Boots",
 	
     "_comment": "/Biome Names",   
-    "biome.pokecube_legends.distortic_world": "Distorted World",
+    "biome.pokecube_legends.distorted_world": "Distorted World",
     
-    "biome.pokecube_legends.ub001": "Ultra Deep Caves",
-    "biome.pokecube_legends.ub002": "Ultra Jungle",
-    "biome.pokecube_legends.ub003": "Ultra Desert",
-    "biome.pokecube_legends.ub004": "Ultra Dark Valley",
-    "biome.pokecube_legends.ub005": "Ultra Deep Hills",
-    "biome.pokecube_legends.ub006": "Ultra Forgotten Plains",
+    "biome.pokecube_legends.ultra_deep_caves": "Ultra Deep Caves",
+    "biome.pokecube_legends.ultra_jungle": "Ultra Jungle",
+    "biome.pokecube_legends.ultra_desert": "Ultra Desert",
+    "biome.pokecube_legends.ultra_dark_valley": "Ultra Dark Valley",
+    "biome.pokecube_legends.ultra_deep_hills": "Ultra Deep Hills",
+    "biome.pokecube_legends.ultra_forgotten_plains": "Ultra Forgotten Plains",
 
     "_comment": "/Plants",
     "block.pokecube_legends.mush_plant1": "Distorced Mushroom U_05",
@@ -92,6 +92,7 @@
     "block.pokecube_legends.ultra_sapling01": "Inverted Sapling",
     "block.pokecube_legends.ultra_sapling02": "Temporal Sapling",
     "block.pokecube_legends.ultra_sapling03": "Aged Sapling",
+    "block.pokecube_legends.distortic_sapling": "Distortic Sapling",
     
     "block.pokecube_legends.dyna_leave_1": "Dyna Leaves",
     "block.pokecube_legends.dyna_leave_2": "Dyna Leaves",
@@ -155,6 +156,10 @@
     "block.pokecube_legends.aged_wood": "Aged Wood",
     "block.pokecube_legends.stripped_aged_log": "Stripped Aged Log",
     "block.pokecube_legends.stripped_aged_wood": "Stripped Aged Wood",
+    
+    "block.pokecube_legends.distortic_log": "Distortic Log",
+    "block.pokecube_legends.distortic_plank": "Distortic Planks",
+    "block.pokecube_legends.distortic_leave": "Distortic Leaves",
     
     "block.pokecube_legends.ultradirt3":		"Ultra Aged Dirt",
     "block.pokecube_legends.ultradirt4":		"Ultra Distorced Dirt",
@@ -329,7 +334,7 @@
     "block.pokecube_legends.raidspawn_block": "Raid Spot Spawn",
 
     "_comment": "/Tooltips Block",
-    "legendblock.ultraportal.tooltip": "Use to enter and exit Ultra Space",
+    "legendblock.portalwarp.tooltip": "Summon a random pokemob using this block!",
     "legendblock.raidspawn.tooltip": "Use to create a Raid battle!",
 	"legends.gigantic_shard.tooltip": "Use to make your pokemob use Gigantamax!",
     "legends.wishing_piece.tooltip": "Use this item on an inactive raid spot to activate it!",

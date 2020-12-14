@@ -13,9 +13,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -30,14 +30,16 @@ import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -72,6 +74,9 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public Vector3    location   = null;
     public GuardAI    guardAI;
 
+    public String  customTrades = "";
+    public boolean fixedTrades  = false;
+
     private Consumer<MerchantOffers> init_offers = t ->
     {
     };
@@ -96,6 +101,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         return ImmutableList.copyOf(temp);
     }
 
+    public void setTypedName(final String name)
+    {
+        this.name = "pokecube." + this.getNpcType().getName() + ".named:" + name;
+    }
+
     @Override
     protected void initBrain(final Brain<VillagerEntity> brain)
     {
@@ -106,7 +116,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             final VillagerProfession profession = this.getVillagerData().getProfession();
             if (this.getNpcType() != null && this.getNpcType().getProfession() != profession) this.setVillagerData(this
                     .getVillagerData().withLevel(3).withProfession(this.getNpcType().getProfession()));
-            final float f = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            final float f = (float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
             if (this.isChild())
             {
                 brain.setSchedule(Schedules.CHILD);
@@ -137,7 +147,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public VillagerEntity createChild(final AgeableEntity ageable)
+    public VillagerEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity p_241840_2_)
     {
         return null;
     }
@@ -170,30 +180,32 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(final IWorld worldIn, final DifficultyInstance difficultyIn,
+    public ILivingEntityData onInitialSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
             final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
     {
         final VillagerProfession proff = this.getNpcType().getProfession();
         this.setVillagerData(this.getVillagerData().withProfession(proff).withLevel(3));
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier(
-                "Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
+        this.getAttribute(Attributes.FOLLOW_RANGE).applyPersistentModifier(new AttributeModifier("Random spawn bonus",
+                this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
         if (this.rand.nextFloat() < 0.05F) this.setLeftHanded(true);
         else this.setLeftHanded(false);
         return spawnDataIn;
     }
 
-    public ResourceLocation getTex()
+    public final ResourceLocation getTex()
     {
         if (!this.playerName.isEmpty()) return PokecubeCore.proxy.getPlayerSkin(this.playerName);
         else if (!this.customTex.isEmpty()) return new ResourceLocation(this.customTex);
+        else if (!this.urlSkin.isEmpty()) return PokecubeCore.proxy.getUrlSkin(this.urlSkin);
         return this.isMale() ? this.getNpcType().getMaleTex() : this.getNpcType().getFemaleTex();
     }
 
     @Override
-    public boolean processInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
     {
-        if (this.getNpcType().getInteraction().processInteract(player, hand, this)) return true;
-        return super.processInteract(player, hand);
+        if (this.getNpcType().getInteraction().processInteract(player, hand, this)) return ActionResultType
+                .func_233537_a_(this.world.isRemote);
+        return super.func_230254_b_(player, hand);
     }
 
     @Override
@@ -219,6 +231,8 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         this.playerName = nbt.getString("playerName");
         this.urlSkin = nbt.getString("urlSkin");
         this.customTex = nbt.getString("customTex");
+        this.fixedTrades = nbt.getBoolean("fixedTrades");
+        this.customTrades = nbt.getString("customTrades");
         try
         {
             if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
@@ -236,7 +250,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         if (this.name != null && !this.name.isEmpty())
         {
-            ITextComponent display;
+            IFormattableTextComponent display;
             if (this.name.startsWith("pokecube."))
             {
                 final String[] args = this.name.split(":");
@@ -244,9 +258,9 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
                 else display = new StringTextComponent(this.name);
             }
             else display = new StringTextComponent(this.name);
-            display.applyTextStyle((style) ->
+            display.modifyStyle((style) ->
             {
-                style.setHoverEvent(this.getHoverEvent()).setInsertion(this.getCachedUniqueIdString());
+                return style.setHoverEvent(this.getHoverEvent()).setInsertion(this.getCachedUniqueIdString());
             });
             return display;
         }
@@ -285,6 +299,8 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         nbt.putString("playerName", this.playerName);
         nbt.putString("urlSkin", this.urlSkin);
         nbt.putString("customTex", this.customTex);
+        nbt.putBoolean("fixedTrades", this.fixedTrades);
+        nbt.putString("customTrades", this.customTrades);
         nbt.putString("type", this.getNpcType().getName());
     }
 
@@ -307,6 +323,27 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         this.use_offer.accept(offer);
         super.onVillagerTrade(offer);
+    }
+
+    public void resetTrades()
+    {
+        this.offers = null;
+    }
+
+    protected void onSetOffers()
+    {
+    }
+
+    @Override
+    public MerchantOffers getOffers()
+    {
+        if (this.offers == null)
+        {
+            this.offers = new MerchantOffers();
+            this.onSetOffers();
+            this.populateTradeData();
+        }
+        return this.offers;
     }
 
     @Override

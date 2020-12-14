@@ -263,7 +263,7 @@ public interface IHasMoves extends IHasStats
                     if (s.equals(moveName)) return;
                 }
                 final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "", thisMob
-                        .getDisplayName().getFormattedText(), new TranslationTextComponent(MovesUtils
+                        .getDisplayName().getString(), new TranslationTextComponent(MovesUtils
                                 .getUnlocalizedMove(moveName)));
                 thisMob.displayMessageToOwner(mess);
                 if (!this.getMoveStats().newMoves.contains(moveName))

@@ -109,7 +109,7 @@ public class LeapTask extends TaskBase implements IAICombat
         // Set the timer so we don't leap again rapidly
         this.leapTick = this.entity.ticksExisted + PokecubeCore.getConfig().attackCooldown / 2;
 
-        new PlaySound(this.entity.dimension, Vector3.getNewVector().set(this.entity), this.getLeapSound(),
+        new PlaySound(this.entity.getEntityWorld().getDimensionKey(), Vector3.getNewVector().set(this.entity), this.getLeapSound(),
                 SoundCategory.HOSTILE, 1, 1).run(this.world);
         this.pokemob.setCombatState(CombatStates.LEAPING, false);
     }

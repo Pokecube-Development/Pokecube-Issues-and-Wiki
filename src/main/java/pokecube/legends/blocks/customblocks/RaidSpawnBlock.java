@@ -24,7 +24,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,7 +46,7 @@ public class RaidSpawnBlock extends MaxBlock
         }
 
         @Override
-        public String getName()
+        public String getString()
         {
             return this.name;
         }
@@ -81,12 +80,6 @@ public class RaidSpawnBlock extends MaxBlock
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
         return new RaidSpawn();
-    }
-
-    @Override
-    public int tickRate(final IWorldReader world)
-    {
-        return 3000;
     }
 
     public RaidSpawnBlock setInfoBlockName(final String infoname)

@@ -57,6 +57,6 @@ public class TileUpdate extends NBTPacket
         final PlayerEntity player = ThutCore.proxy.getPlayer();
         final BlockPos pos = NBTUtil.readBlockPos(this.tag.getCompound("pos"));
         final TileEntity tile = player.getEntityWorld().getTileEntity(pos);
-        if (tile != null) tile.handleUpdateTag(this.tag.getCompound("tag"));
+        if (tile != null) tile.handleUpdateTag(player.getEntityWorld().getBlockState(pos), this.tag.getCompound("tag"));
     }
 }

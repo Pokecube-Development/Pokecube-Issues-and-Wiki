@@ -13,8 +13,8 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
@@ -114,7 +114,7 @@ public class TradeEntryLoader
         else if (flag.equals("tag_sell"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final Tag<Item> itemtag = ItemTags.getCollection().getOrCreate(tag);
+            final ITag<Item> itemtag = ItemTags.getCollection().getTagByID(tag);
             for (final Item i : itemtag.getAllElements())
             {
                 final ItemStack stack = new ItemStack(i);
@@ -147,7 +147,7 @@ public class TradeEntryLoader
         else if (flag.equals("tag_buy"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final Tag<Item> itemtag = ItemTags.getCollection().get(tag);
+            final ITag<Item> itemtag = ItemTags.getCollection().getTagByID(tag);
             if (itemtag != null) for (final Item i : itemtag.getAllElements())
             {
                 final ItemStack stack = new ItemStack(i);

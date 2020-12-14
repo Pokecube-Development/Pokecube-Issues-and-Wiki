@@ -52,10 +52,10 @@ public class AnimationLoader
         final Vector3 vect = Vector3.getNewVector().set(default_);
         String[] r;
         r = shift.split(",");
-        if (r.length == 1)
-            vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()));
-        else if (r.length == 3)
-            vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()));
+        if (r.length == 1) vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0]
+                .trim()));
+        else if (r.length == 3) vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(
+                r[2].trim()));
         return vect;
     }
 
@@ -70,8 +70,8 @@ public class AnimationLoader
         t = Integer.parseInt(time);
         try
         {
-            ro.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()),
-                    Float.parseFloat(r[3].trim()));
+            ro.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()), Float
+                    .parseFloat(r[3].trim()));
             ro.toQuaternion();
         }
         catch (final Exception e)
@@ -150,7 +150,7 @@ public class AnimationLoader
                     else if (name.equals("textures")) texturer.applyTexturePhase(phase);
                     else if (AnimationRegistry.animations.containsKey(name))
                     {
-                        ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);
+                        if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);
                         try
                         {
                             final Animation anim = AnimationRegistry.make(phase, null);
@@ -166,7 +166,8 @@ public class AnimationLoader
                 // Handle manual animations
                 else if (phase.type != null)
                 {
-                    ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
+                    if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Building Animation " + phase.type + " for "
+                            + holder.name);
                     final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
                     if (anim != null) tblAnims.add(anim);
                 }
@@ -300,7 +301,7 @@ public class AnimationLoader
         {
             final IResource res = Minecraft.getInstance().getResourceManager().getResource(animations);
             final InputStream stream = res.getInputStream();
-            ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
+            if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
             AnimationLoader.parse(stream, holder, model, renderer);
             res.close();
             return true;
@@ -335,9 +336,9 @@ public class AnimationLoader
     public static void setHeadCaps(final Node node, final float[] toFill, final float[] toFill1)
     {
         if (node.getAttributes() == null) return;
-        if (node.getAttributes().getNamedItem("headCap") != null)
-            AnimationLoader.setHeadCaps(node.getAttributes().getNamedItem("headCap").getNodeValue(), toFill);
-        if (node.getAttributes().getNamedItem("headCap1") != null)
-            AnimationLoader.setHeadCaps(node.getAttributes().getNamedItem("headCap1").getNodeValue(), toFill1);
+        if (node.getAttributes().getNamedItem("headCap") != null) AnimationLoader.setHeadCaps(node.getAttributes()
+                .getNamedItem("headCap").getNodeValue(), toFill);
+        if (node.getAttributes().getNamedItem("headCap1") != null) AnimationLoader.setHeadCaps(node.getAttributes()
+                .getNamedItem("headCap1").getNodeValue(), toFill1);
     }
 }

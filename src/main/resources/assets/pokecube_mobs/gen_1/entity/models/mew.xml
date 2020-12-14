@@ -3,19 +3,19 @@
  <model name="">
   <phase name="global" scale="0.35"/>
   <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-10,60" headDir="-1"/>
-  <worn angles="0,180,0" id="__HAT__" offset="0,0.0,-0.225" parent="Head" scale="0.85"/>
+  <worn angles="0,0,0" id="__HAT__" offset="0,-0.275,0.0" parent="Head" scale="0.85"/>
   <worn angles="-70,0,-90" id="__EAR_left__" offset="-0.18,0.0,-.20" parent="Head" scale="0.5"/>
   <worn angles="-70,0,90" id="__EAR_right__" offset="0.18,0.0,-.20" parent="Head" scale="0.5"/>
-  <worn angles="0,180,0" id="__EYE__" offset="0,0.05,-0.275" parent="Head" scale="1"/>
+  <worn angles="0,0,0" id="__EYE__" offset="0,-0.25,0.05" parent="Head" scale="1"/>
   <worn angles="50,45,30" id="__WRIST_right__" offset="0.18,-0.0,0.15" parent="rightArm" scale="0.5"/>
   <worn angles="50,-45,-30" id="__WRIST_left__" offset="-0.18,-0.0,0.15" parent="leftArm" scale="0.5"/>
   <worn angles="90,-20,0" id="__FINGER_right__" offset="0.085,0.2,0.13" parent="tail8" scale="0.5"/>
   <worn angles="90,-20,0" id="__FINGER_left__" offset="0.0485,0.1,0.095" parent="tail8" scale="0.5"/>
-  <worn angles="-10,180,0" id="__NECK__" offset="0,-0.175,-0.325" parent="body" scale=".5"/>
-  <worn angles="-10,180,0" id="__ANKLE_right__" offset="0.0,0.0325,0.0" parent="rightThigh" scale="0.8"/>
-  <worn angles="-10,180,0" id="__ANKLE_left__" offset="0.0,0.0325,0.0" parent="leftThigh" scale="0.8"/>
-  <worn angles="-15,180,0" id="__WAIST__" offset="0,-0.1,-0.35" parent="body" scale="0.65,0.65,1.1"/>
-  <worn angles="-15,180,0" id="__BACK__" offset="0,-0.1,-0.35" parent="body" scale="0.65,0.65,0.65"/>
+  <worn angles="-10,0,0" id="__NECK__" offset="0,-0.175,-0.325" parent="body" scale=".5"/>
+  <worn angles="-10,0,0" id="__ANKLE_right__" offset="0.0,0.0325,0.0" parent="rightThigh" scale="0.8"/>
+  <worn angles="-10,0,0" id="__ANKLE_left__" offset="0.0,0.0325,0.0" parent="leftThigh" scale="0.8"/>
+  <worn angles="-15,0,0" id="__WAIST__" offset="0,-0.35,0.1" parent="body" scale="0.65,0.65,1.1"/>
+  <worn angles="15,0,0" id="__BACK__" offset="0,-0.35,0.1" parent="body" scale="0.65,0.65,0.65"/>
   <phase angle="20" axis="2" length="30" name="snakeIdle" parts="tail0:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>
   <phase type="sitting">
    <part name="tail0">

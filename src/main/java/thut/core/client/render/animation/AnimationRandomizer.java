@@ -105,7 +105,7 @@ public class AnimationRandomizer implements IAnimationChanger
     @Override
     public void init(final Set<Animation> existingAnimations)
     {
-        final Set<String> animations = Sets.newHashSet();
+        final Set<String> animations = Sets.newHashSet(this.loadedSets.keySet());
         for (final Animation existing : existingAnimations)
             if (this.loadedSets.containsKey(existing.name)) animations.add(existing.name);
         for (final String s : animations)

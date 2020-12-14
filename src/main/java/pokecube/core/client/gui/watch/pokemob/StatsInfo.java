@@ -1,24 +1,29 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob.Stats;
+import pokecube.core.interfaces.PokecubeMod;
 
 public class StatsInfo extends PokeInfoPage
 {
-    private final FontRenderer fontRender;
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_pokedex.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_pokedex_nm.png");
 
     public StatsInfo(final PokemobInfoPage parent)
     {
-        super(parent, "stats");
-        this.fontRender = Minecraft.getInstance().fontRenderer;
+        super(parent, "stats", StatsInfo.TEX_DM, StatsInfo.TEX_NM);
     }
 
-    private void drawBaseStats(final int x, final int y)
+    // Default
+    private void drawBaseStats(final MatrixStack mat, final int x, final int y)
     {
         final int HP = this.parent.pokemob.getPokedexEntry().getStatHP();
         final int ATT = this.parent.pokemob.getPokedexEntry().getStatATT();
@@ -26,8 +31,8 @@ public class StatsInfo extends PokeInfoPage
         final int ATTSPE = this.parent.pokemob.getPokedexEntry().getStatATTSPE();
         final int DEFSPE = this.parent.pokemob.getPokedexEntry().getStatDEFSPE();
         final int VIT = this.parent.pokemob.getPokedexEntry().getStatVIT();
-        final int statYOffSet = y + 0;
-        final int offsetX = -50;
+        final int statYOffSet = y + 35; // 0
+        final int offsetX = 130; // -50
         int dx = 20 + offsetX;
 
         final String H = I18n.format("pokewatch.HP");
@@ -37,23 +42,24 @@ public class StatsInfo extends PokeInfoPage
         final String DS = I18n.format("pokewatch.DEFSP");
         final String S = I18n.format("pokewatch.VIT");
 
-        this.drawString(this.fontRender, H, x + dx, statYOffSet + 18, 0xFF0000);
-        this.drawString(this.fontRender, A, x + dx, statYOffSet + 27, 0xF08030);
-        this.drawString(this.fontRender, D, x + dx, statYOffSet + 36, 0xF8D030);
-        this.drawString(this.fontRender, AS, x + dx, statYOffSet + 45, 0x6890F0);
-        this.drawString(this.fontRender, DS, x + dx, statYOffSet + 54, 0x78C850);
-        this.drawString(this.fontRender, S, x + dx, statYOffSet + 63, 0xF85888);
+        AbstractGui.drawString(mat, this.font, H, x + dx, statYOffSet + 18, 0xFF0000);
+        AbstractGui.drawString(mat, this.font, A, x + dx, statYOffSet + 27, 0xF08030);
+        AbstractGui.drawString(mat, this.font, D, x + dx, statYOffSet + 36, 0xF8D030);
+        AbstractGui.drawString(mat, this.font, AS, x + dx, statYOffSet + 45, 0x6890F0);
+        AbstractGui.drawString(mat, this.font, DS, x + dx, statYOffSet + 54, 0x78C850);
+        AbstractGui.drawString(mat, this.font, S, x + dx, statYOffSet + 63, 0xF85888);
 
         dx = 60 + offsetX;
-        this.drawString(this.fontRender, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
-        this.drawString(this.fontRender, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
-        this.drawString(this.fontRender, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
-        this.drawString(this.fontRender, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
-        this.drawString(this.fontRender, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
-        this.drawString(this.fontRender, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
+        AbstractGui.drawString(mat, this.font, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
+        AbstractGui.drawString(mat, this.font, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
+        AbstractGui.drawString(mat, this.font, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
+        AbstractGui.drawString(mat, this.font, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
+        AbstractGui.drawString(mat, this.font, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
+        AbstractGui.drawString(mat, this.font, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
     }
 
-    private void drawInfo(final int x, final int y)
+    // Your Pokemob
+    private void drawInfo(final MatrixStack mat, final int x, final int y)
     {
         final byte[] nature = this.parent.pokemob.getNature().getStatsMod();
         int HP = this.parent.pokemob.getStat(Stats.HP, true);
@@ -62,7 +68,7 @@ public class StatsInfo extends PokeInfoPage
         int ATTSPE = this.parent.pokemob.getStat(Stats.SPATTACK, true);
         int DEFSPE = this.parent.pokemob.getStat(Stats.SPDEFENSE, true);
         int VIT = this.parent.pokemob.getStat(Stats.VIT, true);
-        final int statYOffSet = y + 58;
+        final int statYOffSet = y + 25; // 58
         final String[] nat = new String[6];
         final int[] colours = new int[6];
         for (int n = 0; n < 6; n++)
@@ -80,12 +86,12 @@ public class StatsInfo extends PokeInfoPage
                 colours[n] = 0x44FF0000;
             }
         }
-        final int offsetX = -52;
+        final int offsetX = 120;
         int dx = 20 + offsetX;
         for (int i = 0; i < nature.length; i++)
         {
             final int dy = 17 + i * 9;
-            AbstractGui.fill(x + dx, statYOffSet + dy, x + dx + 107, statYOffSet + dy + 9, colours[i]);
+            AbstractGui.fill(mat, x + dx, statYOffSet + dy, x + dx + 107, statYOffSet + dy + 9, colours[i]);
         }
 
         final String H = I18n.format("pokewatch.HP");
@@ -97,21 +103,21 @@ public class StatsInfo extends PokeInfoPage
 
         final String Header = I18n.format("pokewatch.TVIVEV");
 
-        this.drawString(this.fontRender, Header, x + dx, statYOffSet + 9, 0xFFFFFF);
-        this.drawString(this.fontRender, H, x + dx, statYOffSet + 18, 0xFF0000);
-        this.drawString(this.fontRender, A, x + dx, statYOffSet + 27, 0xF08030);
-        this.drawString(this.fontRender, D, x + dx, statYOffSet + 36, 0xF8D030);
-        this.drawString(this.fontRender, AS, x + dx, statYOffSet + 45, 0x6890F0);
-        this.drawString(this.fontRender, DS, x + dx, statYOffSet + 54, 0x78C850);
-        this.drawString(this.fontRender, S, x + dx, statYOffSet + 63, 0xF85888);
+        AbstractGui.drawString(mat, this.font, Header, 43 + x + dx, statYOffSet + 9, 0xFFFFFF);
+        AbstractGui.drawString(mat, this.font, H, x + dx, statYOffSet + 18, 0xFF0000);
+        AbstractGui.drawString(mat, this.font, A, x + dx, statYOffSet + 27, 0xF08030);
+        AbstractGui.drawString(mat, this.font, D, x + dx, statYOffSet + 36, 0xF8D030);
+        AbstractGui.drawString(mat, this.font, AS, x + dx, statYOffSet + 45, 0x6890F0);
+        AbstractGui.drawString(mat, this.font, DS, x + dx, statYOffSet + 54, 0x78C850);
+        AbstractGui.drawString(mat, this.font, S, x + dx, statYOffSet + 63, 0xF85888);
 
         dx = 60 + offsetX;
-        this.drawString(this.fontRender, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
-        this.drawString(this.fontRender, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
-        this.drawString(this.fontRender, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
-        this.drawString(this.fontRender, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
-        this.drawString(this.fontRender, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
-        this.drawString(this.fontRender, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
+        AbstractGui.drawString(mat, this.font, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
+        AbstractGui.drawString(mat, this.font, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
+        AbstractGui.drawString(mat, this.font, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
+        AbstractGui.drawString(mat, this.font, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
+        AbstractGui.drawString(mat, this.font, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
+        AbstractGui.drawString(mat, this.font, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
 
         dx = 20 + offsetX;
         byte[] stats2 = this.parent.pokemob.getIVs();
@@ -130,58 +136,28 @@ public class StatsInfo extends PokeInfoPage
         final int VIT2 = stats2[5] + 128;
 
         int shift = 88 + offsetX;
-        this.drawString(this.fontRender, "" + HP, x + shift, statYOffSet + 18, 0xFF0000);
-        this.drawString(this.fontRender, "" + ATT, x + shift, statYOffSet + 27, 0xF08030);
-        this.drawString(this.fontRender, "" + DEF, x + shift, statYOffSet + 36, 0xF8D030);
-        this.drawString(this.fontRender, "" + ATTSPE, x + shift, statYOffSet + 45, 0x6890F0);
-        this.drawString(this.fontRender, "" + DEFSPE, x + shift, statYOffSet + 54, 0x78C850);
-        this.drawString(this.fontRender, "" + VIT, x + shift, statYOffSet + 63, 0xF85888);
+        AbstractGui.drawString(mat, this.font, "" + HP, x + shift, statYOffSet + 18, 0xFF0000);
+        AbstractGui.drawString(mat, this.font, "" + ATT, x + shift, statYOffSet + 27, 0xF08030);
+        AbstractGui.drawString(mat, this.font, "" + DEF, x + shift, statYOffSet + 36, 0xF8D030);
+        AbstractGui.drawString(mat, this.font, "" + ATTSPE, x + shift, statYOffSet + 45, 0x6890F0);
+        AbstractGui.drawString(mat, this.font, "" + DEFSPE, x + shift, statYOffSet + 54, 0x78C850);
+        AbstractGui.drawString(mat, this.font, "" + VIT, x + shift, statYOffSet + 63, 0xF85888);
         shift += 21;
-        this.drawString(this.fontRender, "" + HP2, x + shift, statYOffSet + 18, 0xFF0000);
-        this.drawString(this.fontRender, "" + ATT2, x + shift, statYOffSet + 27, 0xF08030);
-        this.drawString(this.fontRender, "" + DEF2, x + shift, statYOffSet + 36, 0xF8D030);
-        this.drawString(this.fontRender, "" + ATTSPE2, x + shift, statYOffSet + 45, 0x6890F0);
-        this.drawString(this.fontRender, "" + DEFSPE2, x + shift, statYOffSet + 54, 0x78C850);
-        this.drawString(this.fontRender, "" + VIT2, x + shift, statYOffSet + 63, 0xF85888);
-
-        // Draw ability, Happiness and Size
-        final Ability ability = this.parent.pokemob.getAbility();
-        dx = -25;
-        int dy = 25;
-        // Draw ability
-        if (ability != null)
-        {
-            final String abilityName = I18n.format(ability.getName());
-            this.drawString(this.fontRender, I18n.format("pokewatch.ability", abilityName), x + dx, y + dy, 0xFFFFFF);
-        }
-        final int happiness = this.parent.pokemob.getHappiness();
-        String message = "";
-
-        // Draw size
-        dy += 11;
-        message = I18n.format("pokewatch.size", this.parent.pokemob.getSize());
-        this.fontRender.drawSplitString(message, x + dx, y + dy, 100, 0xFFFFFF);
-
-        if (happiness == 0) message = "pokemob.info.happy0";
-        if (happiness > 0) message = "pokemob.info.happy1";
-        if (happiness > 49) message = "pokemob.info.happy2";
-        if (happiness > 99) message = "pokemob.info.happy3";
-        if (happiness > 149) message = "pokemob.info.happy4";
-        if (happiness > 199) message = "pokemob.info.happy5";
-        if (happiness > 254) message = "pokemob.info.happy6";
-        // Draw Happiness
-        message = I18n.format(message);
-        dy += 11;
-        this.fontRender.drawSplitString(message, x + dx, y + dy, 100, 0xFFFFFF);
+        AbstractGui.drawString(mat, this.font, "" + HP2, x + shift, statYOffSet + 18, 0xFF0000);
+        AbstractGui.drawString(mat, this.font, "" + ATT2, x + shift, statYOffSet + 27, 0xF08030);
+        AbstractGui.drawString(mat, this.font, "" + DEF2, x + shift, statYOffSet + 36, 0xF8D030);
+        AbstractGui.drawString(mat, this.font, "" + ATTSPE2, x + shift, statYOffSet + 45, 0x6890F0);
+        AbstractGui.drawString(mat, this.font, "" + DEFSPE2, x + shift, statYOffSet + 54, 0x78C850);
+        AbstractGui.drawString(mat, this.font, "" + VIT2, x + shift, statYOffSet + 63, 0xF85888);
     }
 
     @Override
-    void drawInfo(final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - 160) / 2 + 80;
-        final int y = (this.watch.height - 160) / 2 + 8;
-        if (this.watch.canEdit(this.parent.pokemob)) this.drawInfo(x, y);
-        else this.drawBaseStats(x, y);
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+        if (this.watch.canEdit(this.parent.pokemob)) this.drawInfo(mat, x, y);
+        else this.drawBaseStats(mat, x, y);
     }
 
 }

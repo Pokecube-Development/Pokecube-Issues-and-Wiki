@@ -12,8 +12,9 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -50,7 +51,7 @@ public class ParticleFactories
 
         protected ThutParticle(final World worldIn, final ParticleBase particleIn)
         {
-            super(worldIn, particleIn.position.x, particleIn.position.y, particleIn.position.z);
+            super((ClientWorld) worldIn, particleIn.position.x, particleIn.position.y, particleIn.position.z);
             this.particle = particleIn;
             this.world = worldIn;
             if (this.particle instanceof ParticleNoGravity) this.particleGravity = 0;
@@ -82,7 +83,7 @@ public class ParticleFactories
         public void renderParticle(final IVertexBuilder buffer, final ActiveRenderInfo renderInfo,
                 final float partialTicks)
         {
-            final Vec3d vec3d = renderInfo.getProjectedView();
+            final Vector3d vec3d = renderInfo.getProjectedView();
             final float x = (float) (MathHelper.lerp(partialTicks, this.prevPosX, this.posX) - vec3d.x);
             final float y = (float) (MathHelper.lerp(partialTicks, this.prevPosY, this.posY) - vec3d.y);
             final float z = (float) (MathHelper.lerp(partialTicks, this.prevPosZ, this.posZ) - vec3d.z);

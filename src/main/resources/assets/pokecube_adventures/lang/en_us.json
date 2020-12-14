@@ -206,7 +206,9 @@
     "gui.jei.pokemob.gender.male": "Male",
     "gui.jei.pokemob.gender.female": "Female",
 
-    "gui.jei.pokemob.nogender": "When not %s",
+    "gui.jei.pokemob.nogender": "If not %s",
+    
+    "gui.jei.cloner.need_egg": "Also Requires an additional Egg in the Egg input slot",
 
     "container.splicer": "Splicer",
     "container.extractor": "Gene Extractor",

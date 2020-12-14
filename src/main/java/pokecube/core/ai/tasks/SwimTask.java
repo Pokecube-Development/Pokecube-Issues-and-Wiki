@@ -9,7 +9,6 @@ import pokecube.core.interfaces.IPokemob;
 
 public class SwimTask extends RootTask<MobEntity>
 {
-    private final float maxDepth;
     private final float jumpChance;
 
     private final IPokemob pokemob;
@@ -17,7 +16,8 @@ public class SwimTask extends RootTask<MobEntity>
     public SwimTask(final IPokemob pokemob, final float maxDepth, final float jumpChance)
     {
         super(ImmutableMap.of());
-        this.maxDepth = maxDepth;
+        //TODO determine if this was needed.
+//        this.maxDepth = maxDepth;
         this.jumpChance = jumpChance;
         this.pokemob = pokemob;
     }
@@ -36,11 +36,8 @@ public class SwimTask extends RootTask<MobEntity>
     @Override
     protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
     {
-        float d = this.maxDepth;
-        final float h = owner.getHeight();
-        if (h < 1) d *= h;
         if (this.pokemob != null && this.pokemob.swims()) return false;
-        return owner.isInWater() && owner.getSubmergedHeight() > d || owner.isInLava();
+        return owner.canSwim() || owner.isInLava();
     }
 
     @Override

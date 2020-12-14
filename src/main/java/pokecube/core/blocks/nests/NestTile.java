@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -57,8 +58,8 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     public boolean addForbiddenSpawningCoord()
     {
         final BlockPos pos = this.getPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world.getDimension()
-                .getType().getId(), 16, ForbidReason.NEST);
+        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world, 16,
+                ForbidReason.NEST);
     }
 
     public void addResident(final IPokemob resident)
@@ -89,9 +90,9 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void read(final CompoundNBT nbt)
+    public void read(final BlockState state, final CompoundNBT nbt)
     {
-        super.read(nbt);
+        super.read(state, nbt);
         this.spawns.clear();
         if (nbt.contains("spawns"))
         {
@@ -115,7 +116,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean removeForbiddenSpawningCoord()
     {
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world.getDimension().getType().getId());
+        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world);
     }
 
     public void removeResident(final IPokemob resident)

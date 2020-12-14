@@ -17,7 +17,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -31,9 +31,9 @@ public class PacketGui extends Packet
     {
         private static BlockRayTraceResult fromNBT(final PlayerEntity player, final CompoundNBT nbt)
         {
-            final Vec3d origin = player.getEyePosition(1);
-            final Vec3d dir = player.getLookVec();
-            final Vec3d end = origin.add(dir.scale(4));
+            final Vector3d origin = player.getEyePosition(1);
+            final Vector3d dir = player.getLookVec();
+            final Vector3d end = origin.add(dir.scale(4));
             final RayTraceContext context = new RayTraceContext(origin, end, BlockMode.OUTLINE, FluidMode.NONE, player);
             return player.world.rayTraceBlocks(context);
         }

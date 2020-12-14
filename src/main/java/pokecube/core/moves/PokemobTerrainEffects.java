@@ -11,7 +11,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -19,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -246,7 +246,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                         WeatherEffectType.SAND.getIndex()).getMob()), damage);
             }
 
-            if (this.effects.containsKey(TerrainEffectType.GRASS.getIndex()) && entity.onGround)
+            if (this.effects.containsKey(TerrainEffectType.GRASS.getIndex()) && entity.isOnGround())
             {
                 final float thisHP = entity.getHealth();
                 final float thisMaxHP = entity.getMaxHealth();
@@ -433,7 +433,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
             final IVertexBuilder builder = buffer.getBuffer(effectType);
             final Matrix4f pos = mat.getLast().getMatrix();
 
-            // FIXME figure out the offsets for this
             mat.push();
 
             if (this.effects.containsKey(WeatherEffectType.RAIN.getIndex())) this.renderEffect(builder, pos, origin,

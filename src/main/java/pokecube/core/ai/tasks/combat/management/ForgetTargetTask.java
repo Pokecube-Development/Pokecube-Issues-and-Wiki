@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
@@ -25,6 +26,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.moves.Battle;
 
 public class ForgetTargetTask extends CombatTask
 {
@@ -239,10 +241,10 @@ public class ForgetTargetTask extends CombatTask
             {
                 // Send deagress message and put mob on cooldown.
                 final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
-                        .getDisplayName().getFormattedText());
+                        .getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message);
+                    this.entityTarget.sendMessage(message, Util.DUMMY_UUID);
                 }
                 catch (final Exception e)
                 {
@@ -257,10 +259,10 @@ public class ForgetTargetTask extends CombatTask
             {
                 // Send deagress message and put mob on cooldown.
                 final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
-                        .getDisplayName().getFormattedText());
+                        .getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message);
+                    this.entityTarget.sendMessage(message, Util.DUMMY_UUID);
                 }
                 catch (final Exception e)
                 {
@@ -291,9 +293,10 @@ public class ForgetTargetTask extends CombatTask
         return this.entityTarget != null;
     }
 
-    private void endBattle(){
-        final Battle battle = Battle.battles.get(this.entity);
-        if(battle != null) battle.end();
+    private void endBattle()
+    {
+        final Battle battle = Battle.getBattle(this.entity);
+        if (battle != null) battle.removeFromBattle(this.entity);
         this.pokemob.getTargetFinder().clear();
         this.pokemob.onSetTarget(null, true);
         BrainUtils.deagro(this.entity);

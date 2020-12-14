@@ -24,3 +24,4 @@ run
 *.blend1
 
 src/generated/*
+logs/*

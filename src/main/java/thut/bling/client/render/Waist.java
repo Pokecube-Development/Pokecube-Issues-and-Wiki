@@ -25,8 +25,8 @@ public class Waist
         if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS).isEmpty()) s = 0.465f;
         final Vector3f dr = new Vector3f(dx, dy, dz);
         final Vector3f ds = new Vector3f(s, s, s);
-        mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
-        mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+        mat.rotate(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+        mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
         Util.renderStandardModelWithGem(mat, buff, stack, "main", "gem", model, textures, dr, ds, brightness, overlay);
     }
 }

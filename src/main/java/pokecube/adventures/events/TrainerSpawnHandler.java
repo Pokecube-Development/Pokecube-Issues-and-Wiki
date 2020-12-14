@@ -10,8 +10,6 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
@@ -26,7 +24,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
@@ -42,7 +40,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
@@ -134,8 +132,8 @@ public class TrainerSpawnHandler
         if (ttype == null) return null;
         final int level = SpawnHandler.getSpawnLevel(w, v, Database.getEntry(1));
         final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w).setType(ttype).setLevel(level);
-        trainer.aiStates.setAIState(IHasNPCAIStates.MATES, true);
-        trainer.aiStates.setAIState(IHasNPCAIStates.TRADES, true);
+        trainer.aiStates.setAIState(AIState.MATES, true);
+        trainer.aiStates.setAIState(AIState.TRADES, true);
         return trainer;
     }
 
@@ -189,17 +187,15 @@ public class TrainerSpawnHandler
         if (v.y <= 0) v.y = v.getMaxY(w);
         final Vector3 temp = Vector3.getNextSurfacePoint(w, v, Vector3.secondAxisNeg, 20);
         v = temp != null ? temp.offset(Direction.UP) : v;
-        if (v.y <= 0 || v.y >= w.getActualHeight()) return;
+        if (v.y <= 0 || v.y >= w.getHeight()) return;
 
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
 
         final int count = TrainerTracker.countTrainers(w, v, PokecubeAdv.config.trainerBox);
         if (count < Config.instance.trainerDensity)
         {
-            final BlockState here = v.getBlockState(w);
             final Vector3 u = v.add(0, -1, 0);
-            final BlockState down = u.getBlockState(w);
-            if (here.isAir(w, v.getPos()) && down.isAir(w, u.getPos())) return;
+            if (w.isAirBlock(v.getPos()) && w.isAirBlock(u.getPos())) return;
 
             final long time = System.nanoTime();
             final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
@@ -220,8 +216,8 @@ public class TrainerSpawnHandler
                     || WorldEntitySpawner.canCreatureTypeSpawnAtLocation(PlacementType.IN_WATER, w, v.getPos(), t
                             .getType()))) return;
 
-            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getPosX(), (int) t.getPosY(),
-                    (int) t.getPosZ()))
+            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getPosX(), (int) t
+                    .getPosY(), (int) t.getPosZ()))
             {
                 w.addEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
@@ -260,15 +256,13 @@ public class TrainerSpawnHandler
         // Here we process custom options for trainers or leaders in structures.
         if (function.startsWith("trainer") || (leader = function.startsWith("leader")))
         {
-            // Set it to air so mob can spawn.
-            event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
-            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.world.getWorld())
-                    : TrainerNpc.TYPE.create(event.world.getWorld());
+            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.worldActual)
+                    : TrainerNpc.TYPE.create(event.worldActual);
             mob.enablePersistence();
             mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
-            mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
-                    (ILivingEntityData) null, (CompoundNBT) null);
+            mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(event.pos),
+                    SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
             JsonObject thing = new JsonObject();
             if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
             {
@@ -280,17 +274,17 @@ public class TrainerSpawnHandler
                 PokecubeCore.LOGGER.error("Error parsing " + function, e);
             }
             // We apply it regardless, as this initializes defaults.
-            TrainerSpawnHandler.applyFunction(event.world, mob, thing, leader);
-            PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
-            if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
+            TrainerSpawnHandler.applyFunction(event.worldActual, mob, thing, leader);
+            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
+            if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.worldActual, SpawnReason.STRUCTURE)))
             {
-                event.world.addEntity(mob);
+                event.worldBlocks.addEntity(mob);
                 event.setResult(Result.ALLOW);
             }
         }
     }
 
-    private static void applyFunction(final IWorld world, final TrainerNpc npc, final JsonObject thing,
+    private static void applyFunction(final World world, final TrainerNpc npc, final JsonObject thing,
             final boolean leader)
     {
         // Apply and settings common to pokecube core.
@@ -298,8 +292,9 @@ public class TrainerSpawnHandler
 
         // Then apply trainer specific stuff.
         int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(npc), Database.missingno);
-        if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
         if (thing.has("level")) level = thing.get("level").getAsInt();
+        // This is somewhat deprecated in favour of the "type" tag for npcs, but
+        // it will work here as well.
         if (thing.has("trainerType"))
         {
             final TypeTrainer type = TypeTrainer.typeMap.get(thing.get("trainerType").getAsString());

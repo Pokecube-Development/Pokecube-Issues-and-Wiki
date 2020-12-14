@@ -6,36 +6,26 @@ import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.events.MeteorEvent;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.worldgen.dimension.ModDimensions;
 
 public class ForgeEventHandlers
 {
     private static final ResourceLocation ZMOVECAP = new ResourceLocation("pokecube_legends:zmove_check");
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onDimensionRegistry(final RegisterDimensionsEvent event)
     {
-        // Ultra Space
-        ModDimensions.DIMENSION_TYPE_US = DimensionManager.registerOrGetDimension(ModDimensions.DIMENSION_ULTRASPACE,
-                ModDimensions.DIMENSION_U, null, false);
-        if (ModDimensions.DIMENSION_TYPE_US.getRegistryName() == null) ModDimensions.DIMENSION_TYPE_US.setRegistryName(
-                ModDimensions.DIMENSION_ULTRASPACE);
-
-        // Distortic World
-        ModDimensions.DIMENSION_TYPE_DW = DimensionManager.registerOrGetDimension(ModDimensions.DIMENSION_DISTORTIC,
-                ModDimensions.DIMENSION_D, null, false);
-        if (ModDimensions.DIMENSION_TYPE_DW.getRegistryName() == null) ModDimensions.DIMENSION_TYPE_DW.setRegistryName(
-                ModDimensions.DIMENSION_DISTORTIC);
-    }
+        DimensionInit.DIMENSION_TYPE = DimensionManager.registerOrGetDimension(DimensionInit.DIMENSION_ID,
+                DimensionInit.DIMENSION, null, false);
+        if (DimensionInit.DIMENSION_TYPE.getRegistryName() == null) DimensionInit.DIMENSION_TYPE.setRegistryName(
+                DimensionInit.DIMENSION_ID);
+    }*/
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void capabilityEntities(final AttachCapabilitiesEvent<Entity> event)

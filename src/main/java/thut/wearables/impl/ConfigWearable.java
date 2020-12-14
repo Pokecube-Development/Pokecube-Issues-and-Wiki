@@ -5,7 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.PlayerContainer;

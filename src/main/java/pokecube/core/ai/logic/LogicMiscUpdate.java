@@ -15,7 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -91,7 +90,7 @@ public class LogicMiscUpdate extends LogicBase
         // check dynamax timer for cooldown.
         if (this.pokemob.getCombatState(CombatStates.DYNAMAX))
         {
-            final Long time = this.pokemob.getEntity().getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+            final Long time = this.pokemob.getEntity().getServer().getWorld(World.OVERWORLD).getGameTime();
             if (this.dynatime == -1) this.dynatime = this.pokemob.getEntity().getPersistentData().getLong(
                     "pokecube:dynatime");
             if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)

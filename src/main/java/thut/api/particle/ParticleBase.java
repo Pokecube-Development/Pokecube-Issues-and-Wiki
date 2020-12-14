@@ -3,14 +3,15 @@ package thut.api.particle;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.item.DyeColor;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -20,29 +21,32 @@ import thut.core.common.ThutCore;
 
 public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, IParticleData
 {
+    @SuppressWarnings("deprecation")
     private static final IParticleData.IDeserializer<ParticleBase> DESERIALIZER = new IParticleData.IDeserializer<ParticleBase>()
-                                                                                {
-                                                                                    @Override
-                                                                                    public ParticleBase deserialize(
-                                                                                            final ParticleType<ParticleBase> particleTypeIn,
-                                                                                            final StringReader reader)
-                                                                                            throws CommandSyntaxException
-                                                                                    {
-                                                                                        return ((ParticleBase) particleTypeIn)
-                                                                                                .read(reader);
-                                                                                    }
+    {
+        @Override
+        public ParticleBase deserialize(
+                final ParticleType<ParticleBase> particleTypeIn,
+                final StringReader reader)
+                throws CommandSyntaxException
+        {
+            return ((ParticleBase) particleTypeIn)
+                    .read(reader);
+        }
 
-                                                                                    @Override
-                                                                                    public ParticleBase read(
-                                                                                            final ParticleType<ParticleBase> particleTypeIn,
-                                                                                            final PacketBuffer buffer)
-                                                                                    {
-                                                                                        return ((ParticleBase) particleTypeIn)
-                                                                                                .read(buffer);
-                                                                                    }
-                                                                                };
-    public static ResourceLocation                                 TEXTUREMAP   = new ResourceLocation(ThutCore.MODID,
-            "textures/particles.png");
+        @Override
+        public ParticleBase read(
+                final ParticleType<ParticleBase> particleTypeIn,
+                final PacketBuffer buffer)
+        {
+            return ((ParticleBase) particleTypeIn)
+                    .read(buffer);
+        }
+    };
+
+    public static ResourceLocation TEXTUREMAP = new ResourceLocation(ThutCore.MODID, "textures/particles.png");
+
+    private final Codec<ParticleBase> codec = Codec.unit(this);
 
     public int     duration  = 10;
     public int     lifetime  = 10;
@@ -120,18 +124,18 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
     protected void render(final IVertexBuilder buffer, final Quaternion quaternion, final Vector3f offset)
     {
-        final net.minecraft.client.renderer.Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F).toMC();
+        final net.minecraft.util.math.vector.Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F).toMC();
         vector3f1.transform(quaternion);
-        final net.minecraft.client.renderer.Vector3f[] verts = new net.minecraft.client.renderer.Vector3f[] {
-                new net.minecraft.client.renderer.Vector3f(-1.0F, -1.0F, 0.0F),
-                new net.minecraft.client.renderer.Vector3f(-1.0F, 1.0F, 0.0F),
-                new net.minecraft.client.renderer.Vector3f(1.0F, 1.0F, 0.0F),
-                new net.minecraft.client.renderer.Vector3f(1.0F, -1.0F, 0.0F) };
+        final net.minecraft.util.math.vector.Vector3f[] verts = new net.minecraft.util.math.vector.Vector3f[] {
+                new net.minecraft.util.math.vector.Vector3f(-1.0F, -1.0F, 0.0F),
+                new net.minecraft.util.math.vector.Vector3f(-1.0F, 1.0F, 0.0F),
+                new net.minecraft.util.math.vector.Vector3f(1.0F, 1.0F, 0.0F),
+                new net.minecraft.util.math.vector.Vector3f(1.0F, -1.0F, 0.0F) };
         final float f4 = this.size;
 
         for (int i = 0; i < 4; ++i)
         {
-            final net.minecraft.client.renderer.Vector3f vector3f = verts[i];
+            final net.minecraft.util.math.vector.Vector3f vector3f = verts[i];
             vector3f.transform(quaternion);
             vector3f.mul(f4);
             vector3f.add(offset.x, offset.y, offset.z);
@@ -147,8 +151,8 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
         final int num = this.getDuration() / this.animSpeed % this.tex.length;
         final int u = this.tex[num][0], v = this.tex[num][1];
-        float u1 = u * 1f / 16f, v1 = v * 1f / 16f;
-        float u2 = (u + 1) * 1f / 16f, v2 = (v + 1) * 1f / 16f;
+        final float u1 = u * 1f / 16f, v1 = v * 1f / 16f;
+        final float u2 = (u + 1) * 1f / 16f, v2 = (v + 1) * 1f / 16f;
 
         buffer.pos(verts[0].getX(), verts[0].getY(), verts[0].getZ()).color(r, g, b, a).tex(u1, v2).lightmap(j)
                 .endVertex();
@@ -255,5 +259,11 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         buffer.writeInt(this.tex.length);
         for (final int[] element : this.tex)
             buffer.writeVarIntArray(element);
+    }
+
+    @Override
+    public Codec<ParticleBase> func_230522_e_()
+    {
+        return this.codec;
     }
 }

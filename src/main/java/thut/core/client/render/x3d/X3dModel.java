@@ -15,16 +15,17 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Quaternion;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationHelper;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
@@ -421,9 +422,18 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         final HeadInfo info = this.getHeadInfo();
 
         parent.resetToInit();
-        final boolean anim = renderer.getAnimations().containsKey(currentPhase);
-        if (anim) AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent.getName(),
-                parent, partialTick, limbSwing);
+        boolean anim = renderer.getAnimations().containsKey(currentPhase);
+        final List<Animation> anims = Lists.newArrayList();
+
+        final IAnimationHolder animHolder = parent.getAnimationHolder();
+        if (animHolder != null)
+        {
+            anims.addAll(animHolder.getPlaying());
+            anim = !anims.isEmpty();
+        }
+        else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
+
+        if (anim) AnimationHelper.doAnimation(anims, entity, parent.getName(), parent, partialTick, limbSwing);
         if (info != null && this.isHead(parent.getName()))
         {
             float ang;

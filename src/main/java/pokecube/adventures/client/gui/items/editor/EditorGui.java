@@ -3,8 +3,10 @@ package pokecube.adventures.client.gui.items.editor;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -22,9 +24,7 @@ import pokecube.adventures.client.gui.items.editor.pages.LivePokemob;
 import pokecube.adventures.client.gui.items.editor.pages.Messages;
 import pokecube.adventures.client.gui.items.editor.pages.Pokemob;
 import pokecube.adventures.client.gui.items.editor.pages.Rewards;
-import pokecube.adventures.client.gui.items.editor.pages.Routes;
 import pokecube.adventures.client.gui.items.editor.pages.Spawn;
-import pokecube.adventures.client.gui.items.editor.pages.Trades;
 import pokecube.adventures.client.gui.items.editor.pages.Trainer;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.core.PokecubeCore;
@@ -45,12 +45,12 @@ public class EditorGui extends Screen
         }
 
         @Override
-        public void render(final int mouseX, final int mouseY, final float partialTicks)
+        public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
         {
             final int x = (this.parent.width - 160) / 2 + 80;
             final int y = (this.parent.height - 160) / 2 + 70;
-            this.drawCenteredString(this.font, I18n.format("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
-            super.render(mouseX, mouseY, partialTicks);
+            AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
+            super.render(mat, mouseX, mouseY, partialTicks);
         }
 
     }
@@ -68,8 +68,6 @@ public class EditorGui extends Screen
         EditorGui.PAGELIST.add(Messages.class);
         EditorGui.PAGELIST.add(Pokemob.class);
         EditorGui.PAGELIST.add(Rewards.class);
-        EditorGui.PAGELIST.add(Routes.class);
-        EditorGui.PAGELIST.add(Trades.class);
     }
 
     public static int lastPage = 0;
@@ -115,7 +113,10 @@ public class EditorGui extends Screen
     @Override
     public void init(final Minecraft mc, final int width, final int height)
     {
+        this.children.clear();
+        this.buttons.clear();
         super.init(mc, width, height);
+        EditorGui.lastPage = 0;
         // Here we just init current, it will then decide on what to do.
         this.current_page = this.createPage(EditorGui.lastPage);
         this.current_page.init(mc, width, height);
@@ -123,12 +124,18 @@ public class EditorGui extends Screen
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
+
+        this.minecraft.textureManager.bindTexture(new ResourceLocation(PokecubeAdv.MODID,
+                "textures/gui/traineredit.png"));
+        final int j2 = (this.width - 256) / 2;
+        final int k2 = (this.height - 160) / 2;
+        this.blit(mat, j2, k2, 0, 0, 256, 160);
         try
         {
-            this.current_page.render(mouseX, mouseY, partialTicks);
+            this.current_page.render(mat, mouseX, mouseY, partialTicks);
         }
         catch (final Exception e)
         {
@@ -136,14 +143,20 @@ public class EditorGui extends Screen
         }
     }
 
+    boolean resizing = false;
+
     @Override
     public void init()
     {
         super.init();
-        // Here we just init current, it will then decide on what to do.
-        this.current_page = this.createPage(EditorGui.lastPage);
-        this.current_page.init();
-        this.current_page.onPageOpened();
+    }
+
+    @Override
+    public void resize(final Minecraft minecraft, final int width, final int height)
+    {
+        this.resizing = true;
+        super.resize(minecraft, width, height);
+        this.init(this.mc, width, height);
     }
 
     public void changePage(final int newIndex)
@@ -152,10 +165,8 @@ public class EditorGui extends Screen
         if (this.current_page != null) this.current_page.onPageClosed();
         this.index = newIndex;
         this.current_page = this.createPage(this.index);
-        EditorGui.lastPage = this.index;
         this.current_page.init(this.minecraft, this.width, this.height);
         this.current_page.onPageOpened();
-        System.out.println("test");
     }
 
     public Page createPage(final int index)

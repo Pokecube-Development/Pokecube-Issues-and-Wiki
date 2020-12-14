@@ -2,10 +2,13 @@ package pokecube.nbtedit.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
@@ -28,7 +31,7 @@ public class GuiNBTNode extends Button
 
     public GuiNBTNode(final GuiNBTTree tree, final Node<NamedNBT> node, final int x, final int y)
     {
-        super(x, y, 10, Minecraft.getInstance().fontRenderer.FONT_HEIGHT, node.toString(), b -> tree.nodeClicked(
+        super(x, y, 10, Minecraft.getInstance().fontRenderer.FONT_HEIGHT, new StringTextComponent(node.toString()), b -> tree.nodeClicked(
                 (GuiNBTNode) b));
         this.tree = tree;
         this.node = node;
@@ -41,7 +44,7 @@ public class GuiNBTNode extends Button
     @Override
     public boolean clicked(final double x, final double y)
     {
-        if (!shouldDraw(tree.START_Y + 5, tree.bottom)) return false;
+        if (!this.shouldDraw(this.tree.START_Y + 5, this.tree.bottom)) return false;
         return super.clicked(x, y);
     }
 
@@ -67,9 +70,9 @@ public class GuiNBTNode extends Button
     }
 
     @Override
-    public void render(final int mx, final int my, final float m)
+    public void render(final MatrixStack mat, final int mx, final int my, final float m)
     {
-        if (!shouldDraw(tree.START_Y + 5, tree.bottom)) return;
+        if (!this.shouldDraw(this.tree.START_Y + 5, this.tree.bottom)) return;
 
         this.x2 = mx;
         this.y2 = my;
@@ -85,17 +88,17 @@ public class GuiNBTNode extends Button
         if (selected)
         {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            AbstractGui.fill(x + 11, this.y, x + this.width, this.y + this.height, Integer.MIN_VALUE);
+            AbstractGui.fill(mat, x + 11, this.y, x + this.width, this.y + this.height, Integer.MIN_VALUE);
         }
         if (this.node.hasChildren())
         {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.blit(x - 9, this.y, this.node.shouldDrawChildren() ? 9 : 0, chHover ? this.height : 0, 9, this.height);
+            this.blit(mat, x - 9, this.y, this.node.shouldDrawChildren() ? 9 : 0, chHover ? this.height : 0, 9, this.height);
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.blit(x + 1, this.y, (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
-        this.drawString(this.mc.fontRenderer, this.displayString, x + 11, this.y + (this.height - 8) / 2, color);
+        this.blit(mat, x + 1, this.y, (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
+        AbstractGui.drawString(mat, this.mc.fontRenderer, this.displayString, x + 11, this.y + (this.height - 8) / 2, color);
     }
 
     public void shift(final int dy)

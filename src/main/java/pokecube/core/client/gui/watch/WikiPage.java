@@ -8,21 +8,25 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.RenderComponentsUtil;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.client.gui.watch.util.ListPage;
@@ -31,6 +35,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile
 import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile.Page;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
+import pokecube.core.interfaces.PokecubeMod;
 
 public class WikiPage extends ListPage<LineEntry>
 {
@@ -46,22 +51,30 @@ public class WikiPage extends ListPage<LineEntry>
         }
     }
 
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_wiki.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_wiki_nm.png");
+
     private int                        index = 0;
     private final Map<String, Integer> refs  = Maps.newHashMap();
 
     public WikiPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.title.wiki"), watch);
+        super(new TranslationTextComponent("pokewatch.title.wiki"), watch, WikiPage.TEX_DM, WikiPage.TEX_NM);
     }
 
     @Override
-    public boolean handleComponentClicked(final ITextComponent component)
+    public boolean handleComponentClicked(final Style component)
     {
         if (component != null)
         {
-            ClickEvent clickevent = component.getStyle().getClickEvent();
-            if (clickevent == null) for (final ITextComponent sib : component.getSiblings())
-                if (sib != null && (clickevent = sib.getStyle().getClickEvent()) != null) break;
+            final ClickEvent clickevent = component.getClickEvent();
+            // TODO see if we need a sub style somehow?
+            // if (clickevent == null) for (final ITextComponent sib :
+            // component.getSiblings())
+            // if (sib != null && (clickevent = sib.getStyle().getClickEvent())
+            // != null) break;
             final int max = this.list.getMaxScroll();
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {
@@ -107,28 +120,33 @@ public class WikiPage extends ListPage<LineEntry>
         super.initList();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final String next = ">";
-        final String prev = "<";
-        this.addButton(new Button(x + 64, y - 70, 12, 12, next, b ->
+        final ITextComponent next = new StringTextComponent(">");
+        final ITextComponent prev = new StringTextComponent("<");
+        final TexButton nextBtn = this.addButton(new TexButton(x + 94, y - 70, 12, 12, next, b ->
         {
             this.index++;
             this.setList();
-        }));
-        this.addButton(new Button(x - 76, y - 70, 12, 12, prev, b ->
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        final TexButton prevBtn = this.addButton(new TexButton(x - 94, y - 70, 12, 12, prev, b ->
         {
             this.index--;
             this.setList();
-        }));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
         this.setList();
+
+        nextBtn.setFGColor(0x444444);
+        prevBtn.setFGColor(0x444444);
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void renderBackground(final MatrixStack matrixStack)
     {
-        final int offsetX = (this.watch.width - 160) / 2 + 10;
-        final int offsetY = (this.watch.height - 160) / 2 + 20;
-        AbstractGui.fill(offsetX - 2, offsetY - 1, offsetX + 132, offsetY + 122, 0xFFFDF8EC);
-        super.render(mouseX, mouseY, partialTicks);
+        super.renderBackground(matrixStack);
+
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+        AbstractGui.fill(matrixStack, offsetX + 55, offsetY + 30, offsetX + 200, offsetY + 120, 0xFFFDF8EC);
+
     }
 
     private void setList()
@@ -139,13 +157,13 @@ public class WikiPage extends ListPage<LineEntry>
             if (reward instanceof FreeTranslatedReward) books.add((FreeTranslatedReward) reward);
 
         books.sort((o1, o2) -> o1.key.compareTo(o2.key));
-        final int offsetX = (this.watch.width - 160) / 2 + 20;
-        final int offsetY = (this.watch.height - 160) / 2 + 20;
-        final int height = 120;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 70;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+        final int height = 85; // 100
 
         if (this.list != null) this.children.remove(this.list);
 
-        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.FONT_HEIGHT + 2, offsetX, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.FONT_HEIGHT + 2, offsetX - 5, offsetY);
         if (books.isEmpty()) return;
         if (this.index < 0) this.index = books.size() - 1;
         if (this.index >= books.size()) this.index = 0;
@@ -154,13 +172,13 @@ public class WikiPage extends ListPage<LineEntry>
         final IClickListener listener = new IClickListener()
         {
             @Override
-            public boolean handleClick(final ITextComponent component)
+            public boolean handleClick(final Style component)
             {
                 return thisObj.handleComponentClicked(component);
             }
 
             @Override
-            public void handleHovor(final ITextComponent component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
             }
         };
@@ -175,11 +193,12 @@ public class WikiPage extends ListPage<LineEntry>
             ITextComponent line;
             for (int i = 0; i < bookPages.size(); i++)
             {
-                final ITextComponent page = ITextComponent.Serializer.fromJsonLenient(bookPages.getString(i));
-                final List<ITextComponent> list = RenderComponentsUtil.splitText(page, 120, this.font, true, true);
-                for (int j = 0; j < list.size(); j++)
+                final IFormattableTextComponent page = ITextComponent.Serializer.getComponentFromJsonLenient(bookPages
+                        .getString(i));
+                final List<IFormattableTextComponent> list = ListHelper.splitText(page, 120, this.font, false);
+                for (final IFormattableTextComponent element : list)
                 {
-                    line = list.get(j);
+                    line = element;
                     final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i).setClickListner(
                             listener);
                     this.list.addEntry(wikiline);
@@ -198,7 +217,7 @@ public class WikiPage extends ListPage<LineEntry>
             int pagenum = 0;
             try
             {
-                ITextComponent entry;
+                IFormattableTextComponent entry;
                 for (final Page page : pages.pages)
                 {
                     for (String line : page.lines)
@@ -224,30 +243,28 @@ public class WikiPage extends ListPage<LineEntry>
                             ref_val = ref_val.replace("{_ref_:", "").replace("}", "");
                         }
 
-                        final ITextComponent comp = new StringTextComponent(line);
-                        final List<ITextComponent> list = RenderComponentsUtil.splitText(comp, 120, this.font, true,
-                                true);
-                        for (int j = 0; j < list.size(); j++)
+                        final IFormattableTextComponent comp = new StringTextComponent(line);
+                        final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+                        for (final IFormattableTextComponent element : list)
                         {
-                            entry = list.get(j);
-                            String text = entry.getFormattedText();
-                            final Style style = entry.getStyle();
+                            entry = element;
+                            String text = entry.getString();
+                            Style style = entry.getStyle();
                             // We have a link
                             if (text.contains(linkin))
                             {
                                 text = text.replace(linkin, "");
                                 entry = new StringTextComponent(text);
-                                style.setClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
-                                entry.setStyle(style);
+                                style = style.setClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
                             }
                             // We have a ref
                             if (text.contains(refin))
                             {
                                 text = text.replace(refin, "");
                                 entry = new StringTextComponent(text);
-                                entry.setStyle(style);
                                 this.refs.put(ref_val, this.list.getSize());
                             }
+                            entry.setStyle(style);
                             final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, entry, pagenum)
                                     .setClickListner(listener);
                             this.list.addEntry(wikiline);
@@ -261,7 +278,6 @@ public class WikiPage extends ListPage<LineEntry>
             }
             catch (final Exception e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

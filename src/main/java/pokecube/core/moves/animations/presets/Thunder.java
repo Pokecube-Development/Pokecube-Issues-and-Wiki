@@ -1,5 +1,6 @@
 package pokecube.core.moves.animations.presets;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -33,9 +34,9 @@ public class Thunder extends MoveAnimationBase
     {
         final net.minecraft.client.world.ClientWorld theRealWorld = (net.minecraft.client.world.ClientWorld) info.attacker
                 .getEntityWorld();
-        final LightningBoltEntity lightning = new LightningBoltEntity(theRealWorld, info.target.x, info.target.y,
-                info.target.z, false);
+        final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, theRealWorld);
+        info.target.moveEntity(lightning);
+        lightning.setEffectOnly(false);
         theRealWorld.addEntity(lightning);
-        theRealWorld.addLightning(lightning);
     }
 }

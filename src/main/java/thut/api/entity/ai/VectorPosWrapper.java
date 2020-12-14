@@ -3,13 +3,13 @@ package thut.api.entity.ai;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.IPosWrapper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import thut.api.maths.Vector3;
 
 public class VectorPosWrapper implements IPosWrapper
 {
     final BlockPos bpos;
-    final Vec3d    vpos;
+    final Vector3d vpos;
     final Vector3  pos;
 
     public VectorPosWrapper(final Vector3 pos)
@@ -26,7 +26,7 @@ public class VectorPosWrapper implements IPosWrapper
     }
 
     @Override
-    public Vec3d getPos()
+    public Vector3d getPos()
     {
         return this.vpos;
     }

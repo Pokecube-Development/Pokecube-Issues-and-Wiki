@@ -7,6 +7,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
@@ -22,7 +23,7 @@ public class Reset
         PokecubeSerializer.getInstance().setHasStarter(target, false);
         EventsHandler.sendInitInfo(target);
         source.sendFeedback(new TranslationTextComponent("pokecube.command.reset", target.getDisplayName()), true);
-        target.sendMessage(new TranslationTextComponent("pokecube.command.canchoose"));
+        target.sendMessage(new TranslationTextComponent("pokecube.command.canchoose"), Util.DUMMY_UUID);
         return 0;
     }
 

@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.items.berries.BerryManager;
@@ -19,12 +18,6 @@ public class BerryLeaf extends LeavesBlock
     {
         super(properties);
         this.index = index;
-    }
-
-    @Override
-    public boolean isFoliage(final BlockState state, final IWorldReader world, final BlockPos pos)
-    {
-        return true;
     }
 
     @Override

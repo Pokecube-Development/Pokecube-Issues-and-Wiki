@@ -10,7 +10,6 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -20,6 +19,7 @@ import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
+import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
@@ -30,10 +30,8 @@ import thut.api.entity.genetics.IMobGenetics;
 public class RecipeExtract extends PoweredRecipe
 {
 
-    public static int                                    ENERGYCOST = 10000;
-    public static final IRecipeSerializer<RecipeExtract> SERIALIZER = IRecipeSerializer.register(
-            "pokecube_adventures:extracting", new SpecialRecipeSerializer<>(RecipeExtract::new));
-    public static Function<ItemStack, Integer>           ENERGYNEED = (s) -> RecipeExtract.ENERGYCOST;
+    public static int                          ENERGYCOST = 10000;
+    public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeExtract.ENERGYCOST;
 
     public RecipeExtract(final ResourceLocation location)
     {
@@ -125,7 +123,7 @@ public class RecipeExtract extends PoweredRecipe
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return RecipeExtract.SERIALIZER;
+        return RecipePokeAdv.EXTRACT.get();
     }
 
     @Override

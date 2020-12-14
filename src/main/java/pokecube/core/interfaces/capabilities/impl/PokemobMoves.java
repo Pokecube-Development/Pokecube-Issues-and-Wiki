@@ -56,7 +56,7 @@ public abstract class PokemobMoves extends PokemobSexed
         // If the move is somehow null, report it and return early.
         if (move == null || move.move == null)
         {
-            PokecubeCore.LOGGER.error(this.getDisplayName().getFormattedText() + " Has Used Unregistered Move: "
+            PokecubeCore.LOGGER.error(this.getDisplayName().getString() + " Has Used Unregistered Move: "
                     + attack + " " + index);
             return;
         }
@@ -223,7 +223,7 @@ public abstract class PokemobMoves extends PokemobSexed
     @Override
     public boolean isOnGround()
     {
-        return this.getEntity().onGround;
+        return this.getEntity().isOnGround();
     }
 
     @Override

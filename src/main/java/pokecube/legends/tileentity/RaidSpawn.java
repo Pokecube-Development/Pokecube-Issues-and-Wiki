@@ -44,7 +44,7 @@ public class RaidSpawn extends MaxTile
     public List<BeamSegment> getBeamSegments()
     {
         final BlockState blocks = this.world.getBlockState(this.getPos());
-        if (!blocks.has(RaidSpawnBlock.ACTIVE)) return RaidSpawn.empty;
+        if (!blocks.hasProperty(RaidSpawnBlock.ACTIVE)) return RaidSpawn.empty;
         final State state = blocks.get(RaidSpawnBlock.ACTIVE);
         switch (state)
         {

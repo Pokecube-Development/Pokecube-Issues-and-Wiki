@@ -136,8 +136,8 @@ public class ClonerHelper
             final ListNBT pages = (ListNBT) stack.getTag().get("pages");
             try
             {
-                final ITextComponent comp = ITextComponent.Serializer.fromJson(pages.getString(0));
-                for (final String line : comp.getFormattedText().split("\n"))
+                final ITextComponent comp = ITextComponent.Serializer.getComponentFromJson(pages.getString(0));
+                for (final String line : comp.getString().split("\n"))
                 {
                     if (line.equalsIgnoreCase("ALL"))
                     {
@@ -159,14 +159,14 @@ public class ClonerHelper
     public static int getIndex(final ItemStack stack)
     {
         if (stack.isEmpty() || !stack.hasTag()) return -1;
-        if (!stack.getDisplayName().getFormattedText().startsWith("Selector")) return -1;
+        if (!stack.getDisplayName().getString().startsWith("Selector")) return -1;
         if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListNBT)
         {
             final ListNBT pages = (ListNBT) stack.getTag().get("pages");
             try
             {
-                final ITextComponent comp = ITextComponent.Serializer.fromJson(pages.getString(0));
-                for (final String line : comp.getFormattedText().split("\n"))
+                final ITextComponent comp = ITextComponent.Serializer.getComponentFromJson(pages.getString(0));
+                for (final String line : comp.getString().split("\n"))
                 {
                     if (line.equalsIgnoreCase("ALL")) return -1;
                     final String[] args = line.split("#");

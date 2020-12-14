@@ -2,7 +2,7 @@ package thut.wearables.client.render.slots;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.Matrix3f;
+import net.minecraft.util.math.vector.Matrix3f;
 
 public class Utils
 {
