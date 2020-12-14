@@ -1,0 +1,17 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "00",
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:stripped_pecha_log"
+    }
+  },
+  "result": {
+    "item": "pokecube:stripped_pecha_wood",
+    "count": 3
+  }
+}

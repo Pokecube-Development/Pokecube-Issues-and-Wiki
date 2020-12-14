@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_trapdoor",
+    "pokecube:leppa_trapdoor",
+    "pokecube:nanab_trapdoor",
+    "pokecube:oran_trapdoor",
+    "pokecube:pecha_trapdoor",
+    "pokecube:sitrus_trapdoor",
+    "pokecube_legends:aged_trapdoor",
+    "pokecube_legends:inverted_trapdoor",
+    "pokecube_legends:temporal_trapdoor"
+  ]
+}

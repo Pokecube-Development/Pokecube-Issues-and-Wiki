@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "pokecube:block/leppa_door_top",
+    "bottom": "pokecube:block/leppa_door_bottom"
+  }
+}

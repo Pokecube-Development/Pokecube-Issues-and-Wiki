@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ultra_log01",
-    "pokecube_legends:ultra_log02",
-    "pokecube_legends:ultra_log03"
+    "#pokecube_legends:aged_logs",
+    "#pokecube_legends:inverted_logs",
+    "#pokecube_legends:temporal_logs"
   ]
 }

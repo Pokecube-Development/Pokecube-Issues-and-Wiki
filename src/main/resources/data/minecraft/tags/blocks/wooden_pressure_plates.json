@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_pressure_plate",
+    "pokecube:leppa_pressure_plate",
+    "pokecube:nanab_pressure_plate",
+    "pokecube:oran_pressure_plate",
+    "pokecube:pecha_pressure_plate",
+    "pokecube:sitrus_pressure_plate",
+    "pokecube_legends:aged_pressure_plate",
+    "pokecube_legends:inverted_pressure_plate",
+    "pokecube_legends:temporal_pressure_plate"
+  ]
+}

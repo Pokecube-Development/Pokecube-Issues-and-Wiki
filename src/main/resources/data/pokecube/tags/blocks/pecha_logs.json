@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:log_pecha",
+    "pokecube:pecha_wood",
+    "pokecube:stripped_pecha_log",
+    "pokecube:stripped_pecha_wood"
+  ]
+}
