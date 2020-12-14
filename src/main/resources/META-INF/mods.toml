@@ -82,6 +82,15 @@ license="All rights reserved"
     Legendary Spawning mechanics for Pokécube..
     '''
     
+[[mods]]
+    modId="pokecube_pokeplayer"
+    version="${file.jarVersion}"
+    displayName="Pokécube Mystery Dungeon"
+    authors="NelkGames, Thutmose"
+    description='''
+    Pokémon Mystery Dungeon mechanics for Pokécube..
+    '''
+    
 [[dependencies.thutcore]]
     modId="minecraft"
     mandatory=true
