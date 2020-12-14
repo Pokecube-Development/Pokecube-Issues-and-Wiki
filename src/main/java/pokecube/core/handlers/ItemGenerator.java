@@ -9,12 +9,14 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.LogBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
@@ -22,7 +24,6 @@ import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
-import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.AxeItem;
@@ -141,25 +142,29 @@ public class ItemGenerator
             registry.register(block);
 
             // Logs
-            block = Blocks.createLogBlock(ItemGenerator.berryWoods.get(name), MaterialColor.WOOD);
+            block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
+                    MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "log_" + name);
             ItemGenerator.logs.put(name, block);
             registry.register(block);
 
             // Woods
-            block = Blocks.createLogBlock(ItemGenerator.berryWoods.get(name), MaterialColor.WOOD);
+            block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
+                    MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_wood");
             ItemGenerator.woods.put(name, block);
             registry.register(block);
 
             // Stripped Logs
-            block = Blocks.createLogBlock(ItemGenerator.berryWoods.get(name), MaterialColor.WOOD);
+            block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
+                    MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "stripped_" + name + "_log");
             ItemGenerator.stripped_logs.put(name, block);
             registry.register(block);
 
             // Stripped Woods
-            block = Blocks.createLogBlock(ItemGenerator.berryWoods.get(name), MaterialColor.WOOD);
+            block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
+                    MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "stripped_" + name + "_wood");
             ItemGenerator.stripped_woods.put(name, block);
             registry.register(block);
