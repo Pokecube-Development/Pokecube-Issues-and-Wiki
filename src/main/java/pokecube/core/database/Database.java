@@ -856,7 +856,6 @@ public class Database
      */
     public static void postResourcesLoaded()
     {
-        PokedexEntryLoader.postInit();
         Database.loadStarterPack();
         Database.loadRecipes();
         PokedexInspector.init();

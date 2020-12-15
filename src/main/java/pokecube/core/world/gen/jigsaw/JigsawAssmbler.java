@@ -214,7 +214,6 @@ public class JigsawAssmbler
     private void sort(final List<JigsawPiece> list)
     {
         final List<JigsawPiece> needed = Lists.newArrayList();
-        final IWorld world = JigsawAssmbler.getForGen(this.chunkGenerator);
         list.removeIf(p -> !this.validator.test(p));
         list.removeIf(p -> p instanceof CustomJigsawPiece && this.once_added.contains(
                 ((CustomJigsawPiece) p).opts.flag));
@@ -225,6 +224,7 @@ public class JigsawAssmbler
         Collections.shuffle(needed, this.rand);
         for (final JigsawPiece p : needed)
             list.add(0, p);
+        final IWorld world = JigsawAssmbler.getForGen(this.chunkGenerator);
         list.forEach(p ->
         {
             if (p instanceof CustomJigsawPiece)

@@ -169,6 +169,7 @@ public class WorldgenHandler
         public int          height       = 0;
         public int          variance     = 50;
         public int          priority     = 100;
+        public int          spacing      = 4;
         public int          seed         = -1;
         public List<String> needed_once  = Lists.newArrayList();
         public List<String> dimBlacklist = Lists.newArrayList();
@@ -232,7 +233,48 @@ public class WorldgenHandler
 
     public static Map<String, CustomJigsawStructure> structs = Maps.newConcurrentMap();
 
+    private static List<Structure<?>> SORTED_PRIOR_LIST = Lists.newArrayList();
+
+    private static Map<Structure<?>, Integer> SPACENEEDS = Maps.newConcurrentMap();
+
     public static Set<RegistryKey<World>> SOFTBLACKLIST = Sets.newHashSet();
+
+    private static void initSpaceMap()
+    {
+        synchronized (WorldgenHandler.SORTED_PRIOR_LIST)
+        {
+            if (WorldgenHandler.SORTED_PRIOR_LIST.isEmpty())
+            {
+                WorldgenHandler.SORTED_PRIOR_LIST.addAll(Structure.STRUCTURE_DECORATION_STAGE_MAP.keySet());
+                WorldgenHandler.SORTED_PRIOR_LIST.sort((s1, s2) ->
+                {
+                    int p1 = 50;
+                    int p2 = 50;
+                    if (s1 instanceof CustomJigsawStructure) p1 = ((CustomJigsawStructure) s1).priority;
+                    if (s2 instanceof CustomJigsawStructure) p2 = ((CustomJigsawStructure) s2).priority;
+                    return Integer.compare(p1, p2);
+                });
+                WorldgenHandler.SORTED_PRIOR_LIST.forEach(s ->
+                {
+                    int space = 4;
+                    if (s instanceof CustomJigsawStructure) space = ((CustomJigsawStructure) s).spacing;
+                    WorldgenHandler.SPACENEEDS.put(s, space);
+                });
+            }
+        }
+    }
+
+    public static List<Structure<?>> getSortedList()
+    {
+        WorldgenHandler.initSpaceMap();
+        return WorldgenHandler.SORTED_PRIOR_LIST;
+    }
+
+    public static Integer getNeededSpace(final Structure<?> s)
+    {
+        WorldgenHandler.initSpaceMap();
+        return WorldgenHandler.SPACENEEDS.get(s);
+    }
 
     public static WorldgenHandler get(final String modid)
     {
@@ -504,6 +546,8 @@ public class WorldgenHandler
             PokecubeCore.LOGGER.info("Registering Structure: {} for mod {}", structName, this.MODID);
             structure = new CustomJigsawStructure(JigsawConfig.CODEC);
             structure.setRegistryName(new ResourceLocation(structName));
+            structure.priority = struct.priority;
+            structure.spacing = struct.spacing;
             WorldgenHandler.structs.put(structName, structure);
             // Use this instead of event, as it will also populated proper maps.
             event.getRegistry().register(structure);
