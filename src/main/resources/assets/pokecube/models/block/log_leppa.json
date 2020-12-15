@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_column",
     "textures": {
-        "end": "pokecube:block/log_leppa",
-        "side": "pokecube:block/bark_leppa"
+        "end": "pokecube:block/leppa_log_top",
+        "side": "pokecube:block/leppa_log"
     }
 }

@@ -12,7 +12,7 @@
         "group": "pokecube_legends",
         "ingredients": [
           {
-            "item": "pokecube_legends:distortic_log"
+            "tag": "pokecube_legends:distortic_logs"
           }
         ],
         "result": {

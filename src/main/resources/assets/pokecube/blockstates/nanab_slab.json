@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube:block/nanab_slab"
+    },
+    "type=double": {
+      "model": "pokecube:block/plank_nanab"
+    },
+    "type=top": {
+      "model": "pokecube:block/nanab_slab_top"
+    }
+  }
+}

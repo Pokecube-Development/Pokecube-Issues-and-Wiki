@@ -1,0 +1,17 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000",
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:plank_oran"
+    }
+  },
+  "result": {
+    "item": "pokecube:oran_trapdoor",
+    "count": 2
+  }
+}

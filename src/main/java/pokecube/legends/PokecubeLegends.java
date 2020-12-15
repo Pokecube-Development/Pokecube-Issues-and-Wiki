@@ -28,6 +28,7 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -40,6 +41,7 @@ import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
+import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
@@ -126,6 +128,8 @@ public class PokecubeLegends
         DBLoader.trainerDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trainers.json"));
         DBLoader.tradeDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trades.json"));
 
+        modEventBus.addListener(this::loadComplete);
+        
         new WorldgenHandler(Reference.ID, modEventBus);
 
         PokecubeLegends.BLOCKS.register(modEventBus);
@@ -134,6 +138,10 @@ public class PokecubeLegends
 
         BlockInit.init();
         ItemInit.init();
+    }
+
+    private void loadComplete(FMLLoadCompleteEvent event) {
+        BlockInit.strippableBlocks();
     }
 
     @SubscribeEvent

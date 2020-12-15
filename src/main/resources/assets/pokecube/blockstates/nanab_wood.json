@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "pokecube:block/nanab_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "pokecube:block/nanab_wood"
+    },
+    "axis=z": {
+      "model": "pokecube:block/nanab_wood",
+      "x": 90
+    }
+  }
+}

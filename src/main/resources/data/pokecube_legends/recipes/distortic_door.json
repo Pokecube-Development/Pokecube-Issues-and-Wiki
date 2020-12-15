@@ -1,0 +1,21 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "00",
+    "MM",
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:distortic_plank"
+    },
+    "M": {
+      "item": "pokecube_legends:distortic_mirror"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:distortic_door",
+    "count": 3
+  }
+}

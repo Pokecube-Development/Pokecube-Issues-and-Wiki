@@ -1,0 +1,15 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:plank_enigma"
+    }
+  },
+  "result": {
+    "item": "pokecube:enigma_pressure_plate"
+  }
+}
