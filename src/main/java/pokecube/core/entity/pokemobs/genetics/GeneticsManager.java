@@ -19,7 +19,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;
 import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
@@ -103,8 +102,7 @@ public class GeneticsManager
         GeneticsManager.init();
     }
 
-    @SubscribeEvent
-    public static void attachItemCapability(final AttachCapabilitiesEvent<ItemStack> event)
+    public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
     {
         if (ItemList.is(PokecubeItems.POKEMOBEGG, event.getObject()) && !event.getCapabilities().containsKey(
                 GeneticsManager.POKECUBEGENETICS)) event.addCapability(GeneticsManager.POKECUBEGENETICS,

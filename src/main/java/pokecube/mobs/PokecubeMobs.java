@@ -14,13 +14,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -38,6 +40,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.StatsCollector;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterMiscItems;
 import pokecube.core.events.onload.RegisterPokecubes;
@@ -79,7 +82,7 @@ public class PokecubeMobs
         }
 
         @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
+        public static void registerFeatures(final RegistryEvent.Register<Structure<?>> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Mobs Features");
             new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
@@ -87,8 +90,7 @@ public class PokecubeMobs
     }
 
     public static final String MODID = "pokecube_mobs";
-    public static CommonProxy  proxy = DistExecutor.safeRunForDist(
-            () -> ClientProxy::new, () -> CommonProxy::new);
+    public static CommonProxy  proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     Map<PokedexEntry, Integer> genMap = Maps.newHashMap();
 
@@ -104,15 +106,9 @@ public class PokecubeMobs
         DBLoader.tradeDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trades.json"));
 
         XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeMobs.MODID, "database/rewards.json"));
+        final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register setup for proxy
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeMobs.proxy::setup);
-        // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeMobs.proxy::setupClient);
-        // Register the loaded method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeMobs.proxy::loaded);
-        // Just generally register it to event bus.
-        FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeMobs.proxy);
+        new WorldgenHandler(PokecubeMobs.MODID, bus);
 
         MoveRegister.init();
         AbilityRegister.init();
@@ -231,9 +227,8 @@ public class PokecubeMobs
             {
                 if (shuckle.getOwner() != null)
                 {
-                    final String message = "A sweet smell is coming from " + shuckle.getDisplayName()
-                            .getFormattedText();
-                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message));
+                    final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
+                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE));
                 return;
@@ -246,9 +241,9 @@ public class PokecubeMobs
 
                 if (shuckle.getOwner() != null && shuckle.getOwner() instanceof PlayerEntity)
                 {
-                    final String message = "The smell coming from " + shuckle.getDisplayName().getFormattedText()
+                    final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message));
+                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
                 }
                 shuckle.setHeldItem(candy);
                 return;

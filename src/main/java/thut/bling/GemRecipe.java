@@ -1,8 +1,12 @@
 package thut.bling;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
@@ -11,6 +15,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class GemRecipe extends SpecialRecipe
 {
@@ -19,11 +26,21 @@ public class GemRecipe extends SpecialRecipe
 
     public static final ResourceLocation IDTAG = new ResourceLocation("thut_bling:apply_gem");
 
-    public static final IRecipeSerializer<GemRecipe> SERIALIZER = new SpecialRecipeSerializer<>(GemRecipe::new);
+    public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
+            ForgeRegistries.RECIPE_SERIALIZERS, ThutBling.MODID);
+
+    public static final RegistryObject<SpecialRecipeSerializer<GemRecipe>> SERIALIZER = GemRecipe.RECIPE_SERIALIZERS
+            .register("apply_gem", GemRecipe.special(GemRecipe::new));
+
+    private static <T extends IRecipe<?>> Supplier<SpecialRecipeSerializer<T>> special(
+            final Function<ResourceLocation, T> create)
+    {
+        return () -> new SpecialRecipeSerializer<>(create);
+    }
 
     public static boolean is(final ResourceLocation tag, final Item item)
     {
-        final boolean tagged = ItemTags.getCollection().getOrCreate(tag).contains(item);
+        final boolean tagged = ItemTags.getCollection().getTagByID(tag).contains(item);
         return tagged;
     }
 
@@ -133,6 +150,6 @@ public class GemRecipe extends SpecialRecipe
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return GemRecipe.SERIALIZER;
+        return GemRecipe.SERIALIZER.get();
     }
 }

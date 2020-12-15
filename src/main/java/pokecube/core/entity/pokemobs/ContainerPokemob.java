@@ -22,8 +22,9 @@ public class ContainerPokemob extends BaseContainer
     public static final ContainerType<ContainerPokemob> TYPE = new ContainerType<>(
             (IContainerFactory<ContainerPokemob>) ContainerPokemob::new);
 
-    public IInventory   pokemobInv;
-    public IPokemob     pokemob;
+    public final IInventory pokemobInv;
+    public final IPokemob pokemob;
+
     public byte         mode;
     public PacketBuffer data;
     PlayerInventory     playerInv;

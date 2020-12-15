@@ -21,10 +21,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import thut.api.TickHandler;
@@ -50,10 +50,10 @@ public class BlockEntityUpdater
         this.blockEntity = rocket;
         this.theEntity = (Entity) rocket;
 
-        final Vec3d here = this.theEntity.getPositionVec();
+        final Vector3d here = this.theEntity.getPositionVec();
         this.theEntity.setBoundingBox(this.getBoundingBox());
         this.theEntity.setPosition(here.x, here.y, here.z);
-        final Vec3d shifted = this.theEntity.getPositionVec();
+        final Vector3d shifted = this.theEntity.getPositionVec();
         if (here.subtract(shifted).lengthSquared() > 0.25) System.out.println(here.subtract(shifted));
     }
 
@@ -168,8 +168,8 @@ public class BlockEntityUpdater
         if (isPlayer) serverSide = entity instanceof ServerPlayerEntity;
 
         double dx = 0, dz = 0, dy = 0;
-        final Vec3d motion_a = this.theEntity.getMotion();
-        Vec3d motion_b = entity.getMotion();
+        final Vector3d motion_a = this.theEntity.getMotion();
+        Vector3d motion_b = entity.getMotion();
         final AxisAlignedBB boundingBox = entity.getBoundingBox();
         if (isPlayer && serverSide)
         {
@@ -177,9 +177,9 @@ public class BlockEntityUpdater
             dx = player.chasingPosX - player.prevChasingPosX;
             dy = player.chasingPosY - player.prevChasingPosY;
             dz = player.chasingPosZ - player.prevChasingPosZ;
-            motion_b = new Vec3d(dx, dy, dz).scale(0.5);
+            motion_b = new Vector3d(dx, dy, dz).scale(0.5);
         }
-        final Vec3d diffV = motion_a.subtract(motion_b);
+        final Vector3d diffV = motion_a.subtract(motion_b);
         /** Expanded box by velocities to test for collision with. */
         final AxisAlignedBB testBox = boundingBox.expand(diffV.x, diffV.y, diffV.z);// .grow(0.1);
 
@@ -293,21 +293,21 @@ public class BlockEntityUpdater
             motion_b = entity.getMotion();
             if (colY)
             {
-                final Vec3d motion = new Vec3d(0, dy, 0);
+                final Vector3d motion = new Vector3d(0, dy, 0);
                 entity.move(MoverType.SELF, motion);
                 dy = motion_a.y;
             }
             else dy = motion_b.y;
             if (colX)
             {
-                final Vec3d motion = new Vec3d(dx, 0, 0);
+                final Vector3d motion = new Vector3d(dx, 0, 0);
                 entity.move(MoverType.SELF, motion);
                 dx = motion_a.x;
             }
             else dx = 0.9 * motion_b.x;
             if (colZ)
             {
-                final Vec3d motion = new Vec3d(0, 0, dz);
+                final Vector3d motion = new Vector3d(0, 0, dz);
                 entity.move(MoverType.SELF, motion);
                 dz = motion_a.z;
             }
@@ -316,7 +316,7 @@ public class BlockEntityUpdater
 
             if (colY)
             {
-                entity.onGround = true;
+                entity.setOnGround(true);
                 entity.onLivingFall(entity.fallDistance, 0);
                 entity.fallDistance = 0;
             }

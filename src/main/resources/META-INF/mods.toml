@@ -1,6 +1,7 @@
 modLoader="javafml"
 loaderVersion="[31,)"
 issueTrackerURL="https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/issues"
+license="All rights reserved"
 
 [[mods]]
     modId="thutcore"

@@ -8,7 +8,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;

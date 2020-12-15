@@ -9,7 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -123,12 +122,6 @@ public class ThutBling
         }
 
         @SubscribeEvent
-        public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
-        {
-            event.getRegistry().register(GemRecipe.SERIALIZER.setRegistryName(GemRecipe.IDTAG));
-        }
-
-        @SubscribeEvent
         public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event)
         {
             // Register Containers
@@ -150,6 +143,7 @@ public class ThutBling
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutBling.PROXY::setupClient);
         // Register the loaded method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutBling.PROXY::finish);
+        GemRecipe.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 }

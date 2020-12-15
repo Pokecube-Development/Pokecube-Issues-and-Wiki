@@ -1,0 +1,53 @@
+{
+  "scale": 0.2,
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "sky_color": 13525051,
+    "fog_color": 10028293,
+    "water_color": 15790676,
+    "water_fog_color": 13274180,
+    "grass_color": 15629847,
+    "foliage_color": 16732196
+  },
+  "surface_builder": "pokecube_legends:forgotten_plains",
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+     "pokecube_legends:ore_spectrum",
+     "pokecube_legends:ore_cosmic"
+    ],
+    [],
+    [
+    "pokecube_legends:aged_vegetation",
+    "pokecube_legends:aged_flower"
+    ],
+    []
+  ],
+  "starts": [],
+  "spawners": {},
+  "spawn_costs": {},
+  "player_spawn_friendly": true,
+  "precipitation": "rain",
+  "temperature": 0.25,
+  "downfall": 0.8,
+  "category": "taiga",
+  "depth": 0.2
+}

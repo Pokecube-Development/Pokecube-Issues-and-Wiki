@@ -17,7 +17,7 @@ import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
@@ -128,7 +128,7 @@ public class WalkToTask extends RootTask<MobEntity>
     private boolean isPathValid(final MobEntity mob, final WalkTarget target, final long gametime)
     {
         final BlockPos blockpos = target.getTarget().getBlockPos();
-        this.currentPath = mob.getNavigator().func_225464_a(ImmutableSet.of(blockpos), 16, false, 0);
+        this.currentPath = mob.getNavigator().pathfind(ImmutableSet.of(blockpos), 16, false, 0);
         this.speed = target.getSpeed();
         if (!this.hasReachedTarget(mob, target))
         {
@@ -140,8 +140,8 @@ public class WalkToTask extends RootTask<MobEntity>
 
             if (this.currentPath != null) return true;
 
-            final Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards((CreatureEntity) mob, 10, 7,
-                    new Vec3d(blockpos));
+            final Vector3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards((CreatureEntity) mob, 10, 7,
+                    new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
             if (vec3d != null)
             {
                 this.currentPath = mob.getNavigator().getPathToPos(vec3d.x, vec3d.y, vec3d.z, 0);
@@ -154,6 +154,6 @@ public class WalkToTask extends RootTask<MobEntity>
 
     private boolean hasReachedTarget(final MobEntity mob, final WalkTarget target)
     {
-        return target.getTarget().getBlockPos().manhattanDistance(new BlockPos(mob)) <= target.getDistance();
+        return target.getTarget().getBlockPos().manhattanDistance(mob.getPosition()) <= target.getDistance();
     }
 }

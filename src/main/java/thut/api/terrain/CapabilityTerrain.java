@@ -9,6 +9,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -118,8 +119,8 @@ public class CapabilityTerrain
             // Try to pull it from our array
             TerrainSegment ret = this.segments[chunkY];
             // try to find any cached variants if they exist
-            final TerrainSegment cached = thut.api.terrain.ITerrainProvider.removeCached(this.chunk.getWorldForge()
-                    .getDimension().getType(), pos);
+            final TerrainSegment cached = thut.api.terrain.ITerrainProvider.removeCached(((World) this.chunk
+                    .getWorldForge()).getDimensionKey(), pos);
 
             // If not found, make a new one, or use cached
             if (ret == null)

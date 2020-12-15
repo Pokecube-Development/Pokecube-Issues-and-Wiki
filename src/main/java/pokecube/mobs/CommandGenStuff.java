@@ -22,6 +22,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.database.Database;
@@ -158,13 +159,13 @@ public class CommandGenStuff
 
     public static void execute(final ServerPlayerEntity sender, final String[] args)
     {
-        sender.sendMessage(new StringTextComponent("Starting File Output"));
+        sender.sendMessage(new StringTextComponent("Starting File Output"), Util.DUMMY_UUID);
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (e == Database.missingno || e.dummy || e.isMega) continue;
             CommandGenStuff.registerAchievements(e);
         }
-        sender.sendMessage(new StringTextComponent("Advancements Done"));
+        sender.sendMessage(new StringTextComponent("Advancements Done"), Util.DUMMY_UUID);
         final File dir = new File("./mods/pokecube/assets/pokecube_mobs/");
         if (!dir.exists()) dir.mkdirs();
         File file = null;
@@ -185,11 +186,11 @@ public class CommandGenStuff
         {
             e.printStackTrace();
         }
-        sender.sendMessage(new StringTextComponent("Sounds Done"));
+        sender.sendMessage(new StringTextComponent("Sounds Done"), Util.DUMMY_UUID);
         CommandGenStuff.generateBlockAndItemJsons();
         CommandGenStuff.generateMobsLang();
 
-        sender.sendMessage(new StringTextComponent("Finished File Output"));
+        sender.sendMessage(new StringTextComponent("Finished File Output"), Util.DUMMY_UUID);
     }
 
     public static void generateMobsLang()

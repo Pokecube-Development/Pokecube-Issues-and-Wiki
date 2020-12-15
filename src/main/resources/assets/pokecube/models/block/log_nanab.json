@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_column",
     "textures": {
-        "end": "pokecube:block/log_nanab",
-        "side": "pokecube:block/bark_nanab"
+        "end": "pokecube:block/nanab_log_top",
+        "side": "pokecube:block/nanab_log"
     }
 }

@@ -7,33 +7,23 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.megastuff.WearablesCompat.WearablesRenderer;
-import pokecube.mobs.client.smd.SMDModel;
 import thut.bling.client.render.Util;
-import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 
 public class ClientProxy extends CommonProxy
 {
-    @Override
-    public void setupClient(final FMLClientSetupEvent event)
-    {
-        // // Register smd format for models
-        ModelFactory.registerIModel("smd", SMDModel::new);
-    }
-
     @Override
     public void initWearables()
     {
@@ -108,8 +98,8 @@ public class ClientProxy extends CommonProxy
                 dy = .06f;
                 dz = 0.f;
                 s = 1.f;
-                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
-                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
@@ -201,7 +191,7 @@ public class ClientProxy extends CommonProxy
                 dx = 0.0f;
                 dy = index == 0 ? 0.01f : -0.01f;
                 dz = -0.25f;
-                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");

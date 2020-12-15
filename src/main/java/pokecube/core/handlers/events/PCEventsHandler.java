@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
@@ -23,7 +24,6 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.stats.StatsCollector;
@@ -39,23 +39,38 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPC;
 import pokecube.core.utils.PokemobTracker;
-import thut.core.common.ThutCore;
 
 public class PCEventsHandler
 {
     public static final UUID THUTMOSE = UUID.fromString("f1dacdfd-42d6-4af0-8234-b2f180ecd6a8");
 
-    /**
-     * Gets a list of all pokemobs out of their cube belonging to the player in
-     * the player's current world.
-     *
-     * @param player
-     * @return
-     */
-    public static List<Entity> getOutMobs(final LivingEntity player, final boolean includeStay)
+    public static void register()
     {
-        if (player == null) return Collections.emptyList();
-        return PokemobTracker.getMobs(player, c -> EventsHandler.validRecall(player, c, null, false, includeStay));
+        // This actually adds the cube to PC when sent, it can be prevented by
+        // cancelling the event first, hence the lowest priority.
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onSendToPC);
+        // This sends the pokecube to PC if the player captures on without
+        // enough free inventory space. Otherwise it adds it to their inventory.
+        PokecubeCore.POKEMOB_BUS.addListener(PCEventsHandler::onCapturePost);
+
+        // This handler deals with changing the name of the PC from "Someone's
+        // PC" to "Thutmose's PC" when the owner logs in. This is in reference
+        // to "Bill's PC" in the pokemon games.
+        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onPlayerJoinWorld);
+        // This syncs initial data to the player, like their PC box names, etc.
+        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onPlayerLogin);
+        // This handles sending the pokecube to their PC if they had no room.
+        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onItemPickup);
+        // This sends the pokecube to PC if tossed with Q or similar.
+        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onItemTossed);
+        // This sends to PC if the pokecube item tries to despawn.
+        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onItemExpire);
+
+        // This recalls the player's following pokemobs if they die.
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onPlayerDeath);
+        // This removes their pokecubes and important items from the drops list,
+        // and instead sends them to PC.
+        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onPlayerDrops);
     }
 
     /**
@@ -63,8 +78,7 @@ public class PCEventsHandler
      *
      * @param evt
      */
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void PCEvent(final pokecube.core.events.PCEvent evt)
+    private static void onSendToPC(final pokecube.core.events.PCEvent evt)
     {
         if (evt.owner == null || evt.owner.getEntityWorld().isRemote) return;
         if (PokecubeManager.isFilled(evt.toPC))
@@ -81,8 +95,7 @@ public class PCEventsHandler
      *
      * @param evt
      */
-    @SubscribeEvent
-    public static void PCLoggin(final EntityJoinWorldEvent evt)
+    private static void onPlayerJoinWorld(final EntityJoinWorldEvent evt)
     {
         if (!(evt.getEntity() instanceof ServerPlayerEntity)) return;
 
@@ -102,18 +115,10 @@ public class PCEventsHandler
      *
      * @param evt
      */
-    @SubscribeEvent
-    public static void PlayerLoggin(final PlayerLoggedInEvent evt)
+    private static void onPlayerLogin(final PlayerLoggedInEvent evt)
     {
-        final PlayerEntity PlayerEntity = evt.getPlayer();
-
-        if (PlayerEntity.getUniqueID().equals(PCEventsHandler.THUTMOSE))
-        {
-
-        }
-        if (ThutCore.proxy.isClientSide()) return;
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
         PacketPC.sendInitialSyncMessage(evt.getPlayer());
-
     }
 
     /**
@@ -122,10 +127,9 @@ public class PCEventsHandler
      *
      * @param evt
      */
-    @SubscribeEvent
-    public static void playerPickupItem(final EntityItemPickupEvent evt)
+    private static void onItemPickup(final EntityItemPickupEvent evt)
     {
-        if (evt.getItem().getEntityWorld().isRemote) return;
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
         final PlayerInventory inv = evt.getPlayer().inventory;
         final int num = inv.getFirstEmptyStack();
         if (!PokecubeManager.isFilled(evt.getItem().getItem())) return;
@@ -151,15 +155,109 @@ public class PCEventsHandler
      *
      * @param evt
      */
-    @SubscribeEvent
-    public static void playerTossPokecubeToPC(final ItemTossEvent evt)
+    private static void onItemTossed(final ItemTossEvent evt)
     {
-        if (evt.getEntity().getEntityWorld().isRemote) return;
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
         if (PokecubeManager.isFilled(evt.getEntityItem().getItem()))
         {
             PCInventory.addPokecubeToPC(evt.getEntityItem().getItem(), evt.getEntity().getEntityWorld());
             evt.getEntity().remove();
             evt.setCanceled(true);
+        }
+    }
+
+    /**
+     * Attempts to send the pokecube to the PC whenever the ItemEntity it is in
+     * expires. This prevents losing pokemobs if the cube is somehow left in the
+     * world.
+     *
+     * @param evt
+     */
+    private static void onItemExpire(final ItemExpireEvent evt)
+    {
+        if (PokecubeManager.isFilled(evt.getEntityItem().getItem()))
+        {
+            if (evt.getEntity().getEntityWorld().isRemote) return;
+            PCInventory.addPokecubeToPC(evt.getEntityItem().getItem(), evt.getEntity().getEntityWorld());
+        }
+    }
+
+    // @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
+    private static void onPlayerDeath(final LivingDeathEvent evt)
+    {
+        if (evt.getEntity() instanceof ServerPlayerEntity)
+        {
+            final ServerPlayerEntity player = (ServerPlayerEntity) evt.getEntity();
+            EventsHandler.recallAllPokemobsExcluding(player, null, false);
+        }
+    }
+
+    /**
+     * Tries to send pokecubes to PC when player dies.
+     *
+     * @param evt
+     */
+    private static void onPlayerDrops(final LivingDropsEvent evt)
+    {
+        if (!(evt.getEntity() instanceof PlayerEntity) || !PokecubeCore.getConfig().pcOnDrop) return;
+        if (evt.getEntity().getEntityWorld().isRemote) return;
+        final UUID id = evt.getEntity().getUniqueID();
+        final List<ItemEntity> toRemove = Lists.newArrayList();
+        for (final ItemEntity item : evt.getDrops())
+            if (item != null && item.getItem() != null && PCContainer.isItemValid(item.getItem()))
+            {
+                PCInventory.addStackToPC(id, item.getItem().copy(), evt.getEntity().getEntityWorld());
+                toRemove.add(item);
+            }
+        evt.getDrops().removeAll(toRemove);
+    }
+
+    /**
+     * Tries to send pokecube to PC if player has no room in inventory for it.
+     * Otherwise, will add pokecube to player's inventory.
+     *
+     * @param evt
+     */
+    private static void onCapturePost(final CaptureEvent.Post evt)
+    {
+        // Case for things like snag cubes
+        if (evt.caught == null)
+        {
+            evt.pokecube.entityDropItem(evt.filledCube, 0.5f);
+            return;
+        }
+        final Entity catcher = evt.caught.getOwner();
+        if (evt.caught.isShadow()) return;
+        if (catcher instanceof ServerPlayerEntity && PokecubeManager.isFilled(evt.filledCube))
+        {
+            final PlayerEntity player = (PlayerEntity) catcher;
+            if (player instanceof FakePlayer) return;
+            // Cancel it to stop the cube from processing itself.
+            evt.setCanceled(true);
+
+            final PlayerInventory inv = player.inventory;
+            final UUID id = UUID.fromString(PokecubeManager.getOwner(evt.filledCube));
+            final PCInventory pc = PCInventory.getPC(id);
+            final int num = inv.getFirstEmptyStack();
+            if (evt.filledCube == null || pc == null) System.err.println("Cube is null");
+            else if (num == -1 || pc.autoToPC || !player.isAlive() || player.getHealth() <= 0) PCInventory
+                    .addPokecubeToPC(evt.filledCube, catcher.getEntityWorld());
+            else
+            {
+                player.inventory.addItemStackToInventory(evt.filledCube);
+                if (player instanceof ServerPlayerEntity) ((ServerPlayerEntity) player).sendAllContents(
+                        player.container, player.container.getInventory());
+            }
+
+            // Apply the same code that StatsHandler does, as it does not
+            // get the cancelled event.
+            final ResourceLocation cube_id = PokecubeItems.getCubeId(evt.filledCube);
+            if (IPokecube.BEHAVIORS.containsKey(cube_id))
+            {
+                final PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
+                cube.onPostCapture(evt);
+            }
+            StatsCollector.addCapture(evt.caught);
         }
     }
 
@@ -193,102 +291,15 @@ public class PCEventsHandler
     }
 
     /**
-     * Attempts to send the pokecube to the PC whenever the ItemEntity it is in
-     * expires. This prevents losing pokemobs if the cube is somehow left in the
-     * world.
+     * Gets a list of all pokemobs out of their cube belonging to the player in
+     * the player's current world.
      *
-     * @param evt
+     * @param player
+     * @return
      */
-    @SubscribeEvent
-    public static void sendPokemobToPCOnItemExpiration(final ItemExpireEvent evt)
+    public static List<Entity> getOutMobs(final LivingEntity player, final boolean includeStay)
     {
-        if (PokecubeManager.isFilled(evt.getEntityItem().getItem()))
-        {
-            if (evt.getEntity().getEntityWorld().isRemote) return;
-            PCInventory.addPokecubeToPC(evt.getEntityItem().getItem(), evt.getEntity().getEntityWorld());
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void sendPokemobToPCPlayerDeath(final LivingDeathEvent evt)
-    {
-        if (evt.getEntity() instanceof ServerPlayerEntity)
-        {
-            final ServerPlayerEntity player = (ServerPlayerEntity) evt.getEntity();
-            EventsHandler.recallAllPokemobsExcluding(player, null, false);
-        }
-    }
-
-    /**
-     * Tries to send pokecubes to PC when player dies.
-     *
-     * @param evt
-     */
-    @SubscribeEvent
-    public static void sendPokemobToPCPlayerDrops(final LivingDropsEvent evt)
-    {
-        if (!(evt.getEntity() instanceof PlayerEntity) || !PokecubeCore.getConfig().pcOnDrop) return;
-        if (evt.getEntity().getEntityWorld().isRemote) return;
-        final UUID id = evt.getEntity().getUniqueID();
-        final List<ItemEntity> toRemove = Lists.newArrayList();
-        for (final ItemEntity item : evt.getDrops())
-            if (item != null && item.getItem() != null && PCContainer.isItemValid(item.getItem()))
-            {
-                PCInventory.addStackToPC(id, item.getItem().copy(), evt.getEntity().getEntityWorld());
-                toRemove.add(item);
-            }
-        evt.getDrops().removeAll(toRemove);
-    }
-
-    /**
-     * Tries to send pokecube to PC if player has no room in inventory for it.
-     * Otherwise, will add pokecube to player's inventory.
-     *
-     * @param evt
-     */
-    @SubscribeEvent
-    public static void sendPokemobToPCPlayerFull(final CaptureEvent.Post evt)
-    {
-        // Case for things like snag cubes
-        if (evt.caught == null)
-        {
-            evt.pokecube.entityDropItem(evt.filledCube, 0.5f);
-            return;
-        }
-        final Entity catcher = evt.caught.getOwner();
-        if (evt.caught.isShadow()) return;
-        if (catcher instanceof PlayerEntity && PokecubeManager.isFilled(evt.filledCube))
-        {
-            if (catcher.getEntityWorld().isRemote) return;
-
-            final PlayerEntity player = (PlayerEntity) catcher;
-            if (player instanceof FakePlayer) return;
-            // Cancel it to stop the cube from processing itself.
-            evt.setCanceled(true);
-
-            final PlayerInventory inv = player.inventory;
-            final UUID id = UUID.fromString(PokecubeManager.getOwner(evt.filledCube));
-            final PCInventory pc = PCInventory.getPC(id);
-            final int num = inv.getFirstEmptyStack();
-            if (evt.filledCube == null || pc == null) System.err.println("Cube is null");
-            else if (num == -1 || pc.autoToPC || !player.isAlive() || player.getHealth() <= 0) PCInventory
-                    .addPokecubeToPC(evt.filledCube, catcher.getEntityWorld());
-            else
-            {
-                player.inventory.addItemStackToInventory(evt.filledCube);
-                if (player instanceof ServerPlayerEntity) ((ServerPlayerEntity) player).sendAllContents(
-                        player.container, player.container.getInventory());
-            }
-
-            // Apply the same code that StatsHandler does, as it does not
-            // get the cancelled event.
-            final ResourceLocation cube_id = PokecubeItems.getCubeId(evt.filledCube);
-            if (IPokecube.BEHAVIORS.containsKey(cube_id))
-            {
-                final PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
-                cube.onPostCapture(evt);
-            }
-            StatsCollector.addCapture(evt.caught);
-        }
+        if (player == null) return Collections.emptyList();
+        return PokemobTracker.getMobs(player, c -> EventsHandler.validRecall(player, c, null, false, includeStay));
     }
 }

@@ -1,6 +1,7 @@
 package pokecube.legends;
 
 import java.util.Random;
+import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,24 +12,23 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -41,12 +41,12 @@ import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
+import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.handlers.ForgeEventHandlers;
-import pokecube.legends.init.BiomeInit;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
 import pokecube.legends.init.ItemInit;
@@ -54,12 +54,8 @@ import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
-import pokecube.legends.proxy.ClientProxy;
-import pokecube.legends.proxy.CommonProxy;
 import pokecube.legends.tileentity.RaidSpawn;
-import pokecube.legends.worldgen.dimension.DistortedModDimension;
-import pokecube.legends.worldgen.dimension.ModDimensions;
-import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
+import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 
 @Mod(value = Reference.ID)
@@ -67,10 +63,13 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
-    public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
-    public static final DeferredRegister<Item>  ITEMS  = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
-    
+    public static final DeferredRegister<Block> BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,
+            Reference.ID);
+    public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
+            Reference.ID);
+    public static final DeferredRegister<Item>  ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,
+            Reference.ID);
+
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
     {
@@ -81,56 +80,38 @@ public class PokecubeLegends
         }
 
         @SubscribeEvent
+        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
+        {
+            PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
+
+            // Register the fossil stone spawning.
+            if (PokecubeLegends.config.generateOres)
+            {
+                final Predicate<RegistryKey<Biome>> check = k -> BiomeDatabase.contains(k, "FOREST") || BiomeDatabase
+                        .contains(k, "OCEAN") || BiomeDatabase.contains(k, "HILLS") || BiomeDatabase.contains(k,
+                                "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN")
+                        || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY");
+                WorldgenHandler.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
+                        Feature.ORE.withConfiguration(new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.RUBY_ORE.get()
+                                        .getDefaultState(), 5)).range(32).square().func_242731_b(2));
+
+                WorldgenHandler.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
+                        Feature.ORE.withConfiguration(new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.SAPPHIRE_ORE.get()
+                                        .getDefaultState(), 5)).range(32).square().func_242731_b(2));
+            }
+
+            Trees.register();
+        }
+
+        @SubscribeEvent
         public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
         {
             RaidSpawn.TYPE = TileEntityType.Builder.create(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
             event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
         }
-
-        @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
-        {
-            PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
-            new WorldgenHandler(Reference.ID).processStructures(event);
-
-            if (PokecubeCore.getConfig().generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())
-            {
-                if (!(BiomeDatabase.contains(b, "FOREST") || BiomeDatabase.contains(b, "OCEAN")
-                        || BiomeDatabase.contains(b, "HILLS") || BiomeDatabase.contains(b, "PLAINS")
-                        || BiomeDatabase.contains(b, "SWAMP") || BiomeDatabase.contains(b, "MOUNTAIN")
-                        || BiomeDatabase.contains(b, "SNOWY") || BiomeDatabase.contains(b, "SPOOKY")))
-                    continue;
-                // Currently this uses same settings as gold ore.
-
-                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE.get()
-                                .getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(
-                                        new CountRangeConfig(2, 0, 0, 32))));
-                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE
-                                .get().getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE
-                                        .configure(
-                                        new CountRangeConfig(2, 0, 0, 32))));
-            }
-        }
-
-        @SubscribeEvent
-        public static void registerBiomes(final RegistryEvent.Register<Biome> event)
-        {
-            BiomeInit.registerBiomes(event);
-        }
-
-        @SubscribeEvent
-        public static void registerModDimensions(final RegistryEvent.Register<ModDimension> event)
-        {
-            event.getRegistry().register(new UltraSpaceModDimension().setRegistryName(ModDimensions.DIMENSION_ULTRASPACE));
-            event.getRegistry().register(new DistortedModDimension().setRegistryName(ModDimensions.DIMENSION_DISTORTIC));
-
-            PokecubeLegends.LOGGER.debug("Registering Pokecube UltraSpace/Distortion World");
-        }
     }
-
-    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public static final Config config = new Config();
 
@@ -143,18 +124,13 @@ public class PokecubeLegends
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        
+
         DBLoader.trainerDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trainers.json"));
         DBLoader.tradeDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trades.json"));
 
-        // Register setup for proxy
-        modEventBus.addListener(PokecubeLegends.proxy::setup);
-        // Register the doClientStuff method for modloading
-        modEventBus.addListener(PokecubeLegends.proxy::setupClient);
-        // Register the loaded method for modloading
-        modEventBus.addListener(PokecubeLegends.proxy::loaded);
-        // Just generally register it to event bus.
-        modEventBus.register(PokecubeLegends.proxy);
+        modEventBus.addListener(this::loadComplete);
+        
+        new WorldgenHandler(Reference.ID, modEventBus);
 
         PokecubeLegends.BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
@@ -162,6 +138,10 @@ public class PokecubeLegends
 
         BlockInit.init();
         ItemInit.init();
+    }
+
+    private void loadComplete(FMLLoadCompleteEvent event) {
+        BlockInit.strippableBlocks();
     }
 
     @SubscribeEvent
@@ -178,13 +158,14 @@ public class PokecubeLegends
         Database.addDatabase("pokecube_legends:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
     }
 
-    public static final ItemGroup TAB = new ItemGroup("ultratab") {
+    public static final ItemGroup TAB = new ItemGroup("ultratab")
+    {
 
-    	@Override
-    	public ItemStack createIcon()
-    	{
-    		return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
-    	}
+        @Override
+        public ItemStack createIcon()
+        {
+            return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
+        }
     };
 
     @SubscribeEvent
@@ -258,7 +239,7 @@ public class PokecubeLegends
         if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
         {
             if (hit.getBlock() == PokecubeItems.DYNABLOCK) event.getPlayer().sendMessage(new TranslationTextComponent(
-                    "msg.notaraidspot.info"));
+                    "msg.notaraidspot.info"), Util.DUMMY_UUID);
             return;
         }
         final boolean active = hit.get(RaidSpawnBlock.ACTIVE).active();

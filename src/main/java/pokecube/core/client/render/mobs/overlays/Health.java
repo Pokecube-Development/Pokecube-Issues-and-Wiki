@@ -12,19 +12,19 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
-import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.IFormattableTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.database.PokedexEntry;
@@ -51,6 +51,19 @@ public class Health
     private static final RenderType TYPE       = RenderType.getText(Resources.GUI_BATTLE);
     private static final RenderType BACKGROUND = RenderType.getTextSeeThrough(Resources.GUI_BATTLE);
 
+    public static boolean obfuscateName(final IPokemob pokemob)
+    {
+        boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
+        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
+                .getData(PokecubePlayerStats.class);
+        PokedexEntry name_entry = pokemob.getPokedexEntry();
+        if (name_entry.isMega || name_entry.isGenderForme) name_entry = name_entry.getBaseForme();
+        final boolean captureOrHatch = StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
+                || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
+        nametag = nametag || captureOrHatch || stats.hasInspected(pokemob.getPokedexEntry());
+        return !nametag;
+    }
+
     public static Entity getEntityLookedAt(final Entity e)
     {
         return Tools.getPointedEntity(e, 32);
@@ -60,22 +73,14 @@ public class Health
             final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
             final int brightness)
     {
-        try
-        {
-            final float u0 = 0;
-            final float u1 = 90f / 256f;
-            final float v0 = 48f / 256f;
-            final float v1 = 64f / 256f;
-            buffer.pos(pos, x1, y1, z).color(r, g, b, a).tex(u0, v1).lightmap(brightness).endVertex();
-            buffer.pos(pos, x1, y2, z).color(r, g, b, a).tex(u1, v1).lightmap(brightness).endVertex();
-            buffer.pos(pos, x2, y2, z).color(r, g, b, a).tex(u1, v0).lightmap(brightness).endVertex();
-            buffer.pos(pos, x2, y1, z).color(r, g, b, a).tex(u0, v0).lightmap(brightness).endVertex();
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.debug("Error drawing a box for healthbar! {} {} {}", buffer, e.toString());
-
-        }
+        final float u0 = 0;
+        final float u1 = 90f / 256f;
+        final float v0 = 48f / 256f;
+        final float v1 = 64f / 256f;
+        buffer.pos(pos, x1, y1, z).color(r, g, b, a).tex(u0, v1).lightmap(brightness).endVertex();
+        buffer.pos(pos, x1, y2, z).color(r, g, b, a).tex(u1, v1).lightmap(brightness).endVertex();
+        buffer.pos(pos, x2, y2, z).color(r, g, b, a).tex(u1, v0).lightmap(brightness).endVertex();
+        buffer.pos(pos, x2, y1, z).color(r, g, b, a).tex(u0, v0).lightmap(brightness).endVertex();
     }
 
     public static void renderHealthBar(final LivingEntity passedEntity, final MatrixStack mat,
@@ -135,7 +140,7 @@ public class Health
             final int barHeight1 = config.barHeight;
             float size = config.plateSize;
 
-            final float zlevel = 0.0f;
+            float zlevel = 0.0f;
             int r = 0;
             int g = 220;
             int b = 0;
@@ -146,21 +151,13 @@ public class Health
             r = color.getRed();
             g = color.getGreen();
             b = color.getBlue();
-            ITextComponent nameComp = pokemob.getDisplayName();
-            boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
-            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
-                    .getInstance().player).getData(PokecubePlayerStats.class);
-            PokedexEntry name_entry = pokemob.getPokedexEntry();
-            if (name_entry.isMega || name_entry.isGenderForme) name_entry = name_entry.getBaseForme();
-            final boolean captureOrHatch = StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
-                    || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
-            boolean scanned = false;
-            nametag = nametag || captureOrHatch || (scanned = stats.hasInspected(pokemob.getPokedexEntry()));
-            if (!nametag) nameComp.getStyle().setObfuscated(true);
-            if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName()) nameComp = ((MobEntity) entity)
-                    .getCustomName();
+            IFormattableTextComponent nameComp = (IFormattableTextComponent) pokemob.getDisplayName();
+            final boolean nametag = !Health.obfuscateName(pokemob);
+            if (!nametag) nameComp.setStyle(nameComp.getStyle().setObfuscated(true));
+            if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName())
+                nameComp = (IFormattableTextComponent) ((MobEntity) entity).getCustomName();
             final float s = 0.5F;
-            final String name = I18n.format(nameComp.getFormattedText());
+            final String name = nameComp.getString();
             final float namel = mc.fontRenderer.getStringWidth(name) * s;
             if (namel + 20 > size * 2) size = namel / 2F + 10F;
             float healthSize = size * (health / maxHealth);
@@ -175,6 +172,7 @@ public class Health
                 final int a = 32;
                 Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding, zlevel, 0, 0,
                         0, a, br);
+                zlevel += 0.001f;
             }
             buffer = Utils.makeBuilder(Health.TYPE, buf);
 
@@ -182,8 +180,10 @@ public class Health
             // Gray Space
             healthSize = healthSize * 2 - size;
             Health.blit(buffer, pos, healthSize, 0, size, barHeight1, zlevel, 100, 127, 100, 255, br);
+            zlevel += 0.001f;
             // Health Bar Fill
             Health.blit(buffer, pos, -size, 0, healthSize, barHeight1, zlevel, r, g, b, 255, br);
+            zlevel += 0.001f;
 
             // Exp Bar
             r = 64;
@@ -201,16 +201,21 @@ public class Health
             expSize = expSize * 2 - size;
             // Gray Space
             Health.blit(buffer, pos, expSize, barHeight1, size, barHeight1 + 1, zlevel, 100, 100, 127, 255, br);
+            zlevel += 0.001f;
 
             // Exp Bar Fill
             Health.blit(buffer, pos, -size, barHeight1, expSize, barHeight1 + 1, zlevel, r, g, b, 255, br);
+            zlevel += 0.001f;
 
             mat.push();
             mat.translate(-size, -4.5F, 0F);
             mat.scale(s, s, s);
 
             final UUID owner = pokemob.getOwnerId();
+            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
+                    .getInstance().player).getData(PokecubePlayerStats.class);
             final boolean isOwner = viewerID.equals(owner);
+            final boolean scanned = stats.hasInspected(pokemob.getPokedexEntry());
             int colour = isOwner ? config.ownedNameColour
                     : owner == null ? nametag ? scanned ? config.scannedNameColour : config.caughtNamedColour
                             : config.unknownNameColour : config.otherOwnedNameColour;
@@ -223,7 +228,11 @@ public class Health
             s1 = 1.5F;
             mat.scale(s1, s1, s1);
             pos = mat.getLast().getMatrix();
-            mc.fontRenderer.renderString(name, 0, 0, colour, false, pos, buf, false, 0, br);
+            final IRenderTypeBuffer.Impl irendertypebuffer$impl = IRenderTypeBuffer.getImpl(Tessellator.getInstance()
+                    .getBuffer());
+            mc.fontRenderer.func_238416_a_(nameComp.func_241878_f(), 0, 0, colour, false, pos, irendertypebuffer$impl,
+                    false, 0, 15728880);
+            irendertypebuffer$impl.finish();
             s1 = 0.75F;
             mat.pop();
 
@@ -240,8 +249,8 @@ public class Health
             colour = 0xBBBBBB;
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
-            if (isOwner) mc.fontRenderer.drawString(healthStr, (int) (size / (s * s1)) - mc.fontRenderer.getStringWidth(
-                    healthStr) / 2, h, 0xFFFFFFFF);
+            if (isOwner) mc.fontRenderer.drawString(mat, healthStr, (int) (size / (s * s1)) - mc.fontRenderer
+                    .getStringWidth(healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.getLast().getMatrix();
             mc.fontRenderer.renderString(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
@@ -251,8 +260,8 @@ public class Health
             if (PokecubeCore.getConfig().enableDebugInfo && mc.gameSettings.showDebugInfo)
             {
                 final String entityID = entity.getEntityString().toString();
-                mc.fontRenderer.drawString("ID: \"" + entityID + "\"" + "(" + entity.getEntityId() + ")", 0, h + 16,
-                        0xFFFFFFFF);
+                mc.fontRenderer.drawString(mat, "ID: \"" + entityID + "\"" + "(" + entity.getEntityId() + ")", 0, h
+                        + 16, 0xFFFFFFFF);
             }
             mat.pop();
 

@@ -76,7 +76,6 @@ public class BlingItem extends Item implements IWearable
         this.name = name;
         this.slot = slot;
         BlingItem.defaults.put(this, slot);
-        // if (name.equals("bag_ender_large")) InventoryLarge.INVALID.add(this);
     }
 
     /** allows items to add custom lines of information to the mouseover

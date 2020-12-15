@@ -1278,8 +1278,7 @@ public class PokedexEntryLoader
                                 args = defaultSpecial.split(",");
                                 for (final String s : args)
                                     for (final DyeColor dye : DyeColor.values())
-                                        if (dye.name().equals(s) || dye.getName().equals(s) || dye.getTranslationKey()
-                                                .equals(s))
+                                        if (dye.name().equals(s) || dye.getTranslationKey().equals(s))
                                         {
                                             entry.validDyes.add(dye);
                                             break;

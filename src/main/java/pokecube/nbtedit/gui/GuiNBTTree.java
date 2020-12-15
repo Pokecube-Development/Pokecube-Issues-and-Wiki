@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.AbstractGui;
@@ -286,7 +288,7 @@ public class GuiNBTTree extends Screen
         return false;
     }
 
-    private void drawScrollBar(final int mx, final int my)
+    private void drawScrollBar(final MatrixStack mat, final int mx, final int my)
     {
         if (this.heightDiff > 0)
         {
@@ -317,7 +319,7 @@ public class GuiNBTTree extends Screen
             }
             else this.yClick = -1;
 
-            AbstractGui.fill(this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
+            AbstractGui.fill(mat, this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
 
             int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
                     / this.getContentHeight();
@@ -327,7 +329,7 @@ public class GuiNBTTree extends Screen
 
             if (y < this.START_Y - 1) y = this.START_Y - 1;
 
-            this.fillGradient(this.width - 20, y, this.width, y + length, 0x80ffffff, 0x80333333);
+            this.fillGradient(mat, this.width - 20, y, this.width, y + length, 0x80ffffff, 0x80333333);
         }
     }
 
@@ -422,7 +424,7 @@ public class GuiNBTTree extends Screen
         if (this.window != null)
         {
             @SuppressWarnings("unchecked")
-            final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
+            final List<IGuiEventListener> list = (List<IGuiEventListener>) this.getEventListeners();
             list.add(this.window);
         }
 
@@ -536,10 +538,10 @@ public class GuiNBTTree extends Screen
         final float var6 = 32.0F;
         worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
         final Color color = new Color(4210752);
-        int r = color.getRed();
-        int g = color.getRed();
-        int b = color.getRed();
-        int a = par4;
+        final int r = color.getRed();
+        final int g = color.getRed();
+        final int b = color.getRed();
+        final int a = par4;
         worldRenderer.pos(0.0D, par2, 0.0D).color(r, g, b, a).tex(0.0f, par2 / var6).endVertex();
         worldRenderer.pos(this.width, par2, 0.0D).color(r, g, b, a).tex(this.width / var6, par2 / var6).endVertex();
         worldRenderer.pos(this.width, par1, 0.0D).color(r, g, b, a).tex(this.width / var6, par1 / var6).endVertex();
@@ -589,7 +591,7 @@ public class GuiNBTTree extends Screen
     }
 
     @Override
-    public void render(final int mx, final int my, final float ticks)
+    public void render(final MatrixStack mat,final int mx, final int my, final float ticks)
     {
         int cmx = mx, cmy = my;
         if (this.window != null)
@@ -599,11 +601,11 @@ public class GuiNBTTree extends Screen
         }
         this.overlayBackground(0, this.START_Y - 1, 255, 255);
         this.overlayBackground(this.bottom, this.height, 255, 255);
-        super.render(mx, my, ticks);
+        super.render(mat,mx, my, ticks);
         // Render the tooltips after, so they don't get hidden by other buttond
         for (final GuiNBTButton button : this.nbtButtons)
-            button.renderToolTip(my, my);
-        this.drawScrollBar(cmx, cmy);
+            button.renderToolTip(mat,my, my);
+        this.drawScrollBar(mat,cmx, cmy);
     }
 
     public boolean rightClick(final double x, final double y2, final int t)
@@ -709,7 +711,7 @@ public class GuiNBTTree extends Screen
         if (index != -1)
         {
             final GuiNBTNode gui = this.nodes.get(index);
-            this.shift((this.bottom + this.START_Y + 1) / 2 - (gui.y + gui.getHeight()));
+            this.shift((this.bottom + this.START_Y + 1) / 2 - (gui.y + gui.getHeightRealms()));
         }
     }
 

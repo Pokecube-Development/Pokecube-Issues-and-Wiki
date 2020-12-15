@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube:block/enigma_slab"
+    },
+    "type=double": {
+      "model": "pokecube:block/plank_enigma"
+    },
+    "type=top": {
+      "model": "pokecube:block/enigma_slab_top"
+    }
+  }
+}

@@ -12,7 +12,7 @@
         "group": "pokecube",
         "ingredients": [
           {
-            "item": "pokecube:log_nanab"
+            "tag": "pokecube:nanab_logs"
           }
         ],
         "result": {

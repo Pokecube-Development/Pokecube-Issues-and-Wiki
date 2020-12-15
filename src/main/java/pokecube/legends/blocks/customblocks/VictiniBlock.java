@@ -13,7 +13,7 @@ import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -232,7 +232,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     {
         if (entity != null)
         {
-            final IFluidState fluidState = world.getFluidState(pos.up());
+            final FluidState fluidState = world.getFluidState(pos.up());
             world.setBlockState(pos.up(), state.with(VictiniBlock.HALF, VictiniBlockPart.TOP).with(
                     VictiniBlock.WATERLOGGED, fluidState.getFluid() == Fluids.WATER), 3);
         }
@@ -277,7 +277,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     // Breaking the Victini Spawner leaves water if underwater
     private void removeHalf(final World world, final BlockPos pos, final BlockState state)
     {
-        final IFluidState fluidState = world.getFluidState(pos);
+        final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
         else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
     }
@@ -287,7 +287,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         final BlockPos pos = context.getPos();
 
         final BlockPos victiniPos = this.getVictiniTopPos(pos, context.getPlacementHorizontalFacing().getOpposite());

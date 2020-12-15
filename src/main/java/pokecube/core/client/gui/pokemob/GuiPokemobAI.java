@@ -3,14 +3,16 @@ package pokecube.core.client.gui.pokemob;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.ExtendedList.AbstractListEntry;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
@@ -37,8 +39,9 @@ public class GuiPokemobAI extends GuiPokemobBase
         }
 
         @Override
-        public void render(final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
-                final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
+        public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+                final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                final float partialTicks)
         {
             this.wrapped.visible = false;
             this.wrapped.active = false;
@@ -46,8 +49,8 @@ public class GuiPokemobAI extends GuiPokemobBase
             {
                 final AIRoutine routine = AIRoutine.values()[slotIndex];
                 final boolean state = this.pokemob.isRoutineEnabled(routine);
-                AbstractGui.fill(x + 41, y + 1, x + 80, y + 10, state ? 0xFF00FF00 : 0xFFFF0000);
-                AbstractGui.fill(x, y + 10, x + 40, y + 11, 0xFF000000);
+                AbstractGui.fill(mat, x + 41, y + 1, x + 80, y + 10, state ? 0xFF00FF00 : 0xFFFF0000);
+                AbstractGui.fill(mat, x, y + 10, x + 40, y + 11, 0xFF000000);
                 this.wrapped.x = x;
                 this.wrapped.y = y;
                 this.wrapped.visible = true;
@@ -86,11 +89,11 @@ public class GuiPokemobAI extends GuiPokemobBase
         super.init();
         int xOffset = this.width / 2 - 10;
         int yOffset = this.height / 2 - 77;
-        this.addButton(new Button(xOffset + 60, yOffset, 30, 10, I18n.format("pokemob.gui.inventory"),
+        this.addButton(new Button(xOffset + 60, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.inventory"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getEntityId())));
-        this.addButton(new Button(xOffset + 30, yOffset, 30, 10, I18n.format("pokemob.gui.storage"),
+        this.addButton(new Button(xOffset + 30, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.storage"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getEntityId())));
-        this.addButton(new Button(xOffset + 00, yOffset, 30, 10, I18n.format("pokemob.gui.routes"),
+        this.addButton(new Button(xOffset + 00, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.routes"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getEntityId())));
         yOffset += 9;
         xOffset += 2;
@@ -101,7 +104,7 @@ public class GuiPokemobAI extends GuiPokemobBase
             String name = AIRoutine.values()[i].toString();
             if (name.length() > 6) name = name.substring(0, 6);
             final int index = i;
-            final Button button = new Button(xOffset, yOffset, 40, 10, name, b ->
+            final Button button = new Button(xOffset, yOffset, 40, 10, new StringTextComponent(name), b ->
             {
                 final AIRoutine routine = AIRoutine.values()[index];
                 final boolean state = !this.pokemob.isRoutineEnabled(routine);
@@ -115,12 +118,12 @@ public class GuiPokemobAI extends GuiPokemobBase
     }
 
     @Override
-    public void render(final int x, final int y, final float f)
+    public void render(final MatrixStack mat, final int x, final int y, final float f)
     {
-        super.render(x, y, f);
+        super.render(mat, x, y, f);
         for (int i = 3; i < this.buttons.size(); i++)
             this.buttons.get(i).visible = false;
-        this.list.render(x, y, f);
-        this.renderHoveredToolTip(x, y);
+        this.list.render(mat, x, y, f);
+        this.renderHoveredTooltip(mat,x, y);
     }
 }

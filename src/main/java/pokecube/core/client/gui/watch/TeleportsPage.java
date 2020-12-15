@@ -4,16 +4,19 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.ThutTeleporter.TeleDest;
@@ -42,7 +45,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.offsetY = offsetY;
             this.guiHeight = height;
             this.parent = parent;
-            this.confirm = new Button(0, 0, 10, 10, "Y", b ->
+            this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b ->
             {
                 b.playDownSound(this.mc.getSoundHandler());
                 // Send packet for removal server side
@@ -52,21 +55,21 @@ public class TeleportsPage extends ListPage<TeleOption>
                 // Update the list for the page.
                 this.parent.initList();
             });
-            this.delete = new Button(0, 0, 10, 10, "x", b ->
+            this.delete = new Button(0, 0, 10, 10, new StringTextComponent("x"), b ->
             {
                 b.playDownSound(this.mc.getSoundHandler());
                 this.confirm.active = !this.confirm.active;
             });
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
-            this.moveUp = new Button(0, 0, 10, 10, "\u21e7", b ->
+            this.moveUp = new Button(0, 0, 10, 10, new StringTextComponent("\u21e7"), b ->
             {
                 b.playDownSound(this.mc.getSoundHandler());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                 // Update the list for the page.
                 this.parent.initList();
             });
-            this.moveDown = new Button(0, 0, 10, 10, "\u21e9", b ->
+            this.moveDown = new Button(0, 0, 10, 10, new StringTextComponent("\u21e9"), b ->
             {
                 b.playDownSound(this.mc.getSoundHandler());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
@@ -118,7 +121,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             fits = this.text.y >= this.offsetY;
             fits = fits && mouseX - this.text.x >= 0;
             fits = fits && mouseX - this.text.x <= this.text.getWidth();
-            fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
+            fits = fits && this.text.y + this.text.getHeightRealms() <= this.offsetY + this.guiHeight;
             this.text.setFocused(fits);
             if (this.delete.isMouseOver(mouseX, mouseY))
             {
@@ -153,8 +156,9 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
 
         @Override
-        public void render(final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
-                final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
+        public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+                final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                final float partialTicks)
         {
             boolean fits = true;
             this.text.x = x - 2;
@@ -168,24 +172,29 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.moveDown.y = y - 5;
             this.moveDown.x = x - 2 + 26 + this.text.getWidth();
             fits = this.text.y >= this.offsetY;
-            fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
+            fits = fits && this.text.y + this.text.getHeightRealms() <= this.offsetY + this.guiHeight;
             if (fits)
             {
-                this.text.render(mouseX, mouseY, partialTicks);
-                this.delete.render(mouseX, mouseY, partialTicks);
-                this.confirm.render(mouseX, mouseY, partialTicks);
-                this.moveUp.render(mouseX, mouseY, partialTicks);
-                this.moveDown.render(mouseX, mouseY, partialTicks);
+                this.text.render(mat, mouseX, mouseY, partialTicks);
+                this.delete.render(mat, mouseX, mouseY, partialTicks);
+                this.confirm.render(mat, mouseX, mouseY, partialTicks);
+                this.moveUp.render(mat, mouseX, mouseY, partialTicks);
+                this.moveDown.render(mat, mouseX, mouseY, partialTicks);
             }
         }
     }
 
-    protected List<TeleDest>        locations;
-    protected List<TextFieldWidget> teleNames = Lists.newArrayList();
+    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_teleport.png");
+    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
+            "textures/gui/pokewatchgui_teleport_nm.png");
+
+    protected List<TeleDest> locations;
 
     public TeleportsPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.title.teleports"), watch);
+        super(new TranslationTextComponent("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM,
+                TeleportsPage.TEX_NM);
     }
 
     @Override
@@ -193,16 +202,14 @@ public class TeleportsPage extends ListPage<TeleOption>
     {
         super.initList();
         this.locations = TeleportHandler.getTeleports(this.watch.player.getCachedUniqueIdString());
-        this.teleNames.clear();
-        final int offsetX = (this.watch.width - 160) / 2 + 10;
-        final int offsetY = (this.watch.height - 160) / 2 + 24;
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 55;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 27;
         final int height = 120;
         final int width = 146;
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)
         {
-            final TextFieldWidget name = new TextFieldWidget(this.font, 0, 0, 104, 10, "");
-            this.teleNames.add(name);
+            final TextFieldWidget name = new TextFieldWidget(this.font, 0, 0, 104, 10, new StringTextComponent(""));
             name.setText(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));
         }

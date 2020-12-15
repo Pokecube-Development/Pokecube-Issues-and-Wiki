@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_column",
     "textures": {
-        "end": "pokecube:block/log_enigma",
-        "side": "pokecube:block/bark_enigma"
+        "end": "pokecube:block/enigma_log_top",
+        "side": "pokecube:block/enigma_log"
     }
 }

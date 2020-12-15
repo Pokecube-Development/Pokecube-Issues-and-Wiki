@@ -9,15 +9,18 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.ITickList;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
@@ -27,10 +30,9 @@ import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.lighting.WorldLightManager;
-import net.minecraft.world.storage.WorldInfo;
+import net.minecraft.world.storage.IWorldInfo;
 import thut.api.entity.blockentity.IBlockEntity;
 
 public class WorldEntity implements IBlockEntityWorld
@@ -96,7 +98,7 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public IFluidState getFluidState(final BlockPos pos)
+    public FluidState getFluidState(final BlockPos pos)
     {
         return this.world.getFluidState(pos);
     }
@@ -150,45 +152,15 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public long getSeed()
-    {
-        return this.world.getSeed();
-    }
-
-    @Override
-    public WorldInfo getWorldInfo()
-    {
-        // TODO Auto-generated method stub
-        return this.world.getWorldInfo();
-    }
-
-    @Override
     public DifficultyInstance getDifficultyForLocation(final BlockPos pos)
     {
         return this.world.getDifficultyForLocation(pos);
     }
 
     @Override
-    public AbstractChunkProvider getChunkProvider()
-    {
-        return this.chunks;
-    }
-
-    @Override
     public Random getRandom()
     {
         return this.world.getRandom();
-    }
-
-    @Override
-    public void notifyNeighbors(final BlockPos pos, final Block blockIn)
-    {
-    }
-
-    @Override
-    public BlockPos getSpawnPoint()
-    {
-        return this.world.getSpawnPoint();
     }
 
     @Override
@@ -251,12 +223,6 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public Dimension getDimension()
-    {
-        return this.world.getDimension();
-    }
-
-    @Override
     public WorldLightManager getLightManager()
     {
         return this.world.getLightManager();
@@ -266,6 +232,36 @@ public class WorldEntity implements IBlockEntityWorld
     public WorldBorder getWorldBorder()
     {
         return this.world.getWorldBorder();
+    }
+
+    @Override
+    public AbstractChunkProvider getChunkProvider()
+    {
+        return this.chunks;
+    }
+
+    @Override
+    public DynamicRegistries func_241828_r()
+    {
+        return this.world.func_241828_r();
+    }
+
+    @Override
+    public float func_230487_a_(final Direction p_230487_1_, final boolean p_230487_2_)
+    {
+        return this.world.func_230487_a_(p_230487_1_, p_230487_2_);
+    }
+
+    @Override
+    public IWorldInfo getWorldInfo()
+    {
+        return this.world.getWorldInfo();
+    }
+
+    @Override
+    public DimensionType getDimensionType()
+    {
+        return this.world.getDimensionType();
     }
 
     @Override
@@ -283,6 +279,21 @@ public class WorldEntity implements IBlockEntityWorld
     @Override
     public boolean destroyBlock(final BlockPos p_225521_1_, final boolean p_225521_2_, final Entity p_225521_3_)
     {
+        return false;
+    }
+
+    @Override
+    public boolean setBlockState(final BlockPos pos, final BlockState state, final int flags, final int recursionLeft)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean destroyBlock(final BlockPos pos, final boolean dropBlock, final Entity entity,
+            final int recursionLeft)
+    {
+        // TODO Auto-generated method stub
         return false;
     }
 }

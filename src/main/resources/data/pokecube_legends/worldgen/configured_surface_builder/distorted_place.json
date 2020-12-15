@@ -1,0 +1,17 @@
+{
+  "config": {
+    "top_material": {
+      "Name": "pokecube_legends:distortic_grass",
+      "Properties": {
+        "facing" : "up"
+      }
+    },
+    "under_material": {
+      "Name": "pokecube_legends:distortic_stone"
+    },
+    "underwater_material": {
+      "Name": "pokecube_legends:distortic_stone"
+    }
+  },
+  "type": "minecraft:default"
+}

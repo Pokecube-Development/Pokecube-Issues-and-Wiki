@@ -9,9 +9,11 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -19,7 +21,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.worldgen.dimension.ModDimensions;
+import pokecube.legends.init.FeaturesInit;
 import thut.api.maths.Vector3;
 
 /**
@@ -78,11 +80,11 @@ public class PortalActiveFunction
         final PokedexEntry entityToSpawn = PortalActiveFunction.getRandomEntry();
         final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
         final Vector3 v = Vector3.getNewVector().set(pos);
-        // IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final RegistryKey<World> key = world.getDimensionKey();
 
-        // Normal Worlds
-        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega && entity.dimension
-                .getId() != ModDimensions.DIMENSION_TYPE_US.getId())
+        // // Normal Worlds
+        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega
+                && key != FeaturesInit.ULTRASPACE_KEY)
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);
@@ -91,8 +93,7 @@ public class PortalActiveFunction
         }
 
         // Ultra Space
-        else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE_US
-                .getId())
+        else if (entity != null && !entityToSpawn.isMega && key == FeaturesInit.ULTRASPACE_KEY)
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);

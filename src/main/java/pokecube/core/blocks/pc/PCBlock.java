@@ -11,7 +11,7 @@ import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -132,7 +132,7 @@ public class PCBlock extends HorizontalBlock implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         return Objects.requireNonNull(super.getStateForPlacement(context)).with(PCBlock.FACING, context
                 .getPlacementHorizontalFacing().getOpposite()).with(PCBlock.WATERLOGGED, ifluidstate.isTagged(
                         FluidTags.WATER) && ifluidstate.getLevel() == 8);
@@ -160,7 +160,7 @@ public class PCBlock extends HorizontalBlock implements IWaterLoggable
     // Adds Waterlogging
     @SuppressWarnings("deprecation")
     @Override
-    public IFluidState getFluidState(final BlockState state)
+    public FluidState getFluidState(final BlockState state)
     {
         return state.get(PCBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }

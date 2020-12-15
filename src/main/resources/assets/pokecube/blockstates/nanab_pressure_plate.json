@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "pokecube:block/nanab_pressure_plate"
+    },
+    "powered=true": {
+      "model": "pokecube:block/nanab_pressure_plate_down"
+    }
+  }
+}

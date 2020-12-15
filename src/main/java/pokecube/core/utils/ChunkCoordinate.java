@@ -1,65 +1,32 @@
 package pokecube.core.utils;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
-import thut.api.maths.Vector3;
+import net.minecraft.world.World;
 
-public class ChunkCoordinate extends BlockPos
+public class ChunkCoordinate
 {
 
-    public static ChunkCoordinate getChunkCoordFromWorldCoord(final BlockPos pos, final int dimension)
+    public static GlobalPos getChunkCoordFromWorldCoord(BlockPos pos, final World world)
     {
-        return ChunkCoordinate.getChunkCoordFromWorldCoord(pos.getX(), pos.getY(), pos.getZ(), dimension);
+        final int i = MathHelper.floor(pos.getX() >> 4);
+        final int j = MathHelper.floor(pos.getY() >> 4);
+        final int k = MathHelper.floor(pos.getZ() >> 4);
+        pos = new BlockPos(i, j, k);
+        return GlobalPos.getPosition(world.getDimensionKey(), pos);
     }
 
-    public static ChunkCoordinate getChunkCoordFromWorldCoord(final int x, final int y, final int z, final int dim)
+    public static boolean isWithin(final GlobalPos a, final GlobalPos b, final int tolerance)
     {
-        final int i = MathHelper.floor(x >> 4);
-        final int j = MathHelper.floor(y >> 4);
-        final int k = MathHelper.floor(z >> 4);
-        return new ChunkCoordinate(i, j, k, dim);
+        return a.getDimension().equals(b.getDimension()) && ChunkCoordinate.isWithin(a.getPos(), b.getPos(), tolerance);
     }
 
-    public int dim;
-
-    public ChunkCoordinate(final BlockPos pos, final int dimension)
+    public static boolean isWithin(final BlockPos a, final BlockPos b, final int tolerance)
     {
-        this(pos.getX(), pos.getY(), pos.getZ(), dimension);
-    }
-
-    public ChunkCoordinate(final int p_i1354_1_, final int p_i1354_2_, final int p_i1354_3_, final int dim)
-    {
-        super(p_i1354_1_, p_i1354_2_, p_i1354_3_);
-        this.dim = dim;
-    }
-
-    public ChunkCoordinate(final Vector3 v, final int dim)
-    {
-        super(v.intX(), v.intY(), v.intZ());
-        this.dim = dim;
-    }
-
-    @Override
-    public boolean equals(final Object test)
-    {
-        if (!(test instanceof ChunkCoordinate)) return false;
-        final ChunkCoordinate BlockPos = (ChunkCoordinate) test;
-        return this.getX() == BlockPos.getX() && this.getY() == BlockPos.getY() && this.getZ() == BlockPos.getZ()
-                && this.dim == BlockPos.dim;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return this.getX() + this.getZ() << 8 + this.getY() << 16 + this.dim << 24;
-    }
-
-    public void writeToBuffer(final ByteBuf buffer)
-    {
-        buffer.writeInt(this.getX());
-        buffer.writeInt(this.getY());
-        buffer.writeInt(this.getZ());
-        buffer.writeInt(this.dim);
+        final int dx = Math.abs(a.getX() - b.getX());
+        final int dy = Math.abs(a.getY() - b.getY());
+        final int dz = Math.abs(a.getZ() - b.getZ());
+        return dx <= tolerance && dz <= tolerance && dy <= tolerance;
     }
 }

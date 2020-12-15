@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:distortic_plank"
+    }
+  ],
+  "result": {
+    "item": "pokecube_legends:distortic_button"
+  }
+}

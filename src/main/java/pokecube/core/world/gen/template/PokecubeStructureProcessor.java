@@ -1,7 +1,9 @@
 package pokecube.core.world.gen.template;
 
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
+import javax.annotation.Nullable;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.Dynamic;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
@@ -9,14 +11,14 @@ import net.minecraft.world.gen.feature.template.IStructureProcessorType;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.Template;
-import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.Template.EntityInfo;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.events.StructureEvent;
 
 public class PokecubeStructureProcessor extends StructureProcessor
 {
-    public static IStructureProcessorType  TYPE;
+    public static final Codec<StructureProcessor> CODEC;
+
     public static final StructureProcessor PROCESSOR = new PokecubeStructureProcessor();
 
     public PokecubeStructureProcessor()
@@ -28,10 +30,12 @@ public class PokecubeStructureProcessor extends StructureProcessor
     }
 
     @Override
-    public BlockInfo process(final IWorldReader world, final BlockPos pos, final BlockInfo rawInfo,
-            final BlockInfo info, final PlacementSettings settings, final Template template)
+    @Nullable
+    public Template.BlockInfo process(final IWorldReader world, final BlockPos pos1, final BlockPos pos2,
+            final Template.BlockInfo rawInfo, final Template.BlockInfo modInfo, final PlacementSettings settings,
+            @Nullable final Template template)
     {
-        return super.process(world, pos, rawInfo, info, settings, template);
+        return modInfo;
     }
 
     @Override
@@ -44,15 +48,16 @@ public class PokecubeStructureProcessor extends StructureProcessor
     }
 
     @Override
-    protected IStructureProcessorType getType()
+    protected IStructureProcessorType<?> getType()
     {
-        return PokecubeStructureProcessor.TYPE;
+        return PokecubeStructureProcessors.STRUCTS;
     }
 
-    @Override
-    protected <T> Dynamic<T> serialize0(final DynamicOps<T> ops)
+    static
     {
-        return new Dynamic<>(ops, ops.emptyMap());
+        CODEC = Codec.unit(() ->
+        {
+            return PokecubeStructureProcessor.PROCESSOR;
+        });
     }
-
 }

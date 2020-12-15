@@ -10,7 +10,7 @@ import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
@@ -119,14 +119,14 @@ public abstract class PokemobHasParts extends PokemobCombat
             final double dx = this.numWide / this.size.width;
             final double dy = this.numTall / this.size.height;
             final double dz = dx;
-            final Vec3d r = this.getPositionVec();
+            final Vector3d r = this.getPositionVec();
             for (final PokemobPart p : this.parts)
                 p.setPosition(r.x + p.shift.getX() * dx, r.y + p.shift.getY() * dy, r.z + p.shift.getZ() * dz);
         }
     }
 
     @Override
-    public void move(final MoverType typeIn, final Vec3d pos)
+    public void move(final MoverType typeIn, final Vector3d pos)
     {
         if (this.parts.length == 0)
         {
@@ -139,7 +139,7 @@ public abstract class PokemobHasParts extends PokemobCombat
         // final double dist = Math.max(this.pokemobCap.getPokedexEntry().width
         // * s, this.pokemobCap
         // .getPokedexEntry().length * s) + 8;
-        // Vec3d toMove = pos;
+        // Vector3d toMove = pos;
         // if (TerrainManager.isAreaLoaded(this.getEntityWorld(),
         // this.getPosition(), dist) && applyPartLimits)
         // {
@@ -150,10 +150,10 @@ public abstract class PokemobHasParts extends PokemobCombat
         // if (pos.y < 0 && p.shift.getY() > 0) continue;
         // if (pos.y > 0 && p.shift.getY() < this.numTall - 1) continue;
         //
-        // final Vec3d posA = p.getPositionVec();
+        // final Vector3d posA = p.getPositionVec();
         // p.move(typeIn, pos);
         // partsOnGround = partsOnGround || p.onGround;
-        // final Vec3d posB = p.getPositionVec();
+        // final Vector3d posB = p.getPositionVec();
         // toMove = posB.subtract(posA);
         // System.out.println(pos + " " + toMove);
         // }

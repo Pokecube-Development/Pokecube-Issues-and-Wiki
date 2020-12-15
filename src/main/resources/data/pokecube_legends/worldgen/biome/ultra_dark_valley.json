@@ -1,0 +1,59 @@
+{
+  "scale": 0.1,
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:ash"
+      },
+      "probability": 0.10
+    },
+    "sky_color": 197379,
+    "fog_color": 0,
+    "water_color": 16711680,
+    "water_fog_color": 6356992,
+    "grass_color": 5723991,
+    "foliage_color": 13619151
+  },
+  "surface_builder": "pokecube_legends:dark_valley",
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+    ],
+    [],
+    [
+    ],
+    [],
+    [],
+    [
+     "pokecube_legends:ore_spectrum",
+     "pokecube_legends:ore_cosmic"
+    ],
+    [],
+    [
+	 "pokecube_legends:ice_spike"
+    ],
+    [
+    ]
+  ],
+  "starts": [],
+  "spawners": {},
+  "spawn_costs": {},
+  "player_spawn_friendly": false,
+  "precipitation": "rain",
+  "temperature": 0.8,
+  "downfall": 0.9,
+  "category": "swamp",
+  "depth": -0.2
+}

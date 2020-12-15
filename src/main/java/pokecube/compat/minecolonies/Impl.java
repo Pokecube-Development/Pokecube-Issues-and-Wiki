@@ -10,8 +10,9 @@ import com.minecolonies.api.colony.buildings.IBuilding;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerChunkProvider;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.PokecubeCore;
@@ -54,16 +55,18 @@ public class Impl
         public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
                 final boolean caveAdjusted)
         {
+            if (!(world instanceof World)) return -1;
+            final World rworld = (World) world;
             check:
             if (caveAdjusted) if (world.getChunkProvider() instanceof ServerChunkProvider)
             {
-                if (!Impl.instance.getColonyManager().isCoordinateInAnyColony(world.getWorld(), v.getPos()))
+                if (!Impl.instance.getColonyManager().isCoordinateInAnyColony(rworld, v.getPos()))
                     break check;
 
-                final IColony colony = Impl.instance.getColonyManager().getClosestColony(world.getWorld(), v.getPos());
+                final IColony colony = Impl.instance.getColonyManager().getClosestColony(rworld, v.getPos());
                 if (colony == null || colony.getBuildingManager() == null || colony.getBuildingManager()
                         .getBuildings() == null) break check;
-                final Vec3d vec = new Vec3d(v.x, v.y, v.z);
+                final Vector3d vec = new Vector3d(v.x, v.y, v.z);
                 for (final IBuilding b : colony.getBuildingManager().getBuildings().values())
                 {
                     String type = b.getSchematicName();

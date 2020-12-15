@@ -8,10 +8,12 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -22,7 +24,7 @@ public class StructureManager
     public static class StructureInfo
     {
         public String         name;
-        public StructureStart start;
+        public StructureStart<?> start;
 
         private int    hash;
         private String key;
@@ -31,9 +33,9 @@ public class StructureManager
         {
         }
 
-        public StructureInfo(final Entry<String, StructureStart> entry)
+        public StructureInfo(final Entry<Structure<?>, StructureStart<?>> entry)
         {
-            this.name = entry.getKey();
+            this.name = entry.getKey().getStructureName();
             this.start = entry.getValue();
             this.key = this.name + " " + this.start.getBoundingBox();
             this.hash = this.key.hashCode();
@@ -97,7 +99,7 @@ public class StructureManager
         return set;
     }
 
-    public static Set<StructureInfo> getFor(final DimensionType dim, final BlockPos loc)
+    public static Set<StructureInfo> getFor(final RegistryKey<World> dim, final BlockPos loc)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim, new ChunkPos(loc));
         final Set<StructureInfo> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
@@ -112,9 +114,10 @@ public class StructureManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         // The world is null when it is loaded off thread during worldgen!
-        if (evt.getWorld() == null || evt.getWorld().isRemote()) return;
-        final DimensionType dim = evt.getWorld().getDimension().getType();
-        for (final Entry<String, StructureStart> entry : evt.getChunk().getStructureStarts().entrySet())
+        if (!(evt.getWorld() instanceof World) || evt.getWorld().isRemote()) return;
+        final World w = (World) evt.getWorld();
+        final RegistryKey<World> dim = w.getDimensionKey();
+        for (final Entry<Structure<?>, StructureStart<?>> entry : evt.getChunk().getStructureStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
             final MutableBoundingBox b = info.start.getBoundingBox();
@@ -132,8 +135,9 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        if (evt.getWorld() == null || evt.getWorld().isRemote()) return;
-        final DimensionType dim = evt.getChunk().getWorldForge().getDimension().getType();
+        if (!(evt.getWorld() instanceof World) || evt.getWorld().isRemote()) return;
+        final World w = (World) evt.getWorld();
+        final RegistryKey<World> dim = w.getDimensionKey();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
         StructureManager.map_by_pos.remove(pos);
     }

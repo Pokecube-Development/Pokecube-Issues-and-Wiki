@@ -2,8 +2,11 @@ package pokecube.core.client.gui.watch.util;
 
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -13,9 +16,10 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
     protected T   current_page;
     protected int index = 0;
 
-    public PageWithSubPages(final ITextComponent title, final GuiPokeWatch watch)
+    public PageWithSubPages(final ITextComponent title, final GuiPokeWatch watch, final ResourceLocation day,
+            final ResourceLocation night)
     {
-        super(title, watch);
+        super(title, watch, day, night);
     }
 
     public void changePage(final int newIndex)
@@ -31,7 +35,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
     {
         if (this.current_page == null) return;
         this.current_page.onPageClosed();
-        this.children().remove(this.current_page);
+        this.getEventListeners().remove(this.current_page);
     }
 
     protected abstract T createPage(int index);
@@ -66,18 +70,18 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
             PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         }
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.getEventListeners();
         list.add(this.current_page);
     }
 
     protected abstract int pageCount();
 
-    public void postPageDraw(final int mouseX, final int mouseY, final float partialTicks)
+    public void postPageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
 
-    public void prePageDraw(final int mouseX, final int mouseY, final float partialTicks)
+    public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
@@ -93,13 +97,13 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.font == null) this.font = Minecraft.getInstance().fontRenderer;
-        this.prePageDraw(mouseX, mouseY, partialTicks);
-        this.current_page.render(mouseX, mouseY, partialTicks);
-        this.postPageDraw(mouseX, mouseY, partialTicks);
-        super.render(mouseX, mouseY, partialTicks);
+        this.prePageDraw(mat, mouseX, mouseY, partialTicks);
+        this.current_page.render(mat, mouseX, mouseY, partialTicks);
+        this.postPageDraw(mat, mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 
     @Override

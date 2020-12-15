@@ -1,7 +1,7 @@
 package pokecube.core.entity.pokemobs.helper;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -51,7 +51,7 @@ public abstract class PokemobCombat extends PokemobRidable
             if (source.isMagicDamage()) armour = (int) (this.pokemobCap.getStat(Stats.SPDEFENSE, true) / 12.5);
             else armour = this.getTotalArmorValue();
             damage = CombatRules.getDamageAfterAbsorb(damage, armour, (float) this.getAttribute(
-                    SharedMonsterAttributes.ARMOR_TOUGHNESS).getValue());
+                    Attributes.ARMOR_TOUGHNESS).getValue());
         }
         return damage;
     }

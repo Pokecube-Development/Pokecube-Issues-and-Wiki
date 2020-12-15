@@ -12,8 +12,8 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
@@ -73,6 +73,18 @@ public class RecipeHandlers
             public RecipeMatcher(final PokedexEntry entry)
             {
                 this.entry = entry;
+            }
+
+            @Override
+            public PokedexEntry getDefault()
+            {
+                return this.entry;
+            }
+
+            @Override
+            public List<Ingredient> getInputs()
+            {
+                return this.stacks;
             }
 
             @Override
@@ -189,7 +201,7 @@ public class RecipeHandlers
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final Tag<Item> tag = ItemTags.getCollection().getOrCreate(id);
+                    final ITag<Item> tag = ItemTags.getCollection().getTagByID(id);
                     recipeItemsIn.add(Ingredient.fromTag(tag));
                 }
                 else recipeItemsIn.add(Ingredient.fromStacks(Tools.getStack(value.getValues())));

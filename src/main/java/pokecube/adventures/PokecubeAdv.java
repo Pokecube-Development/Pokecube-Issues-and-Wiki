@@ -8,29 +8,30 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.poi.PointsOfInterest;
-import pokecube.adventures.ai.poi.Professions;
 import pokecube.adventures.blocks.BlockEventHandler;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaContainer;
@@ -45,7 +46,6 @@ import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorBlock;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorContainer;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
-import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeHandlers;
 import pokecube.adventures.blocks.genetics.splicer.SplicerBlock;
 import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
@@ -59,13 +59,13 @@ import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.adventures.items.Linker;
-import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.proxy.ClientProxy;
 import pokecube.adventures.proxy.CommonProxy;
 import pokecube.adventures.utils.EnergyHandler;
 import pokecube.adventures.utils.InventoryHandler;
+import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -116,6 +116,12 @@ public class PokecubeAdv
             // register a new mob here
             event.getRegistry().register(TrainerNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "trainer"));
             event.getRegistry().register(LeaderNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "leader"));
+
+            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes()
+                    .createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(
+                            Attributes.ATTACK_KNOCKBACK).createMutableAttribute(Attributes.MAX_HEALTH, 20.0D);
+            GlobalEntityTypeAttributes.put(TrainerNpc.TYPE, attribs.create());
+            GlobalEntityTypeAttributes.put(LeaderNpc.TYPE, attribs.create());
         }
 
         @SubscribeEvent
@@ -151,7 +157,6 @@ public class PokecubeAdv
             event.getRegistry().register(PokecubeAdv.EXPSHARE);
             event.getRegistry().register(PokecubeAdv.LINKER);
             event.getRegistry().register(PokecubeAdv.BAG);
-            event.getRegistry().register(PokecubeAdv.TRAINEREDITOR);
 
             // Register the badges
             for (final PokeType type : PokeType.values())
@@ -166,21 +171,10 @@ public class PokecubeAdv
         }
 
         @SubscribeEvent
-        public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
-        {
-            PoweredProcess.init(event);
-        }
-
-        @SubscribeEvent
-        public static void registerPOIs(final RegistryEvent.Register<PointOfInterestType> event)
-        {
-            PointsOfInterest.register(event);
-        }
-
-        @SubscribeEvent
         public static void registerProfessions(final RegistryEvent.Register<VillagerProfession> event)
         {
-            Professions.register(event);
+            // TODO figure this out again.
+            // Professions.register(event);
         }
 
         @SubscribeEvent
@@ -231,7 +225,6 @@ public class PokecubeAdv
     public static final Item EXPSHARE;
     public static final Item LINKER;
     public static final Item BAG;
-    public static final Item TRAINEREDITOR;
 
     public static final Map<PokeType, Item> BADGES   = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
@@ -249,7 +242,6 @@ public class PokecubeAdv
         EXPSHARE = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
         LINKER = new Linker(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
         BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
-        TRAINEREDITOR = new TrainerEditor(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
     }
 
     private static void init()
@@ -265,7 +257,6 @@ public class PokecubeAdv
         PokecubeAdv.EXPSHARE.setRegistryName(PokecubeAdv.MODID, "exp_share");
         PokecubeAdv.LINKER.setRegistryName(PokecubeAdv.MODID, "linker");
         PokecubeAdv.BAG.setRegistryName(PokecubeAdv.MODID, "bag");
-        PokecubeAdv.TRAINEREDITOR.setRegistryName(PokecubeAdv.MODID, "trainer_editor");
 
         // Initialize advancement triggers
         Triggers.init();
@@ -276,8 +267,10 @@ public class PokecubeAdv
 
     public static final String TRAINERTEXTUREPATH = PokecubeAdv.MODID + ":textures/trainer/";
 
-    public final static CommonProxy proxy = DistExecutor.safeRunForDist(
-            () -> ClientProxy::new, () -> CommonProxy::new);
+    // This proxy is used for the following:
+    //
+    // Server vs client implementations of Wearable, the client one has extended rendering functions.
+    public final static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     private static final String NETVERSION = "1.0.1";
     // Handler for network stuff.
@@ -296,6 +289,9 @@ public class PokecubeAdv
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::setupClient);
         // Register the loaded method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::loaded);
+
+        RecipePokeAdv.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        PointsOfInterest.REG.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeAdv.config, PokecubeCore.MODID, PokecubeAdv.MODID);
@@ -325,8 +321,8 @@ public class PokecubeAdv
      *
      * @param event
      */
-    public void serverStarting(final FMLServerStartingEvent event)
+    public void registerCommands(final RegisterCommandsEvent event)
     {
-        CommandConfigs.register(PokecubeAdv.config, event.getCommandDispatcher(), "pokeadvsettings");
+        CommandConfigs.register(PokecubeAdv.config, event.getDispatcher(), "pokeadvsettings");
     }
 }

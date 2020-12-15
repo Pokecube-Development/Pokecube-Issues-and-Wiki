@@ -49,9 +49,13 @@ public class CommandGui
         PermissionAPI.registerNode("command.wearables", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /wearables");
 
-        final LiteralArgumentBuilder<CommandSource> command = Commands.literal("wearables").requires(cs -> CommandTools
+        LiteralArgumentBuilder<CommandSource> command = Commands.literal("wearables").requires(cs -> CommandTools
                 .hasPerm(cs, "command.wearables")).then(Commands.argument("player", EntityArgument.player()).executes(
                         ctx -> CommandGui.execute(ctx.getSource(), EntityArgument.getPlayer(ctx, "player"))));
+        commandDispatcher.register(command);
+
+        command = Commands.literal("wearables").requires(cs -> CommandTools.hasPerm(cs, "command.wearables")).executes(
+                ctx -> CommandGui.execute(ctx.getSource(), null));
         commandDispatcher.register(command);
     }
 

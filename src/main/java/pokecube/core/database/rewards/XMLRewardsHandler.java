@@ -23,6 +23,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -71,7 +72,7 @@ public class XMLRewardsHandler
                     if (giveReward)
                     {
                         tag.putBoolean(this.tagString, true);
-                        entity.sendMessage(new TranslationTextComponent(this.message));
+                        entity.sendMessage(new TranslationTextComponent(this.message), Util.DUMMY_UUID);
                         final PlayerEntity PlayerEntity = (PlayerEntity) entity;
                         Tools.giveItem(PlayerEntity, reward.copy());
                         PokecubePlayerDataHandler.saveCustomData(entity.getCachedUniqueIdString());
@@ -191,7 +192,7 @@ public class XMLRewardsHandler
                 {
                     final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
-                    entity.sendMessage(new TranslationTextComponent(this.message));
+                    entity.sendMessage(new TranslationTextComponent(this.message), Util.DUMMY_UUID);
                     final PlayerEntity PlayerEntity = (PlayerEntity) entity;
                     Tools.giveItem(PlayerEntity, book);
                     PokecubePlayerDataHandler.saveCustomData(entity.getCachedUniqueIdString());

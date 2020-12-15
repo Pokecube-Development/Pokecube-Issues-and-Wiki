@@ -17,8 +17,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
@@ -40,7 +40,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -719,14 +718,14 @@ public class PortalWarp extends Rotates implements IWaterLoggable
             final BlockPos portalWarpBottomRightPos = this.getPortalWarpBottomRightPos(pos, entity
                     .getHorizontalFacing());
 
-            final IFluidState topFluidState = world.getFluidState(pos.up(2));
-            final IFluidState topWestFluidState = world.getFluidState(pos.up(2).west());
-            final IFluidState topEastFluidState = world.getFluidState(pos.up(2).east());
-            final IFluidState middleFluidState = world.getFluidState(pos.up());
-            final IFluidState middleWestFluidState = world.getFluidState(pos.up().west());
-            final IFluidState middleEastFluidState = world.getFluidState(pos.up().east());
-            final IFluidState bottomWestFluidState = world.getFluidState(pos.west());
-            final IFluidState bottomEastFluidState = world.getFluidState(pos.east());
+            final FluidState topFluidState = world.getFluidState(pos.up(2));
+            final FluidState topWestFluidState = world.getFluidState(pos.up(2).west());
+            final FluidState topEastFluidState = world.getFluidState(pos.up(2).east());
+            final FluidState middleFluidState = world.getFluidState(pos.up());
+            final FluidState middleWestFluidState = world.getFluidState(pos.up().west());
+            final FluidState middleEastFluidState = world.getFluidState(pos.up().east());
+            final FluidState bottomWestFluidState = world.getFluidState(pos.west());
+            final FluidState bottomEastFluidState = world.getFluidState(pos.east());
 
             world.setBlockState(portalWarpBottomLeftPos, state.with(PortalWarp.PART, PortalWarpPart.BOTTOM_LEFT).with(
                     PortalWarp.WATERLOGGED, bottomWestFluidState.getFluid() == Fluids.WATER), 3);
@@ -1088,7 +1087,7 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     // Breaking the Portal leaves water if underwater
     private void removePart(final World world, final BlockPos pos, final BlockState state)
     {
-        final IFluidState fluidState = world.getFluidState(pos);
+        final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
         else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
     }
@@ -1097,7 +1096,7 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         final BlockPos pos = context.getPos();
 
         final BlockPos portalWarpTopPos = this.getPortalWarpTopPos(pos, context.getPlacementHorizontalFacing()
@@ -1146,7 +1145,7 @@ public class PortalWarp extends Rotates implements IWaterLoggable
 
     // time for spawn
     @Override
-    public int tickRate(final IWorldReader world)
+    public int ticksRandomly()
     {
         return 500;
     }

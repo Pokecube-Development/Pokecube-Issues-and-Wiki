@@ -26,19 +26,22 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameters;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -73,6 +76,7 @@ import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
+import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -125,12 +129,72 @@ public class PokedexEntry
         public Entity getEvolution(final IWorld world)
         {
             if (this.evolution == null) return null;
-            final Entity ret = PokecubeCore.createPokemob(this.evolution, world.getWorld());
+            final Entity ret = PokecubeCore.createPokemob(this.evolution, (World) world);
             return ret;
         }
 
         @OnlyIn(Dist.CLIENT)
-        public String getEvoString()
+        public List<IFormattableTextComponent> getEvoClauses()
+        {
+            final List<IFormattableTextComponent> comps = Lists.newArrayList();
+            if (this.level > 0) comps.add(new TranslationTextComponent("pokemob.description.evolve.level", this.level));
+            if (this.traded) comps.add(new TranslationTextComponent("pokemob.description.evolve.traded"));
+            if (this.gender == 1) comps.add(new TranslationTextComponent("pokemob.description.evolve.male"));
+            if (this.gender == 2) comps.add(new TranslationTextComponent("pokemob.description.evolve.female"));
+            if (!this.item.isEmpty()) comps.add(new TranslationTextComponent("pokemob.description.evolve.item",
+                    this.item.getDisplayName().getString()));
+            else if (this.preset != null)
+            {
+                final ItemStack stack = PokecubeItems.getStack(this.preset);
+                if (!stack.isEmpty()) comps.add(new TranslationTextComponent("pokemob.description.evolve.item", stack
+                        .getDisplayName().getString()));
+            }
+            if (this.happy) comps.add(new TranslationTextComponent("pokemob.description.evolve.happy"));
+            if (this.dawnOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.dawn"));
+            if (this.duskOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.dusk"));
+            if (this.dayOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.day"));
+            if (this.nightOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.night"));
+            if (this.rainOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.rain"));
+
+            // TODO add in info related to needed formes.
+
+            if (this.randomFactor != 1)
+            {
+                final String var = (int) (100 * this.randomFactor) + "%";
+                comps.add(new TranslationTextComponent("pokemob.description.evolve.chance", var));
+            }
+            if (this.move != null && !this.move.isEmpty()) comps.add(new TranslationTextComponent(
+                    "pokemob.description.evolve.move", MovesUtils.getMoveName(this.move)
+                            .getUnformattedComponentText()));
+            if (this.matcher != null)
+            {
+                this.matcher.reset();
+                this.matcher.parse();
+                final List<String> biomeNames = Lists.newArrayList();
+                for (final BiomeType t : this.matcher._validSubBiomes)
+                    biomeNames.add(I18n.format(t.readableName));
+                for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
+                {
+                    final boolean valid = this.matcher.getValidBiomes().contains(test);
+                    if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
+                }
+                for (final SpawnBiomeMatcher matcher : this.matcher.children)
+                {
+                    for (final BiomeType t : matcher._validSubBiomes)
+                        biomeNames.add(I18n.format(t.readableName));
+                    for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
+                    {
+                        final boolean valid = matcher.getValidBiomes().contains(test);
+                        if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
+                    }
+                }
+                comps.add(new TranslationTextComponent("pokemob.description.evolve.locations", biomeNames));
+            }
+            return comps;
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        public IFormattableTextComponent getEvoString()
         {
             /*
              * //@formatter:off
@@ -148,60 +212,11 @@ public class PokedexEntry
             // @formatter:on
             final PokedexEntry entry = this.preEvolution;
             final PokedexEntry nex = this.evolution;
-            String subEvo = I18n.format("pokemob.description.evolve.to", entry.getTranslatedName(), nex
-                    .getTranslatedName());
-            if (this.level > 0) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.level", this.level);
-            if (this.traded) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.traded");
-            if (this.gender == 1) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.male");
-            if (this.gender == 2) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.female");
-            if (!this.item.isEmpty()) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.item", this.item
-                    .getDisplayName().getFormattedText());
-            else if (this.preset != null)
-            {
-                final ItemStack stack = PokecubeItems.getStack(this.preset);
-                if (!stack.isEmpty()) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.item", stack
-                        .getDisplayName().getFormattedText());
-            }
-            if (this.happy) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.happy");
-            if (this.dawnOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.dawn");
-            if (this.duskOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.dusk");
-            if (this.dayOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.day");
-            if (this.nightOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.night");
-            if (this.rainOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.rain");
-
-            // TODO add in info related to needed formes.
-
-            if (this.randomFactor != 1)
-            {
-                final String var = (int) (100 * this.randomFactor) + "%";
-                subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.chance", var);
-            }
-            if (this.move != null && !this.move.isEmpty()) subEvo = subEvo + "\n" + I18n.format(
-                    "pokemob.description.evolve.move", MovesUtils.getMoveName(this.move).getUnformattedComponentText());
-            if (this.matcher != null)
-            {
-                this.matcher.reset();
-                this.matcher.parse();
-                final List<String> biomeNames = Lists.newArrayList();
-                for (final BiomeType t : this.matcher._validSubBiomes)
-                    biomeNames.add(I18n.format(t.readableName));
-                for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
-                {
-                    final boolean valid = this.matcher._validBiomes.contains(test.getRegistryName());
-                    if (valid) biomeNames.add(I18n.format(test.getTranslationKey()));
-                }
-                for (final SpawnBiomeMatcher matcher : this.matcher.children)
-                {
-                    for (final BiomeType t : matcher._validSubBiomes)
-                        biomeNames.add(I18n.format(t.readableName));
-                    for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
-                    {
-                        final boolean valid = matcher._validBiomes.contains(test.getRegistryName());
-                        if (valid) biomeNames.add(I18n.format(test.getTranslationKey()));
-                    }
-                }
-                subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.locations", biomeNames);
-            }
+            final IFormattableTextComponent subEvo = new TranslationTextComponent("pokemob.description.evolve.to", entry
+                    .getTranslatedName(), nex.getTranslatedName());
+            final List<IFormattableTextComponent> list = this.getEvoClauses();
+            for (final IFormattableTextComponent item : list)
+                subEvo.appendString("\n").append(item);
             return subEvo;
         }
 
@@ -276,15 +291,13 @@ public class PokedexEntry
             if (this.rainOnly)
             {
                 final World world = mob.getEntity().getEntityWorld();
-                boolean rain = world.isRaining();
+                final boolean rain = world.isRaining();
                 if (!rain)
                 {
                     final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
                     final PokemobTerrainEffects teffect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
                     if (teffect != null && !teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
-                    {
                         return false;
-                    }
                 }
             }
 
@@ -675,7 +688,14 @@ public class PokedexEntry
         public boolean isValid(final Biome biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher._validBiomes.contains(biome.getRegistryName())) return true;
+                if (matcher.getValidBiomes().contains(BiomeDatabase.getKey(biome))) return true;
+            return false;
+        }
+
+        public boolean isValid(final RegistryKey<Biome> biome)
+        {
+            for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
+                if (matcher.getValidBiomes().contains(biome)) return true;
             return false;
         }
 
@@ -1413,23 +1433,25 @@ public class PokedexEntry
         if (this.description == null)
         {
             final PokedexEntry entry = this;
-            String typeString = PokeType.getTranslatedName(entry.getType1());
-            if (entry.getType2() != PokeType.unknown) typeString += "/" + PokeType.getTranslatedName(entry.getType2());
-            final String typeDesc = I18n.format("pokemob.description.type", entry.getTranslatedName(), typeString);
-            String evoString = null;
+            final IFormattableTextComponent typeString = PokeType.getTranslatedName(entry.getType1());
+            if (entry.getType2() != PokeType.unknown) typeString.appendString("/").append(PokeType.getTranslatedName(
+                    entry.getType2()));
+            final IFormattableTextComponent typeDesc = new TranslationTextComponent("pokemob.description.type", entry
+                    .getTranslatedName(), typeString);
+            IFormattableTextComponent evoString = null;
             if (entry.canEvolve()) for (final EvolutionData d : entry.evolutions)
             {
                 if (d.evolution == null) continue;
                 if (evoString == null) evoString = d.getEvoString();
-                else evoString = evoString + "\n" + d.getEvoString();
-                evoString = evoString + "\n";
+                else evoString = evoString.appendString("\n").append(d.getEvoString());
+                evoString.appendString("\n");
             }
-            String descString = typeDesc;
-            if (evoString != null) descString = descString + "\n" + evoString;
-            if (entry._evolvesFrom != null) descString = descString + "\n" + I18n.format(
-                    "pokemob.description.evolve.from", entry.getTranslatedName(), entry._evolvesFrom
-                            .getTranslatedName());
-            this.description = new StringTextComponent(descString);
+            IFormattableTextComponent descString = typeDesc;
+            if (evoString != null) descString = descString.appendString("\n").append(evoString);
+            if (entry._evolvesFrom != null) descString = descString.appendString("\n").append(
+                    new TranslationTextComponent("pokemob.description.evolve.from", entry.getTranslatedName(),
+                            entry._evolvesFrom.getTranslatedName()));
+            this.description = descString;
         }
         return this.description;
     }
@@ -1587,7 +1609,7 @@ public class PokedexEntry
                     this.heldTable);
             final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntityWorld())
                     .withParameter(LootParameters.THIS_ENTITY, mob).withParameter(LootParameters.DAMAGE_SOURCE,
-                            DamageSource.GENERIC).withParameter(LootParameters.POSITION, mob.getPosition());
+                            DamageSource.GENERIC).withParameter(LootParameters.field_237457_g_, mob.getPositionVec());
             for (final ItemStack itemstack : loottable.generate(lootcontext$builder.build(loottable.getParameterSet())))
                 if (!itemstack.isEmpty()) return itemstack;
         }
@@ -1673,10 +1695,17 @@ public class PokedexEntry
         return ret;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public String getTranslatedName()
+    private IFormattableTextComponent nameComp;
+
+    public IFormattableTextComponent getTranslatedName()
     {
-        return I18n.format(this.getUnlocalizedName());
+        if (this.nameComp == null)
+        {
+            this.nameComp = new TranslationTextComponent(this.getUnlocalizedName());
+            this.nameComp.setStyle(this.nameComp.getStyle().setClickEvent(new ClickEvent(
+                    net.minecraft.util.text.event.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
+        }
+        return this.nameComp;
     }
 
     /**

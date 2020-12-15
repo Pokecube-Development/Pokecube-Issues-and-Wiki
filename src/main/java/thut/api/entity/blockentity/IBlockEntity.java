@@ -23,8 +23,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.maths.Vector3.MutableBlockPos;
@@ -78,7 +78,8 @@ public interface IBlockEntity
                         {
                             CompoundNBT tag = new CompoundNBT();
                             tag = old.write(tag);
-                            ret[i - xMin][j - yMin][k - zMin] = TileEntity.create(tag);
+                            ret[i - xMin][j - yMin][k - zMin] = TileEntity.readTileEntity(world.getBlockState(temp),
+                                    tag);
                         }
                     }
             return ret;
@@ -105,19 +106,20 @@ public interface IBlockEntity
             return ret;
         }
 
-        public static RayTraceResult rayTraceInternal(final Vec3d start, final Vec3d end, final IBlockEntity toTrace)
+        public static RayTraceResult rayTraceInternal(final Vector3d start, final Vector3d end,
+                final IBlockEntity toTrace)
         {
-            Vec3d diff = end.subtract(start);
+            Vector3d diff = end.subtract(start);
             final double l = diff.length();
             diff = diff.normalize();
             final IBlockEntityWorld world = toTrace.getFakeWorld();
             final MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
             for (double i = 0; i < l; i += 0.1)
             {
-                final Vec3d spot = start.add(diff.mul(i, i, i));
+                final Vector3d spot = start.add(diff.mul(i, i, i));
                 pos.set(MathHelper.floor(spot.x), MathHelper.floor(spot.y), MathHelper.floor(spot.z));
                 final BlockState state = world.getBlock(pos);
-                if (state != null && !state.isAir(world, pos))
+                if (state != null && !world.isAirBlock(pos))
                 {
                     final VoxelShape shape = state.getCollisionShape(world, pos);
                     final BlockRayTraceResult hit = shape.rayTrace(start, end, pos);
@@ -199,7 +201,7 @@ public interface IBlockEntity
                             if (tile != null)
                             {
                                 final TileEntity newTile = entity.getEntityWorld().getTileEntity(pos);
-                                if (newTile != null) newTile.read(tile.write(new CompoundNBT()));
+                                if (newTile != null) newTile.read(state, tile.write(new CompoundNBT()));
                             }
                         }
                     }

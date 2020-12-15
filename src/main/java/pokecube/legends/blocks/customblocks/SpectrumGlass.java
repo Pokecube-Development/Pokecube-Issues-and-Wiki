@@ -2,9 +2,9 @@ package pokecube.legends.blocks.customblocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.GlassBlock;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ILightReader;
+import net.minecraft.world.IBlockDisplayReader;
 
 public class SpectrumGlass extends GlassBlock
 {
@@ -14,7 +14,7 @@ public class SpectrumGlass extends GlassBlock
     }
 
 	@Override
-	public boolean shouldDisplayFluidOverlay(BlockState state, ILightReader world, BlockPos pos, IFluidState fluidstate) {
+	public boolean shouldDisplayFluidOverlay(final BlockState state, final IBlockDisplayReader world, final BlockPos pos, final FluidState fluidstate) {
 		return true;
 	}
 }

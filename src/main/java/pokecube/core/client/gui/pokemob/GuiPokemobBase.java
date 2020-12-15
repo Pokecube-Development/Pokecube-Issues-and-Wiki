@@ -1,25 +1,38 @@
 package pokecube.core.client.gui.pokemob;
 
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Quaternion;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.resources.IResource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
+import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -27,26 +40,82 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {
+    public static ResourceLocation SIZEMAP = new ResourceLocation(PokecubeCore.MODID, "pokemobs_gui_sizes.json");
+
+    public static boolean autoScale = true;
+
+    public static Map<PokedexEntry, Float> sizeMap = Maps.newHashMap();
+
+    public static void initSizeMap()
+    {
+        IResource res = null;
+        try
+        {
+            res = Minecraft.getInstance().getResourceManager().getResource(GuiPokemobBase.SIZEMAP);
+            final InputStream in = res.getInputStream();
+            final JsonObject json = PokedexEntryLoader.gson.fromJson(new InputStreamReader(in), JsonObject.class);
+            for (final Entry<String, JsonElement> entry : json.entrySet())
+            {
+                final String key = entry.getKey();
+                try
+                {
+                    final Float value = entry.getValue().getAsFloat();
+                    GuiPokemobBase.sizeMap.put(Database.getEntry(key), value);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error loading size for {}", key);
+                }
+            }
+            res.close();
+        }
+        catch (final IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
     public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
             final float yaw, final float headPitch, final float headYaw, float scale)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        LivingEntity renderMob = entity;
         final int j = dx;
         final int k = dy;
         scale *= 30;
         if (pokemob != null)
         {
-            final float mobScale = pokemob.getSize();
-            final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-            if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
-            else scale /= Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-        }
-        RenderSystem.pushMatrix();
-        RenderSystem.translatef(j + 55, k + 60, 50.0F);
-        RenderSystem.scalef(1.0F, 1.0F, -1.0F);
-        final MatrixStack matrixstack = new MatrixStack();
+            if (entity.addedToChunk) pokemob = AnimationGui.getRenderMob(pokemob);
 
-        matrixstack.getLast().getNormal().mul(Vector3f.YP.rotationDegrees(50));
+            pokemob.setSize(1);
+            renderMob = pokemob.getEntity();
+            float mobScale = 1;
+
+            if (GuiPokemobBase.autoScale)
+            {
+                final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
+                if (value != null) mobScale = value * 2.0f;
+                else
+                {
+                    final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+                    mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+                }
+            }
+            else
+            {
+                final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+                mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+            }
+
+            if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
+            else scale /= mobScale;
+        }
+        final MatrixStack matrixstack = new MatrixStack();
+        matrixstack.translate(j + 55, k + 60, 50.0F);
+        matrixstack.scale(1.0F, 1.0F, 1.0F);
+        matrixstack.push();
 
         matrixstack.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
@@ -61,12 +130,12 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
                 .getBufferSource();
         RenderMobOverlays.enabled = false;
-        entityrenderermanager.renderEntityStatic(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixstack,
+        entityrenderermanager.renderEntityStatic(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixstack,
                 irendertypebuffer$impl, 15728880);
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.finish();
         entityrenderermanager.setRenderShadow(true);
-        RenderSystem.popMatrix();
+        matrixstack.pop();
     }
 
     public static void setPokemob(final IPokemob pokemobIn)
@@ -78,13 +147,11 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         }
     }
 
-    protected TextFieldWidget name = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, "");
+    protected TextFieldWidget name = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, new StringTextComponent(""));
 
     public GuiPokemobBase(final ContainerPokemob container, final PlayerInventory inv)
     {
         super(container, inv, container.pokemob.getDisplayName());
-        this.name.setText(container.pokemob.getDisplayName().getUnformattedComponentText().trim());
-        this.name.enabledColor = 4210752;
     }
 
     @Override
@@ -101,21 +168,16 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final float partialTicks, final int mouseX, final int mouseY)
+    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX,
+            final int mouseY)
     {
         this.getMinecraft().getTextureManager().bindTexture(Resources.GUI_POKEMOB);
         final int k = (this.width - this.xSize) / 2;
         final int l = (this.height - this.ySize) / 2;
-        this.blit(k, l, 0, 0, this.xSize, this.ySize);
-        if (this.container.mode == 0) this.blit(k + 79, l + 17, 0, this.ySize, 90, 18);
-        this.blit(k + 7, l + 35, 0, this.ySize + 54, 18, 18);
-        if (this.container.pokemob != null)
-        {
-            final boolean prev = this.container.pokemob.getEntity().addedToChunk;
-            this.container.pokemob.getEntity().addedToChunk = false;
-            GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
-            this.container.pokemob.getEntity().addedToChunk = prev;
-        }
+        this.blit(mat, k, l, 0, 0, this.xSize, this.ySize);
+        if (this.container.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.ySize, 90, 18);
+        this.blit(mat, k + 7, l + 35, 0, this.ySize + 54, 18, 18);
+        if (this.container.pokemob != null) GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
     }
 
     /**
@@ -123,9 +185,9 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
      * of the items)
      */
     @Override
-    protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY)
+    protected void drawGuiContainerForegroundLayer(final MatrixStack mat, final int mouseX, final int mouseY)
     {
-        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, this.ySize - 96 + 2,
+        this.font.drawString(mat, this.playerInventory.getDisplayName().getString(), 8.0F, this.ySize - 96 + 2,
                 4210752);
     }
 
@@ -135,21 +197,19 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         super.init();
         final int xOffset = 80;
         final int yOffset = 77;
-        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, "");
-        if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName()
-                .getUnformattedComponentText().trim());
+        final ITextComponent comp = new StringTextComponent("");
+        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, comp);
         this.name.setTextColor(0xFFFFFFFF);
+        this.name.disabledColor = 4210752;
+        if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName().getString());
         this.addButton(this.name);
     }
 
     /** Draws the screen and all the components in it. */
     @Override
-    public void render(final int x, final int y, final float z)
+    public void render(final MatrixStack mat, final int x, final int y, final float z)
     {
-        super.renderBackground();
-        super.render(x, y, z);
-        final List<String> text = Lists.newArrayList();
-        if (this.container.pokemob == null) return;
-        if (!text.isEmpty()) this.renderTooltip(text, x, y);
+        super.renderBackground(mat);
+        super.render(mat, x, y, z);
     }
 }

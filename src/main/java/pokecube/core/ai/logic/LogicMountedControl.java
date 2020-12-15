@@ -12,9 +12,9 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -32,7 +32,7 @@ import pokecube.core.utils.Permissions;
  */
 public class LogicMountedControl extends LogicBase
 {
-    public static Set<DimensionType> BLACKLISTED = Sets.newHashSet();
+    public static Set<RegistryKey<World>> BLACKLISTED = Sets.newHashSet();
 
     public boolean leftInputDown    = false;
     public boolean rightInputDown   = false;
@@ -73,10 +73,10 @@ public class LogicMountedControl extends LogicBase
         final Config config = PokecubeCore.getConfig();
         boolean move = false;
         this.entity.rotationYaw = this.pokemob.getHeading();
-        boolean shouldControl = this.entity.onGround || this.pokemob.floats();
+        boolean shouldControl = this.entity.isOnGround() || this.pokemob.floats();
         boolean verticalControl = false;
         boolean waterSpeed = false;
-        boolean airSpeed = !this.entity.onGround;
+        boolean airSpeed = !this.entity.isOnGround();
 
         boolean canSurf = this.pokemob.canUseSurf();
         boolean canDive = this.pokemob.canUseDive();
@@ -102,7 +102,7 @@ public class LogicMountedControl extends LogicBase
             if (config.permsDiveSpecific && canDive && !handler.hasPermission(player.getGameProfile(),
                     Permissions.DIVESPECIFIC.get(entry), context)) canDive = false;
         }
-        if (canFly) canFly = !LogicMountedControl.BLACKLISTED.contains(world.getDimension().getType());
+        if (canFly) canFly = !LogicMountedControl.BLACKLISTED.contains(world.getDimensionKey());
         if (canFly)
         {
             shouldControl = verticalControl = PokecubeCore.getConfig().flyEnabled || shouldControl;
@@ -145,7 +145,7 @@ public class LogicMountedControl extends LogicBase
 
             if (shouldControl)
             {
-                if (!this.entity.onGround) f *= 2;
+                if (!this.entity.isOnGround()) f *= 2;
                 vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
                 vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
             }
@@ -169,7 +169,7 @@ public class LogicMountedControl extends LogicBase
                 vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
             }
         }
-        if (this.upInputDown) if (this.entity.onGround && !verticalControl)
+        if (this.upInputDown) if (this.entity.isOnGround() && !verticalControl)
         {
             this.entity.isAirBorne = true;
             // TODO somehow configure this jump value.
@@ -180,9 +180,9 @@ public class LogicMountedControl extends LogicBase
         else if (this.entity.isInLava() || this.entity.isInWater()) vy += 0.05 * this.throttle;
         if (this.downInputDown)
         {
-            if (verticalControl && !this.entity.onGround) vy -= 0.1 * this.throttle;
+            if (verticalControl && !this.entity.isOnGround()) vy -= 0.1 * this.throttle;
         }
-        else if (!verticalControl && !this.entity.onGround) vy -= 0.1;
+        else if (!verticalControl && !this.entity.isOnGround()) vy -= 0.1;
         if (!this.followOwnerLook)
         {// TODO some way to make this change based on how long button is held?
             if (this.leftInputDown) this.pokemob.setHeading(this.pokemob.getHeading() - 5);
@@ -197,7 +197,7 @@ public class LogicMountedControl extends LogicBase
                 move = true;
                 if (shouldControl)
                 {
-                    if (!this.entity.onGround) f *= 2;
+                    if (!this.entity.isOnGround()) f *= 2;
                     if (airSpeed) f *= config.flySpeedFactor;
                     else if (waterSpeed) f *= config.surfSpeedFactor;
                     else f *= config.groundSpeedFactor;
@@ -216,7 +216,7 @@ public class LogicMountedControl extends LogicBase
                 move = true;
                 if (shouldControl)
                 {
-                    if (!this.entity.onGround) f *= 2;
+                    if (!this.entity.isOnGround()) f *= 2;
                     if (airSpeed) f *= config.flySpeedFactor;
                     else if (waterSpeed) f *= config.surfSpeedFactor;
                     else f *= config.groundSpeedFactor;

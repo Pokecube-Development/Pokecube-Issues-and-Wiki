@@ -10,7 +10,6 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -20,6 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.IGeneSelector;
+import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
@@ -115,9 +115,6 @@ public class RecipeSelector extends SpecialRecipe
 
     private static Map<ItemStack, SelectorValue> selectorValues = Maps.newHashMap();
 
-    public static final IRecipeSerializer<RecipeSelector> SERIALIZER = new SpecialRecipeSerializer<>(
-            RecipeSelector::new);
-
     public static void addSelector(final ItemStack stack, final SelectorValue value)
     {
         RecipeSelector.selectorValues.put(stack, value);
@@ -191,7 +188,7 @@ public class RecipeSelector extends SpecialRecipe
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return RecipeSelector.SERIALIZER;
+        return RecipePokeAdv.SELECTOR.get();
     }
 
     @Override

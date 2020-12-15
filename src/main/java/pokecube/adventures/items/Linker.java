@@ -2,8 +2,6 @@ package pokecube.adventures.items;
 
 import java.util.UUID;
 
-import com.mojang.datafixers.Dynamic;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -11,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -52,8 +51,9 @@ public class Linker extends Item
         @Override
         public GlobalPos getLinkedPos(final Entity user)
         {
-            if (this.linker.getOrCreateTag().contains("thutcore:pos")) return GlobalPos.deserialize(new Dynamic<>(
-                    NBTDynamicOps.INSTANCE, this.linker.getOrCreateTag().getCompound("thutcore:pos")));
+            if (this.linker.getOrCreateTag().contains("thutcore:pos")) return GlobalPos.CODEC.decode(
+                    NBTDynamicOps.INSTANCE, this.linker.getOrCreateTag().getCompound("thutcore:pos")).result().get()
+                    .getFirst();
             else return null;
         }
 
@@ -64,23 +64,24 @@ public class Linker extends Item
             {
                 this.linker.getOrCreateTag().remove("thutcore:pos");
                 if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
-                        "item.pokecube_adventures.linker.unset"));
+                        "item.pokecube_adventures.linker.unset"), Util.DUMMY_UUID);
             }
             else
             {
-                this.linker.getOrCreateTag().put("thutcore:pos", pos.serialize(NBTDynamicOps.INSTANCE));
+                this.linker.getOrCreateTag().put("thutcore:pos", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE,
+                        pos).get().left().get());
                 if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
-                        "item.pokecube_adventures.linker.set"));
+                        "item.pokecube_adventures.linker.set"), Util.DUMMY_UUID);
                 if (user.getEntityWorld().isRemote) try
                 {
                     final String loc = String.format("%d %d %d", pos.getPos().getX(), pos.getPos().getY(), pos.getPos()
                             .getZ());
                     Minecraft.getInstance().keyboardListener.setClipboardString(loc);
-                    user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.copied"));
+                    user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.copied"),
+                            Util.DUMMY_UUID);
                 }
                 catch (final Exception e)
                 {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
@@ -104,7 +105,7 @@ public class Linker extends Item
         if (!test_stack.isPresent()) return false;
         final ILinkStorage storage = test_stack.orElse(null);
         final GlobalPos pos = storage.getLinkedPos(playerIn);
-        if (ai != null && pos != null && pos.getDimension() == target.dimension)
+        if (ai != null && pos != null && pos.getDimension() == target.getEntityWorld().getDimensionKey())
         {
             final IOwnable ownable = OwnableCaps.getOwnable(target);
             boolean valid = false;
@@ -117,10 +118,11 @@ public class Linker extends Item
                 final BlockPos bpos = pos.getPos().up();
                 ai.getPrimaryTask().setPos(pos.getPos().up());
                 playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob", target
-                        .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()));
+                        .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), Util.DUMMY_UUID);
                 return true;
             }
-            else playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob.fail"));
+            else playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob.fail"),
+                    Util.DUMMY_UUID);
         }
         return false;
     }

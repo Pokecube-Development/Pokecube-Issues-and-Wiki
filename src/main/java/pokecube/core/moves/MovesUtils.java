@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
@@ -17,6 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -84,7 +84,7 @@ public class MovesUtils implements IMoveConstants
         {
             final ITextComponent message = new TranslationTextComponent(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else target.sendMessage(message);
+            else target.sendMessage(message, Util.DUMMY_UUID);
         }
     }
 
@@ -100,7 +100,7 @@ public class MovesUtils implements IMoveConstants
         {
             final ITextComponent message = new TranslationTextComponent(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else target.sendMessage(message);
+            else target.sendMessage(message, Util.DUMMY_UUID);
         }
     }
 
@@ -286,7 +286,7 @@ public class MovesUtils implements IMoveConstants
             {
                 final ITextComponent message = new TranslationTextComponent(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
-                else target.sendMessage(message);
+                else target.sendMessage(message, Util.DUMMY_UUID);
             }
         }
     }
@@ -300,18 +300,6 @@ public class MovesUtils implements IMoveConstants
             if (attackName != null) System.err.println("The Move \"" + attackName + "\" does not exist.");
             MovesUtils.doAttack(IMoveConstants.DEFAULT_MOVE, attacker, attacked);
         }
-    }
-
-    public static boolean doAttack(final Move_Base move, final IPokemob attacker, final Vector3 attacked,
-            final Predicate<Entity> valid, final Consumer<Entity> onHit)
-    {
-        if (move != null) move.attack(attacker, attacked, valid, onHit);
-        else
-        {
-            PokecubeCore.LOGGER.error("Invalid Move Use!");
-            return false;
-        }
-        return true;
     }
 
     public static int getAttackDelay(final IPokemob attacker, final String moveName, final boolean distanced,
@@ -406,12 +394,9 @@ public class MovesUtils implements IMoveConstants
     {
         float ret = 1;
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
-        if (type == PokeType.getType("dragon"))
-        {
-            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY))
-                ret = 0.5f;
-        }
-        if (type == PokeType.getType("electric") && (attacker.onGround || attacker.fallDistance < 0.5))
+        if (type == PokeType.getType("dragon")) if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY))
+            ret = 0.5f;
+        if (type == PokeType.getType("electric") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
         {
             if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC))
                 ret = 1.5f;
@@ -420,11 +405,8 @@ public class MovesUtils implements IMoveConstants
                 ret *= 0.33f;
         }
 
-        if (type == PokeType.getType("grass") && (attacker.onGround || attacker.fallDistance < 0.5))
-        {
-            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS))
-                ret = 1.5f;
-        }
+        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5)) if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS))
+            ret = 1.5f;
 
         if (type == PokeType.getType("water"))
         {

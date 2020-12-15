@@ -149,7 +149,8 @@ public class TypeTrainer extends NpcType
             {
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
                 final int num = PokecubeAdv.config.trainer_crowding_number;
-                if (TrainerTracker.countTrainers(e.getEntityWorld(), Vector3.getNewVector().set(e), dist) > num) return false;
+                if (TrainerTracker.countTrainers(e.getEntityWorld(), Vector3.getNewVector().set(e), dist) > num)
+                    return false;
                 return true;
             };
             final Predicate<LivingEntity> noRunWhileRest = e ->
@@ -198,7 +199,7 @@ public class TypeTrainer extends NpcType
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                task = new AgroTargets(npc, 0.05f, 1200, z -> CapabilityPokemob.getPokemobFor(z) != null)
+                task = new AgroTargets(npc, 0.005f, 1200, z -> CapabilityPokemob.getPokemobFor(z) != null)
                         .setRunCondition(noRunWhileRest);
                 list.add(Pair.of(1, (Task<? super LivingEntity>) task));
                 task = new CaptureMob(npc, 1);
@@ -209,7 +210,7 @@ public class TypeTrainer extends NpcType
             if (Config.instance.trainersBattleEachOther)
             {
                 final Predicate<LivingEntity> shouldRun = noRunWhileMeet.and(noRunWhileRest);
-                task = new AgroTargets(npc, 0.05f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(
+                task = new AgroTargets(npc, 0.0015f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(
                         shouldRun);
                 list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             }
@@ -349,8 +350,7 @@ public class TypeTrainer extends NpcType
     {
         final int num = entry.getPokedexNb();
         if (Pokedex.getInstance().getEntry(num) == null) return ItemStack.EMPTY;
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, PokecubeCore.proxy
-                .getWorld()));
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getEntityWorld()));
         if (pokemob != null)
         {
             for (int i = 1; i < level; i++)
@@ -372,7 +372,6 @@ public class TypeTrainer extends NpcType
             final int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
             pokemob = pokemob.setForSpawn(exp, false);
             final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
-            pokemob.getEntity().remove();
             return item;
         }
 
@@ -455,9 +454,9 @@ public class TypeTrainer extends NpcType
         super(name);
         TypeTrainer.addTrainer(name, this);
         this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
-                + "female.png"));
-        this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
-                + "male.png"));
+                + "_female.png"));
+        this.setMaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
+                + "_male.png"));
     }
 
     public Collection<MerchantOffer> getRecipes(final Random rand)
@@ -470,18 +469,38 @@ public class TypeTrainer extends NpcType
     }
 
     @OnlyIn(Dist.CLIENT)
-    public ResourceLocation getTexture(final LivingEntity trainer)
+    private void checkTex()
     {
-        final IHasPokemobs cap = TrainerCaps.getHasPokemobs(trainer);
         if (!this.checkedTex)
         {
             this.checkedTex = true;
+            // Initial pass to find a tex
             if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
                     PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + ".png"));
             if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH
                     + Database.trim(this.getName()) + ".png"));
+
+            // Second pass to override with vanilla
+            if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
+                    "textures/entity/alex.png"));
+            if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation("textures/entity/steve.png"));
         }
-        return cap.getGender() == 1 ? this.getMaleTex() : this.getFemaleTex();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public ResourceLocation getMaleTex()
+    {
+        this.checkTex();
+        return super.getMaleTex();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public ResourceLocation getFemaleTex()
+    {
+        this.checkTex();
+        return super.getFemaleTex();
     }
 
     private void initLoot()

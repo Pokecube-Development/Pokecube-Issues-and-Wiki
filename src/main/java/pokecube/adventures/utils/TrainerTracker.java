@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.entity.trainer.TrainerBase;
@@ -52,14 +52,14 @@ public class TrainerTracker
         }
     }
 
-    private static Map<DimensionType, List<Entry>> mobMap = new HashMap<>();
+    private static Map<RegistryKey<World>, List<Entry>> mobMap = new HashMap<>();
 
     public static void add(final TrainerBase npc)
     {
         // First remove the mob from all maps, incase it is in one.
         TrainerTracker.removeTrainer(npc);
 
-        final DimensionType dim = npc.getEntity().dimension;
+        final RegistryKey<World> dim = npc.getEntity().getEntityWorld().getDimensionKey();
         // Find the appropriate map
         final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
         // Register the dimension if not already there
@@ -75,9 +75,9 @@ public class TrainerTracker
         TrainerTracker.mobMap.forEach((d, m) -> m.remove(e));
     }
 
-    public static int countTrainers(final IWorld world, final AxisAlignedBB box, final Predicate<TrainerBase> matches)
+    public static int countTrainers(final World world, final AxisAlignedBB box, final Predicate<TrainerBase> matches)
     {
-        final DimensionType dim = world.getDimension().getType();
+        final RegistryKey<World> dim = world.getDimensionKey();
         final Entry[] mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>()).toArray(new Entry[0]);
         int num = 0;
         for (final Entry e : mobList)
@@ -85,12 +85,12 @@ public class TrainerTracker
         return num;
     }
 
-    public static int countTrainers(final IWorld world, final AxisAlignedBB box)
+    public static int countTrainers(final World world, final AxisAlignedBB box)
     {
         return TrainerTracker.countTrainers(world, box, e -> true);
     }
 
-    public static int countTrainers(final IWorld world, final Vector3 location, final double radius)
+    public static int countTrainers(final World world, final Vector3 location, final double radius)
     {
         final AxisAlignedBB box = location.getAABB().grow(radius, radius, radius);
         return TrainerTracker.countTrainers(world, box);
@@ -99,8 +99,8 @@ public class TrainerTracker
     @SubscribeEvent
     public static void worldLoadEvent(final Load evt)
     {
-        if (evt.getWorld().isRemote()) return;
+        if (evt.getWorld().isRemote() || !(evt.getWorld() instanceof World)) return;
         // Reset the tracked map for this world
-        TrainerTracker.mobMap.put(evt.getWorld().getDimension().getType(), new ArrayList<>());
+        TrainerTracker.mobMap.put(((World)evt.getWorld()).getDimensionKey(), new ArrayList<>());
     }
 }

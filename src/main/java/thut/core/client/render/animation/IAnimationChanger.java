@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
+import thut.core.common.ThutCore;
 
 public interface IAnimationChanger
 {
@@ -24,7 +25,7 @@ public interface IAnimationChanger
             this.scale = scale;
             this.angles = angles;
             this.offset = offset;
-            this.parent = parent;
+            this.parent = ThutCore.trim(parent);
         }
     }
 

@@ -5,13 +5,14 @@ import org.lwjgl.opengl.GL11;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.Matrix3f;
-import net.minecraft.client.renderer.Matrix4f;
-import net.minecraft.client.renderer.Vector4f;
+import net.minecraft.util.math.vector.Matrix3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector4f;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
+import thut.core.common.ThutCore;
 
 public abstract class Mesh
 {
@@ -75,8 +76,8 @@ public abstract class Mesh
         this.material = new Material("auto:" + this.name);
     }
 
-    private final net.minecraft.client.renderer.Vector3f dummy3 = new net.minecraft.client.renderer.Vector3f();
-    private final Vector4f                               dummy4 = new Vector4f();
+    private final net.minecraft.util.math.vector.Vector3f dummy3 = new net.minecraft.util.math.vector.Vector3f();
+    private final Vector4f                                dummy4 = new Vector4f();
 
     protected void doRender(final MatrixStack mat, final IVertexBuilder buffer, final IPartTexturer texturer)
     {
@@ -97,7 +98,13 @@ public abstract class Mesh
         final Matrix4f pos = matrixstack$entry.getMatrix();
         final Matrix3f norms = matrixstack$entry.getNormal();
         final Vector4f dp = this.dummy4;
-        final net.minecraft.client.renderer.Vector3f dn = this.dummy3;
+        final net.minecraft.util.math.vector.Vector3f dn = this.dummy3;
+
+        if (this.order.length % 3 != 0)
+        {
+            ThutCore.LOGGER.error("Mesh with illegal size! " + this.name);
+            return;
+        }
 
         for (final Integer i : this.order)
         {
@@ -156,7 +163,6 @@ public abstract class Mesh
             this.rgbabro[4] = j << 20 | j << 4;
         }
         this.doRender(mat, buffer, texturer);
-        this.material.postRender(mat);
     }
 
     public void setMaterial(final Material material)

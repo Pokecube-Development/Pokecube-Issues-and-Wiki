@@ -2,6 +2,7 @@ package pokecube.core.blocks.pc;
 
 import java.util.UUID;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -35,9 +36,9 @@ public class PCTile extends InteractableTile
     }
 
     @Override
-    public void read(final CompoundNBT compound)
+    public void read(final BlockState state, final CompoundNBT compound)
     {
-        super.read(compound);
+        super.read(state, compound);
         if (compound.contains("boundid")) this.boundId = UUID.fromString(compound.getString("boundid"));
     }
 

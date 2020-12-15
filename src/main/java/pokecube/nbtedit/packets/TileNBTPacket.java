@@ -56,7 +56,7 @@ public class TileNBTPacket extends NBTPacket
         final TileEntity te = player.world.getTileEntity(this.pos);
         if (te != null && NBTEdit.proxy.checkPermission(player)) try
         {
-            te.read(this.getTag());
+            te.read(player.world.getBlockState(this.pos), this.getTag());
             te.markDirty();// Ensures changes gets saved to disk later on.
             if (te.hasWorld() && te.getWorld() instanceof ServerWorld) ((ServerWorld) te.getWorld()).getChunkProvider()
                     .markBlockChanged(this.pos);

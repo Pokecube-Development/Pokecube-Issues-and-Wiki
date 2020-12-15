@@ -25,7 +25,7 @@ public class AnimationBuilder
             final ArrayList<AnimationComponent> parts)
     {
         if (animation.sets.containsKey(part) && animation.priority > priority)
-            System.err.println("Already have " + part + ", Skipping.");
+            ThutCore.LOGGER.warn("Already have " + part + ", Skipping.");
         else animation.sets.put(part, parts);
     }
 

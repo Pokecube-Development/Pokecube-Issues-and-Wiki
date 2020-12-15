@@ -3,6 +3,7 @@ package thut.api.entity.blockentity;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
@@ -27,7 +28,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,8 +48,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
         public BlockEntityType(final EntityType.IFactory<T> factory)
         {
-            super(factory, EntityClassification.MISC, true, false, true, true, new EntitySize(1, 1, true), c -> true,
-                    c -> 64, c -> 1, null);
+            super(factory, EntityClassification.MISC, true, false, true, true, ImmutableSet.of(), new EntitySize(1, 1,
+                    true), 64, 1);
         }
 
         @Override
@@ -59,28 +60,28 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     }
 
-    private static class VecSer implements IDataSerializer<Vec3d>
+    private static class VecSer implements IDataSerializer<Vector3d>
     {
         @Override
-        public Vec3d copyValue(final Vec3d value)
+        public Vector3d copyValue(final Vector3d value)
         {
-            return new Vec3d(value.x, value.y, value.z);
+            return new Vector3d(value.x, value.y, value.z);
         }
 
         @Override
-        public DataParameter<Vec3d> createKey(final int id)
+        public DataParameter<Vector3d> createKey(final int id)
         {
             return new DataParameter<>(id, this);
         }
 
         @Override
-        public Vec3d read(final PacketBuffer buf)
+        public Vector3d read(final PacketBuffer buf)
         {
-            return new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+            return new Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
         }
 
         @Override
-        public void write(final PacketBuffer buf, final Vec3d value)
+        public void write(final PacketBuffer buf, final Vector3d value)
         {
             buf.writeDouble(value.x);
             buf.writeDouble(value.y);
@@ -88,11 +89,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         }
     }
 
-    public static final IDataSerializer<Vec3d> VEC3DSER = new VecSer();
+    public static final IDataSerializer<Vector3d> VEC3DSER = new VecSer();
 
-    static final DataParameter<Vec3d> velocity = EntityDataManager.<Vec3d> createKey(BlockEntityBase.class,
+    static final DataParameter<Vector3d> velocity = EntityDataManager.<Vector3d> createKey(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
-    static final DataParameter<Vec3d> position = EntityDataManager.<Vec3d> createKey(BlockEntityBase.class,
+    static final DataParameter<Vector3d> position = EntityDataManager.<Vector3d> createKey(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
 
     public BlockPos boundMin = BlockPos.ZERO;
@@ -158,7 +159,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     @Override
     /** Applies the given player interaction to this Entity. */
-    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vec3d vec, final Hand hand)
+    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vector3d vec, final Hand hand)
     {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         try
@@ -177,19 +178,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public boolean attackEntityFrom(final DamageSource source, final float amount)
     {
         return false;
-    }
-
-    /** returns the bounding box for this entity */
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox()
-    {
-        return null;
-    }
-
-    @Override
-    public AxisAlignedBB getCollisionBox(final Entity entityIn)
-    {
-        return null;
     }
 
     /**
@@ -260,7 +248,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public final void doMotion()
     {
-        final Vec3d v = this.getMotion();
+        final Vector3d v = this.getMotion();
         this.move(MoverType.SELF, v);
     }
 
@@ -316,7 +304,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public Vec3d getMotion()
+    public Vector3d getMotion()
     {
         return this.getDataManager().get(BlockEntityBase.velocity);
     }
@@ -377,7 +365,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     /** First layer of player interaction */
     @Override
-    public boolean processInitialInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType processInitialInteract(final PlayerEntity player, final Hand hand)
     {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         return this.interacter.processInitialInteract(player, player.getHeldItem(hand), hand);
@@ -420,7 +408,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                         if (blockTag.contains("T" + i + "," + k + "," + j)) try
                         {
                             final CompoundNBT tag = blockTag.getCompound("T" + i + "," + k + "," + j);
-                            this.tiles[i][k][j] = TileEntity.create(tag);
+                            this.tiles[i][k][j] = TileEntity.readTileEntity(state, tag);
                         }
                         catch (final Exception e)
                         {
@@ -465,8 +453,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     protected void registerData()
     {
-        this.getDataManager().register(BlockEntityBase.velocity, Vec3d.ZERO);
-        this.getDataManager().register(BlockEntityBase.position, Vec3d.ZERO);
+        this.getDataManager().register(BlockEntityBase.velocity, Vector3d.ZERO);
+        this.getDataManager().register(BlockEntityBase.position, Vector3d.ZERO);
     }
 
     /** Will get destroyed next tick. */
@@ -510,7 +498,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void setMotion(final Vec3d vec)
+    public void setMotion(final Vector3d vec)
     {
         this.getDataManager().set(BlockEntityBase.velocity, vec);
     }
@@ -518,8 +506,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void setRawPosition(final double x, final double y, final double z)
     {
-        final Vec3d pos = new Vec3d(x, y, z);
-        Vec3d vec = pos;
+        final Vector3d pos = new Vector3d(x, y, z);
+        Vector3d vec = pos;
         if (this.getDataManager() != null) vec = this.getDataManager().get(BlockEntityBase.position);
         final double ds2 = vec.squareDistanceTo(pos);
         super.setRawPosition(x, y, z);
@@ -532,7 +520,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (!this.isServerWorld())
         {
             vec = this.getDataManager().get(BlockEntityBase.position);
-            if (!vec.equals(Vec3d.ZERO)) super.setRawPosition(vec.x, vec.y, vec.z);
+            if (!vec.equals(Vector3d.ZERO)) super.setRawPosition(vec.x, vec.y, vec.z);
         }
     }
 
@@ -572,8 +560,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
         if (this.isServerWorld())
         {
-            final Vec3d orig = this.getMotion();
-            final Vec3d motion = new Vec3d(orig.x, orig.y, orig.z);
+            final Vector3d orig = this.getMotion();
+            final Vector3d motion = new Vector3d(orig.x, orig.y, orig.z);
             this.setMotion(motion);
         }
 

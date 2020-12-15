@@ -18,25 +18,29 @@ public class Regirock_Core extends BlockBase {
 
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-	public Regirock_Core(String name, Material material, float hardnessresistance, SoundType sound, ToolType tool, int harvest) {
+	public Regirock_Core(final String name, final Material material, final float hardnessresistance, final SoundType sound, final ToolType tool, final int harvest) {
 		super(name, material, hardnessresistance, sound, tool, harvest);
-		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
-	}
-	
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING);
-	}
-
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
-	}
-
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+		this.setDefaultState(this.stateContainer.getBaseState().with(Regirock_Core.FACING, Direction.NORTH));
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(Regirock_Core.FACING);
+	}
+
+	@Override
+    public BlockState rotate(final BlockState state, final Rotation rot) {
+		return state.with(Regirock_Core.FACING, rot.rotate(state.get(Regirock_Core.FACING)));
+	}
+
+    @Override
+    @SuppressWarnings("deprecation")
+	public BlockState mirror(final BlockState state, final Mirror mirrorIn) {
+		return state.rotate(mirrorIn.toRotation(state.get(Regirock_Core.FACING)));
+	}
+
+	@Override
+	public BlockState getStateForPlacement(final BlockItemUseContext context) {
+		return this.getDefaultState().with(Regirock_Core.FACING, context.getPlacementHorizontalFacing().getOpposite());
 	}
 }

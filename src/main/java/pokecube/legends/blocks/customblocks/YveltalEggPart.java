@@ -9,13 +9,13 @@ public enum YveltalEggPart implements IStringSerializable
 
   private final String name;
 
-  YveltalEggPart(String name)
+  YveltalEggPart(final String name)
   {
     this.name = name;
   }
 
   @Override
-  public String getName()
+  public String getString()
   {
     return this.name;
   }

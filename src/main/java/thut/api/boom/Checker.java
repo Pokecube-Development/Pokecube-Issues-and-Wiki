@@ -32,7 +32,7 @@ public class Checker
         default float getResistance(final BlockPos pos, final ExplosionCustom boom)
         {
             final BlockState state = boom.world.getBlockState(pos);
-            float resist = state.getExplosionResistance(boom.world, pos, boom.getExplosivePlacedBy(), boom);
+            float resist = state.getExplosionResistance(boom.world, pos, boom);
             if (state.getBlock() == Blocks.GRASS_BLOCK) resist /= 2;
             if (state.getBlock() instanceof LeavesBlock) resist /= 10;
             if (resist > 1) resist *= resist;

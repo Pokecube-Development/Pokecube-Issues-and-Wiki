@@ -7,13 +7,15 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate.AndPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.interfaces.PokecubeMod;
 
@@ -21,9 +23,9 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
 {
     public static class Instance extends CriterionInstance
     {
-        public Instance()
+        public Instance(final AndPredicate pred)
         {
-            super(FirstPokemobTrigger.ID);
+            super(FirstPokemobTrigger.ID, pred);
         }
 
         public boolean test()
@@ -38,12 +40,12 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
         private final PlayerAdvancements                                            playerAdvancements;
         private final Set<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> listeners = Sets.<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> newHashSet();
 
-        public Listeners(PlayerAdvancements playerAdvancementsIn)
+        public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
+        public void add(final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -53,12 +55,12 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
             return this.listeners.isEmpty();
         }
 
-        public void remove(ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
+        public void remove(final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
-        public void trigger(ServerPlayerEntity player)
+        public void trigger(final ServerPlayerEntity player)
         {
             List<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> list = null;
 
@@ -84,8 +86,8 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
     }
 
     @Override
-    public void addListener(PlayerAdvancements playerAdvancementsIn,
-            ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
+    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+            final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
     {
         FirstPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -98,14 +100,12 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
         bredanimalstrigger$listeners.add(listener);
     }
 
-    /**
-     * Deserialize a ICriterionInstance of this trigger from the data in the
-     * JSON.
-     */
+
     @Override
-    public FirstPokemobTrigger.Instance deserializeInstance(JsonObject json, JsonDeserializationContext context)
+    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
     {
-        return new FirstPokemobTrigger.Instance();
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        return new FirstPokemobTrigger.Instance(pred);
     }
 
     @Override
@@ -115,14 +115,14 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
     }
 
     @Override
-    public void removeAllListeners(PlayerAdvancements playerAdvancementsIn)
+    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(PlayerAdvancements playerAdvancementsIn,
-            ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
+    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+            final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
     {
         final FirstPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -134,7 +134,7 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
         }
     }
 
-    public void trigger(ServerPlayerEntity player)
+    public void trigger(final ServerPlayerEntity player)
     {
         final FirstPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
         if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player);

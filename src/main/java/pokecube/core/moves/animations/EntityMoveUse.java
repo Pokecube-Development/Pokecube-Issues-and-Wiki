@@ -24,7 +24,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -225,7 +225,7 @@ public class EntityMoveUse extends ThrowableEntity
         this.alreadyHit.add(target.getUniqueID());
         if (user == null || !this.isAlive() || !user.isAlive()) return;
         // Only can hit our valid target!
-        if (attack.move.isNotIntercepable() && target != this.getTarget()) return;
+        if (!attack.move.canHitNonTarget() && target != this.getTarget()) return;
         if (!this.getEntityWorld().isRemote)
         {
             final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
@@ -436,10 +436,17 @@ public class EntityMoveUse extends ThrowableEntity
 
         this.prev.set(this.here);
         AxisAlignedBB testBox = this.getBoundingBox();
+        final Move_Base attack = this.getMove();
 
-        // Set to the correct location
-        if (this.onSelf || this.contact)
+        if (attack.aoe)
         {
+            // AOE moves are just a 8-radius box around us.
+            final double frac = (this.startAge - this.getDuration()) / this.startAge;
+            testBox = this.start.getAABB().grow(8 * frac);
+        }
+        else if (this.onSelf || this.contact)
+        {
+            // Self or contact moves will stick to the user.
             this.start.set(this.getUser());
             this.end.set(this.start);
             this.setMotion(this.getUser().getMotion());
@@ -447,6 +454,7 @@ public class EntityMoveUse extends ThrowableEntity
         }
         else
         {
+            // Otherwise they fly in a straight line from the user to the target
             final double frac = this.dist * (this.startAge - this.getDuration()) / this.startAge;
             this.setMotion(this.dir.x * frac, this.dir.y * frac, this.dir.z * frac);
             this.setPosition(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac, this.start.z
@@ -454,17 +462,17 @@ public class EntityMoveUse extends ThrowableEntity
             this.here.set(this);
         }
 
-        final Move_Base attack = this.getMove();
         if (this.getEntityWorld().isRemote && attack.getAnimation(userMob) != null) attack.getAnimation(userMob)
                 .spawnClientEntities(this.getMoveInfo());
 
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
 
-        final Vec3d v = this.getMotion();
+        final Vector3d v = this.getMotion();
         testBox = testBox.expand(v.x, v.y, v.z);
         final List<LivingEntity> hits = this.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, testBox,
                 this.valid);
+
         for (final Entity e : hits)
             this.doMoveUse(e);
 
@@ -489,9 +497,7 @@ public class EntityMoveUse extends ThrowableEntity
                 this.applied = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                MovesUtils.doAttack(this.getMove(), userMob, this.end, e -> false, e ->
-                {
-                });
+                this.getMove().doWorldAction(userMob, this.end);
             }
         }
     }

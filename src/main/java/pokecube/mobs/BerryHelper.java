@@ -25,7 +25,7 @@ public class BerryHelper implements IMoveConstants
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onTick(IPokemob pokemob, ItemStack stack)
+        public ActionResult<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
         {
             return this.onUse(pokemob, stack, pokemob.getEntity());
         }
@@ -41,13 +41,14 @@ public class BerryHelper implements IMoveConstants
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
             return BerryHelper.applyEffect(pokemob, user, stack);
         }
     }
 
-    public static ActionResult<ItemStack> applyEffect(IPokemob pokemob, LivingEntity user, ItemStack stack)
+    public static ActionResult<ItemStack> applyEffect(final IPokemob pokemob, final LivingEntity user,
+            final ItemStack stack)
     {
         final boolean applied = BerryHelper.berryEffect(pokemob, user, stack);
         if (stack.getItem() instanceof ItemBerry)
@@ -63,62 +64,22 @@ public class BerryHelper implements IMoveConstants
         return new ActionResult<>(applied ? ActionResultType.SUCCESS : ActionResultType.FAIL, stack);
     }
 
-    public static boolean berryEffect(IPokemob pokemob, LivingEntity user, ItemStack berry)
+    private static boolean handleEVBerry(final IPokemob pokemob, final int index)
     {
+        final byte[] evs = pokemob.getEVs();
+        if (evs[index] == 0) return false;
+        HappinessType.applyHappiness(pokemob, HappinessType.EVBERRY);
+        evs[index] = (byte) Math.max(Byte.MIN_VALUE, evs[index] - 10);
+        pokemob.setEVs(evs);
+        return true;
+    }
 
+    public static boolean berryEffect(final IPokemob pokemob, final LivingEntity user, final ItemStack berry)
+    {
         if (!(berry.getItem() instanceof ItemBerry)) return false;
-
         final byte status = pokemob.getStatus();
         final int berryId = ((ItemBerry) berry.getItem()).type.index;
-        if (berryId == 21)
-        {
-            HappinessType.applyHappiness(pokemob, HappinessType.EVBERRY);
-            final byte[] evs = pokemob.getEVs();
-            evs[0] = (byte) Math.max(Byte.MIN_VALUE, evs[0] - 10);
-            pokemob.setEVs(evs);
-            return true;
-        }
-        if (berryId == 22)
-        {
-            HappinessType.applyHappiness(pokemob, HappinessType.EVBERRY);
-            final byte[] evs = pokemob.getEVs();
-            evs[1] = (byte) Math.max(Byte.MIN_VALUE, evs[1] - 10);
-            pokemob.setEVs(evs);
-            return true;
-        }
-        if (berryId == 23)
-        {
-            HappinessType.applyHappiness(pokemob, HappinessType.EVBERRY);
-            final byte[] evs = pokemob.getEVs();
-            evs[2] = (byte) Math.max(Byte.MIN_VALUE, evs[2] - 10);
-            pokemob.setEVs(evs);
-            return true;
-        }
-        if (berryId == 24)
-        {
-            HappinessType.applyHappiness(pokemob, HappinessType.EVBERRY);
-            final byte[] evs = pokemob.getEVs();
-            evs[3] = (byte) Math.max(Byte.MIN_VALUE, evs[3] - 10);
-            pokemob.setEVs(evs);
-            return true;
-        }
-        if (berryId == 25)
-        {
-            HappinessType.applyHappiness(pokemob, HappinessType.EVBERRY);
-            final byte[] evs = pokemob.getEVs();
-            evs[4] = (byte) Math.max(Byte.MIN_VALUE, evs[4] - 10);
-            pokemob.setEVs(evs);
-            return true;
-        }
-        if (berryId == 26)
-        {
-            HappinessType.applyHappiness(pokemob, HappinessType.EVBERRY);
-            final byte[] evs = pokemob.getEVs();
-            evs[5] = (byte) Math.max(Byte.MIN_VALUE, evs[5] - 10);
-            pokemob.setEVs(evs);
-            return true;
-        }
-
+        if (berryId >= 21 && berryId <= 26) return BerryHelper.handleEVBerry(pokemob, berryId - 21);
         if (status == IMoveConstants.STATUS_PAR && berryId == 1)
         {
             pokemob.healStatus();
@@ -154,7 +115,7 @@ public class BerryHelper implements IMoveConstants
         final float HPmax = entity.getMaxHealth();
 
         final boolean apply = (berryId == 7 || berryId == 10 || berryId == 60) && user instanceof PlayerEntity
-                && HP != HPmax || HP < HPmax / 3;
+                && HP < HPmax || HP < HPmax / 3;
         if (apply) if (berryId == 7)
         {
             entity.heal(10);

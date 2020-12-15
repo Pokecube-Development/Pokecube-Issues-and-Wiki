@@ -41,7 +41,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
     protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
     {
         final double s = 16;
-        if (!TerrainManager.isAreaLoaded(worldIn, entityIn.getPosition(), 8 + s)) return;
+        if (!TerrainManager.isAreaLoaded(entityIn.getEntityWorld(), entityIn.getPosition(), 8 + s)) return;
         final List<AgeableEntity> mates = Lists.newArrayList();
         final List<ItemEntity> items = Lists.newArrayList();
         final List<LivingEntity> mobs = Lists.newArrayList();

@@ -5,10 +5,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.client.render.mobs.overlays.ExitCube;
@@ -22,7 +22,6 @@ public class RenderMobOverlays
 {
     public static boolean enabled = true;
 
-    @SubscribeEvent
     public static void renderSpecial(final RenderLivingEvent.Pre<MobEntity, EntityModel<MobEntity>> event)
     {
         if (!RenderMobOverlays.enabled) return;
@@ -41,7 +40,7 @@ public class RenderMobOverlays
             if (PokecubeCore.getConfig().doHealthBars)
             {
                 int br = event.getLight();
-                if (PokecubeCore.getConfig().brightbars) br = 15728800;
+                if (PokecubeCore.getConfig().brightbars) br = OverlayTexture.getPackedUV(15, false);
                 if (PokecubeCore.getConfig().renderInF1 || Minecraft.isGuiEnabled()) Health.renderHealthBar(event
                         .getEntity(), mat, buf, partialTicks, cameraEntity, br);
             }

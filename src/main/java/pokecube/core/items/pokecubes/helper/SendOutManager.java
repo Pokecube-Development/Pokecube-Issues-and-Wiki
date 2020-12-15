@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Util;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -112,7 +113,7 @@ public class SendOutManager
             if (isPlayers && cube.shootingEntity.isAlive())
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"));
+                user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"), Util.DUMMY_UUID);
                 cube.remove();
             }
             return null;
@@ -140,7 +141,7 @@ public class SendOutManager
             if (v == null && isPlayers)
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.sendMessage(new TranslationTextComponent("pokecube.noroom"));
+                user.sendMessage(new TranslationTextComponent("pokecube.noroom"), Util.DUMMY_UUID);
                 cube.remove();
                 return null;
             }
@@ -162,7 +163,7 @@ public class SendOutManager
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.specific", pokemob
-                            .getDisplayName()));
+                            .getDisplayName()), Util.DUMMY_UUID);
                     cube.remove();
                     return null;
                 }
@@ -175,7 +176,7 @@ public class SendOutManager
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.cancelled", pokemob
-                            .getDisplayName()));
+                            .getDisplayName()), Util.DUMMY_UUID);
                     cube.remove();
                 }
                 return null;

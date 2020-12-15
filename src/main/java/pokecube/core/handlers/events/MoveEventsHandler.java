@@ -26,19 +26,19 @@ import net.minecraft.tileentity.FurnaceTileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -82,7 +82,7 @@ public class MoveEventsHandler
 
         public BlockPos getHitPos()
         {
-            return this.rayTraceResult.getPos();
+            return this.func_242401_i().getPos();
         }
 
         public BlockState getHitState()
@@ -168,8 +168,6 @@ public class MoveEventsHandler
 
     public static final Map<String, IMoveAction> customActions = Maps.newHashMap();
 
-    private static MoveEventsHandler INSTANCE;
-
     public static boolean attemptSmelt(final IPokemob attacker, final Vector3 location)
     {
         final World world = attacker.getEntity().getEntityWorld();
@@ -252,7 +250,7 @@ public class MoveEventsHandler
         if (evt.isCanceled())
         {
             final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.noperms");
-            if (!user.inCombat()) owner.sendMessage(message);
+            if (!user.inCombat()) owner.sendMessage(message, Util.DUMMY_UUID);
             return false;
         }
         return true;
@@ -463,8 +461,8 @@ public class MoveEventsHandler
         final PlayerEntity player = user.getOwner() instanceof PlayerEntity ? (PlayerEntity) user.getOwner()
                 : PokecubeMod.getFakePlayer(world);
         final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
-        final Vec3d start = origin.toVec3d();
-        final Vec3d end = target.toVec3d();
+        final Vector3d start = origin.toVec3d();
+        final Vector3d end = target.toVec3d();
         final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.ANY, user
                 .getEntity());
         final BlockRayTraceResult hit = world.rayTraceBlocks(context);
@@ -478,40 +476,46 @@ public class MoveEventsHandler
         final PlayerEntity player = user instanceof PlayerEntity ? (PlayerEntity) user
                 : PokecubeMod.getFakePlayer(world);
         final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
-        final Vec3d start = origin.toVec3d();
-        final Vec3d end = target.toVec3d();
+        final Vector3d start = origin.toVec3d();
+        final Vector3d end = target.toVec3d();
         final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.ANY, user
                 .getEntity());
         final BlockRayTraceResult hit = world.rayTraceBlocks(context);
         return new UseContext(world, player, Hand.MAIN_HAND, stack, hit);
     }
 
-    public static MoveEventsHandler getInstance()
-    {
-        return MoveEventsHandler.INSTANCE == null ? MoveEventsHandler.INSTANCE = new MoveEventsHandler()
-                : MoveEventsHandler.INSTANCE;
-    }
-
     public static void register(IMoveAction move)
     {
         if (!(move instanceof ActionWrapper)) move = new ActionWrapper(move);
-        MoveEventsHandler.getInstance().actionMap.put(move.getMoveName(), move);
+        MoveEventsHandler.actionMap.put(move.getMoveName(), move);
     }
 
-    public Map<String, IMoveAction> actionMap = Maps.newHashMap();
+    private static Map<String, IMoveAction> actionMap = Maps.newHashMap();
 
-    private MoveEventsHandler()
+    public static void register()
     {
-        PokecubeCore.MOVE_BUS.register(this);
+        // In initialize some effect types
         IOngoingAffected.EFFECTS.put(NonPersistantStatusEffect.ID, NonPersistantStatusEffect.class);
         IOngoingAffected.EFFECTS.put(PersistantStatusEffect.ID, PersistantStatusEffect.class);
         IOngoingAffected.EFFECTS.put(OngoingMoveEffect.ID, OngoingMoveEffect.class);
         Status.initDefaults();
         Effect.initDefaults();
+
+        // These are all lowest, and false so that addons can override the
+        // behaviour as needed
+
+        // This handles after effects on the moves, like consuming held items,
+        // and ability application for effects after move use.
+        PokecubeCore.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onDuringUsePost);
+        // This handles mob processing for the move, before damage/effects are
+        // applied. It processes things like, Item Use, Abilities, 1HKOs,
+        // Protection moves, Substitute, etc
+        PokecubeCore.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onDuringUsePre);
+        // This handles application of world actions for the moves.
+        PokecubeCore.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onWorldAction);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public void onEvent(final MoveUse.DuringUse.Post evt)
+    private static void onDuringUsePost(final MoveUse.DuringUse.Post evt)
     {
         final MovePacket move = evt.getPacket();
         IPokemob attacker = move.attacker;
@@ -547,8 +551,7 @@ public class MoveEventsHandler
         if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public void onEvent(final MoveUse.DuringUse.Pre evt)
+    private static void onDuringUsePre(final MoveUse.DuringUse.Pre evt)
     {
         final MovePacket move = evt.getPacket();
         final Move_Base attack = move.getMove();
@@ -647,13 +650,12 @@ public class MoveEventsHandler
         if (applied.getMoveStats().BLOCKCOUNTER > 0) applied.getMoveStats().BLOCKCOUNTER--;
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public void onEvent(final MoveWorldAction.OnAction evt)
+    private static void onWorldAction(final MoveWorldAction.OnAction evt)
     {
         final IPokemob attacker = evt.getUser();
         final Vector3 location = evt.getLocation();
         final Move_Base move = evt.getMove();
-        IMoveAction action = this.actionMap.get(move.name);
+        IMoveAction action = MoveEventsHandler.actionMap.get(move.name);
         if (action == null)
         {
             MoveEventsHandler.register(action = new DefaultAction(move));

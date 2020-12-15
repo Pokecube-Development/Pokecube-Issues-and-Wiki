@@ -2,6 +2,8 @@ package pokecube.adventures.client.gui.items.editor.pages.util;
 
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.util.text.ITextComponent;
@@ -30,7 +32,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
     protected void closeSubPage()
     {
         this.current_page.onPageClosed();
-        this.children().remove(this.current_page);
+        this.getEventListeners().remove(this.current_page);
     }
 
     protected abstract T createPage(int index);
@@ -71,18 +73,18 @@ public abstract class PageWithSubPages<T extends Page> extends Page
             PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         }
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.getEventListeners();
         list.add(this.current_page);
     }
 
     protected abstract int pageCount();
 
-    public void postPageDraw(final int mouseX, final int mouseY, final float partialTicks)
+    public void postPageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
 
-    public void prePageDraw(final int mouseX, final int mouseY, final float partialTicks)
+    public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
@@ -98,13 +100,13 @@ public abstract class PageWithSubPages<T extends Page> extends Page
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.font == null) this.font = Minecraft.getInstance().fontRenderer;
-        this.prePageDraw(mouseX, mouseY, partialTicks);
-        this.current_page.render(mouseX, mouseY, partialTicks);
-        this.postPageDraw(mouseX, mouseY, partialTicks);
-        super.render(mouseX, mouseY, partialTicks);
+        this.prePageDraw(mat, mouseX, mouseY, partialTicks);
+        this.current_page.render(mat, mouseX, mouseY, partialTicks);
+        this.postPageDraw(mat, mouseX, mouseY, partialTicks);
+        super.render(mat, mouseX, mouseY, partialTicks);
     }
 
     @Override

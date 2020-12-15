@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -31,8 +31,8 @@ public class LeaderNpc extends TrainerNpc
     public LeaderNpc(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.aiStates.setAIState(IHasNPCAIStates.STATIONARY, true);
-        this.aiStates.setAIState(IHasNPCAIStates.TRADES, false);
+        this.aiStates.setAIState(AIState.STATIONARY, true);
+        this.aiStates.setAIState(AIState.TRADES, false);
         this.pokemobsCap.resetTimeLose = 0;
     }
 
@@ -54,7 +54,7 @@ public class LeaderNpc extends TrainerNpc
     }
 
     @Override
-    public void setRandomName(final String name)
+    public void setTypedName(final String name)
     {
         this.name = "pokecube.gym_leader.named:" + name;
     }

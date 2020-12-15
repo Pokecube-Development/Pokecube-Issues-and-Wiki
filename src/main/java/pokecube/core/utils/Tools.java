@@ -16,6 +16,8 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.ResourceLocation;
@@ -24,11 +26,9 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -247,25 +247,35 @@ public class Tools
         return Tools.getPointedEntity(entity, distance, null);
     }
 
+    public static boolean isRidingOrRider(final Entity a, final Entity b)
+    {
+        for (final Entity c : a.getRecursivePassengers())
+            if (b.equals(c)) return true;
+        for (final Entity c : b.getRecursivePassengers())
+            if (a.equals(c)) return true;
+        return false;
+    }
+
     public static Entity getPointedEntity(final Entity entity, double distance, final Predicate<Entity> selector)
     {
         final Vector3 pos = Vector3.getNewVector().set(entity, true);
         final Vector3 loc = Tools.getPointedLocation(entity, distance);
         if (loc != null) distance = loc.distanceTo(pos);
-        final Vec3d vec31 = entity.getLook(0);
+        final Vector3d vec31 = entity.getLook(0);
         Predicate<Entity> predicate = EntityPredicates.NOT_SPECTATING.and(c -> entity.canBeCollidedWith());
         if (selector != null) predicate = predicate.and(selector);
-        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.canBeCollidedWith() && !c
-                .isRidingOrBeingRiddenBy(entity));
+        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.canBeCollidedWith() && !Tools
+                .isRidingOrRider(entity, c));
         return pos.firstEntityExcluding(distance, vec31, entity.getEntityWorld(), entity, predicate);
     }
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
     {
-        final Vec3d vec3 = new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
+        final Vector3d vec3 = new Vector3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity
+                .getPosZ());
         final double d0 = distance;
-        final Vec3d vec31 = entity.getLook(0);
-        final Vec3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
+        final Vector3d vec31 = entity.getLook(0);
+        final Vector3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
         final World world = entity.getEntityWorld();
         final BlockRayTraceResult result = world.rayTraceBlocks(new RayTraceContext(vec3, vec32,
                 RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, entity));

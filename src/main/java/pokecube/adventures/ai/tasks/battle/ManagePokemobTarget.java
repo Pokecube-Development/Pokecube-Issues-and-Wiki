@@ -51,7 +51,7 @@ public class ManagePokemobTarget extends BaseBattleTask
             if (canSee) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
             else
             {
-                final WalkTarget walk = new WalkTarget(new EntityPosWrapper(newTarget), 1.5f, 0);
+                final WalkTarget walk = new WalkTarget(new EntityPosWrapper(newTarget, false), 1.5f, 0);
                 mob.getEntity().getBrain().setMemory(MemoryModules.WALK_TARGET, walk);
             }
         }

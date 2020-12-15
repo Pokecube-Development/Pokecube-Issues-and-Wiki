@@ -9,7 +9,6 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -18,13 +17,12 @@ import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInvent
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
+import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.database.PokedexEntry;
 
 public class RecipeSplice extends PoweredRecipe
 {
     public static int                                   ENERGYCOST = 10000;
-    public static final IRecipeSerializer<RecipeSplice> SERIALIZER = IRecipeSerializer.register(
-            "pokecube_adventures:splicing", new SpecialRecipeSerializer<>(RecipeSplice::new));
     public static Function<ItemStack, Integer>          ENERGYNEED = (s) -> RecipeSplice.ENERGYCOST;
 
     public RecipeSplice(final ResourceLocation location)
@@ -123,6 +121,6 @@ public class RecipeSplice extends PoweredRecipe
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return RecipeSplice.SERIALIZER;
+        return RecipePokeAdv.SPLICE.get();
     }
 }

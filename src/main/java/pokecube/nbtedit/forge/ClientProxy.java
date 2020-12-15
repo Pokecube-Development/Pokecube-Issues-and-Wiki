@@ -5,10 +5,12 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -81,8 +83,8 @@ public class ClientProxy extends CommonProxy
     public void sendMessage(final PlayerEntity player, final String message, final TextFormatting color)
     {
         final ITextComponent component = new StringTextComponent(message);
-        component.getStyle().setColor(color);
-        Minecraft.getInstance().player.sendMessage(component);
+        component.getStyle().setColor(Color.fromTextFormatting(color));
+        Minecraft.getInstance().player.sendMessage(component, Util.DUMMY_UUID);
     }
 
     @Override

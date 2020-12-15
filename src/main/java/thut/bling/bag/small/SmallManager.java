@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.nio.file.Path;
 import java.util.UUID;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.SaveHandler;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import thut.api.inventory.big.Manager;
@@ -24,12 +23,13 @@ public class SmallManager extends Manager<SmallInventory>
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getWorld(DimensionType.OVERWORLD);
-        final SaveHandler saveHandler = world.getSaveHandler();
-        final String seperator = System.getProperty("file.separator");
-        final File worlddir = saveHandler.getWorldDirectory();
-        final File file = new File(worlddir, "thut_bling" + seperator + uuid + ".dat");
-        final File dir = new File(file.getParentFile().getAbsolutePath());
+        Path path = server.func_240776_a_(new FolderName("thut_bling"));
+        // This is to the uuid specific folder
+        path = path.resolve(uuid);
+        final File dir = path.toFile();
+        // and this if the file itself
+        path = path.resolve(fileName + ".dat");
+        final File file = path.toFile();
         if (!file.exists()) dir.mkdirs();
         return file;
     }

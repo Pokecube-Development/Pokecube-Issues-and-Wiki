@@ -12,7 +12,7 @@
         "group": "pokecube",
         "ingredients": [
           {
-            "item": "pokecube:log_pecha"
+            "tag": "pokecube:pecha_logs"
           }
         ],
         "result": {

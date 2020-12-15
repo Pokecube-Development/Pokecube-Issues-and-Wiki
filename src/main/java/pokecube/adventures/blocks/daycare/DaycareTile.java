@@ -6,6 +6,7 @@ import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -151,10 +152,10 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
     }
 
     @Override
-    public void read(final CompoundNBT compound)
+    public void read(final BlockState state, final CompoundNBT compound)
     {
         this.power = compound.getInt("fuel_cache");
-        super.read(compound);
+        super.read(state, compound);
     }
 
     @Override

@@ -43,12 +43,12 @@ public class Pokerecall
         for (final Entity e : mobs)
         {
             final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
-            if (poke != null) opts.add(e.getDisplayName().getFormattedText());
+            if (poke != null) opts.add(e.getDisplayName().getString());
             else if (e instanceof EntityPokecubeBase)
             {
                 final EntityPokecubeBase cube = (EntityPokecubeBase) e;
                 final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
-                if (mob != null) opts.add(mob.getDisplayName().getFormattedText());
+                if (mob != null) opts.add(mob.getDisplayName().getString());
             }
         }
         return net.minecraft.command.ISuggestionProvider.suggest(opts, sb);
@@ -59,7 +59,7 @@ public class Pokerecall
         int num = 0;
         final ServerPlayerEntity player = source.asPlayer();
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
-            if (e.getDisplayName().getFormattedText().equals(pokemob))
+            if (e.getDisplayName().getString().equals(pokemob))
             {
                 final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
                 if (poke != null)
@@ -72,7 +72,7 @@ public class Pokerecall
             {
                 final EntityPokecubeBase cube = (EntityPokecubeBase) e;
                 final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
-                if (mob != null && mob.getDisplayName().getFormattedText().equals(pokemob))
+                if (mob != null && mob.getDisplayName().getString().equals(pokemob))
                 {
                     final LivingEntity sent = SendOutManager.sendOut(cube, true, false);
                     IPokemob poke;

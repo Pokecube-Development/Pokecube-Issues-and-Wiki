@@ -1,7 +1,6 @@
 package thut.api.entity.blockentity.world;
 
 import java.util.Map;
-import java.util.function.BooleanSupplier;
 
 import com.google.common.collect.Maps;
 
@@ -34,14 +33,14 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     public BlockEntityChunkProvider(final WorldEntity worldIn)
     {
         this.world = worldIn;
-        this.lightManager = new WorldLightManager(this, true, worldIn.getWorld().getDimension().hasSkyLight());
+        this.lightManager = new WorldLightManager(this, true, worldIn.getWorld().getDimensionType().hasSkyLight());
     }
 
     @Override
     public IChunk getChunk(final int chunkX, final int chunkZ, final ChunkStatus status, final boolean load)
     {
         final AxisAlignedBB chunkBox = new AxisAlignedBB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15,
-                this.world.getWorld().getDimension().getHeight(), chunkZ * 16 + 15);
+                this.world.getWorld().getHeight(), chunkZ * 16 + 15);
         if (!this.intersects(chunkBox)) return this.world.getWorld().getChunk(chunkX, chunkZ);
 
         // TODO improvements to this.
@@ -112,9 +111,8 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     }
 
     @Override
-    public void tick(final BooleanSupplier hasTimeLeft)
+    public boolean canTick(final BlockPos pos)
     {
-        // Not sure if we should tick?
+        return false;
     }
-
 }

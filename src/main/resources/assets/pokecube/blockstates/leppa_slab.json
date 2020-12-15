@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube:block/leppa_slab"
+    },
+    "type=double": {
+      "model": "pokecube:block/plank_leppa"
+    },
+    "type=top": {
+      "model": "pokecube:block/leppa_slab_top"
+    }
+  }
+}

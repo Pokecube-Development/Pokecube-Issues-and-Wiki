@@ -8,9 +8,9 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 public abstract class Ability
 {
 
-    public void start(final IPokemob mob) {}
+    public void startCombat(final IPokemob mob) {}
 
-    public void end(final IPokemob mob) {}
+    public void endCombat(final IPokemob mob) {}
 
     /**
      * Called for the attacked target right before damage is dealt, after other

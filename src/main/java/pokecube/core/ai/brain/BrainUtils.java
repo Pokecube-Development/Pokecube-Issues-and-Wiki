@@ -132,6 +132,7 @@ public class BrainUtils
     public static IPosWrapper getMoveUseTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
+        if(!brain.hasMemory(MemoryModules.MOVE_TARGET)) return null;
         final Optional<IPosWrapper> pos = brain.getMemory(MemoryModules.MOVE_TARGET);
         if (pos == null || !pos.isPresent()) return null;
         return pos.get();
@@ -179,7 +180,7 @@ public class BrainUtils
             @SuppressWarnings("unchecked")
             final SensorType<? extends Sensor<? super LivingEntity>> stype = (SensorType<? extends Sensor<? super LivingEntity>>) type;
             @SuppressWarnings("unchecked")
-            final Sensor<LivingEntity> sense = (Sensor<LivingEntity>) stype.func_220995_a();
+            final Sensor<LivingEntity> sense = (Sensor<LivingEntity>) stype.getSensor();
             brain.sensors.put(stype, sense);
         });
         brain.sensors.values().forEach((sensor) ->
@@ -196,7 +197,7 @@ public class BrainUtils
         {
             final Integer prior = pair.getFirst();
             final Task<? super LivingEntity> task = pair.getSecond();
-            brain.field_218232_c.computeIfAbsent(prior, (val) ->
+            brain.taskPriorityMap.computeIfAbsent(prior, (val) ->
             {
                 return Maps.newHashMap();
             }).computeIfAbsent(act, (tmp) ->

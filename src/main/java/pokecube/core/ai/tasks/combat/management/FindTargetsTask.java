@@ -15,19 +15,22 @@ import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.ITargetFinder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.moves.Battle;
+import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.IOwnable;
@@ -51,16 +54,17 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     }
 
     @SubscribeEvent
-    public static void livingSetTarget(final LivingSetAttackTargetEvent event) {
+    public static void livingSetTarget(final LivingSetAttackTargetEvent event)
+    {
         // Don't manage this.
-        if (event.getTarget() == null)
-            return;
+        if (event.getTarget() == null) return;
 
         List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(), e -> CapabilityPokemob.getPokemobFor(e) != null
                 && e.getDistanceSq(event.getTarget()) < 64);
         final boolean targetHasMobs = !mobs.isEmpty();
 
-        if (targetHasMobs) {
+        if (targetHasMobs)
+        {
             mobs.sort((o1, o2) -> (int) (o1.getDistanceSq(event.getEntityLiving()) - o2.getDistanceSq(event
                     .getEntityLiving())));
             final Entity mob = mobs.get(0);
@@ -69,7 +73,28 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (!mobs.isEmpty()) return;
 
             // Divert the target over.
-            Battle.createBattle(event.getEntityLiving(), (LivingEntity) mob);
+            Battle.createOrAddToBattle(event.getEntityLiving(), (LivingEntity) mob);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurt(final LivingHurtEvent event)
+    {
+        final DamageSource source = event.getSource();
+        // for pokemobs, we divert agro to the pokemob, instead of to the owner.
+        // The vanilla HURT_BY_SENSOR will divert to the owner of the pokemob
+        // instead, so we manually do this first.
+        if (source instanceof PokemobDamageSource)
+        {
+            final LivingEntity hurt = event.getEntityLiving();
+            final Entity user = source.getImmediateSource();
+            // Only divert target if no target already, and this is a valid
+            // target, this prevents player's mobs fighting each other.
+            if (!BrainUtils.hasAttackTarget(hurt) && AITools.shouldBeAbleToAgro(hurt, user))
+            {
+                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Retaliation Target.");
+                Battle.createOrAddToBattle(hurt, (LivingEntity) user);
+            }
         }
     }
 
@@ -77,13 +102,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
      * Checks the validTargts as well as team settings, will not allow
      * targetting things on the same team.
      */
-    final Predicate<Entity> validGuardTarget = input ->
-    {
-        if (input == FindTargetsTask.this.entity) return false;
-        if (TeamManager.sameTeam(FindTargetsTask.this.entity, input)) return false;
-        if (!AITools.validTargets.test(input)) return false;
-        return input instanceof LivingEntity;
-    };
+    final Predicate<Entity> validGuardTarget = input -> AITools.shouldBeAbleToAgro(this.entity, input);
 
     public FindTargetsTask(final IPokemob mob)
     {
@@ -122,7 +141,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         else centre.set(this.pokemob.getOwner());
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS). get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
         // Only allow valid guard targets.
         for (final LivingEntity o : pokemobs)
             if (this.validGuardTarget.test(o)) ret.add(o);
@@ -134,7 +153,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Agro the target.
         if (newtarget != null)
         {
-            Battle.createBattle(this.entity, newtarget);
+            this.initiateBattle(newtarget);
+            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Guard Target.");
             return true;
         }
         return false;
@@ -175,7 +195,12 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         {
             if (oldOwner != null && entity == oldOwner) return false;
             final LivingEntity targ = BrainUtils.getAttackTarget(entity);
-            if (entity instanceof MobEntity && targ != null && targ.equals(owner) &&  Battle.createBattle(this.entity, entity)) return true;
+            if (entity instanceof MobEntity && targ != null && targ.equals(owner) && this.validGuardTarget.test(entity))
+            {
+                this.initiateBattle(entity);
+                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting target who hit owner.");
+                return true;
+            }
         }
         return false;
     }
@@ -188,28 +213,30 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     @Override
     public void run()
     {
-        //Check if pokemob can see the target, if yes start battle
+        // Check if pokemob can see the target, if yes start battle
         if (this.targetId != null)
         {
             final Entity mob = this.world.getEntityByUuid(this.targetId);
-            if (!(mob instanceof LivingEntity) && !BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob)
-            && !Battle.createBattle(this.entity, (LivingEntity) mob))
-                this.clear();
+            if (!(mob instanceof LivingEntity) && !BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob) && !this
+                    .initiateBattle((LivingEntity) mob)) this.clear();
 
             // Reset target ID here, so we don't keep looking for it.
             if (this.forgetTimer-- <= 0) this.targetId = null;
             return;
         }
 
-        //If pokemob is hurt by someone, for example players
+        // If pokemob is hurt by someone, for example players
         final Optional<LivingEntity> hurtBy = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY);
         if (hurtBy != null && hurtBy.isPresent())
         {
             final LivingEntity target = hurtBy.get();
+            // This will ensure that the target isn't on our team
+            if (!this.validGuardTarget.test(target)) return;
 
             if (BrainUtil.canSee(this.entity.getBrain(), target))
             {
                 this.initiateBattle(target);
+                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Target who hit us.");
                 return;
             }
         }
@@ -237,13 +264,20 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (player != null && AITools.validTargets.test(player))
             {
                 this.initiateBattle(player);
-                PokecubeCore.LOGGER.debug("Found player to be angry with, agressing.");
+                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(
+                        "Found player to be angry with, agressing.");
             }
         }
     }
 
-    private void initiateBattle(final LivingEntity target){
-        if(!Battle.createBattle(this.entity, target)) this.clear();
+    private boolean initiateBattle(final LivingEntity target)
+    {
+        if (!Battle.createOrAddToBattle(this.entity, target))
+        {
+            this.clear();
+            return false;
+        }
+        return true;
     }
 
     @Override

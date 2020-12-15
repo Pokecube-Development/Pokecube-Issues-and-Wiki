@@ -1,0 +1,147 @@
+{
+  "type": "pokecube_legends:ultraspace",
+  "generator": {
+    "type": "minecraft:noise",
+    "seed": 1402523832,
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "seed": 1402523832,
+      "altitude_noise": {
+        "firstOctave": -9,
+        "amplitudes": [
+          1,
+          1
+        ]
+      },
+      "temperature_noise": {
+        "firstOctave": -12,
+        "amplitudes": [
+          1,
+          1
+        ]
+      },
+      "humidity_noise": {
+        "firstOctave": -10,
+        "amplitudes": [
+          4,
+          4
+        ]
+      },
+      "weirdness_noise": {
+        "firstOctave": -8,
+        "amplitudes": [
+          3,
+          1
+        ]
+      },
+      "biomes": [
+        {
+          "biome": "pokecube_legends:ultra_deep_cave",
+          "parameters": {
+            "altitude": 0.2,
+            "temperature": 0.7,
+            "humidity": 1,
+            "weirdness": 0.01,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:ultra_jungle",
+          "parameters": {
+            "altitude": 0.2,
+            "temperature": -1,
+            "humidity": -1,
+            "weirdness": 1,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:ultra_desert",
+          "parameters": {
+            "altitude": 0.2,
+            "temperature": 0.1,
+            "humidity": 1,
+            "weirdness": 0.001,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:ultra_dark_valley",
+          "parameters": {
+            "altitude": 0.2,
+            "temperature": 0.5,
+            "humidity": -1,
+            "weirdness": -1,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:ultra_deep_hills",
+          "parameters": {
+            "altitude": 0.2,
+            "temperature": 0.4,
+            "humidity": 1,
+            "weirdness": -0.3,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:ultra_forgotten_plains",
+          "parameters": {
+            "altitude": 0.2,
+            "temperature": 1,
+            "humidity": -1,
+            "weirdness": 1,
+            "offset": 0
+          }
+        }
+      ]
+    },
+    "settings": {
+      "name": "minecraft:overworld",
+      "bedrock_roof_position": -10,
+      "bedrock_floor_position": -10,
+      "sea_level": 63,
+      "disable_mob_generation": false,
+      "default_block": {
+        "Name": "pokecube_legends:ultrastone"
+      },
+      "default_fluid": {
+        "Name": "minecraft:water",
+        "Properties": {
+          "level": "0"
+        }
+      },
+      "noise": {
+        "density_factor": 0.9,
+        "density_offset": -0.4,
+        "simplex_surface_noise": true,
+        "random_density_offset": true,
+        "island_noise_override": false,
+        "amplified": false,
+        "size_horizontal": 1,
+        "size_vertical": 2,
+        "height": 256,
+        "sampling": {
+          "xz_scale": 1,
+          "y_scale": 1,
+          "xz_factor": 80,
+          "y_factor": 160
+        },
+        "bottom_slide": {
+          "target": -30,
+          "size": 0,
+          "offset": 0
+        },
+        "top_slide": {
+          "target": -10,
+          "size": 3,
+          "offset": 0
+        }
+      },
+      "structures": {
+        "structures": {}
+      }
+    }
+  }
+}

@@ -45,7 +45,7 @@ public class MoveEntry implements IMoveConstants
         MoveEntry.CONFUSED.magiccoat = false;
         MoveEntry.CONFUSED.snatch = false;
         MoveEntry.CONFUSED.kingsrock = false;
-        MoveEntry.CONFUSED.notIntercepable = true;
+        MoveEntry.CONFUSED.canHitNonTarget = false;
         MoveEntry.CONFUSED.baseEntry = new MoveJsonEntry();
     }
 
@@ -77,21 +77,23 @@ public class MoveEntry implements IMoveConstants
     public float        attackedStatModProb      = 1;
     public float        damageHeal               = 0;
     public float        selfHealRatio            = 0;
-    private boolean     multiTarget;
-    private boolean     notIntercepable;
-    public boolean      protect;
-    public boolean      magiccoat;
-    public boolean      snatch;
-    public boolean      kingsrock;
-    public int          crit;
-    public boolean      soundType                = false;
-    public boolean      isPunch                  = false;
-    public boolean      fixed                    = false;
-    public float        selfDamage               = 0;
-    public int          selfDamageType;
-    public int          priority                 = 0;
-    public boolean      defrosts                 = false;
-    public boolean      mirrorcoated             = false;
+
+    private boolean multiTarget     = false;
+    private boolean canHitNonTarget = true;
+
+    public boolean protect;
+    public boolean magiccoat;
+    public boolean snatch;
+    public boolean kingsrock;
+    public int     crit;
+    public boolean soundType    = false;
+    public boolean isPunch      = false;
+    public boolean fixed        = false;
+    public float   selfDamage   = 0;
+    public int     selfDamageType;
+    public int     priority     = 0;
+    public boolean defrosts     = false;
+    public boolean mirrorcoated = false;
 
     /**
      * Whether the move requires recharging after. If a move wants to have a
@@ -100,8 +102,10 @@ public class MoveEntry implements IMoveConstants
     public boolean delayAfter = false;
 
     /** Status, Special, Physical */
-    public byte                    category    = -1;
-    public String                  animDefault = "none";
+
+    public byte   category    = -1;
+    public String animDefault = "none";
+
     public JsonMoves.MoveJsonEntry baseEntry;
 
     public MoveEntry(final String name, final int index)
@@ -117,16 +121,20 @@ public class MoveEntry implements IMoveConstants
         return this.multiTarget;
     }
 
-    public boolean isNotIntercepable()
+    public boolean notInterceptable()
     {
-        if (this.baseEntry != null) return !this.baseEntry.interceptable;
-        return this.notIntercepable;
+        if (this.baseEntry != null) return this.baseEntry.interceptable;
+        return false;
     }
 
-    public void setNotIntercepable(final boolean b)
+    public boolean canHitNonTarget()
     {
-        if (this.baseEntry != null) this.baseEntry.interceptable = !b;
-        else this.notIntercepable = b;
+        return this.canHitNonTarget;
+    }
+
+    public void setCanHitNonTarget(final boolean b)
+    {
+        this.canHitNonTarget = b;
     }
 
 }

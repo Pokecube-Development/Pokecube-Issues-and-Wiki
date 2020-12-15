@@ -25,7 +25,7 @@ public class EntityTools
         to.prevRenderYawOffset = from.prevRenderYawOffset;
         to.renderYawOffset = from.renderYawOffset;
 
-        to.onGround = from.onGround;
+        to.setOnGround(from.isOnGround());
 
         to.prevLimbSwingAmount = from.prevLimbSwingAmount;
         to.limbSwing = from.limbSwing;

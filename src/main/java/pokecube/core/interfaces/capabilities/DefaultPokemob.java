@@ -10,7 +10,7 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -39,7 +39,6 @@ import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.logic.LogicMovesUpdates;
 import pokecube.core.ai.tasks.Tasks;
-import pokecube.core.ai.tasks.combat.management.Battle;
 import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.core.events.pokemob.InitAIEvent;
 import pokecube.core.handlers.TeamManager;
@@ -48,6 +47,7 @@ import pokecube.core.interfaces.capabilities.impl.PokemobSaves;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.moves.Battle;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TagNames;
@@ -123,11 +123,11 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
 
     @Override
     public Battle getBattle() {
-        return battle;
+        return this.battle;
     }
 
     @Override
-    public void setBattle(Battle battle) {
+    public void setBattle(final Battle battle) {
         this.battle = battle;
     }
 
@@ -189,7 +189,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             }
 
         // DOLATER decide on speed scaling here?
-        entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2F);
+        entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2F);
 
         this.tasks = Lists.newArrayList();
         final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
@@ -214,10 +214,9 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         if (this.loadedTasks != null) for (final IAIRunnable task : this.tasks)
             if (this.loadedTasks.contains(task.getIdentifier()) && task instanceof INBTSerializable)
                 INBTSerializable.class.cast(task).deserializeNBT(this.loadedTasks.get(task.getIdentifier()));
-
         // Send notification event of AI initilization, incase anyone wants to
         // affect it.
-        PokecubeCore.POKEMOB_BUS.post(new InitAIEvent(this));
+        PokecubeCore.POKEMOB_BUS.post(new InitAIEvent.Post(this));
     }
 
     @Override

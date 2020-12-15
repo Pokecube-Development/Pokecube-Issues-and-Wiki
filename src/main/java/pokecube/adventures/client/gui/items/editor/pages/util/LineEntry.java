@@ -1,5 +1,7 @@
 package pokecube.adventures.client.gui.items.editor.pages.util;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.util.text.ITextComponent;
@@ -51,11 +53,11 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
     }
 
     @Override
-    public void render(final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
+    public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
-        this.fontRender.drawString(this.line.getFormattedText(), x, y, this.colour);
-        final int dx = this.fontRender.getStringWidth(this.line.getFormattedText());
+        this.fontRender.drawString(mat, this.line.getString(), x, y, this.colour);
+        final int dx = this.fontRender.getStringWidth(this.line.getString());
         final int relativeX = mouseX - x;
         final int relativeY = mouseY - y;
         if (relativeY <= this.fontRender.FONT_HEIGHT && relativeX >= 0 && relativeX <= dx && relativeY > 0)

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -13,8 +14,10 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.resources.FolderPackFinder;
 import net.minecraft.resources.IPackFinder;
+import net.minecraft.resources.IPackNameDecorator;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
+import net.minecraft.resources.ResourcePackInfo.IFactory;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
@@ -31,20 +34,20 @@ public class PackFinder implements IPackFinder
     private final FolderPackFinder folderFinder_old;
     private final FolderPackFinder folderFinder_new;
 
-    public PackFinder(final ResourcePackInfo.IFactory<ResourcePackInfo> packInfoFactoryIn)
+    public PackFinder(final ResourcePackInfo.IFactory packInfoFactoryIn)
     {
         File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
         folder.mkdirs();
         PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
-        this.folderFinder_old = new FolderPackFinder(folder);
+        this.folderFinder_old = new FolderPackFinder(folder, IPackNameDecorator.PLAIN);
         folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
         folder.mkdirs();
         PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
-        this.folderFinder_new = new FolderPackFinder(folder);
+        this.folderFinder_new = new FolderPackFinder(folder, IPackNameDecorator.PLAIN);
         this.init(packInfoFactoryIn);
     }
 
-    public void init(final ResourcePackInfo.IFactory<ResourcePackInfo> packInfoFactoryIn)
+    public void init(final ResourcePackInfo.IFactory packInfoFactoryIn)
     {
         try
         {
@@ -60,7 +63,7 @@ public class PackFinder implements IPackFinder
         final Map<String, ResourcePackInfo> map = Maps.newHashMap();
         try
         {
-            this.folderFinder_old.addPackInfosToMap(map, packInfoFactoryIn);
+            this.folderFinder_old.findPacks(a -> map.put(a.getName(), a), packInfoFactoryIn);
         }
         catch (final Exception e)
         {
@@ -68,7 +71,7 @@ public class PackFinder implements IPackFinder
         }
         try
         {
-            this.folderFinder_new.addPackInfosToMap(map, packInfoFactoryIn);
+            this.folderFinder_new.findPacks(a -> map.put(a.getName(), a), packInfoFactoryIn);
         }
         catch (final Exception e)
         {
@@ -88,8 +91,7 @@ public class PackFinder implements IPackFinder
     }
 
     @Override
-    public <T extends ResourcePackInfo> void addPackInfosToMap(final Map<String, T> packList,
-            final ResourcePackInfo.IFactory<T> factory)
+    public void findPacks(final Consumer<ResourcePackInfo> infoConsumer, final IFactory infoFactory)
     {
         throw new RuntimeException("Opps we, don't do this yet!");
     }

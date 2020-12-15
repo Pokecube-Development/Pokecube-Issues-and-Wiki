@@ -5,6 +5,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -56,7 +58,7 @@ public class CommandTools
         {
             final String[] args2 = formatting.split(":");
             final String colour = args2[0].toUpperCase(java.util.Locale.ROOT);
-            translated.getStyle().setColor(TextFormatting.getValueByName(colour));
+            translated.getStyle().setColor(Color.fromTextFormatting(TextFormatting.getValueByName(colour)));
             if (args2.length > 1) for (int i1 = 1; i1 < args2.length; i1++)
             {
                 final String arg = args2[i1];
@@ -72,12 +74,12 @@ public class CommandTools
 
     public static void sendBadArgumentsMissingArg(final ICommandSource sender)
     {
-        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidmissing"));
+        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidmissing"), Util.DUMMY_UUID);
     }
 
     public static void sendBadArgumentsTryTab(final ICommandSource sender)
     {
-        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidtab"));
+        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidtab"), Util.DUMMY_UUID);
     }
 
     public static void sendError(final CommandSource sender, final String text)
@@ -87,17 +89,17 @@ public class CommandTools
 
     public static void sendError(final ICommandSource sender, final String text)
     {
-        sender.sendMessage(CommandTools.makeError(text));
+        sender.sendMessage(CommandTools.makeError(text), Util.DUMMY_UUID);
     }
 
     public static void sendMessage(final ICommandSource sender, final String text)
     {
         final ITextComponent message = CommandTools.makeTranslatedMessage(text, null);
-        sender.sendMessage(message);
+        sender.sendMessage(message, Util.DUMMY_UUID);
     }
 
     public static void sendNoPermissions(final ICommandSource sender)
     {
-        sender.sendMessage(CommandTools.makeError("pokecube.command.noperms"));
+        sender.sendMessage(CommandTools.makeError("pokecube.command.noperms"), Util.DUMMY_UUID);
     }
 }

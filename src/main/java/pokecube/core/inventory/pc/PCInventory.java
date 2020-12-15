@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
@@ -49,7 +50,7 @@ public class PCInventory extends BigInventory
             if (world != null) PokecubeManager.heal(stack, world);
             PlayerPokemobCache.UpdateCache(mob, true, false);
             if (PokecubeCore.proxy.getPlayer(uuid) != null) PokecubeCore.proxy.getPlayer(uuid).sendMessage(
-                    new TranslationTextComponent("block.pc.sentto", mob.getDisplayName()));
+                    new TranslationTextComponent("block.pc.sentto", mob.getDisplayName()), Util.DUMMY_UUID);
         }
         pc.addItem(mob.copy());
     }

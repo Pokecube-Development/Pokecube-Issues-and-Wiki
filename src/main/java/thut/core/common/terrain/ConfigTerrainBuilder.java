@@ -11,14 +11,14 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.util.ResourceLocation;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainSegment;
 
 public class ConfigTerrainBuilder
 {
-    private static void addToList(List<Predicate<BlockState>> list, String... conts)
+    private static void addToList(final List<Predicate<BlockState>> list, final String... conts)
     {
         if (conts == null) return;
         if (conts.length < 1) return;
@@ -30,7 +30,7 @@ public class ConfigTerrainBuilder
 
     }
 
-    private static void generateConfigTerrain(String[] blocks, BiomeType subbiome)
+    private static void generateConfigTerrain(final String[] blocks, final BiomeType subbiome)
     {
         final List<Predicate<BlockState>> list = Lists.newArrayList();
         ConfigTerrainBuilder.addToList(list, blocks);
@@ -41,7 +41,7 @@ public class ConfigTerrainBuilder
         }
     }
 
-    public static Predicate<BlockState> getState(String arguments)
+    public static Predicate<BlockState> getState(final String arguments)
     {
         final String[] args = arguments.split(" ");
 
@@ -66,7 +66,7 @@ public class ConfigTerrainBuilder
             Map<ResourceLocation, Boolean> checks       = Maps.newHashMap();
 
             @Override
-            public boolean apply(BlockState input)
+            public boolean apply(final BlockState input)
             {
                 if (input == null || input.getBlock() == null) return false;
                 final Block block = input.getBlock();
@@ -87,7 +87,7 @@ public class ConfigTerrainBuilder
                     this.checks.put(name, true);
                 }
                 if (key == null) return true;
-                for (final IProperty<?> prop : input.getProperties())
+                for (final Property<?> prop : input.getProperties())
                     if (prop.getName().equals(key))
                     {
                         final Object inputVal = input.get(prop);
@@ -98,7 +98,7 @@ public class ConfigTerrainBuilder
         };
     }
 
-    public static void process(List<String> values)
+    public static void process(final List<String> values)
     {
         final Map<String, ArrayList<String>> types = Maps.newHashMap();
         for (final String s : values)

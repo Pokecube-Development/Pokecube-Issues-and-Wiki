@@ -14,13 +14,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.world.WorldEvent.Load;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
@@ -116,19 +116,19 @@ public class PokemobTracker
 
     private static PokemobTracker getFor(final IWorld mob)
     {
-        return mob.getWorld() instanceof ServerWorld ? PokemobTracker.SERVER : PokemobTracker.CLIENT;
+        return mob.isRemote() ? PokemobTracker.CLIENT : PokemobTracker.SERVER;
     }
 
-    private final Map<DimensionType, List<MobEntry>> liveMobs = new ConcurrentHashMap<>();
+    private final Map<RegistryKey<World>, List<MobEntry>> liveMobs = new ConcurrentHashMap<>();
 
     private final Map<UUID, Set<MobEntry>>  ownerMap   = new ConcurrentHashMap<>();
     private final Map<UUID, Set<CubeEntry>> ownedCubes = new ConcurrentHashMap<>();
 
     private final Map<UUID, MobEntry> entries = Maps.newConcurrentMap();
 
-    private DimensionType defaults = DimensionType.OVERWORLD;
+    private RegistryKey<World> defaults = World.OVERWORLD;
 
-    private void setDim(final DimensionType dim)
+    private void setDim(final RegistryKey<World> dim)
     {
         this.defaults = dim;
     }
@@ -139,7 +139,7 @@ public class PokemobTracker
         this._removePokemob(pokemob);
         if (pokemob.getAbility() != null) pokemob.getAbility().init(pokemob);
         final MobEntry e = new MobEntry(pokemob);
-        DimensionType dim = pokemob.getEntity().dimension;
+        RegistryKey<World> dim = pokemob.getEntity().getEntityWorld().getDimensionKey();
         if (dim == null) dim = this.defaults;
         // Find the appropriate map
         final List<MobEntry> mobList = this.liveMobs.getOrDefault(dim, new ArrayList<>());
@@ -240,8 +240,9 @@ public class PokemobTracker
     public static int countPokemobs(final IWorld world, final AxisAlignedBB box, final Predicate<IPokemob> matches)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(world);
-        final DimensionType dim = world.getDimension().getType();
-        final MobEntry[] mobList = tracker.liveMobs.getOrDefault(dim, new ArrayList<>()).toArray(new MobEntry[0]);
+        RegistryKey<World> key = World.OVERWORLD;
+        if (world instanceof World) key = ((World) world).getDimensionKey();
+        final MobEntry[] mobList = tracker.liveMobs.getOrDefault(key, new ArrayList<>()).toArray(new MobEntry[0]);
         int num = 0;
         for (final MobEntry e : mobList)
             if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && e.pokemob.getEntity().isAlive()
@@ -293,8 +294,7 @@ public class PokemobTracker
         return pokemobs;
     }
 
-    @SubscribeEvent
-    public static void worldLoadEvent(final Load evt)
+    public static void onWorldLoad(final Load evt)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(evt.getWorld());
         if (evt.getWorld().isRemote())
@@ -302,8 +302,10 @@ public class PokemobTracker
             tracker.ownedCubes.clear();
             tracker.ownerMap.clear();
         }
+        RegistryKey<World> key = World.OVERWORLD;
+        if (evt.getWorld() instanceof World) key = ((World) evt.getWorld()).getDimensionKey();
         // Reset the tracked map for this world
-        tracker.liveMobs.put(evt.getWorld().getDimension().getType(), new ArrayList<>());
-        if (tracker == PokemobTracker.CLIENT) tracker.setDim(evt.getWorld().getDimension().getType());
+        tracker.liveMobs.put(key, new ArrayList<>());
+        if (tracker == PokemobTracker.CLIENT) tracker.setDim(key);
     }
 }

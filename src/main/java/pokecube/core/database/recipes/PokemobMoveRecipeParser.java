@@ -17,8 +17,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipe;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -71,6 +71,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     public static class RecipeMove implements IMoveAction
     {
+        public static final List<RecipeMove> ALLRECIPES = Lists.newArrayList();
+
         public final String          name;
         public final ShapelessRecipe recipe;
         public final int             hungerCost;
@@ -98,14 +100,15 @@ public class PokemobMoveRecipeParser implements IRecipeParser
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final Tag<Item> tag = ItemTags.getCollection().getOrCreate(id);
+                    final ITag<Item> tag = ItemTags.getCollection().getTagByID(id);
                     recipeItemsIn.add(Ingredient.fromTag(tag));
                 }
                 else recipeItemsIn.add(Ingredient.fromStacks(Tools.getStack(value.getValues())));
             }
 
-            this.recipe = new ShapelessRecipe(new ResourceLocation("pokecube:loaded_" + this.name), "pokecube_mobes",
+            this.recipe = new ShapelessRecipe(new ResourceLocation("pokecube:loaded_" + this.name), "pokecube_moves",
                     recipeOutputIn, recipeItemsIn);
+            RecipeMove.ALLRECIPES.add(this);
         }
 
         @Override
@@ -120,7 +123,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             // a shapeless recipe.
             final World world = user.getEntity().getEntityWorld();
             final BlockState block = location.getBlockState(world);
-            if (block == null || block.isAir(world, location.getPos())) return false;
+            if (block == null || world.isAirBlock(location.getPos())) return false;
             final ItemStack item = new ItemStack(block.getBlock());
             final CraftingInventory inven = new CraftingInventory(this.c, 1, 1);
             inven.setInventorySlotContents(0, item);
@@ -166,9 +169,15 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             final ItemStack stack = this.recipe.getCraftingResult(inven);
             if (stack.isEmpty()) return false;
             final List<ItemStack> remains = this.recipe.getRemainingItems(inven);
-            matches.forEach(e -> e.remove());
+            matches.forEach(e ->
+            {
+                final ItemStack item = e.getItem();
+                item.shrink(1);
+                if (e.getItem().isEmpty()) e.remove();
+            });
             ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
             world.addEntity(drop);
+            System.out.println(remains);
             for (final ItemStack left : remains)
                 if (!left.isEmpty())
                 {

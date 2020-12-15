@@ -16,7 +16,7 @@ import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityPosWrapper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import thut.api.maths.Vector3;
 
 public class RootTask<E extends LivingEntity> extends Task<E>
@@ -89,7 +89,7 @@ public class RootTask<E extends LivingEntity> extends Task<E>
         this.setWalkTo(pos.toVec3d(), speed, dist);
     }
 
-    protected void setWalkTo(final Vec3d pos, final double speed, final int dist)
+    protected void setWalkTo(final Vector3d pos, final double speed, final int dist)
     {
         this.setWalkTo(new WalkTarget(pos, (float) speed, dist));
     }
@@ -101,7 +101,7 @@ public class RootTask<E extends LivingEntity> extends Task<E>
 
     protected void setWalkTo(final Entity mobIn, final double speed, final int dist)
     {
-        this.setWalkTo(new WalkTarget(new EntityPosWrapper(mobIn), (float) speed, dist));
+        this.setWalkTo(new WalkTarget(new EntityPosWrapper(mobIn, false), (float) speed, dist));
     }
 
     protected void setWalkTo(final WalkTarget target)

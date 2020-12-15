@@ -5,12 +5,14 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.commander.CommanderTile;
@@ -41,10 +43,10 @@ public class Commander extends Screen
     }
 
     @Override
-    public void render(final int a, final int b, final float c)
+    public void render(final MatrixStack mat,final int a, final int b, final float c)
     {
-        this.renderBackground();
-        super.render(a, b, c);
+        this.renderBackground(mat);
+        super.render(mat,a, b, c);
     }
 
     @Override
@@ -60,27 +62,27 @@ public class Commander extends Screen
             names.add(command.name());
         names.add("");
 
-        this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 85, 20, 20, "\u25b2", b ->
+        this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 85, 20, 20, new StringTextComponent("\u25b2"), b ->
         {
             if (this.index < names.size() - 1) this.index++;
             else this.index = 0;
             this.command.setText(names.get(this.index));
         }));
 
-        this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 65, 20, 20, "\u25bc", b ->
+        this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 65, 20, 20, new StringTextComponent("\u25bc"), b ->
         {
             if (this.index > 0) this.index--;
             else this.index = names.size() - 1;
             this.command.setText(names.get(this.index));
         }));
 
-        this.command = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 20 + yOffset, 100, 10, "");
+        this.command = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 20 + yOffset, 100, 10,new StringTextComponent( ""));
         this.command.setText(this.tile.getCommand() == null ? "" : "" + this.tile.getCommand());
 
         for (this.index = 0; this.index < names.size(); this.index++)
             if (this.command.getText().equals(names.get(this.index))) break;
 
-        this.args = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 40 + yOffset, 100, 10, "");
+        this.args = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 40 + yOffset, 100, 10, new StringTextComponent(""));
         this.args.setText(this.tile.args);
 
         this.addButton(this.command);

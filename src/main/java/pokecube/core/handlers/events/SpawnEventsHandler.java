@@ -9,7 +9,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
@@ -17,11 +16,12 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
@@ -34,7 +34,6 @@ import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.utils.CapHolders;
-import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
@@ -42,9 +41,28 @@ import thut.api.terrain.TerrainManager;
 
 public class SpawnEventsHandler
 {
+    public static void register()
+    {
+        // This caps the level chosen based on the configs, it is highest to
+        // then allow addons to override it later.
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnEventsHandler::CapLevel);
+        // This cancels the event if this world is blacklisted for pokemob
+        // spawning.
+        PokecubeCore.POKEMOB_BUS.addListener(SpawnEventsHandler::onSpawnCheck);
+        // This determines which pokemob should be slated for spawn, It is
+        // highest so addons can override the picked mob later.
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnEventsHandler::PickSpawn);
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void CapLevel(final SpawnEvent.Level event)
+        // This handles spawning in the NPCs, etc from the structure blocks with
+        // appropriate data markers.
+        MinecraftForge.EVENT_BUS.addListener(SpawnEventsHandler::onReadStructTag);
+        // This handles setting of the subbiomes for structures as they spawn
+        // in, it is lowest, and not listening for cancalling incase addons make
+        // adjustments first.
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, SpawnEventsHandler::onStructureSpawn);
+    }
+
+    private static void CapLevel(final SpawnEvent.Level event)
     {
         int level = event.getInitialLevel();
         if (SpawnHandler.lvlCap) level = Math.min(level, SpawnHandler.capLevel);
@@ -56,14 +74,12 @@ public class SpawnEventsHandler
      *
      * @param event
      */
-    @SubscribeEvent
-    public static void onSpawnCheck(final SpawnEvent.Check event)
+    private static void onSpawnCheck(final SpawnEvent.Check event)
     {
-        if (!SpawnHandler.canSpawnInWorld(event.world)) event.setCanceled(true);
+        if (!SpawnHandler.canSpawnInWorld((World) event.world)) event.setCanceled(true);
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void PickSpawn(final SpawnEvent.Pick.Pre event)
+    private static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
         final IWorld world = event.world;
@@ -105,15 +121,14 @@ public class SpawnEventsHandler
         if (random > weight || v == null) return;
         if (dbe.isLegendary())
         {
-            final int level = SpawnHandler.getSpawnLevel(world, v, dbe);
+            final int level = SpawnHandler.getSpawnLevel((World) world, v, dbe);
             if (level < PokecubeCore.getConfig().minLegendLevel) return;
         }
         event.setLocation(v);
         event.setPick(dbe);
     }
 
-    @SubscribeEvent
-    public static void StructureSpawn(final StructureEvent.ReadTag event)
+    private static void onReadStructTag(final StructureEvent.ReadTag event)
     {
         if (event.function.startsWith("pokecube:mob:"))
         {
@@ -121,17 +136,19 @@ public class SpawnEventsHandler
             final boolean nurse = function.startsWith("nurse");
             final boolean professor = function.startsWith("professor");
             final boolean trader = function.startsWith("trader");
-            if (nurse || professor || trader)
+            final boolean npc = function.startsWith("npc");
+            if (nurse || professor || trader || npc)
             {
-                // Set it to air so mob can spawn.
-                event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
-                final NpcMob mob = NpcMob.TYPE.create(event.world.getWorld());
-                mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
-                if (nurse) mob.setMale(false);
+                final NpcMob mob = NpcMob.TYPE.create(event.worldActual);
+
                 mob.enablePersistence();
                 mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
-                mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
-                        (ILivingEntityData) null, (CompoundNBT) null);
+                mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(
+                        event.pos), SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
+
+                mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
+                if (nurse) mob.setMale(false);
+
                 JsonObject thing = new JsonObject();
                 if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
                 {
@@ -144,9 +161,10 @@ public class SpawnEventsHandler
                     PokecubeCore.LOGGER.error("Error parsing " + function, e);
                 }
 
-                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
+                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.worldActual,
+                        SpawnReason.STRUCTURE)))
                 {
-                    event.world.addEntity(mob);
+                    event.worldBlocks.addEntity(mob);
                     event.setResult(Result.ALLOW);
                 }
             }
@@ -155,17 +173,21 @@ public class SpawnEventsHandler
 
             }
         }
-        else if (event.function.startsWith("pokecube:worldspawn"))
+    }
+
+    private static void onStructureSpawn(final StructureEvent.BuildStructure event)
+    {
+        if (event.getBiomeType() != null)
         {
-            // Set it to air so player can spawn here.
-            event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
-            if (!PokecubeSerializer.getInstance().hasPlacedSpawn())
+            final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
+            final MutableBoundingBox box = event.getBoundingBox();
+            final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
+                    box.maxZ);
+            final IWorld world = event.getWorld();
+            poses.forEach((p) ->
             {
-                event.world.getWorld().setSpawnPoint(event.pos);
-                PokecubeSerializer.getInstance().setPlacedSpawn();
-                PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
-                event.setResult(Result.ALLOW);
-            }
+                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
+            });
         }
     }
 
@@ -178,6 +200,8 @@ public class SpawnEventsHandler
     public static void applyFunction(final NpcMob npc, final JsonObject thing)
     {
         if (thing.has("name")) npc.name = thing.get("name").getAsString();
+        if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
+        if (thing.has("type")) npc.setNpcType(NpcType.byType(thing.get("type").getAsString()));
         if (thing.has("gender"))
         {
             final boolean male = thing.get("gender").getAsString().equalsIgnoreCase("male") ? true
@@ -210,20 +234,4 @@ public class SpawnEventsHandler
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void StructureSpawn(final StructureEvent.BuildStructure event)
-    {
-        if (event.getBiomeType() != null)
-        {
-            final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
-            final MutableBoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
-                    box.maxZ);
-            final IWorld world = event.getWorld();
-            poses.forEach((p) ->
-            {
-                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
-            });
-        }
-    }
 }

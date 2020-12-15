@@ -1,31 +1,25 @@
 package pokecube.core.world.gen.jigsaw;
 
-import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 
 public class JigsawConfig implements IFeatureConfig
 {
-    public final JigSawConfig struct;
+    public static final Codec<JigsawConfig> CODEC = RecordCodecBuilder.create((builder) ->
+    {
+        return builder.group(JigSawConfig.CODEC.fieldOf("struct_config").forGetter((config) ->
+        {
+            return config.struct_config;
+        })).apply(builder, JigsawConfig::new);
+    });
+
+    public final JigSawConfig struct_config;
 
     public JigsawConfig(final JigSawConfig struct)
     {
-        this.struct = struct;
-    }
-
-    @Override
-    public <T> Dynamic<T> serialize(final DynamicOps<T> ops)
-    {
-        return new Dynamic<>(ops, ops.createMap(ImmutableMap.of(ops.createString("struct"), ops.createString(this.struct
-                .serialize()))));
-    }
-
-    public static <T> JigsawConfig deserialize(final Dynamic<T> ops)
-    {
-        final String structstring = ops.get("struct").asString("");
-        return new JigsawConfig(JigSawConfig.deserialize(structstring));
+        this.struct_config = struct;
     }
 }

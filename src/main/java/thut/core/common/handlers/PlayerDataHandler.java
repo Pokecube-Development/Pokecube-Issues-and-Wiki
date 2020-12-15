@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -17,9 +18,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.SaveHandler;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -150,12 +149,13 @@ public class PlayerDataHandler
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getWorld(DimensionType.OVERWORLD);
-        final SaveHandler saveHandler = world.getSaveHandler();
-        final String seperator = System.getProperty("file.separator");
-        final File worlddir = saveHandler.getWorldDirectory();
-        final File file = new File(worlddir, "thutcore" + seperator + uuid + seperator + fileName + ".dat");
-        final File dir = new File(file.getParentFile().getAbsolutePath());
+        Path path = server.func_240776_a_(new FolderName("thutcore"));
+        // This is to the uuid specific folder
+        path = path.resolve(uuid);
+        final File dir = path.toFile();
+        // and this if the file itself
+        path = path.resolve(fileName + ".dat");
+        final File file = path.toFile();
         if (!file.exists()) dir.mkdirs();
         return file;
     }
@@ -198,21 +198,17 @@ public class PlayerDataHandler
         // online, and remove them. This is done here, and not on logoff, as
         // something may have requested the manager for an offline player, which
         // would have loaded it.
-        final DimensionType type = event.getWorld().getDimension().getType();
-        if (type == DimensionType.OVERWORLD)
+        final Set<String> toUnload = Sets.newHashSet();
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        for (final String uuid : this.data.keySet())
         {
-            final Set<String> toUnload = Sets.newHashSet();
-            final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-            for (final String uuid : this.data.keySet())
-            {
-                final ServerPlayerEntity player = server.getPlayerList().getPlayerByUUID(UUID.fromString(uuid));
-                if (player == null) toUnload.add(uuid);
-            }
-            for (final String s : toUnload)
-            {
-                this.save(s);
-                this.data.remove(s);
-            }
+            final ServerPlayerEntity player = server.getPlayerList().getPlayerByUUID(UUID.fromString(uuid));
+            if (player == null) toUnload.add(uuid);
+        }
+        for (final String s : toUnload)
+        {
+            this.save(s);
+            this.data.remove(s);
         }
     }
 

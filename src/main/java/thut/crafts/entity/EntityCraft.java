@@ -21,7 +21,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -149,7 +149,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             final Vector3 rel = Vector3.getNewVector().set(this).addTo(seat.seat.x, seat.seat.y, seat.seat.z);
             final BlockPos pos = rel.getPos();
             final BlockState block = this.getFakeWorld().getBlock(pos);
-            if (block == null || !block.has(StairsBlock.FACING)) break seats;
+            if (block == null || !block.hasProperty(StairsBlock.FACING)) break seats;
             Vector3 dest = Vector3.getNewVector().set(destX, destY, destZ);
             switch (block.get(StairsBlock.FACING))
             {
@@ -180,7 +180,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         destY += this.getPosY();
         destZ += this.getPosZ();
 
-        final Vec3d v = this.getMotion();
+        final Vector3d v = this.getMotion();
         double vx = v.x;
         double vy = v.y;
         double vz = v.z;
@@ -461,7 +461,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         {
             if (passenger.isSneaking()) passenger.stopRiding();
             IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger, this);
-            passenger.onGround = true;
+            passenger.setOnGround(true);
             passenger.onLivingFall(passenger.fallDistance, 0);
             passenger.fallDistance = 0;
             if (passenger instanceof ServerPlayerEntity)

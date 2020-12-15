@@ -85,4 +85,8 @@ public class BlockBase extends Block
         else message = I18n.format("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
+
+	public int ticksRandomly() {
+		return 0;
+	}
 }

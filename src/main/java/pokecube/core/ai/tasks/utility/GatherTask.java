@@ -15,14 +15,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import pokecube.core.PokecubeCore;
@@ -80,7 +80,7 @@ public class GatherTask extends UtilTask
             final PlayerEntity player = PokecubeMod.getFakePlayer(world);
             player.setPosition(this.pos.getX(), this.pos.getY(), this.pos.getZ());
             player.inventory.mainInventory.set(player.inventory.currentItem, this.seeds);
-            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vec3d(
+            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vector3d(
                     0.5, 1, 0.5), Direction.UP, down, false));
             check:
             if (this.seeds.getItem() instanceof BlockItem && !this.selfPlacement)
@@ -90,9 +90,9 @@ public class GatherTask extends UtilTask
 
                 final BlockState def = block.getDefaultState();
                 boolean same = true;
-                for (final IProperty<?> p : def.getProperties())
+                for (final Property<?> p : def.getProperties())
                 {
-                    if (!this.oldState.has(p))
+                    if (!this.oldState.hasProperty(p))
                     {
                         same = false;
                         break;
@@ -128,10 +128,10 @@ public class GatherTask extends UtilTask
     public static final ResourceLocation HARVEST   = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
 
     private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropsBlock && input
-            .has(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
+            .hasProperty(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
 
     private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropsBlock && input
-            .has(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input.getBlock())
+            .hasProperty(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input.getBlock())
                     .getMaxAge();
 
     // Matcher used to determine if a block is a fruit or crop to be picked.
@@ -242,7 +242,7 @@ public class GatherTask extends UtilTask
         final double dot = this.v.normalize().dot(Vector3.secondAxis);
         // This means that the item is directly above the pokemob, assume it
         // can pick up to 3 blocks upwards.
-        if (dot < -0.9 && this.entity.onGround) diff = Math.max(3, diff);
+        if (dot < -0.9 && this.entity.isOnGround()) diff = Math.max(3, diff);
         if (dist < diff)
         {
             final BlockState state = stuffLoc.getBlockState(this.entity.getEntityWorld());

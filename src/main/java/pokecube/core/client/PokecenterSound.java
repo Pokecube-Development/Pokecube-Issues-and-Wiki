@@ -36,7 +36,7 @@ public class PokecenterSound extends TickableSound
         if (this.stopped)
         {
             this.volume = 0;
-            this.donePlaying = true;
+            this.repeat = true;
             return;
         }
         this.pos2.set(this.player);

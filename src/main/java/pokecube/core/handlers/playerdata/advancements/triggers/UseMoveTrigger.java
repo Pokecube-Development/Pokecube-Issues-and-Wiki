@@ -7,13 +7,15 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate.AndPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -29,15 +31,15 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
         int      power;
         float    damage;
 
-        public Instance(MovePacket move)
+        public Instance(final AndPredicate pred, final MovePacket move)
         {
-            super(UseMoveTrigger.ID);
+            super(UseMoveTrigger.ID, pred);
             this.attack = move.attack;
             this.type = move.attackType;
             this.power = move.PWR;
         }
 
-        public boolean test(ServerPlayerEntity player, MovePacket packet)
+        public boolean test(final ServerPlayerEntity player, final MovePacket packet)
         {
             return packet.attack.equals(this.attack);
         }
@@ -49,12 +51,12 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
         private final PlayerAdvancements                                       playerAdvancements;
         private final Set<ICriterionTrigger.Listener<UseMoveTrigger.Instance>> listeners = Sets.<ICriterionTrigger.Listener<UseMoveTrigger.Instance>> newHashSet();
 
-        public Listeners(PlayerAdvancements playerAdvancementsIn)
+        public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
+        public void add(final ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -64,12 +66,12 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
             return this.listeners.isEmpty();
         }
 
-        public void remove(ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
+        public void remove(final ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
-        public void trigger(ServerPlayerEntity player, MovePacket packet)
+        public void trigger(final ServerPlayerEntity player, final MovePacket packet)
         {
             List<ICriterionTrigger.Listener<UseMoveTrigger.Instance>> list = null;
 
@@ -94,8 +96,8 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
     }
 
     @Override
-    public void addListener(PlayerAdvancements playerAdvancementsIn,
-            ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
+    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+            final ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
     {
         UseMoveTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -108,17 +110,15 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
         bredanimalstrigger$listeners.add(listener);
     }
 
-    /**
-     * Deserialize a ICriterionInstance of this trigger from the data in the
-     * JSON.
-     */
+
     @Override
-    public UseMoveTrigger.Instance deserializeInstance(JsonObject json, JsonDeserializationContext context)
+    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
     {
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
         final String attack = json.get("move").getAsString();
         // TODO get this done better.
         final MovePacket packet = new MovePacket(null, null, MovesUtils.getMoveFromName(attack));
-        return new UseMoveTrigger.Instance(packet);
+        return new UseMoveTrigger.Instance(pred, packet);
     }
 
     @Override
@@ -128,14 +128,14 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
     }
 
     @Override
-    public void removeAllListeners(PlayerAdvancements playerAdvancementsIn)
+    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(PlayerAdvancements playerAdvancementsIn,
-            ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
+    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+            final ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
     {
         final UseMoveTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -147,7 +147,7 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
         }
     }
 
-    public void trigger(ServerPlayerEntity player, MovePacket packet)
+    public void trigger(final ServerPlayerEntity player, final MovePacket packet)
     {
         final UseMoveTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
         if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, packet);

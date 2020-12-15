@@ -1,20 +1,24 @@
 package pokecube.core.items.pokecubes;
 
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -24,6 +28,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.NonNullList;
@@ -37,8 +42,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
@@ -53,7 +58,7 @@ import pokecube.core.utils.TagNames;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
-public abstract class EntityPokecubeBase extends LivingEntity implements IProjectile
+public abstract class EntityPokecubeBase extends LivingEntity
 {
     public static final String CUBETIMETAG = "lastCubeTime";
 
@@ -283,7 +288,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (hit.getType() == Type.ENTITY) this.onImpact(hit);
         }
 
-        final RayTraceResult raytraceresult = ProjectileHelper.rayTrace(this, axisalignedbb, valid,
+        final RayTraceResult raytraceresult = EntityPokecubeBase.rayTrace(this, axisalignedbb, valid,
                 RayTraceContext.BlockMode.COLLIDER, true);
         if (this.ignoreEntity != null && this.ignoreTime-- <= 0) this.ignoreEntity = null;
 
@@ -344,7 +349,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         }
     }
 
-    private void validateDirection(final Vec3d vec3d)
+    private void validateDirection(final Vector3d vec3d)
     {
         final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
         if (f > 0.5)
@@ -370,24 +375,24 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
     private void postValidateVelocity()
     {
-        final Vec3d vec3d = this.getMotion();
+        final Vector3d vec3d = this.getMotion();
         this.validateDirection(vec3d);
         float f1;
         if (this.isInWater())
         {
             for (int i = 0; i < 4; ++i)
-                this.world.addParticle(ParticleTypes.BUBBLE, this.getPosX() - vec3d.x * 0.25D, this.getPosY() - vec3d.y * 0.25D,
-                        this.getPosZ() - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+                this.world.addParticle(ParticleTypes.BUBBLE, this.getPosX() - vec3d.x * 0.25D, this.getPosY() - vec3d.y
+                        * 0.25D, this.getPosZ() - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
             f1 = 0.8F;
         }
         else f1 = 0.99F;
 
         this.setMotion(vec3d.scale(f1));
-        final Vec3d motion = this.getMotion();
+        final Vector3d motion = this.getMotion();
         if (motion.y == 0) this.setMotion(motion.x * 0.8, motion.y, motion.z * 0.8);
         if (!this.hasNoGravity())
         {
-            final Vec3d vec3d1 = this.getMotion();
+            final Vector3d vec3d1 = this.getMotion();
             this.setMotion(vec3d1.x, vec3d1.y - this.getGravityVelocity(), vec3d1.z);
         }
 
@@ -441,7 +446,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         if (this.isCapturing) this.capturePos.writeToNBT(compound, "capt_");
         compound.putByte("inGround", (byte) (this.inGround ? 1 : 0));
         compound.putInt("autorelease", this.autoRelease);
-        if (this.shooter != null) compound.put("owner", NBTUtil.writeUniqueId(this.shooter));
+        if (this.shooter != null) compound.put("owner", NBTUtil.func_240626_a_(this.shooter));
 
     }
 
@@ -492,7 +497,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     }
 
     @Override
-    public void setMotion(final Vec3d velocity)
+    public void setMotion(final Vector3d velocity)
     {
         super.setMotion(velocity);
         this.validateDirection(velocity);
@@ -608,5 +613,99 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public boolean isReleasing()
     {
         return this.getDataManager().get(EntityPokecubeBase.RELEASING);
+    }
+
+    public static RayTraceResult rayTrace(final Entity projectile, final boolean checkEntityCollision,
+            final boolean includeShooter, @Nullable final Entity shooter, final RayTraceContext.BlockMode blockModeIn)
+    {
+        return EntityPokecubeBase.rayTrace(projectile, checkEntityCollision, includeShooter, shooter, blockModeIn, true,
+                (p_221270_2_) ->
+                {
+                    return !p_221270_2_.isSpectator() && p_221270_2_.canBeCollidedWith() && (includeShooter
+                            || !p_221270_2_.isEntityEqual(shooter)) && !p_221270_2_.noClip;
+                }, projectile.getBoundingBox().expand(projectile.getMotion()).grow(1.0D));
+    }
+
+    public static RayTraceResult rayTrace(final Entity projectile, final AxisAlignedBB boundingBox,
+            final Predicate<Entity> filter, final RayTraceContext.BlockMode blockModeIn,
+            final boolean checkEntityCollision)
+    {
+        return EntityPokecubeBase.rayTrace(projectile, checkEntityCollision, false, (Entity) null, blockModeIn, false,
+                filter, boundingBox);
+    }
+
+    /**
+     * Gets the EntityRayTraceResult representing the entity hit
+     */
+    @Nullable
+    public static EntityRayTraceResult rayTraceEntities(final World worldIn, final Entity projectile,
+            final Vector3d startVec, final Vector3d endVec, final AxisAlignedBB boundingBox,
+            final Predicate<Entity> filter)
+    {
+        return EntityPokecubeBase.rayTraceEntities(worldIn, projectile, startVec, endVec, boundingBox, filter,
+                Double.MAX_VALUE);
+    }
+
+    private static RayTraceResult rayTrace(final Entity projectile, final boolean checkEntityCollision,
+            final boolean includeShooter, @Nullable final Entity shooter, final RayTraceContext.BlockMode blockModeIn,
+            final boolean p_221268_5_, final Predicate<Entity> filter, final AxisAlignedBB boundingBox)
+    {
+        final Vector3d vec3d = projectile.getMotion();
+        final World world = projectile.world;
+        final Vector3d vec3d1 = projectile.getPositionVec();
+        if (p_221268_5_ && !world.hasNoCollisions(projectile, projectile.getBoundingBox(), e -> (!includeShooter
+                && shooter != null ? EntityPokecubeBase.getEntityAndMount(shooter) : ImmutableSet.of()).contains(e)))
+            return new BlockRayTraceResult(vec3d1, Direction.getFacingFromVector(vec3d.x, vec3d.y, vec3d.z),
+                    new BlockPos(projectile.getPositionVec()), false);
+        else
+        {
+            Vector3d vec3d2 = vec3d1.add(vec3d);
+            RayTraceResult raytraceresult = world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d2, blockModeIn,
+                    RayTraceContext.FluidMode.NONE, projectile));
+            if (checkEntityCollision)
+            {
+                if (raytraceresult.getType() != RayTraceResult.Type.MISS) vec3d2 = raytraceresult.getHitVec();
+
+                final RayTraceResult raytraceresult1 = EntityPokecubeBase.rayTraceEntities(world, projectile, vec3d1,
+                        vec3d2, boundingBox, filter);
+                if (raytraceresult1 != null) raytraceresult = raytraceresult1;
+            }
+
+            return raytraceresult;
+        }
+    }
+
+    /**
+     * Gets the EntityRayTraceResult representing the entity hit
+     */
+    @Nullable
+    public static EntityRayTraceResult rayTraceEntities(final World worldIn, final Entity projectile, final Vector3d startVec, final Vector3d endVec,
+            final AxisAlignedBB boundingBox, final Predicate<Entity> filter, final double distance)
+    {
+        double d0 = distance;
+        Entity entity = null;
+
+        for (final Entity entity1 : worldIn.getEntitiesInAABBexcluding(projectile, boundingBox, filter))
+        {
+            final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
+            final Optional<Vector3d> optional = axisalignedbb.rayTrace(startVec, endVec);
+            if (optional.isPresent())
+            {
+                final double d1 = startVec.squareDistanceTo(optional.get());
+                if (d1 < d0)
+                {
+                    entity = entity1;
+                    d0 = d1;
+                }
+            }
+        }
+
+        return entity == null ? null : new EntityRayTraceResult(entity);
+    }
+
+    private static Set<Entity> getEntityAndMount(final Entity rider)
+    {
+        final Entity entity = rider.getRidingEntity();
+        return entity != null ? ImmutableSet.of(rider, entity) : ImmutableSet.of(rider);
     }
 }

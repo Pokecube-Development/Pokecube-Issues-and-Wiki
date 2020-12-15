@@ -15,14 +15,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -31,6 +30,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -48,7 +48,6 @@ import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import thut.wearables.client.gui.GuiEvents;
 import thut.wearables.client.gui.GuiWearables;
@@ -173,13 +172,6 @@ public class ThutWearables
             event.getRegistry().register(ContainerWearables.TYPE.setRegistryName(ThutWearables.MODID, "wearables"));
         }
 
-        @SubscribeEvent
-        public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
-        {
-            event.getRegistry().register(RecipeDye.SERIALIZER.setRegistryName(new ResourceLocation(
-                    "thut_wearables:dye")));
-        }
-
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
@@ -255,13 +247,14 @@ public class ThutWearables
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutWearables.proxy::setupClient);
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutWearables.proxy::finish);
+        RecipeDye.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void dropLoot(final LivingDropsEvent event)
     {
         final LivingEntity mob = event.getEntityLiving();
-        final GameRules rules = this.overworldRules ? mob.getServer().getWorld(DimensionType.OVERWORLD).getGameRules()
+        final GameRules rules = this.overworldRules ? mob.getServer().getWorld(World.OVERWORLD).getGameRules()
                 : mob.getEntityWorld().getGameRules();
         final PlayerWearables cap = ThutWearables.getWearables(mob);
         if (rules.getBoolean(GameRules.KEEP_INVENTORY) || cap == null) return;
@@ -341,8 +334,8 @@ public class ThutWearables
     {
         if (!(event.getEntity() instanceof ServerPlayerEntity)) return;
         final PlayerEntity player = (PlayerEntity) event.getEntity();
-        final GameRules rules = this.overworldRules ? player.getServer().getWorld(DimensionType.OVERWORLD)
-                .getGameRules() : player.getEntityWorld().getGameRules();
+        final GameRules rules = this.overworldRules ? player.getServer().getWorld(World.OVERWORLD).getGameRules()
+                : player.getEntityWorld().getGameRules();
         if (rules.getBoolean(GameRules.KEEP_INVENTORY))
         {
             final PlayerWearables cap = ThutWearables.getWearables(player);
@@ -373,9 +366,9 @@ public class ThutWearables
      *
      * @param event
      */
-    public void serverStarting(final FMLServerStartingEvent event)
+    public void onCommandsRegister(final RegisterCommandsEvent event)
     {
-        CommandGui.register(event.getCommandDispatcher());
+        CommandGui.register(event.getDispatcher());
     }
 
     /**

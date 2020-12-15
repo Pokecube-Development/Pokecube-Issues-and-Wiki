@@ -1,7 +1,5 @@
 package thut.api.entity;
 
-import com.mojang.datafixers.Dynamic;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -10,10 +8,10 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -32,17 +30,24 @@ public class ThutTeleporter
             final Vector3 loc = Vector3.readFromNBT(nbt, "v");
             final String name = nbt.getString("name");
             final int index = nbt.getInt("i");
+            final int version = nbt.getInt("_v_");
             GlobalPos pos = null;
             try
             {
-                pos = GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE, nbt.get("pos")));
+                pos = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, nbt.get("pos")).result().get().getFirst();
             }
             catch (final Exception e)
             {
                 ThutCore.LOGGER.error("Error loading value", e);
                 return null;
             }
-            return new TeleDest().setLoc(pos, loc).setPos(pos).setName(name).setIndex(index);
+            final TeleDest dest = new TeleDest().setLoc(pos, loc).setPos(pos).setName(name).setIndex(index).setVersion(
+                    version);
+            final TeleLoadEvent event = new TeleLoadEvent(dest);
+            // This returns true if the event is cancelled.
+            if (MinecraftForge.EVENT_BUS.post(event)) return null;
+            // The event can override the destination, it defaults to dest.
+            return event.getOverride();
         }
 
         public GlobalPos loc;
@@ -52,6 +57,10 @@ public class ThutTeleporter
         private String name;
 
         public int index;
+
+        // This can be used for tracking things like if worlds update and
+        // teledests need resetting, etc.
+        public int version = 0;
 
         public TeleDest()
         {
@@ -74,6 +83,12 @@ public class ThutTeleporter
                         .getPos().getZ());
                 this.name = this.loc.getPos().toString() + " " + this.loc.getDimension().getRegistryName();
             }
+            return this;
+        }
+
+        public TeleDest setVersion(final int version)
+        {
+            this.version = version;
             return this;
         }
 
@@ -107,9 +122,10 @@ public class ThutTeleporter
         public void writeToNBT(final CompoundNBT nbt)
         {
             this.subLoc.writeToNBT(nbt, "v");
-            nbt.put("pos", this.loc.serialize(NBTDynamicOps.INSTANCE));
+            nbt.put("pos", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, this.loc).get().left().get());
             nbt.putString("name", this.name);
             nbt.putInt("i", this.index);
+            nbt.putInt("_v_", this.version);
         }
 
         public void shift(final double dx, final int dy, final double dz)
@@ -137,7 +153,7 @@ public class ThutTeleporter
         public InvulnTicker(final Entity entity)
         {
             this.entity = entity;
-            this.overworld = entity.getServer().getWorld(DimensionType.OVERWORLD);
+            this.overworld = entity.getServer().getWorld(World.OVERWORLD);
             this.start = this.overworld.getGameTime();
             MinecraftForge.EVENT_BUS.register(this);
         }
@@ -202,7 +218,7 @@ public class ThutTeleporter
         if (entity.getEntityWorld() instanceof ServerWorld)
         {
             new InvulnTicker(entity);
-            if (dest.loc.getDimension() == entity.dimension)
+            if (dest.loc.getDimension() == entity.world.getDimensionKey())
             {
                 ThutTeleporter.moveMob(entity, dest);
                 return;
@@ -236,7 +252,7 @@ public class ThutTeleporter
             player.invulnerableDimensionChange = true;
         }
         final ServerWorld serverworld = (ServerWorld) entity.getEntityWorld();
-        entity.dimension = destWorld.dimension.getType();
+        // TODO did we need to update the mob for what dim it was in?
         ThutTeleporter.removeMob(serverworld, entity, true);
         entity.revive();
         entity.setLocationAndAngles(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.rotationYaw,

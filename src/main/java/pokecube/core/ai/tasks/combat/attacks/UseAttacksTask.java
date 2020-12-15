@@ -7,6 +7,7 @@ import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.FakePlayer;
@@ -126,11 +127,11 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                                     .getLastAttackedEntity() != this.entity)
             {
                 final ITextComponent message = new TranslationTextComponent("pokemob.agress", this.pokemob
-                        .getDisplayName().getFormattedText());
+                        .getDisplayName().getString());
                 try
                 {
                     // Only send this once.
-                    if (this.pokemob.getAttackCooldown() == 0) this.entityTarget.sendMessage(message);
+                    if (this.pokemob.getAttackCooldown() == 0) this.entityTarget.sendMessage(message, Util.DUMMY_UUID);
                 }
                 catch (final Exception e)
                 {
