@@ -41,7 +41,6 @@ import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
-import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
@@ -129,7 +128,7 @@ public class PokecubeLegends
         DBLoader.tradeDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trades.json"));
 
         modEventBus.addListener(this::loadComplete);
-        
+
         new WorldgenHandler(Reference.ID, modEventBus);
 
         PokecubeLegends.BLOCKS.register(modEventBus);
@@ -140,8 +139,8 @@ public class PokecubeLegends
         ItemInit.init();
     }
 
-    private void loadComplete(FMLLoadCompleteEvent event) {
-        BlockInit.strippableBlocks();
+    private void loadComplete(final FMLLoadCompleteEvent event) {
+        BlockInit.strippableBlocks(event);
     }
 
     @SubscribeEvent
