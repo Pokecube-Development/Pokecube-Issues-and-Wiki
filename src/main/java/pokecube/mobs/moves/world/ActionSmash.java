@@ -3,9 +3,12 @@ package pokecube.mobs.moves.world;
 import java.util.List;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,11 +37,11 @@ public class ActionSmash implements IMoveAction
         boolean used = false;
         int count = 10;
         int level = user.getLevel();
-        final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
+        final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 8;
         if (!MoveEventsHandler.canEffectBlock(user, location)) return false;
         level = Math.min(99, level);
         final int rocks = this.smashRock(user, location, true);
-        count = (int) Math.max(0, Math.ceil(rocks * Math.pow((100 - level) / 100d, 3))) * hungerValue;
+        count = (int) Math.max(1, Math.ceil(rocks * hungerValue * Math.pow((100 - level) / 100d, 3)));
         if (rocks > 0)
         {
             this.smashRock(user, location, false);
@@ -58,13 +61,14 @@ public class ActionSmash implements IMoveAction
         return used;
     }
 
-    private void doFortuneDrop(final Vector3 location, final World world, final int fortune)
+    private void doFortuneDrop(final BlockState state, final BlockPos pos, final World worldIn,
+            final PlayerEntity player, final int fortune)
     {
-        // TODO look at the world methods, figure out how to apply fortune
-        // properly to the drops list for the loot tables.
-        // BlockState state = world.getBlockState(pos);
-        final BlockPos pos = location.getPos();
-        world.destroyBlock(pos, true);
+
+        final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
+        pickaxe.addEnchantment(Enchantments.FORTUNE, fortune);
+        state.getBlock().harvestBlock(worldIn, player, pos, state, null, pickaxe);
+        worldIn.destroyBlock(pos, false);
     }
 
     @Override
@@ -92,16 +96,17 @@ public class ActionSmash implements IMoveAction
         final World world = digger.getEntity().getEntityWorld();
         final Vector3 temp = Vector3.getNewVector();
         temp.set(v);
-        final int range = 0;
+        final int range = 1;
         for (int i = -range; i <= range; i++)
             for (int j = -range; j <= range; j++)
                 for (int k = -range; k <= range; k++)
                 {
+                    if (!(i == 0 || k == 0 || j == 0)) continue;
                     temp.set(v);
                     final BlockState state = temp.addTo(i, j, k).getBlockState(world);
                     if (PokecubeTerrainChecker.isRock(state))
                     {
-                        if (!count) if (!silky) this.doFortuneDrop(temp, world, fortune);
+                        if (!count) if (!silky) this.doFortuneDrop(state, temp.getPos(), world, player, fortune);
                         else
                         {
                             Move_Basic.silkHarvest(state, temp.getPos(), world, player);
