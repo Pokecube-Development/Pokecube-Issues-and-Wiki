@@ -16,19 +16,20 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.PressurePlateBlock;
+import net.minecraft.block.PressurePlateBlock.Sensitivity;
+import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.block.WoodButtonBlock;
-import net.minecraft.block.PressurePlateBlock.Sensitivity;
-import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -67,20 +68,20 @@ public class ItemGenerator
 
     public static final List<String> onlyBerryLeaves = Lists.newArrayList();
 
-    public static Map<String, Block> leaves = Maps.newHashMap();
-    public static Map<String, Block> logs   = Maps.newHashMap();
-    public static Map<String, Block> woods  = Maps.newHashMap();
+    public static Map<String, Block> leaves          = Maps.newHashMap();
+    public static Map<String, Block> logs            = Maps.newHashMap();
+    public static Map<String, Block> woods           = Maps.newHashMap();
     public static Map<String, Block> stripped_logs   = Maps.newHashMap();
     public static Map<String, Block> stripped_woods  = Maps.newHashMap();
-    public static Map<String, Block> planks = Maps.newHashMap();
-    public static Map<String, Block> stairs  = Maps.newHashMap();
-    public static Map<String, Block> slabs  = Maps.newHashMap();
-    public static Map<String, Block> fences  = Maps.newHashMap();
-    public static Map<String, Block> fence_gates  = Maps.newHashMap();
-    public static Map<String, Block> pressure_plates  = Maps.newHashMap();
-    public static Map<String, Block> buttons  = Maps.newHashMap();
-    public static Map<String, Block> trapdoors  = Maps.newHashMap();
-    public static Map<String, Block> doors  = Maps.newHashMap();
+    public static Map<String, Block> planks          = Maps.newHashMap();
+    public static Map<String, Block> stairs          = Maps.newHashMap();
+    public static Map<String, Block> slabs           = Maps.newHashMap();
+    public static Map<String, Block> fences          = Maps.newHashMap();
+    public static Map<String, Block> fence_gates     = Maps.newHashMap();
+    public static Map<String, Block> pressure_plates = Maps.newHashMap();
+    public static Map<String, Block> buttons         = Maps.newHashMap();
+    public static Map<String, Block> trapdoors       = Maps.newHashMap();
+    public static Map<String, Block> doors           = Maps.newHashMap();
 
     public static void makeBerries(final IForgeRegistry<Item> registry)
     {
@@ -134,8 +135,8 @@ public class ItemGenerator
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
 
             // Leaves
-            Block block = new BerryLeaf(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly()
-                    .notSolid().sound(SoundType.PLANT), index);
+            Block block = new BerryLeaf(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F)
+                    .tickRandomly().notSolid().sound(SoundType.PLANT), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);
@@ -172,7 +173,8 @@ public class ItemGenerator
             registry.register(block);
 
             // Stairs
-            block = new GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(Blocks.OAK_STAIRS));
+            block = new GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), Block.Properties.from(
+                    Blocks.OAK_STAIRS));
             block.setRegistryName(PokecubeCore.MODID, name + "_stairs");
             ItemGenerator.stairs.put(name, block);
             registry.register(block);
@@ -301,9 +303,11 @@ public class ItemGenerator
             registry.register(new BlockItem(ItemGenerator.woods.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.woods.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.stripped_logs.get(name), new Item.Properties().group(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_logs.get(name).getRegistryName()));
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_logs.get(name)
+                            .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.stripped_woods.get(name), new Item.Properties().group(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_woods.get(name).getRegistryName()));
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_woods.get(name)
+                            .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.planks.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.planks.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.stairs.get(name), new Item.Properties().group(
@@ -313,13 +317,16 @@ public class ItemGenerator
             registry.register(new BlockItem(ItemGenerator.fences.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.fences.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.fence_gates.get(name), new Item.Properties().group(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.fence_gates.get(name).getRegistryName()));
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.fence_gates.get(name)
+                            .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.pressure_plates.get(name), new Item.Properties().group(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.pressure_plates.get(name).getRegistryName()));
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.pressure_plates.get(name)
+                            .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.buttons.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.buttons.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.trapdoors.get(name), new Item.Properties().group(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.trapdoors.get(name).getRegistryName()));
+                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.trapdoors.get(name)
+                            .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.doors.get(name), new Item.Properties().group(
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.doors.get(name).getRegistryName()));
         }
@@ -328,54 +335,68 @@ public class ItemGenerator
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
     }
 
-    public static class GenericWoodStairs extends StairsBlock 
+    public static class GenericWoodStairs extends StairsBlock
     {
         @SuppressWarnings("deprecation")
-		public GenericWoodStairs(BlockState state, Properties properties) {
+        public GenericWoodStairs(final BlockState state, final Properties properties)
+        {
             super(state, properties);
         }
     }
 
-    public static class GenericTrapDoor extends TrapDoorBlock {
-        public GenericTrapDoor(Properties properties) {
+    public static class GenericTrapDoor extends TrapDoorBlock
+    {
+        public GenericTrapDoor(final Properties properties)
+        {
             super(properties);
         }
     }
 
-    public static class GenericDoor extends DoorBlock {
-        public GenericDoor(Properties properties) {
+    public static class GenericDoor extends DoorBlock
+    {
+        public GenericDoor(final Properties properties)
+        {
             super(properties);
         }
     }
 
-    public static class GenericWoodButton extends WoodButtonBlock {
-        public GenericWoodButton(Properties properties) {
+    public static class GenericWoodButton extends WoodButtonBlock
+    {
+        public GenericWoodButton(final Properties properties)
+        {
             super(properties);
         }
     }
 
-    public static class GenericPressurePlate extends PressurePlateBlock {
-        public GenericPressurePlate(Sensitivity sesitivity, Properties properties) {
+    public static class GenericPressurePlate extends PressurePlateBlock
+    {
+        public GenericPressurePlate(final Sensitivity sesitivity, final Properties properties)
+        {
             super(sesitivity, properties);
         }
     }
-    
-	public static void addStrippable(Block logs, Block strippedLogs) 
-	{
-		AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
-		AxeItem.BLOCK_STRIPPING_MAP.put(logs, strippedLogs);
-	}
-	
-	public static void strippableBlocks()
-	{
+
+    public static void addStrippable(final Block logs, final Block strippedLogs)
+    {
+        AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
+        AxeItem.BLOCK_STRIPPING_MAP.put(logs, strippedLogs);
+    }
+
+    public static void strippableBlocks(final FMLLoadCompleteEvent event)
+    {
         final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
         Collections.sort(names);
-        for (final String name : names)
+        // Enqueue this so that it runs on main thread, to prevent concurrency
+        // issues.
+        event.enqueueWork(() ->
         {
-        	addStrippable(ItemGenerator.logs.get(name),  ItemGenerator.stripped_logs.get(name));
-        	addStrippable(ItemGenerator.woods.get(name), ItemGenerator.stripped_woods.get(name));
-        }
-	}
+            for (final String name : names)
+            {
+                ItemGenerator.addStrippable(ItemGenerator.logs.get(name), ItemGenerator.stripped_logs.get(name));
+                ItemGenerator.addStrippable(ItemGenerator.woods.get(name), ItemGenerator.stripped_woods.get(name));
+            }
+        });
+    }
 
     public static void postInitItems()
     {

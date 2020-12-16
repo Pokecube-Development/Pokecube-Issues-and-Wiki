@@ -25,3 +25,4 @@ run
 
 src/generated/*
 logs/*
+/git/

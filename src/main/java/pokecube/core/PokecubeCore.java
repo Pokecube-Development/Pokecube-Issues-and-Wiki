@@ -65,6 +65,7 @@ import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
@@ -244,6 +245,8 @@ public class PokecubeCore
             Database.init();
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
+
+            PokedexEntryLoader.postInit();
 
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
@@ -427,7 +430,7 @@ public class PokecubeCore
         bus.addListener(this::enqueueIMC);
         // Register imc comms listender
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-		
+
         bus.addListener(this::processIMC);
 
         RecipeHandler.RECIPE_SERIALIZERS.register(bus);
@@ -449,8 +452,8 @@ public class PokecubeCore
         Triggers.init();
     }
 
-    private void loadComplete(FMLLoadCompleteEvent event) {
-        ItemGenerator.strippableBlocks();
+    private void loadComplete(final FMLLoadCompleteEvent event) {
+        ItemGenerator.strippableBlocks(event);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

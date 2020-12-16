@@ -1,0 +1,16 @@
+  
+{
+  "required": true,
+  "package": "pokecube.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "pokecube.refmap.json",
+  "mixins": [
+    "MixinLakesFeature"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
