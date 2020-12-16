@@ -8,6 +8,7 @@ import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.MagmaBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
@@ -216,8 +217,8 @@ public class BlockInit
                 .hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
         SPATIAN_BRICK 	= PokecubeLegends.BLOCKS.register("spatianbrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
-        MAGMA_BRICK 	= PokecubeLegends.BLOCKS.register("magmabrick", () -> new Block(Block.Properties.create(
-                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
+        MAGMA_BRICK 	= PokecubeLegends.BLOCKS.register("magmabrick", () -> new MagmaBlock(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.NETHERRACK).setLightLevel((state)->3).setEmmisiveRendering((s, r, p) -> true)));
         DARKSKY_BRICK 	= PokecubeLegends.BLOCKS.register("darkskybrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
 
@@ -363,7 +364,7 @@ public class BlockInit
                 .harvestLevel(2).sound(SoundType.ANVIL).setLightLevel(b->4).variableOpacity()).noInfoBlock());
         HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new HeatranBlock("heatran_block",
         		Block.Properties.create(Material.LAVA).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-                .harvestLevel(2).sound(SoundType.CORAL).setLightLevel(b->4).variableOpacity()).noInfoBlock());
+                .harvestLevel(2).sound(SoundType.NETHERRACK).setLightLevel(b->4).variableOpacity().setEmmisiveRendering((s, r, p) -> true)).noInfoBlock());
         ///
         REGISTEEL_CORE 		= PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
                 Material.IRON, 15, SoundType.METAL ,ToolType.PICKAXE, 2).noInfoBlock());
