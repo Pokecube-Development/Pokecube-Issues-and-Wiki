@@ -1,4 +1,4 @@
-package pokecube.pokeplayer.data;
+package pokecube.pokeplayer.network;
 
 import java.util.List;
 
@@ -13,49 +13,50 @@ public class DataSyncWrapper extends DataSync_Impl
     @Override
     public List<Data<?>> getAll()
     {
-        if (this.wrapped == this) return super.getAll();
-        return this.wrapped.getAll();
+        if (wrapped == this) return super.getAll();
+        return wrapped.getAll();
     }
 
     @Override
     public List<Data<?>> getDirty()
     {
-        if (this.wrapped == this) return super.getDirty();
-        return this.wrapped.getDirty();
+        if (wrapped == this) return super.getDirty();
+        return wrapped.getDirty();
     }
 
     @Override
-    public <T> T get(final int key)
+    public <T> T get(int key)
     {
-        if (this.wrapped == this) return super.get(key);
-        return this.wrapped.get(key);
+        if (wrapped == this) return super.get(key);
+        return wrapped.get(key);
     }
 
     @Override
-    public <T> int register(final Data<T> data, final T value)
+    public <T> int register(Data<T> data, T value)
     {
         return super.register(data, value);
     }
 
     @Override
-    public <T> void set(final int key, final T value)
+    public <T> void set(int key, T value)
     {
-        if (this.wrapped == this)
+        if (wrapped == this)
         {
             super.set(key, value);
             return;
         }
-        this.wrapped.set(key, value);
+        wrapped.set(key, value);
     }
 
     @Override
-    public void update(final List<Data<?>> values)
+    public void update(List<Data<?>> values)
     {
-        if (this.wrapped == this)
+        if (wrapped == this)
         {
             super.update(values);
             return;
         }
-        this.wrapped.update(values);
+        wrapped.update(values);
     }
+
 }
