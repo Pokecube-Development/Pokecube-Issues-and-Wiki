@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_grepa"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_grepa"},
+			{"model": "pokecube:block/fruit_grepa", "y": 90},
+			{"model": "pokecube:block/fruit_grepa", "y": 180},
+			{"model": "pokecube:block/fruit_grepa", "y": 270}
+		]
+	} 
 }

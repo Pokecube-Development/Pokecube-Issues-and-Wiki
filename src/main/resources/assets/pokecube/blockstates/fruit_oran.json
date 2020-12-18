@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_oran"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_oran"},
+			{"model": "pokecube:block/fruit_oran", "y": 90},
+			{"model": "pokecube:block/fruit_oran", "y": 180},
+			{"model": "pokecube:block/fruit_oran", "y": 270}
+		] 
+	} 
 }

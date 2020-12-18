@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_nanab"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_nanab"},
+			{"model": "pokecube:block/fruit_nanab", "y": 90},
+			{"model": "pokecube:block/fruit_nanab", "y": 180},
+			{"model": "pokecube:block/fruit_nanab", "y": 270}
+		] 
+	} 
 }

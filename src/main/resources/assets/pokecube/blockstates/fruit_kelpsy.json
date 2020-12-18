@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_kelpsy"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_kelpsy"},
+			{"model": "pokecube:block/fruit_kelpsy", "y": 90},
+			{"model": "pokecube:block/fruit_kelpsy", "y": 180},
+			{"model": "pokecube:block/fruit_kelpsy", "y": 270}
+		]
+	} 
 }

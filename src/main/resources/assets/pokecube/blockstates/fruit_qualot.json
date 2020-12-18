@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_qualot"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_qualot"},
+			{"model": "pokecube:block/fruit_qualot", "y": 90},
+			{"model": "pokecube:block/fruit_qualot", "y": 180},
+			{"model": "pokecube:block/fruit_qualot", "y": 270}
+		]
+	} 
 }

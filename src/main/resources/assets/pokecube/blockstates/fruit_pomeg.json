@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_pomeg"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_pomeg"},
+			{"model": "pokecube:block/fruit_pomeg", "y": 90},
+			{"model": "pokecube:block/fruit_pomeg", "y": 180},
+			{"model": "pokecube:block/fruit_pomeg", "y": 270}
+		] 
+	} 
 }

@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_leppa"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_leppa"},
+			{"model": "pokecube:block/fruit_leppa", "y": 90},
+			{"model": "pokecube:block/fruit_leppa", "y": 180},
+			{"model": "pokecube:block/fruit_leppa", "y": 270}
+		]
+	} 
 }
