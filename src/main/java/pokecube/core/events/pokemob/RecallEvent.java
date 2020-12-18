@@ -15,7 +15,14 @@ public class RecallEvent extends Event
      */
     public static class Pre extends RecallEvent
     {
-        public Pre(IPokemob pokemob)
+        public Pre(final IPokemob pokemob)
+        {
+            super(pokemob);
+        }
+    }
+    public static class Post extends RecallEvent
+    {
+        public Post(final IPokemob pokemob)
         {
             super(pokemob);
         }
@@ -23,7 +30,7 @@ public class RecallEvent extends Event
 
     public final IPokemob recalled;
 
-    public RecallEvent(IPokemob pokemob)
+    protected RecallEvent(final IPokemob pokemob)
     {
         this.recalled = pokemob;
     }

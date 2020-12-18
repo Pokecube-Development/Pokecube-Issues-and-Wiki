@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -302,17 +303,12 @@ public class MoveEventsHandler
         Block block = state.getBlock();
         final BlockPos hitPos = context.getHitPos();
         final BlockPos prevPos = context.getPos();
-        final int flamNext = block.getFlammability(state, world, prevPos, context.getFace());
+        final BlockPos placePos = prevPos;
+        final boolean light = AbstractFireBlock.canLightBlock(world, placePos, context.getPlacementHorizontalFacing());
         final BlockState prev = world.getBlockState(prevPos);
 
-        // Start fires
-        if (flamNext != 0 && prev.isReplaceable(context))
-        {
-            world.setBlockState(prevPos, Blocks.FIRE.getDefaultState());
-            return true;
-        }
         // Melt Snow
-        else if (block == Blocks.SNOW_BLOCK)
+        if (block == Blocks.SNOW_BLOCK)
         {
             world.setBlockState(hitPos, Blocks.WATER.getDefaultState());
             return true;
@@ -351,9 +347,22 @@ public class MoveEventsHandler
             world.setBlockState(prevPos, Blocks.WATER.getDefaultState());
             return true;
         }
-        // Otherwise smelt attempt
-        if (move.getPWR() < MoveEventsHandler.FIRESTRONG) return MoveEventsHandler.attemptSmelt(attacker, location);
 
+        final boolean smelted = MoveEventsHandler.attemptSmelt(attacker, location);
+
+        // Otherwise smelt attempt
+        if (smelted) return true;
+
+        // Start fires
+        if (light && move.getPWR() < MoveEventsHandler.FIRESTRONG)
+        {
+            final BlockState fire = AbstractFireBlock.getFireForPlacement(world, placePos);
+            world.setBlockState(placePos, fire);
+            return true;
+        }
+        if (move.getPWR() < MoveEventsHandler.FIRESTRONG) return false;
+
+        block = state.getBlock();
         // Melt obsidian
         if (block == Blocks.OBSIDIAN)
         {
@@ -366,8 +375,26 @@ public class MoveEventsHandler
             world.setBlockState(hitPos, Blocks.AIR.getDefaultState());
             return true;
         }
-        // Otherwise smelt attempt
-        return MoveEventsHandler.attemptSmelt(attacker, location);
+        block = prev.getBlock();
+        if (block == Blocks.OBSIDIAN)
+        {
+            world.setBlockState(hitPos, Blocks.LAVA.getDefaultState());
+            return true;
+        }
+        // Evapourate water
+        else if (block == Blocks.WATER)
+        {
+            world.setBlockState(hitPos, Blocks.AIR.getDefaultState());
+            return true;
+        }
+        // Start fires
+        else if (light)
+        {
+            final BlockState fire = AbstractFireBlock.getFireForPlacement(world, placePos);
+            world.setBlockState(placePos, fire);
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -40,7 +40,7 @@ public class Tasks
     public static final List<SensorType<?>> REMOVE = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
-            SensorType.SECONDARY_POIS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
+            SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
 
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
             MemoryTypes.BATTLETARGET);

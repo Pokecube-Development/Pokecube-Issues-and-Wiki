@@ -45,7 +45,8 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     public static ResourceLocation TERRAINTAG    = new ResourceLocation(PokecubeCore.MODID, "terrain");
     public static ResourceLocation WOODTAG       = new ResourceLocation(PokecubeCore.MODID, "wood");
 
-    public static ResourceLocation LEAVES = new ResourceLocation("minecraft:leaves");
+    public static ResourceLocation LEAVES  = new ResourceLocation("minecraft:leaves");
+    public static ResourceLocation FLOWERS = new ResourceLocation("minecraft:small_flowers");
 
     public static Map<String, String> structureSubbiomeMap     = Maps.newHashMap();
     public static Map<String, String> manualStructureSubbiomes = Maps.newHashMap();
@@ -130,6 +131,11 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         return ItemList.is(PokecubeTerrainChecker.LEAVES, state);
     }
 
+    public static boolean isFlower(final BlockState state)
+    {
+        return ItemList.is(PokecubeTerrainChecker.FLOWERS, state);
+    }
+
     @Override
     public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
             final boolean caveAdjusted)
@@ -191,6 +197,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         final boolean notLake = this.isWatery(b);
         int industrial = 0;
         int water = 0;
+        int flower = 0;
         final Vector3 temp1 = Vector3.getNewVector();
         final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
         final int dx = (v.intX() - x0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
@@ -204,7 +211,9 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
                     BlockState state;
                     if (PokecubeTerrainChecker.isIndustrial(state = temp1.set(i, j, k).getBlockState(world)))
                         industrial++;
+                    if (PokecubeTerrainChecker.isFlower(state)) flower++;
                     if (industrial > 2) return BiomeType.INDUSTRIAL.getType();
+                    if (flower > 3) return BiomeType.FLOWER.getType();
                     if (state.getMaterial() == Material.WATER) water++;
                 }
         if (water > 4)

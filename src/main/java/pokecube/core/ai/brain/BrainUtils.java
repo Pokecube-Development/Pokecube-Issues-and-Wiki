@@ -132,7 +132,7 @@ public class BrainUtils
     public static IPosWrapper getMoveUseTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if(!brain.hasMemory(MemoryModules.MOVE_TARGET)) return null;
+        if (!brain.hasMemory(MemoryModules.MOVE_TARGET)) return null;
         final Optional<IPosWrapper> pos = brain.getMemory(MemoryModules.MOVE_TARGET);
         if (pos == null || !pos.isPresent()) return null;
         return pos.get();
@@ -242,6 +242,12 @@ public class BrainUtils
 
     public static void deagro(final LivingEntity mob)
     {
+        BrainUtils.deagro(mob, true);
+    }
+
+    public static void deagro(final LivingEntity mob, final boolean mutual)
+    {
+
         if (mob == null) return;
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
 
@@ -253,11 +259,8 @@ public class BrainUtils
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }
         final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
-        if (mob instanceof MobEntity)
-        {
-            BrainUtils.setAttackTarget(mob, null);
-            BrainUtils.deagro(oldTarget);
-        }
+        if (oldTarget != null && mutual) BrainUtils.deagro(oldTarget);
+        if (mob instanceof MobEntity) BrainUtils.setAttackTarget(mob, null);
         mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
         mob.getBrain().removeMemory(MemoryModules.MATE_TARGET);
         mob.getBrain().removeMemory(MemoryModuleType.HURT_BY_ENTITY);

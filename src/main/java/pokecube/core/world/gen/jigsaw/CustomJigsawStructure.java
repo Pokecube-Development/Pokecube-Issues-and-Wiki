@@ -89,11 +89,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
         final DimensionStructuresSettings settings = generator.func_235957_b_();
         for (final Structure<?> s : WorldgenHandler.getSortedList())
         {
-            if (s == this.getStructure())
-            {
-                PokecubeCore.LOGGER.info("Reached Self {}", config.struct_config.name);
-                break;
-            }
+            if (s == this.getStructure()) break;
             if (!biomes.hasStructure(s)) continue;
             final int ds1 = WorldgenHandler.getNeededSpace(s);
             final int ds = Math.max(ds0, ds1);
@@ -109,17 +105,18 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             for (int i = x - ds; i <= x + ds; ++i)
                 for (int j = z - ds; j <= z + ds; ++j)
                 {
+                    // We ask for EMPTY chunk, and allow it to be null, so that
+                    // we don't cause issues if the chunk doesn't exist yet.
                     final IChunk ichunk = world.getChunk(i, j, ChunkStatus.EMPTY, false);
+                    // We then only care about chunks which have already reached
+                    // at least this stage of loading.
                     if (ichunk == null || !ichunk.getStatus().isAtLeast(ChunkStatus.STRUCTURE_STARTS)) continue;
+                    // This is the way to tell if an actual real structure would
+                    // be at this location.
                     final StructureStart<?> structurestart = manager.getStructureStart(SectionPos.from(ichunk.getPos(),
                             0), s, ichunk);
                     // This means we do conflict, so no spawn here.
-                    if (structurestart != null && structurestart.isValid())
-                    {
-                        PokecubeCore.LOGGER.info("Skipping building {} due to conflict with {}, space needed was {}",
-                                config.struct_config.name, s.getRegistryName(), ds);
-                        return false;
-                    }
+                    if (structurestart != null && structurestart.isValid()) return false;
                 }
         }
 
