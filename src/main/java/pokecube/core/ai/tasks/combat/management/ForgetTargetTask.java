@@ -23,6 +23,7 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -160,7 +161,7 @@ public class ForgetTargetTask extends CombatTask
                             MemoryModuleStatus.REGISTERED)) mobB.getEntity().getBrain().setMemory(
                                     MemoryModules.HUNTED_BY, mobA.getEntity());
 
-                    PokecubeCore.LOGGER.debug("No want to fight, too weak!");
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("No want to fight, too weak!");
                     deAgro = true;
                 }
             }
@@ -172,13 +173,13 @@ public class ForgetTargetTask extends CombatTask
         {
             if (!this.entityTarget.isAlive() || this.entityTarget.getHealth() <= 0)
             {
-                PokecubeCore.LOGGER.debug("They are Dead!");
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("They are Dead!");
                 deAgro = true;
                 break agroCheck;
             }
             if (!this.entity.isAlive() || this.entity.getHealth() <= 0)
             {
-                PokecubeCore.LOGGER.debug("We are Dead!");
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("We are Dead!");
                 deAgro = true;
                 break agroCheck;
             }
@@ -194,7 +195,7 @@ public class ForgetTargetTask extends CombatTask
             // If we are not angry, we should forget target.
             if (!this.pokemob.getCombatState(CombatStates.ANGRY))
             {
-                PokecubeCore.LOGGER.debug("Not Angry. losing target now.");
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Not Angry. losing target now.");
                 deAgro = true;
                 break agroCheck;
             }
@@ -218,7 +219,7 @@ public class ForgetTargetTask extends CombatTask
                 if (owner != null && !stayOrGuard && owner.getDistance(this.entity) > PokecubeCore
                         .getConfig().chaseDistance)
                 {
-                    PokecubeCore.LOGGER.debug("Cannot target mob that far while guarding.");
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Cannot target mob that far while guarding.");
                     deAgro = true;
                     break agroCheck;
                 }
@@ -228,7 +229,7 @@ public class ForgetTargetTask extends CombatTask
                 if (!PokecubeCore.getConfig().teamsBattleEachOther && TeamManager.sameTeam(this.entityTarget,
                         this.entity) && !this.pokemob.getCombatState(CombatStates.MATEFIGHT))
                 {
-                    PokecubeCore.LOGGER.debug("Cannot target team mates.");
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Cannot target team mates.");
                     deAgro = true;
                     break agroCheck;
                 }
@@ -300,5 +301,14 @@ public class ForgetTargetTask extends CombatTask
         this.pokemob.getTargetFinder().clear();
         this.pokemob.onSetTarget(null, true);
         BrainUtils.deagro(this.entity);
+        if (this.entityTarget != null)
+        {
+            if (this.pokemobTarget != null)
+            {
+                this.pokemobTarget.getTargetFinder().clear();
+                this.pokemobTarget.onSetTarget(null, true);
+            }
+            BrainUtils.deagro(this.entityTarget);
+        }
     }
 }
