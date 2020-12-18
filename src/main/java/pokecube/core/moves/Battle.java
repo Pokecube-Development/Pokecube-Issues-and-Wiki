@@ -55,7 +55,16 @@ public class Battle
         {
             for (final Battle battle : this.battles)
                 battle.tick();
-            this.battles.removeIf(b -> b.ended);
+            this.battles.removeIf(b ->
+            {
+                final boolean ended = b.ended;
+                if (ended)
+                {
+                    b.side1.keySet().forEach(u -> this.battlesById.remove(u));
+                    b.side2.keySet().forEach(u -> this.battlesById.remove(u));
+                }
+                return ended;
+            });
         }
 
         @SubscribeEvent
@@ -106,7 +115,8 @@ public class Battle
                 existingA.addToBattle(mobA, mobB);
                 return true;
             }
-            PokecubeCore.LOGGER.warn("Need to merge battles! what do?");
+            final ServerWorld world = (ServerWorld) mobA.getEntityWorld();
+            existingA.mergeFrom(mobA, mobB, existingB, world);
             return false;
         }
         if (existingA != null) existingA.addToBattle(mobA, mobB);
@@ -153,6 +163,34 @@ public class Battle
             BrainUtils.initiateCombat((MobEntity) mob, target);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
+    }
+
+    private void mergeFrom(final LivingEntity mobA, final LivingEntity mobB, final Battle other,
+            final ServerWorld world)
+    {
+        final BattleManager manager = BattleManager.managers.get(world.getDimensionKey());
+        final boolean mobAisSide1 = this.side1.containsKey(mobA.getUniqueID());
+        final boolean mobBisSide1 = other.side1.containsKey(mobB.getUniqueID());
+
+        final Map<UUID, LivingEntity> sideAUs = mobAisSide1 ? this.side1 : this.side2;
+        final Map<UUID, LivingEntity> sideBThem = mobBisSide1 ? other.side1 : other.side2;
+
+        final Map<UUID, LivingEntity> sideBUs = mobAisSide1 ? this.side2 : this.side1;
+        final Map<UUID, LivingEntity> sideAThem = mobBisSide1 ? other.side2 : other.side1;
+
+        sideBThem.forEach((id, mob) ->
+        {
+            sideBUs.put(id, mob);
+            manager.battlesById.put(id, this);
+        });
+        sideAThem.forEach((id, mob) ->
+        {
+            sideAUs.put(id, mob);
+            manager.battlesById.put(id, this);
+        });
+
+        other.side1.clear();
+        other.side2.clear();
     }
 
     public void addToBattle(final LivingEntity mobA, final LivingEntity mobB)

@@ -23,7 +23,7 @@ public class ActionCut implements IMoveAction
         boolean used = false;
         int count = 10;
         final int level = user.getLevel();
-        final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
+        final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 8;
         if (!MoveEventsHandler.canEffectBlock(user, location)) return false;
         TreeRemover remover = new TreeRemover(user.getEntity().getEntityWorld(), location);
         int cut = remover.cut(true);
@@ -38,7 +38,7 @@ public class ActionCut implements IMoveAction
                 if (cut != 0) break;
             }
         }
-        count = (int) Math.max(1, Math.ceil(cut * Math.pow((100 - level) / 100d, 3))) * hungerValue;
+        count = (int) Math.max(1, Math.ceil(cut * hungerValue * Math.pow((100 - level) / 100d, 3)));
         if (count > 0)
         {
             remover.cut(false);

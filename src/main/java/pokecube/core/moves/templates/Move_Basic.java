@@ -6,6 +6,7 @@ package pokecube.core.moves.templates;
 import java.util.Random;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.INPC;
@@ -13,6 +14,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -47,30 +50,16 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     {
         if (pokemob.getAbility() == null) return false;
         final Ability ability = pokemob.getAbility();
-        return pokemob.getLevel() > 90 && ability.toString().equalsIgnoreCase("hypercutter");
+        return pokemob.getLevel() >= 90 && ability.toString().equalsIgnoreCase("hypercutter");
     }
 
     public static void silkHarvest(final BlockState state, final BlockPos pos, final World worldIn,
             final PlayerEntity player)
     {
-        // TODO silk touch stuff? Look into world.destroyBlock ,see how to
-        // properly find the loot tables and apply silk touch.
-        // java.util.ArrayList<ItemStack> items = new
-        // java.util.ArrayList<ItemStack>();
-        // ItemStack itemstack = createStackedBlock(state);
-        //
-        // if (itemstack != null)
-        // {
-        // items.add(itemstack);
-        // }
-        //
-        // net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(items,
-        // worldIn, pos, worldIn.getBlockState(pos),
-        // 0, 1.0f, true, player);
-        // for (ItemStack stack : items)
-        // {
-        // Block.spawnAsEntity(worldIn, pos, stack);
-        // }
+        final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
+        pickaxe.addEnchantment(Enchantments.SILK_TOUCH, 1);
+        state.getBlock().harvestBlock(worldIn, player, pos, state, null, pickaxe);
+        worldIn.destroyBlock(pos, false);
     }
 
     Vector3 v = Vector3.getNewVector();

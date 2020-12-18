@@ -81,7 +81,7 @@ public class TerrainSegment
                 {
                     // If it isn't a water biome, define it as a lake if more
                     // than a certain amount of water.
-                    final int water = v.blockCount2(world, Blocks.WATER, 3);
+                    final int water = TerrainSegment.count(world, Blocks.WATER, v, 3);
                     if (water > 4)
                     {
                         biome = BiomeType.LAKE.getType();
@@ -170,7 +170,9 @@ public class TerrainSegment
     //@formatter:off
     public static Predicate<Integer> saveChecker = (i) -> !(i == -1
                                                          || i == BiomeType.CAVE.getType()
+                                                         || i == BiomeType.CAVE_WATER.getType()
                                                          || i == BiomeType.SKY.getType()
+                                                         || i == BiomeType.FLOWER.getType()
                                                          || i == BiomeType.NONE.getType());
     //@formatter:on
 
