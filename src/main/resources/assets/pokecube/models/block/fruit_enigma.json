@@ -1,81 +1,50 @@
 {
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "pokecube:block/fruit_enigma",
+		"enigma": "pokecube:block/fruit_enigma"
+	},
 	"elements": [
 		{
-			"__comment": "Enigma",
-			"from": [6.5, 6.25, 6.5],
-			"to": [9.5, 6.75, 9.5],
+			"name": "stem",
+			"from": [7, 14, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [0, 4, 1, 8], "texture": "#enigma", "rotation": 90},
-				"east": {"uv": [0, 4, 1, 8], "texture": "#enigma", "rotation": 270},
-				"south": {"uv": [0, 4, 1, 8], "texture": "#enigma", "rotation": 90},
-				"west": {"uv": [0, 4, 1, 7], "texture": "#enigma", "rotation": 270},
-				"down": {"uv": [0, 5, 1, 7], "texture": "#enigma", "rotation": 180}
+				"north": {"uv": [5, 0, 7, 2], "texture": "#enigma"},
+				"east": {"uv": [5, 0, 7, 2], "texture": "#enigma"},
+				"south": {"uv": [5, 0, 7, 2], "texture": "#enigma"},
+				"west": {"uv": [5, 0, 7, 2], "texture": "#enigma"},
+				"up": {"uv": [1, 1, 3, 3], "rotation": 270, "texture": "#enigma"},
+				"down": {"uv": [11, 1, 12, 4], "rotation": 180, "texture": "#enigma"}
 			}
 		},
 		{
-			"__comment": "Enigma",
-			"from": [7.75, 15.25, 7.75],
-			"to": [8.25, 16.75, 8.25],
+			"name": "fruit",
+			"from": [6.5, 13, 6.5],
+			"to": [9.5, 14, 9.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [0, 10, 2, 13], "texture": "#enigma", "rotation": 0},
-				"east": {"uv": [1, 11, 2, 12], "texture": "#enigma", "rotation": 0},
-				"south": {"uv": [1, 11, 2, 13], "texture": "#enigma", "rotation": 0},
-				"west": {"uv": [1, 11, 2, 12], "texture": "#enigma", "rotation": 180},
-				"up": {"uv": [0, 10, 1.57, 11.57], "texture": "#enigma", "rotation": 180, "cullface": "up"}
+				"north": {"uv": [4.5, 2, 7.5, 3], "texture": "#enigma"},
+				"east": {"uv": [4.5, 2, 7.5, 3], "texture": "#enigma"},
+				"south": {"uv": [7.5, 2, 4.5, 3], "texture": "#enigma"},
+				"west": {"uv": [7.5, 2, 4.5, 3], "texture": "#enigma"},
+				"up": {"uv": [0.5, 0.5, 3.5, 3.5], "texture": "#enigma"}
 			}
 		},
 		{
-			"__comment": "Enigma",
-			"from": [7, 13.25, 7],
-			"to": [9, 15.25, 9],
+			"name": "fruit",
+			"from": [6, 7, 6],
+			"to": [10, 13, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [3, 10, 5, 13], "texture": "#enigma", "rotation": 180},
-				"east": {"uv": [4, 11, 7, 13], "texture": "#enigma", "rotation": 0},
-				"south": {"uv": [3, 10, 7, 14], "texture": "#enigma", "rotation": 0},
-				"west": {"uv": [3, 10, 5, 12], "texture": "#enigma", "rotation": 180},
-				"up": {"uv": [4, 12, 6, 14], "texture": "#enigma", "rotation": 270},
-				"down": {"uv": [11, 1, 12, 4], "texture": "#enigma", "rotation": 180}
-			}
-		},
-		{
-			"__comment": "Enigma",
-			"from": [6.25, 6.75, 6.25],
-			"to": [9.75, 11.75, 9.75],
-			"faces": {
-				"north": {"uv": [7, 0, 0, 10], "texture": "#enigma", "rotation": 180},
-				"east": {"uv": [7, 0, 0, 10], "texture": "#enigma", "rotation": 180},
-				"south": {"uv": [7, 0, 0, 10], "texture": "#enigma", "rotation": 180},
-				"west": {"uv": [7, 0, 0, 10], "texture": "#enigma", "rotation": 180},
-				"up": {"uv": [8, 1, 15, 8], "texture": "#enigma", "rotation": 0},
-				"down": {"uv": [1, 4, 2, 6], "texture": "#enigma", "rotation": 180}
-			}
-		},
-		{
-			"__comment": "Enigma",
-			"from": [6.75, 11.75, 6.75],
-			"to": [9.25, 12.75, 9.25],
-			"faces": {
-				"north": {"uv": [9, 1, 14, 4], "texture": "#enigma", "rotation": 180},
-				"east": {"uv": [9, 1, 14, 4], "texture": "#enigma", "rotation": 0},
-				"south": {"uv": [9, 1, 14, 4], "texture": "#enigma", "rotation": 180},
-				"west": {"uv": [9, 1, 14, 4], "texture": "#enigma", "rotation": 0},
-				"up": {"uv": [9, 2, 14, 7], "texture": "#enigma", "rotation": 270}
-			}
-		},
-		{
-			"__comment": "Enigma",
-			"from": [7.25, 12.75, 7.25],
-			"to": [8.75, 13.25, 8.75],
-			"faces": {
-				"north": {"uv": [10, 1, 13, 4], "texture": "#enigma", "rotation": 180},
-				"east": {"uv": [10, 1, 13, 4], "texture": "#enigma", "rotation": 0},
-				"south": {"uv": [10, 1, 13, 4], "texture": "#enigma", "rotation": 0},
-				"west": {"uv": [9, 1, 13, 3], "texture": "#enigma", "rotation": 180}
+				"north": {"uv": [4, 3, 8, 9], "texture": "#enigma"},
+				"east": {"uv": [4, 3, 8, 9], "texture": "#enigma"},
+				"south": {"uv": [8, 3, 4, 9], "texture": "#enigma"},
+				"west": {"uv": [8, 3, 4, 9], "texture": "#enigma"},
+				"up": {"uv": [0, 0, 4, 4], "texture": "#enigma"},
+				"down": {"uv": [0, 4, 4, 8], "rotation": 180, "texture": "#enigma"}
 			}
 		}
-	],
-	"textures": {
-		"enigma": "pokecube:block/fruit_enigma",
-		"particle": "pokecube:block/fruit_enigma"
-	}
+	]
 }

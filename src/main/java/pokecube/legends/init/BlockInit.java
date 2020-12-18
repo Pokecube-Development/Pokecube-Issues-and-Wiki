@@ -6,6 +6,7 @@ import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.MagmaBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
@@ -210,12 +211,13 @@ public class BlockInit
 
         OCEAN_BRICK = PokecubeLegends.BLOCKS.register("oceanbrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
-        SKY_BRICK = PokecubeLegends.BLOCKS.register("skybrick", () -> new Block(Block.Properties.create(Material.ROCK)
+        SKY_BRICK   = PokecubeLegends.BLOCKS.register("skybrick", () -> new Block(Block.Properties.create(Material.ROCK)
                 .hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
         SPATIAN_BRICK = PokecubeLegends.BLOCKS.register("spatianbrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
-        MAGMA_BRICK = PokecubeLegends.BLOCKS.register("magmabrick", () -> new Block(Block.Properties.create(
-                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
+        MAGMA_BRICK   = PokecubeLegends.BLOCKS.register("magmabrick", () -> new MagmaBlock(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.NETHERRACK).setLightLevel(b -> 3)
+        			.setEmmisiveRendering((s, r, p) -> true)));
         DARKSKY_BRICK = PokecubeLegends.BLOCKS.register("darkskybrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
 
@@ -444,9 +446,9 @@ public class BlockInit
         TROUGH_BLOCK = PokecubeLegends.BLOCKS.register("trough_block", () -> new TroughBlock("trough_block",
                 Block.Properties.create(Material.IRON).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
                         .harvestLevel(2).sound(SoundType.ANVIL).setLightLevel(b -> 4).variableOpacity()).noInfoBlock());
-        HEATRAN_BLOCK = PokecubeLegends.BLOCKS.register("heatran_block", () -> new HeatranBlock("heatran_block",
-                Block.Properties.create(Material.LAVA).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-                        .harvestLevel(2).sound(SoundType.CORAL).setLightLevel(b -> 4).variableOpacity()).noInfoBlock());
+        HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new HeatranBlock("heatran_block",
+        		Block.Properties.create(Material.LAVA).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
+                .harvestLevel(2).sound(SoundType.CORAL).setLightLevel(b -> 4).variableOpacity().setEmmisiveRendering((s, r, p) -> true)).noInfoBlock());
         ///
         REGISTEEL_CORE = PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
                 Material.IRON, 15, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());

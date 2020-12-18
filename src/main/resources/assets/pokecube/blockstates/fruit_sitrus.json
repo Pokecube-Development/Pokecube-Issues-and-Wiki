@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_sitrus"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_sitrus"},
+			{"model": "pokecube:block/fruit_sitrus", "y": 90},
+			{"model": "pokecube:block/fruit_sitrus", "y": 180},
+			{"model": "pokecube:block/fruit_sitrus", "y": 270}
+		] 
+	} 
 }
