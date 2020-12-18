@@ -311,16 +311,11 @@ public class PokemobEventsHandler
     private static void onMobTick(final LivingUpdateEvent evt)
     {
         final World dim = evt.getEntity().getEntityWorld();
-        if (!TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
-                .getConfig().movementPauseThreshold))
-        {
-            evt.setCanceled(true);
-            return;
-        }
         // Prevent moving if it is liable to take us out of a loaded area
         final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
                 .getMotion().z * evt.getEntity().getMotion().z);
-        final boolean tooFast = !TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
+        final boolean ridden = evt.getEntity().isBeingRidden();
+        final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold + dist);
         if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
 
