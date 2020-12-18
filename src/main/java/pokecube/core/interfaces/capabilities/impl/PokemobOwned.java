@@ -225,7 +225,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         final RecallEvent pre = new RecallEvent.Pre(this);
         PokecubeCore.POKEMOB_BUS.post(pre);
         if (pre.isCanceled()) return;
-        final RecallEvent evtrec = new RecallEvent(this);
+        final RecallEvent evtrec = new RecallEvent.Post(this);
         PokecubeCore.POKEMOB_BUS.post(evtrec);
         if (this.getHealth() > 0 && evtrec.isCanceled()) return;
         this.setEvolutionTicks(0);

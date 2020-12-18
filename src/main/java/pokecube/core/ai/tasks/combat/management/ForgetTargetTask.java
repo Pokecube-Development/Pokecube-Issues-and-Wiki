@@ -73,6 +73,8 @@ public class ForgetTargetTask extends CombatTask
 
     int ticksSinceSeen = 0;
 
+    boolean mutualDeagro = true;
+
     Map<UUID, ForgetEntry> forgotten = Maps.newHashMap();
 
     public ForgetTargetTask(final IPokemob pokemob)
@@ -96,7 +98,7 @@ public class ForgetTargetTask extends CombatTask
         this.battleTime++;
 
         // Check if we should be cancelling due to wild mobs
-
+        this.mutualDeagro = true;
         final IPokemob mobA = this.pokemob;
         final IPokemob mobB = this.pokemobTarget;
 
@@ -136,6 +138,8 @@ public class ForgetTargetTask extends CombatTask
 
             final boolean bothWild = !weTame && !theyTame;
             final boolean oneHunting = weHunt || theyHunt;
+
+            this.mutualDeagro = !oneHunting;
 
             // Give up if we took too long to fight.
             if (bothWild && this.battleTime > ForgetTargetTask.maxWildBattleDur)
@@ -285,10 +289,11 @@ public class ForgetTargetTask extends CombatTask
     public boolean shouldRun()
     {
         this.entityTarget = BrainUtils.getAttackTarget(this.entity);
-        this.pokemobTarget = CapabilityPokemob.getPokemobFor(this.entityTarget);
 
         if (this.entityTarget == null && this.entity.getBrain().hasMemory(MemoryModuleType.HURT_BY_ENTITY))
             this.entityTarget = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
+
+        this.pokemobTarget = CapabilityPokemob.getPokemobFor(this.entityTarget);
 
         // Only run if we have a combat target
         return this.entityTarget != null;
@@ -300,15 +305,11 @@ public class ForgetTargetTask extends CombatTask
         if (battle != null) battle.removeFromBattle(this.entity);
         this.pokemob.getTargetFinder().clear();
         this.pokemob.onSetTarget(null, true);
-        BrainUtils.deagro(this.entity);
-        if (this.entityTarget != null)
+        if (this.pokemobTarget != null && !this.mutualDeagro)
         {
-            if (this.pokemobTarget != null)
-            {
-                this.pokemobTarget.getTargetFinder().clear();
-                this.pokemobTarget.onSetTarget(null, true);
-            }
-            BrainUtils.deagro(this.entityTarget);
+            this.pokemobTarget.getTargetFinder().clear();
+            this.pokemobTarget.onSetTarget(null, true);
         }
+        BrainUtils.deagro(this.entity, this.mutualDeagro);
     }
 }

@@ -32,7 +32,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.poi.PointsOfInterest;
-import pokecube.adventures.blocks.BlockEventHandler;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.blocks.afa.AfaTile;
@@ -56,17 +55,13 @@ import pokecube.adventures.blocks.warppad.WarppadBlock;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
-import pokecube.adventures.events.TrainerEventHandler;
-import pokecube.adventures.events.TrainerSpawnHandler;
+import pokecube.adventures.init.SetupHandler;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.proxy.ClientProxy;
 import pokecube.adventures.proxy.CommonProxy;
-import pokecube.adventures.utils.EnergyHandler;
-import pokecube.adventures.utils.InventoryHandler;
 import pokecube.adventures.utils.RecipePokeAdv;
-import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.recipes.XMLRecipeHandler;
@@ -297,18 +292,9 @@ public class PokecubeAdv
         thut.core.common.config.Config.setupConfigs(PokecubeAdv.config, PokecubeCore.MODID, PokecubeAdv.MODID);
 
         // Register event handlers
+        SetupHandler.registerListeners();
 
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(TrainerEventHandler.class);
-        MinecraftForge.EVENT_BUS.register(TrainerSpawnHandler.class);
-        MinecraftForge.EVENT_BUS.register(BagItem.class);
-        MinecraftForge.EVENT_BUS.register(Linker.class);
-        MinecraftForge.EVENT_BUS.register(EnergyHandler.class);
-        MinecraftForge.EVENT_BUS.register(InventoryHandler.class);
-        MinecraftForge.EVENT_BUS.register(BlockEventHandler.class);
-        MinecraftForge.EVENT_BUS.register(TrainerTracker.class);
-
-        PokecubeCore.POKEMOB_BUS.register(TrainerEventHandler.class);
         PokecubeCore.POKEMOB_BUS.register(this);
 
         XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeAdv.MODID, "database/rewards.json"));

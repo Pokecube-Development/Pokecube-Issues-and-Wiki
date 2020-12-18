@@ -24,12 +24,8 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
@@ -66,7 +62,7 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
-import pokecube.core.events.pokemob.RecallEvent;
+import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
@@ -193,8 +189,7 @@ public class TrainerEventHandler
             mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void attachCaps(final AttachCapabilitiesEvent<Entity> event)
+    public static void onAttachMobCaps(final AttachCapabilitiesEvent<Entity> event)
     {
         // Add capabilities for guard AI
         TrainerEventHandler.attach_guard(event);
@@ -225,13 +220,7 @@ public class TrainerEventHandler
         return false;
     }
 
-    @SubscribeEvent
-    /**
-     * Calls processInteract
-     *
-     * @param evt
-     */
-    public static void interactEvent(final PlayerInteractEvent.EntityInteract evt)
+    public static void onEntityInteract(final PlayerInteractEvent.EntityInteract evt)
     {
         if (evt.getWorld().isRemote) return;
         final String ID = "LastSuccessInteractEvent";
@@ -241,13 +230,7 @@ public class TrainerEventHandler
         evt.getTarget().getPersistentData().putLong(ID, evt.getTarget().getEntityWorld().getGameTime());
     }
 
-    @SubscribeEvent
-    /**
-     * Calls processInteract
-     *
-     * @param evt
-     */
-    public static void interactEvent(final PlayerInteractEvent.EntityInteractSpecific evt)
+    public static void onEntityInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
     {
         if (evt.getWorld().isRemote) return;
         final String ID = "LastSuccessInteractEvent";
@@ -257,14 +240,13 @@ public class TrainerEventHandler
         evt.getTarget().getPersistentData().putLong(ID, evt.getTarget().getEntityWorld().getGameTime());
     }
 
-    @SubscribeEvent
     /**
      * This manages invulnerability of npcs to pokemobs, as well as managing
      * the target allocation for trainers.
      *
      * @param evt
      */
-    public static void livingHurtEvent(final LivingHurtEvent evt)
+    public static void onLivingHurt(final LivingHurtEvent evt)
     {
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(evt.getEntity());
         final IHasMessages messages = TrainerCaps.getMessages(evt.getEntity());
@@ -286,19 +268,19 @@ public class TrainerEventHandler
         }
     }
 
-    @SubscribeEvent
-    /**
-     * Ensures the IHasPokemobs object has synced target with the MobEntity
-     * object.
-     *
-     * @param evt
-     */
-    public static void livingSetTargetEvent(final LivingSetAttackTargetEvent evt)
-    {
-        if (evt.getTarget() == null || !(evt.getEntity() instanceof LivingEntity)) return;
-    }
+    // /**
+    // * Ensures the IHasPokemobs object has synced target with the MobEntity
+    // * object.
+    // *
+    // * @param evt
+    // */
+    // public static void onLivingSetTarget(final LivingSetAttackTargetEvent
+    // evt)
+    // {
+    // if (evt.getTarget() == null || !(evt.getEntity() instanceof
+    // LivingEntity)) return;
+    // }
 
-    @SubscribeEvent
     /**
      * Initializes the AI for the trainers when they join the world.
      *
@@ -310,13 +292,11 @@ public class TrainerEventHandler
         TrainerEventHandler.initTrainer((LivingEntity) event.getEntity(), SpawnReason.NATURAL);
     }
 
-    @SubscribeEvent
     public static void onNpcSpawn(final NpcSpawn event)
     {
         TrainerEventHandler.initTrainer(event.getNpcMob(), event.getReason());
     }
 
-    @SubscribeEvent
     public static void onNpcTick(final LivingUpdateEvent event)
     {
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntityLiving());
@@ -405,39 +385,35 @@ public class TrainerEventHandler
         }
     }
 
-    @SubscribeEvent
-    public static void serverStarting(final FMLServerAboutToStartEvent event)
+    public static void onPostDatabaseLoad(final InitDatabase.Post event)
     {
         DBLoader.load();
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void serverStarted(final FMLServerStartedEvent event)
+    public static void onPostServerStart(final FMLServerStartedEvent event)
     {
         TypeTrainer.postInitTrainers();
     }
 
-    @SubscribeEvent
     /**
      * This prevents trainer's pokemobs going to PC
      *
      * @param evt
      */
-    public static void TrainerPokemobPC(final PCEvent evt)
+    public static void onSentToPC(final PCEvent evt)
     {
+        // TODO see about handling this better.
         if (evt.owner instanceof TrainerNpc) evt.setCanceled(true);
     }
 
-    @SubscribeEvent(receiveCanceled = false)
     /**
      * This sends pokemobs back to their NPC trainers when they are recalled.
      *
      * @param evt
      */
-    public static void TrainerRecallEvent(final pokecube.core.events.pokemob.RecallEvent evt)
+    public static void onRecalledPokemob(final pokecube.core.events.pokemob.RecallEvent.Post evt)
     {
-        if (evt instanceof RecallEvent.Pre || evt.recalled.getOwner() instanceof PlayerEntity) return;
-
+        if (evt.recalled.getOwner() instanceof PlayerEntity) return;
         final IPokemob recalled = evt.recalled;
         final LivingEntity owner = recalled.getOwner();
         if (owner == null) return;
@@ -449,13 +425,12 @@ public class TrainerEventHandler
         }
     }
 
-    @SubscribeEvent
     /**
      * This links the pokemob to the trainer when it is sent out.
      *
      * @param evt
      */
-    public static void TrainerSendOutEvent(final SendOut.Post evt)
+    public static void onPostSendOut(final SendOut.Post evt)
     {
         final IPokemob sent = evt.pokemob;
         final LivingEntity owner = sent.getOwner();
@@ -474,14 +449,13 @@ public class TrainerEventHandler
         }
     }
 
-    @SubscribeEvent
     /**
      * This manages making of trainers invisible if they have been defeated, if
      * this is enabled for the given trainer.
      *
      * @param event
      */
-    public static void TrainerWatchEvent(final StartTracking event)
+    public static void onWatchTrainer(final StartTracking event)
     {
         if (!(event.getTarget() instanceof TrainerNpc)) return;
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(event.getEntity());
