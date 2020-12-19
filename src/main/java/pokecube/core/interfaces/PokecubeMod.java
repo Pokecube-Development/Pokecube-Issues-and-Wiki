@@ -3,15 +3,11 @@ package pokecube.core.interfaces;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.entity.Entity;
@@ -41,10 +37,6 @@ public abstract class PokecubeMod
     public final static String GIFTURL = PokecubeMod.GIST + "gift";
 
     private static HashMap<World, FakePlayer> fakePlayers = new HashMap<>();
-
-    public static double              MAX_DENSITY   = 1;
-    public static Map<String, String> gifts         = Maps.newHashMap();
-    public static Set<String>         giftLocations = Sets.newHashSet();
 
     public static final UUID fakeUUID = new UUID(1234, 4321);
 

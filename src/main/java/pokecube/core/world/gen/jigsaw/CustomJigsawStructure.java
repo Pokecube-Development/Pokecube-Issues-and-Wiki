@@ -11,29 +11,40 @@ import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.math.SectionPos;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.Template.Palette;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.utils.PokecubeSerializer;
 
 public class CustomJigsawStructure extends Structure<JigsawConfig>
 {
-    public CustomJigsawStructure(final Codec<JigsawConfig> p_i231977_1_)
+    public int priority = 100;
+
+    public int spacing = 4;
+
+    public CustomJigsawStructure(final Codec<JigsawConfig> config)
     {
-        super(p_i231977_1_);
+        super(config);
     }
 
     @Override
@@ -68,6 +79,47 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             final int y = CustomJigsawStructure.getMinY(x, z, generator);
             if (y <= 5) return false;
         }
+
+        // Here we check if there are any conflicting structures around.
+        final int ds0 = WorldgenHandler.getNeededSpace(this.getStructure());
+        final Decoration stage0 = Structure.STRUCTURE_DECORATION_STAGE_MAP.get(this.getStructure());
+
+        final ServerWorld world = JigsawAssmbler.getForGen(generator);
+        final StructureManager manager = world.func_241112_a_();
+        final DimensionStructuresSettings settings = generator.func_235957_b_();
+        for (final Structure<?> s : WorldgenHandler.getSortedList())
+        {
+            if (s == this.getStructure()) break;
+            if (!biomes.hasStructure(s)) continue;
+            final int ds1 = WorldgenHandler.getNeededSpace(s);
+            final int ds = Math.max(ds0, ds1);
+
+            final StructureSeparationSettings structureseparationsettings = settings.func_236197_a_(s);
+            // This means it doesn't spawn in this world, so we skip.
+            if (structureseparationsettings == null) continue;
+
+            final Decoration stage1 = Structure.STRUCTURE_DECORATION_STAGE_MAP.get(s);
+            // Only care about things that are of same stage!
+            if (stage1 != stage0) continue;
+
+            for (int i = x - ds; i <= x + ds; ++i)
+                for (int j = z - ds; j <= z + ds; ++j)
+                {
+                    // We ask for EMPTY chunk, and allow it to be null, so that
+                    // we don't cause issues if the chunk doesn't exist yet.
+                    final IChunk ichunk = world.getChunk(i, j, ChunkStatus.EMPTY, false);
+                    // We then only care about chunks which have already reached
+                    // at least this stage of loading.
+                    if (ichunk == null || !ichunk.getStatus().isAtLeast(ChunkStatus.STRUCTURE_STARTS)) continue;
+                    // This is the way to tell if an actual real structure would
+                    // be at this location.
+                    final StructureStart<?> structurestart = manager.getStructureStart(SectionPos.from(ichunk.getPos(),
+                            0), s, ichunk);
+                    // This means we do conflict, so no spawn here.
+                    if (structurestart != null && structurestart.isValid()) return false;
+                }
+        }
+
         // Super just returns true, but we will call it anyway incase it is
         // needed/mixined/etc
         return super.func_230363_a_(generator, biomes, seed, rand, x, z, biome, pos, config);
@@ -101,7 +153,6 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                 final TemplateManager templateManagerIn, final int chunkX, final int chunkZ, final Biome biomeIn,
                 final JigsawConfig config)
         {
-
             // Turns the chunk coordinates into actual coordinates we can use.
             // (Gets center of that chunk)
             final int x = (chunkX << 4) + 7;
@@ -139,7 +190,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                         p.offset(0, -piece.opts.dy, 0);
 
                         // Check if we should place a professor.
-                        if (!PokecubeSerializer.getInstance().hasPlacedSpawn())
+                        if (!PokecubeSerializer.getInstance().hasPlacedSpawn() && PokecubeCore
+                                .getConfig().doSpawnBuilding)
                         {
                             final Template t = piece.getTemplate(templateManagerIn);
                             if (piece.toUse == null) piece.func_230379_a_(part.getRotation(), part.getBoundingBox(),

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_button",
+    "pokecube:leppa_button",
+    "pokecube:nanab_button",
+    "pokecube:oran_button",
+    "pokecube:pecha_button",
+    "pokecube:sitrus_button",
+    "pokecube_legends:aged_button",
+    "pokecube_legends:distortic_button",
+    "pokecube_legends:inverted_button",
+    "pokecube_legends:temporal_button"
+  ]
+}

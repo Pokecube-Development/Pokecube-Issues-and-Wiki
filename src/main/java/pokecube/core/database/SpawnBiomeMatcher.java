@@ -276,7 +276,6 @@ public class SpawnBiomeMatcher
                 if (this._blackListCats.contains(b.getCategory())) this._blackListBiomes.add(BiomeDatabase.getKey(b));
             this._blackListCats.clear();
         }
-
         return this._blackListBiomes;
     }
 
@@ -339,9 +338,13 @@ public class SpawnBiomeMatcher
         // This takes priority, regardless of the other options.
         BiomeType type = checker.type;
         if (checker.type == null) type = BiomeType.ALL;
+
+        // Check the blacklist first, if this does match, we leave early.
         final boolean blackListed = this.getInvalidBiomes().contains(checker.biome) || this._blackListSubBiomes
                 .contains(type);
+
         if (blackListed) return false;
+
         final IChunk chunk = checker.chunk;
         // No chunk here, no spawn here!
         if (chunk == null) return false;
@@ -355,14 +358,37 @@ public class SpawnBiomeMatcher
             if (result != MatchResult.PASS) return result == MatchResult.SUCCEED;
         }
 
-        if (this._validSubBiomes.contains(BiomeType.NONE) || this.getValidBiomes().isEmpty() && this._validSubBiomes
-                .isEmpty() && this._blackListSubBiomes.isEmpty() && this.getInvalidBiomes().isEmpty()) return false;
+        //@formatter:off
+        // If the type is "none", or we don't have any valid biomes or subbiomes
+        // then it means this entry doesn't spawn (ie is supposed to be in a structure)
+        // structures were checked earlier, so we return false here.
+        final boolean noSpawn = this._validSubBiomes.contains(BiomeType.NONE)
+                             || this.getValidBiomes().isEmpty() &&
+                                this._validSubBiomes .isEmpty();
+        //@formatter:on
+        if (noSpawn) return false;
+
+        // allValid means we spawn everywhere not blacklisted, so return true;
+        final boolean allValid = this._validSubBiomes.contains(BiomeType.ALL);
+        if (allValid) return true;
+
+        // If there is no subbiome, then the checker's type is null or none
         final boolean noSubbiome = checker.type == null || checker.type == BiomeType.NONE;
-        final boolean rightBiome = this._validSubBiomes.contains(BiomeType.ALL) || this.getValidBiomes().contains(
-                checker.biome) || this.getValidBiomes().isEmpty();
-        boolean rightSubBiome = this._validSubBiomes.isEmpty() && noSubbiome || this._validSubBiomes.contains(
-                BiomeType.ALL) || this._validSubBiomes.contains(checker.type);
-        if (this.getValidBiomes().isEmpty() && this._validSubBiomes.isEmpty()) rightSubBiome = true;
+
+        final boolean needsSubbiome = !this._validSubBiomes.isEmpty();
+
+        // We need a subbiome, but there is none here! so no spawn.
+        if (needsSubbiome && noSubbiome) return false;
+
+        // If we got to here, we are valid if the biomes has this biome, or no
+        // biomes are needed.
+        final boolean rightBiome = this.getValidBiomes().contains(checker.biome) || this.getValidBiomes().isEmpty();
+
+        // We are the correct subbiome if we either don't need one, or the valid
+        // subbiomes has out current one.
+        final boolean rightSubBiome = !needsSubbiome || this._validSubBiomes.contains(checker.type);
+
+        // Return true if both correct biome and subbiome.
         return rightBiome && rightSubBiome;
     }
 
@@ -418,6 +444,7 @@ public class SpawnBiomeMatcher
     {
         if (this.parsed) return;
         this.parsed = true;
+        this.valid = true;
 
         if (this._validBiomes == null) this._validBiomes = Sets.newHashSet();
         if (this._validSubBiomes == null) this._validSubBiomes = Sets.newHashSet();
@@ -496,6 +523,7 @@ public class SpawnBiomeMatcher
         }
 
         this.preParseSubBiomes();
+
         final String biomeString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
         final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPES);
         final String biomeBlacklistString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMESBLACKLIST);
@@ -503,6 +531,7 @@ public class SpawnBiomeMatcher
         final String biomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMECAT);
         final String noBiomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
         final String validStructures = this.spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
+
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAY)) this.day = Boolean.parseBoolean(
                 this.spawnRule.values.get(SpawnBiomeMatcher.DAY));
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.NIGHT)) this.night = Boolean.parseBoolean(
@@ -574,7 +603,7 @@ public class SpawnBiomeMatcher
             final String[] args = typeString.split(",");
             for (String s : args)
             {
-                s = s.trim();
+                s = Database.trim(s);
                 if (BiomeDatabase.isAType(s))
                 {
                     hasForgeTypes = true;
@@ -586,7 +615,7 @@ public class SpawnBiomeMatcher
                     else validTypes.add(s);
                     continue;
                 }
-                final BiomeType subBiome = BiomeType.getBiome(s.trim(), false);
+                final BiomeType subBiome = BiomeType.getBiome(s);
                 this._validSubBiomes.add(subBiome);
             }
         }
@@ -608,10 +637,9 @@ public class SpawnBiomeMatcher
             final String[] args = typeBlacklistString.split(",");
             for (String s : args)
             {
-                s = s.trim();
+                s = Database.trim(s);
                 if (BiomeDatabase.isAType(s))
                 {
-                    hasForgeTypes = true;
                     if (s.equalsIgnoreCase("water"))
                     {
                         blackListTypes.add("river");
@@ -622,11 +650,12 @@ public class SpawnBiomeMatcher
                 }
                 BiomeType subBiome = null;
                 for (final BiomeType b : BiomeType.values())
-                    if (Database.trim(b.name).equals(Database.trim(s)))
+                    if (Database.trim(b.name).equals(s))
                     {
                         subBiome = b;
                         break;
                     }
+                if (subBiome == null) subBiome = BiomeType.getBiome(s);
                 if (subBiome != BiomeType.NONE) this._blackListSubBiomes.add(subBiome);
             }
         }
@@ -660,10 +689,18 @@ public class SpawnBiomeMatcher
             }
         this._validBiomes.removeAll(toRemove);
 
+        // We are not valid if we specified some types, but found no biomes.
         if (hasForgeTypes && this._validBiomes.isEmpty()) this.valid = false;
-        if (this._validSubBiomes.isEmpty() && this._validBiomes.isEmpty() && this._blackListBiomes.isEmpty()
-                && this._blackListSubBiomes.isEmpty() && this._validStructures.isEmpty() && this._validCats.isEmpty()
-                && this._blackListCats.isEmpty()) this.valid = false;
+
+        //@formatter:off
+        final boolean hasSomething = !(
+                                   this._validSubBiomes.isEmpty()
+                                && this._validBiomes.isEmpty()
+                                && this._validStructures.isEmpty()
+                                && this._validCats.isEmpty()
+                                );
+        //@formatter:on
+        if (!hasSomething) this.valid = false;
     }
 
     private void preParseSubBiomes()
@@ -690,7 +727,6 @@ public class SpawnBiomeMatcher
     public void reset()
     {
         this.parsed = false;
-        this.valid = true;
         this._validBiomes = Sets.newHashSet();
         this._validCats = Sets.newHashSet();
         this._blackListCats = Sets.newHashSet();

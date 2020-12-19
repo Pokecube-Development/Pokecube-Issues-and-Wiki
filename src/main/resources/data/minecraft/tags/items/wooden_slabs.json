@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_slab",
+    "pokecube:leppa_slab",
+    "pokecube:nanab_slab",
+    "pokecube:oran_slab",
+    "pokecube:pecha_slab",
+    "pokecube:sitrus_slab",
+    "pokecube_legends:aged_slab",
+    "pokecube_legends:distortic_slab",
+    "pokecube_legends:inverted_slab",
+    "pokecube_legends:temporal_slab"
+  ]
+}

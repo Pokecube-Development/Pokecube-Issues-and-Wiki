@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube_legends:block/distortic_slab"
+    },
+    "type=double": {
+      "model": "pokecube_legends:block/ultra_plank03"
+    },
+    "type=top": {
+      "model": "pokecube_legends:block/distortic_slab_top"
+    }
+  }
+}

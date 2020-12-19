@@ -160,9 +160,15 @@ public class PokecubeManager
     {
         if (!PokecubeManager.isFilled(stack)) return null;
         final CompoundNBT pokeTag = stack.getTag().getCompound(TagNames.POKEMOB);
-        final long min = pokeTag.getLong("UUIDLeast");
-        final long max = pokeTag.getLong("UUIDMost");
-        return new UUID(max, min);
+        try
+        {
+            return pokeTag.getUniqueId("UUID");
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.warn("Error getting UUID from cube! " + stack + " " + pokeTag);
+            return null;
+        }
     }
 
     public static void heal(final LivingEntity mob)

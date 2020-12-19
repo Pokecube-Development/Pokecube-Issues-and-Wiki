@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube:block/oran_slab"
+    },
+    "type=double": {
+      "model": "pokecube:block/plank_oran"
+    },
+    "type=top": {
+      "model": "pokecube:block/oran_slab_top"
+    }
+  }
+}

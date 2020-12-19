@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:log_oran",
+    "pokecube:oran_wood",
+    "pokecube:stripped_oran_log",
+    "pokecube:stripped_oran_wood"
+  ]
+}

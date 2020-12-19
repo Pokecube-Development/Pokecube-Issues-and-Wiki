@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends",
+  "ingredients": [
+    {
+      "item": "pokecube:plank_nanab"
+    }
+  ],
+  "result": {
+    "item": "pokecube:nanab_button"
+  }
+}

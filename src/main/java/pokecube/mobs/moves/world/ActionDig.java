@@ -28,10 +28,10 @@ public class ActionDig implements IMoveAction
         boolean used = false;
         int count = 10;
         final int level = user.getLevel();
-        final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
+        final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 8;
         if (!MoveEventsHandler.canEffectBlock(user, location)) return false;
-        count = (int) Math.max(1, Math.ceil(this.digHole(user, location, true) * Math.pow((100 - level) / 100d, 3)))
-                * hungerValue;
+        count = (int) Math.max(1, Math.ceil(this.digHole(user, location, true) * hungerValue * Math.pow((100 - level)
+                / 100d, 3)));
         if (count > 0)
         {
             this.digHole(user, location, false);

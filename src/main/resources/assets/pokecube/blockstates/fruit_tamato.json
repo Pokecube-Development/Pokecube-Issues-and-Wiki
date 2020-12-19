@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_tamato"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_tamato"},
+			{"model": "pokecube:block/fruit_tamato", "y": 90},
+			{"model": "pokecube:block/fruit_tamato", "y": 180},
+			{"model": "pokecube:block/fruit_tamato", "y": 270}
+		]
+	} 
 }

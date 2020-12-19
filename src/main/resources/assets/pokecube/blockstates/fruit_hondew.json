@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_hondew"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_hondew"},
+			{"model": "pokecube:block/fruit_hondew", "y": 90},
+			{"model": "pokecube:block/fruit_hondew", "y": 180},
+			{"model": "pokecube:block/fruit_hondew", "y": 270}
+		]
+	} 
 }

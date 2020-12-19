@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "pokecube:block/plank_oran",
+    "top": "pokecube:block/plank_oran",
+    "side": "pokecube:block/plank_oran"
+  }
+}

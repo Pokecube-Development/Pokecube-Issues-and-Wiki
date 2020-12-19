@@ -1,5 +1,11 @@
-{
-    "variants": {
-        "": { "model": "pokecube:block/fruit_enigma"}
-    }
+{ 
+	"variants": { 
+		"": 
+		[ 
+			{ "model": "pokecube:block/fruit_enigma"},
+			{"model": "pokecube:block/fruit_enigma", "y": 90},
+			{"model": "pokecube:block/fruit_enigma", "y": 180},
+			{"model": "pokecube:block/fruit_enigma", "y": 270}
+		]
+	} 
 }

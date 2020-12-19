@@ -51,6 +51,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -64,6 +65,7 @@ import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
@@ -72,6 +74,7 @@ import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokemobsEvent;
 import pokecube.core.handlers.Config;
+import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.ItemHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.data.Drops;
@@ -243,9 +246,12 @@ public class PokecubeCore
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
 
+            PokedexEntryLoader.postInit();
+
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 if (entry.dummy) continue;
+                if (!entry.stock) continue;
                 try
                 {
                     final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
@@ -424,6 +430,8 @@ public class PokecubeCore
         // Register imc comms sender
         bus.addListener(this::enqueueIMC);
         // Register imc comms listender
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
+
         bus.addListener(this::processIMC);
 
         RecipeHandler.RECIPE_SERIALIZERS.register(bus);
@@ -443,6 +451,11 @@ public class PokecubeCore
 
         // Initialize advancement triggers
         Triggers.init();
+    }
+
+    private void loadComplete(final FMLLoadCompleteEvent event)
+    {
+        ItemGenerator.strippableBlocks(event);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

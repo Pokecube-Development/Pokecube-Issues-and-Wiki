@@ -1,6 +1,7 @@
 {
     "replace": false,
-    "values": [
+    "values": [],
+    "optional": [
         "#pokecube_legends:legends_stones"
     ]
 }

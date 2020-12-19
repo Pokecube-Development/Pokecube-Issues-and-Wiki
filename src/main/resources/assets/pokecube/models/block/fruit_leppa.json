@@ -1,73 +1,56 @@
 {
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "pokecube:block/fruit_leppa",
+		"leppa": "pokecube:block/fruit_leppa"
+	},
 	"elements": [
 		{
-			"__comment": "Leppa",
-			"from": [7.4, 13.67, 7.4],
-			"to": [8.6, 14.07, 8.6],
+			"name": "stem",
+			"from": [7, 15.5, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [12, 4, 13, 5], "texture": "#leppa", "rotation": 0},
-				"east": {"uv": [12, 5, 13, 6], "texture": "#leppa", "rotation": 0},
-				"south": {"uv": [12, 5, 13, 6], "texture": "#leppa", "rotation": 0},
-				"west": {"uv": [12, 5, 13, 6], "texture": "#leppa", "rotation": 0},
-				"up": {"uv": [12, 3, 13, 4], "texture": "#leppa", "rotation": 180}
+				"north": {"uv": [4, 6.5, 6, 7], "texture": "#leppa"},
+				"east": {"uv": [4, 6.5, 6, 7], "texture": "#leppa"},
+				"south": {"uv": [4, 6.5, 6, 7], "texture": "#leppa"},
+				"west": {"uv": [4, 6.5, 6, 7], "texture": "#leppa"},
+				"up": {"uv": [4, 5, 6, 7], "rotation": 180, "texture": "#leppa"}
 			}
 		},
 		{
-			"__comment": "Leppa",
-			"from": [6, 9.67, 6],
-			"to": [10, 13.67, 10],
+			"name": "fruit",
+			"from": [6, 10.5, 6],
+			"to": [10, 15.5, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 10, 10], "texture": "#leppa", "rotation": 0},
-				"east": {"uv": [0, 0, 10, 10], "texture": "#leppa", "rotation": 0},
-				"south": {"uv": [0, 0, 10, 10], "texture": "#leppa", "rotation": 0},
-				"west": {"uv": [0, 0, 10, 10], "texture": "#leppa", "rotation": 0},
-				"up": {"uv": [2.5, 0, 5, 2.5], "texture": "#leppa", "rotation": 180},
-				"down": {"uv": [6, 7, 9, 10], "texture": "#leppa", "rotation": 180}
+				"north": {"uv": [4, 0, 8, 5], "texture": "#leppa"},
+				"east": {"uv": [4, 0, 8, 5], "texture": "#leppa"},
+				"south": {"uv": [8, 0, 4, 5], "texture": "#leppa"},
+				"west": {"uv": [8, 0, 4, 5], "texture": "#leppa"},
+				"up": {"uv": [0, 0, 4, 4], "texture": "#leppa"},
+				"down": {"uv": [0, 4, 4, 8], "texture": "#leppa"}
 			}
 		},
 		{
-			"__comment": "Leppa",
-			"from": [8.62, 13.65, 7.8],
-			"to": [8.62, 15.66, 8.2],
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [8.87, 15.65, 8]},
+			"name": "leaves",
+			"from": [7.5, 15.5, 6.5],
+			"to": [14.5, 15.5, 9.5],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [10, 15.5, 8]},
 			"faces": {
-				"east": {"uv": [12, 3, 13, 5], "texture": "#leppa", "rotation": 0},
-				"west": {"uv": [12, 2, 13, 5], "texture": "#leppa", "rotation": 0}
+				"up": {"uv": [8, 0, 15, 3], "texture": "#leppa"},
+				"down": {"uv": [8, 0, 15, 3], "texture": "#leppa"}
 			}
 		},
 		{
-			"__comment": "Leppa",
-			"from": [8.566, 15.68, 7],
-			"to": [14.176, 15.68, 9],
-			"rotation": {"angle": -45, "axis": "z", "origin": [8.7, 15.63, 8]},
+			"name": "leaves",
+			"from": [1.5, 15.5, 6.5],
+			"to": [8.5, 15.5, 9.5],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [6, 15.5, 8]},
 			"faces": {
-				"up": {"uv": [10, 0, 15, 14], "texture": "#leppa", "rotation": 90},
-				"down": {"uv": [10, 0, 15, 14], "texture": "#leppa", "rotation": 270}
-			}
-		},
-		{
-			"__comment": "Leppa",
-			"from": [7.37, 13.65, 7.8],
-			"to": [7.37, 15.66, 8.2],
-			"rotation": {"angle": 22.5, "axis": "z", "origin": [7.13, 15.65, 8]},
-			"faces": {
-				"east": {"uv": [12, 3, 13, 5], "texture": "#leppa", "rotation": 0},
-				"west": {"uv": [13, 3, 14, 5], "texture": "#leppa", "rotation": 0}
-			}
-		},
-		{
-			"__comment": "Leppa",
-			"from": [1.82, 15.68, 7],
-			"to": [7.42, 15.68, 9],
-			"rotation": {"angle": 45, "axis": "z", "origin": [7.3, 15.63, 8]},
-			"faces": {
-				"up": {"uv": [10, 0, 15, 14], "texture": "#leppa", "rotation": 270},
-				"down": {"uv": [10, 0, 15, 14], "texture": "#leppa", "rotation": 90}
+				"up": {"uv": [8, 3, 15, 6], "texture": "#leppa"},
+				"down": {"uv": [8, 3, 15, 6], "texture": "#leppa"}
 			}
 		}
-	],
-	"textures": {
-		"leppa": "pokecube:block/fruit_leppa",
-		"particle": "pokecube:block/fruit_leppa"
-	}
+	]
 }

@@ -12,7 +12,7 @@
         "group": "pokecube",
         "ingredients": [
           {
-            "item": "pokecube:log_enigma"
+            "tag": "pokecube:enigma_logs"
           }
         ],
         "result": {
