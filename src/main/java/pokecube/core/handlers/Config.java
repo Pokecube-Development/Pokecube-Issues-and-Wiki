@@ -410,8 +410,6 @@ public class Config extends ConfigData
     @Configure(category = Config.world)
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world)
-    public int          spawnDimension         = 0;
-    @Configure(category = Config.world)
     public String       professor_override     = "pokecube:mob:professor{\"name\":\"pokecube.professor.named:Cedar\",\"guard\":{\"time\":\"day\",\"roam\":0}}";
 
     // Mob Spawning settings
@@ -844,28 +842,24 @@ public class Config extends ConfigData
         if (this.configDatabases.size() != EnumDatabase.values().length) this.configDatabases = Lists.newArrayList(
                 new String[] { "", "", "" });
 
-        // TODO figure out dimension blacklists.
         SpawnHandler.dimensionBlacklist.clear();
-        // for (final String i : this.spawnDimBlacklist)
-        // {
-        // final DimensionType type = DimensionType.byName(new
-        // ResourceLocation(i));
-        // if (type != null) SpawnHandler.dimensionBlacklist.add(type);
-        // }
+        for (final String i : this.spawnDimBlacklist)
+        {
+            final ResourceLocation key = new ResourceLocation(i);
+            SpawnHandler.dimensionBlacklist.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, key));
+        }
         SpawnHandler.dimensionWhitelist.clear();
-        // for (final String i : this.spawnDimWhitelist)
-        // {
-        // final DimensionType type = DimensionType.byName(new
-        // ResourceLocation(i));
-        // if (type != null) SpawnHandler.dimensionWhitelist.add(type);
-        // }
+        for (final String i : this.spawnDimWhitelist)
+        {
+            final ResourceLocation key = new ResourceLocation(i);
+            SpawnHandler.dimensionWhitelist.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, key));
+        }
         LogicMountedControl.BLACKLISTED.clear();
-        // for (final String i : this.blackListedFlyDims)
-        // {
-        // final DimensionType type = DimensionType.byName(new
-        // ResourceLocation(i));
-        // if (type != null) LogicMountedControl.BLACKLISTED.add(type);
-        // }
+        for (final String i : this.blackListedFlyDims)
+        {
+            final ResourceLocation key = new ResourceLocation(i);
+            LogicMountedControl.BLACKLISTED.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, key));
+        }
 
         boolean failed = false;
         if (this.dodgeSounds.size() == 0) failed = true;
