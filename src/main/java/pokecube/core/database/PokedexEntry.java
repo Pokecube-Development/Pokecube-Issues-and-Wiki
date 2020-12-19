@@ -535,11 +535,12 @@ public class PokedexEntry
                 result = results.get(index).copy();
             }
             if (result.isEmpty()) return false;
-            final long timer = action.cooldown + new Random().nextInt(action.variance) + entity.getEntityWorld()
-                    .getGameTime();
+            final long dt = (long) ((action.cooldown + new Random().nextInt(action.variance)) * PokecubeCore
+                    .getConfig().interactDelayScale);
+            final long timer = dt + entity.getEntityWorld().getGameTime();
             data.putLong("lastInteract", timer);
-            final int time = pokemob.getHungerTime();
-            pokemob.setHungerTime(time + action.hunger);
+            final int hunger = pokemob.getHungerTime();
+            pokemob.setHungerTime((int) (hunger + action.hunger * PokecubeCore.getConfig().interactHungerScale));
             if (consumeInput) held.shrink(1);
             if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem, result);
             else if (!player.inventory.addItemStackToInventory(result)) player.dropItem(result, false);

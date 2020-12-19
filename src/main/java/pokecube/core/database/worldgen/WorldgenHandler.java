@@ -509,10 +509,31 @@ public class WorldgenHandler
 
     public void loadStructures() throws Exception
     {
-        final ResourceLocation json = new ResourceLocation(this.ROOT.toString() + "worldgen.json");
-        final InputStream res = Database.resourceManager.getResource(json).getInputStream();
-        final Reader reader = new InputStreamReader(res);
+        ResourceLocation json = new ResourceLocation(this.ROOT.toString() + "worldgen.json");
+        InputStream res = Database.resourceManager.getResource(json).getInputStream();
+        Reader reader = new InputStreamReader(res);
         this.defaults = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
+
+        // Pokecube core will then also check the configurable worldgen
+        // databases
+        if (this.MODID.equals(PokecubeCore.MODID)) for (final String s : PokecubeCore
+                .getConfig().extraWorldgenDatabases)
+        {
+            json = new ResourceLocation(this.ROOT.toString() + s + ".json");
+            try
+            {
+                res = Database.resourceManager.getResource(json).getInputStream();
+                reader = new InputStreamReader(res);
+                final Structures extra = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
+                this.defaults.jigsaws.addAll(extra.jigsaws);
+                this.defaults.pools.addAll(extra.pools);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error loading a custom database: {}", s);
+                PokecubeCore.LOGGER.error(e);
+            }
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

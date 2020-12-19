@@ -190,7 +190,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                         p.offset(0, -piece.opts.dy, 0);
 
                         // Check if we should place a professor.
-                        if (!PokecubeSerializer.getInstance().hasPlacedSpawn())
+                        if (!PokecubeSerializer.getInstance().hasPlacedSpawn() && PokecubeCore
+                                .getConfig().doSpawnBuilding)
                         {
                             final Template t = piece.getTemplate(templateManagerIn);
                             if (piece.toUse == null) piece.func_230379_a_(part.getRotation(), part.getBoundingBox(),

@@ -157,7 +157,6 @@ public final class SpawnHandler
     public static double  MAX_DENSITY = 1;
     public static int     MAXNUM      = 10;
     public static boolean lvlCap      = false;
-    public static boolean expFunction = false;
     public static int     capLevel    = 50;
 
     public static boolean addForbiddenSpawningCoord(final BlockPos pos, final World dim, final int range,
@@ -400,49 +399,14 @@ public final class SpawnHandler
 
     public static int getSpawnXp(final World world, final Vector3 location, final PokedexEntry pokemon)
     {
-        int maxXp = 10;
-        if (!SpawnHandler.expFunction) return Tools.levelToXp(pokemon.getEvolutionMode(), SpawnHandler.getSpawnLevel(
-                world, location, pokemon));
-        final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
-        final int b = t.getBiome(location);
-        final BiomeType type = BiomeType.getType(b);
-        if (SpawnHandler.subBiomeLevels.containsKey(type))
-        {
-            final int level = SpawnHandler.subBiomeLevels.get(type).apply(-1);
-            maxXp = Math.max(10, Tools.levelToXp(pokemon.getEvolutionMode(), level));
-            return maxXp;
-        }
-        maxXp = SpawnHandler.parse(world, location);
-        maxXp = Math.max(maxXp, 10);
-        int level = Tools.xpToLevel(pokemon.getEvolutionMode(), maxXp);
-        final Variance variance = SpawnHandler.DEFAULT_VARIANCE;
-        level = variance.apply(level);
-        level = Math.max(1, level);
-        return Tools.levelToXp(pokemon.getEvolutionMode(), level);
+        return Tools.levelToXp(pokemon.getEvolutionMode(), SpawnHandler.getSpawnLevel(world, location, pokemon));
     }
 
     public static int getSpawnXp(final World world, final Vector3 location, final PokedexEntry pokemon,
-            Variance variance, final int baseLevel)
+            final Variance variance, final int baseLevel)
     {
-        int maxXp = 10;
-        if (!SpawnHandler.expFunction) return Tools.levelToXp(pokemon.getEvolutionMode(), SpawnHandler.getSpawnLevel(
-                world, location, pokemon, variance, baseLevel));
-        final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
-        final int b = t.getBiome(location);
-        final BiomeType type = BiomeType.getType(b);
-        if (SpawnHandler.subBiomeLevels.containsKey(type))
-        {
-            final int level = SpawnHandler.subBiomeLevels.get(type).apply(baseLevel);
-            maxXp = Math.max(10, Tools.levelToXp(pokemon.getEvolutionMode(), level));
-            return maxXp;
-        }
-        maxXp = SpawnHandler.parse(world, location);
-        maxXp = Math.max(maxXp, 10);
-        int level = Tools.xpToLevel(pokemon.getEvolutionMode(), maxXp);
-        variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
-        level = variance.apply(level);
-        level = Math.max(1, level);
-        return Tools.levelToXp(pokemon.getEvolutionMode(), level);
+        return Tools.levelToXp(pokemon.getEvolutionMode(), SpawnHandler.getSpawnLevel(world, location, pokemon,
+                variance, baseLevel));
     }
 
     public static boolean isPointValidForSpawn(final World world, final Vector3 point, final PokedexEntry dbe)
