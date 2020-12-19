@@ -1,6 +1,10 @@
 package pokecube.pokeplayer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,6 +17,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.pokeplayer.init.BlockInit;
+import pokecube.pokeplayer.init.ContainerInit;
 import pokecube.pokeplayer.init.TileEntityInit;
 import pokecube.pokeplayer.proxy.ClientSetupHandler;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -20,11 +25,15 @@ import thut.core.common.handlers.PlayerDataHandler;
 @Mod(value = Reference.ID)
 public class PokePlayer
 {
+	public static final Logger LOGGER = LogManager.getLogger();
+	
     public static final DeferredRegister<Block> BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
     public static final DeferredRegister<Item>  ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,
             Reference.ID);
     public static final DeferredRegister<TileEntityType<?>>  TILES      = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
+            Reference.ID);
+    public static final DeferredRegister<ContainerType<?>>  CONTAINER      = DeferredRegister.create(ForgeRegistries.CONTAINERS,
             Reference.ID);
     
     public static ClientSetupHandler                 proxyProxy;
@@ -51,8 +60,10 @@ public class PokePlayer
         PokePlayer.BLOCKS.register(modEventBus);
         PokePlayer.ITEMS.register(modEventBus);
         PokePlayer.TILES.register(modEventBus);
+        PokePlayer.CONTAINER.register(modEventBus);
 
         BlockInit.init();
         TileEntityInit.init();
+        ContainerInit.init();
     }
 }

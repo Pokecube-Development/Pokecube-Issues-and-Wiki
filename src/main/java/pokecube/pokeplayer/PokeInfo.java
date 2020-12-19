@@ -377,44 +377,44 @@ public class PokeInfo extends PlayerData
         return false;
     }
 
-    @Override
-    public void writeToNBT(final CompoundNBT tag)
-    {
-        if (this.pokemob != null) this.stack = PokecubeManager.pokemobToItem(this.pokemob);
-        this.stack.write(tag);
-    }
-    
-/**    @Override
-//    public void writeToNBT(CompoundNBT tag)
+//    @Override
+//    public void writeToNBT(final CompoundNBT tag)
 //    {
-//    	if (this.pokemob != null) {
-//    		this.stack = PokecubeManager.pokemobToItem(this.pokemob);
-//    		this.stack.write(tag);
-//    	}
-//        else if (stack != null)
-//        {
-//            stack.write(tag);
-//        }
-//        tag.putFloat("h", originalHeight);
-//        tag.putFloat("w", originalWidth);
-//        tag.putFloat("hp", originalHP);
-/    }*/
+//        if (this.pokemob != null) this.stack = PokecubeManager.pokemobToItem(this.pokemob);
+//        this.stack.write(tag);
+//    }
+    
+    @Override
+    public void writeToNBT(CompoundNBT tag)
+    {
+    	if (this.pokemob != null) {
+    		this.stack = PokecubeManager.pokemobToItem(this.pokemob);
+   		this.stack.write(tag);
+  	}
+        else if (stack != null)
+        {
+            stack.write(tag);
+        }
+        tag.putFloat("h", originalHeight);
+        tag.putFloat("w", originalWidth);
+        tag.putFloat("hp", originalHP);
+    }
 
-    @Override
-    public void readFromNBT(final CompoundNBT tag)
-    {
-        this.stack = ItemStack.read(tag);
-    }
-    
-/**    @Override
-//    public void readFromNBT(CompoundNBT tag)
+//    @Override
+//    public void readFromNBT(final CompoundNBT tag)
 //    {
-//    	this.stack = ItemStack.read(tag);
-//        originalHeight = tag.getFloat("h");
-//        originalWidth = tag.getFloat("w");
-//        originalHP = tag.getFloat("hp");
-//        if (originalHP <= 1) originalHP = 20;
-//    }*/
+//        this.stack = ItemStack.read(tag);
+//    }
+    
+    @Override
+    public void readFromNBT(CompoundNBT tag)
+    {
+    	this.stack = ItemStack.read(tag);
+        originalHeight = tag.getFloat("h");
+        originalWidth = tag.getFloat("w");
+        originalHP = tag.getFloat("hp");
+        if (originalHP <= 1) originalHP = 20;
+    }
 
     public IPokemob getPokemob(World world)
     {
