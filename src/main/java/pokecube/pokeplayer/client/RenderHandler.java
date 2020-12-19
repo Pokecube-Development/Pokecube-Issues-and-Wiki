@@ -3,32 +3,33 @@ package pokecube.pokeplayer.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import pokecube.pokeplayer.data.PokeInfo;
+import pokecube.pokeplayer.PokeInfo;
 import thut.core.common.handlers.PlayerDataHandler;
 
 @EventBusSubscriber(value = Dist.CLIENT)
-public class RenderHandler
+public class RenderHandler 
 {
-    @SubscribeEvent
+	@SubscribeEvent
     public static void renderHand(final RenderHandEvent event)
     {
         final PlayerEntity player = Minecraft.getInstance().player;
         final PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
-        if (info.getPokemob() != null) event.setCanceled(true);
+        if (info.getPokemob(player.world) != null) event.setCanceled(true);
     }
-
-    @SubscribeEvent
+	
+	@SubscribeEvent
     public static void renderPlayer(final RenderPlayerEvent.Pre event)
     {
         final PlayerEntity player = (PlayerEntity) event.getEntity();
         final PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
-        if (info.getPokemob() == null) return;
-        final LivingEntity entity = info.getPokemob().getEntity();
+        if (info.getPokemob(player.world) == null) return;
+        final LivingEntity entity = info.getPokemob(player.world).getEntity();
         final boolean backup = event.getRenderer().getRenderManager().info.isValid();
         event.getRenderer().getRenderManager().setRenderShadow(false);
         event.getRenderer().getRenderManager().renderEntityStatic(
@@ -40,4 +41,5 @@ public class RenderHandler
         event.getRenderer().getRenderManager().setRenderShadow(backup);
         event.setCanceled(true);
     }
+
 }
