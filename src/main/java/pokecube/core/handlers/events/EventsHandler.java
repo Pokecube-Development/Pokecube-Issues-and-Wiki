@@ -346,7 +346,7 @@ public class EventsHandler
             final DefaultAffected affected = new DefaultAffected((LivingEntity) event.getObject());
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
-        if (PokecubeCore.getEntryFor(event.getObject().getType()) != null && !event.getCapabilities().containsKey(
+        if (event.getObject() instanceof EntityPokemob && !event.getCapabilities().containsKey(
                 EventsHandler.POKEMOBCAP))
         {
             final DefaultPokemob pokemob = new DefaultPokemob((MobEntity) event.getObject());

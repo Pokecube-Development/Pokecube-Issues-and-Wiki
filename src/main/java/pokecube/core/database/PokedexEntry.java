@@ -775,13 +775,21 @@ public class PokedexEntry
      * if True, this is considered the "main" form for the type, this is what
      * is returned from any number based lookups.
      */
-    public boolean                              base            = false;
+    public boolean base  = false;
     /**
      * If True, this form won't be registered, this is used for mobs with a
      * single base template form, and then a bunch of alternate ones for things
      * to be copied from.
      */
-    public boolean                              dummy           = false;
+    public boolean dummy = false;
+
+    /**
+     * This is true for any pokemob which is supposed to be an EntityPokemob,
+     * with a DefaultPokemob IPokemob, this can be set false by addons to make
+     * their own custom pokemob implementations
+     */
+    public boolean stock = true;
+
     /**
      * If the forme is supposed to have a custom sound, rather than using base,
      * it will be set to this.

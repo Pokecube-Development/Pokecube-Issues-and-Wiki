@@ -577,8 +577,7 @@ public class PokemobEventsHandler
             return;
         }
 
-        final boolean fits = isOwner || pokemob.getEntity() instanceof EntityPokemob && ((EntityPokemob) pokemob
-                .getEntity()).canFitPassenger(player);
+        final boolean fits = isOwner || ((EntityPokemob) pokemob.getEntity()).canFitPassenger(player);
         final boolean saddled = PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
 
         final boolean saddleCheck = !player.isSneaking() && held.isEmpty() && fits && saddled;

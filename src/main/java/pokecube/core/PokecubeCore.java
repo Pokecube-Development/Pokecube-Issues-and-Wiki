@@ -251,6 +251,7 @@ public class PokecubeCore
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 if (entry.dummy) continue;
+                if (!entry.stock) continue;
                 try
                 {
                     final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
@@ -452,7 +453,8 @@ public class PokecubeCore
         Triggers.init();
     }
 
-    private void loadComplete(final FMLLoadCompleteEvent event) {
+    private void loadComplete(final FMLLoadCompleteEvent event)
+    {
         ItemGenerator.strippableBlocks(event);
     }
 
