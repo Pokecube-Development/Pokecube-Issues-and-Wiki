@@ -247,10 +247,8 @@ public class BrainUtils
 
     public static void deagro(final LivingEntity mob, final boolean mutual)
     {
-
         if (mob == null) return;
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
-
         if (aggressor != null)
         {
             aggressor.getTargetFinder().clear();
@@ -259,7 +257,7 @@ public class BrainUtils
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }
         final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
-        if (oldTarget != null && mutual) BrainUtils.deagro(oldTarget);
+        if (oldTarget != null && mutual) BrainUtils.deagro(oldTarget, false);
         if (mob instanceof MobEntity) BrainUtils.setAttackTarget(mob, null);
         mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
         mob.getBrain().removeMemory(MemoryModules.MATE_TARGET);

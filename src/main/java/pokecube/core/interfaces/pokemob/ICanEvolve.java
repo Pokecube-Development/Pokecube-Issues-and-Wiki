@@ -69,14 +69,17 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (this.done) return;
             this.done = true;
             final ServerWorld world = (ServerWorld) this.thisEntity.getEntityWorld();
-            // Remount riders on the new mob.
-            final List<Entity> riders = this.thisEntity.getPassengers();
-            for (final Entity e : riders)
-                e.stopRiding();
             final IPokemob old = CapabilityPokemob.getPokemobFor(this.thisEntity);
 
             if (this.thisEntity != this.evolution)
             {
+                // Remount riders on the new mob.
+                final List<Entity> riders = this.thisEntity.getPassengers();
+                for (final Entity e : riders)
+                    e.stopRiding();
+                for (final Entity e : riders)
+                    e.startRiding(this.evolution, true);
+
                 // Set this mob wild, then kill it.
                 if (old != null) old.setOwner((UUID) null);
                 this.thisEntity.getPersistentData().putBoolean(TagNames.REMOVED, true);
