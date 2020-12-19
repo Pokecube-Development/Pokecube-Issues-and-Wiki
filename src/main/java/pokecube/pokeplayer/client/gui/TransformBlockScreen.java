@@ -30,11 +30,10 @@ public class TransformBlockScreen extends ContainerScreen<PokeTransformContainer
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-		super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
-		this.font.drawString(matrixStack, this.title.getString(), 8.0f, 8.0f, 4210752);
-		this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8.0F,
-				(float) (this.ySize - 96 + 2), 4210752);
+	protected void drawGuiContainerForegroundLayer(MatrixStack mat, int mouseX, int mouseY) 
+	{
+		this.font.drawString(mat, this.getTitle().getString(), 8.0f, 8.0f, 4210752);
+		this.font.drawString(mat, this.playerInventory.getName().getString(), 8.0F, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override

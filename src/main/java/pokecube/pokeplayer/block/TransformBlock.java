@@ -50,7 +50,9 @@ public class TransformBlock extends PressurePlateBlock
     }
     
     @Override
-    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) 
+    {
+    	super.onEntityCollision(state, worldIn, pos, entityIn);
     	TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof TileEntityTransformer && entityIn instanceof PlayerEntity)
         {

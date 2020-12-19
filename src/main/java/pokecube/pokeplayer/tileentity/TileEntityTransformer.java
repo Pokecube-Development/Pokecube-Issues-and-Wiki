@@ -335,7 +335,7 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
             }
             return pokemob;
         }
-        IPokemob pokemob = PokecubeManager.itemToPokemob(items.get(1), getWorld());
+        IPokemob pokemob = PokecubeManager.itemToPokemob(stack, getWorld());
         return pokemob;
     }
 //
