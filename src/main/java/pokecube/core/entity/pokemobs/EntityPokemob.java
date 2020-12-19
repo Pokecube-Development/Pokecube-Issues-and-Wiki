@@ -249,15 +249,7 @@ public class EntityPokemob extends PokemobHasParts
             final long time = System.nanoTime();
             int maxXP = 10;
             int level = 1;
-            if (SpawnHandler.expFunction && overrideLevel == -1)
-            {
-                maxXP = SpawnHandler.getSpawnXp(this.world, loc, pokemob.getPokedexEntry(), variance, overrideLevel);
-                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), loc, this.world, Tools
-                        .levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), maxXP), variance);
-                PokecubeCore.POKEMOB_BUS.post(event);
-                level = event.getLevel();
-            }
-            else if (overrideLevel == -1) level = SpawnHandler.getSpawnLevel(this.world, loc, pokemob.getPokedexEntry(),
+            if (overrideLevel == -1) level = SpawnHandler.getSpawnLevel(this.world, loc, pokemob.getPokedexEntry(),
                     variance, overrideLevel);
             else
             {

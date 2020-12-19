@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "pokecube:block/stripped_pecha_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "pokecube:block/stripped_pecha_log"
+    },
+    "axis=z": {
+      "model": "pokecube:block/stripped_pecha_log",
+      "x": 90
+    }
+  }
+}

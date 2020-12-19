@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube:block/sitrus_slab"
+    },
+    "type=double": {
+      "model": "pokecube:block/plank_sitrus"
+    },
+    "type=top": {
+      "model": "pokecube:block/sitrus_slab_top"
+    }
+  }
+}

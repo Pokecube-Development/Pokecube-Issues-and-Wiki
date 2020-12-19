@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "pokecube:block/oran_log",
+    "side": "pokecube:block/oran_log"
+  }
+}

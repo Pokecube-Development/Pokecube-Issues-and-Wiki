@@ -84,8 +84,8 @@ public class SetupHandler
         });
 
         // Register some Village stuff
-        if (PokecubeCore.getConfig().villagePokecenters)
-        {
+        // if (PokecubeCore.getConfig().villagePokecenters)
+        // {
             // TODO pokecenters in vanilla villages.
             // final ImmutableList<StructureProcessor> replacementRules =
             // ImmutableList.of(new RuleStructureProcessor(
@@ -105,7 +105,7 @@ public class SetupHandler
             // ResourceLocation("village/plains/terminators"), ImmutableList.of(
             // new Pair<>(part, 100)),
             // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING));
-        }
+//        }
 
     }
 

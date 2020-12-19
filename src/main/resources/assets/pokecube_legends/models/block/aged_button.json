@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button",
+  "textures": {
+    "texture": "pokecube_legends:blocks/ultra_plank03"
+  }
+}

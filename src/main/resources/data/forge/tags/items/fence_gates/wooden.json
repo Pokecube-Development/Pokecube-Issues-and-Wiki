@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_fence_gate",
+    "pokecube:leppa_fence_gate",
+    "pokecube:nanab_fence_gate",
+    "pokecube:oran_fence_gate",
+    "pokecube:pecha_fence_gate",
+    "pokecube:sitrus_fence_gate",
+    "pokecube_legends:aged_fence_gate",
+    "pokecube_legends:distortic_fence_gate",
+    "pokecube_legends:inverted_fence_gate",
+    "pokecube_legends:temporal_fence_gate"
+  ]
+}

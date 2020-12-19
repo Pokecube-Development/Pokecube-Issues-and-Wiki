@@ -3,6 +3,7 @@
   "values": [
     "pokecube:beastcube",
     "pokecube:cherishcube",
+    "pokecube:clonecube",
     "pokecube:divecube",
     "pokecube:dreamcube",
     "pokecube:duskcube",
@@ -24,10 +25,14 @@
     "pokecube:premiercube",
     "pokecube:quickcube",
     "pokecube:repeatcube",
+    "pokecube:rocketcube",
     "pokecube:safaricube",
     "pokecube:snagcube",
     "pokecube:sportcube",
+    "pokecube:teamaquacube",
+    "pokecube:teammagmacube",
     "pokecube:timercube",
+    "pokecube:typingcube",
     "pokecube:ultracube"
   ]
 }

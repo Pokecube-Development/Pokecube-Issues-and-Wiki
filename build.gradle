@@ -6,9 +6,11 @@ buildscript {
         flatDir {
           dirs 'libs'
         }
+        maven {url='https://dist.creeper.host/Sponge/maven'}
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
@@ -45,6 +47,7 @@ minecraft {
             properties '-XX': '+FlightRecorder'
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
+            arg "-mixin.config=pokecube.mixins.json"
             source sourceSets.main
         }
         server = {
@@ -53,6 +56,7 @@ minecraft {
             properties '-XX': '+UnlockCommercialFeatures'
             properties '-XX': '+FlightRecorder'
             workingDirectory project.file('run').canonicalPath
+            arg "-mixin.config=pokecube.mixins.json"
             source sourceSets.main
         }
         data = {
@@ -152,7 +156,8 @@ jar {
         "Implementation-Title": project.name,
         "Implementation-Version": VERSION_COMPILE,
         "Implementation-Vendor" :"${author_name}",
-        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+        "MixinConfigs": "pokecube.mixins.json"
     }
 }
 
@@ -227,3 +232,6 @@ def gitVersion(value) {
     }
     return "${value}.${ver}"
 }
+
+apply plugin: 'org.spongepowered.mixin'
+mixin { add sourceSets.main, "pokecube.refmap.json" }

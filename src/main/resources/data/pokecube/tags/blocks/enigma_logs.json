@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:log_enigma",
+    "pokecube:enigma_wood",
+    "pokecube:stripped_enigma_log",
+    "pokecube:stripped_enigma_wood"
+  ]
+}

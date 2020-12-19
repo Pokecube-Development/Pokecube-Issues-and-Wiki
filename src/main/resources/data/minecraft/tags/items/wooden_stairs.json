@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_stairs",
+    "pokecube:leppa_stairs",
+    "pokecube:nanab_stairs",
+    "pokecube:oran_stairs",
+    "pokecube:pecha_stairs",
+    "pokecube:sitrus_stairs",
+    "pokecube_legends:aged_stairs",
+    "pokecube_legends:distortic_stairs",
+    "pokecube_legends:inverted_stairs",
+    "pokecube_legends:temporal_stairs"
+  ]
+}

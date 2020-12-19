@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_rh",
+  "textures": {
+    "top": "pokecube:block/nanab_door_top",
+    "bottom": "pokecube:block/nanab_door_bottom"
+  }
+}

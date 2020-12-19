@@ -11,6 +11,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
 import pokecube.core.ai.pathing.SwimPathNavi;
@@ -39,6 +40,12 @@ public class LogicFloatFlySwim extends LogicBase
             super(mob.getEntity());
             this.entity = mob.getEntity();
             this.pokemob = mob;
+        }
+
+        @Override
+        public double getSpeed()
+        {
+            return super.getSpeed() * PokecubeCore.getConfig().swimPathingSpeedFactor;
         }
 
         @Override
@@ -102,6 +109,12 @@ public class LogicFloatFlySwim extends LogicBase
             // TODO check what the bool here should be
             super(mob.getEntity(), 20, true);
             this.pokemob = mob;
+        }
+
+        @Override
+        public double getSpeed()
+        {
+            return super.getSpeed() * PokecubeCore.getConfig().flyPathingSpeedFactor;
         }
 
         @Override

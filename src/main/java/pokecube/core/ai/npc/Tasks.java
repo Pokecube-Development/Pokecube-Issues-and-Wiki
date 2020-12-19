@@ -45,6 +45,7 @@ import net.minecraft.entity.ai.brain.task.ShowWaresTask;
 import net.minecraft.entity.ai.brain.task.SleepAtHomeTask;
 import net.minecraft.entity.ai.brain.task.SpawnGolemTask;
 import net.minecraft.entity.ai.brain.task.StayNearPointTask;
+import net.minecraft.entity.ai.brain.task.SwimTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.ai.brain.task.TradeTask;
 import net.minecraft.entity.ai.brain.task.UpdateActivityTask;
@@ -65,7 +66,6 @@ import pokecube.core.ai.tasks.BlankTask;
 import pokecube.core.ai.tasks.LookAtMob;
 import pokecube.core.ai.tasks.LookAtTask;
 import pokecube.core.ai.tasks.RunAway;
-import pokecube.core.ai.tasks.SwimTask;
 
 public class Tasks
 {
@@ -74,7 +74,7 @@ public class Tasks
             final VillagerProfession profession, final float speed)
     {
         return ImmutableList.of(
-                Pair.of(0, new SwimTask(0.4F, 0.8F)),
+                Pair.of(0, new SwimTask(0.8F)),
                 Pair.of(0, new InteractWithDoorTask()),
                 Pair.of(0, new LookAtTask(45, 90)),
                 Tasks.lookAtMany(),
@@ -86,7 +86,7 @@ public class Tasks
             final VillagerProfession profession, final float speed)
     {
         return ImmutableList.of(
-                Pair.of(0, new SwimTask(0.4F, 0.8F)),
+                Pair.of(0, new SwimTask(0.8F)),
                 Pair.of(0, new InteractWithDoorTask()),
                 Pair.of(0, new LookAtTask(45, 90)),
                 Tasks.lookAtMany(),
@@ -98,7 +98,7 @@ public class Tasks
             final VillagerProfession profession, final float speed)
     {
         return ImmutableList.of(
-                Pair.of(0, new SwimTask(0.4F, 0.8F)),
+                Pair.of(0, new SwimTask(0.8F)),
                 Pair.of(0, new InteractWithDoorTask()),
                 Pair.of(0, new LookAtTask(45, 90)),
                 Pair.of(0, new PanicTask()),
