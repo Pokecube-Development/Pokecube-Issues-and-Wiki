@@ -1,5 +1,7 @@
 package pokecube.pokeplayer.network.handlers;
 
+import java.rmi.ServerError;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,6 +14,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.pokeplayer.PokeInfo;
+import pokecube.pokeplayer.block.PokeTransformContainer;
 import pokecube.pokeplayer.network.PacketTransform;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.world.mobs.data.PacketDataSync;
@@ -74,9 +77,9 @@ public class StanceHandler extends pokecube.core.interfaces.pokemob.commandhandl
                 {
                 	PacketTransform packet = new PacketTransform();
                     packet.id = player.getEntityId();
-                    packet.data.putBoolean("U", true);
-                    packet.data.putBoolean("S", pokemob.getLogicState(LogicStates.SITTING));
-                    //PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity)player);
+                    packet.getTag().putBoolean("U", true);
+                    packet.getTag().putBoolean("S", pokemob.getLogicState(LogicStates.SITTING));
+                    PacketTransform.sendPacket(player, (ServerPlayerEntity) player);
                 }
             }
         }

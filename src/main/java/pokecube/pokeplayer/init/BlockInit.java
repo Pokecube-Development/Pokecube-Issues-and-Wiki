@@ -7,7 +7,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import pokecube.core.PokecubeItems;
-import pokecube.pokeplayer.PokePlayer;
+import pokecube.pokeplayer.Pokeplayer;
 import pokecube.pokeplayer.block.TransformBlock;
 
 public class BlockInit {
@@ -17,14 +17,14 @@ public class BlockInit {
     
     static
     {
-    	TRANSFORM = PokePlayer.BLOCKS.register("pokeplayer_transform",
+    	TRANSFORM = Pokeplayer.BLOCKS.register("pokeplayer_transform",
     			() -> new TransformBlock(Sensitivity.MOBS, Block.Properties.create(Material.ROCK).hardnessAndResistance(100)));
     }
     
     public static void init()
     {
-        for (final RegistryObject<Block> reg : PokePlayer.BLOCKS.getEntries())
-            PokePlayer.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
+        for (final RegistryObject<Block> reg : Pokeplayer.BLOCKS.getEntries())
+            Pokeplayer.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .group(PokecubeItems.POKECUBEBLOCKS)));
     }
 }

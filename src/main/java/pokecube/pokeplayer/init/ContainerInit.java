@@ -3,7 +3,7 @@ package pokecube.pokeplayer.init;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
-import pokecube.pokeplayer.PokePlayer;
+import pokecube.pokeplayer.Pokeplayer;
 import pokecube.pokeplayer.block.PokeTransformContainer;
 
 public class ContainerInit {
@@ -13,7 +13,7 @@ public class ContainerInit {
     
     static
     {
-    	TRANSFORM_CONTAINER = PokePlayer.CONTAINER.register("pokeplayer_transform", () -> IForgeContainerType.create(
+    	TRANSFORM_CONTAINER = Pokeplayer.CONTAINER.register("pokeplayer_transform", () -> IForgeContainerType.create(
     			PokeTransformContainer::new));
     }
     

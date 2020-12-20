@@ -2,7 +2,7 @@ package pokecube.pokeplayer.init;
 
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
-import pokecube.pokeplayer.PokePlayer;
+import pokecube.pokeplayer.Pokeplayer;
 import pokecube.pokeplayer.tileentity.TileEntityTransformer;
 
 public class TileEntityInit {
@@ -12,7 +12,7 @@ public class TileEntityInit {
     
     static
     {
-    	TRANSFORM_TILE = PokePlayer.TILES.register("pokeplayer_transform", () -> TileEntityType.Builder.create(
+    	TRANSFORM_TILE = Pokeplayer.TILES.register("pokeplayer_transform", () -> TileEntityType.Builder.create(
     			TileEntityTransformer::new, BlockInit.TRANSFORM.get()).build(null));
     }
     

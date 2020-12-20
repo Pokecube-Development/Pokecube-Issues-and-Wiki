@@ -2,7 +2,6 @@ package pokecube.pokeplayer.proxy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -27,6 +26,7 @@ import pokecube.pokeplayer.client.gui.TransformBlockScreen;
 import pokecube.pokeplayer.init.ContainerInit;
 import pokecube.pokeplayer.PokeInfo;
 import pokecube.pokeplayer.network.EntityProviderPokeplayer;
+import pokecube.pokeplayer.network.PacketTransform;
 import pokecube.pokeplayer.network.handlers.AttackEntityHandler;
 import pokecube.pokeplayer.network.handlers.AttackLocationHandler;
 import pokecube.pokeplayer.network.handlers.StanceHandler;
@@ -40,6 +40,8 @@ public class ClientSetupHandler
 	@SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
+		PokecubeCore.packets.registerMessage(PacketTransform.class, PacketTransform::new);
+		
 		ScreenManager.registerFactory(ContainerInit.TRANSFORM_CONTAINER.get(), TransformBlockScreen::new);
 		PokecubeCore.provider = new EntityProviderPokeplayer((EntityProvider) PokecubeCore.provider);
 	

@@ -1,18 +1,11 @@
 package pokecube.pokeplayer.network;
 
-import java.io.IOException;
-import javax.xml.ws.handler.MessageContext;
-
-import com.minecolonies.api.network.IMessage;
-
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.IHasCommands.Command;
@@ -21,29 +14,28 @@ import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.pokeplayer.PokeInfo;
 import thut.core.common.handlers.PlayerDataHandler;
-import thut.core.common.network.Packet;
+import thut.core.common.network.NBTPacket;
+import thut.core.common.network.PacketAssembly;
 
-public class PacketTransform
+public class PacketTransform extends NBTPacket
 {
-    public CompoundNBT data = new CompoundNBT();
     public int            id;
+    
+    public static final PacketAssembly<PacketTransform> ASSEMBLY = PacketAssembly.registerAssembler(
+    		PacketTransform.class, PacketTransform::new, PokecubeCore.packets);
 
-    public static void sendPacket(Packet packet, PlayerEntity toSend, ServerPlayerEntity sendTo)
+    public static void sendPacket(PlayerEntity toSend, ServerPlayerEntity sendTo)
     {
-        PokecubeCore.packets.sendTo(packet, sendTo);
+    	PacketTransform.ASSEMBLY.sendTo(getPacket(toSend), sendTo);
     }
 
-    public static PacketTransform getPacket(Packet packet, PlayerEntity toSend)
+    public static PacketTransform getPacket(PlayerEntity toSend)
     {
         PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(toSend).getData(PokeInfo.class);
         PacketTransform message = new PacketTransform();
-        info.writeToNBT(message.data);
+        info.writeToNBT(message.getTag());
         message.id = toSend.getEntityId();
         return message;
-    }
-
-    public PacketTransform()
-    {
     }
 
 //    @Override
@@ -60,44 +52,58 @@ public class PacketTransform
 //        return null;
 //    }
 
-    public void fromBytes(ByteBuf buf) throws IOException
-    {
-        id = buf.readInt();
-        data = new PacketBuffer(buf).readCompoundTag();
+//    public void fromBytes(ByteBuf buf) throws IOException
+//    {
+//        id = buf.readInt();
+//        new PacketBuffer(buf).readCompoundTag();
+//    }
+//
+//
+//    public void toBytes(ByteBuf buf)
+//    {
+//        buf.writeInt(id);
+//        new PacketBuffer(buf).writeCompoundTag(this.getTag());
+//    }
+
+    public PacketTransform() {
+    	super();
     }
-
-
-    public void toBytes(ByteBuf buf)
-    {
-        buf.writeInt(id);
-        new PacketBuffer(buf).writeCompoundTag(data);
+    
+    public PacketTransform(final CompoundNBT tag) {
+    	super();
+    	this.tag = tag;
     }
-
-    static void apply(PacketTransform message, MessageContext ctx)
+    
+    public PacketTransform(final PacketBuffer buffer) {
+    	super(buffer);
+    }
+    
+    @Override
+    protected void onCompleteClient()
     {
         World world = PokecubeCore.proxy.getWorld();
-        Entity e = PokecubeCore.getEntityProvider().getEntity(world, message.id, false);
-        if (message.data.contains("U"))
+        Entity e = PokecubeCore.getEntityProvider().getEntity(world, this.id, false);
+        if (this.getTag().contains("U"))
         {
             PlayerEntity player = PokecubeCore.proxy.getPlayer();
-            if (message.data.contains("H"))
+            if (this.getTag().contains("H"))
             {
                 PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
                 IPokemob pokemob = info.getPokemob(world);
                 if (pokemob == null) { return; }
-                float health = message.data.getFloat("H");
+                float health = this.getTag().getFloat("H");
                 if (pokemob.getEntity() == null) return;
-                float max = message.data.getFloat("M");
+                //float max = message.getTag().getFloat("M");
                 //pokemob.getEntity().getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(max);
                 pokemob.setHealth(health);
                 player.setHealth(health);
             }
-            else if (message.data.contains("S"))
+            else if (this.getTag().contains("S"))
             {
                 PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
                 IPokemob pokemob = info.getPokemob(world);
                 if (pokemob == null) { return; }
-                pokemob.setLogicState(LogicStates.SITTING, message.data.getBoolean("S"));
+                pokemob.setLogicState(LogicStates.SITTING, this.getTag().getBoolean("S"));
             }
             return;
         }
@@ -106,7 +112,7 @@ public class PacketTransform
             PlayerEntity player = (PlayerEntity) e;
             PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
             info.clear();
-            info.readFromNBT(message.data);
+            info.readFromNBT(this.getTag());
             IPokemob pokemob = info.getPokemob(world);
             if (pokemob != null)
             {
@@ -121,5 +127,4 @@ public class PacketTransform
             }
         }
     }
-
 }

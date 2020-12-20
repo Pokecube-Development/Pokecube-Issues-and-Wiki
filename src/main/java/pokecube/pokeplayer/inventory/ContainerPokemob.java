@@ -10,7 +10,7 @@ import net.minecraft.item.Items;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.pokeplayer.PokeInfo;
-import pokecube.pokeplayer.PokePlayer;
+import pokecube.pokeplayer.Pokeplayer;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class ContainerPokemob extends Container
@@ -21,7 +21,7 @@ public class ContainerPokemob extends Container
 	{
 		super(type, id);
 		PlayerEntity player = playerEntity;
-	    final IPokemob e = PokePlayer.proxyProxy.getPokemob(player);
+	    final IPokemob e = Pokeplayer.proxyProxy.getPokemob(player);
 	    final IInventory pokeInv;
         PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
         pokeInv = info.pokeInventory;

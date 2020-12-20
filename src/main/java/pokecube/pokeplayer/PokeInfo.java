@@ -244,10 +244,10 @@ public class PokeInfo extends PlayerData
 
             PacketTransform packet = new PacketTransform();
             packet.id = player.getEntityId();
-            packet.data.putBoolean("U", true);
-            packet.data.putFloat("H", health);
-            packet.data.putFloat("M", poke.getMaxHealth());
-            //PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) player);
+            packet.getTag().putBoolean("U", true);
+            packet.getTag().putFloat("H", health);
+            packet.getTag().putFloat("M", poke.getMaxHealth());
+            PacketTransform.sendPacket(player, (ServerPlayerEntity) player);
 
             // Fixes the inventories appearing to vanish
             if (player.getPersistentData().contains("_pokeplayer_evolved_") && player.getPersistentData()

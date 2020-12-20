@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import pokecube.pokeplayer.PokePlayer;
+import pokecube.pokeplayer.Pokeplayer;
 import pokecube.pokeplayer.tileentity.TileEntityTransformer;
 
 public class TransformBlock extends PressurePlateBlock
@@ -57,7 +57,6 @@ public class TransformBlock extends PressurePlateBlock
         if (tile instanceof TileEntityTransformer && entityIn instanceof PlayerEntity)
         {
             ((TileEntityTransformer) tile).onWalkedOn(entityIn);
-            PokePlayer.LOGGER.debug("Walk");
         }
     }
 //    
