@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteractSpecific;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,15 +20,13 @@ import pokecube.core.interfaces.pokemob.IHasCommands.Command;
 import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.pokeplayer.PokeInfo;
-import pokecube.pokeplayer.proxy.ClientSetupHandler;
 import thut.core.common.handlers.PlayerDataHandler;
 
-public class ClientEvents extends ClientSetupHandler
+public class ClientEvents
 {
-	@Override
-    public IPokemob getPokemob(PlayerEntity player)
+	public IPokemob getPokemob(PlayerEntity player)
     {
-        IPokemob ret = super.getPokemob(player);
+        IPokemob ret = PokeInfo.getPokemob(player);
         if (ret != null && player.getEntityWorld().isRemote)
         {
             PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
@@ -72,8 +69,8 @@ public class ClientEvents extends ClientSetupHandler
                 // Our custom StanceHandler will do interaction code on -2
                 PacketCommand.sendCommand(pokemob, Command.STANCE, new StanceHandler(true, (byte) -2));
 
-                EntityInteractSpecific evt = new EntityInteractSpecific(player, Hand.MAIN_HAND, pokemob.getEntity(),
-                        new Vector3d(0, 0, 0));
+//                EntityInteractSpecific evt = new EntityInteractSpecific(player, Hand.MAIN_HAND, pokemob.getEntity(),
+//                        new Vector3d(0, 0, 0));
                 // Apply interaction, also do not allow saddle.
                 ItemStack saddle = pokemob.getInventory().getStackInSlot(0);
                 if (!saddle.isEmpty()) pokemob.getInventory().setInventorySlotContents(0, ItemStack.EMPTY);

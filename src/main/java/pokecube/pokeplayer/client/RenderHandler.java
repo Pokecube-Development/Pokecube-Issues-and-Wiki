@@ -33,9 +33,9 @@ public class RenderHandler
         event.getRenderer().getRenderManager().setRenderShadow(false);
         event.getRenderer().getRenderManager().renderEntityStatic(
         		entity,
-        		event.getEntity().lastTickPosX, 
-        		event.getEntity().lastTickPosY, 
-        		event.getEntity().lastTickPosZ, 
+        		0, 
+        		0, 
+        		0, 
         		0, event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
         event.getRenderer().getRenderManager().setRenderShadow(backup);
         event.setCanceled(true);

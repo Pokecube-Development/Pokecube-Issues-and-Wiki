@@ -92,7 +92,7 @@ public class PokeInfo extends PlayerData
         }
         setFlying(player, false);
         pokemob = null;
-        stack = null;
+        stack = ItemStack.EMPTY;
         pokeInventory = null;
         save(player);
         if (!player.getEntityWorld().isRemote)
@@ -161,7 +161,7 @@ public class PokeInfo extends PlayerData
 
     public void onUpdate(PlayerEntity player, final World world)
     {
-        if (getPokemob(world) == null && stack != null)
+        if (getPokemob(world) == null && !stack.isEmpty())
         {
             resetPlayer(player);
         }
@@ -196,7 +196,7 @@ public class PokeInfo extends PlayerData
         // No clip to prevent collision effects from the mob itself.
         poke.noClip = true;
 
-        poke.canUpdate();
+        //poke.canUpdate();
 
         // Update location
         poke.distanceWalkedModified = Integer.MAX_VALUE;
@@ -279,7 +279,7 @@ public class PokeInfo extends PlayerData
     {
         pokemob = null;
         pokeInventory = null;
-        stack = null;
+        stack = ItemStack.EMPTY;
     }
 
     public void save(PlayerEntity player)
@@ -391,7 +391,7 @@ public class PokeInfo extends PlayerData
     		this.stack = PokecubeManager.pokemobToItem(this.pokemob);
    		this.stack.write(tag);
   	}
-        else if (stack != null)
+        else if (!stack.isEmpty())
         {
             stack.write(tag);
         }
@@ -418,11 +418,54 @@ public class PokeInfo extends PlayerData
 
     public IPokemob getPokemob(World world)
     {
-        if (pokemob == null && stack != null)
+        if (pokemob == null && !stack.isEmpty())
         {
             pokemob = PokecubeManager.itemToPokemob(stack, world);
-            if (pokemob == null) stack = null;
+            if (pokemob == null) stack = ItemStack.EMPTY;
         }
         return pokemob;
+    }
+    
+    public static void setPokemob(final PlayerEntity player, final IPokemob pokemob)
+    {
+        PokeInfo.setMapping(player, pokemob);
+    }
+
+    public static void savePokemob(final PlayerEntity player)
+    {
+        final PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
+        if (info != null) info.save(player);
+    }
+
+    private static void setMapping(final PlayerEntity player, final IPokemob pokemob)
+    {
+        final PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
+        info.set(pokemob, player);
+        if (pokemob != null)
+        {
+            info.setPlayer(player);
+            EntityTools.copyEntityTransforms(info.getPokemob(player.world).getEntity(), player);
+            info.save(player);
+        }
+    }
+
+    public static IPokemob getPokemob(final PlayerEntity player)
+    {
+        if (player == null || player.getUniqueID() == null) return null;
+        final PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
+        return info.getPokemob(player.world);
+    }
+
+    public static void updateInfo(final PlayerEntity player, final World world)
+    {
+        final PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
+        try
+        {
+            info.onUpdate(player, world);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.debug("ERRO!" + e);
+        }
     }
 }

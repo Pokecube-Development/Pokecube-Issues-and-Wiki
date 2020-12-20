@@ -41,7 +41,6 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
 {		
 	protected NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
 	
-	ItemStack stack    = ItemStack.EMPTY;
     int[]     nums     = {};
     int       lvl      = 5;
     boolean   random   = false;
@@ -64,7 +63,7 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
 		if (nbt.contains("stack"))
         {
             CompoundNBT tag = nbt.getCompound("stack");
-            stack.setTag(tag);
+            items.get(0).setTag(tag);
         }
 		this.items = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		if (nbt.contains("nums")) nums = nbt.getIntArray("nums");
@@ -79,10 +78,10 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		ItemStackHelper.saveAllItems(compound, this.items);
-		if (stack.isEmpty())
+		if (items.get(0).isEmpty())
         {
 			CompoundNBT tag = new CompoundNBT();
-            stack.write(tag);
+            items.get(0).write(tag);
             compound.put("stack", tag);
         }
 		if (nums != null) compound.putIntArray("nums", nums);
@@ -220,16 +219,16 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
         if (getWorld().isRemote || random) return;
         if (canEdit(player) || pubby)
         {
-            if (!stack.isEmpty() && PokecubeManager.isFilled(player.getHeldItemMainhand()))
-            {
+            if (!items.get(0).isEmpty() && PokecubeManager.isFilled(player.getHeldItemMainhand()))
+            {           	
                 getStack(player.getHeldItemMainhand());
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
                 Pokeplayer.LOGGER.debug("Slot");
             }
             else
             {
-                Tools.giveItem(player, stack);
-                stack = ItemStack.EMPTY;
+                Tools.giveItem(player, items.get(0));
+                items.get(0) ;
             }
         }
     }
@@ -244,16 +243,16 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
         PlayerEntity player = (PlayerEntity) entityIn.getEntity();
         PokeInfo info = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokeInfo.class);
         boolean isPokemob = info.getPokemob(world) != null;
-        if ((stack.isEmpty() || random) && !isPokemob)
+        if ((items.get(0).isEmpty() || random) && !isPokemob)
         {
             IPokemob pokemob = getPokemob();
             if (pokemob != null) {
-            	Pokeplayer.proxyProxy.setPokemob(player, pokemob);
+            	PokeInfo.setPokemob(player, pokemob);
             }
             if (pokemob != null)
             {
             	Pokeplayer.LOGGER.debug("Test");
-            	stack = ItemStack.EMPTY;
+            	items.get(0);
                 stepTick = 50;
             }
             EventsHandler.sendUpdate(player);
@@ -264,10 +263,10 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
             }
             return;
         }
-        else if (!stack.isEmpty() && !random && isPokemob)
+        else if (!items.get(0).isEmpty() && !random && isPokemob)
         {
             stepTick = 50;
-            IPokemob poke = Pokeplayer.proxyProxy.getPokemob(player);
+            IPokemob poke = PokeInfo.getPokemob(player);
             CompoundNBT tag = poke.getEntity().serializeNBT();
             poke.setPokemonNickname(tag.getString("oldName"));
             tag.remove("oldName");
@@ -279,8 +278,8 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
                 player.abilities.allowFlying = false;
                 player.sendPlayerAbilities();
             }
-            Pokeplayer.proxyProxy.setPokemob(player, null);
-            stack = pokemob;
+            PokeInfo.setPokemob(player, null);
+            items.set(0, pokemob);
             EventsHandler.sendUpdate(player);
             ServerWorld worldIn = (ServerWorld) player.getEntityWorld();
             for (PlayerEntity player2 : worldIn.getPlayers())
@@ -292,7 +291,7 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
         else if (random && isPokemob)
         {
             stepTick = 50;
-            IPokemob poke = Pokeplayer.proxyProxy.getPokemob(player);
+            IPokemob poke = PokeInfo.getPokemob(player);
             CompoundNBT tag = poke.getEntity().getPersistentData();
             poke.setPokemonNickname(tag.getString("oldName"));
             tag.remove("oldName");
@@ -300,8 +299,8 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
             tag.remove("playerID");
             player.abilities.allowFlying = false;
             player.sendPlayerAbilities();
-            Pokeplayer.proxyProxy.setPokemob(player, null);
-            stack = ItemStack.EMPTY;
+            PokeInfo.setPokemob(player, null);
+            items.get(0);
             EventsHandler.sendUpdate(player);
             ServerWorld worldIn = (ServerWorld) player.getEntityWorld();
             for (PlayerEntity player2 : worldIn.getPlayers())
@@ -335,7 +334,7 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
             }
             return pokemob;
         }
-        IPokemob pokemob = PokecubeManager.itemToPokemob(stack, getWorld());
+        IPokemob pokemob = PokecubeManager.itemToPokemob(items.get(0), getWorld());
         return pokemob;
     }
 //

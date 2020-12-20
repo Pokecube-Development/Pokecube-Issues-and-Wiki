@@ -19,7 +19,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.pokeplayer.init.BlockInit;
 import pokecube.pokeplayer.init.ContainerInit;
 import pokecube.pokeplayer.init.TileEntityInit;
-import pokecube.pokeplayer.proxy.ClientSetupHandler;
 import thut.core.common.handlers.PlayerDataHandler;
 
 @Mod(value = Reference.ID)
@@ -35,8 +34,6 @@ public class Pokeplayer
             Reference.ID);
     public static final DeferredRegister<ContainerType<?>>  CONTAINER      = DeferredRegister.create(ForgeRegistries.CONTAINERS,
             Reference.ID);
-    
-    public static ClientSetupHandler                 proxyProxy;
     
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler

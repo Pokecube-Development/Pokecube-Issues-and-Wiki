@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import pokecube.pokeplayer.Pokeplayer;
 import pokecube.pokeplayer.tileentity.TileEntityTransformer;
 
 public class TransformBlock extends PressurePlateBlock
