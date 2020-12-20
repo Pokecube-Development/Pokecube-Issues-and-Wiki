@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 import pokecube.core.entity.pokemobs.AnimalChest;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.pokeplayer.PokeInfo;
-import pokecube.pokeplayer.Pokeplayer;
 
 public class InventoryPlayerPokemob extends AnimalChest
 {
@@ -63,7 +62,7 @@ public class InventoryPlayerPokemob extends AnimalChest
     public void closeInventory(PlayerEntity player)
     {
         if (player.getEntityWorld().isRemote) return;
-        IPokemob e = Pokeplayer.proxyProxy.getPokemob(player);
+        IPokemob e = PokeInfo.getPokemob(player);
         saveToPokemob(e, player);
     }
 }

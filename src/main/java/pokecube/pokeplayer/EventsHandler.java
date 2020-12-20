@@ -39,7 +39,7 @@ public class EventsHandler
         if (evt.moveInfo.attacked instanceof PlayerEntity)
         {
             PlayerEntity player = (PlayerEntity) evt.moveInfo.attacked;
-            IPokemob pokemob = Pokeplayer.proxyProxy.getPokemob(player);
+            IPokemob pokemob = PokeInfo.getPokemob(player);
             if (pokemob != null)
             {
                 evt.moveInfo.attacked = pokemob.getEntity();
@@ -51,7 +51,7 @@ public class EventsHandler
     public void attack(AttackEntityEvent event)
     {
         PlayerEntity player = event.getPlayer();
-        IPokemob pokemob = Pokeplayer.proxyProxy.getPokemob(player);
+        IPokemob pokemob = PokeInfo.getPokemob(player);
         if (pokemob == null) return;
         if (player.getEntityWorld().isRemote) PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY,
                 new AttackEntityHandler(event.getTarget().getEntityId()).setFromOwner(true));
@@ -70,7 +70,7 @@ public class EventsHandler
         if (event.getEntity() instanceof PlayerEntity)
         {
             player = (PlayerEntity) event.getEntity();
-            IPokemob pokemob = Pokeplayer.proxyProxy.getPokemob(player);
+            IPokemob pokemob = PokeInfo.getPokemob(player);
             if (pokemob != null)
             {
                 pokemob.getEntity().attackEntityFrom(event.getSource(), event.getAmount());
@@ -97,7 +97,7 @@ public class EventsHandler
     {
         if (event.getPlayer() != null && !event.getPlayer().getEntityWorld().isRemote)
         {
-            IPokemob pokemob = Pokeplayer.proxyProxy.getPokemob(event.getPlayer());
+            IPokemob pokemob = PokeInfo.getPokemob(event.getPlayer());
             if (pokemob != null)
             {
                 ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
@@ -106,7 +106,7 @@ public class EventsHandler
                 pokemob = PokecubeManager.itemToPokemob(stack, event.getPlayer().getEntityWorld());
                 pokemob.getEntity().isAlive();
                 pokemob.getEntity().deathTime = -1;
-                Pokeplayer.proxyProxy.setPokemob(event.getPlayer(), pokemob);
+                PokeInfo.setPokemob(event.getPlayer(), pokemob);
                 PacketTransform.sendPacket(event.getPlayer(), player);
                 if (!player.getEntityWorld().isRemote)
                 {
@@ -136,7 +136,7 @@ public class EventsHandler
             UUID uuid = UUID.fromString(entity.getEntity().getEntityString().concat("playerID"));
             PlayerEntity player = entity.getEntityWorld().getPlayerByUuid(uuid);
             IPokemob evo = evt.mob;
-            Pokeplayer.proxyProxy.setPokemob(player, evo);
+            PokeInfo.setPokemob(player, evo);
             evt.setCanceled(true);
             if (!player.getEntityWorld().isRemote)
             {
@@ -206,12 +206,12 @@ public class EventsHandler
         if (evt.getWorld().isRemote) return;
         if (evt.getEntity().getEntity().getPersistentData().getBoolean("is_a_player"))
         {
-            IPokemob evo = CapabilityPokemob.getPokemobFor(evt.getEntity());
+            final IPokemob evo = CapabilityPokemob.getPokemobFor(evt.getEntity());
             if (evo != null)
             {
-                UUID uuid = UUID.fromString(evt.getEntity().getEntity().getEntityString().concat("playerID"));
+                UUID uuid = UUID.fromString(evt.getEntity().getPersistentData().getString("playerID"));
                 PlayerEntity player = evt.getWorld().getPlayerByUuid(uuid);
-                Pokeplayer.proxyProxy.setPokemob(player, evo);
+                PokeInfo.setPokemob(player, evo);
                 evt.setCanceled(true);
                 if (!player.getEntityWorld().isRemote)
                 {
