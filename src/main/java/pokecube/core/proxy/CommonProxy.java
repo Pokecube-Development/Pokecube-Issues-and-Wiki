@@ -5,13 +5,11 @@ import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.blocks.healer.HealerTile;
-import thut.api.maths.Vector3;
 
 public class CommonProxy
 {
@@ -50,11 +48,6 @@ public class CommonProxy
     }
 
     public void pokecenterloop(final HealerTile tileIn, final boolean play)
-    {
-
-    }
-
-    public void moveSound(final Vector3 pos, final SoundEvent event, final float volume)
     {
 
     }

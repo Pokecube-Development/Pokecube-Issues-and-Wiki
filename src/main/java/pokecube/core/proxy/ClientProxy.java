@@ -14,7 +14,6 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.texture.DownloadingTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -22,7 +21,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.tileentity.SkullTileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.World;
@@ -32,13 +30,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerTile;
-import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.PokecenterSound;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokeType;
-import thut.api.maths.Vector3;
 
 public class ClientProxy extends CommonProxy
 {
@@ -142,22 +138,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        EventsHandlerClient.move_positions.clear();
-        EventsHandlerClient.move_sounds.clear();
         ClientProxy.pokecenter_sounds.clear();
-    }
-
-    @Override
-    public void moveSound(final Vector3 pos, final SoundEvent event, final float volume)
-    {
-        final ClientPlayerEntity player = Minecraft.getInstance().player;
-        final Vector3 pos1 = Vector3.getNewVector().set(player);
-        final double dist = pos1.distanceTo(pos);
-        // Implement a speed of sound delay to this.
-        final int delay = (int) (dist * 20.0 / 340.0);
-        EventsHandlerClient.move_sounds.put(event, delay);
-        EventsHandlerClient.move_positions.put(event, pos.copy());
-        EventsHandlerClient.move_volumes.put(event, volume);
     }
 
     @Override
