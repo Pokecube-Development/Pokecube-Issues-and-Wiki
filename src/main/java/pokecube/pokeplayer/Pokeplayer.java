@@ -23,7 +23,7 @@ import pokecube.pokeplayer.proxy.ClientSetupHandler;
 import thut.core.common.handlers.PlayerDataHandler;
 
 @Mod(value = Reference.ID)
-public class PokePlayer
+public class Pokeplayer
 {
 	public static final Logger LOGGER = LogManager.getLogger();
 	
@@ -46,7 +46,7 @@ public class PokePlayer
 	    {}
     }
  
-    public PokePlayer()
+    public Pokeplayer()
     {
         MinecraftForge.EVENT_BUS.register(this);
         PokecubeCore.POKEMOB_BUS.register(this);
@@ -57,10 +57,10 @@ public class PokePlayer
         
         PlayerDataHandler.register(PokeInfo.class);
         
-        PokePlayer.BLOCKS.register(modEventBus);
-        PokePlayer.ITEMS.register(modEventBus);
-        PokePlayer.TILES.register(modEventBus);
-        PokePlayer.CONTAINER.register(modEventBus);
+        Pokeplayer.BLOCKS.register(modEventBus);
+        Pokeplayer.ITEMS.register(modEventBus);
+        Pokeplayer.TILES.register(modEventBus);
+        Pokeplayer.CONTAINER.register(modEventBus);
 
         BlockInit.init();
         TileEntityInit.init();

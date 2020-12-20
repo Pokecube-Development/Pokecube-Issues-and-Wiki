@@ -52,7 +52,8 @@ public class ClientEvents extends ClientSetupHandler
         }
     }
 
-    @SubscribeEvent
+    @SuppressWarnings("unlikely-arg-type")
+	@SubscribeEvent
     public void mouseClickEvent(MouseEvent event)
     {
         IPokemob pokemob = null;

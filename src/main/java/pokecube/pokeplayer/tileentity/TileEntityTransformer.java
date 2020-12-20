@@ -30,7 +30,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import pokecube.pokeplayer.EventsHandler;
 import pokecube.pokeplayer.PokeInfo;
-import pokecube.pokeplayer.PokePlayer;
+import pokecube.pokeplayer.Pokeplayer;
 import pokecube.pokeplayer.Reference;
 import pokecube.pokeplayer.block.PokeTransformContainer;
 import pokecube.pokeplayer.init.TileEntityInit;
@@ -224,7 +224,7 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
             {
                 getStack(player.getHeldItemMainhand());
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
-                PokePlayer.LOGGER.debug("Slot");
+                Pokeplayer.LOGGER.debug("Slot");
             }
             else
             {
@@ -248,11 +248,11 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
         {
             IPokemob pokemob = getPokemob();
             if (pokemob != null) {
-            	PokePlayer.proxyProxy.setPokemob(player, pokemob);
+            	Pokeplayer.proxyProxy.setPokemob(player, pokemob);
             }
             if (pokemob != null)
             {
-            	PokePlayer.LOGGER.debug("Test");
+            	Pokeplayer.LOGGER.debug("Test");
             	stack = ItemStack.EMPTY;
                 stepTick = 50;
             }
@@ -260,14 +260,14 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
             ServerWorld worldIn = (ServerWorld) player.getEntityWorld();
             for (PlayerEntity player2 : worldIn.getPlayers())
             {
-                PacketTransform.sendPacket(null, player, (ServerPlayerEntity) player2);
+            	PacketTransform.sendPacket(player, (ServerPlayerEntity) player2);
             }
             return;
         }
         else if (!stack.isEmpty() && !random && isPokemob)
         {
             stepTick = 50;
-            IPokemob poke = PokePlayer.proxyProxy.getPokemob(player);
+            IPokemob poke = Pokeplayer.proxyProxy.getPokemob(player);
             CompoundNBT tag = poke.getEntity().serializeNBT();
             poke.setPokemonNickname(tag.getString("oldName"));
             tag.remove("oldName");
@@ -279,20 +279,20 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
                 player.abilities.allowFlying = false;
                 player.sendPlayerAbilities();
             }
-            PokePlayer.proxyProxy.setPokemob(player, null);
+            Pokeplayer.proxyProxy.setPokemob(player, null);
             stack = pokemob;
             EventsHandler.sendUpdate(player);
             ServerWorld worldIn = (ServerWorld) player.getEntityWorld();
             for (PlayerEntity player2 : worldIn.getPlayers())
             {
-               PacketTransform.sendPacket(null, player, (ServerPlayerEntity) player2);
+               PacketTransform.sendPacket(player, (ServerPlayerEntity) player2);
             }
             return;
         }
         else if (random && isPokemob)
         {
             stepTick = 50;
-            IPokemob poke = PokePlayer.proxyProxy.getPokemob(player);
+            IPokemob poke = Pokeplayer.proxyProxy.getPokemob(player);
             CompoundNBT tag = poke.getEntity().getPersistentData();
             poke.setPokemonNickname(tag.getString("oldName"));
             tag.remove("oldName");
@@ -300,13 +300,13 @@ public class TileEntityTransformer extends LockableLootTileEntity implements ICl
             tag.remove("playerID");
             player.abilities.allowFlying = false;
             player.sendPlayerAbilities();
-            PokePlayer.proxyProxy.setPokemob(player, null);
+            Pokeplayer.proxyProxy.setPokemob(player, null);
             stack = ItemStack.EMPTY;
             EventsHandler.sendUpdate(player);
             ServerWorld worldIn = (ServerWorld) player.getEntityWorld();
             for (PlayerEntity player2 : worldIn.getPlayers())
             {
-                PacketTransform.sendPacket(null, player, (ServerPlayerEntity) player2);
+                PacketTransform.sendPacket(player, (ServerPlayerEntity) player2);
             }
             return;
         }
