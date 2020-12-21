@@ -1054,7 +1054,6 @@ public class CapabilityHasPokemobs
             {
                 final List<Entity> mobs = PCEventsHandler.getOutMobs(this.getTrainer(), false);
                 if (mobs.isEmpty()) break mobcheck;
-                System.out.println(this.getTrainer().getDisplayName().getString() + " " + mobs + " ");
                 PCEventsHandler.recallAll(mobs, true);
             }
             this.lowerCooldowns();
