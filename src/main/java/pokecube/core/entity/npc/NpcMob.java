@@ -21,6 +21,7 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
@@ -150,6 +151,14 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public VillagerEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity p_241840_2_)
     {
         return null;
+    }
+
+    @Override
+    public void func_241841_a(final ServerWorld p_241841_1_, final LightningBoltEntity p_241841_2_)
+    {
+        this.forceFireTicks(this.getFireTimer() + 1);
+        if (this.getFireTimer() == 0) this.setFire(8);
+        this.attackEntityFrom(DamageSource.LIGHTNING_BOLT, 5.0F);
     }
 
     @Override
