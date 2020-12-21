@@ -1978,7 +1978,7 @@
             },
             "values": {
               "types": "ruin",
-              "rate": "1.0"
+              "rate": "0.5"
             }
           },
           {
@@ -7892,7 +7892,7 @@
           {
             "values": {
               "types": "sandy",
-              "rate": "0.2"
+              "rate": "0.15"
             }
           }
         ]
@@ -7939,7 +7939,9 @@
           {
             "values": {
               "types": "savanna",
-              "rate": "0.2"
+			  "min": "2",
+			  "max": "3",
+              "rate": "0.13"
             }
           }
         ]
@@ -8069,7 +8071,7 @@
           {
             "values": {
               "types": "savanna",
-              "rate": "0.11"
+              "rate": "0.1"
             }
           }
         ]
@@ -8223,6 +8225,8 @@
           {
             "values": {
               "category": "the_end",
+			  "min": "1",
+			  "max": "1",
               "rate": "0.002"
             }
           }
@@ -8236,6 +8240,8 @@
           {
             "values": {
               "types": "hills",
+			  "min": "1",
+			  "max": "1",
               "rate": "0.005"
             }
           }
@@ -8249,13 +8255,17 @@
           {
             "values": {
               "types": "jungle",
+			  "min": "1",
+			  "max": "1",
               "rate": "0.002"
             }
           },
           {
             "values": {
               "structures": "pokecube_legends:celebi_temple",
-              "rate": "0.02"
+              "min": "1",
+			  "max": "1",
+			  "rate": "0.02"
             }
           }
         ]
