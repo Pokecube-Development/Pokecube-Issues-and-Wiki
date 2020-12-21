@@ -63,9 +63,11 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
 import pokecube.core.events.onload.InitDatabase;
+import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
@@ -187,6 +189,9 @@ public class TrainerEventHandler
 
         for (int i = 0; i < 6; i++)
             mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
+
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Initializing caps " + event.getObject() + " " + event
+                .getObject().isAlive());
     }
 
     public static void onAttachMobCaps(final AttachCapabilitiesEvent<Entity> event)
@@ -312,7 +317,7 @@ public class TrainerEventHandler
                     .getEntityWorld() instanceof ServerWorld)
             {
                 TypeTrainer.addAI((MobEntity) npc);
-                PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
             }
             pokemobHolder.onTick();
         }
@@ -340,7 +345,7 @@ public class TrainerEventHandler
                 .getEntry(1));
         if (npc instanceof TrainerBase) ((TrainerBase) npc).initTeam(level);
         else TypeTrainer.getRandomTeam(mobs, npc, level, npc.getEntityWorld());
-        EntityUpdate.sendEntityUpdate(npc);
+        if (npc.addedToChunk) EntityUpdate.sendEntityUpdate(npc);
     }
 
     /**
@@ -402,8 +407,10 @@ public class TrainerEventHandler
      */
     public static void onSentToPC(final PCEvent evt)
     {
-        // TODO see about handling this better.
-        if (evt.owner instanceof TrainerNpc) evt.setCanceled(true);
+        final boolean isPlayerOrUnknown = evt.owner == null || evt.owner instanceof PlayerEntity;
+        if (isPlayerOrUnknown) return;
+        // This prevents the cube from ending up on the ground when recalled
+        evt.setCanceled(true);
     }
 
     /**
@@ -411,7 +418,7 @@ public class TrainerEventHandler
      *
      * @param evt
      */
-    public static void onRecalledPokemob(final pokecube.core.events.pokemob.RecallEvent.Post evt)
+    public static void onRecalledPokemob(final RecallEvent.Post evt)
     {
         if (evt.recalled.getOwner() instanceof PlayerEntity) return;
         final IPokemob recalled = evt.recalled;

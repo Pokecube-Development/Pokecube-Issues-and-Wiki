@@ -19,10 +19,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
+import pokecube.core.events.SetAttackTargetEvent;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.ITargetFinder;
@@ -50,17 +50,36 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     public static boolean handleDamagedTargets = true;
     static
     {
-        MinecraftForge.EVENT_BUS.register(FindTargetsTask.class);
+        MinecraftForge.EVENT_BUS.addListener(FindTargetsTask::onBrainSetTarget);
+        MinecraftForge.EVENT_BUS.addListener(FindTargetsTask::onLivingSetTarget);
+        MinecraftForge.EVENT_BUS.addListener(FindTargetsTask::onLivingHurt);
     }
 
-    @SubscribeEvent
-    public static void livingSetTarget(final LivingSetAttackTargetEvent event)
+    private static void onBrainSetTarget(final SetAttackTargetEvent event)
     {
+        if (!FindTargetsTask.handleDamagedTargets) return;
+        List<Entity> mobs = PokemobTracker.getMobs(event.originalTarget, e -> CapabilityPokemob.getPokemobFor(e) != null
+                && e.getDistanceSq(event.originalTarget) < 4096);
+        final boolean targetHasMobs = !mobs.isEmpty();
+        if (targetHasMobs)
+        {
+            mobs.sort((o1, o2) -> (int) (o1.getDistanceSq(event.mob) - o2.getDistanceSq(event.mob)));
+            final Entity mob = mobs.get(0);
+            mobs = PokemobTracker.getMobs(mob, e -> true);
+            // No loop diverting
+            if (!mobs.isEmpty() || !(mob instanceof LivingEntity)) return;
+            event.newTarget = (LivingEntity) mob;
+        }
+    }
+
+    private static void onLivingSetTarget(final LivingSetAttackTargetEvent event)
+    {
+        if (!FindTargetsTask.handleDamagedTargets) return;
         // Don't manage this.
         if (event.getTarget() == null) return;
 
         List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(), e -> CapabilityPokemob.getPokemobFor(e) != null
-                && e.getDistanceSq(event.getTarget()) < 64);
+                && e.getDistanceSq(event.getTarget()) < 4096);
         final boolean targetHasMobs = !mobs.isEmpty();
 
         if (targetHasMobs)
@@ -77,9 +96,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         }
     }
 
-    @SubscribeEvent
-    public static void onLivingHurt(final LivingHurtEvent event)
+    private static void onLivingHurt(final LivingHurtEvent event)
     {
+        if (!FindTargetsTask.handleDamagedTargets) return;
         final DamageSource source = event.getSource();
         // for pokemobs, we divert agro to the pokemob, instead of to the owner.
         // The vanilla HURT_BY_SENSOR will divert to the owner of the pokemob

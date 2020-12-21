@@ -471,15 +471,16 @@ public class WorldgenHandler
 
             // If we are the first one, we will check for a spawn location, just
             // to initialize things.
-            if (this.MODID == PokecubeCore.MODID && !PokecubeSerializer.getInstance().hasPlacedSpawn() && key.equals(
-                    World.OVERWORLD)) serverWorld.getServer().execute(() ->
-                    {
-                        final ResourceLocation location = new ResourceLocation("pokecube:village");
-                        final IForgeRegistry<Structure<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
-                        final Structure<?> structure = reg.getValue(location);
-                        if (reg.containsKey(location)) serverWorld.getWorld().func_241117_a_(structure, BlockPos.ZERO,
-                                50, false);
-                    });
+            if (this.MODID == PokecubeCore.MODID && PokecubeCore.getConfig().doSpawnBuilding && !PokecubeSerializer
+                    .getInstance().hasPlacedSpawn() && key.equals(World.OVERWORLD)) serverWorld.getServer().execute(
+                            () ->
+                            {
+                                final ResourceLocation location = new ResourceLocation("pokecube:village");
+                                final IForgeRegistry<Structure<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
+                                final Structure<?> structure = reg.getValue(location);
+                                if (reg.containsKey(location)) serverWorld.getWorld().func_241117_a_(structure,
+                                        BlockPos.ZERO, 50, false);
+                            });
 
         }
     }

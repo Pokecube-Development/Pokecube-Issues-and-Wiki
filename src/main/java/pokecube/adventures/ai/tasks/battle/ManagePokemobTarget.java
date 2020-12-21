@@ -48,6 +48,7 @@ public class ManagePokemobTarget extends BaseBattleTask
         if (mobTarget != newTarget && newTarget != null)
         {
             final boolean canSee = BrainUtil.canSee(mob.getEntity().getBrain(), newTarget);
+            System.out.println(canSee + " " + mob + " " + newTarget);
             if (canSee) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
             else
             {

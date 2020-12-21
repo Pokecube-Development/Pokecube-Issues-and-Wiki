@@ -1,6 +1,7 @@
 package pokecube.adventures.capabilities;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -41,6 +42,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -437,17 +439,17 @@ public class CapabilityHasPokemobs
                 this.setAttackCooldown(-1);
                 this.setNextSlot(0);
             }
-            else if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING)) this
-                    .setAttackCooldown(this.getAttackCooldown() - 1);
-            if (this.aiStates.getAIState(AIState.INBATTLE)) return;
+            else if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING)) this.setAttackCooldown(
+                    this.getAttackCooldown() - 1);
+            if (this.isInBattle()) return;
             if (!done && this.getTarget() != null) this.onSetTarget(null);
         }
 
         @Override
         public void onAddMob()
         {
-            if (this.getTarget() == null || this.aiStates.getAIState(AIState.THROWING) || this
-                    .getOutMob() != null || !this.getNextPokemob().isEmpty()) return;
+            if (this.getTarget() == null || this.aiStates.getAIState(AIState.THROWING) || this.getOutMob() != null
+                    || !this.getNextPokemob().isEmpty()) return;
             this.aiStates.setAIState(AIState.INBATTLE, false);
             if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING)) if (this
                     .getCooldown() <= this.user.getEntityWorld().getGameTime())
@@ -782,6 +784,12 @@ public class CapabilityHasPokemobs
             for (int i = 0; i < this.getMaxPokemobCount(); i++)
                 if (PokecubeManager.isFilled(this.getPokemob(i))) this.number++;
         }
+
+        @Override
+        public boolean isInBattle()
+        {
+            return this.aiStates.getAIState(AIState.INBATTLE);
+        }
     }
 
     public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>
@@ -1026,6 +1034,8 @@ public class CapabilityHasPokemobs
             this.onSetTarget(target, false);
         }
 
+        boolean isInBattle();
+
         void onSetTarget(LivingEntity target, boolean ignoreCanBattle);
 
         void setType(TypeTrainer type);
@@ -1036,6 +1046,17 @@ public class CapabilityHasPokemobs
 
         default void onTick()
         {
+            // Every so often check if we have an out mob, and respond
+            // accodingly
+            mobcheck:
+            if (this.getTrainer().ticksExisted % 600 == 10 && !this.isInBattle() && !(this
+                    .getTrainer() instanceof PlayerEntity))
+            {
+                final List<Entity> mobs = PCEventsHandler.getOutMobs(this.getTrainer(), false);
+                if (mobs.isEmpty()) break mobcheck;
+                System.out.println(this.getTrainer().getDisplayName().getString() + " " + mobs + " ");
+                PCEventsHandler.recallAll(mobs, true);
+            }
             this.lowerCooldowns();
         }
 

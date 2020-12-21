@@ -161,6 +161,7 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     protected void onDeathUpdate()
     {
+        if (!(this.getEntityWorld() instanceof ServerWorld)) return;
         final boolean isTamed = this.pokemobCap.getOwnerId() != null;
         boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn : PokecubeCore.getConfig().wildDeadDespawn;
         ++this.deathTime;

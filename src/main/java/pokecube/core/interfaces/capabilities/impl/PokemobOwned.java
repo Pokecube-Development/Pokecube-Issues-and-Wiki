@@ -286,7 +286,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
         this.setCombatState(CombatStates.NOMOVESWAP, false);
         this.setCombatState(CombatStates.ANGRY, false);
-        BrainUtils.setAttackTarget(this.getEntity(), null);
+
         this.getEntity().captureDrops(Lists.newArrayList());
         final PlayerEntity tosser = PokecubeMod.getFakePlayer(this.getEntity().getEntityWorld());
         if (owner instanceof PlayerEntity)
