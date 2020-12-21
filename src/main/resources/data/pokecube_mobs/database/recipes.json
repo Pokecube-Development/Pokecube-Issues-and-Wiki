@@ -62,6 +62,48 @@
         "move": "rototiller",
         "cost": "250"
       }
+    },
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:dirt"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:farmland"
+          }
+        }
+      ],
+      "values": {
+        "move": "rototiller",
+        "cost": "250"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:farmland"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:grass"
+          }
+        }
+      ],
+      "values": {
+        "move": "rototiller",
+        "cost": "250"
+      }
     }
   ]
 }
