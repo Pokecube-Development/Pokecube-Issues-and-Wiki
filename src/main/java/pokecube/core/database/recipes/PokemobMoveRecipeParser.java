@@ -34,6 +34,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 {
 
     private static final QName MOVENAME   = new QName("move");
+    private static final QName MOVELIST   = new QName("moves");
     private static final QName HUNGERCOST = new QName("cost");
 
     public static class WrappedRecipeMove implements IMoveAction
@@ -203,10 +204,27 @@ public class PokemobMoveRecipeParser implements IRecipeParser
     @Override
     public void manageRecipe(final XMLRecipe recipe) throws NullPointerException
     {
-        IMoveAction action = new RecipeMove(recipe);
-        if (MoveEventsHandler.customActions.containsKey(action.getMoveName())) action = new WrappedRecipeMove(
-                MoveEventsHandler.customActions.get(action.getMoveName()), action);
-        MoveEventsHandler.customActions.put(action.getMoveName(), action);
+        if (recipe.values.containsKey(PokemobMoveRecipeParser.MOVELIST)) for (final String move : recipe.values.get(
+                PokemobMoveRecipeParser.MOVELIST).split(","))
+        {
+            final XMLRecipe copy = new XMLRecipe();
+            copy.inputs = recipe.inputs;
+            copy.output = recipe.output;
+            copy.shapeless = recipe.shapeless;
+            copy.map = recipe.map;
+            copy.handler = recipe.handler;
+            copy.values.putAll(recipe.values);
+            copy.values.remove(PokemobMoveRecipeParser.MOVELIST);
+            copy.values.put(PokemobMoveRecipeParser.MOVENAME, move);
+            this.manageRecipe(copy);
+        }
+        else
+        {
+            IMoveAction action = new RecipeMove(recipe);
+            if (MoveEventsHandler.customActions.containsKey(action.getMoveName())) action = new WrappedRecipeMove(
+                    MoveEventsHandler.customActions.get(action.getMoveName()), action);
+            MoveEventsHandler.customActions.put(action.getMoveName(), action);
+        }
     }
 
 }
