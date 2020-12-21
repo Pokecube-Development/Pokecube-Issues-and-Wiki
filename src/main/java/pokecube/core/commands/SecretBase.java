@@ -110,21 +110,22 @@ public class SecretBase
                 "Is the player allowed to use secret power to make a secret base");
         LiteralArgumentBuilder<CommandSource> command;
 
-        command = Commands.literal("pokebase").requires(cs -> CommandTools.hasPerm(cs, "command.pokebase.exit")).then(
-                Commands.argument("exit", StringArgumentType.word()).suggests(SecretBase.SUGGEST_EXIT).executes(
+        command = Commands.literal("pokebase").then(Commands.argument("exit", StringArgumentType.word()).requires(
+                cs -> CommandTools.hasPerm(cs, "command.pokebase.exit")).suggests(SecretBase.SUGGEST_EXIT).executes(
                         ctx -> SecretBase.execute_exit(ctx.getSource(), ctx.getSource().asPlayer())));
         commandDispatcher.register(command);
 
-        command = Commands.literal("pokebase").requires(cs -> CommandTools.hasPerm(cs, "command.pokebase.create")).then(
-                Commands.argument("confirm", StringArgumentType.word()).suggests(SecretBase.SUGGEST_CONFIRM).then(
+        command = Commands.literal("pokebase").then(Commands.argument("confirm", StringArgumentType.word()).requires(
+                cs -> CommandTools.hasPerm(cs, "command.pokebase.create")).suggests(SecretBase.SUGGEST_CONFIRM).then(
                         Commands.argument("location", Vec3Argument.vec3()).executes(ctx -> SecretBase.execute_create(ctx
                                 .getSource(), ctx.getSource().asPlayer(), Vec3Argument.getVec3(ctx, "location")))));
         commandDispatcher.register(command);
 
-        command = Commands.literal("pokebase").requires(cs -> CommandTools.hasPerm(cs, "command.pokebase.other")).then(
-                Commands.argument("target", EntityArgument.player()).then(Commands.argument("owner", GameProfileArgument
-                        .gameProfile()).executes(ctx -> SecretBase.execute(ctx.getSource(), EntityArgument.getPlayer(
-                                ctx, "target"), GameProfileArgument.getGameProfiles(ctx, "owner")))));
+        command = Commands.literal("pokebase").then(Commands.argument("target", EntityArgument.player()).requires(
+                cs -> CommandTools.hasPerm(cs, "command.pokebase.other")).then(Commands.argument("owner",
+                        GameProfileArgument.gameProfile()).executes(ctx -> SecretBase.execute(ctx.getSource(),
+                                EntityArgument.getPlayer(ctx, "target"), GameProfileArgument.getGameProfiles(ctx,
+                                        "owner")))));
         commandDispatcher.register(command);
     }
 }
