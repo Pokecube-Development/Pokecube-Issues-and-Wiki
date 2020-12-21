@@ -119,6 +119,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
         public boolean attemptWorldCraft(final IPokemob user, final Vector3 location)
         {
+            // Things below here all actually damage blocks, so check this.
+            if (!MoveEventsHandler.canAffectBlock(user, location, this.getMoveName(), false, true)) return false;
             // This should look at the block hit, and attempt to craft that into
             // a shapeless recipe.
             final World world = user.getEntity().getEntityWorld();
@@ -177,7 +179,6 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             });
             ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
             world.addEntity(drop);
-            System.out.println(remains);
             for (final ItemStack left : remains)
                 if (!left.isEmpty())
                 {

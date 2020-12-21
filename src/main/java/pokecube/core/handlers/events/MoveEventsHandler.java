@@ -141,7 +141,6 @@ public class MoveEventsHandler
         @Override
         public boolean applyEffect(final IPokemob attacker, final Vector3 location)
         {
-            if (!MoveEventsHandler.canEffectBlock(attacker, location)) return false;
             if (this.move.getType(attacker) == PokeType.getType("water")) return MoveEventsHandler.doDefaultWater(
                     attacker, this.move, location);
             if (this.move.getType(attacker) == PokeType.getType("ice") && (this.move.getAttackCategory()
@@ -225,6 +224,11 @@ public class MoveEventsHandler
         return false;
     }
 
+    public static boolean canAffectBlock(final IPokemob user, final Vector3 location, final String move)
+    {
+        return MoveEventsHandler.canAffectBlock(user, location, move, true, true);
+    }
+
     /**
      * This method should be called before any block setting by any move
      * effects.
@@ -233,15 +237,25 @@ public class MoveEventsHandler
      * @param location
      * @return
      */
-    public static boolean canEffectBlock(final IPokemob user, final Vector3 location)
+    public static boolean canAffectBlock(final IPokemob user, final Vector3 location, final String move,
+            final boolean repelWarning, final boolean denyMessage)
     {
+        for (final String s : PokecubeCore.getConfig().damageBlocksBlacklist)
+            if (s.equals(move)) return false;
+        deny:
+        if (!PokecubeCore.getConfig().pokemobsDamageBlocks)
+        {
+            for (final String s : PokecubeCore.getConfig().damageBlocksWhitelist)
+                if (s.equals(move)) break deny;
+            return false;
+        }
         LivingEntity owner = user.getOwner();
         final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getEntityWorld(), location.intX(), location
                 .intY(), location.intZ()) == ForbidReason.REPEL;
         if (!(owner instanceof PlayerEntity)) owner = PokecubeMod.getFakePlayer(user.getEntity().getEntityWorld());
         if (repel)
         {
-            if (!user.inCombat()) CommandTools.sendError(owner, "pokemob.action.denyrepel");
+            if (!user.inCombat() && repelWarning) CommandTools.sendError(owner, "pokemob.action.denyrepel");
             return false;
         }
         final PlayerEntity player = (PlayerEntity) owner;
@@ -251,7 +265,7 @@ public class MoveEventsHandler
         if (evt.isCanceled())
         {
             final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.noperms");
-            if (!user.inCombat()) owner.sendMessage(message, Util.DUMMY_UUID);
+            if (!user.inCombat() && denyMessage) owner.sendMessage(message, Util.DUMMY_UUID);
             return false;
         }
         return true;
@@ -265,6 +279,8 @@ public class MoveEventsHandler
     {
         if (move.getPWR() < MoveEventsHandler.ELECTRICSTRONG || !PokecubeCore.getConfig().defaultElectricActions)
             return false;
+        // Things below here all actually damage blocks, so check this.
+        if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
 
         final World world = attacker.getEntity().getEntityWorld();
         final BlockState state = location.getBlockState(world);
@@ -307,6 +323,13 @@ public class MoveEventsHandler
         final boolean light = AbstractFireBlock.canLightBlock(world, placePos, context.getPlacementHorizontalFacing());
         final BlockState prev = world.getBlockState(prevPos);
 
+        final boolean smelted = MoveEventsHandler.attemptSmelt(attacker, location);
+        // First try to smelt items
+        if (smelted) return true;
+
+        // Things below here all actually damage blocks, so check this.
+        if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
+
         // Melt Snow
         if (block == Blocks.SNOW_BLOCK)
         {
@@ -347,11 +370,6 @@ public class MoveEventsHandler
             world.setBlockState(prevPos, Blocks.WATER.getDefaultState());
             return true;
         }
-
-        final boolean smelted = MoveEventsHandler.attemptSmelt(attacker, location);
-
-        // Otherwise smelt attempt
-        if (smelted) return true;
 
         // Start fires
         if (light && move.getPWR() < MoveEventsHandler.FIRESTRONG)
@@ -405,6 +423,10 @@ public class MoveEventsHandler
     public static boolean doDefaultIce(final IPokemob attacker, final Move_Base move, final Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultIceActions) return false;
+
+        // Things below here all actually damage blocks, so check this.
+        if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
+
         final World world = attacker.getEntity().getEntityWorld();
         final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.SNOW.getDefaultState(),
                 location);
@@ -453,6 +475,10 @@ public class MoveEventsHandler
             }
         }
         if (move.getPWR() < MoveEventsHandler.WATERSTRONG) return false;
+
+        // Things below here all actually damage blocks, so check this.
+        if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
+
         // Freeze lava
         if (block == Blocks.LAVA)
         {

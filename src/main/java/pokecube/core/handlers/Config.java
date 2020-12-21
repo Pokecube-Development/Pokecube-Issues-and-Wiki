@@ -220,7 +220,7 @@ public class Config extends ConfigData
     public boolean pokemobsDamageOwner   = false;
     @Configure(category = Config.mobAI, comment = "if ture, pokemobs can hurt players")
     public boolean pokemobsDamagePlayers = true;
-    @Configure(category = Config.mobAI, comment = "if true, pokemob attacks can have additional actions in world, such as block damage, crafting effects, etc")
+    @Configure(category = Config.mobAI, comment = "if true, pokemob attacks can remove or destroy blocks in the world.")
     public boolean pokemobsDamageBlocks  = false;
     @Configure(category = Config.mobAI, comment = "if true, pokemobs drop their items from their loot tables")
     public boolean pokemobsDropItems     = true;

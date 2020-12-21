@@ -38,7 +38,7 @@ public class ActionSmash implements IMoveAction
         int count = 10;
         int level = user.getLevel();
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 8;
-        if (!MoveEventsHandler.canEffectBlock(user, location)) return false;
+        if (!MoveEventsHandler.canAffectBlock(user, location, this.getMoveName())) return false;
         level = Math.min(99, level);
         final int rocks = this.smashRock(user, location, true);
         count = (int) Math.max(1, Math.ceil(rocks * hungerValue * Math.pow((100 - level) / 100d, 3)));
