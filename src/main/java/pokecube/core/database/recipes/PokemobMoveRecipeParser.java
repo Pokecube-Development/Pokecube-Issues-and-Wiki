@@ -76,7 +76,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
         public final String          name;
         public final ShapelessRecipe recipe;
-        public final int             hungerCost;
+
+        public final int hungerCost;
 
         final Container c = new Container(null, 0)
         {
@@ -143,50 +144,61 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             return true;
         }
 
-        public boolean attemptCraft(final IPokemob attacker, final Vector3 location)
+        private int tryCraft(final List<ItemStack> items, final Vector3 location, final World world, int depth)
         {
-            // This should look for items near the location, and try to stuff
-            // them into a shapeless recipe.
-            final World world = attacker.getEntity().getEntityWorld();
-            final List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, location.getAABB().grow(2));
-            boolean allMatch = true;
-            final List<ItemEntity> matches = Lists.newArrayList();
+            boolean allMatch = false;
+            final List<ItemStack> toUse = Lists.newArrayList();
             for (final Ingredient i : this.recipe.getIngredients())
             {
                 boolean matched = false;
-                for (final ItemEntity item : items)
-                    if (i.test(item.getItem()))
+                for (final ItemStack item : items)
+                    if (i.test(item))
                     {
                         matched = true;
-                        matches.add(item);
+                        toUse.add(item);
                         break;
                     }
                 allMatch = matched;
                 if (!matched) break;
             }
-            if (!allMatch) return false;
-            final CraftingInventory inven = new CraftingInventory(this.c, 1, matches.size());
-            for (int i = 0; i < matches.size(); i++)
-                inven.setInventorySlotContents(i, matches.get(i).getItem());
-            if (!this.recipe.matches(inven, world)) return false;
+            if (!allMatch) return depth;
+            final CraftingInventory inven = new CraftingInventory(this.c, 1, toUse.size());
+            for (int i = 0; i < toUse.size(); i++)
+                inven.setInventorySlotContents(i, toUse.get(i));
+            if (!this.recipe.matches(inven, world)) return depth;
             final ItemStack stack = this.recipe.getCraftingResult(inven);
-            if (stack.isEmpty()) return false;
+            if (stack.isEmpty()) return depth;
             final List<ItemStack> remains = this.recipe.getRemainingItems(inven);
-            matches.forEach(e ->
+            toUse.forEach(e ->
             {
-                final ItemStack item = e.getItem();
+                final ItemStack item = e;
                 item.shrink(1);
-                if (e.getItem().isEmpty()) e.remove();
             });
             ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
             world.addEntity(drop);
+            depth++;
             for (final ItemStack left : remains)
                 if (!left.isEmpty())
                 {
                     drop = new ItemEntity(world, location.x, location.y, location.z, left);
                     world.addEntity(drop);
                 }
-            return true;
+            // Do this until we run out of craftable stuff.
+            depth = this.tryCraft(toUse, location, world, depth);
+            return depth;
+        }
+
+        public boolean attemptCraft(final IPokemob attacker, final Vector3 location)
+        {
+            // This should look for items near the location, and try to stuff
+            // them into a shapeless recipe.
+            final World world = attacker.getEntity().getEntityWorld();
+            final List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, location.getAABB().grow(2));
+            final List<ItemStack> stacks = Lists.newArrayList();
+            items.forEach(e -> stacks.add(e.getItem()));
+            final int depth = this.tryCraft(stacks, location, world, 0);
+            attacker.setHungerTime(attacker.getHungerTime() + this.hungerCost * depth);
+            return depth > 0;
         }
 
         @Override
