@@ -11,8 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.combat.MoveUse;
 import pokecube.core.handlers.events.MoveEventsHandler;
@@ -82,15 +80,7 @@ public class ActionSmash implements IMoveAction
         int ret = 0;
         final LivingEntity owner = digger.getOwner();
         PlayerEntity player = null;
-        if (owner instanceof PlayerEntity)
-        {
-            player = (PlayerEntity) owner;
-            final BreakEvent evt = new BreakEvent(player.getEntityWorld(), v.getPos(), v.getBlockState(player
-                    .getEntityWorld()), player);
-
-            MinecraftForge.EVENT_BUS.post(evt);
-            if (evt.isCanceled()) return 0;
-        }
+        if (owner instanceof PlayerEntity) player = (PlayerEntity) owner;
         final int fortune = digger.getLevel() / 30;
         final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
         final World world = digger.getEntity().getEntityWorld();
@@ -102,10 +92,11 @@ public class ActionSmash implements IMoveAction
                 for (int k = -range; k <= range; k++)
                 {
                     if (!(i == 0 || k == 0 || j == 0)) continue;
-                    temp.set(v);
-                    final BlockState state = temp.addTo(i, j, k).getBlockState(world);
+                    temp.set(v).addTo(i, j, k);
+                    final BlockState state = temp.getBlockState(world);
                     if (PokecubeTerrainChecker.isRock(state))
                     {
+                        if (!MoveEventsHandler.canAffectBlock(digger, temp, this.getMoveName(), false, true)) continue;
                         if (!count) if (!silky) this.doFortuneDrop(state, temp.getPos(), world, player, fortune);
                         else
                         {

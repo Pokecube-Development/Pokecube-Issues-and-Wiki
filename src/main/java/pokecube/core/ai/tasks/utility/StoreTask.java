@@ -1,5 +1,9 @@
 package pokecube.core.ai.tasks.utility;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
@@ -60,6 +64,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
     protected int firstEmpty  = 0;
 
     boolean pathing = false;
+
+    private final Set<BlockPos> knownValid = Sets.newHashSet();
 
     public StoreTask(final IPokemob entity)
     {
@@ -187,9 +193,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
                 pokemobInv.setStackInSlot(this.firstEmpty, pokemobInv.getStackInSlot(2));
                 pokemobInv.setStackInSlot(2, stack);
                 // Collected our berry, Can pass to storage now.
-                // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
-                // + " Took "
-                // + stack);
                 return false;
             }
         }
@@ -223,8 +226,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
             final double speed = 1;
             this.setWalkTo(this.emptyInventory, speed, 0);
             // We should be pathing, so return true.
-            // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
-            // + " Pathing to Pick Up at " + this.emptyInventory);
             return true;
         }
         boolean collected = false;
@@ -240,9 +241,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
                     inventory.setStackInSlot(i, ItemStack.EMPTY);
                     pokemobInv.setStackInSlot(slot, stack);
                     // Collected our item successfully
-                    // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
-                    // + " Took "
-                    // + stack);
                     collected = true;
                     start = i + 1;
                     continue inv;
@@ -265,8 +263,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
             final double speed = 1;
             this.setWalkTo(this.storageLoc, speed, 0);
             // We should be pathing to storage here, so return true.
-            // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
-            // + " Pathing to Storage at " + this.storageLoc);
             return true;
         }
         IItemHandlerModifiable storage = this.getInventory(this.world, this.storageLoc, this.storageFace);
@@ -282,9 +278,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
             // final ItemStack prev = stack.copy();
             if (ItemStackTools.addItemStackToInventory(stack, storage, 0))
             {
-                // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
-                // + " Storing "
-                // + prev);
                 if (stack.isEmpty()) stack = ItemStack.EMPTY;
                 pokemobInv.setStackInSlot(i, stack);
             }
@@ -355,19 +348,25 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
     private IItemHandlerModifiable getInventory(final IBlockReader world, final BlockPos pos, final Direction side)
     {
         if (pos == null) return null;
-        if (this.pokemob.getOwner() instanceof PlayerEntity)
-        {
-            final PlayerEntity player = (PlayerEntity) this.pokemob.getOwner();
-            final BreakEvent evt = new BreakEvent(player.getEntityWorld(), pos, world.getBlockState(pos), player);
-            MinecraftForge.EVENT_BUS.post(evt);
-            if (evt.isCanceled()) return null;
-        }
+        if (!this.canBreak(world, pos)) return null;
         final TileEntity tile = world.getTileEntity(pos);
         if (tile == null) return null;
         IItemHandler handler;
         if ((handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElse(
                 null)) instanceof IItemHandlerModifiable) return (IItemHandlerModifiable) handler;
         return null;
+    }
+
+    private boolean canBreak(final IBlockReader world, final BlockPos pos)
+    {
+        if (!this.pokemob.isPlayerOwned()) return true;
+        if (this.knownValid.contains(pos)) return true;
+        final PlayerEntity player = (PlayerEntity) this.pokemob.getOwner();
+        final BreakEvent evt = new BreakEvent(player.getEntityWorld(), pos, world.getBlockState(pos), player);
+        MinecraftForge.EVENT_BUS.post(evt);
+        if (evt.isCanceled()) return false;
+        this.knownValid.add(pos.toImmutable());
+        return true;
     }
 
     private boolean hasItem(final ResourceLocation tag, final IItemHandlerModifiable inventory)
