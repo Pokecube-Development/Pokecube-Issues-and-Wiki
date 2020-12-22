@@ -80,12 +80,6 @@ public class ClientProxy extends CommonProxy
         }
     }
 
-    @Override
-    public PlayerEntity getPlayer()
-    {
-        return Minecraft.getInstance().player;
-    }
-
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void RenderBounds(final RenderWorldLastEvent event)

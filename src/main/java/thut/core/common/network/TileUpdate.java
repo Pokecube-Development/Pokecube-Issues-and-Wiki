@@ -1,11 +1,12 @@
 package thut.core.common.network;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerChunkProvider;
@@ -54,9 +55,9 @@ public class TileUpdate extends NBTPacket
     @Override
     protected void onCompleteClient()
     {
-        final PlayerEntity player = ThutCore.proxy.getPlayer();
+        final World world = Minecraft.getInstance().world;
         final BlockPos pos = NBTUtil.readBlockPos(this.tag.getCompound("pos"));
-        final TileEntity tile = player.getEntityWorld().getTileEntity(pos);
-        if (tile != null) tile.handleUpdateTag(player.getEntityWorld().getBlockState(pos), this.tag.getCompound("tag"));
+        final TileEntity tile = world.getTileEntity(pos);
+        if (tile != null) tile.handleUpdateTag(world.getBlockState(pos), this.tag.getCompound("tag"));
     }
 }
