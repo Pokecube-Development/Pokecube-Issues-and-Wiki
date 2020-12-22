@@ -10293,7 +10293,8 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "FALSE",
+            "surf": "TRUE"
           }
         }
       },
@@ -38499,7 +38500,8 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "FALSE",
+            "surf": "TRUE"
           }
         }
       },
