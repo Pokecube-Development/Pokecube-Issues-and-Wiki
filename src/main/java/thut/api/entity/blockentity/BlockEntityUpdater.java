@@ -156,21 +156,31 @@ public class BlockEntityUpdater
                 && boxA.minZ <= boxB.maxZ && boxA.maxZ >= boxB.minZ;
     }
 
-    public void applyEntityCollision(final Entity entity)
+    public static void fill(final List<AxisAlignedBB> boxes, final AxisAlignedBB textBox, final VoxelShape from)
     {
-        // TODO instead of this, apply appropriate transformation to the
-        // entity's box, and then collide off that, then apply appropriate
-        // inverse transformation before actually applying collision to entity.
-        if ((this.theEntity.rotationYaw + 360) % 90 > 5 || this.theEntity.isPassenger(entity)) return;
+        boxes.clear();
+        // Used to select which boxes to consider for collision
+        from.forEachBox((x0, y0, z0, x1, y1, z1) ->
+        {
+            final AxisAlignedBB box = new AxisAlignedBB(x0, y0, z0, x1, y1, z1);
+            if (BlockEntityUpdater.intersectsOrAdjacent(box, textBox)) boxes.add(box);
+        });
+    }
+
+    public static boolean applyEntityCollision(final Entity entity, final AxisAlignedBB entityBox,
+            final List<AxisAlignedBB> blockBoxes, final Vector3d ref_motion)
+    {
+        if (blockBoxes.isEmpty()) return false;
+
+        double dx = 0, dz = 0, dy = 0;
+        Vector3d motion_b = entity.getMotion();
 
         boolean serverSide = entity.getEntityWorld().isRemote;
         final boolean isPlayer = entity instanceof PlayerEntity;
         if (isPlayer) serverSide = entity instanceof ServerPlayerEntity;
 
-        double dx = 0, dz = 0, dy = 0;
-        final Vector3d motion_a = this.theEntity.getMotion();
-        Vector3d motion_b = entity.getMotion();
-        final AxisAlignedBB boundingBox = entity.getBoundingBox();
+        final Vector3d diffV = ref_motion.subtract(motion_b);
+        final AxisAlignedBB boundingBox = entityBox;
         if (isPlayer && serverSide)
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) entity;
@@ -179,32 +189,21 @@ public class BlockEntityUpdater
             dz = player.chasingPosZ - player.prevChasingPosZ;
             motion_b = new Vector3d(dx, dy, dz).scale(0.5);
         }
-        final Vector3d diffV = motion_a.subtract(motion_b);
         /** Expanded box by velocities to test for collision with. */
         final AxisAlignedBB testBox = boundingBox.expand(diffV.x, diffV.y, diffV.z);// .grow(0.1);
-
-        this.blockBoxes.clear();
-        // Used to select which boxes to consider for collision
-        final AxisAlignedBB hitTest = testBox.grow(0.1 + diffV.length());
-        this.buildShape().forEachBox((x0, y0, z0, x1, y1, z1) ->
-        {
-            final AxisAlignedBB box = new AxisAlignedBB(x0, y0, z0, x1, y1, z1);
-            if (BlockEntityUpdater.intersectsOrAdjacent(box, hitTest)) this.blockBoxes.add(box);
-        });
-
-        boolean colX = false;
-        boolean colY = false;
-        boolean colZ = false;
 
         dx = 0;
         dy = 0;
         dz = 0;
+        boolean colX = false;
+        boolean colY = false;
+        boolean colZ = false;
 
         AxisAlignedBB toUse = testBox;
         final AxisAlignedBB orig = toUse;
         // System.out.println("_____________________________");
 
-        for (final AxisAlignedBB aabb : this.blockBoxes)
+        for (final AxisAlignedBB aabb : blockBoxes)
         {
             double dx1 = 0, dy1 = 0, dz1 = 0;
             // Only use ones that actually intersect for this loop
@@ -256,7 +255,7 @@ public class BlockEntityUpdater
                 {
                     boolean valid = true;
                     // check if none of the other boxes disagree with the step
-                    for (final AxisAlignedBB aabb2 : this.blockBoxes)
+                    for (final AxisAlignedBB aabb2 : blockBoxes)
                     {
                         if (aabb2 == aabb) continue;
                         if (aabb2.intersects(toUse))
@@ -295,21 +294,21 @@ public class BlockEntityUpdater
             {
                 final Vector3d motion = new Vector3d(0, dy, 0);
                 entity.move(MoverType.SELF, motion);
-                dy = motion_a.y;
+                dy = ref_motion.y;
             }
             else dy = motion_b.y;
             if (colX)
             {
                 final Vector3d motion = new Vector3d(dx, 0, 0);
                 entity.move(MoverType.SELF, motion);
-                dx = motion_a.x;
+                dx = ref_motion.x;
             }
             else dx = 0.9 * motion_b.x;
             if (colZ)
             {
                 final Vector3d motion = new Vector3d(0, 0, dz);
                 entity.move(MoverType.SELF, motion);
-                dz = motion_a.z;
+                dz = ref_motion.z;
             }
             else dz = 0.9 * motion_b.z;
             entity.setMotion(dx, dy, dz);
@@ -321,6 +320,41 @@ public class BlockEntityUpdater
                 entity.fallDistance = 0;
             }
         }
+        return collided;
+    }
+
+    public void applyEntityCollision(final Entity entity)
+    {
+        // TODO instead of this, apply appropriate transformation to the
+        // entity's box, and then collide off that, then apply appropriate
+        // inverse transformation before actually applying collision to entity.
+        if ((this.theEntity.rotationYaw + 360) % 90 > 5 || this.theEntity.isPassenger(entity)) return;
+
+        boolean serverSide = entity.getEntityWorld().isRemote;
+        final boolean isPlayer = entity instanceof PlayerEntity;
+        if (isPlayer) serverSide = entity instanceof ServerPlayerEntity;
+
+        double dx = 0, dz = 0, dy = 0;
+        final Vector3d motion_a = this.theEntity.getMotion();
+        Vector3d motion_b = entity.getMotion();
+        final AxisAlignedBB boundingBox = entity.getBoundingBox();
+        if (isPlayer && serverSide)
+        {
+            final ServerPlayerEntity player = (ServerPlayerEntity) entity;
+            dx = player.chasingPosX - player.prevChasingPosX;
+            dy = player.chasingPosY - player.prevChasingPosY;
+            dz = player.chasingPosZ - player.prevChasingPosZ;
+            motion_b = new Vector3d(dx, dy, dz).scale(0.5);
+        }
+        final Vector3d diffV = motion_a.subtract(motion_b);
+        /** Expanded box by velocities to test for collision with. */
+        final AxisAlignedBB testBox = boundingBox.expand(diffV.x, diffV.y, diffV.z);// .grow(0.1);
+
+        // Used to select which boxes to consider for collision
+        final AxisAlignedBB hitTest = testBox.grow(0.1 + diffV.length());
+        BlockEntityUpdater.fill(this.blockBoxes, hitTest, this.buildShape());
+        final boolean collided = BlockEntityUpdater.applyEntityCollision(entity, entity.getBoundingBox(),
+                this.blockBoxes, motion_a);
 
         // Extra stuff to do with players, apply these regardless of collision.
         // This is done to prevent "flying on server" kicks when the craft is
