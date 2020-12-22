@@ -114,12 +114,36 @@ public class SecretBaseDimension
 
     public static ChunkPos getFromIndex(final int index)
     {
-        final int scale = 10;
-        int x = index % (16 << scale) - (16 << scale) / 2;
-        int z = index / (16 << scale) - (16 << scale) / 2;
+        final int scale = 16 << 10;
+        final int shift = scale / 2;
+        int x = index % scale - shift;
+        int z = index / scale - shift;
         x *= 16;
         z *= 16;
         return new ChunkPos(x, z);
+    }
+
+    public static int fromChunkPos(final ChunkPos pos)
+    {
+        // First convert to secret base coords
+        int x = pos.x / 16;
+        int z = pos.z / 16;
+
+        final int dx = pos.x % 16;
+        final int dz = pos.z % 16;
+
+        // and ensure we wrap correctly
+        if (dx > 0) if (dx < 8) x += 1;
+        if (dx < 0) if (dx < -7) x -= 1;
+
+        if (dz > 0) if (dz < 8) z += 1;
+        if (dz < 0) if (dz < -7) z -= 1;
+
+        final int scale = 16 << 10;
+        final int shift = scale / 2;
+        x += shift;
+        z += shift;
+        return x + z * scale;
     }
 
     public static BlockPos getSecretBaseLoc(final UUID player, final MinecraftServer server,
@@ -319,6 +343,11 @@ public class SecretBaseDimension
         final BlockPos pos1 = nearestBase.asBlockPos();
         final BlockPos pos2 = pos1.add(16, 255, 16);
         final AxisAlignedBB chunkBox = new AxisAlignedBB(pos1, pos2);
+
+        // int index = fromChunkPos(nearestBase);
+        //
+        //
+
         return chunkBox;
     }
 
