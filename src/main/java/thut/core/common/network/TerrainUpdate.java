@@ -16,8 +16,9 @@ import thut.core.common.ThutCore;
 
 public class TerrainUpdate extends Packet
 {
-    public static void sendTerrainToClient(final World world, final ChunkPos pos, final ServerPlayerEntity player)
+    public static void sendTerrainToClient(final ChunkPos pos, final ServerPlayerEntity player)
     {
+        final World world = player.getEntityWorld();
         final ITerrainProvider provider = world.getChunk(pos.x, pos.z).getCapability(ThutCaps.TERRAIN_CAP, null).orElse(
                 null);
         final CompoundNBT terrainData = (CompoundNBT) ThutCaps.TERRAIN_CAP.writeNBT(provider, null);

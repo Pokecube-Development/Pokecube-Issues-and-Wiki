@@ -30,8 +30,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -103,7 +101,6 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.entity.ShearableCaps;
-import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -274,9 +271,7 @@ public class EventsHandler
 
         // Here we handle bed healing if enabled in configs
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerWakeUp);
-        // This ticks ongoing effects (like burn, poison, etc) as well as deals
-        // with updating terrain segments as players move around.
-        // TODO move that second part to an enterChunkEvent.
+        // This ticks ongoing effects (like burn, poison, etc)
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onLivingUpdate);
         // This synchronizes stats and data for the player, and sends the
         // GuiOnLogin if enabled and required.
@@ -470,21 +465,6 @@ public class EventsHandler
         {
             final IOngoingAffected affected = CapabilityAffected.getAffected(evt.getEntity());
             if (affected != null) affected.tick();
-        }
-
-        // Handle refreshing the terrain for the player, assuming they have
-        // moved out of their old terrain location
-        if (evt.getEntity() instanceof PlayerEntity)
-        {
-            final PlayerEntity player = (PlayerEntity) evt.getEntity();
-            BlockPos here;
-            BlockPos old;
-            here = new BlockPos(MathHelper.floor(player.chasingPosX) >> 4, MathHelper.floor(player.chasingPosY) >> 4,
-                    MathHelper.floor(player.chasingPosZ) >> 4);
-            old = new BlockPos(MathHelper.floor(player.prevChasingPosX) >> 4, MathHelper.floor(
-                    player.prevChasingPosY) >> 4, MathHelper.floor(player.prevChasingPosZ) >> 4);
-            if (!here.equals(old)) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(evt.getEntity()), evt
-                    .getEntity().getEntityWorld());
         }
     }
 

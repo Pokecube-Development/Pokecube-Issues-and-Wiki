@@ -1,6 +1,7 @@
 package thut.api.terrain;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -11,12 +12,14 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain.DefaultProvider;
+import thut.core.common.network.TerrainUpdate;
 
 public class TerrainManager
 {
@@ -105,6 +108,13 @@ public class TerrainManager
         if (evt.getWorld() instanceof World && !evt.getWorld().isRemote()) dim = ((World) evt.getWorld())
                 .getDimensionKey();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
+    }
+
+    @SubscribeEvent
+    public static void onChunkWatch(final ChunkWatchEvent event)
+    {
+        final ServerPlayerEntity player = event.getPlayer();
+        TerrainUpdate.sendTerrainToClient(event.getPos(), player);
     }
 
     @SubscribeEvent

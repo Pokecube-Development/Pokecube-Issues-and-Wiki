@@ -63,7 +63,7 @@ public class ItemPokedex extends Item
         if (playerIn instanceof ServerPlayerEntity)
         {
             final IChunk chunk = playerIn.getEntityWorld().getChunk(playerIn.getPosition());
-            TerrainUpdate.sendTerrainToClient(playerIn.getEntityWorld(), new ChunkPos(chunk.getPos().x, chunk
+            TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk
                     .getPos().z), (ServerPlayerEntity) playerIn);
             PacketDataSync.sendInitPacket(playerIn, "pokecube-stats");
             PacketPokedex.sendSecretBaseInfoPacket((ServerPlayerEntity) playerIn, this.watch);
@@ -142,7 +142,7 @@ public class ItemPokedex extends Item
         if (player instanceof ServerPlayerEntity)
         {
             final IChunk chunk = player.getEntityWorld().getChunk(player.getPosition());
-            TerrainUpdate.sendTerrainToClient(player.getEntityWorld(), new ChunkPos(chunk.getPos().x, chunk.getPos().z),
+            TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z),
                     (ServerPlayerEntity) player);
             PacketDataSync.sendInitPacket(player, "pokecube-stats");
             PacketPokedex.sendSecretBaseInfoPacket((ServerPlayerEntity) player, this.watch);
