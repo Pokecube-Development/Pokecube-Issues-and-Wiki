@@ -146,19 +146,9 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     @Override
     public void doWorldAction(final IPokemob attacker, Vector3 location)
     {
-        for (final String s : PokecubeCore.getConfig().damageBlocksBlacklist)
-            if (s.equals(this.name)) return;
-        deny:
-        if (!PokecubeCore.getConfig().pokemobsDamageBlocks)
-        {
-            for (final String s : PokecubeCore.getConfig().damageBlocksWhitelist)
-                if (s.equals(this.name)) break deny;
-            return;
-        }
         final Vector3 origin = Vector3.getNewVector().set(attacker.getEntity().getEyePosition(0));
         final Vector3 direction = location.subtract(origin).norm().scalarMultBy(0.5);
         location = location.add(direction);
-
         final MoveWorldAction.PreAction preEvent = new MoveWorldAction.PreAction(this, attacker, location);
         if (!PokecubeCore.MOVE_BUS.post(preEvent))
         {

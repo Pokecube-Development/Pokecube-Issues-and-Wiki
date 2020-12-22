@@ -122,12 +122,14 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     }
 
     @Override
-    public Battle getBattle() {
+    public Battle getBattle()
+    {
         return this.battle;
     }
 
     @Override
-    public void setBattle(final Battle battle) {
+    public void setBattle(final Battle battle)
+    {
         this.battle = battle;
     }
 
@@ -242,25 +244,25 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
              */
             if (entity == this.getEntity())
             {
-                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity()) BrainUtils.setAttackTarget(this
-                        .getEntity(), null);
+                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity()) BrainUtils.clearAttackTarget(this
+                        .getEntity());
                 return;
             }
             else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId())
                     && !mateFight)
             {
-                BrainUtils.setAttackTarget(this.getEntity(), null);
+                BrainUtils.clearAttackTarget(this.getEntity());
                 return;
             }
             else if (!PokecubeCore.getConfig().teamsBattleEachOther && TeamManager.sameTeam(entity, this.getEntity())
                     && !mateFight)
             {
-                BrainUtils.setAttackTarget(this.getEntity(), null);
+                BrainUtils.clearAttackTarget(this.getEntity());
                 return;
             }
             else if (!forced && !AITools.validTargets.test(entity))
             {
-                BrainUtils.setAttackTarget(this.getEntity(), null);
+                BrainUtils.clearAttackTarget(this.getEntity());
                 return;
             }
             if (entity == null || remote) return;

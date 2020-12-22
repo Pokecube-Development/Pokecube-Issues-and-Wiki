@@ -7,7 +7,9 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
@@ -106,7 +108,8 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     public void spawnClientEntities(final MovePacketInfo info)
     {
         final int tick = info.currentTick;
-        final float volume = (float) PokecubeCore.getConfig().moveVolumeEffect;
+        final float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;
+        final World world = PokecubeCore.proxy.getWorld();
         for (int i = 0; i < this.components.size(); i++)
         {
             info.currentTick = tick;
@@ -115,6 +118,8 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             if (toRun.start > tick) continue;
             info.currentTick = tick - toRun.start;
             toRun.wrapped.spawnClientEntities(info);
+            final float volume = toRun.volume * scale;
+            final float pitch = toRun.pitch;
             sound:
             if (info.currentTick == 0 && toRun.sound != null)
             {
@@ -133,12 +138,14 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 // Check source sounds.
                 if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
                         : info.attacker);
-                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent, volume);
+                if (valid) world.playSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundCategory.HOSTILE, volume, pitch,
+                        true);
                 // Check target sounds.
                 valid = toRun.soundTarget;
                 if (valid = info.target != null || info.attacked != null) pos.set(info.target != null ? info.target
                         : info.attacked);
-                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent, volume);
+                if (valid) world.playSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundCategory.HOSTILE, volume, pitch,
+                        true);
             }
         }
     }

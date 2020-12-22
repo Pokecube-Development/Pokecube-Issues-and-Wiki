@@ -34,6 +34,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 {
 
     private static final QName MOVENAME   = new QName("move");
+    private static final QName MOVELIST   = new QName("moves");
     private static final QName HUNGERCOST = new QName("cost");
 
     public static class WrappedRecipeMove implements IMoveAction
@@ -75,7 +76,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
         public final String          name;
         public final ShapelessRecipe recipe;
-        public final int             hungerCost;
+
+        public final int hungerCost;
 
         final Container c = new Container(null, 0)
         {
@@ -119,6 +121,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
         public boolean attemptWorldCraft(final IPokemob user, final Vector3 location)
         {
+            // Things below here all actually damage blocks, so check this.
+            if (!MoveEventsHandler.canAffectBlock(user, location, this.getMoveName(), false, true)) return false;
             // This should look at the block hit, and attempt to craft that into
             // a shapeless recipe.
             final World world = user.getEntity().getEntityWorld();
@@ -140,51 +144,61 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             return true;
         }
 
-        public boolean attemptCraft(final IPokemob attacker, final Vector3 location)
+        private int tryCraft(final List<ItemStack> items, final Vector3 location, final World world, int depth)
         {
-            // This should look for items near the location, and try to stuff
-            // them into a shapeless recipe.
-            final World world = attacker.getEntity().getEntityWorld();
-            final List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, location.getAABB().grow(2));
-            boolean allMatch = true;
-            final List<ItemEntity> matches = Lists.newArrayList();
+            boolean allMatch = false;
+            final List<ItemStack> toUse = Lists.newArrayList();
             for (final Ingredient i : this.recipe.getIngredients())
             {
                 boolean matched = false;
-                for (final ItemEntity item : items)
-                    if (i.test(item.getItem()))
+                for (final ItemStack item : items)
+                    if (i.test(item))
                     {
                         matched = true;
-                        matches.add(item);
+                        toUse.add(item);
                         break;
                     }
                 allMatch = matched;
                 if (!matched) break;
             }
-            if (!allMatch) return false;
-            final CraftingInventory inven = new CraftingInventory(this.c, 1, matches.size());
-            for (int i = 0; i < matches.size(); i++)
-                inven.setInventorySlotContents(i, matches.get(i).getItem());
-            if (!this.recipe.matches(inven, world)) return false;
+            if (!allMatch) return depth;
+            final CraftingInventory inven = new CraftingInventory(this.c, 1, toUse.size());
+            for (int i = 0; i < toUse.size(); i++)
+                inven.setInventorySlotContents(i, toUse.get(i));
+            if (!this.recipe.matches(inven, world)) return depth;
             final ItemStack stack = this.recipe.getCraftingResult(inven);
-            if (stack.isEmpty()) return false;
+            if (stack.isEmpty()) return depth;
             final List<ItemStack> remains = this.recipe.getRemainingItems(inven);
-            matches.forEach(e ->
+            toUse.forEach(e ->
             {
-                final ItemStack item = e.getItem();
+                final ItemStack item = e;
                 item.shrink(1);
-                if (e.getItem().isEmpty()) e.remove();
             });
             ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
             world.addEntity(drop);
-            System.out.println(remains);
+            depth++;
             for (final ItemStack left : remains)
                 if (!left.isEmpty())
                 {
                     drop = new ItemEntity(world, location.x, location.y, location.z, left);
                     world.addEntity(drop);
                 }
-            return true;
+            // Do this until we run out of craftable stuff.
+            depth = this.tryCraft(toUse, location, world, depth);
+            return depth;
+        }
+
+        public boolean attemptCraft(final IPokemob attacker, final Vector3 location)
+        {
+            // This should look for items near the location, and try to stuff
+            // them into a shapeless recipe.
+            final World world = attacker.getEntity().getEntityWorld();
+            final List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, location.getAABB().grow(2));
+            final List<ItemStack> stacks = Lists.newArrayList();
+            items.forEach(e -> stacks.add(e.getItem()));
+            final int depth = this.tryCraft(stacks, location, world, 0);
+            attacker.setHungerTime(attacker.getHungerTime() + this.hungerCost * depth);
+            return depth > 0;
         }
 
         @Override
@@ -202,10 +216,27 @@ public class PokemobMoveRecipeParser implements IRecipeParser
     @Override
     public void manageRecipe(final XMLRecipe recipe) throws NullPointerException
     {
-        IMoveAction action = new RecipeMove(recipe);
-        if (MoveEventsHandler.customActions.containsKey(action.getMoveName())) action = new WrappedRecipeMove(
-                MoveEventsHandler.customActions.get(action.getMoveName()), action);
-        MoveEventsHandler.customActions.put(action.getMoveName(), action);
+        if (recipe.values.containsKey(PokemobMoveRecipeParser.MOVELIST)) for (final String move : recipe.values.get(
+                PokemobMoveRecipeParser.MOVELIST).split(","))
+        {
+            final XMLRecipe copy = new XMLRecipe();
+            copy.inputs = recipe.inputs;
+            copy.output = recipe.output;
+            copy.shapeless = recipe.shapeless;
+            copy.map = recipe.map;
+            copy.handler = recipe.handler;
+            copy.values.putAll(recipe.values);
+            copy.values.remove(PokemobMoveRecipeParser.MOVELIST);
+            copy.values.put(PokemobMoveRecipeParser.MOVENAME, move);
+            this.manageRecipe(copy);
+        }
+        else
+        {
+            IMoveAction action = new RecipeMove(recipe);
+            if (MoveEventsHandler.customActions.containsKey(action.getMoveName())) action = new WrappedRecipeMove(
+                    MoveEventsHandler.customActions.get(action.getMoveName()), action);
+            MoveEventsHandler.customActions.put(action.getMoveName(), action);
+        }
     }
 
 }

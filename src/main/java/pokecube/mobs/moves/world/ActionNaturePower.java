@@ -480,7 +480,7 @@ public class ActionNaturePower implements IMoveAction
     {
         if (attacker.inCombat()) return false;
         if (!(attacker.getOwner() instanceof ServerPlayerEntity)) return false;
-        if (!MoveEventsHandler.canEffectBlock(attacker, location)) return false;
+        if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
         if (time + 20 * 3 > attacker.getEntity().getEntityWorld().getGameTime()) return false;
 //        final BlockPos pos = location.getPos();

@@ -36,6 +36,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
+import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
@@ -106,6 +107,7 @@ public class PokecubeMobs
         DBLoader.tradeDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trades.json"));
 
         XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeMobs.MODID, "database/rewards.json"));
+        XMLRecipeHandler.recipeFiles.add(new ResourceLocation(PokecubeMobs.MODID, "database/recipes.json"));
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         new WorldgenHandler(PokecubeMobs.MODID, bus);

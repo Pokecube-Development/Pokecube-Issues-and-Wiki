@@ -31,6 +31,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -160,9 +161,10 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     protected void onDeathUpdate()
     {
+        ++this.deathTime;
+        if (!(this.getEntityWorld() instanceof ServerWorld)) return;
         final boolean isTamed = this.pokemobCap.getOwnerId() != null;
         boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn : PokecubeCore.getConfig().wildDeadDespawn;
-        ++this.deathTime;
         if (this.deathTime == PokecubeCore.getConfig().deadDespawnTimer)
         {
             final FaintEvent event = new FaintEvent(this.pokemobCap);
@@ -347,6 +349,12 @@ public class EntityPokemob extends PokemobHasParts
     protected float getSoundVolume()
     {
         return (float) PokecubeCore.getConfig().idleSoundVolume;
+    }
+
+    @Override
+    public SoundCategory getSoundCategory()
+    {
+        return SoundCategory.HOSTILE;
     }
 
     @Override

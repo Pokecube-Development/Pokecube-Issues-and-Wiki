@@ -220,7 +220,7 @@ public class Config extends ConfigData
     public boolean pokemobsDamageOwner   = false;
     @Configure(category = Config.mobAI, comment = "if ture, pokemobs can hurt players")
     public boolean pokemobsDamagePlayers = true;
-    @Configure(category = Config.mobAI, comment = "if true, pokemob attacks can have additional actions in world, such as block damage, crafting effects, etc")
+    @Configure(category = Config.mobAI, comment = "if true, pokemob attacks can remove or destroy blocks in the world.")
     public boolean pokemobsDamageBlocks  = false;
     @Configure(category = Config.mobAI, comment = "if true, pokemobs drop their items from their loot tables")
     public boolean pokemobsDropItems     = true;
@@ -453,7 +453,7 @@ public class Config extends ConfigData
     @Configure(category = Config.moves, type = Type.CLIENT)
     public double moveVolumeCry    = 0.0625f;
     @Configure(category = Config.moves, type = Type.CLIENT)
-    public double moveVolumeEffect = 1;
+    public double moveVolumeEffect = 0.25;
 
     @Configure(category = Config.client, type = Type.CLIENT)
     public boolean guiDown                = true;

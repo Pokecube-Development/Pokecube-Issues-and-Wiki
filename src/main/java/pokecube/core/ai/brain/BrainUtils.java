@@ -20,7 +20,9 @@ import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.IPosWrapper;
+import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
+import pokecube.core.events.SetAttackTargetEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -41,6 +43,11 @@ public class BrainUtils
     public static boolean hasAttackTarget(final LivingEntity mobIn)
     {
         return BrainUtils.getAttackTarget(mobIn) != null;
+    }
+
+    public static void clearAttackTarget(final LivingEntity mobIn)
+    {
+        BrainUtils.setAttackTarget(mobIn, null);
     }
 
     public static void setAttackTarget(final LivingEntity mobIn, final LivingEntity target)
@@ -207,7 +214,7 @@ public class BrainUtils
         });
     }
 
-    public static void initiateCombat(final MobEntity mob, final LivingEntity target)
+    public static void initiateCombat(final MobEntity mob, LivingEntity target)
     {
         // No target self
         if (mob == target) return;
@@ -215,6 +222,13 @@ public class BrainUtils
         if (target == null) return;
         // No target dead
         if (!target.isAlive() || target.getHealth() <= 0) return;
+
+        final SetAttackTargetEvent event = new SetAttackTargetEvent(mob, target);
+        MinecraftForge.EVENT_BUS.post(event);
+
+        target = event.newTarget;
+        // No target null
+        if (target == null) return;
         // No target already had target
         if (target == BrainUtils.getAttackTarget(mob)) return;
 
@@ -258,7 +272,7 @@ public class BrainUtils
         }
         final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
         if (oldTarget != null && mutual) BrainUtils.deagro(oldTarget, false);
-        if (mob instanceof MobEntity) BrainUtils.setAttackTarget(mob, null);
+        BrainUtils.clearAttackTarget(mob);
         mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
         mob.getBrain().removeMemory(MemoryModules.MATE_TARGET);
         mob.getBrain().removeMemory(MemoryModuleType.HURT_BY_ENTITY);

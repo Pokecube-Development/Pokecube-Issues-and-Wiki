@@ -1,3 +1,109 @@
 {
-  "recipes": []
+  "recipes": [
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:gravel"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:cobblestone"
+          }
+        }
+      ],
+      "values": {
+        "moves": "rocksmash,brickbreak",
+        "cost": "50"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:sand"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:gravel"
+          }
+        }
+      ],
+      "values": {
+        "moves": "rocksmash,brickbreak",
+        "cost": "50"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:sand"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:dirt"
+          }
+        }
+      ],
+      "values": {
+        "move": "rototiller",
+        "cost": "50"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:dirt"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:farmland"
+          }
+        }
+      ],
+      "values": {
+        "move": "rototiller",
+        "cost": "50"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:farmland"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:grass_block"
+          }
+        }
+      ],
+      "values": {
+        "move": "rototiller",
+        "cost": "50"
+      }
+    }
+  ]
 }

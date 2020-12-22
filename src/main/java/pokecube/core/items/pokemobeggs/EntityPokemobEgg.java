@@ -170,7 +170,7 @@ public class EntityPokemobEgg extends AgeableEntity
         if (this.delayBeforeCanPickup > 0) return ActionResultType.FAIL;
         final ItemStack itemstack = this.getHeldItemMainhand();
         final int i = itemstack.getCount();
-        if (this.mother != null && this.mother.getOwner() != player) BrainUtils.setAttackTarget(this.mother.getEntity(),
+        if (this.mother != null && this.mother.getOwner() != player) BrainUtils.initiateCombat(this.mother.getEntity(),
                 player);
         if (i <= 0 || player.inventory.addItemStackToInventory(itemstack))
         {

@@ -24,7 +24,7 @@ public class ActionSecretPower implements IMoveAction
     {
         if (attacker.inCombat()) return false;
         if (!(attacker.getOwner() instanceof ServerPlayerEntity)) return false;
-        if (!MoveEventsHandler.canEffectBlock(attacker, location)) return false;
+        if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         // TODO secret base stuff.
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
         if (time + 20 * 3 > attacker.getEntity().getEntityWorld().getGameTime()) return false;

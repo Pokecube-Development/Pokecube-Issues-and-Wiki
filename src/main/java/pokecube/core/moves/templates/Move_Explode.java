@@ -160,7 +160,7 @@ public class Move_Explode extends Move_Basic
         if (!evt.isCanceled())
         {
             final boolean explodeDamage = PokecubeCore.getConfig().explosions;
-            final boolean damagePerms = MoveEventsHandler.canEffectBlock(pokemob, this.v.set(mob));
+            final boolean damagePerms = MoveEventsHandler.canAffectBlock(pokemob, this.v.set(mob), this.getName());
             // If these, we let the explosion handle the damage.
             if (explodeDamage && damagePerms) boom.doExplosion();
             else

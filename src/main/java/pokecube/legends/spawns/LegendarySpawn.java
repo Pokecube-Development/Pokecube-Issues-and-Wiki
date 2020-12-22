@@ -108,8 +108,8 @@ public class LegendarySpawn
         if (!(evt.getEntity().getEntityWorld() instanceof ServerWorld)) return;
 
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (attacked != null && attacked.getOwnerId() == null && evt.getEntity().getPersistentData().contains(
-                "spwnedby:Most"))
+        if (attacked != null && attacked.getOwnerId() == null && evt.getEntity().getPersistentData().hasUniqueId(
+                "spwnedby:"))
         {
             ServerWorld world = (ServerWorld) evt.getEntity().getEntityWorld();
             world = world.getServer().getWorld(World.OVERWORLD);
