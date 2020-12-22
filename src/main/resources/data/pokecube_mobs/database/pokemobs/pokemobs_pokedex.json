@@ -23161,8 +23161,7 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "astonish",
-            "1": "growl",
+            "1": "astonish,growl",
             "3": "absorb",
             "6": "watergun",
             "9": "mist",
@@ -23305,7 +23304,7 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "teeterdance,fakeout,knockoff,flail,mist,megadrain,furyswipes,bubblebeam,naturepower,gigadrain,raindance,zenheadbutt,energyball,hydropump,astonish,growl,absorb,watergun",
+            "1": "teeterdance,fakeout,knockoff,flail,mist,megadrain,furyswipes,bubblebeam,naturepower,gigadrain,raindance,zenheadbutt,energyball,hydropump,astonish,growl,absorb,watergun"
           }
         },
         "misc": {

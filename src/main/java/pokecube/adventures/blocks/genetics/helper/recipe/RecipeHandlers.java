@@ -11,6 +11,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.BookCloningRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
@@ -20,6 +21,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
 import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
@@ -305,5 +308,18 @@ public class RecipeHandlers
         XMLRecipeHandler.recipeParsers.put("cloner", new ClonerRecipeParser());
         XMLRecipeHandler.recipeParsers.put("selector", new SelectorRecipeParser());
         XMLRecipeHandler.recipeParsers.put("dna", new DNARecipeParser());
+        MinecraftForge.EVENT_BUS.addListener(RecipeHandlers::onCrafted);
+    }
+
+    private static void onCrafted(final ItemCraftedEvent event)
+    {
+        if (!(event.getInventory() instanceof CraftingInventory)) return;
+        final CraftingInventory inv = (CraftingInventory) event.getInventory();
+        final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"));
+
+        if (!test.matches(inv, event.getEntity().getEntityWorld())) return;
+        final SelectorValue value = ClonerHelper.getSelectorValue(event.getCrafting());
+        if (value == RecipeSelector.defaultSelector) return;
+        event.getCrafting().getTag().remove(ClonerHelper.SELECTORTAG);
     }
 }
