@@ -15,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.GlobalPos;
@@ -34,12 +35,15 @@ import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.world.gen.surfacebuilders.NoopSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,6 +51,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
@@ -55,13 +60,16 @@ import thut.api.maths.Vector4;
 
 public class SecretBaseDimension
 {
-    public static final DeferredRegister<SurfaceBuilder<?>> REG = DeferredRegister.create(
+    public static final DeferredRegister<SurfaceBuilder<?>> SURFREG = DeferredRegister.create(
             ForgeRegistries.SURFACE_BUILDERS, PokecubeCore.MODID);
 
     public static void onConstruct(final IEventBus bus)
     {
         Registry.register(Registry.CHUNK_GENERATOR_CODEC, "pokecube:secret_base", SecretChunkGenerator.CODEC);
         MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
+        SecretBaseDimension.SURFREG.register(bus);
+        SecretBaseDimension.SURFREG.register("secret_base", () -> new NoopSurfaceBuilder(
+                SurfaceBuilderConfig.field_237203_a_));
     }
 
     public static void sendToBase(final ServerPlayerEntity player, final UUID baseOwner)
@@ -188,20 +196,20 @@ public class SecretBaseDimension
         public void func_230352_b_(final IWorld world, final StructureManager manager, final IChunk chunk)
         {
             final ChunkPos pos = chunk.getPos();
-            final double h = chunk.getHeight();
             final boolean stone = pos.x % 16 == 0 && pos.z % 16 == 0;
-            // if(!stone) return;
             final BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
             BlockState state = Blocks.STONE.getDefaultState();
             final Heightmap heightmap = chunk.getHeightmap(Heightmap.Type.OCEAN_FLOOR_WG);
             final Heightmap heightmap1 = chunk.getHeightmap(Heightmap.Type.WORLD_SURFACE_WG);
             for (int i = 0; i < 16; i++)
-                for (int j = 0; j < h; j++)
-                    for (int k = 0; k < 16; k++)
+                for (int k = 0; k < 16; k++)
+                {
+                    chunk.setBlockState(blockpos$mutableblockpos.setPos(i, 0, k), Blocks.BARRIER.getDefaultState(),
+                            false);
+                    if (stone) for (int j = 57; j < 64; j++)
                     {
                         state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12 ? Blocks.STONE.getDefaultState()
                                 : Blocks.AIR.getDefaultState();
-                        if (!stone || j == 0 || j == h - 1) state = Blocks.BARRIER.getDefaultState();
                         chunk.setBlockState(blockpos$mutableblockpos.setPos(i, j, k), state, false);
                         if (j < 64)
                         {
@@ -209,6 +217,7 @@ public class SecretBaseDimension
                             heightmap1.update(i, j, k, state);
                         }
                     }
+                }
         }
 
         @Override
@@ -236,7 +245,7 @@ public class SecretBaseDimension
 
     @SubscribeEvent
     @OnlyIn(value = Dist.CLIENT)
-    public static void clientTick(final ClientTickEvent event)
+    public static void onClientTick(final ClientTickEvent event)
     {
         final World world = PokecubeCore.proxy.getWorld();
         if (world == null) return;
@@ -245,7 +254,7 @@ public class SecretBaseDimension
     }
 
     @SubscribeEvent
-    public static void worldTick(final WorldTickEvent event)
+    public static void onWorldTick(final WorldTickEvent event)
     {
         final World world = event.world;
         if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(
@@ -253,11 +262,64 @@ public class SecretBaseDimension
     }
 
     @SubscribeEvent
-    public static void worldLoad(final WorldEvent.Load event)
+    public static void onWorldLoad(final WorldEvent.Load event)
     {
         final World world = (World) event.getWorld();
         if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(
                 SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setSize(2999984);
+    }
+
+    @SubscribeEvent
+    public static void onEnterChunk(final EnteringChunk event)
+    {
+        int x = event.getNewChunkX() / 16;
+        int z = event.getNewChunkZ() / 16;
+
+        final int dx = event.getNewChunkX() % 16;
+        final int dz = event.getNewChunkZ() % 16;
+
+        // Middle of base, don't care
+        if (dx == 0 && dz == 0 || event.getEntity().getEntityWorld().isRemote) return;
+
+        if (dx > 0) if (dx < 8) x += 1;
+        if (dx < 0) if (dx < -7) x -= 1;
+
+        if (dz > 0) if (dz < 8) z += 1;
+        if (dz < 0) if (dz < -7) z -= 1;
+
+        final ChunkPos nearestBase = new ChunkPos(x << 4, z << 4);
+
+        // We need to shunt it back to nearest valid point.
+        final AxisAlignedBB chunkBox = SecretBaseDimension.getBaseBox(nearestBase);
+
+        final BlockPos mob = event.getEntity().getPosition();
+
+        double nx = mob.getX();
+        double nz = mob.getZ();
+
+        if (nx <= chunkBox.minX) nx = chunkBox.maxX - 1;
+        if (nx >= chunkBox.maxX) nx = chunkBox.minX + 1;
+        if (nz <= chunkBox.minZ) nz = chunkBox.maxZ - 1;
+        if (nz >= chunkBox.maxZ) nz = chunkBox.minZ + 1;
+
+        final BlockPos newPos = new BlockPos(nx, mob.getY(), nz);
+        final World world = event.getEntity().getEntityWorld();
+
+        final TeleDest dest = new TeleDest().setPos(GlobalPos.getPosition(world.getDimensionKey(), newPos));
+        EventsHandler.Schedule(world, w ->
+        {
+            event.getEntity().setMotion(0, 0, 0);
+            ThutTeleporter.transferTo(event.getEntity(), dest);
+            return true;
+        });
+    }
+
+    private static AxisAlignedBB getBaseBox(final ChunkPos nearestBase)
+    {
+        final BlockPos pos1 = nearestBase.asBlockPos();
+        final BlockPos pos2 = pos1.add(16, 255, 16);
+        final AxisAlignedBB chunkBox = new AxisAlignedBB(pos1, pos2);
+        return chunkBox;
     }
 
     public static List<GlobalPos> getNearestBases(final GlobalPos here, final int baseRadarRange)
