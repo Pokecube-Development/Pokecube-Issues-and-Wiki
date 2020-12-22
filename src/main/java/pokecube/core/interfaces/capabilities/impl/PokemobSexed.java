@@ -28,7 +28,7 @@ import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-public abstract class PokemobSexed extends PokemobStats
+public abstract class PokemobSexed extends PokemobStats implements IBreedingMob
 {
     private final UUID loveCause = null;
 
@@ -156,7 +156,7 @@ public abstract class PokemobSexed extends PokemobStats
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 2;
         mate.setHungerTime(mate.getHungerTime() + hungerValue);
         this.setHungerTime(this.getHungerTime() + hungerValue);
-        mate.resetLoveStatus();
+        male.resetLoveStatus();
         BrainUtils.deagro(this.getEntity());
         BrainUtils.deagro(mate.getEntity());
         this.lay(mate);

@@ -54,12 +54,13 @@ import pokecube.core.utils.TagNames;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.ThutCaps;
+import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 
-public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializable<CompoundNBT>, IPokemob
+public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializable<CompoundNBT>, IPokemob, IBreedingMob
 {
     private final LazyOptional<IPokemob> holder = LazyOptional.of(() -> this);
 

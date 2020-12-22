@@ -20,6 +20,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import thut.api.entity.IBreedingMob;
 
 /**
  * This IAIRunnable is responsible for most of the breeding AI for the
@@ -44,11 +45,14 @@ public class MateTask extends BaseIdleTask
     AgeableEntity mobA = null;
     AgeableEntity mobB = null;
 
+    AgeableEntity entity;
+
     WalkTarget startSpot = null;
 
     public MateTask(final IPokemob mob)
     {
         super(mob, MateTask.mems);
+        this.entity = (AgeableEntity) mob.getEntity();
     }
 
     @Override
@@ -145,7 +149,7 @@ public class MateTask extends BaseIdleTask
         final IPokemob other = CapabilityPokemob.getPokemobFor(this.mate);
         if (other != null) other.setGeneralState(GeneralStates.MATING, true);
         if (this.spawnBabyDelay++ < 100) return;
-        if (other != null) this.pokemob.mateWith(other);
+        if (other instanceof IBreedingMob) this.pokemob.mateWith((IBreedingMob) other);
         this.reset();
         other.resetLoveStatus();
         this.pokemob.resetLoveStatus();
