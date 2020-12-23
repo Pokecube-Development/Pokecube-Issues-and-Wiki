@@ -1,6 +1,7 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
@@ -23,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
@@ -40,8 +42,10 @@ import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipeInput;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.items.ItemFossil;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
@@ -236,6 +240,12 @@ public class RecipeHandlers
             RecipeClone.MATCHERS.add(matcher);
             RecipeClone.MATCHERS.sort((o1, o2) -> o1.priority() - o2.priority());
         }
+
+        @Override
+        public void init()
+        {
+            RecipeClone.MATCHERS.clear();
+        }
     }
 
     public static class SelectorRecipeParser implements IRecipeParser
@@ -254,6 +264,12 @@ public class RecipeHandlers
             final float select = Float.parseFloat(recipe.values.get(RecipeHandlers.SELECTORDESTRUCT));
             final SelectorValue value = new SelectorValue(select, dna);
             RecipeSelector.addSelector(stack, value);
+        }
+
+        @Override
+        public void init()
+        {
+            RecipeSelector.clear();
         }
     }
 
@@ -300,6 +316,24 @@ public class RecipeHandlers
             final String key = stack.getItem().getRegistryName().toString();
             final DNAPack pack = new DNAPack(key, alleles, chance);
             ClonerHelper.registerDNA(pack, stack);
+        }
+
+        @Override
+        public void init()
+        {
+            ClonerHelper.DNAITEMS.clear();
+
+            if (PokecubeAdv.config.autoAddFossilDNA) for (final Entry<String, ItemFossil> fossil : ItemGenerator.fossils
+                    .entrySet())
+            {
+                final String name = fossil.getKey();
+                final ItemStack stack = new ItemStack(fossil.getValue());
+                final SpeciesGene gene = new SpeciesGene();
+                final SpeciesInfo info = gene.getValue();
+                info.entry = Database.getEntry(name);
+                final Alleles genes = new Alleles(gene, gene);
+                ClonerHelper.registerDNA(new DNAPack(name, genes, 1), stack);
+            }
         }
     }
 

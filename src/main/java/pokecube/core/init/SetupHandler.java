@@ -114,7 +114,7 @@ public class SetupHandler
     {
         // Reload this here to initialze anything that needs to be done here.
         PokecubeCore.getConfig().onUpdated();
-        Database.postResourcesLoaded();
+        Database.onLoadComplete();
     }
 
 }

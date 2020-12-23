@@ -34,6 +34,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -287,6 +288,8 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarting);
         // Cleans up some things for when server next starts.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStopped);
+        // Initialises or reloads some datapack dependent values in Database
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onResourcesReloaded);
         // Registers our commands.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCommandRegister);
         // This deals with running the tasks scheduled via
@@ -573,6 +576,11 @@ public class EventsHandler
             final double dt = (System.nanoTime() - time) / 1000000d;
             if (dt > 20) System.err.println("Took " + dt + "ms to save pokecube data");
         }
+    }
+
+    private static void onResourcesReloaded(final AddReloadListenerEvent event)
+    {
+        event.addListener(new Database.ReloadListener());
     }
 
     public static void sendInitInfo(final ServerPlayerEntity player)

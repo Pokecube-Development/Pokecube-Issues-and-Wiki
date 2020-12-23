@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 import javax.xml.namespace.QName;
 
@@ -24,7 +26,10 @@ import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
+import net.minecraft.profiler.IProfiler;
+import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackList;
@@ -48,6 +53,7 @@ import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
+import pokecube.core.database.recipes.IRecipeParser;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipes;
@@ -140,6 +146,37 @@ public class Database
     {
         @XmlElement(name = "Item")
         private final List<Drop> drops = Lists.newArrayList();
+    }
+
+    public static class ReloadListener implements IFutureReloadListener
+    {
+        @Override
+        public final CompletableFuture<Void> reload(final IFutureReloadListener.IStage stage,
+                final IResourceManager resourceManager, final IProfiler preparationsProfiler,
+                final IProfiler reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
+        {
+            return CompletableFuture.supplyAsync(() ->
+            {
+                return this.prepare(resourceManager, preparationsProfiler);
+            }, backgroundExecutor).thenCompose(stage::markCompleteAwaitingOthers).thenAcceptAsync((p_215269_3_) ->
+            {
+                this.apply(p_215269_3_, resourceManager, reloadProfiler);
+            }, gameExecutor);
+        }
+
+        /**
+         * Performs any reloading that can be done off-thread, such as file IO
+         */
+        protected Object prepare(final IResourceManager resourceManagerIn, final IProfiler profilerIn)
+        {
+            return null;
+        }
+
+        protected void apply(final Object objectIn, final IResourceManager resourceManagerIn,
+                final IProfiler profilerIn)
+        {
+            Database.onResourcesReloaded();
+        }
     }
 
     public static List<ItemStack>                          starterPack     = Lists.newArrayList();
@@ -698,13 +735,10 @@ public class Database
         }
     }
 
-    private static boolean recipeDone = false;
-
     public static void loadRecipes()
     {
-        // We only want to do this once.
-        if (Database.recipeDone) return;
-        Database.recipeDone = true;
+        for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values())
+            parser.init();
 
         for (final ResourceLocation name : XMLRecipeHandler.recipeFiles)
             try
@@ -731,14 +765,14 @@ public class Database
         if (XMLRewardsHandler.loadedRecipes.add(input)) Database.loadRewards(new StringReader(input));
     }
 
-    public static void loadRewards(final Reader reader)
+    private static void loadRewards(final Reader reader)
     {
         final XMLRewards database = PokedexEntryLoader.gson.fromJson(reader, XMLRewards.class);
         for (final XMLReward drop : database.recipes)
             XMLRewardsHandler.addReward(drop);
     }
 
-    public static void loadRewards()
+    private static void loadRewards()
     {
         for (final ResourceLocation name : XMLRewardsHandler.recipeFiles)
             try
@@ -844,22 +878,23 @@ public class Database
         toRemove.clear();
     }
 
-    public static void postServerLoaded()
+    public static void onResourcesReloaded()
     {
+        PokedexInspector.rewards.clear();
+        XMLRewardsHandler.loadedRecipes.clear();
+        Database.loadStarterPack();
+        Database.loadRecipes();
+        Database.loadRewards();
         for (final PokedexEntry entry : Database.getSortedFormes())
-            entry.postServerLoad();
+            entry.onResourcesReloaded();
     }
 
     /**
      * Loads in spawns, drops, held items and starter packs, as well as
      * initializing things like children, evolutions, etc
      */
-    public static void postResourcesLoaded()
+    public static void onLoadComplete()
     {
-        Database.loadStarterPack();
-        Database.loadRecipes();
-        PokedexInspector.init();
-
         // Process custom forme models, etc
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
@@ -896,8 +931,6 @@ public class Database
         // Children last, as relies on relations.
         for (final PokedexEntry p : Database.allFormes)
             p.getChild();
-
-        Database.postServerLoaded();
     }
 
     public static Set<IResourcePack> customPacks = Sets.newHashSet();

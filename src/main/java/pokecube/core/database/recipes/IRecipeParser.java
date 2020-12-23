@@ -5,19 +5,25 @@ import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
 
 public interface IRecipeParser
 {
-    default XMLRecipe deserialize(String recipe)
+    default XMLRecipe deserialize(final String recipe)
     {
         return PokedexEntryLoader.gson.fromJson(recipe, XMLRecipe.class);
     }
 
-    default String fileName(String default_)
+    default String fileName(final String default_)
     {
         return default_;
     }
 
+    /**
+     * This is called before loading in recipes, to allow clearing old values,
+     * etc
+     */
+    void init();
+
     void manageRecipe(XMLRecipe recipe) throws NullPointerException;
 
-    default String serialize(XMLRecipe recipe)
+    default String serialize(final XMLRecipe recipe)
     {
         return PokedexEntryLoader.gson.toJson(recipe);
     }

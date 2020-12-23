@@ -39,8 +39,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     public static class WrappedRecipeMove implements IMoveAction
     {
-        public final IMoveAction parent;
-        public final IMoveAction other;
+        public IMoveAction parent;
+        public IMoveAction other;
 
         public WrappedRecipeMove(final IMoveAction parent, final IMoveAction other)
         {
@@ -233,10 +233,25 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         else
         {
             IMoveAction action = new RecipeMove(recipe);
-            if (MoveEventsHandler.customActions.containsKey(action.getMoveName())) action = new WrappedRecipeMove(
-                    MoveEventsHandler.customActions.get(action.getMoveName()), action);
+            if (MoveEventsHandler.customActions.containsKey(action.getMoveName()))
+            {
+                final IMoveAction prev = MoveEventsHandler.customActions.get(action.getMoveName());
+                if (prev instanceof WrappedRecipeMove)
+                {
+                    final WrappedRecipeMove edit = (WrappedRecipeMove) prev;
+                    edit.other = action;
+                    action = prev;
+                }
+                else action = new WrappedRecipeMove(MoveEventsHandler.customActions.get(action.getMoveName()), action);
+            }
             MoveEventsHandler.customActions.put(action.getMoveName(), action);
         }
+    }
+
+    @Override
+    public void init()
+    {
+        RecipeMove.ALLRECIPES.clear();
     }
 
 }

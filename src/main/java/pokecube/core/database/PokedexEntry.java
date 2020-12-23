@@ -1093,7 +1093,7 @@ public class PokedexEntry
      * Applies various things which needed server to be initialized, such as
      * interactions for tag lists, etc
      */
-    public void postServerLoad()
+    public void onResourcesReloaded()
     {
         this.formeItems.clear();
         this.megaRules.clear();
@@ -1883,6 +1883,7 @@ public class PokedexEntry
     {
         if (newStack.isEmpty() && oldStack.isEmpty()) return;
         PokedexEntry newForme = null;
+        System.out.println(this.formeItems);
         if (this.formeItems.isEmpty() && this.getBaseForme() != null) for (final PokedexEntry entry : this
                 .getBaseForme().formeItems.values())
             if (entry == this)
