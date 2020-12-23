@@ -1789,7 +1789,7 @@ public class PokedexEntry
         for (final EvolutionData d : this.evolutions)
             if (!Pokedex.getInstance().isRegistered(d.evolution)) stale.add(d);
         this.evolutions.removeAll(stale);
-        if (!stale.isEmpty()) System.out.println(stale.size() + " stales for " + this);
+        if (!stale.isEmpty()) PokecubeCore.LOGGER.debug(stale.size() + " stales for " + this);
         this.addRelation(this);
         for (final EvolutionData d : this.evolutions)
         {
@@ -1883,7 +1883,6 @@ public class PokedexEntry
     {
         if (newStack.isEmpty() && oldStack.isEmpty()) return;
         PokedexEntry newForme = null;
-        System.out.println(this.formeItems);
         if (this.formeItems.isEmpty() && this.getBaseForme() != null) for (final PokedexEntry entry : this
                 .getBaseForme().formeItems.values())
             if (entry == this)

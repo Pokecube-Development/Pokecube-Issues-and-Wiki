@@ -70,6 +70,9 @@ public class Compat implements IModPlugin
     @Override
     public void registerRecipes(final IRecipeRegistration registration)
     {
+        // Run this first so that things are loaded for dedicated servers.
+        Database.onResourcesReloaded();
+
         registration.addRecipes(pokecube.compat.jei.categories.cloner.Wrapper.getWrapped(), PokecubeAdv.CLONER
                 .getRegistryName());
         final List<Evolution> evos = Lists.newArrayList();

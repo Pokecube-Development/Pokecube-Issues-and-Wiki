@@ -56,6 +56,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
@@ -290,6 +291,8 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStopped);
         // Initialises or reloads some datapack dependent values in Database
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onResourcesReloaded);
+        // This does similar to the above, but on dedicated servers only.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarted);
         // Registers our commands.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCommandRegister);
         // This deals with running the tasks scheduled via
@@ -576,6 +579,11 @@ public class EventsHandler
             final double dt = (System.nanoTime() - time) / 1000000d;
             if (dt > 20) System.err.println("Took " + dt + "ms to save pokecube data");
         }
+    }
+
+    private static void onServerStarted(final FMLServerStartedEvent event)
+    {
+        if (event.getServer().isDedicatedServer()) Database.onResourcesReloaded();
     }
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)

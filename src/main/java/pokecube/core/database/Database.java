@@ -158,9 +158,9 @@ public class Database
             return CompletableFuture.supplyAsync(() ->
             {
                 return this.prepare(resourceManager, preparationsProfiler);
-            }, backgroundExecutor).thenCompose(stage::markCompleteAwaitingOthers).thenAcceptAsync((p_215269_3_) ->
+            }, backgroundExecutor).thenCompose(stage::markCompleteAwaitingOthers).thenAcceptAsync((object) ->
             {
-                this.apply(p_215269_3_, resourceManager, reloadProfiler);
+                this.apply(object, resourceManager, reloadProfiler);
             }, gameExecutor);
         }
 
