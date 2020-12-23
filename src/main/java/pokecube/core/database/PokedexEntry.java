@@ -1047,7 +1047,7 @@ public class PokedexEntry
     protected PokeType type2;
 
     @CopyToGender
-    protected EntityType<?> entity_type;
+    public EntityType<?> entity_type;
 
     // This is the actual size of the model, if not null, will be used for
     // scaling of rendering in guis, order is length, height, width

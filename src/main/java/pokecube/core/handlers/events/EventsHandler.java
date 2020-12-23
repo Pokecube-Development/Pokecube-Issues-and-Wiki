@@ -55,7 +55,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
@@ -286,8 +285,6 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandler::onServerAboutToStart);
         // Does some debug output in pokecube tags if enabled.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarting);
-        // Tells Database to do some final cleanup for pokedex entries.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarted);
         // Cleans up some things for when server next starts.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStopped);
         // Registers our commands.
@@ -498,11 +495,6 @@ public class EventsHandler
     {
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
-    }
-
-    private static void onServerStarted(final FMLServerStartedEvent event)
-    {
-        Database.postServerLoaded();
     }
 
     private static void onServerStopped(final FMLServerStoppedEvent event)

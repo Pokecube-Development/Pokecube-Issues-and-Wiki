@@ -896,6 +896,8 @@ public class Database
         // Children last, as relies on relations.
         for (final PokedexEntry p : Database.allFormes)
             p.getChild();
+
+        Database.postServerLoaded();
     }
 
     public static Set<IResourcePack> customPacks = Sets.newHashSet();
