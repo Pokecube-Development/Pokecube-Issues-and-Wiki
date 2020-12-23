@@ -111,6 +111,9 @@ repositories {
         name 'LDTTeam - Modding'
         url 'https://ldtteam.jfrog.io/ldtteam/modding/'
     }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
@@ -145,6 +148,9 @@ dependencies {
     implementation fg.deobf("libs:AdvancedRocketry-1.16.3-1.7.1-api")
     implementation fg.deobf("libs:LibVulpes-1.16.3-1.0.1-api")
 
+    // Curios - Wearables Support
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
 }
 
 jar {
