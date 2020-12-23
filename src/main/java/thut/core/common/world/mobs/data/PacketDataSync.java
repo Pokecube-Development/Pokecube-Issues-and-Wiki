@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
@@ -70,9 +71,10 @@ public class PacketDataSync extends Packet
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        final World world = Minecraft.getInstance().world;
+        final World world = net.minecraft.client.Minecraft.getInstance().world;
         final Entity mob = world.getEntityByID(this.id);
         if (mob == null) return;
         final DataSync sync = SyncHandler.getData(mob);
