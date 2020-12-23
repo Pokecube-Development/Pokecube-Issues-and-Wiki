@@ -10,16 +10,21 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.ai.tasks.utility.GatherTask.ReplantTask;
+import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
+import thut.api.maths.Vector3;
 
 public class EatRock extends EatBlockBase
 {
     private static final ResourceLocation ORE = new ResourceLocation("forge", "ores");
+
+    private static final ResourceLocation COBBLE = new ResourceLocation("forge", "cobblestone");
 
     private static final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isRock(b2);
 
@@ -41,6 +46,7 @@ public class EatRock extends EatBlockBase
 
         final List<ItemStack> list = Block.getDrops(current, world, block.getPos(), null);
         if (list.isEmpty()) return EatResult.NOEAT;
+
         final ItemStack first = list.get(0);
         final boolean isOre = ItemList.is(EatRock.ORE, first);
         pokemob.eat(first);
@@ -48,6 +54,7 @@ public class EatRock extends EatBlockBase
         if (first.isEmpty()) list.remove(0);
         if (isOre) list.add(0, new ItemStack(Blocks.COBBLESTONE));
         boolean replanted = false;
+
         // See if anything dropped was a seed for the thing we
         // picked.
         for (final ItemStack stack : list)
@@ -55,6 +62,18 @@ public class EatRock extends EatBlockBase
             // If so, Replant it.
             if (!replanted) replanted = new ReplantTask(stack, current, block.getPos(), true).run(world);
             new InventoryChange(entity, 2, stack, true).run(world);
+        }
+
+        if (PokecubeCore.getConfig().pokemobsEatRocks)
+        {
+            BlockState drop = Blocks.COBBLESTONE.getDefaultState();
+            if (ItemList.is(EatRock.COBBLE, current)) drop = Blocks.GRAVEL.getDefaultState();
+            if (PokecubeCore.getConfig().pokemobsEatGravel && drop.getBlock() == Blocks.GRAVEL) drop = Blocks.AIR
+                    .getDefaultState();
+            // If we are allowed to, we remove the eaten block
+            final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, Vector3.getNewVector().set(block.getPos()),
+                    "nom_nom_nom", false, false);
+            if (canEat) world.setBlockState(block.getPos(), drop);
         }
         return EatResult.EATEN;
     }

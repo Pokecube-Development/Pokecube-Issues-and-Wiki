@@ -7,14 +7,18 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.ai.tasks.utility.GatherTask.ReplantTask;
+import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.maths.Vector3;
 
 public class EatPlant extends EatBlockBase
 {
@@ -44,6 +48,7 @@ public class EatPlant extends EatBlockBase
 
         List<ItemStack> list = Block.getDrops(current, world, block.getPos(), null);
         if (list.isEmpty()) return EatResult.NOEAT;
+
         // Copy the list incase the original was immutable.
         list = Lists.newArrayList(list);
         final ItemStack first = list.get(0);
@@ -58,6 +63,14 @@ public class EatPlant extends EatBlockBase
             // If so, Replant it.
             if (!replanted) replanted = new ReplantTask(stack, current, block.getPos(), true).run(world);
             new InventoryChange(entity, 2, stack, true).run(world);
+        }
+
+        if (PokecubeCore.getConfig().pokemobsEatPlants)
+        {
+            // If we are allowed to, we remove the eaten block
+            final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, Vector3.getNewVector().set(block.getPos()),
+                    "nom_nom_nom", false, false);
+            if (canEat) world.setBlockState(block.getPos(), Blocks.AIR.getDefaultState());
         }
         return EatResult.EATEN;
     }
