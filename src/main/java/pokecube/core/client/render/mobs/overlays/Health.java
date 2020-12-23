@@ -51,16 +51,23 @@ public class Health
     private static final RenderType TYPE       = RenderType.getText(Resources.GUI_BATTLE);
     private static final RenderType BACKGROUND = RenderType.getTextSeeThrough(Resources.GUI_BATTLE);
 
-    public static boolean obfuscateName(final IPokemob pokemob)
+    public static boolean fullNameColour(final IPokemob pokemob)
     {
-        boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
-        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
-                .getData(PokecubePlayerStats.class);
-        PokedexEntry name_entry = pokemob.getPokedexEntry();
-        if (name_entry.isMega || name_entry.isGenderForme) name_entry = name_entry.getBaseForme();
+        final boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
+        // Always full name if owned
+        if (nametag) return true;
+        final PokedexEntry name_entry = pokemob.getPokedexEntry();
         final boolean captureOrHatch = StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
                 || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
-        nametag = nametag || captureOrHatch || stats.hasInspected(pokemob.getPokedexEntry());
+        return captureOrHatch;
+    }
+
+    public static boolean obfuscateName(final IPokemob pokemob)
+    {
+        boolean nametag = Health.fullNameColour(pokemob);
+        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
+                .getData(PokecubePlayerStats.class);
+        nametag = nametag || stats.hasInspected(pokemob.getPokedexEntry());
         return !nametag;
     }
 
@@ -152,8 +159,8 @@ public class Health
             g = color.getGreen();
             b = color.getBlue();
             IFormattableTextComponent nameComp = (IFormattableTextComponent) pokemob.getDisplayName();
-            final boolean nametag = !Health.obfuscateName(pokemob);
-            if (!nametag) nameComp.setStyle(nameComp.getStyle().setObfuscated(true));
+            final boolean obfuscated = Health.obfuscateName(pokemob);
+            if (obfuscated) nameComp.setStyle(nameComp.getStyle().setObfuscated(true));
             if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName())
                 nameComp = (IFormattableTextComponent) ((MobEntity) entity).getCustomName();
             final float s = 0.5F;
@@ -212,13 +219,13 @@ public class Health
             mat.scale(s, s, s);
 
             final UUID owner = pokemob.getOwnerId();
-            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
-                    .getInstance().player).getData(PokecubePlayerStats.class);
             final boolean isOwner = viewerID.equals(owner);
-            final boolean scanned = stats.hasInspected(pokemob.getPokedexEntry());
-            int colour = isOwner ? config.ownedNameColour
-                    : owner == null ? nametag ? scanned ? config.scannedNameColour : config.caughtNamedColour
-                            : config.unknownNameColour : config.otherOwnedNameColour;
+            final boolean fullColour = Health.fullNameColour(pokemob) && !isOwner;
+            int colour = config.unknownNameColour;
+
+            if (fullColour) colour = owner != null ? config.otherOwnedNameColour : config.caughtNamedColour;
+            else if (isOwner) colour = config.ownedNameColour;
+            else if (!obfuscated) colour = config.scannedNameColour;
 
             mat.push();
             float s1 = 0.75F;
