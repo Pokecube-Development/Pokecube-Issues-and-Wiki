@@ -737,8 +737,8 @@ public class PokedexEntry
 
     public static TimePeriod dawn  = new TimePeriod(0.85, 0.05);
     public static TimePeriod day   = new TimePeriod(0.0, 0.5);
-    public static TimePeriod dusk  = new TimePeriod(0.45, 0.65);
-    public static TimePeriod night = new TimePeriod(0.6, 0.9);
+    public static TimePeriod dusk  = new TimePeriod(0.45, 0.6);
+    public static TimePeriod night = new TimePeriod(0.6, 0.85);
 
     private static final PokedexEntry BLANK = new PokedexEntry(true);
 
