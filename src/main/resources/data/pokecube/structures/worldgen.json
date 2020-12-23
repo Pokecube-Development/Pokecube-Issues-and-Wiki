@@ -149,6 +149,7 @@
       "biomeType":"ruin",
       "distance":16,
       "separation":4,
+      "priority":10000,
       "spawn":{
         "values":{
           "types":"all",
