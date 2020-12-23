@@ -33,7 +33,6 @@ public class Config extends ConfigData
     public void onUpdated()
     {
         // Nothing to do, as the gui just directly uses the list.
-        System.out.println(buttonPos);
     }
 
 }
