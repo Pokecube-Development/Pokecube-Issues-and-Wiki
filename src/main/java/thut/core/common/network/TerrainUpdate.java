@@ -1,12 +1,13 @@
 package thut.core.common.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.ThutCaps;
 import thut.api.terrain.CapabilityTerrain.ITerrainProvider;
 import thut.core.common.ThutCore;
@@ -44,9 +45,10 @@ public class TerrainUpdate extends NBTPacket
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
-        final World world = Minecraft.getInstance().world;
+        final World world = net.minecraft.client.Minecraft.getInstance().world;
         final CompoundNBT nbt = this.tag;
         final Chunk chunk = world.getChunk(nbt.getInt("c_x"), nbt.getInt("c_z"));
         final ITerrainProvider terrain = chunk.getCapability(ThutCaps.TERRAIN_CAP, null).orElse(null);

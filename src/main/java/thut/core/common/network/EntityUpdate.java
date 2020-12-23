@@ -1,10 +1,11 @@
 package thut.core.common.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.core.common.ThutCore;
 
 public class EntityUpdate extends NBTPacket
@@ -50,10 +51,11 @@ public class EntityUpdate extends NBTPacket
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
         final int id = this.getTag().getInt("id");
-        final World world = Minecraft.getInstance().world;
+        final World world = net.minecraft.client.Minecraft.getInstance().world;
         final Entity mob = world.getEntityByID(id);
         if (mob != null)
         {
