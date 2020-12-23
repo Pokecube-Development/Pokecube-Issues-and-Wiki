@@ -10,7 +10,7 @@ import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.mobs.moves.world.ActionTeleport;
 
-public class Mew extends Condition
+public class Mew extends AbstractCondition
 {
     @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)

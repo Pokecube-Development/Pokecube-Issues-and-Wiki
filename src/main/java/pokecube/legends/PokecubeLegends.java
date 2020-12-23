@@ -100,7 +100,6 @@ public class PokecubeLegends
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.SAPPHIRE_ORE.get()
                                         .getDefaultState(), 5)).range(32).square().func_242731_b(2));
             }
-
             Trees.register();
         }
 

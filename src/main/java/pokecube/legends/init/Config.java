@@ -1,5 +1,15 @@
 package pokecube.legends.init;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.LegendaryConditions;
 import thut.core.common.config.Config.ConfigData;
@@ -9,7 +19,11 @@ public class Config extends ConfigData
 {
     // Enabla Condition Legendary
     @Configure(category = "general")
-    public boolean enabledcondition      = true;
+    public boolean enabledcondition = true;
+
+    @Configure(category = "general", comment = "If true, temples cannot be defiled by players.")
+    public boolean protectTemples = true;
+
     @Configure(category = "general")
     public boolean singleUseLegendSpawns = false;
     @Configure(category = "general")
@@ -45,8 +59,13 @@ public class Config extends ConfigData
     @Configure(category = "distortic")
     public int mirrorCooldown = 800;
 
-    private final LegendaryConditions conditions      = new LegendaryConditions();
-    private boolean                   conditionsReged = false;
+    private final LegendaryConditions conditions = new LegendaryConditions();
+
+    private boolean conditionsReged = false;
+
+    public final Set<String> PROTECTED_STRUCTURES = Sets.newHashSet();
+
+    public final Map<String, List<PokedexEntry>> STRUCTURE_ENTRIES = Maps.newHashMap();
 
     public boolean loaded = false;
 
@@ -65,9 +84,69 @@ public class Config extends ConfigData
             this.conditionsReged = true;
         }
 
-        if (this.enabledkeyusecombustible == true) if (this.itemCombustiveStack <= 1 || this.itemCombustiveStack >= 10)
+        final List<String> temples = Lists.newArrayList(
+        //@formatter:off
+            "pokecube_legends:regice_temple->regice",
+            "pokecube_legends:regirock_temple->regirock",
+            "pokecube_legends:registeel_temple->registeel",
+            "pokecube_legends:regidrago_temple->regidrago",
+            "pokecube_legends:regieleki_temple->regieleki",
+            "pokecube_legends:regigigas_temple->regigigas",
+            "pokecube_legends:celebi_temple",
+            "pokecube_legends:lugia_tower",
+            "pokecube_legends:hooh_tower",
+            "pokecube_legends:zacian_temple",
+            "pokecube_legends:zamazenta_temple",
+            "pokecube_legends:space_temple",
+            "pokecube_legends:groudon_temple",
+            "pokecube_legends:kyogre_temple",
+            "pokecube_legends:sky_pillar",
+            "pokecube_legends:kubfu_dark",
+            "pokecube_legends:kubfu_water",
+            "pokecube_legends:keldeo_place",
+            "pokecube_legends:nature_place",
+            "pokecube_legends:legendy_tree",
+            "pokecube_legends:xerneas_place",
+            "pokecube_legends:yveltal_place"
+        //@formatter:on
+        );
+
+        // Some hardcoded values here for now
+        this.PROTECTED_STRUCTURES.clear();
+        this.STRUCTURE_ENTRIES.clear();
+
+        temples.forEach(s ->
+        {
+            if (!s.contains("->")) this.PROTECTED_STRUCTURES.add(s);
+            else
+            {
+                String[] args = s.split("->");
+                if (args.length != 2) return;
+                final String key = args[0];
+                final String value = args[1];
+                this.PROTECTED_STRUCTURES.add(key);
+                final List<PokedexEntry> entries = Lists.newArrayList();
+                if (value.contains(","))
+                {
+                    args = value.split(",");
+                    for (final String val : args)
+                    {
+                        final PokedexEntry entry = Database.getEntry(val);
+                        if (entry != null) entries.add(entry);
+                    }
+                }
+                else
+                {
+                    final PokedexEntry entry = Database.getEntry(value);
+                    if (entry != null) entries.add(entry);
+                }
+                this.STRUCTURE_ENTRIES.put(key, entries);
+            }
+        });
+
+        if (this.enabledkeyusecombustible == true) if (this.itemCombustiveStack <= 1 || this.itemCombustiveStack >= 30)
             this.itemCombustiveStack = 5;
 
-        if (this.mirrorCooldown <= 300 || this.mirrorCooldown >= 2000) this.mirrorCooldown = 800;
+        if (this.mirrorCooldown <= 300) this.mirrorCooldown = 800;
     }
 }

@@ -296,6 +296,10 @@ public class SecretBaseDimension
     @SubscribeEvent
     public static void onEnterChunk(final EnteringChunk event)
     {
+        final World world = event.getEntity().getEntityWorld();
+        // Only wrap in secret bases.
+        if (world.getDimensionKey() != SecretBaseDimension.WORLD_KEY) return;
+
         int x = event.getNewChunkX() / 16;
         int z = event.getNewChunkZ() / 16;
 
@@ -327,7 +331,6 @@ public class SecretBaseDimension
         if (nz >= chunkBox.maxZ) nz = chunkBox.minZ + 1;
 
         final BlockPos newPos = new BlockPos(nx, mob.getY(), nz);
-        final World world = event.getEntity().getEntityWorld();
 
         final TeleDest dest = new TeleDest().setPos(GlobalPos.getPosition(world.getDimensionKey(), newPos));
         EventsHandler.Schedule(world, w ->

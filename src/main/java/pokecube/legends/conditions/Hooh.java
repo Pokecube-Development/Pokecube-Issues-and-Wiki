@@ -4,14 +4,13 @@ import net.minecraft.entity.Entity;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
-import pokecube.core.interfaces.IPokemob;
 
-public class Hooh extends Condition
+public class Hooh extends AbstractCondition
 {
     @Override
-    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final boolean message)
     {
-        if (!super.canCapture(trainer, pokemon)) return false;
+        if (!super.canCapture(trainer, message)) return false;
         final boolean raikou = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
                 "raikou")) > 0;
         final boolean suicune = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
@@ -22,7 +21,7 @@ public class Hooh extends Condition
         final String name = "Raikou, Suicune, Entei";
 
         if (raikou && entei && suicune) return true;
-        if (pokemon != null && !trainer.getEntityWorld().isRemote)
+        if (!trainer.getEntityWorld().isRemote && message)
         {
             this.sendNoTrust(trainer);
             this.sendLegendExtra(trainer, name);

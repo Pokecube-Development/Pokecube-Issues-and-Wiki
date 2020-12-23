@@ -1,9 +1,14 @@
 package pokecube.legends.conditions;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -29,7 +34,7 @@ import pokecube.legends.PokecubeLegends;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
-public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpawnCondition
+public abstract class AbstractCondition implements ISpecialCaptureCondition, ISpecialSpawnCondition
 {
 
     protected static boolean isBlock(final World world, final ArrayList<Vector3> blocks, final Block toTest)
@@ -69,7 +74,43 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         return ret;
     }
 
+    private final List<Predicate<BlockState>> relevantBlocks = Lists.newArrayList();
+
+    public boolean isRelevant(final BlockState state)
+    {
+        for (final Predicate<BlockState> check : this.relevantBlocks)
+            if (check.test(state)) return true;
+        return false;
+    }
+
+    protected void setRelevant(final Object block)
+    {
+        if (block instanceof Block) this.setRelevant((Block) block);
+        if (block instanceof BlockState) this.setRelevant((BlockState) block);
+        if (block instanceof ResourceLocation) this.setRelevant(b -> ItemList.is((ResourceLocation) block, b));
+    }
+
+    protected void setRelevant(final BlockState state)
+    {
+        this.setRelevant(b -> b == state);
+    }
+
+    protected void setRelevant(final Predicate<BlockState> checker)
+    {
+        this.relevantBlocks.add(checker);
+    }
+
+    protected void setRelevant(final Block block)
+    {
+        this.setRelevant(b -> b.getBlock() == block);
+    }
+
     public abstract PokedexEntry getEntry();
+
+    public boolean canCapture(final Entity trainer, final boolean message)
+    {
+        return this.canCapture(trainer);
+    }
 
     @Override
     public boolean canCapture(final Entity trainer)
@@ -187,8 +228,8 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
                 type)));
         final ITextComponent killMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 kill)));
-        trainer.sendMessage(new TranslationTextComponent(message, typeMess, killMess, numA + 1, numB, killa + 1,
-                killb), Util.DUMMY_UUID);
+        trainer.sendMessage(new TranslationTextComponent(message, typeMess, killMess, numA + 1, numB, killa + 1, killb),
+                Util.DUMMY_UUID);
     }
 
     // Catch specific Legend
@@ -202,8 +243,7 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
             PokedexEntry entry = Database.getEntry(s);
             if (entry == null) entry = Database.missingno;
             if (namemes == null) namemes = new TranslationTextComponent(entry.getUnlocalizedName());
-            else namemes = namemes.appendString(", ").append(new TranslationTextComponent(entry
-                    .getUnlocalizedName()));
+            else namemes = namemes.appendString(", ").append(new TranslationTextComponent(entry.getUnlocalizedName()));
         }
         trainer.sendMessage(new TranslationTextComponent(message, namemes), Util.DUMMY_UUID);
     }
