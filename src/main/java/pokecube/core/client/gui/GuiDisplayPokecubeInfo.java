@@ -23,6 +23,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,6 +37,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
@@ -275,8 +277,12 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
-            if (this.fontRenderer.getStringWidth(displayName) > 70) displayName = this.fontRenderer.trimStringToWidth(
-                    new StringTextComponent(displayName), 70).get(0).toString();
+            if (this.fontRenderer.getStringWidth(displayName) > 70)
+            {
+                final List<IFormattableTextComponent> list = ListHelper.splitText(new StringTextComponent(displayName), 70,
+                        this.fontRenderer, true);
+                displayName = list.get(0).getString();
+            }
             this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 

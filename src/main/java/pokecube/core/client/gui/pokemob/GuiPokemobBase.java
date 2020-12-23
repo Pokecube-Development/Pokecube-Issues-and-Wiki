@@ -160,7 +160,13 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         if (this.name.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.name.setFocused(false);
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
-            this.container.pokemob.setPokemonNickname(this.name.getText());
+            String var = this.name.getText();
+            if (var.length() > 20)
+            {
+                var = var.substring(0, 20);
+                this.name.setText(var);
+            }
+            this.container.pokemob.setPokemonNickname(var);
             return true;
         }
         else if (keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
@@ -177,7 +183,8 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         this.blit(mat, k, l, 0, 0, this.xSize, this.ySize);
         if (this.container.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.ySize, 90, 18);
         this.blit(mat, k + 7, l + 35, 0, this.ySize + 54, 18, 18);
-        if (this.container.pokemob != null) GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
+        if (this.container.pokemob != null) GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0,
+                0, 1);
     }
 
     /**
