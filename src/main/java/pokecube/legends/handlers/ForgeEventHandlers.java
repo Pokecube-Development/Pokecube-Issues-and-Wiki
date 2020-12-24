@@ -32,12 +32,15 @@ import pokecube.core.handlers.events.EventsHandler;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.init.BlockInit;
+import thut.api.item.ItemList;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
 
 public class ForgeEventHandlers
 {
     private static final ResourceLocation ZMOVECAP = new ResourceLocation("pokecube_legends:zmove_check");
+
+    private static final ResourceLocation WHILTELISTED = new ResourceLocation("pokecube_legends:arceus_approved");
 
     /*
      * @SubscribeEvent
@@ -53,8 +56,12 @@ public class ForgeEventHandlers
      */
 
     private boolean protectTemple(@Nullable final ServerPlayerEntity player, @Nonnull final ServerWorld world,
-            final BlockPos pos)
+            @Nullable final BlockState newState, final BlockPos pos)
     {
+        final BlockState state = world.getBlockState(pos);
+        System.out.println(state+" "+newState);
+        if (ItemList.is(ForgeEventHandlers.WHILTELISTED, state)) return false;
+        if (newState != null && ItemList.is(ForgeEventHandlers.WHILTELISTED, newState)) return false;
         final Set<StructureInfo> set = StructureManager.getFor(world.getDimensionKey(), pos);
         for (final StructureInfo info : set)
         {
@@ -69,7 +76,6 @@ public class ForgeEventHandlers
                 if (valid == null) return true;
 
                 boolean canEdit = false;
-                final BlockState state = world.getBlockState(pos);
                 for (final PokedexEntry entry : valid)
                 {
                     final ISpecialCaptureCondition capt = SpecialCaseRegister.getCaptureCondition(entry);
@@ -101,7 +107,7 @@ public class ForgeEventHandlers
         final List<BlockPos> toRemove = Lists.newArrayList();
         {
             for (final BlockPos pos : evt.getAffectedBlocks())
-                if (this.protectTemple(null, (ServerWorld) evt.getWorld(), pos)) toRemove.add(pos);
+                if (this.protectTemple(null, (ServerWorld) evt.getWorld(), null, pos)) toRemove.add(pos);
         }
         evt.getAffectedBlocks().removeAll(toRemove);
     }
@@ -113,7 +119,7 @@ public class ForgeEventHandlers
 
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getEntity();
         final ServerWorld world = (ServerWorld) player.getEntityWorld();
-        if (this.protectTemple(player, world, evt.getPos()))
+        if (this.protectTemple(player, world, evt.getPlacedBlock(), evt.getPos()))
         {
             evt.setCanceled(true);
             player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.DUMMY_UUID);
@@ -127,7 +133,7 @@ public class ForgeEventHandlers
 
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final ServerWorld world = (ServerWorld) player.getEntityWorld();
-        if (this.protectTemple(player, world, evt.getPos()))
+        if (this.protectTemple(player, world, null, evt.getPos()))
         {
             evt.setCanceled(true);
             player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.DUMMY_UUID);
