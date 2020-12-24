@@ -179,7 +179,7 @@ public class PokecubeCore
                 // Currently this uses same settings as gold ore.
                 WorldgenHandler.get(PokecubeCore.MODID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
                         Feature.ORE.withConfiguration(new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, PokecubeItems.FOSSILSTONE
+                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, PokecubeItems.FOSSILSTONE.get()
                                         .getDefaultState(), 9)).range(32).square().func_242731_b(2));
             }
 
@@ -426,6 +426,10 @@ public class PokecubeCore
         PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, MobLoader::registerDatabases);
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        PokecubeItems.ITEMS.register(bus);
+        PokecubeItems.BLOCKS.register(bus);
+        PokecubeItems.TILES.register(bus);
 
         // Register imc comms sender
         bus.addListener(this::enqueueIMC);

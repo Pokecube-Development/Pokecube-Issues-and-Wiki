@@ -45,7 +45,6 @@ import net.minecraft.entity.ai.brain.task.ShowWaresTask;
 import net.minecraft.entity.ai.brain.task.SleepAtHomeTask;
 import net.minecraft.entity.ai.brain.task.SpawnGolemTask;
 import net.minecraft.entity.ai.brain.task.StayNearPointTask;
-import net.minecraft.entity.ai.brain.task.SwimTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.ai.brain.task.TradeTask;
 import net.minecraft.entity.ai.brain.task.UpdateActivityTask;
@@ -66,6 +65,7 @@ import pokecube.core.ai.tasks.BlankTask;
 import pokecube.core.ai.tasks.LookAtMob;
 import pokecube.core.ai.tasks.LookAtTask;
 import pokecube.core.ai.tasks.RunAway;
+import pokecube.core.ai.tasks.SwimTask;
 
 public class Tasks
 {
@@ -107,7 +107,6 @@ public class Tasks
                 Pair.of(0, new BeginRaidTask()),
                 Pair.of(1, new WalkToTargetTask()),
                 Pair.of(2, new TradeTask(speed)),
-               // Pair.of(5, new PickupFoodTask()), TODO decide on if we want to do this?
                 Pair.of(10, new GatherPOITask(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),
                 Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte)14))),
                 Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte)14))),

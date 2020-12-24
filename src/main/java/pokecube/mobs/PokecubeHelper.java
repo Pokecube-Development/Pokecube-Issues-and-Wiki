@@ -23,6 +23,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.PokeType;
+import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
 
 public class PokecubeHelper
@@ -88,8 +89,8 @@ public class PokecubeHelper
         final MobEntity entity = mob.getEntity();
         final LivingEntity target = BrainUtils.getAttackTarget(entity);
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
-        if (targetMob == null || !(target instanceof AnimalEntity)) return 1;
-        if (mob.canMate((AnimalEntity) target)) return 8;
+        if (targetMob == null || !(target instanceof AnimalEntity) || !(mob instanceof IBreedingMob)) return 1;
+        if (((IBreedingMob) mob).canMate((AnimalEntity) target)) return 8;
         return 1;
     }
 

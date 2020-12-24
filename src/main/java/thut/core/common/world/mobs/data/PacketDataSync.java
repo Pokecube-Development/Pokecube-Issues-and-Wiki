@@ -5,10 +5,11 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
@@ -16,7 +17,7 @@ import thut.core.common.network.Packet;
 
 public class PacketDataSync extends Packet
 {
-    public static void sync(Entity tracked, DataSync data, int entity_id, boolean all)
+    public static void sync(final Entity tracked, final DataSync data, final int entity_id, final boolean all)
     {
         final List<Data<?>> list = all ? data.getAll() : data.getDirty();
         // Nothing to sync.
@@ -28,7 +29,7 @@ public class PacketDataSync extends Packet
         if (tracked instanceof ServerPlayerEntity) ThutCore.packets.sendTo(packet, (ServerPlayerEntity) tracked);
     }
 
-    public static void sync(ServerPlayerEntity syncTo, DataSync data, int entity_id, boolean all)
+    public static void sync(final ServerPlayerEntity syncTo, final DataSync data, final int entity_id, final boolean all)
     {
         final List<Data<?>> list = all ? data.getAll() : data.getDirty();
         // Nothing to sync.
@@ -48,7 +49,7 @@ public class PacketDataSync extends Packet
         super(null);
     }
 
-    public PacketDataSync(PacketBuffer buf)
+    public PacketDataSync(final PacketBuffer buf)
     {
         super(buf);
         this.id = buf.readInt();
@@ -70,11 +71,10 @@ public class PacketDataSync extends Packet
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        PlayerEntity player;
-        player = ThutCore.proxy.getPlayer();
-        final World world = player.getEntityWorld();
+        final World world = net.minecraft.client.Minecraft.getInstance().world;
         final Entity mob = world.getEntityByID(this.id);
         if (mob == null) return;
         final DataSync sync = SyncHandler.getData(mob);
@@ -84,7 +84,7 @@ public class PacketDataSync extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.id);
         final byte num = (byte) this.data.size();

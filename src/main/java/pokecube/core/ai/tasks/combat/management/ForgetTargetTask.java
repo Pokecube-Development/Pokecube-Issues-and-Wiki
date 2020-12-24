@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Level;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.BrainUtil;
@@ -102,12 +103,15 @@ public class ForgetTargetTask extends CombatTask
         final IPokemob mobA = this.pokemob;
         final IPokemob mobB = this.pokemobTarget;
 
-        LivingEntity mate = BrainUtils.getMateTarget(this.entity);
-
-        if (mate != null && !mate.isAlive())
+        LivingEntity mate = null;
+        if (this.entity instanceof AgeableEntity)
         {
-            BrainUtils.setMateTarget(this.entity, null);
-            mate = null;
+            mate = BrainUtils.getMateTarget((AgeableEntity) this.entity);
+            if (mate != null && !mate.isAlive())
+            {
+                BrainUtils.setMateTarget((AgeableEntity) this.entity, null);
+                mate = null;
+            }
         }
 
         if (!this.forgotten.isEmpty())

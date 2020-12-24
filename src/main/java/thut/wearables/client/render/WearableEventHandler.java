@@ -29,8 +29,9 @@ import thut.wearables.network.PacketGui;
 public class WearableEventHandler
 {
     private final Set<IEntityRenderer<?, ?>> addedLayers = Sets.newHashSet();
-    KeyBinding                               toggleGui;
-    KeyBinding[]                             keys        = new KeyBinding[13];
+
+    KeyBinding   toggleGui;
+    KeyBinding[] keys = new KeyBinding[13];
 
     public WearableEventHandler()
     {

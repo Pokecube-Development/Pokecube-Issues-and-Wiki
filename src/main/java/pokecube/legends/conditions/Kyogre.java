@@ -6,16 +6,15 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.KillStats;
 import pokecube.core.database.stats.SpecialCaseRegister;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
 
-public class Kyogre extends Condition
+public class Kyogre extends AbstractCondition
 {
 
     @Override
-    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final boolean message)
     {
-        if (!super.canCapture(trainer, pokemon)) return false;
+        if (!super.canCapture(trainer, message)) return false;
         final int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("water"));
         final int count2 = KillStats.getUniqueOfTypeKilledBy(trainer.getUniqueID(), PokeType.getType("ground"));
         final int count3 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("water"));
@@ -33,7 +32,7 @@ public class Kyogre extends Condition
         final String kill = "Ground";
 
         if (roundKill >= numKill && roundCap >= numTotal) return true;
-        if (pokemon != null && !trainer.getEntityWorld().isRemote)
+        if (!trainer.getEntityWorld().isRemote && message)
         {
             this.sendNoTrust(trainer);
             this.sendLegendDuo(trainer, type, kill, (int) (numTotal * count3), count1, (int) (numKill * count4),

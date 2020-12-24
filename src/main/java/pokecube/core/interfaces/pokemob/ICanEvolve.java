@@ -4,12 +4,21 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
+
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -33,6 +42,7 @@ import pokecube.core.interfaces.IPokemob.HappinessType;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
@@ -40,7 +50,9 @@ import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
+import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.item.ItemList;
+import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
 public interface ICanEvolve extends IHasEntry, IHasOwner
@@ -92,6 +104,49 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 this.evolution.setUniqueId(this.thisEntity.getUniqueID());
                 this.evolution.getEntityWorld().addEntity(this.evolution);
 
+                this.evolution.recalculateSize();
+                final AxisAlignedBB oldBox = this.thisEntity.getBoundingBox();
+                final AxisAlignedBB newBox = this.evolution.getBoundingBox();
+
+                // Take the larger of the boxes, collide off that.
+                final AxisAlignedBB biggerBox = oldBox.union(newBox);
+
+                final List<VoxelShape> hits = Lists.newArrayList();
+                // Find all voxel shapes in the area
+                BlockPos.getAllInBox(biggerBox).forEach(pos ->
+                {
+                    final BlockState state = world.getBlockState(pos);
+                    final VoxelShape shape = state.getCollisionShape(world, pos);
+                    if (!shape.isEmpty()) hits.add(shape.withOffset(pos.getX(), pos.getY(), pos.getZ()));
+                });
+
+                // If there were any voxel shapes, then check if we need to
+                // collidedw
+                if (hits.size() > 0)
+                {
+                    VoxelShape total = VoxelShapes.empty();
+                    // Merge the found shapes into a single one
+                    for (final VoxelShape s : hits)
+                        total = VoxelShapes.combine(total, s, IBooleanFunction.OR);
+                    final List<AxisAlignedBB> aabbs = Lists.newArrayList();
+                    // Convert to colliding AABBs
+                    BlockEntityUpdater.fill(aabbs, biggerBox, total);
+                    // Push off the AABBS if needed
+                    aabbs.forEach(a -> System.out.println(a.intersects(biggerBox)));
+                    final boolean col = BlockEntityUpdater.applyEntityCollision(this.evolution, biggerBox, aabbs,
+                            Vector3d.ZERO);
+
+                    // This gives us an indication if if we did actually
+                    // collide, if this occured, then we need to do some extra
+                    // processing to make sure that we fit properly
+                    if (col)
+                    {
+                        Vector3 v = Vector3.getNewVector().set(this.evolution);
+                        v = SendOutManager.getFreeSpot(this.evolution, world, v, false);
+                        this.evolution.recalculateSize();
+                        if (v != null) v.moveEntity(this.evolution);
+                    }
+                }
             }
             EntityUpdate.sendEntityUpdate(this.evolution);
         }
@@ -185,11 +240,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                                 .getOwnerId()).putLong("pokecube:dynatime", time);
                         this.pokemob.setCombatState(CombatStates.USINGGZMOVE, true);
                     }
-
                 }
                 this.pokemob.setEvolutionTicks(evoTicks);
                 this.pokemob.getEntity().getPersistentData().remove(TagNames.REMOVED);
-
                 if (this.message != null) this.pokemob.displayMessageToOwner(this.message);
                 MinecraftForge.EVENT_BUS.unregister(this);
             }

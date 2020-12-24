@@ -4,14 +4,13 @@ import net.minecraft.entity.Entity;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
-import pokecube.core.interfaces.IPokemob;
 
-public class Lugia extends Condition
+public class Lugia extends AbstractCondition
 {
     @Override
-    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final boolean message)
     {
-        if (!super.canCapture(trainer, pokemon)) return false;
+        if (!super.canCapture(trainer, message)) return false;
         final boolean articuno = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
                 "articuno")) > 0;
         final boolean zapdos = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
@@ -22,7 +21,7 @@ public class Lugia extends Condition
         final String name = "Articuno, Zapdos, Moltres";
 
         if (articuno && moltres && zapdos) return true;
-        if (pokemon != null && !trainer.getEntityWorld().isRemote)
+        if (!trainer.getEntityWorld().isRemote && message)
         {
             this.sendNoTrust(trainer);
             this.sendLegendExtra(trainer, name);

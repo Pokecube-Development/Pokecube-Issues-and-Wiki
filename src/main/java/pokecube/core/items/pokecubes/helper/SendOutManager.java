@@ -9,8 +9,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Util;
 import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
@@ -41,7 +41,7 @@ import thut.core.common.commands.CommandTools;
 
 public class SendOutManager
 {
-    private static Vector3 getFreeSpot(final Entity mob, final ServerWorld world, final Vector3 pos,
+    public static Vector3 getFreeSpot(final Entity mob, final ServerWorld world, final Vector3 pos,
             final boolean respectRoom)
     {
         AxisAlignedBB box = mob.getBoundingBox();
@@ -60,14 +60,19 @@ public class SendOutManager
             r.scalarMultBy(0.25);
             rAbs.set(r).addTo(pos);
             final long diff = System.nanoTime() - start;
-            if (diff > 5e6) break;
+            if (diff > 2e6) break;
             if (!Vector3.isVisibleRange(world, pos, rHat, r.mag())) continue;
-            if (SendOutManager.valid(box.offset(r.x, r.y, r.z), world)) return rAbs;
+            if (SendOutManager.valid(box.offset(r.x, r.y, r.z), world)) {
+                System.out.println(diff);
+                return rAbs;
+            }
         }
+        final long diff = System.nanoTime() - start;
+        System.out.println(diff);
         return respectRoom ? null : pos.copy();
     }
 
-    private static boolean valid(final AxisAlignedBB box, final ServerWorld world)
+    public static boolean valid(final AxisAlignedBB box, final ServerWorld world)
     {
         final Stream<VoxelShape> colliding = world.getCollisionShapes(null, box);
         final long num = colliding.count();

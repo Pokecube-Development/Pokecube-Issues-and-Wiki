@@ -113,7 +113,6 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
         @Override
         public int size()
         {
-            // TODO Auto-generated method stub
             return 3;
         }
 

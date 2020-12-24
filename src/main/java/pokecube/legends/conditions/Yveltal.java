@@ -5,15 +5,14 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.SpecialCaseRegister;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
 
-public class Yveltal extends Condition
+public class Yveltal extends AbstractCondition
 {
     @Override
-    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final boolean message)
     {
-        if (!super.canCapture(trainer, pokemon)) return false;
+        if (!super.canCapture(trainer, message)) return false;
         final int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("dark"));
         final int count2 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("dark"));
         final double captureFactor = (double) count1 / (double) count2;
@@ -23,7 +22,7 @@ public class Yveltal extends Condition
         final String type = "Dark";
 
         if (roundOff >= numTotal) return true;
-        if (pokemon != null && !trainer.getEntityWorld().isRemote)
+        if (!trainer.getEntityWorld().isRemote && message)
         {
             this.sendNoTrust(trainer);
             this.sendLegend(trainer, type, (int) (count2 * numTotal), count1);

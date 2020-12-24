@@ -8,13 +8,13 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
@@ -23,11 +23,9 @@ import pokecube.core.items.ItemTM;
 
 public class TMTile extends InteractableTile
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public TMTile()
     {
-        this(TMTile.TYPE);
+        this(PokecubeItems.TM_TYPE.get());
     }
 
     public TMTile(final TileEntityType<?> tileEntityTypeIn)

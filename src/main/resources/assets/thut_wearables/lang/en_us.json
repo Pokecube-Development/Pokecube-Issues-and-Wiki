@@ -1,4 +1,10 @@
 {
+
+    "_comment": "Curios Support",
+    "curios.identifier.ankle": "Ankle",
+    "curios.identifier.ear": "Ear",
+    "curios.identifier.eyes": "Eyes",
+
     "button.wearables.off": "Close",
     "button.wearables.on": "Open",
 

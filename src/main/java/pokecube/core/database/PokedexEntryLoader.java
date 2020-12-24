@@ -526,6 +526,7 @@ public class PokedexEntryLoader
 
         public Boolean base  = false;
         public Boolean dummy = false;
+        public Boolean stock = true;
 
         public Boolean breed    = true;
         public Boolean starter  = false;
@@ -733,6 +734,7 @@ public class PokedexEntryLoader
             {
                 final PokedexEntry pentry = new PokedexEntry(entry.number, entry.name);
                 pentry.dummy = entry.dummy;
+                pentry.stock = entry.stock;
                 if (entry.base)
                 {
                     pentry.base = entry.base;

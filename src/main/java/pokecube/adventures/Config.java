@@ -1,23 +1,12 @@
 package pokecube.adventures;
 
-import java.util.Map.Entry;
-
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
-import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
-import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.utils.EnergyHandler;
-import pokecube.core.database.Database;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.items.ItemFossil;
-import thut.api.entity.genetics.Alleles;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
@@ -170,17 +159,6 @@ public class Config extends ConfigData
         this.afaTickRate = Math.max(1, this.afaTickRate);
         this.trainerAgroRate = Math.max(1, this.trainerAgroRate);
         RecipeClone.ENERGYCOST = this.fossilReanimateCost;
-
-        if (this.autoAddFossilDNA) for (final Entry<String, ItemFossil> fossil : ItemGenerator.fossils.entrySet())
-        {
-            final String name = fossil.getKey();
-            final ItemStack stack = new ItemStack(fossil.getValue());
-            final SpeciesGene gene = new SpeciesGene();
-            final SpeciesInfo info = gene.getValue();
-            info.entry = Database.getEntry(name);
-            final Alleles genes = new Alleles(gene, gene);
-            ClonerHelper.registerDNA(new DNAPack(name, genes, 1), stack);
-        }
     }
 
 }

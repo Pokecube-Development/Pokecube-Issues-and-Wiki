@@ -737,8 +737,8 @@ public class PokedexEntry
 
     public static TimePeriod dawn  = new TimePeriod(0.85, 0.05);
     public static TimePeriod day   = new TimePeriod(0.0, 0.5);
-    public static TimePeriod dusk  = new TimePeriod(0.45, 0.65);
-    public static TimePeriod night = new TimePeriod(0.6, 0.9);
+    public static TimePeriod dusk  = new TimePeriod(0.45, 0.6);
+    public static TimePeriod night = new TimePeriod(0.6, 0.85);
 
     private static final PokedexEntry BLANK = new PokedexEntry(true);
 
@@ -1047,7 +1047,7 @@ public class PokedexEntry
     protected PokeType type2;
 
     @CopyToGender
-    protected EntityType<?> entity_type;
+    public EntityType<?> entity_type;
 
     // This is the actual size of the model, if not null, will be used for
     // scaling of rendering in guis, order is length, height, width
@@ -1093,7 +1093,7 @@ public class PokedexEntry
      * Applies various things which needed server to be initialized, such as
      * interactions for tag lists, etc
      */
-    public void postServerLoad()
+    public void onResourcesReloaded()
     {
         this.formeItems.clear();
         this.megaRules.clear();
@@ -1789,7 +1789,7 @@ public class PokedexEntry
         for (final EvolutionData d : this.evolutions)
             if (!Pokedex.getInstance().isRegistered(d.evolution)) stale.add(d);
         this.evolutions.removeAll(stale);
-        if (!stale.isEmpty()) System.out.println(stale.size() + " stales for " + this);
+        if (!stale.isEmpty()) PokecubeCore.LOGGER.debug(stale.size() + " stales for " + this);
         this.addRelation(this);
         for (final EvolutionData d : this.evolutions)
         {

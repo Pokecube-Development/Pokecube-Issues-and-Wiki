@@ -1,7 +1,6 @@
 package pokecube.core.handlers;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
@@ -12,10 +11,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.bases.BaseTile;
 import pokecube.core.blocks.healer.HealerTile;
-import pokecube.core.blocks.maxspot.MaxTile;
-import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCTile;
-import pokecube.core.blocks.repel.RepelTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.database.Database;
@@ -28,32 +24,8 @@ import thut.api.OwnableCaps;
 
 public class ItemHandler
 {
-    private static void addFossilBlocks(final IForgeRegistry<Block> registry)
-    {
-        registry.register(PokecubeItems.FOSSILSTONE);
-    }
-
-    private static void addMiscBlocks(final IForgeRegistry<Block> registry)
-    {
-        registry.register(PokecubeItems.HEALER);
-        registry.register(PokecubeItems.NESTBLOCK);
-        registry.register(PokecubeItems.REPELBLOCK);
-        registry.register(PokecubeItems.DYNABLOCK);
-        registry.register(PokecubeItems.PCTOP);
-        registry.register(PokecubeItems.PCBASE);
-        registry.register(PokecubeItems.TMMACHINE);
-        registry.register(PokecubeItems.TRADER);
-        registry.register(PokecubeItems.SECRETBASE);
-    }
-
     private static void addMiscItems(final IForgeRegistry<Item> registry)
     {
-        registry.register(PokecubeItems.POKEDEX.setRegistryName(PokecubeCore.MODID, "pokedex"));
-        registry.register(PokecubeItems.POKEWATCH.setRegistryName(PokecubeCore.MODID, "pokewatch"));
-        registry.register(PokecubeItems.BERRYJUICE.setRegistryName(PokecubeCore.MODID, "berryjuice"));
-        registry.register(PokecubeItems.EGG.setRegistryName(PokecubeCore.MODID, "pokemobegg"));
-        registry.register(PokecubeItems.CANDY.setRegistryName(PokecubeMod.ID, "candy"));
-        registry.register(PokecubeItems.REVIVE.setRegistryName(PokecubeMod.ID, "revive"));
         Item item = new Item(new Item.Properties().rarity(Rarity.RARE).group(PokecubeItems.POKECUBEITEMS))
                 .setRegistryName(PokecubeMod.ID, "luckyegg");
         registry.register(item);
@@ -65,26 +37,6 @@ public class ItemHandler
 
     private static void addMiscTiles(final IForgeRegistry<TileEntityType<?>> registry)
     {
-        BaseTile.TYPE = TileEntityType.Builder.create(BaseTile::new, PokecubeItems.SECRETBASE).build(null);
-        NestTile.TYPE = TileEntityType.Builder.create(NestTile::new, PokecubeItems.NESTBLOCK).build(null);
-        RepelTile.TYPE = TileEntityType.Builder.create(RepelTile::new, PokecubeItems.REPELBLOCK).build(null);
-        MaxTile.TYPE = TileEntityType.Builder.create(MaxTile::new, PokecubeItems.DYNABLOCK).build(null);
-        TraderTile.TYPE = TileEntityType.Builder.create(TraderTile::new, PokecubeItems.TRADER).build(null);
-        TMTile.TYPE = TileEntityType.Builder.create(TMTile::new, PokecubeItems.TMMACHINE).build(null);
-        HealerTile.TYPE = TileEntityType.Builder.create(HealerTile::new, PokecubeItems.HEALER).build(null);
-        PCTile.TYPE = TileEntityType.Builder.create(PCTile::new, PokecubeItems.PCTOP, PokecubeItems.PCBASE).build(null);
-
-        // Register the tiles
-        registry.register(NestTile.TYPE.setRegistryName(PokecubeCore.MODID, "nest"));
-        registry.register(RepelTile.TYPE.setRegistryName(PokecubeCore.MODID, "repel"));
-        registry.register(MaxTile.TYPE.setRegistryName(PokecubeCore.MODID, "dynamax"));
-        registry.register(BaseTile.TYPE.setRegistryName(PokecubeCore.MODID, "secret_base"));
-
-        registry.register(TraderTile.TYPE.setRegistryName(PokecubeCore.MODID, "trade_machine"));
-        registry.register(TMTile.TYPE.setRegistryName(PokecubeCore.MODID, "tm_machine"));
-        registry.register(HealerTile.TYPE.setRegistryName(PokecubeCore.MODID, "pokecenter"));
-        registry.register(PCTile.TYPE.setRegistryName(PokecubeCore.MODID, "pc"));
-
         // Register classes for ownable caps
         OwnableCaps.TILES.add(TraderTile.class);
         OwnableCaps.TILES.add(TMTile.class);
@@ -135,35 +87,12 @@ public class ItemHandler
 
     public static void registerBlocks(final IForgeRegistry<Block> iForgeRegistry)
     {
-        ItemHandler.addMiscBlocks(iForgeRegistry);
-        ItemHandler.addFossilBlocks(iForgeRegistry);
         ItemGenerator.registerBlocks(iForgeRegistry);
     }
 
     private static void registerItemBlocks(final IForgeRegistry<Item> registry)
     {
-        registry.register(new BlockItem(PokecubeItems.HEALER, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
-                .setRegistryName(PokecubeItems.HEALER.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.NESTBLOCK, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.NESTBLOCK.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.REPELBLOCK, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.REPELBLOCK.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.DYNABLOCK, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.DYNABLOCK.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.PCTOP, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
-                .setRegistryName(PokecubeItems.PCTOP.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.PCBASE, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
-                .setRegistryName(PokecubeItems.PCBASE.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.TMMACHINE, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.TMMACHINE.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.TRADER, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
-                .setRegistryName(PokecubeItems.TRADER.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.SECRETBASE, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.SECRETBASE.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.FOSSILSTONE, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.FOSSILSTONE.getRegistryName()));
-
-        PokecubeItems.POKECUBE_BLOCKS = new ItemStack(PokecubeItems.HEALER);
+        PokecubeItems.POKECUBE_BLOCKS = new ItemStack(PokecubeItems.HEALER.get());
     }
 
     public static void registerItems(final IForgeRegistry<Item> iForgeRegistry)

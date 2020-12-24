@@ -115,6 +115,11 @@ public class RecipeSelector extends SpecialRecipe
 
     private static Map<ItemStack, SelectorValue> selectorValues = Maps.newHashMap();
 
+    public static void clear()
+    {
+        RecipeSelector.selectorValues.clear();
+    }
+
     public static void addSelector(final ItemStack stack, final SelectorValue value)
     {
         RecipeSelector.selectorValues.put(stack, value);

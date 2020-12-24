@@ -9,8 +9,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.RegistryKey;
@@ -20,6 +18,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
@@ -27,15 +26,13 @@ import thut.api.block.IOwnableTE;
 
 public class BaseTile extends InteractableTile
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     boolean           any       = false;
     public BlockPos   last_base = null;
     public BlockState original  = Blocks.STONE.getDefaultState();
 
     public BaseTile()
     {
-        super(BaseTile.TYPE);
+        super(PokecubeItems.BASE_TYPE.get());
     }
 
     @Override

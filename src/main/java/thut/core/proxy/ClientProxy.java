@@ -67,12 +67,6 @@ public class ClientProxy extends CommonProxy
     private boolean initParticles = false;
 
     @Override
-    public PlayerEntity getPlayer()
-    {
-        return Minecraft.getInstance().player;
-    }
-
-    @Override
     public boolean isClientSide()
     {
         return EffectiveSide.get() == LogicalSide.CLIENT;

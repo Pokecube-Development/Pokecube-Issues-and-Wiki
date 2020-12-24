@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -210,7 +210,7 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final AgeableEntity entityIn, final long gameTimeIn)
+    protected void startExecuting(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
         this.run();
     }
@@ -246,7 +246,7 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final AgeableEntity entityIn,
+    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
         return !this.entity.getBrain().hasMemory(MemoryModules.WALK_TARGET);

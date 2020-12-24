@@ -19,6 +19,7 @@ import thut.wearables.network.PacketGui;
 
 public class GuiEvents
 {
+
     public static Map<String, int[]> whitelistedGuis = Maps.newHashMap();
 
     static
@@ -42,6 +43,7 @@ public class GuiEvents
     public void guiPostInit(final GuiScreenEvent.InitGuiEvent.Post event)
     {
         if (!ThutWearables.config.hasButton) return;
+        if (ThutWearables.config.noButton) return;
         if (event.getGui() instanceof InventoryScreen || event.getGui() instanceof GuiWearables)
         {
             this.active = event.getGui() instanceof GuiWearables;
@@ -49,9 +51,8 @@ public class GuiEvents
             final GuiWearableButton button;
             event.getGui().addButton(button = new GuiWearableButton(gui.getGuiLeft() + ThutWearables.config.buttonPos
                     .get(0), gui.getGuiTop() + ThutWearables.config.buttonPos.get(1), 9, 9,
-                    new TranslationTextComponent(
-                            this.active
-                            ? "button.wearables.off" : "button.wearables.on"), b -> this.pressButton(gui)));
+                    new TranslationTextComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
+                    b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
         }
         else if (event.getGui() instanceof CreativeScreen)
@@ -61,8 +62,7 @@ public class GuiEvents
             GuiWearableButton button;
             event.getGui().addButton(button = new GuiWearableButton(gui.getGuiLeft() + 37, gui.getGuiTop() + 9, 9, 9,
                     new TranslationTextComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
-                    b -> this.pressButton(
-                            gui)));
+                    b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
             button.visible = button.active = gui.getSelectedTabIndex() == 11;
         }

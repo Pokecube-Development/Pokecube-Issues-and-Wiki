@@ -17,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
+import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.moves.MovesUtils;
 
 public class Category implements IRecipeCategory<RecipeMove>
@@ -80,7 +81,19 @@ public class Category implements IRecipeCategory<RecipeMove>
         final List<ITextComponent> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return tooltips;
-        tooltips.add(MovesUtils.getMoveName(recipe.getMoveName()));
+
+        if (recipe.actions.size() > 4)
+        {
+            final long time = System.currentTimeMillis() / 500;
+            for (int i = 0; i < 4; i++)
+            {
+                final IMoveAction action = recipe.actions.get((int) ((time - i) % recipe.actions.size()));
+                tooltips.add(MovesUtils.getMoveName(action.getMoveName()));
+            }
+
+        }
+        else for (final IMoveAction action : recipe.actions)
+            tooltips.add(MovesUtils.getMoveName(action.getMoveName()));
         return tooltips;
     }
 

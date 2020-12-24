@@ -85,15 +85,21 @@ public class AnimationGui extends Screen
         if (ret != realMob)
         {
             EntityTools.copyEntityTransforms(ret.getEntity(), realMob.getEntity());
-            ret.read(realMob.write());
-            ret.onGenesChanged();
-            if (ret instanceof DefaultPokemob && realMob instanceof DefaultPokemob)
+            final int id = ret.getEntity().getEntityId();
+            final int realId = realMob.getEntity().getEntityId();
+            if (id != realId)
             {
-                final DefaultPokemob from = (DefaultPokemob) realMob;
-                final DefaultPokemob to = (DefaultPokemob) ret;
-                final INBT tag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, from.genes,
-                        null);
-                GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
+                ret.getEntity().setEntityId(realId);
+                ret.read(realMob.write());
+                ret.onGenesChanged();
+                if (ret instanceof DefaultPokemob && realMob instanceof DefaultPokemob)
+                {
+                    final DefaultPokemob from = (DefaultPokemob) realMob;
+                    final DefaultPokemob to = (DefaultPokemob) ret;
+                    final INBT tag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP,
+                            from.genes, null);
+                    GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
+                }
             }
         }
         return ret;

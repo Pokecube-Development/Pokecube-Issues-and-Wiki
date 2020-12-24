@@ -23161,19 +23161,18 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "astonish",
-            "3": "growl",
-            "6": "absorb",
-            "9": "bubble",
-            "12": "naturalgift",
-            "15": "mist",
-            "18": "megadrain",
-            "21": "bubblebeam",
+            "1": "astonish,growl",
+            "3": "absorb",
+            "6": "watergun",
+            "9": "mist",
+            "12": "megadrain",
+            "16": "flail",
+            "20": "bubblebeam",
             "24": "naturepower",
-            "27": "raindance",
-            "30": "gigadrain",
-            "33": "zenheadbutt",
-            "36": "energyball"
+            "28": "gigadrain",
+            "33": "raindance",
+            "38": "zenheadbutt",
+            "43": "energyball"
           }
         },
         "misc": {
@@ -23234,25 +23233,22 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "astonish",
-            "3": "growl",
-            "6": "absorb",
-            "9": "bubble",
-            "12": "furyswipes",
-            "16": "fakeout",
-            "20": "watersport",
+            "1": "teeterdance,fakeout,knockoff,flail,astonish,growl,absorb,watergun",
+            "9": "mist",
+            "12": "megadrain",
+            "18": "furyswipes",
             "24": "bubblebeam",
-            "28": "naturepower",
-            "32": "uproar",
-            "36": "knockoff",
-            "40": "zenheadbutt",
-            "44": "hydropump"
+            "30": "naturepower",
+            "36": "gigadrain",
+            "43": "raindance",
+            "50": "zenheadbutt",
+            "57": "energyball",
+            "64": "hydropump"
           }
         },
         "misc": {
           "moves": "grassyglide,absorb, astonish, attract, blizzard, bodyslam, brickbreak, bubble, bubblebeam, bulletseed, captivate, confide, dive, doubleedge, doubleteam, drainpunch, dynamicpunch, echoedvoice, endure, energyball, facade, fakeout, firepunch, flash, fling, frustration, furyswipes, gigadrain, grassknot, growl, hail, headbutt, hiddenpower, honeclaws, hydropump, hypervoice, icebeam, icepunch, icywind, knockoff, megadrain, mimic, mist, mudslap, naturalgift, naturepower, poweruppunch, protect, raindance, rest, return, rocksmash, round, scald, secretpower, seedbomb, sleeptalk, snore, solarbeam, strength, substitute, sunnyday, surf, swagger, swordsdance, synthesis, thief, thunderpunch, toxic, uproar, waterfall, waterpulse, watersport, whirlpool, zenheadbutt"
-        },
-        "evolutionMoves": "razorleaf"
+        }
       }
     },
     {
@@ -23308,7 +23304,7 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "astonish,growl,megadrain,naturepower"
+            "1": "teeterdance,fakeout,knockoff,flail,mist,megadrain,furyswipes,bubblebeam,naturepower,gigadrain,raindance,zenheadbutt,energyball,hydropump,astonish,growl,absorb,watergun"
           }
         },
         "misc": {
@@ -63182,6 +63178,7 @@
       "name": "Type: Null",
       "number": 772,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -63254,6 +63251,7 @@
       "name": "Silvally",
       "number": 773,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {

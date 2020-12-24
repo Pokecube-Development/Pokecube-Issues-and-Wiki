@@ -5,22 +5,20 @@ import java.util.UUID;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.pc.PCInventory;
 
 public class PCTile extends InteractableTile
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public UUID        boundId   = PokecubeMod.fakeUUID;
     public PCInventory inventory = PCInventory.getPC(this.boundId);
 
     public PCTile()
     {
-        this(PCTile.TYPE);
+        this(PokecubeItems.PC_TYPE.get());
     }
 
     public PCTile(final TileEntityType<?> tileEntityTypeIn)

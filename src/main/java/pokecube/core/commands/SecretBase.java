@@ -13,6 +13,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
@@ -21,6 +22,7 @@ import net.minecraft.command.arguments.Vec3Argument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.vector.Vector3d;
@@ -42,7 +44,7 @@ public class SecretBase
 {
     public static Map<UUID, GlobalPos> pendingBaseLocations = Maps.newHashMap();
 
-    public static int execute(final CommandSource source, final ServerPlayerEntity player,
+    private static int execute(final CommandSource source, final ServerPlayerEntity player,
             final Collection<GameProfile> profiles)
     {
         final GameProfile match = profiles.iterator().next();
@@ -50,7 +52,22 @@ public class SecretBase
         return 0;
     }
 
-    public static int execute_exit(final CommandSource source, final ServerPlayerEntity player)
+    private static int execute_clean(final CommandSource source, final ServerPlayerEntity player)
+    {
+        final BlockPos pos = player.getPosition();
+        final AxisAlignedBB box = new AxisAlignedBB(pos.add(-30, -pos.getY() + 1, -30), pos.add(30, 256 - pos.getY(),
+                30));
+        final World world = player.getEntityWorld();
+        BlockPos.getAllInBox(box).forEach(p ->
+        {
+            if (p.getY() == 0) return;
+            if (world.getBlockState(p).getBlock() == Blocks.BARRIER) world.setBlockState(p, Blocks.AIR
+                    .getDefaultState());
+        });
+        return 0;
+    }
+
+    private static int execute_exit(final CommandSource source, final ServerPlayerEntity player)
     {
         if (player.getEntityWorld().getDimensionKey() != SecretBaseDimension.WORLD_KEY)
         {
@@ -65,7 +82,7 @@ public class SecretBase
         return 0;
     }
 
-    public static int execute_create(final CommandSource source, final ServerPlayerEntity player, final Vector3d input)
+    private static int execute_create(final CommandSource source, final ServerPlayerEntity player, final Vector3d input)
     {
         if (SecretBase.pendingBaseLocations.containsKey(player.getUniqueID()))
         {
@@ -76,7 +93,7 @@ public class SecretBase
             {
                 final BlockPos base_pos = new BlockPos(input);
                 final BlockState original = pos.getBlockState(player.getEntityWorld());
-                pos.setBlock(player.getEntityWorld(), PokecubeItems.SECRETBASE.getDefaultState());
+                pos.setBlock(player.getEntityWorld(), PokecubeItems.SECRETBASE.get().getDefaultState());
                 final BaseTile tile = (BaseTile) player.getEntityWorld().getTileEntity(pos.getPos());
                 final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
                 ownable.setPlacer(player);
@@ -126,6 +143,14 @@ public class SecretBase
                         GameProfileArgument.gameProfile()).executes(ctx -> SecretBase.execute(ctx.getSource(),
                                 EntityArgument.getPlayer(ctx, "target"), GameProfileArgument.getGameProfiles(ctx,
                                         "owner")))));
+        commandDispatcher.register(command);
+
+        PermissionAPI.registerNode("command.pokebase.clean", DefaultPermissionLevel.ALL,
+                "Temporary cleanup command for removing barrier blocks in secret bases!");
+
+        command = Commands.literal("pokebase").then(Commands.argument("clean", StringArgumentType.word()).requires(
+                cs -> CommandTools.hasPerm(cs, "command.pokebase.clean")).executes(ctx -> SecretBase.execute_clean(ctx
+                        .getSource(), ctx.getSource().asPlayer())));
         commandDispatcher.register(command);
     }
 }

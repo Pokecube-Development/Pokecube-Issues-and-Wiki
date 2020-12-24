@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -13,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
@@ -21,8 +21,6 @@ import pokecube.core.items.berries.ItemBerry;
 
 public class RepelTile extends InteractableTile
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public static int NESTSPAWNTYPES = 1;
 
     public int     range   = PokecubeCore.getConfig().repelRadius;
@@ -30,7 +28,7 @@ public class RepelTile extends InteractableTile
 
     public RepelTile()
     {
-        super(RepelTile.TYPE);
+        super(PokecubeItems.REPEL_TYPE.get());
     }
 
     public RepelTile(final TileEntityType<?> tileEntityTypeIn)

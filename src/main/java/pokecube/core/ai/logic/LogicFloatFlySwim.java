@@ -1,6 +1,5 @@
 package pokecube.core.ai.logic;
 
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.pathfinding.ClimberPathNavigator;
@@ -29,16 +28,35 @@ import thut.api.maths.Vector3;
  */
 public class LogicFloatFlySwim extends LogicBase
 {
+    private static class WalkController extends MovementController
+    {
+
+        public WalkController(final IPokemob mob)
+        {
+            super(mob.getEntity());
+        }
+
+        @Override
+        public double getSpeed()
+        {
+            return super.getSpeed();
+        }
+
+        @Override
+        public void tick()
+        {
+            super.tick();
+        }
+
+    }
+
     private static class SwimController extends MovementController
     {
-        private final MobEntity entity;
-
         final IPokemob pokemob;
 
         public SwimController(final IPokemob mob)
         {
             super(mob.getEntity());
-            this.entity = mob.getEntity();
             this.pokemob = mob;
         }
 
@@ -51,9 +69,9 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
-            this.entity.setNoGravity(this.entity.isInWater());
+            this.mob.setNoGravity(this.mob.isInWater());
 
-            if (this.action == MovementController.Action.MOVE_TO && !this.entity.getNavigator().noPath())
+            if (this.action == MovementController.Action.MOVE_TO && !this.mob.getNavigator().noPath())
             {
                 this.action = MovementController.Action.WAIT;
 
@@ -95,18 +113,19 @@ public class LogicFloatFlySwim extends LogicBase
                 final Vector3d v = this.mob.getMotion();
                 this.mob.setMotion(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
             }
-            else this.entity.setAIMoveSpeed(0.0F);
+            else this.mob.setAIMoveSpeed(0.0F);
         }
 
     }
 
-    private static class FlyMovementController extends FlyingMovementController
+    private static class FlyController extends FlyingMovementController
     {
         final IPokemob pokemob;
 
-        public FlyMovementController(final IPokemob mob)
+        public FlyController(final IPokemob mob)
         {
-            // TODO check what the bool here should be
+            // The true here is only used for the default behaviour to flag it
+            // as not-re-enable gravity when not moving somewhere.
             super(mob.getEntity(), 20, true);
             this.pokemob = mob;
         }
@@ -209,8 +228,8 @@ public class LogicFloatFlySwim extends LogicBase
         this.climbPather.setCanSwim(true);
         this.swimPather.setCanSwim(true);
 
-        this.flyController = new FlyMovementController(entity);
-        this.walkController = new MovementController(entity.getEntity());
+        this.flyController = new FlyController(entity);
+        this.walkController = new WalkController(entity);
         this.swimController = new SwimController(entity);
 
         this.world = this.pokemob.getEntity().getEntityWorld();

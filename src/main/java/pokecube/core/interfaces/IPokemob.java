@@ -42,7 +42,6 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.Battle;
 import pokecube.core.utils.PokeType;
 import thut.api.ModelHolder;
-import thut.api.entity.IBreedingMob;
 import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
@@ -52,7 +51,7 @@ import thut.api.world.mobs.data.DataSync;
 
 /** @author Manchou */
 public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob,
-        IBreedingMob, IHasCommands, IMobColourable, IShearable
+        IHasCommands, IMobColourable, IShearable
 {
     public static class FormeHolder extends ModelHolder
     {
@@ -363,7 +362,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      *
      * @return the byte sexe
      */
-    @Override
     byte getSexe();
 
     default SoundEvent getSound()
@@ -507,7 +505,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      * @param sexe
      *            the byte sexe
      */
-    @Override
     void setSexe(byte sexe);
 
     void setShiny(boolean shiny);

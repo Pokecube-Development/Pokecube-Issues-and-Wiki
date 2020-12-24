@@ -23,6 +23,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,6 +37,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
@@ -156,12 +158,11 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
     protected Minecraft minecraft;
 
-    IPokemob[] arrayRet = new IPokemob[0];
+    IPokemob[] pokemobsCache = new IPokemob[0];
 
     int refreshCounter = 0;
 
-    int        indexPokemob     = 0;
-    public int currentMoveIndex = 0;
+    int indexPokemob = 0;
 
     /**
      *
@@ -183,7 +184,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         {
             this.refreshCounter = 0;
             this.indexPokemob = 0;
-            this.arrayRet = this.getPokemobsToDisplay();
+            this.pokemobsCache = this.getPokemobsToDisplay();
         }
         if (this.getPokemobsToDisplay().length == 0) return;
         if (this.indexPokemob >= this.getPokemobsToDisplay().length) this.indexPokemob = 0;
@@ -275,8 +276,12 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
-            if (this.fontRenderer.getStringWidth(displayName) > 70) displayName = this.fontRenderer.trimStringToWidth(
-                    new StringTextComponent(displayName), 70).get(0).toString();
+            if (this.fontRenderer.getStringWidth(displayName) > 70)
+            {
+                final List<IFormattableTextComponent> list = ListHelper.splitText(new StringTextComponent(displayName),
+                        70, this.fontRenderer, true);
+                displayName = list.get(0).getString();
+            }
             this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
@@ -446,15 +451,15 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     public IPokemob getCurrentPokemob()
     {
         IPokemob pokemob = null;
-        if (this.indexPokemob < this.arrayRet.length && this.indexPokemob >= 0 && this.arrayRet.length > 0)
-            pokemob = this.arrayRet[this.indexPokemob];
+        if (this.indexPokemob < this.pokemobsCache.length && this.indexPokemob >= 0 && this.pokemobsCache.length > 0)
+            pokemob = this.pokemobsCache[this.indexPokemob];
         return pokemob;
     }
 
     public IPokemob[] getPokemobsToDisplay()
     {
         if (this.refreshCounter++ > 5) this.refreshCounter = 0;
-        if (this.refreshCounter > 0) return this.arrayRet;
+        if (this.refreshCounter > 0) return this.pokemobsCache;
 
         final PlayerEntity player = this.minecraft.player;
 
@@ -469,8 +474,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             if (owner && !pokemob.getLogicState(LogicStates.SITTING) && !pokemob.getGeneralState(GeneralStates.STAYING))
                 ret.add(pokemob);
         }
-        this.arrayRet = ret.toArray(new IPokemob[ret.size()]);
-        Arrays.sort(this.arrayRet, (o1, o2) ->
+        this.pokemobsCache = ret.toArray(new IPokemob[ret.size()]);
+        Arrays.sort(this.pokemobsCache, (o1, o2) ->
         {
             final Entity e1 = o1.getEntity();
             final Entity e2 = o2.getEntity();
@@ -483,7 +488,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             }
             return e1.ticksExisted - e2.ticksExisted;
         });
-        return this.arrayRet;
+        return this.pokemobsCache;
     }
 
     /**
@@ -523,7 +528,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     public void nextPokemob()
     {
         this.indexPokemob++;
-        if (this.indexPokemob >= this.arrayRet.length) this.indexPokemob = 0;
+        if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob = 0;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -612,7 +617,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             if (targetMob != null && player.getUniqueID().equals(targetMob.getOwnerId())) targetMob.onRecall();
         }
 
-        if (this.indexPokemob >= this.arrayRet.length) this.indexPokemob--;
+        if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob--;
 
         if (this.indexPokemob < 0) this.indexPokemob = 0;
 
@@ -681,7 +686,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     public void previousPokemob()
     {
         this.indexPokemob--;
-        if (this.indexPokemob < 0) this.indexPokemob = this.arrayRet.length - 1;
+        if (this.indexPokemob < 0) this.indexPokemob = this.pokemobsCache.length - 1;
     }
 
     private void saveConfig()

@@ -100,7 +100,6 @@ public class PokecubeLegends
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.SAPPHIRE_ORE.get()
                                         .getDefaultState(), 5)).range(32).square().func_242731_b(2));
             }
-
             Trees.register();
         }
 
@@ -237,7 +236,7 @@ public class PokecubeLegends
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
         {
-            if (hit.getBlock() == PokecubeItems.DYNABLOCK) event.getPlayer().sendMessage(new TranslationTextComponent(
+            if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(new TranslationTextComponent(
                     "msg.notaraidspot.info"), Util.DUMMY_UUID);
             return;
         }

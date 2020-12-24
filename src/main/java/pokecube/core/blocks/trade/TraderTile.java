@@ -9,7 +9,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -23,9 +22,6 @@ import pokecube.core.inventory.trade.TradeContainer;
 
 public class TraderTile extends InteractableTile
 {
-    public static TileEntityType<? extends TileEntity> TYPE      = TileEntityType.Builder
-            .create(TraderTile::new, PokecubeItems.TRADER).build(null);
-
     public final IIntArray syncValues = new IIntArray()
     {
         @Override
@@ -52,7 +48,7 @@ public class TraderTile extends InteractableTile
 
     public TraderTile()
     {
-        this(TraderTile.TYPE);
+        this(PokecubeItems.TRADE_TYPE.get());
     }
 
     public TraderTile(final TileEntityType<?> tileEntityTypeIn)

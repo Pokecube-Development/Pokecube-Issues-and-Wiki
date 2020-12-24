@@ -5,15 +5,14 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.SpecialCaseRegister;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
 
-public class Zacian extends Condition
+public class Zacian extends AbstractCondition
 {
     @Override
-    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final boolean message)
     {
-        if (!super.canCapture(trainer, pokemon)) return false;
+        if (!super.canCapture(trainer, message)) return false;
         final int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("steel"));
         final int count2 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("steel"));
         final double captureFactor = (double) count1 / (double) count2;

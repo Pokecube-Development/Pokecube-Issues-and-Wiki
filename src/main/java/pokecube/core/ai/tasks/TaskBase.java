@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
@@ -25,7 +25,7 @@ import thut.api.entity.ai.ITask;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 
-public abstract class TaskBase extends RootTask<AgeableEntity> implements ITask
+public abstract class TaskBase extends RootTask<MobEntity> implements ITask
 {
     /** Thread safe inventory setting for pokemobs. */
     public static class InventoryChange implements IRunnable
@@ -158,26 +158,26 @@ public abstract class TaskBase extends RootTask<AgeableEntity> implements ITask
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final AgeableEntity owner)
+    protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
     {
         return this.shouldRun();
     }
 
     @Override
-    protected void resetTask(final ServerWorld worldIn, final AgeableEntity entityIn, final long gameTimeIn)
+    protected void resetTask(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
         this.reset();
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final AgeableEntity entityIn,
+    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
         return this.shouldRun();
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final AgeableEntity owner, final long gameTime)
+    protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
         this.run();
         this.tick();

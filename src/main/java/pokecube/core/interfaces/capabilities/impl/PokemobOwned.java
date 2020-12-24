@@ -196,6 +196,15 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public void onRecall(final boolean onDeath)
     {
+        if (this.isRemoved())
+        {
+            this.getEntity().remove(false);
+            return;
+        }
+        // We use this directly as isAlive() also checks hp!
+        @SuppressWarnings("deprecation")
+        final boolean removed = this.getEntity().removed;
+        if (removed) return;
         if (this.getOwnerId() == null)
         {
             this.getEntity().remove(false);

@@ -9,6 +9,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -225,18 +226,18 @@ public class PokecubeMobs
             final Item itemId = item.getItem();
             boolean berry = itemId == BerryManager.getBerryItem("oran");
             final Random r = new Random();
-            if (berry && r.nextGaussian() > EventsHandler.juiceChance)
+            if (berry && (r.nextGaussian() > EventsHandler.juiceChance||true))
             {
                 if (shuckle.getOwner() != null)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
                     ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
                 }
-                shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE));
+                shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
             }
-            berry = itemId == PokecubeItems.BERRYJUICE;
-            if (berry && r.nextGaussian() > EventsHandler.candyChance)
+            berry = itemId == PokecubeItems.BERRYJUICE.get();
+            if (berry && (r.nextGaussian() > EventsHandler.candyChance||true))
             {
                 final ItemStack candy = PokecubeItems.makeCandyStack();
                 if (candy.isEmpty()) return;
@@ -257,7 +258,7 @@ public class PokecubeMobs
     public void makeShedinja(final EvolveEvent.Post evt)
     {
         Entity owner;
-        if ((owner = evt.mob.getOwner()) instanceof PlayerEntity) this.makeShedinja(evt.mob, (PlayerEntity) owner);
+        if ((owner = evt.mob.getOwner()) instanceof ServerPlayerEntity) this.makeShedinja(evt.mob, (PlayerEntity) owner);
     }
 
     void makeShedinja(final IPokemob evo, final PlayerEntity player)

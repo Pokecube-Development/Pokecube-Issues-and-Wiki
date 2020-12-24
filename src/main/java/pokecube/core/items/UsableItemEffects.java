@@ -300,7 +300,7 @@ public class UsableItemEffects
         if (item instanceof ItemCandy) event.addCapability(UsableItemEffects.USABLE, new CandyUsable());
         if (item instanceof ItemVitamin) event.addCapability(UsableItemEffects.USABLE, new VitaminUsable());
         if (item instanceof PotionItem) event.addCapability(UsableItemEffects.USABLE, new PotionUse());
-        if (item == PokecubeItems.BERRYJUICE) event.addCapability(UsableItemEffects.USABLE, new BerryJuice());
+        if (item == PokecubeItems.BERRYJUICE.get()) event.addCapability(UsableItemEffects.USABLE, new BerryJuice());
     }
 
 }

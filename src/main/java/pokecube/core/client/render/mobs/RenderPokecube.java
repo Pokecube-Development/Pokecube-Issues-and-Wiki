@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -26,9 +25,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
 import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 
@@ -56,24 +53,11 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         public void render(final MatrixStack mat, final IVertexBuilder bufferIn, final int packedLightIn,
                 final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
         {
-            // TODO Auto-generated method stub
             mat.push();
             mat.translate(0.125, 1.5, -0.125);
             final float scale = 0.25f;
             mat.scale(scale, scale, scale);
             mat.rotate(Vector3f.ZP.rotationDegrees(180));
-
-            if (this.cube.isReleasing())
-            {
-                final Entity mob = this.cube.getReleased();
-                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-                if (pokemob != null)
-                {
-                    // TODO exit cube effects.
-                    // RenderPokemob.renderEffect(pokemob, 100 -
-                    // cube.ticksExisted, 40, false);
-                }
-            }
 
             if (PokecubeManager.getTilt(this.cube.getItem()) > 0)
             {

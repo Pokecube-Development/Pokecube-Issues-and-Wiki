@@ -30,12 +30,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -103,7 +102,6 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.entity.ShearableCaps;
-import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -274,9 +272,7 @@ public class EventsHandler
 
         // Here we handle bed healing if enabled in configs
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerWakeUp);
-        // This ticks ongoing effects (like burn, poison, etc) as well as deals
-        // with updating terrain segments as players move around.
-        // TODO move that second part to an enterChunkEvent.
+        // This ticks ongoing effects (like burn, poison, etc)
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onLivingUpdate);
         // This synchronizes stats and data for the player, and sends the
         // GuiOnLogin if enabled and required.
@@ -291,10 +287,12 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandler::onServerAboutToStart);
         // Does some debug output in pokecube tags if enabled.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarting);
-        // Tells Database to do some final cleanup for pokedex entries.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarted);
         // Cleans up some things for when server next starts.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStopped);
+        // Initialises or reloads some datapack dependent values in Database
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onResourcesReloaded);
+        // This does similar to the above, but on dedicated servers only.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarted);
         // Registers our commands.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCommandRegister);
         // This deals with running the tasks scheduled via
@@ -403,14 +401,12 @@ public class EventsHandler
         if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(evt.getEntity()))
         {
             evt.getEntity().remove();
-            // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }
         if (PokecubeCore.getConfig().disableVanillaAnimals && EventsHandler.ANIMALMATCHER.test(evt.getEntity()))
         {
             evt.getEntity().remove();
-            // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }
@@ -471,21 +467,6 @@ public class EventsHandler
             final IOngoingAffected affected = CapabilityAffected.getAffected(evt.getEntity());
             if (affected != null) affected.tick();
         }
-
-        // Handle refreshing the terrain for the player, assuming they have
-        // moved out of their old terrain location
-        if (evt.getEntity() instanceof PlayerEntity)
-        {
-            final PlayerEntity player = (PlayerEntity) evt.getEntity();
-            BlockPos here;
-            BlockPos old;
-            here = new BlockPos(MathHelper.floor(player.chasingPosX) >> 4, MathHelper.floor(player.chasingPosY) >> 4,
-                    MathHelper.floor(player.chasingPosZ) >> 4);
-            old = new BlockPos(MathHelper.floor(player.prevChasingPosX) >> 4, MathHelper.floor(
-                    player.prevChasingPosY) >> 4, MathHelper.floor(player.prevChasingPosZ) >> 4);
-            if (!here.equals(old)) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(evt.getEntity()), evt
-                    .getEntity().getEntityWorld());
-        }
     }
 
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)
@@ -518,11 +499,6 @@ public class EventsHandler
     {
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
-    }
-
-    private static void onServerStarted(final FMLServerStartedEvent event)
-    {
-        Database.postServerLoaded();
     }
 
     private static void onServerStopped(final FMLServerStoppedEvent event)
@@ -601,6 +577,16 @@ public class EventsHandler
             final double dt = (System.nanoTime() - time) / 1000000d;
             if (dt > 20) System.err.println("Took " + dt + "ms to save pokecube data");
         }
+    }
+
+    private static void onServerStarted(final FMLServerStartedEvent event)
+    {
+        if (event.getServer().isDedicatedServer()) Database.onResourcesReloaded();
+    }
+
+    private static void onResourcesReloaded(final AddReloadListenerEvent event)
+    {
+        event.addListener(new Database.ReloadListener());
     }
 
     public static void sendInitInfo(final ServerPlayerEntity player)

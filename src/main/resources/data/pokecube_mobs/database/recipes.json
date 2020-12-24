@@ -104,6 +104,48 @@
         "move": "rototiller",
         "cost": "50"
       }
+    },
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:torch"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:stick"
+          }
+        }
+      ],
+      "values": {
+        "match": "{\"type\":\"fire\",\"minPower\":10,\"contact\":false}",
+        "cost": "5"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "move_effect",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:water_bucket"
+        }
+      },
+      "inputs": [
+        {
+          "values": {
+            "id": "minecraft:bucket"
+          }
+        }
+      ],
+      "values": {
+        "match": "{\"type\":\"water\",\"minPower\":10,\"contact\":false}",
+        "cost": "50"
+      }
     }
   ]
 }

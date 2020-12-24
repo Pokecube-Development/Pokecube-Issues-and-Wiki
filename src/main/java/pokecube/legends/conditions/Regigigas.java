@@ -12,12 +12,17 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
 
-public class Regigigas extends Condition
+public class Regigigas extends AbstractRegiCondition
 {
-    @Override
-    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    public Regigigas()
     {
-        if (!super.canCapture(trainer, pokemon)) return false;
+        super(BlockInit.GOLEM_STONE.get(), BlockInit.REGIGIGA_CORE.get(), Blocks.END_STONE_BRICKS);
+    }
+
+    @Override
+    public boolean canCapture(final Entity trainer, final boolean message)
+    {
+        if (!super.canCapture(trainer, message)) return false;
         final boolean regice = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
                 "regice")) > 0;
         final boolean registeel = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
@@ -32,7 +37,7 @@ public class Regigigas extends Condition
         final String name = "Regice, Registeel, Regirock, Regieleki, Regidrago";
 
         if (regice && registeel && regirock && regieleki && regidrago) return true;
-        if (pokemon != null && !trainer.getEntityWorld().isRemote)
+        if (!trainer.getEntityWorld().isRemote && message)
         {
             this.sendNoTrust(trainer);
             this.sendLegendExtra(trainer, name);
@@ -76,13 +81,13 @@ public class Regigigas extends Condition
         locations.add(location.add(0, -2, 0));
         locations.add(location.add(-1, -1, 0));
         locations.add(location.add(1, -1, 0));
-        check = Condition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
+        check = AbstractCondition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
         if (check)
         {
             locations.clear();
             locations.add(location.add(-1, 0, 0));
             locations.add(location.add(1, 0, 0));
-            check = Condition.isBlock(world, locations, Blocks.END_STONE_BRICKS);
+            check = AbstractCondition.isBlock(world, locations, Blocks.END_STONE_BRICKS);
         }
         else
         {
@@ -91,13 +96,13 @@ public class Regigigas extends Condition
             locations.add(location.add(0, -2, 0));
             locations.add(location.add(0, -1, 1));
             locations.add(location.add(0, -1, -1));
-            check = Condition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
+            check = AbstractCondition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
             if (check)
             {
                 locations.clear();
                 locations.add(location.add(0, 0, 1));
                 locations.add(location.add(0, 0, -1));
-                check = Condition.isBlock(world, locations, Blocks.END_STONE_BRICKS);
+                check = AbstractCondition.isBlock(world, locations, Blocks.END_STONE_BRICKS);
             }
         }
         if (!check)

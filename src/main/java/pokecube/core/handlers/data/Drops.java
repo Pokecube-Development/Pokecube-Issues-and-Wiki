@@ -108,15 +108,15 @@ public class Drops extends LootTableProvider
         @Override
         protected void addTables()
         {
-            this.registerDropSelfLootTable(PokecubeItems.REPELBLOCK);
+            this.registerDropSelfLootTable(PokecubeItems.REPELBLOCK.get());
 
             final List<ItemFossil> drops = Lists.newArrayList(ItemGenerator.fossils.values());
             LootPool.Builder fossilPool = LootPool.builder().rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(
-                    PokecubeItems.FOSSILSTONE).acceptCondition(BlockLoot.SILK_TOUCH));
+                    PokecubeItems.FOSSILSTONE.get()).acceptCondition(BlockLoot.SILK_TOUCH));
             for (final ItemFossil fossil : drops)
                 fossilPool = fossilPool.addEntry(ItemLootEntry.builder(fossil).acceptCondition(
                         BlockLoot.NO_SILK_TOUCH));
-            this.registerLootTable(PokecubeItems.FOSSILSTONE, LootTable.builder().addLootPool(fossilPool));
+            this.registerLootTable(PokecubeItems.FOSSILSTONE.get(), LootTable.builder().addLootPool(fossilPool));
             for (final String s : ItemGenerator.logs.keySet())
             {
                 final Block from = ItemGenerator.logs.get(s);

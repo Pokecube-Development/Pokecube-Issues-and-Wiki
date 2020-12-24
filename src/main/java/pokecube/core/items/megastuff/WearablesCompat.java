@@ -309,7 +309,7 @@ public class WearablesCompat
         if (event.getCapabilities().containsKey(WearablesCompat.WEARABLESKEY)) return;
         if (event.getObject().getItem() instanceof ItemMegawearable)
             event.addCapability(WearablesCompat.WEARABLESKEY, new WearableMega());
-        else if (event.getObject().getItem() == PokecubeItems.POKEWATCH)
+        else if (event.getObject().getItem() == PokecubeItems.POKEWATCH.get())
             event.addCapability(WearablesCompat.WEARABLESKEY, new WearableWatch());
     }
 }
