@@ -1,6 +1,5 @@
 package thut.wearables.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -45,8 +44,7 @@ public class PacketSyncWearables extends Packet
     @Override
     public void handleClient()
     {
-        final World world = Minecraft.getInstance().world;
-        System.out.println(this.data);
+        final World world = net.minecraft.client.Minecraft.getInstance().world;
         if (world == null) return;
         final Entity p = world.getEntityByID(this.data.getInt("I"));
         if (p != null && p instanceof LivingEntity)
