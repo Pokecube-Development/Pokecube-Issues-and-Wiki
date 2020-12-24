@@ -106,7 +106,8 @@ public class LogicFloatFlySwim extends LogicBase
 
         public FlyMovementController(final IPokemob mob)
         {
-            // TODO check what the bool here should be
+            // The true here is only used for the default behaviour to flag it
+            // as not-re-enable gravity when not moving somewhere.
             super(mob.getEntity(), 20, true);
             this.pokemob = mob;
         }

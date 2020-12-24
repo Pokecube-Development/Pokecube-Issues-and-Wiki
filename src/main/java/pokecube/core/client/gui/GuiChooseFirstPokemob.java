@@ -258,7 +258,6 @@ public class GuiChooseFirstPokemob extends Screen
             final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
                     .getBufferSource();
             matrixstack.push();
-            // TODO zlevel?
             matrixstack.translate((float) x + 8, (float) y + 8, 100.0F);
             matrixstack.scale(50.0F, -50.0F, 50.0F);
             final boolean flag = !model.isSideLit();

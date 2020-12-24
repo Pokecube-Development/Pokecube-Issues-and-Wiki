@@ -212,7 +212,6 @@ public class WorldEntity implements IBlockEntityWorld
     @Override
     public boolean isRemote()
     {
-        // TODO Auto-generated method stub
         return this.world.isRemote();
     }
 
@@ -285,7 +284,6 @@ public class WorldEntity implements IBlockEntityWorld
     @Override
     public boolean setBlockState(final BlockPos pos, final BlockState state, final int flags, final int recursionLeft)
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -293,7 +291,6 @@ public class WorldEntity implements IBlockEntityWorld
     public boolean destroyBlock(final BlockPos pos, final boolean dropBlock, final Entity entity,
             final int recursionLeft)
     {
-        // TODO Auto-generated method stub
         return false;
     }
 }

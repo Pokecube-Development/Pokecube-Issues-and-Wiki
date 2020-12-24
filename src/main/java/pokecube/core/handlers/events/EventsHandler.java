@@ -401,14 +401,12 @@ public class EventsHandler
         if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(evt.getEntity()))
         {
             evt.getEntity().remove();
-            // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }
         if (PokecubeCore.getConfig().disableVanillaAnimals && EventsHandler.ANIMALMATCHER.test(evt.getEntity()))
         {
             evt.getEntity().remove();
-            // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }

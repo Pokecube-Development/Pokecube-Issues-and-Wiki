@@ -26,29 +26,14 @@ public class ItemTM extends Item
     public static boolean applyEffect(final LivingEntity mob, final ItemStack stack)
     {
         if (mob.getEntityWorld().isRemote) return stack.hasTag();
-        if (stack.hasTag()) // Check if is TM or valid candy
-            return ItemTM.feedToPokemob(stack, mob);
+        if (stack.hasTag()) return ItemTM.feedToPokemob(stack, mob);
         return false;
     }
 
     public static boolean feedToPokemob(final ItemStack stack, final Entity entity)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-        if (pokemob != null) // TODO implement a candy type thing.
-            // int num = stack.getItemDamage();
-            // // If candy, raise level by one
-            // if (num == 20)
-            // {
-            // int level = pokemob.getLevel();
-            // if (level == 100) return false;
-            //
-            // int xp = Tools.levelToXp(pokemob.getExperienceMode(), level + 1);
-            // pokemob.setExp(xp, true);
-            // PokecubeItems.deValidate(stack);
-            // return true;
-            // }
-            // it is a TM, should try to teach the move
-            return ItemTM.teachToPokemob(stack, pokemob);
+        if (pokemob != null) return ItemTM.teachToPokemob(stack, pokemob);
         return false;
     }
 

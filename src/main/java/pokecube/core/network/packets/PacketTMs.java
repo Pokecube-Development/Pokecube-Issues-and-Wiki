@@ -21,13 +21,6 @@ public class PacketTMs extends Packet
     }
 
     @Override
-    public void handleClient()
-    {
-        // TODO Auto-generated method stub
-        super.handleClient();
-    }
-
-    @Override
     public void handleServer(final ServerPlayerEntity player)
     {
         final Container cont = player.openContainer;

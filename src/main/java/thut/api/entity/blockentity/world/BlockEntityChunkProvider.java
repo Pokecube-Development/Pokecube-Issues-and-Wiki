@@ -76,7 +76,6 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
                         storage = new ChunkSection(j >> 4 << 4);
                         ret.getSections()[j >> 4] = storage;
                     }
-                    // TODO what is this boolean
                     storage.setBlockState(i & 15, j & 15, k & 15, state, false);
                     final TileEntity tile = this.world.getTileEntity(pos);
                     if (tile != null) ret.addTileEntity(tile);

@@ -70,11 +70,6 @@ public class WikiPage extends ListPage<LineEntry>
         if (component != null)
         {
             final ClickEvent clickevent = component.getClickEvent();
-            // TODO see if we need a sub style somehow?
-            // if (clickevent == null) for (final ITextComponent sib :
-            // component.getSiblings())
-            // if (sib != null && (clickevent = sib.getStyle().getClickEvent())
-            // != null) break;
             final int max = this.list.getMaxScroll();
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {

@@ -71,7 +71,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         }
         catch (final IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

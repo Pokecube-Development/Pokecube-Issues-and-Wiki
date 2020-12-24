@@ -60,11 +60,6 @@ public class Breeding extends ListPage<LineEntry>
         if (component != null)
         {
             final ClickEvent clickevent = component.getClickEvent();
-            // TODO see if we need a sub style somehow?
-            // if (clickevent == null) for (final ITextComponent sib :
-            // component.getSiblings())
-            // if (sib != null && (clickevent = sib.getStyle().getClickEvent())
-            // != null) break;
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());

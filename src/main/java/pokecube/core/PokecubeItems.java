@@ -144,14 +144,6 @@ public class PokecubeItems extends ItemList
      */
     public static HashMap<ItemStack, PokedexEntry> fossils = new HashMap<>();
 
-    // TODO decide if we need any, these are obsolete with the new items having fixed ID thing
-    static
-    {
-//        LootFunctionManager.registerFunction(new MakeBerry.Serializer());
-//        LootFunctionManager.registerFunction(new MakeHeldItem.Serializer());
-//        LootFunctionManager.registerFunction(new MakeFossil.Serializer());
-    }
-
     private static Set<ResourceLocation> errored = Sets.newHashSet();
 
     static
@@ -571,10 +563,10 @@ public class PokecubeItems extends ItemList
 
     public static ItemStack makeCandyStack()
     {
-        final ItemStack candy = PokecubeItems.getStack("rarecandy");
+        final ItemStack candy = PokecubeItems.getStack("candy");
         if (candy.isEmpty()) return ItemStack.EMPTY;
         PokecubeItems.makeStackValid(candy);
-        candy.setDisplayName(new TranslationTextComponent("pokecube.candy.rare"));
+        candy.setDisplayName(new TranslationTextComponent("item.pokecube.candy.rare"));
         return candy;
     }
 
