@@ -24,6 +24,9 @@ public class Config extends ConfigData
     public Map<Integer, float[]> renderOffsets      = Maps.newHashMap();
     public Map<Integer, float[]> renderOffsetsSneak = Maps.newHashMap();
 
+    // This allows addons, etc to override the button.
+    public boolean noButton = false;
+
     public Config()
     {
         super(ThutWearables.MODID);

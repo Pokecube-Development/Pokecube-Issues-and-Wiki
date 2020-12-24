@@ -8,7 +8,9 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 import thut.wearables.ThutWearables;
+import thut.wearables.events.WearablesLoadedEvent;
 import thut.wearables.inventory.PlayerWearables;
 
 public class PacketSyncWearables extends Packet
@@ -26,6 +28,7 @@ public class PacketSyncWearables extends Packet
         final PlayerWearables cap = ThutWearables.getWearables(player);
         if (cap != null)
         {
+            MinecraftForge.EVENT_BUS.post(new WearablesLoadedEvent(player, cap));
             this.data.putInt("I", player.getEntityId());
             cap.writeToNBT(this.data);
         }
@@ -43,6 +46,7 @@ public class PacketSyncWearables extends Packet
     public void handleClient()
     {
         final World world = Minecraft.getInstance().world;
+        System.out.println(this.data);
         if (world == null) return;
         final Entity p = world.getEntityByID(this.data.getInt("I"));
         if (p != null && p instanceof LivingEntity)

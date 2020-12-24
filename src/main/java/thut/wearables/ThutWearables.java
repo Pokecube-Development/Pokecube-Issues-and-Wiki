@@ -52,6 +52,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import thut.wearables.client.gui.GuiEvents;
 import thut.wearables.client.gui.GuiWearables;
 import thut.wearables.client.render.WearableEventHandler;
+import thut.wearables.events.WearableDroppedEvent;
 import thut.wearables.impl.ConfigWearable;
 import thut.wearables.inventory.ContainerWearables;
 import thut.wearables.inventory.IWearableInventory;
@@ -194,24 +195,19 @@ public class ThutWearables
     public final static PacketHandler packets = new PacketHandler(new ResourceLocation(Reference.MODID, "comms"),
             Reference.NETVERSION);
 
-    public final static CommonProxy proxy = DistExecutor.safeRunForDist(
-            () -> ClientProxy::new, () -> CommonProxy::new);
+    public final static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     // Holder for our config options
     public static final Config config = new Config();
 
     public static PlayerWearables getWearables(final LivingEntity wearer)
     {
-        PlayerWearables wearables = null;
-        if (wearer instanceof PlayerEntity) wearables = WearableHandler.getPlayerData(wearer.getCachedUniqueIdString());
-
+        final PlayerWearables wearables = null;
         final IWearableInventory inven = wearer.getCapability(WearableHandler.WEARABLES_CAP).orElse(wearables);
         if (inven instanceof PlayerWearables)
         {
             final PlayerWearables ret = (PlayerWearables) inven;
-            if (wearables != null) ret.readFromNBT(wearables.writeToNBT(new CompoundNBT()));
             return ret;
         }
-
         return wearables;
     }
 
@@ -222,7 +218,9 @@ public class ThutWearables
             Thread.dumpStack();
             return;
         }
-        ThutWearables.packets.sendToTracking(new PacketSyncWearables(player), player);
+        final PacketSyncWearables packet = new PacketSyncWearables(player);
+        ThutWearables.packets.sendToTracking(packet, player);
+        if (player instanceof ServerPlayerEntity) ThutWearables.packets.sendTo(packet, (ServerPlayerEntity) player);
     }
 
     private final boolean overworldRules = true;
@@ -265,6 +263,8 @@ public class ThutWearables
             if (stack != null)
             {
                 EnumWearable.takeOff(mob, stack, i);
+                final WearableDroppedEvent dropEvent = new WearableDroppedEvent(mob, stack, i);
+                if (MinecraftForge.EVENT_BUS.post(dropEvent)) continue;
                 final double d0 = mob.getPosY() - 0.3D + mob.getEyeHeight();
                 final ItemEntity drop = new ItemEntity(mob.getEntityWorld(), mob.getPosX(), d0, mob.getPosZ(), stack);
                 final float f = mob.getRNG().nextFloat() * 0.5F;

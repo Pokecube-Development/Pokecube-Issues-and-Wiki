@@ -47,8 +47,8 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
 
         ItemStack getStack()
         {
-            for (int i = 0; i < this.slots.size(); i++)
-                if (!this.slots.get(i).isEmpty()) return this.slots.get(i);
+            for (final ItemStack element : this.slots)
+                if (!element.isEmpty()) return element;
             return ItemStack.EMPTY;
         }
 
@@ -68,18 +68,6 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
                     this.setStack(n, ItemStack.read(tag1));
                 }
             }
-        }
-
-        ItemStack removeStack()
-        {
-            for (int i = 0; i < this.slots.size(); i++)
-                if (!this.slots.get(i).isEmpty())
-                {
-                    final ItemStack stack = this.getStack(i);
-                    this.setStack(i, ItemStack.EMPTY);
-                    return stack;
-                }
-            return ItemStack.EMPTY;
         }
 
         public ItemStack removeStack(final int subIndex)
@@ -186,8 +174,8 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
     {
         final Set<ItemStack> ret = Sets.newHashSet();
         for (final WearableSlot slot : this.slots.values())
-            for (int i = 0; i < slot.slots.size(); i++)
-                if (!slot.slots.get(i).isEmpty()) ret.add(slot.slots.get(i));
+            for (final ItemStack element : slot.slots)
+                if (!element.isEmpty()) ret.add(element);
         return ret;
     }
 
@@ -238,12 +226,6 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
     public boolean setWearable(final EnumWearable type, final ItemStack stack)
     {
         final WearableSlot wSlot = this.slots.get(type);
-        if (stack == null)
-        {
-            if (wSlot.getStack() == null) return false;
-            wSlot.removeStack();
-            return true;
-        }
         return wSlot.addStack(stack);
     }
 
@@ -251,13 +233,6 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
     public boolean setWearable(final EnumWearable type, final ItemStack stack, final int slot)
     {
         final WearableSlot wSlot = this.slots.get(type);
-        if (stack == null)
-        {
-            if (wSlot.getStack(slot) == null) return false;
-            wSlot.setStack(slot, stack);
-            return true;
-        }
-        if (wSlot.getStack(slot) != null) return false;
         wSlot.setStack(slot, stack);
         return true;
     }
