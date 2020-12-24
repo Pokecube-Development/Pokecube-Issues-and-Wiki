@@ -233,10 +233,10 @@ public class PokecubeMobs
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
                     ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
                 }
-                shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE));
+                shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
             }
-            berry = itemId == PokecubeItems.BERRYJUICE;
+            berry = itemId == PokecubeItems.BERRYJUICE.get();
             if (berry && (r.nextGaussian() > EventsHandler.candyChance||true))
             {
                 final ItemStack candy = PokecubeItems.makeCandyStack();

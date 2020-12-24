@@ -13,7 +13,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -22,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.Difficulty;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -37,8 +37,6 @@ import thut.api.maths.Vector3;
 
 public class NestTile extends InteractableTile implements ITickableTileEntity
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public static int NESTSPAWNTYPES = 1;
 
     HashSet<IPokemob>  residents = new HashSet<>();
@@ -47,7 +45,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public NestTile()
     {
-        super(NestTile.TYPE);
+        super(PokecubeItems.NEST_TYPE.get());
     }
 
     public NestTile(final TileEntityType<?> tileEntityTypeIn)

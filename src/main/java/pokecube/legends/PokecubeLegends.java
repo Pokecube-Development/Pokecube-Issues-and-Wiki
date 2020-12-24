@@ -236,7 +236,7 @@ public class PokecubeLegends
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
         {
-            if (hit.getBlock() == PokecubeItems.DYNABLOCK) event.getPlayer().sendMessage(new TranslationTextComponent(
+            if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(new TranslationTextComponent(
                     "msg.notaraidspot.info"), Util.DUMMY_UUID);
             return;
         }

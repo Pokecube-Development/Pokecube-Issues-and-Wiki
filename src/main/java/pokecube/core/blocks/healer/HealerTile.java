@@ -2,21 +2,19 @@ package pokecube.core.blocks.healer;
 
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 
 public class HealerTile extends TileEntity implements ITickableTileEntity
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public static SoundEvent MUSICLOOP;
 
     public boolean play = false;
 
     public HealerTile()
     {
-        super(HealerTile.TYPE);
+        super(PokecubeItems.HEALER_TYPE.get());
     }
 
     @Override

@@ -24,6 +24,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
@@ -36,18 +37,29 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.Property;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.blocks.bases.BaseBlock;
+import pokecube.core.blocks.bases.BaseTile;
 import pokecube.core.blocks.healer.HealerBlock;
+import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.blocks.maxspot.MaxBlock;
+import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.blocks.nests.NestBlock;
+import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCBlock;
+import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.repel.RepelBlock;
+import pokecube.core.blocks.repel.RepelTile;
 import pokecube.core.blocks.tms.TMBlock;
+import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderBlock;
+import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
@@ -68,6 +80,14 @@ import thut.api.item.ItemList;
 
 public class PokecubeItems extends ItemList
 {
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
+            PokecubeCore.MODID);
+    public static final DeferredRegister<Item>  ITEMS  = DeferredRegister.create(ForgeRegistries.ITEMS,
+            PokecubeCore.MODID);
+
+    public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(
+            ForgeRegistries.TILE_ENTITIES, PokecubeCore.MODID);
+
     public static ItemStack POKECUBE_ITEMS   = ItemStack.EMPTY;
     public static ItemStack POKECUBE_BLOCKS  = ItemStack.EMPTY;
     public static ItemStack POKECUBE_CUBES   = ItemStack.EMPTY;
@@ -112,24 +132,34 @@ public class PokecubeItems extends ItemList
     public static final ResourceLocation TMKEY      = new ResourceLocation("pokecube:tms");
 
     // Items
-    public static final Item BERRYJUICE;
-    public static final Item POKEDEX;
-    public static final Item POKEWATCH;
-    public static final Item EGG;
-    public static final Item CANDY;
-    public static final Item REVIVE;
+    public static final RegistryObject<Item> BERRYJUICE;
+    public static final RegistryObject<Item> POKEDEX;
+    public static final RegistryObject<Item> POKEWATCH;
+    public static final RegistryObject<Item> EGG;
+    public static final RegistryObject<Item> CANDY;
+    public static final RegistryObject<Item> REVIVE;
 
     // Blocks
-    public static final Block HEALER;
-    public static final Block NESTBLOCK;
-    public static final Block REPELBLOCK;
-    public static final Block DYNABLOCK;
-    public static final Block PCTOP;
-    public static final Block PCBASE;
-    public static final Block TRADER;
-    public static final Block TMMACHINE;
-    public static final Block SECRETBASE;
-    public static final Block FOSSILSTONE;
+    public static final RegistryObject<Block> HEALER;
+    public static final RegistryObject<Block> NESTBLOCK;
+    public static final RegistryObject<Block> REPELBLOCK;
+    public static final RegistryObject<Block> DYNABLOCK;
+    public static final RegistryObject<Block> PCTOP;
+    public static final RegistryObject<Block> PCBASE;
+    public static final RegistryObject<Block> TRADER;
+    public static final RegistryObject<Block> TMMACHINE;
+    public static final RegistryObject<Block> SECRETBASE;
+    public static final RegistryObject<Block> FOSSILSTONE;
+
+    // Tile Entities
+    public static final RegistryObject<TileEntityType<?>> BASE_TYPE;
+    public static final RegistryObject<TileEntityType<?>> NEST_TYPE;
+    public static final RegistryObject<TileEntityType<?>> REPEL_TYPE;
+    public static final RegistryObject<TileEntityType<?>> MAX_TYPE;
+    public static final RegistryObject<TileEntityType<?>> TRADE_TYPE;
+    public static final RegistryObject<TileEntityType<?>> TM_TYPE;
+    public static final RegistryObject<TileEntityType<?>> HEALER_TYPE;
+    public static final RegistryObject<TileEntityType<?>> PC_TYPE;
 
     public static boolean      resetTimeTags = false;
     public static Vector<Long> times         = new Vector<>();
@@ -149,42 +179,66 @@ public class PokecubeItems extends ItemList
     static
     {
         // Items
-        BERRYJUICE = new Item(new Properties().food(new Food.Builder().hunger(4).saturation(0.3F).build()).group(
-                PokecubeItems.POKECUBEITEMS));
-        POKEDEX = new ItemPokedex(new Properties().group(PokecubeItems.POKECUBEITEMS), false);
-        POKEWATCH = new ItemPokedex(new Properties().group(PokecubeItems.POKECUBEITEMS), true);
-        EGG = new ItemPokemobEgg(new Properties().group(PokecubeItems.POKECUBEITEMS));
-        CANDY = new ItemCandy(new Item.Properties().rarity(Rarity.EPIC).group(PokecubeItems.POKECUBEITEMS));
-        REVIVE = new ItemRevive(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
+        POKEDEX = PokecubeItems.ITEMS.register("pokedex", () -> new ItemPokedex(new Properties().group(
+                PokecubeItems.POKECUBEITEMS), false));
+        POKEWATCH = PokecubeItems.ITEMS.register("pokewatch", () -> new ItemPokedex(new Properties().group(
+                PokecubeItems.POKECUBEITEMS), true));
+        BERRYJUICE = PokecubeItems.ITEMS.register("berryjuice", () -> new Item(new Properties().food(new Food.Builder()
+                .hunger(4).saturation(0.3F).build()).group(PokecubeItems.POKECUBEITEMS)));
+        EGG = PokecubeItems.ITEMS.register("pokemobegg", () -> new ItemPokemobEgg(new Properties().group(
+                PokecubeItems.POKECUBEITEMS)));
+        CANDY = PokecubeItems.ITEMS.register("candy", () -> new ItemCandy(new Item.Properties().rarity(Rarity.EPIC)
+                .group(PokecubeItems.POKECUBEITEMS)));
+        REVIVE = PokecubeItems.ITEMS.register("revive", () -> new ItemRevive(new Item.Properties().group(
+                PokecubeItems.POKECUBEITEMS)));
 
         // Blocks
-        HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15));
-        NESTBLOCK = new NestBlock(Block.Properties.create(Material.ORGANIC));
-        REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC));
-        DYNABLOCK = new MaxBlock(Block.Properties.create(Material.ROCK).setLightLevel(b->15).hardnessAndResistance(2000));
-        PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15), true);
-        PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15), false);
-        TRADER = new TraderBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15));
-        TMMACHINE = new TMBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).setLightLevel(b->15));
-        SECRETBASE = new BaseBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2000));
-        FOSSILSTONE = new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 10).harvestTool(
-                ToolType.PICKAXE));
+        HEALER = PokecubeItems.BLOCKS.register("pokecenter", () -> new HealerBlock(Block.Properties.create(
+                Material.IRON).hardnessAndResistance(2000)));
+        NESTBLOCK = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(Block.Properties.create(
+                Material.ORGANIC)));
+        REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(Block.Properties.create(
+                Material.ORGANIC)));
+        DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(Block.Properties.create(Material.ROCK)
+                .hardnessAndResistance(2000)));
+        PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(Block.Properties.create(Material.IRON)
+                .hardnessAndResistance(2000), true));
+        PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(Block.Properties.create(Material.IRON)
+                .hardnessAndResistance(2000), false));
+        TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(Block.Properties.create(Material.IRON)
+                .hardnessAndResistance(2000)));
+        TRADER = PokecubeItems.BLOCKS.register("trade_machine", () -> new TraderBlock(Block.Properties.create(
+                Material.IRON).hardnessAndResistance(2000)));
+        SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(2000)));
+        FOSSILSTONE = PokecubeItems.BLOCKS.register("fossilstone", () -> new Block(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).harvestTool(ToolType.PICKAXE)));
+
+        // Tile Entity Types
+        NEST_TYPE = PokecubeItems.TILES.register("nest", () -> TileEntityType.Builder.create(NestTile::new,
+                PokecubeItems.NESTBLOCK.get()).build(null));
+        REPEL_TYPE = PokecubeItems.TILES.register("repel", () -> TileEntityType.Builder.create(RepelTile::new,
+                PokecubeItems.REPELBLOCK.get()).build(null));
+        MAX_TYPE = PokecubeItems.TILES.register("dynamax", () -> TileEntityType.Builder.create(MaxTile::new,
+                PokecubeItems.DYNABLOCK.get()).build(null));
+        BASE_TYPE = PokecubeItems.TILES.register("secret_base", () -> TileEntityType.Builder.create(BaseTile::new,
+                PokecubeItems.SECRETBASE.get()).build(null));
+
+        TRADE_TYPE = PokecubeItems.TILES.register("trade_machine", () -> TileEntityType.Builder.create(TraderTile::new,
+                PokecubeItems.TRADER.get()).build(null));
+        TM_TYPE = PokecubeItems.TILES.register("tm_machine", () -> TileEntityType.Builder.create(TMTile::new,
+                PokecubeItems.TMMACHINE.get()).build(null));
+        HEALER_TYPE = PokecubeItems.TILES.register("pokecenter", () -> TileEntityType.Builder.create(HealerTile::new,
+                PokecubeItems.HEALER.get()).build(null));
+        PC_TYPE = PokecubeItems.TILES.register("pc", () -> TileEntityType.Builder.create(PCTile::new,
+                PokecubeItems.PCTOP.get(), PokecubeItems.PCBASE.get()).build(null));
     }
 
     public static void init()
     {
-
-        // Blocks
-        PokecubeItems.HEALER.setRegistryName(PokecubeCore.MODID, "pokecenter");
-        PokecubeItems.NESTBLOCK.setRegistryName(PokecubeCore.MODID, "nest");
-        PokecubeItems.REPELBLOCK.setRegistryName(PokecubeCore.MODID, "repel");
-        PokecubeItems.DYNABLOCK.setRegistryName(PokecubeCore.MODID, "dynamax");
-        PokecubeItems.PCTOP.setRegistryName(PokecubeCore.MODID, "pc_top");
-        PokecubeItems.PCBASE.setRegistryName(PokecubeCore.MODID, "pc_base");
-        PokecubeItems.TRADER.setRegistryName(PokecubeCore.MODID, "trade_machine");
-        PokecubeItems.TMMACHINE.setRegistryName(PokecubeCore.MODID, "tm_machine");
-        PokecubeItems.SECRETBASE.setRegistryName(PokecubeCore.MODID, "secret_base");
-        PokecubeItems.FOSSILSTONE.setRegistryName(PokecubeCore.MODID, "fossilstone");
+        for (final RegistryObject<Block> reg : PokecubeItems.BLOCKS.getEntries())
+            PokecubeItems.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
+                    .group(PokecubeItems.POKECUBEBLOCKS)));
     }
 
     /**
