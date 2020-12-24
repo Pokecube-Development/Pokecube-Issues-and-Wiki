@@ -9,6 +9,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -257,7 +258,7 @@ public class PokecubeMobs
     public void makeShedinja(final EvolveEvent.Post evt)
     {
         Entity owner;
-        if ((owner = evt.mob.getOwner()) instanceof PlayerEntity) this.makeShedinja(evt.mob, (PlayerEntity) owner);
+        if ((owner = evt.mob.getOwner()) instanceof ServerPlayerEntity) this.makeShedinja(evt.mob, (PlayerEntity) owner);
     }
 
     void makeShedinja(final IPokemob evo, final PlayerEntity player)
@@ -289,7 +290,7 @@ public class PokecubeMobs
                         .getEntityWorld());
                 if (pokemon != null)
                 {
-                    final ItemStack mobCube = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE), 1);
+                    final ItemStack mobCube = cube.copy();
                     mobCube.setCount(1);
                     final IPokemob poke = CapabilityPokemob.getPokemobFor(pokemon);
                     poke.setPokecube(mobCube);
