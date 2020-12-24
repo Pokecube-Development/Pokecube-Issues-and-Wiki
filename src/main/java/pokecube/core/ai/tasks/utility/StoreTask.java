@@ -361,6 +361,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
     {
         if (!this.pokemob.isPlayerOwned()) return true;
         if (this.knownValid.contains(pos)) return true;
+        // TODO decide on what to do here later, for now, only let this run if owner is online.
+        if (this.pokemob.getOwner() == null) return false;
         final PlayerEntity player = (PlayerEntity) this.pokemob.getOwner();
         final BreakEvent evt = new BreakEvent(player.getEntityWorld(), pos, world.getBlockState(pos), player);
         MinecraftForge.EVENT_BUS.post(evt);
