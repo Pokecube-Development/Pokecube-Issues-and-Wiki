@@ -248,8 +248,8 @@ public class WorldgenHandler
                 WorldgenHandler.SORTED_PRIOR_LIST.addAll(Structure.STRUCTURE_DECORATION_STAGE_MAP.keySet());
                 WorldgenHandler.SORTED_PRIOR_LIST.sort((s1, s2) ->
                 {
-                    int p1 = 50;
-                    int p2 = 50;
+                    int p1 = 5;
+                    int p2 = 5;
                     if (s1 instanceof CustomJigsawStructure) p1 = ((CustomJigsawStructure) s1).priority;
                     if (s2 instanceof CustomJigsawStructure) p2 = ((CustomJigsawStructure) s2).priority;
                     return Integer.compare(p1, p2);
