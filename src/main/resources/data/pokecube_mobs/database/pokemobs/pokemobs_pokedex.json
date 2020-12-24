@@ -63178,6 +63178,7 @@
       "name": "Type: Null",
       "number": 772,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -63250,6 +63251,7 @@
       "name": "Silvally",
       "number": 773,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
