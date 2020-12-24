@@ -289,7 +289,7 @@ public class PokecubeMobs
                         .getEntityWorld());
                 if (pokemon != null)
                 {
-                    final ItemStack mobCube = cube.copy();
+                    final ItemStack mobCube = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE), 1);
                     mobCube.setCount(1);
                     final IPokemob poke = CapabilityPokemob.getPokemobFor(pokemon);
                     poke.setPokecube(mobCube);
