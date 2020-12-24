@@ -3,6 +3,7 @@ package pokecube.core.ai.tasks;
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.entity.MobEntity;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IPokemob;
@@ -13,18 +14,16 @@ public class SwimTask extends RootTask<MobEntity>
 
     private final IPokemob pokemob;
 
-    public SwimTask(final IPokemob pokemob, final float maxDepth, final float jumpChance)
+    public SwimTask(final IPokemob pokemob, final float jumpChance)
     {
         super(ImmutableMap.of());
-        //TODO determine if this was needed.
-//        this.maxDepth = maxDepth;
         this.jumpChance = jumpChance;
         this.pokemob = pokemob;
     }
 
-    public SwimTask(final float maxDepth, final float jumpChance)
+    public SwimTask(final float jumpChance)
     {
-        this(null, maxDepth, jumpChance);
+        this(null, jumpChance);
     }
 
     @Override
@@ -37,7 +36,8 @@ public class SwimTask extends RootTask<MobEntity>
     protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
     {
         if (this.pokemob != null && this.pokemob.swims()) return false;
-        return owner.canSwim() || owner.isInLava();
+        final boolean belowDepth = owner.func_233571_b_(FluidTags.WATER) > owner.func_233579_cu_();
+        return owner.isInWater() && belowDepth || owner.isInLava();
     }
 
     @Override

@@ -45,7 +45,6 @@ import net.minecraft.entity.ai.brain.task.ShowWaresTask;
 import net.minecraft.entity.ai.brain.task.SleepAtHomeTask;
 import net.minecraft.entity.ai.brain.task.SpawnGolemTask;
 import net.minecraft.entity.ai.brain.task.StayNearPointTask;
-import net.minecraft.entity.ai.brain.task.SwimTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.ai.brain.task.TradeTask;
 import net.minecraft.entity.ai.brain.task.UpdateActivityTask;
@@ -66,6 +65,7 @@ import pokecube.core.ai.tasks.BlankTask;
 import pokecube.core.ai.tasks.LookAtMob;
 import pokecube.core.ai.tasks.LookAtTask;
 import pokecube.core.ai.tasks.RunAway;
+import pokecube.core.ai.tasks.SwimTask;
 
 public class Tasks
 {
