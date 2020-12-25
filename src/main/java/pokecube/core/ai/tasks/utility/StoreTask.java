@@ -299,7 +299,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
             }
             if (found == null) found = this.checkDir(this.world, Direction.DOWN, this.berryLoc, null);
             if (found == null) found = this.checkDir(this.world, Direction.UP, this.berryLoc, null);
-            this.berryLoc = found;
+            if (found != null) this.berryLoc = found;
         }
         return this.berryLoc != null;
     }
@@ -316,7 +316,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
             }
             if (found == null) found = this.checkDir(this.world, Direction.DOWN, this.emptyInventory, this.emptyFace);
             if (found == null) found = this.checkDir(this.world, Direction.UP, this.emptyInventory, this.emptyFace);
-            this.emptyInventory = found;
+            if (found != null) this.emptyInventory = found;
         }
         return this.emptyInventory != null && this.emptyInventory.distanceSq(this.pokemob.getHome()) < 256;
     }
@@ -334,7 +334,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
             }
             if (found == null) found = this.checkDir(this.world, Direction.DOWN, this.storageLoc, this.storageFace);
             if (found == null) found = this.checkDir(this.world, Direction.UP, this.storageLoc, this.storageFace);
-            this.storageLoc = found;
+            if (found != null) this.storageLoc = found;
         }
         return this.storageLoc != null;
     }
@@ -361,7 +361,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
     {
         if (!this.pokemob.isPlayerOwned()) return true;
         if (this.knownValid.contains(pos)) return true;
-        // TODO decide on what to do here later, for now, only let this run if owner is online.
+        // TODO decide on what to do here later, for now, only let this run if
+        // owner is online.
         if (this.pokemob.getOwner() == null) return false;
         final PlayerEntity player = (PlayerEntity) this.pokemob.getOwner();
         final BreakEvent evt = new BreakEvent(player.getEntityWorld(), pos, world.getBlockState(pos), player);
