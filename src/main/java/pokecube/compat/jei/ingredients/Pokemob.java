@@ -124,7 +124,7 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         final List<Pokemob> toAdd = Pokemob.ALL;
         if (!toAdd.isEmpty()) return toAdd;
         for (final PokedexEntry entry : Database.getSortedFormes())
-            if (entry != Database.missingno)
+            if (entry != Database.missingno && entry.stock)
             {
                 final List<FormeHolder> formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
                 Pokemob add = new Pokemob(entry, null, (byte) 0);

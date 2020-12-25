@@ -100,23 +100,20 @@ public class Tasks
 
         final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(entity, guardai));
         list.add(pair);
-        if (entry.stock)
-        {
-            Task<?> task = new LookAtTask(45, 90);
-            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-            task = new WalkToTask(200);
-            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        Task<?> task = new LookAtTask(45, 90);
+        if (entry.stock) list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
-            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        task = new WalkToTask(200);
+        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-            task = new SwimTask(pokemob, 0.8F);
-            list.add(Pair.of(0, (Task<? super LivingEntity>) task));
+        task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+        if (entry.stock) list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        task = new SwimTask(pokemob, 0.8F);
+        if (entry.stock) list.add(Pair.of(0, (Task<? super LivingEntity>) task));
+        if (entry.stock) list.add(Tasks.lookAtMany());
+        if (entry.stock) list.add(Tasks.lookAtPlayerOrVillager());
 
-            list.add(Tasks.lookAtMany());
-            list.add(Tasks.lookAtPlayerOrVillager());
-        }
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
 
@@ -218,20 +215,15 @@ public class Tasks
         final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(pokemob.getEntity(),
                 guardai));
         list.add(pair);
-        if (entry.stock)
-        {
-            Task<?> task = new LookAtTask(45, 90);
-            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        Task<?> task = new LookAtTask(45, 90);
 
-            task = new WalkToTask(200);
-            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
-
-            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
-            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
-
-            task = new SwimTask(pokemob, 0.8F);
-            list.add(Pair.of(0, (Task<? super LivingEntity>) task));
-        }
+        if (entry.stock) list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        task = new WalkToTask(200);
+        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+        if (entry.stock) list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        task = new SwimTask(pokemob, 0.8F);
+        if (entry.stock) list.add(Pair.of(0, (Task<? super LivingEntity>) task));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 
