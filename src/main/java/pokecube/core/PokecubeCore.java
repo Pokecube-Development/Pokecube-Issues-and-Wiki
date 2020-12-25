@@ -346,7 +346,7 @@ public class PokecubeCore
     public static SpawnHandler spawner = new SpawnHandler();
 
     // Map to store the registered mobs in.
-    public static BiMap<PokedexEntry, EntityType<ShoulderRidingEntity>> typeMap = HashBiMap.create();
+    public static BiMap<PokedexEntry, EntityType<? extends MobEntity>> typeMap = HashBiMap.create();
 
     // Provider for entities.
     public static IEntityProvider provider = new EntityProvider(null);

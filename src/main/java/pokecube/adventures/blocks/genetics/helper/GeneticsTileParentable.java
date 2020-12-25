@@ -35,6 +35,8 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     {
         if (this.getParent() != null) this.getParent().setInventorySlotContents(index, stack);
         super.setInventorySlotContents(index, stack);
+        this.progress = 0;
+        this.total = 0;
     }
 
     @Override
@@ -82,6 +84,8 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     @Override
     public ItemStack decrStackSize(final int arg0, final int arg1)
     {
+        this.progress = 0;
+        this.total = 0;
         if (this.getParent() != null) return this.getParent().decrStackSize(arg0, arg1);
         return super.decrStackSize(arg0, arg1);
     }

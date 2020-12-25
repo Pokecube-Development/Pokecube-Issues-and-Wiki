@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -16,6 +17,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
@@ -38,9 +40,11 @@ public class OwnableCaps
     public abstract static class VanillaWrapper<M extends MobEntity> implements IOwnable,
             ICapabilitySerializable<ByteNBT>
     {
-        private final LazyOptional<IOwnable> holder      = LazyOptional.of(() -> this);
-        boolean                              playerOwned = false;
-        protected final M                    wrapped;
+        private final LazyOptional<IOwnable> holder = LazyOptional.of(() -> this);
+
+        boolean playerOwned = false;
+
+        protected final M wrapped;
 
         public VanillaWrapper(final M toWrap)
         {
@@ -171,10 +175,12 @@ public class OwnableCaps
 
     public static class Impl implements IOwnable, ICapabilitySerializable<CompoundNBT>
     {
-        private final LazyOptional<IOwnable> holder      = LazyOptional.of(() -> this);
-        private UUID                         ownerId;
-        private LivingEntity                 ownerMob;
-        private boolean                      playerOwned = false;
+        private final LazyOptional<IOwnable> holder = LazyOptional.of(() -> this);
+
+        private UUID         ownerId;
+        private LivingEntity ownerMob;
+
+        private boolean playerOwned = false;
 
         @Override
         public void deserializeNBT(final CompoundNBT nbt)
@@ -270,11 +276,20 @@ public class OwnableCaps
         }
     }
 
-    public static final Set<Class<? extends LivingEntity>> MOBS     = Sets.newHashSet();
-    public static final Set<Class<? extends TileEntity>>   TILES    = Sets.newHashSet();
-    private static final ResourceLocation                  LOCBASE  = new ResourceLocation("thutcore:ownable_base");
-    public static final ResourceLocation                   LOCWRAP  = new ResourceLocation("thutcore:ownable_wrap");
-    public static final ResourceLocation                   STICKTAG = new ResourceLocation("thutcore:pokeystick");
+    public static final Set<EntityType<?>>     MOBS  = Sets.newHashSet();
+    public static final Set<TileEntityType<?>> TILES = Sets.newHashSet();
+
+    public static final ResourceLocation LOCBASE  = new ResourceLocation("thutcore:ownable_base");
+    public static final ResourceLocation LOCWRAP  = new ResourceLocation("thutcore:ownable_wrap");
+    public static final ResourceLocation STICKTAG = new ResourceLocation("thutcore:pokeystick");
+
+    public static ICapabilitySerializable<?> makeMobOwnable(final Entity mob, final boolean nonNull)
+    {
+        if (mob instanceof TameableEntity) return new TameWrapper((TameableEntity) mob);
+        else if (mob instanceof AbstractHorseEntity) return new HorseWrapper((AbstractHorseEntity) mob);
+        else if (OwnableCaps.MOBS.contains(mob.getType())) return new Impl();
+        return nonNull ? new Impl() : null;
+    }
 
     public static IOwnable getOwnable(final ICapabilityProvider in)
     {
@@ -290,12 +305,8 @@ public class OwnableCaps
             if (p.getCapability(ThutCaps.OWNABLE_CAP).isPresent()) return;
         // We check if it is already here, incase someone else wants to wrap a
         // tameable differently.
-        if (event.getObject() instanceof TameableEntity) event.addCapability(OwnableCaps.LOCWRAP, new TameWrapper(
-                (TameableEntity) event.getObject()));
-        else if (event.getObject() instanceof AbstractHorseEntity) event.addCapability(OwnableCaps.LOCWRAP,
-                new HorseWrapper((AbstractHorseEntity) event.getObject()));
-        else if (OwnableCaps.MOBS.contains(event.getObject().getClass())) event.addCapability(OwnableCaps.LOCBASE,
-                new Impl());
+        final ICapabilitySerializable<?> own = OwnableCaps.makeMobOwnable(event.getObject(), false);
+        if (own != null) event.addCapability(OwnableCaps.LOCBASE, own);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -304,7 +315,7 @@ public class OwnableCaps
         // Check if someone else adds this first (like say an IPokemob
         for (final ICapabilityProvider p : event.getCapabilities().values())
             if (p.getCapability(ThutCaps.OWNABLE_CAP).isPresent()) return;
-        if (OwnableCaps.TILES.contains(event.getObject().getClass())) event.addCapability(OwnableCaps.LOCBASE,
+        if (OwnableCaps.TILES.contains(event.getObject().getType())) event.addCapability(OwnableCaps.LOCBASE,
                 new ImplTE());
     }
 

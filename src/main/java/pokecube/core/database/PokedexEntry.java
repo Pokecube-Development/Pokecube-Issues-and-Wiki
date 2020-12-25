@@ -811,7 +811,7 @@ public class PokedexEntry
     @CopyToGender
     public boolean                              canSitShoulder  = false;
     @CopyToGender
-    protected int                               catchRate       = -1;
+    public int                                  catchRate       = -1;
     @CopyToGender
     private PokedexEntry                        _childNb        = null;
     /** A map of father pokedexnb : child pokedexNbs */
@@ -956,7 +956,7 @@ public class PokedexEntry
 
     /** Movement type for this mob, this is a bitmask for MovementType */
     @CopyToGender
-    protected int mobType = 0;
+    public int mobType = 0;
 
     /** Mod which owns the pokemob, used for texture location. */
     @CopyToGender
@@ -1021,7 +1021,7 @@ public class PokedexEntry
     public String[]   species = {};
 
     @CopyToGender
-    protected int[]   stats;
+    public int[]      stats;
     /**
      * Array used for animated or gender based textures. Index 0 is the male
      * textures, index 1 is the females
@@ -1041,10 +1041,10 @@ public class PokedexEntry
     public String texturePath = PokedexEntry.TEXTUREPATH;
 
     @CopyToGender
-    protected PokeType type1;
+    public PokeType type1;
 
     @CopyToGender
-    protected PokeType type2;
+    public PokeType type2;
 
     @CopyToGender
     public EntityType<?> entity_type;
@@ -1225,7 +1225,7 @@ public class PokedexEntry
         this.possibleMoves.add(move);
     }
 
-    protected void addMoves(final List<String> moves, final Map<Integer, ArrayList<String>> lvlUpMoves2)
+    public void addMoves(final List<String> moves, final Map<Integer, ArrayList<String>> lvlUpMoves2)
     {
         this.lvlUpMoves = lvlUpMoves2;
         this.possibleMoves = moves;
@@ -1307,6 +1307,8 @@ public class PokedexEntry
         if (e.mobType == 0) e.mobType = this.mobType;
         if (e.catchRate == -1) e.catchRate = this.catchRate;
         if (e.sexeRatio == -1) e.sexeRatio = this.sexeRatio;
+        if (e.type1 == null) e.type1 = this.type1;
+        if (e.type2 == null) e.type2 = this.type2;
         if (e.mass == -1) e.mass = this.mass;
         for (int i = 0; i < this.foods.length; i++)
             e.foods[i] = this.foods[i];

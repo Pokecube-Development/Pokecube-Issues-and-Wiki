@@ -32,7 +32,7 @@ import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
-public abstract class PokemobMoves extends PokemobSexed
+public abstract class PokemobMoves extends PokemobStats
 {
 
     @Override

@@ -24,7 +24,6 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -62,7 +61,7 @@ import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
 
-public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<TameableEntity>>
+public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity>>
 {
     public static class PokemobTexHelper extends TextureHelper
     {
@@ -142,9 +141,9 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         }
     }
 
-    public static class Holder extends ModelHolder implements IModelRenderer<TameableEntity>
+    public static class Holder extends ModelHolder implements IModelRenderer<MobEntity>
     {
-        public ModelWrapper<TameableEntity>     wrapper;
+        public ModelWrapper<MobEntity>     wrapper;
         final Vector3                           rotPoint   = Vector3.getNewVector();
         HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
         private IPartTexturer                   texturer;
@@ -444,7 +443,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             this.initModel(new ModelWrapper<>(this, this));
         }
 
-        public void initModel(final ModelWrapper<TameableEntity> model)
+        public void initModel(final ModelWrapper<MobEntity> model)
         {
             this.wrapper = model;
             ModelFactory.create(model.model, m ->
@@ -583,13 +582,13 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     }
 
     @Override
-    protected float getDeathMaxRotation(final TameableEntity entityLivingBaseIn)
+    protected float getDeathMaxRotation(final MobEntity entityLivingBaseIn)
     {
         return 85.0f;
     }
 
     @Override
-    public void render(final TameableEntity entity, final float entityYaw, final float partialTicks,
+    public void render(final MobEntity entity, final float entityYaw, final float partialTicks,
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
@@ -664,7 +663,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     }
 
     @Override
-    protected RenderType func_230496_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b,
+    protected RenderType func_230496_a_(final MobEntity entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
         final RenderType.State rendertype$state = RenderType.State.getBuilder().texture(new RenderState.TextureState(
@@ -684,7 +683,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     }
 
     @Override
-    public ResourceLocation getEntityTexture(final TameableEntity entity)
+    public ResourceLocation getEntityTexture(final MobEntity entity)
     {
         final ResourceLocation texture = Database.missingno.texture;
         Holder holder = this.holder;

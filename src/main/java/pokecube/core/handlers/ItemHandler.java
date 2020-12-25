@@ -9,11 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.bases.BaseTile;
-import pokecube.core.blocks.healer.HealerTile;
-import pokecube.core.blocks.pc.PCTile;
-import pokecube.core.blocks.tms.TMTile;
-import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.database.Database;
 import pokecube.core.events.onload.RegisterPokecubes;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
@@ -38,11 +33,11 @@ public class ItemHandler
     private static void addMiscTiles(final IForgeRegistry<TileEntityType<?>> registry)
     {
         // Register classes for ownable caps
-        OwnableCaps.TILES.add(TraderTile.class);
-        OwnableCaps.TILES.add(TMTile.class);
-        OwnableCaps.TILES.add(PCTile.class);
-        OwnableCaps.TILES.add(HealerTile.class);
-        OwnableCaps.TILES.add(BaseTile.class);
+        OwnableCaps.TILES.add(PokecubeItems.TRADE_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeItems.TM_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeItems.PC_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeItems.HEALER_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeItems.BASE_TYPE.get());
     }
 
     private static void addPokecubes(final IForgeRegistry<Item> registry)

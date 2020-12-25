@@ -57,10 +57,14 @@ public class EntityUpdate extends NBTPacket
         final int id = this.getTag().getInt("id");
         final World world = net.minecraft.client.Minecraft.getInstance().world;
         final Entity mob = world.getEntityByID(id);
-        if (mob != null)
+        if (mob != null) try
         {
             mob.read(this.getTag().getCompound("tag"));
             mob.recalculateSize();
+        }
+        catch (final Exception e)
+        {
+            ThutCore.LOGGER.error("Error loading " + mob.getType() + " on client side!");
         }
     }
 }

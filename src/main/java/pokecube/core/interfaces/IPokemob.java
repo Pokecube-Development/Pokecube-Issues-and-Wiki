@@ -340,6 +340,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     List<IAIRunnable> getTasks();
 
+    default boolean selfManagedBrain()
+    {
+        return true;
+    }
+
     /**
      * Note: This only returns a unique number for player owned pokemobs. All
      * other pokemobs will return -1

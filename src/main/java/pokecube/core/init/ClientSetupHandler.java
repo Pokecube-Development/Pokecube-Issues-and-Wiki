@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -181,7 +181,9 @@ public class ClientSetupHandler
 
         for (final PokedexEntry e : Database.getSortedFormes())
         {
-            final EntityType<ShoulderRidingEntity> t = PokecubeCore.typeMap.get(e);
+            if (!e.stock) continue;
+            @SuppressWarnings("unchecked")
+            final EntityType<MobEntity> t = (EntityType<MobEntity>) PokecubeCore.typeMap.get(e);
             RenderingRegistry.registerEntityRenderingHandler(t, (manager) -> new RenderPokemob(e, manager));
         }
         RenderingRegistry.registerEntityRenderingHandler(EntityPokecube.TYPE, RenderPokecube::new);

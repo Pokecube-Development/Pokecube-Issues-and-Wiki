@@ -115,8 +115,8 @@ public class SetupHandler
         PokecubeAdv.packets.registerMessage(PacketCommander.class, PacketCommander::new);
         PokecubeAdv.packets.registerMessage(PacketAFA.class, PacketAFA::new);
 
-        OwnableCaps.TILES.add(AfaTile.class);
-        OwnableCaps.TILES.add(WarppadTile.class);
+        OwnableCaps.TILES.add(AfaTile.TYPE);
+        OwnableCaps.TILES.add(WarppadTile.TYPE);
 
         PacketTrainer.register();
         Tasks.init();

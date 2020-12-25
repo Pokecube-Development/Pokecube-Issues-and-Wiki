@@ -1,9 +1,14 @@
-package pokecube.core.interfaces.capabilities;
+package pokecube.compat.minecraft;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.monster.HoglinEntity;
+import net.minecraft.entity.monster.ZoglinEntity;
+import net.minecraft.entity.monster.piglin.PiglinBruteEntity;
+import net.minecraft.entity.monster.piglin.PiglinEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -20,23 +25,23 @@ import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.impl.PokemobSexed;
+import pokecube.core.interfaces.capabilities.PokemobCaps;
+import pokecube.core.interfaces.capabilities.impl.PokemobSaves;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.TagNames;
-import thut.api.ThutCaps;
 import thut.api.item.ItemList;
 
-public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializable<CompoundNBT>, IPokemob
+public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializable<CompoundNBT>
 {
     private final LazyOptional<IPokemob> holder = LazyOptional.of(() -> this);
 
-    public DefaultPokemob()
+    public VanillaPokemob()
     {
         for (final AIRoutine routine : AIRoutine.values())
             this.setRoutineState(routine, routine.getDefault());
     }
 
-    public DefaultPokemob(final MobEntity mob)
+    public VanillaPokemob(final MobEntity mob)
     {
         this();
         this.setEntity(mob);
@@ -58,8 +63,6 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
-        if (capability == ThutCaps.COLOURABLE) return this.holder.cast();
-        if (capability == ThutCaps.BREEDS) return this.holder.cast();
         return PokemobCaps.POKEMOB_CAP.orEmpty(capability, this.holder);
     }
 
@@ -69,6 +72,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
         if (this.getGeneralState(GeneralStates.CONTROLLED)) return this.dataSync.get(this.params.HEADINGDW);
         return this.getEntity().rotationYaw;
     }
+
     @Override
     public CompoundNBT serializeNBT()
     {
@@ -151,5 +155,22 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
             this.getEntity().playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0F, 1.0F);
         }
 
+    }
+
+    @Override
+    public MobEntity getEntity()
+    {
+        return this.entity;
+    }
+
+    @Override
+    public boolean selfManagedBrain()
+    {
+        boolean hasBrain = this.entity instanceof VillagerEntity;
+        hasBrain = hasBrain || this.entity instanceof HoglinEntity;
+        hasBrain = hasBrain || this.entity instanceof PiglinBruteEntity;
+        hasBrain = hasBrain || this.entity instanceof PiglinEntity;
+        hasBrain = hasBrain || this.entity instanceof ZoglinEntity;
+        return hasBrain;
     }
 }

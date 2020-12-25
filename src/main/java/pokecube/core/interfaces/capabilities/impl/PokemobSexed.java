@@ -28,7 +28,7 @@ import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-public abstract class PokemobSexed extends PokemobStats implements IBreedingMob
+public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
 {
     private final UUID loveCause = null;
 
@@ -85,6 +85,12 @@ public abstract class PokemobSexed extends PokemobStats implements IBreedingMob
     private int getBreedingDelay(final IPokemob mate)
     {
         return PokecubeCore.getConfig().breedingDelay;
+    }
+
+    @Override
+    public AgeableEntity getEntity()
+    {
+        return (AgeableEntity) this.entity;
     }
 
     @Override
