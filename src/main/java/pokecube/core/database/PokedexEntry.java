@@ -62,6 +62,7 @@ import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
+import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.interfaces.IPokemob;
@@ -1712,7 +1713,9 @@ public class PokedexEntry
     {
         if (this.nameComp == null)
         {
-            this.nameComp = new TranslationTextComponent(this.getUnlocalizedName());
+            String key = this.getUnlocalizedName();
+            if (!(this.getEntityType() instanceof PokemobType<?>)) key = this.getEntityType().getTranslationKey();
+            this.nameComp = new TranslationTextComponent(key);
             this.nameComp.setStyle(this.nameComp.getStyle().setClickEvent(new ClickEvent(
                     net.minecraft.util.text.event.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
         }

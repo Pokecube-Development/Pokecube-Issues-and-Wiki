@@ -61,7 +61,8 @@ public abstract class TrainerBase extends NpcMob
         this.aiStates = this.getCapability(TrainerCaps.AISTATES_CAP).orElse(null);
         this.trades = this.getCapability(TrainerCaps.TRADES_CAP).orElse(null);
 
-        this.aiStates.setAIState(AIState.TRADES, PokecubeAdv.config.trainersTradeItems
+        // This can be null depending on initialization order/status
+        if (this.aiStates != null) this.aiStates.setAIState(AIState.TRADES, PokecubeAdv.config.trainersTradeItems
                 || PokecubeAdv.config.trainersTradeMobs);
     }
 
