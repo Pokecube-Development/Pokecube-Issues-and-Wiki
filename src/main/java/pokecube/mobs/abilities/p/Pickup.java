@@ -14,6 +14,7 @@ import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.items.vitamins.ItemCandy;
 
 public class Pickup extends Ability
 {
@@ -46,9 +47,8 @@ public class Pickup extends Ability
                 // Pick first valid item in it.
                 if (!itemstack.isEmpty())
                 {
-                    final ItemStack stack = itemstack.copy();
-                    if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
-                        PokecubeItems.makeStackValid(stack);
+                    ItemStack stack = itemstack.copy();
+                    if (stack.getItem() instanceof ItemCandy) stack = PokecubeItems.makeCandyStack();
                     mob.setHeldItem(stack);
                     return;
                 }
