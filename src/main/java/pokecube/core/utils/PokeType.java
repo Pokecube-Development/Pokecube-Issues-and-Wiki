@@ -1,5 +1,9 @@
 package pokecube.core.utils;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -33,6 +37,8 @@ public enum PokeType implements IExtensibleEnum
         return multiplier;
     }
 
+    private static Map<String, PokeType> names = Maps.newHashMap();
+
     public static String getName(final PokeType type)
     {
         return type.name;
@@ -57,8 +63,14 @@ public enum PokeType implements IExtensibleEnum
     public static PokeType getType(String name)
     {
         name = ThutCore.trim(name);
+        if (PokeType.names.containsKey(name)) return PokeType.names.get(name);
         for (final PokeType type : PokeType.values())
-            if (name.equalsIgnoreCase(type.name)) return type;
+            if (name.equalsIgnoreCase(type.name))
+            {
+                PokeType.names.put(name, type);
+                return type;
+            }
+        PokeType.names.put(name, unknown);
         return unknown;
     }
 
