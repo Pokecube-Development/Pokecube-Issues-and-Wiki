@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.INPC;
 import net.minecraft.entity.MobEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -74,7 +75,7 @@ public class Compat
                 newDerp.stock = false;
                 @SuppressWarnings("unchecked")
                 final EntityType<? extends MobEntity> mobType = (EntityType<? extends MobEntity>) type;
-                PokecubeCore.typeMap.put(newDerp, mobType);
+                PokecubeCore.typeMap.put(mobType, newDerp);
             }
             catch (final Exception e)
             {
@@ -87,6 +88,7 @@ public class Compat
     {
         if (!PokecubeCore.getConfig().vanilla_pokemobs) return;
         if (!(event.getObject() instanceof MobEntity)) return;
+        if (event.getObject() instanceof INPC) return;
         final EntityType<?> type = event.getObject().getType();
         if (!type.getRegistryName().getNamespace().equals("minecraft")) return;
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))

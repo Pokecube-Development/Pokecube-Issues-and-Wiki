@@ -143,7 +143,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
 
     public static class Holder extends ModelHolder implements IModelRenderer<MobEntity>
     {
-        public ModelWrapper<MobEntity>     wrapper;
+        public ModelWrapper<MobEntity>          wrapper;
         final Vector3                           rotPoint   = Vector3.getNewVector();
         HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
         private IPartTexturer                   texturer;
@@ -551,7 +551,8 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         PokecubeCore.LOGGER.info("Registering Models to the renderer.");
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
-            final PokemobType<?> type = (PokemobType<?>) PokecubeCore.typeMap.get(entry);
+            if (!entry.stock) continue;
+            final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
             final Holder holder = new Holder(entry);
             RenderPokemob.holderMap.put(type, holder);
             RenderPokemob.holders.put(entry, holder);
