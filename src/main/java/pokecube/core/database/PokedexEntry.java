@@ -1047,7 +1047,7 @@ public class PokedexEntry
     public PokeType type2;
 
     @CopyToGender
-    public EntityType<?> entity_type;
+    protected EntityType<? extends MobEntity> entity_type;
 
     // This is the actual size of the model, if not null, will be used for
     // scaling of rendering in guis, order is length, height, width
@@ -1467,7 +1467,7 @@ public class PokedexEntry
         return this.description;
     }
 
-    public EntityType<?> getEntityType()
+    public EntityType<? extends MobEntity> getEntityType()
     {
         return this.entity_type;
     }
@@ -1913,7 +1913,7 @@ public class PokedexEntry
         this.baseForme = baseForme;
     }
 
-    public void setEntityType(final EntityType<?> type)
+    public void setEntityType(final EntityType<? extends MobEntity> type)
     {
         this.entity_type = type;
     }

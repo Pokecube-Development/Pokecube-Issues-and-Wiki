@@ -182,8 +182,7 @@ public class ClientSetupHandler
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (!e.stock) continue;
-            @SuppressWarnings("unchecked")
-            final EntityType<MobEntity> t = (EntityType<MobEntity>) PokecubeCore.typeMap.get(e);
+            final EntityType<? extends MobEntity> t = e.getEntityType();
             RenderingRegistry.registerEntityRenderingHandler(t, (manager) -> new RenderPokemob(e, manager));
         }
         RenderingRegistry.registerEntityRenderingHandler(EntityPokecube.TYPE, RenderPokecube::new);

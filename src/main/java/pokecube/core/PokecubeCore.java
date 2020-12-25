@@ -1,5 +1,6 @@
 package pokecube.core;
 
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -8,8 +9,7 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -259,7 +259,7 @@ public class PokecubeCore
                     event.getRegistry().register(type);
                     GlobalEntityTypeAttributes.put(type, attribs.create());
                     Pokedex.getInstance().registerPokemon(entry);
-                    PokecubeCore.typeMap.put(entry, type);
+                    PokecubeCore.typeMap.put(type, entry);
                 }
                 catch (final Exception e)
                 {
@@ -346,7 +346,7 @@ public class PokecubeCore
     public static SpawnHandler spawner = new SpawnHandler();
 
     // Map to store the registered mobs in.
-    public static BiMap<PokedexEntry, EntityType<? extends MobEntity>> typeMap = HashBiMap.create();
+    public static Map<EntityType<? extends MobEntity>, PokedexEntry> typeMap = Maps.newHashMap();
 
     // Provider for entities.
     public static IEntityProvider provider = new EntityProvider(null);
@@ -362,8 +362,8 @@ public class PokecubeCore
     {
         if (entry == null) return null;
         if (world == null) return null;
-        EntityType<? extends MobEntity> type = PokecubeCore.typeMap.get(entry);
-        if (type == null) type = PokecubeCore.typeMap.get(entry.getBaseForme());
+        EntityType<? extends MobEntity> type = entry.getEntityType();
+        if (type == null && entry.getBaseForme() != null) type = entry.getBaseForme().getEntityType();
         if (type != null) return type.create(world);
         return null;
     }
@@ -399,7 +399,7 @@ public class PokecubeCore
     @Nullable
     public static PokedexEntry getEntryFor(final EntityType<?> type)
     {
-        return PokecubeCore.typeMap.inverse().get(type);
+        return PokecubeCore.typeMap.get(type);
     }
 
     public static void spawnParticle(final World entityWorld, final String name, final Vector3 position,
