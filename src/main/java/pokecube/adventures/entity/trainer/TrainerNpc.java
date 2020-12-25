@@ -54,7 +54,9 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     public TrainerNpc(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.pokemobsCap.setType(TypeTrainer.get(this, true));
+        // This can be null in the case where fake worlds are used to initialize
+        // us for testing.
+        if (this.pokemobsCap != null) this.pokemobsCap.setType(TypeTrainer.get(this, true));
         this.enablePersistence();
     }
 

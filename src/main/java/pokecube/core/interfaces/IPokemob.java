@@ -24,7 +24,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
@@ -246,8 +245,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     default ITextComponent getDisplayName()
     {
-        if (this.getPokemonNickname().isEmpty()) return new TranslationTextComponent(this.getPokedexEntry()
-                .getUnlocalizedName());
+        if (this.getPokemonNickname().isEmpty()) return this.getPokedexEntry().getTranslatedName();
         return new StringTextComponent(this.getPokemonNickname());
     }
 

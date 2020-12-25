@@ -223,7 +223,8 @@ public class PacketPokedex extends Packet
         }
     }
 
-    byte               message;
+    byte message;
+
     public CompoundNBT data = new CompoundNBT();
 
     public PacketPokedex()
@@ -550,10 +551,6 @@ public class PacketPokedex extends Packet
         }
         if (this.data.contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.data
                 .getString("E"));
-        final boolean mode = this.data.getBoolean("M");
-        if (!player.getHeldItemMainhand().hasTag()) player.getHeldItemMainhand().setTag(new CompoundNBT());
-        player.getHeldItemMainhand().getTag().putBoolean("M", mode);
-        player.getHeldItemMainhand().getTag().putString("F", this.data.getString("F"));
 
     }
 

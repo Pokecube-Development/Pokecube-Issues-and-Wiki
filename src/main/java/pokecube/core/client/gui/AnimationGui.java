@@ -82,6 +82,7 @@ public class AnimationGui extends Screen
     public static IPokemob getRenderMob(final IPokemob realMob)
     {
         final IPokemob ret = AnimationGui.getRenderMob(realMob.getPokedexEntry());
+        if (ret == null) return realMob;
         if (ret != realMob)
         {
             EntityTools.copyEntityTransforms(ret.getEntity(), realMob.getEntity());

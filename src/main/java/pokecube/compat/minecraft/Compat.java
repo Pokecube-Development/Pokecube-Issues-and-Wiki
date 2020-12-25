@@ -118,6 +118,7 @@ public class Compat
 
     private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
+        if (event.getObject().getEntityWorld() instanceof FakeWorld) return;
         if (!Compat.makePokemob.test(event.getObject().getType())) return;
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
