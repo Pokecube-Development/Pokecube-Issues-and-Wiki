@@ -9,7 +9,6 @@ import java.util.Vector;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -206,7 +205,7 @@ public abstract class PokemobBase implements IPokemob
     /** Used for various cases where things at mobs location need checking */
     protected Vector3            here  = Vector3.getNewVector();
     /** The Entity this IPokemob is attached to. */
-    protected AgeableEntity      entity;
+    protected MobEntity          entity;
     /** RNG used, should be entity.getRNG() */
     protected Random             rand  = new Random();
     /** Our original owner. */
@@ -244,12 +243,6 @@ public abstract class PokemobBase implements IPokemob
         return this.dataSync;
     }
 
-    @Override
-    public AgeableEntity getEntity()
-    {
-        return this.entity;
-    }
-
     /**
      * @return the ownerHolder
      */
@@ -270,7 +263,7 @@ public abstract class PokemobBase implements IPokemob
     public void setEntity(final MobEntity entityIn)
     {
         this.rand = entityIn.getRNG();
-        this.entity = (AgeableEntity) entityIn;
+        this.entity = entityIn;
     }
 
     protected void setMaxHealth(final float maxHealth)

@@ -98,7 +98,7 @@ public class Health
         LivingEntity entity = passedEntity;
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-        if (pokemob == null || !entity.addedToChunk) return;
+        if (pokemob == null || !entity.addedToChunk || !pokemob.getPokedexEntry().stock) return;
         if (entity.getDistance(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
         final Config config = PokecubeCore.getConfig();
         final Minecraft mc = Minecraft.getInstance();

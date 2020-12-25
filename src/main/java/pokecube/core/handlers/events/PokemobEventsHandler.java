@@ -14,6 +14,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -38,6 +39,7 @@ import net.minecraftforge.common.Tags.IOptionalNamedTag;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -52,7 +54,6 @@ import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
-import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.entity.pokemobs.EntityPokemob;
@@ -84,6 +85,7 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.TerrainManager;
+import thut.core.common.network.EntityUpdate;
 
 public class PokemobEventsHandler
 {
@@ -111,6 +113,9 @@ public class PokemobEventsHandler
         // and preventing player suffocating while riding a pokemob into a
         // cieling.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingHurt);
+        // Used to reset the "NOITEMUSE" flag, which controls using healing
+        // items, the capture delay, etc.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttack);
 
         // This ensures that the damage sources apply for the correct entity,
         // this part is for support for mods like customnpcs
@@ -257,6 +262,12 @@ public class PokemobEventsHandler
         }
     }
 
+    private static void onLivingAttack(final LivingAttackEvent event)
+    {
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getSource().getImmediateSource());
+        if (pokemob != null) pokemob.setCombatState(CombatStates.NOITEMUSE, false);
+    }
+
     private static void onLivingDeath(final LivingDeathEvent evt)
     {
         final DamageSource damageSource = evt.getSource();
@@ -291,10 +302,18 @@ public class PokemobEventsHandler
     {
         // Sync genes over to players when they start tracking a pokemob
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
+        if (pokemob == null) return;
+        if (!(event.getEntity() instanceof ServerPlayerEntity)) return;
+        final PokedexEntry entry = pokemob.getPokedexEntry();
+
         final IMobGenetics genes = event.getTarget().getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
-        if (pokemob != null && event.getEntity() instanceof ServerPlayerEntity) for (final Alleles allele : genes
-                .getAlleles().values())
+        for (final Alleles allele : genes.getAlleles().values())
             PacketSyncGene.syncGene(event.getTarget(), allele, (ServerPlayerEntity) event.getPlayer());
+
+        // Send the whole thing over in this case, as it means it won't
+        // auto-sync things like IPokemob, etc.
+        // TODO special packet for just our capabiltiies instead!
+        if (!entry.stock) EntityUpdate.sendEntityUpdate(event.getTarget());
     }
 
     private static void onWorldTick(final WorldTickEvent evt)
@@ -335,6 +354,20 @@ public class PokemobEventsHandler
             {
                 pokemob.getEntity().remove(false);
                 return;
+            }
+
+            if (!pokemob.selfManagedBrain() && dim instanceof ServerWorld)
+            {
+                @SuppressWarnings("unchecked")
+                final Brain<LivingEntity> brain = (Brain<LivingEntity>) evt.getEntityLiving().getBrain();
+                try
+                {
+                    brain.tick((ServerWorld) dim, evt.getEntityLiving());
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error ticking brain for "+evt.getEntityLiving().getDisplayName().getString());
+                }
             }
 
             // Reset death time if we are not dead.
@@ -398,7 +431,7 @@ public class PokemobEventsHandler
                 attacker.setExp(attacker.getExp() + Tools.getExp((float) (pvp ? PokecubeCore
                         .getConfig().pvpExpMultiplier : PokecubeCore.getConfig().expScaleFactor), attackedMob
                                 .getBaseXP(), attackedMob.getLevel()), true);
-                final byte[] evsToAdd = Pokedex.getInstance().getEntry(attackedMob.getPokedexNb()).getEVs();
+                final byte[] evsToAdd = attackedMob.getPokedexEntry().getEVs();
                 attacker.addEVs(evsToAdd);
             }
             final Entity targetOwner = attackedMob.getOwner();

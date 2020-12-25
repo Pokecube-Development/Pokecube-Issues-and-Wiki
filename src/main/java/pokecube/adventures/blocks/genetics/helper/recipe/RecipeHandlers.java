@@ -70,12 +70,14 @@ public class RecipeHandlers
         public static class RecipeMatcher implements ReviveMatcher
         {
             final PokedexEntry     entry;
-            final List<Ingredient> stacks   = Lists.newArrayList();
-            final List<Integer>    remains  = Lists.newArrayList();
-            boolean                tame     = false;
-            int                    level    = AnyMatcher.level;
-            int                    priority = 100;
-            int                    energy   = RecipeClone.ENERGYCOST;
+            final List<Ingredient> stacks  = Lists.newArrayList();
+            final List<Integer>    remains = Lists.newArrayList();
+
+            boolean tame = false;
+
+            int level    = AnyMatcher.level;
+            int priority = 100;
+            int energy   = RecipeClone.ENERGYCOST;
 
             public RecipeMatcher(final PokedexEntry entry)
             {

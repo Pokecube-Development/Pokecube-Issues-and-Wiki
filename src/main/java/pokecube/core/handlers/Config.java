@@ -485,6 +485,9 @@ public class Config extends ConfigData
     public boolean debug  = false;
 
     @Configure(category = Config.advanced)
+    public boolean vanilla_pokemobs = false;
+
+    @Configure(category = Config.advanced)
     // DOLATER find more internal variables to add to this.
     public List<String> extraVars = Lists.newArrayList(new String[] { "jc:" + EventsHandler.juiceChance, "rc:"
             + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:" + ItemPokemobEgg.MOBDIST });

@@ -39,10 +39,12 @@ import pokecube.core.ai.tasks.idle.MateTask;
 import pokecube.core.ai.tasks.utility.GatherTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UseMoveTask;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.pokemob.InitAIEvent.Init;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.CapHolders;
+import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.IAIRunnable;
 
 public class Tasks
@@ -53,7 +55,7 @@ public class Tasks
             MemoryModules.NOT_FOUND_PATH);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
-             SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
+            SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
 
     public static void initBrain(final Brain<?> brain)
     {
@@ -64,21 +66,24 @@ public class Tasks
     public static ImmutableList<Pair<Integer, ? extends Task<? super LivingEntity>>> idle(final IPokemob pokemob,
             final float speed)
     {
+        final PokedexEntry entry = pokemob.getPokedexEntry();
         // Tasks for idle
         final List<IAIRunnable> aiList = Lists.newArrayList();
         final MobEntity entity = pokemob.getEntity();
 
         final IGuardAICapability guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
-        // Idle tasks
-        // Guard your egg
-        aiList.add(new GuardEggTask(pokemob));
-        // Mate with things
-        aiList.add(new MateTask(pokemob));
-        // Eat things
-        aiList.add(new HungerTask(pokemob));
-        // Wander around
-        aiList.add(new IdleWalkTask(pokemob));
-
+        if (entry.stock)
+        {
+            // Idle tasks
+            // Guard your egg
+            aiList.add(new GuardEggTask(pokemob));
+            // Mate with things
+            if (pokemob instanceof IBreedingMob) aiList.add(new MateTask(pokemob));
+            // Eat things
+            aiList.add(new HungerTask(pokemob));
+            // Wander around
+            aiList.add(new IdleWalkTask(pokemob));
+        }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
             aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getWidth() + pokemob.getPokedexEntry().length, 8 + entity
@@ -95,22 +100,23 @@ public class Tasks
 
         final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(entity, guardai));
         list.add(pair);
+        if (entry.stock)
+        {
+            Task<?> task = new LookAtTask(45, 90);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        Task<?> task = new LookAtTask(45, 90);
-        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+            task = new WalkToTask(200);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new WalkToTask(200);
-        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
-        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+            task = new SwimTask(pokemob, 0.8F);
+            list.add(Pair.of(0, (Task<? super LivingEntity>) task));
 
-        task = new SwimTask(pokemob, 0.8F);
-        list.add(Pair.of(0, (Task<? super LivingEntity>) task));
-
-        list.add(Tasks.lookAtMany());
-        list.add(Tasks.lookAtPlayerOrVillager());
-
+            list.add(Tasks.lookAtMany());
+            list.add(Tasks.lookAtPlayerOrVillager());
+        }
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
 
@@ -131,18 +137,23 @@ public class Tasks
         // Tasks for combat
         final List<IAIRunnable> aiList = Lists.newArrayList();
 
-        // combat tasks
-        aiList.add(new SelectMoveTask(pokemob));
-        // Attack stuff
-        aiList.add(new UseAttacksTask(pokemob));
+        final PokedexEntry entry = pokemob.getPokedexEntry();
+
+        if (entry.stock)
+        {
+            // combat tasks
+            aiList.add(new SelectMoveTask(pokemob));
+            // Attack stuff
+            aiList.add(new UseAttacksTask(pokemob));
+            // Dodge attacks
+            aiList.add(new DodgeTask(pokemob));
+            // Leap at things
+            aiList.add(new LeapTask(pokemob));
+            // Move around in combat
+            aiList.add(new CicleTask(pokemob));
+        }
         // Attack stuff
         aiList.add(new ForgetTargetTask(pokemob));
-        // Dodge attacks
-        aiList.add(new DodgeTask(pokemob));
-        // Leap at things
-        aiList.add(new LeapTask(pokemob));
-        // Move around in combat
-        aiList.add(new CicleTask(pokemob));
         // Call for help task
         aiList.add(new CallForHelpTask(pokemob, (float) PokecubeCore.getConfig().hordeRateFactor));
 
@@ -152,16 +163,17 @@ public class Tasks
         pokemob.setTargetFinder(targetFind);
 
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
+        if (entry.stock)
+        {
+            Task<?> task = new LookAtTask(45, 90);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        Task<?> task = new LookAtTask(45, 90);
-        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
-        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
-
-        task = new SwimTask(pokemob, 0.8F);
-        list.add(Pair.of(0, (Task<? super LivingEntity>) task));
-
+            task = new SwimTask(pokemob, 0.8F);
+            list.add(Pair.of(0, (Task<? super LivingEntity>) task));
+        }
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
 
@@ -181,6 +193,7 @@ public class Tasks
     {
         // Tasks for utilitiy
         final List<IAIRunnable> aiList = Lists.newArrayList();
+        final PokedexEntry entry = pokemob.getPokedexEntry();
 
         // combat tasks
         final StoreTask ai = new StoreTask(pokemob);
@@ -205,19 +218,20 @@ public class Tasks
         final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(pokemob.getEntity(),
                 guardai));
         list.add(pair);
+        if (entry.stock)
+        {
+            Task<?> task = new LookAtTask(45, 90);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        Task<?> task = new LookAtTask(45, 90);
-        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+            task = new WalkToTask(200);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new WalkToTask(200);
-        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
-        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
-
-        task = new SwimTask(pokemob, 0.8F);
-        list.add(Pair.of(0, (Task<? super LivingEntity>) task));
-
+            task = new SwimTask(pokemob, 0.8F);
+            list.add(Pair.of(0, (Task<? super LivingEntity>) task));
+        }
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 

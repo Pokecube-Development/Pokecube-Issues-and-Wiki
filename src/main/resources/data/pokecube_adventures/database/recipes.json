@@ -38,7 +38,6 @@
         "lvl": "15",
         "cost": "10000",
         "chance": "0.1",
-        "remain": "0",
         "priority": "-1"
       }
     },
@@ -59,7 +58,6 @@
         "lvl": "15",
         "cost": "10000",
         "chance": "0.9",
-        "remain": "0",
         "priority": "-1"
       }
     },

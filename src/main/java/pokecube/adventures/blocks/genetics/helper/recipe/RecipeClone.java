@@ -174,6 +174,13 @@ public class RecipeClone extends PoweredRecipe
         return Lists.newArrayList(RecipeClone.recipeList);
     }
 
+    public static List<ReviveMatcher> getMatchers()
+    {
+        Collections.shuffle(RecipeClone.MATCHERS);
+        RecipeClone.MATCHERS.sort((o1, o2) -> o1.priority() - o2.priority());
+        return RecipeClone.MATCHERS;
+    }
+
     public RecipeClone(final ResourceLocation loc)
     {
         super(loc);
@@ -189,7 +196,7 @@ public class RecipeClone extends PoweredRecipe
     public boolean complete(final IPoweredProgress tile)
     {
         boolean completed = false;
-        for (final ReviveMatcher matcher : RecipeClone.MATCHERS)
+        for (final ReviveMatcher matcher : RecipeClone.getMatchers())
             if (completed = matcher.complete(tile)) break;
         if (!completed) completed = RecipeClone.ANYMATCHER.complete(tile);
         if (completed)
@@ -227,7 +234,7 @@ public class RecipeClone extends PoweredRecipe
     @Override
     public int getEnergyCost(final IPoweredProgress tile)
     {
-        for (final ReviveMatcher matcher : RecipeClone.MATCHERS)
+        for (final ReviveMatcher matcher : RecipeClone.getMatchers())
             if (RecipeClone.getEntry(matcher, tile) != Database.missingno) return matcher.getEnergyCost();
         return RecipeClone.ANYMATCHER.getEnergyCost();
     }
@@ -235,7 +242,7 @@ public class RecipeClone extends PoweredRecipe
     public PokedexEntry getPokedexEntry(final IPoweredProgress tile)
     {
         PokedexEntry entry = Database.missingno;
-        for (final ReviveMatcher matcher : RecipeClone.MATCHERS)
+        for (final ReviveMatcher matcher : RecipeClone.getMatchers())
             if ((entry = RecipeClone.getEntry(matcher, tile)) != Database.missingno) return entry;
         return RecipeClone.getEntry(RecipeClone.ANYMATCHER, tile);
     }
@@ -250,7 +257,7 @@ public class RecipeClone extends PoweredRecipe
     @Override
     public boolean matches(final CraftingInventory inv, final World worldIn)
     {
-        for (final ReviveMatcher matcher : RecipeClone.MATCHERS)
+        for (final ReviveMatcher matcher : RecipeClone.getMatchers())
             if (matcher.getEntry(inv, worldIn) != Database.missingno) return true;
         return RecipeClone.ANYMATCHER.getEntry(inv, worldIn) != Database.missingno;
     }
@@ -264,7 +271,7 @@ public class RecipeClone extends PoweredRecipe
         if (!(inv_p.inventory instanceof ClonerTile)) return nonnulllist;
         final ClonerTile tile = (ClonerTile) inv_p.inventory;
         ReviveMatcher matcher = RecipeClone.ANYMATCHER;
-        for (final ReviveMatcher matcher2 : RecipeClone.MATCHERS)
+        for (final ReviveMatcher matcher2 : RecipeClone.getMatchers())
             if (matcher2.getEntry(inv, tile.getWorld()) != Database.missingno)
             {
                 matcher = matcher2;

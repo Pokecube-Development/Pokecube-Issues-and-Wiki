@@ -226,7 +226,7 @@ public class PokecubeMobs
             final Item itemId = item.getItem();
             boolean berry = itemId == BerryManager.getBerryItem("oran");
             final Random r = new Random();
-            if (berry && (r.nextGaussian() > EventsHandler.juiceChance||true))
+            if (berry && r.nextGaussian() > EventsHandler.juiceChance)
             {
                 if (shuckle.getOwner() != null)
                 {
@@ -237,7 +237,7 @@ public class PokecubeMobs
                 return;
             }
             berry = itemId == PokecubeItems.BERRYJUICE.get();
-            if (berry && (r.nextGaussian() > EventsHandler.candyChance||true))
+            if (berry && r.nextGaussian() > EventsHandler.candyChance)
             {
                 final ItemStack candy = PokecubeItems.makeCandyStack();
                 if (candy.isEmpty()) return;
