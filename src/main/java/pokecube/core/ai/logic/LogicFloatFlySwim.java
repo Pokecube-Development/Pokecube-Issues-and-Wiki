@@ -156,6 +156,7 @@ public class LogicFloatFlySwim extends LogicBase
                 }
                 // Horizontal distance
                 final float dh = MathHelper.sqrt(dx * dx + dz * dz);
+                // Total distance
                 final float ds = MathHelper.sqrt(ds2);
 
                 final float f = (float) (MathHelper.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
@@ -174,6 +175,10 @@ public class LogicFloatFlySwim extends LogicBase
                 final float f2 = (float) -(MathHelper.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.rotationPitch = this.limitAngle(this.mob.rotationPitch, f2, 10.0F);
                 f1 *= Math.abs(dy / ds);
+
+                // Speeds up upwards motion if this is too slow.
+                if (dy < 2 && dy > 0) f1 = Math.max(f1 * 10, 0.1f);
+
                 this.mob.setMoveVertical(dy > 0.0D ? f1 : -f1);
 
                 // dampen the velocity so they don't orbit their destination
