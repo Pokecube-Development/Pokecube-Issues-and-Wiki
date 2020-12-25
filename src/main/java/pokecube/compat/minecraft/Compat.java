@@ -108,6 +108,7 @@ public class Compat
                 }
                 @SuppressWarnings("unchecked")
                 final EntityType<? extends MobEntity> mobType = (EntityType<? extends MobEntity>) type;
+                newDerp.setEntityType(mobType);
                 PokecubeCore.typeMap.put(mobType, newDerp);
             }
             catch (final Exception e)

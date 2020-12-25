@@ -366,7 +366,8 @@ public class PokemobEventsHandler
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error ticking brain for "+evt.getEntityLiving().getDisplayName().getString());
+                    PokecubeCore.LOGGER.error("Error ticking brain for " + evt.getEntityLiving().getDisplayName()
+                            .getString());
                 }
             }
 
@@ -609,7 +610,9 @@ public class PokemobEventsHandler
             return;
         }
 
-        final boolean fits = isOwner || ((EntityPokemob) pokemob.getEntity()).canFitPassenger(player);
+        boolean fits = isOwner;
+        if (!fits && pokemob.getEntity() instanceof EntityPokemob) fits = ((EntityPokemob) pokemob.getEntity())
+                .canFitPassenger(player);
         final boolean saddled = PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
 
         final boolean saddleCheck = !player.isSneaking() && held.isEmpty() && fits && saddled;

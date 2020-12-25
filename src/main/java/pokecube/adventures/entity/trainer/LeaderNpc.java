@@ -31,6 +31,9 @@ public class LeaderNpc extends TrainerNpc
     public LeaderNpc(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
+        // Stuff below here is not null for real worlds, null for fake ones, so
+        // lets return here if null.
+        if (this.aiStates == null) return;
         this.aiStates.setAIState(AIState.STATIONARY, true);
         this.aiStates.setAIState(AIState.TRADES, false);
         this.pokemobsCap.resetTimeLose = 0;

@@ -1714,8 +1714,7 @@ public class PokedexEntry
         if (this.nameComp == null)
         {
             String key = this.getUnlocalizedName();
-            if (this.getEntityType() != null && !(this.getEntityType() instanceof PokemobType<?>)) key = this
-                    .getEntityType().getTranslationKey();
+            if (!(this.getEntityType() instanceof PokemobType<?>)) key = this.getEntityType().getTranslationKey();
             this.nameComp = new TranslationTextComponent(key);
             this.nameComp.setStyle(this.nameComp.getStyle().setClickEvent(new ClickEvent(
                     net.minecraft.util.text.event.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
