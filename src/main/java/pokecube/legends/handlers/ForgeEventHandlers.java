@@ -59,7 +59,6 @@ public class ForgeEventHandlers
             @Nullable final BlockState newState, final BlockPos pos)
     {
         final BlockState state = world.getBlockState(pos);
-        System.out.println(state+" "+newState);
         if (ItemList.is(ForgeEventHandlers.WHILTELISTED, state)) return false;
         if (newState != null && ItemList.is(ForgeEventHandlers.WHILTELISTED, newState)) return false;
         final Set<StructureInfo> set = StructureManager.getFor(world.getDimensionKey(), pos);
