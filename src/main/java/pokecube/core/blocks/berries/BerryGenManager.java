@@ -311,7 +311,6 @@ public class BerryGenManager
                 {
                     if (!(j instanceof CustomJigsawPiece)) return true;
                     final CustomJigsawPiece p = (CustomJigsawPiece) j;
-                    System.out.println(p.opts.flag);
                     if (p.opts.flag.isEmpty()) return true;
                     return p.opts.flag.equals(this.berryType);
                 };
