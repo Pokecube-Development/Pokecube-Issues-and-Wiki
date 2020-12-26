@@ -24,7 +24,7 @@ public class Leechseed extends Move_Ongoing
         if (pokemob != null) factor *= pokemob.getMoveStats().TOXIC_COUNTER + 1;
         final float thisMaxHP = living.getMaxHealth();
         final float damage = this.damageTarget(living, user, Math.max(1, (int) (factor * thisMaxHP)));
-        if (user != null) user.setHealth(Math.min(user.getHealth() + damage, user.getMaxHealth()));
+        if (user != null && user.isAlive()) user.setHealth(Math.min(user.getHealth() + damage, user.getMaxHealth()));
     }
 
     @Override
