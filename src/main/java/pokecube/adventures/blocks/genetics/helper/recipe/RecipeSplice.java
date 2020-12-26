@@ -22,8 +22,8 @@ import pokecube.core.database.PokedexEntry;
 
 public class RecipeSplice extends PoweredRecipe
 {
-    public static int                                   ENERGYCOST = 10000;
-    public static Function<ItemStack, Integer>          ENERGYNEED = (s) -> RecipeSplice.ENERGYCOST;
+    public static int                          ENERGYCOST = 10000;
+    public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeSplice.ENERGYCOST;
 
     public RecipeSplice(final ResourceLocation location)
     {
@@ -109,9 +109,18 @@ public class RecipeSplice extends PoweredRecipe
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
             final ItemStack item = inv.getStackInSlot(i).copy();
-            if (i == 0 && keepDNA) nonnulllist.set(i, item);
-            else if (i == 0 && item.getItem() == Items.POTION) nonnulllist.set(i, new ItemStack(Items.GLASS_BOTTLE));
             if (i == 1 && keepSelector) nonnulllist.set(i, item);
+            if (i == 0)
+            {
+                final boolean multiple = item.getCount() > 1;
+                if (keepDNA) nonnulllist.set(i, item);
+                else if (item.getItem() == Items.POTION) nonnulllist.set(i, new ItemStack(Items.GLASS_BOTTLE));
+                else if (!multiple)
+                {
+                    item.setTag(null);
+                    nonnulllist.set(i, item.copy());
+                }
+            }
             if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
         tile.override_selector = ItemStack.EMPTY;
