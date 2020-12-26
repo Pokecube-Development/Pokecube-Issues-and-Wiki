@@ -214,8 +214,8 @@ public class HungerTask extends BaseIdleTask
             if (ItemList.is(HungerTask.FOODTAG, stack))
             {
                 final int size = stack.getCount();
-                final ItemStack left = this.pokemob.eat(stack);
-                if (size == left.getCount()) left.shrink(1);
+                this.pokemob.eat(stack);
+                if (size == stack.getCount()) stack.shrink(1);
                 if (stack.isEmpty()) this.pokemob.getInventory().setInventorySlotContents(i, ItemStack.EMPTY);
                 return true;
             }

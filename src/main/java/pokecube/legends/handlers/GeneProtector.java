@@ -38,11 +38,11 @@ public class GeneProtector
     @SubscribeEvent
     public void GeneEditEvent(final GeneEditEvent evt)
     {
-        if (evt.resultGenes.getAlleles().containsKey(GeneticsManager.SPECIESGENE) && evt.reason == EditType.EXTRACT)
+        if (evt.resultGenes.getAlleles().containsKey(GeneticsManager.SPECIESGENE))
         {
             final Alleles alleles = evt.resultGenes.getAlleles().get(GeneticsManager.SPECIESGENE);
             final SpeciesGene gene = alleles.getExpressed();
-            if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
+            if(evt.reason==EditType.EXTRACT) if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
         }
     }
 

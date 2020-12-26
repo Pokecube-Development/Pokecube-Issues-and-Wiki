@@ -415,7 +415,7 @@ public class TrainerEventHandler
      */
     public static void onSentToPC(final PCEvent evt)
     {
-        final boolean isPlayerOrUnknown = evt.owner == null || evt.owner instanceof PlayerEntity;
+        final boolean isPlayerOrUnknown = evt.owner == null || evt.players;
         if (isPlayerOrUnknown) return;
         // This prevents the cube from ending up on the ground when recalled
         evt.setCanceled(true);
@@ -426,9 +426,9 @@ public class TrainerEventHandler
      *
      * @param evt
      */
-    public static void onRecalledPokemob(final RecallEvent.Post evt)
+    public static void onRecalledPokemob(final RecallEvent.Pre evt)
     {
-        if (evt.recalled.getOwner() instanceof PlayerEntity) return;
+        if (evt.recalled.isPlayerOwned()) return;
         final IPokemob recalled = evt.recalled;
         final LivingEntity owner = recalled.getOwner();
         if (owner == null) return;
@@ -437,6 +437,9 @@ public class TrainerEventHandler
         {
             if (recalled == pokemobHolder.getOutMob()) pokemobHolder.setOutMob(null);
             pokemobHolder.addPokemob(PokecubeManager.pokemobToItem(recalled));
+            evt.setCanceled(true);
+            recalled.markRemoved();
+            recalled.getEntity().remove(false);
         }
     }
 

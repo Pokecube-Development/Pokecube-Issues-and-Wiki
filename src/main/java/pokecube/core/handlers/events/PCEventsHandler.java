@@ -80,10 +80,10 @@ public class PCEventsHandler
      */
     private static void onSendToPC(final pokecube.core.events.PCEvent evt)
     {
-        if (evt.owner == null || evt.owner.getEntityWorld().isRemote) return;
+        if (evt.owner == null) return;
         if (PokecubeManager.isFilled(evt.toPC))
         {
-            PCInventory.addPokecubeToPC(evt.toPC, evt.owner.getEntityWorld());
+            PCInventory.addPokecubeToPC(evt.toPC, evt.world);
             evt.setCanceled(true);
         }
     }

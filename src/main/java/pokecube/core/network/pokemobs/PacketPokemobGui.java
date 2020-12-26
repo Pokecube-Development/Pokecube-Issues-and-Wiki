@@ -74,6 +74,7 @@ public class PacketPokemobGui extends Packet
         final byte mode = this.message;
         SimpleNamedContainerProvider provider;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        if (pokemob == null) return;
 
         switch (this.message)
         {

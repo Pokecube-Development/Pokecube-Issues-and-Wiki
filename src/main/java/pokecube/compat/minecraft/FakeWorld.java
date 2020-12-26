@@ -41,7 +41,7 @@ public class FakeWorld extends World
 
     private FakeWorld()
     {
-        super(null, World.OVERWORLD, FakeWorld.dimtype, () -> EmptyProfiler.INSTANCE, true, true, 0);
+        super(null, World.OVERWORLD, FakeWorld.dimtype, () -> EmptyProfiler.INSTANCE, false, true, 0);
     }
 
     @Override

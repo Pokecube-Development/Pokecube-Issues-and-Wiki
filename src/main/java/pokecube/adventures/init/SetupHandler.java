@@ -76,7 +76,7 @@ public class SetupHandler
         // Loads the trades for the trainers.
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onPostServerStart);
         // Prevent trainer's pokemobs going to the PC
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onSentToPC);
+        PokecubeCore.POKEMOB_BUS.addListener(TrainerEventHandler::onSentToPC);
         // Prevents normal processing for recalling pokemobs, this re-adds it to
         // the trainer's inventory.
         PokecubeCore.POKEMOB_BUS.addListener(EventPriority.NORMAL, false, TrainerEventHandler::onRecalledPokemob);

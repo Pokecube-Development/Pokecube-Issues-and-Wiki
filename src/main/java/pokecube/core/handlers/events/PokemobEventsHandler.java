@@ -299,6 +299,8 @@ public class PokemobEventsHandler
             pokemob.markRemoved();
             if (mob.getEntityWorld() instanceof ServerWorld) mob.getEntityWorld().addEntity(modified.getEntity());
         }
+        // This initializes logics on the client side.
+        if (!(mob.getEntityWorld() instanceof ServerWorld)) pokemob.initAI();
     }
 
     private static void onBrainInit(final BrainInitEvent event)
@@ -340,20 +342,21 @@ public class PokemobEventsHandler
 
     private static void onMobTick(final LivingUpdateEvent evt)
     {
-        final World dim = evt.getEntity().getEntityWorld();
+        final LivingEntity living = evt.getEntityLiving();
+        final World dim = living.getEntityWorld();
         // Prevent moving if it is liable to take us out of a loaded area
-        double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
-                .getMotion().z * evt.getEntity().getMotion().z);
-        final boolean ridden = evt.getEntity().isBeingRidden();
-        final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
+        double dist = Math.sqrt(living.getMotion().x * living.getMotion().x + living.getMotion().z * living
+                .getMotion().z);
+        final boolean ridden = living.isBeingRidden();
+        final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, living.getPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold + dist);
-        if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
+        if (tooFast) living.setMotion(0, living.getMotion().y, 0);
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (pokemob instanceof DefaultPokemob && evt.getEntity() instanceof EntityPokemob && dim instanceof ServerWorld)
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
+        if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerWorld)
         {
             final DefaultPokemob pokemobCap = (DefaultPokemob) pokemob;
-            final EntityPokemob mob = (EntityPokemob) evt.getEntity();
+            final EntityPokemob mob = (EntityPokemob) living;
             if (pokemobCap.returning)
             {
                 mob.remove(false);
@@ -379,12 +382,12 @@ public class PokemobEventsHandler
             }
         }
 
-        if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
+        if (living.getPersistentData().hasUniqueId("old_uuid"))
         {
-            final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
-            evt.getEntity().getPersistentData().remove("old_uuid");
+            final UUID id = living.getPersistentData().getUniqueId("old_uuid");
+            living.getPersistentData().remove("old_uuid");
             if (pokemob != null) PokemobTracker.removePokemob(pokemob);
-            evt.getEntity().setUniqueId(id);
+            living.setUniqueId(id);
             if (pokemob != null) PokemobTracker.addPokemob(pokemob);
         }
 
@@ -395,13 +398,12 @@ public class PokemobEventsHandler
                 pokemob.getEntity().remove(false);
                 return;
             }
-            // Initialize this client side here, server side it is done on brain tick
-            if (pokemob.getTickLogic().isEmpty() && dim.isRemote) pokemob.initAI();
+
             // Reset death time if we are not dead.
             if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
             // Tick the logic stuff for this mob.
             for (final Logic l : pokemob.getTickLogic())
-                if (l.shouldRun()) l.tick(evt.getEntity().getEntityWorld());
+                if (l.shouldRun()) l.tick(living.getEntityWorld());
         }
     }
 

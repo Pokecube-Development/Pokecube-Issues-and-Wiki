@@ -53,7 +53,7 @@ public abstract class MixinMobEntity extends LivingEntity
     private boolean ticked_default_ai = false;
     private boolean checked_for_ai    = false;
 
-    @Inject(method = "updateEntityActionState", at = @At(value = "INVOKE_STRING", target = "startSection(Ljava/lang/String;)V", args = {
+    @Inject(method = "updateEntityActionState", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;startSection(Ljava/lang/String;)V", args = {
             "ldc=mob tick" }))
     protected void onPreUpdateAITasks(final CallbackInfo cbi)
     {
@@ -70,7 +70,7 @@ public abstract class MixinMobEntity extends LivingEntity
         }
     }
 
-    @Inject(method = "updateEntityActionState", at = @At(value = "INVOKE_STRING", target = "startSection(Ljava/lang/String;)V", args = {
+    @Inject(method = "updateEntityActionState", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;startSection(Ljava/lang/String;)V", args = {
             "ldc=controls" }))
     protected void onPostUpdateAITasks(final CallbackInfo cbi)
     {

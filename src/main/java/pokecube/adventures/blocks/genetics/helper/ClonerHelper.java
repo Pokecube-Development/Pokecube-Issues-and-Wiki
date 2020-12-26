@@ -236,6 +236,7 @@ public class ClonerHelper
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+        ClonerHelper.setGenes(destination, genesIn, EditType.EXTRACT);
         for (final Map.Entry<ResourceLocation, Alleles> entry : genesIn.getAlleles().entrySet())
         {
             final ResourceLocation loc = entry.getKey();
