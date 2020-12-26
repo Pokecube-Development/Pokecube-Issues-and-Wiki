@@ -21,7 +21,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -328,7 +327,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         {
             final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
             final PCEvent event = new PCEvent(world, itemstack.copy(), this.getOwnerId(), this.isPlayerOwned());
-            MinecraftForge.EVENT_BUS.post(event);
+            PokecubeCore.POKEMOB_BUS.post(event);
             if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
         }
 
