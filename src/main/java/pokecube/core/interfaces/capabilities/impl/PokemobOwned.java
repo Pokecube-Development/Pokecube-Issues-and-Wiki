@@ -214,6 +214,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getEntityId());
             PokecubeCore.packets.sendToServer(packet);
+            return;
         }
         catch (final Exception ex)
         {
@@ -298,6 +299,9 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
         this.getEntity().captureDrops(Lists.newArrayList());
         final PlayerEntity tosser = PokecubeMod.getFakePlayer(this.getEntity().getEntityWorld());
+
+        boolean added = false;
+        toPlayer:
         if (owner instanceof PlayerEntity)
         {
             final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
@@ -305,21 +309,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             boolean noRoom = false;
             final boolean ownerDead = player.getHealth() <= 0;
             if (ownerDead || player.inventory.getFirstEmptyStack() == -1) noRoom = true;
-            if (noRoom)
-            {
-                final PCEvent event = new PCEvent(itemstack.copy(), tosser);
-                MinecraftForge.EVENT_BUS.post(event);
-                if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
-            }
+            if (noRoom) break toPlayer;
             else
             {
-                final boolean added = player.inventory.addItemStackToInventory(itemstack);
-                if (!added)
-                {
-                    final PCEvent event = new PCEvent(itemstack.copy(), tosser);
-                    MinecraftForge.EVENT_BUS.post(event);
-                    if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
-                }
+                added = player.inventory.addItemStackToInventory(itemstack);
+                if (!added) break toPlayer;
             }
             if (!owner.isSneaking() && this.getEntity().isAlive() && !ownerDead)
             {
@@ -330,22 +324,14 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             final ITextComponent mess = new TranslationTextComponent("pokemob.action.return", this.getDisplayName());
             this.displayMessageToOwner(mess);
         }
-        else if (this.getOwnerId() != null)
+        if (!added && this.getOwnerId() != null)
         {
             final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
-            if (owner == null)
-            {
-                final PCEvent event = new PCEvent(itemstack.copy(), tosser);
-                MinecraftForge.EVENT_BUS.post(event);
-                if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
-            }
-            else
-            {
-                final PCEvent event = new PCEvent(itemstack.copy(), (LivingEntity) owner);
-                MinecraftForge.EVENT_BUS.post(event);
-                if (!event.isCanceled()) this.onToss((LivingEntity) owner, itemstack.copy());
-            }
+            final PCEvent event = new PCEvent(world, itemstack.copy(), this.getOwnerId(), this.isPlayerOwned());
+            MinecraftForge.EVENT_BUS.post(event);
+            if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
         }
+
         // This ensures it can't be caught by dupe
         this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
         this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
