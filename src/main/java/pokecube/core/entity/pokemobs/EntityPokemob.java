@@ -14,12 +14,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
@@ -61,6 +58,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -105,7 +103,8 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     public boolean canBreatheUnderwater()
     {
-        return this.pokemobCap.swims() || this.pokemobCap.canUseDive();
+        return this.pokemobCap.swims() || this.pokemobCap.canUseDive() || this.pokemobCap.isType(PokeType.getType(
+                "water"));
     }
 
     @Override
@@ -121,41 +120,6 @@ public class EntityPokemob extends PokemobHasParts
         // Vanilla plays sound and does damage, but only plays the sound if
         // damage occurred, maybe we should just play the sound instead?
         return super.onLivingFall(distance, damageMultiplier);
-    }
-
-    @Override
-    public void livingTick()
-    {
-        if (this.pokemobCap.returning)
-        {
-            this.remove(false);
-            return;
-        }
-        if (this.getEntityWorld() instanceof ServerWorld)
-        {
-            if (this.pokemobCap.getOwnerId() != null) this.enablePersistence();
-            final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
-            if (near != null && this.getOwnerId() == null)
-            {
-                final float dist = near.getDistance(this);
-                if (PokecubeCore.getConfig().cull && dist > PokecubeCore.getConfig().cullDistance)
-                {
-                    this.pokemobCap.onRecall();
-                    return;
-                }
-                if (dist > PokecubeCore.getConfig().aiDisableDistance) return;
-            }
-        }
-        super.livingTick();
-    }
-
-    @Override
-    protected void updateAITasks()
-    {
-        super.updateAITasks();
-        @SuppressWarnings("unchecked")
-        final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getBrain();
-        brain.tick((ServerWorld) this.world, this);
     }
 
     @Override

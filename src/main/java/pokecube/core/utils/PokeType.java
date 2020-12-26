@@ -70,7 +70,6 @@ public enum PokeType implements IExtensibleEnum
                 PokeType.names.put(name, type);
                 return type;
             }
-        PokeType.names.put(name, unknown);
         return unknown;
     }
 

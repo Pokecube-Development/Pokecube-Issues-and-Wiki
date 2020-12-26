@@ -142,6 +142,7 @@ public class EventsHandlerClient
     public static List<IPokemob> getPokemobs(final LivingEntity owner, final double distance)
     {
         final List<IPokemob> ret = new ArrayList<>();
+
         for (final Entity e : PokemobTracker.getMobs(owner, e -> !(e instanceof EntityPokecubeBase)))
         {
             final IPokemob mob = CapabilityPokemob.getPokemobFor(e);

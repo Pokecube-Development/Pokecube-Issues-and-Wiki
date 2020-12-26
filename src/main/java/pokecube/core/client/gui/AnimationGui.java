@@ -31,7 +31,9 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -64,6 +66,8 @@ import thut.core.common.ThutCore;
 public class AnimationGui extends Screen
 {
     private static Map<PokedexEntry, IPokemob> renderMobs = Maps.newHashMap();
+
+    private static Set<EntityType<?>> errorSet = Sets.newHashSet();
 
     private static Object2FloatOpenHashMap<PokedexEntry> sizes = new Object2FloatOpenHashMap<>();
 
@@ -101,6 +105,23 @@ public class AnimationGui extends Screen
                             from.genes, null);
                     GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
                 }
+                if (!realMob.getPokedexEntry().stock && !AnimationGui.errorSet.contains(realMob.getPokedexEntry()
+                        .getEntityType()))
+                {
+                    final CompoundNBT tag = new CompoundNBT();
+                    try
+                    {
+                        realMob.getEntity().writeAdditional(tag);
+                        ret.getEntity().readAdditional(tag);
+                    }
+                    catch (final Exception e)
+                    {
+                        PokecubeCore.LOGGER.error("Error with ReadAdditional for " + realMob.getEntity());
+                        e.printStackTrace();
+                        AnimationGui.errorSet.add(realMob.getPokedexEntry().getEntityType());
+                    }
+                }
+
             }
         }
         return ret;

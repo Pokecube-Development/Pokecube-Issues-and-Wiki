@@ -14,7 +14,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -57,6 +56,7 @@ import pokecube.core.ai.logic.Logic;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.entity.pokemobs.EntityPokemob;
+import pokecube.core.events.BrainInitEvent;
 import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.combat.KillEvent;
 import pokecube.core.handlers.Config;
@@ -64,6 +64,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemobUseable;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
@@ -134,6 +135,9 @@ public class PokemobEventsHandler
         // ensures their UUID is correct after evolution, and then ticks the
         // "logic" section of their AI.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobTick);
+        // Called by MixinMobEntity before the first brain tick, to ensure the
+        // brain has AI setup, etc.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBrainInit);
     }
 
     private static void onLivingDrops(final LivingDropsEvent event)
@@ -289,13 +293,20 @@ public class PokemobEventsHandler
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
         pokemob.setEntity((MobEntity) mob);
-        pokemob.initAI();
         final IPokemob modified = pokemob.onAddedInit();
         if (modified != pokemob)
         {
             pokemob.markRemoved();
             if (mob.getEntityWorld() instanceof ServerWorld) mob.getEntityWorld().addEntity(modified.getEntity());
         }
+    }
+
+    private static void onBrainInit(final BrainInitEvent event)
+    {
+        final Entity mob = event.getEntity();
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        if (pokemob == null) return;
+        pokemob.initAI();
     }
 
     private static void onMobTracking(final StartTracking event)
@@ -331,7 +342,7 @@ public class PokemobEventsHandler
     {
         final World dim = evt.getEntity().getEntityWorld();
         // Prevent moving if it is liable to take us out of a loaded area
-        final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
+        double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
                 .getMotion().z * evt.getEntity().getMotion().z);
         final boolean ridden = evt.getEntity().isBeingRidden();
         final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
@@ -339,6 +350,35 @@ public class PokemobEventsHandler
         if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        if (pokemob instanceof DefaultPokemob && evt.getEntity() instanceof EntityPokemob && dim instanceof ServerWorld)
+        {
+            final DefaultPokemob pokemobCap = (DefaultPokemob) pokemob;
+            final EntityPokemob mob = (EntityPokemob) evt.getEntity();
+            if (pokemobCap.returning)
+            {
+                mob.remove(false);
+                evt.setCanceled(true);
+                return;
+            }
+            if (pokemobCap.getOwnerId() != null) mob.enablePersistence();
+            final PlayerEntity near = mob.getEntityWorld().getClosestPlayer(mob, -1);
+            if (near != null && pokemob.getOwnerId() == null)
+            {
+                dist = near.getDistance(mob);
+                if (PokecubeCore.getConfig().cull && dist > PokecubeCore.getConfig().cullDistance)
+                {
+                    pokemobCap.onRecall();
+                    evt.setCanceled(true);
+                    return;
+                }
+                if (dist > PokecubeCore.getConfig().aiDisableDistance)
+                {
+                    evt.setCanceled(true);
+                    return;
+                }
+            }
+        }
+
         if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
         {
             final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
@@ -355,22 +395,8 @@ public class PokemobEventsHandler
                 pokemob.getEntity().remove(false);
                 return;
             }
-
-            if (!pokemob.selfManagedBrain() && dim instanceof ServerWorld)
-            {
-                @SuppressWarnings("unchecked")
-                final Brain<LivingEntity> brain = (Brain<LivingEntity>) evt.getEntityLiving().getBrain();
-                try
-                {
-                    brain.tick((ServerWorld) dim, evt.getEntityLiving());
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error ticking brain for " + evt.getEntityLiving().getDisplayName()
-                            .getString());
-                }
-            }
-
+            // Initialize this client side here, server side it is done on brain tick
+            if (pokemob.getTickLogic().isEmpty() && dim.isRemote) pokemob.initAI();
             // Reset death time if we are not dead.
             if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
             // Tick the logic stuff for this mob.
