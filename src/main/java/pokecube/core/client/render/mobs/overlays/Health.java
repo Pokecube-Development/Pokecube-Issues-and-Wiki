@@ -161,6 +161,7 @@ public class Health
             IFormattableTextComponent nameComp = (IFormattableTextComponent) pokemob.getDisplayName();
             final boolean obfuscated = Health.obfuscateName(pokemob);
             if (obfuscated) nameComp.setStyle(nameComp.getStyle().setObfuscated(true));
+            else nameComp.setStyle(nameComp.getStyle().setObfuscated(false));
             if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName())
                 nameComp = (IFormattableTextComponent) ((MobEntity) entity).getCustomName();
             final float s = 0.5F;
