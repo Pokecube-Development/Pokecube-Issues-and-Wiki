@@ -2,9 +2,11 @@ package pokecube.core.events;
 
 import java.util.Random;
 
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template.EntityInfo;
@@ -12,6 +14,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
+import pokecube.core.world.gen.jigsaw.JigsawAssmbler;
 
 public class StructureEvent extends Event
 {
@@ -24,6 +27,8 @@ public class StructureEvent extends Event
         public final int            chunkPosZ;
         public final JigSawConfig   struct;
 
+        private RegistryKey<World> key;
+
         public PickLocation(final ChunkGenerator chunkGen, final Random rand, final int chunkPosX, final int chunkPosZ,
                 final JigSawConfig struct)
         {
@@ -32,6 +37,14 @@ public class StructureEvent extends Event
             this.chunkPosX = chunkPosX;
             this.chunkPosZ = chunkPosZ;
             this.struct = struct;
+            final World world = JigsawAssmbler.getForGen(chunkGen);
+            if(world!=null) this.key = world.getDimensionKey();
+            else this.key = World.OVERWORLD;
+        }
+
+        public RegistryKey<World> getDimensionKey()
+        {
+            return this.key;
         }
     }
 

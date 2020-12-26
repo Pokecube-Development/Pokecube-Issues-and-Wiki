@@ -12,7 +12,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,9 +40,8 @@ public class Impl
     @SubscribeEvent
     public static void buildStructure(final PickLocation event)
     {
-        final ChunkGenerator<?> generator = event.chunkGen;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getWorld(generator.world.getDimensionKey());
+        final ServerWorld world = server.getWorld(event.getDimensionKey());
         final IDimensionInfo dimInfo = Registration.LOSTCITY_FEATURE.getDimensionInfo(world);
         if (dimInfo == null)
         {
