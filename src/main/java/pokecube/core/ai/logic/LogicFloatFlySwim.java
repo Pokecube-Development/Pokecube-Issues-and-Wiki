@@ -2,10 +2,8 @@ package pokecube.core.ai.logic;
 
 import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.pathfinding.ClimberPathNavigator;
 import net.minecraft.pathfinding.FlyingPathNavigator;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.SwimmerPathNavigator;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -78,6 +76,7 @@ public class LogicFloatFlySwim extends LogicBase
                 final double dx = this.posX - this.mob.getPosX();
                 final double dy = this.posY - this.mob.getPosY();
                 final double dz = this.posZ - this.mob.getPosZ();
+
                 // Total distance squared
                 final double ds2 = dx * dx + dy * dy + dz * dz;
                 if (ds2 < 0.01F)
@@ -104,6 +103,10 @@ public class LogicFloatFlySwim extends LogicBase
                 final float f2 = (float) -(MathHelper.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.rotationPitch = this.limitAngle(this.mob.rotationPitch, f2, 10.0F);
                 f1 *= Math.abs(dy / ds);
+
+                // Speeds up upwards motion if this is too slow.
+                if (dy < 2 && dy > 0) f1 = Math.max(f1 * 10, 0.1f);
+
                 this.mob.setMoveVertical(dy > 0.0D ? f1 : -f1);
 
                 // dampen the velocity so they don't orbit their destination
@@ -207,10 +210,11 @@ public class LogicFloatFlySwim extends LogicBase
     Vector3 here = Vector3.getNewVector();
 
     // Navigators
-    private final FlyingPathNavigator  flyPather;
-    private final GroundPathNavigator  walkPather;
-    private final ClimberPathNavigator climbPather;
-    private final SwimmerPathNavigator swimPather;
+    private final FlyingPathNavigator flyPather;
+
+    private final PathNavigator walkPather;
+    private final PathNavigator climbPather;
+    private final PathNavigator swimPather;
 
     // Movement controllers
     private final MovementController flyController;
