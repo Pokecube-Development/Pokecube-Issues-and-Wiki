@@ -19,6 +19,12 @@
     "pokecube:duskstone",
     "pokecube:electirizer",
     "pokecube:kingsrock",
-    "pokecube:upgrade"
+    "pokecube:upgrade",
+	"pokecube_legends:pdark",
+	"pokecube_legends:pwater",
+	"pokecube_legends:chippedpot",
+    "pokecube_legends:crackedpot",
+	"pokecube_legends:galarcuff",
+	"pokecube_legends:galarwreath"
   ]
 }
