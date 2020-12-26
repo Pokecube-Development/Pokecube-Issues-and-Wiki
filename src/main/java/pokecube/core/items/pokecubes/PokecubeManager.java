@@ -28,6 +28,7 @@ import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
+import thut.core.common.network.EntityUpdate;
 
 public class PokecubeManager
 {
@@ -232,7 +233,7 @@ public class PokecubeManager
             final CompoundNBT tag = stack.getTag().getCompound(TagNames.POKEMOB);
             for (final String key : PokecubeManager.TAGSTOREMOVE)
                 tag.getCompound("ForgeData").remove(key);
-            mob.read(tag);
+            EntityUpdate.readMob(mob, tag);
         }
         catch (final Exception e)
         {
