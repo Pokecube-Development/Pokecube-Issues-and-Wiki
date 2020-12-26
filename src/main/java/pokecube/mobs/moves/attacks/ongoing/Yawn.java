@@ -1,5 +1,6 @@
 package pokecube.mobs.moves.attacks.ongoing;
 
+import net.minecraft.entity.LivingEntity;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
@@ -14,7 +15,7 @@ public class Yawn extends Move_Ongoing
     }
 
     @Override
-    public void doOngoingEffect(IOngoingAffected mob, IOngoingEffect effect)
+    public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {
         if (effect.getDuration() == 0) MovesUtils.setStatus(mob.getEntity(), IMoveConstants.STATUS_SLP);
     }

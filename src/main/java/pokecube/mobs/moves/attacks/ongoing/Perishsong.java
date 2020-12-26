@@ -1,5 +1,7 @@
 package pokecube.mobs.moves.attacks.ongoing;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.DamageSource;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.core.moves.templates.Move_Ongoing;
@@ -13,14 +15,19 @@ public class Perishsong extends Move_Ongoing
     }
 
     @Override
-    public void doOngoingEffect(IOngoingAffected mob, IOngoingEffect effect)
+    public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {
-        if (effect.getDuration() == 0) this.damageTarget(mob.getEntity(), this.getOngoingDamage(mob.getEntity())
-                .setDamageIsAbsolute().setDamageBypassesArmor(), Integer.MAX_VALUE);
+        if (effect.getDuration() == 0) this.damageTarget(mob.getEntity(), user, Integer.MAX_VALUE);
         else
         {
             // TODO perish counter here.
         }
+    }
+
+    @Override
+    protected DamageSource getOngoingDamage(final LivingEntity user)
+    {
+        return super.getOngoingDamage(user).setDamageIsAbsolute().setDamageBypassesArmor();
     }
 
     @Override

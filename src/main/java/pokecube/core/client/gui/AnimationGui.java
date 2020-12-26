@@ -60,11 +60,14 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.GeneRegistry;
+import thut.api.item.ItemList;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
+import thut.core.common.network.EntityUpdate;
 
 public class AnimationGui extends Screen
 {
+
     private static Map<PokedexEntry, IPokemob> renderMobs = Maps.newHashMap();
 
     private static Set<EntityType<?>> errorSet = Sets.newHashSet();
@@ -106,7 +109,7 @@ public class AnimationGui extends Screen
                     GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
                 }
                 if (!realMob.getPokedexEntry().stock && !AnimationGui.errorSet.contains(realMob.getPokedexEntry()
-                        .getEntityType()))
+                        .getEntityType()) && !ItemList.is(EntityUpdate.NOREAD, realMob.getEntity()))
                 {
                     final CompoundNBT tag = new CompoundNBT();
                     try
@@ -116,7 +119,8 @@ public class AnimationGui extends Screen
                     }
                     catch (final Exception e)
                     {
-                        PokecubeCore.LOGGER.error("Error with ReadAdditional for " + realMob.getEntity());
+                        PokecubeCore.LOGGER.error("Error with ReadAdditional for " + realMob.getEntity().getType()
+                                .getRegistryName());
                         e.printStackTrace();
                         AnimationGui.errorSet.add(realMob.getPokedexEntry().getEntityType());
                     }

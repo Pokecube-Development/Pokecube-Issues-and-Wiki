@@ -2,6 +2,7 @@ package pokecube.mobs.moves.attacks.ongoing;
 
 import java.util.Random;
 
+import net.minecraft.entity.LivingEntity;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
@@ -18,11 +19,11 @@ public class Whirlpool extends Move_Ongoing
     }
 
     @Override
-    public void doOngoingEffect(IOngoingAffected mob, IOngoingEffect effect)
+    public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob.getEntity());
         if (pokemob != null && pokemob.isType(PokeType.getType("ghost"))) return;
-        super.doOngoingEffect(mob, effect);
+        super.doOngoingEffect(user, mob, effect);
     }
 
     @Override

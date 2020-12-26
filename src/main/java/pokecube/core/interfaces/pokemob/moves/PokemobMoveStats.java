@@ -18,12 +18,11 @@ public class PokemobMoveStats
     private static final Set<String>      IGNORE   = Sets.newHashSet();
     static
     {
-        PokemobMoveStats.IGNORE.add("ongoingEffects");
         PokemobMoveStats.IGNORE.add("moves");
+        PokemobMoveStats.IGNORE.add("g_z_moves");
         PokemobMoveStats.IGNORE.add("newMoves");
         PokemobMoveStats.IGNORE.add("num");
         PokemobMoveStats.IGNORE.add("exp");
-        PokemobMoveStats.IGNORE.add("disableTimers");
     }
 
     public Entity infatuateTarget;

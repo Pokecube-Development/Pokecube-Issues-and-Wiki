@@ -8,10 +8,13 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,6 +24,14 @@ public class ItemList extends Items
 
     public static boolean is(final ResourceLocation tag, final Object toCheck)
     {
+        if (toCheck instanceof Entity) return ItemList.is(tag, ((Entity) toCheck).getType());
+        if (toCheck instanceof EntityType)
+        {
+            final EntityType<?> type = (EntityType<?>) toCheck;
+            final boolean tagged = EntityTypeTags.getCollection().getTagByID(tag).contains(type);
+            if (!tagged) return type.getRegistryName().equals(tag);
+            return tagged;
+        }
         if (toCheck instanceof Item)
         {
             final Item item = (Item) toCheck;

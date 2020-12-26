@@ -132,15 +132,17 @@ public class CapabilityAffected
             final Set<IOngoingEffect> stale = Sets.newHashSet();
             this.cachedArray = this.effects.toArray(new IOngoingEffect[this.effects.size()]);
             for (final IOngoingEffect effect : this.cachedArray)
-                if (!MinecraftForge.EVENT_BUS.post(new OngoingTickEvent(this.getEntity(), effect)))
+            {
+                final OngoingTickEvent event = new OngoingTickEvent(this.getEntity(), effect);
+                if (!MinecraftForge.EVENT_BUS.post(event))
                 {
-                    int duration = effect.getDuration();
-                    if (duration > 0) duration = duration - 1;
+                    final int duration = event.getDuration();
                     effect.setDuration(duration);
                     effect.affectTarget(this);
                     if (effect.getDuration() == 0) stale.add(effect);
                 }
                 else if (effect.getDuration() == 0) stale.add(effect);
+            }
             for (final IOngoingEffect effect : stale)
                 this.removeEffect(effect);
         }

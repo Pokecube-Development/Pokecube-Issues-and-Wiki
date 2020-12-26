@@ -15,10 +15,24 @@ public class OngoingTickEvent extends EntityEvent
 {
     public final IOngoingEffect effect;
 
-    public OngoingTickEvent(Entity entity, IOngoingEffect effect)
+    private int duration;
+
+    public OngoingTickEvent(final Entity entity, final IOngoingEffect effect)
     {
         super(entity);
         this.effect = effect;
+        this.duration = effect.getDuration();
+        if (this.duration > 0) this.duration = this.duration - 1;
+    }
+
+    public int getDuration()
+    {
+        return this.duration;
+    }
+
+    public void setDuration(final int remainingDuration)
+    {
+        this.duration = remainingDuration;
     }
 
 }
