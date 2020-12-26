@@ -31,7 +31,9 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -65,6 +67,8 @@ public class AnimationGui extends Screen
 {
     private static Map<PokedexEntry, IPokemob> renderMobs = Maps.newHashMap();
 
+    private static Set<EntityType<?>> errorSet = Sets.newHashSet();
+
     private static Object2FloatOpenHashMap<PokedexEntry> sizes = new Object2FloatOpenHashMap<>();
 
     public static IPokemob getRenderMob(final PokedexEntry entry)
@@ -82,6 +86,7 @@ public class AnimationGui extends Screen
     public static IPokemob getRenderMob(final IPokemob realMob)
     {
         final IPokemob ret = AnimationGui.getRenderMob(realMob.getPokedexEntry());
+        if (ret == null) return realMob;
         if (ret != realMob)
         {
             EntityTools.copyEntityTransforms(ret.getEntity(), realMob.getEntity());
@@ -100,6 +105,23 @@ public class AnimationGui extends Screen
                             from.genes, null);
                     GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
                 }
+                if (!realMob.getPokedexEntry().stock && !AnimationGui.errorSet.contains(realMob.getPokedexEntry()
+                        .getEntityType()))
+                {
+                    final CompoundNBT tag = new CompoundNBT();
+                    try
+                    {
+                        realMob.getEntity().writeAdditional(tag);
+                        ret.getEntity().readAdditional(tag);
+                    }
+                    catch (final Exception e)
+                    {
+                        PokecubeCore.LOGGER.error("Error with ReadAdditional for " + realMob.getEntity());
+                        e.printStackTrace();
+                        AnimationGui.errorSet.add(realMob.getPokedexEntry().getEntityType());
+                    }
+                }
+
             }
         }
         return ret;

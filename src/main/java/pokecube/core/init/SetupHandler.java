@@ -86,26 +86,26 @@ public class SetupHandler
         // Register some Village stuff
         // if (PokecubeCore.getConfig().villagePokecenters)
         // {
-            // TODO pokecenters in vanilla villages.
-            // final ImmutableList<StructureProcessor> replacementRules =
-            // ImmutableList.of(new RuleStructureProcessor(
-            // ImmutableList.of(new RuleEntry(new
-            // RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F),
-            // AlwaysTrueRuleTest.INSTANCE,
-            // Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
-            //
-            // final SingleJigsawPiece part = new SingleJigsawPiece(new
-            // ResourceLocation(PokecubeCore.MODID,
-            // "village/common/pokecenter").toString(), replacementRules,
-            // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING);
-            //
-            // JigsawManager.REGISTRY.register(new JigsawPattern(new
-            // ResourceLocation(PokecubeCore.MODID,
-            // "village/common/pokecenter"), new
-            // ResourceLocation("village/plains/terminators"), ImmutableList.of(
-            // new Pair<>(part, 100)),
-            // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING));
-//        }
+        // TODO pokecenters in vanilla villages.
+        // final ImmutableList<StructureProcessor> replacementRules =
+        // ImmutableList.of(new RuleStructureProcessor(
+        // ImmutableList.of(new RuleEntry(new
+        // RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F),
+        // AlwaysTrueRuleTest.INSTANCE,
+        // Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
+        //
+        // final SingleJigsawPiece part = new SingleJigsawPiece(new
+        // ResourceLocation(PokecubeCore.MODID,
+        // "village/common/pokecenter").toString(), replacementRules,
+        // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING);
+        //
+        // JigsawManager.REGISTRY.register(new JigsawPattern(new
+        // ResourceLocation(PokecubeCore.MODID,
+        // "village/common/pokecenter"), new
+        // ResourceLocation("village/plains/terminators"), ImmutableList.of(
+        // new Pair<>(part, 100)),
+        // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING));
+        // }
 
     }
 
@@ -113,8 +113,11 @@ public class SetupHandler
     public static void loaded(final FMLLoadCompleteEvent event)
     {
         // Reload this here to initialze anything that needs to be done here.
-        PokecubeCore.getConfig().onUpdated();
-        Database.onLoadComplete();
+        event.enqueueWork(() ->
+        {
+            PokecubeCore.getConfig().onUpdated();
+            Database.onLoadComplete();
+        });
     }
 
 }

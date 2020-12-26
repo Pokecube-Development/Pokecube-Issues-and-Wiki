@@ -1,6 +1,7 @@
 package pokecube.compat.minecraft;
 
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -18,7 +19,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.events.CompatEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.handlers.events.EventsHandler;
@@ -57,40 +60,67 @@ public class Compat
         Compat.DERP.stock = false;
     }
 
+    public static Predicate<EntityType<?>> isMob = e ->
+    {
+        if (e instanceof PokemobType) return false;
+        Entity mob = null;
+        try
+        {
+            mob = e.create(FakeWorld.INSTANCE);
+        }
+        catch (final Exception e1)
+        {
+            PokecubeCore.LOGGER.warn("EntityType {} errors when trying to create from FakeWorld!", e
+                    .getTranslationKey());
+            e1.printStackTrace();
+            return false;
+        }
+        if (mob instanceof INPC) return false;
+        return mob instanceof MobEntity;
+    };
+
+    public static Predicate<EntityType<?>> makePokemob = e ->
+    {
+        // Already a pokemob.
+        if (e instanceof PokemobType) return false;
+        final boolean vanilla = e.getRegistryName().getNamespace().equals("minecraft");
+        if (!vanilla && !PokecubeCore.getConfig().non_vanilla_pokemobs) return false;
+        if (vanilla && !PokecubeCore.getConfig().vanilla_pokemobs) return false;
+        return Compat.isMob.test(e);
+    };
+
     @SubscribeEvent
     public static void register(final CompatEvent event)
     {
         // Here will will register the vanilla mobs as a type of pokemob.
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
         for (final EntityType<?> type : ForgeRegistries.ENTITIES.getValues())
-        {
-            final boolean vanilla = type.getRegistryName().getNamespace().equals("minecraft");
-            if (type == EntityType.VILLAGER) continue;
-            if (vanilla) try
+            if (Compat.isMob.test(type)) try
             {
-                final PokedexEntry newDerp = new PokedexEntry(Compat.DERP.getPokedexNb(), "vanilla_mob_" + type
-                        .getRegistryName().getPath());
-                newDerp.setBaseForme(Compat.DERP);
-                Compat.DERP.copyToForm(newDerp);
-                newDerp.stock = false;
+                final String name = type.getRegistryName().toString();
+                PokedexEntry newDerp = Database.getEntry(name);
+                if (newDerp == null)
+                {
+                    newDerp = new PokedexEntry(Compat.DERP.getPokedexNb(), name);
+                    newDerp.setBaseForme(Compat.DERP);
+                    Compat.DERP.copyToForm(newDerp);
+                    newDerp.stock = false;
+                }
                 @SuppressWarnings("unchecked")
                 final EntityType<? extends MobEntity> mobType = (EntityType<? extends MobEntity>) type;
+                newDerp.setEntityType(mobType);
                 PokecubeCore.typeMap.put(mobType, newDerp);
             }
             catch (final Exception e)
             {
                 // Wasn't a mob entity, so lets skip.
             }
-        }
     }
 
     private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!PokecubeCore.getConfig().vanilla_pokemobs) return;
-        if (!(event.getObject() instanceof MobEntity)) return;
-        if (event.getObject() instanceof INPC) return;
-        final EntityType<?> type = event.getObject().getType();
-        if (!type.getRegistryName().getNamespace().equals("minecraft")) return;
+        if (event.getObject().getEntityWorld() instanceof FakeWorld) return;
+        if (!Compat.makePokemob.test(event.getObject().getType())) return;
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
             final VanillaPokemob pokemob = new VanillaPokemob((MobEntity) event.getObject());

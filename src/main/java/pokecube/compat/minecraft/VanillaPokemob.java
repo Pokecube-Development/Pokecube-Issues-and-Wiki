@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.HoglinEntity;
-import net.minecraft.entity.monster.ZoglinEntity;
-import net.minecraft.entity.monster.piglin.PiglinBruteEntity;
-import net.minecraft.entity.monster.piglin.PiglinEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -161,16 +156,5 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
     public MobEntity getEntity()
     {
         return this.entity;
-    }
-
-    @Override
-    public boolean selfManagedBrain()
-    {
-        boolean hasBrain = this.entity instanceof VillagerEntity;
-        hasBrain = hasBrain || this.entity instanceof HoglinEntity;
-        hasBrain = hasBrain || this.entity instanceof PiglinBruteEntity;
-        hasBrain = hasBrain || this.entity instanceof PiglinEntity;
-        hasBrain = hasBrain || this.entity instanceof ZoglinEntity;
-        return hasBrain;
     }
 }

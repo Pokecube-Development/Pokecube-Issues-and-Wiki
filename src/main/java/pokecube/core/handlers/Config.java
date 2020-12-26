@@ -486,6 +486,8 @@ public class Config extends ConfigData
 
     @Configure(category = Config.advanced)
     public boolean vanilla_pokemobs = false;
+    @Configure(category = Config.advanced)
+    public boolean non_vanilla_pokemobs = false;
 
     @Configure(category = Config.advanced)
     // DOLATER find more internal variables to add to this.

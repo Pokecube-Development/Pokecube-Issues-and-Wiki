@@ -66,10 +66,11 @@ public class SetupHandler
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onJoinWorld);
         // Does similar to onJoinWorld, but can take a different SpawnReason
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcSpawn);
-        // Another phase of trainer initialization, this one does the AI, ticks
-        // the IHasPokemobs, and also ensures that the mob goes back to idle
-        // mode if it was in battle, and battle is over.
+        // ticks the IHasPokemobs, and also ensures that the mob goes back to
+        // idle mode if it was in battle, and battle is over.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcTick);
+        // This initializes the mob's brain for use.
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onBrainInit);
         // Loads the trainer databases for types.
         PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onPostDatabaseLoad);
         // Loads the trades for the trainers.

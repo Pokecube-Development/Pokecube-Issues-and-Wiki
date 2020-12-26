@@ -62,13 +62,8 @@ public class SendOutManager
             final long diff = System.nanoTime() - start;
             if (diff > 2e6) break;
             if (!Vector3.isVisibleRange(world, pos, rHat, r.mag())) continue;
-            if (SendOutManager.valid(box.offset(r.x, r.y, r.z), world)) {
-                System.out.println(diff);
-                return rAbs;
-            }
+            if (SendOutManager.valid(box.offset(r.x, r.y, r.z), world)) return rAbs;
         }
-        final long diff = System.nanoTime() - start;
-        System.out.println(diff);
         return respectRoom ? null : pos.copy();
     }
 
@@ -118,7 +113,8 @@ public class SendOutManager
             if (isPlayers && cube.shootingEntity.isAlive())
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"), Util.DUMMY_UUID);
+                user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"),
+                        Util.DUMMY_UUID);
                 cube.remove();
             }
             return null;

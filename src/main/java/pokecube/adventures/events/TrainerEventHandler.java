@@ -30,7 +30,6 @@ import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
-import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs.AllowedBattle;
@@ -60,6 +59,7 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
+import pokecube.core.events.BrainInitEvent;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
 import pokecube.core.events.onload.InitDatabase;
@@ -311,15 +311,23 @@ public class TrainerEventHandler
             final Brain<?> brain = npc.getBrain();
             if (!brain.hasMemory(MemoryTypes.BATTLETARGET) && brain.hasActivity(Activities.BATTLE)) brain.switchTo(
                     Activity.IDLE);
+            pokemobHolder.onTick();
+        }
+    }
+
+    public static void onBrainInit(final BrainInitEvent event)
+    {
+        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntityLiving());
+        if (pokemobHolder != null)
+        {
+            final LivingEntity npc = event.getEntityLiving();
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
-            if (npc instanceof MobEntity && !brain.sensors.containsKey(Tasks.DUMMY) && npc
-                    .getEntityWorld() instanceof ServerWorld)
+            if (npc instanceof MobEntity && npc.getEntityWorld() instanceof ServerWorld)
             {
                 TypeTrainer.addAI((MobEntity) npc);
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
             }
-            pokemobHolder.onTick();
         }
     }
 
