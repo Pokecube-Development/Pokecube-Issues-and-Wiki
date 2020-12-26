@@ -297,8 +297,10 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 ongoing = (Move_Ongoing) MovesUtils.getMoveFromName(attack);
                 final IOngoingAffected targetAffected = CapabilityAffected.getAffected(attacked);
                 final IOngoingAffected sourceAffected = CapabilityAffected.getAffected(attackerMob);
-                if (ongoing.onTarget() && targetAffected != null) targetAffected.getEffects().add(ongoing.makeEffect());
-                if (ongoing.onSource() && sourceAffected != null) sourceAffected.getEffects().add(ongoing.makeEffect());
+                if (ongoing.onTarget() && targetAffected != null)
+                    targetAffected.getEffects().add(ongoing.makeEffect(attackerMob));
+                if (ongoing.onSource() && sourceAffected != null)
+                    sourceAffected.getEffects().add(ongoing.makeEffect(attackerMob));
             }
         }
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(attackerMob);

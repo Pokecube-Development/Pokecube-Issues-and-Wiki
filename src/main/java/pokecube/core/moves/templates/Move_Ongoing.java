@@ -2,12 +2,8 @@ package pokecube.core.moves.templates;
 
 import java.util.Random;
 
-import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
-import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
@@ -16,42 +12,23 @@ import pokecube.core.interfaces.entity.impl.OngoingMoveEffect;
 public class Move_Ongoing extends Move_Basic
 {
 
-    public Move_Ongoing(String name)
+    public Move_Ongoing(final String name)
     {
         super(name);
     }
 
-    protected float damageTarget(LivingEntity mob, DamageSource source, float damage)
+    protected float damageTarget(final LivingEntity mob, final LivingEntity user, final float damage)
     {
-        LivingEntity target = mob.getAttackingEntity();
-        if (target == null) target = mob.getRevengeTarget();
-        if (target == null) target = mob.getLastAttackedEntity();
-        if (target == null) target = mob;
-        final IPokemob user = CapabilityPokemob.getPokemobFor(target);
-        float scale = 1;
-        if (source == null) source = user != null && user.getOwner() != null ? DamageSource.causeIndirectDamage(
-                target, user.getOwner())
-                : target != null ? DamageSource.causeMobDamage(target) : new DamageSource("generic");
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-        if (pokemob != null)
-        {
-            source.setDamageIsAbsolute();
-            source.setDamageBypassesArmor();
-        }
-        else if (mob instanceof PlayerEntity) scale = (float) (user != null && user.isPlayerOwned() ? PokecubeCore
-                .getConfig().ownedPlayerDamageRatio : PokecubeCore.getConfig().wildPlayerDamageRatio);
-        else scale = (float) (mob instanceof INPC ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
-                : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio);
-        damage *= scale;
+        final DamageSource source = this.getOngoingDamage(user);
         mob.attackEntityFrom(source, damage);
         return damage;
     }
 
-    public void doOngoingEffect(IOngoingAffected mob, IOngoingEffect effect)
+    public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {
         final float thisMaxHP = mob.getEntity().getMaxHealth();
         final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-        mob.getEntity().attackEntityFrom(this.getOngoingDamage(mob.getEntity()), damage);
+        mob.getEntity().attackEntityFrom(this.getOngoingDamage(user), damage);
     }
 
     /**
@@ -68,14 +45,10 @@ public class Move_Ongoing extends Move_Basic
         return 4 + r.nextInt(2);
     }
 
-    protected DamageSource getOngoingDamage(LivingEntity mob)
+    protected DamageSource getOngoingDamage(final LivingEntity user)
     {
-        LivingEntity target = mob.getAttackingEntity();
-        if (target == null) target = mob.getRevengeTarget();
-        if (target == null) target = mob.getLastAttackedEntity();
-        if (target == null) target = mob;
-        final DamageSource source = DamageSource.causeMobDamage(target);
-        if (CapabilityPokemob.getPokemobFor(mob) != null)
+        final DamageSource source = DamageSource.causeMobDamage(user);
+        if (CapabilityPokemob.getPokemobFor(user) != null)
         {
             source.setDamageIsAbsolute();
             source.setDamageBypassesArmor();
@@ -83,9 +56,9 @@ public class Move_Ongoing extends Move_Basic
         return source;
     }
 
-    public OngoingMoveEffect makeEffect()
+    public OngoingMoveEffect makeEffect(final LivingEntity user)
     {
-        final OngoingMoveEffect effect = new OngoingMoveEffect();
+        final OngoingMoveEffect effect = new OngoingMoveEffect(user);
         effect.setDuration(this.getDuration());
         effect.move = this;
         return effect;

@@ -32,7 +32,8 @@ public class PersistantStatusEffect extends BaseEffect
     public static class DefaultEffects implements IStatusEffect
     {
         final Status status;
-        int          tick;
+
+        int tick;
 
         public DefaultEffects(final Status status)
         {
@@ -139,7 +140,8 @@ public class PersistantStatusEffect extends BaseEffect
             // final Vector3 vel = Vector3.getNewVector().set(d0, d1, d2);
             for (int i = 0; i < 3; ++i)
             {
-                loc.set(entity.getPosX(), entity.getPosY() + 0.5D + rand.nextFloat() * entity.getHeight(), entity.getPosZ());
+                loc.set(entity.getPosX(), entity.getPosY() + 0.5D + rand.nextFloat() * entity.getHeight(), entity
+                        .getPosZ());
                 // PokecubeCore.spawnParticle(entity.getEntityWorld(),
                 // "mobSpell", particleLoc, vel);TODO figure out colouring
                 entity.getEntityWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
@@ -153,7 +155,8 @@ public class PersistantStatusEffect extends BaseEffect
             Vector3.getNewVector();
             for (int i = 0; i < 3; ++i)
             {
-                loc.set(entity.getPosX(), entity.getPosY() + 0.5D + rand.nextFloat() * entity.getHeight(), entity.getPosZ());
+                loc.set(entity.getPosX(), entity.getPosY() + 0.5D + rand.nextFloat() * entity.getHeight(), entity
+                        .getPosZ());
                 entity.getEntityWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }

@@ -6,7 +6,8 @@ import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 public abstract class BaseEffect implements IOngoingEffect
 {
     private final ResourceLocation id;
-    private int                    duration;
+
+    private int duration;
 
     public BaseEffect(ResourceLocation id)
     {
