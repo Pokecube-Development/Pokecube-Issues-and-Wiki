@@ -1,4 +1,4 @@
-package pokecube.core.ai.routes;
+package pokecube.core.ai.tasks.misc;
 
 import java.util.Optional;
 

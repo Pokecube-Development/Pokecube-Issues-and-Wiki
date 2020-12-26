@@ -61,11 +61,11 @@ import net.minecraft.entity.ai.brain.task.WorkTask;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.village.PointOfInterestType;
-import pokecube.core.ai.tasks.BlankTask;
-import pokecube.core.ai.tasks.LookAtMob;
-import pokecube.core.ai.tasks.LookAtTask;
-import pokecube.core.ai.tasks.RunAway;
-import pokecube.core.ai.tasks.SwimTask;
+import pokecube.core.ai.tasks.misc.BlankTask;
+import pokecube.core.ai.tasks.misc.LookAtMob;
+import pokecube.core.ai.tasks.misc.LookAtTask;
+import pokecube.core.ai.tasks.misc.RunAway;
+import pokecube.core.ai.tasks.misc.SwimTask;
 
 public class Tasks
 {

@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks;
+package pokecube.core.ai.tasks.misc;
 
 import java.util.Map;
 import java.util.UUID;
@@ -17,6 +17,7 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.EntityPosWrapper;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
