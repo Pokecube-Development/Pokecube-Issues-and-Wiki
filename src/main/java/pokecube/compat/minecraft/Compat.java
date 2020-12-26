@@ -107,7 +107,10 @@ public class Compat
             }
             catch (final Exception e)
             {
-                // Wasn't a mob entity, so lets skip.
+                // Something went wrong, so log and exit early
+                PokecubeCore.LOGGER.warn("Error making pokedex entry for {}", event.getObject().getType().getRegistryName());
+                e.printStackTrace();
+                return;
             }
 
             final VanillaPokemob pokemob = new VanillaPokemob((MobEntity) event.getObject());
