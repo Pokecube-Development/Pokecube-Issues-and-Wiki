@@ -20,6 +20,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.StructureEvent.PickLocation;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
@@ -45,7 +46,7 @@ public class Impl
         final IDimensionInfo dimInfo = Registration.LOSTCITY_FEATURE.getDimensionInfo(world);
         if (dimInfo == null)
         {
-            PokecubeCore.LOGGER.debug("Null dimInfo, can't check for structure!");
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Null dimInfo, can't check for structure!");
             return;
         }
         final int r = 1;
