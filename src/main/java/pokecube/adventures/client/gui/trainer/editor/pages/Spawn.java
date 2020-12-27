@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor.pages;
+package pokecube.adventures.client.gui.trainer.editor.pages;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.text.StringTextComponent;
-import pokecube.adventures.client.gui.items.editor.EditorGui;
-import pokecube.adventures.client.gui.items.editor.pages.util.Page;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.entity.npc.NpcType;
 

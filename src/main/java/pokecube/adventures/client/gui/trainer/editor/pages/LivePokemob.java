@@ -1,6 +1,6 @@
-package pokecube.adventures.client.gui.items.editor.pages;
+package pokecube.adventures.client.gui.trainer.editor.pages;
 
-import pokecube.adventures.client.gui.items.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 
 public class LivePokemob extends Pokemob
 {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.command.CommandException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.INPC;
@@ -14,9 +15,11 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -27,6 +30,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
+import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -48,6 +52,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
@@ -367,12 +372,14 @@ public class TrainerEventHandler
      */
     public static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         // TODO trainer edit item.
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
-        if (evt.getItemStack().getItem() instanceof Linker && evt.getPlayer() instanceof ServerPlayerEntity && Linker
-                .interact((ServerPlayerEntity) evt.getPlayer(), target, evt.getItemStack())) evt.setCanceled(true);
+        if (evt.getItemStack().getItem() instanceof Linker && Linker.interact((ServerPlayerEntity) evt.getPlayer(),
+                target, evt.getItemStack())) evt.setCanceled(true);
 
         if (messages != null)
         {
@@ -393,6 +400,18 @@ public class TrainerEventHandler
                 break;
 
             }
+
+
+            final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
+            buffer.writeInt(target.getEntityId());
+            final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
+                    e) -> new ContainerTrainer(i, p, buffer), target.getDisplayName());
+            NetworkHooks.openGui(player, provider, buf ->
+            {
+                buf.writeInt(target.getEntityId());
+            });
+
+
             messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
             messages.doAction(state, evt.getPlayer(), target);
         }

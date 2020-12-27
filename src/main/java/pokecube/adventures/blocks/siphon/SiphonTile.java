@@ -13,7 +13,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -105,8 +104,6 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
 
     }
 
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public AxisAlignedBB box;
 
     public List<MobEntity> mobs = Lists.newArrayList();
@@ -119,7 +116,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
 
     public SiphonTile()
     {
-        super(SiphonTile.TYPE);
+        super(PokecubeAdv.SIPHON_TYPE.get());
     }
 
     public SiphonTile(final TileEntityType<?> tileEntityTypeIn)

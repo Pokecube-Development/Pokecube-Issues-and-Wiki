@@ -1,11 +1,11 @@
-package pokecube.adventures.client.gui.items.editor.pages.util;
+package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.util.text.ITextComponent;
-import pokecube.adventures.client.gui.items.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.core.client.gui.helper.ScrollGui;
 
 public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> extends Page

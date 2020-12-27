@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor.pages.util;
+package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.ITextComponent;
-import pokecube.adventures.client.gui.items.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 
 public abstract class Page extends Screen implements IGuiEventListener
 {

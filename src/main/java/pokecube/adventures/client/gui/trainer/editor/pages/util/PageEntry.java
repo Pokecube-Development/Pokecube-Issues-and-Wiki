@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor.pages.util;
+package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 

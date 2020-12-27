@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor.pages;
+package pokecube.adventures.client.gui.trainer.editor.pages;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -18,8 +18,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
-import pokecube.adventures.client.gui.items.editor.EditorGui;
-import pokecube.adventures.client.gui.items.editor.pages.util.Page;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;

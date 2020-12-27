@@ -48,16 +48,18 @@ minecraft {
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
             arg "-mixin.config=pokecube.mixins.json"
-            source sourceSets.main
+            sources sourceSets.main, sourceSets.test
         }
         server = {
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
             properties '-XX': '+UnlockCommercialFeatures'
             properties '-XX': '+FlightRecorder'
+            properties '-XX': '+FlightRecorder'
+            jvmArg "-Xmx2G"
             workingDirectory project.file('run').canonicalPath
             arg "-mixin.config=pokecube.mixins.json"
-            source sourceSets.main
+            sources sourceSets.main, sourceSets.test
         }
         data = {
             workingDirectory project.file('run').canonicalPath

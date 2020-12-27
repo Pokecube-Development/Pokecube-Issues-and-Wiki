@@ -3,7 +3,6 @@ package pokecube.adventures.blocks.genetics.extractor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -11,6 +10,7 @@ import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
@@ -21,13 +21,11 @@ import thut.api.entity.genetics.IMobGenetics;
 
 public class ExtractorTile extends BaseGeneticsTile
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public ItemStack override_selector = ItemStack.EMPTY;
 
     public ExtractorTile()
     {
-        this(ExtractorTile.TYPE);
+        this(PokecubeAdv.EXTRACTOR_TYPE.get());
     }
 
     public ExtractorTile(final TileEntityType<?> tileEntityTypeIn)

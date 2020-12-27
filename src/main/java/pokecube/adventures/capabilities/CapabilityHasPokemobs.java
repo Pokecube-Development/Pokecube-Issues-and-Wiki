@@ -16,6 +16,7 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -630,6 +631,21 @@ public class CapabilityHasPokemobs
         @Override
         public void setPokemob(final int slot, final ItemStack cube)
         {
+            if (!cube.isEmpty())
+            {
+                final String owner = PokecubeManager.getOwner(cube);
+                // Make trainer own it when place in.
+                if (!this.getTrainer().getCachedUniqueIdString().equals(owner))
+                {
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, this.getTrainer().getEntityWorld());
+                    if (pokemob != null)
+                    {
+                        pokemob.setOwner(this.getTrainer());
+                        final ItemStack edited = PokecubeManager.pokemobToItem(pokemob);
+                        cube.setTag(edited.getTag());
+                    }
+                }
+            }
             this.datasync.set(this.holder.POKEMOBS[slot], cube);
         }
 
@@ -790,9 +806,65 @@ public class CapabilityHasPokemobs
         {
             return this.aiStates.getAIState(AIState.INBATTLE);
         }
+
+        // Things below are from IInventory
+
+        @Override
+        public int getSizeInventory()
+        {
+            return 6;
+        }
+
+        @Override
+        public boolean isEmpty()
+        {
+            return this.getStackInSlot(0).isEmpty();
+        }
+
+        @Override
+        public ItemStack getStackInSlot(final int index)
+        {
+            return this.getPokemob(index);
+        }
+
+        @Override
+        public ItemStack decrStackSize(final int index, final int count)
+        {
+            // We should only ever have counts of 1 anyway.
+            return this.removeStackFromSlot(index);
+        }
+
+        @Override
+        public ItemStack removeStackFromSlot(final int index)
+        {
+            final ItemStack stack = this.getPokemob(index);
+            this.setPokemob(index, ItemStack.EMPTY);
+            return stack;
+        }
+
+        @Override
+        public void setInventorySlotContents(final int index, final ItemStack stack)
+        {
+            this.setPokemob(index, stack);
+        }
+
+        @Override
+        public void markDirty()
+        {
+            // NOOP
+        }
+
+        @Override
+        public boolean isUsableByPlayer(final PlayerEntity player)
+        {
+            // TODO maybe a condition for this to be true, based on friendliness
+            return player == this.user || player.isCreative();
+        }
+
+        // End of IInventory stuff
     }
 
-    public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>
+    public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>, IInventory
     {
         public static enum LevelMode
         {
@@ -814,27 +886,24 @@ public class CapabilityHasPokemobs
         /** Adds the pokemob back into the inventory, healing it as needed. */
         default boolean addPokemob(ItemStack mob)
         {
-            long uuidLeast = 0;
-            long uuidMost = 0;
-
+            UUID mobID = UUID.randomUUID();
             if (mob.hasTag()) if (mob.getTag().contains("Pokemob"))
             {
                 final CompoundNBT nbt = mob.getTag().getCompound("Pokemob");
-                uuidLeast = nbt.getLong("UUIDLeast");
-                uuidMost = nbt.getLong("UUIDMost");
+                mobID = nbt.getUniqueId("UUID");
             }
-            long uuidLeastTest = -1;
-            long uuidMostTest = -1;
+            UUID testID = UUID.randomUUID();
             boolean found = false;
             int foundID = -1;
             for (int i = 0; i < this.getMaxPokemobCount(); i++)
-                if (!this.getPokemob(i).isEmpty()) if (this.getPokemob(i).hasTag()) if (this.getPokemob(i).getTag()
-                        .contains("Pokemob"))
+            {
+                final ItemStack ours = this.getPokemob(i);
+                if (ours.isEmpty() || !ours.hasTag()) continue;
+                if (ours.getTag().contains("Pokemob"))
                 {
-                    final CompoundNBT nbt = this.getPokemob(i).getTag().getCompound("Pokemob");
-                    uuidLeastTest = nbt.getLong("UUIDLeast");
-                    uuidMostTest = nbt.getLong("UUIDMost");
-                    if (uuidLeast == uuidLeastTest && uuidMost == uuidMostTest)
+                    final CompoundNBT nbt = ours.getTag().getCompound("Pokemob");
+                    testID = nbt.getUniqueId("UUID");
+                    if (testID.equals(mobID))
                     {
                         found = true;
                         foundID = i;
@@ -843,16 +912,19 @@ public class CapabilityHasPokemobs
                         break;
                     }
                 }
-            for (int i = 0; i < this.getMaxPokemobCount(); i++)
+            }
+            if (found)
             {
-                if (!found && this.getPokemob(i).isEmpty())
+                PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getDisplayName().getString(), foundID);
+                this.setPokemob(foundID, mob.copy());
+            }
+            else for (int i = 0; i < this.getMaxPokemobCount(); i++)
+            {
+                final ItemStack ours = this.getPokemob(i);
+                if (!found && ours.isEmpty())
                 {
                     this.setPokemob(i, mob.copy());
-                    break;
-                }
-                if (found && foundID == i) if (this.getPokemob(i).isEmpty())
-                {
-                    this.setPokemob(i, mob.copy());
+                    PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getDisplayName().getString(), i);
                     break;
                 }
             }
@@ -896,6 +968,7 @@ public class CapabilityHasPokemobs
 
         boolean canMegaEvolve();
 
+        @Override
         default void clear()
         {
             for (int i = 0; i < this.getMaxPokemobCount(); i++)

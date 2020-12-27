@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor.pages;
+package pokecube.adventures.client.gui.trainer.editor.pages;
 
 import java.util.function.Predicate;
 
@@ -17,8 +17,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import pokecube.adventures.client.gui.items.editor.EditorGui;
-import pokecube.adventures.client.gui.items.editor.pages.util.Page;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;

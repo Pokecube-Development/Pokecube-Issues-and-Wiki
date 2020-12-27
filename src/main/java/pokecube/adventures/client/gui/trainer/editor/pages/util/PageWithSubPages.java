@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor.pages.util;
+package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.util.text.ITextComponent;
-import pokecube.adventures.client.gui.items.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.core.PokecubeCore;
 
 public abstract class PageWithSubPages<T extends Page> extends Page

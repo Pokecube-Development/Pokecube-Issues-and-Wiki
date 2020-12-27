@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor;
+package pokecube.adventures.client.gui.trainer.editor;
 
 import java.util.List;
 
@@ -18,15 +18,15 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.client.gui.trainer.editor.pages.AI;
+import pokecube.adventures.client.gui.trainer.editor.pages.LivePokemob;
+import pokecube.adventures.client.gui.trainer.editor.pages.Messages;
+import pokecube.adventures.client.gui.trainer.editor.pages.Pokemob;
+import pokecube.adventures.client.gui.trainer.editor.pages.Rewards;
+import pokecube.adventures.client.gui.trainer.editor.pages.Spawn;
+import pokecube.adventures.client.gui.trainer.editor.pages.Trainer;
+import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.capabilities.TrainerCaps;
-import pokecube.adventures.client.gui.items.editor.pages.AI;
-import pokecube.adventures.client.gui.items.editor.pages.LivePokemob;
-import pokecube.adventures.client.gui.items.editor.pages.Messages;
-import pokecube.adventures.client.gui.items.editor.pages.Pokemob;
-import pokecube.adventures.client.gui.items.editor.pages.Rewards;
-import pokecube.adventures.client.gui.items.editor.pages.Spawn;
-import pokecube.adventures.client.gui.items.editor.pages.Trainer;
-import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.interfaces.IPokemob;

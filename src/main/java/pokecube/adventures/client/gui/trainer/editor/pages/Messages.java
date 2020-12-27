@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor.pages;
+package pokecube.adventures.client.gui.trainer.editor.pages;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -15,9 +15,9 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.Action;
 import pokecube.adventures.capabilities.utils.BattleAction;
 import pokecube.adventures.capabilities.utils.MessageState;
-import pokecube.adventures.client.gui.items.editor.EditorGui;
-import pokecube.adventures.client.gui.items.editor.pages.Messages.MessageOption;
-import pokecube.adventures.client.gui.items.editor.pages.util.ListPage;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.pages.Messages.MessageOption;
+import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;

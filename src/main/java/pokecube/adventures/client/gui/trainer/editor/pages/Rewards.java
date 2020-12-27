@@ -1,4 +1,4 @@
-package pokecube.adventures.client.gui.items.editor.pages;
+package pokecube.adventures.client.gui.trainer.editor.pages;
 
 import java.util.function.Predicate;
 
@@ -18,9 +18,9 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
-import pokecube.adventures.client.gui.items.editor.EditorGui;
-import pokecube.adventures.client.gui.items.editor.pages.Rewards.RewardOption;
-import pokecube.adventures.client.gui.items.editor.pages.util.ListPage;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.pages.Rewards.RewardOption;
+import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
