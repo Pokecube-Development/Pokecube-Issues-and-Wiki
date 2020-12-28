@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.PokemobTerrainEffects.EffectType;
 import pokecube.core.network.packets.PacketSyncTerrain;
@@ -16,7 +17,7 @@ public class Move_Terrain extends Move_Basic
 {
 
     EffectType effect;
-    public int       duration = 300;
+    public int duration = 300;
 
     /**
      * See TerrainSegment for the types of effects.
@@ -28,7 +29,7 @@ public class Move_Terrain extends Move_Basic
     {
         super(name);
         this.effect = PokemobTerrainEffects.getForIndex(this.move.baseEntry.extraInfo);
-        PokecubeCore.LOGGER.error(name+" "+this.move.baseEntry.extraInfo+" "+this.effect);
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.info(name + " " + this.move.baseEntry.extraInfo + " " + this.effect);
     }
 
     @Override
