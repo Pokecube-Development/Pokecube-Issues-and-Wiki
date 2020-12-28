@@ -71,8 +71,8 @@ public class PacketHandler
             {
                 NBTEdit.proxy.sendMessage(player, "Error - You may not use NBTEdit on other Players",
                         TextFormatting.RED);
-                NBTEdit.log(Level.WARN, player.getName() + " tried to use NBTEdit on another player, " + entity
-                        .getName());
+                NBTEdit.log(Level.WARN, player.getName().getString() + " tried to use NBTEdit on another player, "
+                        + entity.getName());
             }
             if (entity != null)
             {

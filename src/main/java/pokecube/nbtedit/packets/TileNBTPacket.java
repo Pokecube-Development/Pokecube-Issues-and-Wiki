@@ -60,22 +60,22 @@ public class TileNBTPacket extends NBTPacket
             te.markDirty();// Ensures changes gets saved to disk later on.
             if (te.hasWorld() && te.getWorld() instanceof ServerWorld) ((ServerWorld) te.getWorld()).getChunkProvider()
                     .markBlockChanged(this.pos);
-            NBTEdit.log(Level.TRACE, player.getName() + " edited a tag -- Tile Entity at " + this.pos.getX() + ", "
-                    + this.pos.getY() + ", " + this.pos.getZ());
+            NBTEdit.log(Level.TRACE, player.getName().getString() + " edited a tag -- Tile Entity at " + this.pos.getX()
+                    + ", " + this.pos.getY() + ", " + this.pos.getZ());
             NBTEdit.logTag(this.getTag());
             NBTEdit.proxy.sendMessage(player, "Your changes have been saved", TextFormatting.WHITE);
         }
         catch (final Throwable t)
         {
             NBTEdit.proxy.sendMessage(player, "Save Failed - Invalid NBT format for Tile Entity", TextFormatting.RED);
-            NBTEdit.log(Level.WARN, player.getName() + " edited a tag and caused an exception");
+            NBTEdit.log(Level.WARN, player.getName().getString() + " edited a tag and caused an exception");
             NBTEdit.logTag(this.getTag());
             NBTEdit.throwing("TileNBTPacket", "Handler.onMessage", t);
         }
         else
         {
-            NBTEdit.log(Level.WARN, player.getName() + " tried to edit a non-existent TileEntity at " + this.pos.getX()
-                    + ", " + this.pos.getY() + ", " + this.pos.getZ());
+            NBTEdit.log(Level.WARN, player.getName().getString() + " tried to edit a non-existent TileEntity at "
+                    + this.pos.getX() + ", " + this.pos.getY() + ", " + this.pos.getZ());
             NBTEdit.proxy.sendMessage(player, "cSave Failed - There is no TileEntity at " + this.pos.getX() + ", "
                     + this.pos.getY() + ", " + this.pos.getZ(), TextFormatting.RED);
         }

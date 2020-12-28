@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -270,12 +269,6 @@ public class PokecubeManager
         if (itemStack.isEmpty()) itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE),
                 1);
         itemStack = itemStack.copy();
-        // Unobfuscate the name if it is still obfuscated.
-        if (pokemob.getEntity().getDisplayName() instanceof IFormattableTextComponent)
-        {
-            final IFormattableTextComponent nameComp = (IFormattableTextComponent) pokemob.getEntity().getDisplayName();
-            nameComp.setStyle(nameComp.getStyle().setObfuscated(false));
-        }
         PokecubeManager.addToCube(itemStack, pokemob.getEntity());
         itemStack.setCount(1);
         itemStack.getTag().remove(TagNames.POKESEAL);

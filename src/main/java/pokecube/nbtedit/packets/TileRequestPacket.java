@@ -18,26 +18,26 @@ public class TileRequestPacket extends Packet
     {
     }
 
-    public TileRequestPacket(BlockPos pos)
+    public TileRequestPacket(final BlockPos pos)
     {
         this.pos = pos;
     }
 
-    public TileRequestPacket(PacketBuffer buf)
+    public TileRequestPacket(final PacketBuffer buf)
     {
         this.pos = BlockPos.fromLong(buf.readLong());
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
-        NBTEdit.log(Level.TRACE, player.getName() + " requested tileEntity at " + this.pos.getX() + ", " + this.pos
+        NBTEdit.log(Level.TRACE, player.getName().getString() + " requested tileEntity at " + this.pos.getX() + ", " + this.pos
                 .getY() + ", " + this.pos.getZ());
         PacketHandler.sendTile(player, this.pos);
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeLong(this.pos.toLong());
     }

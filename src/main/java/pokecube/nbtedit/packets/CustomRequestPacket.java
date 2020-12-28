@@ -19,27 +19,27 @@ public class CustomRequestPacket extends Packet
     {
     }
 
-    public CustomRequestPacket(int entityID, String customName)
+    public CustomRequestPacket(final int entityID, final String customName)
     {
         this.entityID = entityID;
         this.customName = customName;
     }
 
-    public CustomRequestPacket(PacketBuffer buf)
+    public CustomRequestPacket(final PacketBuffer buf)
     {
         this.entityID = buf.readInt();
         this.customName = new PacketBuffer(buf).readString(30);
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
-        NBTEdit.log(Level.TRACE, player.getName() + " requested entity with Id #" + this.entityID);
+        NBTEdit.log(Level.TRACE, player.getName().getString() + " requested entity with Id #" + this.entityID);
         PacketHandler.sendCustomTag(player, this.entityID, this.customName);
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityID);
         new PacketBuffer(buf).writeString(this.customName);
