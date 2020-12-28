@@ -17,6 +17,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -102,7 +103,7 @@ public class TrainerEventHandler
         public void accept(final MerchantOffers t)
         {
             final Random rand = new Random(this.mob.getUniqueID().getLeastSignificantBits());
-            final String type = this.mob.getNpcType() == NpcType.PROFESSOR ? "professor" : "merchant";
+            final String type = this.mob.getNpcType() == NpcType.byType("professor") ? "professor" : "merchant";
             TrainerTrades trades = TypeTrainer.tradesMap.get(type);
             if (!this.mob.customTrades.isEmpty())
             {
@@ -228,22 +229,58 @@ public class TrainerEventHandler
 
     public static void onEntityInteract(final PlayerInteractEvent.EntityInteract evt)
     {
-        if (evt.getWorld().isRemote) return;
-        final String ID = "LastSuccessInteractEvent";
-        final long time = evt.getTarget().getPersistentData().getLong(ID);
-        if (time == evt.getTarget().getEntityWorld().getGameTime()) return;
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final String ID = "__pokeadv_interact__";
+        final long time = player.getPersistentData().getLong(ID);
+        if (time == player.getEntityWorld().getGameTime())
+        {
+            evt.setCanceled(true);
+            return;
+        }
         TrainerEventHandler.processInteract(evt, evt.getTarget());
-        evt.getTarget().getPersistentData().putLong(ID, evt.getTarget().getEntityWorld().getGameTime());
+        player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
     }
 
     public static void onEntityInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
     {
-        if (evt.getWorld().isRemote) return;
-        final String ID = "LastSuccessInteractEvent";
-        final long time = evt.getTarget().getPersistentData().getLong(ID);
-        if (time == evt.getTarget().getEntityWorld().getGameTime()) return;
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final String ID = "__pokeadv_interact__";
+        final long time = player.getPersistentData().getLong(ID);
+        if (time == player.getEntityWorld().getGameTime())
+        {
+            evt.setCanceled(true);
+            return;
+        }
         TrainerEventHandler.processInteract(evt, evt.getTarget());
-        evt.getTarget().getPersistentData().putLong(ID, evt.getTarget().getEntityWorld().getGameTime());
+        player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
+    }
+
+    public static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
+    {
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final String ID = "__pokeadv_interact__";
+        final long time = player.getPersistentData().getLong(ID);
+        if (time == player.getEntityWorld().getGameTime())
+        {
+            evt.setCanceled(true);
+            return;
+        }
+    }
+
+    public static void onEmptyRightClick(final PlayerInteractEvent.RightClickEmpty evt)
+    {
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final String ID = "__pokeadv_interact__";
+        final long time = player.getPersistentData().getLong(ID);
+        if (time == player.getEntityWorld().getGameTime())
+        {
+            evt.setCanceled(true);
+            return;
+        }
     }
 
     /**
@@ -274,19 +311,6 @@ public class TrainerEventHandler
                     .getSource().getTrueSource());
         }
     }
-
-    // /**
-    // * Ensures the IHasPokemobs object has synced target with the MobEntity
-    // * object.
-    // *
-    // * @param evt
-    // */
-    // public static void onLivingSetTarget(final LivingSetAttackTargetEvent
-    // evt)
-    // {
-    // if (evt.getTarget() == null || !(evt.getEntity() instanceof
-    // LivingEntity)) return;
-    // }
 
     /**
      * Initializes the AI for the trainers when they join the world.
@@ -369,7 +393,6 @@ public class TrainerEventHandler
      */
     public static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
         if (!(target instanceof LivingEntity)) return;
         // TODO trainer edit item.
         final IHasMessages messages = TrainerCaps.getMessages(target);
@@ -397,8 +420,13 @@ public class TrainerEventHandler
                 break;
             }
             messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
-            messages.doAction(state, pokemobs.setLatestContext(new ActionContext(evt.getPlayer(), (LivingEntity) target,
-                    evt.getItemStack())));
+            if (messages.doAction(state, pokemobs.setLatestContext(new ActionContext(evt.getPlayer(),
+                    (LivingEntity) target, evt.getItemStack()))))
+            {
+                evt.setCanceled(true);
+                evt.setCancellationResult(ActionResultType.SUCCESS);
+                System.out.println("interacted");
+            }
         }
     }
 

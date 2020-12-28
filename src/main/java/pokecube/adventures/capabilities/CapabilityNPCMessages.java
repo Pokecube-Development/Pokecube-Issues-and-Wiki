@@ -52,10 +52,11 @@ public class CapabilityNPCMessages
         }
 
         @Override
-        public void doAction(final MessageState state, final ActionContext context)
+        public boolean doAction(final MessageState state, final ActionContext context)
         {
             final Action action = this.actions.get(state);
-            if (action != null) action.doAction(context);
+            if (action != null) return action.doAction(context);
+            return false;
         }
 
         @Override
@@ -77,12 +78,13 @@ public class CapabilityNPCMessages
         }
 
         @Override
-        public void sendMessage(final MessageState state, final Entity target, final Object... args)
+        public boolean sendMessage(final MessageState state, final Entity target, final Object... args)
         {
             if (target instanceof FakePlayer || this.messages.get(state) == null || this.messages.get(state).trim()
-                    .isEmpty()) return;
+                    .isEmpty()) return false;
             target.sendMessage(new TranslationTextComponent(this.messages.get(state), args), Util.DUMMY_UUID);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(state + ": " + this.messages.get(state));
+            return true;
         }
 
         @Override
@@ -107,13 +109,13 @@ public class CapabilityNPCMessages
 
     public static interface IHasMessages
     {
-        void doAction(MessageState state, ActionContext context);
+        boolean doAction(MessageState state, ActionContext context);
 
         Action getAction(MessageState state);
 
         String getMessage(MessageState state);
 
-        void sendMessage(MessageState state, Entity target, Object... args);
+        boolean sendMessage(MessageState state, Entity target, Object... args);
 
         void setAction(MessageState state, Action action);
 

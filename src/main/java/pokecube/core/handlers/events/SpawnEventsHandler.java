@@ -146,7 +146,8 @@ public class SpawnEventsHandler
                 mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(
                         event.pos), SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
 
-                mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
+                mob.setNpcType(nurse ? NpcType.byType("healer")
+                        : trader ? NpcType.byType("trader") : NpcType.byType("professor"));
                 if (nurse) mob.setMale(false);
 
                 JsonObject thing = new JsonObject();

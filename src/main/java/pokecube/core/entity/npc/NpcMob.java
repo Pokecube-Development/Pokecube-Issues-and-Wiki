@@ -64,7 +64,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         TYPE = EntityType.Builder.create(NpcMob::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
     }
-    private NpcType   type       = NpcType.NONE;
+    private NpcType   type       = NpcType.byType("none");
     public String     name       = "";
     public String     playerName = "";
     public String     urlSkin    = "";
@@ -245,11 +245,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         try
         {
             if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
-            else this.setNpcType(NpcType.PROFESSOR);
+            else this.setNpcType(NpcType.byType("professor"));
         }
         catch (final Exception e)
         {
-            this.setNpcType(NpcType.PROFESSOR);
+            this.setNpcType(NpcType.byType("professor"));
             e.printStackTrace();
         }
     }
@@ -289,11 +289,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         try
         {
             if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
-            else this.setNpcType(NpcType.PROFESSOR);
+            else this.setNpcType(NpcType.byType("professor"));
         }
         catch (final Exception e)
         {
-            this.setNpcType(NpcType.PROFESSOR);
+            this.setNpcType(NpcType.byType("professor"));
             e.printStackTrace();
         }
     }
