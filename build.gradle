@@ -41,6 +41,7 @@ minecraft {
 
     runs {
         client = {
+            taskName 'run_client_1'
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
             properties '-XX': '+UnlockCommercialFeatures'
@@ -48,20 +49,52 @@ minecraft {
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
             arg "-mixin.config=pokecube.mixins.json"
-            sources sourceSets.main, sourceSets.test
+            source sourceSets.main
+        }
+        client_2 {
+            parent runs.client
+            taskName 'run_client_2'
+
+            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
+            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev2'
+        }
+        test_client {
+            parent runs.client
+            taskName 'run_test_client'
+
+            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
+            arg "-mixin.config=pokecube.mixins.json"
+
+            mods {
+                TestMods { sources sourceSets.test }
+                MainMods { sources sourceSets.main }
+            }
         }
         server = {
+            taskName 'run_server'
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
             properties '-XX': '+UnlockCommercialFeatures'
-            properties '-XX': '+FlightRecorder'
             properties '-XX': '+FlightRecorder'
             jvmArg "-Xmx2G"
             workingDirectory project.file('run').canonicalPath
             arg "-mixin.config=pokecube.mixins.json"
-            sources sourceSets.main, sourceSets.test
+            source sourceSets.main
+        }
+        test_server {
+            parent runs.client
+            taskName 'run_test_server'
+
+            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
+            arg "-mixin.config=pokecube.mixins.json"
+
+            mods {
+                TestMods { sources sourceSets.test }
+                MainMods { sources sourceSets.main }
+            }
         }
         data = {
+            taskName 'run_datagens'
             workingDirectory project.file('run').canonicalPath
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'

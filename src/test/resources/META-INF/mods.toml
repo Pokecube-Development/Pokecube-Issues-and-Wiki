@@ -1,0 +1,6 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+license="All rights reserved"
+
+[[mods]]
+    modId="testmod"
