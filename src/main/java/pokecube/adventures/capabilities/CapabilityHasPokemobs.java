@@ -23,6 +23,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -44,6 +45,7 @@ import pokecube.adventures.events.TrainerInteractEvent;
 import pokecube.adventures.events.TrainerInteractEvent.CanInteract;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.handlers.events.EventsHandler;
@@ -860,13 +862,49 @@ public class CapabilityHasPokemobs
             // NOOP
         }
 
+        PlayerEntity usingPlayer = null;
+
         @Override
         public boolean isUsableByPlayer(final PlayerEntity player)
         {
+            if (this.usingPlayer == player) return true;
+            if (this.getLatestContext() == null || this.getLatestContext().target != player) this.setLatestContext(
+                    new ActionContext(player, this.getTrainer(), player.getHeldItemMainhand()));
+
+            // No item in action, no allow.
+            if (this.getLatestContext().playerStack.isEmpty()) return false;
+            // Only allow if it is a pokedex.
+            if (this.getLatestContext().playerStack.getItem() != PokecubeItems.POKEDEX.get()) return false;
+
             final TrainerInteractEvent.CanInteract event = new CanInteract(player, this.getLatestContext());
-            event.setResult(player == this.user || player.isCreative() ? Result.ALLOW : Result.DENY);
-            return event.getResult() == Result.ALLOW;
+            final Result result = player == this.user || player.isCreative() ? Result.ALLOW : Result.DENY;
+            event.setResult(result);
+            MinecraftForge.EVENT_BUS.post(event);
+            final boolean allow = event.getResult() == Result.ALLOW;
+            return allow;
         }
+
+        @Override
+        public void openInventory(final PlayerEntity player)
+        {
+            IHasPokemobs.super.openInventory(player);
+            this.usingPlayer = player;
+        }
+
+        @Override
+        public void closeInventory(final PlayerEntity player)
+        {
+            IHasPokemobs.super.closeInventory(player);
+            this.usingPlayer = null;
+        }
+
+        @Override
+        public int getInventoryStackLimit()
+        {
+            return 1;
+        }
+
+        // End of IInventory stuff
 
         @Override
         public ActionContext getLatestContext()
@@ -880,8 +918,6 @@ public class CapabilityHasPokemobs
             this.context = context;
             return context;
         }
-
-        // End of IInventory stuff
     }
 
     public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>, IInventory
