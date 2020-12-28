@@ -1,5 +1,12 @@
 package pokecube.adventures;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
+import net.minecraft.entity.INPC;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
@@ -19,7 +26,9 @@ public class Config extends ConfigData
     private static final String BAG     = "bag";
 
     @Configure(category = Config.TRAINER, comment = "If true, anything that is an INPC will be made into a trainer")
-    public boolean npcsAreTrainers = true;
+    public boolean      npcsAreTrainers = true;
+    @Configure(category = Config.TRAINER, comment = "MobIDs listed here will be added as custom trainers if npcsAreTrainers is true, this is for mobs that are not INPCs, but should be")
+    public List<String> custom_trainers = Lists.newArrayList("player_mobs:player_mob");
 
     @Configure(category = Config.TRAINER, comment = "This is the time, in ticks, which a trainer will go on cooldown for, for a player, after winning or losing a battle")
     public int trainerCooldown     = 5000;
@@ -140,6 +149,8 @@ public class Config extends ConfigData
 
     public boolean loaded = false;
 
+    private final List<ResourceLocation> customTrainerTypes = Lists.newArrayList();
+
     public Config()
     {
         super(PokecubeAdv.MODID);
@@ -149,6 +160,8 @@ public class Config extends ConfigData
     public void onUpdated()
     {
         if (!this.loaded) return;
+        this.customTrainerTypes.clear();
+        this.custom_trainers.forEach(s -> this.customTrainerTypes.add(new ResourceLocation(s)));
 
         EnergyHandler.initParser();
         BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
@@ -159,6 +172,13 @@ public class Config extends ConfigData
         this.afaTickRate = Math.max(1, this.afaTickRate);
         this.trainerAgroRate = Math.max(1, this.trainerAgroRate);
         RecipeClone.ENERGYCOST = this.fossilReanimateCost;
+    }
+
+    public boolean shouldBeCustomTrainer(final LivingEntity mob)
+    {
+        if (!this.npcsAreTrainers) return false;
+        if (mob instanceof INPC) return true;
+        return this.customTrainerTypes.contains(mob.getType().getRegistryName());
     }
 
 }

@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.Config;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
+import pokecube.adventures.capabilities.utils.ActionContext;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -84,7 +85,8 @@ public class ManageOutMob extends BaseBattleTask
                         }
                         this.messages.sendMessage(MessageState.ABOUTSEND, this.trainer.getTarget(), this.entity
                                 .getDisplayName(), next.getDisplayName(), this.trainer.getTarget().getDisplayName());
-                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer.getTarget(), this.entity);
+                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer.setLatestContext(new ActionContext(
+                                this.trainer.getTarget(), this.entity)));
                     }
                 }
             }

@@ -1,8 +1,7 @@
 package pokecube.adventures.capabilities.utils;
 
 import net.minecraft.command.Commands;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.LivingEntity;
 
 public class Action
 {
@@ -13,14 +12,15 @@ public class Action
         this.command = command;
     }
 
-    public void doAction(final PlayerEntity target, final Entity holder)
+    public void doAction(final ActionContext action)
     {
         if (this.command == null || this.command.trim().isEmpty()) return;
         final String[] commands = this.command.split("``");
+        final LivingEntity target = action.target;
         for (final String command : commands)
         {
             String editedCommand = command;
-            editedCommand = editedCommand.replace("@p", target.getGameProfile().getName());
+            editedCommand = editedCommand.replace("@p", target.getName().getString());
             editedCommand = editedCommand.replace("'x'", target.getPosX() + "");
             editedCommand = editedCommand.replace("'y'", target.getPosY() + 1 + "");
             editedCommand = editedCommand.replace("'z'", target.getPosZ() + "");

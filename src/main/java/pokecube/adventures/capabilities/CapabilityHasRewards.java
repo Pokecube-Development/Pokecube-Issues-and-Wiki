@@ -17,6 +17,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.utils.ActionContext;
 import pokecube.adventures.capabilities.utils.MessageState;
 
 public class CapabilityHasRewards
@@ -74,7 +75,7 @@ public class CapabilityHasRewards
                 {
                     messageSender.sendMessage(MessageState.GIVEITEM, player, rewarder.getDisplayName(), i
                             .getDisplayName(), player.getDisplayName());
-                    messageSender.doAction(MessageState.GIVEITEM, player, rewarder);
+                    messageSender.doAction(MessageState.GIVEITEM, new ActionContext(player, rewarder));
                 }
             }
         }

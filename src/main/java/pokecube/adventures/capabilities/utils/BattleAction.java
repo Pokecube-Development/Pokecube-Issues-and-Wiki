@@ -1,8 +1,6 @@
 package pokecube.adventures.capabilities.utils;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.LivingEntity;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
 
@@ -15,10 +13,12 @@ public class BattleAction extends Action
     }
 
     @Override
-    public void doAction(final PlayerEntity target, final Entity holder)
+    public void doAction(final ActionContext action)
     {
+        final LivingEntity target = action.target;
+        final LivingEntity holder = action.holder;
         final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(holder);
-        if (trainer != null && target instanceof ServerPlayerEntity)
+        if (trainer != null)
         {
             trainer.resetPokemob();
             trainer.onSetTarget(target, true);

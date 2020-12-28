@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +16,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import pokecube.adventures.Config;
 import pokecube.adventures.events.CompatEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -83,6 +85,7 @@ public class Compat
     private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!(event.getObject() instanceof MobEntity)) return;
+        if (Config.instance.shouldBeCustomTrainer((LivingEntity) event.getObject())) return;
         if (!Compat.makePokemob.test(event.getObject().getType())) return;
 
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
@@ -108,7 +111,8 @@ public class Compat
             catch (final Exception e)
             {
                 // Something went wrong, so log and exit early
-                PokecubeCore.LOGGER.warn("Error making pokedex entry for {}", event.getObject().getType().getRegistryName());
+                PokecubeCore.LOGGER.warn("Error making pokedex entry for {}", event.getObject().getType()
+                        .getRegistryName());
                 e.printStackTrace();
                 return;
             }
