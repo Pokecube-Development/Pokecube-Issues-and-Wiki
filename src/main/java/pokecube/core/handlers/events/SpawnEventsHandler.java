@@ -19,6 +19,7 @@ import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -155,18 +156,23 @@ public class SpawnEventsHandler
                 {
                     final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
                     thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
-                    SpawnEventsHandler.applyFunction(mob, thing);
                 }
                 catch (final JsonSyntaxException e)
                 {
                     PokecubeCore.LOGGER.error("Error parsing " + function, e);
                 }
 
-                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.worldActual,
-                        SpawnReason.STRUCTURE)))
+                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual,
+                        SpawnReason.STRUCTURE, thing)))
                 {
                     event.worldBlocks.addEntity(mob);
                     event.setResult(Result.ALLOW);
+                    final JsonObject apply = thing;
+                    EventsHandler.Schedule(event.worldActual, w ->
+                    {
+                        SpawnEventsHandler.applyFunction(mob, apply);
+                        return true;
+                    });
                 }
             }
             else if (function.startsWith("pokemob"))
@@ -178,8 +184,24 @@ public class SpawnEventsHandler
 
     private static void onStructureSpawn(final StructureEvent.BuildStructure event)
     {
-        if (event.getBiomeType() != null)
+        if (event.getBiomeType() != null) if (event.getWorld() instanceof ServerWorld)
         {
+            final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
+            final MutableBoundingBox box = event.getBoundingBox();
+            final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
+                    box.maxZ);
+            EventsHandler.Schedule((ServerWorld) event.getWorld(), world ->
+            {
+                poses.forEach((p) ->
+                {
+                    TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
+                });
+                return true;
+            });
+        }
+        else
+        {
+            PokecubeCore.LOGGER.warn("Warning, world is not server world, things may break!");
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final MutableBoundingBox box = event.getBoundingBox();
             final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,

@@ -320,10 +320,11 @@ public class TrainerEventHandler
     public static void onJoinWorld(final EntityJoinWorldEvent event)
     {
         if (!(event.getEntity() instanceof LivingEntity)) return;
+        if (!(event.getWorld() instanceof ServerWorld)) return;
         TrainerEventHandler.initTrainer((LivingEntity) event.getEntity(), SpawnReason.NATURAL);
     }
 
-    public static void onNpcSpawn(final NpcSpawn event)
+    public static void onNpcSpawn(final NpcSpawn.Spawn event)
     {
         TrainerEventHandler.initTrainer(event.getNpcMob(), event.getReason());
     }
@@ -425,7 +426,6 @@ public class TrainerEventHandler
             {
                 evt.setCanceled(true);
                 evt.setCancellationResult(ActionResultType.SUCCESS);
-                System.out.println("interacted");
             }
         }
     }
