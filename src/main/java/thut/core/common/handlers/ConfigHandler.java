@@ -51,6 +51,8 @@ public class ConfigHandler extends ConfigData
     public boolean      autoBlacklistErroredTEs = true;
     @Configure(category = ConfigHandler.MISC)
     public boolean      debug                   = true;
+    @Configure(category = ConfigHandler.MISC)
+    public boolean      supress_warns           = false;
 
     @Configure(category = ConfigHandler.CLIENT)
     public boolean asyncModelLoads = true;
