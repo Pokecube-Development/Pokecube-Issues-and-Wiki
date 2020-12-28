@@ -3,6 +3,7 @@ package pokecube.core.client.render.mobs.overlays;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Stack;
 import java.util.UUID;
 
@@ -13,7 +14,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
@@ -25,6 +25,8 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.database.PokedexEntry;
@@ -71,6 +73,26 @@ public class Health
         return !nametag;
     }
 
+    public static IFormattableTextComponent obfuscate(final ITextComponent compIn)
+    {
+        final ITextComponent comp = compIn;
+        String val = comp.getString();
+        final Random rand = new Random();
+        final char[] chars = val.toCharArray();
+        for (int i = 0; i < val.length(); i++)
+            for (int j = 0; j < 10; j++)
+            {
+                final int rng = rand.nextInt(256);
+                if (Character.isAlphabetic(rng))
+                {
+                    chars[i] = (char) rng;
+                    break;
+                }
+            }
+        val = new String(chars);
+        return new StringTextComponent(val).setStyle(compIn.getStyle());
+    }
+
     public static Entity getEntityLookedAt(final Entity e)
     {
         return Tools.getPointedEntity(e, 32);
@@ -100,6 +122,7 @@ public class Health
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null || !entity.addedToChunk || !pokemob.getPokedexEntry().stock) return;
         if (entity.getDistance(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
+        final PokedexEntry entry = pokemob.getPokedexEntry();
         final Config config = PokecubeCore.getConfig();
         final Minecraft mc = Minecraft.getInstance();
         final EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
@@ -135,7 +158,7 @@ public class Health
             if (maxHealth <= 0) break processing;
 
             final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? config.dynamax_scale
-                    : pokemob.getPokedexEntry().height * pokemob.getSize();
+                    : entry.height * pokemob.getSize();
             mat.translate(0, dy + config.heightAbove, 0);
             Quaternion quaternion;
             quaternion = viewer.getRotation();
@@ -160,10 +183,10 @@ public class Health
             b = color.getBlue();
             IFormattableTextComponent nameComp = (IFormattableTextComponent) pokemob.getDisplayName();
             final boolean obfuscated = Health.obfuscateName(pokemob);
-            if (obfuscated) nameComp.setStyle(nameComp.getStyle().setObfuscated(true));
-            else nameComp.setStyle(nameComp.getStyle().setObfuscated(false));
+            if (obfuscated) nameComp = Health.obfuscate(nameComp);
             if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName())
                 nameComp = (IFormattableTextComponent) ((MobEntity) entity).getCustomName();
+
             final float s = 0.5F;
             final String name = nameComp.getString();
             final float namel = mc.fontRenderer.getStringWidth(name) * s;
@@ -235,12 +258,7 @@ public class Health
             mat.push();
             s1 = 1.5F;
             mat.scale(s1, s1, s1);
-            pos = mat.getLast().getMatrix();
-            final IRenderTypeBuffer.Impl irendertypebuffer$impl = IRenderTypeBuffer.getImpl(Tessellator.getInstance()
-                    .getBuffer());
-            mc.fontRenderer.func_238416_a_(nameComp.func_241878_f(), 0, 0, colour, false, pos, irendertypebuffer$impl,
-                    false, 0, 15728880);
-            irendertypebuffer$impl.finish();
+            mc.fontRenderer.drawString(mat, nameComp.getString(), 0, 0, colour);
             s1 = 0.75F;
             mat.pop();
 
@@ -296,7 +314,6 @@ public class Health
                     Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
                 off -= 4;
             }
-
             mat.pop();
         }
         mat.pop();
