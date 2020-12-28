@@ -14,8 +14,12 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerChunkProvider;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.events.TrainerInteractEvent.CanInteract;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
@@ -38,8 +42,22 @@ public class Impl
             return mob instanceof AbstractEntityCitizen ? TypeTrainer.merchant : null;
         });
 
+        MinecraftForge.EVENT_BUS.addListener(Impl::onTrainerGuiCheck);
+
         // TODO check here for mine related stuff:
         // https://github.com/ldtteam/minecolonies/blob/34a42edeeddcb4c078ad25032a3a87d0015dc960/src/main/java/com/minecolonies/coremod/colony/buildings/workerbuildings/BuildingMiner.java
+    }
+
+    private static void onTrainerGuiCheck(final CanInteract event)
+    {
+        if (event.action.playerStack.isEmpty()) return;
+        if (event.action.playerStack.getItem() != PokecubeItems.POKEDEX.get()) return;
+        if (event.action.holder instanceof AbstractEntityCitizen)
+        {
+            final AbstractEntityCitizen cit = (AbstractEntityCitizen) event.action.holder;
+            if (cit.getCitizenColonyHandler().getColony().getImportantMessageEntityPlayers().contains(event
+                    .getEntityLiving())) event.setResult(Result.ALLOW);
+        }
     }
 
     public static class TerrainChecker extends PokecubeTerrainChecker
@@ -60,8 +78,7 @@ public class Impl
             check:
             if (caveAdjusted) if (world.getChunkProvider() instanceof ServerChunkProvider)
             {
-                if (!Impl.instance.getColonyManager().isCoordinateInAnyColony(rworld, v.getPos()))
-                    break check;
+                if (!Impl.instance.getColonyManager().isCoordinateInAnyColony(rworld, v.getPos())) break check;
 
                 final IColony colony = Impl.instance.getColonyManager().getClosestColony(rworld, v.getPos());
                 if (colony == null || colony.getBuildingManager() == null || colony.getBuildingManager()

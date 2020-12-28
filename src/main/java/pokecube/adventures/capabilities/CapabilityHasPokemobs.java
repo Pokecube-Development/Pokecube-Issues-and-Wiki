@@ -27,6 +27,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.adventures.Config;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -34,10 +35,13 @@ import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.utils.ActionContext;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
+import pokecube.adventures.events.TrainerInteractEvent;
+import pokecube.adventures.events.TrainerInteractEvent.CanInteract;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -192,6 +196,8 @@ public class CapabilityHasPokemobs
         private boolean     canMegaEvolve = false;
         private IPokemob    outMob;
         private LevelMode   levelmode     = LevelMode.CONFIG;
+
+        ActionContext context;
 
         private final Set<ITargetWatcher> watchers = Sets.newHashSet();
 
@@ -514,8 +520,8 @@ public class CapabilityHasPokemobs
                     packet.getTag().putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTimeLose);
                     PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayerEntity) won);
                 }
-                if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, (LivingEntity) won,
-                        this.user);
+                if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, new ActionContext(
+                        (LivingEntity) won, this.getTrainer()));
             }
         }
 
@@ -697,7 +703,7 @@ public class CapabilityHasPokemobs
                 this.setAttackCooldown(cooldown);
                 this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(), target
                         .getDisplayName());
-                this.messages.doAction(MessageState.AGRESS, target, this.user);
+                this.messages.doAction(MessageState.AGRESS, new ActionContext(target, this.getTrainer()));
                 this.aiStates.setAIState(AIState.INBATTLE, true);
             }
             if (target == null)
@@ -706,7 +712,7 @@ public class CapabilityHasPokemobs
                 {
                     this.messages.sendMessage(MessageState.DEAGRESS, old, this.user.getDisplayName(), old
                             .getDisplayName());
-                    this.messages.doAction(MessageState.DEAGRESS, target, this.user);
+                    this.messages.doAction(MessageState.DEAGRESS, new ActionContext(target, this.getTrainer()));
                 }
                 this.aiStates.setAIState(AIState.THROWING, false);
                 this.aiStates.setAIState(AIState.INBATTLE, false);
@@ -756,8 +762,8 @@ public class CapabilityHasPokemobs
                     this.attackCooldown = Config.instance.trainerSendOutDelay;
                     this.messages.sendMessage(MessageState.SENDOUT, target, this.user.getDisplayName(), i
                             .getDisplayName(), target.getDisplayName());
-                    if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT,
-                            (LivingEntity) target, this.user);
+                    if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT, new ActionContext(
+                            (LivingEntity) target, this.getTrainer()));
                 }
                 this.nextSlot++;
                 if (this.nextSlot >= this.getMaxPokemobCount() || this.getNextPokemob() == null) this.nextSlot = -1;
@@ -857,8 +863,22 @@ public class CapabilityHasPokemobs
         @Override
         public boolean isUsableByPlayer(final PlayerEntity player)
         {
-            // TODO maybe a condition for this to be true, based on friendliness
-            return player == this.user || player.isCreative();
+            final TrainerInteractEvent.CanInteract event = new CanInteract(player, this.getLatestContext());
+            event.setResult(player == this.user || player.isCreative() ? Result.ALLOW : Result.DENY);
+            return event.getResult() == Result.ALLOW;
+        }
+
+        @Override
+        public ActionContext getLatestContext()
+        {
+            return this.context;
+        }
+
+        @Override
+        public ActionContext setLatestContext(final ActionContext context)
+        {
+            this.context = context;
+            return context;
         }
 
         // End of IInventory stuff
@@ -1147,6 +1167,10 @@ public class CapabilityHasPokemobs
                 them.onSetTarget(null);
             }
         }
+
+        ActionContext getLatestContext();
+
+        ActionContext setLatestContext(ActionContext context);
     }
 
     public static interface ITargetWatcher

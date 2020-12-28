@@ -5,8 +5,6 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -17,7 +15,9 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.capabilities.utils.Action;
+import pokecube.adventures.capabilities.utils.ActionContext;
 import pokecube.adventures.capabilities.utils.BattleAction;
+import pokecube.adventures.capabilities.utils.GuiOpenAction;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
@@ -42,6 +42,7 @@ public class CapabilityNPCMessages
             this.messages.put(MessageState.INTERACT_NOBATTLE, "pokecube.trainer.agress_request_denied");
 
             this.actions.put(MessageState.INTERACT_YESBATTLE, new BattleAction());
+            this.actions.put(MessageState.INTERACT, new GuiOpenAction());
         }
 
         @Override
@@ -51,11 +52,10 @@ public class CapabilityNPCMessages
         }
 
         @Override
-        public void doAction(final MessageState state, final LivingEntity target, final Entity mob)
+        public void doAction(final MessageState state, final ActionContext context)
         {
-            if (target instanceof FakePlayer) return;
             final Action action = this.actions.get(state);
-            if (action != null && target instanceof PlayerEntity) action.doAction((PlayerEntity) target, mob);
+            if (action != null) action.doAction(context);
         }
 
         @Override
@@ -107,7 +107,7 @@ public class CapabilityNPCMessages
 
     public static interface IHasMessages
     {
-        void doAction(MessageState state, LivingEntity target, Entity mob);
+        void doAction(MessageState state, ActionContext context);
 
         Action getAction(MessageState state);
 
