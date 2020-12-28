@@ -4,12 +4,16 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.core.client.Resources;
 
 public class Trainer extends ContainerScreen<ContainerTrainer>
 {
+    public final static ResourceLocation GUI_HEAL_TABLE = new ResourceLocation(PokecubeAdv.MODID,
+            Resources.TEXTURE_GUI_FOLDER + "trainergui.png");
 
     public Trainer(final ContainerTrainer screenContainer, final PlayerInventory inv, final ITextComponent titleIn)
     {
