@@ -586,7 +586,7 @@ public class EventsHandler
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)
     {
-        event.addListener(new Database.ReloadListener());
+        event.addListener(Database.ReloadListener.INSTANCE);
     }
 
     public static void sendInitInfo(final ServerPlayerEntity player)

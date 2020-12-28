@@ -150,6 +150,8 @@ public class Database
 
     public static class ReloadListener implements IFutureReloadListener
     {
+        public static final IFutureReloadListener INSTANCE = new ReloadListener();
+
         @Override
         public final CompletableFuture<Void> reload(final IFutureReloadListener.IStage stage,
                 final IResourceManager resourceManager, final IProfiler preparationsProfiler,
@@ -798,13 +800,14 @@ public class Database
 
     private static void loadStarterPack()
     {
-        Database.starterPack.clear();
         try
         {
-            final Reader reader = new InputStreamReader(Database.resourceManager.getResource(Database.STARTERPACK)
-                    .getInputStream());
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager.getResource(
+                    Database.STARTERPACK).getInputStream()));
             final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
             reader.close();
+            // Only clear this if things have not failed earlier
+            Database.starterPack.clear();
             for (final Drop drop : database.drops)
             {
                 final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
