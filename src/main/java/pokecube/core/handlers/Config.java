@@ -485,11 +485,6 @@ public class Config extends ConfigData
     public boolean debug  = false;
 
     @Configure(category = Config.advanced)
-    public boolean vanilla_pokemobs = false;
-    @Configure(category = Config.advanced)
-    public boolean non_vanilla_pokemobs = false;
-
-    @Configure(category = Config.advanced)
     // DOLATER find more internal variables to add to this.
     public List<String> extraVars = Lists.newArrayList(new String[] { "jc:" + EventsHandler.juiceChance, "rc:"
             + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:" + ItemPokemobEgg.MOBDIST });
@@ -635,6 +630,11 @@ public class Config extends ConfigData
 
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "A spacing around a player which prevnts them from riding something too fast off the edge of the loaded area. This effectively limits the speed at which they can generate terrain")
     public double movementPauseThreshold = 32;
+
+    @Configure(category = Config.advanced, type = Type.SERVER, comment = "If true, vanilla mobs are treated as pokemobs as well")
+    public boolean vanilla_pokemobs     = false;
+    @Configure(category = Config.advanced, type = Type.SERVER, comment = "If true, mobs added by other mods are treated as pokemobs as well")
+    public boolean non_vanilla_pokemobs = false;
 
     public Config()
     {

@@ -12,8 +12,6 @@ import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IIntArray;
@@ -43,8 +41,6 @@ import thut.core.common.network.TileUpdate;
 
 public class AfaTile extends InteractableTile implements ITickableTileEntity, IEnergyStorage, IInventoryChangedListener
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public static final ResourceLocation SHINYTAG = new ResourceLocation(PokecubeAdv.MODID, "shiny_charm");
 
     public static JEP parser;
@@ -146,7 +142,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
 
     public AfaTile()
     {
-        super(AfaTile.TYPE);
+        super(PokecubeAdv.AFA_TYPE.get());
         this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
         this.inventory = new AfaContainer.InvWrapper(this.itemstore, (IOwnableTE) this.getCapability(

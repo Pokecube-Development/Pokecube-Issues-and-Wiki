@@ -9,14 +9,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ClickType;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.IContainerFactory;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -27,9 +25,6 @@ import thut.core.common.ThutCore;
 public class BagContainer extends BaseContainer
 {
     public static final ResourceLocation VALID = new ResourceLocation(PokecubeAdv.MODID, "bagable");
-
-    public static final ContainerType<BagContainer> TYPE = new ContainerType<>(
-            (IContainerFactory<BagContainer>) BagContainer::new);
 
     public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
 
@@ -47,7 +42,7 @@ public class BagContainer extends BaseContainer
     public static boolean isItemValid(final ItemStack itemstack)
     {
         // No placing bags in self.
-        if (itemstack.getItem() == PokecubeAdv.BAG) return false;
+        if (itemstack.getItem() == PokecubeAdv.BAG.get()) return false;
         // Config option to hold anything.
         if (PokecubeAdv.config.bagsHoldEverything) return true;
         // Specifically ban filled cubes
@@ -67,7 +62,7 @@ public class BagContainer extends BaseContainer
 
     public BagContainer(final int id, final PlayerInventory ivplay, final BagInventory pc)
     {
-        super(BagContainer.TYPE, id);
+        super(PokecubeAdv.BAG_CONT.get(), id);
         BagContainer.xOffset = 0;
         BagContainer.yOffset = 0;
         this.inv = pc;

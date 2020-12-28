@@ -48,16 +48,18 @@ minecraft {
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
             arg "-mixin.config=pokecube.mixins.json"
-            source sourceSets.main
+            sources sourceSets.main, sourceSets.test
         }
         server = {
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
             properties '-XX': '+UnlockCommercialFeatures'
             properties '-XX': '+FlightRecorder'
+            properties '-XX': '+FlightRecorder'
+            jvmArg "-Xmx2G"
             workingDirectory project.file('run').canonicalPath
             arg "-mixin.config=pokecube.mixins.json"
-            source sourceSets.main
+            sources sourceSets.main, sourceSets.test
         }
         data = {
             workingDirectory project.file('run').canonicalPath
@@ -123,7 +125,7 @@ dependencies {
     implementation fg.deobf("org.squiddev:cc-tweaked-${version_minecraft}:${version_cct}")
     
     //Lost Cities
-    //implementation "libs:lostcities-${version_lostcities}"
+    implementation "libs:lostcities-${version_lostcities}"
     
     //Thut Essentials
     implementation "libs:thutessentials-1.16.4-4.1.0-deobf"

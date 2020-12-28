@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.SoundCategory;
@@ -29,8 +28,6 @@ import pokecube.core.utils.Tools;
 
 public class DaycareTile extends InteractableTile implements ITickableTileEntity
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     public static JEP expToGive;
     public static JEP pwrPerExp;
 
@@ -76,7 +73,7 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
 
     public DaycareTile()
     {
-        super(DaycareTile.TYPE);
+        super(PokecubeAdv.DAYCARE_TYPE.get());
         this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
     }

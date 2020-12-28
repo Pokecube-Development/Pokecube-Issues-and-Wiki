@@ -309,9 +309,9 @@ public abstract class PokemobAI extends PokemobEvolves
         }
         else
         {
-            entity.setPathPriority(PathNodeType.LAVA, 20);
-            entity.setPathPriority(PathNodeType.DAMAGE_FIRE, 8);
-            entity.setPathPriority(PathNodeType.DANGER_FIRE, 8);
+            entity.setPathPriority(PathNodeType.LAVA, -1);
+            entity.setPathPriority(PathNodeType.DAMAGE_FIRE, -1);
+            entity.setPathPriority(PathNodeType.DANGER_FIRE, 16);
         }
         if (this.swims()) entity.setPathPriority(PathNodeType.WATER, 0);
         if (this.getPokedexEntry().hatedMaterial != null) for (final String material : this

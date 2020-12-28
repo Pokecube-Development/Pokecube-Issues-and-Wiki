@@ -32,8 +32,11 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler;
+import pokecube.core.events.StructureEvent;
+import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
 
 public class CustomJigsawStructure extends Structure<JigsawConfig>
@@ -79,6 +82,9 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             final int y = CustomJigsawStructure.getMinY(x, z, generator);
             if (y <= 5) return false;
         }
+
+        final StructureEvent.PickLocation event = new PickLocation(generator, rand, x, z, config.struct_config);
+        if(MinecraftForge.EVENT_BUS.post(event)) return false;
 
         // Here we check if there are any conflicting structures around.
         final int ds0 = WorldgenHandler.getNeededSpace(this.getStructure());

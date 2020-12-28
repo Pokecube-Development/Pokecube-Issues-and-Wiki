@@ -29,7 +29,10 @@ public abstract class BaseContainer extends Container
 
     public abstract IInventory getInv();
 
-    public abstract int getInventorySlotCount();
+    public int getInventorySlotCount()
+    {
+        return this.getInv().getSizeInventory();
+    }
 
     @Override
     public void onContainerClosed(final PlayerEntity playerIn)

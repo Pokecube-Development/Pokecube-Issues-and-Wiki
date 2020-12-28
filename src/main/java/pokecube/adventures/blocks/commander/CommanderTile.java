@@ -8,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -16,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketCommander;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.interfaces.IPokemob;
@@ -30,8 +30,6 @@ import thut.core.common.commands.CommandTools;
 
 public class CommanderTile extends InteractableTile
 {
-    public static TileEntityType<? extends TileEntity> TYPE;
-
     protected boolean         addedToNetwork = false;
     public UUID               pokeID         = null;
     public Command            command        = null;
@@ -42,7 +40,7 @@ public class CommanderTile extends InteractableTile
 
     public CommanderTile()
     {
-        super(CommanderTile.TYPE);
+        super(PokecubeAdv.COMMANDER_TYPE.get());
     }
 
     public CommanderTile(final TileEntityType<?> tileEntityTypeIn)

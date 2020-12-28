@@ -31,19 +31,16 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.blocks.afa.AfaContainer;
-import pokecube.adventures.blocks.genetics.cloner.ClonerContainer;
-import pokecube.adventures.blocks.genetics.extractor.ExtractorContainer;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
-import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
 import pokecube.adventures.client.gui.blocks.AFA;
 import pokecube.adventures.client.gui.blocks.Cloner;
 import pokecube.adventures.client.gui.blocks.Extractor;
 import pokecube.adventures.client.gui.blocks.Splicer;
 import pokecube.adventures.client.gui.items.Bag;
+import pokecube.adventures.client.gui.trainer.Trainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.bag.BagContainer;
@@ -155,19 +152,21 @@ public class ClientSetupHandler
         RenderingRegistry.registerEntityRenderingHandler(LeaderNpc.TYPE, (manager) -> new RenderNPC<>(manager));
 
         // Register container guis.
-        ScreenManager.registerFactory(ClonerContainer.TYPE, Cloner::new);
-        ScreenManager.registerFactory(SplicerContainer.TYPE, Splicer::new);
-        ScreenManager.registerFactory(ExtractorContainer.TYPE, Extractor::new);
-        ScreenManager.registerFactory(AfaContainer.TYPE, AFA::new);
-        ScreenManager.registerFactory(BagContainer.TYPE, Bag<BagContainer>::new);
+        ScreenManager.registerFactory(PokecubeAdv.CLONER_CONT.get(), Cloner::new);
+        ScreenManager.registerFactory(PokecubeAdv.SPLICER_CONT.get(), Splicer::new);
+        ScreenManager.registerFactory(PokecubeAdv.EXTRACTOR_CONT.get(), Extractor::new);
+        ScreenManager.registerFactory(PokecubeAdv.AFA_CONT.get(), AFA::new);
+        ScreenManager.registerFactory(PokecubeAdv.BAG_CONT.get(), Bag<BagContainer>::new);
+        ScreenManager.registerFactory(PokecubeAdv.TRAINER_CONT.get(), Trainer::new);
 
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER, RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER.get(), RenderType.getTranslucent());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeAdv.config, parent)));
 
-        ClientSetupHandler.trainerEditKey = new KeyBinding("EditTrainer", InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube");
+        ClientSetupHandler.trainerEditKey = new KeyBinding("EditTrainer", InputMappings.INPUT_INVALID.getKeyCode(),
+                "Pokecube");
         ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
     }
 

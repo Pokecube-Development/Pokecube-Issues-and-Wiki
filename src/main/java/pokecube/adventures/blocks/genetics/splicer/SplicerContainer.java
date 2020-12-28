@@ -1,19 +1,17 @@
 package pokecube.adventures.blocks.genetics.splicer;
 
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.core.inventory.TexturedSlot;
 
 public class SplicerContainer extends PoweredContainer<SplicerTile>
 {
-    public static final ContainerType<SplicerContainer> TYPE = new ContainerType<>(SplicerContainer::new);
-
     public SplicerContainer(final int id, final PlayerInventory invIn)
     {
         this(id, invIn, IWorldPosCallable.DUMMY);
@@ -21,7 +19,7 @@ public class SplicerContainer extends PoweredContainer<SplicerTile>
 
     public SplicerContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
     {
-        super(SplicerContainer.TYPE, id, (c) ->
+        super(PokecubeAdv.SPLICER_CONT.get(), id, (c) ->
         {
             pos.consume((w, p) ->
             {

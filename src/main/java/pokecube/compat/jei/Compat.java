@@ -73,7 +73,7 @@ public class Compat implements IModPlugin
         // Run this first so that things are loaded for dedicated servers.
         Database.onResourcesReloaded();
 
-        registration.addRecipes(pokecube.compat.jei.categories.cloner.Wrapper.getWrapped(), PokecubeAdv.CLONER
+        registration.addRecipes(pokecube.compat.jei.categories.cloner.Wrapper.getWrapped(), PokecubeAdv.CLONER.get()
                 .getRegistryName());
         final List<Evolution> evos = Lists.newArrayList();
         final List<InteractRecipe> interactions = Lists.newArrayList();

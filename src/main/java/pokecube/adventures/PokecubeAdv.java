@@ -25,10 +25,15 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.IContainerFactory;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.poi.PointsOfInterest;
@@ -56,6 +61,7 @@ import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.init.SetupHandler;
+import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
@@ -81,31 +87,6 @@ public class PokecubeAdv
     public static class RegistryEvents
     {
         @SubscribeEvent
-        public static void registerBlocks(final RegistryEvent.Register<Block> event)
-        {
-            // register blocks
-            event.getRegistry().register(PokecubeAdv.AFA);
-            event.getRegistry().register(PokecubeAdv.COMMANDER);
-            event.getRegistry().register(PokecubeAdv.DAYCARE);
-            event.getRegistry().register(PokecubeAdv.CLONER);
-            event.getRegistry().register(PokecubeAdv.EXTRACTOR);
-            event.getRegistry().register(PokecubeAdv.SPLICER);
-            event.getRegistry().register(PokecubeAdv.SIPHON);
-            event.getRegistry().register(PokecubeAdv.WARPPAD);
-        }
-
-        @SubscribeEvent
-        public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event)
-        {
-            // Register Containers
-            event.getRegistry().register(ClonerContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "cloner"));
-            event.getRegistry().register(ExtractorContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "extractor"));
-            event.getRegistry().register(SplicerContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "splicer"));
-            event.getRegistry().register(AfaContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "afa"));
-            event.getRegistry().register(BagContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "bag"));
-        }
-
-        @SubscribeEvent
         public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
         {
             // register a new mob here
@@ -130,29 +111,6 @@ public class PokecubeAdv
         {
             // register items
 
-            // Register the item blocks.
-            event.getRegistry().register(new BlockItem(PokecubeAdv.AFA, new Item.Properties().group(
-                    PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeAdv.AFA.getRegistryName()));
-            event.getRegistry().register(new BlockItem(PokecubeAdv.COMMANDER, new Item.Properties().group(
-                    PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeAdv.COMMANDER.getRegistryName()));
-            event.getRegistry().register(new BlockItem(PokecubeAdv.DAYCARE, new Item.Properties().group(
-                    PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeAdv.DAYCARE.getRegistryName()));
-            event.getRegistry().register(new BlockItem(PokecubeAdv.CLONER, new Item.Properties().group(
-                    PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeAdv.CLONER.getRegistryName()));
-            event.getRegistry().register(new BlockItem(PokecubeAdv.EXTRACTOR, new Item.Properties().group(
-                    PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeAdv.EXTRACTOR.getRegistryName()));
-            event.getRegistry().register(new BlockItem(PokecubeAdv.SPLICER, new Item.Properties().group(
-                    PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeAdv.SPLICER.getRegistryName()));
-            event.getRegistry().register(new BlockItem(PokecubeAdv.SIPHON, new Item.Properties().group(
-                    PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeAdv.SIPHON.getRegistryName()));
-            event.getRegistry().register(new BlockItem(PokecubeAdv.WARPPAD, new Item.Properties().group(
-                    PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeAdv.WARPPAD.getRegistryName()));
-
-            // Register some items
-            event.getRegistry().register(PokecubeAdv.EXPSHARE);
-            event.getRegistry().register(PokecubeAdv.LINKER);
-            event.getRegistry().register(PokecubeAdv.BAG);
-
             // Register the badges
             for (final PokeType type : PokeType.values())
             {
@@ -172,29 +130,6 @@ public class PokecubeAdv
             // Professions.register(event);
         }
 
-        @SubscribeEvent
-        public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
-        {
-
-            AfaTile.TYPE = TileEntityType.Builder.create(AfaTile::new, PokecubeAdv.AFA).build(null);
-            CommanderTile.TYPE = TileEntityType.Builder.create(CommanderTile::new, PokecubeAdv.COMMANDER).build(null);
-            DaycareTile.TYPE = TileEntityType.Builder.create(DaycareTile::new, PokecubeAdv.DAYCARE).build(null);
-            ClonerTile.TYPE = TileEntityType.Builder.create(ClonerTile::new, PokecubeAdv.CLONER).build(null);
-            ExtractorTile.TYPE = TileEntityType.Builder.create(ExtractorTile::new, PokecubeAdv.EXTRACTOR).build(null);
-            SplicerTile.TYPE = TileEntityType.Builder.create(SplicerTile::new, PokecubeAdv.SPLICER).build(null);
-            SiphonTile.TYPE = TileEntityType.Builder.create(SiphonTile::new, PokecubeAdv.SIPHON).build(null);
-            WarppadTile.TYPE = TileEntityType.Builder.create(WarppadTile::new, PokecubeAdv.WARPPAD).build(null);
-            // register tile entities
-            event.getRegistry().register(AfaTile.TYPE.setRegistryName(PokecubeAdv.AFA.getRegistryName()));
-            event.getRegistry().register(CommanderTile.TYPE.setRegistryName(PokecubeAdv.COMMANDER.getRegistryName()));
-            event.getRegistry().register(DaycareTile.TYPE.setRegistryName(PokecubeAdv.DAYCARE.getRegistryName()));
-            event.getRegistry().register(ClonerTile.TYPE.setRegistryName(PokecubeAdv.CLONER.getRegistryName()));
-            event.getRegistry().register(ExtractorTile.TYPE.setRegistryName(PokecubeAdv.EXTRACTOR.getRegistryName()));
-            event.getRegistry().register(SplicerTile.TYPE.setRegistryName(PokecubeAdv.SPLICER.getRegistryName()));
-            event.getRegistry().register(SiphonTile.TYPE.setRegistryName(PokecubeAdv.SIPHON.getRegistryName()));
-            event.getRegistry().register(WarppadTile.TYPE.setRegistryName(PokecubeAdv.WARPPAD.getRegistryName()));
-        }
-
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
@@ -208,50 +143,114 @@ public class PokecubeAdv
 
     public static final String MODID = "pokecube_adventures";
 
-    public static final Block AFA;
-    public static final Block COMMANDER;
-    public static final Block DAYCARE;
-    public static final Block CLONER;
-    public static final Block EXTRACTOR;
-    public static final Block SPLICER;
-    public static final Block SIPHON;
-    public static final Block WARPPAD;
+    public static final RegistryObject<Block> AFA;
+    public static final RegistryObject<Block> COMMANDER;
+    public static final RegistryObject<Block> DAYCARE;
+    public static final RegistryObject<Block> CLONER;
+    public static final RegistryObject<Block> EXTRACTOR;
+    public static final RegistryObject<Block> SPLICER;
+    public static final RegistryObject<Block> SIPHON;
+    public static final RegistryObject<Block> WARPPAD;
 
-    public static final Item EXPSHARE;
-    public static final Item LINKER;
-    public static final Item BAG;
+    public static final RegistryObject<Item> EXPSHARE;
+    public static final RegistryObject<Item> LINKER;
+    public static final RegistryObject<Item> BAG;
+
+    public static final RegistryObject<TileEntityType<AfaTile>>       AFA_TYPE;
+    public static final RegistryObject<TileEntityType<CommanderTile>> COMMANDER_TYPE;
+    public static final RegistryObject<TileEntityType<DaycareTile>>   DAYCARE_TYPE;
+    public static final RegistryObject<TileEntityType<ClonerTile>>    CLONER_TYPE;
+    public static final RegistryObject<TileEntityType<ExtractorTile>> EXTRACTOR_TYPE;
+    public static final RegistryObject<TileEntityType<SplicerTile>>   SPLICER_TYPE;
+    public static final RegistryObject<TileEntityType<SiphonTile>>    SIPHON_TYPE;
+    public static final RegistryObject<TileEntityType<WarppadTile>>   WARPPAD_TYPE;
+
+    public static final RegistryObject<ContainerType<AfaContainer>>       AFA_CONT;
+    public static final RegistryObject<ContainerType<ClonerContainer>>    CLONER_CONT;
+    public static final RegistryObject<ContainerType<ExtractorContainer>> EXTRACTOR_CONT;
+    public static final RegistryObject<ContainerType<SplicerContainer>>   SPLICER_CONT;
+    public static final RegistryObject<ContainerType<BagContainer>>       BAG_CONT;
+    public static final RegistryObject<ContainerType<ContainerTrainer>>   TRAINER_CONT;
+
+    public static final DeferredRegister<Block> BLOCKS;
+    public static final DeferredRegister<Item>  ITEMS;
+
+    public static final DeferredRegister<TileEntityType<?>> TILES;
+    public static final DeferredRegister<ContainerType<?>>  CONTAINERS;
 
     public static final Map<PokeType, Item> BADGES   = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
 
     static
     {
-        AFA = new AfaBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        COMMANDER = new CommanderBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        DAYCARE = new DaycareBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        CLONER = new ClonerBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        EXTRACTOR = new ExtractorBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        SPLICER = new SplicerBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        SIPHON = new SiphonBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        WARPPAD = new WarppadBlock(Block.Properties.create(Material.IRON));
-        EXPSHARE = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
-        LINKER = new Linker(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
-        BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
+        BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeAdv.MODID);
+        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeAdv.MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, PokecubeAdv.MODID);
+        CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeAdv.MODID);
+
+        // Blocks
+        AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity()));
+        COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(Block.Properties.create(
+                Material.IRON).variableOpacity()));
+        DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity()));
+        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity()));
+        EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor", () -> new ExtractorBlock(Block.Properties.create(
+                Material.IRON).variableOpacity()));
+        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity()));
+        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity()));
+        WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(Block.Properties.create(
+                Material.IRON)));
+
+        // Items
+        EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().group(
+                PokecubeItems.POKECUBEITEMS)));
+        LINKER = PokecubeAdv.ITEMS.register("linker", () -> new Linker(new Item.Properties().group(
+                PokecubeItems.POKECUBEITEMS)));
+        BAG = PokecubeAdv.ITEMS.register("bag", () -> new BagItem(new Item.Properties().group(
+                PokecubeItems.POKECUBEITEMS)));
+
+        // Tile Entities
+        AFA_TYPE = PokecubeAdv.TILES.register("afa", () -> TileEntityType.Builder.create(AfaTile::new, PokecubeAdv.AFA
+                .get()).build(null));
+        COMMANDER_TYPE = PokecubeAdv.TILES.register("commander", () -> TileEntityType.Builder.create(CommanderTile::new,
+                PokecubeAdv.COMMANDER.get()).build(null));
+        DAYCARE_TYPE = PokecubeAdv.TILES.register("daycare", () -> TileEntityType.Builder.create(DaycareTile::new,
+                PokecubeAdv.DAYCARE.get()).build(null));
+        CLONER_TYPE = PokecubeAdv.TILES.register("cloner", () -> TileEntityType.Builder.create(ClonerTile::new,
+                PokecubeAdv.CLONER.get()).build(null));
+        EXTRACTOR_TYPE = PokecubeAdv.TILES.register("extractor", () -> TileEntityType.Builder.create(ExtractorTile::new,
+                PokecubeAdv.EXTRACTOR.get()).build(null));
+        SPLICER_TYPE = PokecubeAdv.TILES.register("splicer", () -> TileEntityType.Builder.create(SplicerTile::new,
+                PokecubeAdv.SPLICER.get()).build(null));
+        SIPHON_TYPE = PokecubeAdv.TILES.register("siphon", () -> TileEntityType.Builder.create(SiphonTile::new,
+                PokecubeAdv.SIPHON.get()).build(null));
+        WARPPAD_TYPE = PokecubeAdv.TILES.register("warppad", () -> TileEntityType.Builder.create(WarppadTile::new,
+                PokecubeAdv.WARPPAD.get()).build(null));
+
+        // Containers
+
+        CLONER_CONT = PokecubeAdv.CONTAINERS.register("cloner", () -> new ContainerType<>(ClonerContainer::new));
+        EXTRACTOR_CONT = PokecubeAdv.CONTAINERS.register("extractor", () -> new ContainerType<>(
+                ExtractorContainer::new));
+        SPLICER_CONT = PokecubeAdv.CONTAINERS.register("splicer", () -> new ContainerType<>(SplicerContainer::new));
+        AFA_CONT = PokecubeAdv.CONTAINERS.register("afa", () -> new ContainerType<>(AfaContainer::new));
+        BAG_CONT = PokecubeAdv.CONTAINERS.register("bag", () -> new ContainerType<>(
+                (IContainerFactory<BagContainer>) BagContainer::new));
+        TRAINER_CONT = PokecubeAdv.CONTAINERS.register("trainer", () -> new ContainerType<>(
+                (IContainerFactory<ContainerTrainer>) ContainerTrainer::new));
     }
 
     private static void init()
     {
-        PokecubeAdv.AFA.setRegistryName(PokecubeAdv.MODID, "afa");
-        PokecubeAdv.COMMANDER.setRegistryName(PokecubeAdv.MODID, "commander");
-        PokecubeAdv.DAYCARE.setRegistryName(PokecubeAdv.MODID, "daycare");
-        PokecubeAdv.CLONER.setRegistryName(PokecubeAdv.MODID, "cloner");
-        PokecubeAdv.EXTRACTOR.setRegistryName(PokecubeAdv.MODID, "extractor");
-        PokecubeAdv.SPLICER.setRegistryName(PokecubeAdv.MODID, "splicer");
-        PokecubeAdv.SIPHON.setRegistryName(PokecubeAdv.MODID, "siphon");
-        PokecubeAdv.WARPPAD.setRegistryName(PokecubeAdv.MODID, "warppad");
-        PokecubeAdv.EXPSHARE.setRegistryName(PokecubeAdv.MODID, "exp_share");
-        PokecubeAdv.LINKER.setRegistryName(PokecubeAdv.MODID, "linker");
-        PokecubeAdv.BAG.setRegistryName(PokecubeAdv.MODID, "bag");
+        // Register the item blocks.
+        for (final RegistryObject<Block> reg : PokecubeAdv.BLOCKS.getEntries())
+            PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
+                    .group(PokecubeItems.POKECUBEBLOCKS)));
 
         // Initialize advancement triggers
         Triggers.init();
@@ -264,7 +263,8 @@ public class PokecubeAdv
 
     // This proxy is used for the following:
     //
-    // Server vs client implementations of Wearable, the client one has extended rendering functions.
+    // Server vs client implementations of Wearable, the client one has extended
+    // rendering functions.
     public final static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     private static final String NETVERSION = "1.0.1";
@@ -278,15 +278,21 @@ public class PokecubeAdv
     {
         PokecubeAdv.init();
         // Pokeplayer.init();
+        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::setup);
+        PokecubeAdv.BLOCKS.register(modEventBus);
+        PokecubeAdv.ITEMS.register(modEventBus);
+        PokecubeAdv.TILES.register(modEventBus);
+        PokecubeAdv.CONTAINERS.register(modEventBus);
+
+        modEventBus.addListener(PokecubeAdv.proxy::setup);
         // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::setupClient);
+        modEventBus.addListener(PokecubeAdv.proxy::setupClient);
         // Register the loaded method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::loaded);
+        modEventBus.addListener(PokecubeAdv.proxy::loaded);
 
-        RecipePokeAdv.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        PointsOfInterest.REG.register(FMLJavaModLoadingContext.get().getModEventBus());
+        RecipePokeAdv.RECIPE_SERIALIZERS.register(modEventBus);
+        PointsOfInterest.REG.register(modEventBus);
 
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeAdv.config, PokecubeCore.MODID, PokecubeAdv.MODID);

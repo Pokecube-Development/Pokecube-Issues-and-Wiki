@@ -22,9 +22,9 @@ public class PointsOfInterest
     private static Set<BlockState> getLabMachines()
     {
         PointsOfInterest.LABMACHINES.clear();
-        PointsOfInterest.LABMACHINES.addAll(PokecubeAdv.EXTRACTOR.getStateContainer().getValidStates());
-        PointsOfInterest.LABMACHINES.addAll(PokecubeAdv.SPLICER.getStateContainer().getValidStates());
-        PointsOfInterest.LABMACHINES.addAll(PokecubeAdv.CLONER.getStateContainer().getValidStates());
+        PointsOfInterest.LABMACHINES.addAll(PokecubeAdv.EXTRACTOR.get().getStateContainer().getValidStates());
+        PointsOfInterest.LABMACHINES.addAll(PokecubeAdv.SPLICER.get().getStateContainer().getValidStates());
+        PointsOfInterest.LABMACHINES.addAll(PokecubeAdv.CLONER.get().getStateContainer().getValidStates());
         return PointsOfInterest.LABMACHINES;
     }
 

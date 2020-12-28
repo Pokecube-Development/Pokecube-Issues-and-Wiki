@@ -8,11 +8,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.inventory.TexturedSlot;
 import thut.api.ThutCaps;
@@ -21,8 +21,6 @@ import thut.api.inventory.BaseContainer;
 
 public class AfaContainer extends BaseContainer
 {
-    public static final ContainerType<AfaContainer> TYPE = new ContainerType<>(AfaContainer::new);
-
     public static class InvWrapper implements IInventory
     {
         final IItemHandlerModifiable wrapped;
@@ -127,7 +125,7 @@ public class AfaContainer extends BaseContainer
 
     public AfaContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
     {
-        super(AfaContainer.TYPE, id);
+        super(PokecubeAdv.AFA_CONT.get(), id);
         pos.consume((w, p) ->
         {
             final TileEntity tile = w.getTileEntity(p);

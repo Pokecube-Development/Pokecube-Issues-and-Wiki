@@ -11,8 +11,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.blocks.BlockEventHandler;
-import pokecube.adventures.blocks.afa.AfaTile;
-import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -116,8 +114,8 @@ public class SetupHandler
         PokecubeAdv.packets.registerMessage(PacketCommander.class, PacketCommander::new);
         PokecubeAdv.packets.registerMessage(PacketAFA.class, PacketAFA::new);
 
-        OwnableCaps.TILES.add(AfaTile.TYPE);
-        OwnableCaps.TILES.add(WarppadTile.TYPE);
+        OwnableCaps.TILES.add(PokecubeAdv.AFA_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeAdv.WARPPAD_TYPE.get());
 
         PacketTrainer.register();
         Tasks.init();

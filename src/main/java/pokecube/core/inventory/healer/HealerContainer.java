@@ -20,6 +20,7 @@ public class HealerContainer extends BaseContainer implements IHealer
     public static final ContainerType<HealerContainer> TYPE       = new ContainerType<>(HealerContainer::new);
 
     private final Inventory         inv = new HealerInventory();
+
     private final IWorldPosCallable pos;
 
     public HealerContainer(final int id, final PlayerInventory invIn)
@@ -55,12 +56,6 @@ public class HealerContainer extends BaseContainer implements IHealer
     public IInventory getInv()
     {
         return this.inv;
-    }
-
-    @Override
-    public int getInventorySlotCount()
-    {
-        return 6;
     }
 
     /**
