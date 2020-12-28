@@ -14,7 +14,6 @@ import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.schedule.Activity;
@@ -124,7 +123,7 @@ public class TypeTrainer extends NpcType
             if (!forSpawn)
             {
                 if (mob instanceof TrainerBase) return TypeTrainer.merchant;
-                if (Config.instance.npcsAreTrainers && mob instanceof INPC) return TypeTrainer.merchant;
+                if (Config.instance.shouldBeCustomTrainer(mob)) return TypeTrainer.merchant;
                 return null;
             }
 
