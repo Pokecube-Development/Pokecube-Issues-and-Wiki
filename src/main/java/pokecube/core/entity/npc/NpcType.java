@@ -101,7 +101,9 @@ public class NpcType
     private ResourceLocation maleTex;
     private ResourceLocation femaleTex;
 
-    private VillagerProfession profession = VillagerProfession.NONE;
+    // This is nitwit, as if it is none, the villagerentity super class
+    // completely prevents trades
+    private VillagerProfession profession = VillagerProfession.NITWIT;
 
     private IInteract interaction = (p, h, mob) -> false;
 

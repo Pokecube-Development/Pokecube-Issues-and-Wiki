@@ -169,6 +169,7 @@ public class SpawnEventsHandler
                     final JsonObject apply = thing;
                     EventsHandler.Schedule(event.worldActual, w ->
                     {
+                        w.getChunk(mob.getPosition());
                         SpawnEventsHandler.applyFunction(mob, apply);
                         w.addEntity(mob);
                         return true;

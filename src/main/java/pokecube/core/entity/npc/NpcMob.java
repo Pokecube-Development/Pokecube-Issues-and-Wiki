@@ -212,8 +212,8 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     @Override
     public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
     {
-        if (this.getNpcType().getInteraction().processInteract(player, hand, this)) return ActionResultType
-                .func_233537_a_(this.world.isRemote);
+//        if () return ActionResultType
+//                .func_233537_a_(this.world.isRemote);
         return super.func_230254_b_(player, hand);
     }
 

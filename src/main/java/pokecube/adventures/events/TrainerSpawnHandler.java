@@ -282,6 +282,7 @@ public class TrainerSpawnHandler
                 final JsonObject apply = thing;
                 EventsHandler.Schedule(event.worldActual, w ->
                 {
+                    w.getChunk(mob.getPosition());
                     TrainerSpawnHandler.applyFunction(event.worldActual, mob, apply, leader);
                     w.addEntity(mob);
                     return true;
