@@ -910,7 +910,7 @@ public class Database
 
     public static Set<IResourcePack> customPacks = Sets.newHashSet();
 
-    private static PackListener listener = new PackListener();
+    public static PackListener listener = new PackListener();
 
     public static void loadCustomPacks(final boolean applyToManager)
     {
