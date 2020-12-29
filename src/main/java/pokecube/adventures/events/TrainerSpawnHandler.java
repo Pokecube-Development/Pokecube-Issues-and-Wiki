@@ -255,7 +255,7 @@ public class TrainerSpawnHandler
         String function = event.function.replaceFirst("pokecube_adventures:", "");
         final boolean leader;
         // Here we process custom options for trainers or leaders in structures.
-        if (leader = function.startsWith("leader") || function.startsWith("trainer"))
+        if ((leader = function.startsWith("leader")) || function.startsWith("trainer"))
         {
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
             final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.worldActual)
