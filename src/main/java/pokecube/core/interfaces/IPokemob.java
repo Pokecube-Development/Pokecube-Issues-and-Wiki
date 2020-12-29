@@ -29,6 +29,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
@@ -80,11 +81,46 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public ResourceLocation   key;
         public DefaultFormeHolder loaded_from;
 
+        // Icons for the entry, ordering is male/maleshiny, female/female shiny.
+        // genderless fills the male slot.
+        private final ResourceLocation[][] icons = { { null, null }, { null, null } };
+
         private FormeHolder(final ResourceLocation model, final ResourceLocation texture,
                 final ResourceLocation animation, final ResourceLocation name)
         {
             super(model, texture, animation, name.toString());
             this.key = name;
+        }
+
+        public ResourceLocation getIcon(final boolean male, final boolean shiny, final PokedexEntry base)
+        {
+            if (this.icons[0][0] == null)
+            {
+                final String path = base.texturePath.replace("entity", "entity_icon");
+                final String texture = base.getModId() + ":" + path + this.key.getPath();
+                boolean gendered = this == base.male_holder || this == base.female_holder;
+                // 0 is male
+                gendered = gendered || base.getSexeRatio() == 0;
+                // 254 is female, 255 is no gender
+                gendered = gendered || base.getSexeRatio() >= 254;
+                if (gendered)
+                {
+                    this.icons[0][0] = new ResourceLocation(texture + ".png");
+                    this.icons[0][1] = new ResourceLocation(texture + "s.png");
+                    this.icons[1][0] = new ResourceLocation(texture + ".png");
+                    this.icons[1][1] = new ResourceLocation(texture + "s.png");
+                }
+                else
+                {
+                    this.icons[0][0] = new ResourceLocation(texture + "_male.png");
+                    this.icons[0][1] = new ResourceLocation(texture + "_males.png");
+                    this.icons[1][0] = new ResourceLocation(texture + "_female.png");
+                    this.icons[1][1] = new ResourceLocation(texture + "_females.png");
+                }
+            }
+            final int i = male ? 0 : 1;
+            final int j = shiny ? 1 : 0;
+            return this.icons[i][j];
         }
 
         public CompoundNBT save()

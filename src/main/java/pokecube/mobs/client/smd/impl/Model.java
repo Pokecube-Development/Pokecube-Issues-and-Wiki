@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
+import thut.core.common.ThutCore;
 
 /**
  * Base model object, this contains the body, a list of the bones, and the
@@ -95,7 +96,7 @@ public class Model
                 catch (final FileNotFoundException | NullPointerException e1)
                 {
                     // Ignore these, we don't really care about them
-                    PokecubeCore.LOGGER.debug("No animation of {} for {}", s, resloc);
+                    if (ThutCore.conf.debug)PokecubeCore.LOGGER.debug("No animation of {} for {}", s, resloc);
                 }
                 catch (final Exception e)
                 {

@@ -1043,9 +1043,13 @@ public class PokedexEntry
     protected DefaultFormeHolder _male_holder    = null;
     protected DefaultFormeHolder _female_holder  = null;
 
-    protected FormeHolder default_holder = null;
-    protected FormeHolder male_holder    = null;
-    protected FormeHolder female_holder  = null;
+    public FormeHolder default_holder = null;
+    public FormeHolder male_holder    = null;
+    public FormeHolder female_holder  = null;
+
+    // Icons for the entry, ordering is male/maleshiny, female/female shiny.
+    // genderless fills the male slot.
+    private final ResourceLocation[][] icons = { { null, null }, { null, null } };
 
     @CopyToGender
     public String texturePath = PokedexEntry.TEXTUREPATH;
@@ -2031,6 +2035,16 @@ public class PokedexEntry
             this.lvlUpMoves.remove(i);
     }
 
+    public boolean genderDiffers(final byte sexe)
+    {
+        final boolean hasFemale = this.female_holder != null;
+        final boolean hasMale = this.male_holder != null;
+        if (hasFemale && sexe == IPokemob.FEMALE) return true;
+        if (hasMale && sexe == IPokemob.MALE) return true;
+        if (this.getForGender(sexe).isGenderForme) return true;
+        return sexe == IPokemob.FEMALE && this.textureDetails[1] != null;
+    }
+
     public FormeHolder getModel(final byte sexe)
     {
         final boolean hasFemale = this.female_holder != null;
@@ -2038,6 +2052,41 @@ public class PokedexEntry
         if (hasFemale && sexe == IPokemob.FEMALE) return this.female_holder;
         if (hasMale && sexe == IPokemob.MALE) return this.male_holder;
         return this.default_holder;
+    }
+
+    public ResourceLocation getIcon(final boolean male, final boolean shiny)
+    {
+        if (this.icons[0][0] == null)
+        {
+            final String path = this.texturePath.replace("entity", "entity_icon");
+            final String texture = this.getModId() + ":" + path + this.getTrimmedName();
+            if (this.isGenderForme)
+            {
+                this.icons[0][0] = new ResourceLocation(texture + ".png");
+                this.icons[0][1] = new ResourceLocation(texture + "s.png");
+                this.icons[1][0] = new ResourceLocation(texture + ".png");
+                this.icons[1][1] = new ResourceLocation(texture + "s.png");
+            }
+            else
+            {
+                String male_ = this.genderDiffers(IPokemob.MALE) ? "_male" : "";
+                String female_ = this.genderDiffers(IPokemob.FEMALE) ? "_female" : "";
+
+                // 0 is male
+                boolean noGender = this.getSexeRatio() == 0;
+                // 254 is female, 255 is no gender
+                noGender = noGender || this.getSexeRatio() >= 254;
+                if (noGender) male_ = female_ = "";
+
+                this.icons[0][0] = new ResourceLocation(texture + male_ + ".png");
+                this.icons[0][1] = new ResourceLocation(texture + male_ + "s.png");
+                this.icons[1][0] = new ResourceLocation(texture + female_ + ".png");
+                this.icons[1][1] = new ResourceLocation(texture + female_ + "s.png");
+            }
+        }
+        final int i = male ? 0 : 1;
+        final int j = shiny ? 1 : 0;
+        return this.icons[i][j];
     }
 
     public boolean isLegendary()

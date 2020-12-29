@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -22,7 +21,7 @@ public class WorldgenTickTests
         if (!(event.world instanceof ServerWorld)) return;
         final ServerWorld world = (ServerWorld) event.world;
         if (world.getDimensionKey() != World.OVERWORLD) return;
-        final int n = 5;
+        final int n = world.getPlayers().isEmpty() ? 5 : 20;
         // ThutCore.LOGGER.info("World Tick {}",
         // event.world.getDimensionKey().getLocation());
         if (world.getGameTime() % n != 0) return;
@@ -32,8 +31,8 @@ public class WorldgenTickTests
         final int z = WorldgenTickTests.radius - rand.nextInt(WorldgenTickTests.radius * 2);
         if (world.getPlayers().isEmpty())
         {
-            final IChunk chunk = world.getChunk(x, z);
-            chunk.getStatus();
+            // final IChunk chunk = world.getChunk(x, z);
+            // chunk.getStatus();
         }
         else
         {
