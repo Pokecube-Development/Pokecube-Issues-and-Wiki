@@ -227,6 +227,8 @@ public class BrainUtils
         MinecraftForge.EVENT_BUS.post(event);
 
         target = event.newTarget;
+        // No target self
+        if (mob == target) return;
         // No target null
         if (target == null) return;
         // No target already had target
