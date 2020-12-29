@@ -20,6 +20,7 @@ public class TerrainUpdate extends NBTPacket
     public static void sendTerrainToClient(final ChunkPos pos, final ServerPlayerEntity player)
     {
         final World world = player.getEntityWorld();
+        if (!world.isAreaLoaded(pos.asBlockPos(), 0)) return;
         final ITerrainProvider provider = world.getChunk(pos.x, pos.z).getCapability(ThutCaps.TERRAIN_CAP, null).orElse(
                 null);
         final CompoundNBT terrainData = (CompoundNBT) ThutCaps.TERRAIN_CAP.writeNBT(provider, null);

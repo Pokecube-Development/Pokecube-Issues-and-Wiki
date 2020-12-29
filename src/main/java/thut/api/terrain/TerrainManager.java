@@ -111,7 +111,7 @@ public class TerrainManager
     }
 
     @SubscribeEvent
-    public static void onChunkWatch(final ChunkWatchEvent event)
+    public static void onChunkWatch(final ChunkWatchEvent.Watch event)
     {
         final ServerPlayerEntity player = event.getPlayer();
         TerrainUpdate.sendTerrainToClient(event.getPos(), player);
