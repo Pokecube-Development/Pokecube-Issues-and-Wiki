@@ -60,9 +60,19 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (!FindTargetsTask.handleDamagedTargets) return;
         List<Entity> mobs = PokemobTracker.getMobs(event.originalTarget, e -> CapabilityPokemob.getPokemobFor(e) != null
                 && e.getDistanceSq(event.originalTarget) < 4096);
+
+        // Remove any "non agressive" mobs, as they won't be actively drawing
+        // agro from the player.
+        mobs.removeIf(c ->
+        {
+            final IPokemob poke = CapabilityPokemob.getPokemobFor(c);
+            if (poke == null) return true;
+            return !poke.isRoutineEnabled(AIRoutine.AGRESSIVE);
+        });
         final boolean targetHasMobs = !mobs.isEmpty();
         if (targetHasMobs)
         {
+
             mobs.sort((o1, o2) -> (int) (o1.getDistanceSq(event.mob) - o2.getDistanceSq(event.mob)));
             final Entity mob = mobs.get(0);
             mobs = PokemobTracker.getMobs(mob, e -> true);
@@ -80,6 +90,15 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(), e -> CapabilityPokemob.getPokemobFor(e) != null
                 && e.getDistanceSq(event.getTarget()) < 4096);
+
+        // Remove any "non agressive" mobs, as they won't be actively drawing
+        // agro from the player.
+        mobs.removeIf(c ->
+        {
+            final IPokemob poke = CapabilityPokemob.getPokemobFor(c);
+            if (poke == null) return true;
+            return !poke.isRoutineEnabled(AIRoutine.AGRESSIVE);
+        });
         final boolean targetHasMobs = !mobs.isEmpty();
 
         if (targetHasMobs)
