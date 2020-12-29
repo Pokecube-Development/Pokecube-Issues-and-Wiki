@@ -278,13 +278,12 @@ public class TrainerSpawnHandler
             if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual,
                     SpawnReason.STRUCTURE, thing)))
             {
-                event.worldBlocks.addEntity(mob);
                 event.setResult(Result.ALLOW);
                 final JsonObject apply = thing;
                 EventsHandler.Schedule(event.worldActual, w ->
                 {
-                    // We apply it regardless, as this initializes defaults.
                     TrainerSpawnHandler.applyFunction(event.worldActual, mob, apply, leader);
+                    w.addEntity(mob);
                     return true;
                 });
             }

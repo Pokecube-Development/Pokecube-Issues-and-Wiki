@@ -165,12 +165,12 @@ public class SpawnEventsHandler
                 if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual,
                         SpawnReason.STRUCTURE, thing)))
                 {
-                    event.worldBlocks.addEntity(mob);
                     event.setResult(Result.ALLOW);
                     final JsonObject apply = thing;
                     EventsHandler.Schedule(event.worldActual, w ->
                     {
                         SpawnEventsHandler.applyFunction(mob, apply);
+                        w.addEntity(mob);
                         return true;
                     });
                 }
