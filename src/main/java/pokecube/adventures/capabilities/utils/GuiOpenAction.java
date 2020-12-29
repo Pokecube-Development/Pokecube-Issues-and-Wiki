@@ -19,14 +19,14 @@ public class GuiOpenAction extends Action
     }
 
     @Override
-    public void doAction(final ActionContext action)
+    public boolean doAction(final ActionContext action)
     {
-        if (!(action.target instanceof ServerPlayerEntity)) return;
+        if (!(action.target instanceof ServerPlayerEntity)) return false;
         final ServerPlayerEntity target = (ServerPlayerEntity) action.target;
         final Entity holder = action.holder;
         final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(holder);
-        if (trainer == null) return;
-        if (!trainer.isUsableByPlayer(target)) return;
+        if (trainer == null) return false;
+        if (!trainer.isUsableByPlayer(target)) return false;
         final ServerPlayerEntity player = target;
         final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
         buffer.writeInt(holder.getEntityId());
@@ -36,5 +36,6 @@ public class GuiOpenAction extends Action
         {
             buf.writeInt(holder.getEntityId());
         });
+        return true;
     }
 }

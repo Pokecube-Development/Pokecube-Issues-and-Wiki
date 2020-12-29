@@ -53,12 +53,12 @@ public class SetupHandler
         // These two interact ones handle right click custom effects on npcs
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onEntityInteract);
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onEntityInteractSpecific);
+        // These two cancel the events if the above did anything.
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onItemRightClick);
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onEmptyRightClick);
         // This one handles npcs being invulnerable to pokemobs, as well as some
         // damage target allocation
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingHurt);
-        // This one synced mobholder and entity target, not currently
-        // implemented.
-        // MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingSetTarget);
 
         // One phase of initializing trainers.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onJoinWorld);

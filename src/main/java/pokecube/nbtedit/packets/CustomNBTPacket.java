@@ -58,14 +58,14 @@ public class CustomNBTPacket extends NBTPacket
             final PlayerData data = PlayerDataHandler.getInstance().getPlayerData(entity.getCachedUniqueIdString())
                     .getData(customName);
             data.readFromNBT(tag);
-            NBTEdit.log(Level.TRACE, player.getName() + " edited a tag -- Entity ID #" + entityID);
+            NBTEdit.log(Level.TRACE, player.getName().getString() + " edited a tag -- Entity ID #" + entityID);
             NBTEdit.logTag(this.getTag());
             NBTEdit.proxy.sendMessage(player, "Your changes have been saved", TextFormatting.WHITE);
         }
         catch (final Throwable t)
         {
             NBTEdit.proxy.sendMessage(player, "Save Failed - Invalid NBT format for Entity", TextFormatting.RED);
-            NBTEdit.log(Level.WARN, player.getName() + " edited a tag and caused an exception");
+            NBTEdit.log(Level.WARN, player.getName().getString() + " edited a tag and caused an exception");
             NBTEdit.logTag(this.getTag());
             NBTEdit.throwing("EntityNBTPacket", "Handler.onMessage", t);
         }

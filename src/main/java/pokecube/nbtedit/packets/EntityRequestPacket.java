@@ -17,25 +17,25 @@ public class EntityRequestPacket extends Packet
     {
     }
 
-    public EntityRequestPacket(int entityID)
+    public EntityRequestPacket(final int entityID)
     {
         this.entityID = entityID;
     }
 
-    public EntityRequestPacket(PacketBuffer buf)
+    public EntityRequestPacket(final PacketBuffer buf)
     {
         this.entityID = buf.readInt();
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
-        NBTEdit.log(Level.TRACE, player.getName() + " requested entity with Id #" + this.entityID);
+        NBTEdit.log(Level.TRACE, player.getName().getString() + " requested entity with Id #" + this.entityID);
         PacketHandler.sendEntity(player, this.entityID);
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityID);
     }

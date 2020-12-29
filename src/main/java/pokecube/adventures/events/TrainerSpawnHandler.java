@@ -54,6 +54,7 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.utils.PokeType;
@@ -201,7 +202,7 @@ public class TrainerSpawnHandler
             final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
             if (t == null) return;
             final IHasPokemobs cap = TrainerCaps.getHasPokemobs(t);
-            final NpcSpawn event = new NpcSpawn(t, v.getPos(), w, SpawnReason.NATURAL);
+            final NpcSpawn event = new NpcSpawn.Spawn(t, v.getPos(), w, SpawnReason.NATURAL);
             if (MinecraftForge.EVENT_BUS.post(event))
             {
                 t.remove();
@@ -252,9 +253,9 @@ public class TrainerSpawnHandler
     {
         if (!event.function.startsWith("pokecube_adventures:")) return;
         String function = event.function.replaceFirst("pokecube_adventures:", "");
-        boolean leader = false;
+        final boolean leader;
         // Here we process custom options for trainers or leaders in structures.
-        if (function.startsWith("trainer") || (leader = function.startsWith("leader")))
+        if (leader = function.startsWith("leader") || function.startsWith("trainer"))
         {
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
             final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.worldActual)
@@ -273,13 +274,19 @@ public class TrainerSpawnHandler
             {
                 PokecubeCore.LOGGER.error("Error parsing " + function, e);
             }
-            // We apply it regardless, as this initializes defaults.
-            TrainerSpawnHandler.applyFunction(event.worldActual, mob, thing, leader);
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
-            if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.worldActual, SpawnReason.STRUCTURE)))
+            if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual,
+                    SpawnReason.STRUCTURE, thing)))
             {
                 event.worldBlocks.addEntity(mob);
                 event.setResult(Result.ALLOW);
+                final JsonObject apply = thing;
+                EventsHandler.Schedule(event.worldActual, w ->
+                {
+                    // We apply it regardless, as this initializes defaults.
+                    TrainerSpawnHandler.applyFunction(event.worldActual, mob, apply, leader);
+                    return true;
+                });
             }
         }
     }

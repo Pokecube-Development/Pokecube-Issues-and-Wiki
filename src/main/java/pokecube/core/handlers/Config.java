@@ -345,7 +345,8 @@ public class Config extends ConfigData
     //@formatter:off
             "pokecube:secret_base",
             "pokecube_legends:distorted_world",
-            "pokecube_legends:ultraspace"
+            "pokecube_legends:ultraspace",
+            "compactmachines:compact_world"
             );
     //@formatter:on
 
@@ -408,7 +409,7 @@ public class Config extends ConfigData
     public String spawnLevelVariance = "x + ceil(5*rand())";
 
     @Configure(category = Config.spawning, comment = "Pokemobs will not spawn in the dimensions listed here")
-    public List<String> spawnDimBlacklist = Lists.newArrayList();
+    public List<String> spawnDimBlacklist = Lists.newArrayList("compactmachines:compact_world");
     @Configure(category = Config.spawning, comment = "If spawnWhitelisted is enabled, pokemobs will only spawn in these dimensions")
     public List<String> spawnDimWhitelist = Lists.newArrayList();
     @Configure(category = Config.spawning, comment = "Enables using spawnDimWhitelist to determine if a dimension is valid for spawn")

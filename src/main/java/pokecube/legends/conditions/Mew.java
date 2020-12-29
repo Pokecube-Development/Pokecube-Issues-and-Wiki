@@ -13,24 +13,30 @@ import pokecube.mobs.moves.world.ActionTeleport;
 public class Mew extends AbstractCondition
 {
     @Override
-    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    public PokedexEntry getEntry()
     {
-        if (!super.canCapture(trainer, pokemon)) return false;
+        return Database.getEntry("Mew");
+    }
+
+    @Override
+    boolean hasRequirements(final Entity trainer)
+    {
         final int caught = CaptureStats.getNumberUniqueCaughtBy(trainer.getUniqueID());
-        if (caught < Database.spawnables.size() - 1)
-        {
-            if (trainer instanceof PlayerEntity) ((PlayerEntity) trainer).sendMessage(new TranslationTextComponent(
-                    "pokecube_legends.mew.badges"), Util.DUMMY_UUID);
-            ActionTeleport.teleportRandomly(pokemon.getEntity());
-            return false;
-        }
+        if (caught < Database.spawnables.size() - 1) return false;
         return true;
     }
 
     @Override
-    public PokedexEntry getEntry()
+    void sendFailureMessage(final Entity trainer)
     {
-        return Database.getEntry("Mew");
+        if (trainer instanceof PlayerEntity) ((PlayerEntity) trainer).sendMessage(new TranslationTextComponent(
+                "pokecube_legends.mew.badges"), Util.DUMMY_UUID);
+    }
+
+    @Override
+    protected void onCapureFail(final IPokemob pokemob)
+    {
+        ActionTeleport.teleportRandomly(pokemob.getEntity());
     }
 
 }

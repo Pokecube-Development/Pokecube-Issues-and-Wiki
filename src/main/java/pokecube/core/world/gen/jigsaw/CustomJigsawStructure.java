@@ -37,6 +37,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokecubeSerializer;
 
 public class CustomJigsawStructure extends Structure<JigsawConfig>
@@ -84,7 +85,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
         }
 
         final StructureEvent.PickLocation event = new PickLocation(generator, rand, x, z, config.struct_config);
-        if(MinecraftForge.EVENT_BUS.post(event)) return false;
+        if (MinecraftForge.EVENT_BUS.post(event)) return false;
 
         // Here we check if there are any conflicting structures around.
         final int ds0 = WorldgenHandler.getNeededSpace(this.getStructure());
@@ -164,6 +165,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             final int x = (chunkX << 4) + 7;
             final int z = (chunkZ << 4) + 7;
             final BlockPos blockpos = new BlockPos(x, 0, z);
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Trying to place {}", config.struct_config.name);
 
             final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
             boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
@@ -178,9 +180,13 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                 built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
                         config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
                         blockpos, this.components, newRand, biomeIn, c -> true);
-                PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.components.size());
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.components.size());
             }
-            if (!built) PokecubeCore.LOGGER.warn("Failed to complete a structure at " + blockpos);
+            if (!built)
+            {
+                PokecubeCore.LOGGER.warn("Failed to complete a structure at " + blockpos);
+                return;
+            }
 
             // Check if any components are valid spawn spots, if so, set the
             // spawned flag
@@ -246,8 +252,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
 
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos
-                    .getX() + " " + this.getBoundingBox().func_215126_f().getY() + " " + blockpos.getZ() + " of size "
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos.getX() + " "
+                    + this.getBoundingBox().func_215126_f().getY() + " " + blockpos.getZ() + " of size "
                     + this.components.size() + " " + this.getBoundingBox().getLength());
         }
 

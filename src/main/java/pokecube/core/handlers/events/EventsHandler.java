@@ -209,16 +209,13 @@ public class EventsHandler
     {
         if (!(world instanceof ServerWorld)) return;
         final ServerWorld swrld = (ServerWorld) world;
+
+        // If we are tickingEntities, do not do this, as it can cause
+        // concurrent modification exceptions.
         if (!swrld.tickingEntities)
         {
-            try
-            {
-                task.run(swrld);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error running scheduled task!", e);
-            }
+            // This will either run it now, or run it on main thread soon
+            swrld.getServer().execute(() -> task.run(swrld));
             return;
         }
         final RegistryKey<World> dim = world.getDimensionKey();
@@ -491,7 +488,6 @@ public class EventsHandler
 
     private static void onServerAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        Database.swapManager(event.getServer());
         PokecubeCore.proxy.serverAboutToStart(event);
     }
 
@@ -526,16 +522,9 @@ public class EventsHandler
         {
             tasks.removeIf(r ->
             {
-                try
-                {
-                    r.run(evt.world);
-                    return true;
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error running scheduled task!", e);
-                    return true;
-                }
+                // This ensures it is executed on the main thread.
+                evt.world.getServer().execute(() -> r.run(evt.world));
+                return true;
             });
         }
         // Call spawner tick at end of world tick.
@@ -586,7 +575,7 @@ public class EventsHandler
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)
     {
-        event.addListener(new Database.ReloadListener());
+        event.addListener(Database.ReloadListener.INSTANCE);
     }
 
     public static void sendInitInfo(final ServerPlayerEntity player)

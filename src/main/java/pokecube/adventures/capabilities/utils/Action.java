@@ -12,9 +12,9 @@ public class Action
         this.command = command;
     }
 
-    public void doAction(final ActionContext action)
+    public boolean doAction(final ActionContext action)
     {
-        if (this.command == null || this.command.trim().isEmpty()) return;
+        if (this.command == null || this.command.trim().isEmpty()) return false;
         final String[] commands = this.command.split("``");
         final LivingEntity target = action.target;
         for (final String command : commands)
@@ -27,6 +27,7 @@ public class Action
             final Commands c = target.getServer().getCommandManager();
             c.handleCommand(target.getServer().getCommandSource(), editedCommand);
         }
+        return commands.length > 0;
     }
 
     public String getCommand()

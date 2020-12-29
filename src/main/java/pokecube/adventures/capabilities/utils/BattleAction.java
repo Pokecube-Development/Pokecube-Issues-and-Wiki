@@ -13,7 +13,7 @@ public class BattleAction extends Action
     }
 
     @Override
-    public void doAction(final ActionContext action)
+    public boolean doAction(final ActionContext action)
     {
         final LivingEntity target = action.target;
         final LivingEntity holder = action.holder;
@@ -22,7 +22,9 @@ public class BattleAction extends Action
         {
             trainer.resetPokemob();
             trainer.onSetTarget(target, true);
+            return true;
         }
+        return false;
     }
 
 }

@@ -17,7 +17,7 @@ public class Professions
                 ImmutableSet.of(), ImmutableSet.of(), null);
         Professions.PROFESSOR = VillagerProfession.register("pokecube_adventures:professor", PointsOfInterest.GENELAB
                 .get(), ImmutableSet.of(), ImmutableSet.of(), null);
-        NpcType.HEALER.setProfession(Professions.HEALER);
-        NpcType.PROFESSOR.setProfession(Professions.PROFESSOR);
+        NpcType.byType("healer").setProfession(Professions.HEALER);
+        NpcType.byType("professor").setProfession(Professions.PROFESSOR);
     }
 }

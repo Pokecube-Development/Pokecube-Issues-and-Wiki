@@ -19,7 +19,6 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerInteractEvent.CanInteract;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
@@ -50,11 +49,13 @@ public class Impl
 
     private static void onTrainerGuiCheck(final CanInteract event)
     {
-        if (event.action.playerStack.isEmpty()) return;
-        if (event.action.playerStack.getItem() != PokecubeItems.POKEDEX.get()) return;
         if (event.action.holder instanceof AbstractEntityCitizen)
         {
+            // Lets default this to false.
+            event.setResult(Result.DENY);
             final AbstractEntityCitizen cit = (AbstractEntityCitizen) event.action.holder;
+            // Now we check if the citizen's colony considers the player
+            // "important", if so, then allow.
             if (cit.getCitizenColonyHandler().getColony().getImportantMessageEntityPlayers().contains(event
                     .getEntityLiving())) event.setResult(Result.ALLOW);
         }

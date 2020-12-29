@@ -2,7 +2,6 @@ package pokecube.core.database;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -35,7 +34,6 @@ import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackList;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.resources.SimpleReloadableResourceManager;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -150,6 +148,8 @@ public class Database
 
     public static class ReloadListener implements IFutureReloadListener
     {
+        public static final IFutureReloadListener INSTANCE = new ReloadListener();
+
         @Override
         public final CompletableFuture<Void> reload(final IFutureReloadListener.IStage stage,
                 final IResourceManager resourceManager, final IProfiler preparationsProfiler,
@@ -175,6 +175,7 @@ public class Database
         protected void apply(final Object objectIn, final IResourceManager resourceManagerIn,
                 final IProfiler profilerIn)
         {
+            Database.listener.add(resourceManagerIn);
             Database.onResourcesReloaded();
         }
     }
@@ -398,38 +399,6 @@ public class Database
         if (ThutCore.trim(name).contains("mega_")) return Database.getEntry((ThutCore.trim(name).replace("mega_", "")
                 + "_mega").trim());
         return ret;
-    }
-
-    public static ArrayList<String> getFile(final ResourceLocation file)
-    {
-        final ArrayList<String> rows = new ArrayList<>();
-        BufferedReader br = null;
-        String line = "";
-        try
-        {
-            final InputStream res = Database.resourceManager.getResource(file).getInputStream();
-            br = new BufferedReader(new InputStreamReader(res));
-            while ((line = br.readLine()) != null)
-                rows.add(line);
-
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.error("Error with " + file, e);
-        }
-        finally
-        {
-            if (br != null) try
-            {
-                br.close();
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error with " + file, e);
-            }
-        }
-
-        return rows;
     }
 
     public static List<PokedexEntry> getFormes(final int number)
@@ -752,7 +721,7 @@ public class Database
             }
             catch (final FileNotFoundException e)
             {
-                PokecubeCore.LOGGER.debug("No Custom Recipes of name {}", name);
+                PokecubeCore.LOGGER.info("No Custom Recipes of name {}", name);
             }
             catch (final Exception e)
             {
@@ -788,7 +757,7 @@ public class Database
             }
             catch (final FileNotFoundException e)
             {
-                PokecubeCore.LOGGER.debug("No Custom Rewards of name {}", name);
+                PokecubeCore.LOGGER.info("No Custom Rewards of name {}", name);
             }
             catch (final Exception e)
             {
@@ -798,13 +767,14 @@ public class Database
 
     private static void loadStarterPack()
     {
-        Database.starterPack.clear();
         try
         {
-            final Reader reader = new InputStreamReader(Database.resourceManager.getResource(Database.STARTERPACK)
-                    .getInputStream());
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager.getResource(
+                    Database.STARTERPACK).getInputStream()));
             final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
             reader.close();
+            // Only clear this if things have not failed earlier
+            Database.starterPack.clear();
             for (final Drop drop : database.drops)
             {
                 final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
@@ -880,6 +850,9 @@ public class Database
 
     public static void onResourcesReloaded()
     {
+        // If this was not done, then lisener never reloaded correctly, so we
+        // don't want to do anything here.
+        if (!Database.listener.loaded) return;
         PokedexInspector.rewards.clear();
         XMLRewardsHandler.loadedRecipes.clear();
         Database.loadStarterPack();
@@ -887,6 +860,8 @@ public class Database
         Database.loadRewards();
         for (final PokedexEntry entry : Database.getSortedFormes())
             entry.onResourcesReloaded();
+        // This gets re-set to true if listener hears a reload
+        Database.listener.loaded = false;
     }
 
     /**
@@ -934,13 +909,34 @@ public class Database
     }
 
     public static Set<IResourcePack> customPacks = Sets.newHashSet();
-    private static PackListener      listener    = new PackListener();
 
-    public static void swapManager(final MinecraftServer server)
+    public static PackListener listener = new PackListener();
+
+    public static void loadCustomPacks(final boolean applyToManager)
     {
-        Database.resourceManager = (IReloadableResourceManager) server.getDataPackRegistries().getResourceManager();
-        Database.listener.add(Database.resourceManager);
-        Database.resourceManager.addReloadListener(Database.listener);
+        Database.customPacks.clear();
+        @SuppressWarnings("deprecation")
+        final ResourcePackList resourcePacks = new ResourcePackList(ResourcePackInfo::new);
+        @SuppressWarnings("deprecation")
+        final PackFinder finder = new PackFinder(ResourcePackInfo::new);
+        resourcePacks.addPackFinder(finder);
+        for (final IResourcePack info : finder.allPacks)
+            try
+            {
+                if (applyToManager)
+                {
+                    PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
+                    ((SimpleReloadableResourceManager) Database.resourceManager).addResourcePack(info);
+                }
+                // Only add the zips or folders here, jars get properly added by
+                // forge to the real resourcemanager later
+                else if (!info.getName().endsWith(".jar")) Database.customPacks.add(info);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.fatal("Error with pack " + info.getName(), e);
+            }
+        resourcePacks.close();
     }
 
     /**
@@ -951,23 +947,7 @@ public class Database
     {
         PokecubeCore.LOGGER.debug("Database preInit()");
         // Initialize the resourceloader.
-        @SuppressWarnings("deprecation")
-        final ResourcePackList resourcePacks = new ResourcePackList(ResourcePackInfo::new);
-        @SuppressWarnings("deprecation")
-        final PackFinder finder = new PackFinder(ResourcePackInfo::new);
-        resourcePacks.addPackFinder(finder);
-        for (final IResourcePack info : finder.allPacks)
-            try
-            {
-                PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
-                ((SimpleReloadableResourceManager) Database.resourceManager).addResourcePack(info);
-                Database.customPacks.add(info);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.fatal("Error with pack " + info.getName(), e);
-            }
-        resourcePacks.close();
+        Database.loadCustomPacks(true);
 
         // Register the dex inspector
         MinecraftForge.EVENT_BUS.register(PokedexInspector.class);

@@ -23,7 +23,7 @@ public class CommandNBTEdit// extends CommandBase
     private static SuggestionProvider<CommandSource> SUGGEST_TYPES = (ctx,
             sb) -> net.minecraft.command.ISuggestionProvider.suggest(PlayerDataHandler.getDataIDs(), sb);
 
-    private static int execute(CommandSource source, BlockPos pos) throws CommandSyntaxException
+    private static int execute(final CommandSource source, final BlockPos pos) throws CommandSyntaxException
     {
         final ServerPlayerEntity player = source.asPlayer();
         NBTEdit.log(Level.TRACE, source.getName() + " issued command \"/pcedit " + pos + "\"");
@@ -31,7 +31,7 @@ public class CommandNBTEdit// extends CommandBase
         return 0;
     }
 
-    private static int execute(CommandSource source, Entity target) throws CommandSyntaxException
+    private static int execute(final CommandSource source, final Entity target) throws CommandSyntaxException
     {
         final ServerPlayerEntity player = source.asPlayer();
         NBTEdit.log(Level.TRACE, source.getName() + " issued command \"/pcedit " + target.getEntityId() + "\"");
@@ -39,7 +39,7 @@ public class CommandNBTEdit// extends CommandBase
         return 0;
     }
 
-    private static int execute(CommandSource source, ServerPlayerEntity target, String value)
+    private static int execute(final CommandSource source, final ServerPlayerEntity target, final String value)
             throws CommandSyntaxException
     {
         final ServerPlayerEntity player = source.asPlayer();
@@ -59,7 +59,7 @@ public class CommandNBTEdit// extends CommandBase
     // return 0;
     // }
 
-    public static void register(CommandDispatcher<CommandSource> commandDispatcher)
+    public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
     {
         final LiteralArgumentBuilder<CommandSource> command = Commands.literal("pcedit").requires(cs -> NBTEdit.proxy
                 .checkPermission(cs)).then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(

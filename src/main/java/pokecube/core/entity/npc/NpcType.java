@@ -41,13 +41,15 @@ public class NpcType
 
     public static final Map<String, NpcType> typeMap = Maps.newHashMap();
 
-    public static final NpcType NONE      = new NpcType("none");
-    public static final NpcType PROFESSOR = new NpcType("professor");
-    public static final NpcType HEALER    = new NpcType("healer");
-    public static final NpcType TRADER    = new NpcType("trader");
+    private static final NpcType PROFESSOR = new NpcType("professor");
+    private static final NpcType HEALER    = new NpcType("healer");
+    private static final NpcType TRADER    = new NpcType("trader");
 
     static
     {
+        // Initialize a "none" type, this will be the default return unless
+        // something else overrides by constructing another type by name "none"
+        new NpcType("none");
         final IInteract trade = (player, hand, mob) ->
         {
             if (player.isSneaking()) return false;
@@ -92,14 +94,14 @@ public class NpcType
     public static NpcType byType(String string)
     {
         if (NpcType.typeMap.containsKey(string = ThutCore.trim(string))) return NpcType.typeMap.get(string);
-        return NpcType.NONE;
+        return NpcType.typeMap.get("none");
     }
 
     private final String     name;
     private ResourceLocation maleTex;
     private ResourceLocation femaleTex;
 
-    private VillagerProfession profession = VillagerProfession.NITWIT;
+    private VillagerProfession profession = VillagerProfession.NONE;
 
     private IInteract interaction = (p, h, mob) -> false;
 

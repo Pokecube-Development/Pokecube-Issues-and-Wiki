@@ -1,10 +1,10 @@
 package pokecube.legends.conditions;
 
-public abstract class AbstractRegiCondition extends AbstractCondition
+public abstract class AbstractRegiCondition extends AbstractEntriedCondition
 {
     public AbstractRegiCondition(final Object... blocks)
     {
-        super();
+        super("relicanth", "wailord");
         for (final Object block : blocks)
             this.setRelevant(block);
     }

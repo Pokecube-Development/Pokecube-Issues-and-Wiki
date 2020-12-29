@@ -552,7 +552,8 @@ public class WorldgenHandler
             if (this.structures.get(feat).test(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName())))
             {
                 final JigsawConfig conf = (JigsawConfig) feat.feature.field_236269_c_;
-                PokecubeCore.LOGGER.info("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}",
+                        conf.struct_config.name, event.getName());
                 event.getGeneration().getStructures().add(() -> feat.feature);
             }
     }

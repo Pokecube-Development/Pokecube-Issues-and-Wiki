@@ -21,6 +21,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.ThutCaps;
+import thut.core.common.ThutCore;
 
 public class BreedableCaps
 {
@@ -59,8 +60,17 @@ public class BreedableCaps
         @Override
         public boolean canMate(final AgeableEntity other)
         {
-            if (this.wrapped instanceof AnimalEntity && other instanceof AnimalEntity)
-                return ((AnimalEntity) this.wrapped).canMateWith((AnimalEntity) other);
+            try
+            {
+                if (this.wrapped instanceof AnimalEntity && other instanceof AnimalEntity)
+                    return ((AnimalEntity) this.wrapped).canMateWith((AnimalEntity) other);
+            }
+            catch (final Exception e)
+            {
+                if (!ThutCore.conf.supress_warns) ThutCore.LOGGER.warn("Warning, Mob {} has messed up canMateWith check!",
+                        this.wrapped.getType().getRegistryName());
+                return false;
+            }
             return other.getClass() == this.wrapped.getClass();
         }
 

@@ -1,6 +1,10 @@
 {
   "trainers": [
     {
+      "type": "none",
+      "pokemon": "-normal"
+    },
+    {
       "type": "farmer",
       "pokemon": "-normal"
     },

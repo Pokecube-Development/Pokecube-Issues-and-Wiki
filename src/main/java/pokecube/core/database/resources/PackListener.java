@@ -5,13 +5,17 @@ import java.util.concurrent.Executor;
 
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
+import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.SimpleReloadableResourceManager;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 
 public class PackListener implements IFutureReloadListener
 {
+    public boolean loaded = false;
+
     @Override
     public final CompletableFuture<Void> reload(final IFutureReloadListener.IStage stage,
             final IResourceManager resourceManager, final IProfiler preparationsProfiler,
@@ -27,7 +31,14 @@ public class PackListener implements IFutureReloadListener
     public void add(final IResourceManager resourceManager)
     {
         if (!(resourceManager instanceof SimpleReloadableResourceManager)) return;
+        Database.resourceManager = (IReloadableResourceManager) resourceManager;
+        // Initialize the resourceloader.
+        Database.loadCustomPacks(false);
         for (final IResourcePack pack : Database.customPacks)
+        {
+            PokecubeCore.LOGGER.debug("Reloading Pack: " + pack.getName());
             ((SimpleReloadableResourceManager) resourceManager).addResourcePack(pack);
+        }
+        this.loaded = true;
     }
 }

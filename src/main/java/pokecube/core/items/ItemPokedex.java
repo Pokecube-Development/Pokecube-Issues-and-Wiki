@@ -62,16 +62,9 @@ public class ItemPokedex extends Item
     {
         if (playerIn instanceof ServerPlayerEntity)
         {
-            final IChunk chunk = playerIn.getEntityWorld().getChunk(playerIn.getPosition());
-            TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk
-                    .getPos().z), (ServerPlayerEntity) playerIn);
-            PacketDataSync.sendInitPacket(playerIn, "pokecube-stats");
-            PacketPokedex.sendSecretBaseInfoPacket((ServerPlayerEntity) playerIn, this.watch);
             final Entity entityHit = target;
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
-            if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(playerIn).getData(
-                    PokecubePlayerStats.class).inspect(playerIn, pokemob);
-            PacketPokedex.sendOpenPacket((ServerPlayerEntity) playerIn, pokemob, this.watch);
+            this.showGui(playerIn, pokemob);
             return ActionResultType.SUCCESS;
         }
         return super.itemInteractionForEntity(stack, playerIn, target, hand);
@@ -81,10 +74,13 @@ public class ItemPokedex extends Item
     public ActionResult<ItemStack> onItemRightClick(final World world, final PlayerEntity player, final Hand hand)
     {
         final ItemStack itemstack = player.getHeldItem(hand);
-        if (!world.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld(), true);
+        if (!world.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld(),
+                true);
         if (!player.isCrouching())
         {
-            this.showGui(player);
+            final Entity entityHit = Tools.getPointedEntity(player, 16);
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
+            this.showGui(player, pokemob);
             return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
         }
         return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
@@ -133,11 +129,16 @@ public class ItemPokedex extends Item
             playerIn.sendMessage(message, Util.DUMMY_UUID);
         }
 
-        if (!playerIn.isCrouching()) this.showGui(playerIn);
+        if (!playerIn.isCrouching())
+        {
+            final Entity entityHit = Tools.getPointedEntity(playerIn, 16);
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
+            this.showGui(playerIn, pokemob);
+        }
         return ActionResultType.FAIL;
     }
 
-    private void showGui(final PlayerEntity player)
+    private void showGui(final PlayerEntity player, final IPokemob pokemob)
     {
         if (player instanceof ServerPlayerEntity)
         {
@@ -146,8 +147,6 @@ public class ItemPokedex extends Item
                     (ServerPlayerEntity) player);
             PacketDataSync.sendInitPacket(player, "pokecube-stats");
             PacketPokedex.sendSecretBaseInfoPacket((ServerPlayerEntity) player, this.watch);
-            final Entity entityHit = Tools.getPointedEntity(player, 16);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player).getData(
                     PokecubePlayerStats.class).inspect(player, pokemob);
             PacketPokedex.sendOpenPacket((ServerPlayerEntity) player, pokemob, this.watch);

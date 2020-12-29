@@ -14,6 +14,8 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.categories.evolution.Evolution;
 import pokecube.compat.jei.categories.interaction.InteractRecipe;
@@ -71,7 +73,12 @@ public class Compat implements IModPlugin
     public void registerRecipes(final IRecipeRegistration registration)
     {
         // Run this first so that things are loaded for dedicated servers.
-        Database.onResourcesReloaded();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+        {
+            Database.loadCustomPacks(true);
+            Database.listener.loaded = true;
+            Database.onResourcesReloaded();
+        });
 
         registration.addRecipes(pokecube.compat.jei.categories.cloner.Wrapper.getWrapped(), PokecubeAdv.CLONER.get()
                 .getRegistryName());

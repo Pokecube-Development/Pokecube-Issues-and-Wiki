@@ -354,6 +354,10 @@ public class TypeTrainer extends NpcType
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getEntityWorld()));
         if (pokemob != null)
         {
+            final double x = trainer.getPosX();
+            final double y = trainer.getPosY();
+            final double z = trainer.getPosZ();
+            pokemob.getEntity().forceSetPosition(x, y, z);
             for (int i = 1; i < level; i++)
                 if (pokemob.getPokedexEntry().canEvolve(i)) for (final EvolutionData d : pokemob.getPokedexEntry()
                         .getEvolutions())

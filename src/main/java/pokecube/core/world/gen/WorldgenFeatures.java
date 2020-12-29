@@ -54,7 +54,7 @@ public class WorldgenFeatures
     {
         WorldgenFeatures.GENERICRULES.add(0, PokecubeStructureProcessor.PROCESSOR);
         // TODO find out why it hates the "berry_gen" list...
-        BERRYLIST = WorldgenFeatures.register("berry_gen", WorldgenFeatures.BERRYRULES);
+        BERRYLIST = new StructureProcessorList(WorldgenFeatures.BERRYRULES);//WorldgenFeatures.register("berry_gen", WorldgenFeatures.BERRYRULES);
         GENERICLIST = WorldgenFeatures.register("generic", WorldgenFeatures.GENERICRULES);
     }
 
