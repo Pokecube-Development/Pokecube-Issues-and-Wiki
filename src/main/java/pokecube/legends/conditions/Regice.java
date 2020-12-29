@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
@@ -22,25 +21,6 @@ public class Regice extends AbstractRegiCondition
     public Regice()
     {
         super(BlockInit.GOLEM_STONE.get(), BlockInit.REGICE_CORE.get(), Regice.VALID);
-    }
-
-    @Override
-    public boolean canCapture(final Entity trainer, final boolean message)
-    {
-        if (!super.canCapture(trainer, message)) return false;
-        final boolean relicanth = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
-                "relicanth")) > 0;
-        final boolean wailord = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
-                "wailord")) > 0;
-
-        final String name = "Wailord, Relicanth";
-        if (relicanth && wailord) return true;
-        if (!trainer.getEntityWorld().isRemote && message)
-        {
-            this.sendNoTrust(trainer);
-            this.sendLegendExtra(trainer, name);
-        }
-        return false;
     }
 
     @Override

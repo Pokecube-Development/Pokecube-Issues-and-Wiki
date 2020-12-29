@@ -1,30 +1,13 @@
 package pokecube.legends.conditions;
 
-import net.minecraft.entity.Entity;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.CaptureStats;
 
-public class Kyurem extends AbstractCondition
+public class Kyurem extends AbstractEntriedCondition
 {
-    @Override
-    public boolean canCapture(final Entity trainer, final boolean message)
+    public Kyurem()
     {
-        if (!super.canCapture(trainer, message)) return false;
-        final boolean reshiram = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
-                "reshiram")) > 0;
-        final boolean zekrom = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
-                "zekrom")) > 0;
-
-        final String name = "Reshiram, Zekrom";
-
-        if (reshiram && zekrom) return true;
-        if (!trainer.getEntityWorld().isRemote && message)
-        {
-            this.sendNoTrust(trainer);
-            this.sendLegendExtra(trainer, name);
-        }
-        return false;
+        super("reshiram", "zekrom");
     }
 
     @Override
@@ -32,5 +15,4 @@ public class Kyurem extends AbstractCondition
     {
         return Database.getEntry("kyurem");
     }
-
 }

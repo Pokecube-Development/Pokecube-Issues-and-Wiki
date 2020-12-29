@@ -1,32 +1,13 @@
 package pokecube.legends.conditions;
 
-import net.minecraft.entity.Entity;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.CaptureStats;
 
-public class Palkia extends AbstractCondition
+public class Palkia extends AbstractEntriedCondition
 {
-    @Override
-    public boolean canCapture(final Entity trainer, final boolean message)
+    public Palkia()
     {
-        if (!super.canCapture(trainer, message)) return false;
-        final boolean uxie = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
-                "uxie")) > 0;
-        final boolean mesprit = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
-                "mesprit")) > 0;
-        final boolean azelf = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
-                "azelf")) > 0;
-
-        final String name = "Uxie, Mesprit, Azelf";
-
-        if (uxie && mesprit && azelf) return true;
-        if (!trainer.getEntityWorld().isRemote && message)
-        {
-            this.sendNoTrust(trainer);
-            this.sendLegendExtra(trainer, name);
-        }
-        return false;
+        super("uxie", "mesprit", "azelf");
     }
 
     @Override

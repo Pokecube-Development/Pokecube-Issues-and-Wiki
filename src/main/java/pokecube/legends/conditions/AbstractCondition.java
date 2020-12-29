@@ -25,6 +25,8 @@ import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.stats.ISpecialSpawnCondition;
+import pokecube.core.database.stats.KillStats;
+import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
@@ -105,21 +107,54 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         this.setRelevant(b -> b.getBlock() == block);
     }
 
+    protected int spawnNumber(final PokeType type)
+    {
+        return SpecialCaseRegister.countSpawnableTypes(type);
+    }
+
+    protected int caughtNumber(final Entity trainer, final PokeType type)
+    {
+        return CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), type);
+    }
+
+    protected int killedNumber(final Entity trainer, final PokeType type)
+    {
+        return KillStats.getUniqueOfTypeKilledBy(trainer.getUniqueID(), type);
+    }
+
+    protected int caughtNumber(final Entity trainer, final PokedexEntry entry)
+    {
+        return CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), entry);
+    }
+
     public abstract PokedexEntry getEntry();
+
+    abstract boolean hasRequirements(Entity trainer);
+
+    abstract void sendFailureMessage(final Entity trainer);
 
     public boolean canCapture(final Entity trainer, final boolean message)
     {
-        return this.canCapture(trainer);
+        if (!this.canCapture(trainer))
+        {
+            if (message) this.sendFailureMessage(trainer);
+            return false;
+        }
+        return true;
+    }
+
+    protected void onCapureFail(final IPokemob pokemob)
+    {
     }
 
     @Override
-    public boolean canCapture(final Entity trainer)
+    public final boolean canCapture(final Entity trainer)
     {
         if (trainer == null) return false;
         if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), this.getEntry()) > 0) return false;
         if (trainer instanceof ServerPlayerEntity && PokecubePlayerDataHandler.getCustomDataTag(
                 (ServerPlayerEntity) trainer).getBoolean("capt:" + this.getEntry().getTrimmedName())) return false;
-        return true;
+        return this.hasRequirements(trainer);
     }
 
     @Override
@@ -184,14 +219,17 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     }
 
     @Override
-    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    public final boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
+        boolean succeed = true;
         if (pokemon.getEntity().getPersistentData().hasUniqueId("spwnedby"))
         {
             final UUID id = pokemon.getEntity().getPersistentData().getUniqueId("spwnedby");
-            if (!trainer.getUniqueID().equals(id)) return false;
+            if (!trainer.getUniqueID().equals(id)) succeed = false;
         }
-        return this.canCapture(trainer);
+        if (succeed) succeed = this.canCapture(trainer);
+        if (!succeed) this.onCapureFail(pokemon);
+        return succeed;
     }
 
     public void sendNoTrust(final Entity trainer)
