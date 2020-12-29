@@ -82,7 +82,7 @@ minecraft {
             source sourceSets.main
         }
         test_server {
-            parent runs.client
+            parent runs.server
             taskName 'run_test_server'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!

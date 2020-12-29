@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
@@ -225,8 +226,16 @@ public class PokedexEntry
         {
             if (this.matcher != null)
             {
-                final SpawnCheck check = new SpawnCheck(Vector3.getNewVector().set(mob.getEntity()), mob.getEntity()
-                        .getEntityWorld());
+                final LivingEntity entity = mob.getEntity();
+                final Vector3 loc = Vector3.getNewVector().set(entity);
+                final World world = entity.getEntityWorld();
+                if (!world.isAreaLoaded(loc.getPos(), 0))
+                {
+                    PokecubeCore.LOGGER.error("Error checking for evolution, this area is not loaded!");
+                    PokecubeCore.LOGGER.error("For: {}, at: {},{},{}", entity, loc.x, loc.y, loc.z);
+                    return false;
+                }
+                final SpawnCheck check = new SpawnCheck(loc, entity.getEntityWorld());
                 return this.matcher.matches(check);
             }
             return true;

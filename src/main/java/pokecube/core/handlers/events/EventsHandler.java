@@ -488,7 +488,6 @@ public class EventsHandler
 
     private static void onServerAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        Database.swapManager(event.getServer());
         PokecubeCore.proxy.serverAboutToStart(event);
     }
 

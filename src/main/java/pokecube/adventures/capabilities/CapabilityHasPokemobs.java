@@ -52,6 +52,7 @@ import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -971,7 +972,8 @@ public class CapabilityHasPokemobs
             }
             if (found)
             {
-                PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getDisplayName().getString(), foundID);
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getDisplayName()
+                        .getString(), foundID);
                 this.setPokemob(foundID, mob.copy());
             }
             else for (int i = 0; i < this.getMaxPokemobCount(); i++)
@@ -980,7 +982,8 @@ public class CapabilityHasPokemobs
                 if (!found && ours.isEmpty())
                 {
                     this.setPokemob(i, mob.copy());
-                    PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getDisplayName().getString(), i);
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getDisplayName()
+                            .getString(), i);
                     break;
                 }
             }

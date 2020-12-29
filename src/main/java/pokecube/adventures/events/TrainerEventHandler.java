@@ -235,11 +235,13 @@ public class TrainerEventHandler
         final long time = player.getPersistentData().getLong(ID);
         if (time == player.getEntityWorld().getGameTime())
         {
-            evt.setCanceled(true);
+            if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
             return;
         }
         TrainerEventHandler.processInteract(evt, evt.getTarget());
         player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
+        if (evt.isCanceled()) player.getPersistentData().putLong("__pokeadv_int_c_", player.getEntityWorld()
+                .getGameTime());
     }
 
     public static void onEntityInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
@@ -250,11 +252,13 @@ public class TrainerEventHandler
         final long time = player.getPersistentData().getLong(ID);
         if (time == player.getEntityWorld().getGameTime())
         {
-            evt.setCanceled(true);
+            if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
             return;
         }
         TrainerEventHandler.processInteract(evt, evt.getTarget());
         player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
+        if (evt.isCanceled()) player.getPersistentData().putLong("__pokeadv_int_c_", player.getEntityWorld()
+                .getGameTime());
     }
 
     public static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
@@ -265,7 +269,7 @@ public class TrainerEventHandler
         final long time = player.getPersistentData().getLong(ID);
         if (time == player.getEntityWorld().getGameTime())
         {
-            evt.setCanceled(true);
+            if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
             return;
         }
     }
@@ -274,11 +278,11 @@ public class TrainerEventHandler
     {
         if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
-        final String ID = "__pokeadv_interact__";
+        final String ID = "__pokeadv_int__";
         final long time = player.getPersistentData().getLong(ID);
         if (time == player.getEntityWorld().getGameTime())
         {
-            evt.setCanceled(true);
+            if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
             return;
         }
     }
