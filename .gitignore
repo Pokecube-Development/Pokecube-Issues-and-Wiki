@@ -26,3 +26,4 @@ run
 src/generated/*
 logs/*
 /git/
+processing_scripts/icon_generator/icons/*

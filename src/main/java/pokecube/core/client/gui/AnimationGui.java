@@ -175,6 +175,10 @@ public class AnimationGui extends Screen
     List<PokedexEntry> entries = Lists.newArrayList();
     List<FormeHolder>  formes  = Lists.newArrayList();
 
+    Set<PokedexEntry> doneEntries = Sets.newHashSet();
+
+    Set<ResourceLocation> doneLocs = Sets.newHashSet();
+
     int entryIndex = 0;
     int formIndex  = 0;
 
@@ -319,7 +323,7 @@ public class AnimationGui extends Screen
         }
     }
 
-    private boolean capture(final boolean slowly)
+    private boolean capture(final boolean male, final boolean slowly)
     {
         final MainWindow window = Minecraft.getInstance().getMainWindow();
         final int h = window.getHeight();
@@ -338,23 +342,23 @@ public class AnimationGui extends Screen
         x = w / 2 - width / 2;
         y = h / 2 - height / 2;
 
-        final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img").resolve(
-                AnimationGui.entry.texturePath.replace("entity", "entity_icon")).toFile();
-        dir.mkdirs();
-        // TODO instead go based on the mob's assumed texture?
+        ResourceLocation icon1 = AnimationGui.entry.getIcon(male, this.shiny);
+        if (this.holder != null) icon1 = this.holder.getIcon(male, this.shiny, AnimationGui.entry);
 
-        String name = this.holder == null ? AnimationGui.entry.getTrimmedName() : this.holder.key.getPath();
+        // Already captured for this icon.
+        if (this.doneLocs.contains(icon1)) return true;
 
-        final boolean genderDiff = AnimationGui.entry.textureDetails[1] != null || AnimationGui.entry.getModel(
-                (byte) 0) != AnimationGui.entry.getModel((byte) 1);
-        String origName = AnimationGui.entry.getTrimmedName();
-        if (AnimationGui.entry.isGenderForme) origName = AnimationGui.entry.getBaseForme().getTrimmedName();
-        if (genderDiff && this.holder == null) name = name + "_" + (this.sexe == IPokemob.FEMALE ? "female" : "male");
-
-        final File outfile = new File(dir, name + (this.shiny && AnimationGui.entry.hasShiny ? "s" : "") + ".png");
-        File outfile2 = null;
-        if (!name.equals(origName)) outfile2 = new File(dir, origName + (this.shiny && AnimationGui.entry.hasShiny ? "s"
-                : "") + ".png");
+        final File outFile = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img").resolve(icon1.getNamespace())
+                .resolve(icon1.getPath()).toFile();
+        outFile.getParentFile().mkdirs();
+        File outFile2 = null;
+        if (this.shiny && !AnimationGui.entry.hasShiny)
+        {
+            ResourceLocation icon = AnimationGui.entry.getIcon(male, false);
+            if (this.holder != null) icon = this.holder.getIcon(male, false, AnimationGui.entry);
+            outFile2 = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img").resolve(icon.getNamespace()).resolve(
+                    icon.getPath()).toFile();
+        }
 
         GL11.glPixelStorei(3333, 1);
         GL11.glPixelStorei(3317, 1);
@@ -452,8 +456,9 @@ public class AnimationGui extends Screen
         {
             if (!scaled)
             {
-                ImageIO.write(image, "png", outfile);
-                if (outfile2 != null) ImageIO.write(image, "png", outfile2);
+                ImageIO.write(image, "png", outFile);
+                if (outFile2 != null) ImageIO.write(image, "png", outFile2);
+                this.doneLocs.add(icon1);
             }
             return !scaled;
         }
@@ -538,17 +543,19 @@ public class AnimationGui extends Screen
         if (this.cap)
         {
             this.scale = 1;
-            if (this.took && this.transitTime < System.currentTimeMillis())
+            if (this.transitTime > System.currentTimeMillis()) return;
+            if (this.took)
             {
                 this.cylceUp();
                 this.took = false;
-                this.transitTime = System.currentTimeMillis() + 100;
+                this.transitTime = System.currentTimeMillis() + 50;
             }
-            else if (this.transitTime < System.currentTimeMillis())
+            else
             {
                 try
                 {
-                    this.took = this.capture(AnimationGui.borked.contains(AnimationGui.entry));
+                    this.took = this.capture(this.sexe != IPokemob.FEMALE, AnimationGui.borked.contains(
+                            AnimationGui.entry));
                     AnimationGui.tries = 0;
                 }
                 catch (final Exception e)
@@ -574,7 +581,7 @@ public class AnimationGui extends Screen
                         PokecubeCore.LOGGER.error("Skipping image for {}", AnimationGui.entry);
                     }
                 }
-                this.transitTime = System.currentTimeMillis() + (this.took ? 0 : 2);
+                this.transitTime = System.currentTimeMillis() + (this.took ? 0 : 10);
             }
         }
     }
@@ -632,6 +639,9 @@ public class AnimationGui extends Screen
 
         final Button iconBtn = this.addButton(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, icons, b ->
         {
+            this.doneLocs.clear();
+            this.entries.clear();
+            this.entryIndex = 0;
             this.cap = !this.cap;
             b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
         }));
@@ -890,15 +900,26 @@ public class AnimationGui extends Screen
             this.genders[1] = false;
             next = true;
         }
-        if (!next) if (!this.genders[0])
+        if (!next)
         {
-            this.sexe = IPokemob.MALE;
-            this.genders[0] = true;
-        }
-        else if (!this.genders[1])
-        {
-            this.sexe = IPokemob.FEMALE;
-            this.genders[1] = true;
+            final boolean didMale = this.genders[0];
+            final boolean didFemale = this.genders[1];
+            if (!didMale)
+            {
+                this.sexe = IPokemob.MALE;
+                this.genders[0] = true;
+            }
+            else if (!didFemale)
+            {
+                this.sexe = IPokemob.FEMALE;
+                this.genders[1] = true;
+            }
+            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+            AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
+            this.forme.setText(AnimationGui.mob);
+            this.onUpdated();
+            return;
         }
 
         this.formes = Database.customModels.getOrDefault(AnimationGui.entry, Collections.emptyList());
@@ -908,26 +929,50 @@ public class AnimationGui extends Screen
             this.entries.add(AnimationGui.entry.getBaseForme());
             Collections.sort(this.entries, Database.COMPARATOR);
         }
-        if (!next)
-        {
-
-        }
         if (this.entryIndex >= this.entries.size())
         {
             this.entryIndex = 0;
             this.formIndex = -1;
             final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;
-            else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
+            else
+            {
+                AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
+                this.shiny = !this.shiny;
+            }
             this.holder = AnimationGui.entry.getModel(this.sexe);
         }
-        else if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size() - 1) this.holder = this.formes.get(
-                this.formIndex);
+        else if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size() - 1)
+        {
+            this.holder = this.formes.get(this.formIndex);
+            ResourceLocation icon1 = AnimationGui.entry.getIcon(this.sexe == IPokemob.MALE, this.shiny);
+            if (this.holder != null) icon1 = this.holder.getIcon(this.sexe == IPokemob.MALE, this.shiny,
+                    AnimationGui.entry);
+            while (this.doneLocs.contains(icon1) && this.formIndex++ < this.formes.size() - 1)
+            {
+                this.holder = this.formes.get(this.formIndex);
+                icon1 = AnimationGui.entry.getIcon(this.sexe == IPokemob.MALE, this.shiny);
+                if (this.holder != null) icon1 = this.holder.getIcon(this.sexe == IPokemob.MALE, this.shiny,
+                        AnimationGui.entry);
+            }
+        }
         else if (this.entries.size() > 0)
         {
             this.formIndex = -1;
             AnimationGui.entry = this.entries.get(this.entryIndex++ % this.entries.size());
             this.holder = AnimationGui.entry.getModel(this.sexe);
+            ResourceLocation icon1 = AnimationGui.entry.getIcon(this.sexe == IPokemob.MALE, this.shiny);
+            if (this.holder != null) icon1 = this.holder.getIcon(this.sexe == IPokemob.MALE, this.shiny,
+                    AnimationGui.entry);
+            // Already captured for this icon.
+            while (this.doneLocs.contains(icon1) && this.entryIndex < this.entries.size())
+            {
+                AnimationGui.entry = this.entries.get(this.entryIndex++ % this.entries.size());
+                this.holder = AnimationGui.entry.getModel(this.sexe);
+                icon1 = AnimationGui.entry.getIcon(this.sexe == IPokemob.MALE, this.shiny);
+                if (this.holder != null) icon1 = this.holder.getIcon(this.sexe == IPokemob.MALE, this.shiny,
+                        AnimationGui.entry);
+            }
         }
 
         this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
@@ -957,7 +1002,7 @@ public class AnimationGui extends Screen
     @Override
     public boolean isPauseScreen()
     {
-        return false;
+        return this.cap;
     }
 
 }

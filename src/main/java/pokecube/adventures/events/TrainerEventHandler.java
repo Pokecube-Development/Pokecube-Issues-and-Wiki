@@ -238,7 +238,7 @@ public class TrainerEventHandler
             if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
             return;
         }
-        TrainerEventHandler.processInteract(evt, evt.getTarget());
+        if (!evt.isCanceled()) TrainerEventHandler.processInteract(evt, evt.getTarget());
         player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
         if (evt.isCanceled()) player.getPersistentData().putLong("__pokeadv_int_c_", player.getEntityWorld()
                 .getGameTime());
@@ -255,7 +255,7 @@ public class TrainerEventHandler
             if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
             return;
         }
-        TrainerEventHandler.processInteract(evt, evt.getTarget());
+        if (!evt.isCanceled()) TrainerEventHandler.processInteract(evt, evt.getTarget());
         player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
         if (evt.isCanceled()) player.getPersistentData().putLong("__pokeadv_int_c_", player.getEntityWorld()
                 .getGameTime());
@@ -404,7 +404,19 @@ public class TrainerEventHandler
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
         if (evt.getItemStack().getItem() instanceof Linker && Linker.interact((ServerPlayerEntity) evt.getPlayer(),
-                target, evt.getItemStack())) evt.setCanceled(true);
+                target, evt.getItemStack()))
+        {
+            evt.setCanceled(true);
+            evt.setCancellationResult(ActionResultType.SUCCESS);
+            return;
+        }
+        if (target instanceof NpcMob && ((NpcMob) target).getNpcType().getInteraction().processInteract(evt.getPlayer(),
+                evt.getHand(), (NpcMob) target))
+        {
+            evt.setCanceled(true);
+            evt.setCancellationResult(ActionResultType.SUCCESS);
+            return;
+        }
 
         if (messages != null)
         {

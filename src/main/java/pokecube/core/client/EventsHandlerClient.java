@@ -1,15 +1,12 @@
 package pokecube.core.client;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -81,8 +78,7 @@ import thut.api.entity.genetics.GeneRegistry;
 
 public class EventsHandlerClient
 {
-    public static HashMap<PokedexEntry, IPokemob>        renderMobs = new HashMap<>();
-    private static Map<PokedexEntry, ResourceLocation[]> icons      = Maps.newHashMap();
+    public static HashMap<PokedexEntry, IPokemob> renderMobs = new HashMap<>();
 
     private static final Set<PlayerRenderer> addedLayers = Sets.newHashSet();
 
@@ -419,54 +415,6 @@ public class EventsHandlerClient
     public static void renderIcon(final PokedexEntry entry, final FormeHolder holder, final boolean female, int left,
             int top, final int width, final int height, final boolean shiny)
     {
-        ResourceLocation[] texs = EventsHandlerClient.icons.get(entry);
-        ResourceLocation tex = null;
-        if (texs != null) tex = texs[shiny ? 1 : 0];
-        if (tex == null)
-        {
-            texs = new ResourceLocation[2];
-            EventsHandlerClient.icons.put(entry, texs);
-            final String path = entry.texturePath.replace("entity", "entity_icon");
-
-            String name = holder == null ? entry.getTrimmedName() : holder.key.getPath();
-
-            final boolean genderDiff = entry.textureDetails[1] != null || entry.getModel((byte) 0) != entry.getModel(
-                    (byte) 1);
-
-            String maleTex = "_male";
-            String femaleTex = "_female";
-
-            if (entry.textureDetails[1] != null) femaleTex = entry.textureDetails[1][0];
-            if (entry.textureDetails[0] != null) maleTex = entry.textureDetails[0][0];
-
-            if (genderDiff && holder == null) name = name + (female ? femaleTex : maleTex);
-
-            String texture = entry.getModId() + ":" + path + name;
-            final String textureS = entry.hasShiny ? texture + "s.png" : texture + ".png";
-            texture = texture + ".png";
-
-            tex = new ResourceLocation(texture);
-            texs[0] = tex;
-            try
-            {
-                Minecraft.getInstance().getResourceManager().getResource(tex).getInputStream().close();
-                try
-                {
-                    final ResourceLocation tex2 = new ResourceLocation(textureS);
-                    Minecraft.getInstance().getResourceManager().getResource(tex2).getInputStream().close();
-                    texs[1] = tex2;
-                }
-                catch (final IOException e)
-                {
-                    texs[1] = tex;
-                }
-            }
-            catch (final IOException e)
-            {
-                PokecubeCore.LOGGER.error("no Icon for " + entry, e);
-            }
-        }
-
         int right = left + width;
         int bottom = top + height;
 
@@ -483,7 +431,9 @@ public class EventsHandlerClient
             top = bottom;
             bottom = j1;
         }
-        Minecraft.getInstance().getTextureManager().bindTexture(tex);
+        ResourceLocation icon = entry.getIcon(!female, shiny);
+        if (holder != null) icon = holder.getIcon(!female, shiny, entry);
+        Minecraft.getInstance().getTextureManager().bindTexture(icon);
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuffer();
         RenderSystem.enableBlend();
