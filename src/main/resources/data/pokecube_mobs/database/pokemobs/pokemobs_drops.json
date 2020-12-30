@@ -5061,20 +5061,14 @@
       "name": "Dragapult"
     },
     {
-      "name": "Zacian",
-	  "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Zacian"
     },
     {
-      "name": "Zamazenta",
-	  "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Zamazenta"
     },
     {
       "name": "Eternatus",
-	  "stats": {
+      "stats": {
         "lootTable": "pokecube:entities/generic_legend"
       }
     },
@@ -5083,49 +5077,37 @@
     },
     {
       "name": "Urshifu Single",
-	  "stats": {
+      "stats": {
         "lootTable": "pokecube:entities/generic_legend"
       }
     },
     {
       "name": "Urshifu Rapid",
-	  "stats": {
+      "stats": {
         "lootTable": "pokecube:entities/generic_legend"
       }
     },
     {
       "name": "Zarude",
-	  "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
-    },
-	{
-      "name": "Regieleki",
-	  "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
-    },
-	{
-      "name": "Regidrago",
-	  "stats": {
+      "stats": {
         "lootTable": "pokecube:entities/generic_legend"
       }
     },
     {
-      "name": "Glastrier",
-	  "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Regieleki"
     },
     {
-      "name": "Spectrier",
-	  "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Regidrago"
+    },
+    {
+      "name": "Glastrier"
+    },
+    {
+      "name": "Spectrier"
     },
     {
       "name": "Calyrex",
-	  "stats": {
+      "stats": {
         "lootTable": "pokecube:entities/generic_legend"
       }
     }
