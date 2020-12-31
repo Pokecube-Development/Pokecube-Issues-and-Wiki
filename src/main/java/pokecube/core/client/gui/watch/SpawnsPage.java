@@ -140,26 +140,30 @@ public class SpawnsPage extends ListPage<LineEntry>
         for (final PokedexEntry pokeEntry : names)
         {
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, PacketPokedex.selectedLoc.get(pokeEntry),
-                    pokeEntry, height, height, offsetY);
+                    pokeEntry, 120, height, offsetY);
             final List<LineEntry> lines = entry.getLines(this.list, listener);
-            int num = 5;
             final ITextComponent water0 = new TranslationTextComponent("pokewatch.spawns.water_only");
             final ITextComponent water1 = new TranslationTextComponent("pokewatch.spawns.water_optional");
-            while (lines.size() > num)
+            // This is the name
+            final LineEntry first = lines.get(0);
+            // This is the blank line
+            final LineEntry last0 = lines.get(lines.size() - 1);
+            // This is the adjusted spawn rate
+            final LineEntry last1 = lines.get(lines.size() - 2);
+            // Remove all, unless they specifiy water vs ground
+            lines.removeIf(e ->
             {
-                final ITextComponent comp = lines.get(1).line;
-                if (comp.getUnformattedComponentText().trim().equals(water0.getUnformattedComponentText().trim()))
-                {
-                    num++;
-                    continue;
-                }
-                if (comp.getUnformattedComponentText().trim().equals(water1.getUnformattedComponentText().trim()))
-                {
-                    num++;
-                    continue;
-                }
-                lines.remove(1);
-            }
+                final String string = e.line.getString().trim();
+                final boolean isWater0 = water0.getString().equals(string);
+                final boolean isWater1 = water1.getString().equals(string);
+                return !(isWater0 || isWater1);
+            });
+            // Re-add name
+            lines.add(0, first);
+            // Re-add spawn rate
+            lines.add(last1);
+            // Re-add blank line
+            lines.add(last0);
             for (final LineEntry line : lines)
                 this.list.addEntry(line);
         }
