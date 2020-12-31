@@ -266,6 +266,7 @@ public class SpawnBiomeMatcher
     public SpawnBiomeMatcher(final SpawnRule rules)
     {
         this.spawnRule = rules;
+        this.parseBasic();
     }
 
     public Set<RegistryKey<Biome>> getInvalidBiomes()
@@ -440,6 +441,29 @@ public class SpawnBiomeMatcher
         return null;
     }
 
+    private void parseBasic()
+    {
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAY)) this.day = Boolean.parseBoolean(
+                this.spawnRule.values.get(SpawnBiomeMatcher.DAY));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.NIGHT)) this.night = Boolean.parseBoolean(
+                this.spawnRule.values.get(SpawnBiomeMatcher.NIGHT));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DUSK)) this.dusk = Boolean.parseBoolean(
+                this.spawnRule.values.get(SpawnBiomeMatcher.DUSK));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAWN)) this.dawn = Boolean.parseBoolean(
+                this.spawnRule.values.get(SpawnBiomeMatcher.DAWN));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.WATER)) this.water = Boolean.parseBoolean(
+                this.spawnRule.values.get(SpawnBiomeMatcher.WATER));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.AIR))
+        {
+            this.air = Boolean.parseBoolean(this.spawnRule.values.get(SpawnBiomeMatcher.AIR));
+            if (!this.air && !this.water) this.water = true;
+        }
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MINLIGHT)) this.minLight = Float.parseFloat(
+                this.spawnRule.values.get(SpawnBiomeMatcher.MINLIGHT));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MAXLIGHT)) this.maxLight = Float.parseFloat(
+                this.spawnRule.values.get(SpawnBiomeMatcher.MAXLIGHT));
+    }
+
     public void parse()
     {
         if (this.parsed) return;
@@ -523,6 +547,7 @@ public class SpawnBiomeMatcher
         }
 
         this.preParseSubBiomes();
+        this.parseBasic();
 
         final String biomeString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
         final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPES);
@@ -531,26 +556,6 @@ public class SpawnBiomeMatcher
         final String biomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMECAT);
         final String noBiomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
         final String validStructures = this.spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
-
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAY)) this.day = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.DAY));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.NIGHT)) this.night = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.NIGHT));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DUSK)) this.dusk = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.DUSK));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAWN)) this.dawn = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.DAWN));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.WATER)) this.water = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.WATER));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.AIR))
-        {
-            this.air = Boolean.parseBoolean(this.spawnRule.values.get(SpawnBiomeMatcher.AIR));
-            if (!this.air && !this.water) this.water = true;
-        }
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MINLIGHT)) this.minLight = Float.parseFloat(
-                this.spawnRule.values.get(SpawnBiomeMatcher.MINLIGHT));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MAXLIGHT)) this.maxLight = Float.parseFloat(
-                this.spawnRule.values.get(SpawnBiomeMatcher.MAXLIGHT));
 
         final Set<Category> biomeCats = this._validCats;
         final Set<Category> noBiomeCats = this._blackListCats;
