@@ -14,6 +14,7 @@ import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredientType;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.database.Database;
@@ -74,19 +75,23 @@ public class Pokemob implements IIngredientType<PokedexEntry>
     public static class IngredientRenderer implements IIngredientRenderer<Pokemob>
     {
         @Override
-        public List<ITextComponent> getTooltip(final Pokemob arg0, final ITooltipFlag arg1)
+        public List<ITextComponent> getTooltip(final Pokemob pokemob, final ITooltipFlag flag)
         {
-            final List<ITextComponent> list = Lists.newArrayList(new TranslationTextComponent(arg0.entry
+            final List<ITextComponent> list = Lists.newArrayList(new TranslationTextComponent(pokemob.entry
                     .getUnlocalizedName()));
+            if (pokemob.holder != null) list.add(new StringTextComponent(pokemob.holder.name));
             return list;
         }
 
         @Override
         public void render(final MatrixStack stack, final int x, final int y, final Pokemob pokemob)
         {
-            if (pokemob != null) EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder,
-                    pokemob.entry.isGenderForme && pokemob.entry == pokemob.entry.getBaseForme().getForGender(
-                            IPokemob.FEMALE), x, y, 16, 16, false);
+            if (pokemob != null)
+            {
+                final byte gender = pokemob.gender;
+                EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder, gender == IPokemob.MALE, x, y, 16, 16,
+                        false);
+            }
         }
 
     }
@@ -127,12 +132,14 @@ public class Pokemob implements IIngredientType<PokedexEntry>
             if (entry != Database.missingno && entry.stock)
             {
                 final List<FormeHolder> formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
-                Pokemob add = new Pokemob(entry, null, (byte) 0);
+                byte gender = entry.isFemaleForme ? IPokemob.FEMALE : IPokemob.MALE;
+                Pokemob add = new Pokemob(entry, null, gender);
                 Pokemob.ALLMAP.put(entry, add);
                 toAdd.add(add);
                 for (final FormeHolder holder : formes)
                 {
-                    add = new Pokemob(entry, holder, (byte) 0);
+                    gender = holder == entry.female_holder ? IPokemob.FEMALE : IPokemob.MALE;
+                    add = new Pokemob(entry, holder, gender);
                     Pokemob.FORMMAP.put(holder, add);
                     toAdd.add(add);
                 }

@@ -230,6 +230,23 @@
       ]
     },
     {
+      "name": "Sinistea",
+      "models": [
+        {
+          "key": "sinistea_nofake",
+          "tex": "sinistea",
+          "model": "sinistea_nofake",
+          "anim": "sinistea"
+        },
+        {
+          "key": "sinistea_fake",
+          "tex": "sinistea",
+          "model": "sinistea_fake",
+          "anim": "sinistea"
+        }
+      ]
+    },
+    {
       "name": "Alcremie",
       "models": [
         {

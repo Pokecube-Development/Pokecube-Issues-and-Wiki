@@ -166,8 +166,7 @@ public class PokedexEntry
                 comps.add(new TranslationTextComponent("pokemob.description.evolve.chance", var));
             }
             if (this.move != null && !this.move.isEmpty()) comps.add(new TranslationTextComponent(
-                    "pokemob.description.evolve.move", MovesUtils.getMoveName(this.move)
-                            .getUnformattedComponentText()));
+                    "pokemob.description.evolve.move", MovesUtils.getMoveName(this.move).getString()));
             if (this.matcher != null)
             {
                 this.matcher.reset();
@@ -178,7 +177,7 @@ public class PokedexEntry
                 for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
                 {
                     final boolean valid = this.matcher.getValidBiomes().contains(test);
-                    if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
+                    if (valid) biomeNames.add(I18n.format(test.getLocation().toString()));
                 }
                 for (final SpawnBiomeMatcher matcher : this.matcher.children)
                 {
@@ -187,7 +186,7 @@ public class PokedexEntry
                     for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
                     {
                         final boolean valid = matcher.getValidBiomes().contains(test);
-                        if (valid) biomeNames.add(I18n.format(test.getRegistryName().getPath()));
+                        if (valid) biomeNames.add(I18n.format(test.getLocation().toString()));
                     }
                 }
                 comps.add(new TranslationTextComponent("pokemob.description.evolve.locations", biomeNames));
@@ -926,9 +925,9 @@ public class PokedexEntry
     @CopyToGender
     public InteractionLogic interactionLogic = new InteractionLogic();
 
-    protected boolean isFemaleForme = false;
+    public boolean isFemaleForme = false;
 
-    protected boolean isMaleForme = false;
+    public boolean isMaleForme = false;
 
     @CopyToGender
     public boolean isShadowForme = false;

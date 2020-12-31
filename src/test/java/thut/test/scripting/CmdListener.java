@@ -44,6 +44,8 @@ public class CmdListener
 
         public void start(final int port) throws IOException
         {
+            // Seems we had already started, but not stopped, lets make sure
+            // this is stopped.
             if (this.out != null) this.stop();
             this.serverSocket = new ServerSocket(port);
             this.clientSocket = this.serverSocket.accept();
@@ -107,6 +109,8 @@ public class CmdListener
 
         public void stop() throws IOException
         {
+            // Never started in the first place, handle this gracefully.
+            if (this.out == null) return;
             this.in.close();
             this.out.close();
             this.clientSocket.close();
@@ -141,7 +145,20 @@ public class CmdListener
             while (CmdListener.server.server != null)
                 try
                 {
-                    CmdListener.server.start(CmdListener.port);
+                    try
+                    {
+                        CmdListener.server.start(CmdListener.port);
+                    }
+                    catch (final IOException e)
+                    {
+
+                    }
+                    catch (final Exception e)
+                    {
+                        System.err.println("Error with port listener, quitting here.");
+                        e.printStackTrace();
+                        return;
+                    }
                     CmdListener.server.read();
                     CmdListener.server.stop();
                 }
@@ -170,5 +187,12 @@ public class CmdListener
     {
         CmdListener.server.setServer(null);
         CmdListener.listener.interrupt();
+        try
+        {
+            CmdListener.server.stop();
+        }
+        catch (final IOException e)
+        {
+        }
     }
 }
