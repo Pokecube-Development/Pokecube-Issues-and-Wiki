@@ -2,7 +2,6 @@ package thut.api.entity.blockentity.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -91,7 +90,7 @@ public class TempTile extends TileEntity implements ITickableTileEntity
         {
             final Vector3d bv = this.blockEntity.getMotion();
             final Vector3d dr = new Vector3d(0, top - entityIn.getPosY(), 0);
-            entityIn.move(MoverType.PISTON, dr);
+            entityIn.setPosition(dr.x, dr.y, dr.z);
             final double vx = ev.x;
             final double vy = bv.y;
             final double vz = ev.z;

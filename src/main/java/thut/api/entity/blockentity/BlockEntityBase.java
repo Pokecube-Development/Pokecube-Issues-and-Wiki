@@ -333,9 +333,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         return this.getDataManager().get(BlockEntityBase.velocity);
     }
 
-    protected double getSpeed(final double pos, final double destPos, final double speed, final double speedPos,
-            final double speedNeg)
+    protected double getSpeed(final double pos, final double destPos, final double speed, double speedPos,
+            double speedNeg)
     {
+        speedPos = Math.abs(speedPos);
+        speedNeg = Math.abs(speedNeg);
         double dr_dt = speed;
         final double dr = destPos - pos;
         final float dr_dt2 = this.getAccel();
@@ -359,13 +361,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             if (dr_dt >= 0)
             {
                 dr_dt -= dr_dt2;
-                return Math.max(dr_dt, speedNeg);
+                return Math.max(dr_dt, -speedNeg);
             }
             final boolean tooFast = stop_distance > -dr;
             final boolean tooSlow = dr_dt > -speedNeg;
             if (tooFast) dr_dt += dr_dt2;
             else if (tooSlow) dr_dt -= dr_dt2;
-            return Math.max(dr_dt, speedNeg);
+            return Math.max(dr_dt, -speedNeg);
         }
         return 0;
     }
