@@ -48,6 +48,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.PotentialSpawns;
@@ -72,6 +73,7 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
+import pokecube.core.events.CustomInteractEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
@@ -304,6 +306,11 @@ public class EventsHandler
         // This saves the pokecube Serializer
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onWorldSave);
 
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEntityInteract);
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEntityInteractSpecific);
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onItemRightClick);
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEmptyRightClick);
+
         // now let our other handlers register their stuff
 
         MoveEventsHandler.register();
@@ -317,6 +324,79 @@ public class EventsHandler
         // initializing the tracked pokemob maps, etc.
         MinecraftForge.EVENT_BUS.addListener(PokemobTracker::onWorldLoad);
 
+    }
+
+    private static void onEntityInteract(final PlayerInteractEvent.EntityInteract evt)
+    {
+        if (evt instanceof CustomInteractEvent) return;
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final String ID = "__poke_interact__";
+        final long time = player.getPersistentData().getLong(ID);
+        if (time == player.getEntityWorld().getGameTime())
+        {
+            if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
+            return;
+        }
+        if (!evt.isCanceled())
+        {
+            final CustomInteractEvent event = new CustomInteractEvent(evt.getPlayer(), evt.getHand(), evt.getTarget());
+            MinecraftForge.EVENT_BUS.post(event);
+            if (event.getResult() == Result.ALLOW)
+            {
+                player.getPersistentData().putLong("__poke_int_c_", player.getEntityWorld().getGameTime());
+                player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
+            }
+        }
+    }
+
+    private static void onEntityInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
+    {
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final String ID = "__poke_interact__";
+        final long time = player.getPersistentData().getLong(ID);
+        if (time == player.getEntityWorld().getGameTime())
+        {
+            if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
+            return;
+        }
+        if (!evt.isCanceled())
+        {
+            final CustomInteractEvent event = new CustomInteractEvent(evt.getPlayer(), evt.getHand(), evt.getTarget());
+            MinecraftForge.EVENT_BUS.post(event);
+            if (event.isCanceled())
+            {
+                player.getPersistentData().putLong("__poke_int_c_", player.getEntityWorld().getGameTime());
+                player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
+            }
+        }
+    }
+
+    private static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
+    {
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final String ID = "__poke_interact__";
+        final long time = player.getPersistentData().getLong(ID);
+        if (time == player.getEntityWorld().getGameTime())
+        {
+            if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
+            return;
+        }
+    }
+
+    private static void onEmptyRightClick(final PlayerInteractEvent.RightClickEmpty evt)
+    {
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final String ID = "__poke_interact__";
+        final long time = player.getPersistentData().getLong(ID);
+        if (time == player.getEntityWorld().getGameTime())
+        {
+            if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
+            return;
+        }
     }
 
     private static void onBreakSpeedCheck(final PlayerEvent.BreakSpeed evt)

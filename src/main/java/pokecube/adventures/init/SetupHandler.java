@@ -51,11 +51,7 @@ public class SetupHandler
                 TrainerEventHandler::onAttachMobCaps);
 
         // These two interact ones handle right click custom effects on npcs
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, true, TrainerEventHandler::onEntityInteract);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, true, TrainerEventHandler::onEntityInteractSpecific);
-        // These two cancel the events if the above did anything.
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onItemRightClick);
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onEmptyRightClick);
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onEntityInteract);
         // This one handles npcs being invulnerable to pokemobs, as well as some
         // damage target allocation
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingHurt);
