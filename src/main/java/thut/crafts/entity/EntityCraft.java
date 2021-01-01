@@ -107,6 +107,10 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         float destZ = this.toMoveZ ? this.controller.forwardInputDown ? 30 : -30 : 0;
         this.toMoveY = this.toMoveX = this.toMoveZ = false;
 
+        // // debug movement
+        // this.toMoveY = true;
+        // destY = 1;
+
         if (destX == destY && destY == destZ && destZ == 0)
         {
             this.setMotion(this.getMotion().mul(0.5, 0.5, 0.5));
@@ -175,6 +179,15 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             destY = (float) dest.y;
             destZ = (float) dest.z;
         }
+        this.speedUp = 0.5f;
+        this.speedDown = -0.25f;
+        this.acceleration = 1;
+
+        // // debug movement
+        // this.toMoveY = true;
+        // if (this.getPosY() < 70) this.energy = 10;
+        // if (this.getPosY() > 90) this.energy = -10;
+        // destY = this.energy > 0 ? 10 : -10;
 
         destX += this.getPosX();
         destY += this.getPosY();
@@ -206,6 +219,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             this.toMoveZ = true;
         }
         else vz *= 0.5;
+
         this.setMotion(vx, vy, vz);
     }
 

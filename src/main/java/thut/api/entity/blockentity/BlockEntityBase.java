@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -36,6 +37,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages.SpawnEntity;
 import net.minecraftforge.fml.network.NetworkHooks;
+import thut.api.entity.blockentity.block.TempTile;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.entity.blockentity.world.WorldEntity;
 import thut.api.maths.Vector3;
@@ -91,6 +93,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public static final IDataSerializer<Vector3d> VEC3DSER = new VecSer();
 
+    public static Block FAKEBLOCK = null;
+
     static final DataParameter<Vector3d> velocity = EntityDataManager.<Vector3d> createKey(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
     static final DataParameter<Vector3d> position = EntityDataManager.<Vector3d> createKey(BlockEntityBase.class,
@@ -103,10 +107,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     private boolean shouldRevert = true;
 
-    private final float speedUp      = 0.5f;
-    private final float speedDown    = -0.5f;
-    private final float speedHoriz   = 0.5f;
-    private final float acceleration = 0.05f;
+    protected float speedUp      = 0.5f;
+    protected float speedDown    = -0.5f;
+    protected float speedHoriz   = 0.5f;
+    protected float acceleration = 0.05f;
 
     public boolean toMoveY = false;
     public boolean toMoveX = false;
@@ -114,19 +118,22 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public UUID owner;
 
-    public List<AxisAlignedBB> blockBoxes  = Lists.newArrayList();
-    public BlockState[][][]    blocks      = null;
-    public TileEntity[][][]    tiles       = null;
-    BlockEntityUpdater         collider;
+    public List<AxisAlignedBB> blockBoxes = Lists.newArrayList();
+    public BlockState[][][]    blocks     = null;
+    public TileEntity[][][]    tiles      = null;
+
+    public BlockEntityUpdater  collider;
     BlockEntityInteractHandler interacter;
-    BlockPos                   originalPos = null;
-    Vector3                    lastSyncPos = Vector3.getNewVector();
+
+    BlockPos originalPos = null;
+    Vector3  lastSyncPos = Vector3.getNewVector();
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final World par1World)
     {
         super(type, par1World);
         this.ignoreFrustumCheck = true;
         this.hurtResistantTime = 0;
+        this.noClip = true;
     }
 
     abstract protected void accelerate();
@@ -149,7 +156,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (!entity.canBePushed()) return;
         try
         {
-            this.collider.applyEntityCollision(entity);
+            // this.collider.applyEntityCollision(entity);
         }
         catch (final Exception e)
         {
@@ -225,17 +232,34 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public void checkCollision()
     {
-        final List<?> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().grow(2));
-        if (list != null && !list.isEmpty())
+        BlockPos.getAllInBox(this.getBoundingBox().grow(1)).forEach(p ->
         {
-            if (list.size() == 1 && this.getRecursivePassengers() != null && !this.getRecursivePassengers().isEmpty())
-                return;
-            for (int i = 0; i < list.size(); ++i)
+            final World world = this.getEntityWorld();
+            final BlockState block = world.getBlockState(p);
+            if (world.isAirBlock(p) && block.getBlock() != BlockEntityBase.FAKEBLOCK) world.setBlockState(p,
+                    BlockEntityBase.FAKEBLOCK.getDefaultState());
+            final TileEntity te = world.getTileEntity(p);
+            if (te instanceof TempTile)
             {
-                final Entity entity = (Entity) list.get(i);
-                this.applyEntityCollision(entity);
+                final TempTile tile = (TempTile) te;
+                tile.blockEntity = this;
+                tile.getShape();
             }
-        }
+        });
+        // final List<?> list =
+        // this.world.getEntitiesWithinAABBExcludingEntity(this,
+        // this.getBoundingBox().grow(2));
+        // if (list != null && !list.isEmpty())
+        // {
+        // if (list.size() == 1 && this.getRecursivePassengers() != null &&
+        // !this.getRecursivePassengers().isEmpty())
+        // return;
+        // for (int i = 0; i < list.size(); ++i)
+        // {
+        // final Entity entity = (Entity) list.get(i);
+        // this.applyEntityCollision(entity);
+        // }
+        // }
     }
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
@@ -319,29 +343,29 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         final double stop_distance = dr_dt * t_toStop;
         if (dr > 0)
         {
-            if (dr_dt < 0)
+            if (dr_dt <= 0)
             {
                 dr_dt += dr_dt2;
-                return dr_dt;
+                return Math.min(dr_dt, speedPos);
             }
             final boolean tooFast = stop_distance > dr;
             final boolean tooSlow = dr_dt < speedPos;
             if (tooFast) dr_dt -= dr_dt2;
             else if (tooSlow) dr_dt += dr_dt2;
-            return dr_dt;
+            return Math.min(dr_dt, speedPos);
         }
         if (dr < 0)
         {
-            if (dr_dt > 0)
+            if (dr_dt >= 0)
             {
                 dr_dt -= dr_dt2;
-                return dr_dt;
+                return Math.max(dr_dt, speedNeg);
             }
             final boolean tooFast = stop_distance > -dr;
             final boolean tooSlow = dr_dt > -speedNeg;
             if (tooFast) dr_dt += dr_dt2;
             else if (tooSlow) dr_dt -= dr_dt2;
-            return dr_dt;
+            return Math.max(dr_dt, speedNeg);
         }
         return 0;
     }

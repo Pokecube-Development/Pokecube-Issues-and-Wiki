@@ -55,6 +55,7 @@ public class CmdListener
 
         public boolean read() throws IOException
         {
+            if (this.in == null) return false;
             while (!this.in.ready())
                 try
                 {
