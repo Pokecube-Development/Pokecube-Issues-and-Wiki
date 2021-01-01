@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.GameRules;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.LevelUpEvent;
@@ -125,8 +126,8 @@ public abstract class PokemobStats extends PokemobGenes
                     if (this.getEntity().addedToChunk && ret.getOwner() instanceof PlayerEntity && this.getEntity()
                             .getEntityWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT) && !this.getEntity()
                                     .getEntityWorld().isRemote) this.getEntity().getEntityWorld().addEntity(
-                                            new ExperienceOrbEntity(this.getEntity().getEntityWorld(), this
-                                                    .getEntity().getPosX(), this.getEntity().getPosY(), this.getEntity().getPosZ(),
+                                            new ExperienceOrbEntity(this.getEntity().getEntityWorld(), this.getEntity()
+                                                    .getPosX(), this.getEntity().getPosY(), this.getEntity().getPosZ(),
                                                     1));
                 }
             }
@@ -158,13 +159,16 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public void setPokemonNickname(final String nickname)
     {
+        final boolean oldName = this.getPokedexEntry().getName().equals(nickname) || nickname.trim().isEmpty();
         if (!this.getEntity().isServerWorld())
         {
             if (!nickname.equals(this.getPokemonNickname()) && this.getEntity().addedToChunk) PacketNickname.sendPacket(
                     this.getEntity(), nickname);
         }
-        else if (this.getPokedexEntry().getName().equals(nickname)) this.dataSync().set(this.params.NICKNAMEDW, "");
+        else if (oldName) this.dataSync().set(this.params.NICKNAMEDW, "");
         else this.dataSync().set(this.params.NICKNAMEDW, nickname);
+        if (!this.getPokedexEntry().stock) this.getEntity().setCustomName(oldName ? null
+                : new StringTextComponent(nickname));
     }
 
     @Override
