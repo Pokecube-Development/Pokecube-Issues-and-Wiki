@@ -14,6 +14,7 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNodeType;
@@ -86,6 +87,8 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getLogicState(final LogicStates state)
     {
+        if (state == LogicStates.SITTING && this.getEntity() instanceof TameableEntity) return ((TameableEntity) this
+                .getEntity()).isSitting();
         if (this.getEntity().getEntityWorld().isRemote) this.cachedLogicState = this.dataSync().get(
                 this.params.LOGICSTATESDW);
         return (this.cachedLogicState & state.getMask()) != 0;
@@ -245,6 +248,8 @@ public abstract class PokemobAI extends PokemobEvolves
     {
         this.cachedLogicState = state;
         this.dataSync().set(this.params.LOGICSTATESDW, state);
+        if (this.getEntity() instanceof TameableEntity) ((TameableEntity) this.getEntity()).func_233687_w_(
+                (this.cachedLogicState & LogicStates.SITTING.getMask()) != 0);
     }
 
     @Override

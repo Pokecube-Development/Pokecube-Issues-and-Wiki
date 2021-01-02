@@ -36,7 +36,6 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -55,7 +54,6 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokeType;
@@ -191,12 +189,6 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public boolean isSitting()
-    {
-        return this.pokemobCap.getLogicState(LogicStates.SITTING);
-    }
-
-    @Override
     public ILivingEntityData onInitialSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
             final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
     {
@@ -277,13 +269,6 @@ public class EntityPokemob extends PokemobHasParts
         {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void func_233687_w_(final boolean sitting)
-    {
-        this.pokemobCap.setLogicState(LogicStates.SITTING, sitting);
-        super.func_233687_w_(sitting);
     }
 
     @Override
@@ -399,12 +384,6 @@ public class EntityPokemob extends PokemobHasParts
     public void setRGBA(final int... colours)
     {
         this.pokemobCap.setRGBA(colours);
-    }
-
-    @Override
-    public float getBlockPathWeight(final BlockPos pos, final IWorldReader worldIn)
-    {
-        return super.getBlockPathWeight(pos, worldIn);
     }
 
     @Override
