@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
@@ -171,6 +172,13 @@ public class LogicMiscUpdate extends LogicBase
         final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob
                 .getGeneralState(GeneralStates.STAYING);
         if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
+
+        // Ensure sitting status is synced for TameableEntities
+        if(this.entity instanceof TameableEntity)
+        {
+            final boolean tameSitting = ((TameableEntity) this.entity).isSitting();
+            this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
+        }
     }
 
     private void checkEvolution()
