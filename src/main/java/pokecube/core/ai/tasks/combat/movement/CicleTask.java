@@ -1,8 +1,10 @@
 package pokecube.core.ai.tasks.combat.movement;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.pathfinding.PathPoint;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -50,11 +52,13 @@ public class CicleTask extends CombatTask implements IAICombat
     {
         // Figure out where centre of combat is
         this.calculateCentre();
+        PathPoint point = null;
         // If the mob has a path already, check if it is near the end, if not,
-        // return early.
-        if (!this.entity.getNavigator().noPath())
+        // return early, getFinalPathPoint() is nullable!
+        if (!this.entity.getNavigator().noPath() && (point = this.entity.getNavigator().getPath()
+                .getFinalPathPoint()) != null)
         {
-            final Vector3 end = Vector3.getNewVector().set(this.entity.getNavigator().getPath().getFinalPathPoint());
+            final Vector3 end = Vector3.getNewVector().set(point);
             final Vector3 here = Vector3.getNewVector().set(this.entity);
             float f = this.entity.getWidth();
             f = Math.max(f, 0.5f);
@@ -90,6 +94,7 @@ public class CicleTask extends CombatTask implements IAICombat
     @Override
     public boolean shouldRun()
     {
+        if (!TaskBase.canMove(this.pokemob)) return false;
         // Has target and is angry.
         return (this.target = BrainUtils.getAttackTarget(this.entity)) != null && this.pokemob.getCombatState(
                 CombatStates.ANGRY);
