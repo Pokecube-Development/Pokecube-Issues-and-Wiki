@@ -204,8 +204,6 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         final int nameOffsetY = dir == 1 ? 0 : 23;
         final int movesOffsetX = 42;
         final int movesOffsetY = dir == 1 ? 22 : 10;
-        final int mobOffsetX = 0;
-        final int mobOffsetY = 0;
         final int hpOffsetX = 42;
         final int hpOffsetY = 13;
         final int xpOffsetX = 42;
@@ -215,14 +213,18 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         final int confuseOffsetX = 12;
         final int confuseOffsetY = 1;
 
+        final int mobOffsetX = 0;
+        final int mobOffsetY = 0;
+
         final IPokemob pokemob = this.getCurrentPokemob();
         if (pokemob != null)
         {
             String displayName = pokemob.getDisplayName().getString();
             final int currentMoveIndex = pokemob.getMoveIndex();
             evt.mat.push();
-            GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().guiRef, PokecubeCore.getConfig().guiPos,
-                    GuiDisplayPokecubeInfo.guiDims, (float) PokecubeCore.getConfig().guiSize);
+            final float s = (float) PokecubeCore.getConfig().guiSize;
+            GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().guiRef, PokecubeCore
+                    .getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
             // Render HP
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
@@ -362,7 +364,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             this.blit(evt.mat, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
-            GuiPokemobBase.renderMob(pokemob.getEntity(), -30, -25, 0, 0, 0, 0, 0.75f);
+            GuiPokemobBase.renderMob(evt.mat, pokemob.getEntity(), mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f);
             evt.mat.pop();
         }
     }
@@ -445,7 +447,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             this.blit(evt.mat, mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
 
             // Render Mob
-            GuiPokemobBase.renderMob(entity, mobOffsetX, mobOffsetY, 0, 0, 0, 0, 0.75f);
+            GuiPokemobBase.renderMob(evt.mat, entity, mobOffsetX, mobOffsetY, 0, 0, 0, 0, 0.75f);
             evt.mat.pop();
         }
     }
