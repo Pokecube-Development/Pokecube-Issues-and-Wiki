@@ -62,6 +62,7 @@ import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.BrainInitEvent;
+import pokecube.core.events.CustomInteractEvent;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
 import pokecube.core.events.onload.InitDatabase;
@@ -227,64 +228,9 @@ public class TrainerEventHandler
         return false;
     }
 
-    public static void onEntityInteract(final PlayerInteractEvent.EntityInteract evt)
+    public static void onEntityInteract(final CustomInteractEvent evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
-        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
-        final String ID = "__pokeadv_interact__";
-        final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getEntityWorld().getGameTime())
-        {
-            if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
-            return;
-        }
-        if (!evt.isCanceled()) TrainerEventHandler.processInteract(evt, evt.getTarget());
-        player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
-        if (evt.isCanceled()) player.getPersistentData().putLong("__pokeadv_int_c_", player.getEntityWorld()
-                .getGameTime());
-    }
-
-    public static void onEntityInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
-    {
-        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
-        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
-        final String ID = "__pokeadv_interact__";
-        final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getEntityWorld().getGameTime())
-        {
-            if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
-            return;
-        }
-        if (!evt.isCanceled()) TrainerEventHandler.processInteract(evt, evt.getTarget());
-        player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
-        if (evt.isCanceled()) player.getPersistentData().putLong("__pokeadv_int_c_", player.getEntityWorld()
-                .getGameTime());
-    }
-
-    public static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
-    {
-        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
-        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
-        final String ID = "__pokeadv_interact__";
-        final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getEntityWorld().getGameTime())
-        {
-            if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
-            return;
-        }
-    }
-
-    public static void onEmptyRightClick(final PlayerInteractEvent.RightClickEmpty evt)
-    {
-        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
-        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
-        final String ID = "__pokeadv_int__";
-        final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getEntityWorld().getGameTime())
-        {
-            if (player.getPersistentData().getLong("__pokeadv_int_c_") == time) evt.setCanceled(true);
-            return;
-        }
+        TrainerEventHandler.processInteract(evt, evt.getTarget());
     }
 
     /**

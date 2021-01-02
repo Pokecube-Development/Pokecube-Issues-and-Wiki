@@ -76,8 +76,6 @@ public class WearableWrapper
             final float y = (float) angles.y;
             final float z = (float) angles.z;
 
-//            if (name.contains("_HAT_")) System.out.println(x + " " + y + " " + z);
-
             this.angle = Vector4.fromAngles(x, y, z);
         }
 
@@ -90,8 +88,7 @@ public class WearableWrapper
             final int ol = this.overlay;
             mat.push();
             mat.rotate(Vector3f.XP.rotationDegrees(-90));
-//            if (this.slot == EnumWearable.HAT) System.out.println(this.angle);
-             this.angle.glRotate(mat);
+            this.angle.glRotate(mat);
             mat.translate(this.translate.x, this.translate.y, this.translate.z);
             this.wrapped.renderWearable(mat, buff, this.slot, this.subIndex, this.wearer, this.stack, pt, br, ol);
             mat.pop();
@@ -165,6 +162,7 @@ public class WearableWrapper
         WornOffsets offsets = null;
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
+        if (worn == null) return;
         for (final EnumWearable wearable : EnumWearable.values())
         {
             final int num = wearable.slots;

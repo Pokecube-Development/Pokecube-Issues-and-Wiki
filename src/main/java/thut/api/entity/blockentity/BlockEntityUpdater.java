@@ -45,6 +45,8 @@ public class BlockEntityUpdater
     Set<TileEntity>     erroredSet = Sets.newHashSet();
     VoxelShape          totalShape = VoxelShapes.empty();
 
+    Vector3d lastShapePos = Vector3d.ZERO;
+
     public BlockEntityUpdater(final IBlockEntity rocket)
     {
         this.blockEntity = rocket;
@@ -63,14 +65,18 @@ public class BlockEntityUpdater
         final int sizeY = this.blockEntity.getBlocks()[0].length;
         final int sizeZ = this.blockEntity.getBlocks()[0][0].length;
         final Entity mob = (Entity) this.blockEntity;
-        this.totalShape = VoxelShapes.empty();
         final BlockPos.Mutable pos = new BlockPos.Mutable();
         final BlockPos min = this.blockEntity.getMin();
         final BlockPos origin = mob.getPosition();
         final IBlockReader world = this.blockEntity.getFakeWorld();
 
+        if (mob.getPositionVec().squareDistanceTo(this.lastShapePos) == 0) return this.totalShape;
+        this.lastShapePos = mob.getPositionVec();
+
         final int xMin = this.blockEntity.getMin().getX();
         final int zMin = this.blockEntity.getMin().getZ();
+
+        this.totalShape = VoxelShapes.empty();
 
         final double dx = xMin;
         final double dz = zMin;
@@ -88,7 +94,11 @@ public class BlockEntityUpdater
                     if (shape.isEmpty()) continue;
                     shape = shape.withOffset(mob.getPosX() + i - dx, mob.getPosY() + j + min.getY(), mob.getPosZ() + k
                             - dz);
-                    this.totalShape = VoxelShapes.combineAndSimplify(this.totalShape, shape, IBooleanFunction.OR);
+                    for (final AxisAlignedBB box : shape.toBoundingBoxList())
+                    {
+                        shape = VoxelShapes.create(box);
+                        this.totalShape = VoxelShapes.combineAndSimplify(this.totalShape, shape, IBooleanFunction.OR);
+                    }
                 }
         return this.totalShape;
     }

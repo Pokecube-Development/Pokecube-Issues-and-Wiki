@@ -39,6 +39,7 @@ import pokecube.adventures.ai.tasks.battle.CaptureMob;
 import pokecube.adventures.ai.tasks.battle.agro.AgroTargets;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.adventures.utils.TradeEntryLoader;
@@ -147,6 +148,8 @@ public class TypeTrainer extends NpcType
         {
             final Predicate<LivingEntity> noRunIfCrowded = e ->
             {
+                // Leaders don't care if crowded.
+                if (npc instanceof LeaderNpc) return true;
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
                 final int num = PokecubeAdv.config.trainer_crowding_number;
                 if (TrainerTracker.countTrainers(e.getEntityWorld(), Vector3.getNewVector().set(e), dist) > num)

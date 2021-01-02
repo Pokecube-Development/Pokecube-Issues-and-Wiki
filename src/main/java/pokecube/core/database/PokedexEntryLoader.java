@@ -682,7 +682,7 @@ public class PokedexEntryLoader
      * @param spawnData
      * @param rule
      */
-    public static void handleAddSpawn(final SpawnData spawnData, final SpawnRule rule)
+    private static SpawnBiomeMatcher handleAddSpawn(final SpawnData spawnData, final SpawnRule rule)
     {
         final SpawnEntry spawnEntry = new SpawnEntry();
         String val;
@@ -693,6 +693,7 @@ public class PokedexEntryLoader
         if ((val = rule.values.get(new QName("variance"))) != null) spawnEntry.variance = new FunctionVariance(val);
         final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(rule);
         spawnData.matchers.put(matcher, spawnEntry);
+        return matcher;
     }
 
     public static XMLDatabase initDatabase(final InputStream stream, final boolean json) throws Exception
@@ -1182,7 +1183,9 @@ public class PokedexEntryLoader
         {
             final FormeHolder holder = rule.getForme(entry);
             if (holder != null) Database.registerFormeHolder(entry, holder);
-            PokedexEntryLoader.handleAddSpawn(spawnData, rule);
+            final SpawnBiomeMatcher matcher = PokedexEntryLoader.handleAddSpawn(spawnData, rule);
+            // If it can spawn in water, then it can swim in water.
+            if (matcher.water) entry.mobType |= MovementType.WATER.mask;
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Handling Spawns for " + entry);
         }
         entry.setSpawnData(spawnData);

@@ -8001,7 +8001,7 @@
             "values": {
               "typesBlacklist": "cold",
               "types": "spooky",
-              "rate": "0.2"
+              "rate": "0.02"
             }
           },
           {
@@ -8009,6 +8009,31 @@
               "key": "sinistea_nofake",
               "tex": "sinistea",
               "model": "sinistea_nofake",
+              "anim": "sinistea"
+            },
+            "values": {
+              "types": "village",
+              "rate": "0.01"
+            }
+          },
+          {
+            "model": {
+              "key": "sinistea_fake",
+              "tex": "sinistea",
+              "model": "sinistea_fake",
+              "anim": "sinistea"
+            },
+            "values": {
+              "typesBlacklist": "cold",
+              "types": "spooky",
+              "rate": "0.2"
+            }
+          },
+          {
+            "model": {
+              "key": "sinistea_fake",
+              "tex": "sinistea",
+              "model": "sinistea_fake",
               "anim": "sinistea"
             },
             "values": {

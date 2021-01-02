@@ -51,12 +51,14 @@ import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.events.BrainInitEvent;
+import pokecube.core.events.CustomInteractEvent;
 import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.combat.KillEvent;
 import pokecube.core.handlers.Config;
@@ -103,9 +105,6 @@ public class PokemobEventsHandler
         // pokemobs, and prevents drops for pokemobs which have been revived or
         // are tame
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, PokemobEventsHandler::onLivingDrops);
-        // Handles interactions on right clicking the pokemob, such as: item
-        // use, riding, opening gui, picking up, etc
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onInteractSpecific);
         // This is done twice as some events only send one rather than the other
         // from client side!
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onInteract);
@@ -173,32 +172,9 @@ public class PokemobEventsHandler
         }
     }
 
-    private static void onInteract(final PlayerInteractEvent.EntityInteract evt)
+    private static void onInteract(final CustomInteractEvent evt)
     {
-        final String ID = "LastSuccessInteractEvent";
-        final long time = evt.getEntity().getPersistentData().getLong(ID);
-        if (time == evt.getEntity().getEntityWorld().getGameTime())
-        {
-            evt.setCanceled(true);
-            return;
-        }
         PokemobEventsHandler.processInteract(evt, evt.getTarget());
-        if (evt.isCanceled()) evt.getEntity().getPersistentData().putLong(ID, evt.getEntity().getEntityWorld()
-                .getGameTime());
-    }
-
-    private static void onInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
-    {
-        final String ID = "LastSuccessInteractEvent";
-        final long time = evt.getEntity().getPersistentData().getLong(ID);
-        if (time == evt.getEntity().getEntityWorld().getGameTime())
-        {
-            evt.setCanceled(true);
-            return;
-        }
-        PokemobEventsHandler.processInteract(evt, evt.getTarget());
-        if (evt.isCanceled()) evt.getEntity().getPersistentData().putLong(ID, evt.getEntity().getEntityWorld()
-                .getGameTime());
     }
 
     private static void onLivingHurt(final LivingHurtEvent evt)
@@ -643,6 +619,8 @@ public class PokemobEventsHandler
                 .canFitPassenger(player);
         final boolean saddled = PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
 
+        final boolean guiAllowed = pokemob.getPokedexEntry().stock || held.getItem() == PokecubeItems.POKEDEX.get();
+
         final boolean saddleCheck = !player.isSneaking() && held.isEmpty() && fits && saddled;
 
         // Check if favourte berry and sneaking, if so, do breeding stuff.
@@ -718,7 +696,7 @@ public class PokemobEventsHandler
                 }
             }
             // Open Gui
-            if (!saddleCheck)
+            if (!saddleCheck && guiAllowed)
             {
                 PacketPokemobGui.sendOpenPacket(entity, player);
                 evt.setCanceled(true);

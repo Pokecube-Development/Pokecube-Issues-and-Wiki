@@ -132,7 +132,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     // Convert to colliding AABBs
                     BlockEntityUpdater.fill(aabbs, biggerBox, total);
                     // Push off the AABBS if needed
-                    aabbs.forEach(a -> System.out.println(a.intersects(biggerBox)));
                     final boolean col = BlockEntityUpdater.applyEntityCollision(this.evolution, biggerBox, aabbs,
                             Vector3d.ZERO);
 

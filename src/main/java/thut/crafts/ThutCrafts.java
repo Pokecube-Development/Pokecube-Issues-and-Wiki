@@ -1,7 +1,9 @@
 package thut.crafts;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -11,6 +13,9 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import thut.api.entity.blockentity.BlockEntityBase;
+import thut.api.entity.blockentity.block.TempBlock;
+import thut.api.entity.blockentity.block.TempTile;
 import thut.core.common.Proxy;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config;
@@ -64,6 +69,20 @@ public class ThutCrafts
             // register items
             event.getRegistry().register(ThutCrafts.CRAFTMAKER);
         }
+
+        @SubscribeEvent
+        public static void registerBlocks(final RegistryEvent.Register<Block> event)
+        {
+            // register blocks
+            event.getRegistry().register(ThutCrafts.CRAFTBLOCK);
+        }
+
+        @SubscribeEvent
+        public static void registerTileEntity(final RegistryEvent.Register<TileEntityType<?>> event)
+        {
+            // register tile entities
+            event.getRegistry().register(ThutCrafts.CRAFTTE);
+        }
     }
 
     public final static PacketHandler packets = new PacketHandler(new ResourceLocation(Reference.MODID, "comms"),
@@ -73,11 +92,20 @@ public class ThutCrafts
 
     public static Item CRAFTMAKER;
 
+    public static Block CRAFTBLOCK;
+
+    public static TileEntityType<TempTile> CRAFTTE;
+
     public static CraftsConfig conf = new CraftsConfig();
 
     public ThutCrafts()
     {
         ThutCrafts.CRAFTMAKER = new Item(new Item.Properties()).setRegistryName(Reference.MODID, "craftmaker");
+        ThutCrafts.CRAFTBLOCK = TempBlock.make().setRegistryName(Reference.MODID, "craft");
+        ThutCrafts.CRAFTTE = TileEntityType.Builder.create(TempTile::new, ThutCrafts.CRAFTBLOCK).build(null);
+        ThutCrafts.CRAFTTE.setRegistryName(Reference.MODID, "craft");
+        TempTile.TYPE = ThutCrafts.CRAFTTE;
+        BlockEntityBase.FAKEBLOCK = ThutCrafts.CRAFTBLOCK;
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the doClientStuff method for modloading

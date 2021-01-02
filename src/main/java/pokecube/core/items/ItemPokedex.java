@@ -60,10 +60,14 @@ public class ItemPokedex extends Item
     public ActionResultType itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
             final LivingEntity target, final Hand hand)
     {
+        interact:
         if (playerIn instanceof ServerPlayerEntity)
         {
             final Entity entityHit = target;
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
+            // Not a pokemob, or not a stock pokemob, only the watch will do
+            // anything on right click, pokedex is for accessing the mob.
+            if (pokemob == null || !pokemob.getPokedexEntry().stock && !this.watch) break interact;
             this.showGui(playerIn, pokemob);
             return ActionResultType.SUCCESS;
         }
