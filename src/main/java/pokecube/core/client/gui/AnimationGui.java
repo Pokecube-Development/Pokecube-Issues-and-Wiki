@@ -93,7 +93,10 @@ public class AnimationGui extends Screen
             final int realId = realMob.getEntity().getEntityId();
             if (id != realId)
             {
+                // This is how we track if we need to update the mob again
                 ret.getEntity().setEntityId(realId);
+                // Charm rendering cares about this, so sync that too
+                ret.getEntity().setUniqueId(realMob.getEntity().getUniqueID());
                 ret.read(realMob.write());
                 ret.onGenesChanged();
                 if (ret instanceof DefaultPokemob && realMob instanceof DefaultPokemob)
