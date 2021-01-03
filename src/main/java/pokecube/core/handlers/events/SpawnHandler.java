@@ -34,6 +34,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Difficulty;
@@ -495,6 +496,8 @@ public final class SpawnHandler
         final JEP toUse = SpawnHandler.getParser(type);
         final Function function = SpawnHandler.getFunction(type);
         final boolean r = function.radial;
+        // Central functions are centred on 0,0, not the world spawn
+        if(function.central) spawn.clear();
         if (!r) SpawnHandler.parseExpression(toUse, location.x - spawn.x, location.z - spawn.z, r);
         else
         {
@@ -504,7 +507,8 @@ public final class SpawnHandler
              */
             spawn.y = location.y;
             final double d = location.distTo(spawn);
-            SpawnHandler.parseExpression(toUse, d, location.y, r);
+            final double t = MathHelper.atan2(location.x, location.z);
+            SpawnHandler.parseExpression(toUse, d, t, r);
         }
         return (int) Math.abs(toUse.getValue());
     }
@@ -522,7 +526,11 @@ public final class SpawnHandler
             parser.addVariable("x", 0);
             parser.addVariable("y", 0);
         }
-        else parser.addVariable("r", 0);
+        else
+        {
+            parser.addVariable("r", 0);
+            parser.addVariable("t", 0);
+        }
         parser.parseExpression(toParse);
         return parser;
     }
@@ -534,7 +542,11 @@ public final class SpawnHandler
             parser.setVarValue("x", xValue);
             parser.setVarValue("y", yValue);
         }
-        else parser.setVarValue("r", xValue);
+        else
+        {
+            parser.setVarValue("r", xValue);
+            parser.setVarValue("t", yValue);
+        }
     }
 
     public static void refreshTerrain(final Vector3 location, final World world)
