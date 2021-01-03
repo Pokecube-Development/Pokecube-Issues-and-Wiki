@@ -94,7 +94,7 @@ public class FollowOwnerTask extends TaskBase
             this.pathing = true;
         }
         // Look at owner.
-        if (BrainUtil.canSee(this.entity.getBrain(), this.theOwner)) BrainUtil.lookAt(this.entity, this.theOwner);
+        if (BrainUtils.canSee(this.entity, this.theOwner)) BrainUtil.lookAt(this.entity, this.theOwner);
         else if (!this.petPathfinder.noPath() && this.petPathfinder.getPath().getCurrentPathIndex() < this.petPathfinder
                 .getPath().getCurrentPathLength() - 3)
         {
