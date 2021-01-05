@@ -300,13 +300,14 @@ public class TrainerSpawnHandler
         // Then apply trainer specific stuff.
         int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(npc), Database.missingno);
         if (thing.has("level")) level = thing.get("level").getAsInt();
+        String typeName = "";
         // This is somewhat deprecated in favour of the "type" tag for npcs, but
         // it will work here as well.
-        if (thing.has("trainerType"))
+        if (thing.has("trainerType")) typeName = thing.get("trainerType").getAsString();
+        else if (thing.has("trainerTypes"))
         {
-            final TypeTrainer type = TypeTrainer.typeMap.get(thing.get("trainerType").getAsString());
-            if (type != null) npc.pokemobsCap.setType(type);
-            else PokecubeCore.LOGGER.error("No trainer type registerd for {}", thing.get("trainerType").getAsString());
+            final String[] types = thing.get("trainerType").getAsString().split(";");
+            typeName = types[world.getRandom().nextInt(types.length)];
         }
         else
         {
@@ -315,9 +316,16 @@ public class TrainerSpawnHandler
             for (final TypeTrainer type : types)
             {
                 if (type.matchers.isEmpty()) continue;
-                npc.pokemobsCap.setType(type);
+                typeName = type.getName();
                 break;
             }
+        }
+        if(!typeName.isEmpty())
+        {
+
+            final TypeTrainer type = TypeTrainer.typeMap.get(typeName);
+            if (type != null) npc.pokemobsCap.setType(type);
+            else PokecubeCore.LOGGER.error("No trainer type registerd for {}", typeName);
         }
         npc.initTeam(level);
     }
