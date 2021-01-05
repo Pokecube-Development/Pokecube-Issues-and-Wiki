@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import com.google.gson.JsonSyntaxException;
+
 import net.minecraft.command.CommandException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.INPC;
@@ -207,9 +209,20 @@ public class TrainerEventHandler
 
     public static ItemStack fromString(final String arg, final Entity sender) throws CommandException
     {
-        final Drop drop = PokedexEntryLoader.gson.fromJson(arg, Drop.class);
-        return Tools.getStack(drop.getValues(), sender.getEntityWorld() instanceof ServerWorld ? (ServerWorld) sender
-                .getEntityWorld() : null);
+        Drop drop;
+        try
+        {
+            drop = PokedexEntryLoader.gson.fromJson(arg, Drop.class);
+            return Tools.getStack(drop.getValues(), sender.getEntityWorld() instanceof ServerWorld
+                    ? (ServerWorld) sender.getEntityWorld()
+                    : null);
+        }
+        catch (final JsonSyntaxException e)
+        {
+            PokecubeCore.LOGGER.error("Error loading drops from string {} for mob {}", arg, sender);
+            PokecubeCore.LOGGER.error(e);
+            return ItemStack.EMPTY;
+        }
     }
 
     public static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
