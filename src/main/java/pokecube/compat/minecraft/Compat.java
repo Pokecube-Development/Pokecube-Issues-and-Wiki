@@ -60,7 +60,7 @@ public class Compat
         Compat.DERP.stats[5] = 50;
         Compat.DERP.addMoves(Lists.newArrayList(), Maps.newHashMap());
         Compat.DERP.addMove("skyattack");
-        Compat.DERP.mobType = 15;
+        Compat.DERP.mobType = 1;
         Compat.DERP.stock = false;
     }
 

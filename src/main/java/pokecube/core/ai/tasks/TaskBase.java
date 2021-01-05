@@ -69,14 +69,14 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     public static class PlaySound implements IRunnable
     {
         final RegistryKey<World> dim;
-        final Vector3       loc;
-        final SoundEvent    sound;
-        final SoundCategory cat;
-        final float         volume;
-        final float         pitch;
+        final Vector3            loc;
+        final SoundEvent         sound;
+        final SoundCategory      cat;
+        final float              volume;
+        final float              pitch;
 
-        public PlaySound(final RegistryKey<World> registryKey, final Vector3 loc, final SoundEvent sound, final SoundCategory cat,
-                final float volume, final float pitch)
+        public PlaySound(final RegistryKey<World> registryKey, final Vector3 loc, final SoundEvent sound,
+                final SoundCategory cat, final float volume, final float pitch)
         {
             this.dim = registryKey;
             this.sound = sound;
@@ -98,6 +98,9 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
 
     public static boolean canMove(final IPokemob pokemob)
     {
+        // Don't allow motion if the mob is actually a passenger, this should
+        // help for say gengars riding dragons...
+        if (pokemob.getEntity().isPassenger()) return false;
         final boolean sitting = pokemob.getLogicState(LogicStates.SITTING);
         final boolean sleeping = pokemob.getLogicState(LogicStates.SLEEPING) || (pokemob.getStatus()
                 & IMoveConstants.STATUS_SLP) > 0;

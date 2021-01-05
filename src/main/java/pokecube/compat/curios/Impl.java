@@ -135,7 +135,7 @@ public class Impl
             final EnumWearable slot = CuriosChecker.identMap.get(identifier);
             final ItemStack to = event.getTo();
             final PlayerWearables wearables = ThutWearables.getWearables(mob);
-            if (wearables != null)
+            if (wearables != null && index < slot.slots)
             {
                 wearables.setWearable(slot, to, index);
                 ThutWearables.syncWearables(mob);

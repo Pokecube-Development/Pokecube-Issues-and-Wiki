@@ -183,7 +183,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             this.targetLoc.set(this.entity);
         }
 
-        final boolean canSee = BrainUtil.canSee(this.entity.getBrain(), this.entityTarget);
+        final boolean canSee = BrainUtils.canSee(this.entity, this.entityTarget);
 
         // If we have not set a move executing, we update target location. If we
         // have a move executing, we leave the old location to give the target

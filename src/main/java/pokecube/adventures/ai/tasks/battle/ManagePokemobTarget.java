@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.util.math.EntityPosWrapper;
 import net.minecraft.world.server.ServerWorld;
@@ -47,7 +46,7 @@ public class ManagePokemobTarget extends BaseBattleTask
         // check if pokemob's target is same as trainers.
         if (mobTarget != newTarget && newTarget != null)
         {
-            final boolean canSee = BrainUtil.canSee(mob.getEntity().getBrain(), newTarget);
+            final boolean canSee = BrainUtils.canSee(mob.getEntity(), newTarget);
             if (canSee) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
             else
             {

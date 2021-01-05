@@ -77,6 +77,12 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     }
 
     public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
+            final float yaw, final float headPitch, final float headYaw, final float scale)
+    {
+        GuiPokemobBase.renderMob(new MatrixStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale);
+    }
+
+    public static void renderMob(final MatrixStack mat, final LivingEntity entity, final int dx, final int dy, final float pitch,
             final float yaw, final float headPitch, final float headYaw, float scale)
     {
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
@@ -98,8 +104,13 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
                 if (value != null) mobScale = value * 2.0f;
                 else
                 {
-                    final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-                    mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+                    final boolean stock = pokemob.getPokedexEntry().stock;
+                    if (stock)
+                    {
+                        final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+                        mobScale = Math.max(dims.z, Math.max(dims.y, dims.x));
+                    }
+                    else mobScale = Math.max(renderMob.getHeight(), renderMob.getWidth());
                 }
             }
             else
@@ -111,17 +122,14 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
             if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
             else scale /= mobScale;
         }
-        final MatrixStack matrixstack = new MatrixStack();
-        matrixstack.translate(j + 55, k + 60, 50.0F);
-        matrixstack.scale(1.0F, 1.0F, 1.0F);
-        matrixstack.push();
-
-        matrixstack.scale(scale, scale, scale);
+        mat.push();
+        mat.translate(j + 55, k + 60, 50.0F);
+        mat.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
         final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(yaw);
         quaternion.multiply(quaternion1);
         quaternion.multiply(Vector3f.XP.rotationDegrees(pitch));
-        matrixstack.rotate(quaternion);
+        mat.rotate(quaternion);
         final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
         quaternion1.conjugate();
         entityrenderermanager.setCameraOrientation(quaternion1);
@@ -129,12 +137,12 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
                 .getBufferSource();
         RenderMobOverlays.enabled = false;
-        entityrenderermanager.renderEntityStatic(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixstack,
+        entityrenderermanager.renderEntityStatic(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mat,
                 irendertypebuffer$impl, 15728880);
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.finish();
         entityrenderermanager.setRenderShadow(true);
-        matrixstack.pop();
+        mat.pop();
     }
 
     public static void setPokemob(final IPokemob pokemobIn)
@@ -182,7 +190,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         this.blit(mat, k, l, 0, 0, this.xSize, this.ySize);
         if (this.container.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.ySize, 90, 18);
         this.blit(mat, k + 7, l + 35, 0, this.ySize + 54, 18, 18);
-        if (this.container.pokemob != null) GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0,
+        if (this.container.pokemob != null) GuiPokemobBase.renderMob(mat, this.container.pokemob.getEntity(), k, l, 0, 0, 0,
                 0, 1);
     }
 

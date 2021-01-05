@@ -12,6 +12,7 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
@@ -32,6 +33,14 @@ import thut.api.maths.Vector3;
 
 public class BrainUtils
 {
+    public static boolean canSee(final LivingEntity mobIn, final LivingEntity target)
+    {
+        final boolean brainMemory = mobIn.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS);
+        boolean canSee = brainMemory && BrainUtil.canSee(mobIn.getBrain(), target);
+        if (!brainMemory) canSee = mobIn.canEntityBeSeen(target);
+        return canSee;
+    }
+
     public static LivingEntity getAttackTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();

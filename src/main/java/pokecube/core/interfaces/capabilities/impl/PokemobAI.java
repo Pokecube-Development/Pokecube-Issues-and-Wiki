@@ -14,6 +14,7 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNodeType;
@@ -77,6 +78,8 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getGeneralState(final GeneralStates state)
     {
+        // Read tamed status based on if we have an owner, rather than flag in
+        // the bitmask.
         if (state == GeneralStates.TAMED) return this.getOwnerId() != null;
         if (this.getEntity().getEntityWorld().isRemote) this.cachedGeneralState = this.dataSync().get(
                 this.params.GENERALSTATESDW);
@@ -181,6 +184,7 @@ public abstract class PokemobAI extends PokemobEvolves
     public void setCombatState(final CombatStates state, final boolean flag)
     {
         final int byte0 = this.dataSync().get(this.params.COMBATSTATESDW);
+        if (flag == ((byte0 & state.getMask()) != 0)) return;
         final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
         this.setTotalCombatState(newState);
     }
@@ -195,6 +199,7 @@ public abstract class PokemobAI extends PokemobEvolves
     public void setGeneralState(final GeneralStates state, final boolean flag)
     {
         final int byte0 = this.dataSync().get(this.params.GENERALSTATESDW);
+        if (flag == ((byte0 & state.getMask()) != 0)) return;
         final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
         this.setTotalGeneralState(newState);
     }
@@ -203,6 +208,7 @@ public abstract class PokemobAI extends PokemobEvolves
     public void setLogicState(final LogicStates state, final boolean flag)
     {
         final int byte0 = this.dataSync().get(this.params.LOGICSTATESDW);
+        if (flag == ((byte0 & state.getMask()) != 0)) return;
         final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
         this.setTotalLogicState(newState);
     }
@@ -245,6 +251,9 @@ public abstract class PokemobAI extends PokemobEvolves
     {
         this.cachedLogicState = state;
         this.dataSync().set(this.params.LOGICSTATESDW, state);
+        // Sync sitting status over to the TameableEntity
+        if (this.getEntity() instanceof TameableEntity) ((TameableEntity) this.getEntity()).func_233687_w_(
+                (this.cachedLogicState & LogicStates.SITTING.getMask()) != 0);
     }
 
     @Override

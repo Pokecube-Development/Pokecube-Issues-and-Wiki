@@ -11,7 +11,6 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -255,7 +254,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (this.targetId != null)
         {
             final Entity mob = this.world.getEntityByUuid(this.targetId);
-            if (!(mob instanceof LivingEntity) && !BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob) && !this
+            if (!(mob instanceof LivingEntity) && !BrainUtils.canSee(this.entity, (LivingEntity) mob) && !this
                     .initiateBattle((LivingEntity) mob)) this.clear();
 
             // Reset target ID here, so we don't keep looking for it.
@@ -271,7 +270,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             // This will ensure that the target isn't on our team
             if (!this.validGuardTarget.test(target)) return;
 
-            if (BrainUtil.canSee(this.entity.getBrain(), target))
+            if (BrainUtils.canSee(this.entity, target))
             {
                 this.initiateBattle(target);
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Target who hit us.");

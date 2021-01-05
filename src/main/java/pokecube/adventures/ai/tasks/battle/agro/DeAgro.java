@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.Config;
@@ -13,6 +12,7 @@ import pokecube.adventures.ai.tasks.battle.BaseBattleTask;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -45,7 +45,7 @@ public class DeAgro extends BaseBattleTask
                 deagro = true;
         }
 
-        if (!deagro && !BrainUtil.canSee(this.entity.getBrain(), this.target))
+        if (!deagro && !BrainUtils.canSee(this.entity, this.target))
         {
             final boolean timeout = this.noSeeTicks++ > Config.instance.trainerDeAgressTicks;
             if (timeout) deagro = true;

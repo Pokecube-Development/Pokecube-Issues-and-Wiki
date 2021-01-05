@@ -1,8 +1,12 @@
 package thut.core.common.network;
 
 import java.lang.reflect.Method;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
@@ -20,6 +24,8 @@ public class EntityUpdate extends NBTPacket
 {
 
     public static final ResourceLocation NOREAD = new ResourceLocation(ThutCore.MODID, "additional_only_server");
+
+    private static Set<EntityType<?>> errorSet = Sets.newHashSet();
 
     public static Method GETMOBCAPS;
 
@@ -57,7 +63,8 @@ public class EntityUpdate extends NBTPacket
 
     public static void readMob(final Entity mob, final CompoundNBT tag)
     {
-        if (mob.getEntityWorld() instanceof ServerWorld || !ItemList.is(EntityUpdate.NOREAD, mob)) try
+        if ((mob.getEntityWorld() instanceof ServerWorld || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
+                .contains(mob.getType())) try
         {
             mob.read(tag);
             mob.recalculateSize();
@@ -68,6 +75,7 @@ public class EntityUpdate extends NBTPacket
             // If we got to here then it means the above mob needs to be added
             // to the tag!
             ThutCore.LOGGER.error("Error loading " + mob.getType().getRegistryName() + " on client side!");
+            EntityUpdate.errorSet.add(mob.getType());
         }
 
         // First get the name

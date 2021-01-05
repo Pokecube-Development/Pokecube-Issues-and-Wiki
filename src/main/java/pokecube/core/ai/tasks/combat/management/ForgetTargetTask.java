@@ -12,7 +12,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.Util;
@@ -243,7 +242,7 @@ public class ForgetTargetTask extends CombatTask
                 }
             }
 
-            if (BrainUtil.canSee(this.entity.getBrain(), this.entityTarget)) this.ticksSinceSeen = 0;
+            if (BrainUtils.canSee(this.entity, this.entityTarget)) this.ticksSinceSeen = 0;
 
             // If it has been too long since last seen the target, give up.
             if (this.ticksSinceSeen++ > 100)

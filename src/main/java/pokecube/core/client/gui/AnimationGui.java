@@ -31,7 +31,6 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -60,7 +59,6 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.GeneRegistry;
-import thut.api.item.ItemList;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -69,8 +67,6 @@ public class AnimationGui extends Screen
 {
 
     private static Map<PokedexEntry, IPokemob> renderMobs = Maps.newHashMap();
-
-    private static Set<EntityType<?>> errorSet = Sets.newHashSet();
 
     private static Object2FloatOpenHashMap<PokedexEntry> sizes = new Object2FloatOpenHashMap<>();
 
@@ -97,7 +93,10 @@ public class AnimationGui extends Screen
             final int realId = realMob.getEntity().getEntityId();
             if (id != realId)
             {
+                // This is how we track if we need to update the mob again
                 ret.getEntity().setEntityId(realId);
+                // Charm rendering cares about this, so sync that too
+                ret.getEntity().setUniqueId(realMob.getEntity().getUniqueID());
                 ret.read(realMob.write());
                 ret.onGenesChanged();
                 if (ret instanceof DefaultPokemob && realMob instanceof DefaultPokemob)
@@ -108,21 +107,19 @@ public class AnimationGui extends Screen
                             from.genes, null);
                     GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
                 }
-                if (!realMob.getPokedexEntry().stock && !AnimationGui.errorSet.contains(realMob.getPokedexEntry()
-                        .getEntityType()) && !ItemList.is(EntityUpdate.NOREAD, realMob.getEntity()))
+                if (!realMob.getPokedexEntry().stock)
                 {
                     final CompoundNBT tag = new CompoundNBT();
                     try
                     {
-                        realMob.getEntity().writeAdditional(tag);
-                        ret.getEntity().readAdditional(tag);
+                        realMob.getEntity().writeWithoutTypeId(tag);
+                        EntityUpdate.readMob(ret.getEntity(), tag);
                     }
                     catch (final Exception e)
                     {
-                        PokecubeCore.LOGGER.error("Error with ReadAdditional for " + realMob.getEntity().getType()
+                        PokecubeCore.LOGGER.error("Error with syncing tag for " + realMob.getEntity().getType()
                                 .getRegistryName());
                         e.printStackTrace();
-                        AnimationGui.errorSet.add(realMob.getPokedexEntry().getEntityType());
                     }
                 }
 
