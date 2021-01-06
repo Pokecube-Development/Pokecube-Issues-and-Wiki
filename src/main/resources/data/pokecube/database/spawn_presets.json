@@ -1,0 +1,19 @@
+{
+  "presets":[
+    {
+      "preset_name": "day_post",
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "spawn_professor",
+      "name":"pokecube.professor.named:Cedar",
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    }
+  ]
+}

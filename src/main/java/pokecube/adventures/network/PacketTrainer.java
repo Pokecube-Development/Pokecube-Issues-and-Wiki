@@ -27,10 +27,11 @@ import pokecube.adventures.capabilities.CapabilityHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
-import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.PokedexEntryLoader;
@@ -241,6 +242,8 @@ public class PacketTrainer extends NBTPacket
                 info.time = "allday";
                 info.roam = 0;
                 thing.add("guard", PokedexEntryLoader.gson.toJsonTree(info));
+                final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(mob);
+                if (aiStates != null) aiStates.setAIState(AIState.STATIONARY, true);
             }
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
@@ -282,6 +285,7 @@ public class PacketTrainer extends NBTPacket
                     @SuppressWarnings("unchecked")
                     final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) aiStates;
                     ser.deserializeNBT(this.getTag().get("__ai__"));
+                    mob.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
                     player.sendStatusMessage(new StringTextComponent("Updated AI Setting"), true);
                 }
                 catch (final Exception e)

@@ -1,0 +1,14 @@
+{
+  "presets":[
+    {
+      "preset_name": "giovanni",
+      "trainerType":"giovanni",
+      "level":70,
+      "customTrades":"giovanni",
+      "guard":{
+        "time":"day",
+        "roam":2
+      }
+    }
+  ]
+}
