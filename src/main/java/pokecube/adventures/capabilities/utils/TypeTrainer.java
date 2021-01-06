@@ -266,10 +266,11 @@ public class TypeTrainer extends NpcType
         }
     }
 
-    public static HashMap<String, TrainerTrades> tradesMap   = Maps.newHashMap();
-    public static HashMap<String, TypeTrainer>   typeMap     = new HashMap<>();
-    public static ArrayList<String>              maleNames   = new ArrayList<>();
-    public static ArrayList<String>              femaleNames = new ArrayList<>();
+    public static HashMap<String, TrainerTrades> tradesMap = Maps.newHashMap();
+    public static HashMap<String, TypeTrainer>   typeMap   = new HashMap<>();
+
+    public static ArrayList<String> maleNames   = new ArrayList<>();
+    public static ArrayList<String> femaleNames = new ArrayList<>();
 
     public static TypeTrainer merchant = new TypeTrainer("merchant");
     static

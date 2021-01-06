@@ -2,8 +2,10 @@ package pokecube.core.entity.npc;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
@@ -104,6 +106,8 @@ public class NpcType
     // This is nitwit, as if it is none, the villagerentity super class
     // completely prevents trades
     private VillagerProfession profession = VillagerProfession.NITWIT;
+
+    public Set<ResourceLocation> tags = Sets.newHashSet();
 
     private IInteract interaction = (p, h, mob) -> false;
 

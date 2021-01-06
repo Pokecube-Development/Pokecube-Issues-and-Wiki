@@ -60,6 +60,8 @@ import pokecube.core.database.resources.PackListener;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
+import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.interfaces.IPokemob;
@@ -846,6 +848,17 @@ public class Database
                 - dummies) + " missing Formes");
 
         toRemove.clear();
+
+        // Handle loading worldgen spawn presets
+        for (final ResourceLocation s : WorldgenHandler.spawnPresets)
+            try
+            {
+                StructureSpawnPresetLoader.loadDatabase(s);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error loading presets from " + s, e);
+            }
     }
 
     public static void onResourcesReloaded()

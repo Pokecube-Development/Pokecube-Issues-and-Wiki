@@ -13,8 +13,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ClassInheritanceMultiMap;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
@@ -67,9 +65,12 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
     }
 
     private IItemHandlerModifiable itemstore;
-    private Chunk                  chunk = null;
 
-    float power = 0;
+    private Chunk chunk = null;
+
+    public float power = 0;
+
+    public int redstonePower = 0;
 
     public DaycareTile()
     {
@@ -106,11 +107,18 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
         if (!(this.getWorld() instanceof ServerWorld)) return;
         if (this.getWorld().getGameTime() % PokecubeAdv.config.dayCareTickRate != 0) return;
         this.checkPower(1);
-        if (this.power == 0) return;
+        if (this.power == 0)
+        {
+            if (this.redstonePower != 0)
+            {
+                this.redstonePower = 0;
+                this.getWorld().notifyNeighborsOfStateChange(this.getPos(), this.getBlockState().getBlock());
+            }
+            return;
+        }
         if (this.chunk == null) this.chunk = this.getWorld().getChunkAt(this.getPos());
         final ClassInheritanceMultiMap<Entity> mobs = this.chunk.getEntityLists()[this.getPos().getY() >> 4];
         final List<Entity> list = Lists.newArrayList(mobs);
-        boolean applied = false;
 
         for (final Entity mob : list)
         {
@@ -136,16 +144,19 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
             this.checkPower(needed);
             if (this.power < needed)
             {
-                mob.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 1.0F, 1.0F);
-                return;
+                this.power = 0;
+                break;
             }
-            applied = true;
             this.power -= needed;
             if (gainExp) pokemob.setExp(pokemob.getExp() + exp_out, true);
             if (PokecubeAdv.config.dayCareBreedSpeedup) pokemob.tickBreedDelay(PokecubeAdv.config.dayCareBreedAmount);
         }
-        if (applied) this.getWorld().playSound(null, this.getPos(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP,
-                SoundCategory.BLOCKS, 0.25f, 1);
+        final int power = this.power == 0 ? 0 : 15;
+        if (power != this.redstonePower)
+        {
+            this.redstonePower = power;
+            this.getWorld().notifyNeighborsOfStateChange(this.getPos(), this.getBlockState().getBlock());
+        }
     }
 
     @Override

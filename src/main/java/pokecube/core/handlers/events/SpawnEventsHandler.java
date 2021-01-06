@@ -29,6 +29,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
@@ -156,6 +157,11 @@ public class SpawnEventsHandler
                 {
                     final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
                     thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
+                    // Check if we specify a preset instead, and if that exists,
+                    // use that.
+                    if (thing.has("preset") && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset")
+                            .getAsString())) thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset")
+                                    .getAsString());
                 }
                 catch (final JsonSyntaxException e)
                 {
@@ -221,7 +227,12 @@ public class SpawnEventsHandler
         public int    roam = 0;
     }
 
-    public static void applyFunction(final NpcMob npc, final JsonObject thing)
+    public static interface INpcProcessor
+    {
+        void process(final NpcMob npc, final JsonObject thing);
+    }
+
+    public static List<INpcProcessor> processors = Lists.newArrayList((npc, thing) ->
     {
         if (thing.has("name")) npc.name = thing.get("name").getAsString();
         if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
@@ -256,6 +267,11 @@ public class SpawnEventsHandler
             guard.getPrimaryTask().setRoamDistance(info.roam);
             guard.getPrimaryTask().setActiveTime(duration);
         }
+    });
+
+    public static void applyFunction(final NpcMob npc, final JsonObject thing)
+    {
+        SpawnEventsHandler.processors.forEach(i -> i.process(npc, thing));
     }
 
 }

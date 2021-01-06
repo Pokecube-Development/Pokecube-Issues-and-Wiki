@@ -20,12 +20,12 @@ public class DBLoader
     public static List<ResourceLocation> trainerDatabases = Lists.newArrayList(new ResourceLocation(PokecubeAdv.MODID,
             "database/types.json"));
     public static List<ResourceLocation> tradeDatabases   = Lists.newArrayList();
-    public static ResourceLocation       NAMESLOC         = new ResourceLocation(PokecubeAdv.MODID,
-            "database/names.csv");
+
+    public static ResourceLocation NAMESLOC = new ResourceLocation(PokecubeAdv.MODID, "database/names.csv");
 
     public static boolean loaded = false;
 
-    protected static ArrayList<ArrayList<String>> getRows(final ResourceLocation location) throws IOException
+    private static ArrayList<ArrayList<String>> getRows(final ResourceLocation location) throws IOException
     {
         final InputStream res = Database.resourceManager.getResource(location).getInputStream();
 

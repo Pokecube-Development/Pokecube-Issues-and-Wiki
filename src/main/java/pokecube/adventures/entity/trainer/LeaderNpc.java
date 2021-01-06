@@ -34,8 +34,7 @@ public class LeaderNpc extends TrainerNpc
         // Stuff below here is not null for real worlds, null for fake ones, so
         // lets return here if null.
         if (this.aiStates == null) return;
-        this.aiStates.setAIState(AIState.STATIONARY, true);
-        this.aiStates.setAIState(AIState.TRADES, false);
+        this.aiStates.setAIState(AIState.TRADES_MOBS, false);
         this.pokemobsCap.resetTimeLose = 0;
     }
 

@@ -60,10 +60,6 @@ public abstract class TrainerBase extends NpcMob
         this.messages = this.getCapability(TrainerCaps.MESSAGES_CAP).orElse(null);
         this.aiStates = this.getCapability(TrainerCaps.AISTATES_CAP).orElse(null);
         this.trades = this.getCapability(TrainerCaps.TRADES_CAP).orElse(null);
-
-        // This can be null depending on initialization order/status
-        if (this.aiStates != null) this.aiStates.setAIState(AIState.TRADES, PokecubeAdv.config.trainersTradeItems
-                || PokecubeAdv.config.trainersTradeMobs);
     }
 
     protected boolean canTrade(final PlayerEntity player)
@@ -71,7 +67,9 @@ public abstract class TrainerBase extends NpcMob
         final boolean friend = this.pokemobsCap.friendlyCooldown >= 0;
         final boolean pity = this.pokemobsCap.defeated(player);
         final boolean lost = this.pokemobsCap.defeatedBy(player);
-        return this.aiStates.getAIState(AIState.TRADES) && (friend || pity || lost);
+        final boolean trades = this.aiStates.getAIState(AIState.TRADES_ITEMS) || this.aiStates.getAIState(
+                AIState.TRADES_MOBS);
+        return trades && (friend || pity || lost);
     }
 
     @Override
@@ -117,8 +115,10 @@ public abstract class TrainerBase extends NpcMob
                 this.resetTrades();
                 // This re-fills the default trades
                 this.getOffers();
+                // If we don't trade items, clear the offers
+                if (!this.aiStates.getAIState(AIState.TRADES_ITEMS)) this.getOffers().clear();
                 // This adds in pokemobs to trade.
-                this.addMobTrades(player, stack);
+                if (this.aiStates.getAIState(AIState.TRADES_MOBS)) this.addMobTrades(player, stack);
             }
             if (!this.getOffers().isEmpty()) this.openMerchantContainer(player, this.getDisplayName(), 0);
             else this.setCustomer(null);

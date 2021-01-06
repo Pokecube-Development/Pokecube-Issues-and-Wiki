@@ -136,7 +136,7 @@ public class AI extends Page
                 b.setFGColor(flag ? 0x00FF00 : 0xFF0000);
                 this.onChanged();
             };
-            final Button press = new Button(x - 123, y - 10 + index * 12, 100, 12, new StringTextComponent(state
+            final Button press = new Button(x - 123, y - 30 + index * 12, 100, 12, new StringTextComponent(state
                     .name()), action);
             press.setFGColor(this.parent.aiStates.getAIState(state) ? 0x00FF00 : 0xFF0000);
             this.addButton(press);

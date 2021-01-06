@@ -255,6 +255,10 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, comment = "If true, players can dive with valid pokemobs")
     public boolean diveEnabled = true;
 
+
+    @Configure(category = Config.mobAI, comment = "If true, pokemobs will slowly heal while out of combat")
+    public boolean outOfCombatHealing = true;
+
     @Configure(category = Config.mobAI, comment = "A random sound from here is played when a pokemob dodges in combat")
     public List<String> dodgeSounds        = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI, comment = "A random sound from here is played when a pokemob leaps in combat")
@@ -370,7 +374,7 @@ public class Config extends ConfigData
     @Configure(category = Config.world, comment = "Extra json files to check in pokecube:structures/ in data for worldgen rules, do not include .json or path in the name in this list!")
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor")
-    public String       professor_override     = "pokecube:mob:professor{\"name\":\"pokecube.professor.named:Cedar\",\"guard\":{\"time\":\"day\",\"roam\":0}}";
+    public String       professor_override     = "pokecube:mob:professor{\"preset\":\"spawn_professor\"}";
 
     // Mob Spawning settings
     @Configure(category = Config.spawning, comment = "if true, vanilla monsters will not spawn via normal spawning, this does not prevent mob spawners or special spawns")

@@ -40,10 +40,12 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
+import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
@@ -52,6 +54,7 @@ import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.handlers.events.EventsHandler;
@@ -63,9 +66,72 @@ import thut.api.terrain.TerrainManager;
 
 public class TrainerSpawnHandler
 {
-    private static Vector3 vec1   = Vector3.getNewVector();
-    static Vector3         v      = Vector3.getNewVector(), v1 = Vector3.getNewVector(), v2 = Vector3.getNewVector();
-    static JEP             parser = new JEP();
+    private static Vector3 vec1 = Vector3.getNewVector();
+
+    static JEP parser = new JEP();
+
+    static
+    {
+        SpawnEventsHandler.processors.add((npc, thing) ->
+        {
+            final World world = npc.getEntityWorld();
+            // Then apply trainer specific stuff.
+            int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(npc), Database.missingno);
+            if (thing.has("level")) level = thing.get("level").getAsInt();
+            String typeName = "";
+            if (thing.has("aiStates"))
+            {
+                final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(npc);
+                if (aiStates != null)
+                {
+                    aiStates.setTotalState(thing.get("aiStates").getAsInt());
+                    npc.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
+                }
+            }
+            // This is somewhat deprecated in favour of the "type" tag for npcs,
+            // but
+            // it will work here as well.
+            if (thing.has("trainerType")) typeName = thing.get("trainerType").getAsString();
+            else if (thing.has("trainerTypes"))
+            {
+                final String[] types = thing.get("trainerType").getAsString().split(";");
+                typeName = types[world.getRandom().nextInt(types.length)];
+            }
+            else if (thing.has("trainerTag"))
+            {
+                final ResourceLocation tag = new ResourceLocation(thing.get("trainerTag").getAsString());
+                final List<TypeTrainer> types = Lists.newArrayList();
+                TypeTrainer.typeMap.values().forEach(t ->
+                {
+                    if (t.tags.contains(tag)) types.add(t);
+                });
+                if (!types.isEmpty())
+                {
+                    Collections.shuffle(types);
+                    typeName = types.get(0).getName();
+                }
+            }
+            if (typeName.isEmpty())
+            {
+                final List<TypeTrainer> types = Lists.newArrayList(TypeTrainer.typeMap.values());
+                Collections.shuffle(types);
+                for (final TypeTrainer type : types)
+                {
+                    if (type.matchers.isEmpty()) continue;
+                    typeName = type.getName();
+                    break;
+                }
+            }
+            if (!typeName.isEmpty())
+            {
+
+                final TypeTrainer type = TypeTrainer.typeMap.get(typeName);
+                if (type != null) npc.setNpcType(type);
+                else PokecubeCore.LOGGER.error("No trainer type registerd for {}", typeName);
+            }
+            if (npc instanceof TrainerBase) ((TrainerBase) npc).initTeam(level);
+        });
+    }
 
     /** Given a player, find a random position near it. */
     public static Vector3 getRandomSpawningPointNearEntity(final World world, final Entity player, final int maxRange)
@@ -134,7 +200,7 @@ public class TrainerSpawnHandler
         final int level = SpawnHandler.getSpawnLevel(w, v, Database.getEntry(1));
         final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w).setType(ttype).setLevel(level);
         trainer.aiStates.setAIState(AIState.MATES, true);
-        trainer.aiStates.setAIState(AIState.TRADES, true);
+        trainer.aiStates.setAIState(AIState.TRADES_ITEMS, true);
         return trainer;
     }
 
@@ -226,7 +292,6 @@ public class TrainerSpawnHandler
             }
             else t.remove();
         }
-
     }
 
     @SubscribeEvent
@@ -269,6 +334,9 @@ public class TrainerSpawnHandler
             {
                 final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
                 thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
+                // Check if we specify a preset instead, and if that exists, use that.
+                if (thing.has("preset") && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset")
+                        .getAsString())) thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset").getAsString());
             }
             catch (final Exception e)
             {
@@ -283,50 +351,11 @@ public class TrainerSpawnHandler
                 EventsHandler.Schedule(event.worldActual, w ->
                 {
                     w.getChunk(mob.getPosition());
-                    TrainerSpawnHandler.applyFunction(event.worldActual, mob, apply, leader);
+                    SpawnEventsHandler.applyFunction(mob, apply);
                     w.addEntity(mob);
                     return true;
                 });
             }
         }
-    }
-
-    private static void applyFunction(final World world, final TrainerNpc npc, final JsonObject thing,
-            final boolean leader)
-    {
-        // Apply and settings common to pokecube core.
-        SpawnEventsHandler.applyFunction(npc, thing);
-
-        // Then apply trainer specific stuff.
-        int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(npc), Database.missingno);
-        if (thing.has("level")) level = thing.get("level").getAsInt();
-        String typeName = "";
-        // This is somewhat deprecated in favour of the "type" tag for npcs, but
-        // it will work here as well.
-        if (thing.has("trainerType")) typeName = thing.get("trainerType").getAsString();
-        else if (thing.has("trainerTypes"))
-        {
-            final String[] types = thing.get("trainerType").getAsString().split(";");
-            typeName = types[world.getRandom().nextInt(types.length)];
-        }
-        else
-        {
-            final List<TypeTrainer> types = Lists.newArrayList(TypeTrainer.typeMap.values());
-            Collections.shuffle(types);
-            for (final TypeTrainer type : types)
-            {
-                if (type.matchers.isEmpty()) continue;
-                typeName = type.getName();
-                break;
-            }
-        }
-        if(!typeName.isEmpty())
-        {
-
-            final TypeTrainer type = TypeTrainer.typeMap.get(typeName);
-            if (type != null) npc.pokemobsCap.setType(type);
-            else PokecubeCore.LOGGER.error("No trainer type registerd for {}", typeName);
-        }
-        npc.initTeam(level);
     }
 }

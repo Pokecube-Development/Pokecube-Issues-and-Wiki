@@ -32,15 +32,17 @@ public class TrainerEntryLoader
 
     public static class TrainerEntry
     {
-        String          tradeTemplate = "default";
-        String          type;
-        String          pokemon;
-        List<SpawnRule> spawns        = Lists.newArrayList();
-        String          gender;
-        Bag             bag;
-        boolean         belt          = true;
-        Held            held;
-        Held            reward;
+        String  tradeTemplate = "default";
+        String  type;
+        String  pokemon;
+        String  gender;
+        Bag     bag;
+        boolean belt          = true;
+        Held    held;
+        Held    reward;
+
+        List<SpawnRule> spawns = Lists.newArrayList();
+        List<String>    tags   = Lists.newArrayList();
 
         @Override
         public String toString()
@@ -106,20 +108,21 @@ public class TrainerEntryLoader
         {
             final String name = entry.type;
             PokecubeCore.LOGGER.debug("Loaded Type: " + name);
-            TypeTrainer type = TypeTrainer.typeMap.get(name);
-            if (type == null) type = new TypeTrainer(name);
+            final TypeTrainer type = TypeTrainer.typeMap.containsKey(name) ? TypeTrainer.typeMap.get(name)
+                    : new TypeTrainer(name);
             type.matchers.clear();
             type.pokemon.clear();
             final byte male = 1;
             final byte female = 2;
             type.tradeTemplate = entry.tradeTemplate;
             type.hasBag = entry.bag != null;
+            if (entry.tags != null) entry.tags.forEach(s -> type.tags.add(new ResourceLocation(s)));
             if (type.hasBag)
             {
                 final ItemStack bag = Tools.getStack(entry.bag.getValues());
                 type.bag = bag;
             }
-            if (entry.spawns != null) for (final SpawnRule rule : entry.spawns)
+            if (entry.spawns != null) entry.spawns.forEach(rule ->
             {
                 Float weight;
                 try
@@ -130,12 +133,11 @@ public class TrainerEntryLoader
                 {
                     PokecubeCore.LOGGER.warn("Error with weight for " + type.getName() + " " + rule.values + " "
                             + entry.spawns, e);
-                    continue;
+                    return;
                 }
                 final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(rule);
                 type.matchers.put(matcher, weight);
-            }
-
+            });
             type.hasBelt = entry.belt;
             if (entry.gender != null) type.genders = entry.gender.equalsIgnoreCase("male") ? male
                     : entry.gender.equalsIgnoreCase("female") ? female : male + female;

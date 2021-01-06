@@ -126,6 +126,8 @@ public class PokecubeLegends
         DBLoader.trainerDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trainers.json"));
         DBLoader.tradeDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trades.json"));
 
+        WorldgenHandler.spawnPresets.add(new ResourceLocation(Reference.ID, "database/trainer/spawn_presets.json"));
+
         modEventBus.addListener(this::loadComplete);
 
         new WorldgenHandler(Reference.ID, modEventBus);
