@@ -2,6 +2,8 @@ package thut.api.entity.blockentity.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -86,15 +88,28 @@ public class TempTile extends TileEntity implements ITickableTileEntity
         final Vector3 v = Vector3.getNewVector().set(this.pos);
         final AxisAlignedBB box = v.getAABB().expand(1, 1, 1);
         final Vector3d ev = entityIn.getMotion();
+
+        boolean serverSide = entityIn.getEntityWorld().isRemote;
+        final boolean isPlayer = entityIn instanceof PlayerEntity;
+        if (isPlayer) serverSide = entityIn instanceof ServerPlayerEntity;
+
         if (shapeHere.withOffset(this.pos.getX(), this.pos.getY(), this.pos.getZ()).getBoundingBox().intersects(box))
         {
             final Vector3d bv = this.blockEntity.getMotion();
             final Vector3d dr = new Vector3d(0, top - entityIn.getPosY(), 0);
-            entityIn.setPosition(dr.x, dr.y, dr.z);
+            entityIn.setPosition(entityIn.getPosX() + dr.x, entityIn.getPosY() + dr.y, entityIn.getPosZ() + dr.z);
             final double vx = ev.x;
             final double vy = bv.y;
             final double vz = ev.z;
             entityIn.setMotion(vx, vy, vz);
+
+            if (isPlayer && serverSide)
+            {
+                final ServerPlayerEntity serverplayer = (ServerPlayerEntity) entityIn;
+                // Meed to set floatingTickCount to prevent being kicked
+                serverplayer.connection.vehicleFloatingTickCount = 0;
+                serverplayer.connection.floatingTickCount = 0;
+            }
             return;
         }
     }
