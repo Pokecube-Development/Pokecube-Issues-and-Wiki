@@ -63,7 +63,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     @Override
     protected void addMobTrades(final PlayerEntity player, final ItemStack stack)
     {
-        if (this.getCustomer() != null && PokecubeAdv.config.trainersTradeMobs) this.addMobTrades(stack);
+        if (this.getCustomer() != null) this.addMobTrades(stack);
     }
 
     protected void addMobTrades(final ItemStack buy1)
@@ -143,7 +143,6 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     public void readAdditional(final CompoundNBT nbt)
     {
         super.readAdditional(nbt);
-        if (nbt.contains("trades")) this.aiStates.setAIState(AIState.TRADES, nbt.getBoolean("trades"));
         this.fixedMobs = nbt.getBoolean("fixedMobs");
         this.setTypes();
     }

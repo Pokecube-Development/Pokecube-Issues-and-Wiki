@@ -7,6 +7,7 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import pokecube.adventures.PokecubeAdv;
 
 public class CapabilityNPCAIStates
 {
@@ -19,6 +20,7 @@ public class CapabilityNPCAIStates
 
         public DefaultAIStates()
         {
+            for(final AIState state: AIState.values()) this.setAIState(state, state._default);
         }
 
         @Override
@@ -30,6 +32,11 @@ public class CapabilityNPCAIStates
         @Override
         public boolean getAIState(final AIState state)
         {
+            // These two have config overrides, which ignore the actual ai
+            // states.
+            if (state == AIState.TRADES_ITEMS && !PokecubeAdv.config.trainersTradeItems) return false;
+            if (state == AIState.TRADES_MOBS && !PokecubeAdv.config.trainersTradeMobs) return false;
+
             return (this.state & state.mask) > 0;
         }
 
@@ -83,21 +90,29 @@ public class CapabilityNPCAIStates
         public static enum AIState
         {
             STATIONARY(1 << 0), INBATTLE(1 << 1, true), THROWING(1 << 2, true), PERMFRIENDLY(1 << 3), FIXEDDIRECTION(
-                    1 << 4), MATES(1 << 5), INVULNERABLE(1 << 6), TRADES(1 << 7);
+                    1 << 4), MATES(1 << 5, false, true), INVULNERABLE(1 << 6), TRADES_ITEMS(1 << 7, false,
+                            true), TRADES_MOBS(1 << 8, false, true);
 
             private final int mask;
 
             private final boolean temporary;
+            private final boolean _default;
 
             private AIState(final int mask)
             {
-                this(mask, false);
+                this(mask, false, false);
             }
 
             private AIState(final int mask, final boolean temporary)
             {
+                this(mask, temporary, false);
+            }
+
+            private AIState(final int mask, final boolean temporary, final boolean _default)
+            {
                 this.mask = mask;
                 this.temporary = temporary;
+                this._default = _default;
             }
 
             public int getMask()
@@ -107,7 +122,7 @@ public class CapabilityNPCAIStates
 
             public boolean isTemporary()
             {
-                return temporary;
+                return this.temporary;
             }
         }
 
