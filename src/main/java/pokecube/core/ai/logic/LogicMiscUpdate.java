@@ -134,6 +134,17 @@ public class LogicMiscUpdate extends LogicBase
                         StatModifiers.DEFAULTMODIFIERS, this.pokemob);
             }
             this.combatTimer--;
+
+            if (this.combatTimer < -50 && this.combatTimer % 100 == 0 && PokecubeCore.getConfig().outOfCombatHealing)
+            {
+                float health = this.pokemob.getHealth();
+                final float max = this.pokemob.getMaxHealth();
+                if (health < max)
+                {
+                    health = Math.min(max, health + max / 16);
+                    this.pokemob.setHealth(health);
+                }
+            }
         }
         /**
          * Angry pokemobs shouldn't decide that walking is better than flying.
@@ -174,7 +185,7 @@ public class LogicMiscUpdate extends LogicBase
         if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
 
         // Ensure sitting status is synced for TameableEntities
-        if(this.entity instanceof TameableEntity)
+        if (this.entity instanceof TameableEntity)
         {
             final boolean tameSitting = ((TameableEntity) this.entity).isSitting();
             this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
@@ -392,9 +403,10 @@ public class LogicMiscUpdate extends LogicBase
             final Vector3 heart = Vector3.getNewVector();
             for (int i = 0; i < 3; ++i)
             {
-                heart.set(this.entity.getPosX() + rand.nextFloat() * this.entity.getWidth() * 2.0F - this.entity.getWidth(),
-                        this.entity.getPosY() + 0.5D + rand.nextFloat() * this.entity.getHeight(), this.entity.getPosZ() + rand
-                                .nextFloat() * this.entity.getWidth() * 2.0F - this.entity.getWidth());
+                heart.set(this.entity.getPosX() + rand.nextFloat() * this.entity.getWidth() * 2.0F - this.entity
+                        .getWidth(), this.entity.getPosY() + 0.5D + rand.nextFloat() * this.entity.getHeight(),
+                        this.entity.getPosZ() + rand.nextFloat() * this.entity.getWidth() * 2.0F - this.entity
+                                .getWidth());
                 this.entity.getEntityWorld().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
             }
         }

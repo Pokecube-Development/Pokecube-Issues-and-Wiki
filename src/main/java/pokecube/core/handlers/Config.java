@@ -255,6 +255,10 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, comment = "If true, players can dive with valid pokemobs")
     public boolean diveEnabled = true;
 
+
+    @Configure(category = Config.mobAI, comment = "If true, pokemobs will slowly heal while out of combat")
+    public boolean outOfCombatHealing = true;
+
     @Configure(category = Config.mobAI, comment = "A random sound from here is played when a pokemob dodges in combat")
     public List<String> dodgeSounds        = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI, comment = "A random sound from here is played when a pokemob leaps in combat")
