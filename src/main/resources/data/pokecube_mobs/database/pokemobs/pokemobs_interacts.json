@@ -8641,34 +8641,84 @@
       "name": "Tornadus Incarnate",
       "stats": {
         "species": "Cyclone",
-        "formeItems": {
-          "values": {
-            "forme": "NTornadus Therian:Irevealglass"
+        "interactions": [
+          {
+            "key": {
+              "values": {
+                "id": "revealglass"
+              }
+            },
+            "action": {
+              "values": {
+                "forme": "tornadustherian",
+                "type": "forme"
+              }
+            }
           }
-        }
+        ]
       }
     },
     {
       "name": "Tornadus Therian",
       "stats": {
-        "species": "Cyclone"
+        "species": "Cyclone",
+        "interactions": [
+          {
+            "key": {
+              "values": {
+                "id": "revealglass"
+              }
+            },
+            "action": {
+              "values": {
+                "forme": "tornadusincarnate",
+                "type": "forme"
+              }
+            }
+          }
+        ]
       }
     },
     {
       "name": "Thundurus Incarnate",
       "stats": {
         "species": "BoltStrike",
-        "formeItems": {
-          "values": {
-            "forme": "NThundurus Therian:Irevealglass"
+        "interactions": [
+          {
+            "key": {
+              "values": {
+                "id": "revealglass"
+              }
+            },
+            "action": {
+              "values": {
+                "forme": "thundurustherian",
+                "type": "forme"
+              }
+            }
           }
-        }
+        ]
       }
     },
     {
       "name": "Thundurus Therian",
       "stats": {
-        "species": "Cyclone"
+        "species": "Cyclone",
+        "interactions": [
+          {
+            "key": {
+              "values": {
+                "id": "revealglass"
+              }
+            },
+            "action": {
+              "values": {
+                "forme": "thundurusincarnate",
+                "type": "forme"
+              }
+            }
+          }
+        ]
       }
     },
     {
@@ -8687,17 +8737,42 @@
       "name": "Landorus Incarnate",
       "stats": {
         "species": "Abundant",
-        "formeItems": {
-          "values": {
-            "forme": "NLandorus Therian:Irevealglass"
+        "interactions": [
+          {
+            "key": {
+              "values": {
+                "id": "revealglass"
+              }
+            },
+            "action": {
+              "values": {
+                "forme": "landorustherian",
+                "type": "forme"
+              }
+            }
           }
-        }
+        ]
       }
     },
     {
       "name": "Landorus Therian",
       "stats": {
-        "species": "Cyclone"
+        "species": "Cyclone",
+        "interactions": [
+          {
+            "key": {
+              "values": {
+                "id": "revealglass"
+              }
+            },
+            "action": {
+              "values": {
+                "forme": "landorusincarnate",
+                "type": "forme"
+              }
+            }
+          }
+        ]
       }
     },
     {

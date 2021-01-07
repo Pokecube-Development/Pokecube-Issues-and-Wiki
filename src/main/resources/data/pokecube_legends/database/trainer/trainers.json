@@ -30,55 +30,206 @@
     },
     {
       "type": "zinnia",
-      "pokemon": "whismur,goodra,tyrantrum,altaria,noivern,salamence",
-      "spawns": [
-        {
-          "values": {
-            "rate": "0.3",
-            "types": "extreme_hills",
-            "typesBlacklist": "cave"
-          }
-        }
-      ],
+      "pokemon": "whismur,goodra,tyrantrum,altaria,noivern,salamence,rayquaza",
       "gender": "Female"
     },
     {
       "type": "giovanni",
-      "pokemon": "persian,rhyhorn,nidoqueen,dugtrio,nidoking,rhydon,kangaskhan,gyarados,marowak,exeggutor,arcanine,rhyperior,hippowdon,krookodile,gliscor,garchomp,sandslash,golem,honchkrow,onix,venusaur,blastoise,muk,porygon,poliwrath,electrode,alakazam,gengar",
-      "spawns": [
-        {
-          "values": {
-            "rate": "0.05",
-            "types": "all"
-          }
-        }
-      ],
+      "pokemon": "mewtwo,persian,rhyhorn,nidoqueen,dugtrio,nidoking,rhydon,kangaskhan,gyarados,marowak,exeggutor,arcanine,rhyperior,hippowdon,krookodile,gliscor,garchomp,sandslash,golem,honchkrow,onix,venusaur,blastoise,muk,porygon,poliwrath,electrode,alakazam,gengar",
       "gender": "Male"
     },
     {
       "type": "lusamine",
       "pokemon": "clefable,lilligant,mismagius,milotic,bewear,lopunny,nihilego,magmar,starmie,salazzle,granbull,absol,solrock,lunatone",
-      "spawns": [
-        {
-          "values": {
-            "rate": "0.02",
-            "types": "village"
-          }
-        }
-      ],
       "gender": "Female"
     },
     {
       "type": "faba",
-      "pokemon": "slowbro,bruxish,hypno,raichu_alola,alakazam,claydol,raticate_alola,magnezone,toxel",
+      "pokemon": "slowbro,bruxish,hypno,raichu_alola,alakazam,claydol,raticate_alola,magnezone,toxel,typenull",
+      "gender": "Male"
+    },
+    {
+      "type": "n",
+      "pokemon": "reshiram,zekrom,purrloin,pidove,timburr,tympole,sandile,scraggy,sigilyph,boldore,ferroseed,joltik,klinklang,carracosta,vanilluxe,archeops,zoroark,politoed,lanturn,tentacruel,omastar,kabutops,starmie,ninetales,arcanine,rapidash,shiftry,ninjask,leafeon,hippowdon,gastrodon,cradily,armaldo,scizor,rhyperior,abomasnow,cloyster,mamoswine,froslass,glaceon,darmanitan",
+      "gender": "Male"
+    },
+    {
+      "type": "plasma",
+      "pokemon": "patrat,purrloin,sandile,scraggy,watchog,trubbish,liepard,krokorok,garbodor,krookodile,golbat,grimer,koffing,raticate,muk,seviper,weezing,drapion,pawniard,whirlipede,deino,sneasel,scrafty,scolipede,foongus,zangoose,amoonguss",
       "spawns": [
         {
           "values": {
-            "rate": "0.02",
-            "types": "village"
+            "rate": "0.7",
+            "types": "all",
+            "typesBlacklist": "cave"
           }
         }
       ],
+      "gender": "Both"
+    },
+    {
+      "type": "lorelei",
+      "pokemon": "dewgong,jynx,cloyster,slowbro,sandslash_alola,lapras",
+      "gender": "Female"
+    },
+    {
+      "type": "bruno",
+      "pokemon": "onix,steelix,hitmonlee,hitmonchan,poliwrath,machamp,golem_alola,lucario,hitmontop,hariyama",
+      "gender": "Male"
+    },
+    {
+      "type": "agatha",
+      "pokemon": "arbok,gengar_mega,golbat,weezing,gengar,marowak_alola,crobat,misdreavus",
+      "gender": "Female"
+    },
+    {
+      "type": "lance",
+      "pokemon": "seadra,aerodactyl,gyarados,exeggutor_alola,charizard,dragonite,kingdra,charizard_mega_x",
+      "gender": "Male"
+    },
+    {
+      "type": "will",
+      "pokemon": "xatu,jynx,exeggutor,slowbro,grumpig,gardevoir,bronzong",
+      "gender": "Male"
+    },
+    {
+      "type": "koga",
+      "pokemon": "ariados,forretress,muk,venomoth,crobat,skuntank,toxicroak,swalot",
+      "gender": "Male"
+    },
+    {
+      "type": "karen",
+      "pokemon": "umbreon,vileplume,murkrow,gengar,houndoom,weavile,spiritomb,absol,honchkrow,houndoom_mega",
+      "gender": "Female"
+    },
+    {
+      "type": "sidney",
+      "pokemon": "absol,absol_mega,mightyena,shiftry,cacturne,sharpedo,crawdaunt,scrafty,zoroark,mandibuzz",
+      "gender": "Male"
+    },
+    {
+      "type": "phoebe",
+      "pokemon": "dusclops,banette,sableye,dusknoir,mismagius,drifblim,chandelure,sableye_mega",
+      "gender": "Female"
+    },
+    {
+      "type": "glacia",
+      "pokemon": "glalie,glalie_mega,walrein,sealeo,froslass,abomasnow,beartic,vanilluxe",
+      "gender": "Female"
+    },
+    {
+      "type": "drake",
+      "pokemon": "shelgon,altaria,flygon,salamence,kingdra,dragalge,haxorus,salamence_mega",
+      "gender": "Male"
+    },
+    {
+      "type": "aaron",
+      "pokemon": "dustox,heracross,vespiquen,beautifly,drapion,yanmega,scizor,scizor_mega",
+      "gender": "Male"
+    },
+    {
+      "type": "flint",
+      "pokemon": "rapidash,infernape,steelix,flareon,magmortar,drifblim,lopunny,houndoom,steelix_mega",
+      "gender": "Male"
+    },
+    {
+      "type": "shauntal",
+      "pokemon": "cofagrigus,jellicent,golurk,chandelure,froslass,drifblim,mismagius,banette,gengar",
+      "gender": "Female"
+    },
+    {
+      "type": "marshal",
+      "pokemon": "sawk,throh,mienshao,conkeldurr,toxicroak,breloom,medicham,lucario,machamp",
+      "gender": "Male"
+    },
+    {
+      "type": "grimsley",
+      "pokemon": "scrafty,krookodile,liepard,bisharp,sharpedo,drapion,honchkrow,houndoom,absol,tyranitar,tyranitar_mega",
+      "gender": "Male"
+    },
+    {
+      "type": "caitlin",
+      "pokemon": "musharna,reuniclus,sigilyph,bronzong,metagross,gothitelle,gallade,alakazam,alakazam_mega",
+      "gender": "Female"
+    },
+    {
+      "type": "malva",
+      "pokemon": "pyroar,torkoal,chandelure,talonflame,camerupt,camerupt_mega",
+      "gender": "Female"
+    },
+    {
+      "type": "siebold",
+      "pokemon": "clawitzer,gyarados,starmie,barbaracle,carracosta",
+      "gender": "Male"
+    },
+    {
+      "type": "wikstrom",
+      "pokemon": "klefki,probopass,scizor,aegislash_shield,sirfetchd,escavalier",
+      "gender": "Male"
+    },
+    {
+      "type": "drasna",
+      "pokemon": "dragalge,druddigon,altaria,noivern,charizard_mega_y,tyranitar",
+      "gender": "Female"
+    },
+    {
+      "type": "hala",
+      "pokemon": "hariyama,primeape,bewear,crabominable,poliwrath",
+      "gender": "Male"
+    },
+    {
+      "type": "olivia",
+      "pokemon": "relicanth,probopass,golem_alola,lycanroc_midnight,carbink,onix,armaldo,cradily,gigalith",
+      "gender": "Female"
+    },
+    {
+      "type": "acerola",
+      "pokemon": "sableye,dhelmise,froslass,palossand,drifblim,gengar,gengar_mega,banette",
+      "gender": "Female"
+    },
+    {
+      "type": "kahili",
+      "pokemon": "skarmory,mandibuzz,oricorio,toucannon,crobat,swanna,braviary,hawlucha",
+      "gender": "Female"
+    },
+    {
+      "type": "wallace",
+      "pokemon": "milotic,sharpedo,walrein,ludicolo,swampert,starmie,luvdisc,whiscash,seaking,wailord,tentacruel,gyarados",
+      "gender": "Male"
+    },
+    {
+      "type": "steven",
+      "pokemon": "skarmory,claydol,aggron,cradily,armaldo,metagross_mega,excadrill,archeops,carbink,aerodactyl",
+      "gender": "Male"
+    },
+    {
+      "type": "cynthia",
+      "pokemon": "spiritomb,roserade,gastrodon,lucario,milotic,garchomp,togekiss,eelektross,braviary,glaceon",
+      "gender": "Female"
+    },
+    {
+      "type": "mine",
+      "pokemon": "spiritomb,roserade,gastrodon,lucario,milotic,garchomp,togekiss,eelektross,braviary,glaceon",
+      "gender": "Female"
+    },
+    {
+      "type": "leon",
+      "pokemon": "aegislash_shield,dragapult,haxorus,seismitoad,cinderace,charizard_gigantamax,mr_rime, inteleon,rhyperior,rillaboom",
+      "gender": "Male"
+    },
+    {
+      "type": "marnie",
+      "pokemon": "liepard,toxicroak,scrafty,morpeko,grimmsnarl_gigantamax,lycanroc_midnight",
+      "gender": "Female"
+    },
+    {
+      "type": "blue",
+      "pokemon": "aerodactyl,exeggutor,gyarados,alakazam,arcanine,machamp,pidgeot,tyranitar,rhyperior,tauros,charizard_mega_y",
+      "gender": "Male"
+    },
+    {
+      "type": "thutmose",
+      "pokemon": "ferrothorn,shuckle,gardevoir,gardevoir_mega,toxapex,drednaw,toxtricity_amped,bulbasaur,mew,magnezone,magikarp",
       "gender": "Male"
     }
   ]

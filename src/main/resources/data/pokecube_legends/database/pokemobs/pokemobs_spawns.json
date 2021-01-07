@@ -246,7 +246,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:space_temple",
+              "structures": "pokecube_legends:castle_n",
               "rate": "0.0"
             }
           }
@@ -259,7 +259,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:space_temple",
+              "structures": "pokecube_legends:castle_n",
               "rate": "0.0"
             }
           }

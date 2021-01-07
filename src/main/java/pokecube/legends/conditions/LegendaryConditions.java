@@ -46,8 +46,9 @@ public class LegendaryConditions
         new LegendarySpawn("arceus", ItemInit.AZURE_FLUTE, BlockInit.TIMESPACE_CORE);
         new LegendarySpawn("palkia", ItemInit.LUSTROUSORB, BlockInit.TIMESPACE_CORE);
         new LegendarySpawn("dialga", ItemInit.ADAMANTORB, BlockInit.TIMESPACE_CORE);
-        new LegendarySpawn("reshiram", ItemInit.LIGHTSTONE, BlockInit.TIMESPACE_CORE);
-        new LegendarySpawn("zekrom", ItemInit.DARKSTONE, BlockInit.TIMESPACE_CORE);
+        
+        new LegendarySpawn("reshiram", ItemInit.LIGHTSTONE, BlockInit.TAO_BLOCK);
+        new LegendarySpawn("zekrom", ItemInit.DARKSTONE, BlockInit.TAO_BLOCK);
 
         new LegendarySpawn("heatran", ItemInit.MAGMA_CORE, BlockInit.HEATRAN_BLOCK);
         new LegendarySpawn("keldeo", ItemInit.KELDEO_SWORD, BlockInit.KELDEO_CORE);

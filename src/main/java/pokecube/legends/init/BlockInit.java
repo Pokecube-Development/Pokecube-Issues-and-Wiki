@@ -37,6 +37,7 @@ import pokecube.legends.blocks.customblocks.Regirock_Core;
 import pokecube.legends.blocks.customblocks.Registeel_Core;
 import pokecube.legends.blocks.customblocks.SpaceCoreBlock;
 import pokecube.legends.blocks.customblocks.SpectrumGlass;
+import pokecube.legends.blocks.customblocks.TaoTrioBlock;
 import pokecube.legends.blocks.customblocks.TroughBlock;
 import pokecube.legends.blocks.customblocks.VictiniBlock;
 import pokecube.legends.blocks.customblocks.XerneasCore;
@@ -171,7 +172,8 @@ public class BlockInit
     public static final RegistryObject<Block> LEGENDARY_SPAWN;
     public static final RegistryObject<Block> TROUGH_BLOCK;
     public static final RegistryObject<Block> HEATRAN_BLOCK;
-
+    public static final RegistryObject<Block> TAO_BLOCK;
+    
     public static final RegistryObject<Block> GOLEM_STONE;
 
     public static final RegistryObject<Block> REGISTEEL_CORE;
@@ -221,10 +223,6 @@ public class BlockInit
         DARKSKY_BRICK = PokecubeLegends.BLOCKS.register("darkskybrick", () -> new Block(Block.Properties.create(
                 Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
 
-        // METEOR_BLOCK = PokecubeLegends.BLOCKS_TAB.register("meteor_block", ()
-        // -> new BlockBase("meteor_block",
-        // Material.GOURD, 2.5F, SoundType.METAL, ToolType.PICKAXE,
-        // 2).noInfoBlock());
         METEOR_BLOCK = PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new FallingBlock(Block.Properties
                 .create(Material.GOURD).hardnessAndResistance(2.5f).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)
                 .harvestLevel(2)));
@@ -432,7 +430,7 @@ public class BlockInit
                 Block.Properties.create(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).hardnessAndResistance(
                         2.0f, 3.0f).notSolid()));
 
-        // Mirage Spot (Hoopa Ring)
+        // Mirage Spot (Hoppa Ring)
         BLOCK_PORTALWARP = PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", Block.Properties
                 .create(Material.ROCK).sound(SoundType.METAL).hardnessAndResistance(2000, 2000)).setShape(VoxelShapes
                         .create(0.05, 0, 0.05, 1, 3, 1)).setInfoBlockName("portalwarp"));
@@ -449,7 +447,11 @@ public class BlockInit
         HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new HeatranBlock("heatran_block",
         		Block.Properties.create(Material.LAVA).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
                 .harvestLevel(2).sound(SoundType.CORAL).setLightLevel(b -> 4).variableOpacity().setEmmisiveRendering((s, r, p) -> true)).noInfoBlock());
-        ///
+        TAO_BLOCK 	= PokecubeLegends.BLOCKS.register("blackwhite_block", () -> new TaoTrioBlock("blackwhite_block",
+        		Block.Properties.create(Material.ANVIL).hardnessAndResistance(5, 15).sound(SoundType.FUNGUS)
+        				.variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
+        
+        // Regi Cores
         REGISTEEL_CORE = PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
                 Material.IRON, 15, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());
         REGICE_CORE = PokecubeLegends.BLOCKS.register("regice_spawn", () -> new Regice_Core("regice_spawn",
@@ -462,7 +464,8 @@ public class BlockInit
                 Material.ROCK, 15, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         REGIGIGA_CORE = PokecubeLegends.BLOCKS.register("regigiga_spawn", () -> new Regigigas_Core("regigiga_spawn",
                 Material.IRON, 15, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());
-        ///
+        //
+        
         TIMESPACE_CORE = PokecubeLegends.BLOCKS.register("timerspawn", () -> new SpaceCoreBlock("timerspawn",
                 Block.Properties.create(Material.ORGANIC).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
                         .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
