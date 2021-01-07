@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.block.material.Material;
@@ -148,10 +149,6 @@ public class SpawnEventsHandler
                 mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(
                         event.pos), SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
 
-                mob.setNpcType(nurse ? NpcType.byType("healer")
-                        : trader ? NpcType.byType("trader") : NpcType.byType("professor"));
-                if (nurse) mob.setMale(false);
-
                 JsonObject thing = new JsonObject();
                 if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
                 {
@@ -167,6 +164,9 @@ public class SpawnEventsHandler
                 {
                     PokecubeCore.LOGGER.error("Error parsing " + function, e);
                 }
+                if (!(thing.has("trainerType") || thing.has("type"))) thing.add("type", new JsonPrimitive(nurse
+                        ? "healer" : trader ? "trader" : "professor"));
+                if (nurse) mob.setMale(false);
 
                 if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual,
                         SpawnReason.STRUCTURE, thing)))
