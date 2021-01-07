@@ -88,46 +88,50 @@ public class TrainerSpawnHandler
                     npc.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
                 }
             }
+
             // This is somewhat deprecated in favour of the "type" tag for npcs,
             // but
             // it will work here as well.
-            if (thing.has("trainerType")) typeName = thing.get("trainerType").getAsString();
-            else if (thing.has("trainerTypes"))
+            if (!thing.has("type"))
             {
-                final String[] types = thing.get("trainerType").getAsString().split(";");
-                typeName = types[world.getRandom().nextInt(types.length)];
-            }
-            else if (thing.has("trainerTag"))
-            {
-                final ResourceLocation tag = new ResourceLocation(thing.get("trainerTag").getAsString());
-                final List<TypeTrainer> types = Lists.newArrayList();
-                TypeTrainer.typeMap.values().forEach(t ->
+                if (thing.has("trainerType")) typeName = thing.get("trainerType").getAsString();
+                else if (thing.has("trainerTypes"))
                 {
-                    if (t.tags.contains(tag)) types.add(t);
-                });
-                if (!types.isEmpty())
+                    final String[] types = thing.get("trainerType").getAsString().split(";");
+                    typeName = types[world.getRandom().nextInt(types.length)];
+                }
+                else if (thing.has("trainerTag"))
                 {
+                    final ResourceLocation tag = new ResourceLocation(thing.get("trainerTag").getAsString());
+                    final List<TypeTrainer> types = Lists.newArrayList();
+                    TypeTrainer.typeMap.values().forEach(t ->
+                    {
+                        if (t.tags.contains(tag)) types.add(t);
+                    });
+                    if (!types.isEmpty())
+                    {
+                        Collections.shuffle(types);
+                        typeName = types.get(0).getName();
+                    }
+                }
+                if (typeName.isEmpty())
+                {
+                    final List<TypeTrainer> types = Lists.newArrayList(TypeTrainer.typeMap.values());
                     Collections.shuffle(types);
-                    typeName = types.get(0).getName();
+                    for (final TypeTrainer type : types)
+                    {
+                        if (type.matchers.isEmpty()) continue;
+                        typeName = type.getName();
+                        break;
+                    }
                 }
-            }
-            if (typeName.isEmpty())
-            {
-                final List<TypeTrainer> types = Lists.newArrayList(TypeTrainer.typeMap.values());
-                Collections.shuffle(types);
-                for (final TypeTrainer type : types)
+                if (!typeName.isEmpty())
                 {
-                    if (type.matchers.isEmpty()) continue;
-                    typeName = type.getName();
-                    break;
-                }
-            }
-            if (!typeName.isEmpty())
-            {
 
-                final TypeTrainer type = TypeTrainer.typeMap.get(typeName);
-                if (type != null) npc.setNpcType(type);
-                else PokecubeCore.LOGGER.error("No trainer type registerd for {}", typeName);
+                    final TypeTrainer type = TypeTrainer.typeMap.get(typeName);
+                    if (type != null) npc.setNpcType(type);
+                    else PokecubeCore.LOGGER.error("No trainer type registerd for {}", typeName);
+                }
             }
             if (npc instanceof TrainerBase) ((TrainerBase) npc).initTeam(level);
         });
@@ -334,9 +338,11 @@ public class TrainerSpawnHandler
             {
                 final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
                 thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
-                // Check if we specify a preset instead, and if that exists, use that.
+                // Check if we specify a preset instead, and if that exists, use
+                // that.
                 if (thing.has("preset") && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset")
-                        .getAsString())) thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset").getAsString());
+                        .getAsString())) thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset")
+                                .getAsString());
             }
             catch (final Exception e)
             {
