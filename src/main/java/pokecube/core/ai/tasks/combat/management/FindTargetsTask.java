@@ -139,11 +139,12 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
      * Checks the validTargts as well as team settings, will not allow
      * targetting things on the same team.
      */
-    final Predicate<Entity> validGuardTarget = input -> AITools.shouldBeAbleToAgro(this.entity, input);
+    final Predicate<Entity> validGuardTarget;
 
     public FindTargetsTask(final IPokemob mob)
     {
         super(mob, ImmutableMap.of(MemoryModuleType.VISIBLE_MOBS, MemoryModuleStatus.VALUE_PRESENT));
+        this.validGuardTarget = input -> AITools.shouldBeAbleToAgro(this.entity, input);
     }
 
     @Override
