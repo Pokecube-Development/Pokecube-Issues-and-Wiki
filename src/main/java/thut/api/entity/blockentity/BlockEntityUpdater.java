@@ -94,11 +94,7 @@ public class BlockEntityUpdater
                     if (shape.isEmpty()) continue;
                     shape = shape.withOffset(mob.getPosX() + i - dx, mob.getPosY() + j + min.getY(), mob.getPosZ() + k
                             - dz);
-                    for (final AxisAlignedBB box : shape.toBoundingBoxList())
-                    {
-                        shape = VoxelShapes.create(box);
-                        this.totalShape = VoxelShapes.combineAndSimplify(this.totalShape, shape, IBooleanFunction.OR);
-                    }
+                    this.totalShape = VoxelShapes.combineAndSimplify(this.totalShape, shape, IBooleanFunction.OR);
                 }
         return this.totalShape;
     }
