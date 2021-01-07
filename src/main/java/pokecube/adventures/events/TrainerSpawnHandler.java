@@ -97,7 +97,7 @@ public class TrainerSpawnHandler
                 if (thing.has("trainerType")) typeName = thing.get("trainerType").getAsString();
                 else if (thing.has("trainerTypes"))
                 {
-                    final String[] types = thing.get("trainerType").getAsString().split(";");
+                    final String[] types = thing.get("trainerTypes").getAsString().split(";");
                     typeName = types[world.getRandom().nextInt(types.length)];
                 }
                 else if (thing.has("trainerTag"))
