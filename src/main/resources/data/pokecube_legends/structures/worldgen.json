@@ -164,6 +164,22 @@
       ]
     },
     {
+      "name":"pokecube_legends:castle_n",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/castle_n;{\"dy\":-1,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:elite_four",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/elite_four;{\"dy\":-1}"
+      ]
+    },
+    {
       "name":"pokecube_legends:nature_place",
       "rigid":true,
       "ignoreAir":false,
@@ -453,6 +469,19 @@
     },
     //
     {
+      "name":"pokecube_legends:elite_four",
+      "root":"pokecube_legends:elite_four",
+      "biomeType":"none",
+      "distance":32,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "types":"all",
+          "categoryBlacklist":"ocean,beach"
+        }
+      }
+    },
+    {
       "name":"pokecube_legends:mirage",
       "root":"pokecube_legends:mirage/base",
       "biomeType":"none",
@@ -500,6 +529,19 @@
           "types":"all",
           "typesBlacklist":"sandy",
           "categoryBlacklist":"ocean,desert,the_end"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:castle_n",
+      "root":"pokecube_legends:castle_n",
+      "biomeType":"ruin",
+      "distance":32,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "category":"taiga",
+          "categoryBlacklist":"ocean,beach"
         }
       }
     },

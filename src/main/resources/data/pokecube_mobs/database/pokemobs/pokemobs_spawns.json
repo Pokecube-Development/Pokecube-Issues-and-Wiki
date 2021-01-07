@@ -8302,10 +8302,18 @@
         "spawnRules": [
            {
             "values": {
-              "types": "cold",
+              "category": "taiga",
               "min": "1",
               "rate": "0.004",
               "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:castle_n",
+              "min": "1",
+			  "max": "1",
+			  "rate": "0.008"
             }
           }
         ]

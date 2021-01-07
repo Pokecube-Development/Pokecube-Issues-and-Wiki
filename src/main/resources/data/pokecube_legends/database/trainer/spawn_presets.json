@@ -1,13 +1,120 @@
 {
   "presets":[
     {
+      "preset_name": "rocket",
+      "trainerType":"rocket",
+      "level":25,
+	  "aiStates": 128
+    },
+    {
+      "preset_name": "aether",
+      "trainerType":"aether",
+      "level":32,
+	  "aiStates": 128
+    },
+    {
+      "preset_name": "plasma",
+      "trainerType":"plasma",
+      "level":39,
+	  "aiStates": 128
+    },
+    {
       "preset_name": "giovanni",
       "trainerType":"giovanni",
       "level":70,
       "customTrades":"giovanni",
+	  "aiStates": 128,
       "guard":{
         "time":"day",
-        "roam":2
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "zinnia",
+      "trainerType":"zinnia",
+      "level":70,
+      "customTrades":"zinnia",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "lusamine",
+      "trainerType":"lusamine",
+      "level":75,
+      "customTrades":"lusamine",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "faba",
+      "trainerType":"faba",
+      "level":75,
+      "customTrades":"faba",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "n",
+      "trainerType":"n",
+      "level":78,
+      "customTrades":"n",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "elite_four_a",
+      "trainerTypes":"lorelei;bruno;agatha;lance;will;acerola;mina;caitlin;olivia",
+      "level":85,
+      "customTrades":"elite_four",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "elite_four_b",
+      "trainerTypes":"koga;karen;sidney;phoebe;glacia;kahili;grimsley;siebold",
+      "level":85,
+      "customTrades":"elite_four",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "elite_four_c",
+      "trainerTypes":"drake;aaron;flint;shauntal;marshal;marnie;hala;wikstrom;drasna",
+      "level":85,
+      "customTrades":"elite_four",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "elite_four_d",
+      "trainerTypes":"blue;leon;steven;cynthia;wallace;thutmose",
+      "level":100,
+      "customTrades":"elite_four",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
       }
     }
   ]
