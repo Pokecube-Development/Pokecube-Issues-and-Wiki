@@ -1,27 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase name="global" scale="0.5"/>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="0.4"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
+  <phase duration="10" leftArm="larm" leftLeg="llegup" legAngle="25" name="biWalk" rightArm="rarm" rightLeg="rlegup"/>
+  <customTex default="heracross_mega">
+   <part name="heracrosseye" tex="heracrosseye_mega"/>
+   <animation diffs="0,0.5" part="heracrosseye" trigger="random:0.005:2"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,14,0," startKey="0"/>
+   </part>
+   <part name="rantenna">
+    <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="lantenna">
+    <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="rarmup">
+    <component length="10" name="1" rotOffset="0,0,0," rotChange="0,-6,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,6,0" startKey="10"/>
+   </part>
+   <part name="rarm">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="larmup">
+    <component length="10" name="1" rotOffset="0,0,0," rotChange="0,6,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-6,0" startKey="10"/>
+   </part>
+   <part name="larm">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="rlegup">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="rfoot">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="llegup">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="lfoot">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="rantenna">
+    <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="lantenna">
+    <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="rarmup">
+    <component length="10" name="1" rotOffset="0,0,0," rotChange="0,-6,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,6,0" startKey="10"/>
+   </part>
+   <part name="rarm">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="larmup">
+    <component length="10" name="1" rotOffset="0,0,0," rotChange="0,6,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-6,0" startKey="10"/>
+   </part>
+   <part name="larm">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="rlegup">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="rleg">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="llegup">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="lleg">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+  </phase>
   <phase type="walking">
-   <part name="Cube_4">
-    <component length="5" name="1" rotChange="-10,0,0" startKey="0"/>
-    <component length="10" name="2" rotChange="20,0,0" startKey="5"/>
-    <component length="5" name="1" rotChange="-10,0,0" startKey="15"/>
+   <part name="rantenna">
+    <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
    </part>
-   <part name="Cube_3">
-    <component length="5" name="1" rotChange="10,0,0" startKey="0"/>
-    <component length="10" name="2" rotChange="-20,0,0" startKey="5"/>
-    <component length="5" name="1" rotChange="10,0,0" startKey="15"/>
+   <part name="lantenna">
+    <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
    </part>
-   <part name="Cube_34">
-    <component length="5" name="1" rotChange="-10,0,0" startKey="0"/>
-    <component length="10" name="2" rotChange="20,0,0" startKey="5"/>
-    <component length="5" name="1" rotChange="-10,0,0" startKey="15"/>
+   <part name="rarmup">
+    <component length="10" name="1" rotOffset="0,0,0," rotChange="0,12,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-24,0" startKey="5"/>
+	<component length="10" name="2" rotChange="0,12,0" startKey="10"/>
    </part>
-   <part name="Cube_35">
-    <component length="5" name="1" rotChange="10,0,0" startKey="0"/>
-    <component length="10" name="2" rotChange="-20,0,0" startKey="5"/>
-    <component length="5" name="1" rotChange="10,0,0" startKey="15"/>
+   <part name="rarm">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="larmup">
+    <component length="10" name="1" rotOffset="0,0,0," rotChange="0,12,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-24,0" startKey="5"/>
+	<component length="10" name="2" rotChange="0,12,0" startKey="10"/>
+   </part>
+   <part name="larm">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
    </part>
   </phase>
  </model>
