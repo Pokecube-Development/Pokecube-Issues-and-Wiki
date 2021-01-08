@@ -159,6 +159,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         // to
         // storage check.
         if (this.emptySlots == 0) return false;
+        // Don't try to run this if the area has unloaded.
+        if (this.berryLoc != null && !this.world.isAreaLoaded(this.berryLoc, 2)) return false;
         // No Berry Storage, so move to normal storage checks.
         if (!this.findBerryStorage(false)) return false;
         IItemHandlerModifiable berries = this.getInventory(this.world, this.berryLoc, null);
@@ -204,6 +206,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
     {
         // Can only pick up item if we have a free slot for it.
         if (this.emptySlots == 0) return false;
+        // Don't try to run this if the area has unloaded.
+        if (this.emptyInventory != null && !this.world.isAreaLoaded(this.emptyInventory, 2)) return false;
         // Return true here to make the cooldown not 5x, this means we don't
         // have a setting for empty, so no need to run this AI.
         if (!this.findEmptyStorage(false)) return false;
@@ -254,6 +258,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
     {
         // Only dump inventory if no free slots.
         if (this.emptySlots > 2) return false;
+        // Don't try to run this if the area has unloaded.
+        if (this.storageLoc != null && !this.world.isAreaLoaded(this.storageLoc, 2)) return false;
         // No ItemStorage
         if (!this.findItemStorage(false)) return false;
         // check if should path to storage.
@@ -288,6 +294,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
 
     private boolean findBerryStorage(final boolean refresh)
     {
+        if (this.berryLoc != null && !this.world.isAreaLoaded(this.berryLoc, 2)) return false;
         if (!refresh && this.berryLoc != null && this.pokemob.getGeneralState(GeneralStates.TAMED)) return true;
         if (this.berryLoc != null && refresh)
         {
@@ -306,6 +313,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
 
     private boolean findEmptyStorage(final boolean refresh)
     {
+        if (this.emptyInventory != null && !this.world.isAreaLoaded(this.emptyInventory, 2)) return false;
         if (this.emptyInventory != null && refresh)
         {
             BlockPos found = this.checkDir(this.world, null, this.emptyInventory, this.emptyFace);
@@ -323,6 +331,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
 
     private boolean findItemStorage(final boolean refresh)
     {
+        if (this.storageLoc != null && !this.world.isAreaLoaded(this.storageLoc, 2)) return false;
         if (!refresh && this.storageLoc != null && this.pokemob.getGeneralState(GeneralStates.TAMED)) return true;
         if (this.storageLoc != null && refresh)
         {
