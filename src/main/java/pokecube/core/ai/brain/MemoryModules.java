@@ -13,6 +13,7 @@ import net.minecraft.util.math.IPosWrapper;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
+import pokecube.core.ai.tasks.idle.bees.BeeTasks;
 
 public class MemoryModules
 {
@@ -51,5 +52,7 @@ public class MemoryModules
 
         event.getRegistry().register(MemoryModules.POSSIBLE_MATES.setRegistryName(PokecubeCore.MODID, "mate_options"));
         event.getRegistry().register(MemoryModules.MATE_TARGET.setRegistryName(PokecubeCore.MODID, "mate_choice"));
+
+        BeeTasks.registerMems(event);
     }
 }

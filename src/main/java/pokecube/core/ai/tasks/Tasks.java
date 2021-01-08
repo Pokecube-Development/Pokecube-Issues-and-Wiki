@@ -35,6 +35,7 @@ import pokecube.core.ai.tasks.idle.GuardEggTask;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.ai.tasks.idle.MateTask;
+import pokecube.core.ai.tasks.idle.bees.BeeTasks;
 import pokecube.core.ai.tasks.misc.BlankTask;
 import pokecube.core.ai.tasks.misc.FollowOwnerTask;
 import pokecube.core.ai.tasks.misc.LookAtMob;
@@ -83,13 +84,15 @@ public class Tasks
         {
             // Idle tasks
             // Guard your egg
-            aiList.add(new GuardEggTask(pokemob));
+            aiList.add(new GuardEggTask(pokemob).setPriority(3));
             // Mate with things
-            if (pokemob instanceof IBreedingMob) aiList.add(new MateTask(pokemob));
+            if (pokemob instanceof IBreedingMob) aiList.add(new MateTask(pokemob).setPriority(2));
             // Eat things
-            aiList.add(new HungerTask(pokemob));
+            aiList.add(new HungerTask(pokemob).setPriority(1));
             // Wander around
-            aiList.add(new IdleWalkTask(pokemob));
+            aiList.add(new IdleWalkTask(pokemob).setPriority(10));
+            // Bee related tasks
+            BeeTasks.addBeeIdleTasks(pokemob, aiList);
         }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around

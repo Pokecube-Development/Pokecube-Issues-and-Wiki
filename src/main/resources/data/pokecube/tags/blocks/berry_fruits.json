@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube:fruit_null",
     "pokecube:fruit_cheri",
     "pokecube:fruit_chesto",
     "pokecube:fruit_pecha",
