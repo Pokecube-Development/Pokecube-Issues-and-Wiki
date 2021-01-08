@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube:crop_null",
     "pokecube:crop_cheri",
     "pokecube:crop_chesto",
     "pokecube:crop_pecha",

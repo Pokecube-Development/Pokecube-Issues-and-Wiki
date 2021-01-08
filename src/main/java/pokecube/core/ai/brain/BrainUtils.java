@@ -189,7 +189,8 @@ public class BrainUtils
     {
         MEMORY_TYPES.forEach((module) ->
         {
-            brain.memories.put(module, Optional.empty());
+            // Only add the memory module if it wasn't already added!
+            if (!brain.memories.containsKey(module)) brain.memories.put(module, Optional.empty());
         });
         SENSOR_TYPES.forEach((type) ->
         {
@@ -202,8 +203,10 @@ public class BrainUtils
         brain.sensors.values().forEach((sensor) ->
         {
             for (final MemoryModuleType<?> memorymoduletype : sensor.getUsedMemories())
-                brain.memories.put(memorymoduletype, Optional.empty());
+                if (!brain.memories.containsKey(memorymoduletype)) brain.memories.put(memorymoduletype, Optional
+                        .empty());
         });
+
     }
 
     public static void addToActivity(final Brain<?> brain, final Activity act,

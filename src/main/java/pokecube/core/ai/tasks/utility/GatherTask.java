@@ -25,10 +25,12 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.IRunnable;
+import pokecube.core.events.HarvestCheckEvent;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -80,8 +82,8 @@ public class GatherTask extends UtilTask
             final PlayerEntity player = PokecubeMod.getFakePlayer(world);
             player.setPosition(this.pos.getX(), this.pos.getY(), this.pos.getZ());
             player.inventory.mainInventory.set(player.inventory.currentItem, this.seeds);
-            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vector3d(
-                    0.5, 1, 0.5), Direction.UP, down, false));
+            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(
+                    new Vector3d(0.5, 1, 0.5), Direction.UP, down, false));
             check:
             if (this.seeds.getItem() instanceof BlockItem && !this.selfPlacement)
             {
@@ -131,8 +133,8 @@ public class GatherTask extends UtilTask
             .hasProperty(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
 
     private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropsBlock && input
-            .hasProperty(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input.getBlock())
-                    .getMaxAge();
+            .hasProperty(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input
+                    .getBlock()).getMaxAge();
 
     // Matcher used to determine if a block is a fruit or crop to be picked.
     private static final Predicate<BlockState> harvestMatcher = input ->
@@ -176,8 +178,15 @@ public class GatherTask extends UtilTask
     private boolean hasStuff()
     {
         if (this.targetItem != null && GatherTask.deaditemmatcher.apply(this.targetItem)) this.targetItem = null;
-        if (this.targetBlock != null && !GatherTask.harvestMatcher.apply(this.entity.getEntityWorld().getBlockState(
-                this.targetBlock.getPos()))) this.targetBlock = null;
+        if (this.targetBlock != null)
+        {
+            final BlockState state = this.entity.getEntityWorld().getBlockState(this.targetBlock.getPos());
+            final HarvestCheckEvent event = new HarvestCheckEvent(this.pokemob, state, this.targetBlock.getPos());
+            PokecubeCore.POKEMOB_BUS.post(event);
+            final boolean gatherable = event.getResult() == Result.ALLOW ? true
+                    : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(state);
+            if (!gatherable) this.targetBlock = null;
+        }
         return this.targetItem != null || this.targetBlock != null;
     }
 
@@ -319,7 +328,15 @@ public class GatherTask extends UtilTask
         if (blocks != null)
         {
             this.blocks = Lists.newArrayList(blocks);
-            this.blocks.removeIf(b -> !GatherTask.harvestMatcher.apply(b.getState()));
+            this.blocks.removeIf(b ->
+            {
+                final BlockState state = this.entity.getEntityWorld().getBlockState(b.getPos());
+                final HarvestCheckEvent event = new HarvestCheckEvent(this.pokemob, state, b.getPos());
+                PokecubeCore.POKEMOB_BUS.post(event);
+                final boolean gatherable = event.getResult() == Result.ALLOW ? true
+                        : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(state);
+                return gatherable;
+            });
         }
         // Only replace this if the new list is not null.
         if (items != null) this.items = items;

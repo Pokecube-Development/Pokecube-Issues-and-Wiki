@@ -21,6 +21,7 @@ import net.minecraft.pathfinding.PathNodeType;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicFloatFlySwim;
 import pokecube.core.ai.logic.LogicInLiquid;
@@ -56,8 +57,6 @@ public abstract class PokemobAI extends PokemobEvolves
     private int cachedLogicState;
 
     private List<IAIRunnable> tasks = Lists.newArrayList();
-
-    private boolean initedAI = false;
 
     private Battle battle;
 
@@ -278,8 +277,9 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public void initAI()
     {
-        if (this.initedAI) return;
-        this.initedAI = true;
+        final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
+        // If brain was cleared at some point, this memory is removed.
+        if (brain.hasMemory(MemoryModules.ATTACKTARGET, MemoryModuleStatus.REGISTERED)) return;
 
         final MobEntity entity = this.getEntity();
         final PokedexEntry entry = this.getPokedexEntry();
@@ -336,7 +336,6 @@ public abstract class PokemobAI extends PokemobEvolves
         if (entry.stock) entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2F);
 
         this.tasks = Lists.newArrayList();
-        final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
         Tasks.initBrain(brain);
 
         final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> idleMems = Sets.newHashSet();

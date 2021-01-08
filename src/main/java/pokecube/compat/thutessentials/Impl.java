@@ -65,8 +65,11 @@ public class Impl
 
     private static class TeamProvider implements ITeamProvider
     {
-        public TeamProvider()
+        final ITeamProvider parent;
+
+        public TeamProvider(final ITeamProvider parent)
         {
+            this.parent = parent;
         }
 
         @Override
@@ -78,12 +81,14 @@ public class Impl
             if (id == null) id = entityIn.getUniqueID();
             final LandTeam team = LandManager.getTeam(id);
             if (team != LandManager.getDefaultTeam()) return team.teamName;
-            return "";
+            return this.parent.getTeam(entityIn);
         }
 
         @Override
         public boolean areAllied(final String team, final Entity target)
         {
+            // This checks if the team strings are the same.
+            if (this.parent.areAllied(team, target)) return true;
             final LandTeam teamA = LandManager.getInstance().getTeam(team, false);
             final String targTeam = this.getTeam(target);
             final LandTeam teamB = LandManager.getInstance().getTeam(targTeam, false);
@@ -123,7 +128,7 @@ public class Impl
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, Impl::init);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, Impl::recallOutMobsOnLogout);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, Impl::recallOutMobsOnUnload);
-        TeamManager.provider = new TeamProvider();
+        TeamManager.provider = new TeamProvider(TeamManager.provider);
     }
 
     public static void init(final SpawnCheckEvent.Init event)
