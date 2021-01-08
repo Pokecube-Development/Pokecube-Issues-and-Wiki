@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IMoveConstants;
 
 public class PokemobMoveStats
@@ -86,6 +87,12 @@ public class PokemobMoveStats
     public String       lastMove;
     /** Storing exp in here as well. */
     public int          exp       = 0;
+
+    /**
+     * This is the ability to apply in battle, out of battle it will be reset to
+     * whatever the mob's normal ability was.
+     */
+    public Ability battleAbility = null;
 
     public void reset()
     {

@@ -1,21 +1,18 @@
 package pokecube.mobs.abilities.p;
 
 import pokecube.core.database.abilities.Ability;
+import pokecube.core.database.moves.tags.MovesTags;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class PunkRock extends Ability
 {
-	private static final String[] Sounds = { "Boomburst", "BugBuzz", "DisarmingVoice", "EchoedVoice", "Overdrive",
-            "RelicSong", "Round", "Snarl", "SparklingAria", "Uproar"};
-
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
-	    if (move.pre && mob == move.attacked) for (final String s : PunkRock.Sounds)
-        if (s.equalsIgnoreCase(move.attack))
+        if (move.pre && mob == move.attacked && MovesTags.TAGS.isIn("sound_based", move.attack))
         {
-            move.PWR *= 0.3;
+            move.PWR *= 1.3;
             return;
         }
     }

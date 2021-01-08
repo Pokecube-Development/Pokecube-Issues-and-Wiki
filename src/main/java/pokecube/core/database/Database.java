@@ -60,6 +60,7 @@ import pokecube.core.database.resources.PackListener;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
+import pokecube.core.database.util.StringTagsHelper;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
@@ -871,6 +872,7 @@ public class Database
         Database.loadStarterPack();
         Database.loadRecipes();
         Database.loadRewards();
+        StringTagsHelper.onResourcesReloaded();
         for (final PokedexEntry entry : Database.getSortedFormes())
             entry.onResourcesReloaded();
         // This gets re-set to true if listener hears a reload
