@@ -41,7 +41,11 @@ public class Config extends ConfigData
 
     // Raids
     @Configure(category = "raids")
-    public int raidDuration = 3000;
+    public int    raidDuration    = 3000;
+    @Configure(category = "raids")
+    public double raidResetChance = 0.1;
+    @Configure(category = "raids")
+    public double rareRaidChance = 0.1;
 
     // Mirage Spot(Hoppa Ring)
     @Configure(category = "mirage")

@@ -29,6 +29,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.blocks.maxspot.MaxBlock;
+import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
 
@@ -65,8 +66,14 @@ public class RaidSpawnBlock extends MaxBlock
 
     public RaidSpawnBlock(final Material material)
     {
-        super(Properties.create(material).sound(SoundType.METAL).hardnessAndResistance(2000, 2000));
+        super(Properties.create(material).sound(SoundType.METAL).tickRandomly().hardnessAndResistance(2000, 2000));
         this.setDefaultState(this.stateContainer.getBaseState().with(RaidSpawnBlock.ACTIVE, State.EMPTY));
+    }
+
+    @Override
+    public boolean ticksRandomly(final BlockState state)
+    {
+        return true;
     }
 
     @Override
@@ -121,8 +128,11 @@ public class RaidSpawnBlock extends MaxBlock
     {
         final boolean active = state.get(RaidSpawnBlock.ACTIVE).active();
         if (active) return;
-        // TODO decide on random chance of going rare spawn instead
-        worldIn.setBlockState(pos, state.with(RaidSpawnBlock.ACTIVE, State.NORMAL));
+        final double rng = random.nextDouble();
+        final boolean reset = rng < PokecubeLegends.config.raidResetChance;
+        if (!reset) return;
+        worldIn.setBlockState(pos, state.with(RaidSpawnBlock.ACTIVE, random
+                .nextDouble() > PokecubeLegends.config.rareRaidChance ? State.NORMAL : State.RARE));
 
     }
 
