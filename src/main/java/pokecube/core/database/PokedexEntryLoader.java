@@ -498,6 +498,18 @@ public class PokedexEntryLoader
         {
             if (this.__map__.containsKey(toAdd.name)) this.pokemon.remove(this.__map__.remove(toAdd.name));
             this.pokemon.add(toAdd);
+
+            this.pokemon.removeIf(value ->
+            {
+                if (value.number == null)
+                {
+                    PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!",
+                            value.name);
+                    return true;
+                }
+                return false;
+            });
+
             Collections.sort(this.pokemon, PokedexEntryLoader.ENTRYSORTER);
         }
 
@@ -980,6 +992,16 @@ public class PokedexEntryLoader
     public static void makeEntries(final boolean create)
     {
         final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
+
+        entries.removeIf(value ->
+        {
+            if (value.number == null)
+            {
+                PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!", value.name);
+                return true;
+            }
+            return false;
+        });
 
         Collections.sort(entries, PokedexEntryLoader.ENTRYSORTER);
 
@@ -1489,6 +1511,16 @@ public class PokedexEntryLoader
             final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
             final XMLDatabase database = new XMLDatabase();
             database.pokemon = entries;
+            database.pokemon.removeIf(value ->
+            {
+                if (value.number == null)
+                {
+                    PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!",
+                            value.name);
+                    return true;
+                }
+                return false;
+            });
             database.pokemon.sort(PokedexEntryLoader.ENTRYSORTER);
             database.pokemon.replaceAll(t ->
             {
