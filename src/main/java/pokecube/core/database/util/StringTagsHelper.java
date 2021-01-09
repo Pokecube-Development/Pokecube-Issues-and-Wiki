@@ -1,14 +1,19 @@
 package pokecube.core.database.util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -38,6 +43,7 @@ public class StringTagsHelper
 
     public static void onResourcesReloaded()
     {
+        final AtomicBoolean valid = new AtomicBoolean(false);
         StringTagsHelper.tagHelpers.forEach(t ->
         {
             t.tagsMap.clear();
@@ -59,8 +65,9 @@ public class StringTagsHelper
                 PokecubeCore.LOGGER.error("Error reloading tags for {}", t.tagPath);
                 e.printStackTrace();
             }
+            if (t.validLoad) valid.set(true);
         });
-        PokecubeCore.LOGGER.debug("Reloaded Custom Tags");
+        if (valid.get()) PokecubeCore.LOGGER.debug("Reloaded Custom Tags");
     }
 
     private final Map<String, TagHolder> tagsMap = Maps.newHashMap();
@@ -85,6 +92,7 @@ public class StringTagsHelper
     public void addToTag(String tag, String value)
     {
         tag = ThutCore.trim(tag);
+        if (!tag.contains(":")) tag = "pokecube:" + tag;
         value = ThutCore.trim(value);
         TagHolder holder = this.tagsMap.get(tag);
         if (holder == null) this.tagsMap.put(tag, holder = new TagHolder());
@@ -103,6 +111,33 @@ public class StringTagsHelper
         // If we have the tag loaded, lets use the value from there.
         if (this.tagsMap.containsKey(tag)) return this.tagsMap.get(tag).values.contains(toCheck);
         return false;
+    }
+
+    // This is a helper method for generating tags as needed
+    void printTags()
+    {
+        this.tagsMap.forEach((s, h) ->
+        {
+            final ResourceLocation name = new ResourceLocation(s);
+            final File dir = new File("./generated/data/" + name.getNamespace() + "/" + this.tagPath);
+            if (!dir.exists()) dir.mkdirs();
+            File file = null;
+            file = new File(dir, name.getPath() + ".json");
+            String json = "";
+            try
+            {
+                json = PokedexEntryLoader.gson.toJson(h);
+                final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName(
+                        "UTF-8").newEncoder());
+                writer.write(json);
+                writer.close();
+            }
+            catch (final Exception e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
     }
 
     private boolean loadTag(final ResourceLocation tagLoc, final String tag, final String toCheck)

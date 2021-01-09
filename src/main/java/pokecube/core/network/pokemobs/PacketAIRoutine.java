@@ -12,7 +12,7 @@ import thut.core.common.network.Packet;
 public class PacketAIRoutine extends Packet
 {
 
-    public static void sentCommand(IPokemob pokemob, AIRoutine routine, boolean state)
+    public static void sentCommand(final IPokemob pokemob, final AIRoutine routine, final boolean state)
     {
         final PacketAIRoutine packet = new PacketAIRoutine();
         packet.entityId = pokemob.getEntity().getEntityId();
@@ -31,7 +31,7 @@ public class PacketAIRoutine extends Packet
         super(null);
     }
 
-    public PacketAIRoutine(PacketBuffer buf)
+    public PacketAIRoutine(final PacketBuffer buf)
     {
         this.entityId = buf.readInt();
         this.routine = AIRoutine.values()[buf.readByte()];
@@ -39,7 +39,7 @@ public class PacketAIRoutine extends Packet
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final Entity user = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
@@ -48,7 +48,7 @@ public class PacketAIRoutine extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityId);
         buf.writeByte(this.routine.ordinal());

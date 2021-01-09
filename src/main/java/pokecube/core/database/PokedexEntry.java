@@ -1114,6 +1114,17 @@ public class PokedexEntry
         // Apply default interactions
         InteractionLogic.initForEntry(this);
 
+        // Set the tag based values
+        this.shouldFly = this.isType(PokeType.getType("flying"));
+        this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("fly_allowed", this.getTrimmedName());
+        if (Tags.POKEMOB.isIn("fly_disallowed", this.getTrimmedName())) this.shouldFly = false;
+        this.shouldDive = Tags.POKEMOB.isIn("dive_allowed", this.getTrimmedName());
+        this.shouldSurf = Tags.POKEMOB.isIn("surf_allowed", this.getTrimmedName());
+        this.canSitShoulder = Tags.POKEMOB.isIn("shoulder_allowed", this.getTrimmedName());
+        this.isHeatProof = Tags.POKEMOB.isIn("fire_proof", this.getTrimmedName());
+        // Run this here to sync those over.
+        this.copyToGenderFormes();
+
         if (this._forme_items != null)
         {
             final Map<QName, String> values = this._forme_items.values;

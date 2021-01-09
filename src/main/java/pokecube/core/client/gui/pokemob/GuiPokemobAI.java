@@ -101,13 +101,12 @@ public class GuiPokemobAI extends GuiPokemobBase
         xOffset += 2;
         this.list = new ScrollGui<>(this, this.minecraft, 90, 50, 10, xOffset, yOffset);
         this.list.smoothScroll = false;
-        int n = 0;
         for (int i = 0; i < AIRoutine.values().length; i++)
         {
             String name = AIRoutine.values()[i].toString();
             if (!AIRoutine.values()[i].isAllowed(this.pokemob)) continue;
             if (name.length() > 6) name = name.substring(0, 6);
-            final int index = n++;
+            final int index = i;
             final Button button = new Button(xOffset, yOffset, 40, 10, new StringTextComponent(name), b ->
             {
                 final AIRoutine routine = AIRoutine.values()[index];

@@ -765,7 +765,6 @@ public class PokemobEventsHandler
                 return;
             }
         }
-
         // Check saddle for riding.
         if (saddleCheck)
         {

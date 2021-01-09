@@ -1246,18 +1246,12 @@ public class PokedexEntryLoader
         // Logics
         if (xmlStats.logics != null)
         {
-            entry.shouldFly = entry.isType(PokeType.getType("flying"));
             final Map<QName, String> values = xmlStats.logics.values;
             for (final QName key : values.keySet())
             {
                 final String keyString = key.toString();
                 final String value = values.get(key);
-                if (keyString.equals("shoulder")) entry.canSitShoulder = Boolean.parseBoolean(value);
-                if (keyString.equals("fly")) entry.shouldFly = Boolean.parseBoolean(value);
-                if (keyString.equals("dive")) entry.shouldDive = Boolean.parseBoolean(value);
-                if (keyString.equals("surf")) entry.shouldSurf = Boolean.parseBoolean(value);
                 if (keyString.equals("stationary")) entry.isStationary = Boolean.parseBoolean(value);
-                if (keyString.equals("fireproof")) entry.isHeatProof = Boolean.parseBoolean(value);
                 if (keyString.equals("dye"))
                 {
                     String[] args = value.split("#");
