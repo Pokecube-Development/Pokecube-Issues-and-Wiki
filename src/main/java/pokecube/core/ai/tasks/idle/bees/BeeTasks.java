@@ -11,13 +11,13 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.tasks.idle.bees.sensors.FlowerSensor;
 import pokecube.core.ai.tasks.idle.bees.sensors.HiveSensor;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.ai.IAIRunnable;
@@ -83,14 +83,8 @@ public class BeeTasks
 
     public static boolean isValidBee(final Entity entity)
     {
-        final boolean isBee = EntityTypeTags.BEEHIVE_INHABITORS.contains(entity.getType());
-        // Only care about bees
-        if (!isBee) return false;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-        // Only process stock pokemobs
-        if (pokemob == null || !pokemob.getPokedexEntry().stock) return false;
-        // Only process server side
-        if (!(entity.getEntityWorld() instanceof ServerWorld)) return false;
-        return true;
+        if (pokemob == null) return false;
+        return pokemob.isRoutineEnabled(AIRoutine.BEEAI);
     }
 }

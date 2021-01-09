@@ -21,6 +21,7 @@ import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Permissions;
@@ -59,10 +60,10 @@ public class LogicMountedControl extends LogicBase
         this.entity.stepHeight = 1.1f;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
 
-        boolean canFly = this.pokemob.canUseFly();
+        boolean canFly = this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
         if (rider == null)
         {
-            if (this.wasRiding && canFly && !this.pokemob.getPokedexEntry().flys())
+            if (this.wasRiding && canFly)
             {
                 this.entity.setNoGravity(false);
                 this.wasRiding = false;

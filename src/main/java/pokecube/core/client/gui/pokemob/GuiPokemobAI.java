@@ -27,15 +27,17 @@ public class GuiPokemobAI extends GuiPokemobBase
     {
         final IPokemob pokemob;
         final Button   wrapped;
+        final int      index;
         int            top;
 
-        public Entry(final Button wrapped, final IPokemob pokemob)
+        public Entry(final Button wrapped, final int index, final IPokemob pokemob)
         {
             this.wrapped = wrapped;
             this.pokemob = pokemob;
             this.wrapped.visible = false;
             this.wrapped.active = false;
             this.top = wrapped.y;
+            this.index = index;
         }
 
         @Override
@@ -47,7 +49,7 @@ public class GuiPokemobAI extends GuiPokemobBase
             this.wrapped.active = false;
             if (y > this.top && y < this.top + 50)
             {
-                final AIRoutine routine = AIRoutine.values()[slotIndex];
+                final AIRoutine routine = AIRoutine.values()[this.index];
                 final boolean state = this.pokemob.isRoutineEnabled(routine);
                 AbstractGui.fill(mat, x + 41, y + 1, x + 80, y + 10, state ? 0xFF00FF00 : 0xFFFF0000);
                 AbstractGui.fill(mat, x, y + 10, x + 40, y + 11, 0xFF000000);
@@ -99,11 +101,13 @@ public class GuiPokemobAI extends GuiPokemobBase
         xOffset += 2;
         this.list = new ScrollGui<>(this, this.minecraft, 90, 50, 10, xOffset, yOffset);
         this.list.smoothScroll = false;
+        int n = 0;
         for (int i = 0; i < AIRoutine.values().length; i++)
         {
             String name = AIRoutine.values()[i].toString();
+            if (!AIRoutine.values()[i].isAllowed(this.pokemob)) continue;
             if (name.length() > 6) name = name.substring(0, 6);
-            final int index = i;
+            final int index = n++;
             final Button button = new Button(xOffset, yOffset, 40, 10, new StringTextComponent(name), b ->
             {
                 final AIRoutine routine = AIRoutine.values()[index];
@@ -112,7 +116,7 @@ public class GuiPokemobAI extends GuiPokemobBase
                 PacketAIRoutine.sentCommand(this.pokemob, routine, state);
             });
             this.addButton(button);
-            this.list.addEntry(new Entry(button, this.pokemob));
+            this.list.addEntry(new Entry(button, index, this.pokemob));
         }
         this.children.add(this.list);
     }
@@ -124,6 +128,6 @@ public class GuiPokemobAI extends GuiPokemobBase
         for (int i = 3; i < this.buttons.size(); i++)
             this.buttons.get(i).visible = false;
         this.list.render(mat, x, y, f);
-        this.renderHoveredTooltip(mat,x, y);
+        this.renderHoveredTooltip(mat, x, y);
     }
 }

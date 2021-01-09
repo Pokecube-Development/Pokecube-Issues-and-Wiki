@@ -5,6 +5,7 @@ import java.util.Optional;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.math.GlobalPos;
@@ -68,6 +69,7 @@ public class BeeEventsHandler
         if (fromHive && nectar)
         {
             brain.removeMemory(BeeTasks.HAS_NECTAR);
+            pokemob.eat(ItemStack.EMPTY);
             final World world = event.getEntity().getEntityWorld();
             final GlobalPos pos = pos_opt.get();
             final BlockState state = world.getBlockState(pos.getPos());

@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 
@@ -36,8 +37,10 @@ public abstract class BeeTask extends BaseIdleTask
     @Override
     public boolean shouldRun()
     {
-        final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(GeneralStates.STAYING);
-        return tameCheck && this.doBeeTask();
+        final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(
+                GeneralStates.STAYING);
+        final boolean beeCheck = this.pokemob.isRoutineEnabled(AIRoutine.BEEAI);
+        return tameCheck && beeCheck && this.doBeeTask();
     }
 
 }
