@@ -306,6 +306,7 @@ public class EventsHandler
         // This saves the pokecube Serializer
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onWorldSave);
 
+        // These 4 are for handling interaction events, etc
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEntityInteract);
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEntityInteractSpecific);
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onItemRightClick);

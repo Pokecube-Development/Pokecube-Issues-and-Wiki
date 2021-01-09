@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "bulbasaur",
+    "ivysaur",
+    "venusaur",
+    "politoed",
+    "croagunk",
+    "toxicroak",
+    "froakie",
+    "frogadier",
+    "greninja"
+  ]
+}

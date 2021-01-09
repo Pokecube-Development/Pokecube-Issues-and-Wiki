@@ -60,6 +60,7 @@ import pokecube.core.database.resources.PackListener;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.StringTagsHelper;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -544,17 +545,10 @@ public class Database
                     e.width = base.width;
                     e.length = base.length;
                     e.childNumbers = base.childNumbers;
-                    e.species = base.species;
                     e.mobType = base.mobType;
                     e.catchRate = base.catchRate;
                     e.mass = base.mass;
                     PokecubeCore.LOGGER.debug("Error with " + e);
-                }
-                if (e.species == null)
-                {
-                    e.childNumbers = base.childNumbers;
-                    e.species = base.species;
-                    PokecubeCore.LOGGER.debug(e + " Has no Species");
                 }
                 if (e.type1 == null)
                 {
@@ -867,12 +861,35 @@ public class Database
         // If this was not done, then lisener never reloaded correctly, so we
         // don't want to do anything here.
         if (!Database.listener.loaded) return;
+
+        // Load these first, as they do some checks for full data loading, and
+        // they also don't rely on anything else, they just do string based tags
+        StringTagsHelper.onResourcesReloaded();
+        // In this case, we are not acually a real datapack load, just an
+        // initial world check thing.
+        if (!Tags.BREEDING.validLoad) return;
+
         PokedexInspector.rewards.clear();
         XMLRewardsHandler.loadedRecipes.clear();
         Database.loadStarterPack();
         Database.loadRecipes();
         Database.loadRewards();
-        StringTagsHelper.onResourcesReloaded();
+
+        // Clear the values that will be set below
+        for (final PokedexEntry p : Database.allFormes)
+        {
+            p.related.clear();
+            p._childNb = null;
+        }
+        /** Initialize relations, prey, children. */
+        for (final PokedexEntry p : Database.allFormes)
+            p.initRelations();
+        for (final PokedexEntry p : Database.allFormes)
+            p.initPrey();
+        // Children last, as relies on relations.
+        for (final PokedexEntry p : Database.allFormes)
+            p.getChild();
+
         for (final PokedexEntry entry : Database.getSortedFormes())
             entry.onResourcesReloaded();
         // This gets re-set to true if listener hears a reload
@@ -912,15 +929,6 @@ public class Database
             }
         }
         DefaultFormeHolder._main_init_ = true;
-
-        /** Initialize relations, prey, children. */
-        for (final PokedexEntry p : Database.allFormes)
-            p.initRelations();
-        for (final PokedexEntry p : Database.allFormes)
-            p.initPrey();
-        // Children last, as relies on relations.
-        for (final PokedexEntry p : Database.allFormes)
-            p.getChild();
     }
 
     public static Set<IResourcePack> customPacks = Sets.newHashSet();

@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "geodude",
+    "geodude_alola",
+    "graveler",
+    "graveler_alola",
+    "golem",
+    "golem_alola",
+    "shuckle",
+    "nosepass",
+    "probopass",
+    "roggenrola",
+    "boldore",
+    "gigalith",
+    "stonjourner"
+  ]
+}

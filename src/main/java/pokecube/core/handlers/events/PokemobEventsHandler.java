@@ -10,6 +10,7 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -29,6 +30,12 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -71,6 +78,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.berries.ItemBerry;
+import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.moves.damage.IPokedamage;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
@@ -81,6 +89,7 @@ import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
+import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -179,6 +188,8 @@ public class PokemobEventsHandler
 
     private static void onLivingHurt(final LivingHurtEvent evt)
     {
+        // Only process these server side
+        if (!(evt.getEntity().getEntityWorld() instanceof ServerWorld)) return;
         /*
          * No harming invalid targets, only apply this to pokemob related damage
          * sources
@@ -199,12 +210,62 @@ public class PokemobEventsHandler
         if (pokemob != null && evt.getSource().getTrueSource() instanceof PlayerEntity) evt.setAmount((float) (evt
                 .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
 
-        // Prevent suffocating the player if they are in wall while riding
-        // pokemob.
-        if (evt.getEntity() instanceof PlayerEntity && evt.getSource() == DamageSource.IN_WALL)
+        // Some special handling for in wall stuff
+        if (evt.getSource() == DamageSource.IN_WALL)
         {
+            MobEntity toPush = pokemob != null ? pokemob.getEntity() : null;
+
+            // Check if a player riding something, if so, compute a larger
+            // hitbox and try to push out of the wall
             pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getRidingEntity());
-            if (pokemob != null) evt.setCanceled(true);
+            final boolean playerRiding = evt.getEntity() instanceof PlayerEntity && pokemob != null;
+            if (playerRiding) toPush = pokemob.getEntity();
+
+            if (toPush != null)
+            {
+                evt.setCanceled(true);
+                final ServerWorld world = (ServerWorld) evt.getEntity().getEntityWorld();
+                final AxisAlignedBB oldBox = evt.getEntity().getBoundingBox();
+                final AxisAlignedBB newBox = toPush.getBoundingBox();
+
+                // Take the larger of the boxes, collide off that.
+                final AxisAlignedBB biggerBox = oldBox.union(newBox);
+
+                final List<VoxelShape> hits = Lists.newArrayList();
+                // Find all voxel shapes in the area
+                BlockPos.getAllInBox(biggerBox).forEach(pos ->
+                {
+                    final BlockState state = world.getBlockState(pos);
+                    final VoxelShape shape = state.getCollisionShape(world, pos);
+                    if (!shape.isEmpty()) hits.add(shape.withOffset(pos.getX(), pos.getY(), pos.getZ()));
+                });
+
+                // If there were any voxel shapes, then check if we need to
+                // collidedw
+                if (hits.size() > 0)
+                {
+                    VoxelShape total = VoxelShapes.empty();
+                    // Merge the found shapes into a single one
+                    for (final VoxelShape s : hits)
+                        total = VoxelShapes.combine(total, s, IBooleanFunction.OR);
+                    final List<AxisAlignedBB> aabbs = Lists.newArrayList();
+                    // Convert to colliding AABBs
+                    BlockEntityUpdater.fill(aabbs, biggerBox, total);
+                    // Push off the AABBS if needed
+                    final boolean col = BlockEntityUpdater.applyEntityCollision(toPush, biggerBox, aabbs,
+                            Vector3d.ZERO);
+
+                    // This gives us an indication if if we did actually
+                    // collide, if this occured, then we need to do some extra
+                    // processing to make sure that we fit properly
+                    if (col)
+                    {
+                        Vector3 v = Vector3.getNewVector().set(toPush);
+                        v = SendOutManager.getFreeSpot(toPush, world, v, false);
+                        if (v != null) v.moveEntity(toPush);
+                    }
+                }
+            }
         }
     }
 

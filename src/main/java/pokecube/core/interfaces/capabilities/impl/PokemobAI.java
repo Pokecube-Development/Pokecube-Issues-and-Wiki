@@ -141,6 +141,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean isRoutineEnabled(final AIRoutine routine)
     {
+        if (!routine.isAllowed(this)) return false;
         return this.routineStates[routine.ordinal()];
     }
 

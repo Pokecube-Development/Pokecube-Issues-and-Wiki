@@ -1,7 +1,7 @@
 package pokecube.mobs.abilities.w;
 
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.database.abilities.tags.AbilityTags;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -21,7 +21,7 @@ public class WanderingSpirit extends Ability
             final String name = attacker.getAbility().getName();
 
             // Don't apply to this one
-            if (AbilityTags.TAGS.isIn("no_wandering_spirit", name)) return;
+            if (Tags.ABILITY.isIn("no_wandering_spirit", name)) return;
 
             // These will ensure that the ability is only temporarily set,
             // rather than permanently.
