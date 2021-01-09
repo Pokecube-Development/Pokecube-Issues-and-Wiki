@@ -41,11 +41,25 @@
         "lenient": true,
         "entry": "regirock"
       }
+    },
+    "catch_regieleki": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "regieleki"
+      }
+    },
+    "catch_regidrago": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "regidrago"
+      }
     }
   },
   "rewards": {
     "loot": [
-      "pokecube_legends:entities/regisorb"
+      "pokecube_legends:entities/regiorb"
     ]
   },
   "parent": "pokecube_legends:regis"
