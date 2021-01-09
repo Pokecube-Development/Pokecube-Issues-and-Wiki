@@ -3,10 +3,9 @@ package pokecube.core.ai.tasks.idle.bees;
 import java.util.Optional;
 
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.tileentity.BeehiveTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
+import pokecube.core.ai.tasks.idle.bees.sensors.HiveSensor;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
 
@@ -40,25 +39,9 @@ public class EnterHive extends BeeTask
             this.homePos.set(pos.getPos());
             // If too far, lets path over.
             if (this.homePos.distToEntity(this.entity) > 2) this.setWalkTo(this.homePos, 1, 0);
-            else
-            {
-                final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
-                // Otherwise, lets enter the hive
-                final TileEntity tileentity = world.getTileEntity(pos.getPos());
-                if (tileentity instanceof BeehiveTileEntity)
-                {
-                    final BeehiveTileEntity beehivetileentity = (BeehiveTileEntity) tileentity;
-                    final int num = beehivetileentity.bees.size();
-                    final boolean nectar = hasNectar.isPresent() && hasNectar.get();
-                    // Try to enter the hive
-                    beehivetileentity.tryEnterHive(this.entity, nectar);
-                    // If this changed, then we added correctly.
-                    final boolean added = num < beehivetileentity.bees.size();
-                    // BeehiveTileEntity checks this boolean directly for if
-                    // there is nectar in the bee.
-                    if (added) beehivetileentity.bees.get(num).entityData.putBoolean("HasNectar", nectar);
-                }
-            }
+            // If we can't get into the hive, forget it as a hive.
+            else if (!HiveSensor.tryAddToBeeHive(this.entity, pos.getPos()))
+                this.entity.getBrain().removeMemory(BeeTasks.HIVE_POS);
         }
     }
 

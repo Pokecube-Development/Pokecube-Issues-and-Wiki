@@ -1,6 +1,5 @@
-package pokecube.compat.lostcities;
+package pokecube.compat.resourcefulbees;
 
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -14,10 +13,9 @@ public class Compat
         pokecube.compat.Compat.BUS.register(Compat.class);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent
     public static void loadComplete(final CompatEvent event)
     {
-        if (ModList.get().isLoaded("lostcities")) Impl.register();
+        if (ModList.get().isLoaded("resourcefulbees")) Impl.register();
     }
-
 }
