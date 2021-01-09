@@ -28,7 +28,7 @@ public class RootTask<E extends LivingEntity> extends Task<E>
         final Map<MemoryModuleType<?>, MemoryModuleStatus> ret = Maps.newHashMap();
         ret.putAll(mems2);
         ret.putAll(mems3);
-        return ImmutableMap.copyOf(mems3);
+        return ImmutableMap.copyOf(ret);
     }
 
     protected final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems;
