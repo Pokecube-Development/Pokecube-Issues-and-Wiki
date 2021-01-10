@@ -472,8 +472,8 @@
       "name":"pokecube_legends:elite_four",
       "root":"pokecube_legends:elite_four",
       "biomeType":"none",
-      "distance":32,
-      "separation":8,
+      "distance":128,
+      "separation":32,
       "spawn":{
         "values":{
           "types":"all",
