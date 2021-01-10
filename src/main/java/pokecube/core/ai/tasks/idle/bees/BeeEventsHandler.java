@@ -1,13 +1,8 @@
 package pokecube.core.ai.tasks.idle.bees;
 
-import java.util.Optional;
-
-import net.minecraft.block.BeehiveBlock;
-import net.minecraft.block.BlockState;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tileentity.BeehiveTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,8 +11,8 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.bees.sensors.FlowerSensor;
 import pokecube.core.events.HarvestCheckEvent;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.IInhabitable;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 
 public class BeeEventsHandler
 {
@@ -44,45 +39,45 @@ public class BeeEventsHandler
      */
     private static void onBeeAddedToWorld(final EntityJoinWorldEvent event)
     {
-        if (!BeeTasks.isValidBee(event.getEntity())) return;
-
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
-        final Brain<?> brain = pokemob.getEntity().getBrain();
-        if (!brain.hasMemory(BeeTasks.HAS_NECTAR)) return;
-
-        final StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
-        final boolean nectar = hasNectar.isPresent() && hasNectar.get();
+        // We only consider MobEntities
+        if (!(event.getEntity() instanceof MobEntity)) return;
+        final MobEntity mob = (MobEntity) event.getEntity();
+        final Brain<?> brain = mob.getBrain();
+        // No hive pos, not a bee leaving hive
+        if (!brain.hasMemory(BeeTasks.HIVE_POS)) return;
+        final World world = event.getEntity().getEntityWorld();
+        final GlobalPos pos = brain.getMemory(BeeTasks.HIVE_POS).get();
+        // not same dimension, not a bee leaving hive
+        if (pos.getDimension() != world.getDimensionKey()) return;
+        // not loaded, definitely not a bee leaving hive
+        if (!world.isAreaLoaded(pos.getPos(), 0)) return;
+        final TileEntity tile = world.getTileEntity(pos.getPos());
+        // No tile entity here? also not a bee leaving hive!
+        if (tile == null) return;
+        final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+        // Not a habitat, so not going to be a bee leaving a hive
+        if (habitat == null) return;
+        // This will indicate if the tile did actually cause the spawn.
         boolean fromHive = false;
-        final String hive_class = BeehiveTileEntity.class.getName();
-        final int n = 0;
-        for (final StackTraceElement element : stack)
+        int n = 0;
+        // Check the stack to see if tile resulted in our spawn, if not, then we
+        // are not from it either!
+        for (final StackTraceElement element : Thread.currentThread().getStackTrace())
         {
-            fromHive = element.getClassName().equals(hive_class);
-            if (fromHive || n > 20) break;
-        }
-        final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS);
-
-        // No hive pos
-        if (!pos_opt.isPresent()) return;
-
-        if (fromHive && nectar)
-        {
-            brain.removeMemory(BeeTasks.HAS_NECTAR);
-            pokemob.eat(ItemStack.EMPTY);
-            final World world = event.getEntity().getEntityWorld();
-            final GlobalPos pos = pos_opt.get();
-            final BlockState state = world.getBlockState(pos.getPos());
-            if (state.getBlock().isIn(BlockTags.BEEHIVES))
+            try
             {
-                final int i = BeehiveTileEntity.getHoneyLevel(state);
-                if (i < 5)
-                {
-                    int j = world.rand.nextInt(100) == 0 ? 2 : 1;
-                    if (i + j > 5) --j;
-                    world.setBlockState(pos.getPos(), state.with(BeehiveBlock.HONEY_LEVEL, Integer.valueOf(i + j)));
-                }
+                final Class<?> c = Class.forName(element.getClassName());
+                fromHive = c == tile.getClass();
             }
+            catch (final ClassNotFoundException e)
+            {
+                // NOOP, why would this happen anyway?
+                e.printStackTrace();
+            }
+            if (fromHive || n++ > 100) break;
         }
+        // was not from the hive, so exit
+        if (!fromHive) return;
+        habitat.onLeaveHabitat(mob);
     }
 }

@@ -3,7 +3,6 @@ package pokecube.core.ai.tasks.idle.bees.sensors;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,7 +10,7 @@ import java.util.stream.Stream;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
@@ -24,24 +23,26 @@ import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.tasks.idle.bees.BeeTasks;
+import pokecube.core.interfaces.IInhabitable;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 
-public class HiveSensor extends Sensor<LivingEntity>
+public class HiveSensor extends Sensor<MobEntity>
 {
     private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(BeeTasks.HIVE_POS, BeeTasks.NO_HIVE_TIMER);
 
     public static interface IHiveEnterer
     {
-        boolean addBee(LivingEntity entityIn, TileEntity hive);
+        boolean addBee(MobEntity entityIn, TileEntity hive);
     }
 
     public static interface IHiveSpaceCheck
     {
-        boolean canAddBee(LivingEntity entityIn, TileEntity hive);
+        boolean canAddBee(MobEntity entityIn, TileEntity hive);
     }
 
     public static interface IHiveLocator
     {
-        List<BlockPos> getHives(LivingEntity entityIn);
+        List<BlockPos> getHives(MobEntity entityIn);
     }
 
     public static List<IHiveEnterer> hiveEnterers = Lists.newArrayList();
@@ -55,30 +56,18 @@ public class HiveSensor extends Sensor<LivingEntity>
         final IHiveEnterer vanillaHives = (entityIn, tile) ->
         {
             if (!(tile instanceof BeehiveTileEntity)) return false;
-            final BeehiveTileEntity hive = (BeehiveTileEntity) tile;
-            final int num = hive.bees.size();
-            final Brain<?> brain = entityIn.getBrain();
-            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
-            final boolean nectar = hasNectar.isPresent() && hasNectar.get();
-            // Try to enter the hive
-            hive.tryEnterHive(entityIn, nectar);
-            // If this changed, then we added correctly.
-            final boolean added = num < hive.bees.size();
-            // BeehiveTileEntity checks this boolean directly for if
-            // there is nectar in the bee.
-            if (added) hive.bees.get(num).entityData.putBoolean("HasNectar", nectar);
-            return added;
+            final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+            return habitat != null && habitat.onEnterHabitat(entityIn);
         };
         HiveSensor.hiveEnterers.add(vanillaHives);
 
         final IHiveSpaceCheck vanillaCheck = (entityIn, tile) ->
         {
             if (!(tile instanceof BeehiveTileEntity)) return false;
-            final BeehiveTileEntity hive = (BeehiveTileEntity) tile;
-            return !hive.isFullOfBees();
+            final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+            return habitat != null && habitat.canEnterHabitat(entityIn);
         };
         HiveSensor.hiveSpaceCheckers.add(vanillaCheck);
-
         final IHiveLocator vanillaLocator = (entityIn) ->
         {
             final BlockPos blockpos = entityIn.getPosition();
@@ -99,7 +88,7 @@ public class HiveSensor extends Sensor<LivingEntity>
         HiveSensor.hiveLocators.add(vanillaLocator);
     }
 
-    private static List<BlockPos> getNearbyFreeHives(final LivingEntity entityIn)
+    private static List<BlockPos> getNearbyFreeHives(final MobEntity entityIn)
     {
         final List<BlockPos> hives = Lists.newArrayList();
         final BlockPos blockpos = entityIn.getPosition();
@@ -111,7 +100,7 @@ public class HiveSensor extends Sensor<LivingEntity>
         return hives;
     }
 
-    public static boolean doesHiveHaveSpace(final LivingEntity entityIn, final BlockPos pos)
+    public static boolean doesHiveHaveSpace(final MobEntity entityIn, final BlockPos pos)
     {
         final TileEntity tile = entityIn.getEntityWorld().getTileEntity(pos);
         if (tile != null) for (final IHiveSpaceCheck checker : HiveSensor.hiveSpaceCheckers)
@@ -119,7 +108,7 @@ public class HiveSensor extends Sensor<LivingEntity>
         return false;
     }
 
-    public static boolean tryAddToBeeHive(final LivingEntity entityIn, final BlockPos hive)
+    public static boolean tryAddToBeeHive(final MobEntity entityIn, final BlockPos hive)
     {
         final TileEntity tile = entityIn.getEntityWorld().getTileEntity(hive);
         if (tile != null) for (final IHiveEnterer checker : HiveSensor.hiveEnterers)
@@ -128,7 +117,7 @@ public class HiveSensor extends Sensor<LivingEntity>
     }
 
     @Override
-    protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
+    protected void update(final ServerWorld worldIn, final MobEntity entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
         if (brain.hasMemory(BeeTasks.HIVE_POS)) return;

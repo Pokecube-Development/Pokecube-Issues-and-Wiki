@@ -10,7 +10,6 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.core.PokecubeItems;
 
 public class PointsOfInterest
 {
@@ -29,8 +28,5 @@ public class PointsOfInterest
     }
 
     public static final RegistryObject<PointOfInterestType> GENELAB = PointsOfInterest.REG.register("gene_lab",
-            () -> new PointOfInterestType("pokecube_adventures:gene_lab", PointsOfInterest.getLabMachines(), 1, 2));
-    public static final RegistryObject<PointOfInterestType> HEALER  = PointsOfInterest.REG.register("healer",
-            () -> new PointOfInterestType("pokecube_adventures:healer", Sets.newHashSet(PokecubeItems.HEALER.get()
-                    .getStateContainer().getValidStates()), 1, 2));
+            () -> new PointOfInterestType("gene_lab", PointsOfInterest.getLabMachines(), 1, 2));
 }

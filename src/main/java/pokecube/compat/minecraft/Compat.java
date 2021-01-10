@@ -10,6 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.tileentity.BeehiveTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -26,6 +28,8 @@ import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable.BeeHabitat;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 import pokecube.core.utils.PokeType;
 import thut.api.OwnableCaps;
 import thut.api.item.ItemList;
@@ -39,6 +43,7 @@ public class Compat
     public static Map<EntityType<?>, PokedexEntry> customEntries = Maps.newHashMap();
 
     private static final ResourceLocation NOTPOKEMOBS = new ResourceLocation(PokecubeCore.MODID, "never_pokemob");
+    private static final ResourceLocation BEEHIVES    = new ResourceLocation(PokecubeCore.MODID, "bee_hive_cap");
 
     static
     {
@@ -80,14 +85,31 @@ public class Compat
     {
         // Here will will register the vanilla mobs as a type of pokemob.
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
+        // Here will will register the vanilla bee hives as habitable
+        MinecraftForge.EVENT_BUS.addGenericListener(TileEntity.class, Compat::onTileEntityCaps);
+    }
+
+    private static void onTileEntityCaps(final AttachCapabilitiesEvent<TileEntity> event)
+    {
+        // Only apply to BeehiveTileEntity
+        // For now, we do an equality check, instead of instanceof check.
+        // TODO replace with instanceof when resourcefull bees updates
+        if(!(event.getObject().getClass() == BeehiveTileEntity.class)) return;
+
+        final BeeHabitat habitat = new BeeHabitat((BeehiveTileEntity) event.getObject());
+        final HabitatProvider provider = new HabitatProvider(habitat);
+        event.addCapability(Compat.BEEHIVES, provider);
     }
 
     private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
+        // Only consider mobEntity, IPokemob requires that
         if (!(event.getObject() instanceof MobEntity)) return;
+        // Do not apply this to trainers!
         if (Config.instance.shouldBeCustomTrainer((LivingEntity) event.getObject())) return;
+        // This checks blacklists, configs, etc on the pokemob type
         if (!Compat.makePokemob.test(event.getObject().getType())) return;
-
+        // If someone already added it, lets skip
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
             final PokedexEntry entry = PokecubeCore.getEntryFor(event.getObject().getType());
