@@ -248,7 +248,7 @@ public class TerrainSegment
                 biomes[i] = t.idReplacements.get(biomes[i]);
                 replacements = true;
             }
-        if (replacements) System.out.println("Replacement subbiomes found for " + t.chunkX + " " + t.chunkY + " "
+        if (replacements) ThutCore.LOGGER.info("Replacement subbiomes found for " + t.chunkX + " " + t.chunkY + " "
                 + t.chunkZ);
         t.setBiome(biomes);
     }
