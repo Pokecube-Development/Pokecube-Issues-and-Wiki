@@ -62,6 +62,7 @@ import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.stats.SpecialCaseRegister;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.events.pokemob.SpawnEvent;
@@ -822,7 +823,7 @@ public class PokedexEntry
     @CopyToGender
     public int                                  catchRate       = -1;
     @CopyToGender
-    private PokedexEntry                        _childNb        = null;
+    protected PokedexEntry                      _childNb        = null;
     /** A map of father pokedexnb : child pokedexNbs */
     @CopyToGender
     protected Map<PokedexEntry, PokedexEntry[]> childNumbers    = Maps.newHashMap();
@@ -996,7 +997,7 @@ public class PokedexEntry
      * via evolution chains
      */
     @CopyToGender
-    private final List<PokedexEntry> related = new ArrayList<>();
+    protected final List<PokedexEntry> related = new ArrayList<>();
 
     @CopyToGender
     protected int sexeRatio = -1;
@@ -1025,9 +1026,6 @@ public class PokedexEntry
      * gender spawns in pokedex.
      */
     private SpawnData spawns;
-    /** Used to determine egg group */
-    @CopyToGender
-    public String[]   species = {};
 
     @CopyToGender
     public int[]      stats;
@@ -1115,6 +1113,17 @@ public class PokedexEntry
         if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
         // Apply default interactions
         InteractionLogic.initForEntry(this);
+
+        // Set the tag based values
+        this.shouldFly = this.isType(PokeType.getType("flying"));
+        this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("fly_allowed", this.getTrimmedName());
+        if (Tags.POKEMOB.isIn("fly_disallowed", this.getTrimmedName())) this.shouldFly = false;
+        this.shouldDive = Tags.POKEMOB.isIn("dive_allowed", this.getTrimmedName());
+        this.shouldSurf = Tags.POKEMOB.isIn("surf_allowed", this.getTrimmedName());
+        this.canSitShoulder = Tags.POKEMOB.isIn("shoulder_allowed", this.getTrimmedName());
+        this.isHeatProof = Tags.POKEMOB.isIn("fire_proof", this.getTrimmedName());
+        // Run this here to sync those over.
+        this.copyToGenderFormes();
 
         if (this._forme_items != null)
         {
@@ -1316,7 +1325,6 @@ public class PokedexEntry
         if (e.width == -1) e.width = this.width;
         if (e.length == -1) e.length = this.length;
         if (e.childNumbers.isEmpty()) e.childNumbers = this.childNumbers;
-        if (e.species == null) e.species = this.species;
         if (e.mobType == 0) e.mobType = this.mobType;
         if (e.catchRate == -1) e.catchRate = this.catchRate;
         if (e.sexeRatio == -1) e.sexeRatio = this.sexeRatio;
@@ -1791,17 +1799,19 @@ public class PokedexEntry
             foodList.add(s);
         poke:
         for (final PokedexEntry e : Database.data.values())
-            if (e.species != null) for (final String s : e.species)
+        {
+            final Set<String> tags = Tags.BREEDING.lookupTags(e.getTrimmedName());
+            for (final String s : tags)
                 if (foodList.contains(s))
                 {
                     this.prey.add(e);
                     continue poke;
                 }
+        }
     }
 
     protected void initRelations()
     {
-        this.related.clear();
         final List<EvolutionData> stale = Lists.newArrayList();
         for (final EvolutionData d : this.evolutions)
             if (!Pokedex.getInstance().isRegistered(d.evolution)) stale.add(d);
@@ -1811,9 +1821,7 @@ public class PokedexEntry
         for (final EvolutionData d : this.evolutions)
         {
             d.postInit();
-
             final PokedexEntry temp = d.evolution;
-
             if (temp == null) continue;
             temp._evolvesFrom = this;
             temp._evolvesBy = d;
@@ -1827,10 +1835,24 @@ public class PokedexEntry
             PokedexEntry.addFromEvolution(this, temp);
             PokedexEntry.addFromEvolution(temp, this);
         }
+        final Set<String> ourTags = Tags.BREEDING.lookupTags(this.getTrimmedName());
+        if (ourTags.isEmpty() && Tags.BREEDING.validLoad) PokecubeCore.LOGGER.debug("No egg group assigned for {}", this
+                .getTrimmedName());
+        entries:
         for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries())
-            if (e != null && e.species != null && this.species != null) for (final String s : this.species)
-                for (final String s1 : e.species)
-                    if (s.equals(s1)) this.addRelation(e);
+        {
+            // Already related, skip
+            if (this.areRelated(e)) continue;
+            final Set<String> theirTags = Tags.BREEDING.lookupTags(e.getTrimmedName());
+            for (final String s : theirTags)
+                if (ourTags.contains(s))
+                {
+                    this.addRelation(e);
+                    e.addRelation(this);
+                    continue entries;
+                }
+
+        }
         this.getRelated().sort(Database.COMPARATOR);
     }
 

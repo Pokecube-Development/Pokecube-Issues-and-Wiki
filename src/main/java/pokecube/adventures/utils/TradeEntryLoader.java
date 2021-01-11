@@ -3,6 +3,7 @@ package pokecube.adventures.utils;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resources.IResource;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
@@ -24,6 +26,7 @@ import pokecube.adventures.utils.trade_presets.AllTMs;
 import pokecube.adventures.utils.trade_presets.AllVitamins;
 import pokecube.adventures.utils.trade_presets.BuyRandomBadge;
 import pokecube.adventures.utils.trade_presets.SellRandomBadge;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
@@ -83,8 +86,6 @@ public class TradeEntryLoader
     public static final QName MAX = new QName("max");
 
     public static final QName CHANCE = new QName("chance");
-
-    static XMLDatabase database;
 
     public static Map<String, TradePreset> registeredPresets = Maps.newHashMap();
 
@@ -172,56 +173,70 @@ public class TradeEntryLoader
         return false;
     }
 
-    public static XMLDatabase loadDatabase(final ResourceLocation file) throws Exception
+    public static List<XMLDatabase> loadDatabase(final ResourceLocation file) throws Exception
     {
-        final InputStream res = Database.resourceManager.getResource(file).getInputStream();
-        final Reader reader = new InputStreamReader(res);
-        final XMLDatabase database = PokedexEntryLoader.gson.fromJson(reader, XMLDatabase.class);
-        reader.close();
-        return database;
+        final Collection<IResource> resources = Database.resourceManager.getAllResources(file);
+        final List<XMLDatabase> databases = Lists.newArrayList();
+        for (final IResource resource : resources)
+            try
+            {
+                final InputStream res = resource.getInputStream();
+                final Reader reader = new InputStreamReader(res);
+                databases.add(PokedexEntryLoader.gson.fromJson(reader, XMLDatabase.class));
+                reader.close();
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error with database file {}", file);
+                e.printStackTrace();
+            }
+        return databases;
     }
 
     public static void makeEntries(final ResourceLocation file) throws Exception
     {
-        TradeEntryLoader.database = TradeEntryLoader.loadDatabase(file);
-        for (final TradeEntry entry : TradeEntryLoader.database.trades)
+        final List<XMLDatabase> databases = TradeEntryLoader.loadDatabase(file);
+        databases.forEach(database ->
         {
-            final TrainerTrades trades = new TrainerTrades();
-            inner:
-            for (final Trade trade : entry.trades)
+            for (final TradeEntry entry : database.trades)
             {
-                if (TradeEntryLoader.addTemplatedTrades(trade, trades)) continue inner;
-                TrainerTrade recipe;
-                ItemStack sell = ItemStack.EMPTY;
-                ItemStack buy1 = ItemStack.EMPTY;
-                ItemStack buy2 = ItemStack.EMPTY;
-                Map<QName, String> values = trade.sell.getValues();
-                sell = Tools.getStack(values);
-                values = trade.buys.get(0).getValues();
-                buy1 = Tools.getStack(values);
-                if (trade.buys.size() > 1)
+                final TrainerTrades trades = new TrainerTrades();
+                inner:
+                for (final Trade trade : entry.trades)
                 {
-                    values = trade.buys.get(1).getValues();
-                    buy2 = Tools.getStack(values);
-                }
-                if (sell.isEmpty())
-                {
-                    System.err.println("No Sell:" + trade.sell + " " + trade.buys);
-                    continue;
-                }
+                    if (TradeEntryLoader.addTemplatedTrades(trade, trades)) continue inner;
+                    TrainerTrade recipe;
+                    ItemStack sell = ItemStack.EMPTY;
+                    ItemStack buy1 = ItemStack.EMPTY;
+                    ItemStack buy2 = ItemStack.EMPTY;
+                    Map<QName, String> values = trade.sell.getValues();
+                    sell = Tools.getStack(values);
+                    values = trade.buys.get(0).getValues();
+                    buy1 = Tools.getStack(values);
+                    if (trade.buys.size() > 1)
+                    {
+                        values = trade.buys.get(1).getValues();
+                        buy2 = Tools.getStack(values);
+                    }
+                    if (sell.isEmpty())
+                    {
+                        System.err.println("No Sell:" + trade.sell + " " + trade.buys);
+                        continue;
+                    }
 
-                recipe = new TrainerTrade(buy1, buy2, sell);
-                values = trade.values;
-                if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
-                        TradeEntryLoader.CHANCE));
-                if (values.containsKey(TradeEntryLoader.MIN)) recipe.min = Integer.parseInt(values.get(
-                        TradeEntryLoader.MIN));
-                if (values.containsKey(TradeEntryLoader.MAX)) recipe.max = Integer.parseInt(values.get(
-                        TradeEntryLoader.MAX));
-                trades.tradesList.add(recipe);
+                    recipe = new TrainerTrade(buy1, buy2, sell);
+                    values = trade.values;
+                    if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
+                            TradeEntryLoader.CHANCE));
+                    if (values.containsKey(TradeEntryLoader.MIN)) recipe.min = Integer.parseInt(values.get(
+                            TradeEntryLoader.MIN));
+                    if (values.containsKey(TradeEntryLoader.MAX)) recipe.max = Integer.parseInt(values.get(
+                            TradeEntryLoader.MAX));
+                    trades.tradesList.add(recipe);
+                }
+                TypeTrainer.tradesMap.put(entry.template, trades);
             }
-            TypeTrainer.tradesMap.put(entry.template, trades);
-        }
+        });
     }
 
 }

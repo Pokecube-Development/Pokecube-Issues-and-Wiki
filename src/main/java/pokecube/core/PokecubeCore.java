@@ -60,6 +60,7 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
+import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
@@ -442,6 +443,7 @@ public class PokecubeCore
         SecretBaseDimension.onConstruct(bus);
         PokecubeStructureProcessors.init(bus);
         WorldgenFeatures.init(bus);
+        PointsOfInterest.REG.register(bus);
         new WorldgenHandler(bus);
 
         bus.register(PokecubeCore.proxy);

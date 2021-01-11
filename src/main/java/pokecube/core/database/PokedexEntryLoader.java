@@ -48,6 +48,7 @@ import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.util.QNameAdaptor;
+import pokecube.core.database.util.UnderscoreIgnore;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
@@ -422,15 +423,12 @@ public class PokedexEntryLoader
         // Evolution stuff
         public List<Evolution> evolutions = Lists.newArrayList();
 
-        // Species and food
-        public String species;
+        // Prey, Food and Egg stuff
         public String prey;
         public String foodMat;
         public String specialEggRules;
-        // Drops and items
-        public List<Drop> drops = Lists.newArrayList();
-        public List<Drop> held  = Lists.newArrayList();
 
+        // Drops and items
         public String lootTable;
         public String heldTable;
 
@@ -498,6 +496,18 @@ public class PokedexEntryLoader
         {
             if (this.__map__.containsKey(toAdd.name)) this.pokemon.remove(this.__map__.remove(toAdd.name));
             this.pokemon.add(toAdd);
+
+            this.pokemon.removeIf(value ->
+            {
+                if (value.number == null)
+                {
+                    PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!",
+                            value.name);
+                    return true;
+                }
+                return false;
+            });
+
             Collections.sort(this.pokemon, PokedexEntryLoader.ENTRYSORTER);
         }
 
@@ -577,7 +587,7 @@ public class PokedexEntryLoader
     static
     {
         gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE).setPrettyPrinting()
-                .disableHtmlEscaping().create();
+                .disableHtmlEscaping().setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
         PokedexEntryLoader.missingno.stats = new StatsNode();
     }
 
@@ -939,7 +949,6 @@ public class PokedexEntryLoader
             }
             if (strings.length > 1) entry.preferedHeight = Double.parseDouble(strings[1]);
         }
-        if (xmlStats.species != null) entry.species = xmlStats.species.trim().split(" ");
         if (xmlStats.prey != null) entry.food = xmlStats.prey.trim().split(" ");
     }
 
@@ -980,6 +989,16 @@ public class PokedexEntryLoader
     public static void makeEntries(final boolean create)
     {
         final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
+
+        entries.removeIf(value ->
+        {
+            if (value.number == null)
+            {
+                PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!", value.name);
+                return true;
+            }
+            return false;
+        });
 
         Collections.sort(entries, PokedexEntryLoader.ENTRYSORTER);
 
@@ -1227,18 +1246,12 @@ public class PokedexEntryLoader
         // Logics
         if (xmlStats.logics != null)
         {
-            entry.shouldFly = entry.isType(PokeType.getType("flying"));
             final Map<QName, String> values = xmlStats.logics.values;
             for (final QName key : values.keySet())
             {
                 final String keyString = key.toString();
                 final String value = values.get(key);
-                if (keyString.equals("shoulder")) entry.canSitShoulder = Boolean.parseBoolean(value);
-                if (keyString.equals("fly")) entry.shouldFly = Boolean.parseBoolean(value);
-                if (keyString.equals("dive")) entry.shouldDive = Boolean.parseBoolean(value);
-                if (keyString.equals("surf")) entry.shouldSurf = Boolean.parseBoolean(value);
                 if (keyString.equals("stationary")) entry.isStationary = Boolean.parseBoolean(value);
-                if (keyString.equals("fireproof")) entry.isHeatProof = Boolean.parseBoolean(value);
                 if (keyString.equals("dye"))
                 {
                     String[] args = value.split("#");
@@ -1489,6 +1502,16 @@ public class PokedexEntryLoader
             final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
             final XMLDatabase database = new XMLDatabase();
             database.pokemon = entries;
+            database.pokemon.removeIf(value ->
+            {
+                if (value.number == null)
+                {
+                    PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!",
+                            value.name);
+                    return true;
+                }
+                return false;
+            });
             database.pokemon.sort(PokedexEntryLoader.ENTRYSORTER);
             database.pokemon.replaceAll(t ->
             {

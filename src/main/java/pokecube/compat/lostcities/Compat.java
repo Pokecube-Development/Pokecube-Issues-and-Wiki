@@ -15,7 +15,7 @@ public class Compat
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void serverAboutToStart(final CompatEvent event)
+    public static void loadComplete(final CompatEvent event)
     {
         if (ModList.get().isLoaded("lostcities")) Impl.register();
     }

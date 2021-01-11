@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -248,12 +248,12 @@ public class TerrainSegment
                 biomes[i] = t.idReplacements.get(biomes[i]);
                 replacements = true;
             }
-        if (replacements) System.out.println("Replacement subbiomes found for " + t.chunkX + " " + t.chunkY + " "
+        if (replacements) ThutCore.LOGGER.info("Replacement subbiomes found for " + t.chunkX + " " + t.chunkY + " "
                 + t.chunkZ);
         t.setBiome(biomes);
     }
 
-    public Map<Integer, Integer> idReplacements;
+    public Int2IntMap idReplacements;
 
     public final int chunkX;
 

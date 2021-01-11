@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "gengar",
+    "wailord",
+    "metang",
+    "metagross",
+    "metagross_mega",
+    "garchomp",
+    "garchomp_mega",
+    "magnezone",
+    "dusknoir",
+    "dialga",
+    "palkia",
+    "giratina",
+    "cresselia",
+    "darkrai",
+    "druddigon",
+    "golurk",
+    "kyurem",
+    "malamar",
+    "zygarde_100",
+    "hoopa_unbound",
+    "solgaleo",
+    "solgaleo_dusk",
+    "buzzwole",
+    "necrozma",
+    "orbeetle_gigantamax"
+  ]
+}

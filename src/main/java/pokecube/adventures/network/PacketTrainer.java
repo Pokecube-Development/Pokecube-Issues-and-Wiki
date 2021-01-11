@@ -13,6 +13,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -44,6 +45,7 @@ import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
@@ -193,6 +195,7 @@ public class PacketTrainer extends NBTPacket
     protected void onCompleteServer(final ServerPlayerEntity player)
     {
         this.message = this.getTag().getByte("__message__");
+        final World world = player.getEntityWorld();
         String type;
         String name;
         boolean male;
@@ -201,12 +204,12 @@ public class PacketTrainer extends NBTPacket
         name = this.getTag().getString("N");
         male = this.getTag().getBoolean("G");
         Entity mob;
-        mob = player.getEntityWorld().getEntityByID(id);
+        mob = world.getEntityByID(id);
         IHasPokemobs mobHolder;
         switch (this.message)
         {
         case REQUESTEDIT:
-            mob = id == -1 ? null : player.getEntityWorld().getEntityByID(id);
+            mob = id == -1 ? null : world.getEntityByID(id);
             PacketTrainer.sendEditOpenPacket(mob, player);
             break;
         case SPAWN:
@@ -219,7 +222,7 @@ public class PacketTrainer extends NBTPacket
 
             PokecubeCore.LOGGER.debug("Recieved Trainer Spawn Packet");
 
-            int level = this.getTag().getInt("L");
+            final int level = this.getTag().getInt("L");
             final Vector3 vec = Vector3.getNewVector().set(player);
             String args = "pokecube:mob:npc";
             final JsonObject thing = new JsonObject();
@@ -362,6 +365,11 @@ public class PacketTrainer extends NBTPacket
                 {
                     final CompoundNBT mobtag = this.getTag().getCompound("__pokemob__");
                     cube = ItemStack.read(mobtag);
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, world);
+                    // Load out the moves, since those don't send properly...
+                    if (mobtag.contains("__custom_info__")) this.readPokemob(pokemob, mobtag.getCompound(
+                            "__custom_info__"));
+                    cube = PokecubeManager.pokemobToItem(pokemob);
                 }
                 mobHolder.setPokemob(index, cube);
                 EntityUpdate.sendEntityUpdate(mob);
@@ -373,40 +381,44 @@ public class PacketTrainer extends NBTPacket
                 if (pokemob != null)
                 {
                     final CompoundNBT mobtag = this.getTag().getCompound("__pokemob__");
-                    for (int i = 0; i < 4; i++)
-                    {
-                        final String move = mobtag.getString("m_" + i);
-                        pokemob.setMove(i, move);
-                    }
-                    for (int i = 0; i < 6; i++)
-                    {
-                        final byte iv = mobtag.getByte("iv_" + i);
-                        final byte[] ivs = pokemob.getIVs();
-                        ivs[i] = iv;
-                        pokemob.setIVs(ivs);
-                        final byte ev = mobtag.getByte("ev_" + i);
-                        final byte[] evs = pokemob.getEVs();
-                        evs[i] = ev;
-                        pokemob.setEVs(evs);
-                    }
-                    final String ability = mobtag.getString("a");
-                    level = mobtag.getInt("l");
-                    final String nature = mobtag.getString("n");
-                    final float size = mobtag.getFloat("s");
-                    final boolean shiny = mobtag.getBoolean("sh");
-                    final byte gender = mobtag.getByte("g");
-                    pokemob.setSexe(gender);
-                    pokemob.setNature(Nature.valueOf(nature));
-                    pokemob.setAbility(AbilityManager.getAbility(ability));
-                    pokemob.setShiny(shiny);
-                    pokemob.setSize(size);
-                    pokemob.setExp(Tools.levelToXp(pokemob.getExperienceMode(), level), false);
-
-                    pokemob.onGenesChanged();
+                    this.readPokemob(pokemob, mobtag);
                     EntityUpdate.sendEntityUpdate(mob);
                 }
             }
             break;
         }
+    }
+
+    private void readPokemob(final IPokemob pokemob, final CompoundNBT mobtag)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            final String move = mobtag.getString("m_" + i);
+            pokemob.setMove(i, move);
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            final byte iv = mobtag.getByte("iv_" + i);
+            final byte[] ivs = pokemob.getIVs();
+            ivs[i] = iv;
+            pokemob.setIVs(ivs);
+            final byte ev = mobtag.getByte("ev_" + i);
+            final byte[] evs = pokemob.getEVs();
+            evs[i] = ev;
+            pokemob.setEVs(evs);
+        }
+        final String ability = mobtag.getString("a");
+        final int level = mobtag.getInt("l");
+        final String nature = mobtag.getString("n");
+        final float size = mobtag.getFloat("s");
+        final boolean shiny = mobtag.getBoolean("sh");
+        final byte gender = mobtag.getByte("g");
+        pokemob.setSexe(gender);
+        pokemob.setNature(Nature.valueOf(nature));
+        pokemob.setAbility(AbilityManager.getAbility(ability));
+        pokemob.setShiny(shiny);
+        pokemob.setSize(size);
+        pokemob.setExp(Tools.levelToXp(pokemob.getExperienceMode(), level), false);
+        pokemob.onGenesChanged();
     }
 }

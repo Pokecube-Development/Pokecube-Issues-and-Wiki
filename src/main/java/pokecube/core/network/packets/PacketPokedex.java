@@ -399,7 +399,7 @@ public class PacketPokedex extends Packet
                 total += val;
                 rates.put(e, val);
             }
-            for (final PokedexEntry e : names)
+            if (total != 0) for (final PokedexEntry e : names)
             {
                 final float val = rates.get(e) / total;
                 rates.put(e, val);
@@ -448,7 +448,7 @@ public class PacketPokedex extends Packet
                     total += val;
                     rates.put(e, val);
                 }
-                for (final PokedexEntry e : names)
+                if (total != 0) for (final PokedexEntry e : names)
                 {
                     final float val = rates.get(e) * 100 / total;
                     rates.put(e, val);
@@ -551,7 +551,6 @@ public class PacketPokedex extends Packet
         }
         if (this.data.contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.data
                 .getString("E"));
-
     }
 
     @Override

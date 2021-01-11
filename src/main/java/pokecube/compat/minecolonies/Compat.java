@@ -14,7 +14,7 @@ public class Compat
     }
 
     @SubscribeEvent
-    public static void serverAboutToStart(final CompatEvent event)
+    public static void loadComplete(final CompatEvent event)
     {
         if (ModList.get().isLoaded("minecolonies")) Impl.register();
     }

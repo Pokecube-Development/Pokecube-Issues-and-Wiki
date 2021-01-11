@@ -258,12 +258,6 @@ public class ThutCore
         // in
         MinecraftForge.EVENT_BUS.register(this);
 
-        // Register the mob serializers
-        // for seats
-        DataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
-        // for Vec3ds
-        DataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
-
         // Register Config stuff
         Config.setupConfigs(ThutCore.conf, ThutCore.MODID, ThutCore.MODID);
     }
@@ -348,5 +342,14 @@ public class ThutCore
         }, DataSync_Impl::new);
 
         ThutCore.proxy.setup(event);
+
+        event.enqueueWork(() ->
+        {
+            // Register the mob serializers
+            // for seats
+            DataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
+            // for Vec3ds
+            DataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
+        });
     }
 }

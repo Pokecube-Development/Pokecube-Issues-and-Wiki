@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "charmander",
+    "charmeleon",
+    "charizard",
+    "slowpoke",
+    "slowpoke_galar",
+    "slowbro",
+    "slowbro_mega",
+    "slowbro_galar",
+    "treecko",
+    "grovyle",
+    "sceptile",
+    "sceptile_mega",
+    "kecleon",
+    "helioptile",
+    "heliolisk",
+    "sobble",
+    "drizzile",
+    "inteleon"
+  ]
+}

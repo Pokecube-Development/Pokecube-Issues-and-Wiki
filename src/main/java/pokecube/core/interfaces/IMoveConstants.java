@@ -3,37 +3,83 @@
  */
 package pokecube.core.interfaces;
 
+import java.util.function.Predicate;
+
+import net.minecraft.entity.MobEntity;
+import net.minecraft.tags.EntityTypeTags;
+import pokecube.core.database.PokedexEntry;
+
 /** @author Manchou */
 public interface IMoveConstants extends IMoveNames
 {
+    static final Predicate<IPokemob> isBee = pokemob ->
+    {
+        final MobEntity entity = pokemob.getEntity();
+        final boolean isBee = EntityTypeTags.BEEHIVE_INHABITORS.contains(entity.getType());
+        // Only care about bees
+        if (!isBee) return false;
+        // Only process stock pokemobs
+        if (!pokemob.getPokedexEntry().stock) return false;
+        return true;
+    };
+
+    static final Predicate<IPokemob> canFly = pokemob ->
+    {
+        final PokedexEntry entry = pokemob.getPokedexEntry();
+        // These are our 3 criteria for if something is able to stay airborne
+        return entry.shouldFly || entry.floats() || entry.flys();
+    };
+
     public static enum AIRoutine
     {
         //@formatter:off
-        GATHER,         //Does the pokemob gather item drops and harvest crops.
-        STORE(false),   //Does the pokemob store its inventory when full.
-        WANDER,         //Does the pokemob wander around randomly
-        MATE,           //Does the pokemob breed.
-        FOLLOW,         //Does the pokemob follow its owner.
-        AGRESSIVE,      //Does the pokemob find targets to attack.
-        AIRBORNE;       //Does the pokemob fly around, or can it only walk.
+        //Does the pokemob gather item drops and harvest crops.
+        GATHER,
+        //Does the pokemob act like a vanilla bee
+        BEEAI(true, IMoveConstants.isBee),
+        //Does the pokemob store its inventory when full.
+        STORE(false),
+       //Does the pokemob wander around randomly
+        WANDER,
+        //Does the pokemob breed.
+        MATE,
+        //Does the pokemob follow its owner.
+        FOLLOW,
+        //Does the pokemob find targets to attack.
+        AGRESSIVE,
+        //Does the pokemob fly around, or can it only walk.
+        AIRBORNE(true, IMoveConstants.canFly);
         //@formatter:on
 
         private final boolean default_;
 
+        private final Predicate<IPokemob> isAllowed;
+
         private AIRoutine()
         {
-            this.default_ = true;
+            this(true);
         }
 
-        private AIRoutine(boolean value)
+        private AIRoutine(final boolean value)
+        {
+            this(value, p -> true);
+        }
+
+        private AIRoutine(final boolean value, final Predicate<IPokemob> isAllowed)
         {
             this.default_ = value;
+            this.isAllowed = isAllowed;
         }
 
         /** @return default state for this routine. */
         public boolean getDefault()
         {
             return this.default_;
+        }
+
+        public boolean isAllowed(final IPokemob pokemob)
+        {
+            return this.isAllowed.test(pokemob);
         }
     }
 

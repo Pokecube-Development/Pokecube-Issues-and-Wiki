@@ -1,8 +1,11 @@
 package pokecube.mobs.abilities.h;
 
+import java.util.Optional;
 import java.util.Random;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -10,7 +13,9 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.vector.Vector3d;
+import pokecube.core.ai.tasks.idle.bees.BeeTasks;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -44,8 +49,25 @@ public class HoneyGather extends Ability
         final Vector3 here = Vector3.getNewVector().set(entity);
         final Random rand = entity.getRNG();
 
-        here.set(entity).addTo(this.range * (rand.nextDouble() - 0.5),
-                Math.min(10, this.range) * (rand.nextDouble() - 0.5), this.range * (rand.nextDouble() - 0.5));
+        final Brain<?> brain = entity.getBrain();
+        if (brain.hasMemory(BeeTasks.FLOWER_POS, MemoryModuleStatus.REGISTERED))
+        {
+            final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.FLOWER_POS);
+            if (pos_opt.isPresent())
+            {
+                here.set(pos_opt.get().getPos());
+                final PlayerEntity player = PokecubeMod.getFakePlayer(mob.getEntity().getEntityWorld());
+                player.setPosition(here.getPos().getX(), here.getPos().getY(), here.getPos().getZ());
+                player.inventory.mainInventory.set(player.inventory.currentItem, new ItemStack(Items.BONE_MEAL));
+                final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(
+                        new Vector3d(0.5, 1, 0.5), Direction.UP, here.getPos(), false));
+                // Attempt to plant it.
+                Items.BONE_MEAL.onItemUse(context);
+            }
+            return;
+        }
+        here.set(entity).addTo(this.range * (rand.nextDouble() - 0.5), Math.min(10, this.range) * (rand.nextDouble()
+                - 0.5), this.range * (rand.nextDouble() - 0.5));
 
         final PlayerEntity player = PokecubeMod.getFakePlayer(mob.getEntity().getEntityWorld());
         player.setPosition(here.getPos().getX(), here.getPos().getY(), here.getPos().getZ());

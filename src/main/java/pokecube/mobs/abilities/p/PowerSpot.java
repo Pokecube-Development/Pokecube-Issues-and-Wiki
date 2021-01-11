@@ -9,15 +9,13 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 public class PowerSpot extends Ability
 {
 	@Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
     	final LivingEntity target = (LivingEntity) move.attacked;
     	final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
     	final IPokemob attacker = move.attacker;
-    	
+
     	if(move.pre || attacker == move.attacked) return;
-    	if(targetMob != null) {
-    		move.PWR *= 0.3;
-    	}
+    	if(targetMob != null) move.PWR *= 1.3;
     }
 }

@@ -400,6 +400,7 @@ public class Pokemob extends Page
             this.parent.trainer.setPokemob(this.index, PokecubeManager.pokemobToItem(this.pokemob));
             final ItemStack stack = this.parent.trainer.getPokemob(this.index);
             final CompoundNBT tag = new CompoundNBT();
+            tag.put("__custom_info__", info);
             stack.write(tag);
             final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
             message.getTag().putInt("I", this.parent.entity.getEntityId());

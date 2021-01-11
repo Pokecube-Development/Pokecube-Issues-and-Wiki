@@ -405,6 +405,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public void setHome(final int x, final int y, final int z, final int distance)
     {
+        if (this.guardCap == null || this.guardCap.getPrimaryTask() == null)
+        {
+            PokecubeCore.LOGGER.error("Error with setting home! {}", this.guardCap);
+            return;
+        }
         this.guardCap.getPrimaryTask().setPos(new BlockPos(x, y, z));
         this.guardCap.getPrimaryTask().setRoamDistance(distance);
     }

@@ -34,6 +34,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public Ability getAbility()
     {
+        if (this.inCombat()) return this.moveInfo.battleAbility;
         if (this.genesAbility == null) this.initAbilityGene();
         final AbilityObject obj = this.genesAbility.getExpressed().getValue();
         if (obj.abilityObject == null && !obj.searched)
@@ -46,6 +47,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             else obj.abilityObject = this.getPokedexEntry().getAbility(obj.abilityIndex, this);
             obj.searched = true;
         }
+        // not in battle, re-synchronize this.
+        this.moveInfo.battleAbility = obj.abilityObject;
         return obj.abilityObject;
     }
 
@@ -364,6 +367,11 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public void setAbility(final Ability ability)
     {
+        if (this.inCombat())
+        {
+            this.moveInfo.battleAbility = ability;
+            return;
+        }
         if (this.genesAbility == null) this.initAbilityGene();
         final AbilityObject obj = this.genesAbility.getExpressed().getValue();
         final Ability oldAbility = obj.abilityObject;
