@@ -49,25 +49,19 @@ public class BeeEventsHandler
         final GlobalPos pos = brain.getMemory(BeeTasks.HIVE_POS).get();
         // not same dimension, not a bee leaving hive
         if (pos.getDimension() != world.getDimensionKey()) return;
-        // not loaded, definitely not a bee leaving hive
-        if (!world.isAreaLoaded(pos.getPos(), 0)) return;
-        final TileEntity tile = world.getTileEntity(pos.getPos());
-        // No tile entity here? also not a bee leaving hive!
-        if (tile == null) return;
-        final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
-        // Not a habitat, so not going to be a bee leaving a hive
-        if (habitat == null) return;
+
         // This will indicate if the tile did actually cause the spawn.
         boolean fromHive = false;
         int n = 0;
+        Class<?> c = null;
         // Check the stack to see if tile resulted in our spawn, if not, then we
         // are not from it either!
         for (final StackTraceElement element : Thread.currentThread().getStackTrace())
         {
             try
             {
-                final Class<?> c = Class.forName(element.getClassName());
-                fromHive = c == tile.getClass();
+                c = Class.forName(element.getClassName());
+                fromHive = TileEntity.class.isAssignableFrom(c);
             }
             catch (final ClassNotFoundException e)
             {
@@ -78,6 +72,16 @@ public class BeeEventsHandler
         }
         // was not from the hive, so exit
         if (!fromHive) return;
+        // not loaded, definitely not a bee leaving hive
+        if (!world.isAreaLoaded(pos.getPos(), 0)) return;
+        final TileEntity tile = world.getTileEntity(pos.getPos());
+        // No tile entity here? also not a bee leaving hive!
+        if (tile == null) return;
+        // Not the same class, so return as well.
+        if (tile.getClass() != c) return;
+        final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+        // Not a habitat, so not going to be a bee leaving a hive
+        if (habitat == null) return;
         habitat.onLeaveHabitat(mob);
     }
 }
