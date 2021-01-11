@@ -3,12 +3,15 @@ package pokecube.core.ai.brain;
 import java.util.List;
 import java.util.Optional;
 
+import com.mojang.serialization.Codec;
+
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.IPosWrapper;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
@@ -22,6 +25,14 @@ public class MemoryModules
     public static final MemoryModuleType<LivingEntity> HUNTTARGET   = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<IPosWrapper>  MOVE_TARGET  = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<LivingEntity> HUNTED_BY    = new MemoryModuleType<>(Optional.empty());
+
+    // Used for idle tasks
+    public static final MemoryModuleType<GlobalPos> NEST_POS = new MemoryModuleType<>(Optional.of(GlobalPos.CODEC));
+    public static final MemoryModuleType<GlobalPos> WORK_POS = new MemoryModuleType<>(Optional.of(GlobalPos.CODEC));
+
+    public static final MemoryModuleType<Integer> OUT_OF_NEST_TIMER = new MemoryModuleType<>(Optional.of(Codec.INT));
+    public static final MemoryModuleType<Integer> NO_NEST_TIMER     = new MemoryModuleType<>(Optional.of(Codec.INT));
+    public static final MemoryModuleType<Integer> NO_WORK_TIMER     = new MemoryModuleType<>(Optional.of(Codec.INT));
 
     // Used for pathing
     public static final MemoryModuleType<Path>       PATH           = MemoryModuleType.PATH;
@@ -52,6 +63,15 @@ public class MemoryModules
 
         event.getRegistry().register(MemoryModules.POSSIBLE_MATES.setRegistryName(PokecubeCore.MODID, "mate_options"));
         event.getRegistry().register(MemoryModules.MATE_TARGET.setRegistryName(PokecubeCore.MODID, "mate_choice"));
+
+        event.getRegistry().register(MemoryModules.NEST_POS.setRegistryName(PokecubeCore.MODID, "nest_pos"));
+        event.getRegistry().register(MemoryModules.WORK_POS.setRegistryName(PokecubeCore.MODID, "work_pos"));
+
+        event.getRegistry().register(MemoryModules.NO_NEST_TIMER.setRegistryName(PokecubeCore.MODID, "no_nest_timer"));
+        event.getRegistry().register(MemoryModules.NO_WORK_TIMER.setRegistryName(PokecubeCore.MODID, "no_work_timer"));
+
+        event.getRegistry().register(MemoryModules.OUT_OF_NEST_TIMER.setRegistryName(PokecubeCore.MODID,
+                "out_of_nest_timer"));
 
         BeeTasks.registerMems(event);
     }

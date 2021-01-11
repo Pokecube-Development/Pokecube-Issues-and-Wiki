@@ -15,12 +15,15 @@ import pokecube.core.database.Database;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IInhabitable;
+import pokecube.core.interfaces.IInhabitor;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemobUseable;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
 import pokecube.core.interfaces.capabilities.CapabilityAffected.DefaultAffected;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable.NotHabitat;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitor;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitor.NotInhabitor;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
@@ -70,6 +73,7 @@ public class SetupHandler
         CapabilityManager.INSTANCE.register(IPokemobUseable.class, new IPokemobUseable.Storage(),
                 IPokemobUseable.Default::new);
         CapabilityManager.INSTANCE.register(IInhabitable.class, new CapabilityInhabitable.Storage(), NotHabitat::new);
+        CapabilityManager.INSTANCE.register(IInhabitor.class, new CapabilityInhabitor.Storage(), NotInhabitor::new);
 
         // Register terrain effects
         TerrainSegment.terrainEffectClasses.add(PokemobTerrainEffects.class);

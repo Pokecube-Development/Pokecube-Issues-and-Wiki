@@ -4,3 +4,5 @@ license="All rights reserved"
 
 [[mods]]
     modId="testmod"
+[[mods]]
+    modId="pokecube_wiki"
