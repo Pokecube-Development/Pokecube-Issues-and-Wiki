@@ -551,7 +551,6 @@ public class PacketPokedex extends Packet
         }
         if (this.data.contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.data
                 .getString("E"));
-
     }
 
     @Override
