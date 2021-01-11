@@ -1,9 +1,9 @@
 package thut.api.terrain;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -49,33 +49,27 @@ public class CapabilityTerrain
             final BlockPos pos = this.getChunkPos();
             final int x = pos.getX();
             final int z = pos.getZ();
-            final Map<Integer, Integer> idReplacements = Maps.newHashMap();
+            final Int2IntMap toUpdate = new Int2IntOpenHashMap();
             final ListNBT tags = (ListNBT) nbt.get("ids");
             for (int i = 0; i < tags.size(); i++)
             {
                 final CompoundNBT tag = tags.getCompound(i);
                 final String name = tag.getString("name");
                 final int id = tag.getInt("id");
-                final BiomeType type = BiomeType.getBiome(name, false);
-                if (type.getType() != id) idReplacements.put(id, type.getType());
+                final BiomeType type = BiomeType.getBiome(name, true);
+                final int newId = type.getType();
+                if (newId != id) toUpdate.put(id, type.getType());
             }
-            final boolean hasReplacements = !idReplacements.isEmpty();
+            final boolean hasReplacements = !toUpdate.isEmpty();
             for (int i = 0; i < 16; i++)
             {
                 CompoundNBT terrainTag = null;
-                try
-                {
-                    terrainTag = nbt.getCompound(i + "");
-                }
-                catch (final Exception e)
-                {
-
-                }
+                terrainTag = nbt.getCompound(i + "");
                 TerrainSegment t = null;
-                if (terrainTag != null && !terrainTag.isEmpty() && !TerrainSegment.noLoad)
+                if (!terrainTag.isEmpty() && !TerrainSegment.noLoad)
                 {
                     t = new TerrainSegment(x, i, z);
-                    if (hasReplacements) t.idReplacements = idReplacements;
+                    if (hasReplacements) t.idReplacements = toUpdate;
                     TerrainSegment.readFromNBT(t, terrainTag);
                     this.setTerrainSegment(t, i);
                     t.idReplacements = null;
@@ -144,12 +138,15 @@ public class CapabilityTerrain
         public CompoundNBT serializeNBT()
         {
             final CompoundNBT nbt = new CompoundNBT();
+            final IntSet ids = new IntOpenHashSet();
             for (int i = 0; i < 16; i++)
             {
                 final TerrainSegment t = this.getTerrainSegment(i);
                 if (t == null) continue;
                 t.checkToSave();
                 if (!t.toSave) continue;
+                for (final int id : t.biomes)
+                    ids.add(id);
                 final CompoundNBT terrainTag = new CompoundNBT();
                 t.saveToNBT(terrainTag);
                 nbt.put("" + i, terrainTag);
@@ -157,6 +154,7 @@ public class CapabilityTerrain
             final ListNBT biomeList = new ListNBT();
             for (final BiomeType t : BiomeType.values())
             {
+                if (!ids.contains(t.getType())) continue;
                 final CompoundNBT tag = new CompoundNBT();
                 tag.putString("name", t.name);
                 tag.putInt("id", t.getType());
