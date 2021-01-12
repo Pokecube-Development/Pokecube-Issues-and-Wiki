@@ -1,11 +1,10 @@
 import csv_loader
 import os
 import sys
+import json
 
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
-
-from pokemobs_names import pokemobs
+import pokemobs_names
+import pokedex_entry
 from data_files import csv_files
 from unk_pokemobs import custom_names
 
@@ -19,67 +18,9 @@ def makeFileList():
     filelist = filelist + files[len(files)-1] + "\"]"
     print(filelist)
 
-def find_highest(name, list):
-    matched = None
-    ratio = 80
-
-    name = name.replace("_", "-")
-    name = name.replace("gigantamax", "gmax")
-
-    for tmp in list:
-        orig = tmp
-        if tmp in custom_names.keys():
-            tmp = custom_names[tmp]
-        tmp_ratio = fuzz.ratio(tmp, name)
-        if name.startswith(tmp):
-            matched = orig
-        if tmp_ratio >= ratio:
-            ratio = tmp_ratio
-            matched = orig
-
-    if matched is not None and name.startswith(matched):
-        ratio = 90
-
-    partial_ratio = 0
-    sort_ratio = 0
-
-    if ratio < 90:
-        name = name.replace("-", " ")
-        for tmp in list:
-            orig = tmp
-            if tmp in custom_names.keys():
-                tmp = custom_names[tmp]
-            tmp = tmp.replace("-", " ")
-            tmp_partial = fuzz.partial_ratio(tmp, name)
-            tmp_sort = fuzz.token_sort_ratio(tmp, name)
-            if tmp_partial > partial_ratio or tmp_sort > sort_ratio:
-                matched = orig
-                partial_ratio = tmp_partial
-                sort_ratio = tmp_sort
-                ratio = tmp_sort
-
-
-
-    return matched, ratio
-
-if __name__ == "__main__":
-
-    # for i in range(len(pokemobs)):
-    #     pokemobs[i] = pokemobs[i].replace("_", "-")
-    #     pokemobs[i] = pokemobs[i].replace("gigantamax", 'gmax')
-
-    file_map = {}
-
-    for name in csv_files:
-        file_map[name] = csv_loader.CsvFile(name)
-
-
-    alternative_mob_names = {
-        'nidoranf':'nidoran-f',
-        'nidoranm':'nidoran-m'
-    }
-
-    var = file_map["pokemon"]
+def init_names_map(data):
+    
+    var = data.get_file("pokemon")
 
     unk_in_api = []
     unk_in_mod = []
@@ -90,18 +31,19 @@ if __name__ == "__main__":
 
     replace_names = {}
 
-    for name in pokemobs:
-        if var.inv_map.get(name, None) is None:
-            match, conf = find_highest(name, var.inv_map.keys())
-            if conf >= 50:
-                # if conf < 90:
-                    # print("Replacing mob: {} closest: {} confidence: {}".format(name, match, conf))
-                replace_names[name] = match
-                continue
-            print("Skipping mob: {} closest: {} confidence: {}".format(name, match, conf))
-            unk_in_mod.append(name)
+    for name in pokemobs_names.pokemobs:
+        _name = name.replace("_", "-")
+        _name = _name.replace("gigantamax", "gmax")
+        match, conf = csv_loader.match_name(_name, var.inv_map.keys())
+        if conf >= 50:
+            # if conf < 90:
+                # print("Replacing mob: {} closest: {} confidence: {}".format(name, match, conf))
+            replace_names[name] = match
+            continue
+        print("Skipping mob: {} closest: {} confidence: {}".format(name, match, conf))
+        unk_in_mod.append(name)
 
-    old_names = pokemobs
+    old_names = pokemobs_names.pokemobs
     pokemobs = [x if replace_names.get(x, None) is None else replace_names[x] for x in old_names]
 
     names_map = {}
@@ -141,4 +83,21 @@ if __name__ == "__main__":
 
     print(unk_in_api)
     print("Matched: {}, Missing: {}, Total: {}".format(found, not_found, found + not_found))
-    # print(unk_in_mod)
+    return names_map
+
+def init_database():
+    data = csv_loader.CsvDatabase(csv_files)
+    data.set_name_map(init_names_map(data))
+    return data
+
+if __name__ == "__main__":
+    data = init_database()
+
+    # names = data.names_map
+    names = pokemobs_names.pokemobs
+    pokedex = pokedex_entry.Pokedex(names, data)
+
+    pokefile = open("./pokemobs_pokedex.json", 'w', encoding="utf-8")
+    pokefile.write(json.dumps({"pokemon":pokedex.pokemon}, indent=2))
+
+        

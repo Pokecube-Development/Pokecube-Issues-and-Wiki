@@ -25,6 +25,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.moves.MovesUtils;
 
 public class JsonHelper
 {
@@ -184,6 +185,36 @@ public class JsonHelper
                 final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName(
                         "UTF-8").newEncoder());
                 out.write("pokemobs = ");
+                out.write(json);
+                out.close();
+            }
+            catch (final FileNotFoundException e1)
+            {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            catch (final IOException e1)
+            {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+
+        final JsonArray moves = new JsonArray();
+        MovesUtils.getKnownMoves().forEach(e -> {
+            moves.add(e.name);
+        });
+        if(moves.size()>0)
+        {
+            final String json = PokedexEntryLoader.gson.toJson(moves);
+            final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube");
+            path.toFile().mkdirs();
+            final File dir = path.resolve("moves_names.py").toFile();
+            try
+            {
+                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName(
+                        "UTF-8").newEncoder());
+                out.write("moves = ");
                 out.write(json);
                 out.close();
             }

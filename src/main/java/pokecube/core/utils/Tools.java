@@ -402,12 +402,16 @@ public class Tools
     public static int getType(String name)
     {
         name = ThutCore.trim(name);
-        if (name.equalsIgnoreCase("erratic")) return 4;
         if (name.equalsIgnoreCase("fast")) return 0;
         if (name.equalsIgnoreCase("medium_fast")) return 1;
         if (name.equalsIgnoreCase("medium_slow")) return 2;
         if (name.equalsIgnoreCase("slow")) return 3;
+        if (name.equalsIgnoreCase("erratic")) return 4;
         if (name.equalsIgnoreCase("fluctuating")) return 5;
+
+        if (name.equalsIgnoreCase("slow then very fast")) return 4;
+        if (name.equalsIgnoreCase("fast then very slow")) return 5;
+
         throw new IllegalArgumentException("Error parsing " + name);
     }
 

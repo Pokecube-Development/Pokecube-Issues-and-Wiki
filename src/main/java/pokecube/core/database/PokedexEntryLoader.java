@@ -372,6 +372,8 @@ public class PokedexEntryLoader
 
         public LvlUp  lvlupMoves;
         public Misc   misc;
+
+        // TODO move this to the evolution itself
         public String evolutionMoves;
     }
 

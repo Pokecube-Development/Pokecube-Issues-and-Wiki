@@ -915,6 +915,8 @@ public class PokedexEntry
     @CopyToGender
     public boolean          isMega           = false;
     @CopyToGender
+    public boolean          isGMax           = false;
+    @CopyToGender
     public boolean          ridable          = true;
     /**
      * This is a loot table to be used for held item. if this isn't null, the
