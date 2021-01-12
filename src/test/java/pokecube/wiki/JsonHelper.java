@@ -1,11 +1,14 @@
 package pokecube.wiki;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -18,7 +21,10 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
+import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.interfaces.IPokemob;
 
 public class JsonHelper
 {
@@ -156,6 +162,43 @@ public class JsonHelper
         tags.put("pokemobs_offsets", new String[][] { { "ridden_offsets" } });
 
         final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
+
+        final JsonArray mobs = new JsonArray();
+        final List<PokedexEntry> formes = Database.getSortedFormes();
+        formes.forEach(e -> {
+            mobs.add(e.getTrimmedName());
+            final PokedexEntry male = e.getForGender(IPokemob.MALE);
+            final PokedexEntry female = e.getForGender(IPokemob.FEMALE);
+            if(!formes.contains(male)) mobs.add(male.getTrimmedName());
+            if(!formes.contains(female)) mobs.add(female.getTrimmedName());
+        });
+
+        if(mobs.size()>0)
+        {
+            final String json = PokedexEntryLoader.gson.toJson(mobs);
+            final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube");
+            path.toFile().mkdirs();
+            final File dir = path.resolve("pokemobs_names.py").toFile();
+            try
+            {
+                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName(
+                        "UTF-8").newEncoder());
+                out.write("pokemobs = ");
+                out.write(json);
+                out.close();
+            }
+            catch (final FileNotFoundException e1)
+            {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            catch (final IOException e1)
+            {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+
 
         for (final Entry<String, String[][]> entries : tags.entrySet())
         {

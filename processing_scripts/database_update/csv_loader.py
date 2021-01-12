@@ -32,6 +32,9 @@ class CsvFile(object):
                         if val == "name":
                             inv_index = i
                             break
+                        if val == "identifier":
+                            inv_index = i
+                            break
                         i = i + 1
                 n = n + 1
                 continue
@@ -40,6 +43,10 @@ class CsvFile(object):
                 continue
             n = n + 1
             key = vals[0]
+
+            if len(vals) is not len(columns):
+                continue
+
             entry = None
             if self.map.get(key, None) is not None:
                 entry = self.map[key]
