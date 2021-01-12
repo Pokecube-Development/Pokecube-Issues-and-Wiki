@@ -534,16 +534,13 @@ public class PokedexEntryLoader
     {
         public String  name;
         public Integer number;
-        public String  special;
 
         public Boolean base  = false;
         public Boolean dummy = false;
         public Boolean stock = true;
 
         public Boolean breed    = true;
-        public Boolean starter  = false;
         public Boolean ridable  = true;
-        public Boolean legend   = false;
         public Boolean hasShiny = true;
 
         public Boolean override = false;
@@ -1215,21 +1212,6 @@ public class PokedexEntryLoader
     }
 
     /**
-     * This can be called whenever.
-     *
-     * @param special
-     * @param entry
-     */
-    private static void parseSpecial(final String special, final PokedexEntry entry)
-    {
-        if (special.equals("shadow"))
-        {
-            entry.isShadowForme = true;
-            if (entry.getBaseForme() != null) entry.getBaseForme().shadowForme = entry;
-        }
-    }
-
-    /**
      * This must be called AFTER tags are loaded.
      *
      * @param entry
@@ -1429,9 +1411,7 @@ public class PokedexEntryLoader
             {
                 PokedexEntryLoader.initFormeModels(entry, xmlEntry.models);
                 entry.breeds = xmlEntry.breed;
-                entry.isStarter = xmlEntry.starter;
                 entry.ridable = xmlEntry.ridable;
-                entry.legendary = xmlEntry.legend;
                 entry.hasShiny = xmlEntry.hasShiny;
 
                 if (xmlEntry.ridden_offsets != null)
@@ -1479,14 +1459,6 @@ public class PokedexEntryLoader
                 catch (final Exception e)
                 {
                     PokecubeCore.LOGGER.error("Error with evols for " + entry, e);
-                }
-                if (xmlEntry.special != null) try
-                {
-                    PokedexEntryLoader.parseSpecial(xmlEntry.special, entry);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error with special for " + entry, e);
                 }
             }
         }

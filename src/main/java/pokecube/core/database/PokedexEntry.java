@@ -1124,6 +1124,9 @@ public class PokedexEntry
         this.shouldSurf = Tags.POKEMOB.isIn("surf_allowed", this.getTrimmedName());
         this.canSitShoulder = Tags.POKEMOB.isIn("shoulder_allowed", this.getTrimmedName());
         this.isHeatProof = Tags.POKEMOB.isIn("fire_proof", this.getTrimmedName());
+        this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
+        this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
+        this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
         // Run this here to sync those over.
         this.copyToGenderFormes();
 

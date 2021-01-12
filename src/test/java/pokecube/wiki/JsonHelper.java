@@ -141,6 +141,9 @@ public class JsonHelper
     public static void load(final ResourceLocation location)
     {
 
+        final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("json_tests");
+        path.toFile().mkdirs();
+
         final Map<String, String[][]> tags = Maps.newHashMap();
 
         tags.put("pokemobs_spawns", new String[][] { { "stats", "spawnRules" } });
@@ -166,19 +169,18 @@ public class JsonHelper
 
         final JsonArray mobs = new JsonArray();
         final List<PokedexEntry> formes = Database.getSortedFormes();
-        formes.forEach(e -> {
+        formes.forEach(e ->
+        {
             mobs.add(e.getTrimmedName());
             final PokedexEntry male = e.getForGender(IPokemob.MALE);
             final PokedexEntry female = e.getForGender(IPokemob.FEMALE);
-            if(!formes.contains(male)) mobs.add(male.getTrimmedName());
-            if(!formes.contains(female)) mobs.add(female.getTrimmedName());
+            if (!formes.contains(male)) mobs.add(male.getTrimmedName());
+            if (!formes.contains(female)) mobs.add(female.getTrimmedName());
         });
 
-        if(mobs.size()>0)
+        if (mobs.size() > 0)
         {
             final String json = PokedexEntryLoader.gson.toJson(mobs);
-            final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube");
-            path.toFile().mkdirs();
             final File dir = path.resolve("pokemobs_names.py").toFile();
             try
             {
@@ -201,14 +203,13 @@ public class JsonHelper
         }
 
         final JsonArray moves = new JsonArray();
-        MovesUtils.getKnownMoves().forEach(e -> {
+        MovesUtils.getKnownMoves().forEach(e ->
+        {
             moves.add(e.name);
         });
-        if(moves.size()>0)
+        if (moves.size() > 0)
         {
             final String json = PokedexEntryLoader.gson.toJson(moves);
-            final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube");
-            path.toFile().mkdirs();
             final File dir = path.resolve("moves_names.py").toFile();
             try
             {
@@ -230,6 +231,47 @@ public class JsonHelper
             }
         }
 
+        final JsonObject starters = new JsonObject();
+        final JsonObject legends = new JsonObject();
+
+        starters.addProperty("replace", false);
+        legends.addProperty("replace", false);
+
+        starters.add("values", new JsonArray());
+        legends.add("values", new JsonArray());
+
+        for (final PokedexEntry e : Database.getSortedFormes())
+        {
+            if (e.isStarter) starters.getAsJsonArray("values").add(e.getTrimmedName());
+            if (e.isLegendary()) legends.getAsJsonArray("values").add(e.getTrimmedName());
+        }
+
+        if (moves.size() > 0) try
+        {
+            File dir = path.resolve("starters.json").toFile();
+            String json = PokedexEntryLoader.gson.toJson(starters);
+            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
+                    .newEncoder());
+            out.write(json);
+            out.close();
+
+            dir = path.resolve("legends.json").toFile();
+            json = PokedexEntryLoader.gson.toJson(legends);
+            out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8").newEncoder());
+            out.write(json);
+            out.close();
+
+        }
+        catch (final FileNotFoundException e1)
+        {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        catch (final IOException e1)
+        {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
         for (final Entry<String, String[][]> entries : tags.entrySet())
         {
@@ -267,8 +309,6 @@ public class JsonHelper
                     if (did) newDatabase.getAsJsonArray("pokemon").add(o1);
                 });
                 final String json = PokedexEntryLoader.gson.toJson(newDatabase);
-                final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube");
-                path.toFile().mkdirs();
                 final File dir = path.resolve(filename + ".json").toFile();
                 final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName(
                         "UTF-8").newEncoder());
@@ -285,8 +325,6 @@ public class JsonHelper
         try
         {
             final String json = PokedexEntryLoader.gson.toJson(obj);
-            final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube");
-            path.toFile().mkdirs();
             final File dir = path.resolve("pokemobs_pokedex" + ".json").toFile();
             final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
                     .newEncoder());
