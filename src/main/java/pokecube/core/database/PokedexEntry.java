@@ -1125,6 +1125,8 @@ public class PokedexEntry
         // Run this here to sync those over.
         this.copyToGenderFormes();
 
+        if (this.lootTable == null) PokecubeCore.LOGGER.debug("Missing loot table for {}", this.getTrimmedName());
+
         if (this._forme_items != null)
         {
             final Map<QName, String> values = this._forme_items.values;

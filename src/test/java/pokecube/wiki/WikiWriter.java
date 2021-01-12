@@ -28,6 +28,7 @@ public class WikiWriter
         final LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokewiki");
         command.executes(ctx ->
         {
+            JsonHelper.load(null);
             PokemobPageWriter.outputAll();
             return 0;
         });
