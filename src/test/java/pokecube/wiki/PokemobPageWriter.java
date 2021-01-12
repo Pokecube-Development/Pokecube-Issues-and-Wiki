@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.database.Database;
@@ -82,7 +83,7 @@ public class PokemobPageWriter
     static String formatPokemobImage(final PokedexEntry entry, final boolean male, final boolean shiny)
     {
         final String link = ".. image:: " + "../../_images/pokemobs/" + entry.getIcon(male, shiny).getPath()
-                + "\n    :alt: " + entry.getTranslatedName().getString() + "\n";
+                + "\n    :width: 400" + "\n    :alt: " + entry.getTranslatedName().getString() + "\n";
         return link;
     }
 
@@ -124,6 +125,12 @@ public class PokemobPageWriter
             builder.append(PokemobPageWriter.formatPokemobImage(entry, true, false));
             builder.append(PokemobPageWriter.formatPokemobImage(entry, true, true));
             builder.append("\n\n");
+            final String header = I18n.format("pokemob.description.header");
+            builder.append(header);
+            builder.append("\n");
+            for (int i = 0; i < header.length() + 1; i++)
+                builder.append("=");
+            builder.append("\n");
 
             final ITextComponent var = entry.getDescription();
             String desc = PokemobPageWriter.replaceWithRefs(var.getString(), entry);
