@@ -200,14 +200,17 @@ public class EntityPokemob extends PokemobHasParts
         final Vector3 loc = Vector3.getNewVector().set(this);
         final SpawnBiomeMatcher matcher = entry.getMatcher(worldIn, loc);
 
-        final int overrideLevel = entry.getLevel(matcher);
+        final int orig_override = entry.getLevel(matcher);
+        int overrideLevel = orig_override;
         final Variance variance = entry.getVariance(matcher);
+        if (variance != null) overrideLevel = variance.apply(overrideLevel);
+
         if (pokemob != null)
         {
             final long time = System.nanoTime();
             int maxXP = 10;
             int level = 1;
-            if (overrideLevel == -1) level = SpawnHandler.getSpawnLevel(this.world, loc, pokemob.getPokedexEntry(),
+            if (orig_override == -1) level = SpawnHandler.getSpawnLevel(this.world, loc, pokemob.getPokedexEntry(),
                     variance, overrideLevel);
             else
             {
