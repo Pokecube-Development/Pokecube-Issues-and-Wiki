@@ -241,7 +241,11 @@ public class PokemobEventsHandler
                     .getSizeInventory(); i++)
             {
                 final ItemStack stack = pokemob.getInventory().getStackInSlot(i);
-                if (!stack.isEmpty()) bak.add(event.getEntity().entityDropItem(stack.copy(), 0.0f));
+                if (!stack.isEmpty())
+                {
+                    final ItemEntity drop = event.getEntity().entityDropItem(stack.copy(), 0.0f);
+                    if (drop != null) bak.add(drop);
+                }
                 pokemob.getInventory().setInventorySlotContents(i, ItemStack.EMPTY);
             }
             else event.getDrops().clear();
