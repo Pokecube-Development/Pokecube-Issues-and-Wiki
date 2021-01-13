@@ -1131,6 +1131,6 @@
   "entity.pokecube.spectrier":"Spectrier",
   "entity.pokecube.glastrier":"Glastrier",
   "entity.pokecube.calyrex":"Calyrex",
-  "entity.pokecube.ice_rider":"Calyrex Ice Rider",
-  "entity.pokecube.shadow_rider":"Calyrex Shadow Rider"
+  "entity.pokecube.calyrex_ice_rider":"Calyrex Ice Rider",
+  "entity.pokecube.calyrex_shadow_rider":"Calyrex Shadow Rider"
 }

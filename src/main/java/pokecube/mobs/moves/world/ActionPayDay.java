@@ -44,7 +44,6 @@ public class ActionPayDay implements IMoveAction
                     num++;
                 }
             }
-        System.out.println("Dropped " + num);
         return num > 0;
     }
 

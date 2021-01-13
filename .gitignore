@@ -27,3 +27,5 @@ src/generated/*
 logs/*
 /git/
 processing_scripts/icon_generator/icons/*
+processing_scripts/database_update/caches/*
+**/__pycache__/*

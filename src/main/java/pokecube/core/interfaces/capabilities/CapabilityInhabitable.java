@@ -6,7 +6,6 @@ import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.tags.BlockTags;
@@ -20,7 +19,6 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.ai.tasks.idle.bees.BeeTasks;
 import pokecube.core.interfaces.IInhabitable;
-import pokecube.core.interfaces.IPokemob;
 
 public class CapabilityInhabitable
 {
@@ -77,7 +75,7 @@ public class CapabilityInhabitable
     public static class NotHabitat implements IInhabitable
     {
         @Override
-        public void onLeaveHabitat(final MobEntity mob)
+        public void onExitHabitat(final MobEntity mob)
         {
         }
 
@@ -105,18 +103,14 @@ public class CapabilityInhabitable
         }
 
         @Override
-        public void onLeaveHabitat(final MobEntity mob)
+        public void onExitHabitat(final MobEntity mob)
         {
-            if (!BeeTasks.isValidBee(mob)) return;
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-            final Brain<?> brain = pokemob.getEntity().getBrain();
+            final Brain<?> brain = mob.getBrain();
             if (!brain.hasMemory(BeeTasks.HAS_NECTAR)) return;
             final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             if (nectar)
             {
-                brain.removeMemory(BeeTasks.HAS_NECTAR);
-                pokemob.eat(ItemStack.EMPTY);
                 final World world = mob.getEntityWorld();
                 final BlockState state = world.getBlockState(this.hive.getPos());
                 if (state.getBlock().isIn(BlockTags.BEEHIVES))

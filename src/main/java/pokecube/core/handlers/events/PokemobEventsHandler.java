@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
@@ -32,6 +33,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -69,9 +71,13 @@ import pokecube.core.events.CustomInteractEvent;
 import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.combat.KillEvent;
 import pokecube.core.handlers.Config;
+import pokecube.core.interfaces.IInhabitable;
+import pokecube.core.interfaces.IInhabitor;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemobUseable;
 import pokecube.core.interfaces.Nature;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitor;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -146,6 +152,68 @@ public class PokemobEventsHandler
         // Called by MixinMobEntity before the first brain tick, to ensure the
         // brain has AI setup, etc.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBrainInit);
+
+        // This checks if we are an inhabitor of a nest, and we just left it. if
+        // this is the case, then some extra processing is done related to
+        // finishing tasks, etc upon leaving the nest.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobAddedToWorld);
+    }
+
+    /**
+     * Here we will check if it was a bee, added from a bee-hive, and if so, we
+     * will increment the honey level as needed.
+     */
+    private static void onMobAddedToWorld(final EntityJoinWorldEvent event)
+    {
+        // We only consider MobEntities
+        if (!(event.getEntity() instanceof MobEntity)) return;
+        final MobEntity mob = (MobEntity) event.getEntity();
+        final IInhabitor inhabitor = mob.getCapability(CapabilityInhabitor.CAPABILITY).orElse(null);
+        // Not a valid inhabitor of things, so return.
+        if (inhabitor == null) return;
+
+        // No Home spot, so definitely not leaving home
+        if (inhabitor.getHome() == null) return;
+        final World world = event.getEntity().getEntityWorld();
+
+        final GlobalPos pos = inhabitor.getHome();
+        // not same dimension, not a bee leaving hive
+        if (pos.getDimension() != world.getDimensionKey()) return;
+
+        // This will indicate if the tile did actually cause the spawn.
+        boolean fromHive = false;
+        int n = 0;
+        Class<?> c = null;
+        // Check the stack to see if tile resulted in our spawn, if not, then we
+        // are not from it either!
+        for (final StackTraceElement element : Thread.currentThread().getStackTrace())
+        {
+            try
+            {
+                c = Class.forName(element.getClassName());
+                fromHive = TileEntity.class.isAssignableFrom(c);
+            }
+            catch (final ClassNotFoundException e)
+            {
+                // NOOP, why would this happen anyway?
+                e.printStackTrace();
+            }
+            if (fromHive || n++ > 100) break;
+        }
+        // was not from the hive, so exit
+        if (!fromHive) return;
+        // not loaded, definitely not a bee leaving hive
+        if (!world.isAreaLoaded(pos.getPos(), 0)) return;
+        final TileEntity tile = world.getTileEntity(pos.getPos());
+        // No tile entity here? also not a bee leaving hive!
+        if (tile == null) return;
+        // Not the same class, so return as well.
+        if (tile.getClass() != c) return;
+        final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+        // Not a habitat, so not going to be a bee leaving a hive
+        if (habitat == null) return;
+        habitat.onExitHabitat(mob);
+        inhabitor.onExitHabitat();
     }
 
     private static void onLivingDrops(final LivingDropsEvent event)
@@ -173,7 +241,11 @@ public class PokemobEventsHandler
                     .getSizeInventory(); i++)
             {
                 final ItemStack stack = pokemob.getInventory().getStackInSlot(i);
-                if (!stack.isEmpty()) bak.add(event.getEntity().entityDropItem(stack.copy(), 0.0f));
+                if (!stack.isEmpty())
+                {
+                    final ItemEntity drop = event.getEntity().entityDropItem(stack.copy(), 0.0f);
+                    if (drop != null) bak.add(drop);
+                }
                 pokemob.getInventory().setInventorySlotContents(i, ItemStack.EMPTY);
             }
             else event.getDrops().clear();

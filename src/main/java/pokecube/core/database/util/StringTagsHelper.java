@@ -30,8 +30,9 @@ public class StringTagsHelper
 {
     public static class TagHolder
     {
-        boolean      replace = false;
-        List<String> values  = Lists.newArrayList();
+        boolean replace = false;
+
+        List<String> values = Lists.newArrayList();
 
         void postProcess()
         {
@@ -147,7 +148,6 @@ public class StringTagsHelper
             final TagHolder tagged = new TagHolder();
             for (final IResource resource : Database.resourceManager.getAllResources(tagLoc))
             {
-                // Database.resourceManager.getResource(tagLoc)
                 final InputStream res = resource.getInputStream();
                 final Reader reader = new InputStreamReader(res);
                 final TagHolder temp = PokedexEntryLoader.gson.fromJson(reader, TagHolder.class);

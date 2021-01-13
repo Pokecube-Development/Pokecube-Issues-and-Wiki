@@ -915,6 +915,8 @@ public class PokedexEntry
     @CopyToGender
     public boolean          isMega           = false;
     @CopyToGender
+    public boolean          isGMax           = false;
+    @CopyToGender
     public boolean          ridable          = true;
     /**
      * This is a loot table to be used for held item. if this isn't null, the
@@ -1122,8 +1124,13 @@ public class PokedexEntry
         this.shouldSurf = Tags.POKEMOB.isIn("surf_allowed", this.getTrimmedName());
         this.canSitShoulder = Tags.POKEMOB.isIn("shoulder_allowed", this.getTrimmedName());
         this.isHeatProof = Tags.POKEMOB.isIn("fire_proof", this.getTrimmedName());
+        this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
+        this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
+        this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
         // Run this here to sync those over.
         this.copyToGenderFormes();
+
+        if (this.lootTable == null) PokecubeCore.LOGGER.debug("Missing loot table for {}", this.getTrimmedName());
 
         if (this._forme_items != null)
         {

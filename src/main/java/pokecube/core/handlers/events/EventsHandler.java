@@ -26,6 +26,7 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -78,6 +79,8 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
 import pokecube.core.interfaces.capabilities.CapabilityAffected.DefaultAffected;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitor.BeeInhabitor;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitor.InhabitorProvider;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.capabilities.TextureableCaps;
@@ -152,6 +155,7 @@ public class EventsHandler
     public static final ResourceLocation POKEMOBCAP  = new ResourceLocation(PokecubeMod.ID, "pokemob");
     public static final ResourceLocation AFFECTEDCAP = new ResourceLocation(PokecubeMod.ID, "affected");
     public static final ResourceLocation DATACAP     = new ResourceLocation(PokecubeMod.ID, "data");
+    public static final ResourceLocation BEECAP      = new ResourceLocation(PokecubeMod.ID, "bee");
     public static final ResourceLocation TEXTURECAP  = new ResourceLocation(PokecubeMod.ID, "textured");
 
     static double max = 0;
@@ -425,10 +429,11 @@ public class EventsHandler
         if (event.getObject() instanceof EntityPokemob && !event.getCapabilities().containsKey(
                 EventsHandler.POKEMOBCAP))
         {
-            final DefaultPokemob pokemob = new DefaultPokemob((MobEntity) event.getObject());
+            final EntityPokemob mob = (EntityPokemob) event.getObject();
+            final DefaultPokemob pokemob = new DefaultPokemob(mob);
             final GeneticsProvider genes = new GeneticsProvider();
             final DataSync_Impl data = new DataSync_Impl();
-            final TextureableCaps.PokemobCap tex = new TextureableCaps.PokemobCap((EntityPokemob) event.getObject());
+            final TextureableCaps.PokemobCap tex = new TextureableCaps.PokemobCap(mob);
             pokemob.setDataSync(data);
             pokemob.genes = genes.wrapped;
             event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
@@ -437,6 +442,10 @@ public class EventsHandler
             event.addCapability(EventsHandler.TEXTURECAP, tex);
             event.addCapability(ShearableCaps.LOC, new ShearableCaps.Wrapper(pokemob));
             IGuardAICapability.addCapability(event);
+
+            // If it is a bee, we will add this to it.
+            if (EntityTypeTags.BEEHIVE_INHABITORS.contains(mob.getType())) event.addCapability(EventsHandler.BEECAP,
+                    new InhabitorProvider(new BeeInhabitor(mob)));
         }
 
         if (event.getObject() instanceof NpcMob)
