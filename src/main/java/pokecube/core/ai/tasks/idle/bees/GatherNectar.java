@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.idle.bees.sensors.FlowerSensor;
 import pokecube.core.interfaces.IPokemob;
@@ -91,8 +93,13 @@ public class GatherNectar extends BeeTask
 
             // If too far, we path normally over to the flower, otherwise, use
             // MoveHelper directly.
-            if (this.entity.getDistanceSq(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z) < 4) this.entity
-                    .getMoveHelper().setMoveTo(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z, 0.35F);
+            if (this.entity.getDistanceSq(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z) < 4)
+            {
+                final BlockState state = this.flowerSpot.getBlockState(world);
+                if (state.ticksRandomly() && this.entity.getRNG().nextInt(10) == 0) state.randomTick(
+                        (ServerWorld) world, pos.getPos(), this.entity.getRNG());
+                this.entity.getMoveHelper().setMoveTo(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z, 0.35F);
+            }
             else this.setWalkTo(this.gatherSpot, 1, 0);
         }
     }

@@ -29,9 +29,9 @@ public class PacketSyncRoutes extends Packet
         if (nbt.contains("V"))
         {
             // TODO generalize this maybe?
-            final GuardTask task = new GuardTask();
+            final IGuardTask task = new GuardTask();
             task.load(nbt.get("V"));
-            if (index < guard.getTasks().size()) guard.getTasks().set(index, task);
+            if (index < guard.getTasks().size()) guard.setTask(index, task);
             else guard.getTasks().add(task);
         }
         else if (nbt.contains("N"))

@@ -9,6 +9,8 @@
     "thutcore.command.settings.check": "%1$s §ais currently set to:§6 %2$s",
     "thutcore.command.settings.set": "%1$s §aset to:§6 %2$s",
     
+    "msg.subbiome.set": "§aSet Subbiome for the selected area to:§6 %1$s",
+    "msg.subbiome.setcorner": "§aInitialized Corner Selection:§6 %1$s",
     
     "_comment": "Sub Biomes",
     "thutcore.biometype.none": "None",

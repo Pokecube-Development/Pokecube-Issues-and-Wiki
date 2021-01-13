@@ -107,6 +107,7 @@ class CsvFile(object):
                 self.map[key] = entry
             if inv_index is not None:
                 self.inv_map[vals[inv_index]] = key
+        file.close()
 
 class CsvDatabase(object):
 

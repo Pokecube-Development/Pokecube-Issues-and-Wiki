@@ -24,6 +24,7 @@ public class MemoryModules
     public static final MemoryModuleType<LivingEntity> ATTACKTARGET = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<LivingEntity> HUNTTARGET   = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<IPosWrapper>  MOVE_TARGET  = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<IPosWrapper>  LEAP_TARGET  = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<LivingEntity> HUNTED_BY    = new MemoryModuleType<>(Optional.empty());
 
     // Used for idle tasks
@@ -56,6 +57,7 @@ public class MemoryModules
         event.getRegistry().register(MemoryModules.HUNTTARGET.setRegistryName(PokecubeCore.MODID, "hunt_target"));
         event.getRegistry().register(MemoryModules.HUNTED_BY.setRegistryName(PokecubeCore.MODID, "hunted_by"));
         event.getRegistry().register(MemoryModules.MOVE_TARGET.setRegistryName(PokecubeCore.MODID, "move_target"));
+        event.getRegistry().register(MemoryModules.LEAP_TARGET.setRegistryName(PokecubeCore.MODID, "leap_target"));
 
         event.getRegistry().register(MemoryModules.VISIBLE_BLOCKS.setRegistryName(PokecubeCore.MODID,
                 "visible_blocks"));

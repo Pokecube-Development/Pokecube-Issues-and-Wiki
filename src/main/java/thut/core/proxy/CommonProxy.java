@@ -100,7 +100,7 @@ public class CommonProxy implements Proxy
                     TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome.getType());
                 });
                 final String message = "msg.subbiome.set";
-                playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
+                playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.DUMMY_UUID);
             }
             itemstack.getTag().remove("min");
             evt.setCanceled(true);
@@ -147,7 +147,7 @@ public class CommonProxy implements Proxy
                     TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome.getType());
                 });
                 final String message = "msg.subbiome.set";
-                playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
+                playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.DUMMY_UUID);
             }
             itemstack.getTag().remove("min");
         }
