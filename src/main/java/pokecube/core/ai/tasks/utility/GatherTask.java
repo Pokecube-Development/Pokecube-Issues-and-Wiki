@@ -335,7 +335,7 @@ public class GatherTask extends UtilTask
                 PokecubeCore.POKEMOB_BUS.post(event);
                 final boolean gatherable = event.getResult() == Result.ALLOW ? true
                         : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(state);
-                return gatherable;
+                return !gatherable;
             });
         }
         // Only replace this if the new list is not null.
