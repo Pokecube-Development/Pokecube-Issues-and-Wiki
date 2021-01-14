@@ -38,9 +38,7 @@ public class Config extends ConfigData
     public int trainerCooldown     = 5000;
     @Configure(category = Config.TRAINER, comment = "How far trainers will check for targets to battle\n"
             + "This is then modified by trainer_min_rep and trainer_max_rep for the actual sight distance.\n"
-            + "The formula used is:\n"
-            + "\n"
-            + "range_modified = range * (max_rep - rep) / (max_rep - min_rep)\n"
+            + "The formula used is:\n" + "\n" + "range_modified = range * (max_rep - rep) / (max_rep - min_rep)\n"
             + "range_modified is capped at 2 * range, and lower limit of 0")
     public int trainerSightRange   = 8;
     @Configure(category = Config.TRAINER, comment = "This is how long the trainer will be on cooldown after a battle,\n"
@@ -90,6 +88,11 @@ public class Config extends ConfigData
     public int     trainer_min_rep         = -100;
     @Configure(category = Config.TRAINER, comment = "Maximum reputation for tracking, players at this or more, are not visible for auto-agro")
     public int     trainer_max_rep         = 100;
+
+    @Configure(category = Config.TRAINER, comment = "if true, trainers will not agress a player within pokecenter_radius of a pokecenter")
+    public boolean no_battle_near_pokecenter = true;
+    @Configure(category = Config.TRAINER, comment = "See no_battle_near_pokecenter")
+    public int     pokecenter_radius         = 16;
 
     @Configure(category = Config.TRAINER, comment = "this is the default reward for trainers")
     public String trainer_defeat_reward = "{\"values\":{\"id\":\"minecraft:emerald\",\"n\":\"1\"}}";

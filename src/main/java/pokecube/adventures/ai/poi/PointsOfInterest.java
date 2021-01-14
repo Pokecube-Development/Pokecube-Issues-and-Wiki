@@ -29,4 +29,9 @@ public class PointsOfInterest
 
     public static final RegistryObject<PointOfInterestType> GENELAB = PointsOfInterest.REG.register("gene_lab",
             () -> new PointOfInterestType("gene_lab", PointsOfInterest.getLabMachines(), 1, 2));
+
+    public static void postInit()
+    {
+        PointsOfInterest.REG.getEntries().forEach(r -> PointOfInterestType.registerBlockStates(r.get()));
+    }
 }

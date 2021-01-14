@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +52,6 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
@@ -589,24 +586,11 @@ public class WorldgenHandler
         return structure;
     }
 
-    private static Field illagers = null;
 
     private static void forceVillageFeature(final Structure<?> feature)
     {
-        if (WorldgenHandler.illagers == null) WorldgenHandler.illagers = ObfuscationReflectionHelper.findField(
-                Structure.class, "field_236384_t_");
         final List<Structure<?>> list = Lists.newArrayList(Structure.field_236384_t_);
         list.add(feature);
-        try
-        {
-            final Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(WorldgenHandler.illagers, WorldgenHandler.illagers.getModifiers() & ~Modifier.FINAL);
-            WorldgenHandler.illagers.set(null, list);
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
+        Structure.field_236384_t_ = list;
     }
 }

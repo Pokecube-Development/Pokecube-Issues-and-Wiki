@@ -80,7 +80,9 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         {
             final IOwnable owned = OwnableCaps.getOwnable(mob);
             LivingEntity owner;
+            // If there is an owner, divert the check to it, rather than mob
             if (owned != null && (owner = owned.getOwner(worldIn)) != null) return this.isValidTarget(owner);
+            // Otherwise, let this pass as valid
             return true;
         };
         final double s = this.trainer.getAgressDistance();
