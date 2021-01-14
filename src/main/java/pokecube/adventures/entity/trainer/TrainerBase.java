@@ -62,7 +62,7 @@ public abstract class TrainerBase extends NpcMob
         this.trades = this.getCapability(TrainerCaps.TRADES_CAP).orElse(null);
     }
 
-    protected boolean canTrade(final PlayerEntity player)
+    public boolean canTrade(final PlayerEntity player)
     {
         final boolean friend = this.pokemobsCap.friendlyCooldown >= 0;
         final boolean pity = this.pokemobsCap.defeated(player);

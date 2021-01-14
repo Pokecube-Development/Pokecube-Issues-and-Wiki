@@ -21,20 +21,30 @@ public class Config extends ConfigData
 {
     public static final Config instance = new Config();
 
+    @Configure(comment = "Configs related to the various machine blocks added.")
     private static final String MACHINE = "machine";
+    @Configure(comment = "Configs related to trainer AI, trainer spawning, etc.")
     private static final String TRAINER = "trainers";
     private static final String BAG     = "bag";
 
     @Configure(category = Config.TRAINER, comment = "If true, anything that is an INPC will be made into a trainer")
     public boolean      npcsAreTrainers = true;
-    @Configure(category = Config.TRAINER, comment = "MobIDs listed here will be added as custom trainers if npcsAreTrainers is true, this is for mobs that are not INPCs, but should be")
+    @Configure(category = Config.TRAINER, comment = "MobIDs listed here will be added as custom trainers if npcsAreTrainers is true\n"
+            + "this is for mobs that are not INPCs, but should be")
     public List<String> custom_trainers = Lists.newArrayList("player_mobs:player_mob");
 
-    @Configure(category = Config.TRAINER, comment = "This is the time, in ticks, which a trainer will go on cooldown for, for a player, after winning or losing a battle")
+    @Configure(category = Config.TRAINER, comment = "This is the time, in ticks, which a trainer will go on cooldown for,"
+            + "\nfor a player, after winning or losing a battle")
     public int trainerCooldown     = 5000;
-    @Configure(category = Config.TRAINER, comment = "How far trainers will check for targets to battle")
+    @Configure(category = Config.TRAINER, comment = "How far trainers will check for targets to battle\n"
+            + "This is then modified by trainer_min_rep and trainer_max_rep for the actual sight distance.\n"
+            + "The formula used is:\n"
+            + "\n"
+            + "range_modified = range * (max_rep - rep) / (max_rep - min_rep)\n"
+            + "range_modified is capped at 2 * range, and lower limit of 0")
     public int trainerSightRange   = 8;
-    @Configure(category = Config.TRAINER, comment = "This is how long the trainer will be on cooldown after a battle, for targets other than the one they were battling")
+    @Configure(category = Config.TRAINER, comment = "This is how long the trainer will be on cooldown after a battle,\n"
+            + "for targets other than the one they were battling")
     public int trainerBattleDelay  = 50;
     @Configure(category = Config.TRAINER, comment = "This is the delay between the trainer deciding to send out a pokemob, and actually doing so")
     public int trainerSendOutDelay = 50;
@@ -45,7 +55,9 @@ public class Config extends ConfigData
     public boolean trainerslevel           = true;
     @Configure(category = Config.TRAINER, comment = "If true, trainers will spawn naturally")
     public boolean trainerSpawn            = true;
-    @Configure(category = Config.TRAINER, comment = "This determines how sparsely trainers spawn, there will only be trainerDensity trainers spawn every this far, excluding special spawns like villages")
+    @Configure(category = Config.TRAINER, comment = "This determines how sparsely trainers spawn.\n"
+            + "there will only be trainerDensity trainers spawn every this far\n"
+            + "excluding special spawns like villages")
     public int     trainerBox              = 256;
     @Configure(category = Config.TRAINER, comment = "how many trainers spawn in trainerBox")
     public double  trainerDensity          = 2;
@@ -71,8 +83,13 @@ public class Config extends ConfigData
     public int     aiPauseDistance         = 64;
     @Configure(category = Config.TRAINER, comment = "This is how far trainers will check to see if there are too many nearby to battle")
     public int     trainer_crowding_radius = 16;
-    @Configure(category = Config.TRAINER, comment = "If there are more than this many trainers within trainer_crowding_radius, then the trainers will not agress players")
+    @Configure(category = Config.TRAINER, comment = "If there are more than this many trainers within trainer_crowding_radius,\n"
+            + "then the trainers will not agress players")
     public int     trainer_crowding_number = 5;
+    @Configure(category = Config.TRAINER, comment = "Minimum reputation for tracking, players at this or less are visible from twice as far")
+    public int     trainer_min_rep         = -100;
+    @Configure(category = Config.TRAINER, comment = "Maximum reputation for tracking, players at this or more, are not visible for auto-agro")
+    public int     trainer_max_rep         = 100;
 
     @Configure(category = Config.TRAINER, comment = "this is the default reward for trainers")
     public String trainer_defeat_reward = "{\"values\":{\"id\":\"minecraft:emerald\",\"n\":\"1\"}}";
@@ -90,7 +107,8 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE, comment = "if true, energy siphons can be linked to recieving blocks with the device linker")
     public boolean wirelessSiphons = true;
 
-    @Configure(category = Config.MACHINE, comment = "How much energy you get of a pokemob, a is the max of spatk and atk, and x is the level of the pokemob")
+    @Configure(category = Config.MACHINE, comment = "How much energy you get of a pokemob\n"
+            + " a is the max of spatk and atk\n" + " x is the level of the pokemob")
     public String powerFunction = "a*x/10";
 
     // Cloning related options
@@ -116,24 +134,31 @@ public class Config extends ConfigData
     public int     dayCarePowerPerFuel = 256;
     @Configure(category = Config.MACHINE, comment = "daycares will only run every this many ticks")
     public int     dayCareTickRate     = 20;
-    @Configure(category = Config.MACHINE, comment = "amount of daycare power requrired to give exp to a pokemob, variables are: x - pokemob's current exp, l - pokemob's current lvl, n - pokemob's needed exp from current level to next")
+    @Configure(category = Config.MACHINE, comment = "amount of daycare power requrired to give exp to a pokemob, variables are:\n"
+            + " x - pokemob's current exp\n" + " l - pokemob's current lvl\n"
+            + " n - pokemob's needed exp from current level to next")
     public String  dayCarePowerPerExp  = "0.5";
-    @Configure(category = Config.MACHINE, comment = "amount of exp given per daycare tick, variables are: x - pokemob's current exp, l - pokemob's current lvl, n - pokemob's needed exp from current level to next")
+    @Configure(category = Config.MACHINE, comment = "amount of exp given per daycare tick, variables are:\n"
+            + " x - pokemob's current exp\n" + " l - pokemob's current lvl\n"
+            + " n - pokemob's needed exp from current level to next")
     public String  dayCareExpFunction  = "n/10";
     @Configure(category = Config.MACHINE, comment = "If true, daycares will also speed up the breeding time")
     public boolean dayCareBreedSpeedup = true;
     @Configure(category = Config.MACHINE, comment = "How many effective ticks are added for breeding time per daycare tick")
     public int     dayCareBreedAmount  = 10;
 
-    @Configure(category = Config.MACHINE, comment = "Effective cost of a lvl 100 pokemob, this is for applying breeding tick stuff, even though lvl 100 can't gain exp")
+    @Configure(category = Config.MACHINE, comment = "Effective cost of a lvl 100 pokemob\n"
+            + "this is for applying breeding tick stuff\n" + "even though lvl 100 can't gain exp")
     public int dayCareLvl100EffectiveLevel = 30;
 
     // AFA related options
     @Configure(category = Config.MACHINE, comment = "How likely an AFA is to result in shiny mobs nearby if it has a shiny charm in it")
     public int    afaShinyRate         = 4096;
-    @Configure(category = Config.MACHINE, comment = "energy cost of the AFA for running in ability mode, l is the level of the mob, d is the range of the AFA")
+    @Configure(category = Config.MACHINE, comment = "energy cost of the AFA for running in ability mode\n"
+            + " l is the level of the mob\n" + " d is the range of the AFA")
     public String afaCostFunction      = "(d^3)/(10 + 5*l)";
-    @Configure(category = Config.MACHINE, comment = "energy cost of the AFA when running in shiny mode, d is the range of the AFA")
+    @Configure(category = Config.MACHINE, comment = "energy cost of the AFA when running in shiny mode\n "
+            + "d is the range of the AFA")
     public String afaCostFunctionShiny = "(d^3)/10";
     @Configure(category = Config.MACHINE, comment = "Maximum energy in the AFA, this effectively sets a max range for it to affect, based on the costs")
     public int    afaMaxEnergy         = 3200;

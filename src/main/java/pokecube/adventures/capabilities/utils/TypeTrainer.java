@@ -186,6 +186,16 @@ public class TypeTrainer extends NpcType
                 if (hasMob) return noRunIfCrowded.test(e);
                 return other.getOutID() != null;
             };
+            final Predicate<LivingEntity> onlyIfLowRep = e ->
+            {
+                if (npc instanceof VillagerEntity && e instanceof PlayerEntity)
+                {
+                    final VillagerEntity villager = (VillagerEntity) npc;
+                    final int rep = villager.getPlayerReputation((PlayerEntity) e);
+                    if (rep > 100) return false;
+                }
+                return true;
+            };
 
             final List<Pair<Integer, Task<? super LivingEntity>>> list = Lists.newArrayList();
             Task<?> task = new AgroTargets(npc, 1, 0, z -> z instanceof ZombieEntity);
@@ -195,7 +205,7 @@ public class TypeTrainer extends NpcType
             if (npc instanceof TrainerBase)
             {
                 final Predicate<LivingEntity> validPlayer = onlyIfHasMobs.and(e -> e instanceof PlayerEntity);
-                task = new AgroTargets(npc, 1, 0, validPlayer).setRunCondition(noRunWhileRest);
+                task = new AgroTargets(npc, 1, 0, validPlayer).setRunCondition(noRunWhileRest.and(onlyIfLowRep));
                 list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             }
 

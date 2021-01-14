@@ -11,6 +11,8 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.PokecubeAdv;
@@ -83,11 +85,28 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         };
         final double s = this.trainer.getAgressDistance();
         final Vector3d start = entityIn.getEyePosition(1);
-        final Vector3d end = start.add(entityIn.getLook(1).mul(s, s, s));
+        Vector3d line = entityIn.getLook(1).mul(s, s, s);
+        Vector3d end = start.add(line);
+
+        final int rep_base = PokecubeAdv.config.trainer_min_rep;
+        final int rep_cap = PokecubeAdv.config.trainer_max_rep;
+        final int drep = rep_cap - rep_base;
 
         for (LivingEntity mob : mobs)
             if (this.isValidTarget(mob) && tameChecker.test(mob))
             {
+                if (mob instanceof PlayerEntity && this.entity instanceof VillagerEntity)
+                {
+                    final VillagerEntity villager = (VillagerEntity) this.entity;
+                    final int rep = villager.getPlayerReputation((PlayerEntity) mob);
+                    double s1 = s;
+                    if (rep > rep_cap) s1 = 0;
+                    else if (rep < rep_base) s1 *= 2;
+                    else s1 *= (rep_cap - rep) / drep;
+                    line = entityIn.getLook(1).mul(s1, s1, s1);
+                    end = start.add(line);
+                }
+
                 final boolean lookingAt = mob.getBoundingBox().rayTrace(start, end).isPresent();
                 if (!lookingAt)
                 {

@@ -2,6 +2,7 @@ package thut.core.common.config;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Comparator;
@@ -286,13 +287,51 @@ public class Config
         return new ForgeConfigSpec[] { COMMON_CONFIG_SPEC, CLIENT_CONFIG_SPEC, SERVER_CONFIG_SPEC };
     }
 
+    private static void addComment(final Builder builder, final String input)
+    {
+        // This either splits the input by lines, or just adds it as a comment.
+        // it also appends a space at the beginning, so there is whitespace
+        // after the # in the start of the comment
+        if (input.contains("\n"))
+        {
+            final String[] vars = input.split("\n");
+            for (int i = 0; i < vars.length; i++)
+                vars[i] = " " + vars[i];
+            builder.comment(vars);
+        }
+        else builder.comment(" " + input);
+    }
+
     private static void build(final Builder builder, final List<Field> fields, final IConfigHolder holder,
             final Type type)
     {
+
+        final Map<String, String> cat_comments = Maps.newHashMap();
+
+        for (final Field field : fields)
+        {
+            // Check for strings, if we have those, assume they are category
+            // definitions, and check for comments
+            if (!Modifier.isStatic(field.getModifiers())) continue;
+            try
+            {
+                final Object o = field.get(null);
+                if (o instanceof String)
+                {
+                    final Configure conf = field.getAnnotation(Configure.class);
+                    cat_comments.put((String) o, conf.category());
+                }
+            }
+            catch (final Exception e)
+            {
+                ThutCore.LOGGER.error("Error getting field " + field, e);
+            }
+        }
         String cat = "";
         for (final Field field : fields)
             try
             {
+                if (Modifier.isStatic(field.getModifiers())) continue;
                 final Configure conf = field.getAnnotation(Configure.class);
                 if (!cat.equals(conf.category()))
                 {
@@ -302,8 +341,9 @@ public class Config
                     // Push the category
                     builder.push(cat);
                     builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + cat);
+                    if (cat_comments.containsKey(cat)) Config.addComment(builder, cat_comments.get(cat));
                 }
-                if (!conf.comment().isEmpty()) builder.comment(" " + conf.comment());
+                if (!conf.comment().isEmpty()) Config.addComment(builder, conf.comment());
                 builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName()
                         + ".tooltip");
                 final Object o = field.get(holder);

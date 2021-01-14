@@ -358,7 +358,7 @@ public class TrainerEventHandler
     public static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
         if (!(target instanceof LivingEntity)) return;
-        // TODO trainer edit item.
+
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
@@ -395,7 +395,19 @@ public class TrainerEventHandler
             default:
                 break;
             }
-            messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
+
+            // Check if a trade would have been possible, if so, and it is
+            // no_battle, set it to interact instead. This prevents duplicated
+            // "not want to battle right now" messages
+            if (state == MessageState.INTERACT_NOBATTLE && target instanceof TrainerBase)
+            {
+                final boolean canTrade = ((TrainerBase) target).canTrade(evt.getPlayer());
+                if (canTrade) state = MessageState.INTERACT;
+            }
+            final int timer = evt.getPlayer().ticksExisted;
+            if (evt.getPlayer().getPersistentData().getInt("__msg_sent_last_") != timer) messages.sendMessage(state, evt
+                    .getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
+            evt.getPlayer().getPersistentData().putInt("__msg_sent_last_", timer);
             if (messages.doAction(state, pokemobs.setLatestContext(new ActionContext(evt.getPlayer(),
                     (LivingEntity) target, evt.getItemStack()))))
             {
