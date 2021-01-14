@@ -29,7 +29,11 @@ import net.minecraft.item.MerchantOffer;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.village.PointOfInterestManager;
+import net.minecraft.village.PointOfInterestManager.Status;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.Config;
@@ -46,6 +50,7 @@ import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -186,6 +191,16 @@ public class TypeTrainer extends NpcType
                 if (hasMob) return noRunIfCrowded.test(e);
                 return other.getOutID() != null;
             };
+            final Predicate<LivingEntity> notNearHealer = e ->
+            {
+                if (!PokecubeAdv.config.no_battle_near_pokecenter) return true;
+                final ServerWorld world = (ServerWorld) npc.getEntityWorld();
+                final BlockPos blockpos = e.getPosition();
+                final PointOfInterestManager pois = world.getPointOfInterestManager();
+                final long num = pois.getCountInRange(p -> p == PointsOfInterest.HEALER.get(), blockpos,
+                        PokecubeAdv.config.pokecenter_radius, Status.ANY);
+                return num == 0;
+            };
 
             final List<Pair<Integer, Task<? super LivingEntity>>> list = Lists.newArrayList();
             Task<?> task = new AgroTargets(npc, 1, 0, z -> z instanceof ZombieEntity);
@@ -195,7 +210,8 @@ public class TypeTrainer extends NpcType
             if (npc instanceof TrainerBase)
             {
                 final Predicate<LivingEntity> validPlayer = onlyIfHasMobs.and(e -> e instanceof PlayerEntity);
-                task = new AgroTargets(npc, 1, 0, validPlayer).setRunCondition(noRunWhileRest);
+                final Predicate<LivingEntity> shouldRun = noRunWhileRest;
+                task = new AgroTargets(npc, 1, 0, validPlayer.and(notNearHealer)).setRunCondition(shouldRun);
                 list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             }
 

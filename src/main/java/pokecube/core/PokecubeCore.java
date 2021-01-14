@@ -2,7 +2,6 @@ package pokecube.core;
 
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -49,12 +48,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -432,12 +428,7 @@ public class PokecubeCore
         PokecubeItems.BLOCKS.register(bus);
         PokecubeItems.TILES.register(bus);
 
-        // Register imc comms sender
-        bus.addListener(this::enqueueIMC);
-        // Register imc comms listender
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-
-        bus.addListener(this::processIMC);
+        bus.addListener(this::loadComplete);
 
         RecipeHandler.RECIPE_SERIALIZERS.register(bus);
         SecretBaseDimension.onConstruct(bus);
@@ -462,23 +453,6 @@ public class PokecubeCore
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
         ItemGenerator.strippableBlocks(event);
-    }
-
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // some example code to dispatch IMC to another mod
-        InterModComms.sendTo("thutcore", "helloworld", () ->
-        {
-            PokecubeCore.LOGGER.info("Hello from Pokecube Core");
-            return "Hello ThutCore, sincerely Pokecube Core";
-        });
-    }
-
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // some example code to receive and process InterModComms from other
-        // mods
-        PokecubeCore.LOGGER.info("Got IMC {}", event.getIMCStream().map(m -> m.getMessageSupplier().get()).collect(
-                Collectors.toList()));
+        PointsOfInterest.postInit();
     }
 }
