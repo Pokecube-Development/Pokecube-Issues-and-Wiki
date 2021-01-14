@@ -30,6 +30,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
@@ -291,6 +292,8 @@ public class PokecubeAdv
         // Register the loaded method for modloading
         modEventBus.addListener(PokecubeAdv.proxy::loaded);
 
+        modEventBus.addListener(this::loadComplete);
+
         RecipePokeAdv.RECIPE_SERIALIZERS.register(modEventBus);
         PointsOfInterest.REG.register(modEventBus);
 
@@ -305,6 +308,11 @@ public class PokecubeAdv
 
         XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeAdv.MODID, "database/rewards.json"));
         XMLRecipeHandler.recipeFiles.add(new ResourceLocation(PokecubeAdv.MODID, "database/recipes.json"));
+    }
+
+    private void loadComplete(final FMLLoadCompleteEvent event)
+    {
+        PointsOfInterest.postInit();
     }
 
     @SubscribeEvent

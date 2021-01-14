@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -22,6 +23,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
+import net.minecraft.village.GossipType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -473,7 +475,14 @@ public class CapabilityHasPokemobs
         public void onWin(final Entity lost)
         {
             // Only store for players
-            if (lost instanceof PlayerEntity) this.defeated.validate(lost);
+            if (lost instanceof PlayerEntity)
+            {
+                this.defeated.validate(lost);
+
+                // If available, we will increase reputation out of pity
+                if (this.user instanceof VillagerEntity) ((VillagerEntity) this.user).getGossip().add(lost
+                        .getUniqueID(), GossipType.MINOR_POSITIVE, 10);
+            }
             if (lost == this.getTarget()) this.onSetTarget(null);
         }
 
@@ -505,14 +514,22 @@ public class CapabilityHasPokemobs
             if (!reward) return;
 
             // Only store for players
-            if (won instanceof PlayerEntity) this.defeatedBy.validate(won);
-
-            if (won instanceof PlayerEntity) if (this.rewards.getRewards() != null)
+            if (won instanceof PlayerEntity)
             {
-                final PlayerEntity player = (PlayerEntity) won;
-                this.rewards.giveReward(player, this.user);
-                this.checkDefeatAchievement(player);
+
+                this.defeatedBy.validate(won);
+                if (this.rewards.getRewards() != null)
+                {
+                    final PlayerEntity player = (PlayerEntity) won;
+                    this.rewards.giveReward(player, this.user);
+                    this.checkDefeatAchievement(player);
+                }
+
+                // If applicable, increase reputation for winning the battle.
+                if (this.user instanceof VillagerEntity) ((VillagerEntity) this.user).getGossip().add(won.getUniqueID(),
+                        GossipType.MINOR_POSITIVE, 20);
             }
+
             if (won != null)
             {
                 this.messages.sendMessage(MessageState.DEFEAT, won, this.user.getDisplayName(), won.getDisplayName());

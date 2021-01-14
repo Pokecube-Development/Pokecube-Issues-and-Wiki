@@ -9,10 +9,11 @@ from data_files import csv_files
 from unk_pokemobs import custom_names
 
 def makeFileList():
-    filelist = "[\""
+    files = []
     for filename in os.listdir('./caches/csv/'):
         if '.csv' in filename:
             files.append(filename)
+    filelist = "[\""
     for i in range(0, len(files)-1):
         filelist = filelist + files[i].replace('.csv','') + "\", \""
     filelist = filelist + files[len(files)-1] + "\"]"

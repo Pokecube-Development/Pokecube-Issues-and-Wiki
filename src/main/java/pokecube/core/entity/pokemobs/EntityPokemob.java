@@ -99,6 +99,12 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
+    public boolean isEntityInsideOpaqueBlock()
+    {
+        return false;
+    }
+
+    @Override
     public boolean canBreatheUnderwater()
     {
         return this.pokemobCap.swims() || this.pokemobCap.canUseDive() || this.pokemobCap.isType(PokeType.getType(

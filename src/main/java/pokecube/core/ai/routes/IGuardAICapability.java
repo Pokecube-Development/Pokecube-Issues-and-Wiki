@@ -88,8 +88,7 @@ public interface IGuardAICapability
         @Override
         public CompoundNBT serializeNBT()
         {
-            return (CompoundNBT) CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP,
-                    this, null);
+            return (CompoundNBT) CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP, this, null);
         }
     }
 
@@ -139,6 +138,11 @@ public interface IGuardAICapability
     GuardState getState();
 
     List<IGuardTask> getTasks();
+
+    default void setTask(final int index, final IGuardTask task)
+    {
+        this.getTasks().set(index, task);
+    }
 
     // do we have a task with a location, and a position
     boolean hasActiveTask(long time, long daylength);

@@ -146,7 +146,8 @@ public class GuardAICapability implements IGuardAICapability
 
         private boolean path(final MobEntity entity, final double speed)
         {
-            final Vector3d pos = new Vector3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ() + 0.5);
+            final Vector3d pos = new Vector3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ()
+                    + 0.5);
             this.setWalkTo(entity, pos, speed, 0);
             return true;
         }
@@ -160,7 +161,10 @@ public class GuardAICapability implements IGuardAICapability
     private final List<IGuardTask> tasks = Lists.newArrayList(new GuardTask());
 
     private GuardState state = GuardState.IDLE;
+
     private IGuardTask activeTask;
+
+    private int activeIndex = 0;
 
     @Override
     public IGuardTask getActiveTask()
@@ -173,6 +177,13 @@ public class GuardAICapability implements IGuardAICapability
     {
         if (this.tasks.isEmpty()) this.tasks.add(new GuardTask());
         return this.tasks.get(0);
+    }
+
+    @Override
+    public void setTask(final int index, final IGuardTask task)
+    {
+        if (index == this.activeIndex) this.activeTask = task;
+        IGuardAICapability.super.setTask(index, task);
     }
 
     @Override
@@ -191,12 +202,16 @@ public class GuardAICapability implements IGuardAICapability
     public boolean hasActiveTask(final long time, final long daylength)
     {
         if (this.activeTask != null && this.activeTask.getActiveTime().contains(time, daylength)) return true;
-        for (final IGuardTask task : this.getTasks())
+        for (int i = 0; i < this.getTasks().size(); i++)
+        {
+            final IGuardTask task = this.getTasks().get(i);
             if (task.getActiveTime().contains(time, daylength))
             {
+                this.activeIndex = i;
                 this.activeTask = task;
                 return true;
             }
+        }
         return false;
     }
 
