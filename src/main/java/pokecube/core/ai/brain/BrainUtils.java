@@ -154,6 +154,26 @@ public class BrainUtils
         return pos.get();
     }
 
+    public static IPosWrapper getLeapTarget(final LivingEntity mobIn)
+    {
+        final Brain<?> brain = mobIn.getBrain();
+        if (!brain.hasMemory(MemoryModules.LEAP_TARGET)) return null;
+        final Optional<IPosWrapper> pos = brain.getMemory(MemoryModules.LEAP_TARGET);
+        if (pos == null || !pos.isPresent()) return null;
+        return pos.get();
+    }
+
+    public static void setLeapTarget(final LivingEntity mobIn, final IPosWrapper target)
+    {
+        final Brain<?> brain = mobIn.getBrain();
+        if (!brain.hasMemory(MemoryModules.LEAP_TARGET, MemoryModuleStatus.REGISTERED)) return;
+        if (target == null) brain.removeMemory(MemoryModules.LEAP_TARGET);
+        else brain.setMemory(MemoryModules.LEAP_TARGET, target);
+        final IPokemob mob = CapabilityPokemob.getPokemobFor(mobIn);
+        if (mob != null) mob.setCombatState(CombatStates.LEAPING, target != null);
+
+    }
+
     public static List<NearBlock> getNearBlocks(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();

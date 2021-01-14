@@ -32,7 +32,7 @@ public class LeapTask extends TaskBase implements IAICombat
 
     static
     {
-        LeapTask.MEMS.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_PRESENT);
+        LeapTask.MEMS.put(MemoryModules.LEAP_TARGET, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     int leapTick = -1;
@@ -68,6 +68,7 @@ public class LeapTask extends TaskBase implements IAICombat
     public void run()
     {
         final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
+        this.pokemob.setCombatState(CombatStates.LEAPING, true);
 
         // Target loc could just be a position
         this.leapTarget.set(this.pos.getPos());
@@ -111,7 +112,7 @@ public class LeapTask extends TaskBase implements IAICombat
 
         new PlaySound(this.entity.getEntityWorld().getDimensionKey(), Vector3.getNewVector().set(this.entity), this.getLeapSound(),
                 SoundCategory.HOSTILE, 1, 1).run(this.world);
-        this.pokemob.setCombatState(CombatStates.LEAPING, false);
+        BrainUtils.setLeapTarget(this.entity, null);
     }
 
     @Override
@@ -119,12 +120,10 @@ public class LeapTask extends TaskBase implements IAICombat
     {
         // Can't move, no leap
         if (!TaskBase.canMove(this.pokemob)) return false;
-        // Not actually set to leap
-        if (!this.pokemob.getCombatState(CombatStates.LEAPING)) return false;
         // On cooldown, no leap
         if (this.leapTick > this.entity.ticksExisted) return false;
         // Leap if we have a target pos
-        return (this.pos = BrainUtils.getMoveUseTarget(this.entity)) != null;
+        return (this.pos = BrainUtils.getLeapTarget(this.entity)) != null;
     }
 
 }

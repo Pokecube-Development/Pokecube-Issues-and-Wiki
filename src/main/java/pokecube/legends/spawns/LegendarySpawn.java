@@ -36,6 +36,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
+import pokecube.legends.conditions.AbstractCondition;
 import thut.api.maths.Vector3;
 
 public class LegendarySpawn
@@ -63,6 +64,7 @@ public class LegendarySpawn
         final PlayerEntity playerIn = evt.getPlayer();
         final ServerWorld worldIn = (ServerWorld) evt.getWorld();
         final PokedexEntry entry = spawn.entry;
+        if (!spawn.heldItemChecker.test(stack)) return SpawnResult.WRONGITEM;
 
         final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
         final ISpecialCaptureCondition captureCondition = ISpecialCaptureCondition.captureMap.get(entry);
@@ -73,12 +75,12 @@ public class LegendarySpawn
             if (test == CanSpawn.ALREADYHAVE) return SpawnResult.ALREADYHAVE;
             if (test.test())
             {
-                if (!spawn.heldItemChecker.test(stack)) return SpawnResult.WRONGITEM;
-
                 MobEntity entity = PokecubeCore.createPokemob(entry, worldIn);
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                 if (captureCondition != null && !captureCondition.canCapture(playerIn, pokemob))
                 {
+                    if (message && captureCondition instanceof AbstractCondition) ((AbstractCondition) captureCondition)
+                            .canCapture(playerIn, message);
                     evt.setCanceled(true);
                     return SpawnResult.NOCAPTURE;
                 }
@@ -175,11 +177,19 @@ public class LegendarySpawn
             worked = result == SpawnResult.SUCCESS;
             if (worked) break;
 
+            System.out.println(match.entry + " " + result);
+
             if (result == SpawnResult.WRONGITEM) wrong_items.add(match.entry);
             if (result == SpawnResult.NOSPAWN) wrong_biomes.add(match.entry);
             if (result == SpawnResult.ALREADYHAVE) already_spawned.add(match.entry);
             // Try again but with message, as this probably has a custom one.
-            if (result == SpawnResult.FAIL) LegendarySpawn.trySpawn(match, stack, evt, true);
+            if (result == SpawnResult.FAIL || result == SpawnResult.NOCAPTURE)
+            {
+                // This should have given the error message itself, so lets
+                // report that, then return
+                LegendarySpawn.trySpawn(match, stack, evt, true);
+                return;
+            }
         }
 
         if (worked)

@@ -36,6 +36,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
@@ -248,12 +249,16 @@ public class GatherTask extends UtilTask
         diff = Math.max(diff, this.entity.getWidth());
         final double dist = stuffLoc.distToEntity(this.entity);
         this.v.set(this.entity).subtractFrom(stuffLoc);
+        final double dy = this.v.y;
         final double dot = this.v.normalize().dot(Vector3.secondAxis);
-        // This means that the item is directly above the pokemob, assume it
-        // can pick up to 3 blocks upwards.
-        if (dot < -0.9 && this.entity.isOnGround()) diff = Math.max(3, diff);
+        // This means that the item is directly above the pokemob, try to jump
+        // to get closer
+        final boolean jump = this.entity.isOnGround() && dot < -0.8 && dy < -1.8;
+        if (jump) BrainUtils.setLeapTarget(this.entity, new VectorPosWrapper(stuffLoc));
         if (dist < diff)
         {
+            // BrainUtils.setLeapTarget(this.entity, new
+            // VectorPosWrapper(stuffLoc));
             final BlockState state = stuffLoc.getBlockState(this.entity.getEntityWorld());
             stuffLoc.setAir(this.world);
             final List<ItemStack> list = Block.getDrops(state, this.world, stuffLoc.getPos(), null);

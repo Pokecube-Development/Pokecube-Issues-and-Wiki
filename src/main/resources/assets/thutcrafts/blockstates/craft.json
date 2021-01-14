@@ -2,6 +2,40 @@
 	"forge_marker": 1,
 	"defaults": {
 	    "transform":"forge:default-block",
-        "model": "minecraft:air"
-	}
+        "model": "minecraft:block/air"
+	},
+	"variants": {
+     "light=0,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=1,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=2,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=3,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=4,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=5,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=6,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=7,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=8,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=9,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=10,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=11,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=12,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=13,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=14,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=15,waterlogged=false": { "model": "minecraft:block/air" },
+     "light=0,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=1,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=2,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=3,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=4,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=5,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=6,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=7,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=8,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=9,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=10,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=11,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=12,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=13,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=14,waterlogged=true": { "model": "minecraft:block/air" },
+     "light=15,waterlogged=true": { "model": "minecraft:block/air" }
+    }
 }

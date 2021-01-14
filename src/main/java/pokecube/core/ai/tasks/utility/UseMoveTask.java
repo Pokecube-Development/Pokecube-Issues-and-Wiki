@@ -21,8 +21,8 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.MovesUtils;
+import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
 public class UseMoveTask extends UtilTask
@@ -106,7 +106,7 @@ public class UseMoveTask extends UtilTask
             this.checkRange = true;
         }
         if (!rangedMove) // Leap at the target location
-            this.pokemob.setCombatState(CombatStates.LEAPING, true);
+            BrainUtils.setLeapTarget(this.entity, new VectorPosWrapper(this.destination));
 
         if (!this.checkRange && dist < var1) // If in range, apply the move
             this.pokemob.executeMove(null, this.destination, 0);

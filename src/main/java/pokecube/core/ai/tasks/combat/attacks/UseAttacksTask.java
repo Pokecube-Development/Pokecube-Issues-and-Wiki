@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.EntityPosWrapper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.FakePlayer;
@@ -219,7 +220,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (!(distanced || self))
         {
             this.setUseMove();
-            this.pokemob.setCombatState(CombatStates.LEAPING, true);
+            BrainUtils.setLeapTarget(this.entity, new EntityPosWrapper(this.entityTarget, false));
         }
 
         // If all the conditions match, queue up an attack.

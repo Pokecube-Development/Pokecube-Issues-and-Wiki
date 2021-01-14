@@ -77,7 +77,7 @@ public class CicleTask extends CombatTask implements IAICombat
         // circling the middle, and reversing direction every 10 seconds or so.
         if (diff.magSq() > combatDistanceSq)
         {
-            this.pokemob.setCombatState(CombatStates.LEAPING, false);
+            BrainUtils.setLeapTarget(this.entity, null);
             this.setWalkTo(this.centre, this.movementSpeed, 0);
         }
         else
