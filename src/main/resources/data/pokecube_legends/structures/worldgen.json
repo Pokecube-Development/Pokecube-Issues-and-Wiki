@@ -352,7 +352,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/underwater/kyogre_temple;{\"dy\":2}"
+        "pokecube_legends:temples/underwater/kyogre_temple;{\"dy\":2\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
