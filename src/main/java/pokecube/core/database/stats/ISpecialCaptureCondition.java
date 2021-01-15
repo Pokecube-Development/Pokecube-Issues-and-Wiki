@@ -13,4 +13,9 @@ public interface ISpecialCaptureCondition
     boolean canCapture(Entity trainer);
 
     boolean canCapture(Entity trainer, IPokemob pokemon);
+
+    default void onCaptureFail(final Entity trainer, final IPokemob pokemob)
+    {
+
+    }
 }
