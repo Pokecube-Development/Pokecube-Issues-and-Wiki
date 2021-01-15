@@ -163,6 +163,7 @@ public class WorldgenHandler
         public boolean      water        = false;
         public boolean      air          = false;
         public boolean      allow_void   = false;
+        public int          minY         = 5;
         public int          height       = 0;
         public int          variance     = 50;
         public int          priority     = 100;
@@ -236,7 +237,8 @@ public class WorldgenHandler
 
     public static Set<RegistryKey<World>> SOFTBLACKLIST = Sets.newHashSet();
 
-    public static List<ResourceLocation> spawnPresets = Lists.newArrayList(new ResourceLocation(PokecubeCore.MODID, "database/spawn_presets.json"));
+    public static List<ResourceLocation> spawnPresets = Lists.newArrayList(new ResourceLocation(PokecubeCore.MODID,
+            "database/spawn_presets.json"));
 
     private static void initSpaceMap()
     {
@@ -585,7 +587,6 @@ public class WorldgenHandler
         this.toConfigure.put(struct, structure);
         return structure;
     }
-
 
     private static void forceVillageFeature(final Structure<?> feature)
     {
