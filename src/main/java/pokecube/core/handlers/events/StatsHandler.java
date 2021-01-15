@@ -98,9 +98,10 @@ public class StatsHandler
         if (ISpecialCaptureCondition.captureMap.containsKey(entry))
         {
             boolean deny = true;
+            final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
             try
             {
-                deny = !ISpecialCaptureCondition.captureMap.get(entry).canCapture(catcher, evt.caught);
+                deny = !condition.canCapture(catcher, evt.caught);
             }
             catch (final Exception e)
             {
@@ -112,6 +113,7 @@ public class StatsHandler
                 evt.setCanceled(true);
                 if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                         "pokecube.denied"), Util.DUMMY_UUID);
+                condition.onCaptureFail(catcher, evt.caught);
                 evt.pokecube.entityDropItem(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
                 evt.pokecube.remove();
                 return;

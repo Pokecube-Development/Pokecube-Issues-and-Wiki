@@ -7,17 +7,32 @@ import java.util.function.Predicate;
 
 import net.minecraft.entity.MobEntity;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.PokedexEntry;
+import thut.api.item.ItemList;
 
 /** @author Manchou */
 public interface IMoveConstants extends IMoveNames
 {
+    static ResourceLocation ANTS = new ResourceLocation(PokecubeMod.ID, "ants");
+
     static final Predicate<IPokemob> isBee = pokemob ->
     {
         final MobEntity entity = pokemob.getEntity();
         final boolean isBee = EntityTypeTags.BEEHIVE_INHABITORS.contains(entity.getType());
         // Only care about bees
         if (!isBee) return false;
+        // Only process stock pokemobs
+        if (!pokemob.getPokedexEntry().stock) return false;
+        return true;
+    };
+
+    static final Predicate<IPokemob> isAnt = pokemob ->
+    {
+        final MobEntity entity = pokemob.getEntity();
+        final boolean isAnt = ItemList.is(IMoveConstants.ANTS, entity);
+        // Only care about bees
+        if (!isAnt) return false;
         // Only process stock pokemobs
         if (!pokemob.getPokedexEntry().stock) return false;
         return true;
@@ -37,6 +52,8 @@ public interface IMoveConstants extends IMoveNames
         GATHER,
         //Does the pokemob act like a vanilla bee
         BEEAI(true, IMoveConstants.isBee),
+        //Does the pokemob act like a vanilla bee
+        ANTAI(true, IMoveConstants.isAnt),
         //Does the pokemob store its inventory when full.
         STORE(false),
        //Does the pokemob wander around randomly

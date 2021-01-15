@@ -65,6 +65,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.IRunnable;
+import pokecube.core.ai.tasks.idle.ants.AntTasks.AntInhabitor;
+import pokecube.core.ai.tasks.idle.bees.BeeTasks.BeeInhabitor;
+import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
@@ -75,11 +78,12 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.events.CustomInteractEvent;
+import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
 import pokecube.core.interfaces.capabilities.CapabilityAffected.DefaultAffected;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitor.BeeInhabitor;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable.SaveableHabitatProvider;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitor.InhabitorProvider;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
@@ -88,6 +92,7 @@ import pokecube.core.interfaces.capabilities.TextureableCaps.NPCCap;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.inventory.InvHelper.ItemCap;
 import pokecube.core.inventory.pc.PCWrapper;
 import pokecube.core.inventory.tms.TMInventory;
 import pokecube.core.inventory.trade.TradeInventory;
@@ -107,6 +112,7 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.entity.ShearableCaps;
+import thut.api.item.ItemList;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -152,11 +158,13 @@ public class EventsHandler
         }
     }
 
-    public static final ResourceLocation POKEMOBCAP  = new ResourceLocation(PokecubeMod.ID, "pokemob");
-    public static final ResourceLocation AFFECTEDCAP = new ResourceLocation(PokecubeMod.ID, "affected");
-    public static final ResourceLocation DATACAP     = new ResourceLocation(PokecubeMod.ID, "data");
-    public static final ResourceLocation BEECAP      = new ResourceLocation(PokecubeMod.ID, "bee");
-    public static final ResourceLocation TEXTURECAP  = new ResourceLocation(PokecubeMod.ID, "textured");
+    public static final ResourceLocation POKEMOBCAP   = new ResourceLocation(PokecubeMod.ID, "pokemob");
+    public static final ResourceLocation AFFECTEDCAP  = new ResourceLocation(PokecubeMod.ID, "affected");
+    public static final ResourceLocation DATACAP      = new ResourceLocation(PokecubeMod.ID, "data");
+    public static final ResourceLocation BEECAP       = new ResourceLocation(PokecubeMod.ID, "bee");
+    public static final ResourceLocation ANTCAP       = new ResourceLocation(PokecubeMod.ID, "ant");
+    public static final ResourceLocation TEXTURECAP   = new ResourceLocation(PokecubeMod.ID, "textured");
+    public static final ResourceLocation INVENTORYCAP = new ResourceLocation(PokecubeMod.ID, "tile_inventory");
 
     static double max = 0;
 
@@ -446,6 +454,8 @@ public class EventsHandler
             // If it is a bee, we will add this to it.
             if (EntityTypeTags.BEEHIVE_INHABITORS.contains(mob.getType())) event.addCapability(EventsHandler.BEECAP,
                     new InhabitorProvider(new BeeInhabitor(mob)));
+            if (ItemList.is(IMoveConstants.ANTS, mob)) event.addCapability(EventsHandler.ANTCAP, new InhabitorProvider(
+                    new AntInhabitor(mob)));
         }
 
         if (event.getObject() instanceof NpcMob)
@@ -469,12 +479,18 @@ public class EventsHandler
 
     private static void onTileCaps(final AttachCapabilitiesEvent<TileEntity> event)
     {
-        final ResourceLocation key = new ResourceLocation("pokecube:tile_inventory");
+        final ResourceLocation key = EventsHandler.INVENTORYCAP;
         if (event.getCapabilities().containsKey(key)) return;
         if (event.getObject() instanceof TMTile) event.addCapability(key, new TMInventory((TMTile) event.getObject()));
         if (event.getObject() instanceof TraderTile) event.addCapability(key, new TradeInventory((TraderTile) event
                 .getObject()));
         if (event.getObject() instanceof PCTile) event.addCapability(key, new PCWrapper((PCTile) event.getObject()));
+        if (event.getObject() instanceof NestTile)
+        {
+            final ResourceLocation nestCap = new ResourceLocation("pokecube:nest");
+            event.addCapability(key, new ItemCap(54, 64));
+            event.addCapability(nestCap, new SaveableHabitatProvider());
+        }
     }
 
     private static void onWorldCaps(final AttachCapabilitiesEvent<World> event)

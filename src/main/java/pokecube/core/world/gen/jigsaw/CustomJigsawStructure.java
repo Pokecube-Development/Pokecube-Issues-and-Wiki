@@ -198,8 +198,10 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                     if (p.getJigsawPiece() instanceof CustomJigsawPiece)
                     {
                         final CustomJigsawPiece piece = (CustomJigsawPiece) p.getJigsawPiece();
+                        final int dy = piece.opts.dy;
                         // Check if the part needs a shift.
-                        p.offset(0, -piece.opts.dy, 0);
+                        p.offset(0, -dy, 0);
+                        p.getBoundingBox().offset(0, dy, 0);
 
                         // Check if we should place a professor.
                         if (!PokecubeSerializer.getInstance().hasPlacedSpawn() && PokecubeCore

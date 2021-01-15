@@ -114,7 +114,7 @@ public class GatherNectar extends BeeTask
     }
 
     @Override
-    boolean doBeeTask()
+    boolean doTask()
     {
         final Brain<?> brain = this.entity.getBrain();
         final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);

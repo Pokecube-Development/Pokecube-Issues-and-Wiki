@@ -42,25 +42,13 @@ public class ForgeEventHandlers
 
     private static final ResourceLocation WHILTELISTED = new ResourceLocation("pokecube_legends:arceus_approved");
 
-    /*
-     * @SubscribeEvent
-     * public void onDimensionRegistry(final RegisterDimensionsEvent event)
-     * {
-     * DimensionInit.DIMENSION_TYPE =
-     * DimensionManager.registerOrGetDimension(DimensionInit.DIMENSION_ID,
-     * DimensionInit.DIMENSION, null, false);
-     * if (DimensionInit.DIMENSION_TYPE.getRegistryName() == null)
-     * DimensionInit.DIMENSION_TYPE.setRegistryName(
-     * DimensionInit.DIMENSION_ID);
-     * }
-     */
-
     private boolean protectTemple(@Nullable final ServerPlayerEntity player, @Nonnull final ServerWorld world,
             @Nullable final BlockState newState, final BlockPos pos)
     {
         final BlockState state = world.getBlockState(pos);
         if (ItemList.is(ForgeEventHandlers.WHILTELISTED, state)) return false;
         if (newState != null && ItemList.is(ForgeEventHandlers.WHILTELISTED, newState)) return false;
+        if (player != null && player.isCreative()) return false;
         final Set<StructureInfo> set = StructureManager.getFor(world.getDimensionKey(), pos);
         for (final StructureInfo info : set)
         {

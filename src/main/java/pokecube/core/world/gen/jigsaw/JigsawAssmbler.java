@@ -163,17 +163,25 @@ public class JigsawAssmbler
         final int i = (mutableboundingbox.maxX + mutableboundingbox.minX) / 2;
         final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
         int k = default_k;
-
-        if (k == -1 && this.config.air) k = chunkGenerator.getNoiseHeight(i, j, this.SURFACE_TYPE) + rand.nextInt(
-                this.config.variance);
-
-        if (k == -1) if (this.SURFACE_TYPE != null) k = chunkGenerator.getNoiseHeight(i, j, this.SURFACE_TYPE);
-        else
+        // If we have not been provided with a default value, determine where to
+        // place the ground for the structure
+        if (k == -1)
         {
-            k = this.chunkGenerator.getNoiseHeight(i, j, Heightmap.Type.OCEAN_FLOOR_WG);
-            if (k > 0) k = this.rand.nextInt(k + 1);
-            else k = chunkGenerator.getSeaLevel();
+            final int variance = this.config.variance <= 0 ? 0 : rand.nextInt(this.config.variance);
+            // Air spawns are a somewhat random distance above the surface
+            // reference.
+            if (this.config.air) k = chunkGenerator.getNoiseHeight(i, j, this.SURFACE_TYPE) + variance;
+            // If we have a surface reference, then lets use that
+            else if (this.SURFACE_TYPE != null) k = chunkGenerator.getNoiseHeight(i, j, this.SURFACE_TYPE);
+            else
+            {
+                // Otherwise, pick a random value below ground
+                k = this.chunkGenerator.getNoiseHeight(i, j, Heightmap.Type.OCEAN_FLOOR_WG);
+                if (k > 0) k = this.rand.nextInt(k + 1);
+                else k = chunkGenerator.getSeaLevel();
+            }
         }
+        // Ensure it is placed in range
         if (k <= 0 || k >= chunkGenerator.getMaxBuildHeight())
         {
             k = chunkGenerator.getMaxBuildHeight();

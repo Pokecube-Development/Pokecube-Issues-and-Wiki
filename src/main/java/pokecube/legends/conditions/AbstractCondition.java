@@ -232,6 +232,12 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         return succeed;
     }
 
+    @Override
+    public void onCaptureFail(final Entity trainer, final IPokemob pokemob)
+    {
+        this.sendFailureMessage(trainer);
+    }
+
     public void sendNoTrust(final Entity trainer)
     {
         final String message = "msg.notrust.info";

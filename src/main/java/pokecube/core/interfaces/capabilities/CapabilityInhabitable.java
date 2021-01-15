@@ -1,23 +1,22 @@
 package pokecube.core.interfaces.capabilities;
 
-import java.util.Optional;
+import java.util.Map;
+import java.util.function.Supplier;
 
-import net.minecraft.block.BeehiveBlock;
-import net.minecraft.block.BlockState;
+import com.google.common.collect.Maps;
+
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.world.World;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import pokecube.core.ai.tasks.idle.bees.BeeTasks;
 import pokecube.core.interfaces.IInhabitable;
 
 public class CapabilityInhabitable
@@ -25,16 +24,20 @@ public class CapabilityInhabitable
     @CapabilityInject(IInhabitable.class)
     public static final Capability<IInhabitable> CAPABILITY = null;
 
-    public static class HabitatProvider implements ICapabilityProvider
+    public static class HabitatProvider implements ICapabilityProvider, IInhabitable
     {
-        protected final IInhabitable wrapped;
+        // These are public so that they can potentially be replaced as needed.
+        // Example: Beaver dams would need a beaver habitat, ant nests need an
+        // ant one, but we don't want to have to add multiple instances of the
+        // capability, etc.
+        public IInhabitable wrapped;
 
-        private final LazyOptional<IInhabitable> cap_holder;
+        public final LazyOptional<IInhabitable> cap_holder;
 
         public HabitatProvider(final IInhabitable toWrap)
         {
             this.wrapped = toWrap;
-            this.cap_holder = LazyOptional.of(() -> this.wrapped);
+            this.cap_holder = LazyOptional.of(() -> this);
         }
 
         @Override
@@ -42,6 +45,37 @@ public class CapabilityInhabitable
         {
             return CapabilityInhabitable.CAPABILITY.orEmpty(cap, this.cap_holder);
         }
+
+        @Override
+        public void onExitHabitat(final MobEntity mob)
+        {
+            this.wrapped.onExitHabitat(mob);
+        }
+
+        @Override
+        public boolean onEnterHabitat(final MobEntity mob)
+        {
+            return this.wrapped.onEnterHabitat(mob);
+        }
+
+        @Override
+        public boolean canEnterHabitat(final MobEntity mob)
+        {
+            return this.wrapped.canEnterHabitat(mob);
+        }
+
+        @Override
+        public void onTick(final ServerWorld world)
+        {
+            this.wrapped.onTick(world);
+        }
+    }
+
+    private static Map<ResourceLocation, Supplier<IInhabitable>> REGISTRY = Maps.newHashMap();
+
+    public static void Register(final ResourceLocation key, final Supplier<IInhabitable> factory)
+    {
+        CapabilityInhabitable.REGISTRY.put(key, factory);
     }
 
     public static class SaveableHabitatProvider extends HabitatProvider implements ICapabilitySerializable<CompoundNBT>
@@ -52,19 +86,50 @@ public class CapabilityInhabitable
             super(toWrap);
         }
 
+        public SaveableHabitatProvider()
+        {
+            this(new NotHabitat());
+        }
+
         @Override
         public CompoundNBT serializeNBT()
         {
             final CompoundNBT nbt = new CompoundNBT();
-            nbt.put("data", ((ICapabilitySerializable<?>) this.wrapped).serializeNBT());
-            return null;
+            if (this.wrapped instanceof INBTSerializable) nbt.put(this.wrapped.getKey().toString(),
+                    ((INBTSerializable<?>) this.wrapped).serializeNBT());
+            return nbt;
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public void deserializeNBT(final CompoundNBT nbt)
         {
-            ((ICapabilitySerializable<INBT>) this.wrapped).deserializeNBT(nbt.get("data"));
+            try
+            {
+                String key = this.wrapped.getKey() == null ? null : this.wrapped.getKey().toString();
+
+                if (key == null || !nbt.contains(key))
+                {
+                    ResourceLocation keyLoc = null;
+                    for (final String s : nbt.keySet())
+                        try
+                        {
+                            keyLoc = new ResourceLocation(s);
+                            key = s;
+                            break;
+                        }
+                        catch (final Exception e)
+                        {
+                        }
+                    if (CapabilityInhabitable.REGISTRY.containsKey(keyLoc))
+                        this.wrapped = CapabilityInhabitable.REGISTRY.get(keyLoc).get();
+                }
+                if (this.wrapped instanceof INBTSerializable) ((INBTSerializable<INBT>) this.wrapped).deserializeNBT(nbt
+                        .get(key));
+            }
+            catch (final Exception e)
+            {
+            }
         }
 
     }
@@ -90,67 +155,6 @@ public class CapabilityInhabitable
         {
             return false;
         }
-    }
-
-    public static class BeeHabitat implements IInhabitable
-    {
-
-        final BeehiveTileEntity hive;
-
-        public BeeHabitat(final BeehiveTileEntity tile)
-        {
-            this.hive = tile;
-        }
-
-        @Override
-        public void onExitHabitat(final MobEntity mob)
-        {
-            final Brain<?> brain = mob.getBrain();
-            if (!brain.hasMemory(BeeTasks.HAS_NECTAR)) return;
-            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
-            final boolean nectar = hasNectar.isPresent() && hasNectar.get();
-            if (nectar)
-            {
-                final World world = mob.getEntityWorld();
-                final BlockState state = world.getBlockState(this.hive.getPos());
-                if (state.getBlock().isIn(BlockTags.BEEHIVES))
-                {
-                    final int i = BeehiveTileEntity.getHoneyLevel(state);
-                    if (i < 5)
-                    {
-                        int j = world.rand.nextInt(100) == 0 ? 2 : 1;
-                        if (i + j > 5) --j;
-                        world.setBlockState(this.hive.getPos(), state.with(BeehiveBlock.HONEY_LEVEL, Integer.valueOf(i
-                                + j)));
-                    }
-                }
-            }
-        }
-
-        @Override
-        public boolean onEnterHabitat(final MobEntity mob)
-        {
-            final int num = this.hive.bees.size();
-            final Brain<?> brain = mob.getBrain();
-            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
-            final boolean nectar = hasNectar.isPresent() && hasNectar.get();
-            // Try to enter the hive
-            this.hive.tryEnterHive(mob, nectar);
-            // If this changed, then we added correctly.
-            final boolean added = num < this.hive.bees.size();
-            // BeehiveTileEntity checks this boolean directly for if
-            // there is nectar in the bee.
-            if (added) this.hive.bees.get(num).entityData.putBoolean("HasNectar", nectar);
-            return added;
-        }
-
-        @Override
-        public boolean canEnterHabitat(final MobEntity mob)
-        {
-            if (!BeeTasks.isValidBee(mob)) return false;
-            return !this.hive.isFullOfBees();
-        }
-
     }
 
     public static class Storage implements Capability.IStorage<IInhabitable>

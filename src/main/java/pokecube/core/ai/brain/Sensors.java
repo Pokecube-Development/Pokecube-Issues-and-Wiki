@@ -5,6 +5,7 @@ import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.InterestingMobs;
 import pokecube.core.ai.brain.sensors.NearBlocks;
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
 import pokecube.core.ai.tasks.idle.bees.BeeTasks;
 
 public class Sensors
@@ -19,6 +20,7 @@ public class Sensors
         event.getRegistry().register(Sensors.INTERESTING_ENTITIES.setRegistryName(PokecubeCore.MODID,
                 "interesting_mobs"));
         BeeTasks.registerSensors(event);
+        AntTasks.registerSensors(event);
     }
 
 }

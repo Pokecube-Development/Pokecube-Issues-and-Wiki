@@ -26,6 +26,8 @@ public class GuardAICapability implements IGuardAICapability
 
     public static class GuardTask implements IGuardTask
     {
+        private static final UUID UID = UUID.fromString("4454b0d8-75ef-4689-8fce-daab61a7e1b0");
+
         private AttributeModifier executingGuardTask = null;
 
         private Vector3d lastPos;
@@ -42,8 +44,7 @@ public class GuardAICapability implements IGuardAICapability
 
         public GuardTask()
         {
-            this.executingGuardTask = new AttributeModifier(UUID.fromString("4454b0d8-75ef-4689-8fce-daab61a7e1b0"),
-                    "pokecube:guard_task", 1, Operation.ADDITION);
+            this.executingGuardTask = new AttributeModifier(GuardTask.UID, "pokecube:guard_task", 1, Operation.ADDITION);
         }
 
         @Override
