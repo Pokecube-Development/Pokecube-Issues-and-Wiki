@@ -20,6 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
@@ -30,7 +31,9 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.events.EggEvent;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
+import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.api.maths.Vector3;
@@ -39,18 +42,24 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 {
     public static int NESTSPAWNTYPES = 1;
 
-    HashSet<IPokemob>  residents = new HashSet<>();
-    int                time      = 0;
-    List<PokedexEntry> spawns    = Lists.newArrayList();
+    public HashSet<IPokemob>  residents = new HashSet<>();
+    public List<PokedexEntry> spawns    = Lists.newArrayList();
+
+    public CompoundNBT tag = new CompoundNBT();
+
+    public final IInhabitable habitat;
+
+    int time = 0;
 
     public NestTile()
     {
-        super(PokecubeItems.NEST_TYPE.get());
+        this(PokecubeItems.NEST_TYPE.get());
     }
 
     public NestTile(final TileEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
+        this.habitat = this.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
     }
 
     public boolean addForbiddenSpawningCoord()
@@ -103,6 +112,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
             }
         }
         this.time = nbt.getInt("time");
+        this.tag = nbt.getCompound("_data_");
     }
 
     @Override
@@ -125,6 +135,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
+        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onTick((ServerWorld) this.world);
         this.time++;
         final int power = this.world.getRedstonePower(this.getPos(), Direction.DOWN);
         if (this.world.isRemote || this.world.getDifficulty() == Difficulty.PEACEFUL && power == 0) return;
@@ -146,22 +157,23 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
             final int max = data.getMax(matcher);
             final int diff = Math.max(1, max - min);
             num = min + this.world.rand.nextInt(diff);
-        }
-        if (this.residents.size() < num)
-        {
-            final ItemStack eggItem = ItemPokemobEgg.getEggStack(entry);
-            final CompoundNBT nbt = eggItem.getTag();
-            nbt.putIntArray("nestLocation", new int[] { this.getPos().getX(), this.getPos().getY(), this.getPos()
-                    .getZ() });
-            eggItem.setTag(nbt);
-            final Random rand = new Random();
-            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getWorld());
-            egg.setPos(this.getPos().getX() + rand.nextGaussian(), this.getPos().getY() + 1, this.getPos().getZ() + rand
-                    .nextGaussian()).setStack(eggItem);
-            final EggEvent.Lay event = new EggEvent.Lay(egg);
-            MinecraftForge.EVENT_BUS.post(event);
-            egg.setGrowingAge(-100);// Make it spawn after 5s
-            if (!event.isCanceled()) this.world.addEntity(egg);
+
+            if (this.residents.size() < num)
+            {
+                final ItemStack eggItem = ItemPokemobEgg.getEggStack(entry);
+                final CompoundNBT nbt = eggItem.getTag();
+                nbt.putIntArray("nestLocation", new int[] { this.getPos().getX(), this.getPos().getY(), this.getPos()
+                        .getZ() });
+                eggItem.setTag(nbt);
+                final Random rand = new Random();
+                final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getWorld());
+                egg.setPos(this.getPos().getX() + rand.nextGaussian(), this.getPos().getY() + 1, this.getPos().getZ()
+                        + rand.nextGaussian()).setStack(eggItem);
+                final EggEvent.Lay event = new EggEvent.Lay(egg);
+                MinecraftForge.EVENT_BUS.post(event);
+                egg.setGrowingAge(-100);// Make it spawn after 5s
+                if (!event.isCanceled()) this.world.addEntity(egg);
+            }
         }
     }
 
@@ -186,6 +198,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
             spawnsTag.add(StringNBT.valueOf(entry.getTrimmedName()));
         nbt.put("spawns", spawnsTag);
         nbt.putInt("time", this.time);
+        nbt.put("_data_", this.tag);
         return nbt;
     }
 }

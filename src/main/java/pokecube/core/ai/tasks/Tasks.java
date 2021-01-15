@@ -35,6 +35,7 @@ import pokecube.core.ai.tasks.idle.GuardEggTask;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.ai.tasks.idle.MateTask;
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
 import pokecube.core.ai.tasks.idle.bees.BeeTasks;
 import pokecube.core.ai.tasks.misc.BlankTask;
 import pokecube.core.ai.tasks.misc.FollowOwnerTask;
@@ -93,6 +94,7 @@ public class Tasks
             aiList.add(new IdleWalkTask(pokemob).setPriority(10));
             // Bee related tasks
             BeeTasks.addBeeIdleTasks(pokemob, aiList);
+            AntTasks.addAntIdleTasks(pokemob, aiList);
         }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
