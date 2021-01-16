@@ -8,7 +8,7 @@
       ]
     },
     {
-      "name":"pokecube:scattered/ruins",
+      "name":"pokecube:scattered/stonehenge_ruins",
       "rigid":false,
       "biomeType":"ruin",
       "options":[
@@ -143,7 +143,7 @@
   ],
   "jigsaws":[
     {
-      "name":"pokecube:scattered/ruins",
+      "name":"pokecube:scattered/stonehenge_ruins",
       "root":"pokecube:scattered/ruins_start",
       "chance": 1,
       "biomeType":"ruin",
