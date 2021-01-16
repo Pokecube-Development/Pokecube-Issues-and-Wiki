@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -65,9 +66,9 @@ public class CapabilityInhabitable
         }
 
         @Override
-        public void onTick(final ServerWorld world)
+        public void onTick(final BlockPos pos, final ServerWorld world)
         {
-            this.wrapped.onTick(world);
+            this.wrapped.onTick(pos, world);
         }
     }
 
@@ -76,6 +77,11 @@ public class CapabilityInhabitable
     public static void Register(final ResourceLocation key, final Supplier<IInhabitable> factory)
     {
         CapabilityInhabitable.REGISTRY.put(key, factory);
+    }
+
+    public static IInhabitable make(final ResourceLocation key)
+    {
+        return CapabilityInhabitable.REGISTRY.getOrDefault(key, () -> null).get();
     }
 
     public static class SaveableHabitatProvider extends HabitatProvider implements ICapabilitySerializable<CompoundNBT>

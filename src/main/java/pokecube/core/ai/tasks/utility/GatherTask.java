@@ -154,8 +154,8 @@ public class GatherTask extends UtilTask
     List<NearBlock>  blocks = null;
     List<ItemEntity> items  = null;
 
-    ItemEntity targetItem  = null;
-    NearBlock  targetBlock = null;
+    public ItemEntity targetItem  = null;
+    public NearBlock  targetBlock = null;
 
     boolean hasRoom = true;
 

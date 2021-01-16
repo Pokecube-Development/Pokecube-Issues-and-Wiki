@@ -78,6 +78,7 @@ public class EnterNest extends AntTask
     {
         // We were already heading home, so keep doing that.
         if (!this.homePos.isEmpty()) return true;
+        if (this.nest == null) return false;
         final Brain<?> brain = this.entity.getBrain();
         final Optional<Integer> hiveTimer = brain.getMemory(AntTasks.OUT_OF_HIVE_TIMER);
         final int timer = hiveTimer.orElseGet(() -> 0);
@@ -85,8 +86,7 @@ public class EnterNest extends AntTask
         // the hive, if so, we don't return to hive.
         if (timer > 0) return false;
 
-        if (!this.world.isDaytime()) return true;
-
+        if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getPos())) return true;
         // Been out too long, we want to return!
         if (timer < -2400) return true;
         // Been out too long, we want to return!
