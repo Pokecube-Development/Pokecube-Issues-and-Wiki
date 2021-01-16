@@ -81,7 +81,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
         if (!config.struct_config.allow_void)
         {
             final int y = CustomJigsawStructure.getMinY(x, z, generator);
-            if (y <= 5) return false;
+            if (y < config.struct_config.minY) return false;
         }
 
         final StructureEvent.PickLocation event = new PickLocation(generator, rand, x, z, config.struct_config);
