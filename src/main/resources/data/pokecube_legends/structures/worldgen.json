@@ -2,6 +2,31 @@
   "pools":[
   	//
   	{
+      "name":"pokecube_mobs:berry_trees/forest",
+      "rigid":true,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_mobs:berry_trees/grepa;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/hondew;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/kelpsy;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/leppa;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/oran;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/pomeg;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/qualot;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/sitrus;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/tamato;{\"dy\":-1}"
+      ]
+    },
+  	{
+      "name":"pokecube_mobs:berry_trees/beach",
+      "rigid":true,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_mobs:berry_trees/nanab;{\"dy\":-1}",
+        "pokecube_mobs:berry_trees/pecha;{\"dy\":-1}"
+      ]
+    },
+  	{
       "name":"pokecube_legends:village/ocean/town_centers",
       "options":[
         "pokecube_legends:village/ocean/town_centers/center_1"
@@ -75,10 +100,10 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/rocket_top_1;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_2;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_3;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_4;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/rocket_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_2;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_3;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_4;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -86,7 +111,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/team_rocket;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/team_rocket;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
 	
@@ -152,7 +177,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/raid_spot;{\"dy\":1}"
+        "pokecube_legends:temples/surface/raid_spot"
       ]
     },
     {
@@ -160,7 +185,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/raid_desert;{\"dy\":1}"
+        "pokecube_legends:temples/surface/raid_desert"
       ]
     },
     {
@@ -168,7 +193,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/castle_n;{\"dy\":-1,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/castle_n;{\"dy\":-2,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -176,7 +201,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/elite_four;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/elite_four"
       ]
     },
     {
@@ -192,7 +217,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/lugia_tower;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/lugia_tower"
       ]
     },
     {
@@ -200,7 +225,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/legendy_tree;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/legendy_tree"
       ]
     },
     {
@@ -208,7 +233,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/yveltal_place"
+        "pokecube_legends:temples/surface/yveltal_place;{\"dy\":-1}"
       ]
     },
     {
@@ -224,7 +249,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/sky_pillar"
+        "pokecube_legends:temples/surface/sky_pillar;{\"dy\":-1}"
       ]
     },
     {
@@ -248,7 +273,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regice_temple"
+        "pokecube_legends:temples/surface/regice_temple;{\"dy\":-4}"
       ]
     },
     {
@@ -256,7 +281,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regieleki_temple"
+        "pokecube_legends:temples/surface/regieleki_temple;{\"dy\":-4}"
       ]
     },
     {
@@ -264,7 +289,7 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-        "pokecube_legends:temples/surface/regidrago_temple"
+        "pokecube_legends:temples/surface/regidrago_temple;{\"dy\":-4}"
       ]
     },
     {
@@ -272,7 +297,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regirock_temple"
+        "pokecube_legends:temples/surface/regirock_temple;{\"dy\":-4}"
       ]
     },
     {
@@ -280,7 +305,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/registeel_temple"
+        "pokecube_legends:temples/surface/registeel_temple;{\"dy\":-4}"
       ]
     },
 	{
@@ -288,7 +313,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/kubfu_water"
+        "pokecube_legends:temples/surface/kubfu_water;{\"dy\":-5}"
       ]
     },
     {
@@ -296,7 +321,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/kubfu_dark"
+        "pokecube_legends:temples/surface/kubfu_dark;{\"dy\":-5}"
       ]
     },
     {
@@ -304,7 +329,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/hooh_tower"
+        "pokecube_legends:temples/surface/hooh_tower;{\"dy\":-4}"
       ]
     },
     {
@@ -312,7 +337,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/zamazenta_temple"
+        "pokecube_legends:temples/surface/zamazenta_temple;{\"dy\":-5}"
       ]
     },
     {
@@ -320,7 +345,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/zacian_temple"
+        "pokecube_legends:temples/surface/zacian_temple;{\"dy\":-5}"
       ]
     },
     {
@@ -336,7 +361,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/celebi_temple;{\"dy\":3}"
+        "pokecube_legends:temples/surface/celebi_temple;{\"dy\":5}"
       ]
     },
     {
@@ -344,7 +369,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/underground/groudon_temple"
+        "pokecube_legends:temples/underground/groudon_temple;{\"dy\":-1}"
       ]
     },
     {
@@ -352,7 +377,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/underwater/kyogre_temple;{\"dy\":2}"
+        "pokecube_legends:temples/underwater/kyogre_temple;{\"dy\":-4}"
       ]
     },
     {
@@ -441,6 +466,42 @@
   ],
   "jigsaws":[
   	//
+    {
+      "name":"pokecube_mobs:berry_trees/forest",
+      "root":"pokecube_mobs:berry_trees/forest",
+      "distance":15,
+      "separation":2,
+      "size":1,
+      "base_under":false,
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "types":"forest",
+          "categoryBlacklist":"the_end,nether,river,ocean,taiga,icy"
+        }
+      }
+    },
+    {
+      "name":"pokecube_mobs:berry_trees/beach",
+      "root":"pokecube_mobs:berry_trees/beach",
+      "distance":5,
+      "separation":1,
+      "size":1,
+      "base_under":true,
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "types":"beach",
+          "categoryBlacklist":"the_end,nether,river,ocean,taiga,icy"
+        }
+      }
+    },
     {
       "type":"pokecube_legends:village_ocean",
       "name":"pokecube_legends:village/ocean",
