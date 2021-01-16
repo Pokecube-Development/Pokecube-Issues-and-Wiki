@@ -9,7 +9,7 @@
     },
     {
       "name":"pokecube:scattered/ruins",
-      "rigid":true,
+      "rigid":false,
       "biomeType":"ruin",
       "options":[
         "pokecube:scattered/ruins/ruin_1"
@@ -147,13 +147,13 @@
       "root":"pokecube:scattered/ruins_start",
       "chance": 1,
       "biomeType":"ruin",
-      "distance":16,
-      "separation":4,
+      "distance":64,
+      "separation":12,
       "priority":10000,
       "spawn":{
         "values":{
           "types":"all",
-          "categoryBlacklist":"ocean"
+          "categoryBlacklist":"ocean,river"
         }
       }
     },
@@ -164,7 +164,7 @@
       "chance":1,
       "distance":32,
       "separation":12,
-      "size":6,
+      "size":12,
       "priority":10,
       "biomeType":"village",
       "needed_once":[
@@ -178,7 +178,7 @@
       "spawn":{
         "values":{
           "types":"all",
-          "categoryBlacklist":"desert,ocean,the_end,nether"
+          "categoryBlacklist":"desert,ocean,river,the_end,nether"
         }
       }
     },
@@ -189,7 +189,7 @@
       "chance":1,
       "distance":32,
       "separation":12,
-      "size":6,
+      "size":12,
       "priority":10,
       "biomeType":"village",
       "needed_once":[

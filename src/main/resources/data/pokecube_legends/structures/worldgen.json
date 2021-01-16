@@ -2,31 +2,6 @@
   "pools":[
   	//
   	{
-      "name":"pokecube_mobs:berry_trees/forest",
-      "rigid":true,
-      "ignoreAir":true,
-      "options":[
-        "pokecube_mobs:berry_trees/grepa;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/hondew;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/kelpsy;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/leppa;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/oran;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/pomeg;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/qualot;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/sitrus;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/tamato;{\"dy\":-1}"
-      ]
-    },
-  	{
-      "name":"pokecube_mobs:berry_trees/beach",
-      "rigid":true,
-      "ignoreAir":true,
-      "options":[
-        "pokecube_mobs:berry_trees/nanab;{\"dy\":-1}",
-        "pokecube_mobs:berry_trees/pecha;{\"dy\":-1}"
-      ]
-    },
-  	{
       "name":"pokecube_legends:village/ocean/town_centers",
       "options":[
         "pokecube_legends:village/ocean/town_centers/center_1"
@@ -193,7 +168,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/castle_n;{\"dy\":-2,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/castle_n"
       ]
     },
     {
@@ -233,7 +208,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/yveltal_place;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/yveltal_place"
       ]
     },
     {
@@ -249,7 +224,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/sky_pillar;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/sky_pillar"
       ]
     },
     {
@@ -273,7 +248,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regice_temple;{\"dy\":-4}"
+        "pokecube_legends:temples/surface/regice_temple"
       ]
     },
     {
@@ -281,7 +256,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regieleki_temple;{\"dy\":-4}"
+        "pokecube_legends:temples/surface/regieleki_temple"
       ]
     },
     {
@@ -289,7 +264,7 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-        "pokecube_legends:temples/surface/regidrago_temple;{\"dy\":-4}"
+        "pokecube_legends:temples/surface/regidrago_temple"
       ]
     },
     {
@@ -297,7 +272,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regirock_temple;{\"dy\":-4}"
+        "pokecube_legends:temples/surface/regirock_temple"
       ]
     },
     {
@@ -305,7 +280,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/registeel_temple;{\"dy\":-4}"
+        "pokecube_legends:temples/surface/registeel_temple"
       ]
     },
 	{
@@ -313,7 +288,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/kubfu_water;{\"dy\":-5}"
+        "pokecube_legends:temples/surface/kubfu_water"
       ]
     },
     {
@@ -321,7 +296,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/kubfu_dark;{\"dy\":-5}"
+        "pokecube_legends:temples/surface/kubfu_dark"
       ]
     },
     {
@@ -329,7 +304,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/hooh_tower;{\"dy\":-4}"
+        "pokecube_legends:temples/surface/hooh_tower"
       ]
     },
     {
@@ -337,7 +312,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/zamazenta_temple;{\"dy\":-5}"
+        "pokecube_legends:temples/surface/zamazenta_temple"
       ]
     },
     {
@@ -345,7 +320,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/zacian_temple;{\"dy\":-5}"
+        "pokecube_legends:temples/surface/zacian_temple"
       ]
     },
     {
@@ -361,7 +336,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/celebi_temple;{\"dy\":5}"
+        "pokecube_legends:temples/surface/celebi_temple"
       ]
     },
     {
@@ -377,7 +352,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/underwater/kyogre_temple;{\"dy\":2\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/underwater/kyogre_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -466,42 +441,6 @@
   ],
   "jigsaws":[
   	//
-    {
-      "name":"pokecube_mobs:berry_trees/forest",
-      "root":"pokecube_mobs:berry_trees/forest",
-      "distance":15,
-      "separation":2,
-      "size":1,
-      "base_under":false,
-      "dimBlacklist":[
-        "the_nether",
-        "the_end"
-      ],
-      "spawn":{
-        "values":{
-          "types":"forest",
-          "categoryBlacklist":"the_end,nether,river,ocean,taiga,icy"
-        }
-      }
-    },
-    {
-      "name":"pokecube_mobs:berry_trees/beach",
-      "root":"pokecube_mobs:berry_trees/beach",
-      "distance":5,
-      "separation":1,
-      "size":1,
-      "base_under":true,
-      "dimBlacklist":[
-        "the_nether",
-        "the_end"
-      ],
-      "spawn":{
-        "values":{
-          "types":"beach",
-          "categoryBlacklist":"the_end,nether,river,ocean,taiga,icy"
-        }
-      }
-    },
     {
       "type":"pokecube_legends:village_ocean",
       "name":"pokecube_legends:village/ocean",
@@ -869,6 +808,7 @@
       "distance":24,
       "separation":8,
       "water":true,
+      "base_under":false,
       "spawn":{
         "values":{
           "category":"ocean"
@@ -882,6 +822,7 @@
       "distance":24,
       "separation":8,
       "surface":false,
+      "base_under":false,
       "spawn":{
         "values":{
           "category":"nether"
