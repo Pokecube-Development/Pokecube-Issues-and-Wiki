@@ -75,10 +75,10 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/rocket_top_1;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_2;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_3;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_4;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/rocket_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_2;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_3;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_4;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -86,7 +86,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/team_rocket;{\"dy\":8,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/team_rocket;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
 	
@@ -152,7 +152,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/raid_spot;{\"dy\":1}"
+        "pokecube_legends:temples/surface/raid_spot"
       ]
     },
     {
@@ -160,7 +160,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/raid_desert;{\"dy\":1}"
+        "pokecube_legends:temples/surface/raid_desert"
       ]
     },
     {
@@ -168,7 +168,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/castle_n;{\"dy\":-1,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/castle_n"
       ]
     },
     {
@@ -176,7 +176,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/elite_four;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/elite_four"
       ]
     },
     {
@@ -192,7 +192,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/lugia_tower;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/lugia_tower"
       ]
     },
     {
@@ -200,7 +200,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/legendy_tree;{\"dy\":-1}"
+        "pokecube_legends:temples/surface/legendy_tree"
       ]
     },
     {
@@ -336,7 +336,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/celebi_temple;{\"dy\":3}"
+        "pokecube_legends:temples/surface/celebi_temple"
       ]
     },
     {
@@ -344,7 +344,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/underground/groudon_temple"
+        "pokecube_legends:temples/underground/groudon_temple;{\"dy\":-1}"
       ]
     },
     {
@@ -821,6 +821,7 @@
       "distance":24,
       "separation":8,
       "surface":false,
+      "base_under":false,
       "spawn":{
         "values":{
           "category":"nether"
