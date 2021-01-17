@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -122,7 +123,17 @@ public class WorldgenHandler
 
         public static Options deserialize(final String structstring)
         {
-            return WorldgenHandler.GSON.fromJson(structstring, Options.class);
+            Options result = new Options();
+            try
+            {
+                result = WorldgenHandler.GSON.fromJson(structstring, Options.class);
+            }
+            catch (final JsonSyntaxException e)
+            {
+                PokecubeCore.LOGGER.error("Error loading options for string {}", structstring);
+                e.printStackTrace();
+            }
+            return result;
         }
     }
 

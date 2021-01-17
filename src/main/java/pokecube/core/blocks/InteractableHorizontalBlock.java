@@ -69,7 +69,12 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
         if (state.getBlock() != newState.getBlock())
         {
             final TileEntity tileentity = worldIn.getTileEntity(pos);
-            if (tileentity != null) if (tileentity instanceof IInventory)
+            if (tileentity instanceof InteractableTile) ((InteractableTile) tileentity).onBroken();
+            if (tileentity == null)
+            {
+
+            }
+            else if (tileentity instanceof IInventory)
             {
                 InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
                 worldIn.updateComparatorOutputLevel(pos, this);

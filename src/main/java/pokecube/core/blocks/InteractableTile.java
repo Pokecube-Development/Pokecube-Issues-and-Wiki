@@ -28,4 +28,13 @@ public abstract class InteractableTile extends TileEntity
 
     }
 
+    /**
+     * This is called when the block is broken, before attempting to drop the
+     * inventory of the tile, if present
+     */
+    public void onBroken()
+    {
+
+    }
+
 }

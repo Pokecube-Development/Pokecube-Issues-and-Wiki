@@ -59,11 +59,11 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
 
     boolean hasBerries = false;
 
-    protected int filledSlots = 0;
-    protected int emptySlots  = 0;
-    protected int firstEmpty  = 0;
+    public int filledSlots = 0;
+    public int emptySlots  = 0;
+    public int firstEmpty  = 0;
 
-    boolean pathing = false;
+    public boolean pathing = false;
 
     private final Set<BlockPos> knownValid = Sets.newHashSet();
 

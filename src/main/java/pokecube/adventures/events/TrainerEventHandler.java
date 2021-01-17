@@ -284,7 +284,9 @@ public class TrainerEventHandler
     {
         if (!(event.getEntity() instanceof LivingEntity)) return;
         if (!(event.getWorld() instanceof ServerWorld)) return;
-        TrainerEventHandler.initTrainer((LivingEntity) event.getEntity(), SpawnReason.NATURAL);
+        // Schedule the update for the next time this ticks, otherwise we can
+        // get race conditions from block checks...
+        event.getEntity().getPersistentData().putBoolean("__need__init___", true);
     }
 
     public static void onNpcSpawn(final NpcSpawn.Spawn event)
@@ -294,6 +296,11 @@ public class TrainerEventHandler
 
     public static void onNpcTick(final LivingUpdateEvent event)
     {
+        if (event.getEntity().getPersistentData().contains("__need__init___"))
+        {
+            TrainerEventHandler.initTrainer((LivingEntity) event.getEntity(), SpawnReason.NATURAL);
+            event.getEntity().getPersistentData().remove("__need__init___");
+        }
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntityLiving());
         if (pokemobHolder != null)
         {

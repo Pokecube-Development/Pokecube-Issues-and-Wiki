@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.Difficulty;
@@ -34,6 +35,7 @@ import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.api.maths.Vector3;
@@ -41,6 +43,28 @@ import thut.api.maths.Vector3;
 public class NestTile extends InteractableTile implements ITickableTileEntity
 {
     public static int NESTSPAWNTYPES = 1;
+
+    public static EntityPokemobEgg spawnEgg(final PokedexEntry entry, final BlockPos pos, final ServerWorld world,
+            final boolean spawnNow)
+    {
+        final ItemStack eggItem = ItemPokemobEgg.getEggStack(entry);
+        final CompoundNBT nbt = eggItem.getTag();
+        nbt.putIntArray("nestLocation", new int[] { pos.getX(), pos.getY(), pos.getZ() });
+        eggItem.setTag(nbt);
+        final Random rand = new Random();
+        final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world);
+        egg.setPos(pos.getX() + rand.nextGaussian(), pos.getY() + 1, pos.getZ() + rand.nextGaussian()).setStack(
+                eggItem);
+        final EggEvent.Lay event = new EggEvent.Lay(egg);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (spawnNow) egg.setGrowingAge(-100);// Make it spawn after 5s
+        if (!event.isCanceled())
+        {
+            world.addEntity(egg);
+            return egg;
+        }
+        return null;
+    }
 
     public HashSet<IPokemob>  residents = new HashSet<>();
     public List<PokedexEntry> spawns    = Lists.newArrayList();
@@ -60,6 +84,22 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     {
         super(tileEntityTypeIn);
         this.habitat = this.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+    }
+
+    public boolean isType(final ResourceLocation type)
+    {
+        if (this.habitat instanceof HabitatProvider)
+        {
+            final IInhabitable wrapped = ((HabitatProvider) this.habitat).wrapped;
+            if (wrapped.getKey() != null) return type.equals(wrapped.getKey());
+            final IInhabitable made = CapabilityInhabitable.make(type);
+            if (made != null)
+            {
+                ((HabitatProvider) this.habitat).wrapped = made;
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean addForbiddenSpawningCoord()
@@ -135,10 +175,12 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onTick((ServerWorld) this.world);
+        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onTick(this.getPos(),
+                (ServerWorld) this.world);
         this.time++;
         final int power = this.world.getRedstonePower(this.getPos(), Direction.DOWN);
-        if (this.world.isRemote || this.world.getDifficulty() == Difficulty.PEACEFUL && power == 0) return;
+        if (!(this.world instanceof ServerWorld) || this.world.getDifficulty() == Difficulty.PEACEFUL && power == 0)
+            return;
         if (this.spawns.isEmpty() && this.time >= 200)
         {
             this.time = 0;
@@ -157,24 +199,15 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
             final int max = data.getMax(matcher);
             final int diff = Math.max(1, max - min);
             num = min + this.world.rand.nextInt(diff);
-
-            if (this.residents.size() < num)
-            {
-                final ItemStack eggItem = ItemPokemobEgg.getEggStack(entry);
-                final CompoundNBT nbt = eggItem.getTag();
-                nbt.putIntArray("nestLocation", new int[] { this.getPos().getX(), this.getPos().getY(), this.getPos()
-                        .getZ() });
-                eggItem.setTag(nbt);
-                final Random rand = new Random();
-                final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getWorld());
-                egg.setPos(this.getPos().getX() + rand.nextGaussian(), this.getPos().getY() + 1, this.getPos().getZ()
-                        + rand.nextGaussian()).setStack(eggItem);
-                final EggEvent.Lay event = new EggEvent.Lay(egg);
-                MinecraftForge.EVENT_BUS.post(event);
-                egg.setGrowingAge(-100);// Make it spawn after 5s
-                if (!event.isCanceled()) this.world.addEntity(egg);
-            }
+            if (this.residents.size() < num) NestTile.spawnEgg(entry, this.getPos(), (ServerWorld) this.world, true);
         }
+    }
+
+    @Override
+    public void onBroken()
+    {
+        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onBroken(this.getPos(),
+                (ServerWorld) this.world);
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.math.GlobalPos;
+import pokecube.core.ai.tasks.idle.ants.AntTasks.AntJob;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
@@ -42,8 +43,7 @@ public class Patrol extends AntTask
         if (pos_opt.isPresent())
         {
             spot.set(pos_opt.get().getPos());
-
-            spot = SpawnHandler.getRandomPointNear(this.world, spot, 8);
+            spot = SpawnHandler.getRandomPointNear(this.world, spot, 16);
             if (spot != null) this.setWalkTo(spot, 1, 1);
         }
         this.reset();
@@ -52,7 +52,7 @@ public class Patrol extends AntTask
     @Override
     boolean doTask()
     {
-        return this.patrolTimer++ > 100;
+        return this.job == AntJob.GUARD && this.patrolTimer++ > 100;
     }
 
 }

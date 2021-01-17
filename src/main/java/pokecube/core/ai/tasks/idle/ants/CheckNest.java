@@ -40,6 +40,8 @@ public class CheckNest extends AntTask
                 final World world = this.entity.getEntityWorld();
                 final GlobalPos pos = pos_opt.get();
                 boolean clearHive = pos.getDimension() != world.getDimensionKey();
+                final double dist = pos.getPos().distanceSq(this.entity.getPosition());
+                clearHive = clearHive || dist > 10000;
                 if (!clearHive)
                 {
                     // Not loaded, skip this check, hive may still be there.

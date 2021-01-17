@@ -45,6 +45,7 @@ import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
@@ -405,6 +406,10 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public void setHome(final int x, final int y, final int z, final int distance)
     {
+        if (this.guardCap == null) // First try to collect and reset this
+        this.guardCap = this.entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+
+        // Then lets just log the error
         if (this.guardCap == null || this.guardCap.getPrimaryTask() == null)
         {
             PokecubeCore.LOGGER.error("Error with setting home! {}", this.guardCap);

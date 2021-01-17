@@ -51,7 +51,7 @@ public class MakeNest extends BaseIdleTask
         final TileEntity tile = this.world.getTileEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
-        nest.tag.putBoolean("_is_ant_nest_", true);
+        nest.isType(AntTasks.NESTLOC);
         nest.addResident(this.pokemob);
         final IInhabitable habitat = nest.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
         if (habitat instanceof HabitatProvider) ((HabitatProvider) habitat).wrapped = new AntHabitat();
