@@ -29,3 +29,14 @@ logs/*
 processing_scripts/icon_generator/icons/*
 processing_scripts/database_update/caches/*
 **/__pycache__/*
+
+**/template_worlds/main_structures/DIM*
+**/template_worlds/main_structures/t*
+**/template_worlds/main_structures/w*
+**/template_worlds/main_structures/s*
+**/template_worlds/main_structures/a*
+**/template_worlds/main_structures/d*
+**/template_worlds/main_structures/g*
+**/template_worlds/main_structures/e*
+**/template_worlds/main_structures/la*
+**/template_worlds/main_structures/p*
