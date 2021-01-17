@@ -8,11 +8,19 @@
       ]
     },
     {
+      "name":"pokecube:scattered/ruins",
+      "rigid":true,
+      "biomeType":"ruin",
+      "options":[
+        "pokecube:scattered/ruins/ruin_1"
+      ]
+    },
+    {
       "name":"pokecube:scattered/stonehenge_ruins",
       "rigid":false,
       "biomeType":"ruin",
       "options":[
-        "pokecube:scattered/ruins/ruin_1"
+        "pokecube:scattered/ruins/stonehenge_ruins"
       ]
     },
     {
@@ -144,6 +152,21 @@
   "jigsaws":[
     {
       "name":"pokecube:scattered/stonehenge_ruins",
+      "root":"pokecube:scattered/stonehenge_ruins",
+      "chance": 1,
+      "biomeType":"ruin",
+      "distance":64,
+      "separation":12,
+      "priority":10000,
+      "spawn":{
+        "values":{
+          "types":"all",
+          "categoryBlacklist":"ocean,river"
+        }
+      }
+    },
+    {
+      "name":"pokecube:scattered/ruins",
       "root":"pokecube:scattered/ruins_start",
       "chance": 1,
       "biomeType":"ruin",
