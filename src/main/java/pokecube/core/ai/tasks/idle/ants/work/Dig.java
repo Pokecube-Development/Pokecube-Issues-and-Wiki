@@ -1,31 +1,25 @@
-package pokecube.core.ai.tasks.idle.ants;
+package pokecube.core.ai.tasks.idle.ants.work;
 
-import java.util.Map;
 import java.util.Optional;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
+import pokecube.core.ai.tasks.idle.ants.AbstractWorkTask;
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntJob;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
-public class DigNest extends AntTask
+public class Dig extends AbstractWorkTask
 {
 
-    public DigNest(final IPokemob pokemob)
+    public Dig(final IPokemob pokemob)
     {
-        super(pokemob);
-    }
-
-    public DigNest(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
-    {
-        super(pokemob, mems);
+        super(pokemob, j -> j == AntJob.DIG);
     }
 
     @Override
@@ -60,10 +54,9 @@ public class DigNest extends AntTask
     }
 
     @Override
-    boolean doTask()
+    protected boolean shouldWork()
     {
-        if (this.nest == null) return false;
-        return this.job == AntJob.DIG;
+        return true;
     }
 
 }

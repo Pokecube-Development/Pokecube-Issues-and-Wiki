@@ -44,6 +44,7 @@ import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.Options;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.utils.PokecubeSerializer;
+import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.MarkerToAirProcessor;
 
@@ -137,12 +138,20 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         if (shouldIgnoreAire) placementsettings.addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
         else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
 
+        final boolean wasNull = this.overrideList == null;
+        if (wasNull && !this.opts.proc_list.isEmpty()) this.overrideList = WorldgenFeatures.getProcList(
+                this.opts.proc_list);
+
         if (this.overrideList == null)
         {
             this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
             this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
         }
-        else this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
+        else
+        {
+            this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
+            if (wasNull) this.overrideList = null;
+        }
 
         return this.toUse = placementsettings;
     }

@@ -1,6 +1,7 @@
-package pokecube.core.ai.tasks.idle.ants;
+package pokecube.core.ai.tasks.idle.ants.work;
 
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
@@ -8,25 +9,29 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
+import pokecube.core.ai.tasks.idle.ants.AbstractWorkTask;
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntJob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 
-public class CarryEgg extends AntTask
+public class CarryEgg extends AbstractWorkTask
 {
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Only run this if we have an egg to carry
         CarryEgg.mems.put(AntTasks.EGG, MemoryModuleStatus.VALUE_PRESENT);
-        CarryEgg.mems.put(AntTasks.WORK_POS, MemoryModuleStatus.VALUE_PRESENT);
     }
+
+    // Any that is not a guard ant is allowed to carry eggs
+    private static final Predicate<AntJob> EGG_CARRY = j -> j != AntJob.GUARD;
 
     EntityPokemobEgg egg;
 
     public CarryEgg(final IPokemob pokemob)
     {
-        super(pokemob, CarryEgg.mems);
+        super(pokemob, CarryEgg.mems, CarryEgg.EGG_CARRY);
     }
 
     @Override
@@ -67,11 +72,8 @@ public class CarryEgg extends AntTask
     }
 
     @Override
-    boolean doTask()
+    protected boolean shouldWork()
     {
-        // Don't do this if guard, our job will be set elsewhere if we need to
-        // cancel guard to carry eggs
-        if (this.job == AntJob.GUARD) return false;
         this.egg = this.entity.getBrain().getMemory(AntTasks.EGG).orElse(null);
         return this.egg != null;
     }
