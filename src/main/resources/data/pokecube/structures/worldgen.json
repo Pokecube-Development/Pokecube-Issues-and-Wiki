@@ -144,6 +144,7 @@
       "target":"pokecube:village/desert/terminators",
       "ignoreAir":false,
       "options":[
+        "empty;{\"weight\":4}",
         "pokecube:village/common/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube:village/common/pokecenter/center_02;{\"flag\":\"pokecenter\"}",
         "pokecube:village/desert/gym/gym_01;{\"flag\":\"gym\"}"
