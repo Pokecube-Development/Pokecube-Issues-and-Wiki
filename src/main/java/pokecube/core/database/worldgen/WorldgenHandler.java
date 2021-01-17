@@ -104,9 +104,10 @@ public class WorldgenHandler
             return DataResult.success(Options.deserialize(encoded));
         }
 
-        public int    weight = 1;
-        public String flag   = "";
-        public int    dy     = 0;
+        public int    weight    = 1;
+        public String flag      = "";
+        public String proc_list = "";
+        public int    dy        = 0;
 
         public boolean rigid     = true;
         public boolean ignoreAir = true;

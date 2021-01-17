@@ -69,21 +69,23 @@ public class WorldgenFeatures
         WorldgenFeatures.CARVERS.register(bus);
     }
 
+    public static StructureProcessorList getProcList(final String value)
+    {
+        StructureProcessorList listToUse = null;
+        final ResourceLocation key = new ResourceLocation(value);
+        if (WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.containsKey(key))
+            listToUse = WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.getOrDefault(key);
+        else listToUse = WorldgenFeatures.procLists.getOrDefault(key, null);
+        return listToUse;
+    }
+
     public static JigsawPattern register(final JigSawPool pool, final StructureProcessorList default_list)
     {
         final JigsawPattern.PlacementBehaviour placement = pool.rigid ? JigsawPattern.PlacementBehaviour.RIGID
                 : JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING;
         final List<Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer>> pairs = Lists.newArrayList();
         int size = 0;
-        StructureProcessorList listToUse = default_list;
-        if (!pool.proc_list.isEmpty())
-        {
-            listToUse = default_list;
-            final ResourceLocation key = new ResourceLocation(pool.proc_list);
-            if (WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.containsKey(key))
-                listToUse = WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.getOrDefault(key);
-            else listToUse = WorldgenFeatures.procLists.getOrDefault(key, default_list);
-        }
+        final StructureProcessorList listToUse = default_list;
         for (final String option : pool.options)
         {
             int second = 1;
@@ -99,6 +101,7 @@ public class WorldgenFeatures
                 opts.filler = pool.filler;
                 opts.ignoreAir = pool.ignoreAir;
                 opts.rigid = pool.rigid;
+                opts.proc_list = pool.proc_list;
             }
             final Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer> pair = Pair.of(WorldgenFeatures
                     .makePiece(args[0], listToUse, opts), second);
