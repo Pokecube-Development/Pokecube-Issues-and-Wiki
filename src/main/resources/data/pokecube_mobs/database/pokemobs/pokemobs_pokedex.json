@@ -62335,21 +62335,19 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "22": "fakeout",
-            "33": "slash",
-            "12": "furyswipes",
-            "36": "wildcharge",
-            "47": "closecombat",
-            "15": "voltswitch",
-            "26": "charge",
-            "29": "thunderpunch",
-            "19": "snarl",
-            "1": "scratch,spark",
-            "5": "honeclaws",
-            "8": "quickattack",
-            "50": "discharge",
-            "40": "quickguard",
-            "43": "plasmafists"
+            "1": "poweruppunch,fakeout,scratch,quickattack,snarl,spark",
+			"8": "furyswipes",
+			"16": "quickguard",
+			"24": "slash",
+			"32": "voltswitch",
+			"40": "charge",
+			"48": "thunderpunch",
+			"56": "honeclaws",
+			"64": "discharge",
+			"72": "wildcharge",
+			"80": "agility",
+			"88": "plasmafists",
+			"96": "closecombat"
           }
         },
         "misc": {
