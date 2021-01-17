@@ -17,6 +17,7 @@ import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.tasks.idle.ants.AntTasks;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntHabitat;
+import pokecube.core.ai.tasks.idle.ants.AntTasks.AntHabitat.Node;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.idle.ants.sensors.NestSensor.AntNest;
 import pokecube.core.blocks.nests.NestTile;
@@ -61,9 +62,9 @@ public class EggSensor extends Sensor<MobEntity>
 
     public static boolean isInEggRoomOrCarried(final NestTile tile, final AntHabitat hab, final EntityPokemobEgg egg)
     {
-        final Set<BlockPos> eggRooms = hab.getRooms(AntRoom.EGG);
-        for (final BlockPos p : eggRooms)
-            if (p.withinDistance(egg.getPositionVec(), 3)) return true;
+        final List<Node> eggRooms = hab.getRooms(AntRoom.EGG);
+        for (final Node p : eggRooms)
+            if (p.center.withinDistance(egg.getPositionVec(), 3)) return true;
         final long carryTick = egg.getPersistentData().getLong("__carried__");
         if (carryTick > egg.world.getGameTime()) return true;
         return false;
