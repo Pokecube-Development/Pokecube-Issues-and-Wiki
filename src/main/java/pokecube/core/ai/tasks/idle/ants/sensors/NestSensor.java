@@ -74,7 +74,7 @@ public class NestSensor extends Sensor<MobEntity>
         final BlockPos pos = entityIn.getPosition();
         final Random rand = new Random();
         final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(), p -> this.validNest(p,
-                worldIn, entityIn), Status.ANY, pos, 16, rand);
+                worldIn, entityIn), Status.ANY, pos, 64, rand);
         if (opt.isPresent())
         {
             // Randomize this so we don't always pick the same hive if it was

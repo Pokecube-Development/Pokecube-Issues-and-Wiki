@@ -39,6 +39,7 @@ public abstract class AbstractWorkTask extends AbstractAntTask
     @Override
     public final boolean doTask()
     {
+        if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getPos())) return false;
         if (!this.validJob.test(this.job)) return false;
         return this.shouldWork();
     }

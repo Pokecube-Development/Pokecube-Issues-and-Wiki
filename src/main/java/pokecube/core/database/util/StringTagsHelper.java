@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -34,9 +35,51 @@ public class StringTagsHelper
 
         List<String> values = Lists.newArrayList();
 
+        List<TagHolder> _includes = Lists.newArrayList();
+
         void postProcess()
         {
-            this.values.replaceAll(s -> ThutCore.trim(s));
+            this.values.replaceAll(s ->
+            {
+                boolean tag = false;
+                if (tag = s.startsWith("#")) s = s.replace("#", "");
+                s = ThutCore.trim(s);
+                if (!s.contains(":")) s = "pokecube:" + s;
+                if (tag) s = "#" + s;
+                return s;
+            });
+        }
+
+        public boolean isIn(final String value)
+        {
+            if (this.values.contains(value)) return true;
+            for (final TagHolder incl : this._includes)
+                if (incl.isIn(value)) return true;
+            return false;
+        }
+
+        public void checkIncludes(final StringTagsHelper parent, final Set<String> checked)
+        {
+            // TODO possible speedup by adding the included tags to our list,
+            // instead of referencing the included tags.
+
+            for (final String s : this.values)
+                if (s.startsWith("#"))
+                {
+                    final String tag = s.replace("#", "");
+                    if (checked.contains(tag))
+                    {
+                        PokecubeCore.LOGGER.warn("Warning, Recursive tags list! {}", checked);
+                        continue;
+                    }
+                    final TagHolder incl = parent.tagsMap.get(tag);
+                    if (incl == null)
+                    {
+                        PokecubeCore.LOGGER.warn("Warning, Tag not found for {}", checked);
+                        continue;
+                    }
+                    this._includes.add(incl);
+                }
         }
     }
 
@@ -60,6 +103,7 @@ public class StringTagsHelper
                     final String tag = l.toString().replace(path, "").replace(".json", "");
                     t.loadTag(l, tag, "");
                 });
+                t.checkIncludes();
             }
             catch (final Exception e)
             {
@@ -90,6 +134,12 @@ public class StringTagsHelper
         return this.reversedTagsMap.getOrDefault(name, Collections.emptySet());
     }
 
+    public void checkIncludes()
+    {
+        for (final Entry<String, TagHolder> entry : this.tagsMap.entrySet())
+            entry.getValue().checkIncludes(this, Sets.newHashSet(entry.getKey()));
+    }
+
     public void addToTag(String tag, String value)
     {
         tag = ThutCore.trim(tag);
@@ -110,7 +160,11 @@ public class StringTagsHelper
         toCheck = ThutCore.trim(toCheck);
         if (!tag.contains(":")) tag = "pokecube:" + tag;
         // If we have the tag loaded, lets use the value from there.
-        if (this.tagsMap.containsKey(tag)) return this.tagsMap.get(tag).values.contains(toCheck);
+        if (this.tagsMap.containsKey(tag))
+        {
+            final TagHolder holder = this.tagsMap.get(tag);
+            return holder.isIn(toCheck);
+        }
         return false;
     }
 

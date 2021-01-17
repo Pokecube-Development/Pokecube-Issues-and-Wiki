@@ -90,7 +90,6 @@ public class MakeNest extends BaseIdleTask
         {
             final NearBlock validLeaf = surfaces.get(0);
             if (this.placeNest(validLeaf)) return;
-            return;
         }
 
         final Brain<?> brain = this.entity.getBrain();

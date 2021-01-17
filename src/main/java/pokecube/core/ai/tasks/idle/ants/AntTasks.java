@@ -3,8 +3,10 @@ package pokecube.core.ai.tasks.idle.ants;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -22,6 +24,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.server.ServerWorld;
@@ -44,7 +47,6 @@ import pokecube.core.ai.tasks.idle.ants.work.Gather;
 import pokecube.core.ai.tasks.idle.ants.work.Guard;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IInhabitor;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
@@ -64,7 +66,7 @@ public class AntTasks
 
     public static enum AntRoom
     {
-        EGG, FOOD, NODE;
+        EGG, FOOD, NODE, ENTRANCE;
     }
 
     public static final MemoryModuleType<GlobalPos> NEST_POS = MemoryModules.NEST_POS;
@@ -203,15 +205,19 @@ public class AntTasks
             public BlockPos end1;
             public BlockPos end2;
 
+            // Fraction of the way dug from end1 to end2.
+            public double digged = 0;
+
             boolean areSame(final Edge other)
             {
-                if (this.end1 == null && other.end1 != null) return false;
-                if (this.end2 == null && other.end2 != null) return false;
-                if (this.end1 != null && other.end1 == null) return false;
-                if (this.end2 != null && other.end2 == null) return false;
-                if (this.end1 != null && other.end1 != null && !this.end1.equals(other.end1)) return false;
-                if (this.end2 != null && other.end2 != null && !this.end2.equals(other.end2)) return false;
-                return true;
+                return this.end1.equals(other.end1) && this.end2.equals(other.end2);
+            }
+
+            @Override
+            public boolean equals(final Object obj)
+            {
+                if (!(obj instanceof Edge)) return false;
+                return this.areSame((Edge) obj);
             }
         }
 
@@ -257,29 +263,24 @@ public class AntTasks
                     n.edges.forEach(edge ->
                     {
                         final CompoundNBT edgeNbt = new CompoundNBT();
-                        if (edge.node1 != null)
-                        {
-                            edgeNbt.put("n1", NBTUtil.writeBlockPos(edge.node1.center));
-                            edgeNbt.put("e1", NBTUtil.writeBlockPos(edge.end1));
-                        }
-                        if (edge.node2 != null)
-                        {
-                            edgeNbt.put("n2", NBTUtil.writeBlockPos(edge.node2.center));
-                            edgeNbt.put("e2", NBTUtil.writeBlockPos(edge.end2));
-                        }
+                        edgeNbt.put("n1", NBTUtil.writeBlockPos(edge.node1.center));
+                        edgeNbt.put("e1", NBTUtil.writeBlockPos(edge.end1));
+                        edgeNbt.put("n2", NBTUtil.writeBlockPos(edge.node2.center));
+                        edgeNbt.put("e2", NBTUtil.writeBlockPos(edge.end2));
                         edges.add(edgeNbt);
                     });
                     nbt.put("edges", edges);
                     list.add(nbt);
                 }));
                 tag.put("map", list);
-                return null;
+                return tag;
             }
 
             @Override
             public void deserializeNBT(final CompoundNBT tag)
             {
-                this.rooms.clear();
+                for (final AntRoom room : AntRoom.values())
+                    this.rooms.put(room, Lists.newArrayList());
                 final Map<BlockPos, Node> loadedNodes = Maps.newHashMap();
 
                 // First we de-serialize the nodes, and stuff them in
@@ -292,26 +293,22 @@ public class AntTasks
                     final BlockPos pos = NBTUtil.readBlockPos(nbt);
                     final AntRoom room = AntRoom.valueOf(nbt.getString("room"));
                     // This is a "real" node, it will be added to the maps
-                    final Node n = new Node(pos);
+                    final Node n = loadedNodes.getOrDefault(pos, new Node(pos));
                     n.type = room;
                     final ListNBT edges = nbt.getList("edges", 10);
                     for (int j = 0; j < edges.size(); ++j)
                     {
                         final CompoundNBT edgeNbt = edges.getCompound(i);
                         final Edge e = new Edge();
-                        if (edgeNbt.contains("n1"))
-                        {
-                            // This is a fake node, it will be replaced later
-                            e.node1 = new Node(NBTUtil.readBlockPos(edgeNbt.getCompound("n1")));
-                            e.end1 = NBTUtil.readBlockPos(edgeNbt.getCompound("e1"));
-                        }
-                        if (edgeNbt.contains("n2"))
-                        {
-                            // This is a fake node, it will be replaced later
-                            e.node2 = new Node(NBTUtil.readBlockPos(edgeNbt.getCompound("n2")));
-                            e.end2 = NBTUtil.readBlockPos(edgeNbt.getCompound("e2"));
-                        }
-                        n.edges.add(e);
+                        final BlockPos p1 = NBTUtil.readBlockPos(edgeNbt.getCompound("n1"));
+                        e.node1 = loadedNodes.getOrDefault(p1, new Node(p1));
+                        loadedNodes.put(p1, e.node1);
+                        e.end1 = NBTUtil.readBlockPos(edgeNbt.getCompound("e1"));
+                        final BlockPos p2 = NBTUtil.readBlockPos(edgeNbt.getCompound("n2"));
+                        e.node2 = loadedNodes.getOrDefault(p2, new Node(p2));
+                        loadedNodes.put(p2, e.node2);
+                        e.end2 = NBTUtil.readBlockPos(edgeNbt.getCompound("e2"));
+                        if (!(e.end1.equals(e.end2) || n.edges.contains(e))) n.edges.add(e);
                     }
                     loadedNodes.put(pos, n);
                     this.rooms.get(room).add(n);
@@ -323,19 +320,37 @@ public class AntTasks
                 {
                     n.edges.forEach(edge ->
                     {
-                        if (edge.node1 != null)
+                        final Node n1 = edge.node1;
+                        final Node n2 = edge.node2;
+                        if (n1 != n)
                         {
-                            final Node n2 = edge.node1 = loadedNodes.get(edge.node1.center);
-                            // If not us, replace the equivalent edge on the
-                            // target node.
-                            if (n2 != n) n2.edges.replaceAll(edge2 -> edge.areSame(edge2) ? edge : edge2);
+                            final AtomicBoolean had = new AtomicBoolean(false);
+                            n1.edges.replaceAll(e ->
+                            {
+                                if (edge.areSame(e))
+                                {
+                                    had.set(true);
+                                    System.out.println("found link");
+                                    return edge;
+                                }
+                                return e;
+                            });
+                            if (!had.get()) n1.edges.add(edge);
                         }
-                        if (edge.node2 != null)
+                        if (n2 != n)
                         {
-                            final Node n2 = edge.node2 = loadedNodes.get(edge.node2.center);
-                            // If not us, replace the equivalent edge on the
-                            // target node.
-                            if (n2 != n) n2.edges.replaceAll(edge2 -> edge.areSame(edge2) ? edge : edge2);
+                            final AtomicBoolean had = new AtomicBoolean(false);
+                            n2.edges.replaceAll(e ->
+                            {
+                                if (edge.areSame(e))
+                                {
+                                    had.set(true);
+                                    System.out.println("found link");
+                                    return edge;
+                                }
+                                return e;
+                            });
+                            if (!had.get()) n2.edges.add(edge);
                         }
                     });
                 });
@@ -386,24 +401,50 @@ public class AntTasks
             return this.rooms.get(type);
         }
 
+        public void addRandomNode(final AntRoom type)
+        {
+            if (type == AntRoom.ENTRANCE) return;
+            final List<Node> nodes = Lists.newArrayList();
+            this.rooms.rooms.forEach((r, s) -> nodes.addAll(s));
+            // This is only empty if we have not ticked yet.
+            if (nodes.isEmpty()) return;
+            int index = 0;
+            final Random rng = new Random();
+            if (nodes.size() > 1) index = rng.nextInt(nodes.size());
+            final Node root = nodes.get(index);
+
+            final int r = 16;
+            final int x = rng.nextInt(r * 2) - r + this.here.getX();
+            final int z = rng.nextInt(r * 2) - r + this.here.getZ();
+            // No egg room yet I guess.
+            if (x * x + z * z < 16) return;
+            final int dx = root.center.getX() - x;
+            final int dz = root.center.getZ() - z;
+            final double ds = Math.sqrt(dx * dx + dz * dz);
+            final int y = (int) (root.center.getY() - ds / 3);
+            final BlockPos pos = new BlockPos(x, y, z);
+            final Node room = new Node(pos);
+            room.type = type;
+
+            final Edge edge = new Edge();
+
+            edge.end1 = root.center;
+            edge.node1 = root;
+            edge.end2 = room.center;
+            edge.node2 = room;
+
+            room.edges.add(edge);
+            root.edges.add(edge);
+
+            this.rooms.add(room);
+        }
+
         public Optional<BlockPos> getFreeEggRoom()
         {
             if (this.world != null)
             {
                 final List<Node> eggRooms = this.getRooms(AntRoom.EGG);
-                if (eggRooms.isEmpty())
-                {
-                    Vector3 pos = Vector3.getNewVector();
-                    pos.set(this.here);
-                    pos = SpawnHandler.getRandomPointNear(this.world, pos, 8);
-                    if (pos != null)
-                    {
-                        pos.y = this.here.getY() - 3;
-                        final Node node = new Node(pos.getPos().toImmutable());
-                        node.type = AntRoom.EGG;
-                        this.rooms.add(node);
-                    }
-                }
+                if (eggRooms.isEmpty()) this.addRandomNode(AntRoom.EGG);
                 // Here we should check if the room has too many eggs in it,
                 // for now just do this though.
                 if (!eggRooms.isEmpty()) for (final Node p : eggRooms)
@@ -420,11 +461,23 @@ public class AntTasks
             // Here we need to release ants every so often as needed
             this.ants_in.removeIf(ant -> this.tryReleaseAnt(ant, world));
 
-            if (this.rooms.get(AntRoom.NODE).isEmpty())
+            if (this.rooms.get(AntRoom.ENTRANCE).isEmpty())
             {
                 final Node entrance = new Node(this.here);
+                entrance.type = AntRoom.ENTRANCE;
                 this.rooms.add(entrance);
             }
+
+            int ants = this.ants_in.size() + this.eggs.size();
+            for (final Set<UUID> s : this.workers.values())
+                ants += s.size();
+            final int num = ants;
+
+            int roomCount = 0;
+            for (final List<Node> rooms : this.rooms.rooms.values())
+                roomCount += rooms.size();
+            final Random rng = new Random();
+            if (roomCount < ants) this.addRandomNode(AntRoom.values()[rng.nextInt(3)]);
 
             // Workers should only contain actual live ants! so if they are not
             // found here, remove them from the list
@@ -440,9 +493,9 @@ public class AntTasks
             {
                 final Entity mob = world.getEntityByUuid(uuid);
                 if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
-
                 final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
-                egg.setGrowingAge(-1000);
+                if (num > 5) egg.setGrowingAge(-100);
+                else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-100);
                 return false;
             });
 
@@ -452,22 +505,38 @@ public class AntTasks
             {
                 final MobEntity mob = (MobEntity) world.getEntityByUuid(uuid);
                 if (mob.getBrain().hasMemory(AntTasks.WORK_POS)) return;
-                final int r = 16;
-                final int x = mob.getRNG().nextInt(r * 2) - r + this.here.getX();
-                final int z = mob.getRNG().nextInt(r * 2) - r + this.here.getZ();
 
-                if (x * x + z * z < 9) return;
-                // final int y = world.getHeight(Type.MOTION_BLOCKING, x, z) -
-                // 1;
-                // final GlobalPos gpos =
-                // GlobalPos.getPosition(world.getDimensionKey(), new
-                // BlockPos(x, y, z));
-                // System.out.println(String.format("Dig Order %s",
-                // gpos.getPos() + ""));
-                // world.setBlockState(gpos.getPos().up(5),
-                // Blocks.GOLD_BLOCK.getDefaultState());
-
-                // mob.getBrain().setMemory(AntTasks.WORK_POS, gpos);
+                nodes:
+                for (final List<Node> list : this.rooms.rooms.values())
+                    for (final Node n : list)
+                        for (final Edge a : n.edges)
+                        {
+                            if (a.end1 == null || a.end2 == null) continue;
+                            double r = a.digged;
+                            if (r >= 1) r = a.digged = 0;
+                            final Vector3 x0 = Vector3.getNewVector().set(a.end1);
+                            final Vector3 x1 = Vector3.getNewVector().set(a.end2).subtractFrom(x0);
+                            final double d = x1.mag();
+                            final double dr = d == 0 ? 0 : 1 / d;
+                            if (r <= 0) r = a.digged += dr;
+                            x0.set(a.end1).addTo(x1.scalarMult(r));
+                            BlockPos p = x0.getPos();
+                            while (world.isAirBlock(p) && r < 1 - dr && d > 0)
+                            {
+                                r = a.digged += dr;
+                                x0.set(a.end1).addTo(x1.scalarMult(r));
+                                p = x0.getPos();
+                            }
+                            if (world.isAirBlock(p)) continue;
+                            final AxisAlignedBB box = x0.getAABB().grow(2);
+                            final boolean valid = BlockPos.getAllInBox(box).anyMatch(b -> world.isAirBlock(b));
+                            if (valid)
+                            {
+                                mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.getPosition(world
+                                        .getDimensionKey(), x0.getPos()));
+                                break nodes;
+                            }
+                        }
             });
         }
 

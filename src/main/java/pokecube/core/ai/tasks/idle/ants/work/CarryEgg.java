@@ -58,6 +58,7 @@ public class CarryEgg extends AbstractWorkTask
         }
         else
         {
+            if (!this.nest.hab.eggs.contains(this.egg.getUniqueID())) this.nest.hab.eggs.add(this.egg.getUniqueID());
             final BlockPos p = dropOff.getPos();
             final double d = p.distanceSq(this.entity.getPosition());
             if (d > 3) this.setWalkTo(p, 1, 0);
@@ -67,7 +68,6 @@ public class CarryEgg extends AbstractWorkTask
                 this.entity.getBrain().removeMemory(AntTasks.EGG);
                 this.entity.getBrain().removeMemory(AntTasks.WORK_POS);
             }
-
         }
     }
 
