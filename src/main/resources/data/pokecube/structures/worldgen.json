@@ -156,17 +156,14 @@
     {
       "name":"pokecube:village/savanna/town_centers",
       "options":[
-        "pokecube:village/savanna/town_centers/center_1",
-        "pokecube:village/savanna/town_centers/center_2",
-        "pokecube:village/savanna/town_centers/center_3",
-        "pokecube:village/savanna/town_centers/center_4"
+        "pokecube:village/savanna/town_centers/center_2"
       ]
     },
     {
       "name":"pokecube:village/savanna/terminators",
       "rigid":false,
       "options":[
-        "minecraft:village/savanna/terminators/terminator_05"
+        "pokecube:village/savanna/terminators/terminator_05"
       ]
     },
     {
@@ -184,14 +181,14 @@
         "pokecube:village/savanna/streets/crossroad_07;{\"weight\":5}",
         "pokecube:village/savanna/streets/split_01;{\"weight\":5}",
         "pokecube:village/savanna/streets/split_02;{\"weight\":5}",
-        "pokecube:village/savanna/streets/striaght_02;{\"weight\":8}",
-        "pokecube:village/savanna/streets/striaght_04;{\"weight\":8}",
-        "pokecube:village/savanna/streets/striaght_05;{\"weight\":8}",
-        "pokecube:village/savanna/streets/striaght_06;{\"weight\":8}",
-        "pokecube:village/savanna/streets/striaght_08;{\"weight\":8}",
-        "pokecube:village/savanna/streets/striaght_09;{\"weight\":8}",
-        "pokecube:village/savanna/streets/striaght_10;{\"weight\":8}",
-        "pokecube:village/savanna/streets/striaght_11;{\"weight\":8}",
+        "pokecube:village/savanna/streets/straight_02;{\"weight\":8}",
+        "pokecube:village/savanna/streets/straight_04;{\"weight\":8}",
+        "pokecube:village/savanna/streets/straight_05;{\"weight\":8}",
+        "pokecube:village/savanna/streets/straight_06;{\"weight\":8}",
+        "pokecube:village/savanna/streets/straight_08;{\"weight\":8}",
+        "pokecube:village/savanna/streets/straight_09;{\"weight\":8}",
+        "pokecube:village/savanna/streets/straight_10;{\"weight\":8}",
+        "pokecube:village/savanna/streets/straight_11;{\"weight\":8}",
         "pokecube:village/savanna/streets/turn_01;{\"weight\":3}"
       ]
     },
@@ -212,7 +209,7 @@
     {
       "name":"pokecube:village/savanna/decor",
       "options":[
-        "pokecube:village/savanna/decor/lamp_1;{\"weight\":6}"
+        "pokecube:village/savanna/decor/lamp_1;{\"weight\":8}"
       ],
       "includes":[
         "minecraft:village/savanna/decor"
@@ -220,9 +217,10 @@
     },
     {
       "name":"pokecube:village/savanna/houses",
-      "target":"minecraft:village/savanna/terminators",
+      "target":"pokecube:village/savanna/terminators",
       "ignoreAir":false,
       "options":[
+        "empty;{\"weight\":3}",
         "pokecube:village/savanna/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube:village/savanna/gym/gym_01;{\"flag\":\"gym\"}"
       ],
@@ -269,7 +267,7 @@
       "chance":1,
       "distance":32,
       "separation":12,
-      "size":12,
+      "size":6,
       "priority":10,
       "biomeType":"village",
       "needed_once":[
@@ -294,7 +292,7 @@
       "chance":1,
       "distance":32,
       "separation":12,
-      "size":12,
+      "size":6,
       "priority":10,
       "biomeType":"village",
       "needed_once":[
