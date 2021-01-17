@@ -808,7 +808,6 @@
       "distance":24,
       "separation":8,
       "water":true,
-      "base_under":false,
       "spawn":{
         "values":{
           "category":"ocean"
