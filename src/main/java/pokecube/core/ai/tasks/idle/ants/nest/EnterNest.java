@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.idle.ants;
+package pokecube.core.ai.tasks.idle.ants.nest;
 
 import java.util.Optional;
 
@@ -6,12 +6,14 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
+import pokecube.core.ai.tasks.idle.ants.AbstractAntTask;
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
 
-public class EnterNest extends AntTask
+public class EnterNest extends AbstractAntTask
 {
     final Vector3 homePos = Vector3.getNewVector();
 
@@ -74,11 +76,10 @@ public class EnterNest extends AntTask
     }
 
     @Override
-    boolean doTask()
+    protected boolean doTask()
     {
         // We were already heading home, so keep doing that.
         if (!this.homePos.isEmpty()) return true;
-        if (this.nest == null) return false;
         final Brain<?> brain = this.entity.getBrain();
         final Optional<Integer> hiveTimer = brain.getMemory(AntTasks.OUT_OF_HIVE_TIMER);
         final int timer = hiveTimer.orElseGet(() -> 0);

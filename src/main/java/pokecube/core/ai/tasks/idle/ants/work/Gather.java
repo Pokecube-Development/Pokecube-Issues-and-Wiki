@@ -1,16 +1,13 @@
-package pokecube.core.ai.tasks.idle.ants;
+package pokecube.core.ai.tasks.idle.ants.work;
 
-import java.util.Map;
-
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import pokecube.core.ai.tasks.idle.ants.AbstractWorkTask;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.IAIRunnable;
 
-public class Gather extends AntTask
+public class Gather extends AbstractWorkTask
 {
     int gather_timer = 0;
 
@@ -18,12 +15,7 @@ public class Gather extends AntTask
 
     public Gather(final IPokemob pokemob)
     {
-        super(pokemob);
-    }
-
-    public Gather(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
-    {
-        super(pokemob, mems);
+        super(pokemob, j -> j == AntJob.GATHER);
     }
 
     @Override
@@ -41,10 +33,8 @@ public class Gather extends AntTask
     }
 
     @Override
-    boolean doTask()
+    protected boolean shouldWork()
     {
-        if (this.nest == null) return false;
-        if (this.job != AntJob.GATHER) return false;
         if (this.storage == null) for (final IAIRunnable run : this.pokemob.getTasks())
             if (run instanceof StoreTask)
             {

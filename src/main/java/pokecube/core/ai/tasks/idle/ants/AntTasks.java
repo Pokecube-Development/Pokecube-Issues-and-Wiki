@@ -31,10 +31,17 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
+import pokecube.core.ai.tasks.idle.ants.nest.CheckNest;
+import pokecube.core.ai.tasks.idle.ants.nest.EnterNest;
+import pokecube.core.ai.tasks.idle.ants.nest.MakeNest;
 import pokecube.core.ai.tasks.idle.ants.sensors.EggSensor;
 import pokecube.core.ai.tasks.idle.ants.sensors.GatherSensor;
 import pokecube.core.ai.tasks.idle.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.idle.ants.sensors.ThreatSensor;
+import pokecube.core.ai.tasks.idle.ants.work.CarryEgg;
+import pokecube.core.ai.tasks.idle.ants.work.Dig;
+import pokecube.core.ai.tasks.idle.ants.work.Gather;
+import pokecube.core.ai.tasks.idle.ants.work.Guard;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -112,9 +119,9 @@ public class AntTasks
         list.add(new MakeNest(pokemob));
         list.add(new EnterNest(pokemob).setPriority(0));
         list.add(new CarryEgg(pokemob).setPriority(0));
-        list.add(new Patrol(pokemob).setPriority(1));
+        list.add(new Guard(pokemob).setPriority(1));
         list.add(new Gather(pokemob).setPriority(2));
-        list.add(new DigNest(pokemob).setPriority(3));
+        list.add(new Dig(pokemob).setPriority(3));
 
         BrainUtils.addToBrain(pokemob.getEntity().getBrain(), AntTasks.MEMORY_TYPES, AntTasks.SENSOR_TYPES);
     }
@@ -188,14 +195,164 @@ public class AntTasks
 
     public static class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>
     {
+        public static class Edge
+        {
+            public Node node1;
+            public Node node2;
+
+            public BlockPos end1;
+            public BlockPos end2;
+
+            boolean areSame(final Edge other)
+            {
+                if (this.end1 == null && other.end1 != null) return false;
+                if (this.end2 == null && other.end2 != null) return false;
+                if (this.end1 != null && other.end1 == null) return false;
+                if (this.end2 != null && other.end2 == null) return false;
+                if (this.end1 != null && other.end1 != null && !this.end1.equals(other.end1)) return false;
+                if (this.end2 != null && other.end2 != null && !this.end2.equals(other.end2)) return false;
+                return true;
+            }
+        }
+
+        public static class Node
+        {
+            public AntRoom type = AntRoom.NODE;
+
+            public final BlockPos center;
+
+            public List<Edge> edges = Lists.newArrayList();
+
+            public Node(final BlockPos center)
+            {
+                this.center = center;
+            }
+        }
+
+        public class Tree implements INBTSerializable<CompoundNBT>
+        {
+            public Map<AntRoom, List<Node>> rooms = Maps.newHashMap();
+
+            public Tree()
+            {
+                for (final AntRoom room : AntRoom.values())
+                    this.rooms.put(room, Lists.newArrayList());
+            }
+
+            public List<Node> get(final AntRoom type)
+            {
+                return this.rooms.get(type);
+            }
+
+            @Override
+            public CompoundNBT serializeNBT()
+            {
+                final CompoundNBT tag = new CompoundNBT();
+                final ListNBT list = new ListNBT();
+                this.rooms.forEach((r, s) -> s.forEach(n ->
+                {
+                    final CompoundNBT nbt = NBTUtil.writeBlockPos(n.center);
+                    nbt.putString("room", r.name());
+                    final ListNBT edges = new ListNBT();
+                    n.edges.forEach(edge ->
+                    {
+                        final CompoundNBT edgeNbt = new CompoundNBT();
+                        if (edge.node1 != null)
+                        {
+                            edgeNbt.put("n1", NBTUtil.writeBlockPos(edge.node1.center));
+                            edgeNbt.put("e1", NBTUtil.writeBlockPos(edge.end1));
+                        }
+                        if (edge.node2 != null)
+                        {
+                            edgeNbt.put("n2", NBTUtil.writeBlockPos(edge.node2.center));
+                            edgeNbt.put("e2", NBTUtil.writeBlockPos(edge.end2));
+                        }
+                        edges.add(edgeNbt);
+                    });
+                    nbt.put("edges", edges);
+                    list.add(nbt);
+                }));
+                tag.put("map", list);
+                return null;
+            }
+
+            @Override
+            public void deserializeNBT(final CompoundNBT tag)
+            {
+                this.rooms.clear();
+                final Map<BlockPos, Node> loadedNodes = Maps.newHashMap();
+
+                // First we de-serialize the nodes, and stuff them in
+                // loadedNodes, After we will need to sort through this, and
+                // re-connect the edges accordingly
+                final ListNBT list = tag.getList("map", 10);
+                for (int i = 0; i < list.size(); ++i)
+                {
+                    final CompoundNBT nbt = list.getCompound(i);
+                    final BlockPos pos = NBTUtil.readBlockPos(nbt);
+                    final AntRoom room = AntRoom.valueOf(nbt.getString("room"));
+                    // This is a "real" node, it will be added to the maps
+                    final Node n = new Node(pos);
+                    n.type = room;
+                    final ListNBT edges = nbt.getList("edges", 10);
+                    for (int j = 0; j < edges.size(); ++j)
+                    {
+                        final CompoundNBT edgeNbt = edges.getCompound(i);
+                        final Edge e = new Edge();
+                        if (edgeNbt.contains("n1"))
+                        {
+                            // This is a fake node, it will be replaced later
+                            e.node1 = new Node(NBTUtil.readBlockPos(edgeNbt.getCompound("n1")));
+                            e.end1 = NBTUtil.readBlockPos(edgeNbt.getCompound("e1"));
+                        }
+                        if (edgeNbt.contains("n2"))
+                        {
+                            // This is a fake node, it will be replaced later
+                            e.node2 = new Node(NBTUtil.readBlockPos(edgeNbt.getCompound("n2")));
+                            e.end2 = NBTUtil.readBlockPos(edgeNbt.getCompound("e2"));
+                        }
+                        n.edges.add(e);
+                    }
+                    loadedNodes.put(pos, n);
+                    this.rooms.get(room).add(n);
+                }
+
+                // Now we need to re-build the tree from the loaded nodes. Edges
+                // need to be replaced such that nodes share the same edges.
+                loadedNodes.forEach((p, n) ->
+                {
+                    n.edges.forEach(edge ->
+                    {
+                        if (edge.node1 != null)
+                        {
+                            final Node n2 = edge.node1 = loadedNodes.get(edge.node1.center);
+                            // If not us, replace the equivalent edge on the
+                            // target node.
+                            if (n2 != n) n2.edges.replaceAll(edge2 -> edge.areSame(edge2) ? edge : edge2);
+                        }
+                        if (edge.node2 != null)
+                        {
+                            final Node n2 = edge.node2 = loadedNodes.get(edge.node2.center);
+                            // If not us, replace the equivalent edge on the
+                            // target node.
+                            if (n2 != n) n2.edges.replaceAll(edge2 -> edge.areSame(edge2) ? edge : edge2);
+                        }
+                    });
+                });
+            }
+
+            public void add(final Node node)
+            {
+                this.rooms.get(node.type).add(node);
+                // Now here we need to add edges to connect the node.
+            }
+        }
 
         final List<Ant> ants_in = Lists.newArrayList();
 
-        final List<UUID> ants_out = Lists.newArrayList();
-
         final Map<AntJob, Set<UUID>> workers = Maps.newHashMap();
 
-        Map<AntRoom, Set<BlockPos>> rooms = Maps.newHashMap();
+        Tree rooms = new Tree();
 
         public Set<UUID> eggs = Sets.newHashSet();
 
@@ -208,8 +365,6 @@ public class AntTasks
         {
             for (final AntJob job : AntJob.values())
                 this.workers.put(job, Sets.newHashSet());
-            for (final AntRoom room : AntRoom.values())
-                this.rooms.put(room, Sets.newHashSet());
         }
 
         private AntJob getNextJob(final AntJob oldJob)
@@ -226,7 +381,7 @@ public class AntTasks
             return oldJob;
         }
 
-        public Set<BlockPos> getRooms(final AntRoom type)
+        public List<Node> getRooms(final AntRoom type)
         {
             return this.rooms.get(type);
         }
@@ -235,7 +390,7 @@ public class AntTasks
         {
             if (this.world != null)
             {
-                final Set<BlockPos> eggRooms = this.getRooms(AntRoom.EGG);
+                final List<Node> eggRooms = this.getRooms(AntRoom.EGG);
                 if (eggRooms.isEmpty())
                 {
                     Vector3 pos = Vector3.getNewVector();
@@ -244,13 +399,15 @@ public class AntTasks
                     if (pos != null)
                     {
                         pos.y = this.here.getY() - 3;
-                        eggRooms.add(pos.getPos().toImmutable());
+                        final Node node = new Node(pos.getPos().toImmutable());
+                        node.type = AntRoom.EGG;
+                        this.rooms.add(node);
                     }
                 }
                 // Here we should check if the room has too many eggs in it,
                 // for now just do this though.
-                if (!eggRooms.isEmpty()) for (final BlockPos p : eggRooms)
-                    return Optional.of(p);
+                if (!eggRooms.isEmpty()) for (final Node p : eggRooms)
+                    return Optional.of(p.center);
             }
             return Optional.empty();
         }
@@ -262,6 +419,12 @@ public class AntTasks
             this.world = world;
             // Here we need to release ants every so often as needed
             this.ants_in.removeIf(ant -> this.tryReleaseAnt(ant, world));
+
+            if (this.rooms.get(AntRoom.NODE).isEmpty())
+            {
+                final Node entrance = new Node(this.here);
+                this.rooms.add(entrance);
+            }
 
             // Workers should only contain actual live ants! so if they are not
             // found here, remove them from the list
@@ -353,7 +516,6 @@ public class AntTasks
         @Override
         public void onExitHabitat(final MobEntity mob)
         {
-            this.ants_out.add(mob.getUniqueID());
             AntJob job = AntTasks.getJob(mob);
             // Remove the old work pos for now, we will decide which ones need
             // to keep it stored
@@ -369,7 +531,6 @@ public class AntTasks
         public boolean onEnterHabitat(final MobEntity mob)
         {
             if (!this.canEnterHabitat(mob)) return false;
-            this.ants_out.remove(mob.getUniqueID());
             mob.stopRiding();
             mob.removePassengers();
             final CompoundNBT tag = new CompoundNBT();
@@ -434,14 +595,7 @@ public class AntTasks
                 });
             });
             compound.put("workers", workers);
-            final ListNBT rooms = new ListNBT();
-            this.rooms.forEach((r, s) -> s.forEach(p ->
-            {
-                final CompoundNBT tag = NBTUtil.writeBlockPos(p);
-                tag.putString("room", r.name());
-                rooms.add(tag);
-            }));
-            compound.put("rooms", rooms);
+            compound.put("rooms", this.rooms.serializeNBT());
             final ListNBT eggs = new ListNBT();
             this.eggs.forEach(uuid ->
             {
@@ -457,9 +611,8 @@ public class AntTasks
         public void deserializeNBT(final CompoundNBT nbt)
         {
             this.ants_in.clear();
-            this.ants_out.clear();
             this.workers.forEach((j, s) -> s.clear());
-            this.rooms.forEach((j, s) -> s.clear());
+            this.rooms.deserializeNBT(nbt.getCompound("rooms"));
             this.eggs.clear();
             final int compoundId = 10;
             final ListNBT ants = nbt.getList("ants", compoundId);
@@ -469,14 +622,6 @@ public class AntTasks
                 final Ant ant = new Ant(tag.getCompound("EntityData"), tag.getInt("TicksInHive"), tag.getInt(
                         "MinOccupationTicks"));
                 this.ants_in.add(ant);
-            }
-            final ListNBT rooms = nbt.getList("rooms", compoundId);
-            for (int i = 0; i < rooms.size(); ++i)
-            {
-                final CompoundNBT tag = rooms.getCompound(i);
-                final AntRoom room = AntRoom.valueOf(tag.getString("room"));
-                final BlockPos p = NBTUtil.readBlockPos(tag);
-                this.rooms.get(room).add(p);
             }
             final ListNBT workers = nbt.getList("workers", compoundId);
             for (int i = 0; i < workers.size(); ++i)

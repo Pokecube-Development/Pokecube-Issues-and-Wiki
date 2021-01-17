@@ -1,10 +1,12 @@
 package pokecube.core.world.gen;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 
@@ -50,12 +52,16 @@ public class WorldgenFeatures
     public static final StructureProcessorList BERRYLIST;
     public static final StructureProcessorList GENERICLIST;
 
+    private static final Map<ResourceLocation, StructureProcessorList> procLists = Maps.newHashMap();
+
     static
     {
         WorldgenFeatures.GENERICRULES.add(0, PokecubeStructureProcessor.PROCESSOR);
         // TODO find out why it hates the "berry_gen" list...
-        BERRYLIST = new StructureProcessorList(WorldgenFeatures.BERRYRULES);//WorldgenFeatures.register("berry_gen", WorldgenFeatures.BERRYRULES);
+        BERRYLIST = new StructureProcessorList(WorldgenFeatures.BERRYRULES);
         GENERICLIST = WorldgenFeatures.register("generic", WorldgenFeatures.GENERICRULES);
+
+        WorldgenFeatures.procLists.put(new ResourceLocation("pokecube", "berry_gen"), WorldgenFeatures.BERRYLIST);
     }
 
     public static void init(final IEventBus bus)
@@ -69,9 +75,17 @@ public class WorldgenFeatures
                 : JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING;
         final List<Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer>> pairs = Lists.newArrayList();
         int size = 0;
+        StructureProcessorList listToUse = default_list;
+        if (!pool.proc_list.isEmpty())
+        {
+            listToUse = default_list;
+            final ResourceLocation key = new ResourceLocation(pool.proc_list);
+            if (WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.containsKey(key))
+                listToUse = WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.getOrDefault(key);
+            else listToUse = WorldgenFeatures.procLists.getOrDefault(key, default_list);
+        }
         for (final String option : pool.options)
         {
-            StructureProcessorList listToUse = default_list;
             int second = 1;
             final String[] args = option.split(";");
             Options opts = new Options();
@@ -86,17 +100,6 @@ public class WorldgenFeatures
                 opts.ignoreAir = pool.ignoreAir;
                 opts.rigid = pool.rigid;
             }
-            if (!pool.proc_list.isEmpty())
-            {
-                listToUse = default_list;
-                if (pool.proc_list.equals("empty")) listToUse = WorldGenRegistries.STRUCTURE_PROCESSOR_LIST
-                        .getOrDefault(new ResourceLocation("empty"));
-                else
-                {
-                    // TODO handle custom lists here?
-                }
-            }
-
             final Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer> pair = Pair.of(WorldgenFeatures
                     .makePiece(args[0], listToUse, opts), second);
             size += second;

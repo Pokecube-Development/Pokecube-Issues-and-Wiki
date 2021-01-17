@@ -1,15 +1,17 @@
-package pokecube.core.ai.tasks.idle.ants;
+package pokecube.core.ai.tasks.idle.ants.nest;
 
 import java.util.Optional;
 
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
+import pokecube.core.ai.tasks.idle.ants.AbstractAntTask;
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
 import pokecube.core.ai.tasks.idle.bees.BeeTasks;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IPokemob;
 
-public class CheckNest extends AntTask
+public class CheckNest extends AbstractAntTask
 {
     protected int new_hive_cooldown = 0;
 
@@ -56,7 +58,7 @@ public class CheckNest extends AntTask
     }
 
     @Override
-    boolean doTask()
+    protected boolean doTask()
     {
         return true;
     }
