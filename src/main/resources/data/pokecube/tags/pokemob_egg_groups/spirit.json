@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "yamask",
-    "yamask_galar"
+    "pokecube:yamask",
+    "pokecube:yamask_galar"
   ]
 }

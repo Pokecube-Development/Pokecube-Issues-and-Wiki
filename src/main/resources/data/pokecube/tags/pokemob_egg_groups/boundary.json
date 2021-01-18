@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "kyurem",
-    "kyurem_black",
-    "kyurem_white"
+    "pokecube:kyurem",
+    "pokecube:kyurem_black",
+    "pokecube:kyurem_white"
   ]
 }

@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "totodile",
-    "croconaw",
-    "feraligatr",
-    "sandile",
-    "krokorok",
-    "krookodile"
+    "pokecube:totodile",
+    "pokecube:croconaw",
+    "pokecube:feraligatr",
+    "pokecube:sandile",
+    "pokecube:krokorok",
+    "pokecube:krookodile"
   ]
 }

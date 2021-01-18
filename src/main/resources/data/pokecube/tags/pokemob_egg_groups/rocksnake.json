@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "onix",
-    "steelix"
+    "pokecube:onix",
+    "pokecube:steelix"
   ]
 }

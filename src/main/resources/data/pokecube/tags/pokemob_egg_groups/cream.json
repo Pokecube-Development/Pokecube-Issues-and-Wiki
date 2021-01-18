@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "milcery",
-    "alcremie"
+    "pokecube:milcery",
+    "pokecube:alcremie"
   ]
 }

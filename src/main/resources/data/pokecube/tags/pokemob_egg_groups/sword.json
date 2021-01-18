@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "honedge",
-    "doublade",
-    "aegislash_blade"
+    "pokecube:honedge",
+    "pokecube:doublade",
+    "pokecube:aegislash_blade"
   ]
 }

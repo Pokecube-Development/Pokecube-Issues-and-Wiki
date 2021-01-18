@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "keldeo",
-    "keldeo_resolute"
+    "pokecube:keldeo",
+    "pokecube:keldeo_resolute"
   ]
 }

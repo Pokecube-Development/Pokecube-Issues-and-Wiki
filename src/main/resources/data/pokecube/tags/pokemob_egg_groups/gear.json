@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "klink",
-    "klang",
-    "klinklang"
+    "pokecube:klink",
+    "pokecube:klang",
+    "pokecube:klinklang"
   ]
 }

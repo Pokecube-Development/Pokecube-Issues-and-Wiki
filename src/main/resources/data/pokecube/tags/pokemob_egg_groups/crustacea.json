@@ -1,18 +1,18 @@
 {
   "replace": false,
   "values": [
-    "slowbro",
-    "slowbro_mega",
-    "slowbro_galar",
-    "krabby",
-    "kingler",
-    "corphish",
-    "crawdaunt",
-    "dwebble",
-    "crustle",
-    "binacle",
-    "barbaracle",
-    "clauncher",
-    "clawitzer"
+    "pokecube:slowbro",
+    "pokecube:slowbro_mega",
+    "pokecube:slowbro_galar",
+    "pokecube:krabby",
+    "pokecube:kingler",
+    "pokecube:corphish",
+    "pokecube:crawdaunt",
+    "pokecube:dwebble",
+    "pokecube:crustle",
+    "pokecube:binacle",
+    "pokecube:barbaracle",
+    "pokecube:clauncher",
+    "pokecube:clawitzer"
   ]
 }

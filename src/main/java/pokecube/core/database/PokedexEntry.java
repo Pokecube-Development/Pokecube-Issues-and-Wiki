@@ -1130,6 +1130,14 @@ public class PokedexEntry
         // Run this here to sync those over.
         this.copyToGenderFormes();
 
+        this.foods[0] = Tags.POKEMOB.isIn("eats_light", this.getTrimmedName());
+        this.foods[1] = Tags.POKEMOB.isIn("eats_stone", this.getTrimmedName());
+        this.foods[2] = Tags.POKEMOB.isIn("eats_redstone", this.getTrimmedName());
+        this.foods[3] = Tags.POKEMOB.isIn("eats_plants", this.getTrimmedName());
+        this.foods[4] = Tags.POKEMOB.isIn("eats_never", this.getTrimmedName());
+        this.foods[5] = !Tags.POKEMOB.isIn("eats_no_berries", this.getTrimmedName());
+        this.foods[6] = Tags.POKEMOB.isIn("eats_water", this.getTrimmedName());
+
         if (this.lootTable == null) PokecubeCore.LOGGER.debug("Missing loot table for {}", this.getTrimmedName());
 
         if (this._forme_items != null)

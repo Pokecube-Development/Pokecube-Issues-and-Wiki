@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "audino",
-    "audino_mega",
-    "indeedee"
+    "pokecube:audino",
+    "pokecube:audino_mega",
+    "pokecube:indeedee"
   ]
 }

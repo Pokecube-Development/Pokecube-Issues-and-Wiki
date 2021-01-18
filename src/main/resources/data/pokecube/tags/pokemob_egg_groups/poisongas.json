@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "koffing",
-    "weezing"
+    "pokecube:koffing",
+    "pokecube:weezing"
   ]
 }

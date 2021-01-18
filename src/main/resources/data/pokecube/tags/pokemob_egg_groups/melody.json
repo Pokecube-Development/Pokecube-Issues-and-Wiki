@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "meloetta_aria",
-    "meloetta_pirouette"
+    "pokecube:meloetta_aria",
+    "pokecube:meloetta_pirouette"
   ]
 }

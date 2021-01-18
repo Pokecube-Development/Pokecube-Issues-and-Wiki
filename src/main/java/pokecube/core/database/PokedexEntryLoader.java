@@ -427,7 +427,6 @@ public class PokedexEntryLoader
 
         // Prey, Food and Egg stuff
         public String prey;
-        public String foodMat;
         public String specialEggRules;
 
         // Drops and items
@@ -1316,24 +1315,6 @@ public class PokedexEntryLoader
                 }
             }
         }
-        if (xmlStats.foodMat != null)
-        {
-            final String[] foods = xmlStats.foodMat.split(" ");
-            entry.foods = new boolean[] { false, false, false, false, false, true, false };
-            for (final String s1 : foods)
-                if (s1.equalsIgnoreCase("light"))
-                {
-                    entry.activeTimes.add(PokedexEntry.day);
-                    entry.foods[0] = true;
-                }
-                else if (s1.equalsIgnoreCase("rock")) entry.foods[1] = true;
-                else if (s1.equalsIgnoreCase("electricity")) entry.foods[2] = true;
-                else if (s1.equalsIgnoreCase("grass")) entry.foods[3] = true;
-                else if (s1.equalsIgnoreCase("water")) entry.foods[6] = true;
-                else if (s1.equalsIgnoreCase("none")) entry.foods[4] = true;
-        }
-        if (entry.isType(PokeType.getType("ghost"))) entry.foods[4] = true;
-
         if (xmlStats.activeTimes != null)
         {
             final String[] times = xmlStats.activeTimes.split(" ");

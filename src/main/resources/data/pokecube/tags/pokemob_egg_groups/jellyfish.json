@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "tentacool",
-    "tentacruel",
-    "frillish",
-    "jellicent"
+    "pokecube:tentacool",
+    "pokecube:tentacruel",
+    "pokecube:frillish",
+    "pokecube:jellicent"
   ]
 }

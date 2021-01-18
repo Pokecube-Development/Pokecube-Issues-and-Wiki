@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
-    "gastly",
-    "haunter",
-    "gengar",
-    "duskull",
-    "dusclops",
-    "mismagius",
-    "spiritomb",
-    "dusknoir"
+    "pokecube:gastly",
+    "pokecube:haunter",
+    "pokecube:gengar",
+    "pokecube:duskull",
+    "pokecube:dusclops",
+    "pokecube:mismagius",
+    "pokecube:spiritomb",
+    "pokecube:dusknoir"
   ]
 }

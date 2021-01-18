@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "golett",
-    "golurk"
+    "pokecube:golett",
+    "pokecube:golurk"
   ]
 }

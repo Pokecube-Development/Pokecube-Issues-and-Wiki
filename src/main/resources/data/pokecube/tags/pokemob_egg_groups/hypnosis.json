@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "drowzee",
-    "hypno"
+    "pokecube:drowzee",
+    "pokecube:hypno"
   ]
 }

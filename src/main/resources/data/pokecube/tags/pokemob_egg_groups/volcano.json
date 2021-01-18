@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "entei",
-    "volcanion"
+    "pokecube:entei",
+    "pokecube:volcanion"
   ]
 }

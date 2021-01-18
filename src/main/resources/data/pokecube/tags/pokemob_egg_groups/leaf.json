@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "chikorita",
-    "bayleef",
-    "meganium",
-    "sewaddle",
-    "swadloon",
-    "leavanny"
+    "pokecube:chikorita",
+    "pokecube:bayleef",
+    "pokecube:meganium",
+    "pokecube:sewaddle",
+    "pokecube:swadloon",
+    "pokecube:leavanny"
   ]
 }

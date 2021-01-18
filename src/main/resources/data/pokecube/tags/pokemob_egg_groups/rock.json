@@ -1,18 +1,18 @@
 {
   "replace": false,
   "values": [
-    "geodude",
-    "geodude_alola",
-    "graveler",
-    "graveler_alola",
-    "golem",
-    "golem_alola",
-    "shuckle",
-    "nosepass",
-    "probopass",
-    "roggenrola",
-    "boldore",
-    "gigalith",
-    "stonjourner"
+    "pokecube:geodude",
+    "pokecube:geodude_alola",
+    "pokecube:graveler",
+    "pokecube:graveler_alola",
+    "pokecube:golem",
+    "pokecube:golem_alola",
+    "pokecube:shuckle",
+    "pokecube:nosepass",
+    "pokecube:probopass",
+    "pokecube:roggenrola",
+    "pokecube:boldore",
+    "pokecube:gigalith",
+    "pokecube:stonjourner"
   ]
 }
