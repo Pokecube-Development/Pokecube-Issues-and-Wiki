@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "marowak",
-    "marowak_alola"
+    "pokecube:marowak",
+    "pokecube:marowak_alola"
   ]
 }

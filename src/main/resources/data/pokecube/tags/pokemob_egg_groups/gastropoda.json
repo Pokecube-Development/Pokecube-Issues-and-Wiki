@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "slugma",
-    "magcargo",
-    "shellos",
-    "gastrodon",
-    "shelmet",
-    "accelgor"
+    "pokecube:slugma",
+    "pokecube:magcargo",
+    "pokecube:shellos",
+    "pokecube:gastrodon",
+    "pokecube:shelmet",
+    "pokecube:accelgor"
   ]
 }

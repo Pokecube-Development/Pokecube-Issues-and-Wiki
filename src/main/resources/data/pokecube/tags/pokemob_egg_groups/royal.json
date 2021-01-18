@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "slowking",
-    "slowking_galar"
+    "pokecube:slowking",
+    "pokecube:slowking_galar"
   ]
 }

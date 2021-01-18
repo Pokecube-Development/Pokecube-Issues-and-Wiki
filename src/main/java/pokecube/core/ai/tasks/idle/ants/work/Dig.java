@@ -43,8 +43,10 @@ public class Dig extends AbstractWorkTask
                 final BlockPos targ = p.getTarget();
                 final BlockPos end = p.getFinalPathPoint().func_224759_a();
                 // This won't be reachable anyway, so skip.
-                if (targ.distanceSq(end) > 9) brain.removeMemory(AntTasks.WORK_POS);
+                if (targ.distanceSq(end) > 10000) brain.removeMemory(AntTasks.WORK_POS);
+                System.out.println(targ);
             }
+            System.out.println(pos);
 
             if (pos.distanceSq(this.entity.getPosition()) > 9)
             {

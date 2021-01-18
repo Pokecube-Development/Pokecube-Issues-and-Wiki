@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "electabuzz",
-    "zapdos",
-    "elekid"
+    "pokecube:electabuzz",
+    "pokecube:zapdos",
+    "pokecube:elekid"
   ]
 }

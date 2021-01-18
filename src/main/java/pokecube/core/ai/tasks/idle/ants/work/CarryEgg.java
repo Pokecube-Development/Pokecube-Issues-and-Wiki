@@ -75,7 +75,7 @@ public class CarryEgg extends AbstractWorkTask
     protected boolean shouldWork()
     {
         this.egg = this.entity.getBrain().getMemory(AntTasks.EGG).orElse(null);
-        return this.egg != null;
+        return this.egg != null;// && this.nest == null;
     }
 
 }

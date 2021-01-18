@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "ekans",
-    "arbok",
-    "dunsparce",
-    "seviper",
-    "snivy",
-    "servine",
-    "serperior",
-    "silicobra",
-    "sandaconda"
+    "pokecube:ekans",
+    "pokecube:arbok",
+    "pokecube:dunsparce",
+    "pokecube:seviper",
+    "pokecube:snivy",
+    "pokecube:servine",
+    "pokecube:serperior",
+    "pokecube:silicobra",
+    "pokecube:sandaconda"
   ]
 }

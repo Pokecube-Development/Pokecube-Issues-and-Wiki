@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "latias",
-    "latios"
+    "pokecube:latias",
+    "pokecube:latios"
   ]
 }

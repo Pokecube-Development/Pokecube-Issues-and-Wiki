@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "aron",
-    "lairon",
-    "aggron"
+    "pokecube:aron",
+    "pokecube:lairon",
+    "pokecube:aggron"
   ]
 }

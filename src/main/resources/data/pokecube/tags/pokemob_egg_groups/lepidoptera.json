@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "butterfree",
-    "venomoth",
-    "beautifly",
-    "frosmoth"
+    "pokecube:butterfree",
+    "pokecube:venomoth",
+    "pokecube:beautifly",
+    "pokecube:frosmoth"
   ]
 }

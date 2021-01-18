@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "seel",
-    "dewgong",
-    "spheal",
-    "sealeo",
-    "walrein"
+    "pokecube:seel",
+    "pokecube:dewgong",
+    "pokecube:spheal",
+    "pokecube:sealeo",
+    "pokecube:walrein"
   ]
 }

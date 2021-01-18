@@ -1,18 +1,18 @@
 {
   "replace": false,
   "values": [
-    "grimer",
-    "muk",
-    "muk_alola",
-    "gulpin",
-    "swalot",
-    "castform",
-    "trubbish",
-    "garbodor",
-    "solosis",
-    "duosion",
-    "reuniclus",
-    "goomy",
-    "sliggoo"
+    "pokecube:grimer",
+    "pokecube:muk",
+    "pokecube:muk_alola",
+    "pokecube:gulpin",
+    "pokecube:swalot",
+    "pokecube:castform",
+    "pokecube:trubbish",
+    "pokecube:garbodor",
+    "pokecube:solosis",
+    "pokecube:duosion",
+    "pokecube:reuniclus",
+    "pokecube:goomy",
+    "pokecube:sliggoo"
   ]
 }

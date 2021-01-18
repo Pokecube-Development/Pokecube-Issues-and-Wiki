@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "porygon",
-    "porygon2",
-    "porygon-z"
+    "pokecube:porygon",
+    "pokecube:porygon2",
+    "pokecube:porygon-z"
   ]
 }

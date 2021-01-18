@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "electivire",
-    "zebstrika"
+    "pokecube:electivire",
+    "pokecube:zebstrika"
   ]
 }

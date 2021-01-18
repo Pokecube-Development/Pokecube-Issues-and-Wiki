@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "impidimp",
-    "morgrem",
-    "grimmsnarl",
-    "runerigus",
-    "falinks"
+    "pokecube:impidimp",
+    "pokecube:morgrem",
+    "pokecube:grimmsnarl",
+    "pokecube:runerigus",
+    "pokecube:falinks"
   ]
 }

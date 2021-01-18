@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "celesteela",
-    "kartana"
+    "pokecube:celesteela",
+    "pokecube:kartana"
   ]
 }

@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "diglett",
-    "diglett_alola",
-    "dugtrio",
-    "dugtrio_alola",
-    "drilbur",
-    "excadrill"
+    "pokecube:diglett",
+    "pokecube:diglett_alola",
+    "pokecube:dugtrio",
+    "pokecube:dugtrio_alola",
+    "pokecube:drilbur",
+    "pokecube:excadrill"
   ]
 }

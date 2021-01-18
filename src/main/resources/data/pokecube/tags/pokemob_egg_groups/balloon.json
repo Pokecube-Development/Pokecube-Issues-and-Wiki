@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "jigglypuff",
-    "wigglytuff",
-    "igglybuff",
-    "drifloon",
-    "drifblim"
+    "pokecube:jigglypuff",
+    "pokecube:wigglytuff",
+    "pokecube:igglybuff",
+    "pokecube:drifloon",
+    "pokecube:drifblim"
   ]
 }

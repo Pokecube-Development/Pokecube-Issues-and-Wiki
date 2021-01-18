@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "solgaleo",
-    "lunala",
-    "necrozma"
+    "pokecube:solgaleo",
+    "pokecube:lunala",
+    "pokecube:necrozma"
   ]
 }

@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "wailmer",
-    "wailord",
-    "kyogre",
-    "kyogre_primal"
+    "pokecube:wailmer",
+    "pokecube:wailord",
+    "pokecube:kyogre",
+    "pokecube:kyogre_primal"
   ]
 }

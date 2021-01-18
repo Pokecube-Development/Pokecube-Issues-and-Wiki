@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "kabuto",
-    "kabutops",
-    "anorith",
-    "armaldo",
-    "heatran"
+    "pokecube:kabuto",
+    "pokecube:kabutops",
+    "pokecube:anorith",
+    "pokecube:armaldo",
+    "pokecube:heatran"
   ]
 }
