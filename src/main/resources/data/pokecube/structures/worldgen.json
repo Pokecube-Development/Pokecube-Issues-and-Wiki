@@ -136,7 +136,10 @@
     {
       "name":"pokecube:village/desert/deco",
       "options":[
-        "pokecube:village/common/deco/lamp_1"
+        "pokecube:village/common/deco/lamp_1;{\"weight\":6}"
+      ],
+      "includes":[
+        "minecraft:village/desert/decor"
       ]
     },
     {
@@ -156,7 +159,10 @@
     {
       "name":"pokecube:village/savanna/town_centers",
       "options":[
-        "pokecube:village/savanna/town_centers/center_2"
+        "pokecube:village/savanna/town_centers/center_1",
+        "pokecube:village/savanna/town_centers/center_2",
+        "pokecube:village/savanna/town_centers/center_3",
+        "pokecube:village/savanna/town_centers/center_4"
       ]
     },
     {
@@ -220,7 +226,7 @@
       "target":"pokecube:village/savanna/terminators",
       "ignoreAir":false,
       "options":[
-        "empty;{\"weight\":3}",
+        "empty;{\"weight\":2}",
         "pokecube:village/savanna/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube:village/savanna/gym/gym_01;{\"flag\":\"gym\"}"
       ],
