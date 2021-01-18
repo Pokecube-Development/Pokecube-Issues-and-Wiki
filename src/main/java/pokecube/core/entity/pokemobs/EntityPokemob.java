@@ -24,6 +24,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.DamageSource;
@@ -62,15 +65,28 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
 public class EntityPokemob extends PokemobHasParts
 {
+    static ResourceLocation WALL_CLIMBERS = new ResourceLocation(PokecubeMod.ID, "wall_climbing");
+
+    private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityPokemob.class,
+            DataSerializers.BYTE);
+
     public EntityPokemob(final EntityType<? extends ShoulderRidingEntity> type, final World world)
     {
         super(type, world);
+    }
+
+    @Override
+    protected void registerData()
+    {
+        super.registerData();
+        this.dataManager.register(EntityPokemob.CLIMBING, (byte) 0);
     }
 
     @Override
@@ -453,5 +469,54 @@ public class EntityPokemob extends PokemobHasParts
         {
             PokecubeCore.LOGGER.error("Error recovering old owner!");
         }
+    }
+
+    /**
+     * Called to update the entity's position/logic.
+     */
+    @Override
+    public void tick()
+    {
+        super.tick();
+        if (!this.world.isRemote) this.setBesideClimbableBlock(this.collidedHorizontally);
+
+    }
+
+    /**
+     * Returns true if this entity should move as if it were on a ladder (either
+     * because it's actually on a ladder, or
+     * for AI reasons)
+     */
+    @Override
+    public boolean isOnLadder()
+    {
+        return this.isBesideClimbableBlock();
+    }
+
+    /**
+     * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns
+     * false. The WatchableObject is updated using
+     * setBesideClimableBlock.
+     */
+    public boolean isBesideClimbableBlock()
+    {
+        return (this.dataManager.get(EntityPokemob.CLIMBING) & 1) != 0;
+    }
+
+    /**
+     * Updates the WatchableObject (Byte) created in entityInit(), setting it to
+     * 0x01 if par1 is true or 0x00 if it is
+     * false.
+     */
+    public void setBesideClimbableBlock(final boolean climbing)
+    {
+        // Only do this if tagged accordingly
+        if (!ItemList.is(EntityPokemob.WALL_CLIMBERS, this)) return;
+
+        byte b0 = this.dataManager.get(EntityPokemob.CLIMBING);
+        if (climbing) b0 = (byte) (b0 | 1);
+        else b0 = (byte) (b0 & -2);
+
+        this.dataManager.set(EntityPokemob.CLIMBING, b0);
     }
 }

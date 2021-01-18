@@ -3,12 +3,8 @@ package pokecube.core.ai.tasks.idle.ants.nest;
 import java.util.Optional;
 
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
 import pokecube.core.ai.tasks.idle.ants.AbstractAntTask;
 import pokecube.core.ai.tasks.idle.ants.AntTasks;
-import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
@@ -26,52 +22,33 @@ public class EnterNest extends AbstractAntTask
     public void reset()
     {
         this.homePos.clear();
+        this.entity.getNavigator().resetRangeMultiplier();
     }
 
     @Override
     public void run()
     {
         final Brain<?> brain = this.entity.getBrain();
-        final Optional<GlobalPos> pos_opt = brain.getMemory(AntTasks.NEST_POS);
-        if (pos_opt.isPresent())
+        this.homePos.set(this.nest.nest.getPos());
+        this.entity.getNavigator().setRangeMultiplier(10);
+
+        // If too far, lets path over.
+        if (this.homePos.distToEntity(this.entity) > 2 || this.nest == null) this.setWalkTo(this.homePos, 1, 0);
+        else
         {
-            final World world = this.entity.getEntityWorld();
-            final GlobalPos pos = pos_opt.get();
-            boolean clearHive = pos.getDimension() != world.getDimensionKey();
-            NestTile nest = null;
-            TileEntity tile = null;
-            if (!clearHive) // Not loaded, skip this check, hive may still be
-                            // there.
-                if (world.isAreaLoaded(pos.getPos(), 0))
+            final IInhabitable habitat = this.nest.hab;
+
+            // if (habitat instanceof HabitatProvider) ((HabitatProvider)
+            // habitat).wrapped = new AntHabitat();
+
+            if (habitat.canEnterHabitat(this.entity))
             {
-                tile = world.getTileEntity(pos.getPos());
-                clearHive = !(tile instanceof NestTile);
+                brain.setMemory(AntTasks.OUT_OF_HIVE_TIMER, 0);
+                habitat.onEnterHabitat(this.entity);
             }
-
-            // This will be cleared by CheckHive, so lets just exit here.
-            if (clearHive) return;
-
-            this.homePos.set(pos.getPos());
-            if (tile != null) nest = (NestTile) tile;
-
-            // If too far, lets path over.
-            if (this.homePos.distToEntity(this.entity) > 2 || nest == null) this.setWalkTo(this.homePos, 1, 0);
-            else
-            {
-                final IInhabitable habitat = nest.habitat;
-
-                // if (habitat instanceof HabitatProvider) ((HabitatProvider)
-                // habitat).wrapped = new AntHabitat();
-
-                if (habitat.canEnterHabitat(this.entity))
-                {
-                    brain.setMemory(AntTasks.OUT_OF_HIVE_TIMER, 0);
-                    habitat.onEnterHabitat(this.entity);
-                }
-                // Set the out of hive timer, so we don't try to re-enter
-                // immediately!
-                else brain.setMemory(AntTasks.OUT_OF_HIVE_TIMER, 100);
-            }
+            // Set the out of hive timer, so we don't try to re-enter
+            // immediately!
+            else brain.setMemory(AntTasks.OUT_OF_HIVE_TIMER, 100);
         }
     }
 

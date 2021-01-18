@@ -39,7 +39,7 @@ public class Build extends AbstractWorkTask
             final BlockPos pos = room.get().getPos();
             if (pos.distanceSq(this.entity.getPosition()) > 9)
             {
-                this.setWalkTo(pos, 1, 0);
+                this.setWalkTo(pos, 1, 1);
                 return;
             }
             brain.removeMemory(AntTasks.WORK_POS);

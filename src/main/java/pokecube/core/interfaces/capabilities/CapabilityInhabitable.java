@@ -70,6 +70,12 @@ public class CapabilityInhabitable
         {
             this.wrapped.onTick(pos, world);
         }
+
+        @Override
+        public void onBroken(final BlockPos pos, final ServerWorld world)
+        {
+            this.wrapped.onBroken(pos, world);
+        }
     }
 
     private static Map<ResourceLocation, Supplier<IInhabitable>> REGISTRY = Maps.newHashMap();
