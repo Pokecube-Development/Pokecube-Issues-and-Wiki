@@ -206,6 +206,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void onBroken()
     {
+        System.out.println(this.habitat+" "+this.world);
         if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onBroken(this.getPos(),
                 (ServerWorld) this.world);
     }

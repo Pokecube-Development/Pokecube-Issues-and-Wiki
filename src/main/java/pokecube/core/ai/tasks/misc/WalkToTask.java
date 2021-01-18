@@ -133,6 +133,15 @@ public class WalkToTask extends RootTask<MobEntity>
         if (!this.hasReachedTarget(mob, target))
         {
             final Brain<?> brain = mob.getBrain();
+
+            if (this.currentPath != null && !this.currentPath.reachesTarget() && this.currentPath
+                    .getCurrentPathLength() == 1)
+            {
+                brain.removeMemory(MemoryModuleType.PATH);
+                mob.getNavigator().clearPath();
+                this.currentPath = null;
+            }
+
             final boolean flag = this.currentPath != null && this.currentPath.reachesTarget();
             if (flag) brain.setMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, Optional.empty());
             else if (!brain.hasMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)) brain.setMemory(
@@ -140,8 +149,12 @@ public class WalkToTask extends RootTask<MobEntity>
 
             if (this.currentPath != null) return true;
 
-            final Vector3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards((CreatureEntity) mob, 10, 7,
-                    new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+            final int xz = 10;
+            final int y = 7;
+            final double scale = 2 * Math.PI / 2F;
+            final Vector3d pos = new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ());
+            final Vector3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled((CreatureEntity) mob, xz, y,
+                    pos, scale);
             if (vec3d != null)
             {
                 this.currentPath = mob.getNavigator().getPathToPos(vec3d.x, vec3d.y, vec3d.z, 0);
