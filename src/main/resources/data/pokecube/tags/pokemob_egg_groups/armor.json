@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "donphan",
-    "tyranitar"
+    "pokecube:donphan",
+    "pokecube:tyranitar"
   ]
 }

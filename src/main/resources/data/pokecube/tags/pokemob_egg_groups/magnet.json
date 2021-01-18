@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "magnemite",
-    "magneton",
-    "magnezone"
+    "pokecube:magnemite",
+    "pokecube:magneton",
+    "pokecube:magnezone"
   ]
 }

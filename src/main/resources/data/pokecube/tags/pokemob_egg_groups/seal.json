@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "popplio",
-    "brionne"
+    "pokecube:popplio",
+    "pokecube:brionne"
   ]
 }

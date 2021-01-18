@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "snorunt",
-    "glalie",
-    "froslass",
-    "vanillite",
-    "vanillish",
-    "vanilluxe",
-    "cryogonal",
-    "bergmite",
-    "avalugg"
+    "pokecube:snorunt",
+    "pokecube:glalie",
+    "pokecube:froslass",
+    "pokecube:vanillite",
+    "pokecube:vanillish",
+    "pokecube:vanilluxe",
+    "pokecube:cryogonal",
+    "pokecube:bergmite",
+    "pokecube:avalugg"
   ]
 }

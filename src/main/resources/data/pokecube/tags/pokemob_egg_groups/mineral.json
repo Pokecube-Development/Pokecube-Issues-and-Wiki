@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "rolycoly",
-    "carkol",
-    "coalossal",
-    "hatenna",
-    "hattrem",
-    "hatterene",
-    "duraludon"
+    "pokecube:rolycoly",
+    "pokecube:carkol",
+    "pokecube:coalossal",
+    "pokecube:hatenna",
+    "pokecube:hattrem",
+    "pokecube:hatterene",
+    "pokecube:duraludon"
   ]
 }

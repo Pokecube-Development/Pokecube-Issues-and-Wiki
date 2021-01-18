@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "staryu",
-    "cleffa"
+    "pokecube:staryu",
+    "pokecube:cleffa"
   ]
 }

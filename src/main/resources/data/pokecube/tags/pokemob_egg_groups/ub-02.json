@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "buzzwole",
-    "pheromosa"
+    "pokecube:buzzwole",
+    "pokecube:pheromosa"
   ]
 }

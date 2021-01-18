@@ -330,7 +330,6 @@ public class AntTasks
                                 if (edge.areSame(e))
                                 {
                                     had.set(true);
-                                    System.out.println("found link");
                                     return edge;
                                 }
                                 return e;
@@ -345,7 +344,6 @@ public class AntTasks
                                 if (edge.areSame(e))
                                 {
                                     had.set(true);
-                                    System.out.println("found link");
                                     return edge;
                                 }
                                 return e;
@@ -416,13 +414,16 @@ public class AntTasks
             final int r = 16;
             final int x = rng.nextInt(r * 2) - r + this.here.getX();
             final int z = rng.nextInt(r * 2) - r + this.here.getZ();
-            // No egg room yet I guess.
-            if (x * x + z * z < 16) return;
+
             final int dx = root.center.getX() - x;
             final int dz = root.center.getZ() - z;
             final double ds = Math.sqrt(dx * dx + dz * dz);
             final int y = (int) (root.center.getY() - ds / 3);
             final BlockPos pos = new BlockPos(x, y, z);
+
+            for (final Node n : nodes)
+                if (pos.distanceSq(n.center) < 25) return;
+
             final Node room = new Node(pos);
             room.type = type;
 
@@ -477,7 +478,7 @@ public class AntTasks
             for (final List<Node> rooms : this.rooms.rooms.values())
                 roomCount += rooms.size();
             final Random rng = new Random();
-            if (roomCount < ants) this.addRandomNode(AntRoom.values()[rng.nextInt(3)]);
+            if (roomCount < 10) this.addRandomNode(AntRoom.values()[rng.nextInt(3)]);
 
             // Workers should only contain actual live ants! so if they are not
             // found here, remove them from the list
@@ -494,7 +495,7 @@ public class AntTasks
                 final Entity mob = world.getEntityByUuid(uuid);
                 if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
                 final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
-                if (num > 5) egg.setGrowingAge(-100);
+                if (num > 10) egg.setGrowingAge(-100);
                 else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-100);
                 return false;
             });
@@ -530,6 +531,7 @@ public class AntTasks
                             if (world.isAirBlock(p)) continue;
                             final AxisAlignedBB box = x0.getAABB().grow(2);
                             final boolean valid = BlockPos.getAllInBox(box).anyMatch(b -> world.isAirBlock(b));
+                            System.out.println(valid + " " + x0);
                             if (valid)
                             {
                                 mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.getPosition(world
@@ -617,12 +619,12 @@ public class AntTasks
             if (ants < 10)
             {
                 final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
-                if (poke != null)
+                final Optional<BlockPos> room = this.getFreeEggRoom();
+                if (poke != null && room.isPresent())
                 {
                     final PokedexEntry entry = poke.getPokedexEntry();
                     final ServerWorld world = (ServerWorld) mob.getEntityWorld();
-                    final BlockPos pos = mob.getPosition();
-                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, pos, world, false);
+                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get(), world, false);
                     if (egg != null) this.eggs.add(egg.getUniqueID());
                 }
             }

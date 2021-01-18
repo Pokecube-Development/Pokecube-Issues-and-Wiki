@@ -1,16 +1,16 @@
 {
   "replace": false,
   "values": [
-    "Disguise",
-    "FlowerGift",
-    "GulpMissile",
-    "IceFace",
-    "Imposter",
-    "Receiver",
-    "RKSSystem",
-    "Schooling",
-    "StanceChange",
-    "WonderGuard",
-    "ZenMode"
+    "pokecube:disguise",
+    "pokecube:flowergift",
+    "pokecube:gulpmissile",
+    "pokecube:iceface",
+    "pokecube:imposter",
+    "pokecube:receiver",
+    "pokecube:rkssystem",
+    "pokecube:schooling",
+    "pokecube:stancechange",
+    "pokecube:wonderguard",
+    "pokecube:zenmode"
   ]
 }

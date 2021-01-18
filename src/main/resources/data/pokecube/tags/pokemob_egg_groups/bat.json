@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "zubat",
-    "golbat",
-    "crobat",
-    "woobat",
-    "swoobat",
-    "noibat",
-    "noivern"
+    "pokecube:zubat",
+    "pokecube:golbat",
+    "pokecube:crobat",
+    "pokecube:woobat",
+    "pokecube:swoobat",
+    "pokecube:noibat",
+    "pokecube:noivern"
   ]
 }

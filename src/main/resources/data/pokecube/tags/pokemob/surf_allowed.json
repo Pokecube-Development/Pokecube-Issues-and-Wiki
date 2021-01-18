@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "rhydon",
-    "rhyperior"
+    "pokecube:pokecuberhydon",
+    "pokecube:pokecuberhyperior"
   ]
 }

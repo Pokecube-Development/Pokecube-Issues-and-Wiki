@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "hoppip",
-    "skiploom",
-    "jumpluff",
-    "cottonee",
-    "whimsicott"
+    "pokecube:hoppip",
+    "pokecube:skiploom",
+    "pokecube:jumpluff",
+    "pokecube:cottonee",
+    "pokecube:whimsicott"
   ]
 }

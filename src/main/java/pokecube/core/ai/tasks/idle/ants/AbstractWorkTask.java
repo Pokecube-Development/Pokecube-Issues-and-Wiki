@@ -1,10 +1,12 @@
 package pokecube.core.ai.tasks.idle.ants;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntJob;
@@ -40,7 +42,12 @@ public abstract class AbstractWorkTask extends AbstractAntTask
     public final boolean doTask()
     {
         if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getPos())) return false;
+        final Brain<?> brain = this.entity.getBrain();
+        final Optional<Integer> hiveTimer = brain.getMemory(AntTasks.OUT_OF_HIVE_TIMER);
+        final int timer = hiveTimer.orElseGet(() -> 0);
+        if (timer < -2400) return false;
         if (!this.validJob.test(this.job)) return false;
+        this.pokemob.setPokemonNickname("" + this.job);
         return this.shouldWork();
     }
 }

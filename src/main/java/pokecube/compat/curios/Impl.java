@@ -82,7 +82,7 @@ public class Impl
         {
             final ICuriosItemHandler curios = this.getCurios(player);
             final String ident = CuriosChecker.identMap.inverse().get(slot);
-            if (ident != null) try
+            if (ident != null && curios != null) try
             {
                 final Optional<ICurioStacksHandler> opt = curios.getStacksHandler(ident);
                 if (!opt.isPresent()) return;
@@ -104,7 +104,7 @@ public class Impl
             // We need to sync to curio if possible
             final ICuriosItemHandler curios = this.getCurios(player);
             final String ident = CuriosChecker.identMap.inverse().get(slot);
-            if (ident != null) try
+            if (ident != null && curios != null) try
             {
                 final Optional<ICurioStacksHandler> opt = curios.getStacksHandler(ident);
                 if (!opt.isPresent()) return;

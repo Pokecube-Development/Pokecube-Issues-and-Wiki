@@ -1,18 +1,18 @@
 {
   "replace": false,
   "values": [
-    "pikachu",
-    "raichu",
-    "raichu_alola",
-    "buneary",
-    "lopunny",
-    "lopunny_mega",
-    "bunnelby",
-    "diggersby",
-    "scorbunny",
-    "raboot",
-    "cinderace",
-    "morpeko",
-    "morpeko_hangry"
+    "pokecube:pikachu",
+    "pokecube:raichu",
+    "pokecube:raichu_alola",
+    "pokecube:buneary",
+    "pokecube:lopunny",
+    "pokecube:lopunny_mega",
+    "pokecube:bunnelby",
+    "pokecube:diggersby",
+    "pokecube:scorbunny",
+    "pokecube:raboot",
+    "pokecube:cinderace",
+    "pokecube:morpeko",
+    "pokecube:morpeko_hangry"
   ]
 }

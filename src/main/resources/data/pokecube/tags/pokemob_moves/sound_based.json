@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "Boomburst",
-    "BugBuzz",
-    "DisarmingVoice",
-    "EchoedVoice",
-    "Overdrive",
-    "RelicSong",
-    "Round",
-    "Snarl",
-    "SparklingAria",
-    "Uproar"
+    "pokecube:boomburst",
+    "pokecube:bugbuzz",
+    "pokecube:disarmingvoice",
+    "pokecube:echoedvoice",
+    "pokecube:overdrive",
+    "pokecube:relicsong",
+    "pokecube:round",
+    "pokecube:snarl",
+    "pokecube:sparklingaria",
+    "pokecube:uproar"
   ]
 }

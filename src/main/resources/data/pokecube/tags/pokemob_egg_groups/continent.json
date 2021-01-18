@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "groudon",
-    "groudon_primal"
+    "pokecube:groudon",
+    "pokecube:groudon_primal"
   ]
 }

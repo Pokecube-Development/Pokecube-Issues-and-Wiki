@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "octillery",
-    "inkay",
-    "malamar"
+    "pokecube:octillery",
+    "pokecube:inkay",
+    "pokecube:malamar"
   ]
 }

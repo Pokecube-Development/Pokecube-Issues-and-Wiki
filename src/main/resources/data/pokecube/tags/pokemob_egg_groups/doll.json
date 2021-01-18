@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "baltoy",
-    "claydol",
-    "shuppet",
-    "banette"
+    "pokecube:baltoy",
+    "pokecube:claydol",
+    "pokecube:shuppet",
+    "pokecube:banette"
   ]
 }

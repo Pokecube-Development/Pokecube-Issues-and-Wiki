@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "clefairy",
-    "clefable",
-    "snubbull",
-    "granbull",
-    "flabebe",
-    "floette",
-    "florges"
+    "pokecube:clefairy",
+    "pokecube:clefable",
+    "pokecube:snubbull",
+    "pokecube:granbull",
+    "pokecube:flabebe",
+    "pokecube:floette",
+    "pokecube:florges"
   ]
 }

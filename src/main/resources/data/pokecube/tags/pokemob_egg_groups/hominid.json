@@ -1,20 +1,20 @@
 {
   "replace": false,
   "values": [
-    "kadabra",
-    "alakazam",
-    "machop",
-    "machoke",
-    "machamp",
-    "mr_mime",
-    "mr_mime_galar",
-    "jynx",
-    "ralts",
-    "kirlia",
-    "gardevoir",
-    "gothita",
-    "gothorita",
-    "gothitelle",
-    "mr_rime"
+    "pokecube:kadabra",
+    "pokecube:alakazam",
+    "pokecube:machop",
+    "pokecube:machoke",
+    "pokecube:machamp",
+    "pokecube:mr_mime",
+    "pokecube:mr_mime_galar",
+    "pokecube:jynx",
+    "pokecube:ralts",
+    "pokecube:kirlia",
+    "pokecube:gardevoir",
+    "pokecube:gothita",
+    "pokecube:gothorita",
+    "pokecube:gothitelle",
+    "pokecube:mr_rime"
   ]
 }

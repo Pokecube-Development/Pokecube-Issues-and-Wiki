@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "wooper",
-    "quagsire",
-    "mudkip",
-    "marshtomp",
-    "swampert",
-    "swampert_mega"
+    "pokecube:wooper",
+    "pokecube:quagsire",
+    "pokecube:mudkip",
+    "pokecube:marshtomp",
+    "pokecube:swampert",
+    "pokecube:swampert_mega"
   ]
 }

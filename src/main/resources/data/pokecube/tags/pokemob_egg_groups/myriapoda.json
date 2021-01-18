@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "venipede",
-    "whirlipede",
-    "scolipede"
+    "pokecube:venipede",
+    "pokecube:whirlipede",
+    "pokecube:scolipede"
   ]
 }

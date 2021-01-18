@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "oddish",
-    "gloom",
-    "gossifleur",
-    "eldegoss"
+    "pokecube:oddish",
+    "pokecube:gloom",
+    "pokecube:gossifleur",
+    "pokecube:eldegoss"
   ]
 }

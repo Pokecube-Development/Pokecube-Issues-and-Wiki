@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "corsola",
-    "corsola_galar"
+    "pokecube:corsola",
+    "pokecube:corsola_galar"
   ]
 }

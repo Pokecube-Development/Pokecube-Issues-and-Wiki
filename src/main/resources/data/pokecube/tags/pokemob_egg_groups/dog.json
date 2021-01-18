@@ -1,19 +1,19 @@
 {
   "replace": false,
   "values": [
-    "growlithe",
-    "arcanine",
-    "houndour",
-    "houndoom",
-    "poochyena",
-    "mightyena",
-    "electrike",
-    "manectric",
-    "lillipup",
-    "herdier",
-    "stoutland",
-    "furfrou",
-    "yamper",
-    "boltund"
+    "pokecube:growlithe",
+    "pokecube:arcanine",
+    "pokecube:houndour",
+    "pokecube:houndoom",
+    "pokecube:poochyena",
+    "pokecube:mightyena",
+    "pokecube:electrike",
+    "pokecube:manectric",
+    "pokecube:lillipup",
+    "pokecube:herdier",
+    "pokecube:stoutland",
+    "pokecube:furfrou",
+    "pokecube:yamper",
+    "pokecube:boltund"
   ]
 }

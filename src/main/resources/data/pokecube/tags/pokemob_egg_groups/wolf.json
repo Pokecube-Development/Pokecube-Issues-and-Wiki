@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "zacian",
-    "zamazenta"
+    "pokecube:zacian",
+    "pokecube:zamazenta"
   ]
 }

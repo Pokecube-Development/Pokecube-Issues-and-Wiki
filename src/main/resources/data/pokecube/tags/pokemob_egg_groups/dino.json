@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "tropius",
-    "cranidos",
-    "rampardos",
-    "shieldon",
-    "bastiodon",
-    "tyrunt",
-    "tyrantrum",
-    "amaura",
-    "aurorus"
+    "pokecube:tropius",
+    "pokecube:cranidos",
+    "pokecube:rampardos",
+    "pokecube:shieldon",
+    "pokecube:bastiodon",
+    "pokecube:tyrunt",
+    "pokecube:tyrantrum",
+    "pokecube:amaura",
+    "pokecube:aurorus"
   ]
 }

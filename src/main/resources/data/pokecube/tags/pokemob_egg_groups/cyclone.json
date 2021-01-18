@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "tornadus_incarnate",
-    "tornadus_therian",
-    "thundurus_therian",
-    "landorus_therian"
+    "pokecube:tornadus_incarnate",
+    "pokecube:tornadus_therian",
+    "pokecube:thundurus_therian",
+    "pokecube:landorus_therian"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "voltorb",
-    "electrode"
+    "pokecube:voltorb",
+    "pokecube:electrode"
   ]
 }

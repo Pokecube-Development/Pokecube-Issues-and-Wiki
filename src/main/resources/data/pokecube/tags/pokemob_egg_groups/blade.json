@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "gallade",
-    "gallade_mega"
+    "pokecube:gallade",
+    "pokecube:gallade_mega"
   ]
 }

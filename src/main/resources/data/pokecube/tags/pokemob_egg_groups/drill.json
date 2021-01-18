@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "nidoqueen",
-    "nidoking",
-    "rhydon",
-    "rhyperior",
-    "excadrill"
+    "pokecube:nidoqueen",
+    "pokecube:nidoking",
+    "pokecube:rhydon",
+    "pokecube:rhyperior",
+    "pokecube:excadrill"
   ]
 }

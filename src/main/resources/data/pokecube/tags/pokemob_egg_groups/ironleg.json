@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "metagross",
-    "metagross_mega"
+    "pokecube:metagross",
+    "pokecube:metagross_mega"
   ]
 }

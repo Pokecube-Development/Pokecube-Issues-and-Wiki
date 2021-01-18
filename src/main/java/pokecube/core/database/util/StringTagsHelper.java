@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
@@ -90,6 +91,7 @@ public class StringTagsHelper
         final AtomicBoolean valid = new AtomicBoolean(false);
         StringTagsHelper.tagHelpers.forEach(t ->
         {
+            if (!FMLEnvironment.production) t.printTags();
             t.tagsMap.clear();
             t.validLoad = false;
             try

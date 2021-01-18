@@ -1,16 +1,16 @@
 {
   "replace": false,
   "values": [
-    "squirtle",
-    "wartortle",
-    "blastoise",
-    "torkoal",
-    "turtwig",
-    "grotle",
-    "torterra",
-    "tirtouga",
-    "carracosta",
-    "chewtle",
-    "drednaw"
+    "pokecube:squirtle",
+    "pokecube:wartortle",
+    "pokecube:blastoise",
+    "pokecube:torkoal",
+    "pokecube:turtwig",
+    "pokecube:grotle",
+    "pokecube:torterra",
+    "pokecube:tirtouga",
+    "pokecube:carracosta",
+    "pokecube:chewtle",
+    "pokecube:drednaw"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "omanyte",
-    "omastar"
+    "pokecube:omanyte",
+    "pokecube:omastar"
   ]
 }
