@@ -72,7 +72,8 @@
     {
       "name":"pokecube:village/plains/deco",
       "options":[
-        "pokecube:village/common/deco/lamp_1;{\"weight\":6}"
+        "pokecube:village/common/deco/lamp_1;{\"weight\":6}",
+        "pokecube:village/common/deco/banner_1;{\"weight\":4}"
       ],
       "includes":[
         "minecraft:village/plains/decor"
@@ -137,7 +138,8 @@
     {
       "name":"pokecube:village/desert/deco",
       "options":[
-        "pokecube:village/common/deco/lamp_1;{\"weight\":6}"
+        "pokecube:village/desert/decor/lamp_1;{\"weight\":6}",
+        "pokecube:village/desert/decor/banner_1;{\"weight\":4}"
       ],
       "includes":[
         "minecraft:village/desert/decor"
@@ -216,7 +218,8 @@
     {
       "name":"pokecube:village/savanna/decor",
       "options":[
-        "pokecube:village/savanna/decor/lamp_1;{\"weight\":8}"
+        "pokecube:village/savanna/decor/lamp_1;{\"weight\":6}",
+        "pokecube:village/savanna/decor/banner_1;{\"weight\":4}"
       ],
       "includes":[
         "minecraft:village/savanna/decor"
@@ -291,7 +294,8 @@
     {
       "name":"pokecube:village/snowy/decor",
       "options":[
-        "pokecube:village/snowy/decor/lamp_1;{\"weight\":8}"
+        "pokecube:village/snowy/decor/lamp_1;{\"weight\":6}",
+        "pokecube:village/snowy/decor/banner_1;{\"weight\":4}"
       ],
       "includes":[
         "minecraft:village/snowy/decor"
