@@ -91,8 +91,7 @@
         "pokecube:village/plains/houses/house_medium_2;{\"weight\":8}",
         "pokecube:village/common/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube:village/common/pokecenter/center_02;{\"flag\":\"pokecenter\"}",
-        "pokecube:village/plains/gym/gym_01;{\"flag\":\"gym\"}",
-        "pokecube:village/plains/gym/gym_02;{\"flag\":\"gym\"}"
+        "pokecube:village/plains/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes":[
         "minecraft:village/plains/houses"
@@ -136,7 +135,7 @@
       ]
     },
     {
-      "name":"pokecube:village/desert/deco",
+      "name":"pokecube:village/desert/decor",
       "options":[
         "pokecube:village/desert/decor/lamp_1;{\"weight\":8}",
         "pokecube:village/desert/decor/banner_1;{\"weight\":8}"
@@ -151,8 +150,9 @@
       "ignoreAir":false,
       "options":[
         "empty;{\"weight\":3}",
-        "pokecube:village/common/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
-        "pokecube:village/common/pokecenter/center_02;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/desert/houses/trainer_medium_house;{\"weight\":4}",
+        "pokecube:village/desert/houses/trainer_small_house;{\"weight\":4}",
+        "pokecube:village/desert/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube:village/desert/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes":[
@@ -231,6 +231,8 @@
       "ignoreAir":false,
       "options":[
         "empty;{\"weight\":2}",
+        "pokecube:village/savanna/houses/trainer_medium_house;{\"weight\":4}",
+        "pokecube:village/savanna/houses/trainer_small_house;{\"weight\":4}",
         "pokecube:village/savanna/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube:village/savanna/gym/gym_01;{\"flag\":\"gym\"}"
       ],
