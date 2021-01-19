@@ -72,8 +72,8 @@
     {
       "name":"pokecube:village/plains/deco",
       "options":[
-        "pokecube:village/common/deco/lamp_1;{\"weight\":8}",
-        "pokecube:village/common/deco/banner_1;{\"weight\":8}"
+        "pokecube:village/common/deco/lamp_1;{\"weight\":5}",
+        "pokecube:village/common/deco/banner_1;{\"weight\":5}"
       ],
       "includes":[
         "minecraft:village/plains/decor"
@@ -86,11 +86,10 @@
       "options":[
         "empty;{\"weight\":4}",
         "pokecube:village/plains/houses/house_small_1;{\"weight\":4}",
-        "pokecube:village/plains/houses/house_big_1;{\"weight\":8}",
-        "pokecube:village/plains/houses/house_medium_1;{\"weight\":8}",
-        "pokecube:village/plains/houses/house_medium_2;{\"weight\":8}",
+        "pokecube:village/plains/houses/house_big_1;{\"weight\":4}",
+        "pokecube:village/plains/houses/house_medium_1;{\"weight\":4}",
+        "pokecube:village/plains/houses/house_medium_2;{\"weight\":4}",
         "pokecube:village/common/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
-        "pokecube:village/common/pokecenter/center_02;{\"flag\":\"pokecenter\"}",
         "pokecube:village/plains/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes":[
@@ -137,8 +136,8 @@
     {
       "name":"pokecube:village/desert/decor",
       "options":[
-        "pokecube:village/desert/decor/lamp_1;{\"weight\":8}",
-        "pokecube:village/desert/decor/banner_1;{\"weight\":8}"
+        "pokecube:village/desert/decor/lamp_1;{\"weight\":5}",
+        "pokecube:village/desert/decor/banner_1;{\"weight\":5}"
       ],
       "includes":[
         "minecraft:village/desert/decor"
@@ -218,8 +217,8 @@
     {
       "name":"pokecube:village/savanna/decor",
       "options":[
-        "pokecube:village/savanna/decor/lamp_1;{\"weight\":8}",
-        "pokecube:village/savanna/decor/banner_1;{\"weight\":8}"
+        "pokecube:village/savanna/decor/lamp_1;{\"weight\":5}",
+        "pokecube:village/savanna/decor/banner_1;{\"weight\":5}"
       ],
       "includes":[
         "minecraft:village/savanna/decor"
@@ -252,7 +251,7 @@
       "name":"pokecube:village/snowy/terminators",
       "rigid":false,
       "options":[
-        "pokecube:village/snowy/terminators/terminator_05"
+        "pokecube:village/snowy/terminators/terminator_01"
       ]
     },
     {
@@ -296,8 +295,8 @@
     {
       "name":"pokecube:village/snowy/decor",
       "options":[
-        "pokecube:village/snowy/decor/lamp_1;{\"weight\":8}",
-        "pokecube:village/snowy/decor/banner_1;{\"weight\":8}"
+        "pokecube:village/snowy/decor/lamp_1;{\"weight\":5}",
+        "pokecube:village/snowy/decor/banner_1;{\"weight\":5}"
       ],
       "includes":[
         "minecraft:village/snowy/decor"
@@ -316,6 +315,83 @@
       ],
       "includes":[
         "minecraft:village/snowy/houses"
+      ]
+    },
+    {
+      "name":"pokecube:village/taiga/town_centers",
+      "options":[
+        "pokecube:village/taiga/town_centers/center_1",
+        "pokecube:village/taiga/town_centers/center_2"
+      ]
+    },
+    {
+      "name":"pokecube:village/taiga/terminators",
+      "rigid":false,
+      "options":[
+        "pokecube:village/taiga/terminators/terminator_01"
+      ]
+    },
+    {
+      "name":"pokecube:village/taiga/streets",
+      "target":"pokecube:village/taiga/terminators",
+      "rigid":false,
+      "options":[
+        "pokecube:village/taiga/streets/corner_01;{\"weight\":3}",
+        "pokecube:village/taiga/streets/corner_02;{\"weight\":3}",
+        "pokecube:village/taiga/streets/corner_03;{\"weight\":3}",
+        "pokecube:village/taiga/streets/crossroad_01;{\"weight\":5}",
+        "pokecube:village/taiga/streets/crossroad_02;{\"weight\":5}",
+        "pokecube:village/taiga/streets/crossroad_03;{\"weight\":5}",
+        "pokecube:village/taiga/streets/crossroad_04;{\"weight\":5}",
+        "pokecube:village/taiga/streets/crossroad_05;{\"weight\":5}",
+        "pokecube:village/taiga/streets/crossroad_06;{\"weight\":5}",
+        "pokecube:village/taiga/streets/square_01;{\"weight\":8}",
+        "pokecube:village/taiga/streets/straight_01;{\"weight\":8}",
+        "pokecube:village/taiga/streets/straight_02;{\"weight\":8}",
+        "pokecube:village/taiga/streets/straight_03;{\"weight\":8}",
+        "pokecube:village/taiga/streets/straight_04;{\"weight\":8}",
+        "pokecube:village/taiga/streets/straight_05;{\"weight\":8}",
+        "pokecube:village/taiga/streets/straight_06;{\"weight\":8}",
+        "pokecube:village/taiga/streets/turn_01;{\"weight\":3}"
+      ]
+    },
+    {
+      "name":"pokecube:village/taiga/pokecenter/path",
+      "rigid":false,
+      "options":[
+        "pokecube:village/taiga/pokecenter/path"
+      ]
+    },
+    {
+      "name":"pokecube:village/taiga/gym/path",
+      "rigid":false,
+      "options":[
+        "pokecube:village/taiga/gym/path"
+      ]
+    },
+    {
+      "name":"pokecube:village/taiga/decor",
+      "options":[
+        "pokecube:village/taiga/decor/lamp_1;{\"weight\":5}",
+        "pokecube:village/taiga/decor/banner_1;{\"weight\":5}"
+      ],
+      "includes":[
+        "minecraft:village/taiga/decor"
+      ]
+    },
+    {
+      "name":"pokecube:village/taiga/houses",
+      "target":"pokecube:village/taiga/terminators",
+      "ignoreAir":false,
+      "options":[
+        "empty;{\"weight\":2}",
+        "pokecube:village/taiga/houses/trainer_medium_house;{\"weight\":4}",
+        "pokecube:village/taiga/houses/trainer_small_house;{\"weight\":4}",
+        "pokecube:village/taiga/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/taiga/gym/gym_01;{\"flag\":\"gym\"}"
+      ],
+      "includes":[
+        "minecraft:village/taiga/houses"
       ]
     }
   ],
@@ -372,7 +448,7 @@
         "values":{
           "types":"all",
           "typesBlacklist":"snowy",
-          "categoryBlacklist":"desert,ocean,river,the_end,nether,savanna,mesa,taiga,icy,mushroom"
+          "categoryBlacklist":"desert,ocean,river,the_end,nether,savanna,mesa,taiga,icy,mushroom,taiga"
         }
       }
     },
@@ -448,6 +524,32 @@
         "values":{
           "types":"snowy",
           "categoryBlacklist":"ocean,river,the_end,nether,mushroom"
+        }
+      }
+    },
+    {
+      "type":"pokecube:village",
+      "name":"pokecube:village/taiga",
+      "root":"pokecube:village/taiga/town_centers",
+      "chance":1,
+      "distance":32,
+      "separation":12,
+      "size":6,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter",
+        "gym"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category":"taiga",
+          "categoryBlacklist":"ocean,river,the_end,nether,mushroom",
+          "typesBlacklist":"snowy"
         }
       }
     }
