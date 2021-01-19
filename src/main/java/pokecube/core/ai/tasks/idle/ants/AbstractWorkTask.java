@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks.idle.ants;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
@@ -10,16 +9,20 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntJob;
+import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
+import thut.api.entity.ai.IAIRunnable;
 
 public abstract class AbstractWorkTask extends AbstractAntTask
 {
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
-        // Only run this if we have an egg to carry
         AbstractWorkTask.mems.put(AntTasks.WORK_POS, MemoryModuleStatus.VALUE_PRESENT);
+        AbstractWorkTask.mems.put(AntTasks.GOING_HOME, MemoryModuleStatus.VALUE_ABSENT);
     }
+    protected StoreTask storage = null;
 
     private final Predicate<AntJob> validJob;
 
@@ -36,18 +39,29 @@ public abstract class AbstractWorkTask extends AbstractAntTask
         this.validJob = job;
     }
 
-    abstract protected boolean shouldWork();
+    protected boolean shouldWork()
+    {
+        return true;
+    }
 
     @Override
     public final boolean doTask()
     {
         if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getPos())) return false;
         final Brain<?> brain = this.entity.getBrain();
-        final Optional<Integer> hiveTimer = brain.getMemory(AntTasks.OUT_OF_HIVE_TIMER);
-        final int timer = hiveTimer.orElseGet(() -> 0);
-        if (timer < -2400) return false;
+        if (!brain.hasMemory(AntTasks.WORK_POS)) return false;
+
+        if (this.storage == null) for (final IAIRunnable run : this.pokemob.getTasks())
+            if (run instanceof StoreTask)
+            {
+                this.storage = (StoreTask) run;
+                this.pokemob.setRoutineState(AIRoutine.STORE, true);
+                this.storage.storageLoc = this.nest.nest.getPos();
+                this.storage.berryLoc = this.nest.nest.getPos();
+                break;
+            }
+        if (this.storage == null) return false;
         if (!this.validJob.test(this.job)) return false;
-        this.pokemob.setPokemonNickname("" + this.job);
         return this.shouldWork();
     }
 }

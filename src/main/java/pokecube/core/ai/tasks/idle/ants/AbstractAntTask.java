@@ -43,6 +43,7 @@ public abstract class AbstractAntTask extends BaseIdleTask
     public boolean shouldRun()
     {
         this.job = AntTasks.getJob(this.entity);
+        this.pokemob.setPokemonNickname("" + this.job);
         this.nest = NestSensor.getNest(this.entity).orElse(null);
         if (this.nest == null) return false;
         this.pokemob.setRoutineState(AIRoutine.MATE, false);

@@ -64,7 +64,7 @@ public class EggSensor extends Sensor<MobEntity>
     {
         final List<Node> eggRooms = hab.getRooms(AntRoom.EGG);
         for (final Node p : eggRooms)
-            if (p.center.withinDistance(egg.getPositionVec(), 2)) return true;
+            if (p.center.withinDistance(egg.getPositionVec(), 3)) return true;
         final long carryTick = egg.getPersistentData().getLong("__carried__");
         if (carryTick > egg.world.getGameTime()) return true;
         return false;

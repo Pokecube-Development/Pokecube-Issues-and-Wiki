@@ -38,6 +38,7 @@ public class CarryEgg extends AbstractWorkTask
     public void reset()
     {
         this.egg = null;
+        this.entity.getNavigator().resetRangeMultiplier();
     }
 
     @Override
@@ -46,6 +47,7 @@ public class CarryEgg extends AbstractWorkTask
         this.egg.getPersistentData().putLong("__carried__", this.world.getGameTime() + 100);
         AntTasks.setJob(this.entity, AntJob.NONE);
         final GlobalPos dropOff = this.entity.getBrain().getMemory(AntTasks.WORK_POS).get();
+        this.entity.getNavigator().setRangeMultiplier(10);
         if (!this.entity.isRidingOrBeingRiddenBy(this.egg))
         {
             final double d = this.entity.getDistanceSq(this.egg);
@@ -77,5 +79,4 @@ public class CarryEgg extends AbstractWorkTask
         this.egg = this.entity.getBrain().getMemory(AntTasks.EGG).orElse(null);
         return this.egg != null;// && this.nest == null;
     }
-
 }
