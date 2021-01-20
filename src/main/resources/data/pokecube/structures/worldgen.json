@@ -42,7 +42,10 @@
       "name":"pokecube:village/plains/terminators",
       "rigid":false,
       "options":[
-        "pokecube:village/plains/terminators/terminator_01"
+        "pokecube:village/plains/terminators/terminator_01",
+        "pokecube:village/plains/terminators/terminator_02",
+        "pokecube:village/plains/terminators/terminator_03",
+        "pokecube:village/plains/terminators/terminator_04"
       ]
     },
     {
@@ -52,7 +55,23 @@
       "options":[
         "pokecube:village/plains/streets/road_t_01;{\"weight\":5}",
         "pokecube:village/plains/streets/road_plus_01;{\"weight\":3}",
-        "pokecube:village/plains/streets/road_01;{\"weight\":6}"
+        "pokecube:village/plains/streets/road_01;{\"weight\":6}",
+        "pokecube:village/plains/streets/corner_01;{\"weight\":3}",
+        "pokecube:village/plains/streets/corner_02;{\"weight\":3}",
+        "pokecube:village/plains/streets/corner_03;{\"weight\":3}",
+        "pokecube:village/plains/streets/crossroad_01;{\"weight\":5}",
+        "pokecube:village/plains/streets/crossroad_02;{\"weight\":5}",
+        "pokecube:village/plains/streets/crossroad_03;{\"weight\":5}",
+        "pokecube:village/plains/streets/crossroad_04;{\"weight\":5}",
+        "pokecube:village/plains/streets/crossroad_05;{\"weight\":5}",
+        "pokecube:village/plains/streets/crossroad_06;{\"weight\":5}",
+        "pokecube:village/plains/streets/straight_01;{\"weight\":8}",
+        "pokecube:village/plains/streets/straight_02;{\"weight\":8}",
+        "pokecube:village/plains/streets/straight_03;{\"weight\":8}",
+        "pokecube:village/plains/streets/straight_04;{\"weight\":8}",
+        "pokecube:village/plains/streets/straight_05;{\"weight\":8}",
+        "pokecube:village/plains/streets/straight_06;{\"weight\":8}",
+        "pokecube:village/plains/streets/turn_01;{\"weight\":3}"
       ]
     },
     {
@@ -70,7 +89,7 @@
       ]
     },
     {
-      "name":"pokecube:village/plains/deco",
+      "name":"pokecube:village/plains/decor",
       "options":[
         "pokecube:village/common/deco/lamp_1;{\"weight\":5}",
         "pokecube:village/common/deco/banner_1;{\"weight\":5}"
@@ -360,7 +379,6 @@
         "pokecube:village/taiga/streets/crossroad_04;{\"weight\":5}",
         "pokecube:village/taiga/streets/crossroad_05;{\"weight\":5}",
         "pokecube:village/taiga/streets/crossroad_06;{\"weight\":5}",
-        "pokecube:village/taiga/streets/square_01;{\"weight\":8}",
         "pokecube:village/taiga/streets/straight_01;{\"weight\":8}",
         "pokecube:village/taiga/streets/straight_02;{\"weight\":8}",
         "pokecube:village/taiga/streets/straight_03;{\"weight\":8}",
