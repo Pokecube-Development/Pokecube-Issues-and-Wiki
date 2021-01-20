@@ -19,7 +19,9 @@
       "target":"pokecube_legends:village/ocean/terminators",
       "rigid":false,
       "options":[
-        "pokecube_legends:village/ocean/road_01"
+        "pokecube_legends:village/ocean/streets/road_01",
+        "pokecube_legends:village/ocean/streets/road_plus_01",
+        "pokecube_legends:village/ocean/streets/road_t_01"
       ]
     },
     {
@@ -41,7 +43,10 @@
       "target":"pokecube_legends:village/ocean/terminators",
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:village/ocean/houses/trade;{\"flag\":\"pokecenter\"}",
+        "pokecube_legends:village/ocean/houses/house_1",
+        "pokecube_legends:village/ocean/houses/house_2",
+        "pokecube_legends:village/ocean/houses/house_3",
+        "pokecube_legends:village/ocean/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube_legends:village/ocean/houses/aether_base;{\"flag\":\"gym\"}",
         "pokecube_legends:village/ocean/houses/aether_base1;{\"flag\":\"gym\"}"
       ]
@@ -442,7 +447,7 @@
   "jigsaws":[
   	//
     {
-      "type":"pokecube_legends:village_ocean",
+      "type":"pokecube_legends:village/ocean",
       "name":"pokecube_legends:village/ocean",
       "root":"pokecube_legends:village/ocean/town_centers",
       "chance":1,

@@ -99,14 +99,18 @@
     {
       "name":"pokecube:village/desert/town_centers",
       "options":[
-        "pokecube:village/desert/town_centers/center_1"
+        "pokecube:village/desert/town_centers/center_1",
+        "pokecube:village/desert/town_centers/center_2",
+        "pokecube:village/desert/town_centers/center_3",
+        "pokecube:village/desert/town_centers/center_4"
       ]
     },
     {
       "name":"pokecube:village/desert/terminators",
       "rigid":false,
       "options":[
-        "pokecube:village/desert/terminators/terminator_01"
+        "pokecube:village/desert/terminators/terminator_01",
+        "pokecube:village/desert/terminators/terminator_02"
       ]
     },
     {
@@ -116,7 +120,18 @@
       "options":[
         "pokecube:village/desert/streets/road_t_01;{\"weight\":5}",
         "pokecube:village/desert/streets/road_plus_01;{\"weight\":3}",
-        "pokecube:village/desert/streets/road_01;{\"weight\":6}"
+        "pokecube:village/desert/streets/road_01;{\"weight\":6}",
+        "pokecube:village/desert/streets/corner_01;{\"weight\":3}",
+        "pokecube:village/desert/streets/corner_02;{\"weight\":3}",
+        "pokecube:village/desert/streets/crossroad_01;{\"weight\":5}",
+        "pokecube:village/desert/streets/crossroad_02;{\"weight\":5}",
+        "pokecube:village/desert/streets/crossroad_03;{\"weight\":5}",
+        "pokecube:village/desert/streets/square_01;{\"weight\":8}",
+        "pokecube:village/desert/streets/square_02;{\"weight\":8}",
+        "pokecube:village/desert/streets/straight_01;{\"weight\":8}",
+        "pokecube:village/desert/streets/straight_02;{\"weight\":8}",
+        "pokecube:village/desert/streets/straight_03;{\"weight\":8}",
+        "pokecube:village/desert/streets/turn_01;{\"weight\":3}"
       ]
     },
     {
@@ -321,7 +336,7 @@
       "name":"pokecube:village/taiga/town_centers",
       "options":[
         "pokecube:village/taiga/town_centers/center_1",
-        "pokecube:village/taiga/town_centers/center_2"
+        "pokecube:village/taiga/town_centers/center_2;{\"dy\":1}"
       ]
     },
     {
@@ -427,7 +442,7 @@
       }
     },
     {
-      "type":"pokecube:village",
+      "type":"pokecube:village/plains",
       "name":"pokecube:village/plains",
       "root":"pokecube:village/plains/town_centers",
       "chance":1,
@@ -453,7 +468,7 @@
       }
     },
     {
-      "type":"pokecube:village",
+      "type":"pokecube:village/desert",
       "name":"pokecube:village/desert",
       "root":"pokecube:village/desert/town_centers",
       "chance":1,
@@ -472,13 +487,13 @@
       ],
       "spawn":{
         "values":{
-          "category":"desert",
+          "category":"desert,mesa",
           "categoryBlacklist":"ocean,river,the_end,nether"
         }
       }
     },
     {
-      "type":"pokecube:village",
+      "type":"pokecube:village/savanna",
       "name":"pokecube:village/savanna",
       "root":"pokecube:village/savanna/town_centers",
       "chance":1,
@@ -503,7 +518,7 @@
       }
     },
     {
-      "type":"pokecube:village",
+      "type":"pokecube:village/snowy",
       "name":"pokecube:village/snowy",
       "root":"pokecube:village/snowy/town_centers",
       "chance":1,
@@ -528,7 +543,7 @@
       }
     },
     {
-      "type":"pokecube:village",
+      "type":"pokecube:village/taiga",
       "name":"pokecube:village/taiga",
       "root":"pokecube:village/taiga/town_centers",
       "chance":1,
