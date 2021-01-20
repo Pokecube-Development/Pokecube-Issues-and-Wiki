@@ -1,10 +1,9 @@
 package pokecube.core.ai.tasks.idle.ants.work;
 
-import java.util.Random;
-
 import pokecube.core.ai.tasks.idle.ants.AbstractWorkTask;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntJob;
-import pokecube.core.ai.tasks.utility.GatherTask;
+import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.IAIRunnable;
 
@@ -12,7 +11,7 @@ public class Gather extends AbstractWorkTask
 {
     int gather_timer = 0;
 
-    GatherTask task = null;
+    StoreTask storage = null;
 
     public Gather(final IPokemob pokemob)
     {
@@ -28,20 +27,21 @@ public class Gather extends AbstractWorkTask
     @Override
     public void run()
     {
-        if (this.task == null)
-        {
-            for (final IAIRunnable run : this.pokemob.getTasks())
-                if (run instanceof GatherTask)
-                {
-                    this.task = (GatherTask) run;
-                    break;
-                }
-        }
-        else if (this.gather_timer++ > 100 && this.task.targetItem == null)
-        {
-            this.gather_timer = 0;
-            if (!this.nest.hab.items.isEmpty()) this.task.targetItem = this.nest.hab.items.get(new Random().nextInt(
-                    this.nest.hab.items.size()));
-        }
+        this.pokemob.setRoutineState(AIRoutine.STORE, true);
+        this.storage.storageLoc = this.nest.nest.getPos();
+        this.storage.berryLoc = this.nest.nest.getPos();
     }
+
+    @Override
+    protected boolean shouldWork()
+    {
+        if (this.storage == null) for (final IAIRunnable run : this.pokemob.getTasks())
+            if (run instanceof StoreTask)
+            {
+                this.storage = (StoreTask) run;
+                break;
+            }
+        return this.storage != null;
+    }
+
 }

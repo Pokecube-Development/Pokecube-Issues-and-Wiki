@@ -4,8 +4,5 @@
     "#forge:stone",
     "#forge:ores",
     "#forge:sandstone"
-  ],
-  "optional": [
-    "pokecube_legends:meteor_block"
   ]
 }

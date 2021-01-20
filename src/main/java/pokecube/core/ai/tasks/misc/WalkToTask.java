@@ -23,6 +23,7 @@ import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.maths.Vector3;
 
 public class WalkToTask extends RootTask<MobEntity>
 {
@@ -33,6 +34,10 @@ public class WalkToTask extends RootTask<MobEntity>
     private BlockPos current_target;
     private float    speed;
     private int      time_till_next_check;
+
+    Vector3 lastPos = Vector3.getNewVector();
+
+    int time_at_pos = 0;
 
     public WalkToTask(final int duration)
     {
@@ -111,6 +116,33 @@ public class WalkToTask extends RootTask<MobEntity>
                 brain.setMemory(MemoryModuleType.PATH, path);
             }
 
+            if (path != null)
+            {
+                final BlockPos next = path.func_242948_g();
+                final Vector3 hereVec = Vector3.getNewVector().set(owner);
+                final Vector3 nextVec = Vector3.getNewVector().set(next);
+
+                if (hereVec.distToSq(this.lastPos) < 0.05)
+                {
+                    this.time_at_pos++;
+                    if (this.time_at_pos > 10)
+                    {
+                        final double dr = nextVec.distanceTo(hereVec);
+                        if (dr < 2)
+                        {
+                            nextVec.moveEntity(owner);
+                            this.time_at_pos = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    this.lastPos.set(owner);
+                    this.time_at_pos = 0;
+                }
+
+            }
+
             if (path != null && this.current_target != null)
             {
                 final WalkTarget walktarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
@@ -149,8 +181,8 @@ public class WalkToTask extends RootTask<MobEntity>
 
             if (this.currentPath != null) return true;
 
-            final int xz = 16;
-            final int y = 10;
+            final int xz = 10;
+            final int y = 7;
             final double scale = 2 * Math.PI / 2F;
             final Vector3d pos = new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ());
             final Vector3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled((CreatureEntity) mob, xz, y,

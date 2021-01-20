@@ -354,7 +354,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         return "store_stuff";
     }
 
-    public IItemHandlerModifiable getInventory(final IBlockReader world, final BlockPos pos, final Direction side)
+    private IItemHandlerModifiable getInventory(final IBlockReader world, final BlockPos pos, final Direction side)
     {
         if (pos == null) return null;
         if (!this.canBreak(world, pos)) return null;

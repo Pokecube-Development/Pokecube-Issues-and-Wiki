@@ -17,8 +17,12 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.idle.ants.AntTasks;
+import pokecube.core.ai.tasks.idle.ants.AntTasks.AntHabitat;
 import pokecube.core.blocks.nests.NestTile;
+import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
+import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
@@ -50,6 +54,8 @@ public class MakeNest extends BaseIdleTask
         final NestTile nest = (NestTile) tile;
         nest.isType(AntTasks.NESTLOC);
         nest.addResident(this.pokemob);
+        final IInhabitable habitat = nest.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+        if (habitat instanceof HabitatProvider) ((HabitatProvider) habitat).wrapped = new AntHabitat();
         brain.removeMemory(AntTasks.NO_HIVE_TIMER);
         return true;
     }
