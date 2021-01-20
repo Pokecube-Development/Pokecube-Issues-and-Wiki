@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "#pokecube:rocks",
-    "#pokecube:ground"
+    "#pokecube:ground",
+    "minecraft:snow",
+    "minecraft:snow_block"
   ]
 }

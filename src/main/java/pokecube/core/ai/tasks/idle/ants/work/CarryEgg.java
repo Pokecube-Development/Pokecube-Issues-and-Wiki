@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +39,7 @@ public class CarryEgg extends AbstractWorkTask
     public void reset()
     {
         this.egg = null;
+        this.entity.getNavigator().resetRangeMultiplier();
     }
 
     @Override
@@ -45,7 +47,9 @@ public class CarryEgg extends AbstractWorkTask
     {
         this.egg.getPersistentData().putLong("__carried__", this.world.getGameTime() + 100);
         AntTasks.setJob(this.entity, AntJob.NONE);
-        final GlobalPos dropOff = this.entity.getBrain().getMemory(AntTasks.WORK_POS).get();
+        final Brain<?> brain = this.entity.getBrain();
+        final GlobalPos dropOff =brain.getMemory(AntTasks.WORK_POS).get();
+        this.entity.getNavigator().setRangeMultiplier(10);
         if (!this.entity.isRidingOrBeingRiddenBy(this.egg))
         {
             final double d = this.entity.getDistanceSq(this.egg);
@@ -65,8 +69,9 @@ public class CarryEgg extends AbstractWorkTask
             else
             {
                 this.egg.stopRiding();
-                this.entity.getBrain().removeMemory(AntTasks.EGG);
-                this.entity.getBrain().removeMemory(AntTasks.WORK_POS);
+                brain.removeMemory(AntTasks.EGG);
+                brain.removeMemory(AntTasks.WORK_POS);
+                brain.setMemory(AntTasks.GOING_HOME, true);
             }
         }
     }
@@ -75,7 +80,6 @@ public class CarryEgg extends AbstractWorkTask
     protected boolean shouldWork()
     {
         this.egg = this.entity.getBrain().getMemory(AntTasks.EGG).orElse(null);
-        return this.egg != null;// && this.nest == null;
+        return this.egg != null;
     }
-
 }
