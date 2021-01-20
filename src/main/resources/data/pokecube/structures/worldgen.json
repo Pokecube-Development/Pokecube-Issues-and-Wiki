@@ -103,7 +103,7 @@
       "target":"pokecube:village/plains/terminators",
       "ignoreAir":false,
       "options":[
-        "empty;{\"weight\":4}",
+        "empty;{\"weight\":3}",
         "pokecube:village/plains/houses/house_small_1;{\"weight\":4}",
         "pokecube:village/plains/houses/house_big_1;{\"weight\":4}",
         "pokecube:village/plains/houses/house_medium_1;{\"weight\":4}",
