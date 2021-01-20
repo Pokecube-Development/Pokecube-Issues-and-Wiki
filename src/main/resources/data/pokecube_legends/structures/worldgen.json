@@ -43,7 +43,6 @@
       "target":"pokecube_legends:village/ocean/terminators",
       "ignoreAir":false,
       "options":[
-        "empty;{\"weight\":3}",
         "pokecube_legends:village/ocean/houses/house_1;{\"weight\":8}",
         "pokecube_legends:village/ocean/houses/house_2;{\"weight\":8}",
         "pokecube_legends:village/ocean/houses/house_3;{\"weight\":8}",
@@ -457,7 +456,7 @@
       "size":6,
       "priority":10,
       "biomeType":"village",
-      "base_under":true,
+      "base_under":false,
       "needed_once":[
         "pokecenter",
         "gym"

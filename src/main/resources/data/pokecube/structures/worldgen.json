@@ -103,7 +103,7 @@
       "target":"pokecube:village/plains/terminators",
       "ignoreAir":false,
       "options":[
-        "empty;{\"weight\":3}",
+        "empty;{\"weight\":1}",
         "pokecube:village/plains/houses/house_small_1;{\"weight\":4}",
         "pokecube:village/plains/houses/house_big_1;{\"weight\":4}",
         "pokecube:village/plains/houses/house_medium_1;{\"weight\":4}",
@@ -182,7 +182,7 @@
       "target":"pokecube:village/desert/terminators",
       "ignoreAir":false,
       "options":[
-        "empty;{\"weight\":3}",
+        "empty;{\"weight\":1}",
         "pokecube:village/desert/houses/trainer_medium_house;{\"weight\":4}",
         "pokecube:village/desert/houses/trainer_small_house;{\"weight\":4}",
         "pokecube:village/desert/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
@@ -263,7 +263,7 @@
       "target":"pokecube:village/savanna/terminators",
       "ignoreAir":false,
       "options":[
-        "empty;{\"weight\":2}",
+        "empty;{\"weight\":1}",
         "pokecube:village/savanna/houses/trainer_medium_house;{\"weight\":4}",
         "pokecube:village/savanna/houses/trainer_small_house;{\"weight\":4}",
         "pokecube:village/savanna/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
@@ -341,7 +341,7 @@
       "target":"pokecube:village/snowy/terminators",
       "ignoreAir":false,
       "options":[
-        "empty;{\"weight\":2}",
+        "empty;{\"weight\":1}",
         "pokecube:village/snowy/houses/trainer_medium_house;{\"weight\":4}",
         "pokecube:village/snowy/houses/trainer_large_house;{\"weight\":4}",
         "pokecube:village/snowy/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
@@ -417,7 +417,7 @@
       "target":"pokecube:village/taiga/terminators",
       "ignoreAir":false,
       "options":[
-        "empty;{\"weight\":2}",
+        "empty;{\"weight\":1}",
         "pokecube:village/taiga/houses/trainer_medium_house;{\"weight\":4}",
         "pokecube:village/taiga/houses/trainer_small_house;{\"weight\":4}",
         "pokecube:village/taiga/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
@@ -460,7 +460,7 @@
       }
     },
     {
-      "type":"pokecube:village/plains",
+      "type":"pokecube:village/common",
       "name":"pokecube:village/plains",
       "root":"pokecube:village/plains/town_centers",
       "chance":1,
