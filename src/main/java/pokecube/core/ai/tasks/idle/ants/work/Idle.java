@@ -40,15 +40,16 @@ public class Idle extends AbstractAntTask
     public void run()
     {
         if (this.entity.getNavigator().hasPath()) return;
-        final int num = this.nest.hab.allRooms.size();
+        final int num = this.nest.hab.rooms.allRooms.size();
         if (num == 0) return;
         if (this.timer-- > 0) return;
         this.timer = 100;
         final int index = new Random().nextInt(num);
-        final Node room = this.nest.hab.allRooms.get(index);
+        final Node room = this.nest.hab.rooms.allRooms.get(index);
         if (!room.started) return;
-//        PokecubeCore.LOGGER.debug("wander to {} ({})", room.center, room.type);
-        this.setWalkTo(room.center, 1, 1);
+        // PokecubeCore.LOGGER.debug("wander to {} ({})", room.center,
+        // room.type);
+        this.setWalkTo(room.getCenter(), 1, 1);
     }
 
     @Override

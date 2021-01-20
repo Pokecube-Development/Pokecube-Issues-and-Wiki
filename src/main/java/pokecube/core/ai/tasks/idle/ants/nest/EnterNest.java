@@ -11,7 +11,8 @@ import thut.api.maths.Vector3;
 
 public class EnterNest extends AbstractAntTask
 {
-    final Vector3 homePos = Vector3.getNewVector();
+    final Vector3 homePos    = Vector3.getNewVector();
+    int           enterTimer = 0;
 
     public EnterNest(final IPokemob pokemob)
     {
@@ -23,6 +24,7 @@ public class EnterNest extends AbstractAntTask
     {
         this.homePos.clear();
         this.entity.getNavigator().resetRangeMultiplier();
+        this.enterTimer = 0;
     }
 
     @Override
@@ -35,8 +37,12 @@ public class EnterNest extends AbstractAntTask
         // Ensures no jobs for 5s after this is decided
         brain.setMemory(AntTasks.NO_WORK_TIME, -100);
 
+        // If we take more than 30s to progress, just tp there
+        if (this.enterTimer++ > 600) this.entity.setPosition(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
+                + 0.5);
+
         // If too far, lets path over.
-        if (this.homePos.distToEntity(this.entity) > 2 || this.nest == null) this.setWalkTo(this.homePos, 1, 0);
+        if (this.homePos.distToEntity(this.entity) > 2 || this.nest == null) this.setWalkTo(this.homePos, 1, 1);
         else
         {
             final IInhabitable habitat = this.nest.hab;

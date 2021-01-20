@@ -1,16 +1,22 @@
 package pokecube.core.ai.tasks.idle.ants.work;
 
+import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
+import java.util.function.Predicate;
 
+import com.google.common.collect.Maps;
+
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.ants.AbstractWorkTask;
@@ -21,10 +27,113 @@ import pokecube.core.ai.tasks.idle.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.idle.ants.AntTasks.AntRoom;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
-import thut.api.maths.Vector3;
+import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class Build extends AbstractWorkTask
 {
+    public static interface IRoomHandler
+    {
+        default boolean validWall(final Node node, final ServerWorld world, final BlockPos pos,
+                final AbstractWorkTask task)
+        {
+            final BlockState state = world.getBlockState(pos);
+            final BlockPos mid = node.getCenter();
+            final int dy = pos.getY() - mid.getY();
+            final int dx = pos.getX() - mid.getX();
+            final int dz = pos.getZ() - mid.getZ();
+
+            final double dh2 = dx * dx + dz * dz;
+
+            boolean valid = state.isOpaqueCube(world, pos) || state.getBlock() == Blocks.FARMLAND;
+            switch (node.type)
+            {
+            case ENTRANCE:
+                // Entrances keep entrances on the cardinal directions
+                if ((dx == 0 || dz == 0) && dy >= 0 && dy <= 2)
+                {
+                    boolean edge = false;
+                    for (final Edge e : node.edges)
+                        if (e.isOnShell(pos))
+                        {
+                            edge = true;
+                            break;
+                        }
+                    if (!edge) valid = world.isAirBlock(pos);
+                }
+                break;
+            case FOOD:
+                if (dx == 0 && dz == 0 && dy == -1) valid = world.getFluidState(pos).isTagged(FluidTags.WATER);
+                else if (dy == -1 && dh2 <= 4) valid = state.getBlock() == Blocks.FARMLAND;
+                break;
+            default:
+                break;
+            }
+            if (node.type != AntRoom.ENTRANCE) if (dx == 0 && dz == 0 && dy == 2) valid = state
+                    .getBlock() == Blocks.SHROOMLIGHT;
+            if (!valid && task != null)
+            {
+                task.tryHarvest(pos, true);
+                return this.validWall(node, world, pos, null);
+            }
+            return valid;
+        }
+
+        default void place(final Node node, final ServerWorld world, BlockState state, final BlockPos pos)
+        {
+            final BlockPos mid = node.getCenter();
+            final int dy = pos.getY() - mid.getY();
+            final int dx = pos.getX() - mid.getX();
+            final int dz = pos.getZ() - mid.getZ();
+
+            final double dh2 = dx * dx + dz * dz;
+
+            switch (node.type)
+            {
+            case EGG:
+                break;
+            case ENTRANCE:
+                if ((dx == 0 || dz == 0) && dy >= 0 && dy <= 2)
+                {
+                    boolean edge = false;
+                    for (final Edge e : node.edges)
+                        if (e.isOnShell(pos))
+                        {
+                            edge = true;
+                            break;
+                        }
+                    if (!edge) return;
+                }
+                break;
+            case FOOD:
+                if (dx == 0 && dz == 0 && dy == -1)
+                {
+                    world.setBlockState(pos, Blocks.WATER.getDefaultState());
+                    return;
+                }
+                else if (dy == -1 && dh2 <= 4)
+                {
+                    world.setBlockState(pos, Blocks.FARMLAND.getDefaultState());
+                    return;
+                }
+                break;
+            case NODE:
+                break;
+            default:
+                break;
+            }
+            if (node.type != AntRoom.ENTRANCE) if (dx == 0 && dz == 0 && dy == 2) state = Blocks.SHROOMLIGHT
+                    .getDefaultState();
+            world.setBlockState(pos, state);
+        }
+    }
+
+    private static final IRoomHandler DEFAULT = new IRoomHandler()
+    {
+    };
+
+    public static final Map<AntRoom, IRoomHandler> ROOMHANLDERS = Maps.newHashMap();
+
     ItemStack to_place = ItemStack.EMPTY;
     int       storeInd = -1;
 
@@ -36,6 +145,9 @@ public class Build extends AbstractWorkTask
     BlockPos build_pos = null;
 
     boolean going_to_nest = false;
+
+    Predicate<BlockPos> canStand = pos -> BlockPos.getAllInBox(pos.add(-1, -2, -1), pos.add(1, 0, 1)).anyMatch(
+            p -> this.world.getBlockState(p).isSolid());
 
     public Build(final IPokemob pokemob)
     {
@@ -52,6 +164,22 @@ public class Build extends AbstractWorkTask
         this.n = null;
         this.e = null;
         this.build_pos = null;
+        final Brain<?> brain = this.entity.getBrain();
+        brain.removeMemory(AntTasks.WORK_POS);
+        brain.removeMemory(AntTasks.JOB_INFO);
+        brain.setMemory(AntTasks.NO_WORK_TIME, -20);
+    }
+
+    private void endTask(final boolean completed)
+    {
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Need New Build Site");
+        if (this.build_timer > 400) this.entity.getBrain().setMemory(AntTasks.GOING_HOME, true);
+        if (completed)
+        {
+            if (this.n != null) this.n.build_done = this.world.getGameTime() + 2400;
+            if (this.e != null) this.e.build_done = this.world.getGameTime() + 2400;
+        }
+        this.reset();
     }
 
     private boolean checkJob()
@@ -75,12 +203,12 @@ public class Build extends AbstractWorkTask
                 {
                     tag.remove("type");
                     tag.remove("data");
-                    brain.removeMemory(AntTasks.WORK_POS);
-                    brain.removeMemory(AntTasks.JOB_INFO);
-                    brain.setMemory(AntTasks.NO_WORK_TIME, -100);
                     PokecubeCore.LOGGER.error("Corrupted Dig Edge Info!");
+                    this.reset();
                     return false;
                 }
+                this.e.node1 = this.nest.hab.rooms.roomMap.get(this.e.node1.getCenter());
+                this.e.node2 = this.nest.hab.rooms.roomMap.get(this.e.node2.getCenter());
             }
             if (node)
             {
@@ -88,26 +216,23 @@ public class Build extends AbstractWorkTask
                 try
                 {
                     this.n.deserializeNBT(data);
+                    this.n = this.nest.hab.rooms.roomMap.get(this.n.getCenter());
                 }
                 catch (final Exception e1)
                 {
                     e1.printStackTrace();
                     tag.remove("type");
                     tag.remove("data");
-                    brain.removeMemory(AntTasks.WORK_POS);
-                    brain.removeMemory(AntTasks.JOB_INFO);
-                    brain.setMemory(AntTasks.NO_WORK_TIME, -100);
                     PokecubeCore.LOGGER.error("Corrupted Dig Node Info!");
+                    this.reset();
                     return false;
                 }
             }
         }
         if (!(edge || node))
         {
-            brain.removeMemory(AntTasks.WORK_POS);
-            brain.removeMemory(AntTasks.JOB_INFO);
-            brain.setMemory(AntTasks.NO_WORK_TIME, -100);
             PokecubeCore.LOGGER.debug("Invalid Dig Info!");
+            this.reset();
             return false;
         }
         return true;
@@ -117,68 +242,87 @@ public class Build extends AbstractWorkTask
     {
         final Brain<?> brain = this.entity.getBrain();
         final Optional<GlobalPos> room = brain.getMemory(AntTasks.WORK_POS);
+        final long time = this.world.getGameTime();
         select:
         if (this.build_pos == null)
         {
-            final Vector3 x0 = Vector3.getNewVector().set(this.n.center);
-            final Random rng = new Random();
-            // Random hemispherical coordinate
-            final double theta = rng.nextDouble() * Math.PI;
-            final double phi = rng.nextDouble() * Math.PI * 2;
-
-            double r = 5 * Math.sin(theta);
-            final double h = 3;
-
-            double y = h * Math.cos(theta);
-
-            // This results in a dome with a floor
-            if (y < 0)
+            final boolean edge = this.e != null;
+            if (edge)
             {
-                y = -1;
-                r = rng.nextInt((int) (r + 2));
+                if (!this.e.shouldBuild(time))
+                {
+                    if (this.e.node1.shouldBuild(time))
+                    {
+                        this.n = this.e.node1;
+                        this.e = null;
+                        return false;
+                    }
+                    if (this.e.node2.shouldBuild(time))
+                    {
+                        this.n = this.e.node2;
+                        this.e = null;
+                        return false;
+                    }
+                    this.endTask(false);
+                    return false;
+                }
+                final Node node = this.e.node1;
+                final AntRoom type = this.n == null ? AntRoom.NODE : this.n.type;
+                final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(type, Build.DEFAULT);
+                final AxisAlignedBB box = new AxisAlignedBB(this.e.end1, this.e.end2).grow(1);
+                // Start with a check of if the pos is inside.
+                Predicate<BlockPos> isValid = pos -> this.e.isOnShell(pos) && !node.isInside(pos);
+                // If it is inside, and not diggable, we notify the node of the
+                // dug spot, finally we check if there is space nearby to stand.
+                isValid = isValid.and(pos -> !handler.validWall(node, this.world, pos, this)).and(this.canStand);
+                final Optional<BlockPos> pos = BlockPos.getAllInBox(box).filter(isValid).findAny();
+                if (pos.isPresent())
+                {
+                    this.build_pos = pos.get();
+                    this.build_timer = -600;
+                    break select;
+                }
+                else this.e.build_done = time + 2400;
             }
-
-            final double x = r * Math.cos(phi);
-            final double z = r * Math.sin(phi);
-
-            if (this.n.type == AntRoom.ENTRANCE)
+            else
             {
-                final boolean passage = y <= 2 && y >= 0;
-                // This results in entrances in the cardinal directions.
-                if ((int) x == 0 && passage) break select;
-                if ((int) z == 0 && passage) break select;
+                if (!this.n.shouldBuild(time))
+                {
+                    for (final Edge e : this.n.edges)
+                        if (e.shouldBuild(time))
+                        {
+                            this.e = e;
+                            this.n = null;
+                            return false;
+                        }
+                    this.endTask(false);
+                    return false;
+                }
+                final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(this.n.type, Build.DEFAULT);
+                final AxisAlignedBB box = new AxisAlignedBB(this.n.getCenter().add(-5, -1, -5), this.n.getCenter().add(
+                        5, 5, 5));
+                // Start with a check of if the pos is inside.
+                Predicate<BlockPos> isValid = pos -> this.n.isOnShell(pos);
+                // If it is inside, and not diggable, we notify the node of the
+                // dug spot, finally we check if there is space nearby to stand.
+                isValid = isValid.and(pos -> !handler.validWall(this.n, this.world, pos, this)).and(this.canStand);
+
+                final Optional<BlockPos> pos = BlockPos.getAllInBox(box).filter(isValid).findAny();
+                if (pos.isPresent())
+                {
+                    this.build_pos = pos.get();
+                    this.build_timer = -600;
+                    break select;
+                }
+                else this.n.build_done = time + 2400;
             }
-            // final Vector3 dr = Vector3.getNewVector().set(x, y, z);
-
-            x0.x += x;
-            x0.y += y;
-            x0.z += z;
-            final BlockPos pos = x0.getPos();
-            if (!this.world.isAirBlock(pos)) break select;
-
-            // This prevents filling in the passages
-            for (final Edge e : this.nest.hab.rooms.allEdges)
-                if (e.isOn(pos, 2)) break select;
-
-            final AxisAlignedBB below = new AxisAlignedBB(x0.x - 1, x0.y - 2, x0.z - 1, x0.x + 1, x0.y, x0.z + 1);
-            // We need a not air block somewhere in this box to stand on
-            // to place the material.
-            if (BlockPos.getAllInBox(below).anyMatch(p -> !this.world.isAirBlock(p))) this.build_pos = pos
-                    .toImmutable();
         }
         this.build_timer++;
         if (this.build_pos == null)
         {
             this.setWalkTo(room.get().getPos(), 1, 1);
             // If we took too long. lets give up
-            if (this.build_timer > 600)
-            {
-                brain.removeMemory(AntTasks.WORK_POS);
-                brain.removeMemory(AntTasks.JOB_INFO);
-                brain.setMemory(AntTasks.NO_WORK_TIME, -100);
-                brain.setMemory(AntTasks.GOING_HOME, true);
-                this.reset();
-            }
+            if (this.build_timer > 600) this.endTask(true);
         }
         return this.build_pos != null;
     }
@@ -208,7 +352,21 @@ public class Build extends AbstractWorkTask
                 {
                     final IItemHandlerModifiable inv = this.storage.getInventory(this.world, pos,
                             this.storage.storageFace);
-                    if (this.storage.firstEmpty > 0)
+                    boolean found = false;
+                    for (int i = 2; i < this.pokemob.getInventory().getSizeInventory(); i++)
+                    {
+
+                        final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
+                        if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
+                        {
+                            final BlockItem item = (BlockItem) stack.getItem();
+                            if (!PokecubeTerrainChecker.isTerrain(item.getBlock().getDefaultState())) continue;
+                            this.storeInd = i;
+                            this.to_place = stack;
+                            found = true;
+                        }
+                    }
+                    if (!found)
                     {
                         for (int i = 0; i < inv.getSlots(); i++)
                         {
@@ -216,8 +374,7 @@ public class Build extends AbstractWorkTask
                             if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
                             {
                                 final BlockItem item = (BlockItem) stack.getItem();
-                                if (!item.getBlock().getDefaultState().isSolid()) continue;
-
+                                if (!PokecubeTerrainChecker.isTerrain(item.getBlock().getDefaultState())) continue;
                                 this.to_place = inv.extractItem(i, Math.min(stack.getCount(), 5), false);
                                 this.storeInd = this.storage.firstEmpty;
                                 this.pokemob.getInventory().setInventorySlotContents(this.storage.firstEmpty,
@@ -225,37 +382,37 @@ public class Build extends AbstractWorkTask
                                 return;
                             }
                         }
-                        PokecubeCore.LOGGER.debug("no blocks! making some dirt.");
-                        this.to_place = new ItemStack(Blocks.PODZOL, 2);
+                        this.to_place = new ItemStack(Blocks.PODZOL, 5);
                         this.storeInd = this.storage.firstEmpty;
                         this.pokemob.getInventory().setInventorySlotContents(this.storage.firstEmpty, this.to_place);
                     }
                 }
-                return;
             }
             this.going_to_nest = this.to_place.isEmpty();
             if (this.going_to_nest) return;
         }
-
         final BlockPos pos = this.build_pos;
-        // if (pos.distanceSq(this.entity.getPosition()) > 10)
-        // {
-        this.setWalkTo(pos, 1, 1);
-        // return;
-        // }
-        this.build_pos = null;
-        final Vector3 v = Vector3.getNewVector();
-        v.set(pos);
+        if (pos.distanceSq(this.entity.getPosition()) > 10) this.setWalkTo(pos, 1, 1);
         if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem && this.storeInd != -1)
         {
             final BlockItem item = (BlockItem) this.to_place.getItem();
-            v.setBlock(this.world, item.getBlock().getDefaultState());
-            this.to_place.shrink(1);
+            final BlockState state = item.getBlock().getDefaultState();
+            if (this.n != null)
+            {
+                final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(this.n.type, Build.DEFAULT);
+                if (!handler.validWall(this.n, this.world, pos, this))
+                {
+                    handler.place(this.n, this.world, state, pos);
+                    if (!this.world.isAirBlock(pos)) this.to_place.shrink(1);
+                }
+            }
+            else
+            {
+                this.world.setBlockState(pos, state);
+                if (!this.world.isAirBlock(pos)) this.to_place.shrink(1);
+            }
             this.pokemob.getInventory().setInventorySlotContents(this.storeInd, this.to_place);
-
-            final String info = this.e == null ? this.n.type.name() : "edge";
-
-            PokecubeCore.LOGGER.debug("Built a block at {} for {}", v.getPos(), info);
         }
+        this.build_pos = null;
     }
 }
