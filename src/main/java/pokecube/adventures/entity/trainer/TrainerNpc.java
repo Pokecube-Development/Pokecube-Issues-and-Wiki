@@ -189,7 +189,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
             this.setType(TypeTrainer.get(this, false));
             this.initTeam(5);
         }
-        if (this.name.isEmpty())
+        if (this.getNPCName().isEmpty())
         {
             final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
             if (!names.isEmpty()) this.setTypedName(names.get(new Random().nextInt(names.size())));

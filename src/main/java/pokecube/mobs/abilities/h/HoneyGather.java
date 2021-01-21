@@ -15,7 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.vector.Vector3d;
-import pokecube.core.ai.tasks.idle.bees.BeeTasks;
+import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;

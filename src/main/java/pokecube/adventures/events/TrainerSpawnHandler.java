@@ -235,7 +235,7 @@ public class TrainerSpawnHandler
         if (trainer instanceof TrainerNpc)
         {
             final TrainerNpc t = (TrainerNpc) trainer;
-            t.name = "";
+            t.setNPCName("");
             // Reset their trades, as this will randomize them when trades are
             // needed later.
             t.resetTrades();

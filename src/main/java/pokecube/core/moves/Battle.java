@@ -14,21 +14,23 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.AITools;
+import pokecube.core.world.IWorldTickListener;
+import pokecube.core.world.WorldTickManager;
 
 public class Battle
 {
-    @Mod.EventBusSubscriber
-    public static class BattleManager
+    public static void register()
+    {
+        WorldTickManager.registerStaticData(BattleManager::new, p -> true);
+    }
+
+    public static class BattleManager implements IWorldTickListener
     {
         private static final Map<RegistryKey<World>, BattleManager> managers = Maps.newHashMap();
 
@@ -51,7 +53,22 @@ public class Battle
             return this.battlesById.get(mob.getUniqueID());
         }
 
-        private void tick()
+        @Override
+        public void onAttach(final ServerWorld world)
+        {
+            BattleManager.managers.put(world.getDimensionKey(), this);
+        }
+
+        @Override
+        public void onDetach(final ServerWorld world)
+        {
+            this.battlesById.clear();
+            this.battles.clear();
+            BattleManager.managers.remove(world.getDimensionKey());
+        }
+
+        @Override
+        public void onTickStart(final ServerWorld world)
         {
             for (final Battle battle : this.battles)
                 battle.tick();
@@ -65,22 +82,6 @@ public class Battle
                 }
                 return ended;
             });
-        }
-
-        @SubscribeEvent
-        public static void worldLoad(final WorldEvent.Load event)
-        {
-            if (!(event.getWorld() instanceof ServerWorld)) return;
-            final ServerWorld world = (ServerWorld) event.getWorld();
-            BattleManager.managers.put(world.getDimensionKey(), new BattleManager());
-        }
-
-        @SubscribeEvent
-        public static void onTick(final WorldTickEvent event)
-        {
-            if (!(event.world instanceof ServerWorld)) return;
-            final BattleManager manager = BattleManager.managers.get(event.world.getDimensionKey());
-            manager.tick();
         }
     }
 

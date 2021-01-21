@@ -16,8 +16,8 @@ import net.minecraft.util.math.IPosWrapper;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
-import pokecube.core.ai.tasks.idle.ants.AntTasks;
-import pokecube.core.ai.tasks.idle.bees.BeeTasks;
+import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.core.ai.tasks.bees.BeeTasks;
 
 public class MemoryModules
 {

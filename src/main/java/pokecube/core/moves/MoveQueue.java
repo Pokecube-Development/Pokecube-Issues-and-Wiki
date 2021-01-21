@@ -8,70 +8,64 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.LogicalSide;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.world.IWorldTickListener;
+import pokecube.core.world.WorldTickManager;
 
 public class MoveQueue
 {
-    public static class MoveQueuer
+    public static class MoveQueuer implements IWorldTickListener
     {
-        private static final Map<IWorld, MoveQueue> queues = Maps.newHashMap();
+        private static final Map<RegistryKey<World>, MoveQueue> queues = Maps.newHashMap();
+
+        static MoveQueuer INSTANCE = new MoveQueuer();
 
         public static void register()
         {
-            // Registers a queue for the world when it loads in
-            MinecraftForge.EVENT_BUS.addListener(MoveQueuer::onWorldLoad);
-            // Handles ticking the move queue for the given world, applying the
-            // effects in the correct order, etc.
-            MinecraftForge.EVENT_BUS.addListener(MoveQueuer::onWorldTick);
-            // Remove the queue for this world from the maps
-            MinecraftForge.EVENT_BUS.addListener(MoveQueuer::onWorldUnload);
+            WorldTickManager.registerStaticData(() -> MoveQueuer.INSTANCE, p -> true);
         }
 
-        private static void onWorldLoad(final WorldEvent.Load evt)
+        @Override
+        public void onTickEnd(final ServerWorld world)
         {
-            if (evt.getWorld() instanceof ServerWorld) MoveQueuer.queues.put(evt.getWorld(), new MoveQueue(evt
-                    .getWorld()));
-        }
-
-        private static void onWorldTick(final WorldTickEvent evt)
-        {
-            if (evt.phase == Phase.END && evt.side == LogicalSide.SERVER)
+            final MoveQueue queue = MoveQueuer.queues.get(world.getDimensionKey());
+            if (queue == null)
             {
-                final MoveQueue queue = MoveQueuer.queues.get(evt.world);
-                if (queue == null)
-                {
-                    PokecubeCore.LOGGER.error("Critical Error with world for dimension " + evt.world.getDimensionType()
-                            + " It is somehow ticking when not loaded, this should not happen.", new Exception());
-                    return;
-                }
-                final long time = System.nanoTime();
-                final int num = queue.moves.size();
-                queue.executeMoves();
-                final double dt = (System.nanoTime() - time) / 1000d;
-                if (dt > 1000) PokecubeCore.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt,
-                        evt.world, num);
+                PokecubeCore.LOGGER.error("Critical Error with world for dimension " + world.getDimensionKey()
+                        + " It is somehow ticking when not loaded, this should not happen.", new Exception());
+                return;
             }
+            final long time = System.nanoTime();
+            final int num = queue.moves.size();
+            queue.executeMoves();
+            final double dt = (System.nanoTime() - time) / 1000d;
+            if (dt > 1000) PokecubeCore.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt, world
+                    .getDimensionKey(), num);
         }
 
-        private static void onWorldUnload(final WorldEvent.Unload evt)
+        @Override
+        public void onDetach(final ServerWorld world)
         {
-            MoveQueuer.queues.remove(evt.getWorld());
+            MoveQueuer.queues.remove(world.getDimensionKey());
+        }
+
+        @Override
+        public void onAttach(final ServerWorld world)
+        {
+            MoveQueuer.queues.put(world.getDimensionKey(), new MoveQueue(world));
         }
 
         public static void queueMove(final EntityMoveUse move)
         {
-            final MoveQueue queue = MoveQueuer.queues.get(move.getEntityWorld());
+            final MoveQueue queue = MoveQueuer.queues.get(move.getEntityWorld().getDimensionKey());
             if (queue == null) throw new NullPointerException("why is world queue null?");
             if (move.getUser() != null) queue.moves.add(move);
         }

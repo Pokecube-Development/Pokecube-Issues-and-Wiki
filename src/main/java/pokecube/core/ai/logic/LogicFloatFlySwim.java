@@ -3,7 +3,9 @@ package pokecube.core.ai.logic;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.pathfinding.FlyingPathNavigator;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -221,6 +223,10 @@ public class LogicFloatFlySwim extends LogicBase
     private final MovementController walkController;
     private final MovementController swimController;
 
+    // Path validators
+    Vector3 lastPos     = Vector3.getNewVector();
+    int     time_at_pos = 0;
+
     public LogicFloatFlySwim(final IPokemob entity)
     {
         super(entity);
@@ -245,7 +251,7 @@ public class LogicFloatFlySwim extends LogicBase
 
         if (this.world instanceof ServerWorld) ((ServerWorld) this.world).navigations.remove(this.entity
                 .getNavigator());
-        this.pokemob.getEntity().navigator = this.walkPather;
+        this.pokemob.getEntity().navigator = this.climbPather;
         this.pokemob.getEntity().moveController = this.walkController;
         if (this.world instanceof ServerWorld) ((ServerWorld) this.world).navigations.add(this.entity.getNavigator());
     }
@@ -260,6 +266,36 @@ public class LogicFloatFlySwim extends LogicBase
     public void tick(final World world)
     {
         super.tick(world);
+
+        final Path path = this.entity.getNavigator().getPath();
+        if (path != null)
+        {
+            final BlockPos next = path.func_242948_g();
+            final Vector3 hereVec = Vector3.getNewVector().set(this.entity);
+            final Vector3 nextVec = Vector3.getNewVector().set(next);
+
+            if (hereVec.distToSq(this.lastPos) < 0.05)
+            {
+                this.time_at_pos++;
+                if (this.time_at_pos > 10)
+                {
+                    final double dr = nextVec.distanceTo(hereVec);
+                    if (dr < 2)
+                    {
+                        nextVec.moveEntity(this.entity);
+                        this.time_at_pos = 0;
+                    }
+                    else this.entity.getNavigator().clearPath();
+                }
+            }
+            else
+            {
+                this.lastPos.set(this.entity);
+                this.time_at_pos = 0;
+            }
+            if (nextVec.distToSq(hereVec) < 1 && path.getCurrentPathIndex() + 1 < path.getCurrentPathLength()) path
+                    .setCurrentPathIndex(path.getCurrentPathIndex() + 1);
+        }
 
         if (world instanceof ServerWorld) synchronized (((ServerWorld) world).navigations)
         {
@@ -290,7 +326,7 @@ public class LogicFloatFlySwim extends LogicBase
             if (this.state != NaviState.WALK)
             {
                 this.entity.setNoGravity(false);
-                this.pokemob.getEntity().navigator = this.walkPather;
+                this.pokemob.getEntity().navigator = this.climbPather;
                 this.pokemob.getEntity().moveController = this.walkController;
             }
             this.state = NaviState.WALK;
