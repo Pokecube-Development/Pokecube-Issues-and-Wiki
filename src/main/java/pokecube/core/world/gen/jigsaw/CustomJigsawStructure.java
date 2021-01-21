@@ -39,6 +39,7 @@ import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokecubeSerializer;
+import pokecube.core.world.gen.jigsaw.JigsawAssmbler;
 
 public class CustomJigsawStructure extends Structure<JigsawConfig>
 {
@@ -184,7 +185,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             }
             if (!built)
             {
-                PokecubeCore.LOGGER.warn("Failed to complete a structure at " + blockpos);
+                PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.components, config.struct_config.name, blockpos);
                 return;
             }
 
