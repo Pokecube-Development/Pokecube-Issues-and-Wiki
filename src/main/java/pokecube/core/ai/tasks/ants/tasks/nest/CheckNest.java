@@ -18,6 +18,13 @@ import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
+<<<<<<< HEAD:src/main/java/pokecube/core/ai/tasks/ants/tasks/nest/CheckNest.java
+=======
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
+import pokecube.core.ai.tasks.idle.ants.sensors.NestSensor;
+import pokecube.core.ai.tasks.idle.ants.sensors.NestSensor.AntNest;
+import pokecube.core.ai.tasks.idle.bees.BeeTasks;
+>>>>>>> parent of 137e273cf... Revert "Merge branch '1.16' into Village-Variants":src/main/java/pokecube/core/ai/tasks/idle/ants/nest/CheckNest.java
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
@@ -84,7 +91,11 @@ public class CheckNest extends BaseIdleTask
                             nest.addResident(this.pokemob);
                             // Copy over the old habitat info.
                             if (nest.habitat instanceof HabitatProvider)
+<<<<<<< HEAD:src/main/java/pokecube/core/ai/tasks/ants/tasks/nest/CheckNest.java
                                 ((HabitatProvider) nest.habitat).setWrapped(this.nest.hab);
+=======
+                                ((HabitatProvider) nest.habitat).wrapped = this.nest.hab;
+>>>>>>> parent of 137e273cf... Revert "Merge branch '1.16' into Village-Variants":src/main/java/pokecube/core/ai/tasks/idle/ants/nest/CheckNest.java
                             brain.removeMemory(AntTasks.NO_HIVE_TIMER);
                             this.nest = null;
                             return;

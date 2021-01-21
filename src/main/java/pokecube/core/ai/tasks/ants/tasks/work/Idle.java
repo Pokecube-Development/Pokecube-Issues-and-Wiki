@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.ants.tasks.work;
+package pokecube.core.ai.tasks.idle.ants.work;
 
 import java.util.Map;
 import java.util.Random;
@@ -8,9 +8,9 @@ import com.google.common.collect.Maps;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.tasks.ants.AntTasks;
-import pokecube.core.ai.tasks.ants.nest.Node;
-import pokecube.core.ai.tasks.ants.tasks.AbstractAntTask;
+import pokecube.core.ai.tasks.idle.ants.AbstractAntTask;
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
+import pokecube.core.ai.tasks.idle.ants.AntTasks.AntHabitat.Node;
 import pokecube.core.interfaces.IPokemob;
 
 public class Idle extends AbstractAntTask

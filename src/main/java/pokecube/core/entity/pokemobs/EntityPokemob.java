@@ -28,6 +28,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -478,7 +479,17 @@ public class EntityPokemob extends PokemobHasParts
     public void tick()
     {
         super.tick();
-        if (!this.world.isRemote) this.setBesideClimbableBlock(this.collidedHorizontally);
+        if (!this.world.isRemote)
+        {
+            boolean climb = this.collidedHorizontally && this.getNavigator().hasPath();
+            if (climb)
+            {
+                final Path p = this.getNavigator().getPath();
+                climb = p.func_242948_g().getY() >= this.getPosY();
+                climb = true;
+            }
+            this.setBesideClimbableBlock(climb);
+        }
 
     }
 

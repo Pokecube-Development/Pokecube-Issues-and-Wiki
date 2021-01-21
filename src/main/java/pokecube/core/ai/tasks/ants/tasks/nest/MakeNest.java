@@ -17,6 +17,10 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
+<<<<<<< HEAD:src/main/java/pokecube/core/ai/tasks/ants/tasks/nest/MakeNest.java
+=======
+import pokecube.core.ai.tasks.idle.ants.AntTasks;
+>>>>>>> parent of 137e273cf... Revert "Merge branch '1.16' into Village-Variants":src/main/java/pokecube/core/ai/tasks/idle/ants/nest/MakeNest.java
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;

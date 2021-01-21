@@ -1,29 +1,39 @@
 package pokecube.core.ai.tasks.utility;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.BeetrootBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
+import net.minecraft.block.SweetBerryBushBlock;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
 import net.minecraft.state.Property;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
@@ -48,6 +58,81 @@ import thut.lib.ItemStackTools;
  */
 public class GatherTask extends UtilTask
 {
+    /**
+     * All things which inherit from BlockCrops, if not on this list, will be
+     * valid options if at max age.
+     */
+    public static final ResourceLocation BLACKLIST = new ResourceLocation(PokecubeCore.MODID, "harvest_blacklist");
+    /**
+     * This contains extra things to harvest
+     */
+    public static final ResourceLocation HARVEST   = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
+
+    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropsBlock && input
+            .hasProperty(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
+
+    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropsBlock && input
+            .hasProperty(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input
+                    .getBlock()).getMaxAge();
+
+    private static final Predicate<BlockState> sweetBerry = input -> input.getBlock() instanceof SweetBerryBushBlock
+            && input.get(SweetBerryBushBlock.AGE) > 1;
+
+    private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
+            || !input.isAddedToWorld();
+
+    // Matcher used to determine if a block is a fruit or crop to be picked.
+    private static final Predicate<BlockState> harvestMatcher = input ->
+    {
+        final boolean blacklisted = ItemList.is(GatherTask.BLACKLIST, input);
+        if (blacklisted) return false;
+        final boolean fullCrop = GatherTask.fullCropNormal.test(input) || GatherTask.fullCropBeet.test(input);
+        return fullCrop || ItemList.is(GatherTask.HARVEST, input);
+    };
+
+    public static interface IHarvester
+    {
+        default boolean isHarvestable(final MobEntity entity, final IPokemob pokemob, final BlockState state,
+                final BlockPos pos, final ServerWorld world)
+        {
+            final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, state, pos);
+            PokecubeCore.POKEMOB_BUS.post(event);
+            final boolean gatherable = event.getResult() == Result.ALLOW ? true
+                    : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(state);
+            return gatherable;
+        }
+
+        default void harvest(final MobEntity entity, final IPokemob pokemob, final BlockState state, final BlockPos pos,
+                final ServerWorld world)
+        {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            final List<ItemStack> list = Block.getDrops(state, world, pos, null);
+            boolean replanted = false;
+            // See if anything dropped was a seed for the thing we
+            // picked.
+            for (final ItemStack stack : list)
+            {
+                // If so, Replant it.
+                if (!replanted) replanted = new ReplantTask(stack, state, pos).run(world);
+                new InventoryChange(entity, 2, stack, true).run(world);
+            }
+            if (!replanted) for (int i = 2; i < pokemob.getInventory().getSizeInventory(); i++)
+            {
+                final ItemStack stack = pokemob.getInventory().getStackInSlot(i);
+                if (!stack.isEmpty() && stack.getItem() instanceof IPlantable)
+                {
+                    final IPlantable plantable = (IPlantable) stack.getItem();
+                    final BlockState plantState = plantable.getPlant(world, pos.up());
+                    if (plantState.getBlock() == state.getBlock() && !replanted)
+                    {
+                        replanted = new ReplantTask(stack, state, pos).run(world);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * This manages the pokemobs replanting anything that they gather.
      *
@@ -120,34 +205,41 @@ public class GatherTask extends UtilTask
 
     public static int COOLDOWN_PATH = 5;
 
-    /**
-     * All things which inherit from BlockCrops, if not on this list, will be
-     * valid options if at max age.
-     */
-    public static final ResourceLocation BLACKLIST = new ResourceLocation(PokecubeCore.MODID, "harvest_blacklist");
-    /**
-     * This contains extra things to harvest
-     */
-    public static final ResourceLocation HARVEST   = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
+    public static Map<ResourceLocation, IHarvester> REGISTRY = Maps.newHashMap();
 
-    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropsBlock && input
-            .hasProperty(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
-
-    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropsBlock && input
-            .hasProperty(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input
-                    .getBlock()).getMaxAge();
-
-    // Matcher used to determine if a block is a fruit or crop to be picked.
-    private static final Predicate<BlockState> harvestMatcher = input ->
+    static
     {
-        final boolean blacklisted = ItemList.is(GatherTask.BLACKLIST, input);
-        if (blacklisted) return false;
-        final boolean fullCrop = GatherTask.fullCropNormal.test(input) || GatherTask.fullCropBeet.test(input);
-        return fullCrop || ItemList.is(GatherTask.HARVEST, input);
-    };
+        GatherTask.REGISTRY.put(new ResourceLocation("pokecube:crops"), new IHarvester()
+        {
+        });
+        GatherTask.REGISTRY.put(new ResourceLocation("pokecube:sweet_berries"), new IHarvester()
+        {
+            @Override
+            public void harvest(final MobEntity entity, final IPokemob pokemob, final BlockState state,
+                    final BlockPos pos, final ServerWorld world)
+            {
+                final int i = state.get(SweetBerryBushBlock.AGE);
+                final boolean flag = i == 3;
+                world.setBlockState(pos, state.with(SweetBerryBushBlock.AGE, 1));
+                final int j = 1 + world.rand.nextInt(2);
+                final ItemStack stack = new ItemStack(Items.SWEET_BERRIES, j + (flag ? 1 : 0));
+                world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH,
+                        SoundCategory.BLOCKS, 1.0F, 0.8F + world.rand.nextFloat() * 0.4F);
+                new InventoryChange(entity, 2, stack, true).run(world);
+            }
 
-    private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
-            || !input.isAddedToWorld();
+            @Override
+            public boolean isHarvestable(final MobEntity entity, final IPokemob pokemob, final BlockState state,
+                    final BlockPos pos, final ServerWorld world)
+            {
+                final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, state, pos);
+                PokecubeCore.POKEMOB_BUS.post(event);
+                final boolean gatherable = event.getResult() == Result.ALLOW ? true
+                        : event.getResult() == Result.DENY ? false : GatherTask.sweetBerry.apply(state);
+                return gatherable;
+            }
+        });
+    }
 
     final double distance;
 
@@ -163,6 +255,8 @@ public class GatherTask extends UtilTask
     int pathCooldown    = 0;
 
     final StoreTask storage;
+
+    ResourceLocation currentHarvester = null;
 
     Vector3 seeking = Vector3.getNewVector();
 
@@ -213,6 +307,18 @@ public class GatherTask extends UtilTask
         if (this.blocks != null && this.blocks.size() > 0)
         {
             this.targetBlock = this.blocks.get(0);
+
+            this.currentHarvester = null;
+            for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
+            {
+                final boolean canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, this.targetBlock
+                        .getState(), this.targetBlock.getPos(), this.world);
+                if (canHarvest)
+                {
+                    this.currentHarvester = entry.getKey();
+                    break;
+                }
+            }
             return;
         }
         // Nothing found, enter cooldown.
@@ -257,33 +363,12 @@ public class GatherTask extends UtilTask
         if (jump) BrainUtils.setLeapTarget(this.entity, new VectorPosWrapper(stuffLoc));
         if (dist < diff)
         {
-            // BrainUtils.setLeapTarget(this.entity, new
-            // VectorPosWrapper(stuffLoc));
             final BlockState state = stuffLoc.getBlockState(this.entity.getEntityWorld());
-            stuffLoc.setAir(this.world);
-            final List<ItemStack> list = Block.getDrops(state, this.world, stuffLoc.getPos(), null);
-            boolean replanted = false;
-            // See if anything dropped was a seed for the thing we
-            // picked.
-            for (final ItemStack stack : list)
+            if (this.currentHarvester != null)
             {
-                // If so, Replant it.
-                if (!replanted) replanted = new ReplantTask(stack, state, stuffLoc.getPos()).run(this.world);
-                new InventoryChange(this.entity, 2, stack, true).run(this.world);
-            }
-            if (!replanted) for (int i = 2; i < this.pokemob.getInventory().getSizeInventory(); i++)
-            {
-                final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
-                if (!stack.isEmpty() && stack.getItem() instanceof IPlantable)
-                {
-                    final IPlantable plantable = (IPlantable) stack.getItem();
-                    final BlockState plantState = plantable.getPlant(this.world, stuffLoc.getPos().up());
-                    if (plantState.getBlock() == state.getBlock() && !replanted)
-                    {
-                        replanted = new ReplantTask(stack, state, stuffLoc.getPos()).run(this.world);
-                        break;
-                    }
-                }
+                final IHarvester harvest = GatherTask.REGISTRY.get(this.currentHarvester);
+                if (harvest.isHarvestable(this.entity, this.pokemob, state, stuffLoc.getPos(), this.world)) harvest
+                        .harvest(this.entity, this.pokemob, state, stuffLoc.getPos(), this.world);
             }
             this.reset();
         }
@@ -294,6 +379,7 @@ public class GatherTask extends UtilTask
     {
         this.targetItem = null;
         this.targetBlock = null;
+        this.currentHarvester = null;
     }
 
     @Override
@@ -335,12 +421,14 @@ public class GatherTask extends UtilTask
             this.blocks = Lists.newArrayList(blocks);
             this.blocks.removeIf(b ->
             {
-                final BlockState state = this.entity.getEntityWorld().getBlockState(b.getPos());
-                final HarvestCheckEvent event = new HarvestCheckEvent(this.pokemob, state, b.getPos());
-                PokecubeCore.POKEMOB_BUS.post(event);
-                final boolean gatherable = event.getResult() == Result.ALLOW ? true
-                        : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(state);
-                return !gatherable;
+                boolean canHarvest = false;
+                for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
+                {
+                    canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, b.getState(), b.getPos(),
+                            this.world);
+                    if (canHarvest) break;
+                }
+                return canHarvest;
             });
         }
         // Only replace this if the new list is not null.

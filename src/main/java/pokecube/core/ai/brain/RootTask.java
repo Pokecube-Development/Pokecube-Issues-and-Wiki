@@ -106,6 +106,12 @@ public class RootTask<E extends LivingEntity> extends Task<E>
 
     protected void setWalkTo(final WalkTarget target)
     {
+        if (!(target.getTarget() instanceof EntityPosWrapper) && target != null)
+        {
+            final boolean inRange = target.getTarget().getPos().isWithinDistanceOf(this.entity.getPositionVec(), target
+                    .getDistance());
+            if (inRange) return;
+        }
         this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, target);
     }
 
