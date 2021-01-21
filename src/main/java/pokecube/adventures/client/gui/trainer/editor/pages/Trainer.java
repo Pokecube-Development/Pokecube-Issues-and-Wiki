@@ -82,7 +82,7 @@ public class Trainer extends Page
         if (this.parent.entity instanceof NpcMob)
         {
             final NpcMob mob = (NpcMob) this.parent.entity;
-            String name = mob.name;
+            String name = mob.getNPCName();
             this.male = mob.isMale();
             this.typename = false;
             if (name.contains(":") && name.split(":").length > 1)

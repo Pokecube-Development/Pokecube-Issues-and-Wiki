@@ -234,7 +234,7 @@ public class SpawnEventsHandler
 
     public static List<INpcProcessor> processors = Lists.newArrayList((npc, thing) ->
     {
-        if (thing.has("name")) npc.name = thing.get("name").getAsString();
+        if (thing.has("name")) npc.setNPCName(thing.get("name").getAsString());
         if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
         if (thing.has("type")) npc.setNpcType(NpcType.byType(thing.get("type").getAsString()));
         if (thing.has("gender"))

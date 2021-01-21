@@ -98,8 +98,8 @@ public class TrainerEventHandler
 
             // Check for blank name, and if so, randomize it.
             final List<String> names = mob.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty() && mob.name.isEmpty()) mob.name = "pokecube." + mob.getNpcType().getName() + ".named:"
-                    + names.get(new Random().nextInt(names.size()));
+            if (!names.isEmpty() && mob.getNPCName().isEmpty()) mob.setNPCName("pokecube." + mob.getNpcType().getName() + ".named:"
+                    + names.get(new Random().nextInt(names.size())));
         }
 
         @Override
@@ -328,29 +328,30 @@ public class TrainerEventHandler
         }
     }
 
-    private static void initTrainer(final LivingEntity npc, final SpawnReason reason)
+    private static void initTrainer(final LivingEntity mob, final SpawnReason reason)
     {
-        if (npc instanceof NpcMob)
+        if (mob instanceof NpcMob)
         {
-            ((NpcMob) npc).setInitOffers(new NpcOffers((NpcMob) npc));
-            ((NpcMob) npc).setUseOffers(new NpcOffer((NpcMob) npc));
+            final NpcMob npc = (NpcMob) mob;
+            npc.setInitOffers(new NpcOffers(npc));
+            npc.setUseOffers(new NpcOffer(npc));
         }
 
-        final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(npc);
-        if (mobs == null || !(npc.getEntityWorld() instanceof ServerWorld) || npc instanceof PlayerEntity) return;
-        if (npc.getPersistentData().contains("pokeadv_join") && npc.getPersistentData().getLong("pokeadv_join") == npc
+        final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(mob);
+        if (mobs == null || !(mob.getEntityWorld() instanceof ServerWorld) || mob instanceof PlayerEntity) return;
+        if (mob.getPersistentData().contains("pokeadv_join") && mob.getPersistentData().getLong("pokeadv_join") == mob
                 .getEntityWorld().getGameTime()) return;
-        npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
+        mob.getPersistentData().putLong("pokeadv_join", mob.getEntityWorld().getGameTime());
 
-        final TypeTrainer newType = TypeTrainer.get(npc, true);
         if (mobs.countPokemon() != 0) return;
+        final TypeTrainer newType = TypeTrainer.get(mob, true);
         if (newType == null) return;
         mobs.setType(newType);
-        final int level = SpawnHandler.getSpawnLevel(npc.getEntityWorld(), Vector3.getNewVector().set(npc), Database
+        final int level = SpawnHandler.getSpawnLevel(mob.getEntityWorld(), Vector3.getNewVector().set(mob), Database
                 .getEntry(1));
-        if (npc instanceof TrainerBase) ((TrainerBase) npc).initTeam(level);
-        else TypeTrainer.getRandomTeam(mobs, npc, level, npc.getEntityWorld());
-        if (npc.addedToChunk) EntityUpdate.sendEntityUpdate(npc);
+        if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
+        else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getEntityWorld());
+        if (mob.addedToChunk) EntityUpdate.sendEntityUpdate(mob);
     }
 
     /**

@@ -58,6 +58,6 @@ public class LeaderNpc extends TrainerNpc
     @Override
     public void setTypedName(final String name)
     {
-        this.name = "pokecube.gym_leader.named:" + name;
+        this.setNPCName("pokecube.gym_leader.named:" + name);
     }
 }

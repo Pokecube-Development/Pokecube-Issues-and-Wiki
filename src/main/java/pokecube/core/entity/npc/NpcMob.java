@@ -31,6 +31,9 @@ import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
@@ -64,8 +67,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         TYPE = EntityType.Builder.create(NpcMob::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
     }
+
+    static final DataParameter<String> NAMEDW = EntityDataManager.<String> createKey(NpcMob.class,
+            DataSerializers.STRING);
+
     private NpcType   type       = NpcType.byType("none");
-    public String     name       = "";
     public String     playerName = "";
     public String     urlSkin    = "";
     public String     customTex  = "";
@@ -93,6 +99,13 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         this.location = Vector3.getNewVector();
     }
 
+    @Override
+    protected void registerData()
+    {
+        super.registerData();
+        this.dataManager.register(NpcMob.NAMEDW, "");
+    }
+
     private ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addGuard(final GuardAI guardai,
             final ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addTo)
     {
@@ -104,7 +117,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
 
     public void setTypedName(final String name)
     {
-        this.name = "pokecube." + this.getNpcType().getName() + ".named:" + name;
+        this.setNPCName("pokecube." + this.getNpcType().getName() + ".named:" + name);
     }
 
     @Override
@@ -212,8 +225,8 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     @Override
     public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
     {
-//        if () return ActionResultType
-//                .func_233537_a_(this.world.isRemote);
+        // if () return ActionResultType
+        // .func_233537_a_(this.world.isRemote);
         return super.func_230254_b_(player, hand);
     }
 
@@ -236,7 +249,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         if (this.world instanceof ServerWorld) super.readAdditional(nbt);
         this.stationary = nbt.getBoolean("stationary");
         this.setMale(nbt.getBoolean("gender"));
-        this.name = nbt.getString("name");
+        this.setNPCName(nbt.getString("name"));
         this.playerName = nbt.getString("playerName");
         this.urlSkin = nbt.getString("urlSkin");
         this.customTex = nbt.getString("customTex");
@@ -257,16 +270,16 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     @Override
     public ITextComponent getDisplayName()
     {
-        if (this.name != null && !this.name.isEmpty())
+        if (this.getNPCName() != null && !this.getNPCName().isEmpty())
         {
             IFormattableTextComponent display;
-            if (this.name.startsWith("pokecube."))
+            if (this.getNPCName().startsWith("pokecube."))
             {
-                final String[] args = this.name.split(":");
+                final String[] args = this.getNPCName().split(":");
                 if (args.length == 2) display = new TranslationTextComponent(args[0], args[1]);
-                else display = new StringTextComponent(this.name);
+                else display = new StringTextComponent(this.getNPCName());
             }
-            else display = new StringTextComponent(this.name);
+            else display = new StringTextComponent(this.getNPCName());
             display.modifyStyle((style) ->
             {
                 return style.setHoverEvent(this.getHoverEvent()).setInsertion(this.getCachedUniqueIdString());
@@ -282,7 +295,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         final CompoundNBT nbt = additionalData.readCompoundTag();
         this.stationary = nbt.getBoolean("stationary");
         this.setMale(nbt.getBoolean("gender"));
-        this.name = nbt.getString("name");
+        this.setNPCName(nbt.getString("name"));
         this.playerName = nbt.getString("playerName");
         this.urlSkin = nbt.getString("urlSkin");
         this.customTex = nbt.getString("customTex");
@@ -303,7 +316,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         super.writeAdditional(nbt);
         nbt.putBoolean("gender", this.isMale());
-        nbt.putString("name", this.name);
+        nbt.putString("name", this.getNPCName());
         nbt.putBoolean("stationary", this.stationary);
         nbt.putString("playerName", this.playerName);
         nbt.putString("urlSkin", this.urlSkin);
@@ -318,7 +331,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         final CompoundNBT nbt = new CompoundNBT();
         nbt.putBoolean("gender", this.isMale());
-        nbt.putString("name", this.name);
+        nbt.putString("name", this.getNPCName());
         nbt.putBoolean("stationary", this.stationary);
         nbt.putString("playerName", this.playerName);
         nbt.putString("urlSkin", this.urlSkin);
@@ -406,5 +419,15 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public void setMale(final boolean male)
     {
         this.male = male;
+    }
+
+    public String getNPCName()
+    {
+        return this.dataManager.get(NpcMob.NAMEDW);
+    }
+
+    public void setNPCName(final String name)
+    {
+        this.dataManager.set(NpcMob.NAMEDW, name);
     }
 }
