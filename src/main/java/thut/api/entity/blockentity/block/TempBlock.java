@@ -7,12 +7,16 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -67,6 +71,23 @@ public class TempBlock extends AirBlock
     public BlockRenderType getRenderType(final BlockState state)
     {
         return BlockRenderType.INVISIBLE;
+    }
+
+    @Override
+    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+            final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
+    {
+        final TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof TempTile)
+        {
+            final TempTile temp = (TempTile) tile;
+            final BlockState eff = temp.getEffectiveState();
+            final ActionResultType res = eff.onBlockActivated(world, player, hand, hit);
+            if (res != ActionResultType.PASS) return res;
+            // Otherwise forward the interaction to the block entity;
+            return temp.blockEntity.applyPlayerInteraction(player, hit.getHitVec(), hand);
+        }
+        return ActionResultType.PASS;
     }
 
     @Override

@@ -91,6 +91,7 @@ import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.moves.Battle;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.ClientProxy;
@@ -448,6 +449,9 @@ public class PokecubeCore
 
         // Initialize advancement triggers
         Triggers.init();
+
+        // Register the battle managers
+        Battle.register();
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)

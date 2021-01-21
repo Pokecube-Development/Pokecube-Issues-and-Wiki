@@ -39,9 +39,7 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -65,8 +63,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.IRunnable;
-import pokecube.core.ai.tasks.idle.ants.AntTasks.AntInhabitor;
-import pokecube.core.ai.tasks.idle.bees.BeeTasks.BeeInhabitor;
+import pokecube.core.ai.tasks.ants.AntTasks.AntInhabitor;
+import pokecube.core.ai.tasks.bees.BeeTasks.BeeInhabitor;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
@@ -109,6 +107,8 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
+import pokecube.core.world.IWorldTickListener;
+import pokecube.core.world.WorldTickManager;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.entity.ShearableCaps;
@@ -155,6 +155,29 @@ public class EventsHandler
                 PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) event.player);
                 MinecraftForge.EVENT_BUS.unregister(this);
             }
+        }
+    }
+
+    private static class WorldTickScheduler implements IWorldTickListener
+    {
+        static WorldTickScheduler INSTANCE = new WorldTickScheduler();
+
+        @Override
+        public void onTickEnd(final ServerWorld world)
+        {
+            final RegistryKey<World> dim = world.getDimensionKey();
+            final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
+            synchronized (tasks)
+            {
+                tasks.removeIf(r ->
+                {
+                    // This ensures it is executed on the main thread.
+                    world.getServer().execute(() -> r.run(world));
+                    return true;
+                });
+            }
+            // Call spawner tick at end of world tick.
+            if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick(world);
         }
     }
 
@@ -306,9 +329,12 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarted);
         // Registers our commands.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCommandRegister);
+
         // This deals with running the tasks scheduled via
-        // EventsHandler::shedule, as well as ticking the pokemob spawner.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onWorldTick);
+        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldTick);
+        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldLoad);
+        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldUnload);
+
         // This attempts to recall the mobs following the player when they
         // change dimension.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onChangeDimension);
@@ -332,6 +358,8 @@ public class EventsHandler
         SpawnEventsHandler.register();
         StatsHandler.register();
         MoveQueuer.register();
+
+        WorldTickManager.registerStaticData(() -> WorldTickScheduler.INSTANCE, p -> true);
 
         // Here we register the onWorldLoad for pokemob tracker, this handles
         // initializing the tracked pokemob maps, etc.
@@ -489,7 +517,7 @@ public class EventsHandler
         {
             final ResourceLocation nestCap = new ResourceLocation("pokecube:nest");
             event.addCapability(key, new ItemCap(54, 64));
-            event.addCapability(nestCap, new SaveableHabitatProvider());
+            event.addCapability(nestCap, new SaveableHabitatProvider(event.getObject()));
         }
     }
 
@@ -617,24 +645,6 @@ public class EventsHandler
         CommandConfigs.register(PokecubeCore.getConfig(), event.getDispatcher(), "pokesettings");
         CommandManager.register(event.getDispatcher());
         NBTEdit.registerCommands(event);
-    }
-
-    private static void onWorldTick(final WorldTickEvent evt)
-    {
-        if (evt.phase != Phase.END || !(evt.world instanceof ServerWorld)) return;
-        final RegistryKey<World> dim = evt.world.getDimensionKey();
-        final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
-        synchronized (tasks)
-        {
-            tasks.removeIf(r ->
-            {
-                // This ensures it is executed on the main thread.
-                evt.world.getServer().execute(() -> r.run(evt.world));
-                return true;
-            });
-        }
-        // Call spawner tick at end of world tick.
-        if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick((ServerWorld) evt.world);
     }
 
     private static void onChangeDimension(final EntityTravelToDimensionEvent evt)

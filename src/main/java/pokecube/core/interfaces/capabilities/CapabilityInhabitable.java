@@ -8,9 +8,9 @@ import com.google.common.collect.Maps;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -31,13 +31,16 @@ public class CapabilityInhabitable
         // Example: Beaver dams would need a beaver habitat, ant nests need an
         // ant one, but we don't want to have to add multiple instances of the
         // capability, etc.
-        public IInhabitable wrapped;
+        private IInhabitable wrapped;
+
+        final TileEntity tile;
 
         public final LazyOptional<IInhabitable> cap_holder;
 
-        public HabitatProvider(final IInhabitable toWrap)
+        public HabitatProvider(final TileEntity tile, final IInhabitable toWrap)
         {
-            this.wrapped = toWrap;
+            this.tile = tile;
+            this.setWrapped(toWrap);
             this.cap_holder = LazyOptional.of(() -> this);
         }
 
@@ -50,31 +53,45 @@ public class CapabilityInhabitable
         @Override
         public void onExitHabitat(final MobEntity mob)
         {
-            this.wrapped.onExitHabitat(mob);
+            if (this.tile.getPos() != null) this.wrapped.setPos(this.tile.getPos());
+            this.getWrapped().onExitHabitat(mob);
         }
 
         @Override
         public boolean onEnterHabitat(final MobEntity mob)
         {
-            return this.wrapped.onEnterHabitat(mob);
+            if (this.tile.getPos() != null) this.wrapped.setPos(this.tile.getPos());
+            return this.getWrapped().onEnterHabitat(mob);
         }
 
         @Override
         public boolean canEnterHabitat(final MobEntity mob)
         {
-            return this.wrapped.canEnterHabitat(mob);
+            if (this.tile.getPos() != null) this.wrapped.setPos(this.tile.getPos());
+            return this.getWrapped().canEnterHabitat(mob);
         }
 
         @Override
-        public void onTick(final BlockPos pos, final ServerWorld world)
+        public void onTick(final ServerWorld world)
         {
-            this.wrapped.onTick(pos, world);
+            if (this.tile.getPos() != null) this.wrapped.setPos(this.tile.getPos());
+            this.getWrapped().onTick(world);
         }
 
         @Override
-        public void onBroken(final BlockPos pos, final ServerWorld world)
+        public void onBroken(final ServerWorld world)
         {
-            this.wrapped.onBroken(pos, world);
+            this.getWrapped().onBroken(world);
+        }
+
+        public IInhabitable getWrapped()
+        {
+            return this.wrapped;
+        }
+
+        public void setWrapped(final IInhabitable wrapped)
+        {
+            this.wrapped = wrapped;
         }
     }
 
@@ -93,22 +110,17 @@ public class CapabilityInhabitable
     public static class SaveableHabitatProvider extends HabitatProvider implements ICapabilitySerializable<CompoundNBT>
     {
 
-        public SaveableHabitatProvider(final IInhabitable toWrap)
+        public SaveableHabitatProvider(final TileEntity tile)
         {
-            super(toWrap);
-        }
-
-        public SaveableHabitatProvider()
-        {
-            this(new NotHabitat());
+            super(tile, new NotHabitat());
         }
 
         @Override
         public CompoundNBT serializeNBT()
         {
             final CompoundNBT nbt = new CompoundNBT();
-            if (this.wrapped instanceof INBTSerializable) nbt.put(this.wrapped.getKey().toString(),
-                    ((INBTSerializable<?>) this.wrapped).serializeNBT());
+            if (this.getWrapped() instanceof INBTSerializable) nbt.put(this.getWrapped().getKey().toString(),
+                    ((INBTSerializable<?>) this.getWrapped()).serializeNBT());
             return nbt;
         }
 
@@ -118,7 +130,7 @@ public class CapabilityInhabitable
         {
             try
             {
-                String key = this.wrapped.getKey() == null ? null : this.wrapped.getKey().toString();
+                String key = this.getWrapped().getKey() == null ? null : this.getWrapped().getKey().toString();
 
                 if (key == null || !nbt.contains(key))
                 {
@@ -133,11 +145,11 @@ public class CapabilityInhabitable
                         catch (final Exception e)
                         {
                         }
-                    if (CapabilityInhabitable.REGISTRY.containsKey(keyLoc))
-                        this.wrapped = CapabilityInhabitable.REGISTRY.get(keyLoc).get();
+                    if (CapabilityInhabitable.REGISTRY.containsKey(keyLoc)) this.setWrapped(
+                            CapabilityInhabitable.REGISTRY.get(keyLoc).get());
                 }
-                if (this.wrapped instanceof INBTSerializable) ((INBTSerializable<INBT>) this.wrapped).deserializeNBT(nbt
-                        .get(key));
+                if (this.getWrapped() instanceof INBTSerializable) ((INBTSerializable<INBT>) this.getWrapped())
+                        .deserializeNBT(nbt.get(key));
             }
             catch (final Exception e)
             {

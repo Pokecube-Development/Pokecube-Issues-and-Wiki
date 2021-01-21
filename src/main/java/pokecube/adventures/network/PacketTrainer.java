@@ -325,7 +325,7 @@ public class PacketTrainer extends NBTPacket
                     final NpcType newType = NpcType.byType(type);
                     npc.setNpcType(newType);
                     npc.setMale(male);
-                    if (this.getTag().getBoolean("rawName")) npc.name = name;
+                    if (this.getTag().getBoolean("rawName")) npc.setNPCName(name);
                     else npc.setTypedName(name);
                     npc.urlSkin = this.getTag().getString("uS");
                     npc.playerName = this.getTag().getString("pS");

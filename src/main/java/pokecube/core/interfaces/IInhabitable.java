@@ -17,7 +17,7 @@ public interface IInhabitable
     /**
      * Called when the habitat is broken due to the block being removed
      */
-    default void onBroken(final BlockPos pos, final ServerWorld world)
+    default void onBroken(final ServerWorld world)
     {
 
     }
@@ -26,7 +26,7 @@ public interface IInhabitable
      * This may not be called for all types of this, only ones on custom tile
      * entities which tick it themselves will be called!
      */
-    default void onTick(final BlockPos pos, final ServerWorld world)
+    default void onTick(final ServerWorld world)
     {
 
     }
@@ -40,5 +40,10 @@ public interface IInhabitable
     default ResourceLocation getKey()
     {
         return null;
+    }
+
+    default void setPos(final BlockPos pos)
+    {
+
     }
 }

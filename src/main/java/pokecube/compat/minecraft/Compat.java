@@ -22,7 +22,7 @@ import pokecube.adventures.Config;
 import pokecube.adventures.events.CompatEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.ai.tasks.idle.bees.BeeTasks.BeeHabitat;
+import pokecube.core.ai.tasks.bees.BeeTasks.BeeHabitat;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -94,10 +94,10 @@ public class Compat
         // Only apply to BeehiveTileEntity
         // For now, we do an equality check, instead of instanceof check.
         // TODO replace with instanceof when resourcefull bees updates
-        if(!(event.getObject().getClass() == BeehiveTileEntity.class)) return;
+        if (!(event.getObject().getClass() == BeehiveTileEntity.class)) return;
 
         final BeeHabitat habitat = new BeeHabitat((BeehiveTileEntity) event.getObject());
-        final HabitatProvider provider = new HabitatProvider(habitat);
+        final HabitatProvider provider = new HabitatProvider(event.getObject(), habitat);
         event.addCapability(Compat.BEEHIVES, provider);
     }
 

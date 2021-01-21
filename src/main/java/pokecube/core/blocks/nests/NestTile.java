@@ -53,8 +53,8 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         eggItem.setTag(nbt);
         final Random rand = new Random();
         final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world);
-        egg.setPos(pos.getX() + rand.nextGaussian(), pos.getY() + 1, pos.getZ() + rand.nextGaussian()).setStack(
-                eggItem);
+        egg.setPos(pos.getX() + 2 * (0.5 - rand.nextDouble()), pos.getY() + 1, pos.getZ() + 2 * (0.5 - rand
+                .nextDouble())).setStack(eggItem);
         final EggEvent.Lay event = new EggEvent.Lay(egg);
         MinecraftForge.EVENT_BUS.post(event);
         if (spawnNow) egg.setGrowingAge(-100);// Make it spawn after 5s
@@ -90,12 +90,12 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     {
         if (this.habitat instanceof HabitatProvider)
         {
-            final IInhabitable wrapped = ((HabitatProvider) this.habitat).wrapped;
+            final IInhabitable wrapped = ((HabitatProvider) this.habitat).getWrapped();
             if (wrapped.getKey() != null) return type.equals(wrapped.getKey());
             final IInhabitable made = CapabilityInhabitable.make(type);
             if (made != null)
             {
-                ((HabitatProvider) this.habitat).wrapped = made;
+                ((HabitatProvider) this.habitat).setWrapped(made);
                 return true;
             }
         }
@@ -175,8 +175,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onTick(this.getPos(),
-                (ServerWorld) this.world);
+        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onTick((ServerWorld) this.world);
         this.time++;
         final int power = this.world.getRedstonePower(this.getPos(), Direction.DOWN);
         if (!(this.world instanceof ServerWorld) || this.world.getDifficulty() == Difficulty.PEACEFUL && power == 0)
@@ -206,9 +205,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void onBroken()
     {
-        System.out.println(this.habitat+" "+this.world);
-        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onBroken(this.getPos(),
-                (ServerWorld) this.world);
+        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onBroken((ServerWorld) this.world);
     }
 
     @Override
