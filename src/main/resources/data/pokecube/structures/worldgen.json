@@ -434,6 +434,7 @@
       "root":"pokecube:scattered/stonehenge_ruins",
       "chance": 1,
       "biomeType":"ruin",
+      "water":true,
       "distance":64,
       "separation":12,
       "priority":10000,
