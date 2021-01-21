@@ -430,12 +430,13 @@
   ],
   "jigsaws":[
     {
+      "type":"pokecube:ruins",
       "name":"pokecube:scattered/stonehenge_ruins",
       "root":"pokecube:scattered/stonehenge_ruins",
       "chance": 1,
       "biomeType":"ruin",
       "water":true,
-      "distance":64,
+      "distance":32,
       "separation":12,
       "priority":10000,
       "spawn":{
@@ -446,11 +447,12 @@
       }
     },
     {
+      "type":"pokecube:ruins",
       "name":"pokecube:scattered/ruins",
       "root":"pokecube:scattered/ruins_start",
       "chance": 1,
       "biomeType":"ruin",
-      "distance":64,
+      "distance":32,
       "separation":12,
       "priority":10000,
       "spawn":{
@@ -461,7 +463,7 @@
       }
     },
     {
-      "type":"pokecube:village/common",
+      "type":"pokecube:village",
       "name":"pokecube:village/plains",
       "root":"pokecube:village/plains/town_centers",
       "chance":1,
@@ -487,7 +489,7 @@
       }
     },
     {
-      "type":"pokecube:village/desert",
+      "type":"pokecube:village",
       "name":"pokecube:village/desert",
       "root":"pokecube:village/desert/town_centers",
       "chance":1,
@@ -512,7 +514,7 @@
       }
     },
     {
-      "type":"pokecube:village/savanna",
+      "type":"pokecube:village",
       "name":"pokecube:village/savanna",
       "root":"pokecube:village/savanna/town_centers",
       "chance":1,
@@ -537,7 +539,7 @@
       }
     },
     {
-      "type":"pokecube:village/snowy",
+      "type":"pokecube:village",
       "name":"pokecube:village/snowy",
       "root":"pokecube:village/snowy/town_centers",
       "chance":1,
@@ -562,7 +564,7 @@
       }
     },
     {
-      "type":"pokecube:village/taiga",
+      "type":"pokecube:village",
       "name":"pokecube:village/taiga",
       "root":"pokecube:village/taiga/town_centers",
       "chance":1,
