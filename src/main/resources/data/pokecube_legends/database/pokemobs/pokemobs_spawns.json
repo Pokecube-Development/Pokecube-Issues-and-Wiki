@@ -194,7 +194,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.0"
             }
           }

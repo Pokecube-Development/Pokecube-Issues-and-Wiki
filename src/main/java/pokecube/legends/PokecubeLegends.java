@@ -49,6 +49,7 @@ import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
@@ -68,7 +69,7 @@ public class PokecubeLegends
             Reference.ID);
     public static final DeferredRegister<Item>  ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,
             Reference.ID);
-
+    
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
     {
@@ -138,6 +139,7 @@ public class PokecubeLegends
 
         BlockInit.init();
         ItemInit.init();
+        MoveRegister.init();
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event) {
