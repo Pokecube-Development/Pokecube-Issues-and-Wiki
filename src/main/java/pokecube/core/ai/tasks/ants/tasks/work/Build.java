@@ -8,32 +8,44 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.nest.Edge;
 import pokecube.core.ai.tasks.ants.nest.Node;
+import pokecube.core.ai.tasks.ants.nest.Part;
+import pokecube.core.ai.tasks.ants.nest.Tree;
+import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
-public class Build extends AbstractWorkTask
+public class Build extends AbstractConstructTask
 {
     public static interface IRoomHandler
     {
+        default boolean validWall(final Tree tree, final ServerWorld world, final BlockPos pos,
+                final AbstractWorkTask task)
+        {
+            final Node node = tree.getEffectiveNode(pos, null);
+            if (node == null) return false;
+            return this.validWall(node, world, pos, task);
+        }
+
+        default boolean place(final Tree tree, final ServerWorld world, final BlockPos pos, final BlockState state)
+        {
+            final Node node = tree.getEffectiveNode(pos, null);
+            if (node == null) return false;
+            return this.place(node, world, state, pos);
+        }
+
         default boolean validWall(final Node node, final ServerWorld world, final BlockPos pos,
                 final AbstractWorkTask task)
         {
@@ -43,16 +55,19 @@ public class Build extends AbstractWorkTask
             final int dx = pos.getX() - mid.getX();
             final int dz = pos.getZ() - mid.getZ();
 
-            final int roofY = (int) (node.inBounds.maxY + 1);
+            boolean light = false;
+            if (dx == 0 && dz == 0 && dy == 2) light = true;
 
             final double dh2 = dx * dx + dz * dz;
 
-            boolean valid = state.isOpaqueCube(world, pos) || state.getBlock() == Blocks.FARMLAND;
+            boolean valid = state.isOpaqueCube(world, pos) || state.getBlock() == Blocks.FARMLAND || state
+                    .getBlock() == Blocks.SHROOMLIGHT;
+
             switch (node.type)
             {
             case ENTRANCE:
                 // Entrances keep entrances on the cardinal directions
-                if ((dx == 0 || dz == 0) && dy >= 0 && dy <= 2)
+                if ((dx == 0 || dz == 0) && dy >= 0 && dy < 2 && !light)
                 {
                     boolean edge = false;
                     for (final Edge e : node.edges)
@@ -66,13 +81,12 @@ public class Build extends AbstractWorkTask
                 break;
             case FOOD:
                 if (dx == 0 && dz == 0 && dy == -1) valid = world.getFluidState(pos).isTagged(FluidTags.WATER);
-                else if (dy == -1 && dh2 <= 4) valid = state.getBlock() == Blocks.FARMLAND;
+                else if (dy == -1 && dh2 <= node.size * node.size) valid = state.getBlock() == Blocks.FARMLAND;
                 break;
             default:
                 break;
             }
-            if (node.type != AntRoom.ENTRANCE) if (dx == 0 && dz == 0 && pos.getY() == roofY) valid = state
-                    .getBlock() == Blocks.SHROOMLIGHT;
+            if (light) valid = state.getBlock() == Blocks.SHROOMLIGHT;
             if (!valid && task != null)
             {
                 task.tryHarvest(pos, true);
@@ -81,14 +95,19 @@ public class Build extends AbstractWorkTask
             return valid;
         }
 
-        default void place(final Node node, final ServerWorld world, BlockState state, final BlockPos pos)
+        default boolean place(final Node node, final ServerWorld world, BlockState state, final BlockPos pos)
         {
             final BlockPos mid = node.getCenter();
             final int dy = pos.getY() - mid.getY();
             final int dx = pos.getX() - mid.getX();
             final int dz = pos.getZ() - mid.getZ();
 
-            final int roofY = (int) (node.inBounds.maxY + 1);
+            boolean light = false;
+            if (dx == 0 && dz == 0 && dy == 2)
+            {
+                light = true;
+                state = Blocks.SHROOMLIGHT.getDefaultState();
+            }
 
             final double dh2 = dx * dx + dz * dz;
 
@@ -97,7 +116,7 @@ public class Build extends AbstractWorkTask
             case EGG:
                 break;
             case ENTRANCE:
-                if ((dx == 0 || dz == 0) && dy >= 0 && dy <= 2)
+                if ((dx == 0 || dz == 0) && dy >= 0 && dy < 2 && !light)
                 {
                     boolean edge = false;
                     for (final Edge e : node.edges)
@@ -106,19 +125,19 @@ public class Build extends AbstractWorkTask
                             edge = true;
                             break;
                         }
-                    if (!edge) return;
+                    if (!edge) return false;
                 }
                 break;
             case FOOD:
                 if (dx == 0 && dz == 0 && dy == -1)
                 {
                     world.setBlockState(pos, Blocks.WATER.getDefaultState());
-                    return;
+                    return true;
                 }
-                else if (dy == -1 && dh2 <= 4)
+                else if (dy == -1 && dh2 <= node.size * node.size)
                 {
                     world.setBlockState(pos, Blocks.FARMLAND.getDefaultState());
-                    return;
+                    return true;
                 }
                 break;
             case NODE:
@@ -126,9 +145,8 @@ public class Build extends AbstractWorkTask
             default:
                 break;
             }
-            if (node.type != AntRoom.ENTRANCE) if (dx == 0 && dz == 0 && pos.getY() == roofY) state = Blocks.SHROOMLIGHT
-                    .getDefaultState();
             world.setBlockState(pos, state);
+            return true;
         }
     }
 
@@ -139,240 +157,110 @@ public class Build extends AbstractWorkTask
     public static final Map<AntRoom, IRoomHandler> ROOMHANLDERS = Maps.newHashMap();
 
     ItemStack to_place = ItemStack.EMPTY;
-    int       storeInd = -1;
 
-    int build_timer = 0;
-
-    Node n = null;
-    Edge e = null;
-
-    BlockPos build_pos = null;
+    int storeInd = -1;
 
     boolean going_to_nest = false;
-
-    Predicate<BlockPos> canStand = pos -> BlockPos.getAllInBox(pos.add(-1, -2, -1), pos.add(1, 0, 1)).anyMatch(
-            p -> this.world.getBlockState(p).isSolid());
 
     public Build(final IPokemob pokemob)
     {
         super(pokemob, j -> j == AntJob.BUILD);
     }
 
-    @Override
-    public void reset()
+    private boolean buildPart(final Part part)
     {
-        this.to_place = ItemStack.EMPTY;
-        this.going_to_nest = false;
-        this.storeInd = -1;
-        this.build_timer = 0;
+        final long time = this.world.getGameTime();
+        if (!part.shouldBuild(time)) return false;
+        this.valids.set(0);
+        final AntRoom type = AntRoom.NODE;
+        final Tree tree = part.getTree();
+        // Start with a check of if the pos is inside.
+        Predicate<BlockPos> isValid = pos -> tree.isOnShell(pos);
+        // If it is inside, and not diggable, we notify the node of the
+        // dug spot, finally we check if there is space nearby to stand.
+        isValid = isValid.and(pos ->
+        {
+            final Node node = part.getTree().getEffectiveNode(pos, part);
+            final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(node == part ? node.type : type,
+                    Build.DEFAULT);
+            final boolean wall = handler.validWall(tree, this.world, pos, this);
+            if (!wall) this.valids.getAndIncrement();
+            return !wall;
+        });// .and(this.canStandNear);
+           // For some reason, parallel stream fails here?
+        final Optional<BlockPos> pos = part.getBuildBounds().stream().filter(isValid).findAny();
+        if (pos.isPresent())
+        {
+            this.work_pos = pos.get();
+            return true;
+        }
+        if (this.valids.get() == 0) part.build_done = time + 2400;
+        return false;
+    }
+
+    private boolean divert(final Part old)
+    {
+        final long time = this.world.getGameTime();
         this.n = null;
         this.e = null;
-        this.build_pos = null;
-        final Brain<?> brain = this.entity.getBrain();
-        brain.removeMemory(AntTasks.WORK_POS);
-        brain.removeMemory(AntTasks.JOB_INFO);
-        brain.setMemory(AntTasks.NO_WORK_TIME, -20);
-    }
-
-    private void endTask(final boolean completed)
-    {
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Need New Build Site");
-        if (this.build_timer > 400) this.entity.getBrain().setMemory(AntTasks.GOING_HOME, true);
-        if (completed)
+        if (old instanceof Edge)
         {
-            if (this.n != null) this.n.build_done = this.world.getGameTime() + 2400;
-            if (this.e != null) this.e.build_done = this.world.getGameTime() + 2400;
-        }
-        this.reset();
-    }
-
-    private boolean checkJob()
-    {
-        final Brain<?> brain = this.entity.getBrain();
-
-        boolean edge = this.e != null;
-        boolean node = this.n != null;
-
-        if (edge && this.e.getTree() == null)
-        {
-            PokecubeCore.LOGGER.error("No Edge Tree!");
-            this.reset();
-            return false;
-        }
-
-        if (node && this.n.getTree() == null)
-        {
-            PokecubeCore.LOGGER.error("No Node Tree!");
-            this.reset();
-            return false;
-        }
-
-        if (!(edge || node))
-        {
-            final CompoundNBT tag = brain.getMemory(AntTasks.JOB_INFO).get();
-            edge = tag.getString("type").equals("edge");
-            node = tag.getString("type").equals("node");
-            final CompoundNBT data = tag.getCompound("data");
-            if (edge)
+            final Edge edge = (Edge) old;
+            Node next = edge.node1;
+            if (next.shouldBuild(time))
             {
-                this.e = new Edge();
-                this.e.deserializeNBT(data);
-                if (this.e.node1 == null || this.e.node2 == null)
-                {
-                    tag.remove("type");
-                    tag.remove("data");
-                    PokecubeCore.LOGGER.error("Corrupted Dig Edge Info!");
-                    this.reset();
-                    return false;
-                }
-                this.e.node1 = this.nest.hab.rooms.map.get(this.e.node1.getCenter());
-                this.e.node2 = this.nest.hab.rooms.map.get(this.e.node2.getCenter());
-                this.e.setTree(this.e.node1.getTree());
-                if (this.e.getTree() == null)
-                {
-                    tag.remove("type");
-                    tag.remove("data");
-                    PokecubeCore.LOGGER.error("No Edge Tree!");
-                    this.reset();
-                    return false;
-                }
+                this.n = next;
+                this.e = null;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 1 b " + this.n.type);
+                return true;
             }
-            if (node)
+            next = edge.node2;
+            if (next.shouldBuild(time))
             {
-                this.n = new Node();
-                try
-                {
-                    this.n.deserializeNBT(data);
-                    this.n = this.nest.hab.rooms.map.get(this.n.getCenter());
-                    if (this.n.getTree() == null)
-                    {
-                        tag.remove("type");
-                        tag.remove("data");
-                        PokecubeCore.LOGGER.error("No Node Tree!");
-                        this.reset();
-                        return false;
-                    }
-                }
-                catch (final Exception e1)
-                {
-                    e1.printStackTrace();
-                    tag.remove("type");
-                    tag.remove("data");
-                    PokecubeCore.LOGGER.error("Corrupted Dig Node Info!");
-                    this.reset();
-                    return false;
-                }
+                this.n = next;
+                this.e = null;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 2 b " + this.n.type);
+                return true;
             }
         }
-        if (!(edge || node))
+        else if (old instanceof Node)
         {
-            PokecubeCore.LOGGER.debug("Invalid Dig Info!");
-            this.reset();
-            return false;
-        }
-        return true;
-    }
-
-    private boolean selectJobSite()
-    {
-        final Brain<?> brain = this.entity.getBrain();
-        final Optional<GlobalPos> room = brain.getMemory(AntTasks.WORK_POS);
-        final long time = this.world.getGameTime();
-        select:
-        if (this.build_pos == null)
-        {
-            final boolean edge = this.e != null;
-            if (edge)
+            final Node node = (Node) old;
+            Edge next = null;
+            for (final Edge e : node.edges)
+                if (e.shouldBuild(time))
+                {
+                    next = e;
+                    break;
+                }
+            if (next != null)
             {
-                if (!this.e.shouldBuild(time))
-                {
-                    if (this.e.node1.shouldBuild(time))
-                    {
-                        this.n = this.e.node1;
-                        this.e = null;
-                        return false;
-                    }
-                    if (this.e.node2.shouldBuild(time))
-                    {
-                        this.n = this.e.node2;
-                        this.e = null;
-                        return false;
-                    }
-                    this.endTask(false);
-                    return false;
-                }
-                final Node node = this.e.node1;
-                final AntRoom type = this.n == null ? AntRoom.NODE : this.n.type;
-                final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(type, Build.DEFAULT);
-                final AxisAlignedBB box = new AxisAlignedBB(this.e.end1, this.e.end2).grow(1);
-                // Start with a check of if the pos is inside.
-                Predicate<BlockPos> isValid = pos -> this.e.getTree().isOnShell(pos);
-                // If it is inside, and not diggable, we notify the node of the
-                // dug spot, finally we check if there is space nearby to stand.
-                isValid = isValid.and(pos -> !handler.validWall(node, this.world, pos, this)).and(this.canStand);
-                final Optional<BlockPos> pos = BlockPos.getAllInBox(box).filter(isValid).findAny();
-                if (pos.isPresent())
-                {
-                    this.build_pos = pos.get();
-                    this.build_timer = -600;
-                    break select;
-                }
-                else this.e.build_done = time + 2400;
-            }
-            else
-            {
-                if (!this.n.shouldBuild(time))
-                {
-                    for (final Edge e : this.n.edges)
-                        if (e.shouldBuild(time))
-                        {
-                            this.e = e;
-                            this.n = null;
-                            return false;
-                        }
-                    this.endTask(false);
-                    return false;
-                }
-                final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(this.n.type, Build.DEFAULT);
-                final AxisAlignedBB box = this.n.outBounds;
-                // Start with a check of if the pos is inside.
-                Predicate<BlockPos> isValid = pos -> this.n.getTree().isOnShell(pos);
-                // If it is inside, and not diggable, we notify the node of the
-                // dug spot, finally we check if there is space nearby to stand.
-                isValid = isValid.and(pos -> !handler.validWall(this.n, this.world, pos, this)).and(this.canStand);
-
-                final Optional<BlockPos> pos = BlockPos.getAllInBox(box).filter(isValid).findAny();
-                if (pos.isPresent())
-                {
-                    this.build_pos = pos.get();
-                    this.build_timer = -600;
-                    break select;
-                }
-                else this.n.build_done = time + 2400;
+                this.n = null;
+                this.e = next;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 1 b");
+                return true;
             }
         }
-        this.build_timer++;
-        if (this.build_pos == null)
-        {
-            this.setWalkTo(room.get().getPos(), 1, 1);
-            // If we took too long. lets give up
-            if (this.build_timer > 600) this.endTask(true);
-        }
-        return this.build_pos != null;
+        // Try to find another open node or edge
+        for (final Node n : this.nest.hab.rooms.allRooms)
+            if (n.shouldBuild(time))
+            {
+                this.n = n;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 3 b " + this.n.type);
+                return true;
+            }
+        for (final Edge e : this.nest.hab.rooms.allEdges)
+            if (e.shouldBuild(time))
+            {
+                this.e = e;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 2 b");
+                return true;
+            }
+        return false;
     }
 
-    @Override
-    public void run()
+    private boolean hasItem()
     {
-        if (this.storage.firstEmpty == -1) return;
-
-        if (!this.checkJob()) return;
-        if (!this.selectJobSite()) return;
-
-        this.pokemob.setRoutineState(AIRoutine.STORE, true);
-        this.storage.storageLoc = this.nest.nest.getPos();
-        this.storage.berryLoc = this.nest.nest.getPos();
-
         // First. we need to check our own inventory, see if we have any blocks.
         // If so, we will place one of those. Otherwise, we need to go to the
         // nest, and pick one up from there.
@@ -413,7 +301,7 @@ public class Build extends AbstractWorkTask
                                 this.storeInd = this.storage.firstEmpty;
                                 this.pokemob.getInventory().setInventorySlotContents(this.storage.firstEmpty,
                                         this.to_place);
-                                return;
+                                return false;
                             }
                         }
                         this.to_place = new ItemStack(Blocks.PODZOL, 5);
@@ -423,30 +311,58 @@ public class Build extends AbstractWorkTask
                 }
             }
             this.going_to_nest = this.to_place.isEmpty();
-            if (this.going_to_nest) return;
+            if (this.going_to_nest)
+            {
+                this.progressTimer = -60;
+                return false;
+            }
         }
-        final BlockPos pos = this.build_pos;
-        if (pos.distanceSq(this.entity.getPosition()) > 10) this.setWalkTo(pos, 1, 1);
+        return !this.to_place.isEmpty();
+    }
+
+    @Override
+    protected boolean selectJobSite()
+    {
+        select:
+        if (this.work_pos == null)
+        {
+            final boolean edge = this.e != null;
+            final Part part = edge ? this.e : this.n;
+            final long time = this.world.getGameTime();
+            if (this.buildPart(part)) break select;
+            if (!part.shouldBuild(time))
+            {
+                if (!this.divert(part)) this.endTask();
+                return false;
+            }
+        }
+        // Check item after selecting a postion, this way we can decide if the
+        // item is the correct one to place at this location.
+        return this.work_pos != null && this.hasItem();
+    }
+
+    @Override
+    protected void doWork()
+    {
         if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem && this.storeInd != -1)
         {
             final BlockItem item = (BlockItem) this.to_place.getItem();
             final BlockState state = item.getBlock().getDefaultState();
-            if (this.n != null)
+            boolean wall = false;
+            final Part part = this.n == null ? this.e : this.n;
+            final BlockPos pos = this.work_pos;
+            final AntRoom type = AntRoom.NODE;
+            final Tree tree = part.getTree();
+            final Node node = tree.getEffectiveNode(pos, part);
+            final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(node == part ? node.type : type,
+                    Build.DEFAULT);
+            wall = handler.validWall(tree, this.world, pos, this);
+            if (!wall)
             {
-                final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(this.n.type, Build.DEFAULT);
-                if (!handler.validWall(this.n, this.world, pos, this))
-                {
-                    handler.place(this.n, this.world, state, pos);
-                    if (!this.world.isAirBlock(pos)) this.to_place.shrink(1);
-                }
-            }
-            else
-            {
-                this.world.setBlockState(pos, state);
-                if (!this.world.isAirBlock(pos)) this.to_place.shrink(1);
+                handler.place(tree, this.world, this.work_pos, state);
+                if (!this.world.isAirBlock(this.work_pos)) this.to_place.shrink(1);
             }
             this.pokemob.getInventory().setInventorySlotContents(this.storeInd, this.to_place);
         }
-        this.build_pos = null;
     }
 }

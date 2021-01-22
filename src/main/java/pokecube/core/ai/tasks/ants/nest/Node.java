@@ -46,8 +46,7 @@ public class Node extends Part
     {
         final Vector3d x0 = this.mid;
         Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
-        final float y = this.size >= 3 ? this.size / 2 : 1.5f;
-        x = x.mul(1, y, 1);
+        x = x.mul(1, this.size / 2, 1);
         final double r = x.length();
         // Some basic limits first
         if (r > this.size || x.y < 0) return false;
@@ -57,22 +56,21 @@ public class Node extends Part
     @Override
     public boolean isInside(final BlockPos pos)
     {
-        if (!this.inBounds.contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
+        if (!this.getInBounds().contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
         return this.selfInside(pos);
     }
 
     @Override
     public boolean isOnShell(final BlockPos pos)
     {
-        if (!this.outBounds.contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
+        if (!this.getOutBounds().contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
         // Check main spot first.
         if (this.isInside(pos)) return false;
         final Vector3d x0 = this.mid;
         Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
-        final float y = this.size >= 3 ? this.size / 2 : 1.5f;
-        x = x.mul(1, y, 1);
+        x = x.mul(1, this.size / 2, 1);
         final double r = x.length();
-        return r <= this.size + 3 && x.y > -2;
+        return r < this.size + 2 && x.y > -2;
     }
 
     @Override
@@ -135,7 +133,7 @@ public class Node extends Part
             {
                 e.setTree(this.getTree());
                 e.deserializeNBT(edgeNbt);
-                if (!(e.end1.equals(e.end2) || this.edges.contains(e))) this.edges.add(e);
+                if (!(e.getEnd1().equals(e.getEnd2()) || this.edges.contains(e))) this.edges.add(e);
             }
             catch (final Exception e1)
             {
@@ -155,8 +153,22 @@ public class Node extends Part
         this.center = center;
         this.size = size;
         this.mid = new Vector3d(center.getX() + 0.5, center.getY(), center.getZ() + 0.5);
-        final float y = this.size >= 3 ? this.size / 2 : 1.5f;
-        this.inBounds = new AxisAlignedBB(this.mid.add(-size, 0, -size), this.mid.add(size, y, size));
-        this.outBounds = this.inBounds.grow(3);
+        this.setInBounds(new AxisAlignedBB(this.mid.add(-size, 0, -size), this.mid.add(size, 2, size)));
+        this.setOutBounds(new AxisAlignedBB(this.mid.add(-size - 2, -2, -size - 2), this.mid.add(size + 2, 4, size
+                + 2)));
+    }
+
+    @Override
+    public void setDigDone(final long time)
+    {
+        super.setDigDone(time);
+        for (final Edge e : this.edges)
+            e.started = true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.type + " " + (int) (this.size * 100) / 100f + " " + this.center;
     }
 }

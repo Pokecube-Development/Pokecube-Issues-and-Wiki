@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.misc;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nullable;
@@ -23,6 +24,8 @@ import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.world.IPathHelper;
+import pokecube.core.world.WorldTickManager;
 
 public class WalkToTask extends RootTask<MobEntity>
 {
@@ -128,7 +131,21 @@ public class WalkToTask extends RootTask<MobEntity>
     private boolean isPathValid(final MobEntity mob, final WalkTarget target, final long gametime)
     {
         final BlockPos blockpos = target.getTarget().getBlockPos();
-        this.currentPath = mob.getNavigator().pathfind(ImmutableSet.of(blockpos), 16, false, 0);
+
+        pathing:
+        {
+            final List<IPathHelper> pathers = WorldTickManager.pathHelpers.get(mob.getEntityWorld().getDimensionKey());
+            for (final IPathHelper h : pathers)
+            {
+                final boolean valid = h.shouldHelpPath(mob, target);
+                if (valid)
+                {
+                    this.currentPath = h.getPath(mob, target);
+                    if (this.currentPath != null) break pathing;
+                }
+            }
+            this.currentPath = mob.getNavigator().pathfind(ImmutableSet.of(blockpos), 16, false, 0);
+        }
         this.speed = target.getSpeed();
         if (!this.hasReachedTarget(mob, target))
         {
@@ -161,7 +178,6 @@ public class WalkToTask extends RootTask<MobEntity>
                 return this.currentPath != null;
             }
         }
-
         return false;
     }
 

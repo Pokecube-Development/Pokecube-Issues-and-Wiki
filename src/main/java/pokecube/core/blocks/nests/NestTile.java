@@ -8,6 +8,10 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.ChestContainer;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -20,9 +24,14 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.Database;
@@ -36,6 +45,7 @@ import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
+import pokecube.core.inventory.InvWrapper;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.api.maths.Vector3;
@@ -53,7 +63,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         eggItem.setTag(nbt);
         final Random rand = new Random();
         final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world);
-        egg.setPos(pos.getX() + 2 * (0.5 - rand.nextDouble()), pos.getY() + 1, pos.getZ() + 2 * (0.5 - rand
+        egg.setPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1, pos.getZ() + 1.5 * (0.5 - rand
                 .nextDouble())).setStack(eggItem);
         final EggEvent.Lay event = new EggEvent.Lay(egg);
         MinecraftForge.EVENT_BUS.post(event);
@@ -105,7 +115,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     public boolean addForbiddenSpawningCoord()
     {
         final BlockPos pos = this.getPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world, 16,
+        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world, 64,
                 ForbidReason.NEST);
     }
 
@@ -131,7 +141,20 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
-        // TODO Auto-generated method stub
+        final IItemHandler handler = this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+        if (handler instanceof IItemHandlerModifiable)
+        {
+            if (player instanceof ServerPlayerEntity)
+            {
+                final ServerPlayerEntity sendTo = (ServerPlayerEntity) player;
+                final IInventory wrapper = new InvWrapper((IItemHandlerModifiable) handler);
+                final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
+                        e) -> ChestContainer.createGeneric9X6(i, p, wrapper), new TranslationTextComponent(
+                                "block.pokecube.nest"));
+                NetworkHooks.openGui(sendTo, provider);
+            }
+            return ActionResultType.SUCCESS;
+        }
         return super.onInteract(pos, player, hand, hit);
     }
 

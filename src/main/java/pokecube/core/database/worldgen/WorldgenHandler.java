@@ -603,7 +603,7 @@ public class WorldgenHandler
     private static void forceVillageFeature(final Structure<?> feature)
     {
         final List<Structure<?>> list = Lists.newArrayList(Structure.field_236384_t_);
-        list.add(feature);
+        if (!list.contains(feature)) list.add(feature);
         Structure.field_236384_t_ = list;
     }
 }

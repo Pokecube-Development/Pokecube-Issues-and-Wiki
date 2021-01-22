@@ -1,5 +1,10 @@
 package pokecube.core.ai.tasks.ants.nest;
 
+import java.util.Collections;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -13,8 +18,11 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
     public long    dig_done   = 0;
     public long    build_done = 0;
 
-    public AxisAlignedBB inBounds  = null;
-    public AxisAlignedBB outBounds = null;
+    private AxisAlignedBB inBounds  = null;
+    private AxisAlignedBB outBounds = null;
+
+    private final List<BlockPos> digBounds   = Lists.newArrayList();
+    private final List<BlockPos> buildBounds = Lists.newArrayList();
 
     // If present, when loading this map will be used to sync the nodes
     // on the edges.
@@ -34,8 +42,8 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
     public void deserializeNBT(final CompoundNBT nbt)
     {
         this.started = nbt.getBoolean("s");
-        this.dig_done = nbt.getLong("dd");
-        this.build_done = nbt.getLong("bd");
+//        this.dig_done = nbt.getLong("dd");
+//        this.build_done = nbt.getLong("bd");
     }
 
     public boolean shouldDig(final long worldTime)
@@ -62,4 +70,44 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
         this._tree = _tree;
     }
 
+    public List<BlockPos> getDigBounds()
+    {
+        Collections.shuffle(this.digBounds);
+        return this.digBounds;
+    }
+
+    public List<BlockPos> getBuildBounds()
+    {
+        Collections.shuffle(this.buildBounds);
+        return this.buildBounds;
+    }
+
+    public AxisAlignedBB getOutBounds()
+    {
+        return this.outBounds;
+    }
+
+    public void setOutBounds(final AxisAlignedBB outBounds)
+    {
+        this.outBounds = outBounds;
+        this.buildBounds.clear();
+        BlockPos.getAllInBox(this.getOutBounds()).forEach(p -> this.buildBounds.add(p.toImmutable()));
+    }
+
+    public AxisAlignedBB getInBounds()
+    {
+        return this.inBounds;
+    }
+
+    public void setInBounds(final AxisAlignedBB inBounds)
+    {
+        this.inBounds = inBounds;
+        this.digBounds.clear();
+        BlockPos.getAllInBox(this.getInBounds()).forEach(p -> this.digBounds.add(p.toImmutable()));
+    }
+
+    public void setDigDone(final long time)
+    {
+        this.dig_done = time;
+    }
 }

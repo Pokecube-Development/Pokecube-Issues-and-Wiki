@@ -39,7 +39,6 @@ import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.world.gen.jigsaw.JigsawAssmbler;
 
 public class CustomJigsawStructure extends Structure<JigsawConfig>
 {

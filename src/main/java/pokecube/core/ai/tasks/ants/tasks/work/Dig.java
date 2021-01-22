@@ -1,407 +1,174 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
-import com.google.common.collect.Maps;
-
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.nest.Edge;
 import pokecube.core.ai.tasks.ants.nest.Node;
-import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
+import pokecube.core.ai.tasks.ants.nest.Part;
+import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
-import thut.api.maths.Vector3;
 
-public class Dig extends AbstractWorkTask
+public class Dig extends AbstractConstructTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
-    static
-    {
-        Dig.mems.put(AntTasks.JOB_INFO, MemoryModuleStatus.VALUE_PRESENT);
-    }
-
-    int progressTimer    = 0;
-    int progressDistance = 0;
-
-    Node n = null;
-    Edge e = null;
-
-    BlockPos            digChoice = null;
-    final AtomicInteger valids    = new AtomicInteger(0);
-
-    Predicate<BlockPos> hasEmptySpace = pos -> BlockPos.getAllInBox(pos.add(-1, -1, -1), pos.add(1, 1, 1)).anyMatch(
-            p -> this.world.isAirBlock(p));
-
     public Dig(final IPokemob pokemob)
     {
-        super(pokemob, Dig.mems, j -> j == AntJob.DIG);
+        super(pokemob, j -> j == AntJob.DIG);
     }
 
-    @Override
-    public void reset()
+    private boolean digPart(final Part part)
     {
-        this.progressTimer = 0;
-        this.progressDistance = 0;
-        this.n = null;
-        this.e = null;
-        this.digChoice = null;
+        final long time = this.world.getGameTime();
+        if (!part.shouldDig(time)) return false;
         this.valids.set(0);
-        final Brain<?> brain = this.entity.getBrain();
-        brain.removeMemory(AntTasks.WORK_POS);
-        brain.removeMemory(AntTasks.JOB_INFO);
-        brain.setMemory(AntTasks.NO_WORK_TIME, -20);
-    }
+        final AtomicBoolean shor = new AtomicBoolean(false);
+        shor.set(false);
 
-    private void endTask(final boolean completed)
-    {
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Need New Dig Site " + this.progressTimer);
-        if (this.progressTimer > 300) this.entity.getBrain().setMemory(AntTasks.GOING_HOME, true);
-        if (completed)
+        // Start with a check of if the pos is inside.
+        Predicate<BlockPos> isValid = p -> part.getTree().isInside(p);
+        // If it is inside, and not diggable, we notify the node of the
+        // dug spot, finally we check if there is space nearby to stand.
+        isValid = isValid.and(p ->
         {
-            if (this.n != null) this.n.dig_done = this.world.getGameTime() + 2400;
-            if (this.e != null) this.e.dig_done = this.world.getGameTime() + 2400;
-        }
-        this.reset();
-    }
-
-    private boolean checkJob()
-    {
-        final Brain<?> brain = this.entity.getBrain();
-
-        boolean edge = this.e != null;
-        boolean node = this.n != null;
-
-        if (edge && this.e.getTree() == null)
-        {
-            PokecubeCore.LOGGER.error("No Edge Tree!");
-            this.reset();
-            return false;
-        }
-
-        if (node && this.n.getTree() == null)
-        {
-            PokecubeCore.LOGGER.error("No Node Tree!");
-            this.reset();
-            return false;
-        }
-
-        if (!(edge || node))
-        {
-            final CompoundNBT tag = brain.getMemory(AntTasks.JOB_INFO).get();
-            edge = tag.getString("type").equals("edge");
-            node = tag.getString("type").equals("node");
-            final CompoundNBT data = tag.getCompound("data");
-            if (edge)
+            if (this.diggable.test(this.world.getBlockState(p)))
             {
-                this.e = new Edge();
-                this.e.deserializeNBT(data);
-                if (this.e.node1 == null || this.e.node2 == null)
-                {
-                    tag.remove("type");
-                    tag.remove("data");
-                    PokecubeCore.LOGGER.error("Corrupted Dig Edge Info!");
-                    this.reset();
-                    return false;
-                }
-                this.e.node1 = this.nest.hab.rooms.map.get(this.e.node1.getCenter());
-                this.e.node2 = this.nest.hab.rooms.map.get(this.e.node2.getCenter());
-                this.e.setTree(this.e.node1.getTree());
-                if (this.e.getTree() == null)
-                {
-                    tag.remove("type");
-                    tag.remove("data");
-                    PokecubeCore.LOGGER.error("No Edge Tree!");
-                    this.reset();
-                    return false;
-                }
+                this.valids.getAndIncrement();
+                return this.hasEmptySpace.test(p);
             }
-            if (node)
-            {
-                this.n = new Node();
-                try
-                {
-                    this.n.deserializeNBT(data);
-                    this.n = this.nest.hab.rooms.map.get(this.n.getCenter());
-                    if (this.n.getTree() == null)
-                    {
-                        tag.remove("type");
-                        tag.remove("data");
-                        PokecubeCore.LOGGER.error("No Node Tree!");
-                        this.reset();
-                        return false;
-                    }
-                }
-                catch (final Exception e1)
-                {
-                    e1.printStackTrace();
-                    tag.remove("type");
-                    tag.remove("data");
-                    PokecubeCore.LOGGER.error("Corrupted Dig Node Info!");
-                    this.reset();
-                    return false;
-                }
-            }
-        }
-        if (!(edge || node))
-        {
-            PokecubeCore.LOGGER.debug("Invalid Dig Info!");
-            this.reset();
             return false;
-        }
-        return true;
-    }
-
-    private boolean tryLine(final BlockPos start, final BlockPos end, final Edge e)
-    {
-        final Vector3 x0 = Vector3.getNewVector();
-        final Vector3 dr = Vector3.getNewVector();
-        x0.set(start);
-        dr.set(end).subtractFrom(x0);
-        final double r = dr.mag();
-        dr.scalarMultBy(1 / r);
-        if ((int) e.digged >= (int) r)
+        });
+        Optional<BlockPos> valid = part.getDigBounds().stream().filter(isValid).findAny();
+        if (valid.isPresent())
         {
-            final boolean node1 = e.node1.started;
-            e.digged = 0.0;
-            final Node next = node1 ? e.node2 : e.node1;
-            next.started = true;
-            e.dig_done = this.world.getGameTime() + 2400;
-            return false;
-        }
-        final Vector3 tmp = Vector3.getNewVector();
-        for (double i = 0; i <= r; i++)
-        {
-            e.digged = i;
-            x0.set(start).addTo(dr.x * i, dr.y * i, dr.z * i);
-            if (x0.sameBlock(tmp)) continue;
-            tmp.set(x0);
-            BlockPos pos = x0.getPos();
-            final boolean hasRoom = this.hasEmptySpace.test(pos);
-            if (!hasRoom)
-            {
-                e.digged = 0;
-                return false;
-            }
-            final BlockPos min = pos.add(-2, -2, -2);
-            final BlockPos max = pos.add(2, 2, 2);
-            final Optional<BlockPos> valid = BlockPos.getAllInBox(min, max).filter(p -> this.diggable.test(this.world
-                    .getBlockState(p)) && e.getTree().isInside(p)).findAny();
-            if (!valid.isPresent()) continue;
-            pos = valid.get();
-            this.digChoice = pos.toImmutable();
-            this.progressTimer = -60;
+            this.work_pos = valid.get().toImmutable();
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Found Dig Site!");
             return true;
         }
-
-        final boolean node1 = e.node1.started;
-        e.digged = 0.0;
-        final Node next = node1 ? e.node2 : e.node1;
-        next.started = true;
-        e.dig_done = this.world.getGameTime() + 2400;
+        final boolean done = part instanceof Edge ? this.valids.get() == 0 : this.valids.get() < 3;
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("No Site " + this.valids.get() + " " + done);
+        // None were valid to dig, so mark as done.
+        if (done) part.setDigDone(time + (part instanceof Node ? 2400 : 1200));
+        else if (shor.get())
+        {
+            // Start with a check of if the pos is inside.
+            isValid = p -> part.getTree().isInside(p);
+            // If it is inside, and not diggable, we notify the node of the
+            // dug spot, finally we check if there is space nearby to stand.
+            isValid = isValid.and(p ->
+            {
+                if (this.diggable.test(this.world.getBlockState(p)))
+                {
+                    this.valids.getAndIncrement();
+                    return this.canStandNear.test(p);
+                }
+                return false;
+            });
+            valid = part.getDigBounds().stream().filter(isValid).findAny();
+            if (valid.isPresent())
+            {
+                this.work_pos = valid.get().toImmutable();
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Found Dig Site!");
+                return true;
+            }
+        }
         return false;
     }
 
-    private boolean selectJobSite()
+    private boolean divert(final Part old)
     {
-        final boolean edge = this.e != null;
         final long time = this.world.getGameTime();
-        dig_select:
-        if (this.digChoice == null && this.progressTimer % 5 == 0)
+        this.n = null;
+        this.e = null;
+        if (old instanceof Edge)
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Selecting dig site");
-            if (edge)
+            final Edge edge = (Edge) old;
+            Node next = edge.node1;
+            if (next.shouldDig(time))
             {
-                if (!this.e.shouldDig(time))
-                {
-                    this.e.node1.started = true;
-                    this.e.node2.started = true;
-                    Node next = this.e.node1;
-                    if (next.shouldDig(time))
-                    {
-                        this.n = next;
-                        this.e = null;
-                        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 1 " + this.n.type);
-                        return false;
-                    }
-                    next = this.e.node2;
-                    if (next.shouldDig(time))
-                    {
-                        this.n = next;
-                        this.e = null;
-                        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 2 " + this.n.type);
-                        return false;
-                    }
-                    this.e = null;
-                    // Try to find another open node or edge
-                    for (final Node n : this.nest.hab.rooms.allRooms)
-                        if (n.shouldDig(time))
-                        {
-                            this.n = n;
-                            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 3 " + this.n.type);
-                            return false;
-                        }
-                    for (final Edge e : this.nest.hab.rooms.allEdges)
-                        if (e.shouldDig(time))
-                        {
-                            this.e = e;
-                            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 2");
-                            return false;
-                        }
-                    this.endTask(false);
-                    return false;
-                }
-                final boolean node1 = this.e.node1.started;
-                final BlockPos start = node1 ? this.e.end1 : this.e.end2;
-                final BlockPos end = node1 ? this.e.end2 : this.e.end1;
-                this.valids.set(0);
-                if (this.tryLine(start, end, this.e)) break dig_select;
-                // None were valid to dig, so mark as done.
-                if (this.valids.get() == 0 && this.e != null) this.e.dig_done = time + 2400;
+                this.n = next;
+                this.e = null;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 1 " + this.n);
+                return true;
             }
-            else
+            next = edge.node2;
+            if (next.shouldDig(time))
             {
-                if (!this.n.shouldDig(time))
-                {
-                    Edge next = null;
-                    for (final Edge e : this.n.edges)
-                    {
-                        e.started = true;
-                        if (e.shouldDig(time)) next = e;
-                    }
-                    if (next != null)
-                    {
-                        this.n = null;
-                        this.e = next;
-                        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 1");
-                        return false;
-                    }
-                    this.endTask(false);
-                    return false;
-                }
-                final AxisAlignedBB box = this.n.inBounds;
-                this.valids.set(0);
-                // Start with a check of if the pos is inside.
-                Predicate<BlockPos> isValid = pos -> this.n.getTree().isInside(pos);
-                // If it is inside, and not diggable, we notify the node of the
-                // dug spot, finally we check if there is space nearby to stand.
-                isValid = isValid.and(pos ->
-                {
-                    if (this.diggable.test(this.world.getBlockState(pos)))
-                    {
-                        this.valids.getAndIncrement();
-                        return true;
-                    }
-                    this.n.dug.add(pos.toImmutable());
-                    return false;
-                }).and(this.hasEmptySpace);
-
-                final Optional<BlockPos> pos = BlockPos.getAllInBox(box).filter(isValid).findAny();
-                if (pos.isPresent())
-                {
-                    this.digChoice = pos.get();
-                    this.progressTimer = -60;
-                    break dig_select;
-                }
-                // None were valid to dig, so mark as done.
-                if (this.valids.get() == 0) this.n.dig_done = time + 2400;
+                this.n = next;
+                this.e = null;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 2 " + this.n);
+                return true;
             }
         }
-        this.progressTimer++;
-        final Brain<?> brain = this.entity.getBrain();
-        if (this.digChoice == null)
+        else if (old instanceof Node)
         {
-            final Optional<GlobalPos> room = brain.getMemory(AntTasks.WORK_POS);
-            if (!brain.hasMemory(MemoryModules.WALK_TARGET))
+            final Node node = (Node) old;
+            Edge next = null;
+            for (final Edge e : node.edges)
+                if (e.shouldDig(time))
+                {
+                    next = e;
+                    break;
+                }
+            if (next != null)
             {
-                final double dist = room.get().getPos().distanceSq(this.entity.getPosition());
-                this.pokemob.setPokemonNickname(this.job + " PATH! " + dist);
-                if (dist > 3) this.setWalkTo(room.get().getPos(), 1, 1);
+                this.n = null;
+                this.e = next;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 1 " + this.e);
+                return true;
             }
-            // We give up
-            if (this.progressTimer > 400) this.endTask(true);
         }
-        else
-        {
-            final GlobalPos pos = GlobalPos.getPosition(this.world.getDimensionKey(), this.digChoice);
-            brain.setMemory(AntTasks.WORK_POS, pos);
-        }
-        return this.digChoice != null;
+        // Try to find another open node or edge
+        for (final Node n : this.nest.hab.rooms.allRooms)
+            if (n.shouldDig(time))
+            {
+                this.n = n;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 3 " + this.n);
+                return true;
+            }
+        for (final Edge e : this.nest.hab.rooms.allEdges)
+            if (e.shouldDig(time))
+            {
+                this.e = e;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 2 " + e);
+                return true;
+            }
+        return false;
     }
 
     @Override
-    public void run()
+    protected boolean selectJobSite()
     {
-        this.pokemob.setPokemonNickname(this.job + " IDLE");
-        if (!this.checkJob()) return;
-        this.pokemob.setPokemonNickname(this.job + " VALID " + (this.e != null ? "EDGE" : "NODE"));
-        if (!this.selectJobSite()) return;
-        this.pokemob.setPokemonNickname(this.job + " DIG!");
-
-        final BlockPos pos = this.digChoice;
-        final double dr = pos.distanceSq(this.entity.getPosition());
-        if (!this.entity.getBrain().hasMemory(MemoryModules.WALK_TARGET)) this.setWalkTo(pos, 1, 2);
-        if (dr > 25 && this.progressTimer > 100 && this.entity.getNavigator().hasPath())
+        final boolean edge = this.e != null;
+        dig_select:
+        if (this.work_pos == null && (this.progressTimer % 5 == 0 || this.progressTimer < 0))
         {
-            final Path p = this.entity.getNavigator().getPath();
-            final BlockPos targ = p.getTarget();
-            final BlockPos end = p.getFinalPathPoint().func_224759_a();
-            final int dist = end.manhattanDistance(targ);
-            if (dist > 1)
+            final Part part = edge ? this.e : this.n;
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Selecting dig site: " + part);
+            if (this.digPart(part))
             {
-                BlockPos p2 = null;
-                if (this.n != null)
-                {
-                    p2 = this.n.getCenter();
-                    for (final Edge e : this.n.edges)
-                    {
-                        if (e.started && e.node1 == this.n)
-                        {
-                            p2 = e.end1;
-                            break;
-                        }
-                        if (e.started && e.node2 == this.n)
-                        {
-                            p2 = e.end2;
-                            break;
-                        }
-                    }
-                }
-                else if (this.e != null) if (this.e.node1.started) p2 = this.e.end1;
-                else if (this.e.node2.started) p2 = this.e.end2;
-                if (p2 != null)
-                {
-                    this.setWalkTo(p2, 1, 2);
-                    this.entity.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.getPosition(this.world
-                            .getDimensionKey(), p2));
-                    if (this.progressTimer > 300)
-                    {
-                        this.entity.setPosition(p2.getX(), p2.getY(), p2.getZ());
-                        this.progressTimer = 0;
-                    }
-                }
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Selected dig site");
+                break dig_select;
             }
-            if (this.progressDistance == 0) this.progressDistance = dist;
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Site No Task!");
+            if (!this.divert(part))
+            {
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Job Done!");
+                this.endTask();
+            }
+            return false;
         }
-//        if (this.progressTimer > 0 && dr < 25)
-        {
-            this.progressTimer = 0;
-            final boolean dug = this.tryHarvest(pos, true);
-            if (dug && this.n != null) this.n.dug.add(this.digChoice.toImmutable());
-            this.digChoice = null;
-        }
+        return this.work_pos != null;
+    }
+
+    @Override
+    protected void doWork()
+    {
+        final boolean dug = this.tryHarvest(this.work_pos, true);
+        if (dug && this.n != null) this.n.dug.add(this.work_pos.toImmutable());
     }
 }

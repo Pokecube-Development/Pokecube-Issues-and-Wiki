@@ -90,6 +90,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     {
         this.world = world;
         this.attached = true;
+        WorldTickManager.pathHelpers.get(world.getDimensionKey()).add(this.rooms);
     }
 
     @Override
@@ -97,13 +98,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     {
         this.world = null;
         this.attached = false;
+        WorldTickManager.pathHelpers.get(world.getDimensionKey()).remove(this.rooms);
     }
 
     @Override
     public void onTickEnd(final ServerWorld world)
     {
-        // NOOP for now, we might do other stuff later here!
-
         // Things to add here:
 
         // Checks of if the tile entity is here, if not anger all ants
@@ -122,7 +122,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     if (AntTasks.isValidAnt(mob)) return false;
                     return true;
                 });
-                if (this.ants.isEmpty())
+                if (this.ants.isEmpty() && this.eggs.isEmpty())
                 {
                     PokecubeCore.LOGGER.debug("Dead Nest!");
                     WorldTickManager.removeWorldData(world.getDimensionKey(), this);
@@ -168,13 +168,15 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         return this.rooms.get(type);
     }
 
-    public void addRandomNode(final AntRoom type)
+    public void addRandomNode(AntRoom type)
     {
         if (type == AntRoom.ENTRANCE) return;
         if (type == AntRoom.FOOD && this.getRooms(AntRoom.FOOD).size() > 3) return;
         final List<Node> nodes = this.rooms.allRooms;
         // This is only empty if we have not ticked yet.
         if (nodes.isEmpty()) return;
+        final int existing = this.getRooms(type).size();
+        if ((type == AntRoom.NODE || type == AntRoom.EGG) && existing > 1) type = AntRoom.FOOD;
 
         final Node entrance = this.getRooms(AntRoom.ENTRANCE).get(0);
 
@@ -224,8 +226,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         {
             // Check how parallel horizontally this it to an existing edge,
             // if too much, skip.
-            final Vector3 vec1 = Vector3.getNewVector().set(e.end1.subtract(e.end2));
-            if (e.node2 == root) vec1.set(e.end2.subtract(e.end1));
+            final Vector3 vec1 = Vector3.getNewVector().set(e.getEnd1().subtract(e.getEnd2()));
+            if (e.node2 == root) vec1.set(e.getEnd2().subtract(e.getEnd1()));
             vec1.y = 0;
             if (vec1.norm().dot(vec2.norm()) > 0.7) return;
         }
@@ -250,10 +252,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
 
         // These ends are shifted up one so they are centred on the wall of
         // the room, rather than the floor
-        edge.end1 = end1.up();
         edge.node1 = root;
-        edge.end2 = end2.up();
         edge.node2 = room;
+        edge.setEnds(end1.up(), end2.up());
 
         // Now check if the newly made edge gets too close to any existing
         // rooms, if so, cancel it.
@@ -425,7 +426,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     });
                     final Edge a = edges.get(0);
                     if (!a.shouldBuild(time)) break build;
-                    final BlockPos pos = n == a.node1 ? a.end1 : a.end2;
+                    final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob
                             .getEntityId(), info);
@@ -488,7 +489,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     final Edge a = edges.get(0);
                     a.started = true;
                     if (!a.shouldDig(time)) break dig;
-                    final BlockPos pos = n == a.node1 ? a.end1 : a.end2;
+                    final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob
                             .getEntityId(), info);
@@ -599,7 +600,11 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Ant Left Nest, with Job {}", job);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-        if (pokemob != null) pokemob.setPokemonNickname("" + job);
+        if (pokemob != null)
+        {
+            pokemob.healStatus();
+            pokemob.setPokemonNickname("" + job);
+        }
 
         if (mob.getPersistentData().hasUniqueId("spectated_by"))
         {

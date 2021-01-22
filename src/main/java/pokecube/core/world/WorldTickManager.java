@@ -18,14 +18,14 @@ import pokecube.core.PokecubeCore;
 
 public class WorldTickManager
 {
-    public static class WorldData
+    private static class WorldData
     {
-        List<IWorldTickListener> data = Lists.newArrayList();
+        private final List<IWorldTickListener> data = Lists.newArrayList();
 
-        final ServerWorld world;
+        private final ServerWorld world;
 
-        List<IWorldTickListener> pendingRemove = Lists.newArrayList();
-        List<IWorldTickListener> pendingAdd    = Lists.newArrayList();
+        private final List<IWorldTickListener> pendingRemove = Lists.newArrayList();
+        private final List<IWorldTickListener> pendingAdd    = Lists.newArrayList();
 
         private boolean ticking = false;
 
@@ -72,7 +72,6 @@ public class WorldTickManager
 
         public void removeData(final IWorldTickListener data)
         {
-            System.out.println(data+" "+this.ticking+" "+this.data.contains(data));
             if (!this.ticking)
             {
                 if (!this.data.remove(data)) return;
@@ -104,6 +103,8 @@ public class WorldTickManager
     public static List<StaticData> staticData = Lists.newArrayList();
 
     static Map<RegistryKey<World>, WorldData> dataMap = Maps.newHashMap();
+
+    public static Map<RegistryKey<World>, List<IPathHelper>> pathHelpers = Maps.newHashMap();
 
     public static void registerStaticData(final Supplier<IWorldTickListener> data,
             final Predicate<RegistryKey<World>> valid)
@@ -145,6 +146,7 @@ public class WorldTickManager
         {
             if (s.valid.test(key)) data.addData(s.data.get());
         });
+        WorldTickManager.pathHelpers.put(key, Lists.newArrayList());
     }
 
     public static void onWorldUnload(final WorldEvent.Unload event)
@@ -153,6 +155,7 @@ public class WorldTickManager
         final ServerWorld world = (ServerWorld) event.getWorld();
         final RegistryKey<World> key = world.getDimensionKey();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.remove(key).detach();
+        WorldTickManager.pathHelpers.remove(key);
     }
 
     public static void onWorldTick(final WorldTickEvent event)

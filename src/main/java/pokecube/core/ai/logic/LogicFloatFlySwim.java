@@ -268,19 +268,19 @@ public class LogicFloatFlySwim extends LogicBase
         super.tick(world);
 
         final Path path = this.entity.getNavigator().getPath();
-        if (path != null)
+        if (path != null && !path.isFinished())
         {
             final BlockPos next = path.func_242948_g();
             final Vector3 hereVec = Vector3.getNewVector().set(this.entity);
             final Vector3 nextVec = Vector3.getNewVector().set(next);
 
-            if (hereVec.distToSq(this.lastPos) < 0.05)
+            if (hereVec.distToSq(this.lastPos) < 1)
             {
                 this.time_at_pos++;
-                if (this.time_at_pos > 10)
+                if (this.time_at_pos > 100)
                 {
                     final double dr = nextVec.distanceTo(hereVec);
-                    if (dr < 2)
+                    if (dr < 3)
                     {
                         nextVec.moveEntity(this.entity);
                         this.time_at_pos = 0;

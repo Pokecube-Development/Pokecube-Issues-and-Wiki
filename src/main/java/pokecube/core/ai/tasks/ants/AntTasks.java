@@ -47,7 +47,7 @@ public class AntTasks
 {
     public static enum AntJob
     {
-        NONE, GUARD, GATHER, DIG, BUILD;
+        NONE, DIG, BUILD, GUARD, GATHER, FARM;
     }
 
     public static enum AntRoom
