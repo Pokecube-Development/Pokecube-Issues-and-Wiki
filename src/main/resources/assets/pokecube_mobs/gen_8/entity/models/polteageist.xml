@@ -11,6 +11,9 @@
    <part name="body">
     <component length="30" name="1" hidden="true" startKey="0"/>
    </part>
+   <part name="p2">
+    <component length="30" name="1" hidden="false" startKey="0"/>
+   </part>
    <part name="leg1">
     <component length="30" name="1" hidden="true" startKey="0"/>
    </part>
@@ -21,6 +24,9 @@
   <phase type="flying">
    <part name="body">
     <component length="30" name="1" hidden="false" posOffset="-1,0,0" startKey="0"/>
+   </part>
+   <part name="p2">
+    <component length="30" name="1" hidden="true" startKey="0"/>
    </part>
    <part name="arm1">
     <component length="30" name="1" rotOffset="0,0,-20" startKey="0"/>
