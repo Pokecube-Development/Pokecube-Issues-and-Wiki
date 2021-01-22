@@ -3,8 +3,10 @@ package pokecube.legends.init.moves;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.handlers.events.MoveEventsHandler.UseContext;
@@ -13,6 +15,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.tileentity.RingTile;
 import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
 
@@ -26,7 +29,6 @@ public class ActionHyperspaceHole implements IMoveAction
     public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
         if (user.inCombat()) return false;
-        if (PokecubeLegends.config.portalDisappear == false) return false;
         final LivingEntity owner = user.getOwner();
         if (!(owner instanceof ServerPlayerEntity)) return false;
         final TranslationTextComponent message;
@@ -43,10 +45,11 @@ public class ActionHyperspaceHole implements IMoveAction
         }
         else
         {
+            final World world = user.getEntity().getEntityWorld();
             final long lastUse = user.getEntity().getPersistentData().getLong("pokecube_legends:last_portal_make");
             if (lastUse != 0)
             {
-                final long diff = user.getEntity().getEntityWorld().getGameTime() - lastUse;
+                final long diff = world.getGameTime() - lastUse;
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
                     message = new TranslationTextComponent("msg.hoopaportal.deny.too_soon");
@@ -55,8 +58,8 @@ public class ActionHyperspaceHole implements IMoveAction
                 }
             }
             final PortalWarp block = (PortalWarp) BlockInit.BLOCK_PORTALWARP.get();
-            final UseContext context = MoveEventsHandler.getContext(owner.getEntityWorld(), user, block
-                    .getDefaultState(), location.add(0, 2, 0));
+            final UseContext context = MoveEventsHandler.getContext(world, user, block.getDefaultState(), location.add(
+                    0, 2, 0));
             final BlockPos prevPos = context.getPos();
             final BlockState state = BlockInit.BLOCK_PORTALWARP.get().getStateForPlacement(context);
 
@@ -68,9 +71,10 @@ public class ActionHyperspaceHole implements IMoveAction
             }
             else
             {
-                user.getEntity().getPersistentData().putLong("pokecube_legends:last_portal_make", user.getEntity()
-                        .getEntityWorld().getGameTime());
-                block.place(owner.getEntityWorld(), prevPos, context.getPlacementHorizontalFacing());
+                user.getEntity().getPersistentData().putLong("pokecube_legends:last_portal_make", world.getGameTime());
+                block.place(world, prevPos, context.getPlacementHorizontalFacing());
+                final TileEntity tile = world.getTileEntity(prevPos.up());
+                if (tile instanceof RingTile) ((RingTile) tile).despawns = true;
                 message = new TranslationTextComponent("msg.hoopaportal.accept.info");
                 mob.setHungerTime(mob.getHungerTime() + count);
             }

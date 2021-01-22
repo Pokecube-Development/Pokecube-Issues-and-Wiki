@@ -45,19 +45,17 @@ public class Config extends ConfigData
     @Configure(category = "raids")
     public double raidResetChance = 0.1;
     @Configure(category = "raids")
-    public double rareRaidChance = 0.1;
+    public double rareRaidChance  = 0.1;
 
     // Mirage Spot(Hoopa Ring)
-    @Configure(category = "mirage", comment = "The percentage chance of the Portal resetting at each tick, increasing the value makes the Portal restart faster. Default: 0.01")
-    public double  mirageRespawnChance = 0.01;
+    @Configure(category = "mirage", comment = "Portals will reset randomly based on this value, higher values result in longer times between use. Default: 24000")
+    public int ticksPerPortalReset = 24000;
     @Configure(category = "mirage", comment = "Minimum level for Hoopa to generate the portal. Min: 40. Max: 100. Numbers below the minimum will be reset to the default value: 50")
-    public int     levelCreatePortal     = 50;
+    public int levelCreatePortal   = 50;
     @Configure(category = "mirage", comment = "the time you need to wait for Hoopa to generate a new portal")
-    public int     ticksPerPortalSpawn = 8400;
-    @Configure(category = "mirage", comment = "if false, the portal will not disappear but you will not be able to generate other portals with Hoopa")
-    public boolean     portalDisappear = true;
+    public int ticksPerPortalSpawn = 8400;
     @Configure(category = "mirage", comment = "time for the portal to disappear in ticks. 1 Tick = 20 seconds")
-    public int     ticksPortalDespawn = 1200;
+    public int ticksPortalDespawn  = 1200;
 
     // Ultra Space
     @Configure(category = "ultraspace")
@@ -160,7 +158,7 @@ public class Config extends ConfigData
             this.itemCombustiveStack = 5;
 
         if (this.mirrorCooldown <= 300) this.mirrorCooldown = 800;
-        
-        if(this.levelCreatePortal <= 39) this.levelCreatePortal = 20;
+
+        if (this.levelCreatePortal <= 39) this.levelCreatePortal = 20;
     }
 }
