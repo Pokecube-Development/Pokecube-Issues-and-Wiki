@@ -9,7 +9,7 @@
     },
     {
       "name":"pokecube_legends:village/ocean/terminators",
-      "rigid":false,
+      "rigid":true,
       "options":[
         "pokecube_legends:village/ocean/terminators/terminator_01"
       ]
@@ -17,7 +17,7 @@
     {
       "name":"pokecube_legends:village/ocean/streets",
       "target":"pokecube_legends:village/ocean/terminators",
-      "rigid":false,
+      "rigid":true,
       "options":[
         "pokecube_legends:village/ocean/streets/road_01;{\"weight\":8}",
         "pokecube_legends:village/ocean/streets/road_plus_01;{\"weight\":1}",

@@ -1,26 +1,32 @@
 {
   "pools":[
     {
-      "name":"pokecube:scattered/ruins_start",
-      "rigid":false,
-      "options":[
-        "pokecube:scattered/ruins/start"
-      ]
-    },
-    {
-      "name":"pokecube:scattered/ruins",
+      "name":"pokecube:ruins_base",
       "rigid":true,
       "biomeType":"ruin",
       "options":[
-        "pokecube:scattered/ruins/ruin_1"
+        "pokecube:ruins_base/ancient_tomb",
+        "pokecube:ruins_base/ruin_1"
       ]
     },
     {
-      "name":"pokecube:scattered/stonehenge_ruins",
+      "name":"pokecube:ruins_base/rock_piles",
+      "rigid":false,
+      "options":[
+        "pokecube:ruins_base/rock_piles/rock_pile_01;{\"weight\":6}",
+        "pokecube:ruins_base/rock_piles/rock_pile_02;{\"weight\":6}",
+        "pokecube:ruins_base/rock_piles/rock_pile_03;{\"weight\":6}",
+        "pokecube:ruins_base/rock_piles/rock_pile_04;{\"weight\":6}",
+        "pokecube:ruins_base/rock_piles/rock_pile_05;{\"weight\":6}",
+        "pokecube:ruins_base/rock_piles/rock_pile_06;{\"weight\":6}"
+      ]
+    },
+    {
+      "name":"pokecube:ruins_baseless",
       "rigid":false,
       "biomeType":"ruin",
       "options":[
-        "pokecube:scattered/ruins/stonehenge_ruins"
+        "pokecube:ruins_baseless/stonehenge_ruins"
       ]
     },
     {
@@ -430,27 +436,27 @@
   ],
   "jigsaws":[
     {
-      "type":"pokecube:ruins",
-      "name":"pokecube:scattered/stonehenge_ruins",
-      "root":"pokecube:scattered/stonehenge_ruins",
+      "type":"pokecube:ruins_baseless",
+      "name":"pokecube:ruins_baseless",
+      "root":"pokecube:ruins_baseless",
       "chance": 1,
       "biomeType":"ruin",
+	  "base_under":false,
       "water":true,
       "distance":32,
       "separation":12,
       "priority":10000,
       "spawn":{
         "values":{
-          "types":"all",
-          "categoryBlacklist":"ocean,river"
+          "types":"ocean"
         }
       }
     },
     {
-      "type":"pokecube:ruins",
-      "name":"pokecube:scattered/ruins",
-      "root":"pokecube:scattered/ruins_start",
-      "chance": 1,
+      "type":"pokecube:ruins_base",
+      "name":"pokecube:ruins_base",
+      "root":"pokecube:ruins_base",
+      "chance": 6,
       "biomeType":"ruin",
       "distance":32,
       "separation":12,
