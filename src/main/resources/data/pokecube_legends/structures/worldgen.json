@@ -131,20 +131,6 @@
       ]
     },
     {
-      "name":"pokecube_legends:mirage/base",
-      "rigid":false,
-      "options":[
-        "pokecube_legends:mirage/base"
-      ]
-    },
-    {
-      "name":"pokecube_legends:mirage",
-      "rigid":true,
-      "options":[
-        "pokecube_legends:mirage/miragespot"
-      ]
-    },
-    {
       "name":"pokecube_legends:raid_end",
       "rigid":true,
       "ignoreAir":false,
@@ -484,19 +470,6 @@
         "values":{
           "types":"all",
           "categoryBlacklist":"ocean,beach"
-        }
-      }
-    },
-    {
-      "name":"pokecube_legends:mirage",
-      "root":"pokecube_legends:mirage/base",
-      "biomeType":"none",
-      "distance":24,
-      "separation":8,
-      "spawn":{
-        "values":{
-          "types":"all",
-          "categoryBlacklist":"ocean"
         }
       }
     },

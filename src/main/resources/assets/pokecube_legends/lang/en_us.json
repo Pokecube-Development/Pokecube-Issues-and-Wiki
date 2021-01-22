@@ -82,6 +82,12 @@
     
     "_comment": "/Raid Related messages Names",
     "msg.notaraidspot.info": "§cThis den does not seem to be able to be activated.",
+    
+    "_comment": "/Hoopa Portal",
+    "msg.hoopaportal.deny.too_weak" : "§cYour pokemob not have enough level...",
+    "msg.hoopaportal.deny.too_soon" : "§cYou cannot create another portal yet..",
+    "msg.hoopaportal.deny.invalid" : "§cThe portal failed to create..",
+    "msg.hoopaportal.accept.info" : "§aHoopa Ring created!",
 
 	"_comment": "/Dimensions Part",   
 	
