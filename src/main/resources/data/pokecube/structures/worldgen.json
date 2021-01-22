@@ -484,7 +484,7 @@
         "values":{
           "types":"all",
           "typesBlacklist":"snowy",
-          "categoryBlacklist":"desert,ocean,river,the_end,nether,savanna,mesa,taiga,icy,mushroom,taiga"
+          "categoryBlacklist":"desert,ocean,river,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy,taiga"
         }
       }
     },
@@ -509,7 +509,7 @@
       "spawn":{
         "values":{
           "category":"desert,mesa",
-          "categoryBlacklist":"ocean,river,the_end,nether"
+          "categoryBlacklist":"ocean,river,beach,the_end,nether"
         }
       }
     },
@@ -534,7 +534,7 @@
       "spawn":{
         "values":{
           "category":"savanna,mesa",
-          "categoryBlacklist":"ocean,river,the_end,nether,mushroom"
+          "categoryBlacklist":"ocean,river,beach,the_end,nether"
         }
       }
     },
@@ -559,7 +559,7 @@
       "spawn":{
         "values":{
           "types":"snowy",
-          "categoryBlacklist":"ocean,river,the_end,nether,mushroom"
+          "categoryBlacklist":"ocean,river,beach,the_end,nether"
         }
       }
     },
@@ -584,7 +584,7 @@
       "spawn":{
         "values":{
           "category":"taiga",
-          "categoryBlacklist":"ocean,river,the_end,nether,mushroom",
+          "categoryBlacklist":"ocean,river,beach,the_end,nether",
           "typesBlacklist":"snowy"
         }
       }
