@@ -65,17 +65,18 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
             final Predicate<AntJob> job, final double range)
     {
         super(pokemob, RootTask.merge(mems, AbstractConstructTask.mems), job);
-        this.dsMax = range;
-        this.ds2Max = range * range;
+        this.dsMax = PokecubeMod.debug ? 64 : range;
+        this.ds2Max = this.dsMax * this.dsMax;
 
-        this.canStand = p -> this.world.getBlockState(p).isSolid() && this.world.getBlockState(p.up()).allowsMovement(
-                this.world, p, PathType.LAND);
+        this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).isSolid() && this.world.getBlockState(p
+                .up()).allowsMovement(this.world, p, PathType.LAND);
 
-        this.canStandNear = pos -> BlockPos.getAllInBox(pos.add(-2, -2, -2), pos.add(2, 2, 2)).anyMatch(p2 -> p2
-                .distanceSq(pos) < this.ds2Max && this.canStand.test(p2));
+        this.canStandNear = pos -> PokecubeMod.debug || BlockPos.getAllInBox(pos.add(-2, -2, -2), pos.add(2, 2, 2))
+                .anyMatch(p2 -> p2.distanceSq(pos) < this.ds2Max && this.canStand.test(p2));
 
         this.hasEmptySpace = pos ->
         {
+            if (PokecubeMod.debug) return true;
             for (final Direction dir : Direction.values())
             {
                 final BlockPos pos2 = pos.offset(dir);

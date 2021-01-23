@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.INBTSerializable;
+import pokecube.core.interfaces.PokecubeMod;
 
 public abstract class Part implements INBTSerializable<CompoundNBT>
 {
@@ -42,8 +43,11 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
     public void deserializeNBT(final CompoundNBT nbt)
     {
         this.started = nbt.getBoolean("s");
-        this.dig_done = nbt.getLong("dd");
-        this.build_done = nbt.getLong("bd");
+        if (!PokecubeMod.debug)
+        {
+            this.dig_done = nbt.getLong("dd");
+            this.build_done = nbt.getLong("bd");
+        }
     }
 
     public boolean shouldDig(final long worldTime)

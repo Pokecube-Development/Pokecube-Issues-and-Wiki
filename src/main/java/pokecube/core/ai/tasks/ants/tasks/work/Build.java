@@ -67,7 +67,9 @@ public class Build extends AbstractConstructTask
             {
                 final BlockPos below = pos.down();
                 final BlockPos above = pos.up();
-                if (!node.getTree().isOnShell(below) && node.getTree().isOnShell(above)) light = true;
+                final boolean belowInside = node.getTree().isInside(below);
+                final boolean aboveOnShell = node.getTree().isOnShell(above);
+                if (belowInside && aboveOnShell) light = true;
             }
 
             final double dh2 = dx * dx + dz * dz;
@@ -95,6 +97,7 @@ public class Build extends AbstractConstructTask
                 break;
             case FOOD:
                 if (dx == 0 && dz == 0 && dy == -1) valid = world.getFluidState(pos).isTagged(FluidTags.WATER);
+                else if (dx == 0 && dz == 0 && dy == -2) valid = state.getBlock() == Blocks.SHROOMLIGHT;
                 else if (dy == -1 && dh2 <= node.size * node.size) valid = state.getBlock() == Blocks.FARMLAND;
                 break;
             default:
@@ -125,7 +128,9 @@ public class Build extends AbstractConstructTask
             {
                 final BlockPos below = pos.down();
                 final BlockPos above = pos.up();
-                if (!node.getTree().isOnShell(below) && node.getTree().isOnShell(above)) light = true;
+                final boolean belowInside = node.getTree().isInside(below);
+                final boolean aboveOnShell = node.getTree().isOnShell(above);
+                if (belowInside && aboveOnShell) light = true;
             }
             if (light) state = Blocks.SHROOMLIGHT.getDefaultState();
 
@@ -151,6 +156,7 @@ public class Build extends AbstractConstructTask
                 break;
             case FOOD:
                 if (dx == 0 && dz == 0 && dy == -1) state = Blocks.WATER.getDefaultState();
+                else if (dx == 0 && dz == 0 && dy == -2) state = Blocks.SHROOMLIGHT.getDefaultState();
                 else if (dy == -1 && dh2 <= node.size * node.size) state = Blocks.FARMLAND.getDefaultState();
                 break;
             case NODE:

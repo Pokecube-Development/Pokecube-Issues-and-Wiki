@@ -101,6 +101,7 @@ public class WorldgenFeatures
                 opts.filler = pool.filler;
                 opts.ignoreAir = pool.ignoreAir;
                 opts.rigid = pool.rigid;
+                opts.water = pool.water;
                 opts.proc_list = pool.proc_list;
             }
             final Pair<Function<PlacementBehaviour, ? extends JigsawPiece>, Integer> pair = Pair.of(WorldgenFeatures

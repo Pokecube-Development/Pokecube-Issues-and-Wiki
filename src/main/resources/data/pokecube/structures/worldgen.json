@@ -18,6 +18,7 @@
     {
       "name":"pokecube:scattered/stonehenge_ruins",
       "rigid":false,
+      "water":true,
       "biomeType":"ruin",
       "options":[
         "pokecube:scattered/ruins/stonehenge_ruins"
@@ -430,7 +431,7 @@
   ],
   "jigsaws":[
     {
-      "type":"pokecube:ruins",
+      "type":"pokecube:ruins_loose",
       "name":"pokecube:scattered/stonehenge_ruins",
       "root":"pokecube:scattered/stonehenge_ruins",
       "chance": 1,
@@ -447,7 +448,7 @@
       }
     },
     {
-      "type":"pokecube:ruins",
+      "type":"pokecube:ruins_rigid",
       "name":"pokecube:scattered/ruins",
       "root":"pokecube:scattered/ruins_start",
       "chance": 1,
