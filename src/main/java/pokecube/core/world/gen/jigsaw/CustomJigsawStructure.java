@@ -184,7 +184,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             }
             if (!built)
             {
-                PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.components, config.struct_config.name, blockpos);
+                PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.components,
+                        config.struct_config.name, blockpos);
                 return;
             }
 

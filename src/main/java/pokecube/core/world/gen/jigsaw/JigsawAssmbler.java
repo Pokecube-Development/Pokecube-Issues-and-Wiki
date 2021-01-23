@@ -187,7 +187,6 @@ public class JigsawAssmbler
             k = chunkGenerator.getMaxBuildHeight();
             k = this.rand.nextInt(k + 1);
         }
-
         final int dy = -this.config.height;
         abstractvillagepiece.offset(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta() + dy),
                 0);
@@ -257,7 +256,7 @@ public class JigsawAssmbler
 
         int k0 = default_k;
 
-        if (k0 == -1) if (this.SURFACE_TYPE == null)
+        if (k0 == -1 && this.SURFACE_TYPE == null)
         {
             k0 = this.chunkGenerator.getNoiseHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.OCEAN_FLOOR_WG);
             if (k0 > 0) k0 = this.rand.nextInt(k0 + 1);
@@ -418,6 +417,5 @@ public class JigsawAssmbler
             }
             else PokecubeCore.LOGGER.warn("Empty or none existent pool: {}", jigsaw_block.nbt.getString("target_pool"));
         }
-
     }
 }

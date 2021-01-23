@@ -486,7 +486,6 @@ public class EntityPokemob extends PokemobHasParts
             {
                 final Path p = this.getNavigator().getPath();
                 climb = p.func_242948_g().getY() >= this.getPosY();
-                climb = true;
             }
             this.setBesideClimbableBlock(climb);
         }

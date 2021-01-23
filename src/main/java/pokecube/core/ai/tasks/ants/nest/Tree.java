@@ -219,6 +219,12 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
             {
                 if (e.node1.isOnShell(pos)) return e.node1;
                 if (e.node2.isOnShell(pos)) return e.node2;
+                if (e.isOnShell(pos))
+                {
+                    final double ds2_1 = e.node1.getCenter().distanceSq(pos);
+                    final double ds2_2 = e.node2.getCenter().distanceSq(pos);
+                    return ds2_1 < ds2_2 ? e.node1 : e.node2;
+                }
             }
             return null;
         }

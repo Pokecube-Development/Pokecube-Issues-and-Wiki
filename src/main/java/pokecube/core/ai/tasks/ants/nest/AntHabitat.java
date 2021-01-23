@@ -112,7 +112,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         if (world.getGameTime() % 100 == 0)
         {
             TileEntity tile = world.getTileEntity(this.here);
-
             if (tile == null)
             {
                 this.onTick(world);
@@ -160,6 +159,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                 low = num;
             }
         }
+        // least = AntJob.BUILD;
         return least;
     }
 
@@ -210,7 +210,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         dy *= s;
 
         final float root_size = root.size - 0.5f;
-        final float next_size = 2.0f + rng.nextFloat() * 4;
+        final float next_size = 2.5f + rng.nextFloat() * 3;
 
         BlockPos edgeShift = new BlockPos(root_size * dx / ds, 0, root_size * dz / ds);
 
@@ -238,15 +238,15 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         vec2.y = 0;
         if (centroid.distanceTo(vec2) > r) return;
 
-        for (final Node n : nodes)
-            if (nodePos.distanceSq(n.getCenter()) < 64) return;
-
-        if (nodePos.getY() > entrance.getCenter().getY() - 2) return;
-
         final Node room = new Node();
-        room.setCenter(nodePos, next_size);
         room.type = type;
         room.depth = root.depth + 1;
+        room.setCenter(nodePos, next_size);
+
+        for (final Node n : nodes)
+            if (room.getOutBounds().intersects(n.getOutBounds())) return;
+
+        if (nodePos.getY() > entrance.getCenter().getY() - 2) return;
 
         final Edge edge = new Edge();
 
@@ -603,7 +603,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         if (pokemob != null)
         {
             pokemob.healStatus();
-            pokemob.setPokemonNickname("" + job);
+            if (PokecubeMod.debug) pokemob.setPokemonNickname("" + job);
         }
 
         if (mob.getPersistentData().hasUniqueId("spectated_by"))
