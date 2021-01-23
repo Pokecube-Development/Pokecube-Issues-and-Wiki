@@ -5,7 +5,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPosWrapper;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.nest.Edge;
 import pokecube.core.ai.tasks.ants.nest.Node;
@@ -18,7 +20,7 @@ public class Dig extends AbstractConstructTask
 {
     public Dig(final IPokemob pokemob)
     {
-        super(pokemob, j -> j == AntJob.DIG);
+        super(pokemob, j -> j == AntJob.DIG, 3);
     }
 
     private boolean digPart(final Part part)
@@ -42,7 +44,16 @@ public class Dig extends AbstractConstructTask
             }
             return false;
         });
-        Optional<BlockPos> valid = part.getDigBounds().stream().filter(isValid).findAny();
+        final BlockPos pos = this.entity.getPosition();
+
+        // Stream -> filter gets us only the valid postions.
+        // Min then gets us the one closest to the ant.
+        Optional<BlockPos> valid = part.getDigBounds().stream().filter(isValid).min((p1, p2) ->
+        {
+            final double d1 = p1.distanceSq(pos);
+            final double d2 = p2.distanceSq(pos);
+            return Double.compare(d1, d2);
+        });
         if (valid.isPresent())
         {
             this.work_pos = valid.get().toImmutable();
@@ -68,7 +79,12 @@ public class Dig extends AbstractConstructTask
                 }
                 return false;
             });
-            valid = part.getDigBounds().stream().filter(isValid).findAny();
+            valid = part.getDigBounds().stream().filter(isValid).min((p1, p2) ->
+            {
+                final double d1 = p1.distanceSq(pos);
+                final double d2 = p2.distanceSq(pos);
+                return Double.compare(d1, d2);
+            });
             if (valid.isPresent())
             {
                 this.work_pos = valid.get().toImmutable();
@@ -169,6 +185,7 @@ public class Dig extends AbstractConstructTask
     protected void doWork()
     {
         final boolean dug = this.tryHarvest(this.work_pos, true);
+        BrainUtils.setLeapTarget(this.entity, new BlockPosWrapper(this.work_pos));
         if (dug && this.n != null) this.n.dug.add(this.work_pos.toImmutable());
     }
 }

@@ -90,6 +90,7 @@ public class LeapTask extends TaskBase implements IAICombat
             new Exception().printStackTrace();
             dir.clear();
         }
+        if (dist < 9) dir.scalarMultBy(dist / 9);
 
         // Compute differences in velocities, and then account for that during
         // the leap.
@@ -110,8 +111,8 @@ public class LeapTask extends TaskBase implements IAICombat
         // Set the timer so we don't leap again rapidly
         this.leapTick = this.entity.ticksExisted + PokecubeCore.getConfig().attackCooldown / 2;
 
-        new PlaySound(this.entity.getEntityWorld().getDimensionKey(), Vector3.getNewVector().set(this.entity), this.getLeapSound(),
-                SoundCategory.HOSTILE, 1, 1).run(this.world);
+        new PlaySound(this.entity.getEntityWorld().getDimensionKey(), Vector3.getNewVector().set(this.entity), this
+                .getLeapSound(), SoundCategory.HOSTILE, 1, 1).run(this.world);
         BrainUtils.setLeapTarget(this.entity, null);
     }
 

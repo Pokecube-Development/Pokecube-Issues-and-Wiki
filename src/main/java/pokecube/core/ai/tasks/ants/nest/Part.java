@@ -42,8 +42,8 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
     public void deserializeNBT(final CompoundNBT nbt)
     {
         this.started = nbt.getBoolean("s");
-//        this.dig_done = nbt.getLong("dd");
-//        this.build_done = nbt.getLong("bd");
+        this.dig_done = nbt.getLong("dd");
+        this.build_done = nbt.getLong("bd");
     }
 
     public boolean shouldDig(final long worldTime)
@@ -53,7 +53,7 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
 
     public boolean shouldBuild(final long worldTime)
     {
-        return this.started && this.build_done < worldTime;
+        return this.started && this.build_done < worldTime && !this.shouldDig(worldTime);
     }
 
     public abstract boolean isInside(BlockPos pos);
@@ -72,7 +72,6 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
 
     public List<BlockPos> getDigBounds()
     {
-        Collections.shuffle(this.digBounds);
         return this.digBounds;
     }
 

@@ -48,6 +48,15 @@ public class Node extends Part
         Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
         x = x.mul(1, this.size / 2, 1);
         final double r = x.length();
+        if (this.type == AntRoom.ENTRANCE)
+        {
+            final int dx = Math.abs(pos.getX() - this.getCenter().getX());
+            final int dz = Math.abs(pos.getZ() - this.getCenter().getZ());
+            final int dy = pos.getY() - this.getCenter().getY();
+            boolean edge = dy >= 0 && dy < 2;
+            edge = edge && (dx == 0 && dz > 1 && dz <= 5 || dz == 0 && dx > 1 && dx <= 5);
+            if (edge) return true;
+        }
         // Some basic limits first
         if (r > this.size || x.y < 0) return false;
         return true;
@@ -70,7 +79,7 @@ public class Node extends Part
         Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
         x = x.mul(1, this.size / 2, 1);
         final double r = x.length();
-        return r < this.size + 2 && x.y > -2;
+        return r <= this.size + 2 && x.y > -2;
     }
 
     @Override
@@ -153,9 +162,10 @@ public class Node extends Part
         this.center = center;
         this.size = size;
         this.mid = new Vector3d(center.getX() + 0.5, center.getY(), center.getZ() + 0.5);
-        this.setInBounds(new AxisAlignedBB(this.mid.add(-size, 0, -size), this.mid.add(size, 2, size)));
-        this.setOutBounds(new AxisAlignedBB(this.mid.add(-size - 2, -2, -size - 2), this.mid.add(size + 2, 4, size
-                + 2)));
+
+        final AxisAlignedBB min = new AxisAlignedBB(this.mid.add(-size, 0, -size), this.mid.add(size, 2, size));
+        this.setInBounds(this.type == AntRoom.ENTRANCE ? min.grow(3, 0, 3) : min);
+        this.setOutBounds(min.grow(2));
     }
 
     @Override

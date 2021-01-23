@@ -19,7 +19,8 @@ public class Edge extends Part
 
     boolean areSame(final Edge other)
     {
-        return this.getEnd1().equals(other.getEnd1()) && this.getEnd2().equals(other.getEnd2());
+        return this.node1.getCenter().equals(other.node1.getCenter()) && this.node2.getCenter().equals(other.node2
+                .getCenter());
     }
 
     public boolean withinDistance(final BlockPos pos, final double size)
@@ -54,6 +55,12 @@ public class Edge extends Part
     }
 
     @Override
+    public int hashCode()
+    {
+        return this.node1.getCenter().hashCode() ^ this.node2.getCenter().hashCode();
+    }
+
+    @Override
     public CompoundNBT serializeNBT()
     {
         final CompoundNBT edgeNbt = super.serializeNBT();
@@ -78,6 +85,8 @@ public class Edge extends Part
         {
             this.node1 = this.getTree().map.getOrDefault(p1, new Node(p1));
             this.node2 = this.getTree().map.getOrDefault(p2, new Node(p2));
+            this.getTree().map.put(p1, this.node1);
+            this.getTree().map.put(p2, this.node2);
         }
         else
         {

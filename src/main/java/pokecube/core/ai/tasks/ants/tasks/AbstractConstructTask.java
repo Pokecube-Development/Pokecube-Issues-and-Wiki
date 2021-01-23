@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import com.google.common.collect.Maps;
 
@@ -17,6 +18,7 @@ import net.minecraft.pathfinding.PathType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.math.MathHelper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.ants.AntTasks;
@@ -45,34 +47,43 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
     protected BlockPos work_pos  = null;
     protected BlockPos stand_pos = null;
 
+    final double ds2Max;
+    final double dsMax;
+
     protected final AtomicInteger valids = new AtomicInteger(0);
 
-    protected Predicate<BlockPos> hasEmptySpace = pos ->
+    protected Predicate<BlockPos> hasEmptySpace;
+    protected Predicate<BlockPos> canStand;
+    protected Predicate<BlockPos> canStandNear;
+
+    public AbstractConstructTask(final IPokemob pokemob, final Predicate<AntJob> job, final double range)
     {
-        for (final Direction dir : Direction.values())
-        {
-            final BlockPos pos2 = pos.offset(dir);
-            final BlockState state = this.world.getBlockState(pos2);
-            if (state.allowsMovement(this.world, pos2, PathType.LAND)) return true;
-        }
-        return false;
-    };
-
-    protected Predicate<BlockPos> canStand = p -> this.world.getBlockState(p).isSolid() && this.world.getBlockState(p
-            .up()).allowsMovement(this.world, p, PathType.LAND);
-
-    protected Predicate<BlockPos> canStandNear = pos -> BlockPos.getAllInBox(pos.add(-2, -2, -2), pos.add(2, 2, 2))
-            .anyMatch(p2 -> p2.distanceSq(pos) < 9 && this.canStand.test(p2));;
-
-    public AbstractConstructTask(final IPokemob pokemob, final Predicate<AntJob> job)
-    {
-        this(pokemob, AbstractConstructTask.mems, job);
+        this(pokemob, AbstractConstructTask.mems, job, range);
     }
 
     public AbstractConstructTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems,
-            final Predicate<AntJob> job)
+            final Predicate<AntJob> job, final double range)
     {
         super(pokemob, RootTask.merge(mems, AbstractConstructTask.mems), job);
+        this.dsMax = range;
+        this.ds2Max = range * range;
+
+        this.canStand = p -> this.world.getBlockState(p).isSolid() && this.world.getBlockState(p.up()).allowsMovement(
+                this.world, p, PathType.LAND);
+
+        this.canStandNear = pos -> BlockPos.getAllInBox(pos.add(-2, -2, -2), pos.add(2, 2, 2)).anyMatch(p2 -> p2
+                .distanceSq(pos) < this.ds2Max && this.canStand.test(p2));
+
+        this.hasEmptySpace = pos ->
+        {
+            for (final Direction dir : Direction.values())
+            {
+                final BlockPos pos2 = pos.offset(dir);
+                final BlockState state = this.world.getBlockState(pos2);
+                if (state.allowsMovement(this.world, pos2, PathType.LAND)) return true;
+            }
+            return false;
+        };
     }
 
     @Override
@@ -190,7 +201,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         }
         if (!(edge || node))
         {
-            PokecubeCore.LOGGER.debug("Invalid Dig Info!");
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Invalid Dig Info!");
             this.reset();
             return false;
         }
@@ -220,72 +231,37 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         brain.setMemory(AntTasks.WORK_POS, pos);
 
         final Path p = this.entity.getNavigator().getPath();
+        this.stand_pos = this.work_pos;
 
         if (this.stand_pos == null || this.stand_pos.distanceSq(this.work_pos) > 9)
         {
-            final Optional<BlockPos> test = BlockPos.getAllInBox(this.work_pos.add(-2, -2, -2), this.work_pos.add(2, 2,
-                    2)).filter(p2 -> p2.distanceSq(this.work_pos) < 9 && this.canStand.test(p2)).findAny();
+            final Stream<BlockPos> one = BlockPos.getAllInBox(this.work_pos.add(-2, -2, -2), this.work_pos.add(2, 2, 2))
+                    .filter(p2 -> p2.distanceSq(this.work_pos) < 9 && this.canStand.test(p2));
+            final Stream<BlockPos> two = BlockPos.getAllInBox(this.work_pos.add(-2, -2, -2), this.work_pos.add(2, 2, 2))
+                    .filter(p2 -> p2.distanceSq(this.work_pos) < 9 && this.canStand.test(p2));
+
+            final Optional<BlockPos> test = one.max((p1, p2) -> Integer.compare(p1.getY(), p2.getY()));
+            final Optional<BlockPos> test2 = two.min((p1, p2) -> Integer.compare(p1.getY(), p2.getY()));
             if (test.isPresent()) this.stand_pos = test.get().toImmutable();
             else this.stand_pos = this.work_pos;
+            if (test.isPresent()) System.out.println(test + " " + test2 + " " + test.get().compareTo(test2.get()));
             if (this.stand_pos == this.work_pos) PokecubeCore.LOGGER.warn("Invalid stand pos! " + this.job);
         }
+
         final double dr = this.stand_pos.distanceSq(this.entity.getPosition());
         final double dr2 = p == null ? dr : p.getFinalPathPoint().func_224759_a().distanceSq(this.stand_pos);
 
         if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " WORK! (" + dr + "/" + dr2 + ") "
-                + this.stand_pos);
+                + this.ds2Max);
 
-        this.setWalkTo(this.stand_pos, 1, 2);
-        if (dr > 9 && this.progressTimer > 400 && this.entity.getNavigator().hasPath())
-        {
-            final BlockPos targ = p.getTarget();
-            final BlockPos end = p.getFinalPathPoint().func_224759_a();
-            final int dist = end.manhattanDistance(targ);
-            if (dist > 9)
-            {
-                BlockPos p2 = null;
-                if (this.n != null)
-                {
-                    p2 = this.n.getCenter();
-                    for (final Edge e : this.n.edges)
-                    {
-                        if (e.started && e.node1 == this.n)
-                        {
-                            p2 = e.getEnd1();
-                            break;
-                        }
-                        if (e.started && e.node2 == this.n)
-                        {
-                            p2 = e.getEnd2();
-                            break;
-                        }
-                    }
-                }
-                else if (this.e != null) if (this.e.node1.started) p2 = this.e.getEnd1();
-                else if (this.e.node2.started) p2 = this.e.getEnd2();
-                if (p2 != null)
-                {
-                    this.setWalkTo(p2, 1, 1);
-                    this.entity.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.getPosition(this.world
-                            .getDimensionKey(), p2));
-                    if (this.progressTimer > 600)
-                    {
-                        this.entity.setPosition(p2.getX(), p2.getY(), p2.getZ());
-                        this.progressTimer = 0;
-                    }
-                }
-            }
-            if (this.progressDistance == 0) this.progressDistance = dist;
-        }
+        if (dr2 > this.ds2Max) this.setWalkTo(this.stand_pos, 1, MathHelper.ceil(this.dsMax - 1));
 
-        final double dsMax = 16;
-
-        if (this.progressTimer > 0 && dr < dsMax)
+        if (this.progressTimer > 0 && dr < this.ds2Max)
         {
             this.progressTimer = -10;
             this.doWork();
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Work Done! " + this.job);
-            this.pokemob.setPokemonNickname(this.job + " IDLE");
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Work Done! " + this.job + " " + this.n + " " + this.e);
+            if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " IDLE");
             this.work_pos = null;
             this.stand_pos = null;
             this.progressDistance = 0;

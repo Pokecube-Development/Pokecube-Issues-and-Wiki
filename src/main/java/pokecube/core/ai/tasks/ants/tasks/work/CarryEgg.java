@@ -23,6 +23,7 @@ public class CarryEgg extends AbstractWorkTask
     {
         // Only run this if we have an egg to carry
         CarryEgg.mems.put(AntTasks.EGG, MemoryModuleStatus.VALUE_PRESENT);
+        CarryEgg.mems.put(AntTasks.GOING_HOME, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     // Any that is not a guard ant is allowed to carry eggs
@@ -48,7 +49,7 @@ public class CarryEgg extends AbstractWorkTask
         this.egg.getPersistentData().putLong("__carried__", this.world.getGameTime() + 100);
         AntTasks.setJob(this.entity, AntJob.NONE);
         final Brain<?> brain = this.entity.getBrain();
-        final GlobalPos dropOff =brain.getMemory(AntTasks.WORK_POS).get();
+        final GlobalPos dropOff = brain.getMemory(AntTasks.WORK_POS).get();
         this.entity.getNavigator().setRangeMultiplier(10);
         if (!this.entity.isRidingOrBeingRiddenBy(this.egg))
         {
