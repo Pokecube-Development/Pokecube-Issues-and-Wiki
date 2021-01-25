@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +25,9 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
 
     private final List<BlockPos> digBounds   = Lists.newArrayList();
     private final List<BlockPos> buildBounds = Lists.newArrayList();
+
+    Object2LongOpenHashMap<BlockPos> digBlocks   = new Object2LongOpenHashMap<>();
+    Object2LongOpenHashMap<BlockPos> buildBlocks = new Object2LongOpenHashMap<>();
 
     // If present, when loading this map will be used to sync the nodes
     // on the edges.
@@ -57,7 +61,7 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
 
     public boolean shouldBuild(final long worldTime)
     {
-        return this.started && this.build_done < worldTime && !this.shouldDig(worldTime);
+        return this.started && this.build_done < worldTime;
     }
 
     public abstract boolean isInside(BlockPos pos);
@@ -94,7 +98,13 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
     {
         this.outBounds = outBounds;
         this.buildBounds.clear();
-        BlockPos.getAllInBox(this.getOutBounds()).forEach(p -> this.buildBounds.add(p.toImmutable()));
+        this.getBuildBlocks().clear();
+        BlockPos.getAllInBox(this.getOutBounds()).forEach(p ->
+        {
+            final BlockPos p2 = p.toImmutable();
+            this.buildBounds.add(p2);
+            if (this.isOnShell(p2)) this.getBuildBlocks().put(p2, 0);
+        });
     }
 
     public AxisAlignedBB getInBounds()
@@ -102,11 +112,47 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
         return this.inBounds;
     }
 
+    public boolean shouldCheckDig(final BlockPos pos, final long time)
+    {
+        return this.shouldDig(time) && this.getDigBlocks().getOrDefault(pos, time) < time;
+    }
+
+    public void markDug(final BlockPos pos, final long time)
+    {
+        this.getDigBlocks().put(pos, time);
+    }
+
+    public Object2LongOpenHashMap<BlockPos> getDigBlocks()
+    {
+        return this.digBlocks;
+    }
+
+    public boolean shouldCheckBuild(final BlockPos pos, final long time)
+    {
+        return this.shouldBuild(time) && this.getBuildBlocks().getOrDefault(pos, time) < time;
+    }
+
+    public void markBuilt(final BlockPos pos, final long time)
+    {
+        this.getBuildBlocks().put(pos, time);
+    }
+
+    public Object2LongOpenHashMap<BlockPos> getBuildBlocks()
+    {
+        return this.buildBlocks;
+    }
+
     public void setInBounds(final AxisAlignedBB inBounds)
     {
         this.inBounds = inBounds;
         this.digBounds.clear();
-        BlockPos.getAllInBox(this.getInBounds()).forEach(p -> this.digBounds.add(p.toImmutable()));
+        this.getDigBlocks().clear();
+        BlockPos.getAllInBox(this.getInBounds()).forEach(p ->
+        {
+            final BlockPos p2 = p.toImmutable();
+            this.digBounds.add(p2);
+            if (this.isInside(p2)) this.getDigBlocks().put(p2, 0);
+        });
     }
 
     public void setDigDone(final long time)

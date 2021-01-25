@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.bees;
+package pokecube.core.ai.tasks.bees.tasks;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
+import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;

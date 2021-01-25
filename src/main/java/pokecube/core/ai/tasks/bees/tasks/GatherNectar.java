@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.bees;
+package pokecube.core.ai.tasks.bees.tasks;
 
 import java.util.Map;
 import java.util.Optional;
@@ -13,12 +13,14 @@ import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.bees.AbstractBeeTask;
+import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.bees.sensors.FlowerSensor;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
-public class GatherNectar extends BeeTask
+public class GatherNectar extends AbstractBeeTask
 {
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
@@ -114,7 +116,7 @@ public class GatherNectar extends BeeTask
     }
 
     @Override
-    boolean doTask()
+    public boolean doTask()
     {
         final Brain<?> brain = this.entity.getBrain();
         final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);

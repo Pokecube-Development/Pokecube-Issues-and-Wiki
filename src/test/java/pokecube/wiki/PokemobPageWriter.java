@@ -7,9 +7,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.ITextComponent;
@@ -25,45 +22,6 @@ public class PokemobPageWriter
     public static String        pokemobDir = "https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/wiki/";
     public static String        gifDir     = "https://raw.githubusercontent.com/wiki/Pokecube-Development/Pokecube-Issues-and-Wiki/pokemobs/img/";
     public static String        pagePrefix = "";
-    static Map<String, Integer> refs       = Maps.newHashMap();
-    static int                  maxRef     = 0;
-
-    static void clearRefs()
-    {
-        PokemobPageWriter.refs.clear();
-        PokemobPageWriter.maxRef = 0;
-    }
-
-    static String formatLink(final String link, final String name)
-    {
-        return "[" + name + "](" + link.replace(" ", "%20") + ")";
-    }
-
-    static String referenceLink(final String ref, final String name)
-    {
-        int num = PokemobPageWriter.maxRef;
-        if (PokemobPageWriter.refs.containsKey(ref)) num = PokemobPageWriter.refs.get(ref);
-        else
-        {
-            PokemobPageWriter.maxRef++;
-            num = PokemobPageWriter.maxRef;
-            PokemobPageWriter.refs.put(ref, num);
-        }
-        return "[" + name + "][" + num + "]";
-    }
-
-    static String referenceImg(final String ref)
-    {
-        int num = PokemobPageWriter.maxRef;
-        if (PokemobPageWriter.refs.containsKey(ref)) num = PokemobPageWriter.refs.get(ref);
-        else
-        {
-            PokemobPageWriter.maxRef++;
-            num = PokemobPageWriter.maxRef;
-            PokemobPageWriter.refs.put(ref, num);
-        }
-        return "![][" + num + "]";
-    }
 
     static String getEntryName(final PokedexEntry entry)
     {
@@ -72,12 +30,12 @@ public class PokemobPageWriter
 
     static String getEntryRef(final PokedexEntry entry)
     {
-        return ":doc:`" + entry.getTrimmedName() + "`";
+        return ":ref:`" + entry.getTrimmedName() + "`";
     }
 
     static String getEntryLabel(final PokedexEntry entry)
     {
-        return ".. " + entry.getTrimmedName() + ":";
+        return ".. _" + entry.getTrimmedName() + ":\n\n";
     }
 
     static String formatPokemobImage(final PokedexEntry entry, final boolean male, final boolean shiny)
@@ -116,7 +74,7 @@ public class PokemobPageWriter
         try
         {
             final StringBuilder builder = new StringBuilder();
-            builder.append(PokemobPageWriter.getEntryLabel(entry)).append("\n\n");
+            builder.append(PokemobPageWriter.getEntryLabel(entry));
             final String name = PokemobPageWriter.getEntryName(entry);
             builder.append(name).append("\n");
             for (int i = 0; i < name.length() + 1; i++)

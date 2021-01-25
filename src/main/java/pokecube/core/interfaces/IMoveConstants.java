@@ -16,6 +16,8 @@ public interface IMoveConstants extends IMoveNames
 {
     static ResourceLocation ANTS = new ResourceLocation(PokecubeMod.ID, "ants");
 
+    static ResourceLocation BURROWS = new ResourceLocation(PokecubeMod.ID, "burrowers");
+
     static final Predicate<IPokemob> isBee = pokemob ->
     {
         final MobEntity entity = pokemob.getEntity();
@@ -38,6 +40,17 @@ public interface IMoveConstants extends IMoveNames
         return true;
     };
 
+    static final Predicate<IPokemob> burrows = pokemob ->
+    {
+        final MobEntity entity = pokemob.getEntity();
+        final boolean isAnt = ItemList.is(IMoveConstants.BURROWS, entity);
+        // Only care about bees
+        if (!isAnt) return false;
+        // Only process stock pokemobs
+        if (!pokemob.getPokedexEntry().stock) return false;
+        return true;
+    };
+
     static final Predicate<IPokemob> canFly = pokemob ->
     {
         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -52,8 +65,10 @@ public interface IMoveConstants extends IMoveNames
         GATHER,
         //Does the pokemob act like a vanilla bee
         BEEAI(true, IMoveConstants.isBee),
-        //Does the pokemob act like a vanilla bee
+        //Does the pokemob act like an ant
         ANTAI(true, IMoveConstants.isAnt),
+        //Does the pokemob make burrows
+        BURROWS(true, IMoveConstants.burrows),
         //Does the pokemob store its inventory when full.
         STORE(false),
        //Does the pokemob wander around randomly

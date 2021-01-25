@@ -1,14 +1,16 @@
-package pokecube.core.ai.tasks.bees;
+package pokecube.core.ai.tasks.bees.tasks;
 
 import java.util.Optional;
 
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
+import pokecube.core.ai.tasks.bees.AbstractBeeTask;
+import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.bees.sensors.HiveSensor;
 import pokecube.core.interfaces.IPokemob;
 
-public class CheckHive extends BeeTask
+public class CheckHive extends AbstractBeeTask
 {
     protected int new_hive_cooldown = 0;
 
@@ -53,7 +55,7 @@ public class CheckHive extends BeeTask
     }
 
     @Override
-    boolean doTask()
+    public boolean doTask()
     {
         return true;
     }

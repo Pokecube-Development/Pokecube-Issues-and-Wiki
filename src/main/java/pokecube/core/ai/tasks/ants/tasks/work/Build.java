@@ -33,12 +33,12 @@ public class Build extends AbstractConstructTask
     public static interface IRoomHandler
     {
         default boolean validWall(final Tree tree, final ServerWorld world, final BlockPos pos,
-                final AbstractWorkTask task)
+                final AbstractWorkTask task, final boolean checkAir)
         {
             final Node node = tree.getEffectiveNode(pos, null);
             // No node, everything is a valid wall!
             if (node == null) return true;
-            return this.validWall(node, world, pos, task);
+            return this.validWall(node, world, pos, task, checkAir);
         }
 
         default boolean place(final Tree tree, final ServerWorld world, final BlockPos pos, final BlockState state,
@@ -51,7 +51,7 @@ public class Build extends AbstractConstructTask
         }
 
         default boolean validWall(final Node node, final ServerWorld world, final BlockPos pos,
-                final AbstractWorkTask task)
+                final AbstractWorkTask task, final boolean checkAir)
         {
             final BlockState state = world.getBlockState(pos);
             final BlockPos mid = node.getCenter();
@@ -104,10 +104,21 @@ public class Build extends AbstractConstructTask
                 break;
             }
             if (light) valid = state.getBlock() == Blocks.SHROOMLIGHT;
-            if (!valid && task != null)
+            if (!valid && checkAir)
             {
-                task.tryHarvest(pos, true);
-                return this.validWall(node, world, pos, null);
+                boolean wouldBeValid = false;
+                if (task != null)
+                {
+                    task.tryHarvest(pos, true);
+                    wouldBeValid = this.validWall(node, world, pos, null, false);
+                }
+                else if (AbstractWorkTask.diggable.test(state))
+                {
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 48);
+                    wouldBeValid = this.validWall(node, world, pos, null, false);
+                    world.setBlockState(pos, state, 48);
+                }
+                valid = wouldBeValid;
             }
             return valid;
         }
@@ -194,16 +205,22 @@ public class Build extends AbstractConstructTask
         this.valids.set(0);
         final AntRoom type = AntRoom.NODE;
         final Tree tree = part.getTree();
-        // Start with a check of if the pos is inside.
+        // Start with a check of if the pos is on the shell, this check is done
+        // as it ensures that this is actually on the shell, and not say on a
+        // border between rooms.
         Predicate<BlockPos> isValid = pos -> tree.isOnShell(pos);
         // If it is inside, and not diggable, we notify the node of the
         // dug spot, finally we check if there is space nearby to stand.
         isValid = isValid.and(pos ->
         {
+            // This checks last time the block was attempted to be placed, if it
+            // was too recent, we terminate here.
+            if (!tree.shouldCheckBuild(pos, time)) return false;
+
             final Node node = part.getTree().getEffectiveNode(pos, part);
             final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(node == part ? node.type : type,
                     Build.DEFAULT);
-            final boolean wall = handler.validWall(tree, this.world, pos, this);
+            final boolean wall = handler.validWall(tree, this.world, pos, null, true);
             if (!wall) this.valids.getAndIncrement();
             return !wall;
         });// .and(this.canStandNear);
@@ -374,12 +391,13 @@ public class Build extends AbstractConstructTask
             final Node node = tree.getEffectiveNode(pos, part);
             final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(node == part ? node.type : type,
                     Build.DEFAULT);
-            wall = handler.validWall(tree, this.world, pos, this);
+            wall = handler.validWall(tree, this.world, pos, this, true);
             if (!wall)
             {
                 handler.place(tree, this.world, this.work_pos, state, this);
                 if (!this.world.isAirBlock(pos)) this.to_place.shrink(1);
             }
+            part.markBuilt(this.work_pos, this.world.getGameTime() + 1200);
             this.pokemob.getInventory().setInventorySlotContents(this.storeInd, this.to_place);
         }
     }

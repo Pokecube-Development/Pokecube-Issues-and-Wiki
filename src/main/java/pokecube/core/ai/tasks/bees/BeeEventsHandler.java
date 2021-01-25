@@ -19,7 +19,7 @@ public class BeeEventsHandler
      */
     private static void onBeeGatherBlocks(final HarvestCheckEvent event)
     {
-        if (!BeeTasks.isValidBee(event.getEntity())) return;
+        if (!BeeTasks.isValid(event.getEntity())) return;
         if (FlowerSensor.flowerPredicate.test(event.state)) event.setResult(Result.DENY);
     }
 }

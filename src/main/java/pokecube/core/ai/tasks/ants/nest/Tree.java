@@ -172,6 +172,24 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
         });
     }
 
+    public boolean shouldCheckBuild(final BlockPos pos, final long time)
+    {
+        for (final Part part : this.allRooms)
+            if (part.shouldCheckBuild(pos, time)) return true;
+        for (final Part part : this.allEdges)
+            if (part.shouldCheckBuild(pos, time)) return true;
+        return false;
+    }
+
+    public boolean shouldCheckDig(final BlockPos pos, final long time)
+    {
+        for (final Part part : this.allRooms)
+            if (part.shouldCheckDig(pos, time)) return true;
+        for (final Part part : this.allEdges)
+            if (part.shouldCheckDig(pos, time)) return true;
+        return false;
+    }
+
     public void add(final Node node)
     {
         final BlockPos mid = node.getCenter();
@@ -189,6 +207,12 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
             e.setTree(this);
             e.node1.setTree(this);
             e.node2.setTree(this);
+        }
+        // Re-initialize the bounds for the rooms, etc
+        for (final Part p : this.allRooms)
+        {
+            p.setInBounds(p.getInBounds());
+            p.setOutBounds(p.getOutBounds());
         }
         if (this.bounds == null) this.bounds = node.getOutBounds();
         else this.bounds = this.bounds.union(node.getOutBounds());

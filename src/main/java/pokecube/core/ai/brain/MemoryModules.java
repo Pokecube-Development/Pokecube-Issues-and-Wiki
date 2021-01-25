@@ -10,6 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.IPosWrapper;
@@ -18,6 +19,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.bees.BeeTasks;
+import pokecube.core.ai.tasks.burrows.BurrowTasks;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 
 public class MemoryModules
 {
@@ -36,6 +39,12 @@ public class MemoryModules
     public static final MemoryModuleType<Integer> NO_NEST_TIMER     = new MemoryModuleType<>(Optional.of(Codec.INT));
     public static final MemoryModuleType<Integer> NO_WORK_TIMER     = new MemoryModuleType<>(Optional.of(Codec.INT));
 
+    public static final MemoryModuleType<Integer> JOB_TYPE = new MemoryModuleType<>(Optional.of(Codec.INT));
+
+    public static final MemoryModuleType<CompoundNBT> JOB_INFO = new MemoryModuleType<>(Optional.of(CompoundNBT.CODEC));
+
+    public static final MemoryModuleType<Boolean> GOING_HOME = new MemoryModuleType<>(Optional.of(Codec.BOOL));
+
     // Used for pathing
     public static final MemoryModuleType<Path>       PATH           = MemoryModuleType.PATH;
     public static final MemoryModuleType<WalkTarget> WALK_TARGET    = MemoryModuleType.WALK_TARGET;
@@ -43,6 +52,8 @@ public class MemoryModules
 
     // Misc
     public static final MemoryModuleType<IPosWrapper> LOOK_TARGET = MemoryModuleType.LOOK_TARGET;
+
+    public static final MemoryModuleType<EntityPokemobEgg> EGG = new MemoryModuleType<>(Optional.empty());
 
     public static final MemoryModuleType<List<NearBlock>>  VISIBLE_BLOCKS = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<List<ItemEntity>> VISIBLE_ITEMS  = new MemoryModuleType<>(Optional.empty());
@@ -69,6 +80,10 @@ public class MemoryModules
 
         event.getRegistry().register(MemoryModules.NEST_POS.setRegistryName(PokecubeCore.MODID, "nest_pos"));
         event.getRegistry().register(MemoryModules.WORK_POS.setRegistryName(PokecubeCore.MODID, "work_pos"));
+        event.getRegistry().register(MemoryModules.GOING_HOME.setRegistryName(PokecubeCore.MODID, "go_home"));
+
+        event.getRegistry().register(AntTasks.JOB_TYPE.setRegistryName(PokecubeCore.MODID, "job_type"));
+        event.getRegistry().register(AntTasks.JOB_INFO.setRegistryName(PokecubeCore.MODID, "job_info"));
 
         event.getRegistry().register(MemoryModules.NO_NEST_TIMER.setRegistryName(PokecubeCore.MODID, "no_nest_timer"));
         event.getRegistry().register(MemoryModules.NO_WORK_TIMER.setRegistryName(PokecubeCore.MODID, "no_work_timer"));
@@ -76,7 +91,10 @@ public class MemoryModules
         event.getRegistry().register(MemoryModules.OUT_OF_NEST_TIMER.setRegistryName(PokecubeCore.MODID,
                 "out_of_nest_timer"));
 
+        event.getRegistry().register(MemoryModules.EGG.setRegistryName(PokecubeCore.MODID, "egg"));
+
         BeeTasks.registerMems(event);
         AntTasks.registerMems(event);
+        BurrowTasks.registerMems(event);
     }
 }

@@ -1,15 +1,17 @@
-package pokecube.core.ai.tasks.bees;
+package pokecube.core.ai.tasks.bees.tasks;
 
 import java.util.Optional;
 
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
+import pokecube.core.ai.tasks.bees.AbstractBeeTask;
+import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.bees.sensors.HiveSensor;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
 
-public class EnterHive extends BeeTask
+public class EnterHive extends AbstractBeeTask
 {
     final Vector3 homePos = Vector3.getNewVector();
 
@@ -46,7 +48,7 @@ public class EnterHive extends BeeTask
     }
 
     @Override
-    boolean doTask()
+    public boolean doTask()
     {
         final Brain<?> brain = this.entity.getBrain();
         final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);

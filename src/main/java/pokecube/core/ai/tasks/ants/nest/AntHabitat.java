@@ -118,7 +118,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                 this.ants.removeIf(uuid ->
                 {
                     final Entity mob = world.getEntityByUuid(uuid);
-                    if (AntTasks.isValidAnt(mob)) return false;
+                    if (AntTasks.isValid(mob)) return false;
                     return true;
                 });
                 if (this.ants.isEmpty() && this.eggs.isEmpty())
@@ -359,7 +359,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         this.workers.forEach((j, s) -> s.removeIf(uuid ->
         {
             final Entity mob = world.getEntityByUuid(uuid);
-            if (AntTasks.isValidAnt(mob))
+            if (AntTasks.isValid(mob))
             {
                 // If we are a valid ant, ensure it has a job to do.
                 if (world.getRandom().nextInt(50) == 0) this.assignJob(j, (MobEntity) mob);
@@ -689,7 +689,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     @Override
     public boolean canEnterHabitat(final MobEntity mob)
     {
-        if (!AntTasks.isValidAnt(mob)) return false;
+        if (!AntTasks.isValid(mob)) return false;
         if (!(mob.getEntityWorld() instanceof ServerWorld)) return false;
         return true;
     }
