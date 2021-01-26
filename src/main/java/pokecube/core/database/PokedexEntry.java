@@ -805,60 +805,57 @@ public class PokedexEntry
      * If the forme is supposed to have a custom sound, rather than using base,
      * it will be set to this.
      */
-    protected String                            customSound     = null;
+    protected String                         customSound     = null;
     @CopyToGender
-    private PokedexEntry                        baseForme       = null;
+    private PokedexEntry                     baseForme       = null;
     /** Initial Happiness of the pokemob */
     @CopyToGender
-    protected int                               baseHappiness;
+    protected int                            baseHappiness;
     @CopyToGender
-    protected String                            baseName;
+    protected String                         baseName;
     /** base xp given from defeating */
     @CopyToGender
-    protected int                               baseXP          = -1;
+    protected int                            baseXP          = -1;
     @CopyToGender
-    public boolean                              breeds          = true;
+    public boolean                           breeds          = true;
     @CopyToGender
-    public boolean                              canSitShoulder  = false;
+    public boolean                           canSitShoulder  = false;
     @CopyToGender
-    public int                                  catchRate       = -1;
+    public int                               catchRate       = -1;
     @CopyToGender
-    protected PokedexEntry                      _childNb        = null;
+    protected PokedexEntry                   _childNb        = null;
     /** A map of father pokedexnb : child pokedexNbs */
     @CopyToGender
-    protected Map<PokedexEntry, PokedexEntry[]> childNumbers    = Maps.newHashMap();
-    /** Will the pokemob try to build colonies with others of it's kind */
-    @CopyToGender
-    public boolean                              colonyBuilder   = false;
+    public Map<PokedexEntry, PokedexEntry[]> childNumbers    = Maps.newHashMap();
     /**
      * Default value of specialInfo, used to determine default colour of
      * recolourable parts
      */
     @CopyToGender
-    public int                                  defaultSpecial  = 0;
+    public int                               defaultSpecial  = 0;
     /**
      * Default value of specialInfo for shiny variants, used to determine
      * default colour of recolourable parts
      */
     @CopyToGender
-    public int                                  defaultSpecials = 0;
+    public int                               defaultSpecials = 0;
     /**
      * If the IPokemob supports this, then this will be the loot table used for
      * its drops.
      */
     @CopyToGender
-    public ResourceLocation                     lootTable       = null;
+    public ResourceLocation                  lootTable       = null;
     /**
      * indicatees of the specified special texture exists. Index 4 is used for
      * if the mob can be dyed
      */
     @CopyToGender
-    public boolean                              dyeable         = false;
+    public boolean                           dyeable         = false;
     /** A Set of valid dye colours, if empty, any dye is valid. */
     @CopyToGender
-    public Set<DyeColor>                        validDyes       = Sets.newHashSet();
+    public Set<DyeColor>                     validDyes       = Sets.newHashSet();
     @CopyToGender
-    SoundEvent                                  event;
+    SoundEvent                               event;
 
     @CopyToGender
     public SoundEvent          replacedEvent;

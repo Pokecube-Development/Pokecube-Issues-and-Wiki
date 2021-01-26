@@ -1,10 +1,8 @@
 package pokecube.core.ai.tasks.ants.tasks;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import com.google.common.collect.Maps;
 
@@ -213,6 +211,26 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
 
     protected abstract void doWork();
 
+    protected void onTimeout(final Part part)
+    {
+        // final List<Node> entrances =
+        // this.nest.hab.getRooms(AntRoom.ENTRANCE);
+        // if (entrances.isEmpty()) return;
+        //
+        // final Node room = entrances.get(0);
+        // this.setWalkTo(room.getCenter(), 1, 2);
+
+        this.work_pos = null;
+        this.stand_pos = null;
+        this.valids.set(0);
+        this.progressTimer = 0;
+    }
+
+    protected boolean shouldGiveUp(final double pathDistFromEnd)
+    {
+        return false;
+    }
+
     @Override
     public final void run()
     {
@@ -230,24 +248,9 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         final Brain<?> brain = this.entity.getBrain();
         final GlobalPos pos = GlobalPos.getPosition(this.world.getDimensionKey(), this.work_pos);
         brain.setMemory(AntTasks.WORK_POS, pos);
-
-        final Path p = this.entity.getNavigator().getPath();
         this.stand_pos = this.work_pos;
 
-        if (this.stand_pos == null || this.stand_pos.distanceSq(this.work_pos) > 9)
-        {
-            final Stream<BlockPos> one = BlockPos.getAllInBox(this.work_pos.add(-2, -2, -2), this.work_pos.add(2, 2, 2))
-                    .filter(p2 -> p2.distanceSq(this.work_pos) < 9 && this.canStand.test(p2));
-            final Stream<BlockPos> two = BlockPos.getAllInBox(this.work_pos.add(-2, -2, -2), this.work_pos.add(2, 2, 2))
-                    .filter(p2 -> p2.distanceSq(this.work_pos) < 9 && this.canStand.test(p2));
-
-            final Optional<BlockPos> test = one.max((p1, p2) -> Integer.compare(p1.getY(), p2.getY()));
-            final Optional<BlockPos> test2 = two.min((p1, p2) -> Integer.compare(p1.getY(), p2.getY()));
-            if (test.isPresent()) this.stand_pos = test.get().toImmutable();
-            else this.stand_pos = this.work_pos;
-            if (test.isPresent()) System.out.println(test + " " + test2 + " " + test.get().compareTo(test2.get()));
-            if (this.stand_pos == this.work_pos) PokecubeCore.LOGGER.warn("Invalid stand pos! " + this.job);
-        }
+        final Path p = this.entity.getNavigator().getPath();
 
         final double dr = this.stand_pos.distanceSq(this.entity.getPosition());
         final double dr2 = p == null ? dr : p.getFinalPathPoint().func_224759_a().distanceSq(this.stand_pos);
@@ -256,6 +259,13 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                 + this.ds2Max);
 
         if (dr2 > this.ds2Max) this.setWalkTo(this.stand_pos, 1, MathHelper.ceil(this.dsMax - 1));
+        else if (this.progressTimer > 20) this.progressTimer = 20;
+
+        if (this.shouldGiveUp(dr2))
+        {
+            this.onTimeout(part);
+            return;
+        }
 
         if (this.progressTimer > 0 && dr < this.ds2Max)
         {

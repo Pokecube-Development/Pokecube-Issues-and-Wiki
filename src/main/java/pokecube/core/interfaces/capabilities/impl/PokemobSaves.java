@@ -243,7 +243,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         aiTag.putInt(TagNames.HUNGER, this.getHungerTime());
         final CompoundNBT aiRoutineTag = new CompoundNBT();
         for (final AIRoutine routine : AIRoutine.values())
-            aiRoutineTag.putBoolean(routine.toString(), this.isRoutineEnabled(routine));
+            // Only save it if it was allowed anyway!
+            if (routine.isAllowed(this)) aiRoutineTag.putBoolean(routine.toString(), this.isRoutineEnabled(routine));
         aiTag.put(TagNames.AIROUTINES, aiRoutineTag);
         final CompoundNBT taskTag = new CompoundNBT();
         for (final IAIRunnable task : this.getTasks())

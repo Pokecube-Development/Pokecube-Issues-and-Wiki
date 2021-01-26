@@ -13,6 +13,7 @@ import pokecube.core.ai.tasks.ants.nest.Edge;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.nest.Part;
 import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
+import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 
@@ -32,12 +33,12 @@ public class Dig extends AbstractConstructTask
         shor.set(false);
 
         // Start with a check of if the pos is inside.
-        Predicate<BlockPos> isValid = p -> part.getTree().isInside(p);
+        Predicate<BlockPos> isValid = p -> part.getTree().shouldCheckDig(p, time);
         // If it is inside, and not diggable, we notify the node of the
         // dug spot, finally we check if there is space nearby to stand.
         isValid = isValid.and(p ->
         {
-            if (this.diggable.test(this.world.getBlockState(p)))
+            if (AbstractWorkTask.diggable.test(this.world.getBlockState(p)))
             {
                 this.valids.getAndIncrement();
                 return this.hasEmptySpace.test(p);
@@ -48,7 +49,7 @@ public class Dig extends AbstractConstructTask
 
         // Stream -> filter gets us only the valid postions.
         // Min then gets us the one closest to the ant.
-        Optional<BlockPos> valid = part.getDigBounds().stream().filter(isValid).min((p1, p2) ->
+        Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) ->
         {
             final double d1 = p1.distanceSq(pos);
             final double d2 = p2.distanceSq(pos);
@@ -66,13 +67,14 @@ public class Dig extends AbstractConstructTask
         if (done) part.setDigDone(time + (part instanceof Node ? 2400 : 1200));
         else if (shor.get())
         {
-            // Start with a check of if the pos is inside.
-            isValid = p -> part.getTree().isInside(p);
+            // Start with a check of if the pos is inside, this also checks if
+            // the block was dug recently, and if so, skips it.
+            isValid = p -> part.shouldCheckDig(p, time);
             // If it is inside, and not diggable, we notify the node of the
             // dug spot, finally we check if there is space nearby to stand.
             isValid = isValid.and(p ->
             {
-                if (this.diggable.test(this.world.getBlockState(p)))
+                if (AbstractWorkTask.diggable.test(this.world.getBlockState(p)))
                 {
                     this.valids.getAndIncrement();
                     return this.canStandNear.test(p);
@@ -182,10 +184,30 @@ public class Dig extends AbstractConstructTask
     }
 
     @Override
+    protected void onTimeout(final Part part)
+    {
+        // Mark the block as on cooldown for a few seconds, and the room as
+        // well. This gives them some time to look for a different spot to dig,
+        // before trying again here.
+        part.markDug(this.work_pos, this.world.getGameTime() + 240);
+        part.setDigDone(this.world.getGameTime() + 120);
+        super.onTimeout(part);
+    }
+
+    @Override
+    protected boolean shouldGiveUp(final double pathDistFromEnd)
+    {
+        return this.progressTimer > 40;
+    }
+
+    @Override
     protected void doWork()
     {
         final boolean dug = this.tryHarvest(this.work_pos, true);
         BrainUtils.setLeapTarget(this.entity, new BlockPosWrapper(this.work_pos));
+        final Part part = this.n == null ? this.e : this.n;
+        // Mark it as done for the next few seconds or so
+        part.markDug(this.work_pos, this.world.getGameTime() + 2400);
         if (dug && this.n != null) this.n.dug.add(this.work_pos.toImmutable());
     }
 }

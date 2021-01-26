@@ -1,9 +1,11 @@
 package pokecube.core.ai.tasks;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.EntityClassification;
@@ -22,8 +24,6 @@ import pokecube.core.ai.npc.ShuffledTask;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.ai.tasks.ants.AntTasks;
-import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.combat.attacks.SelectMoveTask;
 import pokecube.core.ai.tasks.combat.attacks.UseAttacksTask;
 import pokecube.core.ai.tasks.combat.management.CallForHelpTask;
@@ -70,6 +70,24 @@ public class Tasks
         BrainUtils.addToBrain(brain, Tasks.MEMORY_TYPES, Tasks.SENSOR_TYPES);
     }
 
+    private static Map<Init.Type, List<ITaskAdder>> taskAdders = Maps.newConcurrentMap();
+
+    static
+    {
+        for (final Init.Type type : Init.Type.values())
+            Tasks.taskAdders.put(type, Lists.newArrayList());
+    }
+
+    public static void register(final Init.Type type, final ITaskAdder adder)
+    {
+        Tasks.taskAdders.get(type).add(adder);
+    }
+
+    public static List<ITaskAdder> getAdders(final Init.Type type)
+    {
+        return Tasks.taskAdders.get(type);
+    }
+
     @SuppressWarnings("unchecked")
     public static ImmutableList<Pair<Integer, ? extends Task<? super LivingEntity>>> idle(final IPokemob pokemob,
             final float speed)
@@ -92,9 +110,6 @@ public class Tasks
             aiList.add(new HungerTask(pokemob).setPriority(1));
             // Wander around
             aiList.add(new IdleWalkTask(pokemob).setPriority(10));
-            // Bee related tasks
-            BeeTasks.addBeeIdleTasks(pokemob, aiList);
-            AntTasks.addAntIdleTasks(pokemob, aiList);
         }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around

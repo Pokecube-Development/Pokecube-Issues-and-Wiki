@@ -12,27 +12,27 @@ import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 
-public abstract class BeeTask extends BaseIdleTask
+public abstract class AbstractBeeTask extends BaseIdleTask
 {
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Don't run if we don't have a hive
         // The HiveSensor will try to set this if it is invalid.
-        BeeTask.mems.put(BeeTasks.HIVE_POS, MemoryModuleStatus.VALUE_PRESENT);
+        AbstractBeeTask.mems.put(BeeTasks.HIVE_POS, MemoryModuleStatus.VALUE_PRESENT);
     }
 
-    public BeeTask(final IPokemob pokemob)
+    public AbstractBeeTask(final IPokemob pokemob)
     {
         super(pokemob);
     }
 
-    public BeeTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
+    public AbstractBeeTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
     {
-        super(pokemob, RootTask.merge(BeeTask.mems, mems));
+        super(pokemob, RootTask.merge(AbstractBeeTask.mems, mems));
     }
 
-    abstract boolean doTask();
+    public abstract boolean doTask();
 
     @Override
     public boolean shouldRun()

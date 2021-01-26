@@ -29,6 +29,8 @@ public abstract class AbstractAntTask extends BaseIdleTask
     protected AntNest nest;
     protected AntJob  job;
 
+    private int check_timer = 0;
+
     public AbstractAntTask(final IPokemob pokemob)
     {
         super(pokemob, AbstractAntTask.mems);
@@ -45,12 +47,16 @@ public abstract class AbstractAntTask extends BaseIdleTask
     public boolean shouldRun()
     {
         this.job = AntTasks.getJob(this.entity);
-        this.nest = NestSensor.getNest(this.entity).orElse(null);
+        if (this.nest == null || this.check_timer-- < 0)
+        {
+            this.nest = NestSensor.getNest(this.entity).orElse(null);
+            this.check_timer = 1200;
+        }
         if (this.nest == null) return false;
         this.pokemob.setRoutineState(AIRoutine.MATE, false);
         final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(
                 GeneralStates.STAYING);
-        final boolean beeCheck = this.pokemob.isRoutineEnabled(AIRoutine.ANTAI);
-        return tameCheck && beeCheck && this.doTask();
+        final boolean aiEnabled = this.pokemob.isRoutineEnabled(AIRoutine.ANTAI);
+        return tameCheck && aiEnabled && this.doTask();
     }
 }

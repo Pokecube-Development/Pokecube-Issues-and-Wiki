@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.ants.nest;
+package pokecube.core.ai.tasks.burrows.burrow;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,10 +28,6 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
 
     Object2LongOpenHashMap<BlockPos> digBlocks   = new Object2LongOpenHashMap<>();
     Object2LongOpenHashMap<BlockPos> buildBlocks = new Object2LongOpenHashMap<>();
-
-    // If present, when loading this map will be used to sync the nodes
-    // on the edges.
-    private Tree _tree = null;
 
     @Override
     public CompoundNBT serializeNBT()
@@ -67,16 +63,6 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
     public abstract boolean isInside(BlockPos pos);
 
     public abstract boolean isOnShell(BlockPos pos);
-
-    public Tree getTree()
-    {
-        return this._tree;
-    }
-
-    public void setTree(final Tree _tree)
-    {
-        this._tree = _tree;
-    }
 
     public List<BlockPos> getDigBounds()
     {

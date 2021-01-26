@@ -34,7 +34,7 @@ public abstract class AbstractWorkTask extends AbstractAntTask
     }
     protected StoreTask storage = null;
 
-    protected Predicate<BlockState> diggable = state -> (PokecubeTerrainChecker.isTerrain(state)
+    public static Predicate<BlockState> diggable = state -> (PokecubeTerrainChecker.isTerrain(state)
             || PokecubeTerrainChecker.isRock(state) || PokecubeTerrainChecker.isCutablePlant(state)
             || PokecubeTerrainChecker.isLeaves(state) || PokecubeTerrainChecker.isWood(state)) && state
                     .getBlock() != PokecubeItems.NESTBLOCK.get();
@@ -60,7 +60,7 @@ public abstract class AbstractWorkTask extends AbstractAntTask
         final BlockState state = this.world.getBlockState(pos);
         if (breakOnly)
         {
-            if (this.diggable.test(state) && MoveEventsHandler.canAffectBlock(this.pokemob, v.set(pos), "ant_dig",
+            if (AbstractWorkTask.diggable.test(state) && MoveEventsHandler.canAffectBlock(this.pokemob, v.set(pos), "ant_dig",
                     false, false))
             {
                 this.world.destroyBlock(pos, true, this.entity);
