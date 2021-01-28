@@ -50,6 +50,8 @@ public class StatEffect extends BaseEffect
         case ATTACK:
             final Effect atkD = Effects.WEAKNESS;
             final Effect atkU = Effects.STRENGTH;
+            // TODO make this configurable, currently the weakness affect is a
+            // bit too much
             if (up)
             {
                 if (entity.isPotionActive(atkD)) entity.removePotionEffect(atkD);
