@@ -26,6 +26,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.MovesUtils;
+import thut.core.common.ThutCore;
 
 public class JsonHelper
 {
@@ -166,6 +167,50 @@ public class JsonHelper
         });
         tags.put("pokemobs_offsets", new String[][] { { "ridden_offsets" } });
 
+        try
+        {
+            final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
+
+
+            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
+
+            iter.forEachRemaining(e ->
+            {
+                final JsonObject o = e.getAsJsonObject();
+
+                // Cleanup some values if present
+                JsonHelper.cleanMember(o, "override", false);
+                JsonHelper.cleanMember(o, "dummy", false);
+                JsonHelper.cleanMember(o, "starter", false);
+                JsonHelper.cleanMember(o, "legend", false);
+                JsonHelper.cleanMember(o, "breed", true);
+                JsonHelper.cleanMember(o, "hasShiny", true);
+                JsonHelper.cleanMember(o, "stock", true);
+                JsonHelper.cleanMember(o, "ridable", true);
+                JsonHelper.cleanMember(o, "gender", "");
+                JsonHelper.cleanMember(o, "genderBase", "");
+                JsonHelper.cleanMember(o, "baseForm", "");
+                JsonHelper.cleanMember(o, "modelType", "");
+                JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
+                JsonHelper.cleanEmptyLists(o);
+
+                o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
+
+            });
+
+            final String json = PokedexEntryLoader.gson.toJson(obj);
+            final File dir = path.resolve("pokemobs_all" + ".json").toFile();
+            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
+                    .newEncoder());
+            out.write(json);
+            out.close();
+        }
+        catch (final Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
 
         final JsonArray mobs = new JsonArray();
@@ -298,9 +343,13 @@ public class JsonHelper
                     JsonHelper.cleanMember(o, "ridable", true);
                     JsonHelper.cleanMember(o, "gender", "");
                     JsonHelper.cleanMember(o, "genderBase", "");
+                    JsonHelper.cleanMember(o, "baseForm", "");
                     JsonHelper.cleanMember(o, "modelType", "");
                     JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
                     JsonHelper.cleanEmptyLists(o);
+
+
+                    o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
 
                     final JsonObject o1 = new JsonObject();
                     if (!JsonHelper.mergeIn(o, o1, "name")) return;
