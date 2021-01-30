@@ -1640,8 +1640,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Run Away, Guts",
-            "hidden": "Hustle"
+            "normal": "Gluttony, Hustle",
+            "hidden": "Thick Fat"
           }
         },
         "mass": 3.8,
@@ -1767,8 +1767,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Run Away, Guts",
-            "hidden": "Hustle"
+            "normal": "Gluttony, Hustle",
+            "hidden": "Thick Fat"
           }
         },
         "mass": 25.5,
@@ -2266,8 +2266,7 @@
         },
         "abilities": {
           "values": {
-            "normal": "Static",
-            "hidden": "Lightningrod"
+            "normal": "Surge Surfer"
           }
         },
         "mass": 21.0,
@@ -2387,8 +2386,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Sand Veil",
-            "hidden": "Sand Rush"
+            "normal": "Snow Cloak",
+            "hidden": "Slush Rush"
           }
         },
         "mass": 40.0,
@@ -2521,8 +2520,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Sand Veil",
-            "hidden": "Sand Rush"
+            "normal": "Snow Cloak",
+            "hidden": "Slush Rush"
           }
         },
         "mass": 55.0,
@@ -3151,8 +3150,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Flash Fire",
-            "hidden": "Drought"
+            "normal": "Snow Cloak",
+            "hidden": "Snow Warning"
           }
         },
         "mass": 9.9,
@@ -3225,8 +3224,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Flash Fire",
-            "hidden": "Drought"
+            "normal": "Snow Cloak",
+            "hidden": "Snow Warning"
           }
         },
         "mass": 19.9,
@@ -4120,7 +4119,7 @@
         },
         "abilities": {
           "values": {
-            "normal": "Sand Veil, Arena Trap",
+            "normal": "Sand Veil, Tangling Hail",
             "hidden": "Sand Force"
           }
         },
@@ -4242,7 +4241,7 @@
         },
         "abilities": {
           "values": {
-            "normal": "Sand Veil, Arena Trap",
+            "normal": "Sand Veil, Tangling Hail",
             "hidden": "Sand Force"
           }
         },
@@ -4375,7 +4374,7 @@
         "abilities": {
           "values": {
             "normal": "Pickup, Technician",
-            "hidden": "Unnerve"
+            "hidden": "Rattled"
           }
         },
         "mass": 4.2
@@ -4595,8 +4594,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Limber, Technician",
-            "hidden": "Unnerve"
+            "normal": "Fur Coat, Technician",
+            "hidden": "Rattled"
           }
         },
         "mass": 33.0,
@@ -7722,8 +7721,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Stench, Sticky Hold",
-            "hidden": "Poison Touch"
+            "normal": "Poison Touch, Gluttony",
+            "hidden": "Power of Alchemy"
           }
         },
         "mass": 52.0,
@@ -7787,8 +7786,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Stench, Sticky Hold",
-            "hidden": "Poison Touch"
+            "normal": "Poison Touch, Gluttony",
+            "hidden": "Power of Alchemy"
           }
         },
         "mass": 52.0,
@@ -8927,7 +8926,7 @@
         },
         "abilities": {
           "values": {
-            "normal": "Chlorophyll",
+            "normal": "Frisk",
             "hidden": "Harvest"
           }
         },
@@ -9102,8 +9101,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Rock Head, Lightningrod",
-            "hidden": "Battle Armor"
+            "normal": "Cursed Body, Lightning Rod",
+            "hidden": "Rock Head"
           }
         },
         "mass": 34.0,
@@ -20593,6 +20592,18 @@
       "name": "Blaziken",
       "number": 257,
       "base": true,
+	  "female_model": {
+        "key": "blaziken_female",
+        "tex": "blaziken",
+        "model": "blaziken_female",
+        "anim": "blaziken_female"
+      },
+      "male_model": {
+        "key": "blaziken_male",
+        "tex": "blaziken",
+        "model": "blaziken_male",
+        "anim": "blaziken_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -58897,7 +58908,7 @@
         "sizes": {
           "values": {
             "width": "2.0",
-            "length": "2.0",
+            "length": "1.0",
             "height": "2.0"
           }
         },
@@ -61145,9 +61156,9 @@
         },
         "sizes": {
           "values": {
-            "width": "3.4",
-            "length": "3.4",
-            "height": "3.4"
+            "width": "3.8",
+            "length": "3.8",
+            "height": "3.8"
           }
         },
         "types": {
@@ -61161,7 +61172,7 @@
             "normal": "Full Metal Body"
           }
         },
-        "mass": 230.0
+        "mass": 460.0
       }
     },
     {
@@ -61257,9 +61268,9 @@
         },
         "sizes": {
           "values": {
-            "width": "4.0",
+            "width": "4.2",
             "length": "1.0",
-            "height": "4.0"
+            "height": "4.2"
           }
         },
         "types": {
@@ -61273,7 +61284,7 @@
             "normal": "Shadow Shield"
           }
         },
-        "mass": 120.0,
+        "mass": 350.0,
         "movementType": "flying"
       }
     },
@@ -61328,24 +61339,25 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "powersplit,guardsplit,tickle,acid,constrict,pound",
-            "7": "clearsmog",
-            "13": "psywave",
-            "19": "headbutt",
-            "23": "venoshock",
-            "29": "toxicspikes",
-            "31": "safeguard",
-            "37": "powergem",
-            "43": "mirrorcoat",
-            "47": "acidspray",
-            "53": "venomdrench",
-            "59": "stealthrock",
-            "67": "wonderroom",
-            "73": "headsmash"
+            "1": "wrap,pound",
+            "5": "acid",
+            "10": "tickle",
+            "15": "acidspray",
+            "20": "clearsmog",
+            "25": "powersplit,guardsplit",
+            "30": "venoshock",
+            "35": "headbutt",
+            "40": "toxicspikes",
+            "45": "venomdrench",
+            "50": "powergem",
+            "55": "stealthrock",
+            "60": "mirrorcoat",
+            "65": "wonderroom",
+			"70": "headsmash"
           }
         },
         "misc": {
-          "moves": "acid, acidspray, allyswitch, bind, brutalswing, chargebeam, clearsmog, confide, constrict, dazzlinggleam, doubleteam, echoedvoice, facade, foulplay, frustration, grassknot, guardsplit, gunkshot, headbutt, headsmash, hiddenpower, ironhead, knockoff, lightscreen, magiccoat, mirrorcoat, painsplit, poisonjab, pound, powergem, powersplit, protect, psychic, psyshock, psywave, reflect, rest, return, roleplay, round, safeguard, sandstorm, sleeptalk, sludgebomb, sludgewave, snore, spite, stealthrock, substitute, swagger, telekinesis, thunder, thunderbolt, thunderwave, tickle, toxic, toxicspikes, trickroom, venomdrench, venoshock, wonderroom, worryseed, zenheadbutt"
+          "moves": "corrosivegas, meteorbeam, thunderwave, lightscreen, safeguard, rest, rockslide, snore, protect, sandstorm, facade, rocktomb, trickroom, wonderroom, crosspoison, venoshock, round, brutal, swing, bodyslam, thunderbolt, thunder, psychic, sludgebomb, psyshock, sleeptalk, toxicspikes, poisonjab, powergem, zenheadbutt, gunkshot, ironhead, stealthrock, sludgewave, foulplay, allyswitch, venomdrench, dazzlinggleam"
         }
       }
     },
@@ -61391,7 +61403,7 @@
           }
         },
         "mass": 333.6,
-        "captureRate": 25,
+        "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
         "formeItems": {}
@@ -61399,24 +61411,25 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "fellstinger,thunderpunch,icepunch,reversal,harden,poweruppunch,focusenergy",
-            "7": "cometpunch",
-            "13": "bulkup",
-            "19": "vitalthrow",
-            "23": "endure",
-            "29": "leechlife",
-            "31": "taunt",
-            "37": "megapunch",
-            "43": "counter",
-            "47": "hammerarm",
-            "53": "lunge",
-            "59": "dynamicpunch",
-            "67": "superpower",
-            "73": "focuspunch"
+            "1": "poweruppunch,harden",
+			"5": "taunt",
+			"10": "fellstinger",
+			"15": "vitalthrow",
+			"20": "bulkup",
+			"25": "endure",
+			"30": "reversal",
+			"35": "megapunch",
+			"40": "lunge",
+			"45": "focusenergy",
+			"50": "dynamicpunch",
+			"55": "counter",
+			"60": "hammerarm",
+			"65": "superpower",
+			"70": "focuspunch"
           }
         },
         "misc": {
-          "moves": "bounce, brickbreak, bugbite, bulkup, bulldoze, cometpunch, confide, counter, doubleteam, drainpunch, dualchop, dynamicpunch, earthquake, endeavor, endure, facade, falseswipe, fellstinger, fling, focusenergy, focuspunch, frustration, gigaimpact, gyroball, hammerarm, harden, hiddenpower, icepunch, ironhead, leechlife, lowsweep, lunge, megapunch, outrage, payback, poisonjab, poweruppunch, protect, rest, return, reversal, rockslide, rocktomb, roost, round, sleeptalk, smackdown, snore, stompingtantrum, stoneedge, substitute, superpower, swagger, taunt, thunderpunch, toxic, vitalthrow, workup"
+          "moves": "coaching, dualwingbeat, megapunch, icepunch, thunderpunch, rest, rockslide, snore, protect, facade, revenge, brickbreak, rocktomb, bounce, payback, fling, drainpunch, lowsweep, round, bulldoze, falseswipe, stompingtantrum, bodyslam, earthquake, focusenergy, leechlife, substitute, reversal, outrage, endure, sleeptalk, taunt, superpower, bulkup, gyroball, closecombat, poisonjab, ironhead, stoneedge, workup, darkestlariat, highhorsepower"
         }
       }
     },
@@ -61461,7 +61474,7 @@
           }
         },
         "mass": 25.0,
-        "captureRate": 255,
+        "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
         "logics": {},
@@ -61470,24 +61483,25 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "quiverdance,quickguard,lowkick,rapidspin,leer,doublekick",
-            "7": "swift",
-            "13": "stomp",
-            "19": "feint",
-            "23": "silverwind",
-            "29": "bounce",
-            "31": "jumpkick",
-            "37": "agility",
-            "43": "triplekick",
-            "47": "lunge",
-            "53": "bugbuzz",
-            "59": "mefirst",
-            "67": "highjumpkick",
-            "73": "speedswap"
+            "1": "feint,rapidspin",
+			"5": "leer",
+            "10": "quickguard",
+            "15": "bugbite",
+            "20": "lowkick",
+            "25": "doublekick",
+            "30": "triplekick",
+            "35": "stomp",
+            "40": "agility",
+            "45": "lunge",
+            "50": "bounce",
+            "55": "speedswap",
+            "60": "bugbuzz",
+            "65": "quiverdance",
+            "70": "highjumpkick"
           }
         },
         "misc": {
-          "moves": "agility, blizzard, block, bounce, brickbreak, bugbite, bugbuzz, confide, doublekick, doubleteam, drillrun, echoedvoice, electroweb, facade, falseswipe, feint, fling, focusblast, foulplay, frustration, gigaimpact, hiddenpower, highjumpkick, hyperbeam, icebeam, icywind, jumpkick, laserfocus, leer, lowkick, lowsweep, lunge, mefirst, outrage, poisonjab, protect, quickguard, quiverdance, rapidspin, rest, return, roost, round, shockwave, signalbeam, silverwind, sleeptalk, snatch, snore, speedswap, stomp, substitute, swagger, swift, taunt, throatchop, torment, toxic, triplekick, uturn"
+          "moves": "coaching, skittersmack, tripleaxel, hyperbeam, gigaimpact, rest, snore, protect, icywind, facade, swift, brickbreak, bounce, uturn, assurance, fling, speedswap, lowsweep, round, electroweb, falseswipe, icebeam, blizzard, lowkick, agility, substitute, outrage, endure, sleeptalk, taunt, closecombat, poisonjab, bugbuzz, focusblast, foulplay, drillrun, throatchop"
         }
       }
     },
@@ -61531,7 +61545,7 @@
           }
         },
         "mass": 100.0,
-        "captureRate": 30,
+        "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
         "logics": {},
@@ -61540,24 +61554,25 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "tailglow,spark,charge,wrap,thundershock",
-            "7": "thunderwave",
-            "13": "shockwave",
-            "19": "ingrain",
-            "23": "thunderpunch",
-            "29": "eerieimpulse",
-            "31": "signalbeam",
-            "37": "thunderbolt",
-            "43": "hypnosis",
-            "47": "discharge",
-            "53": "electricterrain",
-            "59": "powerwhip",
-            "67": "iondeluge",
-            "73": "zapcannon"
+            "1": "wrap, thundershock",
+			"5": "charge",
+            "10": "thunderwave",
+            "15": "ingrain",
+            "20": "spark",
+            "25": "shockwave",
+            "30": "hypnosis",
+            "35": "eerieimpulse",
+			"40": "thunderpunch",
+            "45": "discharge",
+            "50": "magnetrise",
+            "55": "thunderbolt",
+            "60": "electricterrain",
+            "66": "powerwhip",
+            "70": "zapcannon"
           }
         },
         "misc": {
-          "moves": "bind, brutalswing, calmmind, charge, chargebeam, confide, dazzlinggleam, discharge, doubleteam, eerieimpulse, electricterrain, electroweb, energyball, facade, fling, frustration, gigaimpact, grassknot, gravity, hiddenpower, hyperbeam, hypnosis, ingrain, iondeluge, lightscreen, magiccoat, magnetrise, naturepower, powerwhip, protect, raindance, reflect, rest, return, round, shockwave, signalbeam, sleeptalk, snore, solarbeam, spark, substitute, sunnyday, swagger, tailglow, thunder, thunderbolt, thunderpunch, thundershock, thunderwave, toxic, voltswitch, wildcharge, wrap, zapcannon"
+          "moves": "risingvoltage, thunderpunch, hyperbeam, gigaimpact, solarbeam, thunderwave, lightscreen, reflect, rest, snore, protect, raindance, sunnyday, facade, fling, round, voltswitch, electroweb, electricterrain, eerieimpulse, brutalswing, thunderbolt, thunder, substitute, endure, sleeptalk, calmmind, energyball,powerwhip, grassknot, electroball, wildcharge, dazzlinggleam"
         }
       }
     },
@@ -61604,7 +61619,7 @@
           }
         },
         "mass": 999.9,
-        "captureRate": 25,
+        "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
         "formeItems": {},
@@ -61613,24 +61628,25 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "wideguard,airslash,ingrain,absorb,harden,tackle",
-            "7": "smackdown",
-            "13": "megadrain",
-            "19": "leechseed",
-            "23": "metalsound",
-            "29": "ironhead",
-            "31": "gigadrain",
-            "37": "flashcannon",
-            "43": "autotomize",
-            "47": "seedbomb",
-            "53": "skullbash",
-            "59": "irondefense",
-            "67": "heavyslam",
-            "73": "doubleedge"
+            "1": "absorb, tackle",
+            "5": "harden",
+            "10": "wideguard",
+            "15": "megadrain",
+            "20": "smackdown",
+            "25": "ingrain",
+            "30": "autotomize",
+            "35": "gigadrain",
+            "40": "flashcannon",
+            "45": "metalsound",
+            "50": "irondefense",
+            "55": "leechseed",
+            "60": "heavyslam",
+            "65": "doubleedge",
+			"70": "skullbash"
           }
         },
         "misc": {
-          "moves": "absorb, acrobatics, airslash, autotomize, block, brutalswing, bulldoze, confide, doubleedge, doubleteam, earthquake, energyball, explosion, facade, fireblast, flamecharge, flamethrower, flashcannon, fly, frustration, gigadrain, gigaimpact, grassknot, gravity, gyroball, harden, heavyslam, hiddenpower, hyperbeam, ingrain, irondefense, ironhead, leechseed, magnetrise, megadrain, metalsound, protect, rest, return, rockslide, round, seedbomb, shockwave, skullbash, sleeptalk, smackdown, smartstrike, snore, solarbeam, stompingtantrum, stoneedge, substitute, superpower, swagger, tackle, toxic, wideguard, zenheadbutt"
+          "moves": "meteorbeam, steelbeam, steelroller, fly, hyperbeam, gigaimpact, solarbeam, selfdestruct, rest, rockslide, snore, rockslide, snore, protect, gigadrain, facade, round, acrobatics, bulldoze, airslash, smartstrike, brutalswing, brutalswing,  stompingtantrum, bodyslam, flamethrower, earthquake, fireblast, substitute, endure, sleeptalk, megahorn, superpower, irondefense, gyroball, seedbomb, energyball, zenheadbutt, flashcannon, ironhead, stoneedge, grassknot, heavyslam"
         }
       }
     },
@@ -61675,7 +61691,7 @@
           }
         },
         "mass": 0.1,
-        "captureRate": 255,
+        "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
         "movementType": "floating"
@@ -61683,24 +61699,25 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "sacredsword,defog,vacuumwave,aircutter,furycutter",
-            "7": "falseswipe",
-            "13": "razorleaf",
-            "19": "synthesis",
-            "23": "aerialace",
-            "29": "laserfocus",
-            "31": "nightslash",
-            "37": "swordsdance",
-            "43": "leafblade",
-            "47": "xscissor",
-            "53": "detect",
-            "59": "airslash",
-            "67": "psychocut",
-            "73": "guillotine"
+            "1": "furycutter,vacuumwave",
+            "5": "razorleaf",
+            "10": "falseswipe",
+            "15": "cut",
+            "20": "aircutter",
+            "25": "aerialace",
+            "30": "detect",
+            "35": "nightslash",
+			"40": "synthesis",
+            "45": "laserfocus",
+            "50": "defog",
+            "55": "leafblade",
+            "60": "sacredsword",
+            "65": "swordsdance",
+            "70": "guillotine"
           }
         },
         "misc": {
-          "moves": "aerialace, aircutter, airslash, brickbreak, calmmind, confide, cut, defog, detect, doubleteam, falseswipe, frustration, furycutter, gigadrain, gigaimpact, guillotine, hiddenpower, irondefense, knockoff, laserfocus, lastresort, leafblade, nightslash, protect, psychocut, razorleaf, rest, return, round, sacredsword, sleeptalk, smartstrike, snore, substitute, swagger, swordsdance, synthesis, tailwind, toxic, vacuumwave, xscissor"
+          "moves": "steelbeam, gigaimpact, solarblade, screech, rest, snore, protect, gigadrain, brickbreak, psychocut, round, falseswipe, airslash, smartstrike, swordsdance, substitute, endure, sleeptalk, irondefense, calmmind, leafblade, xscissor"
         }
       }
     },
@@ -61745,31 +61762,32 @@
           }
         },
         "mass": 888.0,
-        "captureRate": 15,
+        "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "belch,wideguard,swallow,stockpile,dragonrage,bite",
-            "7": "stomp",
-            "13": "brutalswing",
-            "19": "steamroller",
-            "23": "dragontail",
-            "29": "irontail",
-            "31": "stompingtantrum",
-            "37": "crunch",
-            "43": "hammerarm",
-            "47": "thrash",
-            "53": "gastroacid",
-            "59": "heavyslam",
-            "67": "wringout",
-            "73": "dragonrush"
+            "1": "bite,dragontail",
+            "5": "swallow,stockpile",
+            "10": "knockoff",
+            "15": "stomp",
+            "20": "stompingtantrum",
+            "25": "wideguard",
+            "30": "crunch",
+            "35": "bodyslam",
+            "40": "gastroacid",
+            "45": "hammerarm",
+            "50": "heavyslam",
+            "55": "dragonrush",
+            "60": "belch",
+            "65": "thrash",
+			"70": "gigaimpact"
           }
         },
         "misc": {
-          "moves": "belch, bite, brickbreak, brutalswing, bulldoze, crunch, darkpulse, doubleteam, dracometeor, dragonclaw, dragonpulse, dragonrage, dragonrush, dragontail, drainpunch, dualchop, earthquake, facade, fireblast, flamethrower, fling, frustration, gastroacid, gigaimpact, gyroball, hammerarm, heatwave, heavyslam, hiddenpower, hyperbeam, irondefense, ironhead, irontail, knockoff, lastresort, magnetrise, outrage, payback, poisonjab, protect, rest, return, rockslide, rocktomb, round, shadowclaw, shockwave, sleeptalk, sludgebomb, sludgewave, smackdown, snarl, snore, steamroller, stockpile, stomp, stompingtantrum, stoneedge, substitute, swallow, thief, thrash, toxic, wideguard, wringout"
+          "moves": "corrosivegas, dracometeor, lashout, steelroller, megapunch, megakick, hyperbeam, gigaimpact, rest, rockslide, thief, snore, protect, facade, brickbreak, rocktomb, payback, fling, drainpunch, shadowclaw, round, bulldoze, snarl, brutalswing, stompingtantrum, bodyslam, flamethrower, earthquake, fireblast, amnesia, substitute, sludgebomb,  outrage, endure, sleeptalk, irontail, crunch, heatwave, irondefense, dragonpulse, ironhead, stoneedge, sludgewave, heavyslam, heatcrash, highhorsepower, bodypress"
         }
       }
     },
@@ -61813,7 +61831,7 @@
             "normal": "Prism Armor"
           }
         },
-        "mass": 350.0,
+        "mass": 250.0,
         "captureRate": 3,
         "baseFriendship": 0,
         "expMode": "Slow",
@@ -61822,24 +61840,21 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "moonlight,morningsun,chargebeam,mirrorshot,metalclaw,confusion",
-            "7": "slash",
-            "13": "storedpower",
-            "19": "rockblast",
-            "23": "nightslash",
-            "31": "gravity",
-            "37": "psychocut",
-            "43": "powergem",
-            "47": "autotomize",
-            "50": "photongeyser",
-            "53": "stealthrock",
-            "59": "irondefense",
-            "67": "wringout",
-            "73": "prismaticlaser"
+            "1": "moonlight, morningsun, chargebeam, gravity, metalclaw, confusion",
+            "8": "slash",
+            "24": "nightslash",
+            "32": "psychocut",
+            "40": "storedpower",
+            "48": "rockblast",
+            "56": "irondefense",
+            "64": "powergem",
+            "72": "photongeyser",
+            "80": "autotomize",
+            "88": "prismaticlaser"
           }
         },
         "misc": {
-          "moves": "meteorbeam,expandingforce,aerialace, allyswitch, autotomize, brickbreak, brutalswing, bulldoze, calmmind, chargebeam, confide, confusion, darkpulse, doubleteam, dragonpulse, earthpower, earthquake, embargo, facade, flashcannon, fling, frustration, gigaimpact, gravity, gyroball, heatwave, hiddenpower, hyperbeam, hypervoice, irondefense, ironhead, knockoff, lightscreen, magnetrise, metalclaw, mirrorshot, moongeistbeam, moonlight, morningsun, nightslash, outrage, powergem, prismaticlaser, protect, psychic, psychocut, psyshock, recycle, reflect, rest, return, rockblast, rockpolish, rockslide, rocktomb, round, shadowclaw, shockwave, signalbeam, slash, sleeptalk, smartstrike, snore, solarbeam, stealthrock, stoneedge, storedpower, substitute, sunsteelstrike, swagger, swordsdance, telekinesis, thief, thunderwave, toxic, trickroom, wringout, xscissor"
+          "moves": "expandingforce, meteorbeam, hyperbeam, gigaimpact, solarbeam, thunderwave, lightscreen, reflect, rest, rockslide, thief, snore, protect, scaryface, facade, brickbreak, imprison, rocktomb, rockblast, fling, shadowclaw, psychocut, trickroom, round, bulldoze, smartstrike, brutalswing, breakingswipe, swordsdance, earthquake, psychic, substitute, outrage, psyshock, endure, sleeptalk, futuresight, heatwave, hypervoice, cosmicpower, irondefense, calmmind, dragondance, gyroball, darkpulse, xscissor, dragonpulse, powergem, flashcannon, ironhead, ironhead, stoneedge, storedpower, allyswitch, psychicfangs"
         }
       }
     },
@@ -61861,8 +61876,9 @@
         },
         "evs": {
           "values": {
-            "spatk": "2",
-            "atk": "1"
+            "spatk": "1",
+            "atk": "1",
+			"spd": "1"
           }
         },
         "sizes": {
@@ -61880,7 +61896,7 @@
         },
         "abilities": {
           "values": {
-            "normal": "Prism Armor"
+            "normal": "Neuroforce"
           }
         },
         "mass": 230.0,
@@ -61892,6 +61908,7 @@
       "number": 801,
       "base": true,
       "legend": true,
+	  "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -61934,23 +61951,26 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "craftyshield,gearup,shiftgear,ironhead,helpinghand,sonicboom,defensecurl,psybeam",
-            "9": "luckychant",
-            "17": "aurorabeam",
-            "25": "mirrorshot",
-            "33": "mindreader",
-            "41": "flashcannon",
-            "49": "fleurcannon",
-            "57": "irondefense",
-            "65": "painsplit",
-            "73": "synchronoise",
-            "81": "aurasphere",
-            "89": "heartswap",
-            "97": "trumpcard"
+            "1": "gyroball, helpinghand",
+            "6": "defensecurl",
+            "12": "rollout",
+            "18": "irondefense",
+            "24": "gearup",
+            "30": "psybeam",
+            "36": "aurorabeam",
+            "42": "mindreader",
+            "48": "shiftgear",
+            "54": "craftyshield",
+            "60": "ironhead",
+            "66": "aurasphere",
+            "72": "flashcannon",
+			"78": "painsplit",
+			"84": "zapcannon",
+			"90": "fleurcannon"
           }
         },
         "misc": {
-          "moves": "mistyexplosion,steelroller,afteryou, aurasphere, aurorabeam, brickbreak, calmmind, chargebeam, confide, craftyshield, dazzlinggleam, defensecurl, doubleteam, echoedvoice, embargo, energyball, explosion, falseswipe, flashcannon, fleurcannon, focusblast, frustration, gearup, gigaimpact, grassknot, gyroball, healbell, heartswap, helpinghand, hiddenpower, hyperbeam, icebeam, irondefense, ironhead, lastresort, lightscreen, luckychant, magnetrise, mindreader, mirrorshot, painsplit, protect, psybeam, reflect, return, round, shadowball, shiftgear, shockwave, signalbeam, snore, solarbeam, sonicboom, substitute, swagger, synchronoise, thunderbolt, thunderwave, trickroom, trumpcard, voltswitch, zenheadbutt"
+          "moves": "steelbeam, mistyexplosion, steelroller, hyperbeam, gigaimpact, solarbeam, thunderwave, lightscreen, reflect, selfdestruct, rest, snore, protect, helpinghand, brickbreak, imprison, powerswap, guardswap, speedswap, trickroom, round, voltswitch, electroweb, drainingkiss, eerieimpulse, falseswipe, icebeam, thunderbolt, agility, triattack, substitute, endure, batonpass, encore, shadowball, trick, irondefense, calmmind, gyroball, aurasphere, focusblast, energyball, zenheadbutt, flashcannon, ironhead, grassknot, electroball, storedpower, dazzlinggleam"
         }
       }
     },
@@ -62003,23 +62023,22 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "laserfocus,assurance,firepunch,thunderpunch,icepunch,drainpunch,counter,pursuit,shadowsneak",
-            "5": "forcepalm",
-            "11": "feint",
-            "15": "rollingkick",
-            "20": "copycat",
-            "26": "shadowpunch",
-            "30": "roleplay",
-            "35": "jumpkick",
-            "41": "psychup",
-            "45": "spectralthief",
-            "50": "closecombat",
-            "56": "suckerpunch",
-            "60": "endeavor"
+            "1": "thunderpunch,firepunch,icepunch,copycat,shadowsneak,feint,counter",
+            "9": "roleplay",
+            "18": "shadowpunch",
+            "27": "forcepalm",
+            "36": "assurance",
+            "45": "suckerpunch",
+            "54": "drainpunch",
+            "63": "psychup",
+            "72": "spectralthief",
+            "81": "laserfocus",
+            "90": "endeavor",
+            "99": "closecombat",
           }
         },
         "misc": {
-          "moves": "coaching,poltergeist,skittersmack,acrobatics, assurance, bounce, brickbreak, bulkup, calmmind, closecombat, confide, copycat, counter, doubleteam, drainpunch, echoedvoice, endeavor, facade, falseswipe, feint, firepunch, fling, focusblast, focuspunch, forcepalm, foulplay, frustration, gigaimpact, grassknot, hiddenpower, icepunch, ironhead, jumpkick, knockoff, laserfocus, lastresort, lowkick, lowsweep, outrage, payback, poisonjab, protect, psychup, pursuit, rest, return, rockslide, rocktomb, roleplay, rollingkick, round, shadowball, shadowclaw, shadowpunch, shadowsneak, sleeptalk, smackdown, snatch, snore, spectralthief, stoneedge, substitute, suckerpunch, superpower, swagger, thief, throatchop, thunderpunch, toxic, willowisp, workup, zenheadbutt"
+          "moves": "coaching, poltergeist, skittersmack, megapunch, megakick, firepunch, icepunch, thunderpunch, hyperbeam, gigaimpact, rest, rockslide, thief, snore, protect, willowisp, facade, swift, revenge, brickbreak, rocktomb, bounce, payback, assurance, fling, drainpunch, shadowclaw, lowsweep, round, hex, acrobatics, phantomforce, falseswipe, lowkick, agility, substitute, reversal, outrage, endure, sleeptalk, shadowball, superpower, blazekick, bulkup, calmmind, closecombat, aurasphere, poisonjab, focusblast, zenheadbutt, ironhead, stoneedge, grassknot, foulplay, workup, throatchop"
         }
       }
     },
@@ -62042,7 +62061,7 @@
         },
         "evs": {
           "values": {
-            "spdef": "1"
+            "spd": "1"
           }
         },
         "sizes": {
@@ -62071,19 +62090,20 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "dragonpulse,peck,growl,helpinghand,acid",
-            "23": "venomdrench",
-            "13": "venoshock",
-            "47": "fellstinger",
-            "37": "poisonjab",
-            "7": "furyattack",
-            "19": "charm",
-            "41": "toxic",
-            "31": "nastyplot"
+            "1": "dragonpulse, peck, growl, helpinghand, acid",
+			"7": "furyattack",
+            "14": "fellstinger",
+            "21": "charm",
+            "28": "venoshock",
+            "35": "venomdrench",
+            "42": "nastyplot",
+            "49": "poisonjab",
+            "56": "gastroacid",
+			"63": "toxic"
           }
         },
         "misc": {
-          "moves": "acid, charm, confide, covet, dragonpulse, echoedvoice, facade, fellstinger, frustration, furyattack, gastroacid, growl, gunkshot, helpinghand, hiddenpower, irontail, nastyplot, peck, poisonjab, protect, rest, return, round, signalbeam, sleeptalk, sludgebomb, sludgewave, snatch, snore, substitute, toxic, uproar, venomdrench, venoshock"
+          "moves": "pinmissile, rest, snore, protect, charm, facade, helpinghand, venoshock, round, substitute, sludgebomb, endure, sleeptalk, irontail, uproar, toxicspikes, poisonjab, dragonpulse, nastyplot, gunkshot, sludgewave, venomdrench"
         }
       }
     },
@@ -62136,23 +62156,23 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "dragonpulse,peck,growl,helpinghand,acid",
-            "23": "venomdrench",
-            "13": "venoshock",
-            "47": "fellstinger",
-            "37": "poisonjab",
+            "1": "aircutter, airslash, dragonpulse, peck, growl, helpinghand, acid",
             "7": "furyattack",
-            "19": "charm",
-            "61": "dragonpulse",
-            "41": "toxic",
-            "31": "nastyplot",
-            "53": "airslash"
+            "14": "fellstinger",
+            "21": "charm",
+            "28": "venoshock",
+            "35": "venomdrench",
+            "42": "nastyplot",
+            "49": "poisonjab",
+            "56": "gastroacid",
+            "63": "toxic",
+            "70": "dragonrush"
           }
         },
         "misc": {
-          "moves": "acid, acrobatics, aerialace, aircutter, airslash, allyswitch, charm, confide, darkpulse, doubleteam, dracometeor, dragonclaw, dragonpulse, dragontail, echoedvoice, facade, fellstinger, fireblast, flamethrower, fly, frustration, furyattack, gastroacid, growl, gunkshot, heatwave, helpinghand, hiddenpower, hyperbeam, irontail, laserfocus, leechlife, nastyplot, outrage, peck, poisonjab, protect, rest, return, round, shadowclaw, shockwave, signalbeam, skyattack, skydrop, sleeptalk, sludgebomb, sludgewave, smartstrike, snarl, snatch, snore, substitute, tailwind, thief, throatchop, thunderbolt, toxic, uproar, uturn, venomdrench, venoshock, xscissor"
+          "moves": "dracometeor, dualwingbeat, scaleshot, fly, pinmissile, hyperbeam, gigaimpact, rest, thief, snore, protect, charm, facade, swift, helpinghand, uturn, assurance, shadowclaw, crosspoison, venoshock, round, hex, acrobatics, snarl, airslash, smartstrike, breakingswipe, flamethrower, thunderbolt, fireblast, leechlife, substitute, sludgebomb, spikes, outrage, endure, sleeptalk, irontail, uproar, heatwave, dragonclaw, dragonpulse, nastyplot, gunkshot, sludgewave, allyswitch, venomdrench, throatchop"
         },
-        "evolutionMoves": "Air Cutter"
+        "evolutionMoves": "aircutter"
       }
     },
     {
@@ -62203,22 +62223,25 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "11": "stealthrock",
-            "1": "protect,tackle",
-            "23": "rockthrow",
-            "47": "rockblast",
-            "37": "irondefense",
-            "5": "rockslide",
-            "17": "bide",
-            "19": "takedown",
-            "61": "doubleedge",
-            "31": "autotomize",
-            "53": "wideguard",
-            "43": "ironhead"
+            "1": "tackle, harden",
+            "5": "rockthrow",
+            "10": "protect",
+            "15": "stomp",
+            "20": "block",
+            "25": "rockslide",
+            "30": "wideguard",
+            "35": "autotomize",
+            "40": "rockblast",
+            "45": "magnetrise",
+            "50": "irondefense",
+            "55": "ironhead",
+			"60": "takedown",
+			"65": "stealthrock",
+			"70": "doubleedge"
           }
         },
         "misc": {
-          "moves": "allyswitch, autotomize, bide, bind, block, brutalswing, bulldoze, doubleedge, earthquake, facade, flashcannon, frustration, gigaimpact, gravity, gyroball, hiddenpower, infestation, irondefense, ironhead, lightscreen, magiccoat, magicroom, magnetrise, protect, recycle, reflect, rest, return, rockblast, rockpolish, rockslide, rockthrow, rocktomb, roleplay, round, safeguard, sandstorm, skillswap, sleeptalk, smackdown, snore, stealthrock, stompingtantrum, stoneedge, substitute, superpower, tackle, takedown, telekinesis, toxic, trickroom, wideguard, wonderroom, zenheadbutt"
+          "moves": "meteorbeam, steelbeam, steelroller, megakick, gigaimpact, lightscreen, reflect, safeguard, rest, rockslide, snore, protect, sandstorm, facade, rocktomb, rockblast, trickroom, wonderroom, magicroom, round, bulldoze, brutalswing, stompingtantrum, bodyslam, earthquake, substitute, endure, sleeptalk, superpower, skillswap, irondefense, gyroball, zenheadbutt, flashcannon, ironhead, stoneedge, stealthrock, heavyslam, allyswitch, heatcrash, highhorsepower, bodypress"
         }
       }
     },
@@ -62270,21 +62293,25 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "ember,astonish",
-            "23": "nightshade",
-            "13": "storedpower",
-            "47": "trick",
-            "37": "fireblast",
-            "59": "mindblown",
-            "17": "flameburst",
-            "7": "magiccoat",
-            "29": "lightscreen",
-            "41": "shadowball",
-            "31": "calmmind"
+            "1": "astonish, firespin",
+            "5": "lightscreen",
+            "10": "ember",
+            "15": "nightshade",
+            "20": "confuseray",
+            "25": "magiccoat",
+            "30": "incinerate",
+            "35": "hypnosis",
+            "40": "mysticalfire",
+            "45": "shadowball",
+            "50": "calmmind",
+			"55": "willowisp",
+			"60": "trick",
+			"65": "fireblast",
+			"70": "mindblown"
           }
         },
         "misc": {
-          "moves": "afteryou, astonish, calmmind, confide, darkpulse, doubleteam, ember, explosion, facade, fireblast, flameburst, flamecharge, flamethrower, fling, foulplay, frustration, heatwave, hiddenpower, hyperbeam, knockoff, lastresort, lightscreen, magiccoat, nightshade, overheat, painsplit, payback, protect, psychic, psyshock, quash, recycle, rest, return, round, shadowball, shadowclaw, sleeptalk, smackdown, snore, spite, storedpower, substitute, sunnyday, swagger, taunt, thief, torment, toxic, trick, uproar, willowisp"
+          "moves": "expandingforce, afteryou, firepunch, hyperbeam, solarbeam, firespin, lightscreen, selfdestruct, rest, thief, snore, protect, sunnyday, willowisp, facade, rockblast, payback, fling, shadowclaw, round, mysticalfire, flamethrower, psychic, fireblast, substitute, psyshock, endure, sleeptalk, encore, shadowball, uproar, heatwave, taunt, trick, overheat, calmmind, darkpulse, zenheadbutt, foulplay, storedpower"
         }
       }
     },
@@ -62351,7 +62378,7 @@
           }
         },
         "misc": {
-          "moves": "coaching,risingvoltage,acrobatics, aerialace, bounce, brickbreak, brutalswing, bulkup, calmmind, charge, closecombat, confide, discharge, doubleteam, drainpunch, dualchop, echoedvoice, electroweb, endeavor, facade, fakeout, falseswipe, firepunch, fling, focusblast, focuspunch, frustration, furyswipes, gigaimpact, grassknot, hiddenpower, honeclaws, irontail, knockoff, laserfocus, lowkick, lowsweep, outrage, protect, quickattack, quickguard, rest, return, round, scratch, shockwave, slash, sleeptalk, snarl, snatch, snore, spark, substitute, superpower, taunt, throatchop, thunder, thunderbolt, thunderpunch, thunderwave, toxic, voltswitch, wildcharge, workup"
+          "moves": "coaching, risingvoltage, megapunch, megakick, payday, firepunch, thunderpunch, hyperbeam, gigaimpact, thunderwave, rest, snore, protect, scaryface, facade, swift, helpinghand, revenge, brickbreak, bounce, assurance, fling, drainpunch, lowsweep, round, acrobatics, voltswitch, electroweb, snarl, electricterrain, falseswipe, brutalswing, lowkick, thunderbolt, thunder, agility, substitute, reversal, outrage, endurem sleeptalk, irontail, taunt, superpower, blazekick, bulkup, calmmind, closecombat, aurasphere, focusblast, grassknot, electroball, workup, wildcharge, playrough, throatchop"
         }
       }
     },

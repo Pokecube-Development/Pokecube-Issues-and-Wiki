@@ -3,7 +3,53 @@
  <model name="">
   <phase name="global" scale="0.45"/>
   <phase duration="10" leftArm="" leftLeg="leg1:leg1_1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
+  <customTex default="registeel">
+   <part name="Led1" tex="registeelled"/>
+   <animation diffs="0,0.5" part="Led1" trigger="random:0.002:7"/>
+   <part name="Led2" tex="registeelled"/>
+   <animation diffs="0,0.5" part="Led2" trigger="random:0.002:7"/>
+   <part name="Led3" tex="registeelled"/>
+   <animation diffs="0,0.5" part="Led3" trigger="random:0.002:7"/>
+   <part name="Led4" tex="registeelled"/>
+   <animation diffs="0,0.5" part="Led4" trigger="random:0.002:7"/>
+  </customTex>
+  <material name="Led1" light="1" transluscent="false"/>
+  <material name="Led2" light="1" transluscent="false"/>
+  <material name="Led3" light="1" transluscent="false"/>
+  <material name="Led4" light="1" transluscent="false"/>
+  <phase type="sitting">
+   <part name="eye1">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="0,0,-45" startKey="0"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,0,-15" startKey="0"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="0,0,-15" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="0,0,45" startKey="0"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,0,15" startKey="0"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="0,0,15" startKey="0"/>
+   </part>
+  </phase>
   <phase type="idle">
+   <part name="eye1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="arm1">
     <component length="10" name="1" rotChange="0,0,1" rotOffset="0,0,-45" startKey="0"/>
     <component length="10" name="2" rotChange="0,0,-1" startKey="10"/>
@@ -26,6 +72,12 @@
    </part>
   </phase>
   <phase type="walking">
+   <part name="eye1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="arm1">
     <component length="8" name="1" rotChange="0,-40,0" rotOffset="0,-20,-40" startKey="0"/>
     <component length="8" name="2" rotChange="0,80,0" startKey="5"/>

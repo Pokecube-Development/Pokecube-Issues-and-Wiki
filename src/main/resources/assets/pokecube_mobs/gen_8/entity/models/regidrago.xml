@@ -3,8 +3,27 @@
  <model name="">
   <phase name="global" scale="0.47"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <customTex default="regidrago"/>
+  <customTex default="regidrago">
+   <part name="Led1" tex="regidragoled"/>
+   <animation diffs="0,0.5" part="Led1" trigger="random:0.002:7"/>
+   <part name="Led2" tex="regidragoled"/>
+   <animation diffs="0,0.5" part="Led2" trigger="random:0.002:7"/>
+   <part name="Led3" tex="regidragoled"/>
+   <animation diffs="0,0.5" part="Led3" trigger="random:0.002:7"/>
+   <part name="Led4" tex="regidragoled"/>
+   <animation diffs="0,0.5" part="Led4" trigger="random:0.002:7"/>
+  </customTex>
+  <material name="Led1" light="1" transluscent="false"/>
+  <material name="Led2" light="1" transluscent="false"/>
+  <material name="Led3" light="1" transluscent="false"/>
+  <material name="Led4" light="1" transluscent="false"/>
   <phase type="sitting">
+   <part name="eye1">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
    <part name="arm1">
     <component length="10" name="1" rotOffset="4,-90,180" posOffset="18.5,40,15" startKey="0"/>
    </part>
@@ -13,6 +32,12 @@
    </part>
   </phase>
   <phase type="idle">
+   <part name="eye1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="arm1">
     <component length="10" name="1" posOffset="0,-3,0" rotChange="0,0,1" rotOffset="0,0,-35" startKey="0"/>
     <component length="10" name="2" rotChange="0,0,-1" startKey="10"/>
@@ -23,6 +48,12 @@
    </part>
   </phase>
   <phase type="walking">
+   <part name="eye1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="arm1">
     <component length="8" name="1" posOffset="0,-3,0" rotChange="0,-10,0" rotOffset="0,-20,-40" startKey="0"/>
     <component length="8" name="2" rotChange="0,20,0" startKey="5"/>
