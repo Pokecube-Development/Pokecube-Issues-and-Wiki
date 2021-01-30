@@ -3,7 +3,65 @@
  <model name="">
   <phase name="global" scale="0.6"/>
   <phase armAngle="10" duration="10" leftArm="leg1_1" leftLeg="leg1" legAngle="45" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
+  <customTex default="regigigas">
+   <part name="Led1" tex="regigigasled"/>
+   <part name="Led2" tex="regigigasled"/>
+   <part name="Led3" tex="regigigasled"/>
+   <part name="hled1" tex="regigigasled"/>
+   <animation diffs="0,0.5" part="hled1" trigger="random:0.002:7"/>
+   <part name="hled2" tex="regigigasled"/>
+   <animation diffs="0,0.5" part="hled2" trigger="random:0.002:7"/>
+   <part name="hled3" tex="regigigasled"/>
+   <animation diffs="0,0.5" part="hled3" trigger="random:0.002:7"/>
+  </customTex>
+  <material name="Led1" light="1" transluscent="false"/>
+  <material name="Led2" light="1" transluscent="false"/>
+  <material name="Led3" light="1" transluscent="false"/>
+  <material name="hled1" light="1" transluscent="false"/>
+  <material name="hled2" light="1" transluscent="false"/>
+  <material name="hled3" light="1" transluscent="false"/>
+  <phase type="sitting">
+   <part name="eye_a1">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="eye_a2">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye_b1">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="eye_b2">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="body1">
+    <component length="10" name="1" rotOffset="0,0,0" startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="0,-10,-40" startKey="0"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="20,-70,0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="0,10,40" startKey="0"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="20,70,0," startKey="0"/>
+   </part>
+  </phase>
   <phase type="idle">
+   <part name="eye_a1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye_a2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="eye_b1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye_b2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="body1">
     <component length="10" name="1" rotChange="-0.5,0,0" rotOffset="0.3,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="0.5,0,0" startKey="10"/>
@@ -48,6 +106,18 @@
    </part>
   </phase>
   <phase type="walking">
+   <part name="eye_a1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye_a2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="eye_b1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye_b2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="body1">
     <component length="10" name="1" rotChange="-0.5,0,0" rotOffset="0.3,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="0.5,0,0" startKey="10"/>

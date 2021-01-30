@@ -45,13 +45,6 @@
         "spawnRules": [
           {
             "values": {
-              "typesBlacklist": "cold",
-              "types": "mountain",
-              "rate": "0.0"
-            }
-          },
-          {
-            "values": {
               "structures": "pokecube_legends:regirock_temple",
               "rate": "0.0"
             }
@@ -63,12 +56,6 @@
       "name": "Regice",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "types": "mountain,cold",
-              "rate": "0.0"
-            }
-          },
           {
             "values": {
               "structures": "pokecube_legends:regice_temple",
@@ -84,13 +71,6 @@
         "spawnRules": [
           {
             "values": {
-              "typesBlacklist": "cold",
-              "types": "mountain",
-              "rate": "0.0"
-            }
-          },
-          {
-            "values": {
               "structures": "pokecube_legends:registeel_temple",
               "rate": "0.0"
             }
@@ -104,12 +84,6 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mesa",
-              "rate": "0.0"
-            }
-          },
-          {
-            "values": {
               "structures": "pokecube_legends:regidrago_temple",
               "rate": "0.0"
             }
@@ -121,12 +95,6 @@
       "name": "Regieleki",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "types": "industrial",
-              "rate": "0.0"
-            }
-          },
           {
             "values": {
               "structures": "pokecube_legends:regieleki_temple",

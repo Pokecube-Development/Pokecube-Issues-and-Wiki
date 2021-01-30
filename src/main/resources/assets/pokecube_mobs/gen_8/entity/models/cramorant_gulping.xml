@@ -4,7 +4,7 @@
   <phase name="global" scale="0.34"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="cramorant">
-   <part name="Head" tex="cramoranthead"/>
+   <part name="Head" tex="cramoranteyemissil"/>
    <part name="Body1" tex="arrokuda"/>
    <part name="Head1" tex="arrokudahead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
