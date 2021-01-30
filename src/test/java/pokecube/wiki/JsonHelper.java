@@ -149,6 +149,7 @@ public class JsonHelper
         tags.put("pokemobs_spawns", new String[][] { { "stats", "spawnRules" } });
         tags.put("pokemobs_formes", new String[][] { { "models" } });
         tags.put("pokemobs_drops", new String[][] { { "stats", "lootTable" }, { "stats", "heldTable" } });
+        tags.put("pokemobs_moves", new String[][] { { "stats", "moves" } });
 
         tags.put("pokemobs_interacts", new String[][] {
             // @formatter:off
