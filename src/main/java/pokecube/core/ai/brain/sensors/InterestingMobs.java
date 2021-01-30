@@ -17,7 +17,13 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
 import thut.api.terrain.TerrainManager;
@@ -27,12 +33,26 @@ public class InterestingMobs extends Sensor<LivingEntity>
     private static final EntityPredicate VISIBLE = new EntityPredicate().setDistance(16.0D).allowFriendlyFire()
             .setSkipAttackChecks();
 
+    public static boolean canPokemobMate(final IPokemob pokemob)
+    {
+        if (!pokemob.getPokedexEntry().breeds) return false;
+        if (pokemob.getPokedexEntry().isMega) return false;
+        if (pokemob.getPokedexEntry().isGMax) return false;
+        if (pokemob.getPokedexEntry().isLegendary() && !PokecubeCore.getConfig().legendsBreed) return false;
+        if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
+        if (!pokemob.canBreed()) return false;
+        if (pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(pokemob.getEntity())) return false;
+        return true;
+    }
+
     long lastUpdate = 0;
 
     private boolean isValid(final AgeableEntity entityIn, final AgeableEntity otherAnimal)
     {
         final IBreedingMob us = BreedableCaps.getBreedable(entityIn);
         if (entityIn == otherAnimal) return false;
+        final IPokemob other = CapabilityPokemob.getPokemobFor(otherAnimal);
+        if (other != null && !InterestingMobs.canPokemobMate(other)) return false;
         if (us != null) return us.canMate(otherAnimal);
         return false;
     }
@@ -56,7 +76,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
         });
         list.sort(Comparator.comparingDouble(entityIn::getDistanceSq));
         final Brain<?> brain = entityIn.getBrain();
-        final boolean canMate = entityIn instanceof AgeableEntity;
+        final IPokemob us = CapabilityPokemob.getPokemobFor(entityIn);
+        final boolean canMate = entityIn instanceof AgeableEntity && (us == null || InterestingMobs.canPokemobMate(us));
         for (final Entity e : list)
             if (e instanceof LivingEntity)
             {

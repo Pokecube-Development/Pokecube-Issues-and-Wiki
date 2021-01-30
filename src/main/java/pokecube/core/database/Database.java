@@ -60,7 +60,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.database.tags.Tags;
-import pokecube.core.database.util.StringTagsHelper;
+import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
@@ -522,7 +522,6 @@ public class Database
                     e.height = base.height;
                     e.width = base.width;
                     e.length = base.length;
-                    e.childNumbers = base.childNumbers;
                     e.mobType = base.mobType;
                     e.catchRate = base.catchRate;
                     e.mass = base.mass;
@@ -842,7 +841,7 @@ public class Database
 
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
-        StringTagsHelper.onResourcesReloaded();
+        DataHelpers.onResourcesReloaded();
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;

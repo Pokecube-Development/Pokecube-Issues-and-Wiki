@@ -532,8 +532,7 @@
           }
         ],
         "species": "Rodent",
-        "foodMat": "grass",
-        "specialEggRules": "32:32`29;33:32`29;34:32`29"
+        "foodMat": "grass"
       }
     },
     {
@@ -546,8 +545,7 @@
           }
         ],
         "species": "Rodent",
-        "foodMat": "grass",
-        "specialEggRules": "32:32`29;33:32`29;34:32`29"
+        "foodMat": "grass"
       }
     },
     {
@@ -555,7 +553,6 @@
       "stats": {
         "species": "Rodent Drill",
         "foodMat": "grass",
-        "specialEggRules": "32:32`29;33:32`29;34:32`29",
         "interactions": [
           {
             "male": false,
@@ -4477,7 +4474,6 @@
       "stats": {
         "species": "Rodent",
         "foodMat": "grass",
-        "specialEggRules": "312:311`312",
         "activeTimes": "dawn day dusk"
       }
     },
@@ -4486,7 +4482,6 @@
       "stats": {
         "species": "Rodent",
         "foodMat": "grass",
-        "specialEggRules": "311:311`312",
         "activeTimes": "dawn day dusk"
       }
     },
@@ -4494,7 +4489,6 @@
       "name": "Volbeat",
       "stats": {
         "species": "Insecta",
-        "specialEggRules": "314:314`313",
         "activeTimes": "dawn night dusk"
       }
     },
@@ -4502,7 +4496,6 @@
       "name": "Illumise",
       "stats": {
         "species": "Insecta",
-        "specialEggRules": "313:314`313",
         "activeTimes": "dawn night dusk"
       }
     },
@@ -5351,7 +5344,6 @@
       "name": "Latias",
       "stats": {
         "species": "Eon",
-        "specialEggRules": "381:380`381",
         "megaRules": [
           {
             "preset": "Mega"
@@ -6785,8 +6777,7 @@
     {
       "name": "Manaphy",
       "stats": {
-        "species": "Seafaring",
-        "specialEggRules": "0:Phione"
+        "species": "Seafaring"
       }
     },
     {

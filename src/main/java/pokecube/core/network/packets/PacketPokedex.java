@@ -37,6 +37,7 @@ import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.rewards.XMLRewardsHandler;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.database.util.UnderscoreIgnore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
@@ -312,6 +313,10 @@ public class PacketPokedex extends Packet
             data = this.data.getCompound("V");
             final String entry = this.data.getString("e");
             final List<String> related = Lists.newArrayList();
+
+            System.out.println(Database.getEntry(entry)+" "+Tags.BREEDING.lookupTags(entry));
+
+
             num = data.getInt("n");
             for (int i = 0; i < num; i++)
                 related.add(data.getString("" + i));

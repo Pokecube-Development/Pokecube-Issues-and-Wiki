@@ -824,9 +824,6 @@ public class PokedexEntry
     public int                               catchRate       = -1;
     @CopyToGender
     protected PokedexEntry                   _childNb        = null;
-    /** A map of father pokedexnb : child pokedexNbs */
-    @CopyToGender
-    public Map<PokedexEntry, PokedexEntry[]> childNumbers    = Maps.newHashMap();
     /**
      * Default value of specialInfo, used to determine default colour of
      * recolourable parts
@@ -1336,7 +1333,6 @@ public class PokedexEntry
         if (e.height == -1) e.height = this.height;
         if (e.width == -1) e.width = this.width;
         if (e.length == -1) e.length = this.length;
-        if (e.childNumbers.isEmpty()) e.childNumbers = this.childNumbers;
         if (e.mobType == 0) e.mobType = this.mobType;
         if (e.catchRate == -1) e.catchRate = this.catchRate;
         if (e.sexeRatio == -1) e.sexeRatio = this.sexeRatio;
@@ -1456,18 +1452,6 @@ public class PokedexEntry
 
     public PokedexEntry getChild(final PokedexEntry fatherNb)
     {
-        if (this.childNumbers.containsKey(fatherNb))
-        {
-            final PokedexEntry[] nums = this.childNumbers.get(fatherNb);
-            final int index = new Random().nextInt(nums.length);
-            return nums[index];
-        }
-        else if (this.childNumbers.containsKey(Database.missingno))
-        {
-            final PokedexEntry[] nums = this.childNumbers.get(Database.missingno);
-            final int index = new Random().nextInt(nums.length);
-            return nums[index];
-        }
         return this.getChild();
     }
 

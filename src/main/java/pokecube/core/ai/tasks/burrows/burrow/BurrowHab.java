@@ -44,10 +44,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     {
         if (related.contains(parent)) return;
         related.add(parent);
-        if (!related.contains(parent.getChild())) related.add(parent.getChild());
-        for (final PokedexEntry[] arr : parent.childNumbers.values())
-            for (final PokedexEntry e : arr)
-                this.addRelations(e, related);
+        if (!related.contains(parent.getChild())) this.addRelations(parent.getChild(), related);
         for (final EvolutionData d : parent.evolutions)
             this.addRelations(d.evolution, related);
     }
@@ -61,7 +58,6 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         {
             return related.contains(e);
         };
-
     }
 
     @Override
