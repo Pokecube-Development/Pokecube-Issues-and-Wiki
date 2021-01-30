@@ -15,7 +15,7 @@ public class ShieldsDown extends Ability
 
     private static void initFormes()
     {
-        ShieldsDown.base = Database.getEntry(774);
+        ShieldsDown.base = Database.getEntry("Minior");
         if (ShieldsDown.base == null)
         {
             ShieldsDown.noBase = true;
@@ -32,7 +32,7 @@ public class ShieldsDown extends Ability
             if (ShieldsDown.cores[i] == null) ShieldsDown.cores[i] = ShieldsDown.base;
     }
 
-    private PokedexEntry getCoreEntry(IPokemob mob)
+    private PokedexEntry getCoreEntry(final IPokemob mob)
     {
         final int num = mob.getRNGValue();
         final Random rand = new Random(num);
@@ -41,7 +41,7 @@ public class ShieldsDown extends Ability
     }
 
     @Override
-    public void onUpdate(IPokemob mob)
+    public void onUpdate(final IPokemob mob)
     {
         if (ShieldsDown.noBase) return;
         if (ShieldsDown.base == null) ShieldsDown.initFormes();

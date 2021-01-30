@@ -98,8 +98,8 @@ public class TrainerEventHandler
 
             // Check for blank name, and if so, randomize it.
             final List<String> names = mob.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty() && mob.getNPCName().isEmpty()) mob.setNPCName("pokecube." + mob.getNpcType().getName() + ".named:"
-                    + names.get(new Random().nextInt(names.size())));
+            if (!names.isEmpty() && mob.getNPCName().isEmpty()) mob.setNPCName("pokecube." + mob.getNpcType().getName()
+                    + ".named:" + names.get(new Random().nextInt(names.size())));
         }
 
         @Override
@@ -347,8 +347,8 @@ public class TrainerEventHandler
         final TypeTrainer newType = TypeTrainer.get(mob, true);
         if (newType == null) return;
         mobs.setType(newType);
-        final int level = SpawnHandler.getSpawnLevel(mob.getEntityWorld(), Vector3.getNewVector().set(mob), Database
-                .getEntry(1));
+        final int level = SpawnHandler.getSpawnLevel(mob.getEntityWorld(), Vector3.getNewVector().set(mob),
+                Database.missingno);
         if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
         else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getEntityWorld());
         if (mob.addedToChunk) EntityUpdate.sendEntityUpdate(mob);

@@ -17,8 +17,9 @@ import thut.api.maths.Vector3;
 
 public class EnterNest extends AbstractAntTask
 {
-    final Vector3 homePos    = Vector3.getNewVector();
-    int           enterTimer = 0;
+    final Vector3 homePos = Vector3.getNewVector();
+
+    int enterTimer = 0;
 
     public EnterNest(final IPokemob pokemob)
     {

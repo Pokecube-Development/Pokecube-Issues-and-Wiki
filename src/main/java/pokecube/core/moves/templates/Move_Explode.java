@@ -22,7 +22,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ExplosionEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Pokedex;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAnimation;
@@ -170,10 +169,10 @@ public class Move_Explode extends Move_Basic
                         SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (mob
                                 .getEntityWorld().rand.nextFloat() - mob.getEntityWorld().rand.nextFloat()) * 0.2F)
                                 * 0.7F);
-                if (this.getPWR() > 200) mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.getPosX(), mob.getPosY(),
-                        mob.getPosZ(), 1.0D, 0.0D, 0.0D);
-                else mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.getPosX(), mob.getPosY(), mob.getPosZ(), 1.0D, 0.0D,
-                        0.0D);
+                if (this.getPWR() > 200) mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.getPosX(), mob
+                        .getPosY(), mob.getPosZ(), 1.0D, 0.0D, 0.0D);
+                else mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.getPosX(), mob.getPosY(), mob
+                        .getPosZ(), 1.0D, 0.0D, 0.0D);
                 // and hit nearby targets normally.
                 this.actualAttack(pokemob, Vector3.getNewVector().set(pokemob.getEntity()).add(0, pokemob.getSize()
                         * pokemob.getPokedexEntry().height / 2, 0));
@@ -211,7 +210,7 @@ public class Move_Explode extends Move_Basic
                 // attack
                 target.setExp(target.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor, pokemob
                         .getBaseXP(), pokemob.getLevel()), true);
-                final byte[] evsToAdd = Pokedex.getInstance().getEntry(pokemob.getPokedexNb()).getEVs();
+                final byte[] evsToAdd = pokemob.getPokedexEntry().getEVs();
                 target.addEVs(evsToAdd);
             }
         }

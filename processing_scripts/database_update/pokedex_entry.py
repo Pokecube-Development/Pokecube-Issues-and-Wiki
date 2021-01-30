@@ -12,7 +12,17 @@ def getWeight(name, data):
     return int(getSingle(name, data,"pokemon" ,"weight")) / 10.0
     
 def getGenderRatio(name, data):
-    return int(getSingle(name, data,"pokemon_species" ,"gender_rate"))
+    rates = {}
+    val = int(getSingle(name, data,"pokemon_species" ,"gender_rate"))
+    rates[-1] = 255
+    rates[0] = 0
+    rates[1] = 30
+    rates[2] = 62
+    rates[4] = 127
+    rates[6] = 191
+    rates[7] = 225
+    rates[8] = 254
+    return rates[val]
 def getCaptureRate(name, data):
     return int(getSingle(name, data,"pokemon_species" ,"capture_rate"))
 def getBaseFriendship(name, data):
@@ -116,6 +126,9 @@ def getAbilities(name, data):
         isHidden = row[2]
         slot = int(row[3]) - 1
         ability_name = data.get_info(ability_id,"identifier", expected_file="abilities")["abilities"][0]
+        if ability_name == '':
+             continue
+        
         if isHidden == "1":
             hidden.append(ability_name)
         elif slot < len(abilities):
@@ -138,51 +151,109 @@ class Pokedex(object):
 class PokedexEntry(object):
 
     def __init__(self, name, data):
+
+        do_stats = True
+        do_moves = False
+
         _map = self.map = {}
         _map["name"] = name
-        _map["number"] = int(getSingle(name, data, "pokemon", "species_id"))
-        is_default = getSingle(name, data, "pokemon", "is_default")
-        if(is_default):
-            _map["base"] = True
-        _map["stats"] = {}
-        statsOrder = ["hp", "atk", "def", "spatk", "spdef", "spd"]
-        # Do the base stats
-        stats = getStats(name, data)
-        _map["stats"]["stats"] = {}
-        values = _map["stats"]["stats"]["values"] = {}
-        for i in range(len(statsOrder)):
-            values[statsOrder[i]] = stats[i]
 
-        # Do the evs
-        stats = getEVs(name, data)
-        _map["stats"]["evs"] = {}
-        values = _map["stats"]["evs"]["values"] = {}
-        for i in range(len(statsOrder)):
-            if stats[i] == "0":
-                continue
-            values[statsOrder[i]] = stats[i]
-        
-        # Do the moves
+        if do_stats:
+            _map["number"] = int(getSingle(name, data, "pokemon", "species_id"))
+            id = int(getSingle(name, data, "pokemon", "id"))
+            is_default = id == _map["number"]
+            if(is_default):
+                _map["base"] = True
+            _map["stats"] = {}
+            statsOrder = ["hp", "atk", "def", "spatk", "spdef", "spd"]
+            # Do the base stats
+            stats = getStats(name, data)
+            _map["stats"]["stats"] = {}
+            values = _map["stats"]["stats"]["values"] = {}
+            for i in range(len(statsOrder)):
+                values[statsOrder[i]] = stats[i]
 
-        # First lvl up moves
-        moves, names = getLevelMoves(name, data)
-        moves_list = getAllMoves(name, data, exclude=names)
+            # Do the evs
+            stats = getEVs(name, data)
+            _map["stats"]["evs"] = {}
+            values = _map["stats"]["evs"]["values"] = {}
+            for i in range(len(statsOrder)):
+                if stats[i] == "0":
+                    continue
+                values[statsOrder[i]] = stats[i]
 
-        if len(moves) != 0 or len(moves_list) != 0:
-            _map["moves"] = {}
+            # Get the types
+            types = getTypes(name,data)
+            _map["stats"]["types"] = {}
+            values = _map["stats"]["types"]["values"] = {}
+            for i in range(len(types)):
+                ident = "type{}".format(i+1)
+                values[ident] = types[i]
+
+            # Get Abilities
+            abilities, hidden = getAbilities(name, data)
             
-        if len(moves) > 0:
-            lvlMoves = _map["moves"]["lvlupMoves"] = {}
-            levels = [x for x in moves.keys()]
-            levels.sort(key=sorter)
-            for level in levels:
-                lvlMoves[level] = moves[level]
+            _map["stats"]["abilities"] = {}
+            values = _map["stats"]["abilities"]["values"] = {}
+            if len(abilities) > 0:
+                normals = abilities[0]
+                if len(abilities) > 1:
+                    for i in range(1, len(abilities)):
+                        if abilities[i] != "":
+                            normals = normals +", "+abilities[i]
+                values["normal"] = normals
+            if len(hidden) > 0:
+                hiddens = hidden[0]
+                if len(hidden) > 1:
+                    for i in range(1, len(hidden)):
+                        if hidden[i] != "":
+                            hiddens = hiddens +", "+hidden[i]
+                values["hidden"] = hiddens
 
-        # Then remainder
-        moves = ""
-        if len(moves_list)>0:
-            moves = moves_list[0]
-            for i in range(1, len(moves_list)):
-                moves = moves +", "+moves_list[i]
-            misc = _map["moves"]["misc"] = {}
-            misc["moves"] = moves
+            # Get the simple values
+            _map["stats"]["mass"] = getWeight(name, data)
+            _map["stats"]["baseExp"] = getExpYield(name, data)
+
+            # This set is not defined for all targets, so try/except them
+            try:
+                _map["stats"]["captureRate"] = getCaptureRate(name, data)
+            except:
+                pass
+            try:
+                _map["stats"]["baseFriendship"] = getBaseFriendship(name, data)
+            except:
+                pass
+            try:
+                _map["stats"]["genderRatio"] = getGenderRatio(name, data)
+            except:
+                pass
+            try:
+                _map["stats"]["expMode"] = getExpMode(name, data)
+            except:
+                pass
+
+        
+        if do_moves:
+            # Do the moves
+            # First lvl up moves
+            moves, names = getLevelMoves(name, data)
+            moves_list = getAllMoves(name, data, exclude=names)
+
+            if len(moves) != 0 or len(moves_list) != 0:
+                _map["moves"] = {}
+                
+            if len(moves) > 0:
+                lvlMoves = _map["moves"]["lvlupMoves"] = {}
+                levels = [x for x in moves.keys()]
+                levels.sort(key=sorter)
+                for level in levels:
+                    lvlMoves[level] = moves[level]
+
+            # Then remainder
+            moves = ""
+            if len(moves_list)>0:
+                moves = moves_list[0]
+                for i in range(1, len(moves_list)):
+                    moves = moves +", "+moves_list[i]
+                misc = _map["moves"]["misc"] = {}
+                misc["moves"] = moves

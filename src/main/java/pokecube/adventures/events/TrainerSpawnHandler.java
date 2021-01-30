@@ -201,7 +201,7 @@ public class TrainerSpawnHandler
                 }
             }
         if (ttype == null) return null;
-        final int level = SpawnHandler.getSpawnLevel(w, v, Database.getEntry(1));
+        final int level = SpawnHandler.getSpawnLevel(w, v, Database.missingno);
         final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w).setType(ttype).setLevel(level);
         trainer.aiStates.setAIState(AIState.MATES, true);
         trainer.aiStates.setAIState(AIState.TRADES_ITEMS, true);

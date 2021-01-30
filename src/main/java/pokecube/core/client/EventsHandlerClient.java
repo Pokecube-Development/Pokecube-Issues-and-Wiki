@@ -372,11 +372,9 @@ public class EventsHandlerClient
     public static IPokemob getPokemobForRender(final ItemStack itemStack, final World world)
     {
         if (!itemStack.hasTag()) return null;
-
-        final int num = PokecubeManager.getPokedexNb(itemStack);
-        if (num != 0)
+        final PokedexEntry entry = PokecubeManager.getPokedexEntry(itemStack);
+        if (entry != null && entry != Database.missingno)
         {
-            final PokedexEntry entry = Database.getEntry(num);
             final IPokemob pokemob = EventsHandlerClient.getRenderMob(entry, world);
             if (pokemob == null) return null;
             final CompoundNBT pokeTag = itemStack.getTag();
@@ -386,7 +384,6 @@ public class EventsHandlerClient
             pokemob.getEntity().extinguish();
             return pokemob;
         }
-
         return null;
     }
 

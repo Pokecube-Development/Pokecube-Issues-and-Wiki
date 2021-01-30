@@ -41,7 +41,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
@@ -359,11 +358,6 @@ public class Database
         return ret;
     }
 
-    public static boolean entryExists(final int nb)
-    {
-        return Database.getEntry(nb) != null;
-    }
-
     public static boolean entryExists(final String name)
     {
         return Database.getEntry(name) != null;
@@ -421,11 +415,6 @@ public class Database
         return Database.getFormes(variant.getPokedexNb());
     }
 
-    public static List<String> getLearnableMoves(final int nb)
-    {
-        return Database.entryExists(nb) ? Database.getEntry(nb).getMoves() : null;
-    }
-
     public static List<String> getLevelUpMoves(final PokedexEntry entry, final int level, final int oldLevel)
     {
         return entry != null ? entry.getMovesForLevel(level, oldLevel) : null;
@@ -451,12 +440,6 @@ public class Database
         return Database.sortedFormNames;
     }
 
-    public static SpawnData getSpawnData(final int nb)
-    {
-        if (Database.data.containsKey(nb)) return Database.data.get(nb).getSpawnData();
-        return null;
-    }
-
     public static PokedexEntry[] getStarters()
     {
         if (!Database.checkedStarts)
@@ -468,11 +451,6 @@ public class Database
             Database.starters = starts.toArray(Database.starters);
         }
         return Database.starters;
-    }
-
-    public static boolean hasSpawnData(final int nb)
-    {
-        return Database.getEntry(nb) != null && Database.getEntry(nb).getSpawnData() != null;
     }
 
     /**

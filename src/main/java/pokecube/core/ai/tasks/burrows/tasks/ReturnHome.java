@@ -1,45 +1,50 @@
 package pokecube.core.ai.tasks.burrows.tasks;
 
-import java.util.Map;
-
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.Brain;
 import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
+import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.interfaces.IPokemob;
+import thut.api.maths.Vector3;
 
 public class ReturnHome extends AbstractBurrowTask
 {
+    final Vector3 homePos = Vector3.getNewVector();
 
-    public ReturnHome(IPokemob pokemob)
+    int enterTimer = 0;
+
+    public ReturnHome(final IPokemob pokemob)
     {
         super(pokemob);
-        // TODO Auto-generated constructor stub
-    }
-
-    public ReturnHome(IPokemob pokemob, Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
-    {
-        super(pokemob, neededMems);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public void reset()
     {
-        // TODO Auto-generated method stub
-
+        this.entity.getBrain().removeMemory(BurrowTasks.GOING_HOME);
+        this.homePos.clear();
+        this.entity.getNavigator().resetRangeMultiplier();
+        this.enterTimer = 0;
     }
 
     @Override
     public void run()
     {
-        // TODO Auto-generated method stub
-
+        // This should path the mob over to the center of the home room, maybe
+        // call "enter" for it as well?
     }
 
     @Override
     protected boolean doTask()
     {
-        // TODO Auto-generated method stub
+        // We were already heading home, so keep doing that.
+        if (!this.homePos.isEmpty()) return true;
+        final Brain<?> brain = this.entity.getBrain();
+        if (brain.hasMemory(BurrowTasks.GOING_HOME)) return true;
+        if (BurrowTasks.shouldBeInside(this.world, this.burrow))
+        {
+            brain.setMemory(BurrowTasks.GOING_HOME, true);
+            return true;
+        }
         return false;
     }
 
