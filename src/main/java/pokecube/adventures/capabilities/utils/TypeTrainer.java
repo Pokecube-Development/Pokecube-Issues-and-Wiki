@@ -52,7 +52,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.SpawnBiomeMatcher;
@@ -369,8 +368,6 @@ public class TypeTrainer extends NpcType
     public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final IWorld world,
             final int level)
     {
-        final int num = entry.getPokedexNb();
-        if (Pokedex.getInstance().getEntry(num) == null) return ItemStack.EMPTY;
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getEntityWorld()));
         if (pokemob != null)
         {
@@ -399,7 +396,6 @@ public class TypeTrainer extends NpcType
             final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
             return item;
         }
-
         return ItemStack.EMPTY;
     }
 

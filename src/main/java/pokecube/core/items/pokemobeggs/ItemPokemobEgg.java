@@ -76,11 +76,6 @@ public class ItemPokemobEgg extends Item
         return ret;
     }
 
-    public static ItemStack getEggStack(final int pokedexNb)
-    {
-        return ItemPokemobEgg.getEggStack(Database.getEntry(pokedexNb));
-    }
-
     public static ItemStack getEggStack(final IPokemob pokemob)
     {
         final ItemStack stack = ItemPokemobEgg.getEggStack(pokemob.getPokedexEntry());
@@ -100,7 +95,6 @@ public class ItemPokemobEgg extends Item
     {
         if (stack.isEmpty() || stack.getTag() == null) return null;
         if (stack.getTag().contains("pokemob")) return Database.getEntry(stack.getTag().getString("pokemob"));
-        if (stack.getTag().contains("pokemobNumber")) return Database.getEntry(stack.getTag().getInt("pokemobNumber"));
         genes:
         if (stack.getTag().contains(GeneticsManager.GENES))
         {

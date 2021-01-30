@@ -633,11 +633,6 @@ public class PokecubeItems extends ItemList
         stack.getTag().putLong("time", time);
     }
 
-    public static void registerFossil(final ItemStack fossil, final int number)
-    {
-        PokecubeItems.fossils.put(fossil.copy(), Database.getEntry(number));
-    }
-
     public static void registerFossil(final ItemStack fossil, final String pokemonName)
     {
         if (Database.entryExists(pokemonName)) PokecubeItems.fossils.put(fossil.copy(), Database.getEntry(pokemonName));

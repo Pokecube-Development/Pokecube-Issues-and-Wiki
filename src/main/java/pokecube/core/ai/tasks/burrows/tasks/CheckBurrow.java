@@ -73,11 +73,13 @@ public class CheckBurrow extends BaseIdleTask
 
             // Lets see if we can find any leaves to place a hive under
             final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
+            if (blocks == null) return;
 
             // Otherwise on the ground
             final List<NearBlock> surfaces = Lists.newArrayList();
             blocks.forEach(b ->
             {
+                if (b == null) return;
                 if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
             });
 
