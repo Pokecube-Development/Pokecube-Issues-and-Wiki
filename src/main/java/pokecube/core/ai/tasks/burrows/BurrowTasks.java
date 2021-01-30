@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
@@ -17,6 +18,10 @@ import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
+import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
+import pokecube.core.ai.tasks.burrows.tasks.CheckBurrow;
+import pokecube.core.ai.tasks.burrows.tasks.DigBurrow;
+import pokecube.core.ai.tasks.burrows.tasks.ReturnHome;
 import pokecube.core.events.pokemob.InitAIEvent.Init.Type;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
@@ -55,7 +60,10 @@ public class BurrowTasks
 
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
     {
-
+        if (!BurrowTasks.isValid(pokemob.getEntity())) return;
+        list.add(new CheckBurrow(pokemob));
+        list.add(new DigBurrow(pokemob));
+        list.add(new ReturnHome(pokemob));
     }
 
     public static boolean isValid(final Entity entity)
@@ -63,5 +71,10 @@ public class BurrowTasks
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return false;
         return pokemob.isRoutineEnabled(AIRoutine.BURROWS);
+    }
+
+    public static boolean shouldBeInside(final ServerWorld world, final Burrow burrow)
+    {
+        return false;
     }
 }

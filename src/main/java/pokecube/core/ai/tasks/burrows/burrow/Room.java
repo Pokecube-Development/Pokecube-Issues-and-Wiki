@@ -11,6 +11,11 @@ public class Room extends Part
 
     private BlockPos centre;
 
+    public Room()
+    {
+        this(0, 1);
+    }
+
     public Room(final float direction, final float size)
     {
         this.direction = direction;

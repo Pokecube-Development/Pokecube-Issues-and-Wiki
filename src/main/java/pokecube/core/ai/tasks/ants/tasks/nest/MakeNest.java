@@ -82,8 +82,8 @@ public class MakeNest extends BaseIdleTask
         // last we check the terrain
         if (!surfaces.isEmpty())
         {
-            final NearBlock validLeaf = surfaces.get(0);
-            if (this.placeNest(validLeaf)) return;
+            final NearBlock block = surfaces.get(0);
+            if (this.placeNest(block)) return;
         }
 
         final Brain<?> brain = this.entity.getBrain();
