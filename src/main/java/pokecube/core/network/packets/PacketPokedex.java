@@ -314,8 +314,7 @@ public class PacketPokedex extends Packet
             final String entry = this.data.getString("e");
             final List<String> related = Lists.newArrayList();
 
-            System.out.println(Database.getEntry(entry)+" "+Tags.BREEDING.lookupTags(entry));
-
+            System.out.println(Database.getEntry(entry) + " " + Tags.BREEDING.lookupTags(entry));
 
             num = data.getInt("n");
             for (int i = 0; i < num; i++)
@@ -389,7 +388,7 @@ public class PacketPokedex extends Packet
             checker = new SpawnCheck(pos, player.getEntityWorld());
             names = new ArrayList<>();
             final boolean repelled = SpawnHandler.getNoSpawnReason(player.getEntityWorld(), pos
-                    .getPos()) == ForbidReason.REPEL;
+                    .getPos()) != ForbidReason.NONE;
             for (final PokedexEntry e : Database.spawnables)
                 if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
             final Map<PokedexEntry, SpawnBiomeMatcher> matchers = Maps.newHashMap();

@@ -40287,6 +40287,77 @@
       }
     },
     {
+      "name": "oricorio",
+      "number": 741,
+      "base": true,
+      "dummy": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "70",
+            "spatk": "98",
+            "def": "70",
+            "spd": "93",
+            "hp": "75",
+            "atk": "70"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "2"
+          }
+        },
+        "sizes": {
+          "values": {
+            "width": "0.6",
+            "length": "0.6",
+            "height": "0.6"
+          }
+        },
+        "types": {
+          "values": {
+            "type2": "Flying",
+            "type1": "Psychic"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Dancer"
+          }
+        },
+        "mass": 3.4,
+        "captureRate": 45,
+        "baseFriendship": 70,
+        "expMode": "Medium Fast",
+        "genderRatio": 191,
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "pound",
+            "4": "growl",
+            "6": "peck",
+            "10": "helpinghand",
+            "13": "aircutter",
+            "16": "batonpass",
+            "20": "featherdance",
+            "23": "doubleslap",
+            "26": "teeterdance",
+            "30": "roost",
+            "33": "captivate",
+            "36": "airslash",
+            "40": "revelationdance",
+            "43": "mirrormove",
+            "46": "agility",
+            "50": "hurricane"
+          }
+        },
+        "misc": {
+          "moves": "acrobatics, aerialace, agility, aircutter, airslash, attract, batonpass, calmmind, captivate, confide, covet, defog, doubleslap, doubleteam, embargo, facade, featherdance, fly, frustration, growl, helpinghand, hiddenpower, hurricane, icywind, mirrormove, peck, pluck, pound, protect, quash, rest, return, revelationdance, roleplay, roost, round, safeguard, sandstorm, skyattack, sleeptalk, snore, steelwing, substitute, swagger, swordsdance, tailwind, taunt, teeterdance, toxic, uturn, workup"
+        }
+      }
+    },
+    {
       "name": "oricorio_baile",
       "number": 741,
       "base": false,
@@ -40297,12 +40368,7 @@
             "type2": "Flying",
             "type1": "Fire"
           }
-        },
-        "mass": -1.0,
-        "captureRate": -1,
-        "baseExp": -1,
-        "baseFriendship": 70,
-        "genderRatio": -1
+        }
       }
     },
     {
@@ -40316,12 +40382,7 @@
             "type2": "Flying",
             "type1": "Psychic"
           }
-        },
-        "mass": -1.0,
-        "captureRate": -1,
-        "baseExp": -1,
-        "baseFriendship": 70,
-        "genderRatio": -1
+        }
       }
     },
     {
@@ -40335,12 +40396,7 @@
             "type2": "Flying",
             "type1": "Electric"
           }
-        },
-        "mass": -1.0,
-        "captureRate": -1,
-        "baseExp": -1,
-        "baseFriendship": 70,
-        "genderRatio": -1
+        }
       }
     },
     {
@@ -40354,12 +40410,7 @@
             "type2": "Flying",
             "type1": "Ghost"
           }
-        },
-        "mass": -1.0,
-        "captureRate": -1,
-        "baseExp": -1,
-        "baseFriendship": 70,
-        "genderRatio": -1
+        }
       }
     },
     {
