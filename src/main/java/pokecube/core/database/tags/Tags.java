@@ -9,6 +9,7 @@ public class Tags
     public static final StringTagsHelper MOVE     = new StringTagsHelper("tags/pokemob_moves/");
     public static final StringTagsHelper BREEDING = new StringTagsHelper("tags/pokemob_egg_groups/");
     public static final StringTagsHelper POKEMOB  = new StringTagsHelper("tags/pokemob/");
+    public static final StringTagsHelper MOVEMENT = new StringTagsHelper("tags/pokemob_movements/");
 
     public static final MutationHelper GENES = new MutationHelper("database/genes/");
 }
