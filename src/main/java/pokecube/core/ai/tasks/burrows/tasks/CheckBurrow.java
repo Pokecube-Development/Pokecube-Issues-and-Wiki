@@ -11,20 +11,26 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.village.PointOfInterestManager;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
+import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
+import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IInhabitable;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.entity.ai.IAIRunnable;
 
 public class CheckBurrow extends BaseIdleTask
 {
@@ -55,6 +61,7 @@ public class CheckBurrow extends BaseIdleTask
     public void run()
     {
         if (this.burrowCheckTimer++ < 100) return;
+
         this.burrowCheckTimer = 0;
         if (this.burrow == null) this.burrow = BurrowSensor.getNest(this.entity).orElse(null);
 
@@ -77,10 +84,13 @@ public class CheckBurrow extends BaseIdleTask
 
             // Otherwise on the ground
             final List<NearBlock> surfaces = Lists.newArrayList();
+            final PointOfInterestManager pois = this.world.getPointOfInterestManager();
             blocks.forEach(b ->
             {
                 if (b == null) return;
-                if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
+                final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), b.getPos(), 32,
+                        net.minecraft.village.PointOfInterestManager.Status.ANY);
+                if (num == 0 && PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
             });
 
             // last we check the terrain
@@ -93,15 +103,26 @@ public class CheckBurrow extends BaseIdleTask
         else
         {
             // Here we might want to check if the burrow is still valid?
+            StoreTask storage = null;
+            for (final IAIRunnable run : this.pokemob.getTasks())
+                if (run instanceof StoreTask)
+                {
+                    storage = (StoreTask) run;
+                    this.pokemob.setRoutineState(AIRoutine.STORE, true);
+                    storage.storageLoc = this.burrow.nest.getPos();
+                    storage.berryLoc = this.burrow.nest.getPos();
+                    break;
+                }
         }
     }
 
     private boolean placeNest(final NearBlock block)
     {
-        final BlockPos pos = block.getPos();
+        BlockPos pos = block.getPos();
         // Then pick and make a new burrow.
         final BurrowHab hab = BurrowHab.makeFor(this.pokemob, pos);
         if (hab == null) return false;
+        pos = hab.burrow.getCenter();
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockState(pos, PokecubeItems.NESTBLOCK.get().getDefaultState());
         final TileEntity tile = this.world.getTileEntity(pos);
@@ -111,6 +132,7 @@ public class CheckBurrow extends BaseIdleTask
         final IInhabitable habitat = nest.habitat;
         ((HabitatProvider) habitat).setWrapped(hab);
         nest.addResident(this.pokemob);
+        brain.setMemory(BurrowTasks.BURROW, GlobalPos.getPosition(this.world.getDimensionKey(), pos));
         brain.removeMemory(BurrowTasks.NO_HOME_TIMER);
         return true;
     }

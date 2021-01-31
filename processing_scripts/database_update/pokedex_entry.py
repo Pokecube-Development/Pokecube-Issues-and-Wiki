@@ -154,7 +154,7 @@ class Pokedex(object):
                 self.pokemon.append(entry.map)
             except Exception as err:
                 print("Error with {} {}, Using default if present? {}".format(name, err, defaults is not None))
-                if defaults is not None:
+                if defaults is not None and do_stats:
                     self.pokemon.append(defaults)
 
 class PokedexEntry(object):
@@ -177,6 +177,11 @@ class PokedexEntry(object):
             values = _map["stats"]["stats"]["values"] = {}
             for i in range(len(statsOrder)):
                 values[statsOrder[i]] = stats[i]
+
+            if defaults is not None:
+                _map["stats"]["sizes"] = defaults["stats"]["sizes"]
+            else:
+                print("Cannot copy sizes for {}".format(name))
 
             # Do the evs
             stats = getEVs(name, data)

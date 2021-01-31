@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.3"/>
+  <phase name="global" scale="0.2"/>
   <phase angle="50" duration="10" leftFront="leg3" leftHind="leg4" name="quadWalk" rightFront="leg1" rightHind="leg2"/>
   <metadata head="Head" headAxis="2" headDir="-1" headCap="-90,90"/>
   <phase type="idle">

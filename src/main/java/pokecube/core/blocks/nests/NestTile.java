@@ -15,6 +15,7 @@ import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -59,7 +60,8 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     {
         final ItemStack eggItem = ItemPokemobEgg.getEggStack(entry);
         final CompoundNBT nbt = eggItem.getTag();
-        nbt.putIntArray("nestLocation", new int[] { pos.getX(), pos.getY(), pos.getZ() });
+        final CompoundNBT nest = NBTUtil.writeBlockPos(pos);
+        nbt.put("nestLoc", nest);
         eggItem.setTag(nbt);
         final Random rand = new Random();
         final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world);
@@ -115,7 +117,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     public boolean addForbiddenSpawningCoord()
     {
         final BlockPos pos = this.getPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world, 64,
+        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world, 32,
                 ForbidReason.NEST);
     }
 

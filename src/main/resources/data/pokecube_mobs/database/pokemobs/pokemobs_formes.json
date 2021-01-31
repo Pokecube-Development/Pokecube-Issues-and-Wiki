@@ -1,8 +1,52 @@
 {
-  "hotload": true,
   "pokemon": [
     {
-      "name": "Unown",
+      "name": "venusaur",
+      "male_model": {
+        "key": "venusaur_male",
+        "tex": "venusaur",
+        "model": "venusaur_male",
+        "anim": "venusaur_male"
+      },
+      "female_model": {
+        "key": "venusaur_female",
+        "tex": "venusaur",
+        "model": "venusaur_female",
+        "anim": "venusaur_female"
+      }
+    },
+    {
+      "name": "alakazam",
+      "male_model": {
+        "key": "alakazam_male",
+        "tex": "alakazam",
+        "model": "alakazam_male",
+        "anim": "alakazam_male"
+      },
+      "female_model": {
+        "key": "alakazam_female",
+        "tex": "alakazam",
+        "model": "alakazam_female",
+        "anim": "alakazam_female"
+      }
+    },
+    {
+      "name": "meganium",
+      "male_model": {
+        "key": "meganium_male",
+        "tex": "meganium",
+        "model": "meganium_male",
+        "anim": "meganium_male"
+      },
+      "female_model": {
+        "key": "meganium_female",
+        "tex": "meganium",
+        "model": "meganium_female",
+        "anim": "meganium_female"
+      }
+    },
+    {
+      "name": "unown",
       "models": [
         {
           "key": "unown_a",
@@ -172,10 +216,297 @@
           "model": "unown_ex",
           "anim": "unown"
         }
-      ]
+      ],
+      "model": {
+        "key": "unown_a",
+        "tex": "unown_a",
+        "model": "unown_a",
+        "anim": "unown"
+      }
     },
     {
-      "name": "Vivillon",
+      "name": "girafarig",
+      "male_model": {
+        "key": "girafarig_male",
+        "tex": "girafarig",
+        "model": "girafarig_male",
+        "anim": "girafarig_male"
+      },
+      "female_model": {
+        "key": "girafarig_female",
+        "tex": "girafarig",
+        "model": "girafarig_female",
+        "anim": "girafarig_female"
+      }
+    },
+    {
+      "name": "heracross",
+      "male_model": {
+        "key": "heracross_male",
+        "tex": "heracross",
+        "model": "heracross_male",
+        "anim": "heracross_male"
+      },
+      "female_model": {
+        "key": "heracross_female",
+        "tex": "heracross",
+        "model": "heracross_female",
+        "anim": "heracross_female"
+      }
+    },
+    {
+      "name": "combusken",
+      "male_model": {
+        "key": "combusken_male",
+        "tex": "combusken",
+        "model": "combusken_male",
+        "anim": "combusken_male"
+      },
+      "female_model": {
+        "key": "combusken_female",
+        "tex": "combusken",
+        "model": "combusken_female",
+        "anim": "combusken_female"
+      }
+    },
+    {
+      "name": "blaziken",
+      "male_model": {
+        "key": "blaziken_male",
+        "tex": "blaziken",
+        "model": "blaziken_male",
+        "anim": "blaziken_male"
+      },
+      "female_model": {
+        "key": "blaziken_female",
+        "tex": "blaziken",
+        "model": "blaziken_female",
+        "anim": "blaziken_female"
+      }
+    },
+    {
+      "name": "meditite",
+      "female_model": {
+        "key": "meditite_female",
+        "model": "meditite_female",
+        "anim": "meditite_female"
+      }
+    },
+    {
+      "name": "cacturne",
+      "male_model": {
+        "key": "cacturne_male",
+        "tex": "cacturne",
+        "model": "cacturne_male",
+        "anim": "cacturne_male"
+      },
+      "female_model": {
+        "key": "cacturne_female",
+        "tex": "cacturne",
+        "model": "cacturne_female",
+        "anim": "cacturne_female"
+      }
+    },
+    {
+      "name": "milotic",
+      "male_model": {
+        "key": "milotic_male",
+        "tex": "milotic",
+        "model": "milotic_male",
+        "anim": "milotic_male"
+      },
+      "female_model": {
+        "key": "milotic_female",
+        "tex": "milotic",
+        "model": "milotic_female",
+        "anim": "milotic_female"
+      }
+    },
+    {
+      "name": "kricketune",
+      "male_model": {
+        "key": "kricketune_male",
+        "tex": "kricketune_male",
+        "model": "kricketune_male",
+        "anim": "kricketune_male"
+      },
+      "female_model": {
+        "key": "kricketune_female",
+        "tex": "kricketune_female",
+        "model": "kricketune_female",
+        "anim": "kricketune_female"
+      }
+    },
+    {
+      "name": "luxray",
+      "male_model": {
+        "key": "luxray_male",
+        "tex": "luxray",
+        "model": "luxray_male",
+        "anim": "luxray_male"
+      },
+      "female_model": {
+        "key": "luxray_female",
+        "tex": "luxray",
+        "model": "luxray_female",
+        "anim": "luxray_female"
+      }
+    },
+    {
+      "name": "shellos",
+      "model": {
+        "key": "shellos_east",
+        "tex": "shellos_east",
+        "model": "shellos_east",
+        "anim": "shellos_east"
+      }
+    },
+    {
+      "name": "gastrodon",
+      "model": {
+        "key": "gastrodon_east",
+        "tex": "gastrodon_east",
+        "model": "gastrodon_east",
+        "anim": "gastrodon_east"
+      }
+    },
+    {
+      "name": "gible",
+      "male_model": {
+        "key": "gible_male",
+        "tex": "gible",
+        "model": "gible_male",
+        "anim": "gible_male"
+      },
+      "female_model": {
+        "key": "gible_female",
+        "tex": "gible",
+        "model": "gible_female",
+        "anim": "gible_female"
+      }
+    },
+    {
+      "name": "gabite",
+      "male_model": {
+        "key": "gabite_male",
+        "tex": "gabite",
+        "model": "gabite_male",
+        "anim": "gabite_male"
+      },
+      "female_model": {
+        "key": "gabite_female",
+        "tex": "gabite",
+        "model": "gabite_female",
+        "anim": "gabite_female"
+      }
+    },
+    {
+      "name": "garchomp",
+      "male_model": {
+        "key": "garchomp_male",
+        "tex": "garchomp",
+        "model": "garchomp_male",
+        "anim": "garchomp_male"
+      },
+      "female_model": {
+        "key": "garchomp_female",
+        "tex": "garchomp",
+        "model": "garchomp_female",
+        "anim": "garchomp_female"
+      }
+    },
+    {
+      "name": "toxicroak",
+      "male_model": {
+        "key": "toxicroak_male",
+        "tex": "toxicroak",
+        "model": "toxicroak_male",
+        "anim": "toxicroak_male"
+      },
+      "female_model": {
+        "key": "toxicroak_female",
+        "tex": "toxicroak",
+        "model": "toxicroak_female",
+        "anim": "toxicroak_female"
+      }
+    },
+    {
+      "name": "finneon",
+      "female_model": {
+        "key": "finneon_female",
+        "tex": "finneon_female",
+        "model": "finneon_female",
+        "anim": "finneon_female"
+      }
+    },
+    {
+      "name": "lumineon",
+      "female_model": {
+        "key": "lumineon_female",
+        "tex": "lumineon_female",
+        "model": "lumineon_female",
+        "anim": "lumineon_female"
+      }
+    },
+    {
+      "name": "basculin",
+      "model": {
+        "key": "basculin_red",
+        "tex": "basculin_red",
+        "model": "basculin_red",
+        "anim": "basculin_red"
+      }
+    },
+    {
+      "name": "deerling",
+      "model": {
+        "key": "deerling_sp",
+        "tex": "deerling_sp",
+        "model": "deerling_sp",
+        "anim": "deerling_sp"
+      }
+    },
+    {
+      "name": "sawsbuck",
+      "model": {
+        "key": "sawsbuck_sp",
+        "tex": "sawsbuck_sp",
+        "model": "sawsbuck_sp",
+        "anim": "sawsbuck_sp"
+      }
+    },
+    {
+      "name": "frillish",
+      "male_model": {
+        "key": "frillish_male",
+        "tex": "frillish_male",
+        "model": "frillish_male",
+        "anim": "frillish_male"
+      },
+      "female_model": {
+        "key": "frillish_female",
+        "tex": "frillish_female",
+        "model": "frillish_female",
+        "anim": "frillish_female"
+      }
+    },
+    {
+      "name": "jellicent",
+      "male_model": {
+        "key": "jellicent_male",
+        "tex": "jellicent_male",
+        "model": "jellicent_male",
+        "anim": "jellicent_male"
+      },
+      "female_model": {
+        "key": "jellicent_female",
+        "tex": "jellicent_female",
+        "model": "jellicent_female",
+        "anim": "jellicent_female"
+      }
+    },
+    {
+      "name": "vivillon",
       "models": [
         {
           "key": "vivillon",
@@ -227,10 +558,42 @@
           "key": "vivillon_mod",
           "tex": "vivillon_modern"
         }
-      ]
+      ],
+      "model": {
+        "key": "vivillon_mod",
+        "tex": "vivillon_mod",
+        "model": "vivillon",
+        "anim": "vivillon"
+      }
     },
     {
-      "name": "Sinistea",
+      "name": "pyroar",
+      "male_model": {
+        "key": "pyroar_m",
+        "model": "pyroar_m",
+        "anim": "pyroar_m"
+      },
+      "female_model": {
+        "key": "pyroar_f",
+        "model": "pyroar_f",
+        "anim": "pyroar_f"
+      }
+    },
+    {
+      "name": "meowstic",
+      "male_model": {
+        "key": "meowstic_m",
+        "model": "meowstic_m",
+        "anim": "meowstic_m"
+      },
+      "female_model": {
+        "key": "meowstic_f",
+        "model": "meowstic_f",
+        "anim": "meowstic_f"
+      }
+    },
+    {
+      "name": "sinistea",
       "models": [
         {
           "key": "sinistea_nofake",
@@ -244,10 +607,25 @@
           "model": "sinistea_fake",
           "anim": "sinistea"
         }
-      ]
+      ],
+      "model": {
+        "key": "sinistea_nofake",
+        "tex": "sinistea",
+        "model": "sinistea_nofake",
+        "anim": "sinistea_nofake"
+      }
     },
     {
-      "name": "Alcremie",
+      "name": "polteageist",
+      "model": {
+        "key": "polteageist_nofake",
+        "tex": "polteageist",
+        "model": "polteageist_nofake",
+        "anim": "polteageist_nofake"
+      }
+    },
+    {
+      "name": "alcremie",
       "models": [
         {
           "key": "alcremie1",
@@ -2306,7 +2684,10 @@
             }
           ]
         }
-      ]
+      ],      
+      "model": {
+        "key": "alcremie_vanilla_1"
+      }
     }
   ]
 }

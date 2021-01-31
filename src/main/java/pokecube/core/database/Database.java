@@ -537,11 +537,6 @@ public class Database
                 if (noAbilities = e.abilities.isEmpty()) e.abilities.addAll(base.abilities);
                 if (noAbilities && e.abilitiesHidden.isEmpty()) e.abilitiesHidden.addAll(base.abilitiesHidden);
             }
-            if (e.mobType == 0)
-            {
-                e.mobType = 1;
-                PokecubeCore.LOGGER.debug(e + " Has no Mob Type");
-            }
             if (e.type2 == null) e.type2 = PokeType.unknown;
             if (!base._loaded_interactions.isEmpty() && e._loaded_interactions.isEmpty()) e._loaded_interactions.addAll(
                     base._loaded_interactions);
@@ -818,6 +813,7 @@ public class Database
         Database.allFormes.removeAll(toRemove);
         PokecubeCore.LOGGER.debug("Removed " + removedNums.size() + " Missing Pokemon and " + (toRemove.size()
                 - dummies) + " missing Formes");
+        if (removedNums.size() > 0) PokecubeCore.LOGGER.debug("Removed " + toRemove);
 
         toRemove.clear();
 

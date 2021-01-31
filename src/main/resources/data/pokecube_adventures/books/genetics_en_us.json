@@ -96,6 +96,8 @@
         "",
         "§2DNA is extracted via the Gene Extractor.",
         "",
+        "§aDO NOT try to extract legendary species dna, it is unstable and will be destroyed by this process.",
+        "",
         "§2This process requires power, which can be provided by an Energy Siphon, a bottle of water (for the DNA to go into), a Selector and a DNA source.",
         "",
         "§2§n§lDNA Selectors{_ref_:_selector_}{_link_:_index_}",

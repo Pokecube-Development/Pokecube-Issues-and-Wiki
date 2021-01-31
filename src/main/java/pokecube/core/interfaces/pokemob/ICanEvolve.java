@@ -384,7 +384,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
 
                 // Learn evolution moves and update ability.
-                for (final String s : evo.getPokedexEntry().getEvolutionMoves())
+                for (final String s : data.evoMoves)
                     evo.learn(s);
                 evo.setAbility(evo.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), evo));
 
@@ -454,7 +454,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     evo.setGeneralState(GeneralStates.EVOLVING, false);
 
                     // Learn evolution moves and update ability.
-                    for (final String s : evo.getPokedexEntry().getEvolutionMoves())
+                    for (final String s : data.evoMoves)
                         evo.learn(s);
                     evo.setAbility(evo.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), evo));
                 }

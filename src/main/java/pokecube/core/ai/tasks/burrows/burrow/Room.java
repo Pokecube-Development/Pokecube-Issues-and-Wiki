@@ -2,7 +2,9 @@ package pokecube.core.ai.tasks.burrows.burrow;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 
 public class Room extends Part
 {
@@ -10,6 +12,11 @@ public class Room extends Part
     private float size;
 
     private BlockPos centre;
+
+    public Vector3d mid;
+
+    private Vector3d entrance;
+    private Vector3d exit;
 
     public Room()
     {
@@ -41,16 +48,45 @@ public class Room extends Part
         return nbt;
     }
 
+    public boolean withinDistance(final BlockPos pos, final double size)
+    {
+        final double minY = this.centre.getY();
+        final double maxY = minY + 7;
+        if (pos.getY() > maxY || pos.getY() < minY) return false;
+        final Vector3d e1 = new Vector3d(this.entrance.getX(), this.entrance.getY(), this.entrance.getZ());
+        final Vector3d e2 = new Vector3d(this.exit.getX(), this.exit.getY(), this.exit.getZ());
+        final Vector3d e3 = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
+        Vector3d n = e2.subtract(e1).normalize();
+        final Vector3d diff = e1.subtract(e3);
+        n = n.crossProduct(diff);
+        return n.length() < size;
+    }
+
     @Override
     public boolean isInside(final BlockPos pos)
     {
-        return false;
+        if (!this.getInBounds().contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
+        final Vector3d x0 = this.mid;
+        Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
+        x = x.mul(1, this.size / 2, 1);
+        // check if in the main room
+        final double r = x.length();
+        // This is in he main room itself
+        if (r <= this.size && x.y >= 0) return true;
+        // Otherwise check if we are in the correct direction.
+        return this.withinDistance(pos, 1 + this.size / 4);
     }
 
     @Override
     public boolean isOnShell(final BlockPos pos)
     {
-        return false;
+        if (!this.getOutBounds().contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
+        final Vector3d x0 = this.mid;
+        Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
+        x = x.mul(1, this.size / 2, 1);
+        // check if in the main room
+        final double r = x.length();
+        return r <= this.size + 2 && x.y > -2;
     }
 
     public BlockPos getCenter()
@@ -61,8 +97,18 @@ public class Room extends Part
     public void setCenter(final BlockPos centre, final float size, final float direction)
     {
         this.centre = centre;
-        this.size = size;
+        this.mid = new Vector3d(centre.getX() + 0.5, centre.getY(), centre.getZ() + 0.5);
         this.direction = direction;
+        this.size = size;
+        final double dx = Math.sin(Math.toRadians(direction));
+        final double dz = Math.cos(Math.toRadians(direction));
+        this.entrance = this.mid.add(dx * size, 0, dz * size);
+        final float dr = size + 7;
+        this.exit = this.entrance.add(dx * dr, dr, dz * dr);
+        final AxisAlignedBB min = new AxisAlignedBB(this.mid.add(-dr * 2, -2, -dr * 2), this.mid.add(dr * 2, dr, dr
+                * 2));
+        this.setInBounds(min);
+        this.setOutBounds(min);
     }
 
     public float getSize()

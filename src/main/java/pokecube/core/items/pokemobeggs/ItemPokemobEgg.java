@@ -20,11 +20,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -38,6 +41,7 @@ import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
@@ -259,27 +263,27 @@ public class ItemPokemobEgg extends Item
             exp = Math.max(1, exp);
             mob.setForSpawn(exp);
             entity.getPersistentData().putBoolean(TagNames.HATCHED, true);
-            entity.setLocationAndAngles(Math.floor(egg.getPosX()) + 0.5, Math.floor(egg.getPosY()) + 0.5, Math.floor(egg.getPosZ())
-                    + 0.5, world.rand.nextFloat() * 360F, 0.0F);
-            int[] nest = null;
-            if (stack.hasTag()) if (stack.getTag().contains("nestLocation")) nest = stack.getTag().getIntArray(
-                    "nestLocation");
-            else ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag());
+            entity.setLocationAndAngles(Math.floor(egg.getPosX()) + 0.5, Math.floor(egg.getPosY()) + 0.5, Math.floor(egg
+                    .getPosZ()) + 0.5, world.rand.nextFloat() * 360F, 0.0F);
+            if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag());
             mob.spawnInit();
             world.addEntity(entity);
             if (mob.getOwner() != null)
             {
                 final LivingEntity owner = mob.getOwner();
-                owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName()
-                        .getString()), Util.DUMMY_UUID);
+                owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName().getString()),
+                        Util.DUMMY_UUID);
                 if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(
                         world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.getRNG().nextInt(7) + 1));
             }
             final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
             PokecubeCore.POKEMOB_BUS.post(evt);
-            if (nest != null)
+            final CompoundNBT nbt = stack.getTag();
+            if (nbt.contains("nestLoc"))
             {
-                mob.setHome(nest[0], nest[1], nest[2], 16);
+                final BlockPos pos = NBTUtil.readBlockPos(nbt.getCompound("nestLoc"));
+                final TileEntity tile = world.getTileEntity(pos);
+                if (tile instanceof NestTile) ((NestTile) tile).addResident(mob);
                 mob.setGeneralState(GeneralStates.EXITINGCUBE, false);
             }
             entity.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
