@@ -48,6 +48,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     {
         final BurrowHab hab = new BurrowHab();
         hab.setMaker(pokemob.getPokedexEntry());
+        if (hab.related.isEmpty()) return null;
         hab.setPos(pos);
         return hab;
     }
@@ -285,7 +286,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                     final SpeciesGene newGene = (SpeciesGene) geneA.interpolate(geneB);
                     info = newGene.getValue();
                     entry = info.entry;
-                    if (!this.related.contains(entry)) this.mutations.add(entry);
+                    if (!this.related.contains(entry)) this.addRelations(entry, this.mutations);
                 }
                 final EntityPokemobEgg egg = NestTile.spawnEgg(entry, this.burrow.getCenter(), world, false);
                 if (egg != null) this.eggs.add(egg.getUniqueID());

@@ -128,7 +128,6 @@ public class CheckBurrow extends BaseIdleTask
         final TileEntity tile = this.world.getTileEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
-        nest.isType(BurrowTasks.BURROWLOC);
         nest.setWrappedHab(hab);
         nest.addResident(this.pokemob);
         brain.setMemory(BurrowTasks.BURROW, GlobalPos.getPosition(this.world.getDimensionKey(), pos));
