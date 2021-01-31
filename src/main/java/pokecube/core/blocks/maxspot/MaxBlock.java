@@ -7,6 +7,7 @@ import java.util.Objects;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -113,9 +114,9 @@ public class MaxBlock extends InteractableHorizontalBlock
         return MaxBlock.DYNAMAX.get(state.get(MaxBlock.FACING));
     }
 
-    public MaxBlock(final Properties properties)
+    public MaxBlock(final Properties properties, final MaterialColor color)
     {
-        super(properties);
+        super(properties, color);
         this.setDefaultState(this.stateContainer.getBaseState().with(MaxBlock.FACING, Direction.NORTH).with(
                 MaxBlock.WATERLOGGED, false));
     }

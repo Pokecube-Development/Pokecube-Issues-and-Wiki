@@ -3,6 +3,7 @@ package pokecube.legends.init;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraftforge.fml.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.PlantBase;
@@ -18,14 +19,14 @@ public class PlantsInit
 
     static
     {
-        PlantsInit.MUSH_PLANT1 = PokecubeLegends.BLOCKS_TAB.register("mush_plant1", () -> new PlantBase(Material.PLANTS,
-                0f, 3f, SoundType.PLANT));
+        PlantsInit.MUSH_PLANT1 = PokecubeLegends.BLOCKS_TAB.register("mush_plant1", () -> new PlantBase(Material.PLANTS, 
+        		MaterialColor.PURPLE, 0f, 3f, SoundType.PLANT));
         PlantsInit.MUSH_PLANT2 = PokecubeLegends.BLOCKS_TAB.register("mush_plant2", () -> new PlantBase(Material.PLANTS,
-                0f, 3f, SoundType.PLANT));
+        		MaterialColor.PURPLE, 0f, 3f, SoundType.PLANT));
         PlantsInit.AGED_FLOWER = PokecubeLegends.BLOCKS_TAB.register("a1_flower", () -> new PlantBase(Material.PLANTS,
-                0f, 3f, SoundType.CORAL));
+        		MaterialColor.YELLOW, 0f, 3f, SoundType.CORAL));
         PlantsInit.DIRST_FLOWER = PokecubeLegends.BLOCKS_TAB.register("b1_flower", () -> new PlantBase(Material.PLANTS,
-                0f, 3f, SoundType.BAMBOO_SAPLING));
+        		MaterialColor.PINK, 0f, 3f, SoundType.BAMBOO_SAPLING));
     }
 
     public static void registry() {

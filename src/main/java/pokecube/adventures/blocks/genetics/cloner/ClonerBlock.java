@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -51,9 +52,9 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     }
 
     // Default States
-    public ClonerBlock(final Properties properties)
+    public ClonerBlock(final Properties properties, final MaterialColor color)
     {
-        super(properties);
+        super(properties, color);
         this.setDefaultState(this.stateContainer.getBaseState().with(ClonerBlock.HALF, ClonerBlockPart.BOTTOM).with(
                 HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH).with(ClonerBlock.WATERLOGGED, false));
     }

@@ -3,6 +3,7 @@ package pokecube.legends.blocks.normalblocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -19,7 +20,7 @@ import pokecube.legends.blocks.BlockBase;
 
 public class MagneticBlock extends BlockBase
 {
-    public MagneticBlock(final String name, final Material material)
+    public MagneticBlock(final String name, final Material material, MaterialColor color)
     {
         super(name, Properties.create(material).sound(SoundType.STONE).hardnessAndResistance(3, 8).harvestTool(
                 ToolType.PICKAXE).harvestLevel(1));

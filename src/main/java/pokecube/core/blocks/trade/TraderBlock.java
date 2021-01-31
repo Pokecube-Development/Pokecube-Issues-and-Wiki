@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -97,9 +98,9 @@ public class TraderBlock extends InteractableHorizontalBlock implements IWaterLo
         return TraderBlock.TRADER_BLOCK.get(state.get(TraderBlock.FACING));
     }
 
-    public TraderBlock(final Properties properties)
+    public TraderBlock(final Properties properties, final MaterialColor color)
     {
-        super(properties);
+        super(properties, color);
         this.setDefaultState(this.stateContainer.getBaseState().with(TraderBlock.FACING, Direction.NORTH).with(
                 TraderBlock.WATERLOGGED, false));
     }

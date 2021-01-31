@@ -1,6 +1,7 @@
 package pokecube.adventures.blocks.daycare;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -10,9 +11,9 @@ import pokecube.core.blocks.InteractableHorizontalBlock;
 public class DaycareBlock extends InteractableHorizontalBlock
 {
 
-    public DaycareBlock(final Properties properties)
+    public DaycareBlock(final Properties properties, final MaterialColor color)
     {
-        super(properties);
+        super(properties, color);
     }
 
     @Override
