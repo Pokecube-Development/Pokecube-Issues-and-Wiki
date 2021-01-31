@@ -61,7 +61,6 @@ import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.berries.BerryManager;
-import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
