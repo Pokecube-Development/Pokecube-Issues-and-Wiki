@@ -121,6 +121,8 @@ public class PokedexEntry
         public float        randomFactor = 1.0f;
         public boolean      traded       = false;
 
+        public List<String> evoMoves = Lists.newArrayList();
+
         // This is if it needs a specific formeHolder to evolve into this.
         public ResourceLocation neededForme = null;
 
@@ -268,6 +270,13 @@ public class PokedexEntry
             if (data.chance != null) this.randomFactor = data.chance;
             if (this.level == -1) this.level = 0;
             if (data.form_from != null) this.neededForme = PokecubeItems.toPokecubeResource(data.form_from);
+            this.evoMoves.clear();
+            if (data.evoMoves != null && !data.evoMoves.isEmpty())
+            {
+                final String[] vals = data.evoMoves.split(",");
+                for (final String s : vals)
+                    this.evoMoves.add(s.trim());
+            }
         }
 
         protected void postInit()
@@ -948,9 +957,6 @@ public class PokedexEntry
     /** Map of Level to Moves learned. */
     @CopyToGender
     private Map<Integer, ArrayList<String>> lvlUpMoves;
-    /** The abilities available to the pokedex entry. */
-    @CopyToGender
-    protected ArrayList<String>             evolutionMoves = Lists.newArrayList();
 
     protected PokedexEntry male = null;
 
@@ -1512,12 +1518,6 @@ public class PokedexEntry
         return this.evolutionMode;
     }
 
-    /** Moves to be learned right after evolution. */
-    public List<String> getEvolutionMoves()
-    {
-        return this.evolutionMoves;
-    }
-
     public List<EvolutionData> getEvolutions()
     {
         return this.evolutions;
@@ -2028,14 +2028,6 @@ public class PokedexEntry
 
         for (final String s : this.possibleMoves)
             if (MovesUtils.isMoveImplemented(s) && !moves.contains(s)) moves.add(s);
-        final List<String> staleEvoMoves = Lists.newArrayList();
-        for (final String s : this.evolutionMoves)
-        {
-            final boolean implemented = MovesUtils.isMoveImplemented(s);
-            if (implemented && !moves.contains(s)) moves.add(s);
-            else if (!implemented) staleEvoMoves.add(s);
-        }
-        this.evolutionMoves.removeAll(staleEvoMoves);
         this.possibleMoves.clear();
         this.possibleMoves.addAll(moves);
         final List<Integer> toRemove = new ArrayList<>();

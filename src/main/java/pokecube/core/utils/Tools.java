@@ -402,17 +402,37 @@ public class Tools
     public static int getType(String name)
     {
         name = ThutCore.trim(name);
-        if (name.equalsIgnoreCase("fast")) return 0;
-        if (name.equalsIgnoreCase("medium_fast")) return 1;
-        if (name.equalsIgnoreCase("medium_slow")) return 2;
-        if (name.equalsIgnoreCase("slow")) return 3;
-        if (name.equalsIgnoreCase("erratic")) return 4;
-        if (name.equalsIgnoreCase("fluctuating")) return 5;
 
-        if (name.equalsIgnoreCase("slow then very fast")) return 4;
-        if (name.equalsIgnoreCase("fast then very slow")) return 5;
+        switch (name)
+        {
+        case "slow_then_very_fast":
+            return 0;
+        case "fast":
+            return 1;
+        case "medium_fast":
+            return 1;
+        case "medium":
+            return 2;
+        case "medium_slow":
+            return 3;
+        case "slow":
+            return 4;
+        case "fast_then_very_slow":
+            return 5;
+        }
 
-        throw new IllegalArgumentException("Error parsing " + name);
+        /*
+         * 1 - slow - 4
+         * 2 - medium - 2
+         * 3 - fast - 1
+         * 4 - medium-slow - 3
+         * 5 - slow-then-very-fast - 0
+         * 6 - fast-then-very-slow - 5
+         *   5   3   2   4   1   6
+         * { 52, 21, 27, 57, 33, 13, 3 },
+         */
+        PokecubeCore.LOGGER.error(new IllegalArgumentException("Error parsing EXP Type for " + name));
+        return 0;
     }
 
     public static void giveItem(final PlayerEntity PlayerEntity, final ItemStack itemstack)

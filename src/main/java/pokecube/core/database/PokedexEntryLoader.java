@@ -825,13 +825,6 @@ public class PokedexEntryLoader
         if (allMoves.isEmpty()) allMoves = null;
         if (lvlUpMoves.isEmpty()) lvlUpMoves = null;
         entry.addMoves(allMoves, lvlUpMoves);
-
-        if (xmlMoves.evolutionMoves != null)
-        {
-            final String[] moves = xmlMoves.evolutionMoves.split(",");
-            for (final String s : moves)
-                entry.getEvolutionMoves().add(s);
-        }
     }
 
     private static void initFormeModels(final PokedexEntry entry, final List<DefaultFormeHolder> list)

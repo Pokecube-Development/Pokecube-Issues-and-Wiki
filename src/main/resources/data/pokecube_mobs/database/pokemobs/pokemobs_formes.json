@@ -1,8 +1,7 @@
 {
-  "hotload": true,
   "pokemon": [
     {
-      "name": "Unown",
+      "name": "unown",
       "models": [
         {
           "key": "unown_a",
@@ -175,7 +174,7 @@
       ]
     },
     {
-      "name": "Vivillon",
+      "name": "vivillon",
       "models": [
         {
           "key": "vivillon",
@@ -230,7 +229,7 @@
       ]
     },
     {
-      "name": "Sinistea",
+      "name": "sinistea",
       "models": [
         {
           "key": "sinistea_nofake",
@@ -247,10 +246,19 @@
       ]
     },
     {
-      "name": "Alcremie",
+      "name": "alcremie",
       "models": [
         {
           "key": "alcremie1",
+          "colours": [
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
+            }
+          ],
           "hidden": [
             "extra6",
             "extra2",
@@ -264,41 +272,45 @@
             "extra4_001",
             "extra5_001",
             "extra7_001"
-          ],
-          "colours": [
-            {
-              "material": "head",
-              "blue": 0.5,
-              "green": 0.45
-            }
           ]
         },
         {
           "key": "alcremie2",
-          "hidden": [
-            "extra1",
-            "extra6",
-            "extra3",
-            "extra4",
-            "extra5",
-            "extra7",
-            "extra1_001",
-            "extra6_001",
-            "extra3_001",
-            "extra4_001",
-            "extra5_001",
-            "extra7_001"
-          ],
           "colours": [
             {
               "material": "head",
               "red": 0.5,
-              "green": 0.5
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
           "key": "alcremie3",
+          "colours": [
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
+            }
+          ],
           "hidden": [
             "extra1",
             "extra2",
@@ -312,17 +324,19 @@
             "extra4_001",
             "extra5_001",
             "extra7_001"
-          ],
-          "colours": [
-            {
-              "material": "head",
-              "blue": 0.75,
-              "green": 0.80
-            }
           ]
         },
         {
           "key": "alcremie4",
+          "colours": [
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
+            }
+          ],
           "hidden": [
             "extra1",
             "extra2",
@@ -336,17 +350,19 @@
             "extra6_001",
             "extra5_001",
             "extra7_001"
-          ],
-          "colours": [
-            {
-              "material": "head",
-              "blue": 0.25,
-              "red": 0.5
-            }
           ]
         },
         {
           "key": "alcremie5",
+          "colours": [
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
+            }
+          ],
           "hidden": [
             "extra1",
             "extra2",
@@ -360,17 +376,19 @@
             "extra4_001",
             "extra6_001",
             "extra7_001"
-          ],
-          "colours": [
-            {
-              "material": "head",
-              "blue": 0.15,
-              "green": 0.5
-            }
           ]
         },
         {
           "key": "alcremie6",
+          "colours": [
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
+            }
+          ],
           "hidden": [
             "extra1",
             "extra2",
@@ -384,17 +402,19 @@
             "extra4_001",
             "extra5_001",
             "extra7_001"
-          ],
-          "colours": [
-            {
-              "material": "head",
-              "blue": 0.15,
-              "green": 0.9
-            }
           ]
         },
         {
           "key": "alcremie7",
+          "colours": [
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
+            }
+          ],
           "hidden": [
             "extra1",
             "extra2",
@@ -408,12 +428,6 @@
             "extra4_001",
             "extra5_001",
             "extra6_001"
-          ],
-          "colours": [
-            {
-              "material": "head",
-              "green": 0.6
-            }
           ]
         },
         {
@@ -422,29 +436,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -453,29 +498,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -484,29 +560,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -515,29 +622,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -546,29 +684,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -577,29 +746,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -608,29 +808,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.98,
               "blue": 0.8,
-              "green": 0.98
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         },
         {
@@ -639,29 +870,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -670,29 +932,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -701,29 +994,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -732,29 +1056,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -763,29 +1118,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -794,29 +1180,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -825,29 +1242,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         },
         {
@@ -857,28 +1305,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -888,28 +1367,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -919,28 +1429,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -950,28 +1491,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -981,28 +1553,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -1012,28 +1615,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1043,28 +1677,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.75,
-              "blue": 0.75
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         },
         {
@@ -1074,28 +1739,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1105,28 +1801,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1136,28 +1863,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1167,28 +1925,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1198,28 +1987,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -1229,28 +2049,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1260,28 +2111,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
               "red": 0.86,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         },
         {
@@ -1290,24 +2172,60 @@
           "colours": [
             {
               "material": "body_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1316,24 +2234,60 @@
           "colours": [
             {
               "material": "body_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1342,24 +2296,60 @@
           "colours": [
             {
               "material": "body_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1368,24 +2358,60 @@
           "colours": [
             {
               "material": "body_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1394,24 +2420,60 @@
           "colours": [
             {
               "material": "body_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -1420,24 +2482,60 @@
           "colours": [
             {
               "material": "body_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1446,24 +2544,60 @@
           "colours": [
             {
               "material": "body_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
-              "red": 0.95
+              "red": 0.95,
+              "green": 1.0,
+              "blue": 1.0,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         },
         {
@@ -1472,29 +2606,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.9,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1503,29 +2668,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.9,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1534,29 +2730,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.9,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1565,29 +2792,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.9,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1596,29 +2854,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.9,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -1627,29 +2916,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.9,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1658,29 +2978,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_center",
               "red": 0.9,
-              "blue": 0.9
+              "green": 1.0,
+              "blue": 0.9,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         },
         {
@@ -1690,28 +3041,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1721,28 +3103,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1752,28 +3165,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1783,28 +3227,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1814,28 +3289,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -1845,28 +3351,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1876,28 +3413,59 @@
             {
               "material": "body_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_center",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
+              "red": 1.0,
               "green": 0.6,
-              "blue": 0.4
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
               "red": 0.8,
-              "blue": 0.8
+              "green": 1.0,
+              "blue": 0.8,
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         },
         {
@@ -1906,27 +3474,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1935,27 +3536,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1964,27 +3598,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -1993,27 +3660,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -2022,27 +3722,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -2051,27 +3784,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -2080,27 +3846,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.75
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.75,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 1.0,
               "blue": 1.0,
-              "green": 1.0
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         },
         {
@@ -2109,27 +3908,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 0.5,
+              "green": 1.0,
               "blue": 0.8,
-              "red": 0.5
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.9,
               "blue": 0.1,
-              "green": 0.9
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.45,
+              "blue": 0.5,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -2138,27 +3970,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 0.5,
+              "green": 1.0,
               "blue": 0.8,
-              "red": 0.5
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.9,
               "blue": 0.1,
-              "green": 0.9
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 0.5,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -2167,27 +4032,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 0.5,
+              "green": 1.0,
               "blue": 0.8,
-              "red": 0.5
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.9,
               "blue": 0.1,
-              "green": 0.9
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.8,
+              "blue": 0.75,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -2196,27 +4094,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 0.5,
+              "green": 1.0,
               "blue": 0.8,
-              "red": 0.5
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.9,
               "blue": 0.1,
-              "green": 0.9
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 0.5,
+              "green": 1.0,
+              "blue": 0.25,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -2225,27 +4156,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 0.5,
+              "green": 1.0,
               "blue": 0.8,
-              "red": 0.5
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.9,
               "blue": 0.1,
-              "green": 0.9
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.5,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
           ]
         },
         {
@@ -2254,27 +4218,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 0.5,
+              "green": 1.0,
               "blue": 0.8,
-              "red": 0.5
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.9,
               "blue": 0.1,
-              "green": 0.9
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.9,
+              "blue": 0.15,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
           ]
         },
         {
@@ -2283,27 +4280,60 @@
           "colours": [
             {
               "material": "body_botton",
+              "red": 0.5,
+              "green": 1.0,
               "blue": 0.8,
-              "red": 0.5
+              "alpha": 1.0
             },
             {
               "material": "body_center",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "body_hair",
+              "red": 1.0,
+              "green": 0.75,
               "blue": 0.75,
-              "green": 0.75
+              "alpha": 1.0
             },
             {
               "material": "body_neck",
-              "blue": 0.4
+              "red": 1.0,
+              "green": 1.0,
+              "blue": 0.4,
+              "alpha": 1.0
             },
             {
               "material": "hair_botton",
+              "red": 1.0,
+              "green": 0.9,
               "blue": 0.1,
-              "green": 0.9
+              "alpha": 1.0
+            },
+            {
+              "material": "head",
+              "red": 1.0,
+              "green": 0.6,
+              "blue": 1.0,
+              "alpha": 1.0
             }
+          ],
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
           ]
         }
       ]

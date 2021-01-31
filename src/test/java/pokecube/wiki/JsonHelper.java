@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
@@ -24,6 +26,8 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.PokedexEntryLoader.XMLDatabase;
+import pokecube.core.database.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
@@ -161,8 +165,7 @@ public class JsonHelper
             { "stats", "hatedMaterials" } ,
             { "stats", "activeTimes" } ,
             { "stats", "prey" } ,
-            { "stats", "interactions" } ,
-            { "stats", "specialEggRules" }
+            { "stats", "interactions" }
             // @formatter:on
         });
         tags.put("pokemobs_offsets", new String[][] { { "ridden_offsets" } });
@@ -170,7 +173,6 @@ public class JsonHelper
         try
         {
             final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
-
 
             final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
 
@@ -211,7 +213,56 @@ public class JsonHelper
             e.printStackTrace();
         }
 
-        final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
+        JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
+        final XMLDatabase data = PokedexEntryLoader.gson.fromJson(obj, XMLDatabase.class);
+
+        {
+            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
+
+            iter.forEachRemaining(e ->
+            {
+                final JsonObject o = e.getAsJsonObject();
+
+                // Cleanup some values if present
+                JsonHelper.cleanMember(o, "override", false);
+                JsonHelper.cleanMember(o, "dummy", false);
+                JsonHelper.cleanMember(o, "starter", false);
+                JsonHelper.cleanMember(o, "legend", false);
+                JsonHelper.cleanMember(o, "breed", true);
+                JsonHelper.cleanMember(o, "hasShiny", true);
+                JsonHelper.cleanMember(o, "stock", true);
+                JsonHelper.cleanMember(o, "ridable", true);
+                JsonHelper.cleanMember(o, "gender", "");
+                JsonHelper.cleanMember(o, "genderBase", "");
+                JsonHelper.cleanMember(o, "baseForm", "");
+                JsonHelper.cleanMember(o, "modelType", "");
+                JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
+                JsonHelper.cleanEmptyLists(o);
+
+                o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
+
+            });
+        }
+
+        for (final XMLPokedexEntry val : data.pokemon)
+        {
+            if (val.stats == null) continue;
+
+            if (val.stats.spawnRules != null && !val.stats.spawnRules.isEmpty()) val.stats.spawnRules.removeIf(r ->
+            {
+                double rate = 0;
+                // 0 spawn rate rules are done by legends, so lets remove them
+                // from here.
+                if (r.values.containsKey(new QName("rate")))
+                {
+                    final String val2 = r.values.get(new QName("rate"));
+                    rate = Float.parseFloat(val2);
+                }
+                return rate <= 0;
+            });
+        }
+
+        obj = PokedexEntryLoader.gson.toJsonTree(data);
 
         final JsonArray mobs = new JsonArray();
         final List<PokedexEntry> formes = Database.getSortedFormes();
@@ -295,16 +346,16 @@ public class JsonHelper
         if (moves.size() > 0) try
         {
             File dir = path.resolve("starters.json").toFile();
-            String json = PokedexEntryLoader.gson.toJson(starters);
+            // String json = PokedexEntryLoader.gson.toJson(starters);
             OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
                     .newEncoder());
-            out.write(json);
+            // out.write(json);
             out.close();
 
             dir = path.resolve("legends.json").toFile();
-            json = PokedexEntryLoader.gson.toJson(legends);
+            // json = PokedexEntryLoader.gson.toJson(legends);
             out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8").newEncoder());
-            out.write(json);
+            // out.write(json);
             out.close();
 
         }
@@ -347,7 +398,6 @@ public class JsonHelper
                     JsonHelper.cleanMember(o, "modelType", "");
                     JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
                     JsonHelper.cleanEmptyLists(o);
-
 
                     o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
 
