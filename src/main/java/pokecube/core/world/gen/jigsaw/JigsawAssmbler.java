@@ -276,7 +276,7 @@ public class JigsawAssmbler
                     .getString("pool")));
             if (pool == null)
             {
-                PokecubeCore.LOGGER.error(jigsaw_block.nbt.getString("pool") + " " + jigsaw_block.nbt);
+                PokecubeCore.LOGGER.error(jigsaw_block.nbt.getString("pool") + " is a null pool! " + jigsaw_block.nbt);
                 continue;
             }
             final JigsawPattern pool_pattern = WorldGenRegistries.JIGSAW_POOL.getOrDefault(pool.getFallback());
@@ -330,8 +330,8 @@ public class JigsawAssmbler
                                 final JigsawPattern next_pool = WorldGenRegistries.JIGSAW_POOL.getOrDefault(pool_loc);
                                 if (next_pool == null)
                                 {
-                                    PokecubeCore.LOGGER.error(jigsaw_block.nbt.getString("pool") + " "
-                                            + jigsaw_block.nbt);
+                                    PokecubeCore.LOGGER.error(pool_loc + " is null! " + jigsaw_block.nbt.getString(
+                                            "pool") + " " + jigsaw_block.nbt);
                                     return 0;
                                 }
                                 final JigsawPattern fallback_pool = WorldGenRegistries.JIGSAW_POOL.getOrDefault(
