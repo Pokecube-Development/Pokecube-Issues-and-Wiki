@@ -42,6 +42,7 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.events.EggEvent;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
+import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
@@ -83,7 +84,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public CompoundNBT tag = new CompoundNBT();
 
-    public final IInhabitable habitat;
+    private final IInhabitable habitat;
 
     int time = 0;
 
@@ -98,6 +99,22 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         this.habitat = this.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
     }
 
+    public void setWrappedHab(final IInhabitable toWrap)
+    {
+        if (this.habitat instanceof HabitatProvider)
+        {
+            this.removeForbiddenSpawningCoord();
+            ((HabitatProvider) this.habitat).setWrapped(toWrap);
+            this.addForbiddenSpawningCoord();
+        }
+    }
+
+    public IInhabitable getWrappedHab()
+    {
+        if (this.habitat instanceof HabitatProvider) return ((HabitatProvider) this.habitat).getWrapped();
+        return null;
+    }
+
     public boolean isType(final ResourceLocation type)
     {
         if (this.habitat instanceof HabitatProvider)
@@ -107,7 +124,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
             final IInhabitable made = CapabilityInhabitable.make(type);
             if (made != null)
             {
-                ((HabitatProvider) this.habitat).setWrapped(made);
+                this.setWrappedHab(made);
                 return true;
             }
         }
@@ -117,8 +134,12 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     public boolean addForbiddenSpawningCoord()
     {
         final BlockPos pos = this.getPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world, 32,
-                ForbidReason.NEST);
+        final IInhabitable hab = this.getWrappedHab();
+        if (hab == null) return false;
+        hab.setPos(pos);
+        final ForbidRegion region = hab.getRepelledRegion();
+        if (region == null) return false;
+        return SpawnHandler.addForbiddenSpawningCoord(this.world, region, ForbidReason.NEST);
     }
 
     public void addResident(final IPokemob resident)

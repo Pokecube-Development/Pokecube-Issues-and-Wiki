@@ -4,6 +4,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
 
 public interface IInhabitable
 {
@@ -43,6 +44,16 @@ public interface IInhabitable
     }
 
     default void setPos(final BlockPos pos)
+    {
+
+    }
+
+    default ForbidRegion getRepelledRegion()
+    {
+        return null;
+    }
+
+    default void updateRepelledRegion()
     {
 
     }

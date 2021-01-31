@@ -78,18 +78,77 @@ import thut.api.terrain.TerrainSegment;
 /** @author Manchou Heavily modified by Thutmose */
 public final class SpawnHandler
 {
+    public static interface ForbidRegion
+    {
+        boolean isInside(BlockPos pos);
+
+        BlockPos getPos();
+    }
+
+    public static class CubeRegion implements ForbidRegion
+    {
+        public final int      range;
+        public final BlockPos origin;
+
+        public CubeRegion(final int range, final BlockPos origin)
+        {
+            this.range = range;
+            this.origin = origin;
+        }
+
+        @Override
+        public boolean isInside(final BlockPos pos)
+        {
+            return ChunkCoordinate.isWithin(pos, this.origin, this.range);
+        }
+
+        @Override
+        public BlockPos getPos()
+        {
+            return this.origin;
+        }
+    }
+
+    public static class AABBRegion implements ForbidRegion
+    {
+        private final AxisAlignedBB box;
+
+        private final BlockPos mid;
+
+        public AABBRegion(final AxisAlignedBB box)
+        {
+            this.box = box;
+            this.mid = new BlockPos(box.getCenter());
+        }
+
+        @Override
+        public boolean isInside(final BlockPos pos)
+        {
+            return this.box.contains(pos.getX(), pos.getY(), pos.getZ());
+        }
+
+        @Override
+        public BlockPos getPos()
+        {
+            return this.mid;
+        }
+
+    }
 
     public static class ForbiddenEntry
     {
-        public final int          range;
         public final ForbidReason reason;
-        public final BlockPos     origin;
+        public final ForbidRegion region;
+
+        public ForbiddenEntry(final ForbidReason reason, final ForbidRegion region)
+        {
+            this.reason = reason;
+            this.region = region;
+        }
 
         public ForbiddenEntry(final int range, final ForbidReason reason, final BlockPos origin)
         {
-            this.range = range;
-            this.reason = reason;
-            this.origin = origin;
+            this(reason, new CubeRegion(range, origin));
         }
     }
 
@@ -170,11 +229,14 @@ public final class SpawnHandler
         return true;
     }
 
-    public static boolean addForbiddenSpawningCoord(final int x, final int y, final int z, final World dim,
-            final int range, final ForbidReason reason)
+    public static boolean addForbiddenSpawningCoord(final World dim, final ForbidRegion region,
+            final ForbidReason reason)
     {
-        final BlockPos coord = new BlockPos(x, y, z);
-        return SpawnHandler.addForbiddenSpawningCoord(coord, dim, range, reason);
+        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(dim.getDimensionKey());
+        if (entries == null) SpawnHandler.forbidReasons.put(dim.getDimensionKey(), entries = Maps.newHashMap());
+        if (entries.containsKey(region.getPos())) return false;
+        entries.put(region.getPos(), new ForbiddenEntry(reason, region));
+        return true;
     }
 
     public static boolean canPokemonSpawnHere(final Vector3 location, final World world, final PokedexEntry entry)
@@ -268,12 +330,8 @@ public final class SpawnHandler
         final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.getDimensionKey());
         if (entries == null) return null;
         final BlockPos here = new BlockPos(x, y, z);
-        for (final BlockPos coord : entries.keySet())
-        {
-            final ForbiddenEntry entry = entries.get(coord);
-            final int tolerance = entry.range;
-            if (ChunkCoordinate.isWithin(coord, here, tolerance)) return entry;
-        }
+        for (final ForbiddenEntry entry : entries.values())
+            if (entry.region.isInside(here)) return entry;
         return null;
     }
 
@@ -497,7 +555,7 @@ public final class SpawnHandler
         final Function function = SpawnHandler.getFunction(type);
         final boolean r = function.radial;
         // Central functions are centred on 0,0, not the world spawn
-        if(function.central) spawn.clear();
+        if (function.central) spawn.clear();
         if (!r) SpawnHandler.parseExpression(toUse, location.x - spawn.x, location.z - spawn.z, r);
         else
         {
@@ -594,16 +652,11 @@ public final class SpawnHandler
                 }
     }
 
-    public static boolean removeForbiddenSpawningCoord(final BlockPos pos, final World dimensionId)
-    {
-        return SpawnHandler.removeForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), dimensionId);
-    }
-
-    public static boolean removeForbiddenSpawningCoord(final int x, final int y, final int z, final World world)
+    public static boolean removeForbiddenSpawningCoord(final BlockPos pos, final World world)
     {
         final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.getDimensionKey());
         if (entries == null) return false;
-        return entries.remove(new BlockPos(x, y, z)) != null;
+        return entries.remove(pos) != null;
     }
 
     public JEP parser = new JEP();
