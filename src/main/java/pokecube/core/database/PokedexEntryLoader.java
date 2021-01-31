@@ -253,6 +253,7 @@ public class PokedexEntryLoader
         public String    sexe;
         public String    move;
         public Float     chance;
+        public String    evoMoves;
 
         public String form_from = null;
 
@@ -370,8 +371,8 @@ public class PokedexEntryLoader
             }
         }
 
-        public LvlUp  lvlupMoves;
-        public Misc   misc;
+        public LvlUp lvlupMoves;
+        public Misc  misc;
 
         // TODO move this to the evolution itself
         public String evolutionMoves;
@@ -427,7 +428,6 @@ public class PokedexEntryLoader
 
         // Prey, Food and Egg stuff
         public String prey;
-        public String specialEggRules;
 
         // Drops and items
         public String lootTable;
@@ -502,7 +502,15 @@ public class PokedexEntryLoader
             {
                 if (value.number == null)
                 {
-                    PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!",
+                    final PokedexEntry entry = Database.getEntry(value.name);
+                    if (entry != null)
+                    {
+                        value.number = entry.getPokedexNb();
+                        value.name = entry.getTrimmedName();
+                        return false;
+                    }
+                    PokecubeCore.LOGGER.error(
+                            "Error with entry for {}, it is missing a Number for sorting! removing on add!",
                             value.name);
                     return true;
                 }
@@ -547,6 +555,8 @@ public class PokedexEntryLoader
         public String gender     = "";
         public String genderBase = "";
         public String modelType  = "";
+
+        public String baseForm = "";
 
         public String sound = null;
 
@@ -815,13 +825,6 @@ public class PokedexEntryLoader
         if (allMoves.isEmpty()) allMoves = null;
         if (lvlUpMoves.isEmpty()) lvlUpMoves = null;
         entry.addMoves(allMoves, lvlUpMoves);
-
-        if (xmlMoves.evolutionMoves != null)
-        {
-            final String[] moves = xmlMoves.evolutionMoves.split(",");
-            for (final String s : moves)
-                entry.getEvolutionMoves().add(s);
-        }
     }
 
     private static void initFormeModels(final PokedexEntry entry, final List<DefaultFormeHolder> list)
@@ -992,7 +995,15 @@ public class PokedexEntryLoader
         {
             if (value.number == null)
             {
-                PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!", value.name);
+                final PokedexEntry entry = Database.getEntry(value.name);
+                if (entry != null)
+                {
+                    value.number = entry.getPokedexNb();
+                    value.name = entry.getTrimmedName();
+                    return false;
+                }
+                PokecubeCore.LOGGER.error(
+                        "Error with entry for {}, it is missing a Number for sorting! removing on make", value.name);
                 return true;
             }
             return false;
@@ -1101,51 +1112,6 @@ public class PokedexEntryLoader
      */
     private static void parseEvols(final PokedexEntry entry, final StatsNode xmlStats, final boolean error)
     {
-        if (xmlStats.specialEggRules != null)
-        {
-            final String[] matedata = xmlStats.specialEggRules.split(";");
-            mates:
-            for (final String s1 : matedata)
-            {
-                final String[] args = s1.split(":");
-                PokedexEntry father;
-                int num = -1;
-                final String name = "";
-                try
-                {
-                    father = Database.getEntry(num = Integer.parseInt(args[0]));
-                }
-                catch (final NumberFormatException e)
-                {
-                    father = Database.getEntry(args[0]);
-                }
-                if (father == null && (num == 0 || name.equalsIgnoreCase("missingno"))) father = Database.missingno;
-                if (father == null)
-                {
-                    PokecubeCore.LOGGER.error("Error with Father for Children for " + entry);
-                    break mates;
-                }
-                final String[] args1 = args[1].split("`");
-                final PokedexEntry[] childNbs = new PokedexEntry[args1.length];
-                for (int i = 0; i < args1.length; i++)
-                {
-                    try
-                    {
-                        childNbs[i] = Database.getEntry(Integer.parseInt(args1[i]));
-                    }
-                    catch (final NumberFormatException e)
-                    {
-                        childNbs[i] = Database.getEntry(args1[i]);
-                    }
-                    if (childNbs[i] == null)
-                    {
-                        PokecubeCore.LOGGER.error("Error with Children for " + entry + " " + args1[i]);
-                        break mates;
-                    }
-                }
-                entry.childNumbers.put(father, childNbs);
-            }
-        }
         if (xmlStats.evolutions != null && !xmlStats.evolutions.isEmpty())
         {
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Proccessing Evos for " + entry.getName());
@@ -1334,7 +1300,11 @@ public class PokedexEntryLoader
         if (xmlStats.megaRules != null) entry._loaded_megarules.addAll(xmlStats.megaRules);
 
         // Add gigantamax things as "megas"
-        if (entry.getName().contains("Gigantamax")) entry.isMega = true;
+        if (entry.getName().contains("Gigantamax"))
+        {
+            entry.isMega = true;
+            entry.isGMax = true;
+        }
 
     }
 
@@ -1461,7 +1431,15 @@ public class PokedexEntryLoader
             {
                 if (value.number == null)
                 {
-                    PokecubeCore.LOGGER.error("Error with entry for {}, it is missing a Number for sorting!",
+                    final PokedexEntry entry = Database.getEntry(value.name);
+                    if (entry != null)
+                    {
+                        value.number = entry.getPokedexNb();
+                        value.name = entry.getTrimmedName();
+                        return false;
+                    }
+                    PokecubeCore.LOGGER.error(
+                            "Error with entry for {}, it is missing a Number for sorting! removing on write",
                             value.name);
                     return true;
                 }

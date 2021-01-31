@@ -1,9 +1,9 @@
 {
-"replace": false,
-"values": [
+  "replace": false,
+  "values": [
     "pokecube:rattata",
     "pokecube:raticate",
     "pokecube:rattata_alola",
     "pokecube:raticate_alola"
-]
+  ]
 }

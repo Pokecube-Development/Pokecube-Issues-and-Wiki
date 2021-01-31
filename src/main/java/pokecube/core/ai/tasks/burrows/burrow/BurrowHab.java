@@ -8,9 +8,11 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.entity.MobEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.INBTSerializable;
+import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
@@ -44,10 +46,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     {
         if (related.contains(parent)) return;
         related.add(parent);
-        if (!related.contains(parent.getChild())) related.add(parent.getChild());
-        for (final PokedexEntry[] arr : parent.childNumbers.values())
-            for (final PokedexEntry e : arr)
-                this.addRelations(e, related);
+        if (!related.contains(parent.getChild())) this.addRelations(parent.getChild(), related);
         for (final EvolutionData d : parent.evolutions)
             this.addRelations(d.evolution, related);
     }
@@ -61,7 +60,6 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         {
             return related.contains(e);
         };
-
     }
 
     @Override
@@ -144,6 +142,12 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return false;
         return this.valid.test(pokemob.getPokedexEntry());
+    }
+
+    @Override
+    public ResourceLocation getKey()
+    {
+        return BurrowTasks.BURROWLOC;
     }
 
 }

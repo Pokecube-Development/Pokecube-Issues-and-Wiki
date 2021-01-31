@@ -96,8 +96,29 @@ if __name__ == "__main__":
 
     # names = data.names_map
     names = pokemobs_names.pokemobs
-    pokedex = pokedex_entry.Pokedex(names, data)
 
+    pokefile = open("./pokemobs_all.json", 'r', encoding="utf-8")
+    originals = json.loads(pokefile.read())
+    _map = {}
+    for poke in originals["pokemon"]:
+        if "stats" in poke:
+            del poke["stats"]
+        _map[poke["name"]] = poke
+
+
+    pokedex = pokedex_entry.Pokedex(names, data, _map, True, False)
+    pokefile = open("./pokemobs_moves.json", 'w', encoding="utf-8")
+    pokefile.write(json.dumps({"pokemon":pokedex.pokemon}, indent=2))
+
+    pokefile = open("./pokemobs_all.json", 'r', encoding="utf-8")
+    originals = json.loads(pokefile.read())
+    _map = {}
+    for poke in originals["pokemon"]:
+        if "moves" in poke:
+            del poke["moves"]
+        _map[poke["name"]] = poke
+    
+    pokedex = pokedex_entry.Pokedex(names, data, _map, False, True)
     pokefile = open("./pokemobs_pokedex.json", 'w', encoding="utf-8")
     pokefile.write(json.dumps({"pokemon":pokedex.pokemon}, indent=2))
 

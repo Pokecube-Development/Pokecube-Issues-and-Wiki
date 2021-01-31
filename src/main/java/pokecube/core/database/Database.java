@@ -60,7 +60,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.database.tags.Tags;
-import pokecube.core.database.util.StringTagsHelper;
+import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
@@ -522,7 +522,6 @@ public class Database
                     e.height = base.height;
                     e.width = base.width;
                     e.length = base.length;
-                    e.childNumbers = base.childNumbers;
                     e.mobType = base.mobType;
                     e.catchRate = base.catchRate;
                     e.mass = base.mass;
@@ -537,11 +536,6 @@ public class Database
                 boolean noAbilities;
                 if (noAbilities = e.abilities.isEmpty()) e.abilities.addAll(base.abilities);
                 if (noAbilities && e.abilitiesHidden.isEmpty()) e.abilitiesHidden.addAll(base.abilitiesHidden);
-            }
-            if (e.mobType == 0)
-            {
-                e.mobType = 1;
-                PokecubeCore.LOGGER.debug(e + " Has no Mob Type");
             }
             if (e.type2 == null) e.type2 = PokeType.unknown;
             if (!base._loaded_interactions.isEmpty() && e._loaded_interactions.isEmpty()) e._loaded_interactions.addAll(
@@ -819,6 +813,7 @@ public class Database
         Database.allFormes.removeAll(toRemove);
         PokecubeCore.LOGGER.debug("Removed " + removedNums.size() + " Missing Pokemon and " + (toRemove.size()
                 - dummies) + " missing Formes");
+        if (removedNums.size() > 0) PokecubeCore.LOGGER.debug("Removed " + toRemove);
 
         toRemove.clear();
 
@@ -842,7 +837,7 @@ public class Database
 
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
-        StringTagsHelper.onResourcesReloaded();
+        DataHelpers.onResourcesReloaded();
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;

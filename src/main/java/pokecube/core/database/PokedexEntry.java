@@ -121,6 +121,8 @@ public class PokedexEntry
         public float        randomFactor = 1.0f;
         public boolean      traded       = false;
 
+        public List<String> evoMoves = Lists.newArrayList();
+
         // This is if it needs a specific formeHolder to evolve into this.
         public ResourceLocation neededForme = null;
 
@@ -268,6 +270,13 @@ public class PokedexEntry
             if (data.chance != null) this.randomFactor = data.chance;
             if (this.level == -1) this.level = 0;
             if (data.form_from != null) this.neededForme = PokecubeItems.toPokecubeResource(data.form_from);
+            this.evoMoves.clear();
+            if (data.evoMoves != null && !data.evoMoves.isEmpty())
+            {
+                final String[] vals = data.evoMoves.split(",");
+                for (final String s : vals)
+                    this.evoMoves.add(s.trim());
+            }
         }
 
         protected void postInit()
@@ -805,57 +814,54 @@ public class PokedexEntry
      * If the forme is supposed to have a custom sound, rather than using base,
      * it will be set to this.
      */
-    protected String                         customSound     = null;
+    protected String        customSound     = null;
     @CopyToGender
-    private PokedexEntry                     baseForme       = null;
+    private PokedexEntry    baseForme       = null;
     /** Initial Happiness of the pokemob */
     @CopyToGender
-    protected int                            baseHappiness;
+    protected int           baseHappiness;
     @CopyToGender
-    protected String                         baseName;
+    protected String        baseName;
     /** base xp given from defeating */
     @CopyToGender
-    protected int                            baseXP          = -1;
+    protected int           baseXP          = -1;
     @CopyToGender
-    public boolean                           breeds          = true;
+    public boolean          breeds          = true;
     @CopyToGender
-    public boolean                           canSitShoulder  = false;
+    public boolean          canSitShoulder  = false;
     @CopyToGender
-    public int                               catchRate       = -1;
+    public int              catchRate       = -1;
     @CopyToGender
-    protected PokedexEntry                   _childNb        = null;
-    /** A map of father pokedexnb : child pokedexNbs */
-    @CopyToGender
-    public Map<PokedexEntry, PokedexEntry[]> childNumbers    = Maps.newHashMap();
+    protected PokedexEntry  _childNb        = null;
     /**
      * Default value of specialInfo, used to determine default colour of
      * recolourable parts
      */
     @CopyToGender
-    public int                               defaultSpecial  = 0;
+    public int              defaultSpecial  = 0;
     /**
      * Default value of specialInfo for shiny variants, used to determine
      * default colour of recolourable parts
      */
     @CopyToGender
-    public int                               defaultSpecials = 0;
+    public int              defaultSpecials = 0;
     /**
      * If the IPokemob supports this, then this will be the loot table used for
      * its drops.
      */
     @CopyToGender
-    public ResourceLocation                  lootTable       = null;
+    public ResourceLocation lootTable       = null;
     /**
      * indicatees of the specified special texture exists. Index 4 is used for
      * if the mob can be dyed
      */
     @CopyToGender
-    public boolean                           dyeable         = false;
+    public boolean          dyeable         = false;
     /** A Set of valid dye colours, if empty, any dye is valid. */
     @CopyToGender
-    public Set<DyeColor>                     validDyes       = Sets.newHashSet();
+    public Set<DyeColor>    validDyes       = Sets.newHashSet();
     @CopyToGender
-    SoundEvent                               event;
+    SoundEvent              event;
 
     @CopyToGender
     public SoundEvent          replacedEvent;
@@ -951,9 +957,6 @@ public class PokedexEntry
     /** Map of Level to Moves learned. */
     @CopyToGender
     private Map<Integer, ArrayList<String>> lvlUpMoves;
-    /** The abilities available to the pokedex entry. */
-    @CopyToGender
-    protected ArrayList<String>             evolutionMoves = Lists.newArrayList();
 
     protected PokedexEntry male = null;
 
@@ -1134,6 +1137,11 @@ public class PokedexEntry
         this.foods[4] = Tags.POKEMOB.isIn("eats_never", this.getTrimmedName());
         this.foods[5] = !Tags.POKEMOB.isIn("eats_no_berries", this.getTrimmedName());
         this.foods[6] = Tags.POKEMOB.isIn("eats_water", this.getTrimmedName());
+
+        if (Tags.MOVEMENT.isIn("floats", this.getTrimmedName())) this.mobType |= MovementType.FLOATING.mask;
+        if (Tags.MOVEMENT.isIn("flies", this.getTrimmedName())) this.mobType |= MovementType.FLYING.mask;
+        if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
+        if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
 
         if (this.lootTable == null) PokecubeCore.LOGGER.debug("Missing loot table for {}", this.getTrimmedName());
 
@@ -1336,7 +1344,6 @@ public class PokedexEntry
         if (e.height == -1) e.height = this.height;
         if (e.width == -1) e.width = this.width;
         if (e.length == -1) e.length = this.length;
-        if (e.childNumbers.isEmpty()) e.childNumbers = this.childNumbers;
         if (e.mobType == 0) e.mobType = this.mobType;
         if (e.catchRate == -1) e.catchRate = this.catchRate;
         if (e.sexeRatio == -1) e.sexeRatio = this.sexeRatio;
@@ -1456,18 +1463,6 @@ public class PokedexEntry
 
     public PokedexEntry getChild(final PokedexEntry fatherNb)
     {
-        if (this.childNumbers.containsKey(fatherNb))
-        {
-            final PokedexEntry[] nums = this.childNumbers.get(fatherNb);
-            final int index = new Random().nextInt(nums.length);
-            return nums[index];
-        }
-        else if (this.childNumbers.containsKey(Database.missingno))
-        {
-            final PokedexEntry[] nums = this.childNumbers.get(Database.missingno);
-            final int index = new Random().nextInt(nums.length);
-            return nums[index];
-        }
         return this.getChild();
     }
 
@@ -1521,12 +1516,6 @@ public class PokedexEntry
     {
         if (this.getBaseForme() != null) return this.getBaseForme().evolutionMode;
         return this.evolutionMode;
-    }
-
-    /** Moves to be learned right after evolution. */
-    public List<String> getEvolutionMoves()
-    {
-        return this.evolutionMoves;
     }
 
     public List<EvolutionData> getEvolutions()
@@ -2039,14 +2028,6 @@ public class PokedexEntry
 
         for (final String s : this.possibleMoves)
             if (MovesUtils.isMoveImplemented(s) && !moves.contains(s)) moves.add(s);
-        final List<String> staleEvoMoves = Lists.newArrayList();
-        for (final String s : this.evolutionMoves)
-        {
-            final boolean implemented = MovesUtils.isMoveImplemented(s);
-            if (implemented && !moves.contains(s)) moves.add(s);
-            else if (!implemented) staleEvoMoves.add(s);
-        }
-        this.evolutionMoves.removeAll(staleEvoMoves);
         this.possibleMoves.clear();
         this.possibleMoves.addAll(moves);
         final List<Integer> toRemove = new ArrayList<>();

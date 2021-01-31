@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
@@ -24,8 +26,11 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.PokedexEntryLoader.XMLDatabase;
+import pokecube.core.database.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.MovesUtils;
+import thut.core.common.ThutCore;
 
 public class JsonHelper
 {
@@ -80,9 +85,9 @@ public class JsonHelper
                 o1.add(property, value);
                 return true;
             }
-            else
+            else if (value.isJsonObject())
             {
-                o_1 = o.getAsJsonObject(property);
+                o_1 = value.getAsJsonObject();
                 if (o_1 == null) return false;
                 o = o_1;
                 if (o1.has(property)) o1_1 = o1.getAsJsonObject(property);
@@ -93,6 +98,7 @@ public class JsonHelper
                 }
                 o1 = o1_1;
             }
+            else System.out.println("Error with merging " + o);
         }
         return true;
     }
@@ -147,7 +153,7 @@ public class JsonHelper
         final Map<String, String[][]> tags = Maps.newHashMap();
 
         tags.put("pokemobs_spawns", new String[][] { { "stats", "spawnRules" } });
-        tags.put("pokemobs_formes", new String[][] { { "models" } });
+        tags.put("pokemobs_formes", new String[][] { { "models" }, { "male_model" }, { "female_model" }, { "model" } });
         tags.put("pokemobs_drops", new String[][] { { "stats", "lootTable" }, { "stats", "heldTable" } });
         tags.put("pokemobs_moves", new String[][] { { "moves" } });
 
@@ -160,13 +166,104 @@ public class JsonHelper
             { "stats", "hatedMaterials" } ,
             { "stats", "activeTimes" } ,
             { "stats", "prey" } ,
-            { "stats", "interactions" } ,
-            { "stats", "specialEggRules" }
+            { "stats", "interactions" }
             // @formatter:on
         });
         tags.put("pokemobs_offsets", new String[][] { { "ridden_offsets" } });
 
-        final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
+        try
+        {
+            final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
+
+            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
+
+            iter.forEachRemaining(e ->
+            {
+                final JsonObject o = e.getAsJsonObject();
+
+                // Cleanup some values if present
+                JsonHelper.cleanMember(o, "override", false);
+                JsonHelper.cleanMember(o, "dummy", false);
+                JsonHelper.cleanMember(o, "starter", false);
+                JsonHelper.cleanMember(o, "legend", false);
+                JsonHelper.cleanMember(o, "breed", true);
+                JsonHelper.cleanMember(o, "hasShiny", true);
+                JsonHelper.cleanMember(o, "stock", true);
+                JsonHelper.cleanMember(o, "ridable", true);
+                JsonHelper.cleanMember(o, "gender", "");
+                JsonHelper.cleanMember(o, "genderBase", "");
+                JsonHelper.cleanMember(o, "baseForm", "");
+                JsonHelper.cleanMember(o, "modelType", "");
+                JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
+                JsonHelper.cleanEmptyLists(o);
+
+                o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
+
+            });
+
+            final String json = PokedexEntryLoader.gson.toJson(obj);
+            final File dir = path.resolve("pokemobs_all" + ".json").toFile();
+            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
+                    .newEncoder());
+            out.write(json);
+            out.close();
+        }
+        catch (final Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
+        final XMLDatabase data = PokedexEntryLoader.gson.fromJson(obj, XMLDatabase.class);
+
+        {
+            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
+
+            iter.forEachRemaining(e ->
+            {
+                final JsonObject o = e.getAsJsonObject();
+
+                // Cleanup some values if present
+                JsonHelper.cleanMember(o, "override", false);
+                JsonHelper.cleanMember(o, "dummy", false);
+                JsonHelper.cleanMember(o, "starter", false);
+                JsonHelper.cleanMember(o, "legend", false);
+                JsonHelper.cleanMember(o, "breed", true);
+                JsonHelper.cleanMember(o, "hasShiny", true);
+                JsonHelper.cleanMember(o, "stock", true);
+                JsonHelper.cleanMember(o, "ridable", true);
+                JsonHelper.cleanMember(o, "gender", "");
+                JsonHelper.cleanMember(o, "genderBase", "");
+                JsonHelper.cleanMember(o, "baseForm", "");
+                JsonHelper.cleanMember(o, "modelType", "");
+                JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
+                JsonHelper.cleanEmptyLists(o);
+
+                o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
+
+            });
+        }
+
+        for (final XMLPokedexEntry val : data.pokemon)
+        {
+            if (val.stats == null) continue;
+
+            if (val.stats.spawnRules != null && !val.stats.spawnRules.isEmpty()) val.stats.spawnRules.removeIf(r ->
+            {
+                double rate = 0;
+                // 0 spawn rate rules are done by legends, so lets remove them
+                // from here.
+                if (r.values.containsKey(new QName("rate")))
+                {
+                    final String val2 = r.values.get(new QName("rate"));
+                    rate = Float.parseFloat(val2);
+                }
+                return rate <= 0;
+            });
+        }
+
+        obj = PokedexEntryLoader.gson.toJsonTree(data);
 
         final JsonArray mobs = new JsonArray();
         final List<PokedexEntry> formes = Database.getSortedFormes();
@@ -250,16 +347,16 @@ public class JsonHelper
         if (moves.size() > 0) try
         {
             File dir = path.resolve("starters.json").toFile();
-            String json = PokedexEntryLoader.gson.toJson(starters);
+            // String json = PokedexEntryLoader.gson.toJson(starters);
             OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
                     .newEncoder());
-            out.write(json);
+            // out.write(json);
             out.close();
 
             dir = path.resolve("legends.json").toFile();
-            json = PokedexEntryLoader.gson.toJson(legends);
+            // json = PokedexEntryLoader.gson.toJson(legends);
             out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8").newEncoder());
-            out.write(json);
+            // out.write(json);
             out.close();
 
         }
@@ -298,9 +395,12 @@ public class JsonHelper
                     JsonHelper.cleanMember(o, "ridable", true);
                     JsonHelper.cleanMember(o, "gender", "");
                     JsonHelper.cleanMember(o, "genderBase", "");
+                    JsonHelper.cleanMember(o, "baseForm", "");
                     JsonHelper.cleanMember(o, "modelType", "");
                     JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
                     JsonHelper.cleanEmptyLists(o);
+
+                    o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
 
                     final JsonObject o1 = new JsonObject();
                     if (!JsonHelper.mergeIn(o, o1, "name")) return;

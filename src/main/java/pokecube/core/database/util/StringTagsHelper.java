@@ -26,9 +26,10 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.util.DataHelpers.IResourceData;
 import thut.core.common.ThutCore;
 
-public class StringTagsHelper
+public class StringTagsHelper implements IResourceData
 {
     public static class TagHolder
     {
@@ -44,8 +45,7 @@ public class StringTagsHelper
             {
                 boolean tag = false;
                 if (tag = s.startsWith("#")) s = s.replace("#", "");
-                s = ThutCore.trim(s);
-                if (!s.contains(":")) s = "pokecube:" + s;
+                if (!s.contains(":")) s = "pokecube:" + ThutCore.trim(s);
                 if (tag) s = "#" + s;
                 return s;
             });
@@ -84,39 +84,6 @@ public class StringTagsHelper
         }
     }
 
-    private static final Set<StringTagsHelper> tagHelpers = Sets.newHashSet();
-
-    public static void onResourcesReloaded()
-    {
-        final AtomicBoolean valid = new AtomicBoolean(false);
-        StringTagsHelper.tagHelpers.forEach(t ->
-        {
-            if (!FMLEnvironment.production) t.printTags();
-            t.tagsMap.clear();
-            t.validLoad = false;
-            try
-            {
-                final String path = new ResourceLocation(t.tagPath).getPath();
-                final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(path,
-                        s -> s.endsWith(".json"));
-                t.validLoad = !resources.isEmpty();
-                resources.forEach(l ->
-                {
-                    final String tag = l.toString().replace(path, "").replace(".json", "");
-                    t.loadTag(l, tag, "");
-                });
-                t.checkIncludes();
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error reloading tags for {}", t.tagPath);
-                e.printStackTrace();
-            }
-            if (t.validLoad) valid.set(true);
-        });
-        if (valid.get()) PokecubeCore.LOGGER.debug("Reloaded Custom Tags");
-    }
-
     private final Map<String, TagHolder> tagsMap = Maps.newHashMap();
 
     private final Map<String, Set<String>> reversedTagsMap = Maps.newHashMap();
@@ -128,11 +95,39 @@ public class StringTagsHelper
     public StringTagsHelper(final String path)
     {
         this.tagPath = path;
-        StringTagsHelper.tagHelpers.add(this);
+        DataHelpers.addDataType(this);
     }
 
-    public Set<String> lookupTags(final String name)
+    @Override
+    public void reload(final AtomicBoolean valid)
     {
+        if (!FMLEnvironment.production) this.printTags();
+        this.tagsMap.clear();
+        this.validLoad = false;
+        try
+        {
+            final String path = new ResourceLocation(this.tagPath).getPath();
+            final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(path, s -> s
+                    .endsWith(".json"));
+            this.validLoad = !resources.isEmpty();
+            resources.forEach(l ->
+            {
+                final String tag = l.toString().replace(path, "").replace(".json", "");
+                this.loadTag(l, tag, "");
+            });
+            this.checkIncludes();
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error reloading tags for {}", this.tagPath);
+            e.printStackTrace();
+        }
+        if (this.validLoad) valid.set(true);
+    }
+
+    public Set<String> lookupTags(String name)
+    {
+        if (!name.contains(":")) name = "pokecube:" + ThutCore.trim(name);
         return this.reversedTagsMap.getOrDefault(name, Collections.emptySet());
     }
 
@@ -144,9 +139,8 @@ public class StringTagsHelper
 
     public void addToTag(String tag, String value)
     {
-        tag = ThutCore.trim(tag);
-        if (!tag.contains(":")) tag = "pokecube:" + tag;
-        value = ThutCore.trim(value);
+        if (!tag.contains(":")) tag = "pokecube:" + ThutCore.trim(tag);
+        if (!value.contains(":")) value = "pokecube:" + ThutCore.trim(value);
         TagHolder holder = this.tagsMap.get(tag);
         if (holder == null) this.tagsMap.put(tag, holder = new TagHolder());
         if (holder.values.contains(value)) return;
@@ -158,9 +152,8 @@ public class StringTagsHelper
 
     public boolean isIn(String tag, String toCheck)
     {
-        tag = ThutCore.trim(tag);
-        toCheck = ThutCore.trim(toCheck);
-        if (!tag.contains(":")) tag = "pokecube:" + tag;
+        if (!toCheck.contains(":")) toCheck = "pokecube:" + ThutCore.trim(toCheck);
+        if (!tag.contains(":")) tag = "pokecube:" + ThutCore.trim(tag);
         // If we have the tag loaded, lets use the value from there.
         if (this.tagsMap.containsKey(tag))
         {
@@ -218,8 +211,9 @@ public class StringTagsHelper
             this.tagsMap.put(tag, tagged);
             // Now we update the reversedTagsMap accordingly
             // Iterate over the values in the tag, and put toCheck in their set.
-            for (final String s : tagged.values)
+            for (String s : tagged.values)
             {
+                if (!s.contains(":")) s = "pokecube:" + ThutCore.trim(s);
                 final Set<String> tags = this.reversedTagsMap.getOrDefault(s, Sets.newHashSet());
                 tags.add(tag);
                 this.reversedTagsMap.put(s, tags);

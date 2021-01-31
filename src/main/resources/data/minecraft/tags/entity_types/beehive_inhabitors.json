@@ -1,9 +1,9 @@
 {
-"replace": false,
-"values": [
+  "replace": false,
+  "values": [
     "pokecube:cutiefly",
     "pokecube:ribombee",
     "pokecube:combee",
     "pokecube:vespiquen"
-]
+  ]
 }

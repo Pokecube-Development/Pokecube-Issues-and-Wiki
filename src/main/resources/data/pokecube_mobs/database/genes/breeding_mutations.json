@@ -1,0 +1,76 @@
+{
+  "replace": false,
+  "mutations": [
+    {
+      "geneType": "pokecube:species",
+      "output": "nidoranm",
+      "options": [
+        { "result": "nidoranm" },
+        { "result": "nidoranf" }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "nidoranf",
+      "options": [
+        { "result": "nidoranm" },
+        { "result": "nidoranf" }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "plusle",
+      "options": [
+        { "result": "plusle" },
+        { "result": "minun" }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "minun",
+      "options": [
+        { "result": "minun" },
+        { "result": "plusle" }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "volbeat",
+      "options": [
+        { "result": "volbeat" },
+        { "result": "illumise" }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "illumise",
+      "options": [
+        { "result": "illumise" },
+        { "result": "volbeat" }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "latias",
+      "options": [
+        { "result": "latias" },
+        { "result": "latios" }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "latios",
+      "options": [
+        { "result": "latias" },
+        { "result": "latios" }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "manaphy",
+      "options": [
+        { "result": "phione" }
+      ]
+    }
+  ]
+}

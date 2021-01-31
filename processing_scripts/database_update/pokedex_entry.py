@@ -73,7 +73,8 @@ def getLevelMoves(name, data):
             if not move in names:
                 names.append(move)
     except:
-        print("No moves found for {}".format(name))
+        # print("No moves found for {}".format(name))
+        pass
     return moves, names
 
 def getAllMoves(name, data, exclude=[]):
@@ -85,14 +86,15 @@ def getAllMoves(name, data, exclude=[]):
             move = data.get_info(move_id,"identifier", expected_file="moves")["moves"][0]
             move_, conf = csv_loader.match_name(move, moves_names.moves)
             if(conf < 80):
-                print("{} -> {} ({})".format(move, move_, conf))
+                print("{} -> {} ({})??".format(move, move_, conf))
             else:
                 move = move_
             if move in exclude or move in names:
                 continue
             names.append(move)
     except:
-        print("No moves found for {}".format(name))
+        # print("No moves found for {}".format(name))
+        pass
     return names
 
 def getTypes(name, data):
@@ -139,22 +141,25 @@ def sorter(e):
     return int(e)
 
 class Pokedex(object):
-    def __init__(self, names, data):
+    def __init__(self, names, data, originals, do_moves, do_stats):
         self.pokemon = []
         for name in names:
+            defaults = None
+            if name in originals:
+                defaults = originals[name]
             try:
-                entry = PokedexEntry(name, data)
+                entry = PokedexEntry(name, data, defaults, do_moves, do_stats)
+                if do_moves and not "moves" in entry.map:
+                    continue
                 self.pokemon.append(entry.map)
             except Exception as err:
-                print("Error with {} {}".format(name, err))
+                print("Error with {} {}, Using default if present? {}".format(name, err, defaults is not None))
+                if defaults is not None and do_stats:
+                    self.pokemon.append(defaults)
 
 class PokedexEntry(object):
 
-    def __init__(self, name, data):
-
-        do_stats = True
-        do_moves = False
-
+    def __init__(self, name, data, defaults, do_moves, do_stats):
         _map = self.map = {}
         _map["name"] = name
 
@@ -172,6 +177,11 @@ class PokedexEntry(object):
             values = _map["stats"]["stats"]["values"] = {}
             for i in range(len(statsOrder)):
                 values[statsOrder[i]] = stats[i]
+
+            if defaults is not None:
+                _map["stats"]["sizes"] = defaults["stats"]["sizes"]
+            else:
+                print("Cannot copy sizes for {}".format(name))
 
             # Do the evs
             stats = getEVs(name, data)
@@ -241,6 +251,9 @@ class PokedexEntry(object):
 
             if len(moves) != 0 or len(moves_list) != 0:
                 _map["moves"] = {}
+            elif defaults is not None:
+                _map["moves"] = defaults["moves"]
+                print("Not Updating moves for {}".format(name))
                 
             if len(moves) > 0:
                 lvlMoves = _map["moves"]["lvlupMoves"] = {}

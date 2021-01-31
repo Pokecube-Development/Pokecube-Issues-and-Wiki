@@ -15,7 +15,7 @@ import net.minecraft.util.math.EntityPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
+import pokecube.core.ai.brain.sensors.InterestingMobs;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -109,11 +109,9 @@ public class MateTask extends BaseIdleTask
     @Override
     public boolean shouldRun()
     {
-        if (!this.pokemob.getPokedexEntry().breeds) return false;
-        if (this.pokemob.getPokedexEntry().isLegendary() && !PokecubeCore.getConfig().legendsBreed) return false;
-        if (!this.pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
-        if (this.pokemob.getSexe() == IPokemob.MALE || !this.pokemob.canBreed()) return false;
-        if (this.pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(this.entity)) return false;
+        if (!InterestingMobs.canPokemobMate(this.pokemob)) return false;
+        // This AI is only run on the female side.
+        if (this.pokemob.getSexe() == IPokemob.MALE) return false;
         this.mate = BrainUtils.getMateTarget(this.entity);
         if (this.mate != null && !this.mate.isAlive())
         {

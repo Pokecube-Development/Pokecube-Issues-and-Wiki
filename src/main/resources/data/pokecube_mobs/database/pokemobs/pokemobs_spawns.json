@@ -1,7 +1,7 @@
 {
   "pokemon": [
     {
-      "name": "Bulbasaur",
+      "name": "bulbasaur",
       "stats": {
         "spawnRules": [
           {
@@ -16,7 +16,7 @@
       }
     },
     {
-      "name": "Charmander",
+      "name": "charmander",
       "stats": {
         "spawnRules": [
           {
@@ -31,7 +31,7 @@
       }
     },
     {
-      "name": "Squirtle",
+      "name": "squirtle",
       "stats": {
         "spawnRules": [
           {
@@ -47,7 +47,7 @@
       }
     },
     {
-      "name": "Caterpie",
+      "name": "caterpie",
       "stats": {
         "spawnRules": [
           {
@@ -72,7 +72,7 @@
       }
     },
     {
-      "name": "Weedle",
+      "name": "weedle",
       "stats": {
         "spawnRules": [
           {
@@ -97,7 +97,7 @@
       }
     },
     {
-      "name": "Pidgey",
+      "name": "pidgey",
       "stats": {
         "spawnRules": [
           {
@@ -111,7 +111,7 @@
       }
     },
     {
-      "name": "Rattata",
+      "name": "rattata",
       "stats": {
         "spawnRules": [
           {
@@ -134,7 +134,7 @@
       }
     },
     {
-      "name": "Rattata Alola",
+      "name": "rattata_alola",
       "stats": {
         "spawnRules": [
           {
@@ -157,7 +157,7 @@
       }
     },
     {
-      "name": "Spearow",
+      "name": "spearow",
       "stats": {
         "spawnRules": [
           {
@@ -176,7 +176,7 @@
       }
     },
     {
-      "name": "Ekans",
+      "name": "ekans",
       "stats": {
         "spawnRules": [
           {
@@ -189,7 +189,7 @@
       }
     },
     {
-      "name": "Pikachu",
+      "name": "pikachu",
       "stats": {
         "spawnRules": [
           {
@@ -205,7 +205,7 @@
       }
     },
     {
-      "name": "Sandshrew",
+      "name": "sandshrew",
       "stats": {
         "spawnRules": [
           {
@@ -226,7 +226,7 @@
       }
     },
     {
-      "name": "Sandshrew Alola",
+      "name": "sandshrew_alola",
       "stats": {
         "spawnRules": [
           {
@@ -239,7 +239,7 @@
       }
     },
     {
-      "name": "NidoranF",
+      "name": "nidoranf",
       "stats": {
         "spawnRules": [
           {
@@ -253,7 +253,7 @@
       }
     },
     {
-      "name": "NidoranM",
+      "name": "nidoranm",
       "stats": {
         "spawnRules": [
           {
@@ -267,7 +267,7 @@
       }
     },
     {
-      "name": "Clefairy",
+      "name": "clefairy",
       "stats": {
         "spawnRules": [
           {
@@ -286,7 +286,7 @@
       }
     },
     {
-      "name": "Vulpix",
+      "name": "vulpix",
       "stats": {
         "spawnRules": [
           {
@@ -299,7 +299,7 @@
       }
     },
     {
-      "name": "Vulpix Alola",
+      "name": "vulpix_alola",
       "stats": {
         "spawnRules": [
           {
@@ -312,7 +312,7 @@
       }
     },
     {
-      "name": "Jigglypuff",
+      "name": "jigglypuff",
       "stats": {
         "spawnRules": [
           {
@@ -331,14 +331,14 @@
       }
     },
     {
-      "name": "Zubat",
+      "name": "zubat",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "maxLight": "0.5",
               "types": "all",
-              "biomesBlacklist":"pokecube_legends:distorted_biome",
+              "biomesBlacklist": "pokecube_legends:distorted_biome",
               "min": "3",
               "rate": "0.25",
               "max": "8",
@@ -349,7 +349,7 @@
       }
     },
     {
-      "name": "Oddish",
+      "name": "oddish",
       "stats": {
         "spawnRules": [
           {
@@ -364,7 +364,7 @@
       }
     },
     {
-      "name": "Paras",
+      "name": "paras",
       "stats": {
         "spawnRules": [
           {
@@ -392,7 +392,7 @@
       }
     },
     {
-      "name": "Venonat",
+      "name": "venonat",
       "stats": {
         "spawnRules": [
           {
@@ -406,7 +406,7 @@
       }
     },
     {
-      "name": "Diglett",
+      "name": "diglett",
       "stats": {
         "spawnRules": [
           {
@@ -437,7 +437,7 @@
       }
     },
     {
-      "name": "Diglett Alola",
+      "name": "diglett_alola",
       "stats": {
         "spawnRules": [
           {
@@ -468,7 +468,7 @@
       }
     },
     {
-      "name": "Meowth",
+      "name": "meowth",
       "stats": {
         "spawnRules": [
           {
@@ -487,7 +487,7 @@
       }
     },
     {
-      "name": "Meowth Alola",
+      "name": "meowth_alola",
       "stats": {
         "spawnRules": [
           {
@@ -500,7 +500,7 @@
       }
     },
     {
-      "name": "Meowth Galar",
+      "name": "meowth_galar",
       "stats": {
         "spawnRules": [
           {
@@ -514,7 +514,7 @@
       }
     },
     {
-      "name": "Psyduck",
+      "name": "psyduck",
       "stats": {
         "spawnRules": [
           {
@@ -545,7 +545,7 @@
       }
     },
     {
-      "name": "Mankey",
+      "name": "mankey",
       "stats": {
         "spawnRules": [
           {
@@ -559,7 +559,7 @@
       }
     },
     {
-      "name": "Growlithe",
+      "name": "growlithe",
       "stats": {
         "spawnRules": [
           {
@@ -573,7 +573,7 @@
       }
     },
     {
-      "name": "Poliwag",
+      "name": "poliwag",
       "stats": {
         "spawnRules": [
           {
@@ -594,7 +594,7 @@
       }
     },
     {
-      "name": "Abra",
+      "name": "abra",
       "stats": {
         "spawnRules": [
           {
@@ -613,7 +613,7 @@
       }
     },
     {
-      "name": "Machop",
+      "name": "machop",
       "stats": {
         "spawnRules": [
           {
@@ -632,7 +632,7 @@
       }
     },
     {
-      "name": "Bellsprout",
+      "name": "bellsprout",
       "stats": {
         "spawnRules": [
           {
@@ -647,7 +647,7 @@
       }
     },
     {
-      "name": "Tentacool",
+      "name": "tentacool",
       "stats": {
         "spawnRules": [
           {
@@ -661,7 +661,7 @@
       }
     },
     {
-      "name": "Geodude",
+      "name": "geodude",
       "stats": {
         "spawnRules": [
           {
@@ -680,7 +680,7 @@
       }
     },
     {
-      "name": "Geodude Alola",
+      "name": "geodude_alola",
       "stats": {
         "spawnRules": [
           {
@@ -699,7 +699,7 @@
       }
     },
     {
-      "name": "Ponyta",
+      "name": "ponyta",
       "stats": {
         "spawnRules": [
           {
@@ -712,7 +712,7 @@
       }
     },
     {
-      "name": "Ponyta Galar",
+      "name": "ponyta_galar",
       "stats": {
         "spawnRules": [
           {
@@ -725,7 +725,7 @@
       }
     },
     {
-      "name": "Slowpoke",
+      "name": "slowpoke",
       "stats": {
         "spawnRules": [
           {
@@ -774,7 +774,7 @@
       }
     },
     {
-      "name": "Slowpoke Galar",
+      "name": "slowpoke_galar",
       "stats": {
         "spawnRules": [
           {
@@ -821,7 +821,7 @@
       }
     },
     {
-      "name": "Magnemite",
+      "name": "magnemite",
       "stats": {
         "spawnRules": [
           {
@@ -834,7 +834,7 @@
       }
     },
     {
-      "name": "Farfetch'd",
+      "name": "farfetchd",
       "stats": {
         "spawnRules": [
           {
@@ -859,7 +859,7 @@
       }
     },
     {
-      "name": "Farfetch'd Galar",
+      "name": "farfetchd_galar",
       "stats": {
         "spawnRules": [
           {
@@ -878,7 +878,7 @@
       }
     },
     {
-      "name": "Doduo",
+      "name": "doduo",
       "stats": {
         "spawnRules": [
           {
@@ -891,7 +891,7 @@
       }
     },
     {
-      "name": "Seel",
+      "name": "seel",
       "stats": {
         "spawnRules": [
           {
@@ -912,7 +912,7 @@
       }
     },
     {
-      "name": "Grimer",
+      "name": "grimer",
       "stats": {
         "spawnRules": [
           {
@@ -925,7 +925,7 @@
       }
     },
     {
-      "name": "Grimer Alola",
+      "name": "grimer_alola",
       "stats": {
         "spawnRules": [
           {
@@ -938,7 +938,7 @@
       }
     },
     {
-      "name": "Shellder",
+      "name": "shellder",
       "stats": {
         "spawnRules": [
           {
@@ -959,7 +959,7 @@
       }
     },
     {
-      "name": "Gastly",
+      "name": "gastly",
       "stats": {
         "spawnRules": [
           {
@@ -978,7 +978,7 @@
       }
     },
     {
-      "name": "Onix",
+      "name": "onix",
       "stats": {
         "spawnRules": [
           {
@@ -1003,7 +1003,7 @@
       }
     },
     {
-      "name": "Drowzee",
+      "name": "drowzee",
       "stats": {
         "spawnRules": [
           {
@@ -1016,7 +1016,7 @@
       }
     },
     {
-      "name": "Krabby",
+      "name": "krabby",
       "stats": {
         "spawnRules": [
           {
@@ -1065,7 +1065,7 @@
       }
     },
     {
-      "name": "Voltorb",
+      "name": "voltorb",
       "stats": {
         "spawnRules": [
           {
@@ -1078,7 +1078,7 @@
       }
     },
     {
-      "name": "Exeggcute",
+      "name": "exeggcute",
       "stats": {
         "spawnRules": [
           {
@@ -1093,7 +1093,7 @@
       }
     },
     {
-      "name": "Cubone",
+      "name": "cubone",
       "stats": {
         "spawnRules": [
           {
@@ -1116,7 +1116,7 @@
       }
     },
     {
-      "name": "Lickitung",
+      "name": "lickitung",
       "stats": {
         "spawnRules": [
           {
@@ -1130,7 +1130,7 @@
       }
     },
     {
-      "name": "Koffing",
+      "name": "koffing",
       "stats": {
         "spawnRules": [
           {
@@ -1143,7 +1143,7 @@
       }
     },
     {
-      "name": "Rhyhorn",
+      "name": "rhyhorn",
       "stats": {
         "spawnRules": [
           {
@@ -1162,7 +1162,7 @@
       }
     },
     {
-      "name": "Chansey",
+      "name": "chansey",
       "stats": {
         "spawnRules": [
           {
@@ -1181,7 +1181,7 @@
       }
     },
     {
-      "name": "Tangela",
+      "name": "tangela",
       "stats": {
         "spawnRules": [
           {
@@ -1200,7 +1200,7 @@
       }
     },
     {
-      "name": "Kangaskhan",
+      "name": "kangaskhan",
       "stats": {
         "spawnRules": [
           {
@@ -1213,7 +1213,7 @@
       }
     },
     {
-      "name": "Horsea",
+      "name": "horsea",
       "stats": {
         "spawnRules": [
           {
@@ -1234,7 +1234,7 @@
       }
     },
     {
-      "name": "Goldeen",
+      "name": "goldeen",
       "stats": {
         "spawnRules": [
           {
@@ -1269,7 +1269,7 @@
       }
     },
     {
-      "name": "Staryu",
+      "name": "staryu",
       "stats": {
         "spawnRules": [
           {
@@ -1290,7 +1290,7 @@
       }
     },
     {
-      "name": "Mr. Mime",
+      "name": "mr_mime",
       "stats": {
         "spawnRules": [
           {
@@ -1303,7 +1303,7 @@
       }
     },
     {
-      "name": "Mr. Mime Galar",
+      "name": "mr_mime_galar",
       "stats": {
         "spawnRules": [
           {
@@ -1316,7 +1316,7 @@
       }
     },
     {
-      "name": "Scyther",
+      "name": "scyther",
       "stats": {
         "spawnRules": [
           {
@@ -1329,7 +1329,7 @@
       }
     },
     {
-      "name": "Jynx",
+      "name": "jynx",
       "stats": {
         "spawnRules": [
           {
@@ -1348,7 +1348,7 @@
       }
     },
     {
-      "name": "Electabuzz",
+      "name": "electabuzz",
       "stats": {
         "spawnRules": [
           {
@@ -1361,7 +1361,7 @@
       }
     },
     {
-      "name": "Magmar",
+      "name": "magmar",
       "stats": {
         "spawnRules": [
           {
@@ -1374,7 +1374,7 @@
       }
     },
     {
-      "name": "Pinsir",
+      "name": "pinsir",
       "stats": {
         "spawnRules": [
           {
@@ -1387,7 +1387,7 @@
       }
     },
     {
-      "name": "Tauros",
+      "name": "tauros",
       "stats": {
         "spawnRules": [
           {
@@ -1400,7 +1400,7 @@
       }
     },
     {
-      "name": "Magikarp",
+      "name": "magikarp",
       "stats": {
         "spawnRules": [
           {
@@ -1435,7 +1435,7 @@
       }
     },
     {
-      "name": "Lapras",
+      "name": "lapras",
       "stats": {
         "spawnRules": [
           {
@@ -1449,7 +1449,7 @@
       }
     },
     {
-      "name": "Ditto",
+      "name": "ditto",
       "stats": {
         "spawnRules": [
           {
@@ -1462,7 +1462,7 @@
       }
     },
     {
-      "name": "Eevee",
+      "name": "eevee",
       "stats": {
         "spawnRules": [
           {
@@ -1475,7 +1475,7 @@
       }
     },
     {
-      "name": "Porygon",
+      "name": "porygon",
       "stats": {
         "spawnRules": [
           {
@@ -1488,7 +1488,7 @@
       }
     },
     {
-      "name": "Snorlax",
+      "name": "snorlax",
       "stats": {
         "spawnRules": [
           {
@@ -1507,7 +1507,7 @@
       }
     },
     {
-      "name": "Articuno",
+      "name": "articuno",
       "stats": {
         "spawnRules": [
           {
@@ -1530,7 +1530,7 @@
       }
     },
     {
-      "name": "Articuno Galar",
+      "name": "articuno_galar",
       "stats": {
         "spawnRules": [
           {
@@ -1545,7 +1545,7 @@
       }
     },
     {
-      "name": "Zapdos",
+      "name": "zapdos",
       "stats": {
         "spawnRules": [
           {
@@ -1568,7 +1568,7 @@
       }
     },
     {
-      "name": "Zapdos Galar",
+      "name": "zapdos_galar",
       "stats": {
         "spawnRules": [
           {
@@ -1583,22 +1583,7 @@
       }
     },
     {
-      "name": "Moltres Galar",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "structures": "pokecube_legends:legendy_tree",
-              "min": "1",
-              "rate": "0.02",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Moltres",
+      "name": "moltres",
       "stats": {
         "spawnRules": [
           {
@@ -1621,7 +1606,22 @@
       }
     },
     {
-      "name": "Dratini",
+      "name": "moltres_galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:legendy_tree",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "dratini",
       "stats": {
         "spawnRules": [
           {
@@ -1635,7 +1635,7 @@
       }
     },
     {
-      "name": "Mew",
+      "name": "mew",
       "stats": {
         "spawnRules": [
           {
@@ -1648,7 +1648,7 @@
       }
     },
     {
-      "name": "Chikorita",
+      "name": "chikorita",
       "stats": {
         "spawnRules": [
           {
@@ -1663,7 +1663,7 @@
       }
     },
     {
-      "name": "Cyndaquil",
+      "name": "cyndaquil",
       "stats": {
         "spawnRules": [
           {
@@ -1678,7 +1678,7 @@
       }
     },
     {
-      "name": "Totodile",
+      "name": "totodile",
       "stats": {
         "spawnRules": [
           {
@@ -1694,7 +1694,7 @@
       }
     },
     {
-      "name": "Sentret",
+      "name": "sentret",
       "stats": {
         "spawnRules": [
           {
@@ -1708,7 +1708,7 @@
       }
     },
     {
-      "name": "Hoothoot",
+      "name": "hoothoot",
       "stats": {
         "spawnRules": [
           {
@@ -1729,7 +1729,7 @@
       }
     },
     {
-      "name": "Ledyba",
+      "name": "ledyba",
       "stats": {
         "spawnRules": [
           {
@@ -1744,7 +1744,7 @@
       }
     },
     {
-      "name": "Spinarak",
+      "name": "spinarak",
       "stats": {
         "spawnRules": [
           {
@@ -1758,7 +1758,7 @@
       }
     },
     {
-      "name": "Chinchou",
+      "name": "chinchou",
       "stats": {
         "spawnRules": [
           {
@@ -1772,7 +1772,7 @@
       }
     },
     {
-      "name": "Togepi",
+      "name": "togepi",
       "stats": {
         "spawnRules": [
           {
@@ -1786,7 +1786,7 @@
       }
     },
     {
-      "name": "Natu",
+      "name": "natu",
       "stats": {
         "spawnRules": [
           {
@@ -1807,7 +1807,7 @@
       }
     },
     {
-      "name": "Mareep",
+      "name": "mareep",
       "stats": {
         "spawnRules": [
           {
@@ -1821,7 +1821,7 @@
       }
     },
     {
-      "name": "Marill",
+      "name": "marill",
       "stats": {
         "spawnRules": [
           {
@@ -1842,7 +1842,7 @@
       }
     },
     {
-      "name": "Hoppip",
+      "name": "hoppip",
       "stats": {
         "spawnRules": [
           {
@@ -1857,7 +1857,7 @@
       }
     },
     {
-      "name": "Aipom",
+      "name": "aipom",
       "stats": {
         "spawnRules": [
           {
@@ -1870,7 +1870,7 @@
       }
     },
     {
-      "name": "Sunkern",
+      "name": "sunkern",
       "stats": {
         "spawnRules": [
           {
@@ -1893,7 +1893,7 @@
       }
     },
     {
-      "name": "Yanma",
+      "name": "yanma",
       "stats": {
         "spawnRules": [
           {
@@ -1921,7 +1921,7 @@
       }
     },
     {
-      "name": "Wooper",
+      "name": "wooper",
       "stats": {
         "spawnRules": [
           {
@@ -1940,7 +1940,7 @@
       }
     },
     {
-      "name": "Murkrow",
+      "name": "murkrow",
       "stats": {
         "spawnRules": [
           {
@@ -1955,7 +1955,7 @@
       }
     },
     {
-      "name": "Misdreavus",
+      "name": "misdreavus",
       "stats": {
         "spawnRules": [
           {
@@ -1969,32 +1969,32 @@
       }
     },
     {
-      "name": "Unown",
+      "name": "unown",
       "stats": {
         "spawnRules": [
           {
-            "model": {
-              "key": "unown_*"
-            },
             "values": {
               "types": "ruin",
               "rate": "0.5"
+            },
+            "model": {
+              "key": "unown_*"
             }
           },
           {
-            "model": {
-              "key": "unown_*"
-            },
             "values": {
               "biomes": "pokecube_legends:distorted_biome",
               "rate": "0.3"
+            },
+            "model": {
+              "key": "unown_*"
             }
           }
         ]
       }
     },
     {
-      "name": "Wobbuffet",
+      "name": "wobbuffet",
       "stats": {
         "spawnRules": [
           {
@@ -2013,7 +2013,7 @@
       }
     },
     {
-      "name": "Girafarig",
+      "name": "girafarig",
       "stats": {
         "spawnRules": [
           {
@@ -2034,7 +2034,7 @@
       }
     },
     {
-      "name": "Pineco",
+      "name": "pineco",
       "stats": {
         "spawnRules": [
           {
@@ -2047,7 +2047,7 @@
       }
     },
     {
-      "name": "Dunsparce",
+      "name": "dunsparce",
       "stats": {
         "spawnRules": [
           {
@@ -2072,7 +2072,7 @@
       }
     },
     {
-      "name": "Gligar",
+      "name": "gligar",
       "stats": {
         "spawnRules": [
           {
@@ -2097,7 +2097,7 @@
       }
     },
     {
-      "name": "Snubbull",
+      "name": "snubbull",
       "stats": {
         "spawnRules": [
           {
@@ -2110,7 +2110,7 @@
       }
     },
     {
-      "name": "Qwilfish",
+      "name": "qwilfish",
       "stats": {
         "spawnRules": [
           {
@@ -2124,7 +2124,7 @@
       }
     },
     {
-      "name": "Shuckle",
+      "name": "shuckle",
       "stats": {
         "spawnRules": [
           {
@@ -2161,7 +2161,7 @@
       }
     },
     {
-      "name": "Heracross",
+      "name": "heracross",
       "stats": {
         "spawnRules": [
           {
@@ -2182,7 +2182,7 @@
       }
     },
     {
-      "name": "Sneasel",
+      "name": "sneasel",
       "stats": {
         "spawnRules": [
           {
@@ -2201,7 +2201,7 @@
       }
     },
     {
-      "name": "Teddiursa",
+      "name": "teddiursa",
       "stats": {
         "spawnRules": [
           {
@@ -2220,7 +2220,7 @@
       }
     },
     {
-      "name": "Slugma",
+      "name": "slugma",
       "stats": {
         "spawnRules": [
           {
@@ -2243,7 +2243,7 @@
       }
     },
     {
-      "name": "Swinub",
+      "name": "swinub",
       "stats": {
         "spawnRules": [
           {
@@ -2262,7 +2262,7 @@
       }
     },
     {
-      "name": "Corsola",
+      "name": "corsola",
       "stats": {
         "spawnRules": [
           {
@@ -2283,7 +2283,7 @@
       }
     },
     {
-      "name": "Corsola Galar",
+      "name": "corsola_galar",
       "stats": {
         "spawnRules": [
           {
@@ -2303,7 +2303,7 @@
       }
     },
     {
-      "name": "Remoraid",
+      "name": "remoraid",
       "stats": {
         "spawnRules": [
           {
@@ -2317,7 +2317,7 @@
       }
     },
     {
-      "name": "Delibird",
+      "name": "delibird",
       "stats": {
         "spawnRules": [
           {
@@ -2336,7 +2336,7 @@
       }
     },
     {
-      "name": "Mantine",
+      "name": "mantine",
       "stats": {
         "spawnRules": [
           {
@@ -2357,7 +2357,7 @@
       }
     },
     {
-      "name": "Skarmory",
+      "name": "skarmory",
       "stats": {
         "spawnRules": [
           {
@@ -2376,7 +2376,7 @@
       }
     },
     {
-      "name": "Houndour",
+      "name": "houndour",
       "stats": {
         "spawnRules": [
           {
@@ -2390,7 +2390,7 @@
       }
     },
     {
-      "name": "Phanpy",
+      "name": "phanpy",
       "stats": {
         "spawnRules": [
           {
@@ -2404,7 +2404,7 @@
       }
     },
     {
-      "name": "Stantler",
+      "name": "stantler",
       "stats": {
         "spawnRules": [
           {
@@ -2418,7 +2418,7 @@
       }
     },
     {
-      "name": "Smeargle",
+      "name": "smeargle",
       "stats": {
         "spawnRules": [
           {
@@ -2431,7 +2431,7 @@
       }
     },
     {
-      "name": "Tyrogue",
+      "name": "tyrogue",
       "stats": {
         "spawnRules": [
           {
@@ -2444,7 +2444,7 @@
       }
     },
     {
-      "name": "Miltank",
+      "name": "miltank",
       "stats": {
         "spawnRules": [
           {
@@ -2458,7 +2458,7 @@
       }
     },
     {
-      "name": "Raikou",
+      "name": "raikou",
       "stats": {
         "spawnRules": [
           {
@@ -2489,7 +2489,7 @@
       }
     },
     {
-      "name": "Entei",
+      "name": "entei",
       "stats": {
         "spawnRules": [
           {
@@ -2520,7 +2520,7 @@
       }
     },
     {
-      "name": "Suicune",
+      "name": "suicune",
       "stats": {
         "spawnRules": [
           {
@@ -2551,7 +2551,7 @@
       }
     },
     {
-      "name": "Larvitar",
+      "name": "larvitar",
       "stats": {
         "spawnRules": [
           {
@@ -2572,7 +2572,7 @@
       }
     },
     {
-      "name": "Treecko",
+      "name": "treecko",
       "stats": {
         "spawnRules": [
           {
@@ -2587,7 +2587,7 @@
       }
     },
     {
-      "name": "Torchic",
+      "name": "torchic",
       "stats": {
         "spawnRules": [
           {
@@ -2602,7 +2602,7 @@
       }
     },
     {
-      "name": "Mudkip",
+      "name": "mudkip",
       "stats": {
         "spawnRules": [
           {
@@ -2617,7 +2617,7 @@
       }
     },
     {
-      "name": "Poochyena",
+      "name": "poochyena",
       "stats": {
         "spawnRules": [
           {
@@ -2631,7 +2631,7 @@
       }
     },
     {
-      "name": "Zigzagoon",
+      "name": "zigzagoon",
       "stats": {
         "spawnRules": [
           {
@@ -2652,7 +2652,7 @@
       }
     },
     {
-      "name": "Zigzagoon Galar",
+      "name": "zigzagoon_galar",
       "stats": {
         "spawnRules": [
           {
@@ -2675,7 +2675,7 @@
       }
     },
     {
-      "name": "Wurmple",
+      "name": "wurmple",
       "stats": {
         "spawnRules": [
           {
@@ -2700,7 +2700,7 @@
       }
     },
     {
-      "name": "Lotad",
+      "name": "lotad",
       "stats": {
         "spawnRules": [
           {
@@ -2731,7 +2731,7 @@
       }
     },
     {
-      "name": "Seedot",
+      "name": "seedot",
       "stats": {
         "spawnRules": [
           {
@@ -2746,7 +2746,7 @@
       }
     },
     {
-      "name": "Taillow",
+      "name": "taillow",
       "stats": {
         "spawnRules": [
           {
@@ -2767,7 +2767,7 @@
       }
     },
     {
-      "name": "Wingull",
+      "name": "wingull",
       "stats": {
         "spawnRules": [
           {
@@ -2788,7 +2788,7 @@
       }
     },
     {
-      "name": "Ralts",
+      "name": "ralts",
       "stats": {
         "spawnRules": [
           {
@@ -2801,7 +2801,7 @@
       }
     },
     {
-      "name": "Surskit",
+      "name": "surskit",
       "stats": {
         "spawnRules": [
           {
@@ -2824,7 +2824,7 @@
       }
     },
     {
-      "name": "Shroomish",
+      "name": "shroomish",
       "stats": {
         "spawnRules": [
           {
@@ -2852,7 +2852,7 @@
       }
     },
     {
-      "name": "Slakoth",
+      "name": "slakoth",
       "stats": {
         "spawnRules": [
           {
@@ -2873,7 +2873,7 @@
       }
     },
     {
-      "name": "Nincada",
+      "name": "nincada",
       "stats": {
         "spawnRules": [
           {
@@ -2894,7 +2894,7 @@
       }
     },
     {
-      "name": "Whismur",
+      "name": "whismur",
       "stats": {
         "spawnRules": [
           {
@@ -2913,7 +2913,7 @@
       }
     },
     {
-      "name": "Makuhita",
+      "name": "makuhita",
       "stats": {
         "spawnRules": [
           {
@@ -2932,7 +2932,7 @@
       }
     },
     {
-      "name": "Nosepass",
+      "name": "nosepass",
       "stats": {
         "spawnRules": [
           {
@@ -2951,7 +2951,7 @@
       }
     },
     {
-      "name": "Skitty",
+      "name": "skitty",
       "stats": {
         "spawnRules": [
           {
@@ -2964,7 +2964,7 @@
       }
     },
     {
-      "name": "Sableye",
+      "name": "sableye",
       "stats": {
         "spawnRules": [
           {
@@ -2992,7 +2992,7 @@
       }
     },
     {
-      "name": "Mawile",
+      "name": "mawile",
       "stats": {
         "spawnRules": [
           {
@@ -3011,7 +3011,7 @@
       }
     },
     {
-      "name": "Aron",
+      "name": "aron",
       "stats": {
         "spawnRules": [
           {
@@ -3030,7 +3030,7 @@
       }
     },
     {
-      "name": "Meditite",
+      "name": "meditite",
       "stats": {
         "spawnRules": [
           {
@@ -3049,7 +3049,7 @@
       }
     },
     {
-      "name": "Electrike",
+      "name": "electrike",
       "stats": {
         "spawnRules": [
           {
@@ -3063,7 +3063,7 @@
       }
     },
     {
-      "name": "Plusle",
+      "name": "plusle",
       "stats": {
         "spawnRules": [
           {
@@ -3077,7 +3077,7 @@
       }
     },
     {
-      "name": "Minun",
+      "name": "minun",
       "stats": {
         "spawnRules": [
           {
@@ -3091,7 +3091,7 @@
       }
     },
     {
-      "name": "Volbeat",
+      "name": "volbeat",
       "stats": {
         "spawnRules": [
           {
@@ -3114,7 +3114,7 @@
       }
     },
     {
-      "name": "Illumise",
+      "name": "illumise",
       "stats": {
         "spawnRules": [
           {
@@ -3137,7 +3137,7 @@
       }
     },
     {
-      "name": "Roselia",
+      "name": "roselia",
       "stats": {
         "spawnRules": [
           {
@@ -3165,7 +3165,7 @@
       }
     },
     {
-      "name": "Gulpin",
+      "name": "gulpin",
       "stats": {
         "spawnRules": [
           {
@@ -3184,7 +3184,7 @@
       }
     },
     {
-      "name": "Carvanha",
+      "name": "carvanha",
       "stats": {
         "spawnRules": [
           {
@@ -3198,7 +3198,7 @@
       }
     },
     {
-      "name": "Wailmer",
+      "name": "wailmer",
       "stats": {
         "spawnRules": [
           {
@@ -3212,7 +3212,7 @@
       }
     },
     {
-      "name": "Numel",
+      "name": "numel",
       "stats": {
         "spawnRules": [
           {
@@ -3254,7 +3254,7 @@
       }
     },
     {
-      "name": "Torkoal",
+      "name": "torkoal",
       "stats": {
         "spawnRules": [
           {
@@ -3296,7 +3296,7 @@
       }
     },
     {
-      "name": "Spoink",
+      "name": "spoink",
       "stats": {
         "spawnRules": [
           {
@@ -3338,7 +3338,7 @@
       }
     },
     {
-      "name": "Spinda",
+      "name": "spinda",
       "stats": {
         "spawnRules": [
           {
@@ -3380,7 +3380,7 @@
       }
     },
     {
-      "name": "Trapinch",
+      "name": "trapinch",
       "stats": {
         "spawnRules": [
           {
@@ -3401,7 +3401,7 @@
       }
     },
     {
-      "name": "Cacnea",
+      "name": "cacnea",
       "stats": {
         "spawnRules": [
           {
@@ -3416,7 +3416,7 @@
       }
     },
     {
-      "name": "Swablu",
+      "name": "swablu",
       "stats": {
         "spawnRules": [
           {
@@ -3429,7 +3429,7 @@
       }
     },
     {
-      "name": "Zangoose",
+      "name": "zangoose",
       "stats": {
         "spawnRules": [
           {
@@ -3442,7 +3442,7 @@
       }
     },
     {
-      "name": "Seviper",
+      "name": "seviper",
       "stats": {
         "spawnRules": [
           {
@@ -3455,7 +3455,7 @@
       }
     },
     {
-      "name": "Lunatone",
+      "name": "lunatone",
       "stats": {
         "spawnRules": [
           {
@@ -3476,7 +3476,7 @@
       }
     },
     {
-      "name": "Solrock",
+      "name": "solrock",
       "stats": {
         "spawnRules": [
           {
@@ -3497,7 +3497,7 @@
       }
     },
     {
-      "name": "Barboach",
+      "name": "barboach",
       "stats": {
         "spawnRules": [
           {
@@ -3525,7 +3525,7 @@
       }
     },
     {
-      "name": "Corphish",
+      "name": "corphish",
       "stats": {
         "spawnRules": [
           {
@@ -3548,7 +3548,7 @@
       }
     },
     {
-      "name": "Baltoy",
+      "name": "baltoy",
       "stats": {
         "spawnRules": [
           {
@@ -3569,7 +3569,7 @@
       }
     },
     {
-      "name": "Feebas",
+      "name": "feebas",
       "stats": {
         "spawnRules": [
           {
@@ -3583,7 +3583,7 @@
       }
     },
     {
-      "name": "Castform",
+      "name": "castform",
       "stats": {
         "spawnRules": [
           {
@@ -3602,7 +3602,7 @@
       }
     },
     {
-      "name": "Kecleon",
+      "name": "kecleon",
       "stats": {
         "spawnRules": [
           {
@@ -3623,7 +3623,7 @@
       }
     },
     {
-      "name": "Shuppet",
+      "name": "shuppet",
       "stats": {
         "spawnRules": [
           {
@@ -3636,7 +3636,7 @@
       }
     },
     {
-      "name": "Duskull",
+      "name": "duskull",
       "stats": {
         "spawnRules": [
           {
@@ -3649,7 +3649,7 @@
       }
     },
     {
-      "name": "Tropius",
+      "name": "tropius",
       "stats": {
         "spawnRules": [
           {
@@ -3663,7 +3663,7 @@
       }
     },
     {
-      "name": "Chimecho",
+      "name": "chimecho",
       "stats": {
         "spawnRules": [
           {
@@ -3676,7 +3676,7 @@
       }
     },
     {
-      "name": "Absol",
+      "name": "absol",
       "stats": {
         "spawnRules": [
           {
@@ -3697,7 +3697,7 @@
       }
     },
     {
-      "name": "Snorunt",
+      "name": "snorunt",
       "stats": {
         "spawnRules": [
           {
@@ -3718,7 +3718,7 @@
       }
     },
     {
-      "name": "Spheal",
+      "name": "spheal",
       "stats": {
         "spawnRules": [
           {
@@ -3753,7 +3753,7 @@
       }
     },
     {
-      "name": "Clamperl",
+      "name": "clamperl",
       "stats": {
         "spawnRules": [
           {
@@ -3774,7 +3774,7 @@
       }
     },
     {
-      "name": "Relicanth",
+      "name": "relicanth",
       "stats": {
         "spawnRules": [
           {
@@ -3795,7 +3795,7 @@
       }
     },
     {
-      "name": "Luvdisc",
+      "name": "luvdisc",
       "stats": {
         "spawnRules": [
           {
@@ -3809,7 +3809,7 @@
       }
     },
     {
-      "name": "Bagon",
+      "name": "bagon",
       "stats": {
         "spawnRules": [
           {
@@ -3822,7 +3822,7 @@
       }
     },
     {
-      "name": "Beldum",
+      "name": "beldum",
       "stats": {
         "spawnRules": [
           {
@@ -3841,7 +3841,7 @@
       }
     },
     {
-      "name": "Latias",
+      "name": "latias",
       "stats": {
         "spawnRules": [
           {
@@ -3856,7 +3856,7 @@
       }
     },
     {
-      "name": "Latios",
+      "name": "latios",
       "stats": {
         "spawnRules": [
           {
@@ -3871,7 +3871,7 @@
       }
     },
     {
-      "name": "Rayquaza",
+      "name": "rayquaza",
       "stats": {
         "spawnRules": [
           {
@@ -3886,7 +3886,7 @@
       }
     },
     {
-      "name": "Jirachi",
+      "name": "jirachi",
       "stats": {
         "spawnRules": [
           {
@@ -3901,7 +3901,7 @@
       }
     },
     {
-      "name": "Deoxys",
+      "name": "deoxys",
       "stats": {
         "spawnRules": [
           {
@@ -3916,7 +3916,7 @@
       }
     },
     {
-      "name": "Turtwig",
+      "name": "turtwig",
       "stats": {
         "spawnRules": [
           {
@@ -3931,7 +3931,7 @@
       }
     },
     {
-      "name": "Chimchar",
+      "name": "chimchar",
       "stats": {
         "spawnRules": [
           {
@@ -3946,7 +3946,7 @@
       }
     },
     {
-      "name": "Piplup",
+      "name": "piplup",
       "stats": {
         "spawnRules": [
           {
@@ -3961,7 +3961,7 @@
       }
     },
     {
-      "name": "Starly",
+      "name": "starly",
       "stats": {
         "spawnRules": [
           {
@@ -3975,7 +3975,7 @@
       }
     },
     {
-      "name": "Bidoof",
+      "name": "bidoof",
       "stats": {
         "spawnRules": [
           {
@@ -3996,7 +3996,7 @@
       }
     },
     {
-      "name": "Kricketot",
+      "name": "kricketot",
       "stats": {
         "spawnRules": [
           {
@@ -4009,7 +4009,7 @@
       }
     },
     {
-      "name": "Shinx",
+      "name": "shinx",
       "stats": {
         "spawnRules": [
           {
@@ -4029,7 +4029,7 @@
       }
     },
     {
-      "name": "Burmy",
+      "name": "burmy",
       "stats": {
         "spawnRules": [
           {
@@ -4049,7 +4049,7 @@
       }
     },
     {
-      "name": "Combee",
+      "name": "combee",
       "stats": {
         "spawnRules": [
           {
@@ -4070,7 +4070,7 @@
       }
     },
     {
-      "name": "Pachirisu",
+      "name": "pachirisu",
       "stats": {
         "spawnRules": [
           {
@@ -4083,7 +4083,7 @@
       }
     },
     {
-      "name": "Buizel",
+      "name": "buizel",
       "stats": {
         "spawnRules": [
           {
@@ -4138,7 +4138,7 @@
       }
     },
     {
-      "name": "Cherubi",
+      "name": "cherubi",
       "stats": {
         "spawnRules": [
           {
@@ -4152,7 +4152,7 @@
       }
     },
     {
-      "name": "Shellos",
+      "name": "shellos",
       "stats": {
         "spawnRules": [
           {
@@ -4188,66 +4188,66 @@
             }
           },
           {
-            "model": {
-              "key": "shellos_west",
-              "tex": "shellos_west",
-              "model": "shellos_west",
-              "anim": "shellos_west"
-            },
             "values": {
               "typesBlacklist": "cold",
               "types": "ocean,cave",
               "rate": "0.1",
               "water": "true"
-            }
-          },
-          {
+            },
             "model": {
               "key": "shellos_west",
               "tex": "shellos_west",
               "model": "shellos_west",
               "anim": "shellos_west"
-            },
+            }
+          },
+          {
             "values": {
               "typesBlacklist": "cold",
               "types": "beach,cave",
               "rate": "0.1",
               "water": "true"
-            }
-          },
-          {
+            },
             "model": {
               "key": "shellos_west",
               "tex": "shellos_west",
               "model": "shellos_west",
               "anim": "shellos_west"
-            },
+            }
+          },
+          {
             "values": {
               "typesBlacklist": "cold",
               "category": "ocean",
               "rate": "0.2",
               "water": "true"
-            }
-          },
-          {
+            },
             "model": {
               "key": "shellos_west",
               "tex": "shellos_west",
               "model": "shellos_west",
               "anim": "shellos_west"
-            },
+            }
+          },
+          {
             "values": {
               "typesBlacklist": "cold",
               "types": "beach",
               "rate": "0.2",
               "water": "true"
+            },
+            "model": {
+              "key": "shellos_west",
+              "tex": "shellos_west",
+              "model": "shellos_west",
+              "anim": "shellos_west"
             }
           }
         ]
       }
     },
     {
-      "name": "Drifloon",
+      "name": "drifloon",
       "stats": {
         "spawnRules": [
           {
@@ -4266,7 +4266,7 @@
       }
     },
     {
-      "name": "Buneary",
+      "name": "buneary",
       "stats": {
         "spawnRules": [
           {
@@ -4280,7 +4280,7 @@
       }
     },
     {
-      "name": "Glameow",
+      "name": "glameow",
       "stats": {
         "spawnRules": [
           {
@@ -4301,7 +4301,7 @@
       }
     },
     {
-      "name": "Stunky",
+      "name": "stunky",
       "stats": {
         "spawnRules": [
           {
@@ -4322,7 +4322,7 @@
       }
     },
     {
-      "name": "Bronzor",
+      "name": "bronzor",
       "stats": {
         "spawnRules": [
           {
@@ -4335,7 +4335,7 @@
       }
     },
     {
-      "name": "Bonsly",
+      "name": "bonsly",
       "stats": {
         "spawnRules": [
           {
@@ -4349,7 +4349,7 @@
       }
     },
     {
-      "name": "Chatot",
+      "name": "chatot",
       "stats": {
         "spawnRules": [
           {
@@ -4363,7 +4363,7 @@
       }
     },
     {
-      "name": "Spiritomb",
+      "name": "spiritomb",
       "stats": {
         "spawnRules": [
           {
@@ -4384,7 +4384,7 @@
       }
     },
     {
-      "name": "Gible",
+      "name": "gible",
       "stats": {
         "spawnRules": [
           {
@@ -4397,7 +4397,7 @@
       }
     },
     {
-      "name": "Riolu",
+      "name": "riolu",
       "stats": {
         "spawnRules": [
           {
@@ -4416,7 +4416,7 @@
       }
     },
     {
-      "name": "Hippopotas",
+      "name": "hippopotas",
       "stats": {
         "spawnRules": [
           {
@@ -4437,7 +4437,7 @@
       }
     },
     {
-      "name": "Skorupi",
+      "name": "skorupi",
       "stats": {
         "spawnRules": [
           {
@@ -4465,7 +4465,7 @@
       }
     },
     {
-      "name": "Croagunk",
+      "name": "croagunk",
       "stats": {
         "spawnRules": [
           {
@@ -4496,7 +4496,7 @@
       }
     },
     {
-      "name": "Carnivine",
+      "name": "carnivine",
       "stats": {
         "spawnRules": [
           {
@@ -4509,7 +4509,7 @@
       }
     },
     {
-      "name": "Finneon",
+      "name": "finneon",
       "stats": {
         "spawnRules": [
           {
@@ -4524,7 +4524,7 @@
       }
     },
     {
-      "name": "Snover",
+      "name": "snover",
       "stats": {
         "spawnRules": [
           {
@@ -4545,7 +4545,7 @@
       }
     },
     {
-      "name": "Rotom",
+      "name": "rotom",
       "stats": {
         "spawnRules": [
           {
@@ -4559,27 +4559,65 @@
       }
     },
     {
-      "name": "Shaymin Land",
+      "name": "uxie",
       "stats": {
         "spawnRules": [
           {
             "values": {
-              "types": "flower",
+              "types": "lake",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mesprit",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "lake",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "azelf",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "lake",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "giratina_origin",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.002",
               "max": "1"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Uxie",
-      "stats": {
-        "spawnRules": [
+          },
           {
             "values": {
-              "types": "lake",
+              "structures": "pokecube_legends:space_temple",
               "min": "1",
               "rate": "0.005",
               "max": "1"
@@ -4589,43 +4627,13 @@
       }
     },
     {
-      "name": "Mesprit",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "lake",
-              "min": "1",
-              "rate": "0.005",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Azelf",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "lake",
-              "min": "1",
-              "rate": "0.005",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Cresselia",
+      "name": "cresselia",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "types": "all",
-              "biomesBlacklist":"pokecube_legends:distorted_biome",
+              "biomesBlacklist": "pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.001",
               "max": "1"
@@ -4635,7 +4643,7 @@
       }
     },
     {
-      "name": "Phione",
+      "name": "phione",
       "stats": {
         "spawnRules": [
           {
@@ -4651,7 +4659,7 @@
       }
     },
     {
-      "name": "Manaphy",
+      "name": "manaphy",
       "stats": {
         "spawnRules": [
           {
@@ -4676,13 +4684,13 @@
       }
     },
     {
-      "name": "Darkrai",
+      "name": "darkrai",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "types": "all",
-              "biomesBlacklist":"pokecube_legends:distorted_biome",
+              "biomesBlacklist": "pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -4692,7 +4700,22 @@
       }
     },
     {
-      "name": "Snivy",
+      "name": "shaymin_land",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "flower",
+              "min": "1",
+              "rate": "0.002",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "snivy",
       "stats": {
         "spawnRules": [
           {
@@ -4707,7 +4730,7 @@
       }
     },
     {
-      "name": "Tepig",
+      "name": "tepig",
       "stats": {
         "spawnRules": [
           {
@@ -4722,7 +4745,7 @@
       }
     },
     {
-      "name": "Oshawott",
+      "name": "oshawott",
       "stats": {
         "spawnRules": [
           {
@@ -4738,7 +4761,7 @@
       }
     },
     {
-      "name": "Patrat",
+      "name": "patrat",
       "stats": {
         "spawnRules": [
           {
@@ -4752,7 +4775,7 @@
       }
     },
     {
-      "name": "Lillipup",
+      "name": "lillipup",
       "stats": {
         "spawnRules": [
           {
@@ -4773,7 +4796,7 @@
       }
     },
     {
-      "name": "Purrloin",
+      "name": "purrloin",
       "stats": {
         "spawnRules": [
           {
@@ -4787,7 +4810,7 @@
       }
     },
     {
-      "name": "Pansage",
+      "name": "pansage",
       "stats": {
         "spawnRules": [
           {
@@ -4808,7 +4831,7 @@
       }
     },
     {
-      "name": "Pansear",
+      "name": "pansear",
       "stats": {
         "spawnRules": [
           {
@@ -4829,7 +4852,7 @@
       }
     },
     {
-      "name": "Panpour",
+      "name": "panpour",
       "stats": {
         "spawnRules": [
           {
@@ -4850,7 +4873,7 @@
       }
     },
     {
-      "name": "Munna",
+      "name": "munna",
       "stats": {
         "spawnRules": [
           {
@@ -4865,7 +4888,7 @@
       }
     },
     {
-      "name": "Pidove",
+      "name": "pidove",
       "stats": {
         "spawnRules": [
           {
@@ -4893,7 +4916,7 @@
       }
     },
     {
-      "name": "Blitzle",
+      "name": "blitzle",
       "stats": {
         "spawnRules": [
           {
@@ -4907,7 +4930,7 @@
       }
     },
     {
-      "name": "Roggenrola",
+      "name": "roggenrola",
       "stats": {
         "spawnRules": [
           {
@@ -4926,7 +4949,7 @@
       }
     },
     {
-      "name": "Woobat",
+      "name": "woobat",
       "stats": {
         "spawnRules": [
           {
@@ -4940,7 +4963,7 @@
       }
     },
     {
-      "name": "Drilbur",
+      "name": "drilbur",
       "stats": {
         "spawnRules": [
           {
@@ -4971,7 +4994,7 @@
       }
     },
     {
-      "name": "Audino",
+      "name": "audino",
       "stats": {
         "spawnRules": [
           {
@@ -4984,7 +5007,7 @@
       }
     },
     {
-      "name": "Timburr",
+      "name": "timburr",
       "stats": {
         "spawnRules": [
           {
@@ -5003,7 +5026,7 @@
       }
     },
     {
-      "name": "Tympole",
+      "name": "tympole",
       "stats": {
         "spawnRules": [
           {
@@ -5016,7 +5039,7 @@
       }
     },
     {
-      "name": "Throh",
+      "name": "throh",
       "stats": {
         "spawnRules": [
           {
@@ -5035,7 +5058,7 @@
       }
     },
     {
-      "name": "Sawk",
+      "name": "sawk",
       "stats": {
         "spawnRules": [
           {
@@ -5054,7 +5077,7 @@
       }
     },
     {
-      "name": "Sewaddle",
+      "name": "sewaddle",
       "stats": {
         "spawnRules": [
           {
@@ -5077,7 +5100,7 @@
       }
     },
     {
-      "name": "Venipede",
+      "name": "venipede",
       "stats": {
         "spawnRules": [
           {
@@ -5100,7 +5123,7 @@
       }
     },
     {
-      "name": "Cottonee",
+      "name": "cottonee",
       "stats": {
         "spawnRules": [
           {
@@ -5114,7 +5137,7 @@
       }
     },
     {
-      "name": "Petilil",
+      "name": "petilil",
       "stats": {
         "spawnRules": [
           {
@@ -5135,92 +5158,92 @@
       }
     },
     {
-      "name": "Basculin",
+      "name": "basculin",
       "stats": {
         "spawnRules": [
           {
-            "model": {
-              "key": "basculin_red",
-              "tex": "basculin_red",
-              "model": "basculin_red",
-              "anim": "basculin_red"
-            },
             "values": {
               "types": "beach",
               "rate": "0.15",
               "air": "false"
-            }
-          },
-          {
+            },
             "model": {
               "key": "basculin_red",
               "tex": "basculin_red",
               "model": "basculin_red",
               "anim": "basculin_red"
-            },
+            }
+          },
+          {
             "values": {
               "category": "river",
               "rate": "0.15",
               "air": "false"
-            }
-          },
-          {
+            },
             "model": {
               "key": "basculin_red",
               "tex": "basculin_red",
               "model": "basculin_red",
               "anim": "basculin_red"
-            },
+            }
+          },
+          {
             "values": {
               "types": "lake",
               "rate": "0.15",
               "air": "false"
+            },
+            "model": {
+              "key": "basculin_red",
+              "tex": "basculin_red",
+              "model": "basculin_red",
+              "anim": "basculin_red"
             }
           },
           {
-            "model": {
-              "key": "basculin_blue",
-              "tex": "basculin_blue",
-              "model": "basculin_blue",
-              "anim": "basculin_blue"
-            },
             "values": {
               "types": "beach",
               "rate": "0.15",
               "air": "false"
-            }
-          },
-          {
+            },
             "model": {
               "key": "basculin_blue",
               "tex": "basculin_blue",
               "model": "basculin_blue",
               "anim": "basculin_blue"
-            },
+            }
+          },
+          {
             "values": {
               "category": "river",
               "rate": "0.15",
               "air": "false"
-            }
-          },
-          {
+            },
             "model": {
               "key": "basculin_blue",
               "tex": "basculin_blue",
               "model": "basculin_blue",
               "anim": "basculin_blue"
-            },
+            }
+          },
+          {
             "values": {
               "types": "lake",
               "rate": "0.15",
               "air": "false"
+            },
+            "model": {
+              "key": "basculin_blue",
+              "tex": "basculin_blue",
+              "model": "basculin_blue",
+              "anim": "basculin_blue"
             }
           }
         ]
       }
     },
     {
-      "name": "Sandile",
+      "name": "sandile",
       "stats": {
         "spawnRules": [
           {
@@ -5239,7 +5262,7 @@
       }
     },
     {
-      "name": "Darumaka",
+      "name": "darumaka",
       "stats": {
         "spawnRules": [
           {
@@ -5258,7 +5281,7 @@
       }
     },
     {
-      "name": "Darumaka Galar",
+      "name": "darumaka_galar",
       "stats": {
         "spawnRules": [
           {
@@ -5271,7 +5294,7 @@
       }
     },
     {
-      "name": "Maractus",
+      "name": "maractus",
       "stats": {
         "spawnRules": [
           {
@@ -5284,7 +5307,7 @@
       }
     },
     {
-      "name": "Dwebble",
+      "name": "dwebble",
       "stats": {
         "spawnRules": [
           {
@@ -5303,7 +5326,7 @@
       }
     },
     {
-      "name": "Scraggy",
+      "name": "scraggy",
       "stats": {
         "spawnRules": [
           {
@@ -5316,7 +5339,7 @@
       }
     },
     {
-      "name": "Sigilyph",
+      "name": "sigilyph",
       "stats": {
         "spawnRules": [
           {
@@ -5335,7 +5358,7 @@
       }
     },
     {
-      "name": "Yamask",
+      "name": "yamask",
       "stats": {
         "spawnRules": [
           {
@@ -5360,7 +5383,7 @@
       }
     },
     {
-      "name": "Yamask Galar",
+      "name": "yamask_galar",
       "stats": {
         "spawnRules": [
           {
@@ -5386,7 +5409,7 @@
       }
     },
     {
-      "name": "Trubbish",
+      "name": "trubbish",
       "stats": {
         "spawnRules": [
           {
@@ -5399,7 +5422,7 @@
       }
     },
     {
-      "name": "Zorua",
+      "name": "zorua",
       "stats": {
         "spawnRules": [
           {
@@ -5418,7 +5441,7 @@
       }
     },
     {
-      "name": "Minccino",
+      "name": "minccino",
       "stats": {
         "spawnRules": [
           {
@@ -5432,7 +5455,7 @@
       }
     },
     {
-      "name": "Gothita",
+      "name": "gothita",
       "stats": {
         "spawnRules": [
           {
@@ -5447,7 +5470,7 @@
       }
     },
     {
-      "name": "Solosis",
+      "name": "solosis",
       "stats": {
         "spawnRules": [
           {
@@ -5462,7 +5485,7 @@
       }
     },
     {
-      "name": "Ducklett",
+      "name": "ducklett",
       "stats": {
         "spawnRules": [
           {
@@ -5475,7 +5498,7 @@
       }
     },
     {
-      "name": "Vanillite",
+      "name": "vanillite",
       "stats": {
         "spawnRules": [
           {
@@ -5494,62 +5517,62 @@
       }
     },
     {
-      "name": "Deerling",
+      "name": "deerling",
       "stats": {
         "spawnRules": [
           {
+            "values": {
+              "types": "flower",
+              "rate": "0.11"
+            },
             "model": {
               "key": "deerling_sp",
               "tex": "deerling_sp",
               "model": "deerling_sp",
               "anim": "deerling_sp"
-            },
-            "values": {
-              "types": "flower",
-              "rate": "0.11"
             }
           },
           {
+            "values": {
+              "category": "plains",
+              "rate": "0.11"
+            },
             "model": {
               "key": "deerling_au",
               "tex": "deerling_au",
               "model": "deerling_au",
               "anim": "deerling_au"
-            },
-            "values": {
-              "category": "plains",
-              "rate": "0.11"
             }
           },
           {
+            "values": {
+              "category": "forest",
+              "rate": "0.11"
+            },
             "model": {
               "key": "deerling_su",
               "tex": "deerling_su",
               "model": "deerling_su",
               "anim": "deerling_su"
-            },
-            "values": {
-              "category": "forest",
-              "rate": "0.11"
             }
           },
           {
+            "values": {
+              "types": "snowy",
+              "rate": "0.1"
+            },
             "model": {
               "key": "deerling_wi",
               "tex": "deerling_wi",
               "model": "deerling_wi",
               "anim": "deerling_wi"
-            },
-            "values": {
-              "types": "snowy",
-              "rate": "0.1"
             }
           }
         ]
       }
     },
     {
-      "name": "Emolga",
+      "name": "emolga",
       "stats": {
         "spawnRules": [
           {
@@ -5563,7 +5586,7 @@
       }
     },
     {
-      "name": "Karrablast",
+      "name": "karrablast",
       "stats": {
         "spawnRules": [
           {
@@ -5582,7 +5605,7 @@
       }
     },
     {
-      "name": "Foongus",
+      "name": "foongus",
       "stats": {
         "spawnRules": [
           {
@@ -5617,7 +5640,7 @@
       }
     },
     {
-      "name": "Frillish",
+      "name": "frillish",
       "stats": {
         "spawnRules": [
           {
@@ -5638,7 +5661,7 @@
       }
     },
     {
-      "name": "Alomomola",
+      "name": "alomomola",
       "stats": {
         "spawnRules": [
           {
@@ -5659,7 +5682,7 @@
       }
     },
     {
-      "name": "Joltik",
+      "name": "joltik",
       "stats": {
         "spawnRules": [
           {
@@ -5678,7 +5701,7 @@
       }
     },
     {
-      "name": "Ferroseed",
+      "name": "ferroseed",
       "stats": {
         "spawnRules": [
           {
@@ -5697,7 +5720,7 @@
       }
     },
     {
-      "name": "Klink",
+      "name": "klink",
       "stats": {
         "spawnRules": [
           {
@@ -5710,7 +5733,7 @@
       }
     },
     {
-      "name": "Tynamo",
+      "name": "tynamo",
       "stats": {
         "spawnRules": [
           {
@@ -5729,7 +5752,7 @@
       }
     },
     {
-      "name": "Elgyem",
+      "name": "elgyem",
       "stats": {
         "spawnRules": [
           {
@@ -5742,7 +5765,7 @@
       }
     },
     {
-      "name": "Litwick",
+      "name": "litwick",
       "stats": {
         "spawnRules": [
           {
@@ -5763,7 +5786,7 @@
       }
     },
     {
-      "name": "Axew",
+      "name": "axew",
       "stats": {
         "spawnRules": [
           {
@@ -5776,7 +5799,7 @@
       }
     },
     {
-      "name": "Cubchoo",
+      "name": "cubchoo",
       "stats": {
         "spawnRules": [
           {
@@ -5795,7 +5818,7 @@
       }
     },
     {
-      "name": "Cryogonal",
+      "name": "cryogonal",
       "stats": {
         "spawnRules": [
           {
@@ -5808,7 +5831,7 @@
       }
     },
     {
-      "name": "Shelmet",
+      "name": "shelmet",
       "stats": {
         "spawnRules": [
           {
@@ -5822,7 +5845,7 @@
       }
     },
     {
-      "name": "Stunfisk",
+      "name": "stunfisk",
       "stats": {
         "spawnRules": [
           {
@@ -5843,7 +5866,7 @@
       }
     },
     {
-      "name": "Stunfisk Galar",
+      "name": "stunfisk_galar",
       "stats": {
         "spawnRules": [
           {
@@ -5864,7 +5887,7 @@
       }
     },
     {
-      "name": "Mienfoo",
+      "name": "mienfoo",
       "stats": {
         "spawnRules": [
           {
@@ -5877,7 +5900,7 @@
       }
     },
     {
-      "name": "Druddigon",
+      "name": "druddigon",
       "stats": {
         "spawnRules": [
           {
@@ -5890,7 +5913,7 @@
       }
     },
     {
-      "name": "Golett",
+      "name": "golett",
       "stats": {
         "spawnRules": [
           {
@@ -5903,7 +5926,7 @@
       }
     },
     {
-      "name": "Pawniard",
+      "name": "pawniard",
       "stats": {
         "spawnRules": [
           {
@@ -5916,7 +5939,7 @@
       }
     },
     {
-      "name": "Bouffalant",
+      "name": "bouffalant",
       "stats": {
         "spawnRules": [
           {
@@ -5929,7 +5952,7 @@
       }
     },
     {
-      "name": "Rufflet",
+      "name": "rufflet",
       "stats": {
         "spawnRules": [
           {
@@ -5942,7 +5965,7 @@
       }
     },
     {
-      "name": "Vullaby",
+      "name": "vullaby",
       "stats": {
         "spawnRules": [
           {
@@ -5955,7 +5978,7 @@
       }
     },
     {
-      "name": "Heatmor",
+      "name": "heatmor",
       "stats": {
         "spawnRules": [
           {
@@ -5968,7 +5991,7 @@
       }
     },
     {
-      "name": "Durant",
+      "name": "durant",
       "stats": {
         "spawnRules": [
           {
@@ -5981,7 +6004,7 @@
       }
     },
     {
-      "name": "Deino",
+      "name": "deino",
       "stats": {
         "spawnRules": [
           {
@@ -5994,7 +6017,7 @@
       }
     },
     {
-      "name": "Larvesta",
+      "name": "larvesta",
       "stats": {
         "spawnRules": [
           {
@@ -6007,30 +6030,7 @@
       }
     },
     {
-      "name": "Giratina Origin",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "biomes": "pokecube_legends:distorted_biome",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          },
-          {
-            "values": {
-              "structures": "pokecube_legends:space_temple",
-              "min": "1",
-              "rate": "0.005",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Cobalion",
+      "name": "cobalion",
       "stats": {
         "spawnRules": [
           {
@@ -6053,7 +6053,7 @@
       }
     },
     {
-      "name": "Terrakion",
+      "name": "terrakion",
       "stats": {
         "spawnRules": [
           {
@@ -6076,7 +6076,7 @@
       }
     },
     {
-      "name": "Virizion",
+      "name": "virizion",
       "stats": {
         "spawnRules": [
           {
@@ -6099,22 +6099,7 @@
       }
     },
     {
-      "name": "Meloetta Aria",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "lake",
-              "min": "1",
-              "rate": "0.005",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Kyurem",
+      "name": "kyurem",
       "stats": {
         "spawnRules": [
           {
@@ -6129,7 +6114,22 @@
       }
     },
     {
-      "name": "Chespin",
+      "name": "meloetta_aria",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "lake",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "chespin",
       "stats": {
         "spawnRules": [
           {
@@ -6144,7 +6144,7 @@
       }
     },
     {
-      "name": "Fennekin",
+      "name": "fennekin",
       "stats": {
         "spawnRules": [
           {
@@ -6159,7 +6159,7 @@
       }
     },
     {
-      "name": "Froakie",
+      "name": "froakie",
       "stats": {
         "spawnRules": [
           {
@@ -6174,7 +6174,7 @@
       }
     },
     {
-      "name": "Bunnelby",
+      "name": "bunnelby",
       "stats": {
         "spawnRules": [
           {
@@ -6193,7 +6193,7 @@
       }
     },
     {
-      "name": "Fletchling",
+      "name": "fletchling",
       "stats": {
         "spawnRules": [
           {
@@ -6207,13 +6207,13 @@
       }
     },
     {
-      "name": "Scatterbug",
+      "name": "scatterbug",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "types": "all",
-              "biomesBlacklist":"pokecube_legends:distorted_biome",
+              "biomesBlacklist": "pokecube_legends:distorted_biome",
               "rate": "0.05",
               "night": "false"
             }
@@ -6222,7 +6222,7 @@
       }
     },
     {
-      "name": "Litleo",
+      "name": "litleo",
       "stats": {
         "spawnRules": [
           {
@@ -6243,7 +6243,7 @@
       }
     },
     {
-      "name": "Flabebe",
+      "name": "flabebe",
       "stats": {
         "spawnRules": [
           {
@@ -6256,7 +6256,7 @@
       }
     },
     {
-      "name": "Skiddo",
+      "name": "skiddo",
       "stats": {
         "spawnRules": [
           {
@@ -6270,7 +6270,7 @@
       }
     },
     {
-      "name": "Pancham",
+      "name": "pancham",
       "stats": {
         "spawnRules": [
           {
@@ -6285,7 +6285,7 @@
       }
     },
     {
-      "name": "Furfrou",
+      "name": "furfrou",
       "stats": {
         "spawnRules": [
           {
@@ -6299,7 +6299,7 @@
       }
     },
     {
-      "name": "Espurr",
+      "name": "espurr",
       "stats": {
         "spawnRules": [
           {
@@ -6314,7 +6314,7 @@
       }
     },
     {
-      "name": "Honedge",
+      "name": "honedge",
       "stats": {
         "spawnRules": [
           {
@@ -6333,7 +6333,7 @@
       }
     },
     {
-      "name": "Spritzee",
+      "name": "spritzee",
       "stats": {
         "spawnRules": [
           {
@@ -6347,7 +6347,7 @@
       }
     },
     {
-      "name": "Swirlix",
+      "name": "swirlix",
       "stats": {
         "spawnRules": [
           {
@@ -6361,7 +6361,7 @@
       }
     },
     {
-      "name": "Inkay",
+      "name": "inkay",
       "stats": {
         "spawnRules": [
           {
@@ -6384,7 +6384,7 @@
       }
     },
     {
-      "name": "Binacle",
+      "name": "binacle",
       "stats": {
         "spawnRules": [
           {
@@ -6397,21 +6397,7 @@
       }
     },
     {
-      "name": "Clauncher",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "beach",
-              "rate": "0.25",
-              "water": "true"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Skrelp",
+      "name": "skrelp",
       "stats": {
         "spawnRules": [
           {
@@ -6425,7 +6411,21 @@
       }
     },
     {
-      "name": "Helioptile",
+      "name": "clauncher",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "beach",
+              "rate": "0.25",
+              "water": "true"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "helioptile",
       "stats": {
         "spawnRules": [
           {
@@ -6444,7 +6444,7 @@
       }
     },
     {
-      "name": "Hawlucha",
+      "name": "hawlucha",
       "stats": {
         "spawnRules": [
           {
@@ -6458,7 +6458,7 @@
       }
     },
     {
-      "name": "Dedenne",
+      "name": "dedenne",
       "stats": {
         "spawnRules": [
           {
@@ -6472,7 +6472,7 @@
       }
     },
     {
-      "name": "Carbink",
+      "name": "carbink",
       "stats": {
         "spawnRules": [
           {
@@ -6485,7 +6485,7 @@
       }
     },
     {
-      "name": "Goomy",
+      "name": "goomy",
       "stats": {
         "spawnRules": [
           {
@@ -6498,7 +6498,7 @@
       }
     },
     {
-      "name": "Klefki",
+      "name": "klefki",
       "stats": {
         "spawnRules": [
           {
@@ -6511,7 +6511,7 @@
       }
     },
     {
-      "name": "Phantump",
+      "name": "phantump",
       "stats": {
         "spawnRules": [
           {
@@ -6525,7 +6525,7 @@
       }
     },
     {
-      "name": "Pumpkaboo",
+      "name": "pumpkaboo",
       "stats": {
         "spawnRules": [
           {
@@ -6538,7 +6538,7 @@
       }
     },
     {
-      "name": "Pumpkaboo Large",
+      "name": "pumpkaboo_large",
       "stats": {
         "spawnRules": [
           {
@@ -6551,7 +6551,7 @@
       }
     },
     {
-      "name": "Pumpkaboo Small",
+      "name": "pumpkaboo_small",
       "stats": {
         "spawnRules": [
           {
@@ -6564,7 +6564,7 @@
       }
     },
     {
-      "name": "Pumpkaboo Super",
+      "name": "pumpkaboo_super",
       "stats": {
         "spawnRules": [
           {
@@ -6577,7 +6577,7 @@
       }
     },
     {
-      "name": "Bergmite",
+      "name": "bergmite",
       "stats": {
         "spawnRules": [
           {
@@ -6596,7 +6596,7 @@
       }
     },
     {
-      "name": "Noibat",
+      "name": "noibat",
       "stats": {
         "spawnRules": [
           {
@@ -6610,7 +6610,7 @@
       }
     },
     {
-      "name": "Zygarde 10%",
+      "name": "zygarde_10",
       "stats": {
         "spawnRules": [
           {
@@ -6641,7 +6641,7 @@
       }
     },
     {
-      "name": "Diancie",
+      "name": "diancie",
       "stats": {
         "spawnRules": [
           {
@@ -6656,7 +6656,7 @@
       }
     },
     {
-      "name": "Hoopa Confined",
+      "name": "hoopa_confined",
       "stats": {
         "spawnRules": [
           {
@@ -6671,7 +6671,7 @@
       }
     },
     {
-      "name": "Volcanion",
+      "name": "volcanion",
       "stats": {
         "spawnRules": [
           {
@@ -6686,22 +6686,7 @@
       }
     },
     {
-      "name": "Magearna",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "village",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Rowlet",
+      "name": "rowlet",
       "stats": {
         "spawnRules": [
           {
@@ -6716,7 +6701,7 @@
       }
     },
     {
-      "name": "Litten",
+      "name": "litten",
       "stats": {
         "spawnRules": [
           {
@@ -6731,7 +6716,7 @@
       }
     },
     {
-      "name": "Popplio",
+      "name": "popplio",
       "stats": {
         "spawnRules": [
           {
@@ -6746,7 +6731,7 @@
       }
     },
     {
-      "name": "Pikipek",
+      "name": "pikipek",
       "stats": {
         "spawnRules": [
           {
@@ -6767,7 +6752,7 @@
       }
     },
     {
-      "name": "Yungoos",
+      "name": "yungoos",
       "stats": {
         "spawnRules": [
           {
@@ -6781,7 +6766,7 @@
       }
     },
     {
-      "name": "Grubbin",
+      "name": "grubbin",
       "stats": {
         "spawnRules": [
           {
@@ -6806,7 +6791,7 @@
       }
     },
     {
-      "name": "Crabrawler",
+      "name": "crabrawler",
       "stats": {
         "spawnRules": [
           {
@@ -6855,7 +6840,7 @@
       }
     },
     {
-      "name": "Oricorio Baile",
+      "name": "oricorio_baile",
       "stats": {
         "spawnRules": [
           {
@@ -6876,7 +6861,7 @@
       }
     },
     {
-      "name": "Oricorio Pom-Pom",
+      "name": "oricorio_pau",
       "stats": {
         "spawnRules": [
           {
@@ -6897,7 +6882,7 @@
       }
     },
     {
-      "name": "Oricorio Sensu",
+      "name": "oricorio_pom-pom",
       "stats": {
         "spawnRules": [
           {
@@ -6918,7 +6903,7 @@
       }
     },
     {
-      "name": "Oricorio Pa'u",
+      "name": "oricorio_sensu",
       "stats": {
         "spawnRules": [
           {
@@ -6939,7 +6924,7 @@
       }
     },
     {
-      "name": "Cutiefly",
+      "name": "cutiefly",
       "stats": {
         "spawnRules": [
           {
@@ -6967,7 +6952,7 @@
       }
     },
     {
-      "name": "Rockruff",
+      "name": "rockruff",
       "stats": {
         "spawnRules": [
           {
@@ -6988,7 +6973,7 @@
       }
     },
     {
-      "name": "Wishiwashi",
+      "name": "wishiwashi",
       "stats": {
         "spawnRules": [
           {
@@ -7031,7 +7016,7 @@
       }
     },
     {
-      "name": "Mareanie",
+      "name": "mareanie",
       "stats": {
         "spawnRules": [
           {
@@ -7051,7 +7036,7 @@
       }
     },
     {
-      "name": "Mudbray",
+      "name": "mudbray",
       "stats": {
         "spawnRules": [
           {
@@ -7064,7 +7049,7 @@
       }
     },
     {
-      "name": "Dewpider",
+      "name": "dewpider",
       "stats": {
         "spawnRules": [
           {
@@ -7077,7 +7062,7 @@
       }
     },
     {
-      "name": "Fomantis",
+      "name": "fomantis",
       "stats": {
         "spawnRules": [
           {
@@ -7090,7 +7075,7 @@
       }
     },
     {
-      "name": "Morelull",
+      "name": "morelull",
       "stats": {
         "spawnRules": [
           {
@@ -7109,7 +7094,7 @@
       }
     },
     {
-      "name": "Salandit",
+      "name": "salandit",
       "stats": {
         "spawnRules": [
           {
@@ -7132,7 +7117,7 @@
       }
     },
     {
-      "name": "Stufful",
+      "name": "stufful",
       "stats": {
         "spawnRules": [
           {
@@ -7145,7 +7130,7 @@
       }
     },
     {
-      "name": "Bounsweet",
+      "name": "bounsweet",
       "stats": {
         "spawnRules": [
           {
@@ -7158,7 +7143,7 @@
       }
     },
     {
-      "name": "Comfey",
+      "name": "comfey",
       "stats": {
         "spawnRules": [
           {
@@ -7171,7 +7156,7 @@
       }
     },
     {
-      "name": "Oranguru",
+      "name": "oranguru",
       "stats": {
         "spawnRules": [
           {
@@ -7184,7 +7169,7 @@
       }
     },
     {
-      "name": "Passimian",
+      "name": "passimian",
       "stats": {
         "spawnRules": [
           {
@@ -7197,7 +7182,7 @@
       }
     },
     {
-      "name": "Wimpod",
+      "name": "wimpod",
       "stats": {
         "spawnRules": [
           {
@@ -7210,7 +7195,7 @@
       }
     },
     {
-      "name": "Sandygast",
+      "name": "sandygast",
       "stats": {
         "spawnRules": [
           {
@@ -7230,7 +7215,7 @@
       }
     },
     {
-      "name": "Pyukumuku",
+      "name": "pyukumuku",
       "stats": {
         "spawnRules": [
           {
@@ -7243,7 +7228,7 @@
       }
     },
     {
-      "name": "Minior",
+      "name": "minior",
       "stats": {
         "spawnRules": [
           {
@@ -7256,7 +7241,7 @@
       }
     },
     {
-      "name": "Komala",
+      "name": "komala",
       "stats": {
         "spawnRules": [
           {
@@ -7270,7 +7255,7 @@
       }
     },
     {
-      "name": "Turtonator",
+      "name": "turtonator",
       "stats": {
         "spawnRules": [
           {
@@ -7284,7 +7269,7 @@
       }
     },
     {
-      "name": "Togedemaru",
+      "name": "togedemaru",
       "stats": {
         "spawnRules": [
           {
@@ -7298,7 +7283,7 @@
       }
     },
     {
-      "name": "Mimikyu",
+      "name": "mimikyu",
       "stats": {
         "spawnRules": [
           {
@@ -7311,7 +7296,7 @@
       }
     },
     {
-      "name": "Bruxish",
+      "name": "bruxish",
       "stats": {
         "spawnRules": [
           {
@@ -7346,7 +7331,7 @@
       }
     },
     {
-      "name": "Drampa",
+      "name": "drampa",
       "stats": {
         "spawnRules": [
           {
@@ -7359,7 +7344,7 @@
       }
     },
     {
-      "name": "Dhelmise",
+      "name": "dhelmise",
       "stats": {
         "spawnRules": [
           {
@@ -7373,7 +7358,7 @@
       }
     },
     {
-      "name": "Jangmo-o",
+      "name": "jangmo-o",
       "stats": {
         "spawnRules": [
           {
@@ -7392,60 +7377,7 @@
       }
     },
     {
-      "name": "Cosmog",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "biomes": "the_end",
-              "min": "1",
-              "rate": "0.005",
-              "max": "1"
-            }
-          },
-		  {
-            "values": {
-              "biomes": "pokecube_legends:ultra_deep_cave,pokecube_legends:ultra_jungle,pokecube_legends:ultra_desert,pokecube_legends:ultra_deep_hills,pokecube_legends:ultra_dark_valley,pokecube_legends:ultra_forgotten_plains",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Marshadow",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "spooky",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Zeraora",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "hills",
-              "min": "1",
-              "rate": "0.08",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Tapu Koko",
+      "name": "tapu_koko",
       "stats": {
         "spawnRules": [
           {
@@ -7460,7 +7392,7 @@
       }
     },
     {
-      "name": "Tapu Lele",
+      "name": "tapu_lele",
       "stats": {
         "spawnRules": [
           {
@@ -7475,22 +7407,7 @@
       }
     },
     {
-      "name": "Tapu Fini",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "lake",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Tapu Bulu",
+      "name": "tapu_bulu",
       "stats": {
         "spawnRules": [
           {
@@ -7505,7 +7422,45 @@
       }
     },
     {
-      "name": "Nihilego",
+      "name": "tapu_fini",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "lake",
+              "min": "1",
+              "rate": "0.002",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cosmog",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "the_end",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave,pokecube_legends:ultra_jungle,pokecube_legends:ultra_desert,pokecube_legends:ultra_deep_hills,pokecube_legends:ultra_dark_valley,pokecube_legends:ultra_forgotten_plains",
+              "min": "1",
+              "rate": "0.01",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "nihilego",
       "stats": {
         "spawnRules": [
           {
@@ -7520,7 +7475,7 @@
       }
     },
     {
-      "name": "Buzzwole",
+      "name": "buzzwole",
       "stats": {
         "spawnRules": [
           {
@@ -7535,7 +7490,7 @@
       }
     },
     {
-      "name": "Pheromosa",
+      "name": "pheromosa",
       "stats": {
         "spawnRules": [
           {
@@ -7550,7 +7505,7 @@
       }
     },
     {
-      "name": "Xurkitree",
+      "name": "xurkitree",
       "stats": {
         "spawnRules": [
           {
@@ -7565,7 +7520,7 @@
       }
     },
     {
-      "name": "Celesteela",
+      "name": "celesteela",
       "stats": {
         "spawnRules": [
           {
@@ -7580,7 +7535,7 @@
       }
     },
     {
-      "name": "Kartana",
+      "name": "kartana",
       "stats": {
         "spawnRules": [
           {
@@ -7595,7 +7550,7 @@
       }
     },
     {
-      "name": "Guzzlord",
+      "name": "guzzlord",
       "stats": {
         "spawnRules": [
           {
@@ -7610,7 +7565,7 @@
       }
     },
     {
-      "name": "Necrozma",
+      "name": "necrozma",
       "stats": {
         "spawnRules": [
           {
@@ -7625,7 +7580,37 @@
       }
     },
     {
-      "name": "Poipole",
+      "name": "magearna",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "village",
+              "min": "1",
+              "rate": "0.002",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "marshadow",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "spooky",
+              "min": "1",
+              "rate": "0.002",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "poipole",
       "stats": {
         "spawnRules": [
           {
@@ -7640,7 +7625,7 @@
       }
     },
     {
-      "name": "Stakataka",
+      "name": "stakataka",
       "stats": {
         "spawnRules": [
           {
@@ -7655,7 +7640,7 @@
       }
     },
     {
-      "name": "Blacephalon",
+      "name": "blacephalon",
       "stats": {
         "spawnRules": [
           {
@@ -7670,7 +7655,22 @@
       }
     },
     {
-      "name": "Meltan",
+      "name": "zeraora",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "hills",
+              "min": "1",
+              "rate": "0.08",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "meltan",
       "stats": {
         "spawnRules": [
           {
@@ -7683,7 +7683,7 @@
       }
     },
     {
-      "name": "Grookey",
+      "name": "grookey",
       "stats": {
         "spawnRules": [
           {
@@ -7696,7 +7696,7 @@
       }
     },
     {
-      "name": "Scorbunny",
+      "name": "scorbunny",
       "stats": {
         "spawnRules": [
           {
@@ -7709,7 +7709,7 @@
       }
     },
     {
-      "name": "Sobble",
+      "name": "sobble",
       "stats": {
         "spawnRules": [
           {
@@ -7723,7 +7723,7 @@
       }
     },
     {
-      "name": "Skwovet",
+      "name": "skwovet",
       "stats": {
         "spawnRules": [
           {
@@ -7736,7 +7736,7 @@
       }
     },
     {
-      "name": "Rookidee",
+      "name": "rookidee",
       "stats": {
         "spawnRules": [
           {
@@ -7749,7 +7749,7 @@
       }
     },
     {
-      "name": "Blipbug",
+      "name": "blipbug",
       "stats": {
         "spawnRules": [
           {
@@ -7762,7 +7762,7 @@
       }
     },
     {
-      "name": "Nickit",
+      "name": "nickit",
       "stats": {
         "spawnRules": [
           {
@@ -7775,7 +7775,7 @@
       }
     },
     {
-      "name": "Gossifleur",
+      "name": "gossifleur",
       "stats": {
         "spawnRules": [
           {
@@ -7794,7 +7794,7 @@
       }
     },
     {
-      "name": "Wooloo",
+      "name": "wooloo",
       "stats": {
         "spawnRules": [
           {
@@ -7807,7 +7807,7 @@
       }
     },
     {
-      "name": "Chewtle",
+      "name": "chewtle",
       "stats": {
         "spawnRules": [
           {
@@ -7828,7 +7828,7 @@
       }
     },
     {
-      "name": "Yamper",
+      "name": "yamper",
       "stats": {
         "spawnRules": [
           {
@@ -7841,7 +7841,7 @@
       }
     },
     {
-      "name": "Rolycoly",
+      "name": "rolycoly",
       "stats": {
         "spawnRules": [
           {
@@ -7867,7 +7867,7 @@
       }
     },
     {
-      "name": "Applin",
+      "name": "applin",
       "stats": {
         "spawnRules": [
           {
@@ -7886,7 +7886,7 @@
       }
     },
     {
-      "name": "Silicobra",
+      "name": "silicobra",
       "stats": {
         "spawnRules": [
           {
@@ -7899,7 +7899,7 @@
       }
     },
     {
-      "name": "Cramorant",
+      "name": "cramorant",
       "stats": {
         "spawnRules": [
           {
@@ -7912,7 +7912,7 @@
       }
     },
     {
-      "name": "Arrokuda",
+      "name": "arrokuda",
       "stats": {
         "spawnRules": [
           {
@@ -7933,14 +7933,14 @@
       }
     },
     {
-      "name": "Toxel",
+      "name": "toxel",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "types": "savanna",
-			  "min": "2",
-			  "max": "3",
+              "min": "2",
+              "max": "3",
               "rate": "0.13"
             }
           }
@@ -7948,7 +7948,7 @@
       }
     },
     {
-      "name": "Sizzlipede",
+      "name": "sizzlipede",
       "stats": {
         "spawnRules": [
           {
@@ -7967,7 +7967,7 @@
       }
     },
     {
-      "name": "Clobbopus",
+      "name": "clobbopus",
       "stats": {
         "spawnRules": [
           {
@@ -7988,64 +7988,64 @@
       }
     },
     {
-      "name": "Sinistea",
+      "name": "sinistea",
       "stats": {
         "spawnRules": [
           {
-            "model": {
-              "key": "sinistea_nofake",
-              "tex": "sinistea",
-              "model": "sinistea_nofake",
-              "anim": "sinistea"
-            },
             "values": {
               "typesBlacklist": "cold",
               "types": "spooky",
               "rate": "0.02"
-            }
-          },
-          {
+            },
             "model": {
               "key": "sinistea_nofake",
               "tex": "sinistea",
               "model": "sinistea_nofake",
               "anim": "sinistea"
-            },
-            "values": {
-              "types": "village",
-              "rate": "0.01"
             }
           },
           {
-            "model": {
-              "key": "sinistea_fake",
-              "tex": "sinistea",
-              "model": "sinistea_fake",
-              "anim": "sinistea"
+            "values": {
+              "types": "village",
+              "rate": "0.01"
             },
+            "model": {
+              "key": "sinistea_nofake",
+              "tex": "sinistea",
+              "model": "sinistea_nofake",
+              "anim": "sinistea"
+            }
+          },
+          {
             "values": {
               "typesBlacklist": "cold",
               "types": "spooky",
               "rate": "0.2"
-            }
-          },
-          {
+            },
             "model": {
               "key": "sinistea_fake",
               "tex": "sinistea",
               "model": "sinistea_fake",
               "anim": "sinistea"
-            },
+            }
+          },
+          {
             "values": {
               "types": "village",
               "rate": "0.1"
+            },
+            "model": {
+              "key": "sinistea_fake",
+              "tex": "sinistea",
+              "model": "sinistea_fake",
+              "anim": "sinistea"
             }
           }
         ]
       }
     },
     {
-      "name": "Hatenna",
+      "name": "hatenna",
       "stats": {
         "spawnRules": [
           {
@@ -8058,7 +8058,7 @@
       }
     },
     {
-      "name": "Impidimp",
+      "name": "impidimp",
       "stats": {
         "spawnRules": [
           {
@@ -8077,7 +8077,7 @@
       }
     },
     {
-      "name": "Milcery",
+      "name": "milcery",
       "stats": {
         "spawnRules": [
           {
@@ -8090,7 +8090,7 @@
       }
     },
     {
-      "name": "Falinks",
+      "name": "falinks",
       "stats": {
         "spawnRules": [
           {
@@ -8103,7 +8103,7 @@
       }
     },
     {
-      "name": "Pincurchin",
+      "name": "pincurchin",
       "stats": {
         "spawnRules": [
           {
@@ -8116,7 +8116,7 @@
       }
     },
     {
-      "name": "Snom",
+      "name": "snom",
       "stats": {
         "spawnRules": [
           {
@@ -8129,7 +8129,7 @@
       }
     },
     {
-      "name": "Stonjourner",
+      "name": "stonjourner",
       "stats": {
         "spawnRules": [
           {
@@ -8142,7 +8142,7 @@
       }
     },
     {
-      "name": "Eiscue",
+      "name": "eiscue",
       "stats": {
         "spawnRules": [
           {
@@ -8155,7 +8155,7 @@
       }
     },
     {
-      "name": "Indeedee",
+      "name": "indeedee",
       "stats": {
         "spawnRules": [
           {
@@ -8174,7 +8174,7 @@
       }
     },
     {
-      "name": "Morpeko",
+      "name": "morpeko",
       "stats": {
         "spawnRules": [
           {
@@ -8193,7 +8193,7 @@
       }
     },
     {
-      "name": "Cufant",
+      "name": "cufant",
       "stats": {
         "spawnRules": [
           {
@@ -8206,19 +8206,7 @@
       }
     },
     {
-      "name": "Dracozolt"
-    },
-    {
-      "name": "Arctozolt"
-    },
-    {
-      "name": "Dracovish"
-    },
-    {
-      "name": "Arctovish"
-    },
-    {
-      "name": "Duraludon",
+      "name": "duraludon",
       "stats": {
         "spawnRules": [
           {
@@ -8231,7 +8219,7 @@
       }
     },
     {
-      "name": "Dreepy",
+      "name": "dreepy",
       "stats": {
         "spawnRules": [
           {
@@ -8244,14 +8232,14 @@
       }
     },
     {
-      "name": "Eternatus",
+      "name": "eternatus",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "category": "the_end",
-			  "min": "1",
-			  "max": "1",
+              "min": "1",
+              "max": "1",
               "rate": "0.002"
             }
           }
@@ -8259,14 +8247,14 @@
       }
     },
     {
-      "name": "Kubfu",
+      "name": "kubfu",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "types": "hills",
-			  "min": "1",
-			  "max": "1",
+              "min": "1",
+              "max": "1",
               "rate": "0.005"
             }
           }
@@ -8274,14 +8262,14 @@
       }
     },
     {
-      "name": "Zarude",
+      "name": "zarude",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "types": "jungle",
-			  "min": "1",
-			  "max": "1",
+              "min": "1",
+              "max": "1",
               "rate": "0.002"
             }
           },
@@ -8289,18 +8277,18 @@
             "values": {
               "structures": "pokecube_legends:celebi_temple",
               "min": "1",
-			  "max": "1",
-			  "rate": "0.02"
+              "max": "1",
+              "rate": "0.02"
             }
           }
         ]
       }
     },
     {
-      "name": "Calyrex",
+      "name": "calyrex",
       "stats": {
         "spawnRules": [
-           {
+          {
             "values": {
               "category": "taiga",
               "min": "1",
@@ -8312,8 +8300,8 @@
             "values": {
               "structures": "pokecube_legends:castle_n",
               "min": "1",
-			  "max": "1",
-			  "rate": "0.008"
+              "max": "1",
+              "rate": "0.008"
             }
           }
         ]
