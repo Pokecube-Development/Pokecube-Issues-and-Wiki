@@ -202,7 +202,7 @@ public class BlockInit
     static
     {
         // Block Raid
-        RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(Material.IRON, MaterialColor.GRAY_TERRACOTTA)
+        RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(Material.IRON, MaterialColor.BLACK)
                 .setInfoBlockName("raidspawn"));
 
         // Decorative_Blocks
@@ -240,7 +240,7 @@ public class BlockInit
         ULTRA_MAGNETIC = PokecubeLegends.BLOCKS_TAB.register("ultramagnetic", () -> new MagneticBlock("ultramagnetic",
                 Material.ROCK, MaterialColor.BLUE).noInfoBlock());
         ULTRA_SANDSTONE = PokecubeLegends.BLOCKS_TAB.register("ultrasandstone", () -> new BlockBase("ultrasandstone",
-                Material.ROCK, MaterialColor.WOOL, 0.5f, SoundType.STONE, ToolType.PICKAXE, 1).noInfoBlock());
+                Material.ROCK, MaterialColor.SNOW, 0.5f, SoundType.STONE, ToolType.PICKAXE, 1).noInfoBlock());
         ULTRA_DARKSTONE = PokecubeLegends.BLOCKS_TAB.register("ultracobbles", () -> new DarkStoneBlock("ultracobbles",
                 Material.ROCK, MaterialColor.BLACK).noInfoBlock());
         ULTRA_DARKCOBBLES = PokecubeLegends.BLOCKS_TAB.register("ultrarock", () -> new BlockBase("ultrarock",
@@ -260,9 +260,9 @@ public class BlockInit
         ULTRA_SAND = PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new SandUltraBlock("ultrasand",
                 Material.SAND, MaterialColor.SNOW).noInfoBlock());
         ULTRA_SANDDISTOR = PokecubeLegends.BLOCKS_TAB.register("ultrasand1", () -> new SandDistorBlock("ultrasand1",
-                Material.CLAY).noInfoBlock());
+                Material.CLAY, MaterialColor.PURPLE).noInfoBlock());
         ULTRA_GRASSAGED = PokecubeLegends.BLOCKS_TAB.register("ultragrass3", () -> new GrassAgedBlock("ultragrass3",
-                Material.GOURD, MaterialColor.PURPLE).noInfoBlock());
+                Material.GOURD, MaterialColor.YELLOW).noInfoBlock());
         TEMPORAL_CRYSTAL = PokecubeLegends.BLOCKS_TAB.register("temporal_crystal", () -> new BlockBase(
                 "temporal_crystal", Material.GLASS, MaterialColor.LIGHT_BLUE, 1.5f, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
 
@@ -477,7 +477,7 @@ public class BlockInit
                 Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
                         .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         KELDEO_CORE = PokecubeLegends.BLOCKS.register("keldeoblock", () -> new KeldeoBlock("keldeoblock",
-                Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE_TERRACOTTA).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
+                Block.Properties.create(Material.ROCK, MaterialColor.BLUE).hardnessAndResistance(2000, 2000).sound(SoundType.STONE)
                         .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
         VICTINI_CORE = PokecubeLegends.BLOCKS.register("victiniblock", () -> new VictiniBlock("victiniblock",
                 Block.Properties.create(Material.IRON, MaterialColor.GOLD).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
@@ -505,7 +505,7 @@ public class BlockInit
                 Block.Properties.create(Material.ROCK, MaterialColor.CYAN_TERRACOTTA).sound(SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(
                         ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
         SPECTRUM_BLOCK = PokecubeLegends.BLOCKS_TAB.register("spectrum_block", () -> new Block(Block.Properties.create(
-                Material.IRON, MaterialColor.ORANGE_TERRACOTTA).hardnessAndResistance(5.0f, 7).sound(SoundType.METAL).setLightLevel(b -> 4).harvestTool(
+                Material.IRON, MaterialColor.ADOBE).hardnessAndResistance(5.0f, 7).sound(SoundType.METAL).setLightLevel(b -> 4).harvestTool(
                         ToolType.PICKAXE)));
 
         // COSMIC_DUST_ORE =

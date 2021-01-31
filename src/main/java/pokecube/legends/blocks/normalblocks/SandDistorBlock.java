@@ -3,6 +3,7 @@ package pokecube.legends.blocks.normalblocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,9 +22,9 @@ import pokecube.legends.init.ItemInit;
 
 public class SandDistorBlock extends BlockBase
 {
-    public SandDistorBlock(final String name, final Material material)
+    public SandDistorBlock(final String name, final Material material, MaterialColor color)
     {
-        super(name, Properties.create(material).sound(SoundType.SCAFFOLDING).hardnessAndResistance(4, 5).harvestTool(
+        super(name, Properties.create(material, color).sound(SoundType.SCAFFOLDING).hardnessAndResistance(4, 5).harvestTool(
                 ToolType.SHOVEL).harvestLevel(2));
     }
     

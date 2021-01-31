@@ -338,7 +338,7 @@ public class PokecubeMobs
         ItemGenerator.berryWoods.put("nanab", MaterialColor.BROWN_TERRACOTTA);
 
         ItemGenerator.berryLeaves.put("pecha", MaterialColor.FOLIAGE);
-        ItemGenerator.berryLeaves.put("oran", MaterialColor.ADOBE);
+        ItemGenerator.berryLeaves.put("oran", MaterialColor.PINK_TERRACOTTA);
         ItemGenerator.berryLeaves.put("leppa", MaterialColor.YELLOW_TERRACOTTA);
         ItemGenerator.berryLeaves.put("sitrus", MaterialColor.LIGHT_BLUE_TERRACOTTA);
         ItemGenerator.berryLeaves.put("enigma", MaterialColor.WHITE_TERRACOTTA);
@@ -354,7 +354,7 @@ public class PokecubeMobs
         ItemGenerator.berryCrops.put("aspear", MaterialColor.RED);
         ItemGenerator.berryCrops.put("cheri", MaterialColor.FOLIAGE);
         ItemGenerator.berryCrops.put("chesto", MaterialColor.PINK);
-        ItemGenerator.berryCrops.put("cornn", MaterialColor.PINK_TERRACOTTA);
+        ItemGenerator.berryCrops.put("cornn", MaterialColor.PINK);
         ItemGenerator.berryCrops.put("enigma", MaterialColor.WHITE_TERRACOTTA);
         ItemGenerator.berryCrops.put("grepa", MaterialColor.RED);
         ItemGenerator.berryCrops.put("hondew", MaterialColor.FOLIAGE);
@@ -366,7 +366,7 @@ public class PokecubeMobs
         ItemGenerator.berryCrops.put("null", MaterialColor.FOLIAGE);
         ItemGenerator.berryCrops.put("oran", MaterialColor.ADOBE);
         ItemGenerator.berryCrops.put("pecha", MaterialColor.FOLIAGE);
-        ItemGenerator.berryCrops.put("persim", MaterialColor.RED);
+        ItemGenerator.berryCrops.put("persim", MaterialColor.LIGHT_BLUE);
         ItemGenerator.berryCrops.put("pinap", MaterialColor.FOLIAGE);
         ItemGenerator.berryCrops.put("pomeg", MaterialColor.RED);
         ItemGenerator.berryCrops.put("qualot", MaterialColor.FOLIAGE);
@@ -378,7 +378,7 @@ public class PokecubeMobs
         ItemGenerator.berryFruits.put("aspear", MaterialColor.RED);
         ItemGenerator.berryFruits.put("cheri", MaterialColor.LIGHT_BLUE);
         ItemGenerator.berryFruits.put("chesto", MaterialColor.PINK);
-        ItemGenerator.berryFruits.put("cornn", MaterialColor.PINK_TERRACOTTA);
+        ItemGenerator.berryFruits.put("cornn", MaterialColor.PINK);
         ItemGenerator.berryFruits.put("enigma", MaterialColor.BLACK);
         ItemGenerator.berryFruits.put("grepa", MaterialColor.YELLOW);
         ItemGenerator.berryFruits.put("hondew", MaterialColor.LIME);
