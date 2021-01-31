@@ -23,11 +23,14 @@ import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
+import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IInhabitable;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.entity.ai.IAIRunnable;
 
 public class CheckBurrow extends BaseIdleTask
 {
@@ -58,6 +61,7 @@ public class CheckBurrow extends BaseIdleTask
     public void run()
     {
         if (this.burrowCheckTimer++ < 100) return;
+
         this.burrowCheckTimer = 0;
         if (this.burrow == null) this.burrow = BurrowSensor.getNest(this.entity).orElse(null);
 
@@ -99,6 +103,16 @@ public class CheckBurrow extends BaseIdleTask
         else
         {
             // Here we might want to check if the burrow is still valid?
+            StoreTask storage = null;
+            for (final IAIRunnable run : this.pokemob.getTasks())
+                if (run instanceof StoreTask)
+                {
+                    storage = (StoreTask) run;
+                    this.pokemob.setRoutineState(AIRoutine.STORE, true);
+                    storage.storageLoc = this.burrow.nest.getPos();
+                    storage.berryLoc = this.burrow.nest.getPos();
+                    break;
+                }
         }
     }
 

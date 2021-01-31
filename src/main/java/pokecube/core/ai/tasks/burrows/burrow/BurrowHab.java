@@ -96,13 +96,15 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
             // location so that the nest is on the floor of the burrow made.
             // Pick a room size based on the biggest pokemob in the related
             // list.
+            if (this.related.isEmpty()) throw new IllegalStateException("No related mobs? " + pos + " " + this.maker);
+
             final float height = this.related.stream().max((o1, o2) -> Float.compare(o1.height, o2.height))
                     .get().height;
             float size = height * 2 + 1;
             size = Math.max(3, size);
             final float direction = new Random().nextInt(360);
             this.burrow = new Room(direction, size);
-            this.burrow.setCenter(pos.down((int) Math.ceil(size + 4)), size, direction);
+            this.burrow.setCenter(pos.down((int) Math.ceil(size + 2)), size, direction);
             this.burrow.started = true;
         }
     }
@@ -157,7 +159,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         if (this.burrow.shouldDig(time))
         {
             final ObjectSet<BlockPos> blocks = this.burrow.digBlocks.keySet();
-            System.out.println(blocks.size() + " " + this.burrow.getSize());
+            System.out.println(blocks.size() + " " + this.burrow.getSize() + " " + this.maker + " " + this.burrow
+                    .getCenter());
             blocks.forEach(p ->
             {
                 if (p.equals(this.burrow.getCenter())) return;

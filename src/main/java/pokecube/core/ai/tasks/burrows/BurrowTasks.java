@@ -61,6 +61,7 @@ public class BurrowTasks
 
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
     {
+        if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
         if (!BurrowTasks.isValid(pokemob.getEntity())) return;
 
         list.add(new CheckBurrow(pokemob));
