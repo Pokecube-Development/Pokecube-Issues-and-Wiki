@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
@@ -21,9 +22,9 @@ public class PlantBase extends FlowerBlock
 {
     public static final Block block = null;
 
-    public PlantBase(final Material material, final float hardness, final float resistance, final SoundType sound)
+    public PlantBase(final Material material, MaterialColor color, final float hardness, final float resistance, final SoundType sound)
     {
-        super(Effects.SATURATION, 0, Block.Properties.create(material).hardnessAndResistance(hardness, resistance)
+        super(Effects.SATURATION, 0, Block.Properties.create(material, color).hardnessAndResistance(hardness, resistance)
                 .doesNotBlockMovement().sound(sound));
     }
 

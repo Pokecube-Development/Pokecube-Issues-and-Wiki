@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class UltraTorch1 extends TorchBlock
 {	
     public UltraTorch1() {
-    	super(Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0f), 
+    	super(Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0f).doesNotBlockMovement(), 
     			ParticleTypes.CAMPFIRE_COSY_SMOKE);
 	}
     
@@ -24,6 +24,6 @@ public class UltraTorch1 extends TorchBlock
         double d0 = (double)pos.getX() + 0.5D;
         double d1 = (double)pos.getY() + 0.7D;
         double d2 = (double)pos.getZ() + 0.5D;
-        worldIn.addParticle(ParticleTypes.DRAGON_BREATH, d0, d1, d2, 0.0D, 0.2D, 0.0D);
+        worldIn.addParticle(ParticleTypes.DRAGON_BREATH, d0 + 0.27D, d1 + 0.22D, d2 + 0.27D, 0.0D, 0.0D, 0.0D);
     }
 }

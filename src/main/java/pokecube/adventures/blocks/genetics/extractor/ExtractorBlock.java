@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -85,9 +86,9 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
         return ExtractorBlock.EXTRACTOR.get(state.get(ExtractorBlock.FACING));
     }
     
-    public ExtractorBlock(final Properties properties)
+    public ExtractorBlock(final Properties properties, final MaterialColor color)
     {
-        super(properties);
+        super(properties, color);
         this.setDefaultState(this.stateContainer.getBaseState().with(ExtractorBlock.FACING, Direction.NORTH).with(
         		ExtractorBlock.FIXED, false).with(WATERLOGGED, false));
     }

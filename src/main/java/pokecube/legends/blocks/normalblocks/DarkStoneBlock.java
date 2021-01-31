@@ -2,6 +2,7 @@ package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +18,7 @@ import pokecube.legends.init.ItemInit;
 
 public class DarkStoneBlock extends BlockBase
 {
-    public DarkStoneBlock(final String name, final Material material)
+    public DarkStoneBlock(final String name, final Material material, MaterialColor color)
     {
         super(name, Properties.create(material).sound(SoundType.STONE).hardnessAndResistance(3, 8).harvestTool(
                 ToolType.PICKAXE).harvestLevel(1));

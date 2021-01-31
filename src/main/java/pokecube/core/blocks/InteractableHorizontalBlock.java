@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -25,9 +26,9 @@ import net.minecraftforge.items.IItemHandler;
 public abstract class InteractableHorizontalBlock extends HorizontalBlock
 {
 
-    public InteractableHorizontalBlock(final Properties properties)
+    public InteractableHorizontalBlock(final Properties properties, final MaterialColor color)
     {
-        super(Properties.create(Material.IRON).hardnessAndResistance(3.0f, 5.0f).harvestTool(ToolType.PICKAXE));
+        super(Properties.create(Material.IRON, color).hardnessAndResistance(3.0f, 5.0f).harvestTool(ToolType.PICKAXE));
         this.setDefaultState(this.stateContainer.getBaseState().with(HorizontalBlock.HORIZONTAL_FACING,
                 Direction.NORTH));
     }

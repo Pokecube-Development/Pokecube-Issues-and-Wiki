@@ -2,6 +2,7 @@ package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,9 +18,9 @@ import pokecube.legends.init.ItemInit;
 
 public class SandUltraBlock extends BlockBase
 {
-    public SandUltraBlock(final String name, final Material material)
+    public SandUltraBlock(final String name, final Material material, MaterialColor color)
     {
-        super(name, Properties.create(material).sound(SoundType.SNOW).hardnessAndResistance(2, 6).harvestTool(
+        super(name, Properties.create(material, color).sound(SoundType.SAND).hardnessAndResistance(2, 6).harvestTool(
                 ToolType.SHOVEL).harvestLevel(1));
     }
 

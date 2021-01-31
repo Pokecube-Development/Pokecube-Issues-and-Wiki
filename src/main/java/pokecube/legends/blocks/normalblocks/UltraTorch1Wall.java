@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class UltraTorch1Wall extends WallTorchBlock
 {	
     public UltraTorch1Wall() {
-    	super(Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0f),
+    	super(Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0f).doesNotBlockMovement(),
     			ParticleTypes.CAMPFIRE_COSY_SMOKE);
 	}
     

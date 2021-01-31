@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -18,8 +19,9 @@ public class Regigigas_Core extends BlockBase {
 
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-	public Regigigas_Core(final String name, final Material material, final float hardnessresistance, final SoundType sound, final ToolType tool, final int harvest) {
-		super(name, material, hardnessresistance, sound, tool, harvest);
+	public Regigigas_Core(final String name, final Material material, final MaterialColor color, 
+			final float hardnessresistance, final SoundType sound, final ToolType tool, final int harvest) {
+		super(name, material, color, hardnessresistance, sound, tool, harvest);
 		this.setDefaultState(this.stateContainer.getBaseState().with(Regigigas_Core.FACING, Direction.NORTH));
 	}
 

@@ -11,6 +11,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
@@ -81,10 +82,10 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     }
 
     // Default States
-    public NatureCoreBlock(final String name, final Material material, final float hardness, final float resistance,
+    public NatureCoreBlock(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
             final SoundType sound, final ToolType tool, final int harvest)
     {
-        super(name, material, hardness, resistance, sound, tool, harvest);
+        super(name, material, color, hardness, resistance, sound, tool, harvest);
         this.setDefaultState(this.stateContainer.getBaseState().with(NatureCoreBlock.HALF, NatureCorePart.BOTTOM).with(
                 NatureCoreBlock.FACING, Direction.NORTH).with(NatureCoreBlock.WATERLOGGED, false));
     }
