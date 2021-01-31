@@ -13,6 +13,7 @@ import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.tasks.Tasks;
@@ -60,10 +61,14 @@ public class BurrowTasks
 
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
     {
+        if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
         if (!BurrowTasks.isValid(pokemob.getEntity())) return;
+
         list.add(new CheckBurrow(pokemob));
         list.add(new DigBurrow(pokemob));
         list.add(new ReturnHome(pokemob));
+
+        BrainUtils.addToBrain(pokemob.getEntity().getBrain(), BurrowTasks.MEMORY_TYPES, BurrowTasks.SENSOR_TYPES);
     }
 
     public static boolean isValid(final Entity entity)
@@ -75,6 +80,7 @@ public class BurrowTasks
 
     public static boolean shouldBeInside(final ServerWorld world, final Burrow burrow)
     {
+
         return false;
     }
 }

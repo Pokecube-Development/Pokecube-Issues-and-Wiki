@@ -100,6 +100,7 @@ public class AntTasks
 
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
     {
+        if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
         if (!AIRoutine.ANTAI.isAllowed(pokemob)) return;
 
         list.add(new CheckNest(pokemob).setPriority(200));

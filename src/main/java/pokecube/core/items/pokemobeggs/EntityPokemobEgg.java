@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.HopperTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -147,7 +148,8 @@ public class EntityPokemobEgg extends AgeableEntity
         if (pokemob == null) return null;
         this.here.set(this);
         this.here.moveEntity(pokemob.getEntity());
-        ItemPokemobEgg.initPokemobGenetics(pokemob, this.getHeldItemMainhand().getTag());
+        final CompoundNBT nbt = this.getHeldItemMainhand().getTag();
+        ItemPokemobEgg.initPokemobGenetics(pokemob, nbt);
         pokemob.getEntity().setWorld(this.getEntityWorld());
         return pokemob;
     }
