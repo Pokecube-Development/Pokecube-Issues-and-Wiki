@@ -6,6 +6,7 @@ import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -14,6 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -180,11 +182,17 @@ public class CaptureManager
             else cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return false;
         }
-        if (ownable != null) ownable.setOwner(cube.shooter);
+        if (ownable != null)
+        {
+            ownable.setOwner(cube.shooter);
+            if (mob instanceof AnimalEntity && cube.shootingEntity instanceof PlayerEntity) ForgeEventFactory
+                    .onAnimalTame((AnimalEntity) mob, (PlayerEntity) cube.shootingEntity);
+        }
         if (pokemob == null)
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
-            if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).sendMessage(mess, Util.DUMMY_UUID);
+            if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).sendMessage(mess,
+                    Util.DUMMY_UUID);
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return true;
         }
@@ -204,7 +212,8 @@ public class CaptureManager
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", pokemob.getDisplayName());
             ((PlayerEntity) cube.shootingEntity).sendMessage(mess, Util.DUMMY_UUID);
-            cube.setPosition(cube.shootingEntity.getPosX(), cube.shootingEntity.getPosY(), cube.shootingEntity.getPosZ());
+            cube.setPosition(cube.shootingEntity.getPosX(), cube.shootingEntity.getPosY(), cube.shootingEntity
+                    .getPosZ());
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
         }
         return true;
