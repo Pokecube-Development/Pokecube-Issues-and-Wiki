@@ -1,6 +1,8 @@
 package pokecube.core.ai.tasks.burrows.tasks;
 
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.util.math.BlockPos;
 import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.interfaces.IPokemob;
@@ -30,7 +32,24 @@ public class ReturnHome extends AbstractBurrowTask
     public void run()
     {
         // This should path the mob over to the center of the home room, maybe
-        // call "enter" for it as well?
+        // call "enter" for it as well?{
+        this.entity.getBrain().removeMemory(BurrowTasks.JOB_INFO);
+        this.homePos.set(this.burrow.nest.getPos());
+        if (this.enterTimer++ > 6000) this.entity.setPosition(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
+                + 0.5);
+        final BlockPos pos = this.entity.getPosition();
+        this.burrow.hab.onEnterHabitat(this.entity);
+        if (pos.distanceSq(this.homePos.getPos()) > this.burrow.hab.burrow.getSize())
+        {
+            final Path p = this.entity.getNavigator().getPath();
+            final boolean targ = p != null && p.reachesTarget();
+            if (!targ) this.setWalkTo(this.homePos, 1, 1);
+        }
+        else
+        {
+            final Brain<?> brain = this.entity.getBrain();
+            brain.setMemory(BurrowTasks.GOING_HOME, false);
+        }
     }
 
     @Override

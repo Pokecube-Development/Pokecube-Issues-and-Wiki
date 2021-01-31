@@ -38,7 +38,8 @@ public class DigBurrow extends AbstractBurrowTask
     {
         if (this.dig)
         {
-
+            System.out.println("diggy dig dig");
+            System.out.println("diggy dig dig?");
         }
         else
         {
