@@ -21,6 +21,7 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
@@ -28,6 +29,7 @@ import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
+import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.interfaces.IInhabitable;
@@ -209,6 +211,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                 final List<EntityType<?>> types = Lists.newArrayList(EntityTypeTags.getTagById(IMoveConstants.BURROWS
                         .toString()).getAllElements());
                 Collections.shuffle(types);
+                final Biome b = world.getBiome(this.burrow.getCenter());
                 selection:
                 for (final EntityType<?> t : types)
                 {
@@ -216,6 +219,11 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                     if (pokemob != null)
                     {
                         final PokedexEntry entry = pokemob.getPokedexEntry();
+
+                        final SpawnData spawn = entry.getSpawnData();
+                        if (spawn == null) continue;
+                        if (!spawn.isValid(b)) continue;
+
                         if (this.related.contains(entry))
                         {
                             this.setMaker(entry);
