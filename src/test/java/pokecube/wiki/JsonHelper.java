@@ -85,9 +85,9 @@ public class JsonHelper
                 o1.add(property, value);
                 return true;
             }
-            else
+            else if (value.isJsonObject())
             {
-                o_1 = o.getAsJsonObject(property);
+                o_1 = value.getAsJsonObject();
                 if (o_1 == null) return false;
                 o = o_1;
                 if (o1.has(property)) o1_1 = o1.getAsJsonObject(property);
@@ -98,6 +98,7 @@ public class JsonHelper
                 }
                 o1 = o1_1;
             }
+            else System.out.println("Error with merging " + o);
         }
         return true;
     }
@@ -152,7 +153,7 @@ public class JsonHelper
         final Map<String, String[][]> tags = Maps.newHashMap();
 
         tags.put("pokemobs_spawns", new String[][] { { "stats", "spawnRules" } });
-        tags.put("pokemobs_formes", new String[][] { { "models" } });
+        tags.put("pokemobs_formes", new String[][] { { "models" }, { "male_model" }, { "female_model" }, { "model" } });
         tags.put("pokemobs_drops", new String[][] { { "stats", "lootTable" }, { "stats", "heldTable" } });
         tags.put("pokemobs_moves", new String[][] { { "moves" } });
 
