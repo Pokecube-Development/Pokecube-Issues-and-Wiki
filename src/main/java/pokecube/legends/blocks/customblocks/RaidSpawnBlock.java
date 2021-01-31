@@ -67,7 +67,7 @@ public class RaidSpawnBlock extends MaxBlock
 
     public RaidSpawnBlock(final Material material, MaterialColor color)
     {
-        super(Properties.create(material).sound(SoundType.METAL).tickRandomly().hardnessAndResistance(2000, 2000));
+        super(Properties.create(material).sound(SoundType.METAL).tickRandomly().hardnessAndResistance(2000, 2000), color);
         this.setDefaultState(this.stateContainer.getBaseState().with(RaidSpawnBlock.ACTIVE, State.EMPTY));
     }
 

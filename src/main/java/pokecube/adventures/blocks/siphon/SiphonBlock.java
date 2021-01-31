@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -86,9 +87,9 @@ public class SiphonBlock extends InteractableHorizontalBlock implements IWaterLo
         return SiphonBlock.SIPHON.get(state.get(SiphonBlock.FACING));
     }
     
-    public SiphonBlock(final Properties properties)
+    public SiphonBlock(final Properties properties, final MaterialColor color)
     {
-        super(properties);
+        super(properties, color);
         this.setDefaultState(this.stateContainer.getBaseState().with(SiphonBlock.FACING, Direction.NORTH).with(
         		SiphonBlock.FIXED, false).with(WATERLOGGED, false));
     }

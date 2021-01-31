@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -114,9 +115,9 @@ public class TMBlock extends InteractableHorizontalBlock implements IWaterLoggab
         return TMBlock.TM_MACHINE.get(state.get(TMBlock.FACING));
     }
 
-    public TMBlock(final Properties properties)
+    public TMBlock(final Properties properties, final MaterialColor color)
     {
-        super(properties);
+        super(properties, color);
         this.setDefaultState(this.stateContainer.getBaseState().with(TMBlock.FACING, Direction.NORTH).with(
                 TMBlock.WATERLOGGED, false));
     }

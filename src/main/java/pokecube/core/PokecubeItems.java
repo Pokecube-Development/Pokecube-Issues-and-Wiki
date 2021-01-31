@@ -200,16 +200,16 @@ public class PokecubeItems extends ItemList
                 Material.ORGANIC, MaterialColor.STONE)));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(Block.Properties.create(
                 Material.ORGANIC, MaterialColor.GREEN)));
-        DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(Block.Properties.create(Material.ROCK, MaterialColor.BLACK)
-                .hardnessAndResistance(2000)));
+        DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(Block.Properties.create(Material.ROCK)
+                .hardnessAndResistance(2000), MaterialColor.BLACK));
         PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(Block.Properties.create(Material.IRON, MaterialColor.RED)
                 .hardnessAndResistance(2000), true));
         PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(Block.Properties.create(Material.IRON, MaterialColor.RED)
                 .hardnessAndResistance(2000), false));
-        TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(Block.Properties.create(Material.IRON, MaterialColor.LIGHT_BLUE)
-                .hardnessAndResistance(2000)));
+        TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(Block.Properties.create(Material.IRON)
+                .hardnessAndResistance(2000), MaterialColor.LIGHT_BLUE));
         TRADER = PokecubeItems.BLOCKS.register("trade_machine", () -> new TraderBlock(Block.Properties.create(
-                Material.IRON, MaterialColor.GRAY_TERRACOTTA).hardnessAndResistance(2000)));
+                Material.IRON).hardnessAndResistance(2000), MaterialColor.GRAY_TERRACOTTA));
         SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(Block.Properties.create(
                 Material.ROCK, MaterialColor.STONE).hardnessAndResistance(2000)));
         FOSSILSTONE = PokecubeItems.BLOCKS.register("fossilstone", () -> new Block(Block.Properties.create(

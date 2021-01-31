@@ -191,22 +191,22 @@ public class PokecubeAdv
         CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeAdv.MODID);
 
         // Blocks
-        AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(Block.Properties.create(Material.IRON, MaterialColor.BLACK)
-                .variableOpacity()));
+        AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity(), MaterialColor.BLACK));
         COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(Block.Properties.create(
-                Material.IRON, MaterialColor.BLACK).variableOpacity()));
-        DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(Block.Properties.create(Material.IRON, 
-        		MaterialColor.BLACK).variableOpacity()));
-        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(Block.Properties.create(Material.IRON, MaterialColor.PURPLE)
-                .variableOpacity()));
+                Material.IRON).variableOpacity(), MaterialColor.BLACK));
+        DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(Block.Properties.create(Material.IRON)
+        		.variableOpacity(), MaterialColor.BLACK));
+        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity(), MaterialColor.PURPLE));
         EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor", () -> new ExtractorBlock(Block.Properties.create(
-                Material.IRON, MaterialColor.CYAN).variableOpacity()));
-        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(Block.Properties.create(Material.IRON, MaterialColor.CYAN)
-                .variableOpacity()));
-        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(Block.Properties.create(Material.IRON, MaterialColor.GREEN_TERRACOTTA)
-                .variableOpacity()));
+                Material.IRON).variableOpacity(), MaterialColor.CYAN));
+        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity(), MaterialColor.CYAN));
+        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(Block.Properties.create(Material.IRON)
+                .variableOpacity(), MaterialColor.GREEN_TERRACOTTA));
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(Block.Properties.create(
-                Material.IRON, MaterialColor.WHITE_TERRACOTTA)));
+                Material.IRON), MaterialColor.WHITE_TERRACOTTA));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().group(
