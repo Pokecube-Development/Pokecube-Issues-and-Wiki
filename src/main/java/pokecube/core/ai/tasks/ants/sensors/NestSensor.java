@@ -21,12 +21,12 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.interfaces.IInhabitable;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 
 public class NestSensor extends Sensor<MobEntity>
 {
     private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(AntTasks.NEST_POS, AntTasks.NO_HIVE_TIMER);
+
+    public static int NESTSPACING = 64;
 
     public static class AntNest
     {
@@ -56,9 +56,8 @@ public class NestSensor extends Sensor<MobEntity>
             {
                 final NestTile nest = (NestTile) tile;
                 if (!nest.isType(AntTasks.NESTLOC)) return Optional.empty();
-                final IInhabitable habitat = nest.habitat;
-                if (habitat instanceof HabitatProvider && ((HabitatProvider) habitat).getWrapped() instanceof AntHabitat)
-                    return Optional.of(new AntNest(nest, (AntHabitat) ((HabitatProvider) habitat).getWrapped()));
+                if (nest.getWrappedHab() instanceof AntHabitat) return Optional.of(new AntNest(nest, (AntHabitat) nest
+                        .getWrappedHab()));
             }
         }
         return Optional.empty();
@@ -74,7 +73,7 @@ public class NestSensor extends Sensor<MobEntity>
         final BlockPos pos = entityIn.getPosition();
         final Random rand = new Random();
         final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(), p -> this.validNest(p,
-                worldIn, entityIn), Status.ANY, pos, 64, rand);
+                worldIn, entityIn), Status.ANY, pos, NestSensor.NESTSPACING, rand);
         if (opt.isPresent())
         {
             // Randomize this so we don't always pick the same hive if it was

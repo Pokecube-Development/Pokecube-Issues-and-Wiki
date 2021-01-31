@@ -42,10 +42,11 @@ import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
+import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.world.IWorldTickListener;
@@ -71,6 +72,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     ServerWorld world;
 
     int antExitCooldown = 0;
+
+    ForbidRegion repelled = null;
 
     // This list gets shuffled every so often, so the order is not constant!
     public List<Node> allRooms = Lists.newArrayList();
@@ -136,10 +139,24 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     final NestTile nest = (NestTile) tile;
                     nest.isType(AntTasks.NESTLOC);
                     // Copy over the old habitat info.
-                    if (nest.habitat instanceof HabitatProvider) ((HabitatProvider) nest.habitat).setWrapped(this);
+                    nest.setWrappedHab(this);
                 }
             }
         }
+    }
+
+    @Override
+    public void updateRepelledRegion()
+    {
+        final AxisAlignedBB box = this.rooms.bounds.grow(10, 0, 10);
+        this.repelled = new AABBRegion(box);
+    }
+
+    @Override
+    public ForbidRegion getRepelledRegion()
+    {
+        if (this.repelled == null) this.updateRepelledRegion();
+        return this.repelled;
     }
 
     private AntJob getNextJob(final AntJob oldJob)
@@ -271,6 +288,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
 
         this.rooms.add(room);
         this.rooms.allEdges.add(edge);
+
+        this.updateRepelledRegion();
     }
 
     @Override

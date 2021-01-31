@@ -20,6 +20,7 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
@@ -32,6 +33,8 @@ import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
+import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
@@ -45,6 +48,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     {
         final BurrowHab hab = new BurrowHab();
         hab.setMaker(pokemob.getPokedexEntry());
+        if (hab.related.isEmpty()) return null;
         hab.setPos(pos);
         return hab;
     }
@@ -52,6 +56,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     private PokedexEntry maker;
 
     public Room burrow;
+
+    ForbidRegion repelled = null;
 
     final Set<PokedexEntry> related = Sets.newHashSet();
 
@@ -68,6 +74,20 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     public PokedexEntry getMaker()
     {
         return this.maker;
+    }
+
+    @Override
+    public void updateRepelledRegion()
+    {
+        final AxisAlignedBB box = this.burrow.getOutBounds().grow(16, 0, 16);
+        this.repelled = new AABBRegion(box);
+    }
+
+    @Override
+    public ForbidRegion getRepelledRegion()
+    {
+        if (this.repelled == null) this.updateRepelledRegion();
+        return this.repelled;
     }
 
     private void addRelations(final PokedexEntry parent, final Set<PokedexEntry> related)
@@ -266,7 +286,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                     final SpeciesGene newGene = (SpeciesGene) geneA.interpolate(geneB);
                     info = newGene.getValue();
                     entry = info.entry;
-                    if (!this.related.contains(entry)) this.mutations.add(entry);
+                    if (!this.related.contains(entry)) this.addRelations(entry, this.mutations);
                 }
                 final EntityPokemobEgg egg = NestTile.spawnEgg(entry, this.burrow.getCenter(), world, false);
                 if (egg != null) this.eggs.add(egg.getUniqueID());

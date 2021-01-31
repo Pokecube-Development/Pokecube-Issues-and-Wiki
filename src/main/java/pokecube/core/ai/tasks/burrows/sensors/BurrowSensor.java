@@ -22,7 +22,6 @@ import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IInhabitable;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 
 public class BurrowSensor extends Sensor<MobEntity>
 {
@@ -57,9 +56,8 @@ public class BurrowSensor extends Sensor<MobEntity>
             {
                 final NestTile nest = (NestTile) tile;
                 if (!nest.isType(BurrowTasks.BURROWLOC)) return Optional.empty();
-                final IInhabitable habitat = nest.habitat;
-                if (habitat instanceof HabitatProvider && ((HabitatProvider) habitat).getWrapped() instanceof BurrowHab)
-                    return Optional.of(new Burrow(nest, (BurrowHab) ((HabitatProvider) habitat).getWrapped()));
+                if (nest.getWrappedHab() instanceof BurrowHab) return Optional.of(new Burrow(nest, (BurrowHab) nest
+                        .getWrappedHab()));
             }
         }
         return Optional.empty();
@@ -98,7 +96,7 @@ public class BurrowSensor extends Sensor<MobEntity>
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
         if (!nest.isType(BurrowTasks.BURROWLOC)) return false;
-        final IInhabitable habitat = nest.habitat;
+        final IInhabitable habitat = nest.getWrappedHab();
         return habitat.canEnterHabitat(entityIn);
     }
 

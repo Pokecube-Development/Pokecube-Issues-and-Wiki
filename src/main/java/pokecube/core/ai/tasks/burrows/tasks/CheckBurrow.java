@@ -25,10 +25,8 @@ import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.entity.ai.IAIRunnable;
 
@@ -41,6 +39,8 @@ public class CheckBurrow extends BaseIdleTask
         // We use this memory to decide where to put the hive
         CheckBurrow.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryModuleStatus.VALUE_PRESENT);
     }
+
+    public static int BURROWSPACING = 64;
 
     int burrowCheckTimer = 0;
 
@@ -88,8 +88,8 @@ public class CheckBurrow extends BaseIdleTask
             blocks.forEach(b ->
             {
                 if (b == null) return;
-                final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), b.getPos(), 32,
-                        net.minecraft.village.PointOfInterestManager.Status.ANY);
+                final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), b.getPos(),
+                        CheckBurrow.BURROWSPACING, net.minecraft.village.PointOfInterestManager.Status.ANY);
                 if (num == 0 && PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
             });
 
@@ -128,9 +128,7 @@ public class CheckBurrow extends BaseIdleTask
         final TileEntity tile = this.world.getTileEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
-        nest.isType(BurrowTasks.BURROWLOC);
-        final IInhabitable habitat = nest.habitat;
-        ((HabitatProvider) habitat).setWrapped(hab);
+        nest.setWrappedHab(hab);
         nest.addResident(this.pokemob);
         brain.setMemory(BurrowTasks.BURROW, GlobalPos.getPosition(this.world.getDimensionKey(), pos));
         brain.removeMemory(BurrowTasks.NO_HOME_TIMER);
