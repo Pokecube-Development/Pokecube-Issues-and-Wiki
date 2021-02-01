@@ -14,6 +14,7 @@ import net.minecraft.village.PointOfInterestManager;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.ai.tasks.bees.BeeTasks;
@@ -79,7 +80,7 @@ public class CheckNest extends BaseIdleTask
                         if (tile instanceof NestTile)
                         {
                             final NestTile nest = (NestTile) tile;
-                            nest.isType(AntTasks.NESTLOC);
+                            nest.setWrappedHab(new AntHabitat());
                             nest.addResident(this.pokemob);
                             // Copy over the old habitat info.
                             nest.setWrappedHab(this.nest.hab);

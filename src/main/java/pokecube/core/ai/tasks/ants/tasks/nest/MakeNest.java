@@ -16,6 +16,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IPokemob;
@@ -48,7 +49,7 @@ public class MakeNest extends BaseIdleTask
         final TileEntity tile = this.world.getTileEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
-        nest.isType(AntTasks.NESTLOC);
+        nest.setWrappedHab(new AntHabitat());
         nest.addResident(this.pokemob);
         brain.removeMemory(AntTasks.NO_HIVE_TIMER);
         return true;
