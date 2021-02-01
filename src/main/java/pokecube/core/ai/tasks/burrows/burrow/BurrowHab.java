@@ -179,8 +179,6 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         if (this.burrow.shouldDig(time))
         {
             final ObjectSet<BlockPos> blocks = this.burrow.digBlocks.keySet();
-            System.out.println(blocks.size() + " " + this.burrow.getSize() + " " + this.maker + " " + this.burrow
-                    .getCenter());
             blocks.forEach(p ->
             {
                 if (p.equals(this.burrow.getCenter())) return;

@@ -387,7 +387,7 @@ public class SpawnBiomeMatcher
 
         // We are the correct subbiome if we either don't need one, or the valid
         // subbiomes has out current one.
-        final boolean rightSubBiome = !needsSubbiome || this._validSubBiomes.contains(checker.type);
+        final boolean rightSubBiome = noSubbiome || this._validSubBiomes.contains(checker.type);
 
         // Return true if both correct biome and subbiome.
         return rightBiome && rightSubBiome;
