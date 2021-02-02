@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import net.minecraft.util.math.BlockPos;
@@ -13,7 +12,7 @@ import pokecube.core.ai.tasks.ants.nest.Edge;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.nest.Part;
 import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
-import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
+import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 
@@ -29,8 +28,6 @@ public class Dig extends AbstractConstructTask
         final long time = this.world.getGameTime();
         if (!part.shouldDig(time)) return false;
         this.valids.set(0);
-        final AtomicBoolean shor = new AtomicBoolean(false);
-        shor.set(false);
 
         // Start with a check of if the pos is inside.
         Predicate<BlockPos> isValid = p -> part.getTree().shouldCheckDig(p, time);
@@ -38,7 +35,7 @@ public class Dig extends AbstractConstructTask
         // dug spot, finally we check if there is space nearby to stand.
         isValid = isValid.and(p ->
         {
-            if (AbstractWorkTask.diggable.test(this.world.getBlockState(p)))
+            if (UtilTask.diggable.test(this.world.getBlockState(p)))
             {
                 this.valids.getAndIncrement();
                 return this.hasEmptySpace.test(p);
@@ -46,10 +43,9 @@ public class Dig extends AbstractConstructTask
             return false;
         });
         final BlockPos pos = this.entity.getPosition();
-
         // Stream -> filter gets us only the valid postions.
         // Min then gets us the one closest to the ant.
-        Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) ->
+        final Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) ->
         {
             final double d1 = p1.distanceSq(pos);
             final double d2 = p2.distanceSq(pos);
@@ -65,35 +61,6 @@ public class Dig extends AbstractConstructTask
         if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("No Site " + this.valids.get() + " " + done);
         // None were valid to dig, so mark as done.
         if (done) part.setDigDone(time + (part instanceof Node ? 2400 : 1200));
-        else if (shor.get())
-        {
-            // Start with a check of if the pos is inside, this also checks if
-            // the block was dug recently, and if so, skips it.
-            isValid = p -> part.shouldCheckDig(p, time);
-            // If it is inside, and not diggable, we notify the node of the
-            // dug spot, finally we check if there is space nearby to stand.
-            isValid = isValid.and(p ->
-            {
-                if (AbstractWorkTask.diggable.test(this.world.getBlockState(p)))
-                {
-                    this.valids.getAndIncrement();
-                    return this.canStandNear.test(p);
-                }
-                return false;
-            });
-            valid = part.getDigBounds().stream().filter(isValid).min((p1, p2) ->
-            {
-                final double d1 = p1.distanceSq(pos);
-                final double d2 = p2.distanceSq(pos);
-                return Double.compare(d1, d2);
-            });
-            if (valid.isPresent())
-            {
-                this.work_pos = valid.get().toImmutable();
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Found Dig Site!");
-                return true;
-            }
-        }
         return false;
     }
 

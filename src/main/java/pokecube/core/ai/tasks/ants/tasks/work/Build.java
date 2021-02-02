@@ -24,6 +24,7 @@ import pokecube.core.ai.tasks.ants.nest.Part;
 import pokecube.core.ai.tasks.ants.nest.Tree;
 import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
+import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -112,7 +113,7 @@ public class Build extends AbstractConstructTask
                     task.tryHarvest(pos, true);
                     wouldBeValid = this.validWall(node, world, pos, null, false);
                 }
-                else if (AbstractWorkTask.diggable.test(state))
+                else if (UtilTask.diggable.test(state))
                 {
                     world.setBlockState(pos, Blocks.AIR.getDefaultState(), 48);
                     wouldBeValid = this.validWall(node, world, pos, null, false);

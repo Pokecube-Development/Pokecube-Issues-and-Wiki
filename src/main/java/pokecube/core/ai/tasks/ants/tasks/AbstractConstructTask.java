@@ -42,8 +42,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
     protected Node n = null;
     protected Edge e = null;
 
-    protected BlockPos work_pos  = null;
-    protected BlockPos stand_pos = null;
+    protected BlockPos work_pos = null;
 
     final double ds2Max;
     final double dsMax;
@@ -93,7 +92,6 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         this.n = null;
         this.e = null;
         this.work_pos = null;
-        this.stand_pos = null;
         this.valids.set(0);
         final Brain<?> brain = this.entity.getBrain();
         brain.removeMemory(AntTasks.WORK_POS);
@@ -221,7 +219,6 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         // this.setWalkTo(room.getCenter(), 1, 2);
 
         this.work_pos = null;
-        this.stand_pos = null;
         this.valids.set(0);
         this.progressTimer = 0;
     }
@@ -248,17 +245,16 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         final Brain<?> brain = this.entity.getBrain();
         final GlobalPos pos = GlobalPos.getPosition(this.world.getDimensionKey(), this.work_pos);
         brain.setMemory(AntTasks.WORK_POS, pos);
-        this.stand_pos = this.work_pos;
 
         final Path p = this.entity.getNavigator().getPath();
 
-        final double dr = this.stand_pos.distanceSq(this.entity.getPosition());
-        final double dr2 = p == null ? dr : p.getFinalPathPoint().func_224759_a().distanceSq(this.stand_pos);
+        final double dr = this.work_pos.distanceSq(this.entity.getPosition());
+        final double dr2 = p == null ? dr : p.getFinalPathPoint().func_224759_a().distanceSq(this.work_pos);
 
         if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " WORK! (" + dr + "/" + dr2 + ") "
                 + this.ds2Max);
 
-        if (dr2 > this.ds2Max) this.setWalkTo(this.stand_pos, 1, MathHelper.ceil(this.dsMax - 1));
+        if (dr2 > this.ds2Max) this.setWalkTo(this.work_pos, 1, MathHelper.ceil(this.dsMax - 1));
         else if (this.progressTimer > 20) this.progressTimer = 20;
 
         if (this.shouldGiveUp(dr2))
@@ -274,7 +270,6 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Work Done! " + this.job + " " + this.n + " " + this.e);
             if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " IDLE");
             this.work_pos = null;
-            this.stand_pos = null;
             this.progressDistance = 0;
         }
     }

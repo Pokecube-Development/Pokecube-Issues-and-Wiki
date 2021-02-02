@@ -10,10 +10,10 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import it.unimi.dsi.fastutil.objects.ObjectSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
@@ -50,6 +50,11 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         hab.setMaker(pokemob.getPokedexEntry());
         if (hab.related.isEmpty()) return null;
         hab.setPos(pos);
+        final Predicate<MobEntity> filter = mob -> hab.canEnterHabitat(mob);
+        final List<MobEntity> mobs = pokemob.getEntity().getEntityWorld().getEntitiesWithinAABB(MobEntity.class,
+                hab.burrow.getOutBounds().grow(10), filter);
+        for (final MobEntity mob : mobs)
+            if (!hab.mobs.contains(mob.getUniqueID())) hab.mobs.add(mob.getUniqueID());
         return hab;
     }
 
@@ -172,20 +177,24 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         IInhabitable.super.onBroken(world);
     }
 
+    private List<IPokemob> cleanAndCollectMobs(final ServerWorld world)
+    {
+        final List<IPokemob> pokemobs = Lists.newArrayList();
+        this.mobs.removeIf(uuid ->
+        {
+            final Entity mob = world.getEntityByUuid(uuid);
+            if (mob == null || !(mob instanceof MobEntity)) return true;
+            if (!this.canEnterHabitat((MobEntity) mob)) return true;
+            pokemobs.add(CapabilityPokemob.getPokemobFor(mob));
+            return false;
+        });
+        return pokemobs;
+    }
+
     @Override
     public void onTick(final ServerWorld world)
     {
         final long time = world.getGameTime();
-        if (this.burrow.shouldDig(time))
-        {
-            final ObjectSet<BlockPos> blocks = this.burrow.digBlocks.keySet();
-            blocks.forEach(p ->
-            {
-                if (p.equals(this.burrow.getCenter())) return;
-                world.destroyBlock(p, true);
-            });
-            this.burrow.setDigDone(time + 12000);
-        }
 
         // Lets make the eggs not hatch for now,
         // This also removes hatched/removed eggs
@@ -201,15 +210,18 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
 
         if (time % 20 == 0)
         {
-            final List<IPokemob> pokemobs = Lists.newArrayList();
-            this.mobs.removeIf(uuid ->
+            final List<IPokemob> pokemobs = this.cleanAndCollectMobs(world);
+            if (this.burrow.shouldDig(time))
             {
-                final Entity mob = world.getEntityByUuid(uuid);
-                if (mob == null || !(mob instanceof MobEntity)) return true;
-                if (!this.canEnterHabitat((MobEntity) mob)) return true;
-                pokemobs.add(CapabilityPokemob.getPokemobFor(mob));
-                return false;
-            });
+                final CompoundNBT tag = new CompoundNBT();
+                tag.putBoolean("dig", true);
+                for (final IPokemob pokemob : pokemobs)
+                {
+                    System.out.println("dig? " + pokemob.getPokedexEntry());
+                    final Brain<?> brain = pokemob.getEntity().getBrain();
+                    if (!brain.hasMemory(BurrowTasks.JOB_INFO)) brain.setMemory(BurrowTasks.JOB_INFO, tag);
+                }
+            }
 
             final TileEntity tile = world.getTileEntity(this.burrow.getCenter());
 
@@ -286,8 +298,12 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                     entry = info.entry;
                     if (!this.related.contains(entry)) this.addRelations(entry, this.mutations);
                 }
-                final EntityPokemobEgg egg = NestTile.spawnEgg(entry, this.burrow.getCenter(), world, false);
-                if (egg != null) this.eggs.add(egg.getUniqueID());
+                final BlockPos pos = this.burrow.getCenter();
+                if (world.isAirBlock(pos.up()))
+                {
+                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, pos, world, false);
+                    if (egg != null) this.eggs.add(egg.getUniqueID());
+                }
             }
         }
     }
