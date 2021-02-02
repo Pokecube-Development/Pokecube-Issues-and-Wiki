@@ -294,12 +294,13 @@ public class LogicFloatFlySwim extends LogicBase
                     .setCurrentPathIndex(path.getCurrentPathIndex() + 1);
         }
 
-        if (world instanceof ServerWorld) synchronized (((ServerWorld) world).navigations)
-        {
-            ((ServerWorld) world).navigations.remove(this.entity.getNavigator());
-        }
+        final PathNavigator oldNavi = this.entity.getNavigator();
 
-        if (this.pokemob.floats() || this.pokemob.flys())
+        final boolean alive = this.entity.isAlive();
+        final boolean air = this.pokemob.floats() || this.pokemob.flys();
+        final boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
+
+        if (air && alive)
         {
             if (this.state != NaviState.FLY)
             {
@@ -309,7 +310,7 @@ public class LogicFloatFlySwim extends LogicBase
             }
             this.state = NaviState.FLY;
         }
-        else if (this.pokemob.getEntity().isInWater() && this.pokemob.swims())
+        else if (water && alive)
         {
             if (this.state != NaviState.SWIM)
             {
@@ -329,9 +330,12 @@ public class LogicFloatFlySwim extends LogicBase
             this.state = NaviState.WALK;
         }
 
-        if (world instanceof ServerWorld) synchronized (((ServerWorld) world).navigations)
+        final PathNavigator newNavi = this.entity.getNavigator();
+
+        if (world instanceof ServerWorld && newNavi != oldNavi) synchronized (((ServerWorld) world).navigations)
         {
-            ((ServerWorld) world).navigations.add(this.entity.getNavigator());
+            ((ServerWorld) world).navigations.remove(oldNavi);
+            ((ServerWorld) world).navigations.add(newNavi);
         }
     }
 }

@@ -654,6 +654,7 @@ public final class SpawnHandler
 
     public static boolean removeForbiddenSpawningCoord(final BlockPos pos, final World world)
     {
+        if (world == null) return false;
         final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.getDimensionKey());
         if (entries == null) return false;
         return entries.remove(pos) != null;

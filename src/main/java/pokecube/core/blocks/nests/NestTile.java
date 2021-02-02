@@ -127,6 +127,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean addForbiddenSpawningCoord()
     {
+        if (this.world == null) return false;
         final BlockPos pos = this.getPos();
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null) return false;
@@ -193,6 +194,8 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         }
         this.time = nbt.getInt("time");
         this.tag = nbt.getCompound("_data_");
+        // Ensure the repel range resets properly.
+        if (this.getWrappedHab() != null) this.setWrappedHab(this.getWrappedHab());
     }
 
     @Override
@@ -204,6 +207,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean removeForbiddenSpawningCoord()
     {
+        if (this.world == null) return false;
         return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world);
     }
 

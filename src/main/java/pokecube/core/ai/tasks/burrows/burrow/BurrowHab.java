@@ -217,7 +217,6 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                 tag.putBoolean("dig", true);
                 for (final IPokemob pokemob : pokemobs)
                 {
-                    System.out.println("dig? " + pokemob.getPokedexEntry());
                     final Brain<?> brain = pokemob.getEntity().getBrain();
                     if (!brain.hasMemory(BurrowTasks.JOB_INFO)) brain.setMemory(BurrowTasks.JOB_INFO, tag);
                 }
