@@ -1,5 +1,6 @@
 package pokecube.core.ai.logic;
 
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -77,6 +79,7 @@ public class LogicMountedControl extends LogicBase
         boolean shouldControl = this.entity.isOnGround() || this.pokemob.floats();
         boolean verticalControl = false;
         boolean waterSpeed = false;
+        final boolean inFluid = this.entity.isInWater() || this.entity.isInLava();
         boolean airSpeed = !this.entity.isOnGround();
 
         boolean canSurf = this.pokemob.canUseSurf();
@@ -115,21 +118,38 @@ public class LogicMountedControl extends LogicBase
         if (waterSpeed) airSpeed = false;
 
         final Entity controller = rider;
-        if (this.pokemob.getPokedexEntry().shouldDive)
+
+        final ItemStack stack = new ItemStack(Blocks.BARRIER);
+        final List<EffectInstance> buffs = Lists.newArrayList();
+
+        if (waterSpeed && this.pokemob.getPokedexEntry().shouldDive)
         {
             final EffectInstance vision = new EffectInstance(Effects.NIGHT_VISION, 300, 1, true, false);
             final EffectInstance breathing = new EffectInstance(Effects.WATER_BREATHING, 300, 1, true, false);
-            final ItemStack stack = new ItemStack(Blocks.BARRIER);
             vision.setCurativeItems(Lists.newArrayList(stack));
             breathing.setCurativeItems(Lists.newArrayList(stack));
-            for (final Entity e : this.entity.getRecursivePassengers())
-                if (e instanceof LivingEntity) if (this.entity.isInWater())
-                {
-                    ((LivingEntity) e).addPotionEffect(vision);
-                    ((LivingEntity) e).addPotionEffect(breathing);
-                }
-                else((LivingEntity) e).curePotionEffects(stack);
+            buffs.add(vision);
+            buffs.add(breathing);
         }
+
+        if (this.entity.isInLava() && this.entity.isImmuneToFire())
+        {
+            final EffectInstance no_burning = new EffectInstance(Effects.FIRE_RESISTANCE, 60, 1, true, false);
+            shouldControl = true;
+            verticalControl = true;
+            no_burning.setCurativeItems(Lists.newArrayList(stack));
+            buffs.add(no_burning);
+        }
+
+        for (final Entity e : this.entity.getRecursivePassengers())
+            if (e instanceof LivingEntity)
+            {
+                final boolean doBuffs = !buffs.isEmpty();
+                if (doBuffs) for (final EffectInstance buff : buffs)
+                    ((LivingEntity) e).addPotionEffect(buff);
+                else((LivingEntity) e).curePotionEffects(stack);
+            }
+
         final float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
         final float moveSpeed = (float) (0.25f * this.throttle * speedFactor);
         double vx = this.entity.getMotion().x;
@@ -150,7 +170,7 @@ public class LogicMountedControl extends LogicBase
                 vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
                 vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
             }
-            else if (this.entity.isInLava() || this.entity.isInWater())
+            else if (inFluid)
             {
                 f *= 0.1;
                 vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
@@ -178,12 +198,23 @@ public class LogicMountedControl extends LogicBase
             net.minecraftforge.common.ForgeHooks.onLivingJump(this.entity);
         }
         else if (verticalControl) vy += 0.1 * this.throttle;
-        else if (this.entity.isInLava() || this.entity.isInWater()) vy += 0.05 * this.throttle;
+        else if (inFluid) vy += 0.05 * this.throttle;
         if (this.downInputDown)
         {
             if (verticalControl && !this.entity.isOnGround()) vy -= 0.1 * this.throttle;
         }
         else if (!verticalControl && !this.entity.isOnGround()) vy -= 0.1;
+
+        if (inFluid && !(this.upInputDown || this.downInputDown))
+        {
+            double fraction = -1;
+            if (this.entity.isInWater()) fraction = this.entity.func_233571_b_(FluidTags.WATER);
+            if (this.entity.isInLava()) fraction = this.entity.func_233571_b_(FluidTags.LAVA);
+            final double threshold = this.entity.func_233579_cu_();
+            if (fraction > threshold) vy += 0.05;
+            System.out.println(vy + " " + fraction + " " + threshold);
+        }
+
         if (!this.followOwnerLook)
         {// TODO some way to make this change based on how long button is held?
             if (this.leftInputDown) this.pokemob.setHeading(this.pokemob.getHeading() - 5);
@@ -205,7 +236,7 @@ public class LogicMountedControl extends LogicBase
                     vx += MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
                     vz += MathHelper.sin(this.entity.rotationYaw * 0.017453292F) * f;
                 }
-                else if (this.entity.isInLava() || this.entity.isInWater())
+                else if (inFluid)
                 {
                     f *= 0.1;
                     vx += MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
@@ -224,7 +255,7 @@ public class LogicMountedControl extends LogicBase
                     vx -= MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
                     vz -= MathHelper.sin(this.entity.rotationYaw * 0.017453292F) * f;
                 }
-                else if (this.entity.isInLava() || this.entity.isInWater())
+                else if (inFluid)
                 {
                     f *= 0.1;
                     vx -= MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
