@@ -177,8 +177,6 @@ public class LegendarySpawn
             worked = result == SpawnResult.SUCCESS;
             if (worked) break;
 
-            System.out.println(match.entry + " " + result);
-
             if (result == SpawnResult.WRONGITEM) wrong_items.add(match.entry);
             if (result == SpawnResult.NOSPAWN) wrong_biomes.add(match.entry);
             if (result == SpawnResult.ALREADYHAVE) already_spawned.add(match.entry);

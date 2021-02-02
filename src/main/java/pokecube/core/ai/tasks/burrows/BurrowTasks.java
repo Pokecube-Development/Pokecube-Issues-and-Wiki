@@ -41,7 +41,7 @@ public class BurrowTasks
     public static final SensorType<BurrowSensor> NEST_SENSOR = new SensorType<>(BurrowSensor::new);
 
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(BurrowTasks.BURROW,
-            BurrowTasks.GOING_HOME, BurrowTasks.NO_HOME_TIMER);
+            BurrowTasks.JOB_INFO, BurrowTasks.GOING_HOME, BurrowTasks.NO_HOME_TIMER);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(BurrowTasks.NEST_SENSOR,
             Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);

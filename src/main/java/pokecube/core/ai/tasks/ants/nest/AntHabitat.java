@@ -137,7 +137,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     tile = this.world.getTileEntity(this.here);
                     if (!(tile instanceof NestTile)) return;
                     final NestTile nest = (NestTile) tile;
-                    nest.isType(AntTasks.NESTLOC);
                     // Copy over the old habitat info.
                     nest.setWrappedHab(this);
                 }

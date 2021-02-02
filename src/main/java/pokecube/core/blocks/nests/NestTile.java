@@ -121,12 +121,6 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         {
             final IInhabitable wrapped = ((HabitatProvider) this.habitat).getWrapped();
             if (wrapped.getKey() != null) return type.equals(wrapped.getKey());
-            final IInhabitable made = CapabilityInhabitable.make(type);
-            if (made != null)
-            {
-                this.setWrappedHab(made);
-                return true;
-            }
         }
         return false;
     }
