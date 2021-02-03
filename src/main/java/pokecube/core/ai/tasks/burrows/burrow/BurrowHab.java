@@ -82,16 +82,16 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     }
 
     @Override
-    public void updateRepelledRegion()
+    public void updateRepelledRegion(final ServerWorld world)
     {
         final AxisAlignedBB box = this.burrow.getOutBounds().grow(16, 0, 16);
         this.repelled = new AABBRegion(box);
     }
 
     @Override
-    public ForbidRegion getRepelledRegion()
+    public ForbidRegion getRepelledRegion(final ServerWorld world)
     {
-        if (this.repelled == null) this.updateRepelledRegion();
+        if (this.repelled == null) this.updateRepelledRegion(world);
         return this.repelled;
     }
 
@@ -159,7 +159,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         final ListNBT muts = new ListNBT();
         this.mutations.forEach(entry ->
         {
-            mobs.add(StringNBT.valueOf(entry.getTrimmedName()));
+            muts.add(StringNBT.valueOf(entry.getTrimmedName()));
         });
         nbt.put("mutated", muts);
         return nbt;

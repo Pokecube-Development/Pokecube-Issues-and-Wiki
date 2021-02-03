@@ -48,12 +48,12 @@ public interface IInhabitable
 
     }
 
-    default ForbidRegion getRepelledRegion()
+    default ForbidRegion getRepelledRegion(final ServerWorld world)
     {
         return null;
     }
 
-    default void updateRepelledRegion()
+    default void updateRepelledRegion(final ServerWorld world)
     {
 
     }

@@ -81,7 +81,6 @@ public class MakeNest extends BaseIdleTask
             if (b == null) return;
             if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
         });
-
         // last we check the terrain
         if (!surfaces.isEmpty())
         {
@@ -104,7 +103,7 @@ public class MakeNest extends BaseIdleTask
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
         if (brain.hasMemory(AntTasks.NO_HIVE_TIMER)) timer = brain.getMemory(AntTasks.NO_HIVE_TIMER).get();
-        return timer > 600;
+        return timer > 60;
     }
 
 }

@@ -218,6 +218,12 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
         else this.bounds = this.bounds.union(node.getOutBounds());
     }
 
+    public AxisAlignedBB getBounds()
+    {
+        if (this.bounds == null) return AxisAlignedBB.withSizeAtOrigin(0, 0, 0);
+        return this.bounds;
+    }
+
     public Node getEffectiveNode(final BlockPos pos, final Part from)
     {
         if (from instanceof Node) return (Node) from;
