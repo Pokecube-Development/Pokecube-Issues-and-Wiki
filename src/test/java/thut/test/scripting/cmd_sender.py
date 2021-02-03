@@ -6,7 +6,7 @@ HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
 PORT = 6666         # Port to listen on (non-privileged ports are > 1023)
 
 n = 0
-delay = 60
+delay = 10
 radius = 10000
 
 while True:
@@ -21,7 +21,7 @@ while True:
             x = random.randint(-radius, radius)
             z = random.randint(-radius, radius)
             s.connect((HOST, PORT))
-            msg = '/tp @p {} 200 {}'.format(x, z)
+            msg = '/tp @r {} 200 {}'.format(x, z)
             print(msg)
             s.sendall(msg.encode('utf-8'))
             data = s.recv(1024)

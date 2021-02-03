@@ -131,9 +131,19 @@ public class WalkToTask extends RootTask<MobEntity>
     private boolean isPathValid(final MobEntity mob, final WalkTarget target, final long gametime)
     {
         final BlockPos blockpos = target.getTarget().getBlockPos();
+        final Brain<?> brain = mob.getBrain();
         pathing:
         if (this.currentPath == null)
         {
+
+            final PathNavigator navi = mob.getNavigator();
+            if (navi.hasPath())
+            {
+                this.currentPath = navi.getPath();
+                brain.setMemory(MemoryModuleType.PATH, this.currentPath);
+                break pathing;
+            }
+
             final List<IPathHelper> pathers = WorldTickManager.pathHelpers.get(mob.getEntityWorld().getDimensionKey());
             for (final IPathHelper h : pathers)
             {
@@ -151,7 +161,6 @@ public class WalkToTask extends RootTask<MobEntity>
 
         if (!atTarget)
         {
-            final Brain<?> brain = mob.getBrain();
 
             if (this.currentPath != null && !this.currentPath.reachesTarget() && this.currentPath
                     .getCurrentPathLength() == 1)

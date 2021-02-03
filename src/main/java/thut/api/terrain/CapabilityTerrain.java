@@ -9,6 +9,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.common.capabilities.Capability;
@@ -25,6 +26,10 @@ public class CapabilityTerrain
         private BlockPos                             pos;
         private IChunk                               chunk;
         private final TerrainSegment[]               segments = new TerrainSegment[16];
+
+        private final boolean[] real = new boolean[16];
+
+        Mutable mutable = new Mutable();
 
         public DefaultProvider()
         {
@@ -73,6 +78,7 @@ public class CapabilityTerrain
                     TerrainSegment.readFromNBT(t, terrainTag);
                     this.setTerrainSegment(t, i);
                     t.idReplacements = null;
+                    this.real[i] = true;
                 }
                 if (t == null)
                 {
@@ -96,7 +102,7 @@ public class CapabilityTerrain
         }
 
         @Override
-        public TerrainSegment getTerrainSegement(final BlockPos blockLocation)
+        public TerrainSegment getTerrainSegment(final BlockPos blockLocation)
         {
             final int chunkY = blockLocation.getY();
             final TerrainSegment segment = this.getTerrainSegment(chunkY);
@@ -107,14 +113,17 @@ public class CapabilityTerrain
         public TerrainSegment getTerrainSegment(int chunkY)
         {
             chunkY &= 15;
+            if (this.real[chunkY]) return this.segments[chunkY];
+
             // The pos for this segment
-            final BlockPos pos = new BlockPos(this.chunk.getPos().x, chunkY, this.chunk.getPos().z);
+            this.mutable.setPos(this.chunk.getPos().x, chunkY, this.chunk.getPos().z);
+            final BlockPos pos = this.mutable;
 
             // Try to pull it from our array
             TerrainSegment ret = this.segments[chunkY];
             // try to find any cached variants if they exist
             final TerrainSegment cached = thut.api.terrain.ITerrainProvider.removeCached(((World) this.chunk
-                    .getWorldForge()).getDimensionKey(), pos);
+                    .getWorldForge()).getDimensionKey(), this.chunk.getPos(), chunkY);
 
             // If not found, make a new one, or use cached
             if (ret == null)
@@ -130,6 +139,7 @@ public class CapabilityTerrain
             // actually real.
             ret.chunk = this.chunk;
             ret.real = true;
+            this.real[chunkY] = true;
 
             return ret;
         }
@@ -177,7 +187,7 @@ public class CapabilityTerrain
     {
         BlockPos getChunkPos();
 
-        TerrainSegment getTerrainSegement(BlockPos blockLocation);
+        TerrainSegment getTerrainSegment(BlockPos blockLocation);
 
         TerrainSegment getTerrainSegment(int chunkY);
 
