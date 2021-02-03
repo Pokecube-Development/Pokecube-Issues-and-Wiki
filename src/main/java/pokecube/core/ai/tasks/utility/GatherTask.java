@@ -416,9 +416,15 @@ public class GatherTask extends UtilTask
         final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
         final List<ItemEntity> items = BrainUtils.getNearItems(this.entity);
 
+        final BlockPos home = this.pokemob.getHome();
+        final float dist = this.pokemob.getHomeDistance() * this.pokemob.getHomeDistance();
+
+        final Predicate<BlockPos> inRange = p -> home != null ? home.distanceSq(p) < dist : true;
+
         if (blocks != null)
         {
             this.blocks = Lists.newArrayList(blocks);
+            this.blocks.removeIf(b -> !inRange.test(b.getPos()));
             this.blocks.removeIf(b ->
             {
                 boolean canHarvest = false;
@@ -432,7 +438,11 @@ public class GatherTask extends UtilTask
             });
         }
         // Only replace this if the new list is not null.
-        if (items != null) this.items = items;
+        if (items != null)
+        {
+            this.items = items;
+            this.items.removeIf(b -> !inRange.test(b.getPosition()));
+        }
 
         if (this.blocks == null && this.items == null) return false;
         // check if pokemob has room in inventory for stuff, if so, return true.

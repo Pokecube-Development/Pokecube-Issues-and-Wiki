@@ -1,18 +1,25 @@
 package pokecube.core.ai.tasks.ants.tasks.nest;
 
+import java.util.List;
 import java.util.Optional;
 
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.util.math.BlockPos;
 import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
+import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.tasks.AbstractAntTask;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import thut.api.maths.Vector3;
 
 public class EnterNest extends AbstractAntTask
 {
-    final Vector3 homePos    = Vector3.getNewVector();
-    int           enterTimer = 0;
+    final Vector3 homePos = Vector3.getNewVector();
+
+    int enterTimer = 0;
 
     public EnterNest(final IPokemob pokemob)
     {
@@ -33,16 +40,29 @@ public class EnterNest extends AbstractAntTask
         final Brain<?> brain = this.entity.getBrain();
         this.homePos.set(this.nest.nest.getPos());
         this.entity.getNavigator().setRangeMultiplier(10);
+        if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " GO HOME");
 
         // Ensures no jobs for 5s after this is decided
         brain.setMemory(AntTasks.NO_WORK_TIME, -100);
+        brain.removeMemory(AntTasks.WORK_POS);
+        brain.removeMemory(AntTasks.JOB_INFO);
 
         // If we take more than 30s to progress, just tp there
-        if (this.enterTimer++ > 600) this.entity.setPosition(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
+        if (this.enterTimer++ > 6000) this.entity.setPosition(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
                 + 0.5);
 
+        final List<Node> entrances = this.nest.hab.getRooms(AntRoom.ENTRANCE);
+        if (entrances.isEmpty()) return;
+
+        final Node room = entrances.get(0);
+        final BlockPos pos = this.entity.getPosition();
         // If too far, lets path over.
-        if (this.homePos.distToEntity(this.entity) > 2 || this.nest == null) this.setWalkTo(this.homePos, 1, 1);
+        if (!room.isInside(pos))
+        {
+            final Path p = this.entity.getNavigator().getPath();
+            final boolean targ = p != null && p.reachesTarget();
+            if (!targ) this.setWalkTo(room.getCenter().up(), 1, 1);
+        }
         else
         {
             final IInhabitable habitat = this.nest.hab;

@@ -14,13 +14,13 @@ import net.minecraft.village.PointOfInterestManager;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
 
 public class CheckNest extends BaseIdleTask
 {
@@ -80,11 +80,10 @@ public class CheckNest extends BaseIdleTask
                         if (tile instanceof NestTile)
                         {
                             final NestTile nest = (NestTile) tile;
-                            nest.isType(AntTasks.NESTLOC);
+                            nest.setWrappedHab(new AntHabitat());
                             nest.addResident(this.pokemob);
                             // Copy over the old habitat info.
-                            if (nest.habitat instanceof HabitatProvider)
-                                ((HabitatProvider) nest.habitat).setWrapped(this.nest.hab);
+                            nest.setWrappedHab(this.nest.hab);
                             brain.removeMemory(AntTasks.NO_HIVE_TIMER);
                             this.nest = null;
                             return;

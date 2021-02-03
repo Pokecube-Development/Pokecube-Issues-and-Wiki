@@ -65,11 +65,6 @@ public class PokecubeManager
                 final String forme = poketag.getString("forme");
                 if (forme != null && !forme.isEmpty()) ret = Database.getEntry(forme);
             }
-            if (ret == null)
-            {
-                final int num = PokecubeManager.getPokedexNb(cube);
-                ret = Database.getEntry(num);
-            }
         }
         return ret;
     }
@@ -106,20 +101,10 @@ public class PokecubeManager
     {
         if (itemStack.isEmpty() || !itemStack.hasTag()) return null;
         final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
-        final int number = poketag.getCompound(TagNames.OWNERSHIPTAG).getInt(TagNames.POKEDEXNB);
         if (!poketag.contains(TagNames.OWNERSHIPTAG)) return null;
-        if (poketag.isEmpty() || number == 0) return Database.getEntry(PokecubeManager.getPokedexNb(itemStack));
         final String forme = poketag.getCompound(TagNames.VISUALSTAG).getString(TagNames.FORME);
         final PokedexEntry entry = Database.getEntry(forme);
-        return entry == null ? Database.getEntry(number) : entry;
-    }
-
-    public static int getPokedexNb(final ItemStack itemStack)
-    {
-        if (itemStack.isEmpty() || !itemStack.hasTag()) return 0;
-        final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
-        if (poketag == null || poketag.isEmpty()) return 0;
-        return poketag.getCompound(TagNames.OWNERSHIPTAG).getInt(TagNames.POKEDEXNB);
+        return entry == null ? Database.missingno : entry;
     }
 
     public static CompoundNBT getSealTag(final Entity pokemob)

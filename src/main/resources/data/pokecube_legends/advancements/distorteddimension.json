@@ -19,7 +19,7 @@
     "intotemirror": {
       "trigger": "minecraft:changed_dimension",
       "conditions": {
-        "to": "pokecube_legends:distorticw"
+        "to": "pokecube_legends:distorted_world"
       }
     }
   },

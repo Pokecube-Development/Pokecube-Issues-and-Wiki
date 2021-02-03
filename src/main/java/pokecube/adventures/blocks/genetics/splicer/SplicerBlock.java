@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -119,9 +120,9 @@ public class SplicerBlock extends InteractableHorizontalBlock implements IWaterL
         return SplicerBlock.SPLICER.get(state.get(SplicerBlock.FACING));
     }
 
-    public SplicerBlock(final Properties properties)
+    public SplicerBlock(final Properties properties, final MaterialColor color)
     {
-        super(properties);
+        super(properties, color);
         this.setDefaultState(this.stateContainer.getBaseState().with(SplicerBlock.FACING, Direction.NORTH).with(
                 SplicerBlock.FIXED, false).with(WATERLOGGED, false));
     }

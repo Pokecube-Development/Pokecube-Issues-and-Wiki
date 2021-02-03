@@ -26,14 +26,14 @@
     },
     {
       "name":"pokecube_legends:village/ocean/pokecenter/path",
-      "rigid":false,
+      "rigid":true,
       "options":[
         "pokecube_legends:village/ocean/pokecenter/path"
       ]
     },
     {
       "name":"pokecube_legends:village/ocean/gym/path",
-      "rigid":false,
+      "rigid":true,
       "options":[
         "pokecube_legends:village/ocean/gym/path"
       ]
@@ -128,20 +128,6 @@
         "pokecube_legends:meteorites/meteor_medium_1;{\"weight\":100}",
         "pokecube_legends:meteorites/meteor_large;{\"weight\":120}",
         "pokecube_legends:meteorites/meteor_large_1;{\"weight\":140}"
-      ]
-    },
-    {
-      "name":"pokecube_legends:mirage/base",
-      "rigid":false,
-      "options":[
-        "pokecube_legends:mirage/base"
-      ]
-    },
-    {
-      "name":"pokecube_legends:mirage",
-      "rigid":true,
-      "options":[
-        "pokecube_legends:mirage/miragespot"
       ]
     },
     {
@@ -447,7 +433,7 @@
   "jigsaws":[
   	//
     {
-      "type":"pokecube_legends:village/ocean",
+      "type":"pokecube_legends:village",
       "name":"pokecube_legends:village/ocean",
       "root":"pokecube_legends:village/ocean/town_centers",
       "chance":1,
@@ -484,19 +470,6 @@
         "values":{
           "types":"all",
           "categoryBlacklist":"ocean,beach"
-        }
-      }
-    },
-    {
-      "name":"pokecube_legends:mirage",
-      "root":"pokecube_legends:mirage/base",
-      "biomeType":"none",
-      "distance":24,
-      "separation":8,
-      "spawn":{
-        "values":{
-          "types":"all",
-          "categoryBlacklist":"ocean"
         }
       }
     },

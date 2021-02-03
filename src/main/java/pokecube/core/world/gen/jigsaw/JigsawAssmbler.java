@@ -187,7 +187,6 @@ public class JigsawAssmbler
             k = chunkGenerator.getMaxBuildHeight();
             k = this.rand.nextInt(k + 1);
         }
-
         final int dy = -this.config.height;
         abstractvillagepiece.offset(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta() + dy),
                 0);
@@ -257,7 +256,7 @@ public class JigsawAssmbler
 
         int k0 = default_k;
 
-        if (k0 == -1) if (this.SURFACE_TYPE == null)
+        if (k0 == -1 && this.SURFACE_TYPE == null)
         {
             k0 = this.chunkGenerator.getNoiseHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.OCEAN_FLOOR_WG);
             if (k0 > 0) k0 = this.rand.nextInt(k0 + 1);
@@ -277,7 +276,7 @@ public class JigsawAssmbler
                     .getString("pool")));
             if (pool == null)
             {
-                PokecubeCore.LOGGER.error(jigsaw_block.nbt.getString("pool") + " " + jigsaw_block.nbt);
+                PokecubeCore.LOGGER.error(jigsaw_block.nbt.getString("pool") + " is a null pool! " + jigsaw_block.nbt);
                 continue;
             }
             final JigsawPattern pool_pattern = WorldGenRegistries.JIGSAW_POOL.getOrDefault(pool.getFallback());
@@ -331,8 +330,8 @@ public class JigsawAssmbler
                                 final JigsawPattern next_pool = WorldGenRegistries.JIGSAW_POOL.getOrDefault(pool_loc);
                                 if (next_pool == null)
                                 {
-                                    PokecubeCore.LOGGER.error(jigsaw_block.nbt.getString("pool") + " "
-                                            + jigsaw_block.nbt);
+                                    PokecubeCore.LOGGER.error(pool_loc + " is null! " + jigsaw_block.nbt.getString(
+                                            "pool") + " " + jigsaw_block.nbt);
                                     return 0;
                                 }
                                 final JigsawPattern fallback_pool = WorldGenRegistries.JIGSAW_POOL.getOrDefault(
@@ -418,6 +417,5 @@ public class JigsawAssmbler
             }
             else PokecubeCore.LOGGER.warn("Empty or none existent pool: {}", jigsaw_block.nbt.getString("target_pool"));
         }
-
     }
 }

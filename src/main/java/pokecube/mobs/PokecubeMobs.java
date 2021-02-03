@@ -311,6 +311,7 @@ public class PokecubeMobs
     public void registerDatabases(final InitDatabase.Pre evt)
     {
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_pokedex.json", EnumDatabase.POKEMON);
+        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_moves.json", EnumDatabase.POKEMON);
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_formes.json", EnumDatabase.POKEMON);
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_drops.json", EnumDatabase.POKEMON);
@@ -328,19 +329,74 @@ public class PokecubeMobs
     public void registerItems(final RegisterMiscItems event)
     {
 
-        ItemGenerator.berryWoods.put("pecha", MaterialColor.PINK);
-        ItemGenerator.berryWoods.put("oran", MaterialColor.BLUE);
+        ItemGenerator.berryWoods.put("pecha", MaterialColor.MAGENTA);
+        ItemGenerator.berryWoods.put("oran", MaterialColor.LIGHT_BLUE);
         ItemGenerator.berryWoods.put("leppa", MaterialColor.RED);
-        ItemGenerator.berryWoods.put("sitrus", MaterialColor.YELLOW);
+        ItemGenerator.berryWoods.put("sitrus", MaterialColor.YELLOW_TERRACOTTA);
         ItemGenerator.berryWoods.put("enigma", MaterialColor.BLACK);
-        ItemGenerator.berryWoods.put("nanab", MaterialColor.WHITE_TERRACOTTA);
+        ItemGenerator.berryWoods.put("nanab", MaterialColor.BROWN_TERRACOTTA);
 
-        ItemGenerator.onlyBerryLeaves.add("pomeg");
-        ItemGenerator.onlyBerryLeaves.add("kelpsy");
-        ItemGenerator.onlyBerryLeaves.add("qualot");
-        ItemGenerator.onlyBerryLeaves.add("hondew");
-        ItemGenerator.onlyBerryLeaves.add("grepa");
-        ItemGenerator.onlyBerryLeaves.add("tamato");
+        ItemGenerator.berryLeaves.put("pecha", MaterialColor.FOLIAGE);
+        ItemGenerator.berryLeaves.put("oran", MaterialColor.PINK_TERRACOTTA);
+        ItemGenerator.berryLeaves.put("leppa", MaterialColor.YELLOW_TERRACOTTA);
+        ItemGenerator.berryLeaves.put("sitrus", MaterialColor.LIGHT_BLUE_TERRACOTTA);
+        ItemGenerator.berryLeaves.put("enigma", MaterialColor.WHITE_TERRACOTTA);
+        ItemGenerator.berryLeaves.put("nanab", MaterialColor.LIGHT_BLUE);
+
+        ItemGenerator.onlyBerryLeaves.put("pomeg", MaterialColor.RED);
+        ItemGenerator.onlyBerryLeaves.put("kelpsy", MaterialColor.PINK);
+        ItemGenerator.onlyBerryLeaves.put("qualot", MaterialColor.FOLIAGE);
+        ItemGenerator.onlyBerryLeaves.put("hondew", MaterialColor.PURPLE);
+        ItemGenerator.onlyBerryLeaves.put("grepa", MaterialColor.RED);
+        ItemGenerator.onlyBerryLeaves.put("tamato", MaterialColor.LIGHT_BLUE);
+
+        ItemGenerator.berryCrops.put("aspear", MaterialColor.RED);
+        ItemGenerator.berryCrops.put("cheri", MaterialColor.FOLIAGE);
+        ItemGenerator.berryCrops.put("chesto", MaterialColor.PINK);
+        ItemGenerator.berryCrops.put("cornn", MaterialColor.PINK);
+        ItemGenerator.berryCrops.put("enigma", MaterialColor.WHITE_TERRACOTTA);
+        ItemGenerator.berryCrops.put("grepa", MaterialColor.RED);
+        ItemGenerator.berryCrops.put("hondew", MaterialColor.FOLIAGE);
+        ItemGenerator.berryCrops.put("jaboca", MaterialColor.PURPLE);
+        ItemGenerator.berryCrops.put("kelpsy", MaterialColor.PINK);
+        ItemGenerator.berryCrops.put("leppa", MaterialColor.YELLOW_TERRACOTTA);
+        ItemGenerator.berryCrops.put("lum", MaterialColor.PURPLE);
+        ItemGenerator.berryCrops.put("nanab", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("null", MaterialColor.FOLIAGE);
+        ItemGenerator.berryCrops.put("oran", MaterialColor.ADOBE);
+        ItemGenerator.berryCrops.put("pecha", MaterialColor.FOLIAGE);
+        ItemGenerator.berryCrops.put("persim", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("pinap", MaterialColor.FOLIAGE);
+        ItemGenerator.berryCrops.put("pomeg", MaterialColor.RED);
+        ItemGenerator.berryCrops.put("qualot", MaterialColor.FOLIAGE);
+        ItemGenerator.berryCrops.put("rawst", MaterialColor.FOLIAGE);
+        ItemGenerator.berryCrops.put("rowap", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("sitrus", MaterialColor.LIGHT_BLUE_TERRACOTTA);
+        ItemGenerator.berryCrops.put("tamato", MaterialColor.LIGHT_BLUE);
+
+        ItemGenerator.berryFruits.put("aspear", MaterialColor.RED);
+        ItemGenerator.berryFruits.put("cheri", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("chesto", MaterialColor.PINK);
+        ItemGenerator.berryFruits.put("cornn", MaterialColor.PINK);
+        ItemGenerator.berryFruits.put("enigma", MaterialColor.BLACK);
+        ItemGenerator.berryFruits.put("grepa", MaterialColor.YELLOW);
+        ItemGenerator.berryFruits.put("hondew", MaterialColor.LIME);
+        ItemGenerator.berryFruits.put("jaboca", MaterialColor.PURPLE);
+        ItemGenerator.berryFruits.put("kelpsy", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("leppa", MaterialColor.RED);
+        ItemGenerator.berryFruits.put("lum", MaterialColor.PURPLE);
+        ItemGenerator.berryFruits.put("nanab", MaterialColor.PINK);
+        ItemGenerator.berryFruits.put("null", MaterialColor.FOLIAGE);
+        ItemGenerator.berryFruits.put("oran", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("pecha", MaterialColor.PINK);
+        ItemGenerator.berryFruits.put("persim", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("pinap", MaterialColor.YELLOW);
+        ItemGenerator.berryFruits.put("pomeg", MaterialColor.ORANGE_TERRACOTTA);
+        ItemGenerator.berryFruits.put("qualot", MaterialColor.YELLOW);
+        ItemGenerator.berryFruits.put("rawst", MaterialColor.FOLIAGE);
+        ItemGenerator.berryFruits.put("rowap", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("sitrus", MaterialColor.YELLOW);
+        ItemGenerator.berryFruits.put("tamato", MaterialColor.ORANGE_TERRACOTTA);
 
         ItemGenerator.variants.add("waterstone");
         ItemGenerator.variants.add("firestone");

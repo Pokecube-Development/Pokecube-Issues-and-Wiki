@@ -5,9 +5,28 @@
   <phase length="18" axis="2" name="snakeIdle" parts="tail1:tail2:tail3"/>
   <phase length="18" axis="0" name="snakeWalk" parts="tail1:tail2:tail3"/>
   <phase length="18" axis="0" name="snakeFly" parts="tail1:tail2:tail3"/>
-  <customTex default="regieleki"/>
+  <customTex default="regieleki">
+   <part name="Led1" tex="regielekiled"/>
+   <animation diffs="0,0.5" part="Led1" trigger="random:0.002:7"/>
+   <part name="Led2" tex="regielekiled"/>
+   <animation diffs="0,0.5" part="Led2" trigger="random:0.002:7"/>
+   <part name="Led3" tex="regielekiled"/>
+   <animation diffs="0,0.5" part="Led3" trigger="random:0.002:7"/>
+   <part name="Led4" tex="regielekiled"/>
+   <animation diffs="0,0.5" part="Led4" trigger="random:0.002:7"/>
+  </customTex>
+  <material name="Led1" light="1" transluscent="false"/>
+  <material name="Led2" light="1" transluscent="false"/>
+  <material name="Led3" light="1" transluscent="false"/>
+  <material name="Led4" light="1" transluscent="false"/>
   <material name="Glow" light="1" transluscent="false"/>
   <phase type="sitting">
+   <part name="eye1">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
    <part name="body">
     <component length="8" name="1" posChange="0,-12,0" rotChange="0,0,3" rotOffset="0,0,0" startKey="0"/>
     <component length="8" name="2" posChange="0,24,0" rotChange="0,0,-6" startKey="5"/>
@@ -77,6 +96,12 @@
    </part>
   </phase>
   <phase type="idle">
+   <part name="eye1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="body">
     <component length="8" name="1" posChange="0,-12,0" rotChange="0,0,3" rotOffset="0,0,0" startKey="0"/>
     <component length="8" name="2" posChange="0,24,0" rotChange="0,0,-6" startKey="5"/>
@@ -146,6 +171,12 @@
    </part>
   </phase>
   <phase type="walking">
+   <part name="eye1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="body">
     <component length="8" name="1" posChange="0,-12,0" rotChange="0,3,0" startKey="0"/>
     <component length="8" name="2" posChange="0,24,0" rotChange="0,-6,0" startKey="5"/>
@@ -217,6 +248,12 @@
    </part>
   </phase>
   <phase type="flying">
+   <part name="eye1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="eye2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="arm1">
     <component length="8" name="1" rotChange="0,-5,0" rotOffset="0,5,0" startKey="0"/>
     <component length="8" name="2" rotChange="0,10,0" startKey="5"/>

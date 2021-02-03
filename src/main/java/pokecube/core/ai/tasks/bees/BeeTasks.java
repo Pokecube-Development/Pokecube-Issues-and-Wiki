@@ -24,8 +24,14 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
+import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.ai.tasks.bees.sensors.FlowerSensor;
 import pokecube.core.ai.tasks.bees.sensors.HiveSensor;
+import pokecube.core.ai.tasks.bees.tasks.CheckHive;
+import pokecube.core.ai.tasks.bees.tasks.EnterHive;
+import pokecube.core.ai.tasks.bees.tasks.GatherNectar;
+import pokecube.core.ai.tasks.bees.tasks.MakeHive;
+import pokecube.core.events.pokemob.InitAIEvent.Init.Type;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IInhabitor;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
@@ -58,6 +64,7 @@ public class BeeTasks
     {
         event.getRegistry().register(BeeTasks.HAS_NECTAR.setRegistryName(PokecubeCore.MODID, "bee_has_nectar"));
         BeeEventsHandler.init();
+        Tasks.register(Type.IDLE, BeeTasks::addTasks);
     }
 
     public static void registerSensors(final Register<SensorType<?>> event)
@@ -66,7 +73,7 @@ public class BeeTasks
         event.getRegistry().register(BeeTasks.FLOWER_SENSOR.setRegistryName(PokecubeCore.MODID, "bee_flowers"));
     }
 
-    public static void addBeeIdleTasks(final IPokemob pokemob, final List<IAIRunnable> list)
+    private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
     {
         if (!EntityTypeTags.BEEHIVE_INHABITORS.contains(pokemob.getEntity().getType())) return;
         // Gather Nectar from found flower
@@ -82,7 +89,7 @@ public class BeeTasks
         BrainUtils.addToBrain(pokemob.getEntity().getBrain(), BeeTasks.MEMORY_TYPES, BeeTasks.SENSOR_TYPES);
     }
 
-    public static boolean isValidBee(final Entity entity)
+    public static boolean isValid(final Entity entity)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return false;
@@ -190,7 +197,7 @@ public class BeeTasks
         @Override
         public boolean canEnterHabitat(final MobEntity mob)
         {
-            if (!BeeTasks.isValidBee(mob)) return false;
+            if (!BeeTasks.isValid(mob)) return false;
             return !this.hive.isFullOfBees();
         }
     }

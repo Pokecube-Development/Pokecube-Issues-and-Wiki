@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -64,9 +65,9 @@ public class RaidSpawnBlock extends MaxBlock
     String  infoname;
     boolean hasTextInfo = true;
 
-    public RaidSpawnBlock(final Material material)
+    public RaidSpawnBlock(final Material material, MaterialColor color)
     {
-        super(Properties.create(material).sound(SoundType.METAL).tickRandomly().hardnessAndResistance(2000, 2000));
+        super(Properties.create(material).sound(SoundType.METAL).tickRandomly().hardnessAndResistance(2000, 2000), color);
         this.setDefaultState(this.stateContainer.getBaseState().with(RaidSpawnBlock.ACTIVE, State.EMPTY));
     }
 

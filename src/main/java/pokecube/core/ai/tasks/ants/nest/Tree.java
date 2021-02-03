@@ -5,21 +5,28 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.pathfinding.NodeProcessor;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Region;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.INBTSerializable;
+import pokecube.core.ai.pathing.processors.SwimAndWalkNodeProcessor;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
+import pokecube.core.world.IPathHelper;
 
-public class Tree implements INBTSerializable<CompoundNBT>
+public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
 {
     public Map<AntRoom, List<Node>> rooms = Maps.newHashMap();
 
@@ -30,6 +37,15 @@ public class Tree implements INBTSerializable<CompoundNBT>
     public Set<Edge>  allEdges = Sets.newHashSet();
 
     public AxisAlignedBB bounds;
+
+    NodeProcessor pather;
+    PathFinder    finder;
+
+    long regionSetTimer = 0;
+
+    Region r = null;
+
+    Map<Edge, Path> edgePaths = Maps.newHashMap();
 
     public Tree()
     {
@@ -42,12 +58,40 @@ public class Tree implements INBTSerializable<CompoundNBT>
         return this.rooms.get(type);
     }
 
-    public Path getPath(final BlockPos from, final BlockPos to, final ServerWorld world, final MobEntity mob)
+    @Override
+    public boolean shouldHelpPath(final MobEntity mob, final WalkTarget target)
     {
-        final Path p = mob.getNavigator().getPathToPos(to, 0);
-        if (p.reachesTarget()) return p;
+        final BlockPos from = mob.getPosition();
+        final BlockPos to = target.getTarget().getBlockPos();
+        // TODO also do similar if to is inside, first by pathing to the
+        // entrance, then pathing the rest of the way.
+        // Also, if a path is found from one node to another, save it in the
+        // edgePaths map, and re-use that later if needed.
+        return this.bounds.contains(from.getX(), from.getY(), from.getZ()) && this.bounds.contains(to.getX(), to.getY(),
+                to.getZ());
+    }
 
-        return null;
+    @Override
+    public Path getPath(final MobEntity mob, final WalkTarget target)
+    {
+        final ServerWorld world = (ServerWorld) mob.getEntityWorld();
+        final BlockPos to = target.getTarget().getBlockPos();
+        this.pather = new SwimAndWalkNodeProcessor();
+        this.pather.setCanEnterDoors(true);
+        this.finder = new PathFinder(this.pather, 256);
+
+        // TODO also do similar if to is inside, first by pathing to the
+        // entrance, then pathing the rest of the way.
+        // Also, if a path is found from one node to another, save it in the
+        // edgePaths map, and re-use that later if needed.
+        if (this.r == null || this.regionSetTimer < world.getGameTime())
+        {
+            final BlockPos min = new BlockPos(this.bounds.minX, this.bounds.minY, this.bounds.minZ);
+            final BlockPos max = new BlockPos(this.bounds.maxX, this.bounds.maxY, this.bounds.maxZ);
+            this.r = new Region(world, min, max);
+            this.regionSetTimer = world.getGameTime() + 20;
+        }
+        return this.finder.func_227478_a_(this.r, mob, ImmutableSet.of(to), 128, target.getDistance(), 10);
     }
 
     @Override
@@ -128,16 +172,92 @@ public class Tree implements INBTSerializable<CompoundNBT>
         });
     }
 
+    public boolean shouldCheckBuild(final BlockPos pos, final long time)
+    {
+        for (final Part part : this.allRooms)
+            if (part.shouldCheckBuild(pos, time)) return true;
+        for (final Part part : this.allEdges)
+            if (part.shouldCheckBuild(pos, time)) return true;
+        return false;
+    }
+
+    public boolean shouldCheckDig(final BlockPos pos, final long time)
+    {
+        for (final Part part : this.allRooms)
+            if (part.shouldCheckDig(pos, time)) return true;
+        for (final Part part : this.allEdges)
+            if (part.shouldCheckDig(pos, time)) return true;
+        return false;
+    }
+
     public void add(final Node node)
     {
+        final BlockPos mid = node.getCenter();
+        if (this.map.containsKey(mid))
+        {
+            this.allRooms.removeIf(n -> n.getCenter().equals(mid));
+            this.rooms.forEach((r, l) -> l.removeIf(n -> n.getCenter().equals(mid)));
+        }
         this.rooms.get(node.type).add(node);
         this.allRooms.add(node);
         this.map.put(node.getCenter(), node);
         node.setTree(this);
         for (final Edge e : node.edges)
+        {
             e.setTree(this);
-        if (this.bounds == null) this.bounds = node.outBounds;
-        else this.bounds = this.bounds.union(node.outBounds);
+            e.node1.setTree(this);
+            e.node2.setTree(this);
+        }
+        // Re-initialize the bounds for the rooms, etc
+        for (final Part p : this.allRooms)
+        {
+            p.setInBounds(p.getInBounds());
+            p.setOutBounds(p.getOutBounds());
+        }
+        if (this.bounds == null) this.bounds = node.getOutBounds();
+        else this.bounds = this.bounds.union(node.getOutBounds());
+    }
+
+    public AxisAlignedBB getBounds()
+    {
+        if (this.bounds == null) return AxisAlignedBB.withSizeAtOrigin(0, 0, 0);
+        return this.bounds;
+    }
+
+    public Node getEffectiveNode(final BlockPos pos, final Part from)
+    {
+        if (from instanceof Node) return (Node) from;
+        for (final Node room : this.allRooms)
+        {
+            final BlockPos mid = room.getCenter();
+            final boolean onShell = room.isOnShell(pos);
+            if (onShell)
+            {
+                if (pos.getY() == mid.getY() - 1) return room;
+                if (from == null) return room;
+            }
+        }
+        if (from instanceof Edge)
+        {
+            final Edge e = (Edge) from;
+            if (e.node2.isOnShell(pos)) return e.node2;
+            return e.node1;
+        }
+        else
+        {
+            for (final Edge e : this.allEdges)
+            {
+                if (e.node1.isOnShell(pos)) return e.node1;
+                if (e.node2.isOnShell(pos)) return e.node2;
+                if (e.isOnShell(pos))
+                {
+                    final double ds2_1 = e.node1.getCenter().distanceSq(pos);
+                    final double ds2_2 = e.node2.getCenter().distanceSq(pos);
+                    return ds2_1 < ds2_2 ? e.node1 : e.node2;
+                }
+            }
+            return null;
+        }
     }
 
     public boolean isInside(final BlockPos pos)

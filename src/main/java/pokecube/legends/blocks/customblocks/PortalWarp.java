@@ -28,6 +28,7 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -45,16 +46,16 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
-import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.function.PortalActiveFunction;
+import pokecube.legends.tileentity.RingTile;
 
 public class PortalWarp extends Rotates implements IWaterLoggable
 {
-    private static final EnumProperty<PortalWarpPart> PART        = EnumProperty.create("part", PortalWarpPart.class);
-    public static final BooleanProperty               ACTIVE      = BooleanProperty.create("active");
-    private static final BooleanProperty              WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty            FACING      = HorizontalBlock.HORIZONTAL_FACING;
+    public static final EnumProperty<PortalWarpPart> PART        = EnumProperty.create("part", PortalWarpPart.class);
+    public static final BooleanProperty              ACTIVE      = BooleanProperty.create("active");
+    private static final BooleanProperty             WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final DirectionProperty           FACING      = HorizontalBlock.HORIZONTAL_FACING;
 
     private static final Map<Direction, VoxelShape> PORTAL_TOP              = new HashMap<>();
     private static final Map<Direction, VoxelShape> PORTAL_TOP_LEFT         = new HashMap<>();
@@ -696,11 +697,124 @@ public class PortalWarp extends Rotates implements IWaterLoggable
 
     public PortalWarp(final String name, final Properties props)
     {
-        super(name, props.tickRandomly());
+        super(name, props);
         this.setDefaultState(this.stateContainer.getBaseState().with(PortalWarp.FACING, Direction.NORTH).with(
                 PortalWarp.WATERLOGGED, false).with(PortalWarp.PART, PortalWarpPart.BOTTOM).with(PortalWarp.ACTIVE,
                         true));
     }
+
+    @Override
+    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
+    {
+        return new RingTile();
+    }
+
+    @Override
+    public boolean hasTileEntity(final BlockState state)
+    {
+        final PortalWarpPart part = state.get(PortalWarp.PART);
+        return part == PortalWarpPart.MIDDLE;
+    }
+
+    /*
+     * Make Portal in Move
+     */
+    public void place(final World world, final BlockPos pos, final Direction direction)
+    {
+        final BlockState state = this.getDefaultState().with(PortalWarp.PART, PortalWarpPart.BOTTOM).with(
+                PortalWarp.FACING, direction);
+        world.setBlockState(pos, state, 3);
+        this.place(world, pos, state, direction.getOpposite());
+    }
+
+    public void place(final World world, final BlockPos pos, final BlockState state, final Direction direction)
+    {
+        final BlockPos portalWarpTopLeftPos = this.getPortalWarpTopLeftPos(pos, direction);
+        final BlockPos portalWarpTopRightPos = this.getPortalWarpTopRightPos(pos, direction);
+        final BlockPos portalWarpMiddleLeftPos = this.getPortalWarpMiddleLeftPos(pos, direction);
+        final BlockPos portalWarpMiddleRightPos = this.getPortalWarpMiddleRightPos(pos, direction);
+        final BlockPos portalWarpBottomLeftPos = this.getPortalWarpBottomLeftPos(pos, direction);
+        final BlockPos portalWarpBottomRightPos = this.getPortalWarpBottomRightPos(pos, direction);
+
+        final FluidState topFluidState = world.getFluidState(pos.up(2));
+        final FluidState topWestFluidState = world.getFluidState(pos.up(2).west());
+        final FluidState topEastFluidState = world.getFluidState(pos.up(2).east());
+        final FluidState middleFluidState = world.getFluidState(pos.up());
+        final FluidState middleWestFluidState = world.getFluidState(pos.up().west());
+        final FluidState middleEastFluidState = world.getFluidState(pos.up().east());
+        final FluidState bottomWestFluidState = world.getFluidState(pos.west());
+        final FluidState bottomEastFluidState = world.getFluidState(pos.east());
+
+        world.setBlockState(portalWarpBottomLeftPos, state.with(PortalWarp.PART, PortalWarpPart.BOTTOM_LEFT).with(
+                PortalWarp.WATERLOGGED, bottomWestFluidState.getFluid() == Fluids.WATER), 3);
+        world.setBlockState(portalWarpBottomRightPos, state.with(PortalWarp.PART, PortalWarpPart.BOTTOM_RIGHT).with(
+                PortalWarp.WATERLOGGED, bottomEastFluidState.getFluid() == Fluids.WATER), 3);
+        world.setBlockState(pos.up(), state.with(PortalWarp.PART, PortalWarpPart.MIDDLE).with(PortalWarp.WATERLOGGED,
+                middleFluidState.getFluid() == Fluids.WATER), 3);
+        world.setBlockState(portalWarpMiddleLeftPos, state.with(PortalWarp.PART, PortalWarpPart.MIDDLE_LEFT).with(
+                PortalWarp.WATERLOGGED, middleWestFluidState.getFluid() == Fluids.WATER), 3);
+        world.setBlockState(portalWarpMiddleRightPos, state.with(PortalWarp.PART, PortalWarpPart.MIDDLE_RIGHT).with(
+                PortalWarp.WATERLOGGED, middleEastFluidState.getFluid() == Fluids.WATER), 3);
+        world.setBlockState(pos.up(2), state.with(PortalWarp.PART, PortalWarpPart.TOP).with(PortalWarp.WATERLOGGED,
+                topFluidState.getFluid() == Fluids.WATER), 3);
+        world.setBlockState(portalWarpTopLeftPos, state.with(PortalWarp.PART, PortalWarpPart.TOP_LEFT).with(
+                PortalWarp.WATERLOGGED, topWestFluidState.getFluid() == Fluids.WATER), 3);
+        world.setBlockState(portalWarpTopRightPos, state.with(PortalWarp.PART, PortalWarpPart.TOP_RIGHT).with(
+                PortalWarp.WATERLOGGED, topEastFluidState.getFluid() == Fluids.WATER), 3);
+    }
+
+    public void remove(final World world, final BlockPos pos, final BlockState state)
+    {
+        final Direction facing = state.get(PortalWarp.FACING);
+
+        final BlockPos portalWarpPos = this.getPortalWarpPos(pos, state.get(PortalWarp.PART), facing);
+        BlockState portalWarpBlockState = world.getBlockState(portalWarpPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPos)) this.removePart(world, portalWarpPos,
+                portalWarpBlockState);
+
+        BlockPos portalWarpPartPos = this.getPortalWarpTopPos(portalWarpPos, facing);
+        portalWarpBlockState = world.getBlockState(portalWarpPartPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
+                portalWarpPartPos, portalWarpBlockState);
+
+        portalWarpPartPos = this.getPortalWarpTopLeftPos(portalWarpPos, facing);
+        portalWarpBlockState = world.getBlockState(portalWarpPartPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
+                portalWarpPartPos, portalWarpBlockState);
+
+        portalWarpPartPos = this.getPortalWarpTopRightPos(portalWarpPos, facing);
+        portalWarpBlockState = world.getBlockState(portalWarpPartPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
+                portalWarpPartPos, portalWarpBlockState);
+
+        portalWarpPartPos = this.getPortalWarpMiddlePos(portalWarpPos, facing);
+        portalWarpBlockState = world.getBlockState(portalWarpPartPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
+                portalWarpPartPos, portalWarpBlockState);
+
+        portalWarpPartPos = this.getPortalWarpMiddleLeftPos(portalWarpPos, facing);
+        portalWarpBlockState = world.getBlockState(portalWarpPartPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
+                portalWarpPartPos, portalWarpBlockState);
+
+        portalWarpPartPos = this.getPortalWarpMiddleRightPos(portalWarpPos, facing);
+        portalWarpBlockState = world.getBlockState(portalWarpPartPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
+                portalWarpPartPos, portalWarpBlockState);
+
+        portalWarpPartPos = this.getPortalWarpBottomLeftPos(portalWarpPos, facing);
+        portalWarpBlockState = world.getBlockState(portalWarpPartPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
+                portalWarpPartPos, portalWarpBlockState);
+
+        portalWarpPartPos = this.getPortalWarpBottomRightPos(portalWarpPos, facing);
+        portalWarpBlockState = world.getBlockState(portalWarpPartPos);
+        if (portalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
+                portalWarpPartPos, portalWarpBlockState);
+    }
+    /*
+     * end
+     */
 
     // Places Portal with both top and bottom pieces
     @Override
@@ -1034,7 +1148,7 @@ public class PortalWarp extends Rotates implements IWaterLoggable
         }
     }
 
-    private void setActiveState(final World world, final BlockPos pos, final BlockState state, final boolean active)
+    public void setActiveState(final World world, final BlockPos pos, final BlockState state, final boolean active)
     {
         final Direction facing = state.get(PortalWarp.FACING);
 
@@ -1143,13 +1257,6 @@ public class PortalWarp extends Rotates implements IWaterLoggable
         builder.add(PortalWarp.PART, PortalWarp.FACING, PortalWarp.WATERLOGGED, PortalWarp.ACTIVE);
     }
 
-    // time for spawn
-    @Override
-    public int ticksRandomly()
-    {
-        return 500;
-    }
-
     @Override
     public BlockBase setInfoBlockName(final String infoname)
     {
@@ -1169,16 +1276,6 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
-    {
-        final PortalWarpPart part = state.get(PortalWarp.PART);
-        if (state.get(PortalWarp.ACTIVE) || part != PortalWarpPart.MIDDLE || random
-                .nextFloat() > PokecubeLegends.config.mirageRespawnChance) return;
-        worldIn.setBlockState(pos, state.with(PortalWarp.ACTIVE, true));
-        this.setActiveState(worldIn, pos, state, true);
-    }
-
-    @Override
     public ActionResultType onBlockActivated(final BlockState state, final World worldIn, final BlockPos pos,
             final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
@@ -1187,6 +1284,10 @@ public class PortalWarp extends Rotates implements IWaterLoggable
         {
             PortalActiveFunction.executeProcedure(pos, state, (ServerWorld) worldIn);
             this.setActiveState(worldIn, pos, state, false);
+            final Direction facing = state.get(PortalWarp.FACING);
+            final BlockPos middle = this.getPortalWarpPos(pos, state.get(PortalWarp.PART), facing).up();
+            final TileEntity tile = worldIn.getTileEntity(middle);
+            if (tile instanceof RingTile) ((RingTile) tile).activatePortal();
         }
         return ActionResultType.SUCCESS;
     }

@@ -16,6 +16,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IPokemob;
@@ -48,7 +49,7 @@ public class MakeNest extends BaseIdleTask
         final TileEntity tile = this.world.getTileEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
-        nest.isType(AntTasks.NESTLOC);
+        nest.setWrappedHab(new AntHabitat());
         nest.addResident(this.pokemob);
         brain.removeMemory(AntTasks.NO_HIVE_TIMER);
         return true;
@@ -71,19 +72,20 @@ public class MakeNest extends BaseIdleTask
 
         // Lets see if we can find any leaves to place a hive under
         final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
+        if (blocks == null) return;
 
         // Otherwise on the ground
         final List<NearBlock> surfaces = Lists.newArrayList();
         blocks.forEach(b ->
         {
+            if (b == null) return;
             if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
         });
-
         // last we check the terrain
         if (!surfaces.isEmpty())
         {
-            final NearBlock validLeaf = surfaces.get(0);
-            if (this.placeNest(validLeaf)) return;
+            final NearBlock block = surfaces.get(0);
+            if (this.placeNest(block)) return;
         }
 
         final Brain<?> brain = this.entity.getBrain();
@@ -101,7 +103,7 @@ public class MakeNest extends BaseIdleTask
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
         if (brain.hasMemory(AntTasks.NO_HIVE_TIMER)) timer = brain.getMemory(AntTasks.NO_HIVE_TIMER).get();
-        return timer > 600;
+        return timer > 60;
     }
 
 }

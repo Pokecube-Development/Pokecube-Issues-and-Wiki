@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -24,17 +25,17 @@ public class Rotates extends BlockBase
     private static final BooleanProperty   WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final DirectionProperty FACING      = HorizontalBlock.HORIZONTAL_FACING;
 
-    public Rotates(final String name, final Material material, final float hardness, final float resistance,
+    public Rotates(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
             final SoundType sound, final ToolType tool, final int harvest)
     {
-    	super(name, material, hardness, resistance, sound, tool, harvest);
+    	super(name, material, color, hardness, resistance, sound, tool, harvest);
         this.setDefaultState(this.stateContainer.getBaseState().with(Rotates.FACING, Direction.NORTH).with(
                 Rotates.WATERLOGGED, false));
     }
 
-    public Rotates(final String name, final Material material, final ToolType tool, final int level)
+    public Rotates(final String name, final Material material, final MaterialColor color, final ToolType tool, final int level)
     {
-        super(name, material, tool, level);
+        super(name, material, color, tool, level);
         this.setDefaultState(this.stateContainer.getBaseState().with(Rotates.FACING, Direction.NORTH).with(
                 Rotates.WATERLOGGED, false));
     }

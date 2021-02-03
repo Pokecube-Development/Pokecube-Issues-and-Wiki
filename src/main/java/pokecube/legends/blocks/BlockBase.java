@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -27,21 +28,21 @@ public class BlockBase extends Block
     String     infoname;
     boolean    hasTextInfo = true;
 
-    public BlockBase(final String name, final Material material, final float hardnessresistance, final SoundType sound, final ToolType tool, final int harvest)
+    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardnessresistance, final SoundType sound, final ToolType tool, final int harvest)
     {
-        this(name, material, hardnessresistance, hardnessresistance, sound, tool, harvest);
+        this(name, material, color, hardnessresistance, hardnessresistance, sound, tool, harvest);
         this.setInfoBlockName(name);
     }
 
-    public BlockBase(final String name, final Material material, final float hardness, final float resistance,
+    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
             final SoundType sound, final ToolType tool, final int harvestLevel)
     {
-        super(Block.Properties.create(material).hardnessAndResistance(hardness, resistance).sound(sound).harvestLevel(harvestLevel));
+        super(Block.Properties.create(material, color).hardnessAndResistance(hardness, resistance).sound(sound).harvestLevel(harvestLevel));
     }
 
-    public BlockBase(final String name, final Material material, final ToolType tool, final int level)
+    public BlockBase(final String name, final Material material, final MaterialColor color, final ToolType tool, final int level)
     {
-        super(Block.Properties.create(material).harvestTool(tool).harvestLevel(level));
+        super(Block.Properties.create(material, color).harvestTool(tool).harvestLevel(level));
     }
 
     public BlockBase(final String name, final Properties props)

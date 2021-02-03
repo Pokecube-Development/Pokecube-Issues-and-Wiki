@@ -3,6 +3,8 @@ package pokecube.core.events.pokemob;
 import java.util.List;
 
 import net.minecraftforge.event.entity.EntityEvent;
+import pokecube.core.ai.tasks.ITaskAdder;
+import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.IAIRunnable;
 
@@ -54,6 +56,8 @@ public class InitAIEvent extends EntityEvent
             super(entity);
             this.type = type;
             this.tasks = tasks;
+            for (final ITaskAdder adder : Tasks.getAdders(type))
+                adder.addTasks(entity, tasks);
         }
 
     }

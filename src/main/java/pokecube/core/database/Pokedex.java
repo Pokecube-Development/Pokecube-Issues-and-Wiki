@@ -46,13 +46,6 @@ public class Pokedex
         return this.entries;
     }
 
-    public PokedexEntry getEntry(Integer pokedexNb)
-    {
-        final PokedexEntry ret = Database.getEntry(pokedexNb);
-        if (ret == null) return ret;
-        return ret.getBaseForme() != null ? ret.getBaseForme() : ret;
-    }
-
     public PokedexEntry getFirstEntry()
     {
         if (this.entries.isEmpty()) return Database.missingno;
@@ -60,7 +53,7 @@ public class Pokedex
         return this.entries.get(0);
     }
 
-    public Integer getIndex(PokedexEntry entry)
+    public Integer getIndex(final PokedexEntry entry)
     {
         final Integer ret = this.entryIndecies.get(entry);
         return ret == null ? 0 : ret;
@@ -95,7 +88,7 @@ public class Pokedex
         return this.entries.get(index);
     }
 
-    public PokedexEntry getPrevious(PokedexEntry pokedexEntry, int i)
+    public PokedexEntry getPrevious(final PokedexEntry pokedexEntry, final int i)
     {
         return this.getNext(pokedexEntry, -i);
     }
@@ -105,12 +98,12 @@ public class Pokedex
         return this.registeredFormes;
     }
 
-    public boolean isRegistered(PokedexEntry entry)
+    public boolean isRegistered(final PokedexEntry entry)
     {
         return this.registeredFormes.contains(entry);
     }
 
-    public void registerPokemon(PokedexEntry entry)
+    public void registerPokemon(final PokedexEntry entry)
     {
         if (entry == null) return;
         if (!this.entries.contains(entry) && entry.base) this.entries.add(entry);

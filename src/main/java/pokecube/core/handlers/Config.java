@@ -400,6 +400,9 @@ public class Config extends ConfigData
     @Configure(category = Config.spawning, comment = "if false, levelCap is ignored")
     public boolean shouldCap = true;
 
+    @Configure(category = Config.spawning, comment = "if true, wild pokemobs make nests, these result in effective mob spawners where they made them, and will prevent other mobs spawning in the area, unless the nests are cleared out.")
+    public boolean pokemobsMakeNests = true;
+
     @Configure(category = Config.spawning, comment = "These determine what lvl pokemobs spawn based on location. If central is true, then the origin for the function is 0,0, otherwise it is world spawn. if radial is true, then the function takes the variable r, which is horizontal distance from the origin. Otherwise it takes x and y, which are the horizontal coordinates with respect to the origin.")
     public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[] {
             //@formatter:off
@@ -495,7 +498,7 @@ public class Config extends ConfigData
 
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks, and apply their effects regardless")
     public List<String> damageBlocksWhitelist = Lists.newArrayList(new String[] { "flash", "teleport", "dig", "cut",
-            "rocksmash", "secretpower", "naturepower", "ant_dig" });
+            "rocksmash", "secretpower", "naturepower", "nest_dig" });
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks and never apply their effects")
     public List<String> damageBlocksBlacklist = Lists.newArrayList();
     @Configure(category = Config.advanced, comment = "This is how much exp is given for killing a non-pokemob, h is the max health of the mob, and a is the amount of armour it had")

@@ -1,36 +1,31 @@
 {
-  "hotload": true,
   "pokemon": [
     {
-      "name": "Doduo",
+      "name": "doduo",
       "ridden_offsets": "0,0.25,-0.5"
     },
     {
-      "name": "Lapras",
+      "name": "lapras",
       "ridden_offsets": "0,0.4,0.0:0.5,0.4,0.0:-0.5,0.4,0"
     },
     {
-      "name": "Rayquaza",
+      "name": "rayquaza",
       "ridden_offsets": "0,0.75,0.15:0,0.75,0.0:0,0.75,-0.15"
     },
     {
-      "name": "Rayquaza Mega",
+      "name": "rayquaza_mega",
       "ridden_offsets": "0,0.75,0.15:0,0.75,0.0:0,0.75,-0.15"
     },
     {
-      "name": "Golurk",
-      "ridden_offsets": "0.75"
-    },
-    {
-      "name": "Hoopa Unbound",
+      "name": "hoopa_unbound",
       "ridden_offsets": "1.0"
     },
     {
-      "name": "Glastrier",
+      "name": "glastrier",
       "ridden_offsets": "0,0.4,-0.2"
     },
     {
-      "name": "Spectrier",
+      "name": "spectrier",
       "ridden_offsets": "0,0.4,-0.2"
     }
   ]

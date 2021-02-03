@@ -24,6 +24,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
@@ -194,25 +195,25 @@ public class PokecubeItems extends ItemList
 
         // Blocks
         HEALER = PokecubeItems.BLOCKS.register("pokecenter", () -> new HealerBlock(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(2000)));
+                Material.IRON, MaterialColor.WOOL).hardnessAndResistance(2000)));
         NESTBLOCK = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(Block.Properties.create(
-                Material.ORGANIC)));
+                Material.ORGANIC, MaterialColor.STONE)));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(Block.Properties.create(
-                Material.ORGANIC)));
+                Material.ORGANIC, MaterialColor.GREEN)));
         DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(Block.Properties.create(Material.ROCK)
-                .hardnessAndResistance(2000)));
-        PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(Block.Properties.create(Material.IRON)
+                .hardnessAndResistance(2000), MaterialColor.BLACK));
+        PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(Block.Properties.create(Material.IRON, MaterialColor.RED)
                 .hardnessAndResistance(2000), true));
-        PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(Block.Properties.create(Material.IRON)
+        PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(Block.Properties.create(Material.IRON, MaterialColor.RED)
                 .hardnessAndResistance(2000), false));
         TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(Block.Properties.create(Material.IRON)
-                .hardnessAndResistance(2000)));
+                .hardnessAndResistance(2000), MaterialColor.LIGHT_BLUE));
         TRADER = PokecubeItems.BLOCKS.register("trade_machine", () -> new TraderBlock(Block.Properties.create(
-                Material.IRON).hardnessAndResistance(2000)));
+                Material.IRON).hardnessAndResistance(2000), MaterialColor.GRAY_TERRACOTTA));
         SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(Block.Properties.create(
-                Material.ROCK).hardnessAndResistance(2000)));
+                Material.ROCK, MaterialColor.STONE).hardnessAndResistance(2000)));
         FOSSILSTONE = PokecubeItems.BLOCKS.register("fossilstone", () -> new Block(Block.Properties.create(
-                Material.ROCK).hardnessAndResistance(1.5f, 10).harvestTool(ToolType.PICKAXE)));
+                Material.ROCK, MaterialColor.STONE).hardnessAndResistance(1.5f, 10).harvestTool(ToolType.PICKAXE)));
 
         // Tile Entity Types
         NEST_TYPE = PokecubeItems.TILES.register("nest", () -> TileEntityType.Builder.create(NestTile::new,
@@ -631,11 +632,6 @@ public class PokecubeItems extends ItemList
         if (!stack.hasTag()) stack.setTag(new CompoundNBT());
         PokecubeItems.times.add(time);
         stack.getTag().putLong("time", time);
-    }
-
-    public static void registerFossil(final ItemStack fossil, final int number)
-    {
-        PokecubeItems.fossils.put(fossil.copy(), Database.getEntry(number));
     }
 
     public static void registerFossil(final ItemStack fossil, final String pokemonName)

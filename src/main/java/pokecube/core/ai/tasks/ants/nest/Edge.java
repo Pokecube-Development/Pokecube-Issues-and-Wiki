@@ -2,6 +2,7 @@ package pokecube.core.ai.tasks.ants.nest;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 
@@ -10,15 +11,16 @@ public class Edge extends Part
     public Node node1;
     public Node node2;
 
-    public BlockPos end1;
-    public BlockPos end2;
+    private BlockPos end1;
+    private BlockPos end2;
 
     // Fraction of the way dug from end1 to end2.
     public double digged = 0;
 
     boolean areSame(final Edge other)
     {
-        return this.end1.equals(other.end1) && this.end2.equals(other.end2);
+        return this.node1.getCenter().equals(other.node1.getCenter()) && this.node2.getCenter().equals(other.node2
+                .getCenter());
     }
 
     public boolean withinDistance(final BlockPos pos, final double size)
@@ -27,17 +29,17 @@ public class Edge extends Part
         double minY;
         if (size > 2)
         {
-            maxY = Math.max(this.node1.outBounds.maxY, this.node2.outBounds.maxY);
-            minY = Math.min(this.node1.outBounds.minY, this.node2.outBounds.minY);
+            maxY = Math.max(this.node1.getOutBounds().maxY, this.node2.getOutBounds().maxY);
+            minY = Math.min(this.node1.getOutBounds().minY, this.node2.getOutBounds().minY);
         }
         else
         {
-            maxY = Math.max(this.node1.inBounds.maxY, this.node2.inBounds.maxY);
-            minY = Math.min(this.node1.inBounds.minY, this.node2.inBounds.minY);
+            maxY = Math.max(this.node1.getInBounds().maxY, this.node2.getInBounds().maxY);
+            minY = Math.min(this.node1.getInBounds().minY, this.node2.getInBounds().minY);
         }
         if (pos.getY() > maxY || pos.getY() < minY) return false;
-        final Vector3d e1 = new Vector3d(this.end1.getX(), this.end1.getY(), this.end1.getZ());
-        final Vector3d e2 = new Vector3d(this.end2.getX(), this.end2.getY(), this.end2.getZ());
+        final Vector3d e1 = new Vector3d(this.getEnd1().getX(), this.getEnd1().getY(), this.getEnd1().getZ());
+        final Vector3d e2 = new Vector3d(this.getEnd2().getX(), this.getEnd2().getY(), this.getEnd2().getZ());
         final Vector3d e3 = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
         Vector3d n = e2.subtract(e1).normalize();
         final Vector3d diff = e1.subtract(e3);
@@ -53,13 +55,19 @@ public class Edge extends Part
     }
 
     @Override
+    public int hashCode()
+    {
+        return this.node1.getCenter().hashCode() ^ this.node2.getCenter().hashCode();
+    }
+
+    @Override
     public CompoundNBT serializeNBT()
     {
         final CompoundNBT edgeNbt = super.serializeNBT();
         edgeNbt.put("n1", NBTUtil.writeBlockPos(this.node1.getCenter()));
-        edgeNbt.put("e1", NBTUtil.writeBlockPos(this.end1));
+        edgeNbt.put("e1", NBTUtil.writeBlockPos(this.getEnd1()));
         edgeNbt.put("n2", NBTUtil.writeBlockPos(this.node2.getCenter()));
-        edgeNbt.put("e2", NBTUtil.writeBlockPos(this.end2));
+        edgeNbt.put("e2", NBTUtil.writeBlockPos(this.getEnd2()));
         return edgeNbt;
     }
 
@@ -67,8 +75,6 @@ public class Edge extends Part
     public void deserializeNBT(final CompoundNBT nbt)
     {
         super.deserializeNBT(nbt);
-        this.end1 = NBTUtil.readBlockPos(nbt.getCompound("e1"));
-        this.end2 = NBTUtil.readBlockPos(nbt.getCompound("e2"));
 
         final BlockPos p1 = NBTUtil.readBlockPos(nbt.getCompound("n1"));
         final BlockPos p2 = NBTUtil.readBlockPos(nbt.getCompound("n2"));
@@ -79,12 +85,15 @@ public class Edge extends Part
         {
             this.node1 = this.getTree().map.getOrDefault(p1, new Node(p1));
             this.node2 = this.getTree().map.getOrDefault(p2, new Node(p2));
+            this.getTree().map.put(p1, this.node1);
+            this.getTree().map.put(p2, this.node2);
         }
         else
         {
             this.node1 = new Node(p1);
             this.node2 = new Node(p2);
         }
+        this.setEnds(NBTUtil.readBlockPos(nbt.getCompound("e1")), NBTUtil.readBlockPos(nbt.getCompound("e2")));
     }
 
     @Override
@@ -98,6 +107,50 @@ public class Edge extends Part
     @Override
     public boolean isOnShell(final BlockPos pos)
     {
-        return this.withinDistance(pos, 4) && !this.isInside(pos);
+        return this.withinDistance(pos, 3) && !this.isInside(pos);
+    }
+
+    public BlockPos getEnd1()
+    {
+        return this.end1;
+    }
+
+    public BlockPos getEnd2()
+    {
+        return this.end2;
+    }
+
+    public void setEnds(final BlockPos end1, final BlockPos end2)
+    {
+        this.end1 = end1;
+        this.end2 = end2;
+
+        final double minX = Math.min(end1.getX(), end2.getX());
+        final double maxX = Math.max(end1.getX(), end2.getX());
+
+        final double minZ = Math.min(end1.getZ(), end2.getZ());
+        final double maxZ = Math.max(end1.getZ(), end2.getZ());
+
+        final double maxY = Math.max(this.node1.getInBounds().maxY, this.node2.getInBounds().maxY);
+        final double minY = Math.min(this.node1.getInBounds().minY, this.node2.getInBounds().minY);
+
+        final AxisAlignedBB min = new AxisAlignedBB(minX - 2, minY - 1, minZ - 2, maxX + 2, maxY + 1, maxZ + 2);
+        final AxisAlignedBB max = new AxisAlignedBB(minX - 3, minY - 2, minZ - 3, maxX + 3, maxY + 2, maxZ + 3);
+        this.setInBounds(min);
+        this.setOutBounds(max);
+    }
+
+    @Override
+    public void setDigDone(final long time)
+    {
+        super.setDigDone(time);
+        this.node1.started = true;
+        this.node2.started = true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.node1 + "<->" + this.node2;
     }
 }

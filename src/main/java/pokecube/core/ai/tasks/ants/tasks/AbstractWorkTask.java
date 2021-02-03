@@ -13,14 +13,13 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 
@@ -33,11 +32,6 @@ public abstract class AbstractWorkTask extends AbstractAntTask
         AbstractWorkTask.mems.put(AntTasks.GOING_HOME, MemoryModuleStatus.VALUE_ABSENT);
     }
     protected StoreTask storage = null;
-
-    protected Predicate<BlockState> diggable = state -> (PokecubeTerrainChecker.isTerrain(state)
-            || PokecubeTerrainChecker.isRock(state) || PokecubeTerrainChecker.isCutablePlant(state)
-            || PokecubeTerrainChecker.isLeaves(state) || PokecubeTerrainChecker.isWood(state)) && state
-                    .getBlock() != PokecubeItems.NESTBLOCK.get();
 
     private final Predicate<AntJob> validJob;
 
@@ -60,7 +54,7 @@ public abstract class AbstractWorkTask extends AbstractAntTask
         final BlockState state = this.world.getBlockState(pos);
         if (breakOnly)
         {
-            if (this.diggable.test(state) && MoveEventsHandler.canAffectBlock(this.pokemob, v.set(pos), "ant_dig",
+            if (UtilTask.diggable.test(state) && MoveEventsHandler.canAffectBlock(this.pokemob, v.set(pos), "nest_dig",
                     false, false))
             {
                 this.world.destroyBlock(pos, true, this.entity);

@@ -49,11 +49,13 @@ import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.tileentity.RaidSpawn;
+import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 
@@ -107,7 +109,10 @@ public class PokecubeLegends
         public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
         {
             RaidSpawn.TYPE = TileEntityType.Builder.create(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
+            RingTile.TYPE = TileEntityType.Builder.create(RingTile::new, BlockInit.BLOCK_PORTALWARP.get()).build(null);
             event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
+            event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.BLOCK_PORTALWARP.get()
+                    .getRegistryName()));
         }
     }
 
@@ -138,9 +143,11 @@ public class PokecubeLegends
 
         BlockInit.init();
         ItemInit.init();
+        MoveRegister.init();
     }
 
-    private void loadComplete(final FMLLoadCompleteEvent event) {
+    private void loadComplete(final FMLLoadCompleteEvent event)
+    {
         BlockInit.strippableBlocks(event);
     }
 
@@ -238,8 +245,8 @@ public class PokecubeLegends
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
         {
-            if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(new TranslationTextComponent(
-                    "msg.notaraidspot.info"), Util.DUMMY_UUID);
+            if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(
+                    new TranslationTextComponent("msg.notaraidspot.info"), Util.DUMMY_UUID);
             return;
         }
         final boolean active = hit.get(RaidSpawnBlock.ACTIVE).active();

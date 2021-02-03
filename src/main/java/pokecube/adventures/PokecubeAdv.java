@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -191,21 +192,21 @@ public class PokecubeAdv
 
         // Blocks
         AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(Block.Properties.create(Material.IRON)
-                .variableOpacity()));
+                .variableOpacity(), MaterialColor.BLACK));
         COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(Block.Properties.create(
-                Material.IRON).variableOpacity()));
+                Material.IRON).variableOpacity(), MaterialColor.BLACK));
         DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(Block.Properties.create(Material.IRON)
-                .variableOpacity()));
+        		.variableOpacity(), MaterialColor.BLACK));
         CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(Block.Properties.create(Material.IRON)
-                .variableOpacity()));
+                .variableOpacity(), MaterialColor.PURPLE));
         EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor", () -> new ExtractorBlock(Block.Properties.create(
-                Material.IRON).variableOpacity()));
+                Material.IRON).variableOpacity(), MaterialColor.CYAN));
         SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(Block.Properties.create(Material.IRON)
-                .variableOpacity()));
+                .variableOpacity(), MaterialColor.CYAN));
         SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(Block.Properties.create(Material.IRON)
-                .variableOpacity()));
+                .variableOpacity(), MaterialColor.GREEN_TERRACOTTA));
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(Block.Properties.create(
-                Material.IRON)));
+                Material.IRON), MaterialColor.WHITE_TERRACOTTA));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().group(

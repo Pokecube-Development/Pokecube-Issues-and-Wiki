@@ -231,12 +231,19 @@ public class GuiChooseFirstPokemob extends Screen
         GL11.glColor4f(243f / 255f, 86f / 255f, 132f / 255f, 1.0F);
         this.blit(mat, n + k, m + l + 65, 0, 0, this.pokedexEntry.getStatVIT(), 13);
 
-        AbstractGui.drawCenteredString(mat, this.font, "VIT: ", n + k - 10, m + l + 3, 0x930000);
-        AbstractGui.drawCenteredString(mat, this.font, "ATT: ", n + k - 10, m + l + 17, 0xAD5D22);
-        AbstractGui.drawCenteredString(mat, this.font, "DEF: ", n + k - 10, m + l + 29, 0xB39622);
-        AbstractGui.drawCenteredString(mat, this.font, "ATTSPE: ", n + k - 18, m + l + 42, 0x4C68AD);
-        AbstractGui.drawCenteredString(mat, this.font, "DEFSPE: ", n + k - 18, m + l + 55, 0x57933A);
-        AbstractGui.drawCenteredString(mat, this.font, "SPE: ", n + k - 10, m + l + 67, 0xB44062);
+        final String H = I18n.format("pokewatch.HP");
+        final String A = I18n.format("pokewatch.ATT");
+        final String D = I18n.format("pokewatch.DEF");
+        final String AS = I18n.format("pokewatch.ATTSP");
+        final String DS = I18n.format("pokewatch.DEFSP");
+        final String S = I18n.format("pokewatch.VIT");
+
+        AbstractGui.drawCenteredString(mat, this.font, H + ": ", n + k - 10, m + l + 3, 0x930000);
+        AbstractGui.drawCenteredString(mat, this.font, A + ": ", n + k - 10, m + l + 17, 0xAD5D22);
+        AbstractGui.drawCenteredString(mat, this.font, D + ": ", n + k - 10, m + l + 29, 0xB39622);
+        AbstractGui.drawCenteredString(mat, this.font, AS + ": ", n + k - 18, m + l + 42, 0x4C68AD);
+        AbstractGui.drawCenteredString(mat, this.font, DS + ": ", n + k - 18, m + l + 55, 0x57933A);
+        AbstractGui.drawCenteredString(mat, this.font, S + ": ", n + k - 10, m + l + 67, 0xB44062);
         GL11.glPopMatrix();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

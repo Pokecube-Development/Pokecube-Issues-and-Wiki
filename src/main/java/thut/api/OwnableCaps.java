@@ -173,32 +173,14 @@ public class OwnableCaps
 
     }
 
-    public static class Impl implements IOwnable, ICapabilitySerializable<CompoundNBT>
+    public static class BaseImpl implements IOwnable, ICapabilityProvider
     {
-        private final LazyOptional<IOwnable> holder = LazyOptional.of(() -> this);
+        final LazyOptional<IOwnable> holder = LazyOptional.of(() -> this);
 
-        private UUID         ownerId;
-        private LivingEntity ownerMob;
+        UUID         ownerId;
+        LivingEntity ownerMob;
 
-        private boolean playerOwned = false;
-
-        @Override
-        public void deserializeNBT(final CompoundNBT nbt)
-        {
-            if (nbt.contains("p"))
-            {
-                this.playerOwned = nbt.getBoolean("p");
-                try
-                {
-                    this.ownerId = nbt.getUniqueId("o");
-                }
-                catch (final Exception e)
-                {
-                    ThutCore.LOGGER.error("Error loading in UUID");
-                    this.ownerId = new UUID(nbt.getLong("oMost"), nbt.getLong("oLeast"));
-                }
-            }
-        }
+        boolean playerOwned = false;
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
@@ -226,18 +208,6 @@ public class OwnableCaps
         }
 
         @Override
-        public CompoundNBT serializeNBT()
-        {
-            final CompoundNBT nbt = new CompoundNBT();
-            if (this.ownerId != null)
-            {
-                nbt.putUniqueId("o", this.ownerId);
-                nbt.putBoolean("p", this.playerOwned);
-            }
-            return nbt;
-        }
-
-        @Override
         public void setOwner(final LivingEntity e)
         {
             this.playerOwned = e instanceof PlayerEntity;
@@ -250,6 +220,39 @@ public class OwnableCaps
         public void setOwner(final UUID id)
         {
             this.ownerId = id;
+        }
+    }
+
+    public static class Impl extends BaseImpl implements IOwnable, ICapabilitySerializable<CompoundNBT>
+    {
+        @Override
+        public void deserializeNBT(final CompoundNBT nbt)
+        {
+            if (nbt.contains("p"))
+            {
+                this.playerOwned = nbt.getBoolean("p");
+                try
+                {
+                    this.ownerId = nbt.getUniqueId("o");
+                }
+                catch (final Exception e)
+                {
+                    ThutCore.LOGGER.error("Error loading in UUID");
+                    this.ownerId = new UUID(nbt.getLong("oMost"), nbt.getLong("oLeast"));
+                }
+            }
+        }
+
+        @Override
+        public CompoundNBT serializeNBT()
+        {
+            final CompoundNBT nbt = new CompoundNBT();
+            if (this.ownerId != null)
+            {
+                nbt.putUniqueId("o", this.ownerId);
+                nbt.putBoolean("p", this.playerOwned);
+            }
+            return nbt;
         }
     }
 
@@ -358,7 +361,7 @@ public class OwnableCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IOwnable.class, new Storage(), Impl::new);
+        CapabilityManager.INSTANCE.register(IOwnable.class, new Storage(), BaseImpl::new);
         MinecraftForge.EVENT_BUS.register(OwnableCaps.class);
     }
 }

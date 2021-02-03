@@ -112,6 +112,7 @@ public class WorldgenHandler
         public boolean rigid     = true;
         public boolean ignoreAir = true;
         public boolean filler    = false;
+        public boolean water     = false;
 
         public boolean override = false;
 
@@ -147,6 +148,7 @@ public class WorldgenHandler
         public List<String> options   = Lists.newArrayList();
         public boolean      rigid     = true;
         public boolean      ignoreAir = true;
+        public boolean      water     = false;
         public boolean      filler    = false;
         public List<String> includes  = Lists.newArrayList();
     }
@@ -603,7 +605,7 @@ public class WorldgenHandler
     private static void forceVillageFeature(final Structure<?> feature)
     {
         final List<Structure<?>> list = Lists.newArrayList(Structure.field_236384_t_);
-        list.add(feature);
+        if (!list.contains(feature)) list.add(feature);
         Structure.field_236384_t_ = list;
     }
 }

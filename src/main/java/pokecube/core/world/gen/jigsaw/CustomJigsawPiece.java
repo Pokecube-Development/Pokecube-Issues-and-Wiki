@@ -23,12 +23,14 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.gen.feature.jigsaw.IJigsawDeserializer;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.GravityStructureProcessor;
 import net.minecraft.world.gen.feature.template.JigsawReplacementStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessorList;
@@ -142,16 +144,16 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         if (wasNull && !this.opts.proc_list.isEmpty()) this.overrideList = WorldgenFeatures.getProcList(
                 this.opts.proc_list);
 
-        if (this.overrideList == null)
-        {
-            this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
-            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
-        }
+        if (this.overrideList == null) this.processors.get().func_242919_a().forEach(placementsettings::addProcessor);
         else
         {
             this.overrideList.func_242919_a().forEach(placementsettings::addProcessor);
             if (wasNull) this.overrideList = null;
         }
+
+        final boolean water_terrain_match = !this.opts.rigid && this.opts.water;
+        if (water_terrain_match) placementsettings.addProcessor(new GravityStructureProcessor(Type.OCEAN_FLOOR_WG, -1));
+        else this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
 
         return this.toUse = placementsettings;
     }

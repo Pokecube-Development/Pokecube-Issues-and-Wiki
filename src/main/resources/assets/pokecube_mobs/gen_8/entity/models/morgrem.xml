@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.2"/>
+  <phase name="global" scale="0.18"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1" headDir1="-1"/>
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1" legAngle="45" name="biWalk" rightArm="" rightLeg="leg2"/>
   <phase axis="0" name="snakeWalk" parts="hair2:hair3:hair4:hair5:hair6"/>
@@ -81,8 +81,14 @@
     <component length="10" name="1" rotOffset="20,0,0" rotChange="2,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
    </part>
-   <part name="hand1">
-    <component length="1" name="1" rotOffset="0,0,20" startKey="0"/>
+   <part name="hair2">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="hair3">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="hair4">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
    </part>
    <part name="arm2">
     <component length="10" name="1" rotOffset="0,10,60" rotChange="0,0,4" startKey="0"/>
@@ -99,11 +105,11 @@
     <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
    </part>
    <part name="h2">
-    <component length="10" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="10" name="1" rotOffset="0,0,0" rotChange="0,0,-3" startKey="0"/>
     <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
    </part>
    <part name="h3">
-    <component length="10" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="10" name="1" rotOffset="0,0,0" rotChange="0,0,3" startKey="0"/>
     <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
    </part>
    <part name="leg1">
