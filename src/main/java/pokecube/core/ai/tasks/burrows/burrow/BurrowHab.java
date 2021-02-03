@@ -107,6 +107,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     public void setMaker(final PokedexEntry maker)
     {
         this.maker = maker;
+        this.mutations.clear();
         this.related.clear();
         this.addRelations(maker, this.related);
     }
