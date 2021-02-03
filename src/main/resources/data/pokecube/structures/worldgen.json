@@ -1,33 +1,34 @@
 {
   "pools":[
     {
-      "name":"pokecube:ruins_base",
+      "name":"pokecube:scattered/ruins_rigid",
       "rigid":true,
       "biomeType":"ruin",
       "options":[
-        "pokecube:ruins_base/ancient_tomb",
-        "pokecube:ruins_base/ruin_1"
+        "pokecube:scattered/ruins_rigid/ancient_tomb",
+        "pokecube:scattered/ruins_rigid/ruin_1"
       ]
     },
     {
-      "name":"pokecube:ruins_base/rock_piles",
+      "name":"pokecube:scattered/ruins_loose/rock_piles",
       "rigid":false,
       "options":[
-        "pokecube:ruins_base/rock_piles/rock_pile_01;{\"weight\":6}",
-        "pokecube:ruins_base/rock_piles/rock_pile_02;{\"weight\":6}",
-        "pokecube:ruins_base/rock_piles/rock_pile_03;{\"weight\":6}",
-        "pokecube:ruins_base/rock_piles/rock_pile_04;{\"weight\":6}",
-        "pokecube:ruins_base/rock_piles/rock_pile_05;{\"weight\":6}",
-        "pokecube:ruins_base/rock_piles/rock_pile_06;{\"weight\":6}"
+        "empty;{\"weight\":5}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_01;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_02;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_03;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_04;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_05;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_06;{\"weight\":6}"
       ]
     },
     {
-      "name":"pokecube:ruins_baseless",
+      "name":"pokecube:scattered/ruins_loose",
       "rigid":false,
       "water":true,
       "biomeType":"ruin",
       "options":[
-        "pokecube:ruins_baseless/stonehenge_ruins"
+        "pokecube:scattered/ruins_loose/stonehenge_ruins"
       ]
     },
     {
@@ -438,8 +439,8 @@
   "jigsaws":[
     {
       "type":"pokecube:ruins_loose",
-      "name":"pokecube:scattered/stonehenge_ruins",
-      "root":"pokecube:scattered/stonehenge_ruins",
+      "name":"pokecube:scattered/ruins_loose",
+      "root":"pokecube:scattered/ruins_loose",
       "chance": 1,
       "biomeType":"ruin",
 	  "base_under":false,
@@ -449,14 +450,14 @@
       "priority":10000,
       "spawn":{
         "values":{
-          "types":"ocean"
+          "types":"all"
         }
       }
     },
     {
       "type":"pokecube:ruins_rigid",
-      "name":"pokecube:scattered/ruins",
-      "root":"pokecube:scattered/ruins",
+      "name":"pokecube:scattered/ruins_rigid",
+      "root":"pokecube:scattered/ruins_rigid",
       "chance": 1,
       "biomeType":"ruin",
       "distance":32,
