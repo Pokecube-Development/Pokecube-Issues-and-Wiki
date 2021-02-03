@@ -159,7 +159,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         final ListNBT muts = new ListNBT();
         this.mutations.forEach(entry ->
         {
-            mobs.add(StringNBT.valueOf(entry.getTrimmedName()));
+            muts.add(StringNBT.valueOf(entry.getTrimmedName()));
         });
         nbt.put("mutated", muts);
         return nbt;
