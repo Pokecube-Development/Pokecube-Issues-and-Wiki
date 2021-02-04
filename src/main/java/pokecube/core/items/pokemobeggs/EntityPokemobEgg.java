@@ -23,7 +23,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -46,6 +45,9 @@ public class EntityPokemobEgg extends AgeableEntity
     Vector3           here                 = Vector3.getNewVector();
     private ItemStack eggCache             = null;
     boolean           init                 = false;
+
+    private IPokemob toHatch = null;
+    private IPokemob sounds  = null;
 
     /**
      * Do not call this, this is here only for vanilla reasons
@@ -137,23 +139,20 @@ public class EntityPokemobEgg extends AgeableEntity
     {
         if (!real)
         {
-            final IPokemob pokemob = ItemPokemobEgg.getFakePokemob(this.getEntityWorld(), this.here, this
-                    .getHeldItemMainhand());
-            if (pokemob == null) return null;
-            pokemob.getEntity().setWorld(this.getEntityWorld());
-            return pokemob;
+            if (this.sounds != null)
+            {
+                this.sounds.getEntity().setPosition(this.getPosX(), this.getPosY(), this.getPosZ());
+                return this.sounds;
+            }
+            this.sounds = ItemPokemobEgg.getFakePokemob(this.getEntityWorld(), this.here, this.getHeldItemMainhand());
+            if (this.sounds == null) return null;
+            this.sounds.getEntity().setWorld(this.getEntityWorld());
+            return this.sounds;
         }
-        final PokedexEntry entry = ItemPokemobEgg.getEntry(this.getHeldItemMainhand());
-        if (entry == null) return null;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, this
-                .getEntityWorld()));
-        if (pokemob == null) return null;
-        this.here.set(this);
-        this.here.moveEntity(pokemob.getEntity());
-        final CompoundNBT nbt = this.getHeldItemMainhand().getTag();
-        ItemPokemobEgg.initPokemobGenetics(pokemob, nbt);
-        pokemob.getEntity().setWorld(this.getEntityWorld());
-        return pokemob;
+
+        if (this.toHatch != null) return this.toHatch;
+        this.toHatch = ItemPokemobEgg.make(this.getEntityWorld(), this.getHeldItemMainhand(), this);
+        return this.toHatch;
     }
 
     public void incubateEgg()
@@ -228,9 +227,17 @@ public class EntityPokemobEgg extends AgeableEntity
     protected void onGrowingAdult()
     {
         if (!this.init) return;
+
+        if (this.getHeldItemMainhand().hasTag())
+        {
+            final CompoundNBT nbt = this.getHeldItemMainhand().getTag();
+            final boolean hasNest = nbt.contains("nestLoc");
+            if (!hasNest) ItemPokemobEgg.tryImprint(this.getPokemob(true));
+        }
         final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
         MinecraftForge.EVENT_BUS.post(event);
-        if (!event.isCanceled()) ItemPokemobEgg.spawn(this.getEntityWorld(), this.getHeldItemMainhand(), this);
+        if (!event.isCanceled()) ItemPokemobEgg.spawn(this.getPokemob(true), this.getHeldItemMainhand(), this
+                .getEntityWorld(), this);
         this.remove();
     }
 
