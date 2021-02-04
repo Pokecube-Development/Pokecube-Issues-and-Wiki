@@ -1,27 +1,34 @@
 {
   "pools":[
     {
-      "name":"pokecube:scattered/ruins_start",
-      "rigid":false,
-      "options":[
-        "pokecube:scattered/ruins/start"
-      ]
-    },
-    {
-      "name":"pokecube:scattered/ruins",
+      "name":"pokecube:scattered/ruins_rigid",
       "rigid":true,
       "biomeType":"ruin",
       "options":[
-        "pokecube:scattered/ruins/ruin_1"
+        "pokecube:scattered/ruins_rigid/ancient_tomb",
+        "pokecube:scattered/ruins_rigid/ruin_1"
       ]
     },
     {
-      "name":"pokecube:scattered/stonehenge_ruins",
+      "name":"pokecube:scattered/ruins_loose/rock_piles",
+      "rigid":false,
+      "options":[
+        "empty;{\"weight\":5}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_01;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_02;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_03;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_04;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_05;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_06;{\"weight\":6}"
+      ]
+    },
+    {
+      "name":"pokecube:scattered/ruins_loose",
       "rigid":false,
       "water":true,
       "biomeType":"ruin",
       "options":[
-        "pokecube:scattered/ruins/stonehenge_ruins"
+        "pokecube:scattered/ruins_loose/stonehenge_ruins"
       ]
     },
     {
@@ -432,25 +439,25 @@
   "jigsaws":[
     {
       "type":"pokecube:ruins_loose",
-      "name":"pokecube:scattered/stonehenge_ruins",
-      "root":"pokecube:scattered/stonehenge_ruins",
+      "name":"pokecube:scattered/ruins_loose",
+      "root":"pokecube:scattered/ruins_loose",
       "chance": 1,
       "biomeType":"ruin",
+	  "base_under":false,
       "water":true,
       "distance":32,
       "separation":12,
       "priority":10000,
       "spawn":{
         "values":{
-          "types":"all",
-          "categoryBlacklist":"ocean,river"
+          "types":"all"
         }
       }
     },
     {
       "type":"pokecube:ruins_rigid",
-      "name":"pokecube:scattered/ruins",
-      "root":"pokecube:scattered/ruins_start",
+      "name":"pokecube:scattered/ruins_rigid",
+      "root":"pokecube:scattered/ruins_rigid",
       "chance": 1,
       "biomeType":"ruin",
       "distance":32,
@@ -485,7 +492,7 @@
         "values":{
           "types":"all",
           "typesBlacklist":"snowy",
-          "categoryBlacklist":"desert,ocean,river,the_end,nether,savanna,mesa,taiga,icy,mushroom,taiga"
+          "categoryBlacklist":"desert,ocean,river,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy,taiga"
         }
       }
     },
@@ -510,7 +517,7 @@
       "spawn":{
         "values":{
           "category":"desert,mesa",
-          "categoryBlacklist":"ocean,river,the_end,nether"
+          "categoryBlacklist":"ocean,river,beach,the_end,nether"
         }
       }
     },
@@ -535,7 +542,7 @@
       "spawn":{
         "values":{
           "category":"savanna,mesa",
-          "categoryBlacklist":"ocean,river,the_end,nether,mushroom"
+          "categoryBlacklist":"ocean,river,beach,the_end,nether"
         }
       }
     },
@@ -560,7 +567,7 @@
       "spawn":{
         "values":{
           "types":"snowy",
-          "categoryBlacklist":"ocean,river,the_end,nether,mushroom"
+          "categoryBlacklist":"ocean,river,beach,the_end,nether"
         }
       }
     },
@@ -585,7 +592,7 @@
       "spawn":{
         "values":{
           "category":"taiga",
-          "categoryBlacklist":"ocean,river,the_end,nether,mushroom",
+          "categoryBlacklist":"ocean,river,beach,the_end,nether",
           "typesBlacklist":"snowy"
         }
       }
