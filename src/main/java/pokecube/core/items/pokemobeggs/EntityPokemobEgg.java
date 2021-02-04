@@ -99,7 +99,9 @@ public class EntityPokemobEgg extends AgeableEntity
     public ItemStack getHeldItemMainhand()
     {
         if (this.getEntityWorld().isRemote) return super.getHeldItemMainhand();
-        if (this.eggCache == null) return this.eggCache = super.getHeldItemMainhand();
+        if (this.eggCache == null) this.eggCache = super.getHeldItemMainhand();
+        if (!this.eggCache.hasTag()) this.eggCache.setTag(new CompoundNBT());
+        this.eggCache.getTag().putInt("timer", this.getGrowingAge());
         return this.eggCache;
     }
 
@@ -204,6 +206,7 @@ public class EntityPokemobEgg extends AgeableEntity
     public EntityPokemobEgg setStack(final ItemStack stack)
     {
         this.setHeldItem(Hand.MAIN_HAND, stack);
+        if (stack.hasTag() && stack.getTag().contains("timer")) this.setGrowingAge(stack.getTag().getInt("timer"));
         return this;
     }
 
