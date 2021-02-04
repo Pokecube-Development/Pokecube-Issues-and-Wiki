@@ -55,7 +55,7 @@ public interface ITerrainProvider
      * segments need to have things set for them which the chunk is still being
      * generated, ie not completely loaded.
      */
-    public static Map<GlobalChunkPos, TerrainCache> pendingCache = new Object2ObjectOpenHashMap<>();
+    public static Map<RegistryKey<World>, Map<ChunkPos, TerrainCache>> pendingCache = new Object2ObjectOpenHashMap<>();
 
     /**
      * This is a cache of loaded chunks, it is used to prevent thread lock
@@ -63,7 +63,7 @@ public interface ITerrainProvider
      * world.chunkExists returning true does not mean that you can just go and
      * ask for the chunk...
      */
-    public static Map<GlobalChunkPos, IChunk> loadedChunks = new Object2ObjectOpenHashMap<>();
+    public static Map<RegistryKey<World>, Map<ChunkPos, IChunk>> loadedChunks = new Object2ObjectOpenHashMap<>();
 
     /**
      * Inserts the chunk into the cache of chunks.
@@ -73,10 +73,11 @@ public interface ITerrainProvider
      */
     public static void addChunk(final RegistryKey<World> dim, final IChunk chunk)
     {
-        final GlobalChunkPos pos = new GlobalChunkPos(dim, chunk.getPos());
         synchronized (ITerrainProvider.lock)
         {
-            ITerrainProvider.loadedChunks.put(pos, chunk);
+            Map<ChunkPos, IChunk> chunks = ITerrainProvider.loadedChunks.getOrDefault(dim, null);
+            if (chunks == null) ITerrainProvider.loadedChunks.put(dim, chunks = new Object2ObjectOpenHashMap<>());
+            chunks.put(chunk.getPos(), chunk);
         }
     }
 
@@ -88,30 +89,37 @@ public interface ITerrainProvider
      */
     public static void removeChunk(final RegistryKey<World> dim, final ChunkPos cpos)
     {
-        final GlobalChunkPos pos = new GlobalChunkPos(dim, cpos);
         synchronized (ITerrainProvider.lock)
         {
-            if (ITerrainProvider.loadedChunks.containsKey(pos)) ITerrainProvider.loadedChunks.remove(pos);
+            final Map<ChunkPos, IChunk> chunks = ITerrainProvider.loadedChunks.get(dim);
+            if (chunks != null) chunks.remove(cpos);
         }
     }
 
     public static IChunk getChunk(final RegistryKey<World> dim, final ChunkPos cpos)
     {
-        final GlobalChunkPos pos = new GlobalChunkPos(dim, cpos);
         synchronized (ITerrainProvider.lock)
         {
-            if (!ITerrainProvider.loadedChunks.containsKey(pos)) return null;
-            return ITerrainProvider.loadedChunks.get(pos);
+            final Map<ChunkPos, IChunk> chunks = ITerrainProvider.loadedChunks.get(dim);
+            if (chunks == null) return null;
+            return chunks.get(cpos);
         }
     }
 
     public static TerrainSegment removeCached(final RegistryKey<World> dim, final BlockPos pos)
     {
-        final GlobalChunkPos wpos = new GlobalChunkPos(dim, new ChunkPos(pos.getX(), pos.getZ()));
-        final TerrainCache segs = ITerrainProvider.pendingCache.get(wpos);
+        final ChunkPos cpos = new ChunkPos(pos.getX(), pos.getZ());
+        return ITerrainProvider.removeCached(dim, cpos, pos.getY());
+    }
+
+    public static TerrainSegment removeCached(final RegistryKey<World> dim, final ChunkPos cpos, final int y)
+    {
+        final Map<ChunkPos, TerrainCache> chunks = ITerrainProvider.pendingCache.get(dim);
+        if (chunks == null) return null;
+        final TerrainCache segs = chunks.get(cpos);
         if (segs == null) return null;
-        final TerrainSegment var = segs.remove(pos.getY());
-        if (!segs.isValid()) ITerrainProvider.pendingCache.remove(wpos);
+        final TerrainSegment var = segs.remove(y);
+        if (!segs.isValid()) chunks.remove(cpos);
         return var;
     }
 
@@ -127,30 +135,30 @@ public interface ITerrainProvider
         if (!(world instanceof World)) return new TerrainSegment(p);
         final World rworld = (World) world;
         // Convert the pos to a chunk pos
-        final ChunkPos temp = new ChunkPos(p);
+        ChunkPos temp = null;
         int y = p.getY() >> 4;
         if (y < 0) y = 0;
         if (y > 15) y = 15;
-        // Include the value for y
-        final BlockPos pos = new BlockPos(temp.x, y, temp.z);
         final RegistryKey<World> dim = rworld.getDimensionKey();
-        final IChunk chunk = world.isRemote() ? world.getChunk(p) : ITerrainProvider.getChunk(dim, temp);
+        final IChunk chunk = world.isRemote() ? world.getChunk(p)
+                : ITerrainProvider.getChunk(dim, temp = new ChunkPos(p));
         final boolean real = chunk != null && chunk instanceof ICapabilityProvider;
         // This means it occurs during worldgen?
         if (!real)
         {
-            final GlobalChunkPos wpos = new GlobalChunkPos(dim, temp);
-            TerrainCache segs = ITerrainProvider.pendingCache.get(wpos);
+            Map<ChunkPos, TerrainCache> chunks = ITerrainProvider.pendingCache.get(dim);
+            if (chunks == null) ITerrainProvider.pendingCache.put(dim, chunks = new Object2ObjectOpenHashMap<>());
+            TerrainCache segs = chunks.get(temp);
             if (segs == null)
             {
                 segs = new TerrainCache(temp, chunk);
-                ITerrainProvider.pendingCache.put(wpos, segs);
+                chunks.put(temp, segs);
             }
             return segs.get(y);
         }
         final CapabilityTerrain.ITerrainProvider provider = ((ICapabilityProvider) chunk).getCapability(
                 ThutCaps.TERRAIN_CAP).orElse(null);
         provider.setChunk(chunk);
-        return provider.getTerrainSegement(pos);
+        return provider.getTerrainSegment(y);
     }
 }
