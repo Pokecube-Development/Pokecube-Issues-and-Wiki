@@ -14,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -69,6 +70,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
         if (this.getGeneralState(GeneralStates.CONTROLLED)) return this.dataSync.get(this.params.HEADINGDW);
         return this.getEntity().rotationYaw;
     }
+
     @Override
     public CompoundNBT serializeNBT()
     {
@@ -108,7 +110,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
             {
                 final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
                 final int timer = action.cooldown + this.rand.nextInt(1 + action.variance);
-                if (lastShear < server.getTickCounter() - timer) sheared = false;
+                if (lastShear < server.getWorld(World.OVERWORLD).getGameTime() - timer) sheared = false;
             }
             // Cannot shear this!
             else sheared = false;
@@ -129,7 +131,8 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
             final MinecraftServer server = this.getEntity().getServer();
             final ArrayList<ItemStack> ret = new ArrayList<>();
             this.setGeneralState(GeneralStates.SHEARED, true);
-            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, server.getTickCounter());
+            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, server.getWorld(World.OVERWORLD)
+                    .getGameTime());
             final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
             final List<ItemStack> list = action.stacks;
             final int time = this.getHungerTime();
