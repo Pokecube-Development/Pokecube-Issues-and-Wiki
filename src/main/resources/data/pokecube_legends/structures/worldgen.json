@@ -515,8 +515,8 @@
       "name":"pokecube_legends:castle_n",
       "root":"pokecube_legends:castle_n",
       "biomeType":"ruin",
-      "distance":32,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"taiga",
@@ -528,8 +528,8 @@
       "name":"pokecube_legends:kubfu_water",
       "root":"pokecube_legends:kubfu_water",
       "biomeType":"none",
-      "distance":24,
-      "separation":4,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"beach"
@@ -540,8 +540,8 @@
       "name":"pokecube_legends:kubfu_dark",
       "root":"pokecube_legends:kubfu_dark",
       "biomeType":"none",
-      "distance":27,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"extreme_hills"
@@ -552,8 +552,8 @@
       "name":"pokecube_legends:regigigas_temple",
       "root":"pokecube_legends:regigigas_temple",
       "biomeType":"ruin",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"icy"
@@ -564,8 +564,8 @@
       "name":"pokecube_legends:regice_temple",
       "root":"pokecube_legends:regice_temple",
       "biomeType":"ruin",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"icy"
@@ -576,8 +576,8 @@
       "name":"pokecube_legends:regirock_temple",
       "root":"pokecube_legends:regirock_temple",
       "biomeType":"ruin",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "types":"sandy",
@@ -589,8 +589,8 @@
       "name":"pokecube_legends:registeel_temple",
       "root":"pokecube_legends:registeel_temple",
       "biomeType":"ruin",
-      "distance":32,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"extreme_hills"
@@ -601,8 +601,8 @@
       "name":"pokecube_legends:regidrago_temple",
       "root":"pokecube_legends:regidrago_temple",
       "biomeType":"ruin",
-      "distance":32,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "types":"mesa"
@@ -613,8 +613,8 @@
       "name":"pokecube_legends:regieleki_temple",
       "root":"pokecube_legends:regieleki_temple",
       "biomeType":"ruin",
-      "distance":32,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "types":"savanna"
@@ -625,8 +625,8 @@
       "name":"pokecube_legends:nature_place",
       "root":"pokecube_legends:nature_place",
       "biomeType":"none",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"swamp"
@@ -637,8 +637,8 @@
       "name":"pokecube_legends:yveltal_place",
       "root":"pokecube_legends:yveltal_place",
       "biomeType":"ruin",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "types":"sandy"
@@ -649,8 +649,8 @@
       "name":"pokecube_legends:lugia_tower",
       "root":"pokecube_legends:lugia_tower",
       "biomeType":"none",
-      "distance":24,
-      "separation":4,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"beach"
@@ -661,8 +661,8 @@
       "name":"pokecube_legends:legendy_tree",
       "root":"pokecube_legends:legendy_tree",
       "biomeType":"none",
-      "distance":24,
-      "separation":4,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"plains"
@@ -673,8 +673,8 @@
       "name":"pokecube_legends:team_rocket",
       "root":"pokecube_legends:team_rocket",
       "biomeType":"industrial",
-      "distance":24,
-      "separation":10,
+      "distance":70,
+      "separation":30,
       "base_under":false,
       "spawn":{
         "values":{
@@ -687,8 +687,8 @@
       "name":"pokecube_legends:sky_pillar",
       "root":"pokecube_legends:sky_pillar",
       "biomeType":"ruin",
-      "distance":28,
-      "separation":10,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"ocean"
@@ -699,8 +699,8 @@
       "name":"pokecube_legends:celebi_temple",
       "root":"pokecube_legends:celebi_temple",
       "biomeType":"none",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"forest",
@@ -712,8 +712,8 @@
       "name":"pokecube_legends:space_temple",
       "root":"pokecube_legends:space_temple",
       "biomeType":"ruin",
-      "distance":32,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"the_end"
@@ -724,8 +724,8 @@
       "name":"pokecube_legends:zacian_temple",
       "root":"pokecube_legends:zacian_temple",
       "biomeType":"none",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"river"
@@ -736,8 +736,8 @@
       "name":"pokecube_legends:zamazenta_temple",
       "root":"pokecube_legends:zamazenta_temple",
       "biomeType":"none",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"river"
@@ -748,8 +748,8 @@
       "name":"pokecube_legends:hooh_tower",
       "root":"pokecube_legends:hooh_tower",
       "biomeType":"none",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"plains"
@@ -760,8 +760,8 @@
       "name":"pokecube_legends:xerneas_place",
       "root":"pokecube_legends:xerneas_place",
       "biomeType":"none",
-      "distance":16,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "types":"spooky"
@@ -772,8 +772,8 @@
       "name":"pokecube_legends:keldeo_place",
       "root":"pokecube_legends:keldeo_place",
       "biomeType":"none",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "spawn":{
         "values":{
           "category":"extreme_hills"
@@ -784,8 +784,8 @@
       "name":"pokecube_legends:kyogre_temple",
       "root":"pokecube_legends:kyogre_temple",
       "biomeType":"none",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "water":true,
       "spawn":{
         "values":{
@@ -797,8 +797,8 @@
       "name":"pokecube_legends:groudon_temple",
       "root":"pokecube_legends:groudon_temple",
       "biomeType":"ruin",
-      "distance":24,
-      "separation":8,
+      "distance":84,
+      "separation":32,
       "surface":false,
       "base_under":false,
       "spawn":{
@@ -811,7 +811,7 @@
       "name":"pokecube_legends:meteor_overworld",
       "root":"pokecube_legends:meteor_overworld",
       "biomeType":"meteor",
-      "distance":9,
+      "distance":10,
       "separation":3,
       "spawn":{
         "values":{
