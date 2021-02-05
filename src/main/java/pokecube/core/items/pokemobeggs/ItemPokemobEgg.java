@@ -167,7 +167,7 @@ public class ItemPokemobEgg extends Item
         return ret;
     }
 
-    public static LivingEntity imprintOwner(final IPokemob mob)
+    private static LivingEntity imprintOwner(final IPokemob mob)
     {
         final Vector3 location = Vector3.getNewVector().set(mob.getEntity());
         PlayerEntity player = mob.getEntity().getEntityWorld().getClosestPlayer(location.x, location.y, location.z,
@@ -208,17 +208,9 @@ public class ItemPokemobEgg extends Item
         return owner;
     }
 
-    public static void initPokemobGenetics(final IPokemob mob, final CompoundNBT nbt)
+    public static void tryImprint(final IPokemob mob)
     {
-        mob.setForSpawn(10);
-        if (nbt.contains(GeneticsManager.GENES))
-        {
-            final INBT genes = nbt.get(GeneticsManager.GENES);
-            final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
-            GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
-            GeneticsManager.initFromGenes(eggs, mob);
-        }
-        final LivingEntity owner = nbt.contains("nestLocation") ? null : ItemPokemobEgg.imprintOwner(mob);
+        final LivingEntity owner = ItemPokemobEgg.imprintOwner(mob);
         final Config config = PokecubeCore.getConfig();
         // Check permissions
         if (owner instanceof PlayerEntity && (config.permsHatch || config.permsHatchSpecific))
@@ -242,6 +234,19 @@ public class ItemPokemobEgg extends Item
         else mob.getEntity().getPersistentData().remove(TagNames.HATCHED);
     }
 
+    public static void initPokemobGenetics(final IPokemob mob, final CompoundNBT nbt, final boolean imprint)
+    {
+        mob.setForSpawn(10);
+        if (imprint) mob.getEntity().getPersistentData().putBoolean(TagNames.HATCHED, true);
+        if (nbt.contains(GeneticsManager.GENES))
+        {
+            final INBT genes = nbt.get(GeneticsManager.GENES);
+            final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+            GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
+            GeneticsManager.initFromGenes(eggs, mob);
+        }
+    }
+
     public static void initStack(final Entity mother, final IPokemob father, final ItemStack stack)
     {
         if (!stack.hasTag()) stack.setTag(new CompoundNBT());
@@ -249,11 +254,10 @@ public class ItemPokemobEgg extends Item
         if (mob != null && father != null) ItemPokemobEgg.getGenetics(mob, father, stack.getTag());
     }
 
-    public static boolean spawn(final World world, final ItemStack stack, final EntityPokemobEgg egg)
+    public static IPokemob make(final World world, final ItemStack stack, final EntityPokemobEgg egg)
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         final MobEntity entity = PokecubeCore.createPokemob(entry, world);
-
         if (entity != null)
         {
             final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
@@ -262,35 +266,40 @@ public class ItemPokemobEgg extends Item
             int exp = Tools.levelToXp(mob.getExperienceMode(), 1);
             exp = Math.max(1, exp);
             mob.setForSpawn(exp);
-            entity.getPersistentData().putBoolean(TagNames.HATCHED, true);
             entity.setLocationAndAngles(Math.floor(egg.getPosX()) + 0.5, Math.floor(egg.getPosY()) + 0.5, Math.floor(egg
                     .getPosZ()) + 0.5, world.rand.nextFloat() * 360F, 0.0F);
-            if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag());
-            mob.spawnInit();
-            world.addEntity(entity);
-            if (mob.getOwner() != null)
-            {
-                final LivingEntity owner = mob.getOwner();
-                owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName().getString()),
-                        Util.DUMMY_UUID);
-                if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(
-                        world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.getRNG().nextInt(7) + 1));
-            }
-            final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
-            PokecubeCore.POKEMOB_BUS.post(evt);
             final CompoundNBT nbt = stack.getTag();
-            if (nbt.contains("nestLoc"))
-            {
-                final BlockPos pos = NBTUtil.readBlockPos(nbt.getCompound("nestLoc"));
-                final TileEntity tile = world.getTileEntity(pos);
-                if (tile instanceof NestTile) ((NestTile) tile).addResident(mob);
-                mob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-            }
-            entity.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
-            entity.playAmbientSound();
+            final boolean hasNest = nbt.contains("nestLoc");
+            if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag(), !hasNest);
+            mob.spawnInit();
         }
+        return CapabilityPokemob.getPokemobFor(entity);
+    }
 
-        return entity != null;
+    public static void spawn(final IPokemob mob, final ItemStack stack, final World world, final EntityPokemobEgg egg)
+    {
+        final MobEntity entity = mob.getEntity();
+        final CompoundNBT nbt = stack.getTag();
+        world.addEntity(entity);
+        if (mob.getOwner() != null)
+        {
+            final LivingEntity owner = mob.getOwner();
+            owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName().getString()),
+                    Util.DUMMY_UUID);
+            if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(world,
+                    entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.getRNG().nextInt(7) + 1));
+        }
+        final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
+        PokecubeCore.POKEMOB_BUS.post(evt);
+        if (nbt.contains("nestLoc"))
+        {
+            final BlockPos pos = NBTUtil.readBlockPos(nbt.getCompound("nestLoc"));
+            final TileEntity tile = world.getTileEntity(pos);
+            if (tile instanceof NestTile) ((NestTile) tile).addResident(mob);
+            mob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+        }
+        entity.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
+        entity.playAmbientSound();
     }
 
     public ItemPokemobEgg(final Properties props)
@@ -347,7 +356,7 @@ public class ItemPokemobEgg extends Item
         final ItemStack eggItemStack = new ItemStack(ItemPokemobEgg.EGG, 1);
         if (stack.hasTag()) eggItemStack.setTag(stack.getTag());
         else eggItemStack.setTag(new CompoundNBT());
-        final Entity entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setPos(location).setStack(
+        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setPos(location).setStack(
                 eggItemStack);
         final EggEvent.Place event = new EggEvent.Place(entity);
         MinecraftForge.EVENT_BUS.post(event);

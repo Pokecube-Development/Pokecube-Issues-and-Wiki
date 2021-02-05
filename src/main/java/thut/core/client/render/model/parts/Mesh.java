@@ -86,13 +86,12 @@ public abstract class Mesh
 
         TextureCoordinate textureCoordinate = new TextureCoordinate(0, 0);
         final boolean flat = this.material.flat;
-        final int red = this.rgbabro[0];
-        final int green = this.rgbabro[1];
-        final int blue = this.rgbabro[2];
-        int alpha = this.rgbabro[3];
+        final float red = this.rgbabro[0] / 255f;
+        final float green = this.rgbabro[1] / 255f;
+        final float blue = this.rgbabro[2] / 255f;
+        final float alpha = this.material.alpha * this.rgbabro[3] / 255f;
         final int lightmapUV = this.rgbabro[4];
         final int overlayUV = this.rgbabro[5];
-        alpha = (int) (this.material.alpha * alpha);
         int n = 0;
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
         final Matrix4f pos = matrixstack$entry.getMatrix();
@@ -131,14 +130,13 @@ public abstract class Mesh
 
             // We use the default Item format, since that is what mobs use.
             // This means we need these in this order!
-            buffer//@formatter:off
-            .pos(dp.getX(), dp.getY(), dp.getZ())
-            .color(red, green, blue, alpha)
-            .tex(u, v)
-            .overlay(overlayUV)
-            .lightmap(lightmapUV)
-            .normal(dn.getX(), dn.getY(), dn.getZ())
-            .endVertex();
+            buffer.addVertex(
+            //@formatter:off
+                dp.getX(), dp.getY(), dp.getZ(),
+                red, green, blue, alpha,
+                u, v,
+                overlayUV, lightmapUV,
+                dn.getX(), dn.getY(), dn.getZ());
             //@formatter:on
             n++;
         }

@@ -43,7 +43,7 @@ public class Face
     }
 
     private final net.minecraft.util.math.vector.Vector3f dummy3 = new net.minecraft.util.math.vector.Vector3f();
-    private final Vector4f                               dummy4 = new Vector4f();
+    private final Vector4f                                dummy4 = new Vector4f();
 
     /**
      * Add the face for GL rendering
@@ -59,10 +59,10 @@ public class Face
     {
         if (!smoothShading) this.normal = this.calculateNormal();
 
-        final int red = rgbabro[0];
-        final int green = rgbabro[1];
-        final int blue = rgbabro[2];
-        final int alpha = rgbabro[3];
+        final float red = rgbabro[0] / 255f;
+        final float green = rgbabro[1] / 255f;
+        final float blue = rgbabro[2] / 255f;
+        final float alpha = rgbabro[3] / 255f;
         final int lightmapUV = rgbabro[4];
         final int overlayUV = rgbabro[5];
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
@@ -90,14 +90,13 @@ public class Face
             dn.set(nx, ny, nz);
             dn.transform(norms);
 
-            buffer//@formatter:off
-            .pos(dp.getX(), dp.getY(), dp.getZ())
-            .color(red, green, blue, alpha)
-            .tex(u, v)
-            .overlay(overlayUV)
-            .lightmap(lightmapUV)
-            .normal(dn.getX(), dn.getY(), dn.getZ())
-            .endVertex();
+            buffer.addVertex(
+            //@formatter:off
+                dp.getX(), dp.getY(), dp.getZ(),
+                red, green, blue, alpha,
+                u, v,
+                overlayUV, lightmapUV,
+                dn.getX(), dn.getY(), dn.getZ());
             //@formatter:on
         }
     }
