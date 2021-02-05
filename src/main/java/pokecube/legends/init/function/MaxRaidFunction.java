@@ -101,8 +101,8 @@ public class MaxRaidFunction
         // Generate the loot list.
         final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
 
-        // Raid Battle
-        if (entity != null && !entityToSpawn.isMega)
+        // Raid Battle We will move legendaries to the rare raids.
+        if (entity != null && !entityToSpawn.isMega && !entityToSpawn.isLegendary())
         {
             final int level = new Random().nextInt(100);
             pokemob.setExp(Tools.levelToXp(entityToSpawn.getEvolutionMode(), level), false);
