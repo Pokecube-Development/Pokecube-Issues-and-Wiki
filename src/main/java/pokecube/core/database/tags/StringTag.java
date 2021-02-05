@@ -1,4 +1,4 @@
-package pokecube.core.database.util;
+package pokecube.core.database.tags;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,10 +26,11 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
 import thut.core.common.ThutCore;
 
-public class StringTagsHelper implements IResourceData
+public class StringTag implements IResourceData
 {
     public static class TagHolder
     {
@@ -59,7 +60,7 @@ public class StringTagsHelper implements IResourceData
             return false;
         }
 
-        public void checkIncludes(final StringTagsHelper parent, final Set<String> checked)
+        public void checkIncludes(final StringTag parent, final Set<String> checked)
         {
             // TODO possible speedup by adding the included tags to our list,
             // instead of referencing the included tags.
@@ -92,7 +93,7 @@ public class StringTagsHelper implements IResourceData
 
     public boolean validLoad = false;
 
-    public StringTagsHelper(final String path)
+    public StringTag(final String path)
     {
         this.tagPath = path;
         DataHelpers.addDataType(this);
