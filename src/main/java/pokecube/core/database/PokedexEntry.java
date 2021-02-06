@@ -180,7 +180,12 @@ public class PokedexEntry
                 for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
                 {
                     final boolean valid = this.matcher.getValidBiomes().contains(test);
-                    if (valid) biomeNames.add(I18n.format(test.getLocation().toString()));
+                    if (valid)
+                    {
+                        final String key = String.format("biome.%s.%s", test.getLocation().getNamespace(), test.getLocation()
+                                .getPath());
+                        biomeNames.add(I18n.format(key));
+                    }
                 }
                 for (final SpawnBiomeMatcher matcher : this.matcher.children)
                 {
@@ -189,7 +194,12 @@ public class PokedexEntry
                     for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
                     {
                         final boolean valid = matcher.getValidBiomes().contains(test);
-                        if (valid) biomeNames.add(I18n.format(test.getLocation().toString()));
+                        if (valid)
+                        {
+                            final String key = String.format("biome.%s.%s", test.getLocation().getNamespace(), test
+                                    .getLocation().getPath());
+                            biomeNames.add(I18n.format(key));
+                        }
                     }
                 }
                 comps.add(new TranslationTextComponent("pokemob.description.evolve.locations", biomeNames));
