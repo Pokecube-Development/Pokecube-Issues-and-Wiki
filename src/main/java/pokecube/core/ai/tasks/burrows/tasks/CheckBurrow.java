@@ -42,7 +42,7 @@ public class CheckBurrow extends BaseIdleTask
 
     public static int BURROWSPACING = 64;
 
-    int burrowCheckTimer = 0;
+    int burrowCheckTimer = -10;
 
     Burrow burrow = null;
 
@@ -54,13 +54,13 @@ public class CheckBurrow extends BaseIdleTask
     @Override
     public void reset()
     {
-        this.burrowCheckTimer = 0;
+        this.burrowCheckTimer = -10;
     }
 
     @Override
     public void run()
     {
-        if (this.burrowCheckTimer++ < 100) return;
+        if (this.burrowCheckTimer++ < 600) return;
 
         this.burrowCheckTimer = 0;
         if (this.burrow == null) this.burrow = BurrowSensor.getNest(this.entity).orElse(null);
