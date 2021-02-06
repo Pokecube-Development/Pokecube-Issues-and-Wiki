@@ -424,9 +424,9 @@ public class GatherTask extends UtilTask
         if (blocks != null)
         {
             this.blocks = Lists.newArrayList(blocks);
-            this.blocks.removeIf(b -> !inRange.test(b.getPos()));
             this.blocks.removeIf(b ->
             {
+                if (!inRange.test(b.getPos())) return true;
                 boolean canHarvest = false;
                 for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
                 {
@@ -436,12 +436,14 @@ public class GatherTask extends UtilTask
                 }
                 return canHarvest;
             });
+            if (this.blocks.isEmpty()) this.blocks = null;
         }
         // Only replace this if the new list is not null.
         if (items != null)
         {
-            this.items = items;
+            this.items = Lists.newArrayList(items);
             this.items.removeIf(b -> !inRange.test(b.getPosition()));
+            if (this.items.isEmpty()) this.items = null;
         }
 
         if (this.blocks == null && this.items == null) return false;

@@ -60,7 +60,7 @@ public class CheckBurrow extends BaseIdleTask
     @Override
     public void run()
     {
-        if (this.burrowCheckTimer++ < 600) return;
+        if (this.burrowCheckTimer++ < 100) return;
 
         this.burrowCheckTimer = 0;
         if (this.burrow == null) this.burrow = BurrowSensor.getNest(this.entity).orElse(null);
@@ -80,17 +80,19 @@ public class CheckBurrow extends BaseIdleTask
 
             // Lets see if we can find any leaves to place a hive under
             final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
-            if (blocks == null) return;
+
+            final PointOfInterestManager pois = this.world.getPointOfInterestManager();
+            final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), this.entity.getPosition(),
+                    CheckBurrow.BURROWSPACING, PointOfInterestManager.Status.ANY);
+
+            if (blocks == null || num != 0) return;
 
             // Otherwise on the ground
             final List<NearBlock> surfaces = Lists.newArrayList();
-            final PointOfInterestManager pois = this.world.getPointOfInterestManager();
             blocks.forEach(b ->
             {
                 if (b == null) return;
-                final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), b.getPos(),
-                        CheckBurrow.BURROWSPACING, net.minecraft.village.PointOfInterestManager.Status.ANY);
-                if (num == 0 && PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
+                if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
             });
 
             // last we check the terrain
