@@ -34,6 +34,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -355,11 +357,6 @@ public class PokedexEntryLoader
 
     public static class Moves
     {
-        public static class LvlUp
-        {
-            public Map<QName, String> values = Maps.newHashMap();
-        }
-
         public static class Misc
         {
             public String moves;
@@ -371,8 +368,9 @@ public class PokedexEntryLoader
             }
         }
 
-        public LvlUp lvlupMoves;
-        public Misc  misc;
+        public JsonObject lvlupMoves;
+
+        public Misc misc;
 
         // TODO move this to the evolution itself
         public String evolutionMoves;
@@ -805,20 +803,31 @@ public class PokedexEntryLoader
             for (final String s : misc)
                 allMoves.add(Database.convertMoveName(s));
         }
-        if (xmlMoves.lvlupMoves != null) for (final QName key : xmlMoves.lvlupMoves.values.keySet())
+        if (xmlMoves.lvlupMoves != null)
         {
-            final String keyName = key.toString();
-            final String[] values = xmlMoves.lvlupMoves.values.get(key).split(",");
-            ArrayList<String> moves;
-            lvlUpMoves.put(Integer.parseInt(keyName.replace("lvl_", "")), moves = new ArrayList<>());
-            moves:
-            for (String s : values)
+            JsonObject o = xmlMoves.lvlupMoves;
+            // This supports the old format as well.
+            if (o.has("values")) o = o.getAsJsonObject("values");
+            for (final Entry<String, JsonElement> key : o.entrySet())
             {
-                s = Database.convertMoveName(s);
-                moves.add(s);
-                for (final String s1 : allMoves)
-                    if (s1.equalsIgnoreCase(s)) continue moves;
-                allMoves.add(Database.convertMoveName(s));
+                final String keyName = key.getKey();
+                if (key.getValue().isJsonObject())
+                {
+                    PokecubeCore.LOGGER.error("Error with value: {} {} for {}", keyName, key.getValue(), entry);
+                    continue;
+                }
+                final String[] values = key.getValue().getAsString().split(",");
+                ArrayList<String> moves;
+                lvlUpMoves.put(Integer.parseInt(keyName), moves = new ArrayList<>());
+                moves:
+                for (String s : values)
+                {
+                    s = Database.convertMoveName(s);
+                    moves.add(s);
+                    for (final String s1 : allMoves)
+                        if (s1.equalsIgnoreCase(s)) continue moves;
+                    allMoves.add(Database.convertMoveName(s));
+                }
             }
         }
 

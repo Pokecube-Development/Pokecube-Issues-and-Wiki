@@ -182,8 +182,8 @@ public class PokedexEntry
                     final boolean valid = this.matcher.getValidBiomes().contains(test);
                     if (valid)
                     {
-                        final String key = String.format("biome.%s.%s", test.getLocation().getNamespace(), test.getLocation()
-                                .getPath());
+                        final String key = String.format("biome.%s.%s", test.getLocation().getNamespace(), test
+                                .getLocation().getPath());
                         biomeNames.add(I18n.format(key));
                     }
                 }
@@ -1281,7 +1281,7 @@ public class PokedexEntry
     {
         this.lvlUpMoves = lvlUpMoves2;
         this.possibleMoves = moves;
-        // System.out.println("Adding moves for "+name);
+//        System.out.println("Adding moves for " + this.name+" "+this.lvlUpMoves);
     }
 
     private void addRelation(final PokedexEntry toAdd)
