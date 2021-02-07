@@ -76,31 +76,31 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     @Override
     protected void startExecuting(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
-        this.ordering.func_220628_a(this.tasks);
-        this.runType.func_220630_a(this.tasks, worldIn, entityIn, gameTimeIn);
+        this.ordering.apply(this.tasks);
+        this.runType.process(this.tasks, worldIn, entityIn, gameTimeIn);
     }
 
     @Override
     protected void updateTask(final ServerWorld worldIn, final E owner, final long gameTime)
     {
-        this.tasks.func_220655_b().filter((p_220408_0_) ->
+        this.tasks.func_220655_b().filter((task) ->
         {
-            return p_220408_0_.getStatus() == Task.Status.RUNNING;
-        }).forEach((p_220409_4_) ->
+            return task.getStatus() == Task.Status.RUNNING;
+        }).forEach((task) ->
         {
-            p_220409_4_.tick(worldIn, owner, gameTime);
+            task.tick(worldIn, owner, gameTime);
         });
     }
 
     @Override
     protected void resetTask(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
-        this.tasks.func_220655_b().filter((p_220407_0_) ->
+        this.tasks.func_220655_b().filter((task) ->
         {
-            return p_220407_0_.getStatus() == Task.Status.RUNNING;
-        }).forEach((p_220412_4_) ->
+            return task.getStatus() == Task.Status.RUNNING;
+        }).forEach((task) ->
         {
-            p_220412_4_.stop(worldIn, entityIn, gameTimeIn);
+            task.stop(worldIn, entityIn, gameTimeIn);
         });
         this.memoryModules.forEach(entityIn.getBrain()::removeMemory);
     }
@@ -108,29 +108,29 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     @Override
     public String toString()
     {
-        final Set<? extends Task<? super E>> set = this.tasks.func_220655_b().filter((p_220410_0_) ->
+        final Set<? extends Task<? super E>> set = this.tasks.func_220655_b().filter((task) ->
         {
-            return p_220410_0_.getStatus() == Task.Status.RUNNING;
+            return task.getStatus() == Task.Status.RUNNING;
         }).collect(Collectors.toSet());
         return "(" + this.getClass().getSimpleName() + "): " + set;
     }
 
     static enum Ordering
     {
-        ORDERED((p_220627_0_) ->
+        ORDERED((list) ->
         {
         }), SHUFFLED(WeightedList::func_226309_a_);
 
-        private final Consumer<WeightedList<?>> field_220629_c;
+        private final Consumer<WeightedList<?>> consumer;
 
-        private Ordering(final Consumer<WeightedList<?>> p_i50849_3_)
+        private Ordering(final Consumer<WeightedList<?>> consumer)
         {
-            this.field_220629_c = p_i50849_3_;
+            this.consumer = consumer;
         }
 
-        public void func_220628_a(final WeightedList<?> p_220628_1_)
+        public void apply(final WeightedList<?> list)
         {
-            this.field_220629_c.accept(p_220628_1_);
+            this.consumer.accept(list);
         }
     }
 
@@ -139,30 +139,30 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         RUN_ONE
         {
             @Override
-            public <E extends LivingEntity> void func_220630_a(final WeightedList<Task<? super E>> p_220630_1_,
-                    final ServerWorld p_220630_2_, final E p_220630_3_, final long p_220630_4_)
+            public <E extends LivingEntity> void process(final WeightedList<Task<? super E>> list,
+                    final ServerWorld world, final E mob, final long time)
             {
-                p_220630_1_.func_220655_b().filter((p_220634_0_) ->
+                list.func_220655_b().filter((sub_task) ->
                 {
-                    return p_220634_0_.getStatus() == Task.Status.STOPPED;
-                }).filter((p_220633_4_) ->
+                    return sub_task.getStatus() == Task.Status.STOPPED;
+                }).filter((sub_task) ->
                 {
-                    return p_220633_4_.start(p_220630_2_, p_220630_3_, p_220630_4_);
+                    return sub_task.start(world, mob, time);
                 }).findFirst();
             }
         },
         TRY_ALL
         {
             @Override
-            public <E extends LivingEntity> void func_220630_a(final WeightedList<Task<? super E>> p_220630_1_,
-                    final ServerWorld p_220630_2_, final E p_220630_3_, final long p_220630_4_)
+            public <E extends LivingEntity> void process(final WeightedList<Task<? super E>> list,
+                    final ServerWorld world, final E mob, final long time)
             {
-                p_220630_1_.func_220655_b().filter((p_220632_0_) ->
+                list.func_220655_b().filter((sub_task) ->
                 {
-                    return p_220632_0_.getStatus() == Task.Status.STOPPED;
-                }).forEach((p_220631_4_) ->
+                    return sub_task.getStatus() == Task.Status.STOPPED;
+                }).forEach((sub_task) ->
                 {
-                    p_220631_4_.start(p_220630_2_, p_220630_3_, p_220630_4_);
+                    sub_task.start(world, mob, time);
                 });
             }
         };
@@ -171,7 +171,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         {
         }
 
-        public abstract <E extends LivingEntity> void func_220630_a(WeightedList<Task<? super E>> p_220630_1_,
-                ServerWorld p_220630_2_, E p_220630_3_, long p_220630_4_);
+        public abstract <E extends LivingEntity> void process(WeightedList<Task<? super E>> list, ServerWorld world,
+                E mob, long time);
     }
 }

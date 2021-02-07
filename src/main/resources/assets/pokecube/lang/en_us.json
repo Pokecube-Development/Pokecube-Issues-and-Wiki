@@ -90,7 +90,7 @@
     "pokewatch.progress.inspect": "Check Progress",
 
     "pokewatch.spawns.peaceful": "§cNothing can spawn on Peaceful!",
-    "pokewatch.spawns.repelled": "§cHere is in range of a repel!",
+    "pokewatch.spawns.repelled": "§cSomething is reducing wild spawns here!",
     "pokewatch.spawns.times": "Times:",
     "pokewatch.spawns.day": "Day",
     "pokewatch.spawns.night": "Night",
@@ -536,5 +536,7 @@
     "pokecube.command.checkreward": "Does %1$s have %2$s: %3$s.",
     "pokecube.command.resetreward": "Reset %2$s for %1$s.",
 
-    "_comment": "Misc"
+    "_comment": "Misc",
+    
+    "biome.pokecube.secret_base": "Secret Base"
 }

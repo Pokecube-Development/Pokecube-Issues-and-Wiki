@@ -55,7 +55,8 @@ public class SpawnListEntry
 
         final List<ITextComponent> biomes = Lists.newArrayList();
         for (final RegistryKey<Biome> b : value.getValidBiomes())
-            biomes.add(new TranslationTextComponent(b.getLocation().getPath()));
+            biomes.add(new TranslationTextComponent(String.format("biome.%s.%s", b.getLocation().getNamespace(), b
+                    .getLocation().getPath())));
 
         if (entry != null)
         {

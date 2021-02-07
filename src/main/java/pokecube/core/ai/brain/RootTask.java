@@ -127,13 +127,14 @@ public class RootTask<E extends LivingEntity> extends Task<E>
     @Override
     public boolean hasRequiredMemories(final E mobIn)
     {
-        // Dead mobs don't have AI!
-        if (!this.runWhileDead && !mobIn.isAlive()) return false;
-
         this.entity = mobIn;
         final Brain<?> brain = mobIn.getBrain();
         for (int i = 0; i < this.neededStatus.length; i++)
             if (!brain.hasMemory(this.neededModules[i], this.neededStatus[i])) return false;
+
+        // Dead mobs don't have AI!
+        if (!this.runWhileDead && !mobIn.isAlive()) return false;
+
         return true;
     }
 }
