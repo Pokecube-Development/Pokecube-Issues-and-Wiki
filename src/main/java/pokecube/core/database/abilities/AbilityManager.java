@@ -38,7 +38,8 @@ public class AbilityManager
         if (AbilityManager.fixed.containsKey(name)) return AbilityManager.fixed.get(name);
         final String original = name;
         name = ThutCore.trim(name);
-        if (name.contains("_")) name = name.replace("_", "");
+        name = name.replace("_", "");
+        name = name.replace("-", "");
         AbilityManager.fixed.put(original, name);
         return name;
     }
