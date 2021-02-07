@@ -70,6 +70,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
 
     BlockPos    here;
     ServerWorld world;
+    TileEntity  tile;
 
     int antExitCooldown = 0;
 
@@ -145,14 +146,14 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public void updateRepelledRegion(final ServerWorld world)
+    public void updateRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
         final AxisAlignedBB box = this.rooms.getBounds().grow(10, 0, 10);
         NestTile nest = null;
-        final TileEntity tile = world.getTileEntity(this.here);
-        if (tile instanceof NestTile)
+        this.tile = tile;
+        if (this.tile instanceof NestTile)
         {
-            nest = (NestTile) tile;
+            nest = (NestTile) this.tile;
             nest.removeForbiddenSpawningCoord();
         }
         this.repelled = new AABBRegion(box);
@@ -160,9 +161,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public ForbidRegion getRepelledRegion(final ServerWorld world)
+    public ForbidRegion getRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
-        if (this.repelled == null) this.updateRepelledRegion(world);
+        if (this.repelled == null) this.updateRepelledRegion(tile, world);
         return this.repelled;
     }
 
@@ -296,7 +297,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         this.rooms.add(room);
         this.rooms.allEdges.add(edge);
 
-        this.updateRepelledRegion(this.world);
+        if (this.tile == null) this.tile = this.world.getTileEntity(this.here);
+        this.updateRepelledRegion(this.tile, this.world);
     }
 
     @Override

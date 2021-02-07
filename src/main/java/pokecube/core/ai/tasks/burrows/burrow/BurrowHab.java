@@ -82,16 +82,16 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     }
 
     @Override
-    public void updateRepelledRegion(final ServerWorld world)
+    public void updateRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
         final AxisAlignedBB box = this.burrow.getOutBounds().grow(16, 0, 16);
         this.repelled = new AABBRegion(box);
     }
 
     @Override
-    public ForbidRegion getRepelledRegion(final ServerWorld world)
+    public ForbidRegion getRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
-        if (this.repelled == null) this.updateRepelledRegion(world);
+        if (this.repelled == null) this.updateRepelledRegion(tile, world);
         return this.repelled;
     }
 
