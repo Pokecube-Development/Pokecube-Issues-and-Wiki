@@ -1,0 +1,8 @@
+{
+  "variants": {
+	"facing=east":  { "model": "pokecube_legends:block/koko_totem/koko_blue_totem", "y":90 },
+    "facing=west":  { "model": "pokecube_legends:block/koko_totem/koko_blue_totem", "y":270 },
+    "facing=north": { "model": "pokecube_legends:block/koko_totem/koko_blue_totem", "y":0},
+    "facing=south": { "model": "pokecube_legends:block/koko_totem/koko_blue_totem", "y":180 }
+  }
+}

@@ -64,7 +64,11 @@ public class ItemInit
     public static final RegistryObject<Item> SHADOW_CARROT;
     public static final RegistryObject<Item> ANCIENT_STONE;
     public static final RegistryObject<Item> IMPRISIONMENT_HELMET;
-
+    public static final RegistryObject<Item> KOKO_ORB;
+    public static final RegistryObject<Item> BULU_ORB;
+    public static final RegistryObject<Item> LELE_ORB;
+    public static final RegistryObject<Item> FINI_ORB;
+    
     // Gens_ores
     public static final RegistryObject<Item> SAPPHIRE;
     public static final RegistryObject<Item> RUBY;
@@ -159,6 +163,11 @@ public class ItemInit
         ICE_CARROT   = PokecubeLegends.ITEMS.register("ice_carrot", () -> new ItemBase("ice_carrot", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("ice_c"));
         SHADOW_CARROT   = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("shadow_c"));
         IMPRISIONMENT_HELMET   = PokecubeLegends.ITEMS.register("imprisonment_helmet", () -> new ItemBase("imprisonment_helmet", 1,PokecubeItems.POKECUBEITEMS).setTooltipName("helmet"));
+        
+        KOKO_ORB = PokecubeLegends.ITEMS.register("koko_orb", () -> new ItemBase("koko_orb", 1,PokecubeItems.POKECUBEITEMS));
+        BULU_ORB = PokecubeLegends.ITEMS.register("bulu_orb", () -> new ItemBase("bulu_orb", 1,PokecubeItems.POKECUBEITEMS));
+        LELE_ORB = PokecubeLegends.ITEMS.register("lele_orb", () -> new ItemBase("lele_orb", 1,PokecubeItems.POKECUBEITEMS));
+        FINI_ORB = PokecubeLegends.ITEMS.register("fini_orb", () -> new ItemBase("fini_orb", 1,PokecubeItems.POKECUBEITEMS));
         
         // Gens_ores
         SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase("sapphire", 64,PokecubeItems.POKECUBEITEMS).noTooltop());

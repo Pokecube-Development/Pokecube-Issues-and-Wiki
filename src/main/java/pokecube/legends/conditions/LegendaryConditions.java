@@ -62,6 +62,11 @@ public class LegendaryConditions
         new LegendarySpawn("xerneas", ItemInit.LIFEORB, BlockInit.XERNEAS_CORE);
         new LegendarySpawn("yveltal", ItemInit.DESTRUCTORB, BlockInit.YVELTAL_CORE);
 
+        new LegendarySpawn("tapu_koko", ItemInit.KOKO_ORB, BlockInit.TAPU_KOKO_CORE);
+        new LegendarySpawn("tapu_bulu", ItemInit.BULU_ORB, BlockInit.TAPU_BULU_CORE);
+        new LegendarySpawn("tapu_fini", ItemInit.FINI_ORB, BlockInit.TAPU_FINI_CORE);
+        new LegendarySpawn("tapu_lele", ItemInit.LELE_ORB, BlockInit.TAPU_LELE_CORE);
+        
         new LegendarySpawn("zacian", ItemInit.RSWORD, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("zamazenta", ItemInit.RSHIELD, BlockInit.LEGENDARY_SPAWN);
 

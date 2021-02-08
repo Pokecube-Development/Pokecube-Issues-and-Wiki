@@ -117,7 +117,8 @@ public class Config extends ConfigData
             "pokecube_legends:xerneas_place",
             "pokecube_legends:yveltal_place",
             "pokecube_legends:castle_n",
-            "pokecube_legends:elite_four"
+            "pokecube_legends:elite_four",
+            "pokecube_legends:tapus_temple"
         //@formatter:on
         );
 

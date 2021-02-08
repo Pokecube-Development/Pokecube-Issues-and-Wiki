@@ -95,6 +95,79 @@
       ]
     },
 	
+	{
+      "name":"pokecube_legends:tapus_temple",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_center;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/tapu_road_1",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_road_1;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/tapu_road_2",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_road_2;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/tapu_road_3",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_road_3;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/tapu_road_4",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_road_4;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/tapu_room_1",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_koko;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/tapu_room_2",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_bulu;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/tapu_room_3",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_lele;{\"dy\":-1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/tapu_room_4",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/tapu_fini;{\"dy\":-1}"
+      ]
+    },
+	
     {
       "name":"pokecube_legends:distortic",
       "rigid":true,
@@ -470,6 +543,19 @@
         "values":{
           "types":"all",
           "categoryBlacklist":"ocean,beach"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:tapus_temple",
+      "root":"pokecube_legends:tapus_temple",
+      "biomeType":"beach",
+      "distance":84,
+      "separation":32,
+      "size":6,
+      "spawn":{
+        "values":{
+          "category":"beach"
         }
       }
     },
