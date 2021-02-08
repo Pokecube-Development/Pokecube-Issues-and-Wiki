@@ -926,9 +926,9 @@ public class PokedexEntry
     @CopyToGender
     public float            height           = -1;
     @CopyToGender
-    public boolean          isMega           = false;
+    private boolean         isMega           = false;
     @CopyToGender
-    public boolean          isGMax           = false;
+    private boolean         isGMax           = false;
     @CopyToGender
     public boolean          ridable          = true;
     /**
@@ -1235,7 +1235,8 @@ public class PokedexEntry
                 if (ability != null) mrule.ability = ability;
                 if (move != null) mrule.moveName = move;
                 if (!stack.isEmpty()) mrule.stack = stack;
-                formeEntry.isMega = true;
+                formeEntry.setMega(true);
+                formeEntry.setBaseForme(this);
                 this.megaRules.put(formeEntry, mrule);
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
             }
@@ -1959,6 +1960,8 @@ public class PokedexEntry
 
     public void setBaseForme(final PokedexEntry baseForme)
     {
+        if (this.baseForme != null && baseForme != this.baseForme) PokecubeCore.LOGGER.error(
+                "Trying to replace {} with {} as base for {}", this.baseForme, baseForme, this);
         this.baseForme = baseForme;
     }
 
@@ -2120,5 +2123,27 @@ public class PokedexEntry
                 .isLegendary();
         return baseLegend || this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null
                 || SpecialCaseRegister.getSpawnCondition(this) != null;
+    }
+
+    public boolean isGMax()
+    {
+        return this.isGMax;
+    }
+
+    public void setGMax(final boolean isGMax)
+    {
+        this.isGMax = isGMax;
+        // Mark gmax as mega as well.
+        this.isMega = isGMax;
+    }
+
+    public boolean isMega()
+    {
+        return this.isMega;
+    }
+
+    public void setMega(final boolean isMega)
+    {
+        this.isMega = isMega;
     }
 }

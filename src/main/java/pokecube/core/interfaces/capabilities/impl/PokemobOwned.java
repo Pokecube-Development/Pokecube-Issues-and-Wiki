@@ -251,7 +251,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
         this.returning = true;
 
-        final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega;
+        final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega();
 
         IPokemob base = this;
         if (megaForm) base = this.megaRevert();

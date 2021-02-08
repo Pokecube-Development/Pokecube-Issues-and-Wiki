@@ -511,6 +511,9 @@ public class PokedexEntryLoader
 
         public Boolean override = false;
 
+        public Boolean mega = false;
+        public Boolean gmax = false;
+
         public String gender     = "";
         public String genderBase = "";
         public String modelType  = "";
@@ -1182,14 +1185,6 @@ public class PokedexEntryLoader
         if (xmlStats.formeItems != null) entry._forme_items = xmlStats.formeItems;
 
         if (xmlStats.megaRules != null) entry._loaded_megarules.addAll(xmlStats.megaRules);
-
-        // Add gigantamax things as "megas"
-        if (entry.getName().contains("Gigantamax"))
-        {
-            entry.isMega = true;
-            entry.isGMax = true;
-        }
-
     }
 
     public static void postInit()
@@ -1232,6 +1227,16 @@ public class PokedexEntryLoader
         final String name = xmlEntry.name;
         final PokedexEntry entry = Database.getEntry(name);
         entry.modelExt = xmlEntry.modelType;
+
+        entry.setMega(xmlEntry.mega != null && xmlEntry.mega);
+        entry.setGMax(xmlEntry.gmax != null && xmlEntry.gmax);
+
+        if (!init && xmlEntry.baseForm != null && !xmlEntry.baseForm.isEmpty())
+        {
+            final PokedexEntry base = Database.getEntry(xmlEntry.baseForm);
+            if (base == null) PokecubeCore.LOGGER.error("Error with base form {} for {}", xmlEntry.baseForm, entry);
+            else entry.setBaseForme(base);
+        }
 
         if (entry._default_holder == null && xmlEntry.model != null) entry._default_holder = xmlEntry.model;
         if (entry._male_holder == null && xmlEntry.male_model != null) entry._male_holder = xmlEntry.male_model;

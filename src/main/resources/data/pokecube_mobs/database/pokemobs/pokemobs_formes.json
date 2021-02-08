@@ -16,6 +16,66 @@
       }
     },
     {
+      "name": "venusaur_gigantamax",
+      "gmax": true,
+      "baseForm": "venusaur"
+    },
+    {
+      "name": "venusaur_mega",
+      "mega": true,
+      "baseForm": "venusaur"
+    },
+    {
+      "name": "charizard_gigantamax",
+      "gmax": true,
+      "baseForm": "charizard"
+    },
+    {
+      "name": "charizard_mega-x",
+      "mega": true,
+      "baseForm": "charizard"
+    },
+    {
+      "name": "charizard_mega-y",
+      "mega": true,
+      "baseForm": "charizard"
+    },
+    {
+      "name": "blastoise_gigantamax",
+      "gmax": true,
+      "baseForm": "blastoise"
+    },
+    {
+      "name": "blastoise_mega",
+      "mega": true,
+      "baseForm": "blastoise"
+    },
+    {
+      "name": "butterfree_gigantamax",
+      "gmax": true,
+      "baseForm": "butterfree"
+    },
+    {
+      "name": "beedrill_mega",
+      "mega": true,
+      "baseForm": "beedrill"
+    },
+    {
+      "name": "pidgeot_mega",
+      "mega": true,
+      "baseForm": "pidgeot"
+    },
+    {
+      "name": "pikachu_gigantamax",
+      "gmax": true,
+      "baseForm": "pikachu"
+    },
+    {
+      "name": "meowth_gigantamax",
+      "gmax": true,
+      "baseForm": "meowth"
+    },
+    {
       "name": "alakazam",
       "male_model": {
         "key": "alakazam_male",
@@ -31,6 +91,81 @@
       }
     },
     {
+      "name": "alakazam_mega",
+      "mega": true,
+      "baseForm": "alakazam"
+    },
+    {
+      "name": "machamp_gigantamax",
+      "gmax": true,
+      "baseForm": "machamp"
+    },
+    {
+      "name": "slowbro_mega",
+      "mega": true,
+      "baseForm": "slowbro"
+    },
+    {
+      "name": "gengar_gigantamax",
+      "gmax": true,
+      "baseForm": "gengar"
+    },
+    {
+      "name": "gengar_mega",
+      "mega": true,
+      "baseForm": "gengar"
+    },
+    {
+      "name": "kingler_gigantamax",
+      "gmax": true,
+      "baseForm": "kingler"
+    },
+    {
+      "name": "kangaskhan_mega",
+      "mega": true,
+      "baseForm": "kangaskhan"
+    },
+    {
+      "name": "pinsir_mega",
+      "mega": true,
+      "baseForm": "pinsir"
+    },
+    {
+      "name": "gyarados_mega",
+      "mega": true,
+      "baseForm": "gyarados"
+    },
+    {
+      "name": "lapras_gigantamax",
+      "gmax": true,
+      "baseForm": "lapras"
+    },
+    {
+      "name": "eevee_gigantamax",
+      "gmax": true,
+      "baseForm": "eevee"
+    },
+    {
+      "name": "aerodactyl_mega",
+      "mega": true,
+      "baseForm": "aerodactyl"
+    },
+    {
+      "name": "snorlax_gigantamax",
+      "gmax": true,
+      "baseForm": "snorlax"
+    },
+    {
+      "name": "mewtwo_mega-x",
+      "mega": true,
+      "baseForm": "mewtwo"
+    },
+    {
+      "name": "mewtwo_mega-y",
+      "mega": true,
+      "baseForm": "mewtwo"
+    },
+    {
       "name": "meganium",
       "male_model": {
         "key": "meganium_male",
@@ -44,6 +179,11 @@
         "model": "meganium_female",
         "anim": "meganium_female"
       }
+    },
+    {
+      "name": "ampharos_mega",
+      "mega": true,
+      "baseForm": "ampharos"
     },
     {
       "name": "unown",
@@ -240,6 +380,16 @@
       }
     },
     {
+      "name": "steelix_mega",
+      "mega": true,
+      "baseForm": "steelix"
+    },
+    {
+      "name": "scizor_mega",
+      "mega": true,
+      "baseForm": "scizor"
+    },
+    {
       "name": "heracross",
       "male_model": {
         "key": "heracross_male",
@@ -253,6 +403,26 @@
         "model": "heracross_female",
         "anim": "heracross_female"
       }
+    },
+    {
+      "name": "heracross_mega",
+      "mega": true,
+      "baseForm": "heracross"
+    },
+    {
+      "name": "houndoom_mega",
+      "mega": true,
+      "baseForm": "houndoom"
+    },
+    {
+      "name": "tyranitar_mega",
+      "mega": true,
+      "baseForm": "tyranitar"
+    },
+    {
+      "name": "sceptile_mega",
+      "mega": true,
+      "baseForm": "sceptile"
     },
     {
       "name": "combusken",
@@ -285,12 +455,62 @@
       }
     },
     {
+      "name": "blaziken_mega",
+      "mega": true,
+      "baseForm": "blaziken"
+    },
+    {
+      "name": "swampert_mega",
+      "mega": true,
+      "baseForm": "swampert"
+    },
+    {
+      "name": "gardevoir_mega",
+      "mega": true,
+      "baseForm": "gardevoir"
+    },
+    {
+      "name": "sableye_mega",
+      "mega": true,
+      "baseForm": "sableye"
+    },
+    {
+      "name": "mawile_mega",
+      "mega": true,
+      "baseForm": "mawile"
+    },
+    {
+      "name": "aggron_mega",
+      "mega": true,
+      "baseForm": "aggron"
+    },
+    {
       "name": "meditite",
       "female_model": {
         "key": "meditite_female",
         "model": "meditite_female",
         "anim": "meditite_female"
       }
+    },
+    {
+      "name": "medicham_mega",
+      "mega": true,
+      "baseForm": "medicham"
+    },
+    {
+      "name": "manectric_mega",
+      "mega": true,
+      "baseForm": "manectric"
+    },
+    {
+      "name": "sharpedo_mega",
+      "mega": true,
+      "baseForm": "sharpedo"
+    },
+    {
+      "name": "camerupt_mega",
+      "mega": true,
+      "baseForm": "camerupt"
     },
     {
       "name": "cacturne",
@@ -308,6 +528,11 @@
       }
     },
     {
+      "name": "altaria_mega",
+      "mega": true,
+      "baseForm": "altaria"
+    },
+    {
       "name": "milotic",
       "male_model": {
         "key": "milotic_male",
@@ -321,6 +546,56 @@
         "model": "milotic_female",
         "anim": "milotic_female"
       }
+    },
+    {
+      "name": "banette_mega",
+      "mega": true,
+      "baseForm": "banette"
+    },
+    {
+      "name": "absol_mega",
+      "mega": true,
+      "baseForm": "absol"
+    },
+    {
+      "name": "glalie_mega",
+      "mega": true,
+      "baseForm": "glalie"
+    },
+    {
+      "name": "salamence_mega",
+      "mega": true,
+      "baseForm": "salamence"
+    },
+    {
+      "name": "metagross_mega",
+      "mega": true,
+      "baseForm": "metagross"
+    },
+    {
+      "name": "latias_mega",
+      "mega": true,
+      "baseForm": "latias"
+    },
+    {
+      "name": "latios_mega",
+      "mega": true,
+      "baseForm": "latios"
+    },
+    {
+      "name": "kyogre_primal",
+      "mega": true,
+      "baseForm": "kyogre"
+    },
+    {
+      "name": "groudon_primal",
+      "mega": true,
+      "baseForm": "groudon"
+    },
+    {
+      "name": "rayquaza_mega",
+      "mega": true,
+      "baseForm": "rayquaza"
     },
     {
       "name": "kricketune",
@@ -371,6 +646,11 @@
       }
     },
     {
+      "name": "lopunny_mega",
+      "mega": true,
+      "baseForm": "lopunny"
+    },
+    {
       "name": "gible",
       "male_model": {
         "key": "gible_male",
@@ -416,6 +696,16 @@
       }
     },
     {
+      "name": "garchomp_mega",
+      "mega": true,
+      "baseForm": "garchomp"
+    },
+    {
+      "name": "lucario_mega",
+      "mega": true,
+      "baseForm": "lucario"
+    },
+    {
       "name": "toxicroak",
       "male_model": {
         "key": "toxicroak_male",
@@ -449,6 +739,21 @@
       }
     },
     {
+      "name": "abomasnow_mega",
+      "mega": true,
+      "baseForm": "abomasnow"
+    },
+    {
+      "name": "gallade_mega",
+      "mega": true,
+      "baseForm": "gallade"
+    },
+    {
+      "name": "audino_mega",
+      "mega": true,
+      "baseForm": "audino"
+    },
+    {
       "name": "basculin",
       "model": {
         "key": "basculin_red",
@@ -456,6 +761,11 @@
         "model": "basculin_red",
         "anim": "basculin_red"
       }
+    },
+    {
+      "name": "garbodor_gigantamax",
+      "gmax": true,
+      "baseForm": "garbodor"
     },
     {
       "name": "deerling",
@@ -504,6 +814,21 @@
         "model": "jellicent_female",
         "anim": "jellicent_female"
       }
+    },
+    {
+      "name": "keldeo_resolute",
+      "mega": true,
+      "baseForm": "keldeo"
+    },
+    {
+      "name": "meloetta_pirouette",
+      "mega": true,
+      "baseForm": "meloetta_aria"
+    },
+    {
+      "name": "greninja_ash",
+      "mega": true,
+      "baseForm": "greninja"
     },
     {
       "name": "vivillon",
@@ -593,6 +918,86 @@
       }
     },
     {
+      "name": "diancie_mega",
+      "mega": true,
+      "baseForm": "diancie"
+    },
+    {
+      "name": "necrozma_ultra",
+      "mega": true,
+      "baseForm": "necrozma"
+    },
+    {
+      "name": "melmetal_gigantamax",
+      "gmax": true,
+      "baseForm": "melmetal"
+    },
+    {
+      "name": "rillaboom_gigantamax",
+      "gmax": true,
+      "baseForm": "rillaboom"
+    },
+    {
+      "name": "cinderace_gigantamax",
+      "gmax": true,
+      "baseForm": "cinderace"
+    },
+    {
+      "name": "inteleon_gigantamax",
+      "gmax": true,
+      "baseForm": "inteleon"
+    },
+    {
+      "name": "corviknight_gigantamax",
+      "gmax": true,
+      "baseForm": "corviknight"
+    },
+    {
+      "name": "orbeetle_gigantamax",
+      "gmax": true,
+      "baseForm": "orbeetle"
+    },
+    {
+      "name": "drednaw_gigantamax",
+      "gmax": true,
+      "baseForm": "drednaw"
+    },
+    {
+      "name": "coalossal_gigantamax",
+      "gmax": true,
+      "baseForm": "coalossal"
+    },
+    {
+      "name": "flapple_gigantamax",
+      "gmax": true,
+      "baseForm": "flapple"
+    },
+    {
+      "name": "appletun_gigantamax",
+      "gmax": true,
+      "baseForm": "appletun"
+    },
+    {
+      "name": "sandaconda_gigantamax",
+      "gmax": true,
+      "baseForm": "sandaconda"
+    },
+    {
+      "name": "toxtricity_amped_gigantamax",
+      "gmax": true,
+      "baseForm": "toxtricity_amped"
+    },
+    {
+      "name": "toxtricity_lowkey_gigantamax",
+      "gmax": true,
+      "baseForm": "toxtricity_amped"
+    },
+    {
+      "name": "centiskorch_gigantamax",
+      "gmax": true,
+      "baseForm": "centiskorch"
+    },
+    {
       "name": "sinistea",
       "models": [
         {
@@ -623,6 +1028,16 @@
         "model": "polteageist_nofake",
         "anim": "polteageist_nofake"
       }
+    },
+    {
+      "name": "hatterene_gigantamax",
+      "gmax": true,
+      "baseForm": "hatterene"
+    },
+    {
+      "name": "grimmsnarl_gigantamax",
+      "gmax": true,
+      "baseForm": "grimmsnarl"
     },
     {
       "name": "alcremie",
@@ -2688,6 +3103,36 @@
       "model": {
         "key": "alcremie_vanilla_1"
       }
+    },
+    {
+      "name": "alcremie_gigantamax",
+      "gmax": true,
+      "baseForm": "alcremie"
+    },
+    {
+      "name": "copperajah_gigantamax",
+      "gmax": true,
+      "baseForm": "copperajah"
+    },
+    {
+      "name": "duraludon_gigantamax",
+      "gmax": true,
+      "baseForm": "duraludon"
+    },
+    {
+      "name": "eternatus_gigantamax",
+      "gmax": true,
+      "baseForm": "eternatus"
+    },
+    {
+      "name": "urshifu_rapid_gigantamax",
+      "gmax": true,
+      "baseForm": "urshifu_single"
+    },
+    {
+      "name": "urshifu_single_gigantamax",
+      "gmax": true,
+      "baseForm": "urshifu_single"
     }
   ]
 }

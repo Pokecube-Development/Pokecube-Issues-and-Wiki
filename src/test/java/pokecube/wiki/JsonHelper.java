@@ -145,6 +145,27 @@ public class JsonHelper
         stale.forEach(s -> object.remove(s));
     }
 
+    private static void cleanEntry(final JsonObject o)
+    {
+        JsonHelper.cleanMember(o, "override", false);
+        JsonHelper.cleanMember(o, "dummy", false);
+        JsonHelper.cleanMember(o, "starter", false);
+        JsonHelper.cleanMember(o, "legend", false);
+        JsonHelper.cleanMember(o, "breed", true);
+        JsonHelper.cleanMember(o, "hasShiny", true);
+        JsonHelper.cleanMember(o, "stock", true);
+        JsonHelper.cleanMember(o, "ridable", true);
+        JsonHelper.cleanMember(o, "mega", false);
+        JsonHelper.cleanMember(o, "gmax", false);
+        JsonHelper.cleanMember(o, "gender", "");
+        JsonHelper.cleanMember(o, "genderBase", "");
+        JsonHelper.cleanMember(o, "baseForm", "");
+        JsonHelper.cleanMember(o, "modelType", "");
+        JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
+        JsonHelper.cleanEmptyLists(o);
+        o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
+    }
+
     public static void load(final ResourceLocation location)
     {
 
@@ -154,7 +175,17 @@ public class JsonHelper
         final Map<String, String[][]> tags = Maps.newHashMap();
 
         tags.put("pokemobs_spawns", new String[][] { { "stats", "spawnRules" } });
-        tags.put("pokemobs_formes", new String[][] { { "models" }, { "male_model" }, { "female_model" }, { "model" } });
+        tags.put("pokemobs_formes", new String[][] {
+            // @formatter:off
+            { "models" },
+            { "male_model" },
+            { "female_model" },
+            { "model" },
+            { "mega" },
+            { "gmax" },
+            { "baseForm" }
+            // @formatter:on
+        });
         tags.put("pokemobs_drops", new String[][] { { "stats", "lootTable" }, { "stats", "heldTable" } });
         tags.put("pokemobs_moves", new String[][] { { "moves" } });
 
@@ -172,6 +203,20 @@ public class JsonHelper
         });
         tags.put("pokemobs_offsets", new String[][] { { "ridden_offsets" } });
 
+        PokemobsDatabases.compound.pokemon.forEach(e ->
+        {
+            final PokedexEntry entry = Database.getEntry(e.name);
+            entry.setGMax(entry.isGMax() || e.name.contains("_gigantamax"));
+
+            e.mega = entry.isMega();
+            e.gmax = entry.isGMax();
+
+            if (!e.mega) e.mega = null;
+            if (!e.gmax) e.gmax = null;
+
+            if (entry.isMega() || entry.isGMax() || entry.isGenderForme) e.baseForm = entry.getBaseName();
+        });
+
         try
         {
             final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokemobsDatabases.compound);
@@ -183,22 +228,7 @@ public class JsonHelper
                 final JsonObject o = e.getAsJsonObject();
 
                 // Cleanup some values if present
-                JsonHelper.cleanMember(o, "override", false);
-                JsonHelper.cleanMember(o, "dummy", false);
-                JsonHelper.cleanMember(o, "starter", false);
-                JsonHelper.cleanMember(o, "legend", false);
-                JsonHelper.cleanMember(o, "breed", true);
-                JsonHelper.cleanMember(o, "hasShiny", true);
-                JsonHelper.cleanMember(o, "stock", true);
-                JsonHelper.cleanMember(o, "ridable", true);
-                JsonHelper.cleanMember(o, "gender", "");
-                JsonHelper.cleanMember(o, "genderBase", "");
-                JsonHelper.cleanMember(o, "baseForm", "");
-                JsonHelper.cleanMember(o, "modelType", "");
-                JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
-                JsonHelper.cleanEmptyLists(o);
-
-                o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
+                JsonHelper.cleanEntry(o);
 
             });
 
@@ -226,22 +256,7 @@ public class JsonHelper
                 final JsonObject o = e.getAsJsonObject();
 
                 // Cleanup some values if present
-                JsonHelper.cleanMember(o, "override", false);
-                JsonHelper.cleanMember(o, "dummy", false);
-                JsonHelper.cleanMember(o, "starter", false);
-                JsonHelper.cleanMember(o, "legend", false);
-                JsonHelper.cleanMember(o, "breed", true);
-                JsonHelper.cleanMember(o, "hasShiny", true);
-                JsonHelper.cleanMember(o, "stock", true);
-                JsonHelper.cleanMember(o, "ridable", true);
-                JsonHelper.cleanMember(o, "gender", "");
-                JsonHelper.cleanMember(o, "genderBase", "");
-                JsonHelper.cleanMember(o, "baseForm", "");
-                JsonHelper.cleanMember(o, "modelType", "");
-                JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
-                JsonHelper.cleanEmptyLists(o);
-
-                o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
+                JsonHelper.cleanEntry(o);
 
             });
         }
@@ -386,22 +401,7 @@ public class JsonHelper
                     final JsonObject o = e.getAsJsonObject();
 
                     // Cleanup some values if present
-                    JsonHelper.cleanMember(o, "override", false);
-                    JsonHelper.cleanMember(o, "dummy", false);
-                    JsonHelper.cleanMember(o, "starter", false);
-                    JsonHelper.cleanMember(o, "legend", false);
-                    JsonHelper.cleanMember(o, "breed", true);
-                    JsonHelper.cleanMember(o, "hasShiny", true);
-                    JsonHelper.cleanMember(o, "stock", true);
-                    JsonHelper.cleanMember(o, "ridable", true);
-                    JsonHelper.cleanMember(o, "gender", "");
-                    JsonHelper.cleanMember(o, "genderBase", "");
-                    JsonHelper.cleanMember(o, "baseForm", "");
-                    JsonHelper.cleanMember(o, "modelType", "");
-                    JsonHelper.cleanMember(o, "ridden_offsets", "0.75");
-                    JsonHelper.cleanEmptyLists(o);
-
-                    o.addProperty("name", ThutCore.trim(o.get("name").getAsString()));
+                    JsonHelper.cleanEntry(o);
 
                     final JsonObject o1 = new JsonObject();
                     if (!JsonHelper.mergeIn(o, o1, "name")) return;

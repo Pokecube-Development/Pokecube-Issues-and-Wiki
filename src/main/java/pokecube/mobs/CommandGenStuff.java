@@ -162,7 +162,7 @@ public class CommandGenStuff
         sender.sendMessage(new StringTextComponent("Starting File Output"), Util.DUMMY_UUID);
         for (final PokedexEntry e : Database.getSortedFormes())
         {
-            if (e == Database.missingno || e.dummy || e.isMega) continue;
+            if (e == Database.missingno || e.dummy || e.isMega()) continue;
             CommandGenStuff.registerAchievements(e);
         }
         sender.sendMessage(new StringTextComponent("Advancements Done"), Util.DUMMY_UUID);

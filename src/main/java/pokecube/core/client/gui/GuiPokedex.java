@@ -317,7 +317,7 @@ public class GuiPokedex extends Screen
                 || this.minecraft.player.abilities.isCreativeMode;
 
         // Megas Inherit colouring from the base form.
-        if (!fullColour && pokedexEntry.isMega) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
+        if (!fullColour && pokedexEntry.isMega()) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
                 Minecraft.getInstance().player) > 0 || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft
                         .getInstance().player) > 0;
         // Set colouring accordingly.

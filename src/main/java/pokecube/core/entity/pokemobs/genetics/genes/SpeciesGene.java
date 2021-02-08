@@ -110,7 +110,7 @@ public class SpeciesGene implements Gene
         if (this.info.value == otherG.info.value) mother = this.rand.nextFloat() < 0.5 ? this : otherG;
         final SpeciesGene father = mother == otherG ? this : otherG;
         newGene.setValue(mother.info.clone());
-        if (newGene.info.entry.isMega) newGene.info.entry = newGene.info.entry.getBaseForme();
+        if (newGene.info.entry.isMega()) newGene.info.entry = newGene.info.entry.getBaseForme();
         newGene.info.entry = newGene.info.entry.getChild(father.info.entry);
 
         // First get out whatever the default choice was here.

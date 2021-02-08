@@ -36,8 +36,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
     public static boolean canPokemobMate(final IPokemob pokemob)
     {
         if (!pokemob.getPokedexEntry().breeds) return false;
-        if (pokemob.getPokedexEntry().isMega) return false;
-        if (pokemob.getPokedexEntry().isGMax) return false;
+        if (pokemob.getPokedexEntry().isMega()) return false;
+        if (pokemob.getPokedexEntry().isGMax()) return false;
         if (pokemob.getPokedexEntry().isLegendary() && !PokecubeCore.getConfig().legendsBreed) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (!pokemob.canBreed()) return false;

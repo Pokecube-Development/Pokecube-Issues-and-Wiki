@@ -63,11 +63,11 @@ public class MaxRaidFunction
                     final int num2 = values.size();
                     if (num2 == 0) return ret;
                     PokedexEntry val = values.get(0);
-                    if (!(val.dummy || val.isMega) || num2 == 1) return val;
+                    if (!(val.dummy || val.isMega()) || num2 == 1) return val;
                     for (int i = 1; i < num2; i++)
                     {
                         val = values.get(i);
-                        if (!(val.dummy || val.isMega)) break;
+                        if (!(val.dummy || val.isMega())) break;
                     }
                     return val;
                 }
@@ -102,7 +102,7 @@ public class MaxRaidFunction
         final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
 
         // Raid Battle We will move legendaries to the rare raids.
-        if (entity != null && !entityToSpawn.isMega && !entityToSpawn.isLegendary())
+        if (entity != null && !entityToSpawn.isMega() && !entityToSpawn.isLegendary())
         {
             final int level = new Random().nextInt(100);
             pokemob.setExp(Tools.levelToXp(entityToSpawn.getEvolutionMode(), level), false);

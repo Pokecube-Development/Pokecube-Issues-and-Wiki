@@ -112,7 +112,7 @@ public class ManageOutMob extends BaseBattleTask
                 for (int i = 0; i < formes.size(); i++)
                 {
                     final PokedexEntry mega = formes.get((i + start) % formes.size());
-                    if (mega.isMega)
+                    if (mega.isMega())
                     {
                         out.megaEvolve(mega);
                         break;

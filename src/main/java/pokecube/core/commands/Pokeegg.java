@@ -47,7 +47,7 @@ public class Pokeegg
             if (name.equalsIgnoreCase("random_normal"))
             {
                 entry = iterator.next();
-                while (entry.isLegendary() || entry.isMega)
+                while (entry.isLegendary() || entry.isMega())
                     entry = iterator.next();
             }
             else if (name.equalsIgnoreCase("random_all"))

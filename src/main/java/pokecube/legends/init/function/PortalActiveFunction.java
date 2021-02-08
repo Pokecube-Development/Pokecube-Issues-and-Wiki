@@ -56,11 +56,11 @@ public class PortalActiveFunction
                 final int num = values.size();
                 if (num == 0) return ret;
                 PokedexEntry val = values.get(0);
-                if (!(val.dummy || val.isMega) || num == 1) return val;
+                if (!(val.dummy || val.isMega()) || num == 1) return val;
                 for (int i = 1; i < num; i++)
                 {
                     val = values.get(i);
-                    if (!(val.dummy || val.isMega)) break;
+                    if (!(val.dummy || val.isMega())) break;
                 }
                 return val;
             }
@@ -83,7 +83,7 @@ public class PortalActiveFunction
         final RegistryKey<World> key = world.getDimensionKey();
 
         // // Normal Worlds
-        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega
+        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega()
                 && key != FeaturesInit.ULTRASPACE_KEY)
         {
             entity.setHealth(entity.getMaxHealth());
@@ -93,7 +93,7 @@ public class PortalActiveFunction
         }
 
         // Ultra Space
-        else if (entity != null && !entityToSpawn.isMega && key == FeaturesInit.ULTRASPACE_KEY)
+        else if (entity != null && !entityToSpawn.isMega() && key == FeaturesInit.ULTRASPACE_KEY)
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);

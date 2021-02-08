@@ -56,8 +56,8 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
             PokedexEntry thisEntry = this.getPokedexEntry();
             PokedexEntry thatEntry = otherMob.getPokedexEntry();
 
-            if (thisEntry.isMega) thisEntry = this.getMegaBase();
-            if (thatEntry.isMega) thatEntry = otherMob.getMegaBase();
+            if (thisEntry.isMega()) thisEntry = this.getMegaBase();
+            if (thatEntry.isMega()) thatEntry = otherMob.getMegaBase();
 
             // Check if pokedex entries state they can breed, and then if so,
             // ensure sexe is different.
@@ -213,7 +213,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     {
         if (!this.isRoutineEnabled(AIRoutine.MATE)) return false;
         PokedexEntry thisEntry = this.getPokedexEntry();
-        if (thisEntry.isMega) thisEntry = this.getMegaBase();
+        if (thisEntry.isMega()) thisEntry = this.getMegaBase();
         if (!thisEntry.breeds) return false;
         final float hunger = HungerTask.calculateHunger(this);
         if (HungerTask.hitThreshold(hunger, HungerTask.MATERESET)) return false;

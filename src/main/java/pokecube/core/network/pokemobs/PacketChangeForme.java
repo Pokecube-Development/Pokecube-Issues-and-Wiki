@@ -91,8 +91,8 @@ public class PacketChangeForme extends Packet
         boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX);
         if (reason == MaxTile.MAXSPOT)
         {
-            isDyna = isDyna || entry.isMega;
-            PokedexEntry newEntry = entry.isMega ? pokemob.getMegaBase() : entry;
+            isDyna = isDyna || entry.isMega();
+            PokedexEntry newEntry = entry.isMega() ? pokemob.getMegaBase() : entry;
 
             if (gigant && !isDyna)
             {
@@ -131,7 +131,7 @@ public class PacketChangeForme extends Packet
             }
         }
 
-        PokedexEntry newEntry = entry.isMega ? pokemob.getMegaBase() : entry;
+        PokedexEntry newEntry = entry.isMega() ? pokemob.getMegaBase() : entry;
         if (gigant && !isDyna)
         {
             newEntry = Database.getEntry(newEntry.getTrimmedName() + "_gigantamax");
