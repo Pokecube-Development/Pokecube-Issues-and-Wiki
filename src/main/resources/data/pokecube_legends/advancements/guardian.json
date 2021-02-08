@@ -55,5 +55,5 @@
       "pokecube_legends:entities/legendscore"
     ]
   },
-  "parent": "pokecube_legends:root"
+  "parent": "pokecube_legends:trials"
 }

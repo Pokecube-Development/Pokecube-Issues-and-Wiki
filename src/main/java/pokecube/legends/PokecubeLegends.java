@@ -68,8 +68,12 @@ public class PokecubeLegends
             Reference.ID);
     public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
+    public static final DeferredRegister<Block> DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
+            Reference.ID);
     public static final DeferredRegister<Item>  ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,
             Reference.ID);
+    
+    public static ResourceLocation FUELTAG       = new ResourceLocation(Reference.ID, "fuel");
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
@@ -140,6 +144,7 @@ public class PokecubeLegends
         PokecubeLegends.BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
+        PokecubeLegends.DECORATION_TAB.register(modEventBus);
 
         BlockInit.init();
         ItemInit.init();
@@ -172,6 +177,16 @@ public class PokecubeLegends
         public ItemStack createIcon()
         {
             return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
+        }
+    };
+    
+    public static final ItemGroup DECO_TAB = new ItemGroup("decotab")
+    {
+
+        @Override
+        public ItemStack createIcon()
+        {
+            return new ItemStack(BlockInit.SKY_BRICK.get());
         }
     };
 

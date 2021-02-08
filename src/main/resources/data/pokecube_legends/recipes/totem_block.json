@@ -1,0 +1,21 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " 0 ",
+    "0X0",
+    " 0 "
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:golem_stone"
+    },
+    "X": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:totem_block",
+    "count": 4
+  }
+}

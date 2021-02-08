@@ -1,0 +1,135 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_legends:koko_orb"
+    },
+    "title": {
+      "translate": "achievement.pokelegends.trials",
+      "color": "gold",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+    },
+    "description": {
+      "translate": "achievement.pokelegends.trials.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_gumshoos": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "gumshoos"
+      }
+    },
+     "kill_gumshoos": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gumshoos"
+      }
+    },
+    "catch_raticate_alola": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "raticate_alola"
+      }
+    },
+     "kill_raticate_alola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "raticate_alola"
+      }
+    },
+    "catch_wishiwashi": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "wishiwashi"
+      }
+    },
+     "kill_wishiwashi": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "wishiwashi"
+      }
+    },
+    "catch_salazzle": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "salazzle"
+      }
+    },
+     "kill_salazzle": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "salazzle"
+      }
+    },
+    "catch_lurantis": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "lurantis"
+      }
+    },
+     "kill_lurantis": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lurantis"
+      }
+    },
+    "catch_vikavolt": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "vikavolt"
+      }
+    },
+     "kill_vikavolt": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "vikavolt"
+      }
+    },
+    "catch_mimikyu": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "mimikyu"
+      }
+    },
+     "kill_mimikyu": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mimikyu"
+      }
+    },
+    "catch_kommo-o": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "kommo-o"
+      }
+    },
+     "kill_kommo-o": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kommo-o"
+      }
+    }
+  },
+  "rewards": {
+    "loot": [
+      "pokecube_legends:entities/tapus"
+    ]
+  },
+  "parent": "pokecube_legends:root"
+}

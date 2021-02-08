@@ -64,6 +64,37 @@ public class ClientSetupHandler
                 }
             if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
         }
+    	
+    	for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
+        {
+    		final Block b = reg.get();
+            if (b instanceof PlantBase) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
+            boolean fullCube = true;
+                for (final BlockState state : b.getStateContainer().getValidStates())
+                {
+                    final Material m = state.getMaterial();
+                    if (ClientSetupHandler.notSolid.test(m))
+                    {
+                        fullCube = false;
+                        break;
+                    }
+                    try
+                    {
+                        final VoxelShape s = state.getShape(null, BlockPos.ZERO);
+                        if (s != VoxelShapes.fullCube())
+                        {
+                            fullCube = false;
+                            break;
+                        }
+                    }
+                    catch (final Exception e)
+                    {
+                        fullCube = false;
+                        break;
+                    }
+                }
+            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
+        }
 
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
         {

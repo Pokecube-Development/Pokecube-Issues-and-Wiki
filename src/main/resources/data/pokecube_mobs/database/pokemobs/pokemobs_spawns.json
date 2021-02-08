@@ -7377,66 +7377,6 @@
       }
     },
     {
-      "name": "tapu_koko",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "tapu_lele",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "flower",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "tapu_bulu",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "extreme_hills",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "tapu_fini",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "lake",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "cosmog",
       "stats": {
         "spawnRules": [

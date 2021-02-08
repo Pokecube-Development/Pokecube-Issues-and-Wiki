@@ -1,0 +1,21 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000",
+    "X0X",
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:totem_block"
+    },
+    "X": {
+      "item": "minecraft:cyan_dye"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:fini_cyan_totem",
+    "count": 1
+  }
+}

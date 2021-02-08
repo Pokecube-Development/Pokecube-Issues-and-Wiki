@@ -1,0 +1,21 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X0X",
+    "0X0",
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:totem_block"
+    },
+    "X": {
+      "item": "minecraft:blue_dye"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:lele_blue_totem",
+    "count": 1
+  }
+}

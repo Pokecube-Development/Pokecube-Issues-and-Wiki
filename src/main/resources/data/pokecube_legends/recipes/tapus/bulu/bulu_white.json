@@ -1,0 +1,21 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000",
+    "X0X",
+    "X0X"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:totem_block"
+    },
+    "X": {
+      "item": "minecraft:white_dye"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:bulu_white_totem",
+    "count": 1
+  }
+}
