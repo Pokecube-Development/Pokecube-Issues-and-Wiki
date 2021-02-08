@@ -434,7 +434,7 @@ public class GatherTask extends UtilTask
                             this.world);
                     if (canHarvest) break;
                 }
-                return canHarvest;
+                return !canHarvest;
             });
             if (this.blocks.isEmpty()) this.blocks = null;
         }

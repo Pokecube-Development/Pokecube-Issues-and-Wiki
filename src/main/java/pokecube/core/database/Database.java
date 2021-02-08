@@ -515,8 +515,17 @@ public class Database
                 if (e1 != e) e.forms.put(e1.getTrimmedName(), e1);
             if (base != e)
             {
-                e.setBaseForme(base);
-                base.copyToForm(e);
+                try
+                {
+                    e.setBaseForme(base);
+                    base.copyToForm(e);
+                }
+                catch (final Exception e2)
+                {
+                    PokecubeCore.LOGGER.error("Error copying data: {} <-> {}", e, base);
+                    e2.printStackTrace();
+                    continue;
+                }
                 if (e.height <= 0)
                 {
                     e.height = base.height;

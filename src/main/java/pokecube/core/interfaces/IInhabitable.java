@@ -1,6 +1,7 @@
 package pokecube.core.interfaces;
 
 import net.minecraft.entity.MobEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
@@ -48,12 +49,12 @@ public interface IInhabitable
 
     }
 
-    default ForbidRegion getRepelledRegion(final ServerWorld world)
+    default ForbidRegion getRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
         return null;
     }
 
-    default void updateRepelledRegion(final ServerWorld world)
+    default void updateRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
 
     }
