@@ -212,7 +212,6 @@ public class LogicMountedControl extends LogicBase
             if (this.entity.isInLava()) fraction = this.entity.func_233571_b_(FluidTags.LAVA);
             final double threshold = this.entity.func_233579_cu_();
             if (fraction > threshold) vy += 0.05;
-            System.out.println(vy + " " + fraction + " " + threshold);
         }
 
         if (!this.followOwnerLook)
