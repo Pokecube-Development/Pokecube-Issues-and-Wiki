@@ -56,7 +56,7 @@ import pokecube.core.client.render.mobs.ShoulderLayer;
 import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.init.ClientSetupHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;

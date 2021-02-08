@@ -25,7 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
 import thut.core.common.ThutCore;

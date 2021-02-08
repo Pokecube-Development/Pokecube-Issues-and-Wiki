@@ -22,7 +22,7 @@ import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.entity.pokemobs.AnimalChest;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;

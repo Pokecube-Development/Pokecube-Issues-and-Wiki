@@ -47,7 +47,7 @@ import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;

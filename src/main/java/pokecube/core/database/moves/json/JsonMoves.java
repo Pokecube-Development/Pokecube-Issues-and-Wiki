@@ -157,8 +157,10 @@ public class JsonMoves
         public List<AnimationJson> animations;
     }
 
-    public static class MovesJson
+    public static class MovesJson implements Comparable<MovesJson>
     {
+        public Integer priority = 100;
+
         public List<MoveJsonEntry> moves = new ArrayList<>();
 
         public MoveJsonEntry getEntry(String name, final boolean create)
@@ -185,6 +187,12 @@ public class JsonMoves
             }
             this.moves.sort((o1, o2) -> o1.name.compareTo(o2.name));
             GZMoveManager.init(this);
+        }
+
+        @Override
+        public int compareTo(final MovesJson o)
+        {
+            return this.priority.compareTo(o.priority);
         }
     }
 

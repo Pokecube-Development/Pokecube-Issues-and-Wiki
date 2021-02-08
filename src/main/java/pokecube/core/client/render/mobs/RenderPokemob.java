@@ -31,7 +31,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder.TexColours;
+import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder.TexColours;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;

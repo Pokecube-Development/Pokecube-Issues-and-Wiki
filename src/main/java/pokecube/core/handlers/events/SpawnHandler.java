@@ -52,7 +52,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.commands.Pokemake;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.events.MeteorEvent;
 import pokecube.core.events.pokemob.SpawnEvent;

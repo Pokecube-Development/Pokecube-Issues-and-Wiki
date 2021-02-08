@@ -39,17 +39,18 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
-import pokecube.core.database.PokedexEntryLoader.Drop;
-import pokecube.core.database.PokedexEntryLoader.SpawnRule;
-import pokecube.core.database.PokedexEntryLoader.XMLDatabase;
 import pokecube.core.database.abilities.AbilityManager;
+import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
+import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
+import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.pokedex.PokemobsDatabases;
 import pokecube.core.database.recipes.IRecipeParser;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
@@ -77,16 +78,6 @@ import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class Database
 {
-    /**
-     * <br>
-     * Index 0 = pokemobs<br>
-     * Index 1 = moves<br>
-     */
-    public static enum EnumDatabase
-    {
-        POKEMON, MOVES, BERRIES
-    }
-
     @XmlRootElement(name = "Drop")
     public static class XMLDropEntry extends Drop
     {
@@ -254,17 +245,6 @@ public class Database
     public static PokedexEntry[] starters = {};
 
     private static boolean checkedStarts = false;
-
-    public static void addDatabase(final String file, final EnumDatabase database)
-    {
-        final ResourceLocation loc = PokecubeItems.toPokecubeResource(file);
-        final int index = database.ordinal();
-        final ArrayList<ResourceLocation> list = Database.configDatabases.get(index);
-        for (final ResourceLocation s : list)
-            if (s.equals(loc)) return;
-        PokecubeCore.LOGGER.debug("Adding Database: {}", loc);
-        list.add(loc);
-    }
 
     public static void addEntry(final PokedexEntry entry)
     {
@@ -961,19 +941,7 @@ public class Database
         CombatTypeLoader.loadTypes();
         // Load in the various databases, starting with moves, then pokemobs.
         MovesAdder.registerMoves();
-        for (final ResourceLocation s : Database.configDatabases.get(EnumDatabase.POKEMON.ordinal()))
-            try
-            {
-                PokecubeCore.LOGGER.debug("Loading from: {}", s);
-                final XMLDatabase database = PokedexEntryLoader.initDatabase(s);
-                // Hotloadable ones will be able to be re-loaded at runtime
-                // later, for things like setting ridden offsets, etc
-                if (database != null && database.hotload) PokedexEntryLoader.hotloadable.add(s);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error with pokemobs database " + s, e);
-            }
+        PokemobsDatabases.preInitLoad();
         // Finally load in the abilities
         AbilityManager.init();
 
@@ -982,15 +950,7 @@ public class Database
 
     public static void preInitMoves()
     {
-        for (final ResourceLocation s : Database.configDatabases.get(EnumDatabase.MOVES.ordinal()))
-            try
-            {
-                JsonMoves.merge(new ResourceLocation(s.getNamespace(), s.getPath().replace(".json", "_anims.json")), s);
-            }
-            catch (final Exception e1)
-            {
-                PokecubeCore.LOGGER.error("Error with moves database " + s, e1);
-            }
+        MovesDatabases.preInitLoad();
     }
 
     public static String trim_loose(String name)

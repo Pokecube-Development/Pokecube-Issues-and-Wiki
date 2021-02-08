@@ -63,7 +63,7 @@ import pokecube.core.blocks.trade.TraderBlock;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;

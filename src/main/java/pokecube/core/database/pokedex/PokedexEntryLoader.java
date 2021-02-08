@@ -1,10 +1,9 @@
-package pokecube.core.database;
+package pokecube.core.database.pokedex;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -43,11 +42,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.PokedexEntry.MegaRule;
 import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
+import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.database.util.UnderscoreIgnore;
@@ -484,47 +486,6 @@ public class PokedexEntryLoader
         }
     }
 
-    public static class XMLDatabase
-    {
-        public boolean               hotload = false;
-        public List<XMLPokedexEntry> pokemon = Lists.newArrayList();
-
-        public Map<String, XMLPokedexEntry> __map__ = Maps.newHashMap();
-
-        public void addEntry(final XMLPokedexEntry toAdd)
-        {
-            if (this.__map__.containsKey(toAdd.name)) this.pokemon.remove(this.__map__.remove(toAdd.name));
-            this.pokemon.add(toAdd);
-
-            this.pokemon.removeIf(value ->
-            {
-                if (value.number == null)
-                {
-                    final PokedexEntry entry = Database.getEntry(value.name);
-                    if (entry != null)
-                    {
-                        value.number = entry.getPokedexNb();
-                        value.name = entry.getTrimmedName();
-                        return false;
-                    }
-                    PokecubeCore.LOGGER.error(
-                            "Error with entry for {}, it is missing a Number for sorting! removing on add!",
-                            value.name);
-                    return true;
-                }
-                return false;
-            });
-
-            Collections.sort(this.pokemon, PokedexEntryLoader.ENTRYSORTER);
-        }
-
-        public void init()
-        {
-            for (final XMLPokedexEntry e : this.pokemon)
-                this.__map__.put(e.name, e);
-        }
-    }
-
     public static class XMLMegaRule
     {
         public String name;
@@ -597,7 +558,6 @@ public class PokedexEntryLoader
         PokedexEntryLoader.missingno.stats = new StatsNode();
     }
 
-    public static XMLDatabase            database;
     public static List<ResourceLocation> hotloadable = Lists.newArrayList();
 
     @SuppressWarnings({ "unchecked" })
@@ -710,81 +670,6 @@ public class PokedexEntryLoader
         final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(rule);
         spawnData.matchers.put(matcher, spawnEntry);
         return matcher;
-    }
-
-    public static XMLDatabase initDatabase(final InputStream stream, final boolean json) throws Exception
-    {
-        XMLDatabase newDatabase = null;
-        if (PokedexEntryLoader.database == null)
-        {
-            // This is the first database file, so load it in as the instance.
-            PokedexEntryLoader.database = newDatabase = PokedexEntryLoader.loadDatabase(stream, json);
-            PokedexEntryLoader.database.init();
-        }
-        else
-        {
-            // This is a new database file, so merge it into the existing ones
-            newDatabase = PokedexEntryLoader.loadDatabase(stream, json);
-            if (newDatabase != null) for (final XMLPokedexEntry e : newDatabase.pokemon)
-            {
-                final XMLPokedexEntry old = PokedexEntryLoader.database.__map__.get(e.name);
-                if (old != null && old != e)
-                {
-                    if (old.stats != null && e.stats != null) old.stats.mergeFrom(e.stats);
-                    PokedexEntryLoader.mergeNonDefaults(PokedexEntryLoader.missingno, e, old);
-                }
-                else try
-                {
-                    PokedexEntryLoader.database.addEntry(e);
-                }
-                catch (final Exception e1)
-                {
-                    PokecubeCore.LOGGER.error("Error with " + e.name, e1);
-                }
-            }
-            else throw new NullPointerException("Contains no database");
-        }
-
-        // Make all of the pokedex entries added by the database.
-        for (final XMLPokedexEntry entry : PokedexEntryLoader.database.pokemon)
-            if (Database.getEntry(entry.name) == null)
-            {
-                final PokedexEntry pentry = new PokedexEntry(entry.number, entry.name);
-                pentry.dummy = entry.dummy;
-                pentry.stock = entry.stock;
-                if (entry.base)
-                {
-                    pentry.base = entry.base;
-                    Database.baseFormes.put(entry.number, pentry);
-                    Database.addEntry(pentry);
-                }
-            }
-        // Init all of the evolutions, this is so that the relations between the
-        // mobs can be known later.
-        for (final XMLPokedexEntry entry : PokedexEntryLoader.database.pokemon)
-            PokedexEntryLoader.preCheckEvolutions(entry);
-        return newDatabase;
-    }
-
-    public static XMLDatabase initDatabase(final ResourceLocation file) throws Exception
-    {
-        PokecubeCore.LOGGER.debug("Initializing Database: " + file);
-        try
-        {
-            final XMLDatabase database = PokedexEntryLoader.initDatabase(Database.resourceManager.getResource(file)
-                    .getInputStream(), true);
-            return database;
-        }
-        catch (final FileNotFoundException e)
-        {
-            PokecubeCore.LOGGER.debug("No Pokemob Database: {}", file);
-            return null;
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.error("Error with " + file, e);
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -962,30 +847,20 @@ public class PokedexEntryLoader
         if (xmlStats.prey != null) entry.food = xmlStats.prey.trim().split(" ");
     }
 
-    public static XMLDatabase loadDatabase(final InputStream stream, final boolean json) throws Exception
+    public static PokemobsJson loadDatabase(final InputStream stream, final boolean json) throws Exception
     {
-        XMLDatabase database = null;
+        PokemobsJson database = null;
         final InputStreamReader reader = new InputStreamReader(stream);
-        if (json) database = PokedexEntryLoader.gson.fromJson(reader, XMLDatabase.class);
-        else throw new IllegalArgumentException("This only takes json files now!");
+        database = PokedexEntryLoader.gson.fromJson(reader, PokemobsJson.class);
         reader.close();
         return database;
     }
 
     public static void updateEntry(final PokedexEntry entry)
     {
-        for (final ResourceLocation s : PokedexEntryLoader.hotloadable)
-            try
-            {
-                PokecubeCore.LOGGER.debug("Loading from: {}", s);
-                PokedexEntryLoader.initDatabase(s);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error with pokemobs database " + s, e);
-            }
+        PokemobsDatabases.load();
 
-        final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
+        final List<XMLPokedexEntry> entries = Lists.newArrayList(PokemobsDatabases.compound.pokemon);
 
         for (final XMLPokedexEntry xmlEntry : entries)
         {
@@ -998,7 +873,7 @@ public class PokedexEntryLoader
 
     public static void makeEntries(final boolean create)
     {
-        final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
+        final List<XMLPokedexEntry> entries = Lists.newArrayList(PokemobsDatabases.compound.pokemon);
 
         entries.removeIf(value ->
         {
@@ -1433,8 +1308,8 @@ public class PokedexEntryLoader
     {
         try
         {
-            final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
-            final XMLDatabase database = new XMLDatabase();
+            final List<XMLPokedexEntry> entries = Lists.newArrayList(PokemobsDatabases.compound.pokemon);
+            final PokemobsJson database = new PokemobsJson();
             database.pokemon = entries;
             database.pokemon.removeIf(value ->
             {

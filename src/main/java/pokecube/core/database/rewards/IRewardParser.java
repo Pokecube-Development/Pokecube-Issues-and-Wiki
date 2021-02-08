@@ -1,6 +1,6 @@
 package pokecube.core.database.rewards;
 
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 
 public interface IRewardParser

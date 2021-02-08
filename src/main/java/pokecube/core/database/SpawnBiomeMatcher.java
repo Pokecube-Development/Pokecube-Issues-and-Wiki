@@ -26,7 +26,7 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
-import pokecube.core.database.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.events.pokemob.SpawnCheckEvent;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;

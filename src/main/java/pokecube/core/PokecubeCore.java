@@ -45,7 +45,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.BusBuilder;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -63,7 +62,7 @@ import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
@@ -100,7 +99,6 @@ import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.PokecubeStructureProcessors;
-import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeDatabase;
@@ -418,11 +416,6 @@ public class PokecubeCore
 
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeCore.config, PokecubeCore.MODID, PokecubeCore.MODID);
-
-        // Register a listener for the default pokecube databases. The priority
-        // is lowest so that ours end up appended to the end of the list, rather
-        // than the beginning, so addon stuff has higher priority.
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, MobLoader::registerDatabases);
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 

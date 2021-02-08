@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;

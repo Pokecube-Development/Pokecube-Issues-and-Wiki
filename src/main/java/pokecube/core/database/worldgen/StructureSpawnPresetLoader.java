@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 
 public class StructureSpawnPresetLoader
 {

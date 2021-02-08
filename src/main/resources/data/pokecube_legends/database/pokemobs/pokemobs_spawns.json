@@ -326,7 +326,7 @@
       }
     },
     {
-      "name": "Tapu-Koko",
+      "name": "Tapu_Koko",
       "stats": {
         "spawnRules": [
           {
@@ -339,7 +339,7 @@
       }
     },
     {
-      "name": "Tapu-Bulu",
+      "name": "Tapu_Bulu",
       "stats": {
         "spawnRules": [
           {
@@ -352,7 +352,7 @@
       }
     },
     {
-      "name": "Tapu-Lele",
+      "name": "Tapu_Lele",
       "stats": {
         "spawnRules": [
           {
@@ -365,7 +365,7 @@
       }
     },
     {
-      "name": "Tapu-Fini",
+      "name": "Tapu_Fini",
       "stats": {
         "spawnRules": [
           {

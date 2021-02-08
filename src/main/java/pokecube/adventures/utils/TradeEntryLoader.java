@@ -29,8 +29,8 @@ import pokecube.adventures.utils.trade_presets.SellRandomBadge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntryLoader;
-import pokecube.core.database.PokedexEntryLoader.Drop;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.utils.Tools;
 
 public class TradeEntryLoader

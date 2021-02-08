@@ -1,6 +1,6 @@
 package pokecube.core.database.recipes;
 
-import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
 
 public interface IRecipeParser

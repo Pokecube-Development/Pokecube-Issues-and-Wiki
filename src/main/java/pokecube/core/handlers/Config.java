@@ -16,7 +16,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
-import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -355,7 +354,7 @@ public class Config extends ConfigData
 
     @Configure(category = Config.world, comment = "world structure settings to register structures with")
     public List<String> worldgenWorldSettings = Lists.newArrayList(
-            //@formatter:off
+    //@formatter:off
             "minecraft:overworld",
             "minecraft:amplified",
             "minecraft:nether",
@@ -533,11 +532,6 @@ public class Config extends ConfigData
     public String       epigeneticEVFunction = GeneticsManager.epigeneticFunction;
     @Configure(category = Config.genetics)
     public List<String> mutationRates        = GeneticsManager.getMutationConfig();
-
-    @Configure(category = Config.database, comment = "Extra databases for use with datapacks that just want to add things, these will be added after the normal databases have loaded in.")
-    public List<String> configDatabases = Lists.newArrayList(new String[] {
-            "database/pokemobs/pokemobs_pokedex.json;database/pokemobs/pokemobs_spawns.json;database/pokemobs/pokemobs_interacts.json",
-            "database/moves.json", "database/spawns.json" });
 
     @Configure(category = Config.database)
     public List<String> recipeDatabases = Lists.newArrayList(new String[] { "recipes" });
@@ -800,9 +794,6 @@ public class Config extends ConfigData
             Pokecube.snagblacklist.add(new ResourceLocation(s));
 
         PokecubeItems.resetTimeTags = this.reputs;
-
-        if (this.configDatabases.size() != EnumDatabase.values().length) this.configDatabases = Lists.newArrayList(
-                new String[] { "", "", "" });
 
         SpawnHandler.dimensionBlacklist.clear();
         for (final String i : this.spawnDimBlacklist)

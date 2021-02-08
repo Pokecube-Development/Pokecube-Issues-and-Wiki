@@ -12,7 +12,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.PokedexEntryLoader.Drop;
+import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.core.xml.bind.annotation.XmlAnyAttribute;
 import thut.core.xml.bind.annotation.XmlAttribute;
 import thut.core.xml.bind.annotation.XmlElement;

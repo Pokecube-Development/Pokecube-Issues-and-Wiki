@@ -14,10 +14,10 @@ import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntryLoader;
-import pokecube.core.database.PokedexEntryLoader.Drop;
-import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
+import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.utils.Tools;
 
 public class TrainerEntryLoader

@@ -34,7 +34,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.CombatTypeLoader;
 import pokecube.core.database.Database;
-import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.recipes.XMLRecipeHandler;
@@ -310,18 +309,6 @@ public class PokecubeMobs
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void registerDatabases(final InitDatabase.Pre evt)
     {
-        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_pokedex.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_moves.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_formes.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_drops.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_interacts.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_offsets.json", EnumDatabase.POKEMON);
-
-        Database.addDatabase("pokecube_mobs:database/moves.json", EnumDatabase.MOVES);
-
-        Database.addDatabase("pokecube_mobs:database/berries/spawns.json", EnumDatabase.BERRIES);
-
         evt.modIDs.add(PokecubeMobs.MODID);
     }
 

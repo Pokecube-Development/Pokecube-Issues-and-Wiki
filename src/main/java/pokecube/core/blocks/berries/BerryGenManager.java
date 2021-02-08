@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -51,11 +52,10 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.Database.EnumDatabase;
-import pokecube.core.database.PokedexEntryLoader;
-import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
@@ -87,6 +87,8 @@ public class BerryGenManager
     static class BerryPool extends JigSawPool
     {
     }
+
+    public static final String DATABASES = "database/berries/";
 
     public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
 
@@ -593,7 +595,9 @@ public class BerryGenManager
     private static void loadConfig()
     {
         BerryGenManager.list = new BerryGenList();
-        for (final ResourceLocation s : Database.configDatabases.get(EnumDatabase.BERRIES.ordinal()))
+        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(BerryGenManager.DATABASES,
+                s -> s.endsWith(".json"));
+        for (final ResourceLocation s : resources)
             try
             {
                 BerryGenList loaded;

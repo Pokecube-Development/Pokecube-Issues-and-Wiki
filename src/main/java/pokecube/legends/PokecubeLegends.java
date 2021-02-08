@@ -36,10 +36,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.Database;
-import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.worldgen.WorldgenHandler;
-import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
@@ -72,7 +69,7 @@ public class PokecubeLegends
             Reference.ID);
     public static final DeferredRegister<Item>  ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,
             Reference.ID);
-    
+
     public static ResourceLocation FUELTAG       = new ResourceLocation(Reference.ID, "fuel");
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
@@ -164,12 +161,6 @@ public class PokecubeLegends
         UsableItemGigantShard.registerCapabilities(event);
     }
 
-    @SubscribeEvent
-    public void registerDatabases(final InitDatabase.Pre evt)
-    {
-        Database.addDatabase("pokecube_legends:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
-    }
-
     public static final ItemGroup TAB = new ItemGroup("ultratab")
     {
 
@@ -179,7 +170,7 @@ public class PokecubeLegends
             return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
         }
     };
-    
+
     public static final ItemGroup DECO_TAB = new ItemGroup("decotab")
     {
 

@@ -25,9 +25,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntryLoader;
-import pokecube.core.database.PokedexEntryLoader.XMLDatabase;
-import pokecube.core.database.PokedexEntryLoader.XMLPokedexEntry;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
+import pokecube.core.database.pokedex.PokemobsDatabases;
+import pokecube.core.database.pokedex.PokemobsJson;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
@@ -173,7 +174,7 @@ public class JsonHelper
 
         try
         {
-            final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
+            final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokemobsDatabases.compound);
 
             final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
 
@@ -214,8 +215,8 @@ public class JsonHelper
             e.printStackTrace();
         }
 
-        JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokedexEntryLoader.database);
-        final XMLDatabase data = PokedexEntryLoader.gson.fromJson(obj, XMLDatabase.class);
+        JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokemobsDatabases.compound);
+        final PokemobsJson data = PokedexEntryLoader.gson.fromJson(obj, PokemobsJson.class);
 
         {
             final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
