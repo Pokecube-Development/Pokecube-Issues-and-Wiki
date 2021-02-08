@@ -35,6 +35,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.DimensionSettings;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Decoration;
@@ -468,27 +469,26 @@ public class WorldgenHandler
             for (final JigSawConfig struct : this.toConfigure.keySet())
             {
                 final CustomJigsawStructure structure = this.toConfigure.get(struct);
+
                 // Ensures we only do this once!
                 if (!setup.add(structure)) continue;
 
-                // Check the blacklist for here.
-                if (struct.isBlackisted(key)) continue;
-
-                if (key.toString().contains("secret_base")) throw new IllegalAccessError(struct.name);
+                final boolean add = !struct.isBlackisted(key);
 
                 // Actually register the structure to the chunk provider,
                 // without this it won't generate!
                 final Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld
                         .getChunkProvider().generator.func_235957_b_().func_236195_a_());
-                tempMap.put(structure, DimensionStructuresSettings.field_236191_b_.get(structure));
+                if (add) tempMap.put(structure, DimensionStructuresSettings.field_236191_b_.get(structure));
+                else tempMap.remove(structure);
                 serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
             }
 
             // If we are the first one, we will check for a spawn location, just
             // to initialize things.
             if (this.MODID == PokecubeCore.MODID && PokecubeCore.getConfig().doSpawnBuilding && !PokecubeSerializer
-                    .getInstance().hasPlacedSpawn() && key.equals(World.OVERWORLD) && !WorldgenHandler.SOFTBLACKLIST.contains(
-                            World.OVERWORLD)) serverWorld.getServer().execute(() ->
+                    .getInstance().hasPlacedSpawn() && key.equals(World.OVERWORLD) && !WorldgenHandler.SOFTBLACKLIST
+                            .contains(World.OVERWORLD)) serverWorld.getServer().execute(() ->
                             {
                                 final ResourceLocation location = new ResourceLocation("pokecube:village");
                                 final IForgeRegistry<Structure<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
@@ -589,6 +589,14 @@ public class WorldgenHandler
             WorldgenHandler.structs.put(structName, structure);
             // Use this instead of event, as it will also populated proper maps.
             event.getRegistry().register(structure);
+
+            for (final String s : PokecubeCore.getConfig().worldgenWorldSettings)
+            {
+                final RegistryKey<DimensionSettings> key = RegistryKey.getOrCreateKey(Registry.NOISE_SETTINGS_KEY,
+                        new ResourceLocation(s));
+                WorldGenRegistries.NOISE_SETTINGS.getValueForKey(key).getStructures().func_236195_a_().put(structure,
+                        struct.toSettings());
+            }
         }
         PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);
         if (!this.patterns.containsKey(struct.root))

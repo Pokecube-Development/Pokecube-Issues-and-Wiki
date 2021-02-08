@@ -353,6 +353,18 @@ public class Config extends ConfigData
             );
     //@formatter:on
 
+    @Configure(category = Config.world, comment = "world structure settings to register structures with")
+    public List<String> worldgenWorldSettings = Lists.newArrayList(
+            //@formatter:off
+            "minecraft:overworld",
+            "minecraft:amplified",
+            "minecraft:nether",
+            "minecraft:end",
+            "minecraft:caves",
+            "minecraft:floating_islands"
+            );
+    //@formatter:on
+
     // @Configure(category = Config.world, comment = "")
     // public String baseSizeFunction = "8 + c/10 + h/10 + k/20";
     // @Configure(category = Config.world, comment = "")
