@@ -349,8 +349,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
             final Entity mob = world.getEntityByUuid(uuid);
             if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
             final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
-            if (ants > 10 || !playerNear) egg.setGrowingAge(-20);
-            else if (egg.getGrowingAge() < -20) egg.setGrowingAge(-20);
+            if (ants > 10 || !playerNear) egg.setGrowingAge(-100);
+            else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-100);
             return false;
         });
 
