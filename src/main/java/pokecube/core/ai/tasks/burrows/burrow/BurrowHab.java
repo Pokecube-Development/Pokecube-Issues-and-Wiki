@@ -25,6 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.INBTSerializable;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
@@ -197,6 +198,14 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     {
         final long time = world.getGameTime();
 
+        int x, y, z;
+        x = this.burrow.getCenter().getX();
+        y = this.burrow.getCenter().getY();
+        z = this.burrow.getCenter().getZ();
+
+        final boolean playerNear = !world.getPlayers(p -> p.getDistanceSq(x, y, z) < PokecubeCore
+                .getConfig().aiDisableDistance).isEmpty();
+
         // Lets make the eggs not hatch for now,
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid ->
@@ -204,10 +213,12 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
             final Entity mob = world.getEntityByUuid(uuid);
             if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
             final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
-            if (this.mobs.size() > 3) egg.setGrowingAge(-20);
-            else if (egg.getGrowingAge() < -20) egg.setGrowingAge(-20);
+            if (this.mobs.size() > 3 || !playerNear) egg.setGrowingAge(-200);
+            else if (egg.getGrowingAge() < -200) egg.setGrowingAge(-200);
             return false;
         });
+
+        if (!playerNear) return;
 
         if (time % 20 == 0)
         {
