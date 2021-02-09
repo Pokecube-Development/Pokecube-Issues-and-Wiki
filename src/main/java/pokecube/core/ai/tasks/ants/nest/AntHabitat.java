@@ -109,6 +109,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     public void onTickEnd(final ServerWorld world)
     {
         // Things to add here:
+        if (!world.isAreaLoaded(this.here, 1)) return;
 
         // Checks of if the tile entity is here, if not anger all ants
         // Possibly update a set of paths between nodes, so that we can speed up
@@ -330,6 +331,32 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     public void onTick(final ServerWorld world)
     {
         if (!this.attached) WorldTickManager.addWorldData(world.getDimensionKey(), this);
+
+        int x, y, z;
+        x = this.here.getX();
+        y = this.here.getY();
+        z = this.here.getZ();
+
+        final boolean playerNear = !world.getPlayers(p -> p.getDistanceSq(x, y, z) < PokecubeCore
+                .getConfig().cullDistance).isEmpty();
+
+        final int ants = this.ants_in.size() + this.ants.size();
+
+        final Random rng = new Random();
+        // Lets make the eggs not hatch for now, if we are about say 5 ants,
+        // This also removes hatched/removed eggs
+        this.eggs.removeIf(uuid ->
+        {
+            final Entity mob = world.getEntityByUuid(uuid);
+            if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
+            final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
+            if (ants > 10 || !playerNear) egg.setGrowingAge(-100);
+            else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-rng.nextInt(100));
+            return false;
+        });
+
+        if (!playerNear) return;
+
         this.world = world;
         // Here we need to release ants every so often as needed
         this.ants_in.removeIf(ant -> this.tryReleaseAnt(ant, world));
@@ -343,11 +370,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
             this.rooms.add(entrance);
         }
 
-        final int ants = this.ants_in.size() + this.ants.size();
-        final int num = ants;
-
         final int roomCount = this.rooms.allRooms.size();
-        final Random rng = new Random();
         if (roomCount < 10) this.addRandomNode(AntRoom.values()[rng.nextInt(3)]);
 
         if (world.getGameTime() % 200 == 0)
@@ -396,17 +419,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
             this.ants.remove(uuid);
             return true;
         }));
-        // Lets make the eggs not hatch for now, if we are about say 5 ants,
-        // This also removes hatched/removed eggs
-        this.eggs.removeIf(uuid ->
-        {
-            final Entity mob = world.getEntityByUuid(uuid);
-            if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
-            final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
-            if (num > 10) egg.setGrowingAge(-20);
-            else if (egg.getGrowingAge() < -20) egg.setGrowingAge(-20);
-            return false;
-        });
     }
 
     private void assignJob(final AntJob j, final MobEntity mob)

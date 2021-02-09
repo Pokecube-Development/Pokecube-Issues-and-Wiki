@@ -20,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
@@ -115,14 +116,13 @@ public class MaxRaidFunction
             entity.setPosition(v.x, v.y + 3, v.z);
 
             if (!list.isEmpty()) Collections.shuffle(list);
-            for (final ItemStack itemstack : list)
-                // Pick first valid item in it.
-                if (!itemstack.isEmpty())
-                {
-                    final ItemStack stack = itemstack.copy();
-                    pokemob.setHeldItem(stack);
-                    break;
-                }
+            final int n = 1 + world.getRandom().nextInt(4);
+            for (int i = 0; i < Math.min(n, list.size()); i++)
+            {
+                final ItemStack itemstack = list.get(i);
+                if (i == 0) pokemob.setHeldItem(itemstack);
+                else new InventoryChange(entity, 2, itemstack, true).run(world);
+            }
             world.addEntity(entity);
         }
         world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1, false);

@@ -9,6 +9,7 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.GameRules;
@@ -65,8 +66,8 @@ public abstract class PokemobHasParts extends PokemobCombat
     @Override
     protected void collideWithNearbyEntities()
     {
-        final List<Entity> list = this.world.getEntitiesInAABBexcluding(this, this.getBoundingBox(), EntityPredicates
-                .pushableBy(this));
+        final AxisAlignedBB box = this.getBoundingBox();
+        final List<Entity> list = this.world.getEntitiesInAABBexcluding(this, box, EntityPredicates.pushableBy(this));
         if (!list.isEmpty())
         {
             list.removeIf(e -> e instanceof PokemobPart && ((PokemobPart) e).getBase() == this);
