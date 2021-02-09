@@ -206,6 +206,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         final boolean playerNear = !world.getPlayers(p -> p.getDistanceSq(x, y, z) < PokecubeCore
                 .getConfig().cullDistance).isEmpty();
 
+        final Random rng = new Random();
         // Lets make the eggs not hatch for now,
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid ->
@@ -214,7 +215,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
             if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
             final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
             if (this.mobs.size() > 3 || !playerNear) egg.setGrowingAge(-100);
-            else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-100);
+            else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-rng.nextInt(100));
             return false;
         });
 

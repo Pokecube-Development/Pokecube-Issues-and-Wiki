@@ -342,6 +342,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
 
         final int ants = this.ants_in.size() + this.ants.size();
 
+        final Random rng = new Random();
         // Lets make the eggs not hatch for now, if we are about say 5 ants,
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid ->
@@ -350,7 +351,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
             if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
             final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
             if (ants > 10 || !playerNear) egg.setGrowingAge(-100);
-            else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-100);
+            else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-rng.nextInt(100));
             return false;
         });
 
@@ -370,7 +371,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         }
 
         final int roomCount = this.rooms.allRooms.size();
-        final Random rng = new Random();
         if (roomCount < 10) this.addRandomNode(AntRoom.values()[rng.nextInt(3)]);
 
         if (world.getGameTime() % 200 == 0)
