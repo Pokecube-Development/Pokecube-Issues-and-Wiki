@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "pokecube:koffing",
-    "pokecube:weezing"
+    "pokecube:weezing",
+	"pokecube:weezing_galar"
   ]
 }

@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "pokecube:deoxys"
+    "pokecube:deoxys",
+	"pokecube:deoxys_defense",
+	"pokecube:deoxys_attack",
+	"pokecube:deoxys_speed"
   ]
 }

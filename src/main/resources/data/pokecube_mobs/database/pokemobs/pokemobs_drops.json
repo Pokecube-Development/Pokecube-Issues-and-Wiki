@@ -378,6 +378,13 @@
         "heldTable": "pokecube:entities/emerald_1_33"
       }
     },
+	{
+      "name": "meowth_galar",
+      "stats": {
+        "lootTable": "pokecube:entities/money_cat_small",
+        "heldTable": "pokecube:entities/emerald_1_33"
+      }
+    },
     {
       "name": "persian",
       "stats": {
@@ -554,8 +561,20 @@
         "lootTable": "pokecube:entities/coal_cow_1"
       }
     },
+	{
+      "name": "ponyta_galar",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_cow_1"
+      }
+    },
     {
       "name": "rapidash",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_cow_2"
+      }
+    },
+	{
+      "name": "rapidash_galar",
       "stats": {
         "lootTable": "pokecube:entities/coal_cow_2"
       }
@@ -579,6 +598,12 @@
         "lootTable": "pokecube:entities/pig_1"
       }
     },
+	{
+      "name": "slowbro_galar",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
     {
       "name": "magnemite",
       "stats": {
@@ -593,6 +618,12 @@
     },
     {
       "name": "farfetchd",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+	{
+      "name": "farfetchd_galar",
       "stats": {
         "lootTable": "pokecube:entities/chicken_1"
       }
@@ -729,6 +760,24 @@
         "lootTable": "pokecube:entities/wheat_seeds_2"
       }
     },
+	{
+      "name": "exeggutor_alola",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+	{
+      "name": "hitmonlee",
+      "stats": {
+        "lootTable": "pokecube:entities/skull_rabbit_2"
+      }
+    },
+	{
+      "name": "hitmonchan",
+      "stats": {
+        "lootTable": "pokecube:entities/skull_rabbit_2"
+      }
+    },
     {
       "name": "cubone",
       "stats": {
@@ -747,6 +796,12 @@
         "lootTable": "pokecube:entities/skull_rabbit_2"
       }
     },
+	{
+      "name": "lickitung",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
     {
       "name": "koffing",
       "stats": {
@@ -755,6 +810,12 @@
     },
     {
       "name": "weezing",
+      "stats": {
+        "lootTable": "minecraft:entities/creeper"
+      }
+    },
+	{
+      "name": "weezing_galar",
       "stats": {
         "lootTable": "minecraft:entities/creeper"
       }
@@ -774,13 +835,20 @@
     {
       "name": "chansey",
       "stats": {
-        "heldTable": "pokecube:entities/lucky_oval"
+        "heldTable": "pokecube:entities/lucky_oval",
+		"lootTable": "pokecube:entities/chicken_2"
       }
     },
     {
       "name": "tangela",
       "stats": {
         "lootTable": "pokecube:entities/vines"
+      }
+    },
+	{
+      "name": "kangaskhan",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_cow_2"
       }
     },
     {
@@ -853,6 +921,36 @@
       "name": "lapras",
       "stats": {
         "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+	{
+      "name": "mr_mime",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+	{
+      "name": "mr_mime_galar",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+	{
+      "name": "scyther",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+	{
+      "name": "jynx",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+	{
+      "name": "pinsir",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
       }
     },
     {
@@ -1198,6 +1296,24 @@
         "lootTable": "minecraft:entities/spider"
       }
     },
+	{
+      "name": "ledyba",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+	{
+      "name": "ledian",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+	{
+      "name": "bellossom",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
     {
       "name": "wooper",
       "stats": {
@@ -1238,6 +1354,12 @@
       "name": "slowking_galar",
       "stats": {
         "lootTable": "pokecube:entities/pig_3"
+      }
+    },
+	{
+      "name": "sudowoodo",
+      "stats": {
+        "lootTable": "pokecube:entities/vines"
       }
     },
     {
@@ -1407,6 +1529,12 @@
       "name": "kingdra",
       "stats": {
         "lootTable": "pokecube:entities/squid_fish_2"
+      }
+    },
+	{
+      "name": "politoed",
+      "stats": {
+        "lootTable": "pokecube:entities/lilypad"
       }
     },
     {

@@ -16,8 +16,16 @@
     "pokecube:kecleon",
     "pokecube:helioptile",
     "pokecube:heliolisk",
+	"pokecube:salazzle",
+	"pokecube:salandit",
+	"pokecube:jangmo-o",
+	"pokecube:hakamo-o",
+	"pokecube:kommo-o",
     "pokecube:sobble",
     "pokecube:drizzile",
-    "pokecube:inteleon"
+    "pokecube:inteleon",
+	"pokecube:toxel",
+    "pokecube:toxtricity_amped",
+    "pokecube:toxtricity_lowkey"
   ]
 }

@@ -10,6 +10,7 @@
     "pokecube:victreebel",
     "pokecube:exeggcute",
     "pokecube:exeggutor",
+	"pokecube:exeggutor_alola",
     "pokecube:tangela",
     "pokecube:bellossom",
     "pokecube:sunkern",
@@ -49,6 +50,9 @@
     "pokecube:phantump",
     "pokecube:trevenant",
     "pokecube:pumpkaboo",
-    "pokecube:gourgeist"
+    "pokecube:gourgeist",
+	"pokecube:bounsweet",
+	"pokecube:steenee",
+	"pokecube:tsareena"
   ]
 }
