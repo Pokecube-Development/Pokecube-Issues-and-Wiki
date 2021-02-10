@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube:zacian",
-    "pokecube:zamazenta"
+    "pokecube:lycanroc_dusk",
+	"pokecube:lycanroc",
+	"pokecube:lycanroc_midnight"
   ]
 }

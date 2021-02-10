@@ -1,7 +1,10 @@
 {
   "replace": false,
   "values": [
+    "pokecube:sandygast",
+	"pokecube:palossand",
     "pokecube:sinistea",
-    "pokecube:polteageist"
+    "pokecube:polteageist",
+	"pokecube:dhelmise"
   ]
 }
