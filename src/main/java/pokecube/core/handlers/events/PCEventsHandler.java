@@ -160,6 +160,7 @@ public class PCEventsHandler
         if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
         if (PokecubeManager.isFilled(evt.getEntityItem().getItem()))
         {
+            if (PokecubeManager.getOwner(evt.getEntityItem().getItem()).isEmpty()) return;
             PCInventory.addPokecubeToPC(evt.getEntityItem().getItem(), evt.getEntity().getEntityWorld());
             evt.getEntity().remove();
             evt.setCanceled(true);
