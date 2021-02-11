@@ -830,6 +830,7 @@ public class Database
         {
             p.related.clear();
             p._childNb = null;
+            p.noItemForm = null;
         }
         /** Initialize relations, prey, children. */
         for (final PokedexEntry p : Database.allFormes)

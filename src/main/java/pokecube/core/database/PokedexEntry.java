@@ -935,17 +935,20 @@ public class PokedexEntry
      * water (filter feeds from water)
      */
     @CopyToGender
-    public boolean[]                        foods         = { false, false, false, false, false, true, false };
+    public boolean[]                        foods      = { false, false, false, false, false, true, false };
     @CopyToGender
-    public HashMap<ItemStack, PokedexEntry> formeItems    = Maps.newHashMap();
+    public HashMap<ItemStack, PokedexEntry> formeItems = Maps.newHashMap();
+
+    public PokedexEntry noItemForm = null;
+
     /** Map of forms assosciated with this one. */
     @CopyToGender
-    public Map<String, PokedexEntry>        forms         = new HashMap<>();
+    public Map<String, PokedexEntry> forms         = new HashMap<>();
     /**
      * Used to stop gender formes from spawning, spawning rate is done by
      * gender ratio of base forme instead.
      */
-    public boolean                          isGenderForme = false;
+    public boolean                   isGenderForme = false;
 
     /** Can it megaevolve */
     @CopyToGender
@@ -1234,6 +1237,9 @@ public class PokedexEntry
                             final ItemStack stack = PokecubeItems.getStack(item, false);
                             // TODO see if needs to add to holdables
                             this.formeItems.put(stack, formeEntry);
+                            if (formeEntry.noItemForm != null) PokecubeCore.LOGGER.warn(
+                                    "Changing Base forme of {} from {} to {}", formeEntry, formeEntry.noItemForm, this);
+                            formeEntry.noItemForm = this;
                         }
                     }
                 }
@@ -1995,6 +2001,7 @@ public class PokedexEntry
                 this.getBaseForme().onHeldItemChange(oldStack, newStack, pokemob);
                 return;
             }
+        if (newStack.isEmpty() && this.noItemForm != null) newForme = this.noItemForm;
         for (final ItemStack key : this.formeItems.keySet())
             if (Tools.isSameStack(oldStack, key, true))
             {

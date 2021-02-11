@@ -3133,6 +3133,16 @@
       "name": "urshifu_single_gigantamax",
       "gmax": true,
       "baseForm": "urshifu_single"
+    },
+    {
+      "name": "calyrex_ice_rider",
+      "mega": true,
+      "baseForm": "glastrier"
+    },
+    {
+      "name": "calyrex_shadow_rider",
+      "mega": true,
+      "baseForm": "spectrier"
     }
   ]
 }
