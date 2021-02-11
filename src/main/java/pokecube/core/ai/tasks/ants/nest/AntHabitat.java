@@ -108,14 +108,14 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     @Override
     public void onTickEnd(final ServerWorld world)
     {
-        // Things to add here:
-        if (!world.isAreaLoaded(this.here, 1)) return;
 
         // Checks of if the tile entity is here, if not anger all ants
         // Possibly update a set of paths between nodes, so that we can speed up
         // path finding in the nest.
         if (world.getGameTime() % 100 == 0)
         {
+            if (!world.isAreaLoaded(this.here, 1)) return;
+
             TileEntity tile = world.getTileEntity(this.here);
             if (tile == null)
             {

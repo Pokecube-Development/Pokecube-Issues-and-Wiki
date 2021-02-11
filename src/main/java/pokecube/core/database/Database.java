@@ -189,19 +189,7 @@ public class Database
 
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
 
-    public static List<PokedexEntry>                spawnables       = new ArrayList<>();
-    /**
-     * These are used for config added databasea <br>
-     * Index 0 = pokemon<br>
-     * Index 1 = moves<br>
-     */
-    public static List<ArrayList<ResourceLocation>> configDatabases  = Lists.newArrayList(
-            new ArrayList<ResourceLocation>(), new ArrayList<ResourceLocation>(), new ArrayList<ResourceLocation>());
-    public static Set<ResourceLocation>             defaultDatabases = Sets.newHashSet();
-    public static Set<ResourceLocation>             spawnDatabases   = Sets.newHashSet();
-    public static Set<ResourceLocation>             dropDatabases    = Sets.newHashSet();
-
-    public static Set<ResourceLocation> heldDatabases = Sets.newHashSet();
+    public static List<PokedexEntry> spawnables = new ArrayList<>();
 
     public static ResourceLocation STARTERPACK = new ResourceLocation("pokecube:database/pack.xml");
 

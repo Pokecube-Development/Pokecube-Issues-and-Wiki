@@ -95,6 +95,11 @@ public class PokedexEntry
     {
     }
 
+    @Retention(RetentionPolicy.RUNTIME)
+    public static @interface Required
+    {
+    }
+
     public static class EvolutionData
     {
         public SpawnBiomeMatcher  matcher = null;
@@ -791,15 +796,13 @@ public class PokedexEntry
         }
     }
 
-    /** The abilities available to the pokedex entry. */
+    // Core Values
     @CopyToGender
-    public ArrayList<String> abilities       = Lists.newArrayList();
-    /** The abilities available to the pokedex entry. */
-    @CopyToGender
-    public ArrayList<String> abilitiesHidden = Lists.newArrayList();
-    /** Times not included here the pokemob will go to sleep when idle. */
-    @CopyToGender
-    public List<TimePeriod>  activeTimes     = new ArrayList<>();
+    @Required
+    public int pokedexNb = -1;
+
+    @Required
+    public String name = null;
 
     /**
      * if True, this is considered the "main" form for the type, this is what
@@ -820,6 +823,46 @@ public class PokedexEntry
      */
     public boolean stock = true;
 
+    // Values in Stats
+
+    @CopyToGender
+    @Required
+    public int[] stats = null;
+
+    /** The abilities available to the pokedex entry. */
+    @CopyToGender
+    public ArrayList<String> abilities       = Lists.newArrayList();
+    /** The abilities available to the pokedex entry. */
+    @CopyToGender
+    public ArrayList<String> abilitiesHidden = Lists.newArrayList();
+
+    // Simple values from Stats
+
+    /** base xp given from defeating */
+    @CopyToGender
+    @Required
+    public int baseXP    = -1;
+    @CopyToGender
+    @Required
+    public int catchRate = -1;
+
+    /** Initial Happiness of the pokemob */
+    @CopyToGender
+    @Required
+    public int baseHappiness = -1;
+    /** The relation between xp and level */
+    @CopyToGender
+    @Required
+    public int evolutionMode = -1;
+
+    @CopyToGender
+    @Required
+    public int    sexeRatio = -1;
+    /** Mass of the pokemon in kg. */
+    @CopyToGender
+    @Required
+    public double mass      = -1;
+
     /**
      * If the forme is supposed to have a custom sound, rather than using base,
      * it will be set to this.
@@ -827,20 +870,12 @@ public class PokedexEntry
     public String           customSound     = null;
     @CopyToGender
     private PokedexEntry    baseForme       = null;
-    /** Initial Happiness of the pokemob */
-    @CopyToGender
-    public int              baseHappiness;
     @CopyToGender
     public String           baseName;
-    /** base xp given from defeating */
-    @CopyToGender
-    public int              baseXP          = -1;
     @CopyToGender
     public boolean          breeds          = true;
     @CopyToGender
     public boolean          canSitShoulder  = false;
-    @CopyToGender
-    public int              catchRate       = -1;
     @CopyToGender
     public PokedexEntry     _childNb        = null;
     /**
@@ -875,20 +910,17 @@ public class PokedexEntry
 
     @CopyToGender
     public SoundEvent          replacedEvent;
-    /** The relation between xp and level */
-    @CopyToGender
-    public int                 evolutionMode = 1;
     /** The list of pokemon this can evolve into */
     @CopyToGender
-    public List<EvolutionData> evolutions    = new ArrayList<>();
+    public List<EvolutionData> evolutions   = new ArrayList<>();
     @CopyToGender
-    public EvolutionData       _evolvesBy    = null;
+    public EvolutionData       _evolvesBy   = null;
     /** Who this pokemon evolves from. */
     @CopyToGender
-    public PokedexEntry        _evolvesFrom  = null;
+    public PokedexEntry        _evolvesFrom = null;
     @CopyToGender
     public byte[]              evs;
-    public PokedexEntry        female        = null;
+    public PokedexEntry        female       = null;
     /** Inital list of species which are prey */
     @CopyToGender
     public String[]            food;
@@ -970,9 +1002,6 @@ public class PokedexEntry
 
     public PokedexEntry male = null;
 
-    /** Mass of the pokemon in kg. */
-    @CopyToGender
-    public double                          mass      = -1;
     @CopyToGender
     public HashMap<PokedexEntry, MegaRule> megaRules = Maps.newHashMap();
 
@@ -982,16 +1011,14 @@ public class PokedexEntry
 
     /** Mod which owns the pokemob, used for texture location. */
     @CopyToGender
-    private String    modId;
-    public String     name;
+    private String modId;
+
     /** Particle Effects. */
     @CopyToGender
     public String[]   particleData;
     /** Offset between top of hitbox and where player sits */
     @CopyToGender
     public double[][] passengerOffsets = { { 0, 0.75, 0 } };
-    @CopyToGender
-    public int        pokedexNb;
 
     /** All possible moves */
     @CopyToGender
@@ -1010,9 +1037,6 @@ public class PokedexEntry
      */
     @CopyToGender
     public final List<PokedexEntry> related = new ArrayList<>();
-
-    @CopyToGender
-    public int sexeRatio = -1;
 
     @CopyToGender
     public PokedexEntry shadowForme = null;
@@ -1038,9 +1062,6 @@ public class PokedexEntry
      * gender spawns in pokedex.
      */
     private SpawnData spawns;
-
-    @CopyToGender
-    public int[]      stats;
     /**
      * Array used for animated or gender based textures. Index 0 is the male
      * textures, index 1 is the females
@@ -1093,6 +1114,10 @@ public class PokedexEntry
     public Stats             _forme_items         = null;
     public List<XMLMegaRule> _loaded_megarules    = Lists.newArrayList();
 
+    /** Times not included here the pokemob will go to sleep when idle. */
+    @CopyToGender
+    public List<TimePeriod> activeTimes = new ArrayList<>();
+
     /**
      * This constructor is used for making blank entry for copy comparisons.
      *
@@ -1126,6 +1151,33 @@ public class PokedexEntry
         // Apply default interactions
         InteractionLogic.initForEntry(this);
 
+        final Class<?> me = this.getClass();
+        Required c;
+        for (final Field f : me.getDeclaredFields())
+        {
+            c = f.getAnnotation(Required.class);
+            if (c != null) try
+            {
+                f.setAccessible(true);
+                if (this.isSame(f, this, PokedexEntry.BLANK))
+                {
+                    boolean fixed = false;
+                    PokedexEntry base = this.getBaseForme();
+                    if (base == null) base = Database.dummyMap.get(this.getPokedexNb());
+                    if (base != null)
+                    {
+                        f.set(this, f.get(base));
+                        fixed = !this.isSame(f, this, PokedexEntry.BLANK);
+                    }
+                    if (!fixed) PokecubeCore.LOGGER.error("Unfilled value {} for {}!", f.getName(), this);
+                }
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
         // Set the tag based values
         this.shouldFly = this.isType(PokeType.getType("flying"));
         this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("fly_allowed", this.getTrimmedName());
@@ -1137,8 +1189,6 @@ public class PokedexEntry
         this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
         this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
         this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
-        // Run this here to sync those over.
-        this.copyToGenderFormes();
 
         this.foods[0] = Tags.POKEMOB.isIn("eats_light", this.getTrimmedName());
         this.foods[1] = Tags.POKEMOB.isIn("eats_stone", this.getTrimmedName());
@@ -1241,6 +1291,9 @@ public class PokedexEntry
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
             }
         }
+
+        // Sync values to gender based formes as well
+        this.copyToGenderFormes();
     }
 
     public List<TimePeriod> activeTimes()

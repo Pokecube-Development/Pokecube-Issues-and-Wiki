@@ -373,9 +373,6 @@ public class PokedexEntryLoader
         public JsonObject lvlupMoves;
 
         public Misc misc;
-
-        // TODO move this to the evolution itself
-        public String evolutionMoves;
     }
 
     @XmlRootElement(name = "Spawn")
@@ -828,8 +825,7 @@ public class PokedexEntryLoader
         if (xmlStats.captureRate != PokedexEntryLoader.missingno.stats.captureRate)
             entry.catchRate = xmlStats.captureRate;
         if (xmlStats.baseExp != PokedexEntryLoader.missingno.stats.baseExp) entry.baseXP = xmlStats.baseExp;
-        if (xmlStats.baseFriendship != PokedexEntryLoader.missingno.stats.baseFriendship)
-            entry.baseHappiness = xmlStats.baseFriendship;
+        if (xmlStats.baseFriendship != null) entry.baseHappiness = xmlStats.baseFriendship;
         if (xmlStats.genderRatio != PokedexEntryLoader.missingno.stats.genderRatio)
             entry.sexeRatio = xmlStats.genderRatio;
         if (xmlStats.mass != PokedexEntryLoader.missingno.stats.mass) entry.mass = xmlStats.mass;

@@ -120,9 +120,9 @@
 	"item.pokecube_legends.ultra_boots": 		"Ultra Armor Boots",
 	
     "_comment": "/Biome Names",   
-    "biome.pokecube_legends.distorted_world": "Distorted World",
+    "biome.pokecube_legends.distorted_biome": "Distorted World",
     
-    "biome.pokecube_legends.ultra_deep_caves": "Ultra Deep Caves",
+    "biome.pokecube_legends.ultra_deep_cave": "Ultra Deep Caves",
     "biome.pokecube_legends.ultra_jungle": "Ultra Jungle",
     "biome.pokecube_legends.ultra_desert": "Ultra Desert",
     "biome.pokecube_legends.ultra_dark_valley": "Ultra Dark Valley",

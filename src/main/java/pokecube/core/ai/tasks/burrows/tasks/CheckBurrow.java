@@ -140,7 +140,8 @@ public class CheckBurrow extends BaseIdleTask
     @Override
     public boolean shouldRun()
     {
-        return true;
+        // Check this incase the AI is disabled at runtime, say be the owner
+        return BurrowTasks.isValid(this.entity);
     }
 
 }

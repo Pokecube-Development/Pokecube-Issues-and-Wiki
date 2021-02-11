@@ -2442,7 +2442,7 @@
       }
     },
 	{
-      "name": "spititomb",
+      "name": "spiritomb",
       "stats": {
         "lootTable": "pokecube:entities/enderpearls_1"
       }
@@ -4926,7 +4926,7 @@
       }
     },
 	{
-      "name": "psukumuku",
+      "name": "pyukumuku",
       "stats": {
         "lootTable": "pokecube:entities/fish_1"
       }
@@ -5220,7 +5220,6 @@
         "lootTable": "pokecube:entities/wheat_seeds_1"
       }
     },
-	]
 	{
       "name": "thwackey",
       "stats": {
