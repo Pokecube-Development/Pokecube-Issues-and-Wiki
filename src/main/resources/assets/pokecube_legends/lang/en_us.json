@@ -514,8 +514,8 @@
     "legends.rustedshield.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!%3$s\nUse this item on a -Legendary Spawn- to spawn Zamazenta.\nUse this item in -Zamazenta- to change it.",
     "legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!%3$s\nUse this item on a -Legendary Spawn- to spawn Zacian.\nUse this item in -Zacian- to change it.",
     "legends.zygardecube.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item in -Zygarde- to change it.",   
-	"legends.pdark.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!!%3$s\nUse this item to evolve Kubfu into Single Strike Style",
-    "legends.pwater.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!!%3$s\nUse this item to evolve Kubfu into Rapid Strike Style",
+	"legends.pdark.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!%3$s\nUse this item to evolve Kubfu into Single Strike Style",
+    "legends.pwater.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!%3$s\nUse this item to evolve Kubfu into Rapid Strike Style",
     
     "legends.mirror.tooltip": "Use this item to access the Distorted Dimension!",
     "legends.ultrakey.tooltip": "Use this item to teleport to Ultra Space!\n%1$s[You need Cosmic Dust in your inventory! Minimum: %2$s]",
@@ -525,7 +525,7 @@
     "legends.ice_c.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Trough Block Spawn- to spawn Glastrier",
     "legends.helmet.tooltip": "%1$s%2$s[Purchase]%3$s %1$sItem purchased with specific NPC!%3$s\nUse on the -Clone Device- as a recipe item to invoke Type:Null",
     "legends.koko_orb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Tapu Koko Spawn- to spawn Tapu Koko",
-    "legends.bulu_orb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Tapu Bulu Spawn- to spawn Bulu Koko",
-    "legends.lele_orb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Tapu Lele Spawn- to spawn Lele Koko",
-    "legends.fini_orb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Tapu Fini Spawn- to spawn Fini Koko"
+    "legends.bulu_orb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Tapu Bulu Spawn- to spawn Tapu Bulu",
+    "legends.lele_orb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Tapu Lele Spawn- to spawn Tapu Lele",
+    "legends.fini_orb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Tapu Fini Spawn- to spawn Tapu Fini"
 }
