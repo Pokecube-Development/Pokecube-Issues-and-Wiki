@@ -335,7 +335,6 @@ public class GatherTask extends UtilTask
 
         // Set path to the stuff found.
         final double speed = 1;
-        this.setWalkTo(stuffLoc, speed, 0);
 
         // The stuff below is for collecting blocks, so we return after setting
         // path if it is an item we are after
@@ -348,19 +347,26 @@ public class GatherTask extends UtilTask
                 ItemStackTools.addItemStackToInventory(this.targetItem.getItem(), this.pokemob.getInventory(), 2);
                 this.targetItem.remove();
             }
+            else this.setWalkTo(stuffLoc, speed, 0);
             this.reset();
             return;
         }
-        double diff = 2;
+        double diff = 2.5;
         diff = Math.max(diff, this.entity.getWidth());
         final double dist = stuffLoc.distToEntity(this.entity);
         this.v.set(this.entity).subtractFrom(stuffLoc);
         final double dy = this.v.y;
         final double dot = this.v.normalize().dot(Vector3.secondAxis);
+
+        final boolean air = this.pokemob.floats() || this.pokemob.flys();
+        final boolean groundShouldJump = this.entity.isOnGround() && !air && dot < -0.8 && dy < -1.8;
+        final boolean flyShouldJump = !groundShouldJump && air && dist < 4;
+
         // This means that the item is directly above the pokemob, try to jump
         // to get closer
-        final boolean jump = this.entity.isOnGround() && dot < -0.8 && dy < -1.8;
+        final boolean jump = flyShouldJump || groundShouldJump;
         if (jump) BrainUtils.setLeapTarget(this.entity, new VectorPosWrapper(stuffLoc));
+
         if (dist < diff)
         {
             final BlockState state = stuffLoc.getBlockState(this.entity.getEntityWorld());
@@ -372,6 +378,7 @@ public class GatherTask extends UtilTask
             }
             this.reset();
         }
+        else if (!jump) this.setWalkTo(stuffLoc, speed, 0);
     }
 
     @Override
