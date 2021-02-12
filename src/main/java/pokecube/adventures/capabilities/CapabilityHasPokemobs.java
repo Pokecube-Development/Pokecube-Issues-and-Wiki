@@ -399,6 +399,9 @@ public class CapabilityHasPokemobs
             if (!(this.user.getEntityWorld() instanceof ServerWorld))
             {
                 final String t = this.datasync.get(this.holder.TYPE);
+                // Handle possible null type for if things are called at wrong
+                // times on client side.
+                if (this.type == null) this.type = TypeTrainer.merchant;
                 return t.isEmpty() ? this.type
                         : this.type.getName().equalsIgnoreCase(t) ? this.type
                                 : (this.type = TypeTrainer.getTrainer(t, true));
