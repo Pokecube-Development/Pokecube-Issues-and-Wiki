@@ -149,6 +149,10 @@ public class MakeHive extends BaseIdleTask
     @Override
     public boolean shouldRun()
     {
+        // Test this here incase we had AI added before, and disabled at
+        // runtime.
+        if (!BeeTasks.isValid(this.entity)) return false;
+
         final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(
                 GeneralStates.STAYING);
         if (!tameCheck) return false;

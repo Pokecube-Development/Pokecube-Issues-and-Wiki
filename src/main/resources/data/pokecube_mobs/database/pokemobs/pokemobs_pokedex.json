@@ -40327,6 +40327,7 @@
           }
         },
         "mass": 3.4,
+        "baseExp": 167,
         "captureRate": 45,
         "baseFriendship": 70,
         "expMode": "Medium Fast",
@@ -42451,10 +42452,10 @@
         },
         "mass": 40.0,
         "captureRate": 30,
-        "baseExp": -1,
+        "baseExp": 154,
         "baseFriendship": 70,
         "expMode": "Medium Slow",
-        "genderRatio": -1,
+        "genderRatio": 255,
         "logics": {
           "values": {}
         },

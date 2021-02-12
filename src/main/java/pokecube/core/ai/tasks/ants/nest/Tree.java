@@ -63,12 +63,13 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
     {
         final BlockPos from = mob.getPosition();
         final BlockPos to = target.getTarget().getBlockPos();
+        if (this.getBounds() == null) return false;
         // TODO also do similar if to is inside, first by pathing to the
         // entrance, then pathing the rest of the way.
         // Also, if a path is found from one node to another, save it in the
         // edgePaths map, and re-use that later if needed.
-        return this.bounds.contains(from.getX(), from.getY(), from.getZ()) && this.bounds.contains(to.getX(), to.getY(),
-                to.getZ());
+        return this.getBounds().contains(from.getX(), from.getY(), from.getZ()) && this.getBounds().contains(to.getX(),
+                to.getY(), to.getZ());
     }
 
     @Override

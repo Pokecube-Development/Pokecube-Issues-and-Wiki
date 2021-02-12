@@ -55,7 +55,7 @@ public class PokemobsDatabases
                 }
                 catch (final Exception e)
                 {
-                    // noop, this was handled earlier.
+                    PokecubeCore.LOGGER.error("Error with database file {}", l, e);
                 }
             });
         }

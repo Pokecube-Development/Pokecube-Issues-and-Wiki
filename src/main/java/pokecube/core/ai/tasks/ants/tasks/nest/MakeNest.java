@@ -99,6 +99,8 @@ public class MakeNest extends BaseIdleTask
     {
         final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(
                 GeneralStates.STAYING);
+        // Could be disabled by owner at runtime
+        if (!AntTasks.isValid(this.entity)) return false;
         if (!tameCheck) return false;
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
