@@ -135,7 +135,6 @@ public class WalkToTask extends RootTask<MobEntity>
         pathing:
         if (this.currentPath == null)
         {
-
             final PathNavigator navi = mob.getNavigator();
             if (navi.hasPath())
             {
@@ -155,6 +154,15 @@ public class WalkToTask extends RootTask<MobEntity>
                 }
             }
             this.currentPath = mob.getNavigator().pathfind(ImmutableSet.of(blockpos), 16, false, 0);
+            final double dist = target.getTarget().getPos().distanceTo(mob.getPositionVec());
+            if (dist < 3 && (this.currentPath == null || !this.currentPath.reachesTarget()))
+            {
+                mob.getNavigator().clearPath();
+                mob.getBrain().removeMemory(MemoryModuleType.WALK_TARGET);
+                mob.getBrain().removeMemory(MemoryModuleType.PATH);
+                this.currentPath = null;
+                return false;
+            }
         }
         this.speed = target.getSpeed();
         final boolean atTarget = this.hasReachedTarget(mob, target);
