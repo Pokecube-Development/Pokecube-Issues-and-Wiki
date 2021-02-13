@@ -92,6 +92,10 @@ public class Restore
                         .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
                                 "player"), true, true, false, StringArgumentType.getString(ctx, "name")))));
 
+        final LiteralArgumentBuilder<CommandSource> clear = Commands.literal("clear").then(Commands.argument("player",
+                GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute_clear(ctx.getSource(),
+                        GameProfileArgument.getGameProfiles(ctx, "player"))));
+
         root.then(check);
         root.then(check_pc);
         root.then(check_deleted);
@@ -103,6 +107,8 @@ public class Restore
         root.then(check_pc_spec);
         root.then(give_spec);
         root.then(give_pc_spec);
+
+        root.then(clear);
 
         // This one does the actual restoration
         root.then(restore);
@@ -119,6 +125,19 @@ public class Restore
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
         final ItemStack stack = cache.getOrDefault(id, ItemStack.EMPTY);
         Tools.giveItem(user, stack.copy());
+        return 0;
+    }
+
+    private static int execute_clear(final CommandSource source, final Collection<GameProfile> players)
+    {
+        for (final GameProfile profile : players)
+        {
+            final PlayerPokemobCache pokemobCache = PlayerDataHandler.getInstance().getPlayerData(profile.getId())
+                    .getData(PlayerPokemobCache.class);
+            // This clears the internal lists.
+            pokemobCache.readFromNBT(new CompoundNBT());
+            PlayerDataHandler.getInstance().save(profile.getId().toString(), pokemobCache.getIdentifier());
+        }
         return 0;
     }
 
