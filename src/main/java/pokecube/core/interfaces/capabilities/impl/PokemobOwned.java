@@ -36,6 +36,7 @@ import pokecube.core.events.pokemob.combat.MoveMessageEvent;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -407,7 +408,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     public void setHome(final int x, final int y, final int z, final int distance)
     {
         if (this.guardCap == null) // First try to collect and reset this
-        this.guardCap = this.entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+            this.guardCap = this.entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
 
         // Then lets just log the error
         if (this.guardCap == null || this.guardCap.getPrimaryTask() == null)
@@ -465,11 +466,13 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public void setOwner(final UUID owner)
     {
+        final UUID old = this.getOwnerId();
+        if (old != null && owner != null) PlayerPokemobCache.RemoveFromCache(old, this);
         this.getOwnerHolder().setOwner(owner);
         // Clear team, it will refresh it whenever it is actually checked.
         this.setPokemobTeam("");
-
         if (this.getEntity() instanceof TameableEntity) ((TameableEntity) this.getEntity()).setOwnerId(owner);
+        if (owner != null) PlayerPokemobCache.UpdateCache(this);
     }
 
     @Override
