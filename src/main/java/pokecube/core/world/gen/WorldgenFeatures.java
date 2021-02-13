@@ -73,7 +73,7 @@ public class WorldgenFeatures
     {
         StructureProcessorList listToUse = null;
         final ResourceLocation key = new ResourceLocation(value);
-        if (WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.containsKey(key))
+        if (WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.keySet().contains(key))
             listToUse = WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.getOrDefault(key);
         else listToUse = WorldgenFeatures.procLists.getOrDefault(key, null);
         return listToUse;

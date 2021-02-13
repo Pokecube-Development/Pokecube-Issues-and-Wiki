@@ -56,6 +56,7 @@ public class Compat
         Compat.DERP.stats = new int[6];
         Compat.DERP.height = 1;
         Compat.DERP.catchRate = 255;
+        Compat.DERP.baseXP = 100;
         Compat.DERP.width = Compat.DERP.length = 0.41f;
         Compat.DERP.stats[0] = 50;
         Compat.DERP.stats[1] = 50;
@@ -66,6 +67,7 @@ public class Compat
         Compat.DERP.addMoves(Lists.newArrayList(), Maps.newHashMap());
         Compat.DERP.addMove("skyattack");
         Compat.DERP.mobType = 1;
+        Compat.DERP.evolutionMode = 2;
         Compat.DERP.stock = false;
     }
 

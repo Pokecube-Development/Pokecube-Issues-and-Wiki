@@ -86,17 +86,22 @@ public class MovesAdder implements IMoveConstants
                 foundClasses = ClassFinder.find(pack.getName());
                 for (final Class<?> candidateClass : foundClasses)
                     if (Move_Basic.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
-                    {
-                        final Move_Basic move = (Move_Basic) candidateClass.getConstructor().newInstance();
-                        if (MovesUtils.isMoveImplemented(move.name))
+                        try
                         {
-                            PokecubeCore.LOGGER.info("Error, Double registration of " + move.name
-                                    + " Replacing old entry with new one.");
-                            num--;
+                            final Move_Basic move = (Move_Basic) candidateClass.getConstructor().newInstance();
+                            if (MovesUtils.isMoveImplemented(move.name))
+                            {
+                                PokecubeCore.LOGGER.info("Error, Double registration of " + move.name
+                                        + " Replacing old entry with new one.");
+                                num--;
+                            }
+                            num++;
+                            MovesAdder.registerMove(move);
                         }
-                        num++;
-                        MovesAdder.registerMove(move);
-                    }
+                        catch (final Exception e)
+                        {
+                            PokecubeCore.LOGGER.error("Skipping Move Class {}", candidateClass, e);
+                        }
             }
             PokecubeCore.LOGGER.debug("Registered " + num + " Custom Moves");
         }

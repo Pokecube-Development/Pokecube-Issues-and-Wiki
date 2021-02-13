@@ -1,6 +1,7 @@
 {
   "replace": false,
-  "values": [
+  "values": [],
+  "optional": [
     "pokecube:cutiefly",
     "pokecube:ribombee",
     "pokecube:combee",

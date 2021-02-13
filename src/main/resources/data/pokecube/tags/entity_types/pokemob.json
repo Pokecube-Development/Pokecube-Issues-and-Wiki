@@ -1,6 +1,7 @@
 {
   "replace": false,
-  "values": [
+  "values": [],
+  "optional": [
     "pokecube:missingno",
     "pokecube:bulbasaur",
     "pokecube:ivysaur",
