@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.blocks;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -34,10 +35,29 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public boolean charTyped(final char p_charTyped_1_, final int p_charTyped_2_)
+    public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        System.out.println(this.search.getText());
-        return super.charTyped(p_charTyped_1_, p_charTyped_2_);
+        if (this.search.isFocused())
+        {
+            if (keyCode == GLFW.GLFW_KEY_ENTER)
+            {
+                // TODO search the moves list and go to the one here.
+            }
+            return true;
+        }
+        return super.keyPressed(keyCode, b, c);
+    }
+
+    @Override
+    public boolean charTyped(final char codePoint, final int modifiers)
+    {
+        return super.charTyped(codePoint, modifiers);
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(final MatrixStack matrixStack, final int x, final int y)
+    {
+        // NOOP, this would draw name and title.
     }
 
     @Override
@@ -95,8 +115,7 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
             final int yOffset = this.height / 2 - 164;
             final int xOffset = this.width / 2 - 42;
             AbstractGui.drawString(mat, this.font, MovesUtils.getMoveName(s).getString(), xOffset + 14, yOffset + 99,
-                    move
-                    .getType(null).colour);
+                    move.getType(null).colour);
             AbstractGui.drawString(mat, this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
         }
         this.renderHoveredTooltip(mat, mouseX, mouseY);
