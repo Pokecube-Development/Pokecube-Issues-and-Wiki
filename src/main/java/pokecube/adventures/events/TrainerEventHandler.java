@@ -68,6 +68,7 @@ import pokecube.core.events.CustomInteractEvent;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
 import pokecube.core.events.onload.InitDatabase;
+import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -433,6 +434,12 @@ public class TrainerEventHandler
     public static void onPostServerStart(final FMLServerStartedEvent event)
     {
         TypeTrainer.postInitTrainers();
+    }
+
+    public static void captureAttempt(final CaptureEvent.Pre event)
+    {
+        if (PokecubeAdv.config.canSnagTrainers) return;
+        if (TrainerCaps.getHasPokemobs(event.mob) != null && event.caught == null) event.setCanceled(true);
     }
 
     /**

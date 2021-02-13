@@ -257,7 +257,8 @@ public class PokecubeMobs
     public void makeShedinja(final EvolveEvent.Post evt)
     {
         Entity owner;
-        if ((owner = evt.mob.getOwner()) instanceof ServerPlayerEntity) this.makeShedinja(evt.mob, (PlayerEntity) owner);
+        if ((owner = evt.mob.getOwner()) instanceof ServerPlayerEntity) this.makeShedinja(evt.mob,
+                (PlayerEntity) owner);
     }
 
     void makeShedinja(final IPokemob evo, final PlayerEntity player)
@@ -657,6 +658,9 @@ public class PokecubeMobs
             @Override
             public void onPreCapture(final Pre evt)
             {
+                // The below processing is for pokemobs only
+                if (evt.caught == null) return;
+
                 final boolean tameSnag = !evt.caught.isPlayerOwned() && evt.caught.getGeneralState(GeneralStates.TAMED);
 
                 if (evt.caught.isShadow())

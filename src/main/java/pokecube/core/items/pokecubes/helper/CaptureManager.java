@@ -46,6 +46,7 @@ public class CaptureManager
         if (!(cube.getEntityWorld() instanceof ServerWorld)) return;
         if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity)) return;
+        if (e.isInvulnerable()) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube)) return;
         if (!((IPokecube) cube.getItem().getItem()).canCapture(e, cube.getItem())) return;
@@ -67,12 +68,12 @@ public class CaptureManager
         if (cube.shooter != null && hitten != null && cube.shooter.equals(hitten.getOwnerId())) return;
 
         boolean removeMob = false;
+        final CaptureEvent.Pre capturePre = new Pre(hitten, cube, mob);
+        PokecubeCore.POKEMOB_BUS.post(capturePre);
 
         if (hitten != null)
         {
             final int tiltBak = cube.getTilt();
-            final CaptureEvent.Pre capturePre = new Pre(hitten, cube);
-            PokecubeCore.POKEMOB_BUS.post(capturePre);
             if (capturePre.isCanceled() || capturePre.getResult() == Result.DENY)
             {
                 if (cube.getTilt() != tiltBak)
@@ -103,7 +104,7 @@ public class CaptureManager
                 cube.setCapturing(mob);
             }
         }
-        else
+        else if (!capturePre.isCanceled())
         {
             int n = 0;
             rate:
