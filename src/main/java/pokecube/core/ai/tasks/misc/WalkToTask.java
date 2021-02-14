@@ -131,10 +131,6 @@ public class WalkToTask extends RootTask<MobEntity>
     private boolean isPathValid(final MobEntity mob, final WalkTarget target, final long gametime)
     {
         final BlockPos blockpos = target.getTarget().getBlockPos();
-
-        if (!mob.getEntityWorld().isAreaLoaded(blockpos, 16)) return false;
-        if (!mob.getEntityWorld().isAreaLoaded(mob.getPosition(), 16)) return false;
-
         final Brain<?> brain = mob.getBrain();
         pathing:
         if (this.currentPath == null)
