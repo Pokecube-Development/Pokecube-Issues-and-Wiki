@@ -54,7 +54,7 @@ public class MaxRaidFunction
 
             // If we took too many tries, just throw a missingno...
             if (ret == null && n++ > 10) ret = Database.missingno;
-            if (ret == null || ret.dummy || ret.isLegendary() || ret.isMega()) ret = null;
+            if (ret == null || ret.dummy || ret.isLegendary() || ret.isMega() && !ret.isGMax()) ret = null;
             if (ret != null) break;
         }
         return ret;
@@ -82,6 +82,8 @@ public class MaxRaidFunction
             final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
 
             final List<AIRoutine> bannedAI = Lists.newArrayList();
+
+            if (entry.isGMax()) pokemob.setCombatState(CombatStates.GIGANTAMAX, true);
 
             bannedAI.add(AIRoutine.BURROWS);
             bannedAI.add(AIRoutine.BEEAI);
