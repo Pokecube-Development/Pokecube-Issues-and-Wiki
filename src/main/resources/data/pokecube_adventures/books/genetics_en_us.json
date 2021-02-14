@@ -96,7 +96,7 @@
         "",
         "§2DNA is extracted via the Gene Extractor.",
         "",
-        "§aDO NOT try to extract legendary species dna, it is unstable and will be destroyed by this process.",
+        "§cDO NOT try to extract legendary species dna, it is unstable and will be destroyed by this process.",
         "",
         "§2This process requires power, which can be provided by an Energy Siphon, a bottle of water (for the DNA to go into), a Selector and a DNA source.",
         "",
@@ -129,6 +129,8 @@
     {
       "lines": [
         "§5§n§lCloning Pokémobs:{_ref_:_clone_}{_link_:_index_}",
+        "",
+        "§cWARNING: Whatever is in the upper left (bottle) slot will be merged into the DNA of the resulting mob. This may result in the mob changing after capture!",
         "",
         "§5Once you have extracted some Species DNA, you can place the bottle of it into the gene input slot of the cloning device.",
         "§5An egg of some form needs to be provided in the egg slot, this can be any egg, and then power needs to be provided to the block.",

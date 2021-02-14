@@ -53,7 +53,7 @@ public class ClonerContainer extends PoweredContainer<ClonerTile>
                 "pokecube_adventures:items/slot_bottle"));
         i = 2;
         this.addSlot(new TexturedSlot(this.inv, 1, dj - 21 + j * 18, di + i * 18,
-                "pokecube_adventures:items/slot_dna"));
+                "pokecube_adventures:items/slot_egg"));
 
         i = 0;
         this.addSlot(new Slot(this.inv, 2, dj + j * 18, di + di2 + i * 18));
