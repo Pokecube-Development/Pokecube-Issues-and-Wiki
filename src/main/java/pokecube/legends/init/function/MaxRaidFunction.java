@@ -1,6 +1,5 @@
 package pokecube.legends.init.function;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -23,8 +22,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.utils.Tools;
@@ -50,38 +49,14 @@ public class MaxRaidFunction
         {
             // Pick a random number from 1 to just below database size, this
             // ensures no missingnos
-            final int num = rand.nextInt(Database.baseFormes.size() - 1) + 1;
-            ret = Database.getEntry(num);
-
-            // Select a random sub-forme of this mob
-            try
-            {
-                final Collection<PokedexEntry> forms = ret.getFormes();
-                if (!forms.isEmpty())
-                {
-                    final List<PokedexEntry> values = Lists.newArrayList(forms);
-                    Collections.shuffle(values);
-                    final int num2 = values.size();
-                    if (num2 == 0) return ret;
-                    PokedexEntry val = values.get(0);
-                    if (!(val.dummy || val.isMega()) || num2 == 1) return val;
-                    for (int i = 1; i < num2; i++)
-                    {
-                        val = values.get(i);
-                        if (!(val.dummy || val.isMega())) break;
-                    }
-                    return val;
-                }
-            }
-            catch (final IllegalArgumentException e)
-            {
-                PokecubeMod.LOGGER.warn("Error finding subforms for " + ret, e);
-            }
+            final int num = rand.nextInt(Database.getSortedFormes().size());
+            ret = Database.getSortedFormes().get(num);
 
             // If we took too many tries, just throw a missingno...
             if (ret == null && n++ > 10) ret = Database.missingno;
+            if (ret == null || ret.dummy || ret.isLegendary() || ret.isMega()) ret = null;
+            if (ret != null) break;
         }
-
         return ret;
     }
 
@@ -89,43 +64,54 @@ public class MaxRaidFunction
     {
         if (state.getBlock() != BlockInit.RAID_SPAWN.get()) return;
 
-        final PokedexEntry entityToSpawn = MaxRaidFunction.getRandomEntry();
-        final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
-        final Vector3 v = Vector3.getNewVector().set(pos);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-        final LivingEntity poke = pokemob.getEntity();
-
-        final LootTable loottable = pokemob.getEntity().getEntityWorld().getServer().getLootTableManager()
-                .getLootTableFromLocation(MaxRaidFunction.lootTable);
-        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) pokemob.getEntity()
-                .getEntityWorld()).withRandom(poke.getRNG());
-        // Generate the loot list.
-        final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
+        final PokedexEntry entry = MaxRaidFunction.getRandomEntry();
 
         // Raid Battle We will move legendaries to the rare raids.
-        if (entity != null && !entityToSpawn.isMega() && !entityToSpawn.isLegendary())
+        if (entry != null && entry != Database.missingno)
         {
+            final MobEntity entity = PokecubeCore.createPokemob(entry, world);
+            final Vector3 v = Vector3.getNewVector().set(pos);
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+            final LivingEntity poke = pokemob.getEntity();
+
+            final LootTable loottable = pokemob.getEntity().getEntityWorld().getServer().getLootTableManager()
+                    .getLootTableFromLocation(MaxRaidFunction.lootTable);
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) pokemob.getEntity()
+                    .getEntityWorld()).withRandom(poke.getRNG());
+            // Generate the loot list.
+            final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
+
+            final List<AIRoutine> bannedAI = Lists.newArrayList();
+
+            bannedAI.add(AIRoutine.BURROWS);
+            bannedAI.add(AIRoutine.BEEAI);
+            bannedAI.add(AIRoutine.ANTAI);
+
             final int level = new Random().nextInt(100);
-            pokemob.setExp(Tools.levelToXp(entityToSpawn.getEvolutionMode(), level), false);
+            pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
             final Long time = entity.getServer().getWorld(World.OVERWORLD).getGameTime();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
             pokemob.setCombatState(CombatStates.DYNAMAX, true);
+
+            bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
+
             pokemob.spawnInit();
             v.add(0, 1, 0).moveEntity(entity);
             entity.setPosition(v.x, v.y + 3, v.z);
-
+            world.addEntity(entity);
             if (!list.isEmpty()) Collections.shuffle(list);
             final int n = 1 + world.getRandom().nextInt(4);
-            for (int i = 0; i < Math.min(n, list.size()); i++)
+            int i = 0;
+            for (final ItemStack itemstack : list)
             {
-                final ItemStack itemstack = list.get(i);
                 if (i == 0) pokemob.setHeldItem(itemstack);
                 else new InventoryChange(entity, 2, itemstack, true).run(world);
+                if (i++ >= n) break;
             }
-            world.addEntity(entity);
+            world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1,
+                    false);
         }
-        world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1, false);
 
     }
 }
