@@ -10,7 +10,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -92,16 +94,42 @@ public class PokecubeManager
 
     public static String getOwner(final ItemStack itemStack)
     {
-        if (itemStack.isEmpty() || !itemStack.hasTag()) return "";
-        final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
-        return poketag.getCompound(TagNames.OWNERSHIPTAG).getString(TagNames.OWNER);
+        final UUID id = PokecubeManager.getOwnerId(itemStack);
+        return id == null ? "" : id.toString();
+    }
+
+    public static UUID getOwnerId(final ItemStack itemStack)
+    {
+        if (itemStack.isEmpty() || !itemStack.hasTag()) return null;
+
+        // First try reading the ownership from the mob's data directly:
+        INBT owner = itemStack.getTag().getCompound(TagNames.POKEMOB).get("Owner");
+
+        if (owner == null)
+        {
+            // Otherwise try looking in the pokemob's ownership tag
+            final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
+            if (!poketag.contains(TagNames.OWNERSHIPTAG)) return null;
+            owner = poketag.getCompound(TagNames.OWNERSHIPTAG).get(TagNames.OWNER);
+        }
+
+        if (owner != null) try
+        {
+            final UUID id = NBTUtil.readUniqueId(owner);
+            return id;
+        }
+        catch (final Exception e)
+        {
+            // Failed there
+        }
+        return null;
     }
 
     public static PokedexEntry getPokedexEntry(final ItemStack itemStack)
     {
         if (itemStack.isEmpty() || !itemStack.hasTag()) return null;
         final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
-        if (!poketag.contains(TagNames.OWNERSHIPTAG)) return null;
+        if (!poketag.contains(TagNames.VISUALSTAG)) return null;
         final String forme = poketag.getCompound(TagNames.VISUALSTAG).getString(TagNames.FORME);
         final PokedexEntry entry = Database.getEntry(forme);
         return entry == null ? Database.missingno : entry;

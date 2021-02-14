@@ -413,8 +413,8 @@ public class PacketTrainer extends NBTPacket
         final float size = mobtag.getFloat("s");
         final boolean shiny = mobtag.getBoolean("sh");
         final byte gender = mobtag.getByte("g");
-        pokemob.setSexe(gender);
-        pokemob.setNature(Nature.valueOf(nature));
+        if (gender != 0) pokemob.setSexe(gender);
+        if (!nature.isEmpty()) pokemob.setNature(Nature.valueOf(nature));
         pokemob.setAbility(AbilityManager.getAbility(ability));
         pokemob.setShiny(shiny);
         pokemob.setSize(size);

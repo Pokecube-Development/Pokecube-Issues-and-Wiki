@@ -161,7 +161,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         ownerShipTag.putInt(TagNames.POKEDEXNB, this.getPokedexNb());
         // Write the owner here, this is only for use for lookups, the holder
         // actually saves it.
-        if (this.getOwnerId() != null) ownerShipTag.putString(TagNames.OWNER, this.getOwnerId().toString());
+        if (this.getOwnerId() != null) ownerShipTag.putUniqueId(TagNames.OWNER, this.getOwnerId());
         ownerShipTag.putString(TagNames.NICKNAME, this.getPokemonNickname());
         ownerShipTag.putString(TagNames.TEAM, this.getPokemobTeam());
         if (this.getOriginalOwnerUUID() != null) ownerShipTag.putString(TagNames.OT, this.getOriginalOwnerUUID()

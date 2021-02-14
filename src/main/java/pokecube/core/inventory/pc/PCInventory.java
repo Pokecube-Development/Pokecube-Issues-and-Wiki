@@ -20,17 +20,8 @@ public class PCInventory extends BigInventory
     public static void addPokecubeToPC(final ItemStack mob, final World world)
     {
         if (!PokecubeManager.isFilled(mob)) return;
-        final String player = PokecubeManager.getOwner(mob);
-        UUID id;
-        try
-        {
-            id = UUID.fromString(player);
-            PCInventory.addStackToPC(id, mob, world);
-        }
-        catch (final Exception e)
-        {
-
-        }
+        final UUID id = PokecubeManager.getOwnerId(mob);
+        if (id != null) PCInventory.addStackToPC(id, mob, world);
     }
 
     public static void addStackToPC(final UUID uuid, final ItemStack mob, final World world)

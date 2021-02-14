@@ -1,6 +1,7 @@
 package pokecube.core.events.pokemob;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
@@ -20,7 +21,7 @@ public class CaptureEvent extends Event
      */
     public static class Post extends CaptureEvent
     {
-        public Post(EntityPokecubeBase pokecube)
+        public Post(final EntityPokecubeBase pokecube)
         {
             super(pokecube);
         }
@@ -34,9 +35,12 @@ public class CaptureEvent extends Event
      */
     public static class Pre extends CaptureEvent
     {
-        public Pre(IPokemob hit, EntityPokecubeBase entityPokecubeBase)
+        public final LivingEntity mob;
+
+        public Pre(final IPokemob hit, final EntityPokecubeBase entityPokecubeBase, final LivingEntity mob)
         {
             super(hit, entityPokecubeBase);
+            this.mob = mob;
         }
 
     }
@@ -47,7 +51,7 @@ public class CaptureEvent extends Event
 
     public final IPokemob caught;
 
-    protected CaptureEvent(EntityPokecubeBase pokecube)
+    protected CaptureEvent(final EntityPokecubeBase pokecube)
     {
         this.pokecube = pokecube;
         if (pokecube != null)
@@ -62,7 +66,7 @@ public class CaptureEvent extends Event
         }
     }
 
-    protected CaptureEvent(IPokemob hit, EntityPokecubeBase pokecube)
+    protected CaptureEvent(final IPokemob hit, final EntityPokecubeBase pokecube)
     {
         this.pokecube = pokecube;
         this.caught = hit;

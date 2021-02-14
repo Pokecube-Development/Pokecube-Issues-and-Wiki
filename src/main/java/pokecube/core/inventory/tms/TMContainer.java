@@ -65,7 +65,17 @@ public class TMContainer extends BaseContainer
             {
                 if (PokecubeManager.isFilled(stack)) cont.moves = cont.tile.getMoves(PokecubeManager.itemToPokemob(
                         stack, cont.tile.getWorld()));
-                return super.isItemValid(stack);
+                final String owner = PokecubeManager.getOwner(stack);
+                if (owner.isEmpty()) return super.isItemValid(stack);
+                return inv.player.getCachedUniqueIdString().equals(owner);
+            }
+
+            @Override
+            public boolean canTakeStack(final PlayerEntity playerIn)
+            {
+                final String owner = PokecubeManager.getOwner(this.getStack());
+                if (owner.isEmpty()) return super.canTakeStack(playerIn);
+                return playerIn.getCachedUniqueIdString().equals(owner);
             }
         });
         this.bindPlayerInventory(inv, -19);

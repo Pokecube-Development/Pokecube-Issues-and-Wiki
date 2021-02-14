@@ -138,6 +138,7 @@ public class PokecubeAdv
         {
             if (!event.getMap().getTextureLocation().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_dna"));
+            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_egg"));
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_bottle"));
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_selector"));
         }

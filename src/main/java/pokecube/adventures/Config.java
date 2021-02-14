@@ -29,6 +29,8 @@ public class Config extends ConfigData
 
     @Configure(category = Config.TRAINER, comment = "If true, anything that is an INPC will be made into a trainer")
     public boolean      npcsAreTrainers = true;
+    @Configure(category = Config.TRAINER, comment = "If true, trainers can go in snag cubes")
+    public boolean      canSnagTrainers = false;
     @Configure(category = Config.TRAINER, comment = "MobIDs listed here will be added as custom trainers if npcsAreTrainers is true\n"
             + "this is for mobs that are not INPCs, but should be")
     public List<String> custom_trainers = Lists.newArrayList("player_mobs:player_mob");

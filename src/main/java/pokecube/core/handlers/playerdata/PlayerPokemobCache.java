@@ -2,6 +2,7 @@ package pokecube.core.handlers.playerdata;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -32,6 +33,12 @@ public class PlayerPokemobCache extends PlayerData
 
     public static void UpdateCache(final ItemStack stack, final boolean pc, final boolean deleted)
     {
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        server.execute(() -> PlayerPokemobCache.UpdateCacheImpl(stack, pc, deleted));
+    }
+
+    private static void UpdateCacheImpl(final ItemStack stack, final boolean pc, final boolean deleted)
+    {
         final String owner = PokecubeManager.getOwner(stack);
         if (owner.isEmpty()) return;
         final Integer uid = PokecubeManager.getUID(stack);
@@ -39,6 +46,31 @@ public class PlayerPokemobCache extends PlayerData
         final PlayerPokemobCache cache = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
                 PlayerPokemobCache.class);
         if (cache != null) cache.addPokemob(owner, stack, pc, deleted);
+    }
+
+    private static void Remove(final UUID uuid, final ItemStack stack)
+    {
+        final String owner = uuid.toString();
+        if (owner.isEmpty()) return;
+        final Integer uid = PokecubeManager.getUID(stack);
+        if (uid == null || uid == -1) return;
+        final PlayerPokemobCache cache = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
+                PlayerPokemobCache.class);
+        cache._dead_.remove(uid);
+        cache._in_pc_.remove(uid);
+        cache.cache.remove(uid);
+        PlayerDataHandler.getInstance().save(owner, cache.getIdentifier());
+    }
+
+    public static void RemoveFromCache(final UUID owner, final IPokemob pokemob)
+    {
+        if (!pokemob.isPlayerOwned() || pokemob.getOwnerId() == null || owner == null) return;
+        if (!pokemob.getEntity().isServerWorld()) return;
+        final ItemStack stack = PokecubeManager.pokemobToItem(pokemob);
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        // Schedule this to run at some point, as it takes a while.
+        server.execute(() -> PlayerPokemobCache.Remove(owner, stack));
+
     }
 
     public Map<Integer, ItemStack> cache = Maps.newHashMap();

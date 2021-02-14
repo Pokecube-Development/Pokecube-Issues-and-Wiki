@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
 
@@ -39,6 +40,19 @@ public class Splicer extends ContainerScreen<SplicerContainer>
     {
         this.font.drawString(mat, this.getTitle().getString(), 8, 6, 4210752);
         this.font.drawString(mat, this.playerInventory.getName().getString(), 8, this.ySize - 96 + 2, 4210752);
+
+        final ITextComponent warning0 = new TranslationTextComponent("gui.pokecube_adventures.cloner.warning_0");
+        final ITextComponent warning1 = new TranslationTextComponent("gui.pokecube_adventures.cloner.warning_1");
+
+        final int dx = 110;
+        final int dy = 60;
+
+        this.font.drawString(mat, warning0.getString(), dx, dy, 4210752);
+        mat.push();
+        final float s = 0.5f;
+        mat.scale(s, s, s);
+        this.font.drawString(mat, warning1.getString(), dx / s, (dy + 10) / s, 4210752);
+        mat.pop();
     }
 
     @Override

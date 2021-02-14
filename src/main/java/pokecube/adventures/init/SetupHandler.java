@@ -78,6 +78,8 @@ public class SetupHandler
         PokecubeCore.POKEMOB_BUS.addListener(TrainerEventHandler::onPostSendOut);
         // Used to make un-battleable trainers invisible if configured to do so.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onWatchTrainer);
+        // Prevent capturing trainers in snag cubes
+        PokecubeCore.POKEMOB_BUS.addListener(TrainerEventHandler::captureAttempt);
 
         MinecraftForge.EVENT_BUS.register(TrainerSpawnHandler.class);
         MinecraftForge.EVENT_BUS.register(BagItem.class);
