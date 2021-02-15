@@ -35,6 +35,7 @@ import thut.core.common.config.Configure;
 
 public class Config extends ConfigData
 {
+    public static final String nests      = "nests";
     public static final String spawning   = "spawning";
     public static final String database   = "database";
     public static final String world      = "generation";
@@ -411,8 +412,14 @@ public class Config extends ConfigData
     @Configure(category = Config.spawning, comment = "if false, levelCap is ignored")
     public boolean shouldCap = true;
 
-    @Configure(category = Config.spawning, comment = "if true, wild pokemobs make nests, these result in effective mob spawners where they made them, and will prevent other mobs spawning in the area, unless the nests are cleared out.")
+    @Configure(category = Config.nests, comment = "if true, wild pokemobs make nests, these result in effective mob spawners where they made them, and will prevent other mobs spawning in the area, unless the nests are cleared out.")
     public boolean pokemobsMakeNests = true;
+    @Configure(category = Config.nests, comment = "Probability per second of a nest spawning an egg, if it has less than 3 eggs.")
+    public double  nestEggRate       = 0.25;
+    @Configure(category = Config.nests, comment = "Probability per second of a nest spawning an egg, if it has less than 3 eggs.")
+    public int     nestMobNumber     = 3;
+    @Configure(category = Config.nests, comment = "Probability per second of a nest spawning an egg, if it has less than 3 eggs.")
+    public int     antNestMobNumber  = 10;
 
     @Configure(category = Config.spawning, comment = "These determine what lvl pokemobs spawn based on location. If central is true, then the origin for the function is 0,0, otherwise it is world spawn. if radial is true, then the function takes the variable r, which is horizontal distance from the origin. Otherwise it takes x and y, which are the horizontal coordinates with respect to the origin.")
     public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[] {

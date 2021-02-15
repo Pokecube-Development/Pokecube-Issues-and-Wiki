@@ -214,7 +214,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
             final Entity mob = world.getEntityByUuid(uuid);
             if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
             final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
-            if (this.mobs.size() > 3 || !playerNear) egg.setGrowingAge(-100);
+            if (this.mobs.size() > PokecubeCore.getConfig().nestMobNumber || !playerNear) egg.setGrowingAge(-100);
             else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-rng.nextInt(100));
             return false;
         });
@@ -291,7 +291,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
 
             // If we have less than 3 eggs, make one from one of the random
             // related mobs.
-            if (this.eggs.size() < 3)
+            if (this.eggs.size() < 3 && rng.nextDouble() < PokecubeCore.getConfig().nestEggRate)
             {
                 final List<PokedexEntry> entries = Lists.newArrayList(this.related);
                 Collections.shuffle(entries);
