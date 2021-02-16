@@ -11,8 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
+import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -33,6 +35,7 @@ public class PlayerPokemobCache extends PlayerData
 
     public static void UpdateCache(final ItemStack stack, final boolean pc, final boolean deleted)
     {
+        if (!(PokecubeCore.proxy.getWorld() instanceof ServerWorld)) return;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         server.execute(() -> PlayerPokemobCache.UpdateCacheImpl(stack, pc, deleted));
     }
