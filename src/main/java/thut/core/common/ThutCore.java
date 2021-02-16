@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.INBT;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.particles.ParticleType;
@@ -60,6 +61,7 @@ import thut.api.particle.ThutParticles;
 import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.StructureManager;
 import thut.api.world.mobs.data.DataSync;
+import thut.bling.BlingItem;
 import thut.core.common.config.Config;
 import thut.core.common.genetics.DefaultGeneStorage;
 import thut.core.common.genetics.DefaultGenetics;
@@ -298,7 +300,7 @@ public class ThutCore
     {
         ThutCore.LOGGER.info("Setup");
 
-        if (ThutCore.THUTICON.isEmpty()) ThutCore.THUTICON = new ItemStack(Blocks.STONE);
+        if (ThutCore.THUTICON.isEmpty()) ThutCore.THUTICON = new ItemStack(Items.GOLD_INGOT);
 
         // Register the actual packets
         ThutCore.packets.registerMessage(EntityUpdate.class, EntityUpdate::new);
