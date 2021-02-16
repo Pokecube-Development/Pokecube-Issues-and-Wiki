@@ -19,6 +19,7 @@ import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
@@ -131,6 +132,12 @@ public class WalkToTask extends RootTask<MobEntity>
     private boolean isPathValid(final MobEntity mob, final WalkTarget target, final long gametime)
     {
         final BlockPos blockpos = target.getTarget().getBlockPos();
+
+        final World world = mob.getEntityWorld();
+
+        if (!world.isAreaLoaded(blockpos, 8)) return false;
+        if (!world.isAreaLoaded(mob.getPosition(), 8)) return false;
+
         final Brain<?> brain = mob.getBrain();
         pathing:
         if (this.currentPath == null)
