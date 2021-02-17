@@ -1246,7 +1246,6 @@ public class PokedexEntryLoader
             if (!init)
             {
                 PokedexEntryLoader.initFormeModels(entry, xmlEntry.models);
-                entry.breeds = xmlEntry.breed;
                 entry.ridable = xmlEntry.ridable;
                 entry.hasShiny = xmlEntry.hasShiny;
 

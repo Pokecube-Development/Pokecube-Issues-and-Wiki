@@ -22,6 +22,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.eventbus.api.EventPriority;
 
 public class TempBlock extends AirBlock
 {
@@ -44,6 +48,31 @@ public class TempBlock extends AirBlock
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(TempBlock.LIGHTLEVEL, 0).with(
                 TempBlock.WATERLOGGED, false));
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onPlayerInteract);
+    }
+
+    private void onPlayerInteract(final PlayerInteractEvent.RightClickBlock event)
+    {
+        final BlockRayTraceResult trace = event.getHitVec();
+        if (trace == null) return;
+        final World world = event.getPlayer().getEntityWorld();
+        final TileEntity tile = world.getTileEntity(event.getPos());
+        if (tile instanceof TempTile)
+        {
+            final TempTile temp = (TempTile) tile;
+            final PlayerEntity player = event.getPlayer();
+            final Hand hand = event.getHand();
+            ActionResultType result = temp.blockEntity.processInitialInteract(player, hand);
+            // Otherwise forward the interaction to the block entity;
+            if (result != ActionResultType.PASS && event.getPlayer().isSneaking()) result = temp.blockEntity
+                    .applyPlayerInteraction(player, trace.getHitVec(), hand);
+            if (result != ActionResultType.PASS)
+            {
+                event.setCanceled(true);
+                event.setUseBlock(Result.ALLOW);
+                event.setUseItem(Result.ALLOW);
+            }
+        }
     }
 
     @Override
@@ -82,8 +111,12 @@ public class TempBlock extends AirBlock
         {
             final TempTile temp = (TempTile) tile;
             final BlockState eff = temp.getEffectiveState();
-            final ActionResultType res = eff.onBlockActivated(world, player, hand, hit);
-            if (res != ActionResultType.PASS) return res;
+            if (eff != null)
+            {
+                final ActionResultType res = eff.onBlockActivated(world, player, hand, hit);
+                System.out.println(res);
+                if (res != ActionResultType.PASS) return res;
+            }
             // Otherwise forward the interaction to the block entity;
             return temp.blockEntity.applyPlayerInteraction(player, hit.getHitVec(), hand);
         }
