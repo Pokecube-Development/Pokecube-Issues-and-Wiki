@@ -44,8 +44,8 @@ public class Splicer extends ContainerScreen<SplicerContainer>
         final ITextComponent warning0 = new TranslationTextComponent("gui.pokecube_adventures.cloner.warning_0");
         final ITextComponent warning1 = new TranslationTextComponent("gui.pokecube_adventures.cloner.warning_1");
 
-        final int dx = 110;
-        final int dy = 60;
+        final int dx = 109;
+        final int dy = 8;
 
         this.font.drawString(mat, warning0.getString(), dx, dy, 4210752);
         mat.push();
