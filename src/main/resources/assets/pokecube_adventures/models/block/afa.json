@@ -1,6 +1,7 @@
 {
-    "parent": "block/cube_all",
+    "parent": "block/cube_column",
     "textures": {
-        "all": "pokecube_adventures:blocks/afa"
+        "end": "pokecube_adventures:blocks/afa_top",
+        "side": "pokecube_adventures:blocks/afa"
     }
 }
