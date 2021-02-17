@@ -193,9 +193,9 @@ public class PokecubeAdv
 
         // Blocks
         AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(Block.Properties.create(Material.IRON)
-                .variableOpacity(), MaterialColor.BLACK));
+                .variableOpacity(), MaterialColor.LIME));
         COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(Block.Properties.create(
-                Material.IRON).variableOpacity(), MaterialColor.BLACK));
+                Material.IRON).variableOpacity(), MaterialColor.RED));
         DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(Block.Properties.create(Material.IRON)
         		.variableOpacity(), MaterialColor.BLACK));
         CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(Block.Properties.create(Material.IRON)
