@@ -6,6 +6,8 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ComposterBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
@@ -19,6 +21,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -59,6 +62,7 @@ import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.blocks.siphon.SiphonBlock;
 import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warppad.WarppadBlock;
+import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.blocks.LaboratoryGlass;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
@@ -210,7 +214,7 @@ public class PokecubeAdv
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(Block.Properties.create(
                 Material.IRON), MaterialColor.WHITE_TERRACOTTA));
         LAB_GLASS = PokecubeAdv.BLOCKS.register("laboratory_glass", () -> new LaboratoryGlass(Block.Properties.create(
-                Material.GLASS), MaterialColor.LIGHT_BLUE));
+                Material.GLASS).hardnessAndResistance(0.3f, 0.3f).sound(SoundType.GLASS).notSolid(), MaterialColor.LIGHT_BLUE));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().group(

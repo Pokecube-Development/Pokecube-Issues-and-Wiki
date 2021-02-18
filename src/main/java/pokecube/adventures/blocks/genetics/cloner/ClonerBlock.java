@@ -24,6 +24,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
@@ -155,5 +156,10 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     public boolean hasTileEntity(final BlockState state)
     {
         return true;
+    }
+
+    @Override
+    public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
+        return new float[]{0.72f, 0.96f, 0.96f};
     }
 }

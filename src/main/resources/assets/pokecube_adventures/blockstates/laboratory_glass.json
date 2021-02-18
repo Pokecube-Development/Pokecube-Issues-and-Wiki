@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "pokecube_legends:block/laboratory_glass" }
+        "": { "model": "pokecube_adventures:block/laboratory_glass" }
     }
 }
