@@ -388,25 +388,6 @@
         {
           "sell": {
             "values": {
-              "id": "pokecube:dreamcube",
-              "n": "3"
-            }
-          },
-          "buys": [
-            {
-              "values": {
-                "id": "minecraft:emerald",
-                "n": "12"
-              }
-            }
-          ],
-          "values": {
-            "chance": "1"
-          }
-        },
-        {
-          "sell": {
-            "values": {
               "id": "pokecube:fastcube",
               "n": "3"
             }

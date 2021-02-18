@@ -10,6 +10,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.WorldWorkerManager;
+import net.minecraftforge.common.WorldWorkerManager.IWorker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
@@ -202,6 +204,38 @@ public class LogicFloatFlySwim extends LogicBase
         }
     }
 
+    private static class NaviUpdate implements IWorker
+    {
+        private final ServerWorld   world;
+        private final PathNavigator oldNavi;
+        private final PathNavigator newNavi;
+
+        public NaviUpdate(final ServerWorld world, final PathNavigator oldNavi, final PathNavigator newNavi)
+        {
+            this.world = world;
+            this.oldNavi = oldNavi;
+            this.newNavi = newNavi;
+        }
+
+        @Override
+        public boolean hasWork()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean doWork()
+        {
+            synchronized (this.world.navigations)
+            {
+                this.world.navigations.remove(this.oldNavi);
+                this.world.navigations.add(this.newNavi);
+            }
+            return false;
+        }
+
+    }
+
     private static enum NaviState
     {
         FLY, SWIM, WALK;
@@ -329,13 +363,7 @@ public class LogicFloatFlySwim extends LogicBase
             }
             this.state = NaviState.WALK;
         }
-
         final PathNavigator newNavi = this.entity.getNavigator();
-
-        if (world instanceof ServerWorld && newNavi != oldNavi) synchronized (((ServerWorld) world).navigations)
-        {
-            ((ServerWorld) world).navigations.remove(oldNavi);
-            ((ServerWorld) world).navigations.add(newNavi);
-        }
+        if (world instanceof ServerWorld && newNavi != oldNavi) WorldWorkerManager.addWorker(new NaviUpdate((ServerWorld) world, oldNavi, newNavi));
     }
 }
