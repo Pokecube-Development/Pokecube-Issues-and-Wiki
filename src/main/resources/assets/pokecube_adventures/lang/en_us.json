@@ -55,6 +55,7 @@
     "block.pokecube_adventures.daycare": "Daycare Block",
     "block.pokecube_adventures.commander": "Pokemob Command Block",
     "block.pokecube_adventures.siphon": "Energy Siphon",
+    "block.pokecube_adventures.laboratory_glass": "Laboratory Glass",
     
     "gui.pokecube_adventures.cloner.warning_0": "WARNING!",
     "gui.pokecube_adventures.cloner.warning_1": "Read Manual Before Use!",

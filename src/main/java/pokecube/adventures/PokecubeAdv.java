@@ -59,7 +59,7 @@ import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.blocks.siphon.SiphonBlock;
 import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warppad.WarppadBlock;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.LaboratoryGlass;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.init.SetupHandler;
@@ -154,6 +154,7 @@ public class PokecubeAdv
     public static final RegistryObject<Block> SPLICER;
     public static final RegistryObject<Block> SIPHON;
     public static final RegistryObject<Block> WARPPAD;
+    public static final RegistryObject<Block> LAB_GLASS;
 
     public static final RegistryObject<Item> EXPSHARE;
     public static final RegistryObject<Item> LINKER;
@@ -208,6 +209,8 @@ public class PokecubeAdv
                 .variableOpacity(), MaterialColor.GREEN_TERRACOTTA));
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(Block.Properties.create(
                 Material.IRON), MaterialColor.WHITE_TERRACOTTA));
+        LAB_GLASS = PokecubeAdv.BLOCKS.register("laboratory_glass", () -> new LaboratoryGlass(Block.Properties.create(
+                Material.GLASS), MaterialColor.LIGHT_BLUE));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().group(
