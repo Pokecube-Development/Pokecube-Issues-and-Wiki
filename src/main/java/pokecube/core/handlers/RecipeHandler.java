@@ -25,7 +25,6 @@ public class RecipeHandler
     private static <T extends IRecipe<?>> Supplier<SpecialRecipeSerializer<T>> special(
             final Function<ResourceLocation, T> create)
     {
-        PokecubeCore.LOGGER.warn("Registering for " + create.toString());
         return () -> new SpecialRecipeSerializer<>(create);
     }
 

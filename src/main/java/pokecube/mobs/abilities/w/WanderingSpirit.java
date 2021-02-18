@@ -18,6 +18,7 @@ public class WanderingSpirit extends Ability
         if (move.pre || attacker == move.attacked) return;
         if (move.hit && attack.getAttackCategory() == IMoveConstants.CATEGORY_CONTACT && Math.random() > 0.7)
         {
+            if (attacker.getAbility() == null) return;
             final String name = attacker.getAbility().getName();
 
             // Don't apply to this one

@@ -406,7 +406,7 @@ public class BlockEntityUpdater
         yMax = y0 + size.getY() + 1;
         zMax = z0 + size.getZ() + 1;
 
-        return new AxisAlignedBB(xMin, yMin, zMin, xMax, yMax, zMax);
+        return new AxisAlignedBB(xMin, yMin, zMin, xMax, yMax, zMax).grow(0.0);
     }
 
     public void onUpdate()
