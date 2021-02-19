@@ -22,6 +22,6 @@ public class LaboratoryGlass extends GlassBlock
 
     @Override
     public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
-        return new float[]{0.105f, 0.058f, 0.058f};
+        return new float[]{0.62f, 0.85f, 1.00f};
     }
 }

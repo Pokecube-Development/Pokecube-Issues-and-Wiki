@@ -160,6 +160,6 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
 
     @Override
     public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
-        return new float[]{0.72f, 0.96f, 0.96f};
+        return new float[]{0.62f, 0.85f, 1.00f};
     }
 }
