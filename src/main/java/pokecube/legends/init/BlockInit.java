@@ -2,6 +2,7 @@ package pokecube.legends.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
@@ -20,6 +21,8 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.items.berries.BerryManager;
+import pokecube.core.items.berries.ItemBerry;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.SaplingBase;
@@ -863,5 +866,28 @@ public class BlockInit
             ItemGenerator.addStrippable(BlockInit.ULTRA_LOGUB02.get(), BlockInit.STRIP_TEMPORAL_LOG.get());
             ItemGenerator.addStrippable(BlockInit.TEMPORAL_WOOD.get(), BlockInit.STRIP_TEMPORAL_WOOD.get());
         });
+    }
+    
+    public static void compostableBlocks(float chance, RegistryObject<Block> item) 
+    {
+        ComposterBlock.CHANCES.put(item.get().asItem(), chance);
+    }
+    
+    public static void compostables() 
+    {
+        compostableBlocks(0.3f, BlockInit.DYNA_LEAVE1);
+        compostableBlocks(0.3f, BlockInit.DYNA_LEAVE2);
+        compostableBlocks(0.3f, BlockInit.ULTRA_SAPLING_UB01);
+        compostableBlocks(0.3f, BlockInit.ULTRA_SAPLING_UB02);
+        compostableBlocks(0.3f, BlockInit.ULTRA_SAPLING_UB03);
+        compostableBlocks(0.3f, BlockInit.DISTORTIC_SAPLING);
+        compostableBlocks(0.3f, BlockInit.ULTRA_LEAVEUB01);
+        compostableBlocks(0.3f, BlockInit.ULTRA_LEAVEUB02);
+        compostableBlocks(0.3f, BlockInit.ULTRA_LEAVEUB03);
+        compostableBlocks(0.3f, BlockInit.DISTORTIC_LEAVE);
+        compostableBlocks(0.65f, PlantsInit.MUSH_PLANT1);
+        compostableBlocks(0.65f, PlantsInit.MUSH_PLANT2);
+        compostableBlocks(0.65f, PlantsInit.AGED_FLOWER);
+        compostableBlocks(0.65f, PlantsInit.DIRST_FLOWER);
     }
 }

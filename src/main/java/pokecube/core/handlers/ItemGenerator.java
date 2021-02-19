@@ -9,9 +9,11 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
@@ -29,6 +31,8 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IItemProvider;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
@@ -48,6 +52,7 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
+import pokecube.legends.init.BlockInit;
 
 public class ItemGenerator
 {
@@ -99,9 +104,22 @@ public class ItemGenerator
             PokecubeCore.LOGGER.debug("Registering berry_" + berry.type.name + " " + index + " " + id);
             berry.setRegistryName(PokecubeCore.MODID, "berry_" + berry.type.name);
             registry.register(berry);
+    		compostableBlocks(0.65f, berry);
         }
         BerryManager.registerTrees();
     }
+    
+//    public static void compostables(final FMLLoadCompleteEvent event) 
+//    {
+//    	final List<String> names = Lists.newArrayList(ItemGenerator.berryLeaves.keySet());
+//        Collections.sort(names);
+//        event.enqueueWork(() ->
+//        {
+//        	for (final String name : names)
+//        	{
+//        	}
+//        });
+//    }
 
     public static void makeBerryBlocks(final IForgeRegistry<Block> registry)
     {
@@ -142,6 +160,7 @@ public class ItemGenerator
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);
+//    		compostableBlocks(0.3f, block);
 
             // Logs
             block = Blocks.createLogBlock(berryWoods.get(name), berryWoods.get(name));
@@ -241,6 +260,7 @@ public class ItemGenerator
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);
+//    		compostableBlocks(0.3f, block.asItem());
         }
     }
 
@@ -407,6 +427,11 @@ public class ItemGenerator
                 ItemGenerator.addStrippable(ItemGenerator.woods.get(name), ItemGenerator.stripped_woods.get(name));
             }
         });
+    }
+    
+    public static void compostableBlocks(float chance, IItemProvider item) 
+    {
+        ComposterBlock.CHANCES.put(item.asItem(), chance);
     }
 
     public static void postInitItems()
