@@ -2,21 +2,24 @@
   "type": "minecraft:crafting_shaped",
   "group": "pokecube",
   "pattern": [
-    "III",
-    "SRS",
-    "SMS"
+    "IAI",
+    "GLG",
+    "GTG"
   ],
   "key": {
-    "R": {
+    "L": {
+      "item": "pokecube_adventures:laboratory_glass"
+    },
+    "T": {
       "item": "pokecube:trade_machine"
     },
-    "S": {
+    "G": {
       "item": "minecraft:gold_block"
     },
     "I": {
       "item": "minecraft:iron_ingot"
     },
-    "M": {
+    "A": {
       "item": "minecraft:golden_apple"
     }
   },

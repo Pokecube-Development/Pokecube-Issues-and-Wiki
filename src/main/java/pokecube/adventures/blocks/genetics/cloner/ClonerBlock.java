@@ -35,11 +35,11 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
 
     // Precise selection box
     private static final VoxelShape CLONER_BOTTOM = VoxelShapes.or(Block.makeCuboidShape(0, 0, 0, 16, 12, 16), Block
-            .makeCuboidShape(0.74, 12, 0.74, 15.26, 13, 15.26), Block.makeCuboidShape(1.13, 13, 1.02, 15.03, 16, 14.93))
+            .makeCuboidShape(0.5, 12, 0.5, 15.5, 13, 15.5), Block.makeCuboidShape(1, 13, 1, 15, 16, 15))
             .simplify();
 
     private static final VoxelShape CLONER_TOP = VoxelShapes.or(Block.makeCuboidShape(0, 12, 0, 16, 16, 16), Block
-            .makeCuboidShape(0.74, 11, 0.74, 15.26, 12, 15.26), Block.makeCuboidShape(1.13, 0, 1.02, 15.03, 11, 14.93))
+            .makeCuboidShape(0.5, 11, 0.5, 15.5, 12, 15.5), Block.makeCuboidShape(1, 0, 1, 15, 11, 15))
             .simplify();
 
     // Precise selection box

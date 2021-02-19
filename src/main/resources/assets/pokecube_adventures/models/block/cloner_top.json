@@ -1,46 +1,48 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"cloner": "pokecube_adventures:blocks/cloner",
-		"particle": "pokecube_adventures:blocks/cloner"
+		"1": "pokecube_adventures:blocks/cloner_bottom",
+		"2": "pokecube_adventures:blocks/cloner_top",
+		"3": "pokecube_adventures:blocks/cloner_upper",
+		"4": "pokecube_adventures:blocks/cloner_metal",
+		"particle": "pokecube_adventures:blocks/cloner_upper"
 	},
 	"elements": [
-		{
-			"name": "glass",
-			"from": [1.13, 0, 1.02],
-			"to": [15.03, 11, 14.93],
-			"faces": {
-				"north": {"uv": [2.875, 0, 4.525, 1.65], "rotation": 270, "texture": "#cloner"},
-				"east": {"uv": [2.875, 0, 4.525, 1.65], "rotation": 270, "texture": "#cloner"},
-				"south": {"uv": [2.875, 0, 4.525, 1.65], "rotation": 270, "texture": "#cloner"},
-				"west": {"uv": [2.875, 0, 4.525, 1.65], "rotation": 270, "texture": "#cloner"},
-				"up": {"uv": [2.875, 0, 4.525, 1.65], "rotation": 270, "texture": "#cloner"}
-			}
-		},
-		{
-			"name": "metal",
-			"from": [0.74, 11, 0.74],
-			"to": [15.26, 12, 15.26],
-			"faces": {
-				"north": {"uv": [0.125, 2, 4.699, 3.449], "rotation": 270, "texture": "#cloner"},
-				"east": {"uv": [0.125, 2, 4.699, 3.449], "rotation": 270, "texture": "#cloner"},
-				"south": {"uv": [0.125, 2, 4.699, 3.449], "rotation": 270, "texture": "#cloner"},
-				"west": {"uv": [0.125, 2, 4.699, 3.449], "rotation": 270, "texture": "#cloner"},
-				"up": {"uv": [0.125, 2, 4.699, 3.449], "rotation": 270, "texture": "#cloner"},
-				"down": {"uv": [0.125, 2, 4.699, 3.449], "rotation": 270, "texture": "#cloner"}
-			}
-		},
 		{
 			"name": "top",
 			"from": [0, 12, 0],
 			"to": [16, 16, 16],
 			"faces": {
-				"north": {"uv": [0, 0, 2.264, 1.765], "rotation": 270, "texture": "#cloner"},
-				"east": {"uv": [0, 0, 2.264, 1.765], "rotation": 270, "texture": "#cloner"},
-				"south": {"uv": [0, 0, 2.264, 1.765], "rotation": 270, "texture": "#cloner"},
-				"west": {"uv": [0, 0, 2.264, 1.765], "rotation": 270, "texture": "#cloner"},
-				"up": {"uv": [0.5, 3.75, 4.262, 7.012], "texture": "#cloner"},
-				"down": {"uv": [0, 0, 2.264, 1.765], "rotation": 270, "texture": "#cloner"}
+				"north": {"uv": [0, 0, 16, 4], "texture": "#3"},
+				"east": {"uv": [0, 0, 16, 4], "texture": "#3"},
+				"south": {"uv": [0, 0, 16, 4], "texture": "#3"},
+				"west": {"uv": [0, 0, 16, 4], "texture": "#3"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		},
+		{
+			"name": "glass",
+			"from": [1, 0, 1],
+			"to": [15, 11, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -5, 8]},
+			"faces": {
+				"north": {"uv": [1, 5, 15, 16], "texture": "#3"},
+				"east": {"uv": [1, 5, 15, 16], "texture": "#3"},
+				"south": {"uv": [1, 5, 15, 16], "texture": "#3"},
+				"west": {"uv": [1, 5, 15, 16], "texture": "#3"}
+			}
+		},
+		{
+			"name": "metal",
+			"from": [0.5, 11, 0.5],
+			"to": [15.5, 12, 15.5],
+			"faces": {
+				"north": {"uv": [0, 4, 15, 5], "texture": "#3"},
+				"east": {"uv": [0, 4, 15, 5], "texture": "#3"},
+				"south": {"uv": [0, 4, 15, 5], "texture": "#3"},
+				"west": {"uv": [0, 4, 15, 5], "texture": "#3"},
+				"down": {"uv": [0, 0, 15, 15], "rotation": 270, "texture": "#4", "cullface": "up"}
 			}
 		}
 	],
