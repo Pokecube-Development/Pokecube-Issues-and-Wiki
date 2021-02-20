@@ -1,5 +1,6 @@
 package thut.api.entity.genetics;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,7 +16,11 @@ public interface IMobGenetics
      *
      * @return
      */
-    Map<ResourceLocation, Alleles> getAlleles();
+    Map<ResourceLocation, Alleles<?,?>> getAlleles();
+
+    Collection<ResourceLocation> getKeys();
+
+    <T, GENE extends Gene<T>> Alleles<T, GENE> getAlleles(ResourceLocation key);
 
     /**
      * This should return a set of genes which are epigenetic, this allows the
@@ -23,16 +28,16 @@ public interface IMobGenetics
      *
      * @return
      */
-    Set<Alleles> getEpigenes();
+    Set<Alleles<?, ?>> getEpigenes();
 
     /**
      * This is called whenever the mob associated with this gene ticks.
      *
      * @param entity
      */
-    default void onUpdateTick(Entity entity)
+    default void onUpdateTick(final Entity entity)
     {
-        for (final Alleles allele : this.getAlleles().values())
+        for (final Alleles<?, ?> allele : this.getAlleles().values())
             allele.getExpressed().onUpdateTick(entity);
     }
 

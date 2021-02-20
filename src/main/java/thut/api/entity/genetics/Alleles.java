@@ -1,23 +1,27 @@
 package thut.api.entity.genetics;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.nbt.CompoundNBT;
 
-public class Alleles
+public class Alleles<T, GENE extends Gene<T>>
 {
-    final Gene[] alleles = new Gene[2];
-    final Random rand    = new Random();
-    Gene         expressed;
+    final ArrayList<GENE> alleles = new ArrayList<>(2);
+    final Random          rand    = new Random();
+    GENE                  expressed;
 
     public Alleles()
     {
+        while (this.alleles.size() < 2)
+            this.alleles.add(null);
     }
 
-    public Alleles(final Gene gene1, final Gene gene2)
+    public Alleles(final GENE gene1, final GENE gene2)
     {
-        this.alleles[0] = gene1;
-        this.alleles[1] = gene2;
+        this();
+        this.alleles.set(0, gene1);
+        this.alleles.set(1, gene2);
         if (gene1 == null || gene2 == null) throw new IllegalStateException("Genes cannot be null");
     }
 
@@ -26,46 +30,66 @@ public class Alleles
      *
      * @return
      */
-    public Gene[] getAlleles()
+    public GENE getAllele(final int index)
     {
-        return this.alleles;
+        return this.alleles.get(index);
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Gene> T getExpressed()
+    /**
+     * This returns two Allele, one represeting each parent.
+     *
+     * @return
+     */
+    public void setAllele(final int index, final GENE gene)
+    {
+        this.alleles.set(index, gene);
+    }
+
+    public GENE getExpressed()
     {
         if (this.expressed == null) this.refreshExpressed();
-        return (T) this.expressed;
+        return this.expressed;
     }
 
-    public void setExpressed(final Gene expressed)
+    public void setExpressed(final GENE expressed)
     {
         this.expressed = expressed;
     }
 
+    @SuppressWarnings("unchecked")
     public void load(final CompoundNBT tag) throws Exception
     {
-        this.expressed = GeneRegistry.load(tag.getCompound("expressed"));
-        this.getAlleles()[0] = GeneRegistry.load(tag.getCompound("gene1"));
-        this.getAlleles()[1] = GeneRegistry.load(tag.getCompound("gene2"));
+        this.expressed = (GENE) GeneRegistry.load(tag.getCompound("expressed"));
+        this.alleles.set(0, (GENE) GeneRegistry.load(tag.getCompound("gene1")));
+        this.alleles.set(1, (GENE) GeneRegistry.load(tag.getCompound("gene2")));
     }
 
+    @SuppressWarnings("unchecked")
     public void refreshExpressed()
     {
-        if (this.alleles[0] == null || this.alleles[1] == null) throw new IllegalStateException("Genes cannot be null");
-        final Gene a = this.alleles[0].getMutationRate() > this.rand.nextFloat() ? this.alleles[0].mutate()
-                : this.alleles[0];
-        final Gene b = this.alleles[1].getMutationRate() > this.rand.nextFloat() ? this.alleles[1].mutate()
-                : this.alleles[1];
-        this.expressed = a.interpolate(b);
+        GENE a = this.alleles.get(0);
+        GENE b = this.alleles.get(1);
+        if (a == null || b == null) throw new IllegalStateException("Genes cannot be null");
+        a = a.getMutationRate() > this.rand.nextFloat() ? (GENE) a.mutate() : a;
+        b = b.getMutationRate() > this.rand.nextFloat() ? (GENE) b.mutate() : b;
+        this.expressed = (GENE) a.interpolate(b);
     }
 
     public CompoundNBT save()
     {
         final CompoundNBT tag = new CompoundNBT();
-        tag.put("expressed", GeneRegistry.save(this.getExpressed()));
-        tag.put("gene1", GeneRegistry.save(this.getAlleles()[0]));
-        tag.put("gene2", GeneRegistry.save(this.getAlleles()[1]));
+        try
+        {
+            tag.put("expressed", GeneRegistry.save(this.getExpressed()));
+        }
+        catch (final Exception e)
+        {
+            System.out.println(this.getExpressed() + " " + this.getExpressed().getKey());
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        tag.put("gene1", GeneRegistry.save(this.getAllele(0)));
+        tag.put("gene2", GeneRegistry.save(this.getAllele(1)));
         return tag;
     }
 }

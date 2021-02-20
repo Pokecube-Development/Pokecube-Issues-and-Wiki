@@ -40,9 +40,10 @@ public class GeneProtector
     {
         if (evt.resultGenes.getAlleles().containsKey(GeneticsManager.SPECIESGENE))
         {
-            final Alleles alleles = evt.resultGenes.getAlleles().get(GeneticsManager.SPECIESGENE);
+            final Alleles<SpeciesInfo, SpeciesGene> alleles = evt.resultGenes.getAlleles(GeneticsManager.SPECIESGENE);
             final SpeciesGene gene = alleles.getExpressed();
-            if(evt.reason==EditType.EXTRACT) if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
+            if (evt.reason == EditType.EXTRACT) if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(
+                    GeneticsManager.SPECIESGENE);
         }
     }
 

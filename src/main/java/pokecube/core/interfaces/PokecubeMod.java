@@ -1,6 +1,10 @@
 package pokecube.core.interfaces;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -116,8 +120,23 @@ public abstract class PokecubeMod
     public static void setLogger(final Logger logger_in)
     {
         PokecubeMod.LOGGER = logger_in;
-        final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve(PokecubeMod.ID + ".log").toFile();
-        if (logfile.exists()) logfile.delete();
+        final String log = PokecubeMod.ID;
+        final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve(log + ".log").toFile();
+        if (logfile.exists())
+        {
+            FMLPaths.GAMEDIR.get().resolve("logs").resolve(log).toFile().mkdirs();
+            try
+            {
+                final DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+                Files.move(FMLPaths.GAMEDIR.get().resolve("logs").resolve(log + ".log"), FMLPaths.GAMEDIR.get().resolve(
+                        "logs").resolve("old").resolve(String.format("%s_%s%s", log, LocalDateTime.now().format(dtf)
+                                .replace(":", "-"), ".log")));
+            }
+            catch (final IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
         final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) logger_in;
         final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath()).setName(
                 PokecubeMod.ID).build();

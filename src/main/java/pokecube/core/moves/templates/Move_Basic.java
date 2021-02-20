@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -119,8 +120,9 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         }
         if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
         {
-            final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT,attacked.getEntityWorld());
-            attacked.func_241841_a((ServerWorld) attacked.getEntityWorld(),lightning);
+            final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, attacked
+                    .getEntityWorld());
+            attacked.func_241841_a((ServerWorld) attacked.getEntityWorld(), lightning);
         }
         if (attacked instanceof CreeperEntity)
         {
@@ -172,8 +174,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (!shouldEffect) return;
         boolean effect = false;
         if (packet.getMove().hasStatModTarget && packet.hit) effect = MovesUtils.handleStats(packet.attacker,
-                packet.attacked,
-                packet, true);
+                packet.attacked, packet, true);
         if (packet.getMove().hasStatModSelf) effect = MovesUtils.handleStats(packet.attacker, packet.attacker
                 .getEntity(), packet, false);
         if (!effect) MovesUtils.displayStatsMessage(packet.attacker, packet.attacked, -2, (byte) 0, (byte) 0);
@@ -297,10 +298,10 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 ongoing = (Move_Ongoing) MovesUtils.getMoveFromName(attack);
                 final IOngoingAffected targetAffected = CapabilityAffected.getAffected(attacked);
                 final IOngoingAffected sourceAffected = CapabilityAffected.getAffected(attackerMob);
-                if (ongoing.onTarget() && targetAffected != null)
-                    targetAffected.getEffects().add(ongoing.makeEffect(attackerMob));
-                if (ongoing.onSource() && sourceAffected != null)
-                    sourceAffected.getEffects().add(ongoing.makeEffect(attackerMob));
+                if (ongoing.onTarget() && targetAffected != null) targetAffected.getEffects().add(ongoing.makeEffect(
+                        attackerMob));
+                if (ongoing.onSource() && sourceAffected != null) sourceAffected.getEffects().add(ongoing.makeEffect(
+                        attackerMob));
             }
         }
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(attackerMob);
@@ -329,7 +330,12 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         float healRatio;
         float damageRatio;
 
-        final int beforeHealth = (int) ((LivingEntity) attacked).getHealth();
+        int beforeHealth = 0;
+
+        if (attacked instanceof LivingEntity) beforeHealth = (int) ((LivingEntity) attacked).getHealth();
+        // TODO replace with forge multipart entity in 1.16.5
+        else if (attacked instanceof EnderDragonPartEntity)
+            beforeHealth = (int) ((EnderDragonPartEntity) attacked).dragon.getHealth();
 
         if (efficiency > 0 && MoveEntry.oneHitKos.contains(attack)) finalAttackStrength = beforeHealth;
 
@@ -416,11 +422,12 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             {
                 final DamageSource source = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
                         .setType(type);
-                attacked.attackEntityFrom(source, finalAttackStrength);
+                final boolean damaged = attacked.attackEntityFrom(source, finalAttackStrength);
                 if (PokecubeMod.debug)
                 {
-                    PokecubeCore.LOGGER.info("Attack Used: " + attack);
-                    PokecubeCore.LOGGER.info("Attack Damage: " + finalAttackStrength);
+                    PokecubeCore.LOGGER.info("Attack Used: {}, expected damage: {}, Did apply? {} ", attack,
+                            finalAttackStrength, damaged);
+                    PokecubeCore.LOGGER.info("Attack Target: " + attacked);
                 }
             }
 
@@ -443,7 +450,11 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (finalAttackStrength > 0) MovesUtils.displayEfficiencyMessages(attacker, attacked, efficiency,
                 criticalRatio);
 
-        final int afterHealth = (int) Math.max(0, ((LivingEntity) attacked).getHealth());
+        int afterHealth = 0;
+        if (attacked instanceof LivingEntity) afterHealth = (int) Math.max(0, ((LivingEntity) attacked).getHealth());
+        // TODO replace with forge multipart entity in 1.16.5
+        else if (attacked instanceof EnderDragonPartEntity) afterHealth = (int) Math.max(0,
+                ((EnderDragonPartEntity) attacked).dragon.getHealth());
 
         final int damageDealt = beforeHealth - afterHealth;
 

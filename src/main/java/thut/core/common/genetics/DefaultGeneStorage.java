@@ -2,7 +2,6 @@ package thut.core.common.genetics;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -27,7 +26,7 @@ public class DefaultGeneStorage implements Capability.IStorage<IMobGenetics>
         for (int i = 0; i < list.size(); i++)
         {
             final CompoundNBT tag = list.getCompound(i);
-            final Alleles alleles = new Alleles();
+            final Alleles<?, ?> alleles = new Alleles<>();
             final ResourceLocation key = new ResourceLocation(tag.getString("K"));
             try
             {
@@ -46,14 +45,15 @@ public class DefaultGeneStorage implements Capability.IStorage<IMobGenetics>
     {
         final ListNBT genes = new ListNBT();
 
-        final List<ResourceLocation> keys = Lists.newArrayList(instance.getAlleles().keySet());
+        final List<ResourceLocation> keys = Lists.newArrayList(instance.getKeys());
         Collections.sort(keys);
 
-        for (final Map.Entry<ResourceLocation, Alleles> entry : instance.getAlleles().entrySet())
+        for (final ResourceLocation key : keys)
         {
             final CompoundNBT tag = new CompoundNBT();
-            tag.putString("K", entry.getKey().toString());
-            tag.put("V", entry.getValue().save());
+            final Alleles<?, ?> gene = instance.getAlleles(key);
+            tag.putString("K", key.toString());
+            tag.put("V", gene.save());
             genes.add(tag);
         }
         return genes;

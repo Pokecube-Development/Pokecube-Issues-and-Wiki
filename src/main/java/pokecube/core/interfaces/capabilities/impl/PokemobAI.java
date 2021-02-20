@@ -65,6 +65,8 @@ public abstract class PokemobAI extends PokemobEvolves
     {
         if (this.getEntity().getEntityWorld().isRemote) this.cachedCombatState = this.dataSync().get(
                 this.params.COMBATSTATESDW);
+        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null) return this.getGenesDynamax()
+                .getExpressed().getValue().gigantamax;
         return (this.cachedCombatState & state.getMask()) != 0;
     }
 
@@ -186,6 +188,8 @@ public abstract class PokemobAI extends PokemobEvolves
         final int byte0 = this.dataSync().get(this.params.COMBATSTATESDW);
         if (flag == ((byte0 & state.getMask()) != 0)) return;
         final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
+        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null) this.getGenesDynamax().getExpressed()
+                .getValue().gigantamax = flag;
         this.setTotalCombatState(newState);
     }
 

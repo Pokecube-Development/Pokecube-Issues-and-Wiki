@@ -45,10 +45,10 @@ public class Splicer extends BasePeripheral<SplicerTile>
             if (genes == null) throw new LuaException("No Genes found in source slot.");
             for (final ResourceLocation l : genes.getAlleles().keySet())
             {
-                final Alleles a = genes.getAlleles().get(l);
-                final Gene expressed = a.getExpressed();
-                final Gene parent1 = a.getAlleles()[0];
-                final Gene parent2 = a.getAlleles()[1];
+                final Alleles<?, ?> a = genes.getAlleles().get(l);
+                final Gene<?> expressed = a.getExpressed();
+                final Gene<?> parent1 = a.getAllele(0);
+                final Gene<?> parent2 = a.getAllele(1);
                 values.add(l.getNamespace());
                 values.add(expressed.toString());
                 values.add(parent1.toString());
@@ -65,10 +65,10 @@ public class Splicer extends BasePeripheral<SplicerTile>
             if (genes == null) throw new LuaException("No Genes found in destination slot.");
             for (final ResourceLocation l : genes.getAlleles().keySet())
             {
-                final Alleles a = genes.getAlleles().get(l);
-                final Gene expressed = a.getExpressed();
-                final Gene parent1 = a.getAlleles()[0];
-                final Gene parent2 = a.getAlleles()[1];
+                final Alleles<?, ?> a = genes.getAlleles().get(l);
+                final Gene<?> expressed = a.getExpressed();
+                final Gene<?> parent1 = a.getAllele(0);
+                final Gene<?> parent2 = a.getAllele(1);
                 values.add(l.getNamespace());
                 values.add(expressed.toString());
                 values.add(parent1.toString());
@@ -83,12 +83,12 @@ public class Splicer extends BasePeripheral<SplicerTile>
             if (selector.isEmpty()) selector = this.tile.override_selector;
             final List<String> values = Lists.newArrayList();
             final SelectorValue value = ClonerHelper.getSelectorValue(selector);
-            final Set<Class<? extends Gene>> getSelectors = ClonerHelper.getGeneSelectors(selector);
+            final Set<Class<? extends Gene<?>>> getSelectors = ClonerHelper.getGeneSelectors(selector);
             if (getSelectors.isEmpty()) throw new LuaException("No Selector found.");
-            for (final Class<? extends Gene> geneC : getSelectors)
+            for (final Class<? extends Gene<?>> geneC : getSelectors)
                 try
                 {
-                    final Gene gene = geneC.newInstance();
+                    final Gene<?> gene = geneC.newInstance();
                     values.add(gene.getKey().getNamespace());
                 }
                 catch (InstantiationException | IllegalAccessException e)
@@ -104,7 +104,7 @@ public class Splicer extends BasePeripheral<SplicerTile>
             if (selector.isEmpty()) selector = this.tile.override_selector;
             final List<String> values = Lists.newArrayList();
             SelectorValue value = ClonerHelper.getSelectorValue(selector);
-            final Set<Class<? extends Gene>> getSelectors = ClonerHelper.getGeneSelectors(selector);
+            final Set<Class<? extends Gene<?>>> getSelectors = ClonerHelper.getGeneSelectors(selector);
             if (!getSelectors.isEmpty()) throw new LuaException(
                     "Cannot set custom selector when a valid one is in the slot.");
             for (final String s : args)

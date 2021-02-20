@@ -102,7 +102,7 @@ public class ClientSetupHandler
             {
                 final IMobGenetics genes = ClonerHelper.getGenes(stack);
                 final int index = ClonerHelper.getIndex(stack);
-                if (genes != null) for (final Alleles a : genes.getAlleles().values())
+                if (genes != null) for (final Alleles<?, ?> a : genes.getAlleles().values())
                 {
                     TranslationTextComponent comp = new TranslationTextComponent(PokecubeAdv.MODID
                             + ".tooltip.gene.expressed." + a.getExpressed().getKey().getPath(), a.getExpressed());
@@ -110,7 +110,7 @@ public class ClientSetupHandler
                     if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                     {
                         comp = new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.parent." + a
-                                .getExpressed().getKey().getPath(), a.getAlleles()[0], a.getAlleles()[1]);
+                                .getExpressed().getKey().getPath(), a.getAllele(0), a.getAllele(1));
                         evt.getToolTip().add(comp);
                     }
                 }
@@ -118,12 +118,12 @@ public class ClientSetupHandler
                         .add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
                 if (index != -1) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID
                         + ".tooltip.gene.array.index", index));
-                Set<Class<? extends Gene>> genesSet;
+                Set<Class<? extends Gene<?>>> genesSet;
                 if (!(genesSet = ClonerHelper.getGeneSelectors(stack)).isEmpty()) if (Screen.hasControlDown())
-                    for (final Class<? extends Gene> geneC : genesSet)
+                    for (final Class<? extends Gene<?>> geneC : genesSet)
                     try
                     {
-                        final Gene gene = geneC.newInstance();
+                        final Gene<?> gene = geneC.newInstance();
                         evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.selector.gene."
                                 + gene.getKey().getPath()));
                     }

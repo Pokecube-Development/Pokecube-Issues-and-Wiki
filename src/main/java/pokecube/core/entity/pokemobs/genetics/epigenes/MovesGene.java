@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
 
-public class MovesGene implements Gene
+public class MovesGene implements Gene<String[]>
 {
     private static final Comparator<String> SORTER = (o1, o2) ->
     {
@@ -17,7 +17,7 @@ public class MovesGene implements Gene
         return 0;
     };
 
-    private static final void cleanup(String[] moves)
+    private static final void cleanup(final String[] moves)
     {
         outer:
         for (int i = 0; i < moves.length; i++)
@@ -52,15 +52,14 @@ public class MovesGene implements Gene
         return GeneticsManager.MOVESGENE;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> T getValue()
+    public String[] getValue()
     {
-        return (T) this.moves;
+        return this.moves;
     }
 
     @Override
-    public Gene interpolate(Gene other)
+    public Gene<String[]> interpolate(final Gene<String[]> other)
     {
         final MovesGene newGene = new MovesGene();
         final MovesGene otherG = (MovesGene) other;
@@ -79,7 +78,7 @@ public class MovesGene implements Gene
     }
 
     @Override
-    public void load(CompoundNBT tag)
+    public void load(final CompoundNBT tag)
     {
         for (int i = 0; i < this.moves.length; i++)
             if (tag.contains("" + i)) this.moves[i] = tag.getString("" + i);
@@ -87,7 +86,7 @@ public class MovesGene implements Gene
     }
 
     @Override
-    public Gene mutate()
+    public Gene<String[]> mutate()
     {
         final MovesGene newGene = new MovesGene();
         newGene.moves = this.moves.clone();
@@ -105,9 +104,9 @@ public class MovesGene implements Gene
     }
 
     @Override
-    public <T> void setValue(T value)
+    public void setValue(final String[] value)
     {
-        this.moves = (String[]) value;
+        this.moves = value;
         MovesGene.cleanup(this.moves);
     }
 

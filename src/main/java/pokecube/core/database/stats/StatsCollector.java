@@ -18,7 +18,7 @@ import thut.core.common.handlers.PlayerDataHandler;
 /** @author Thutmose */
 public class StatsCollector
 {
-    public static void addCapture(IPokemob captured)
+    public static void addCapture(final IPokemob captured)
     {
         String owner;
         if (captured.getOwner() instanceof ServerPlayerEntity && !(captured
@@ -30,13 +30,15 @@ public class StatsCollector
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
                     PokecubePlayerStats.class);
             stats.addCapture(dbe);
+            PlayerDataHandler.getInstance().save(owner, stats.getIdentifier());
             if (!stats.hasFirst()) stats.setHasFirst(player);
+            PlayerDataHandler.saveCustomData(stats.getIdentifier());
             Triggers.CATCHPOKEMOB.trigger(player, captured);
             PacketDataSync.sendInitPacket(player, stats.getIdentifier());
         }
     }
 
-    public static void addHatched(EntityPokemobEgg hatched)
+    public static void addHatched(final EntityPokemobEgg hatched)
     {
         String owner;
         IPokemob mob = null;
@@ -53,12 +55,13 @@ public class StatsCollector
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
                     PokecubePlayerStats.class);
             stats.addHatch(dbe);
+            PlayerDataHandler.getInstance().save(owner, stats.getIdentifier());
             Triggers.HATCHPOKEMOB.trigger((ServerPlayerEntity) hatched.getEggOwner(), mob);
             PacketDataSync.sendInitPacket((ServerPlayerEntity) hatched.getEggOwner(), stats.getIdentifier());
         }
     }
 
-    public static void addKill(IPokemob killed, IPokemob killer)
+    public static void addKill(final IPokemob killed, final IPokemob killer)
     {
         if (killer == null || killed == null || killer.getOwner() instanceof FakePlayer) return;
         String owner;
@@ -69,43 +72,44 @@ public class StatsCollector
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
                     PokecubePlayerStats.class);
             stats.addKill(dbe);
+            PlayerDataHandler.getInstance().save(owner, stats.getIdentifier());
             Triggers.KILLPOKEMOB.trigger((ServerPlayerEntity) killer.getOwner(), killed);
             PacketDataSync.sendInitPacket((ServerPlayerEntity) killer.getOwner(), stats.getIdentifier());
         }
     }
 
-    public static int getCaptured(PokedexEntry dbe, PlayerEntity player)
+    public static int getCaptured(final PokedexEntry dbe, final PlayerEntity player)
     {
         final Integer n = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerStats.class)
                 .getCaptures().get(dbe);
         return n == null ? 0 : n;
     }
 
-    public static Map<PokedexEntry, Integer> getCaptures(UUID uuid)
+    public static Map<PokedexEntry, Integer> getCaptures(final UUID uuid)
     {
         return PlayerDataHandler.getInstance().getPlayerData(uuid).getData(PokecubePlayerStats.class).getCaptures();
     }
 
-    public static int getHatched(PokedexEntry dbe, PlayerEntity player)
+    public static int getHatched(final PokedexEntry dbe, final PlayerEntity player)
     {
         final Integer n = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerStats.class)
                 .getHatches().get(dbe);
         return n == null ? 0 : n;
     }
 
-    public static Map<PokedexEntry, Integer> getHatches(UUID uuid)
+    public static Map<PokedexEntry, Integer> getHatches(final UUID uuid)
     {
         return PlayerDataHandler.getInstance().getPlayerData(uuid).getData(PokecubePlayerStats.class).getHatches();
     }
 
-    public static int getKilled(PokedexEntry dbe, PlayerEntity player)
+    public static int getKilled(final PokedexEntry dbe, final PlayerEntity player)
     {
         final Integer n = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerStats.class)
                 .getKills().get(dbe);
         return n == null ? 0 : n;
     }
 
-    public static Map<PokedexEntry, Integer> getKills(UUID uuid)
+    public static Map<PokedexEntry, Integer> getKills(final UUID uuid)
     {
         return PlayerDataHandler.getInstance().getPlayerData(uuid).getData(PokecubePlayerStats.class).getKills();
     }

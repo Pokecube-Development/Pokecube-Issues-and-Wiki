@@ -429,7 +429,7 @@ public class PokemobEventsHandler
         final PokedexEntry entry = pokemob.getPokedexEntry();
 
         final IMobGenetics genes = event.getTarget().getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
-        for (final Alleles allele : genes.getAlleles().values())
+        for (final Alleles<?, ?> allele : genes.getAlleles().values())
             PacketSyncGene.syncGene(event.getTarget(), allele, (ServerPlayerEntity) event.getPlayer());
 
         // Send the whole thing over in this case, as it means it won't

@@ -105,9 +105,10 @@ public class ItemPokemobEgg extends Item
             final INBT genes = stack.getTag().get(GeneticsManager.GENES);
             final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
             GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
-            final Alleles gene = eggs.getAlleles().get(GeneticsManager.SPECIESGENE);
+            final Alleles<SpeciesInfo, SpeciesGene> gene = eggs.getAlleles(GeneticsManager.SPECIESGENE);
             if (gene == null) break genes;
-            final SpeciesInfo info = gene.getExpressed().getValue();
+            final SpeciesGene sgene = gene.getExpressed();
+            final SpeciesInfo info = sgene.getValue();
             // Lets cache this for easier lookup.
             stack.getTag().putString("pokemob", info.entry.getTrimmedName());
             return info.entry;
@@ -139,7 +140,8 @@ public class ItemPokemobEgg extends Item
         nbt.put(GeneticsManager.GENES, tag);
         try
         {
-            final SpeciesGene gene = eggs.getAlleles().get(GeneticsManager.SPECIESGENE).getExpressed();
+            final Alleles<SpeciesInfo, SpeciesGene> alleles = eggs.getAlleles(GeneticsManager.SPECIESGENE);
+            final SpeciesGene gene = alleles.getExpressed();
             final SpeciesInfo info = gene.getValue();
             nbt.putString("pokemob", info.entry.getName());
         }

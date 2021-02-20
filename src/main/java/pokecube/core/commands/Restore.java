@@ -27,6 +27,7 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
@@ -125,6 +126,8 @@ public class Restore
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
         final ItemStack stack = cache.getOrDefault(id, ItemStack.EMPTY);
         Tools.giveItem(user, stack.copy());
+        PokecubeCore.LOGGER.info("{} Restored {}", user.getDisplayName().getString(), stack.getDisplayName()
+                .getString());
         return 0;
     }
 

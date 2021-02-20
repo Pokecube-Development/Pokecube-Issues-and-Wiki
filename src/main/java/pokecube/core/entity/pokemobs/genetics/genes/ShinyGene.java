@@ -24,7 +24,7 @@ public class ShinyGene extends GeneBoolean
     }
 
     @Override
-    public Gene interpolate(final Gene other)
+    public Gene<Boolean> interpolate(final Gene<Boolean> other)
     {
         final ShinyGene newGene = new ShinyGene();
         final ShinyGene otherG = (ShinyGene) other;
@@ -33,7 +33,7 @@ public class ShinyGene extends GeneBoolean
     }
 
     @Override
-    public Gene mutate()
+    public Gene<Boolean> mutate()
     {
         final ShinyGene newGene = new ShinyGene();
         newGene.value = !this.value;

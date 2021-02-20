@@ -282,12 +282,6 @@ public class LogicFloatFlySwim extends LogicBase
         this.swimController = new SwimController(entity);
 
         this.world = this.pokemob.getEntity().getEntityWorld();
-
-        if (this.world instanceof ServerWorld) ((ServerWorld) this.world).navigations.remove(this.entity
-                .getNavigator());
-        this.pokemob.getEntity().navigator = this.climbPather;
-        this.pokemob.getEntity().moveController = this.walkController;
-        if (this.world instanceof ServerWorld) ((ServerWorld) this.world).navigations.add(this.entity.getNavigator());
     }
 
     @Override
