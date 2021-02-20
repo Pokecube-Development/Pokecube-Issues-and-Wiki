@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube",
+  "ingredients": [
+    {
+      "item": "pokecube:pokemobegg"
+    }
+  ],
+  "result": {
+    "item": "minecraft:egg"
+  }
+}
