@@ -29,7 +29,7 @@ public class ContainerTrainer extends BaseContainer
         int index = 0;
         for (int i = 0; i < 3; ++i)
             for (int j = 0; j < 2; ++j)
-                this.addSlot(new Slot(this.pokemobs, index++, 62 + j * 18, 17 + i * 18)
+                this.addSlot(new Slot(this.pokemobs, index++, 26 + j * 18, 18 + i * 18)
                 {
                     @Override
                     public boolean isItemValid(final ItemStack stack)
