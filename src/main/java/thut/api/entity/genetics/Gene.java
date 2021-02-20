@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
-public interface Gene
+public interface Gene<T>
 {
     /**
      * This is how frequently the expressed gene is used instead of the
@@ -29,13 +29,13 @@ public interface Gene
     }
 
     /** @return the value of this gene. */
-    <T> T getValue();
+    T getValue();
 
     /**
      * This method should return the new gene which results from mixing other
      * with this gene.
      */
-    Gene interpolate(Gene other);
+    Gene<T> interpolate(Gene<T> other);
 
     /**
      * Loads the data from tag.
@@ -45,14 +45,14 @@ public interface Gene
     void load(CompoundNBT tag);
 
     /** This method should return a mutated gene. */
-    Gene mutate();
+    Gene<T> mutate();
 
     /**
      * This method should return a mutated gene, this one is called during
      * breeding, to allow any changes needed caused by the entirety of the
      * parents genes.
      */
-    default Gene mutate(IMobGenetics parent1, IMobGenetics parent2)
+    default Gene<T> mutate(final IMobGenetics parent1, final IMobGenetics parent2)
     {
         return this.mutate();
     }
@@ -63,7 +63,7 @@ public interface Gene
      *
      * @param genes
      */
-    default void onUpdateTick(Entity entity)
+    default void onUpdateTick(final Entity entity)
     {
 
     }
@@ -75,5 +75,5 @@ public interface Gene
      * @param value
      *            Sets the value of the gene.
      */
-    <T> void setValue(T value);
+    void setValue(T value);
 }

@@ -34,7 +34,7 @@ public class IVsGene extends GeneByteArr
     }
 
     @Override
-    public Gene interpolate(Gene other)
+    public Gene<byte[]> interpolate(final Gene<byte[]> other)
     {
         final IVsGene newGene = new IVsGene();
         final byte[] ret = newGene.value;
@@ -50,7 +50,7 @@ public class IVsGene extends GeneByteArr
     }
 
     @Override
-    public Gene mutate()
+    public Gene<byte[]> mutate()
     {
         final IVsGene newGene = new IVsGene();
         newGene.value = this.value.clone();
@@ -69,12 +69,12 @@ public class IVsGene extends GeneByteArr
     }
 
     @Override
-    public Gene mutate(IMobGenetics parent1, IMobGenetics parent2)
+    public Gene<byte[]> mutate(final IMobGenetics parent1, final IMobGenetics parent2)
     {
-        final Alleles evs1 = parent1.getAlleles().get(GeneticsManager.EVSGENE);
-        final Alleles evs2 = parent2.getAlleles().get(GeneticsManager.EVSGENE);
-        final Alleles ivs1 = parent1.getAlleles().get(GeneticsManager.IVSGENE);
-        final Alleles ivs2 = parent2.getAlleles().get(GeneticsManager.IVSGENE);
+        final Alleles<byte[], EVsGene> evs1 = parent1.getAlleles(GeneticsManager.EVSGENE);
+        final Alleles<byte[], EVsGene> evs2 = parent2.getAlleles(GeneticsManager.EVSGENE);
+        final Alleles<byte[], IVsGene> ivs1 = parent1.getAlleles(GeneticsManager.IVSGENE);
+        final Alleles<byte[], IVsGene> ivs2 = parent2.getAlleles(GeneticsManager.IVSGENE);
         final IVsGene newGene = new IVsGene();
         newGene.value = this.value.clone();
         if (evs1 == null || evs2 == null || ivs1 == null || ivs2 == null)
@@ -91,9 +91,9 @@ public class IVsGene extends GeneByteArr
         final byte[] ev1 = gene1.getValue();
         final byte[] ev2 = gene2.getValue();
         final byte[] iv1 = ivs1.getExpressed().getEpigeneticRate() > rand.nextFloat() ? ivs1.getExpressed().getValue()
-                : ivs1.getAlleles()[rand.nextInt(2)].getValue();
+                : ivs1.getAllele(rand.nextInt(2)).getValue();
         final byte[] iv2 = ivs2.getExpressed().getEpigeneticRate() > rand.nextFloat() ? ivs2.getExpressed().getValue()
-                : ivs2.getAlleles()[rand.nextInt(2)].getValue();
+                : ivs2.getAllele(rand.nextInt(2)).getValue();
         for (int i = 0; i < 6; i++)
         {
             final int v = (ev1[i] + ev2[2]) / 2;

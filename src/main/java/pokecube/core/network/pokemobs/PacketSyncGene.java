@@ -3,6 +3,7 @@ package pokecube.core.network.pokemobs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
@@ -15,7 +16,7 @@ import thut.core.common.network.Packet;
 
 public class PacketSyncGene extends Packet
 {
-    public static void syncGene(final Entity mob, final Alleles gene, final ServerPlayerEntity entityPlayer)
+    public static void syncGene(final Entity mob, final Alleles<?, ?> gene, final ServerPlayerEntity entityPlayer)
     {
         if (!(mob.getEntityWorld() instanceof ServerWorld) || gene == null) return;
         final PacketSyncGene packet = new PacketSyncGene();
@@ -24,7 +25,7 @@ public class PacketSyncGene extends Packet
         PokecubeCore.packets.sendTo(packet, entityPlayer);
     }
 
-    public static void syncGeneToTracking(final Entity mob, final Alleles gene)
+    public static void syncGeneToTracking(final Entity mob, final Alleles<?, ?> gene)
     {
         if (!(mob.getEntityWorld() instanceof ServerWorld) || gene == null) return;
         final PacketSyncGene packet = new PacketSyncGene();
@@ -33,7 +34,7 @@ public class PacketSyncGene extends Packet
         PokecubeCore.packets.sendToTracking(packet, mob);
     }
 
-    Alleles genes = new Alleles();
+    Alleles<?, ?> genes = new Alleles<>();
 
     int entityId;
 
@@ -61,7 +62,7 @@ public class PacketSyncGene extends Packet
     {
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
-        final Alleles alleles = this.genes;
+        final Alleles<?, ?> alleles = this.genes;
         final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
         if (mob == null) return;
         final IMobGenetics genes = mob.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
@@ -75,6 +76,15 @@ public class PacketSyncGene extends Packet
     public void write(final PacketBuffer buffer)
     {
         buffer.writeInt(this.entityId);
-        buffer.writeCompoundTag(this.genes.save());
+        CompoundNBT tag = new CompoundNBT();
+        try
+        {
+            tag = this.genes.save();
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error syncing a gene! {}", this.genes, e);
+        }
+        buffer.writeCompoundTag(tag);
     }
 }

@@ -30,7 +30,7 @@ public class SizeGene extends GeneFloat
     }
 
     @Override
-    public Gene interpolate(final Gene other)
+    public Gene<Float> interpolate(final Gene<Float> other)
     {
         final SizeGene newGene = new SizeGene();
         final SizeGene otherG = (SizeGene) other;
@@ -39,7 +39,7 @@ public class SizeGene extends GeneFloat
     }
 
     @Override
-    public Gene mutate()
+    public Gene<Float> mutate()
     {
         final SizeGene newGene = new SizeGene();
         final float factor = SizeGene.scaleFactor * (this.value > 1 ? 1 / this.value : this.value);

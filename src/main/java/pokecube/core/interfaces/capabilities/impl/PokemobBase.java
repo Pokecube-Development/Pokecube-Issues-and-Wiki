@@ -32,7 +32,6 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.IOwnable;
 import thut.api.ThutCaps;
 import thut.api.entity.IBreedingMob;
-import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
@@ -181,17 +180,6 @@ public abstract class PokemobBase implements IPokemob
     protected int timeSinceCombat = 0;
 
     protected SpawnRule spawnInitRule = null;
-
-    // Here we have all of the genes currently used.
-    Alleles genesSize;
-    Alleles genesIVs;
-    Alleles genesEVs;
-    Alleles genesMoves;
-    Alleles genesNature;
-    Alleles genesAbility;
-    Alleles genesColour;
-    Alleles genesShiny;
-    Alleles genesSpecies;
 
     /** Data manager used for syncing data */
     public DataSync                dataSync;

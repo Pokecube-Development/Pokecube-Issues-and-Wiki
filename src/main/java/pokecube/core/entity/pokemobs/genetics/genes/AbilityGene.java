@@ -6,9 +6,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene.AbilityObject;
 import thut.api.entity.genetics.Gene;
 
-public class AbilityGene implements Gene
+public class AbilityGene implements Gene<AbilityObject>
 {
     public static class AbilityObject
     {
@@ -36,15 +37,14 @@ public class AbilityGene implements Gene
         return GeneticsManager.mutationRates.get(this.getKey());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> T getValue()
+    public AbilityObject getValue()
     {
-        return (T) this.ability;
+        return this.ability;
     }
 
     @Override
-    public Gene interpolate(final Gene other)
+    public Gene<AbilityObject> interpolate(final Gene<AbilityObject> other)
     {
         final AbilityGene otherA = (AbilityGene) other;
         final byte otherIndex = otherA.ability.abilityIndex;
@@ -65,7 +65,7 @@ public class AbilityGene implements Gene
     }
 
     @Override
-    public Gene mutate()
+    public Gene<AbilityObject> mutate()
     {
         final AbilityGene newGene = new AbilityGene();
         final byte index = (byte) (this.ability.abilityIndex == 2 ? new Random().nextInt(2) : 2);
@@ -83,9 +83,9 @@ public class AbilityGene implements Gene
     }
 
     @Override
-    public <T> void setValue(final T value)
+    public void setValue(final AbilityObject value)
     {
-        this.ability = (AbilityObject) value;
+        this.ability = value;
     }
 
     @Override

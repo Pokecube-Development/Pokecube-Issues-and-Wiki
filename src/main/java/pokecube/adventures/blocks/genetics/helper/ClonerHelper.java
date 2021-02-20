@@ -21,6 +21,7 @@ import pokecube.adventures.events.GeneEditEvent.EditType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TagNames;
@@ -34,11 +35,11 @@ public class ClonerHelper
 {
     public static class DNAPack
     {
-        public final String  id;
-        public final Alleles alleles;
-        public final float   chance;
+        public final String        id;
+        public final Alleles<?, ?> alleles;
+        public final float         chance;
 
-        public DNAPack(final String id, final Alleles alleles, final float chance)
+        public DNAPack(final String id, final Alleles<?, ?> alleles, final float chance)
         {
             this.alleles = alleles;
             this.chance = chance;
@@ -73,16 +74,17 @@ public class ClonerHelper
     {
         final IMobGenetics genes = ClonerHelper.getGenes(stack);
         if (genes == null) return null;
-        final Alleles gene = genes.getAlleles().get(GeneticsManager.SPECIESGENE);
+        final Alleles<SpeciesInfo, SpeciesGene> gene = genes.getAlleles(GeneticsManager.SPECIESGENE);
         if (gene != null)
         {
-            final SpeciesInfo info = gene.getExpressed().getValue();
+            final SpeciesGene sgene = gene.getExpressed();
+            final SpeciesInfo info = sgene.getValue();
             return info.entry;
         }
         return null;
     }
 
-    public static Class<? extends Gene> getGene(final String line)
+    public static Class<? extends Gene<?>> getGene(final String line)
     {
         final String[] args = line.split(":");
         String domain = "pokecube";
@@ -95,7 +97,7 @@ public class ClonerHelper
         }
         path = path.split("#")[0];
         final ResourceLocation location = new ResourceLocation(domain, path);
-        final Class<? extends Gene> geneClass = GeneRegistry.getClass(location);
+        final Class<? extends Gene<?>> geneClass = GeneRegistry.getClass(location);
         return geneClass;
     }
 
@@ -127,9 +129,9 @@ public class ClonerHelper
         return eggs;
     }
 
-    public static Set<Class<? extends Gene>> getGeneSelectors(final ItemStack stack)
+    public static Set<Class<? extends Gene<?>>> getGeneSelectors(final ItemStack stack)
     {
-        final Set<Class<? extends Gene>> ret = Sets.newHashSet();
+        final Set<Class<? extends Gene<?>>> ret = Sets.newHashSet();
         if (stack.isEmpty() || !stack.hasTag()) return ret;
         if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListNBT)
         {
@@ -144,7 +146,7 @@ public class ClonerHelper
                         ret.addAll(GeneRegistry.getGenes());
                         break;
                     }
-                    final Class<? extends Gene> geneClass = ClonerHelper.getGene(line);
+                    final Class<? extends Gene<?>> geneClass = ClonerHelper.getGene(line);
                     if (geneClass != null) ret.add(geneClass);
                 }
             }
@@ -196,19 +198,22 @@ public class ClonerHelper
         return potion.equals("minecraft:water") || potion.equals("minecraft:mundane");
     }
 
+    private static <T, GENE extends Gene<T>> void merge(final IMobGenetics source, final IMobGenetics destination,
+            final IGeneSelector selector, final ResourceLocation loc)
+    {
+        final Alleles<T, GENE> alleles = source.getAlleles(loc);
+        Alleles<T, GENE> eggsAllele = destination.getAlleles(loc);
+        eggsAllele = selector.merge(alleles, eggsAllele);
+        if (eggsAllele != null) destination.getAlleles().put(loc, eggsAllele);
+    }
+
     public static void mergeGenes(final IMobGenetics genesIn, final ItemStack destination, final IGeneSelector selector,
             final boolean force)
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
-        for (final Map.Entry<ResourceLocation, Alleles> entry : genesIn.getAlleles().entrySet())
-        {
-            final ResourceLocation loc = entry.getKey();
-            final Alleles alleles = entry.getValue();
-            Alleles eggsAllele = eggs.getAlleles().get(loc);
-            eggsAllele = selector.merge(alleles, eggsAllele);
-            if (eggsAllele != null) eggs.getAlleles().put(loc, eggsAllele);
-        }
+        for (final ResourceLocation loc : genesIn.getKeys())
+            ClonerHelper.merge(genesIn, eggs, selector, loc);
         ClonerHelper.setGenes(destination, eggs, force ? EditType.OTHER : EditType.EXTRACT);
     }
 
@@ -231,26 +236,32 @@ public class ClonerHelper
         else nbt.put(GeneticsManager.GENES, geneTag);
     }
 
+    private static <T, GENE extends Gene<T>> void splice(final IMobGenetics source, final IMobGenetics destination,
+            final IGeneSelector selector, final ResourceLocation loc)
+    {
+        Alleles<T, GENE> alleles = source.getAlleles(loc);
+        final Alleles<T, GENE> eggsAllele = destination.getAlleles(loc);
+        alleles = selector.merge(alleles, eggsAllele);
+        if (alleles != null)
+        {
+            final Random rand = new Random();
+            if (alleles.getExpressed().getEpigeneticRate() > rand.nextFloat())
+            {
+                final GENE gene = alleles.getAllele(rand.nextBoolean() ? 0 : 1);
+                alleles.setExpressed(gene);
+            }
+            destination.getAlleles().put(loc, alleles);
+        }
+    }
+
     public static void spliceGenes(final IMobGenetics genesIn, final ItemStack destination,
             final IGeneSelector selector)
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
         ClonerHelper.setGenes(destination, genesIn, EditType.EXTRACT);
-        for (final Map.Entry<ResourceLocation, Alleles> entry : genesIn.getAlleles().entrySet())
-        {
-            final ResourceLocation loc = entry.getKey();
-            Alleles alleles = entry.getValue();
-            final Alleles eggsAllele = eggs.getAlleles().get(loc);
-            alleles = selector.merge(alleles, eggsAllele);
-            if (alleles != null)
-            {
-                final Random rand = new Random();
-                if (alleles.getExpressed().getEpigeneticRate() > rand.nextFloat()) alleles.setExpressed(alleles
-                        .getAlleles()[rand.nextBoolean() ? 0 : 1]);
-                eggs.getAlleles().put(loc, alleles);
-            }
-        }
+        for (final ResourceLocation loc : genesIn.getKeys())
+            ClonerHelper.splice(genesIn, eggs, selector, loc);
         ClonerHelper.setGenes(destination, eggs, EditType.SPLICE);
     }
 }

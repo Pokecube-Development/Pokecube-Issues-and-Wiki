@@ -305,7 +305,7 @@ public class RecipeHandlers
             final SpeciesGene geneB = new SpeciesGene();
             info = geneB.getValue();
             info.entry = entryB;
-            final Alleles alleles = new Alleles(geneA, geneB);
+            final Alleles<?, ?> alleles = new Alleles<>(geneA, geneB);
             if (entryE != null)
             {
                 final SpeciesGene geneE = new SpeciesGene();
@@ -333,7 +333,7 @@ public class RecipeHandlers
                 final SpeciesGene gene = new SpeciesGene();
                 final SpeciesInfo info = gene.getValue();
                 info.entry = Database.getEntry(name);
-                final Alleles genes = new Alleles(gene, gene);
+                final Alleles<?, ?> genes = new Alleles<>(gene, gene);
                 ClonerHelper.registerDNA(new DNAPack(name, genes, 1), stack);
             }
         }

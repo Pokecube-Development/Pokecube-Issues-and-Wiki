@@ -50,9 +50,9 @@ public class RecipeSelector extends SpecialRecipe
         }
 
         @Override
-        public Alleles merge(final Alleles source, final Alleles destination)
+        public <T, GENE extends Gene<T>> Alleles<T, GENE> merge(final Alleles<T, GENE> source, final Alleles<T, GENE> destination)
         {
-            final Set<Class<? extends Gene>> selected = ClonerHelper.getGeneSelectors(this.selector);
+            final Set<Class<? extends Gene<?>>> selected = ClonerHelper.getGeneSelectors(this.selector);
             if (selected.contains(source.getExpressed().getClass()))
             {
                 if (destination == null) return source;

@@ -97,7 +97,7 @@ public class RecipeExtract extends PoweredRecipe
                 if (Tools.isSameStack(stack, source))
                 {
                     final DNAPack pack = ClonerHelper.DNAITEMS.get(stack);
-                    final Alleles alleles = pack.alleles;
+                    final Alleles<?, ?> alleles = pack.alleles;
                     genes = GeneRegistry.GENETICS_CAP.getDefaultInstance();
                     genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
                     forcedGenes = true;
