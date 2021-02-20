@@ -104,22 +104,9 @@ public class ItemGenerator
             PokecubeCore.LOGGER.debug("Registering berry_" + berry.type.name + " " + index + " " + id);
             berry.setRegistryName(PokecubeCore.MODID, "berry_" + berry.type.name);
             registry.register(berry);
-    		compostableBlocks(0.65f, berry);
         }
         BerryManager.registerTrees();
     }
-    
-//    public static void compostables(final FMLLoadCompleteEvent event) 
-//    {
-//    	final List<String> names = Lists.newArrayList(ItemGenerator.berryLeaves.keySet());
-//        Collections.sort(names);
-//        event.enqueueWork(() ->
-//        {
-//        	for (final String name : names)
-//        	{
-//        	}
-//        });
-//    }
 
     public static void makeBerryBlocks(final IForgeRegistry<Block> registry)
     {
@@ -160,7 +147,6 @@ public class ItemGenerator
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);
-//    		compostableBlocks(0.3f, block);
 
             // Logs
             block = Blocks.createLogBlock(berryWoods.get(name), berryWoods.get(name));
@@ -260,7 +246,6 @@ public class ItemGenerator
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);
-//    		compostableBlocks(0.3f, block.asItem());
         }
     }
 
@@ -431,7 +416,34 @@ public class ItemGenerator
     
     public static void compostableBlocks(float chance, IItemProvider item) 
     {
-        ComposterBlock.CHANCES.put(item.asItem(), chance);
+        ComposterBlock.CHANCES.put(item, chance);
+    }
+    
+    public static void compostables(final FMLLoadCompleteEvent event) 
+    {
+    	final List<String> leaves = Lists.newArrayList(ItemGenerator.berryLeaves.keySet());
+    	final List<String> onlyLeaves = Lists.newArrayList(ItemGenerator.onlyBerryLeaves.keySet());
+        final List<Integer> ids = Lists.newArrayList();
+        Collections.sort(leaves);
+        Collections.sort(onlyLeaves);
+        Collections.sort(ids);
+        event.enqueueWork(() ->
+        {
+        	for (final String name : leaves)
+        	{
+        		compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
+        	}
+        	for (final String name : onlyLeaves)
+        	{
+        		compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
+        	}
+            for (final Integer id : ids)
+            {
+                final int index = id;
+                final ItemBerry berry = BerryManager.berryItems.get(index);
+        		compostableBlocks(0.65f, berry.asItem());
+            }
+        });
     }
 
     public static void postInitItems()

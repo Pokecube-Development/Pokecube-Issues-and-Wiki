@@ -453,6 +453,7 @@ public class PokecubeCore
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
         ItemGenerator.strippableBlocks(event);
+        ItemGenerator.compostables(event);
         PointsOfInterest.postInit();
     }
 }
