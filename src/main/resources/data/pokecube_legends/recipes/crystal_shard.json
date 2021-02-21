@@ -1,0 +1,13 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:temporal_crystal"
+    }
+  ],
+  "result": {
+    "item": "pokecube_legends:crystal_shard",
+    "count": 9
+  }
+}
