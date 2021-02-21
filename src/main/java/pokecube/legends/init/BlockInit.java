@@ -21,8 +21,6 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.items.berries.BerryManager;
-import pokecube.core.items.berries.ItemBerry;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.SaplingBase;
