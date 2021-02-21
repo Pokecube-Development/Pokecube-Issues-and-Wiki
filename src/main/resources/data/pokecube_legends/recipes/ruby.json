@@ -1,0 +1,13 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:ruby_block"
+    }
+  ],
+  "result": {
+    "item": "pokecube_legends:ruby",
+    "count": 9
+  }
+}
