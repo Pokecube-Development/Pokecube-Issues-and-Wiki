@@ -11,8 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
+import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -143,7 +143,13 @@ public class EntityMoveUse extends ThrowableEntity
 
     final Set<UUID> alreadyHit = Sets.newHashSet();
 
-    Predicate<Entity> valid = e -> !this.alreadyHit.contains(e.getUniqueID());
+    Predicate<Entity> valid = e ->
+    {
+        UUID targetID = e.getUniqueID();
+        // TODO replace with forge multipart entity in 1.16.5
+        if (e instanceof EnderDragonPartEntity) targetID = ((EnderDragonPartEntity) e).dragon.getUniqueID();
+        return !this.alreadyHit.contains(targetID);
+    };
 
     public EntityMoveUse(final EntityType<EntityMoveUse> type, final World worldIn)
     {
@@ -222,10 +228,17 @@ public class EntityMoveUse extends ThrowableEntity
         final Move_Base attack = this.getMove();
         final Entity user = this.getUser();
         if (!this.valid.test(target)) return;
-        this.alreadyHit.add(target.getUniqueID());
+        final Entity targ = this.getTarget();
         if (user == null || !this.isAlive() || !user.isAlive()) return;
+        UUID targetID = target.getUniqueID();
+        // TODO replace with forge multipart entity in 1.16.5
+        if (target instanceof EnderDragonPartEntity) targetID = ((EnderDragonPartEntity) target).dragon.getUniqueID();
+        final UUID targId = targ == null ? null : targ.getUniqueID();
+        this.alreadyHit.add(targetID);
+
+        // Only hit multipart entities once
         // Only can hit our valid target!
-        if (!attack.move.canHitNonTarget() && target != this.getTarget()) return;
+        if (targId != null && !attack.move.canHitNonTarget() && !targId.equals(targetID)) return;
         if (!this.getEntityWorld().isRemote)
         {
             final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
@@ -470,8 +483,7 @@ public class EntityMoveUse extends ThrowableEntity
 
         final Vector3d v = this.getMotion();
         testBox = testBox.expand(v.x, v.y, v.z);
-        final List<LivingEntity> hits = this.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, testBox,
-                this.valid);
+        final List<Entity> hits = this.getEntityWorld().getEntitiesInAABBexcluding(this, testBox, this.valid);
 
         for (final Entity e : hits)
             this.doMoveUse(e);

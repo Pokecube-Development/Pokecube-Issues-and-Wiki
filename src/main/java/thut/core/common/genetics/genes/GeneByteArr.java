@@ -5,19 +5,18 @@ import java.util.Arrays;
 import net.minecraft.nbt.CompoundNBT;
 import thut.api.entity.genetics.Gene;
 
-public abstract class GeneByteArr implements Gene
+public abstract class GeneByteArr implements Gene<byte[]>
 {
     protected byte[] value = new byte[0];
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> T getValue()
+    public byte[] getValue()
     {
-        return (T) this.value;
+        return this.value;
     }
 
     @Override
-    public void load(CompoundNBT tag)
+    public void load(final CompoundNBT tag)
     {
         this.value = tag.getByteArray("V");
     }
@@ -31,9 +30,9 @@ public abstract class GeneByteArr implements Gene
     }
 
     @Override
-    public <T> void setValue(T value)
+    public void setValue(final byte[] value)
     {
-        this.value = (byte[]) value;
+        this.value = value;
     }
 
     @Override

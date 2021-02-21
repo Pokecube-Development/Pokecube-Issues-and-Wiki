@@ -11,7 +11,7 @@ import thut.api.entity.genetics.GeneRegistry;
 
 public interface IGeneSelector
 {
-    public static Gene copy(final Gene geneIn) throws Exception
+    public static Gene<?> copy(final Gene<?> geneIn) throws Exception
     {
         final CompoundNBT tag = GeneRegistry.save(geneIn);
         return GeneRegistry.load(tag);
@@ -22,7 +22,8 @@ public interface IGeneSelector
         return -1;
     }
 
-    default Alleles fromGenes(Gene geneSource, final Gene geneDest)
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    default <T, GENE extends Gene<T>> Alleles<T, GENE> fromGenes(GENE geneSource, final GENE geneDest)
     {
         if (this.arrIndex() >= 0) try
         {
@@ -31,7 +32,7 @@ public interface IGeneSelector
             if (source.getClass().isArray())
             {
                 final int index = this.arrIndex();
-                geneSource = IGeneSelector.copy(geneDest);
+                geneSource = (GENE) IGeneSelector.copy(geneDest);
                 Array.set(dest, index, Array.get(source, index));
             }
         }
@@ -42,15 +43,16 @@ public interface IGeneSelector
         return new Alleles(geneSource, geneDest);
     }
 
-    default Alleles merge(final Alleles source, final Alleles destination)
+    default <T, GENE extends Gene<T>> Alleles<T, GENE> merge(final Alleles<T, GENE> source,
+            final Alleles<T, GENE> destination)
     {
         final Random rand = new Random();
-        Gene geneSource = source.getExpressed();
-        Gene geneDest = destination.getExpressed();
+        GENE geneSource = source.getExpressed();
+        GENE geneDest = destination.getExpressed();
         if (geneSource.getEpigeneticRate() < rand.nextFloat())
         {
-            geneSource = source.getAlleles()[rand.nextInt(2)];
-            geneDest = destination.getAlleles()[rand.nextInt(2)];
+            geneSource = source.getAllele(rand.nextInt(2));
+            geneDest = destination.getAllele(rand.nextInt(2));
         }
         return this.fromGenes(geneSource, geneDest);
     }

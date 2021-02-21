@@ -11,10 +11,11 @@ import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.genetics.Gene;
 
-public class SpeciesGene implements Gene
+public class SpeciesGene implements Gene<SpeciesInfo>
 {
     public static class SpeciesInfo
     {
@@ -94,15 +95,14 @@ public class SpeciesGene implements Gene
         return 1;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> T getValue()
+    public SpeciesInfo getValue()
     {
-        return (T) this.info;
+        return this.info;
     }
 
     @Override
-    public Gene interpolate(final Gene other)
+    public Gene<SpeciesInfo> interpolate(final Gene<SpeciesInfo> other)
     {
         final SpeciesGene newGene = new SpeciesGene();
         final SpeciesGene otherG = (SpeciesGene) other;
@@ -166,7 +166,7 @@ public class SpeciesGene implements Gene
     }
 
     @Override
-    public Gene mutate()
+    public Gene<SpeciesInfo> mutate()
     {
         final SpeciesGene newGene = new SpeciesGene();
         newGene.setValue(this.info.clone());
@@ -186,9 +186,9 @@ public class SpeciesGene implements Gene
     }
 
     @Override
-    public <T> void setValue(final T value)
+    public void setValue(final SpeciesInfo value)
     {
-        this.info = (SpeciesInfo) value;
+        this.info = value;
     }
 
     @Override

@@ -8,9 +8,9 @@ import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.interfaces.Nature;
 import thut.api.entity.genetics.Gene;
 
-public class NatureGene implements Gene
+public class NatureGene implements Gene<Nature>
 {
-    private static Nature getNature(Nature nature, Nature nature2)
+    private static Nature getNature(final Nature nature, final Nature nature2)
     {
         byte ret = 0;
         final Random rand = new Random();
@@ -88,15 +88,14 @@ public class NatureGene implements Gene
         return GeneticsManager.mutationRates.get(this.getKey());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> T getValue()
+    public Nature getValue()
     {
-        return (T) this.nature;
+        return this.nature;
     }
 
     @Override
-    public Gene interpolate(Gene other)
+    public Gene<Nature> interpolate(final Gene<Nature> other)
     {
         final NatureGene newGene = new NatureGene();
         final NatureGene otherG = (NatureGene) other;
@@ -105,13 +104,13 @@ public class NatureGene implements Gene
     }
 
     @Override
-    public void load(CompoundNBT tag)
+    public void load(final CompoundNBT tag)
     {
         this.nature = Nature.values()[tag.getByte("V")];
     }
 
     @Override
-    public Gene mutate()
+    public Gene<Nature> mutate()
     {
         final NatureGene newGene = new NatureGene();
         return newGene;
@@ -126,9 +125,9 @@ public class NatureGene implements Gene
     }
 
     @Override
-    public <T> void setValue(T value)
+    public void setValue(final Nature value)
     {
-        this.nature = (Nature) value;
+        this.nature = value;
     }
 
     @Override

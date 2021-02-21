@@ -27,7 +27,7 @@ public class EVsGene extends GeneByteArr
     }
 
     @Override
-    public Gene interpolate(Gene other)
+    public Gene<byte[]> interpolate(final Gene<byte[]> other)
     {
         // Don't actually interpolate the EVs.
         final EVsGene newGene = new EVsGene();
@@ -35,7 +35,7 @@ public class EVsGene extends GeneByteArr
     }
 
     @Override
-    public Gene mutate()
+    public Gene<byte[]> mutate()
     {
         final EVsGene newGene = new EVsGene();
         newGene.value = this.value.clone();

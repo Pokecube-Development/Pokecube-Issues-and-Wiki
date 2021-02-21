@@ -51,7 +51,7 @@ public class CarryEgg extends AbstractWorkTask
         final Brain<?> brain = this.entity.getBrain();
         final GlobalPos dropOff = brain.getMemory(AntTasks.WORK_POS).get();
         this.entity.getNavigator().setRangeMultiplier(10);
-        if (!this.entity.isRidingOrBeingRiddenBy(this.egg))
+        if (!this.entity.isPassenger(this.egg))
         {
             final double d = this.entity.getDistanceSq(this.egg);
             if (d > 2)

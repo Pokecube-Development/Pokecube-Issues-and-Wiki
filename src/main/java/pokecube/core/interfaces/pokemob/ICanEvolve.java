@@ -632,7 +632,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             evolution.getPersistentData().remove("pokecube:mega_base");
 
             // Sync ability back, or store old ability.
-            if (this.getCombatState(CombatStates.MEGAFORME) || this.getCombatState(CombatStates.DYNAMAX))
+            if (evoMob.getPokedexEntry().isMega())
             {
                 if (thisMob.getAbility() != null) evolution.getPersistentData().putString("pokecube:mega_ability",
                         thisMob.getAbility().toString());

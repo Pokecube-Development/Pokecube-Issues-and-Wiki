@@ -3,19 +3,18 @@ package thut.core.common.genetics.genes;
 import net.minecraft.nbt.CompoundNBT;
 import thut.api.entity.genetics.Gene;
 
-public abstract class GeneString implements Gene
+public abstract class GeneString implements Gene<String>
 {
     protected String value = "";
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> T getValue()
+    public String getValue()
     {
-        return (T) this.value;
+        return this.value;
     }
 
     @Override
-    public void load(CompoundNBT tag)
+    public void load(final CompoundNBT tag)
     {
         this.value = tag.getString("V");
     }
@@ -29,9 +28,9 @@ public abstract class GeneString implements Gene
     }
 
     @Override
-    public <T> void setValue(T value)
+    public void setValue(final String value)
     {
-        this.value = (String) value;
+        this.value = value;
     }
 
 }

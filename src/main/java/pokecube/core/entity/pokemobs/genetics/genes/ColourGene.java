@@ -34,7 +34,7 @@ public class ColourGene extends GeneIntArray
     }
 
     @Override
-    public Gene interpolate(Gene other)
+    public Gene<int[]> interpolate(final Gene<int[]> other)
     {
         final ColourGene otherC = (ColourGene) other;
         final ColourGene newGene = new ColourGene();
@@ -45,7 +45,7 @@ public class ColourGene extends GeneIntArray
     }
 
     @Override
-    public Gene mutate()
+    public Gene<int[]> mutate()
     {
         final ColourGene mutate = new ColourGene();
         mutate.setRandomColour();
