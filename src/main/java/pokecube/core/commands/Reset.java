@@ -11,6 +11,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.Tools;
@@ -24,6 +25,7 @@ public class Reset
         EventsHandler.sendInitInfo(target);
         source.sendFeedback(new TranslationTextComponent("pokecube.command.reset", target.getDisplayName()), true);
         target.sendMessage(new TranslationTextComponent("pokecube.command.canchoose"), Util.DUMMY_UUID);
+        PokecubeCore.LOGGER.info("Reset Starter for {}", target.getGameProfile());
         return 0;
     }
 

@@ -137,7 +137,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         if (!this.canCapture(trainer))
         {
-            if (message) this.sendFailureMessage(trainer);
+            if (message && trainer != null) this.sendFailureMessage(trainer);
             return false;
         }
         return true;
@@ -235,7 +235,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     @Override
     public void onCaptureFail(final Entity trainer, final IPokemob pokemob)
     {
-        this.sendFailureMessage(trainer);
+        if (trainer != null) this.sendFailureMessage(trainer);
     }
 
     public void sendNoTrust(final Entity trainer)
