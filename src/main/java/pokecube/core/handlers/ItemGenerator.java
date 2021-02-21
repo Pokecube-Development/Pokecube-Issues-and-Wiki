@@ -423,7 +423,7 @@ public class ItemGenerator
     {
     	final List<String> leaves = Lists.newArrayList(ItemGenerator.berryLeaves.keySet());
     	final List<String> onlyLeaves = Lists.newArrayList(ItemGenerator.onlyBerryLeaves.keySet());
-        final List<Integer> ids = Lists.newArrayList();
+        final List<Integer> ids = Lists.newArrayList(BerryManager.berryItems.keySet());
         Collections.sort(leaves);
         Collections.sort(onlyLeaves);
         Collections.sort(ids);
@@ -431,17 +431,16 @@ public class ItemGenerator
         {
         	for (final String name : leaves)
         	{
-        		compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
+                compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
         	}
         	for (final String name : onlyLeaves)
         	{
-        		compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
+                compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
         	}
             for (final Integer id : ids)
             {
                 final int index = id;
-                final ItemBerry berry = BerryManager.berryItems.get(index);
-        		compostableBlocks(0.65f, berry.asItem());
+                compostableBlocks(0.65f, BerryManager.berryItems.get(index));
             }
         });
     }
