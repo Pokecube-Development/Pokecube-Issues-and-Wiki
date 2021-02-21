@@ -6,7 +6,6 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -21,7 +20,6 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -79,6 +77,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.utils.PokeType;
+import pokecube.legends.PokecubeLegends;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
 
@@ -181,6 +180,7 @@ public class PokecubeAdv
     public static final RegistryObject<ContainerType<ContainerTrainer>>   TRAINER_CONT;
 
     public static final DeferredRegister<Block> BLOCKS;
+    public static final DeferredRegister<Block> DECORATIONS;
     public static final DeferredRegister<Item>  ITEMS;
 
     public static final DeferredRegister<TileEntityType<?>> TILES;
@@ -192,9 +192,10 @@ public class PokecubeAdv
     static
     {
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeAdv.MODID);
+        CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeAdv.MODID);
+        DECORATIONS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeAdv.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeAdv.MODID);
         TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, PokecubeAdv.MODID);
-        CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeAdv.MODID);
 
         // Blocks
         AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(Block.Properties.create(Material.IRON)
@@ -213,7 +214,7 @@ public class PokecubeAdv
                 .variableOpacity(), MaterialColor.GREEN_TERRACOTTA));
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(Block.Properties.create(
                 Material.IRON), MaterialColor.WHITE_TERRACOTTA));
-        LAB_GLASS = PokecubeAdv.BLOCKS.register("laboratory_glass", () -> new LaboratoryGlass(Block.Properties.create(
+        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlass(Block.Properties.create(
                 Material.GLASS).hardnessAndResistance(0.3f, 0.3f).sound(SoundType.GLASS).notSolid(), MaterialColor.LIGHT_BLUE));
 
         // Items
@@ -261,6 +262,10 @@ public class PokecubeAdv
         for (final RegistryObject<Block> reg : PokecubeAdv.BLOCKS.getEntries())
             PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .group(PokecubeItems.POKECUBEBLOCKS)));
+        
+        for (final RegistryObject<Block> reg : PokecubeAdv.DECORATIONS.getEntries())
+            PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
+                    .group(PokecubeLegends.DECO_TAB)));
 
         // Initialize advancement triggers
         Triggers.init();
@@ -291,6 +296,7 @@ public class PokecubeAdv
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         PokecubeAdv.BLOCKS.register(modEventBus);
+        PokecubeAdv.DECORATIONS.register(modEventBus);
         PokecubeAdv.ITEMS.register(modEventBus);
         PokecubeAdv.TILES.register(modEventBus);
         PokecubeAdv.CONTAINERS.register(modEventBus);
