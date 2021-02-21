@@ -3,11 +3,7 @@
  <model>
   <phase name="global" scale="0.2"/>
   <customTex default="nihilego"/>
-  <material name="Head" meshs="Head" light="0" transluscent="true"/>
-  <material name="Head" meshs="tail2_1" light="0" transluscent="true"/>
-  <material name="Head" meshs="tail2_2" light="0" transluscent="true"/>
-  <material name="Head" meshs="tail1_1" light="0" transluscent="true"/>
-  <material name="Head" meshs="tail1_2" light="0" transluscent="true"/>
+  <material name="Head" alpha="0.8" smooth="true" light="1" transluscent="true"/>
   <phase axis="0" name="snakeIdle" parts="tail1:tail1_1:tail1_2"/>
   <phase axis="0" name="snakeIdle" parts="tail2:tail2_1:tail2_2"/>
   <phase axis="2" name="snakeWalk" parts="tail1:tail1_1:tail1_2"/>

@@ -1,0 +1,16 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:ruby_block"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:ruby_slab",
+    "count": 6
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "pokecube_legends:blocks/mirage_plank",
+    "top": "pokecube_legends:blocks/mirage_plank",
+    "side": "pokecube_legends:blocks/mirage_plank"
+  }
+}

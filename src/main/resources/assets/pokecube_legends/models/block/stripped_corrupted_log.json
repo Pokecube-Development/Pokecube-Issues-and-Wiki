@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "pokecube_legends:blocks/stripped_corrupted_log_top",
+    "side": "pokecube_legends:blocks/stripped_corrupted_log"
+  }
+}

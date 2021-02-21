@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:corrupted_log",
+    "pokecube_legends:corrupted_wood",
+    "pokecube_legends:stripped_corrupted_log",
+    "pokecube_legends:stripped_corrupted_wood"
+  ]
+}

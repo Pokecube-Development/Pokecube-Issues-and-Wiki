@@ -1,0 +1,12 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:smelting",
+  "experience": 2,
+  "cookingtime": 350,
+  "ingredient": {
+    "item": "pokecube_legends:ultra_cobblestone"
+  },
+  "result": {
+    "item": "pokecube_legends:ultrastone"
+  }
+}

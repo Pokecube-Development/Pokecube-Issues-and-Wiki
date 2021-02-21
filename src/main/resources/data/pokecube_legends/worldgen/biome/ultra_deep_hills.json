@@ -1,5 +1,5 @@
 {
-  "scale": 0.45000002,
+  "scale": 0.452,
   "effects": {
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
@@ -44,19 +44,17 @@
     ],
     [],
     [
-     "pokecube_legends:hills_flower"
+     "pokecube_legends:deep_hills_vegetation"
     ],
-    [
-    ]
+    []
   ],
   "starts": [],
-  "creature_spawn_probability": 0.07,
   "spawners": {},
   "spawn_costs": {},
   "player_spawn_friendly": false,
   "precipitation": "snow",
-  "temperature": 0.0,
-  "downfall": 0.5,
+  "temperature": 0.02,
+  "downfall": 0.3,
   "category": "icy",
   "depth": 0.425
 }

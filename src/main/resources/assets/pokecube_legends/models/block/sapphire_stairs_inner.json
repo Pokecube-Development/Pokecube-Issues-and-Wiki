@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "pokecube_legends:blocks/sapphire_block",
+    "top": "pokecube_legends:blocks/sapphire_block",
+    "side": "pokecube_legends:blocks/sapphire_block"
+  }
+}

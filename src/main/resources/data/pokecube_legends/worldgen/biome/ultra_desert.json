@@ -37,7 +37,10 @@
      "pokecube_legends:ore_cosmic"
     ],
     [],
-    [],
+    [
+     "pokecube_legends:mirage_vegetation",
+     "pokecube_legends:patch_cactus_ultra_desert"
+    ],
     []
   ],
   "starts": [],

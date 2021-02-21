@@ -1,0 +1,7 @@
+{
+	"variants": {
+    	"axis=y": { "model": "pokecube_legends:block/corrupted_log" },
+    	"axis=z": { "model": "pokecube_legends:block/corrupted_log", "x": 90},
+    	"axis=x": { "model": "pokecube_legends:block/corrupted_log", "x": 90, "y": 90}
+    }
+}

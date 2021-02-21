@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube_legends:block/ruby_slab"
+    },
+    "type=double": {
+      "model": "pokecube_legends:block/ruby_block"
+    },
+    "type=top": {
+      "model": "pokecube_legends:block/ruby_slab_top"
+    }
+  }
+}

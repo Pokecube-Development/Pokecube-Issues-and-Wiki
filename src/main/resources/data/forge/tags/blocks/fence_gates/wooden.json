@@ -10,6 +10,8 @@
     "pokecube_legends:aged_fence_gate",
     "pokecube_legends:distortic_fence_gate",
     "pokecube_legends:inverted_fence_gate",
-    "pokecube_legends:temporal_fence_gate"
+    "pokecube_legends:temporal_fence_gate",
+	"pokecube_legends:mirage_fence_gate",
+	"pokecube_legends:corrupted_fence_gate"
   ]
 }
