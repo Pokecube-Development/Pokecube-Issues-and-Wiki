@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "pokecube_legends:blocks/fini_totem/tapufini_lightblue",
-		"particle": "pokecube_legends:blocks/fini_totem/tapufini_lightblue"
+		"0": "pokecube_legends:blocks/fini_totem/tapufini_light_blue",
+		"particle": "pokecube_legends:blocks/fini_totem/tapufini_light_blue"
 	},
 	"elements": [
 		{

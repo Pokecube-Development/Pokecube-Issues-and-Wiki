@@ -1,5 +1,5 @@
 {
-   "parent": "pokecube_legends:block/lele_totem/lele_lightblue_totem",
+   "parent": "pokecube_legends:block/lele_totem/lele_light_blue_totem",
    "display": {
     "gui": {
       "rotation": [ 30, 225, 0 ],

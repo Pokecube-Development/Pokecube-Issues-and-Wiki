@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "pokecube_legends:blocks/bulu_totem/tapubulu_lightgray",
-		"particle": "pokecube_legends:blocks/bulu_totem/tapubulu_lightgray"
+		"0": "pokecube_legends:blocks/bulu_totem/tapubulu_light_gray",
+		"particle": "pokecube_legends:blocks/bulu_totem/tapubulu_light_gray"
 	},
 	"elements": [
 		{

@@ -1,5 +1,5 @@
 {
-   "parent": "pokecube_legends:block/fini_totem/fini_lightblue_totem",
+   "parent": "pokecube_legends:block/lele_totem/lele_light_gray_totem",
    "display": {
     "gui": {
       "rotation": [ 30, 225, 0 ],

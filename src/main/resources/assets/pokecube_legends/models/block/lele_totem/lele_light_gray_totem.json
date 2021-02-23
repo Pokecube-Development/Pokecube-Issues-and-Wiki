@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "pokecube_legends:blocks/lele_totem/tapulele_lightblue",
-		"particle": "pokecube_legends:blocks/lele_totem/tapulele_lightblue"
+		"0": "pokecube_legends:blocks/lele_totem/tapulele_light_gray",
+		"particle": "pokecube_legends:blocks/lele_totem/tapulele_light_gray"
 	},
 	"elements": [
 		{
