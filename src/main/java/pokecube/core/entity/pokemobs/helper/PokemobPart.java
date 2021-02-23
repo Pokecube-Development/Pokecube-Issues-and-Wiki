@@ -42,7 +42,6 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
         this.r.set(this.r0.getX(), this.r0.getY(), this.r0.getZ());
         rot.transform(this.r);
         this.r.add(r);
-//        System.out.println(r+" "+this.r);
         this.setPosition(this.r.getX(), this.r.getY(), this.r.getZ());
         this.lastTickPosX = this.getPosX() + dr.x;
         this.lastTickPosY = this.getPosY() + dr.y;

@@ -43,16 +43,16 @@ public abstract class PokemobHasParts extends PokemobCombat
         if (height > maxH || width > maxW || length > maxW)
         {
             final int nx = MathHelper.ceil(width / maxW);
-            final int ny = MathHelper.ceil(length / maxW);
-            final int nz = MathHelper.ceil(height / maxH);
+            final int nz = MathHelper.ceil(length / maxH);
+            final int ny = MathHelper.ceil(height / maxW);
 
             final float dx = width / nx;
-            final float dy = length / ny;
-            final float dz = height / nz;
+            final float dy = height / ny;
+            final float dz = length / nz;
 
             this.parts = new PokemobPart[nx * ny * nz];
-            final float dw = Math.max(width / nx, length / ny);
-            final float dh = height / nz;
+            final float dw = Math.max(width / nx, length / nz);
+            final float dh = dy;
             int i = 0;
 
             for (int y = 0; y < ny; y++)
@@ -73,7 +73,7 @@ public abstract class PokemobHasParts extends PokemobCombat
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
-        this.size = EntitySize.fixed(width, height);
+        this.size = EntitySize.fixed(Math.max(width, length), height);
         this.recalculateSize();
     }
 
