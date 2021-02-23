@@ -114,7 +114,6 @@ public class TempBlock extends AirBlock
             if (eff != null)
             {
                 final ActionResultType res = eff.onBlockActivated(world, player, hand, hit);
-                System.out.println(res);
                 if (res != ActionResultType.PASS) return res;
             }
             // Otherwise forward the interaction to the block entity;

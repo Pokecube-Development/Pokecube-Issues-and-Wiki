@@ -1,6 +1,7 @@
 package pokecube.mobs.abilities.b;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
@@ -14,8 +15,14 @@ public class BeastBoost extends Ability
     @Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
-        final LivingEntity target = (LivingEntity) move.attacked;
+        LivingEntity target = null;
+        if (move.attacked instanceof LivingEntity) target = (LivingEntity) move.attacked;
+        // TODO replace with forge multipart entity in 1.16.5
+        else if (move.attacked instanceof EnderDragonPartEntity)
+            target = ((EnderDragonPartEntity) move.attacked).dragon;
+        if (target == null) return;
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        if (targetMob == null) return;
 
         if (mob == move.attacked) if (!targetMob.inCombat())
         {
