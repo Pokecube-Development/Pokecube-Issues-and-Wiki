@@ -6,6 +6,15 @@ package thut.api.maths.vecmath;
  */
 public class Quat4f extends Tuple4f implements java.io.Serializable
 {
+    private static float cos(final float p_214904_0_)
+    {
+        return (float) Math.cos(p_214904_0_);
+    }
+
+    private static float sin(final float p_214903_0_)
+    {
+        return (float) Math.sin(p_214903_0_);
+    }
 
     // Combatible with 1.1
     static final long serialVersionUID = 2675933778405442383L;
@@ -35,6 +44,17 @@ public class Quat4f extends Tuple4f implements java.io.Serializable
         this.z = z * mag;
         this.w = w * mag;
 
+    }
+
+    public Quat4f(final Vector3f axis, float angle, final boolean degrees)
+    {
+        if (degrees) angle *= (float) Math.PI / 180F;
+
+        final float f = Quat4f.sin(angle / 2.0F);
+        this.x = axis.getX() * f;
+        this.y = axis.getY() * f;
+        this.z = axis.getZ() * f;
+        this.w = Quat4f.cos(angle / 2.0F);
     }
 
     /**
