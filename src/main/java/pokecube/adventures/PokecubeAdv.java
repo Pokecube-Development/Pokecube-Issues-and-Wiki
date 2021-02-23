@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.inventory.container.ContainerType;
@@ -26,6 +25,7 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -94,12 +94,16 @@ public class PokecubeAdv
             // register a new mob here
             event.getRegistry().register(TrainerNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "trainer"));
             event.getRegistry().register(LeaderNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "leader"));
+        }
 
+        @SubscribeEvent
+        public static void onEntityAttributes(final EntityAttributeCreationEvent event)
+        {
             final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes()
                     .createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(
                             Attributes.ATTACK_KNOCKBACK).createMutableAttribute(Attributes.MAX_HEALTH, 20.0D);
-            GlobalEntityTypeAttributes.put(TrainerNpc.TYPE, attribs.create());
-            GlobalEntityTypeAttributes.put(LeaderNpc.TYPE, attribs.create());
+            event.put(TrainerNpc.TYPE, attribs.create());
+            event.put(LeaderNpc.TYPE, attribs.create());
         }
 
         @SubscribeEvent
@@ -197,7 +201,7 @@ public class PokecubeAdv
         COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(Block.Properties.create(
                 Material.IRON).variableOpacity(), MaterialColor.BLACK));
         DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(Block.Properties.create(Material.IRON)
-        		.variableOpacity(), MaterialColor.BLACK));
+                .variableOpacity(), MaterialColor.BLACK));
         CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(Block.Properties.create(Material.IRON)
                 .variableOpacity(), MaterialColor.PURPLE));
         EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor", () -> new ExtractorBlock(Block.Properties.create(
@@ -206,8 +210,8 @@ public class PokecubeAdv
                 .variableOpacity(), MaterialColor.CYAN));
         SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(Block.Properties.create(Material.IRON)
                 .variableOpacity(), MaterialColor.GREEN_TERRACOTTA));
-        WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(Block.Properties.create(
-                Material.IRON), MaterialColor.WHITE_TERRACOTTA));
+        WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(Block.Properties.create(Material.IRON),
+                MaterialColor.WHITE_TERRACOTTA));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().group(

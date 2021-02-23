@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,6 +38,7 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.damage.PokemobDamageSource;
+import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
@@ -189,6 +189,9 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         final IPokemob attacker = packet.attacker;
         final LivingEntity attackerMob = attacker.getEntity();
         final Entity attacked = packet.attacked;
+
+        final LivingEntity attackedHp = EntityTools.getCoreLiving(attacked);
+
         final IPokemob targetPokemob = CapabilityPokemob.getPokemobFor(attacked);
         final Random rand = new Random();
         final String attack = packet.attack;
@@ -332,10 +335,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         int beforeHealth = 0;
 
-        if (attacked instanceof LivingEntity) beforeHealth = (int) ((LivingEntity) attacked).getHealth();
-        // TODO replace with forge multipart entity in 1.16.5
-        else if (attacked instanceof EnderDragonPartEntity)
-            beforeHealth = (int) ((EnderDragonPartEntity) attacked).dragon.getHealth();
+        if (attackedHp != null) beforeHealth = (int) attackedHp.getHealth();
 
         if (efficiency > 0 && MoveEntry.oneHitKos.contains(attack)) finalAttackStrength = beforeHealth;
 
@@ -451,10 +451,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 criticalRatio);
 
         int afterHealth = 0;
-        if (attacked instanceof LivingEntity) afterHealth = (int) Math.max(0, ((LivingEntity) attacked).getHealth());
-        // TODO replace with forge multipart entity in 1.16.5
-        else if (attacked instanceof EnderDragonPartEntity) afterHealth = (int) Math.max(0,
-                ((EnderDragonPartEntity) attacked).dragon.getHealth());
+        if (attackedHp != null) afterHealth = (int) attackedHp.getHealth();
 
         final int damageDealt = beforeHealth - afterHealth;
 

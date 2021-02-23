@@ -22,6 +22,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.entity.PartEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.database.moves.MoveEntry.Category;
@@ -45,8 +46,6 @@ import pokecube.core.interfaces.pokemob.stats.StatModifiers;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokeType;
 import thut.api.boom.ExplosionCustom;
-import thut.api.entity.ICompoundMob;
-import thut.api.entity.ICompoundMob.ICompoundPart;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
@@ -152,10 +151,10 @@ public class MovesUtils implements IMoveConstants
     public static boolean contactAttack(final IPokemob attacker, final Entity attacked)
     {
         if (attacked == null || attacker == null) return false;
-        ICompoundPart[] parts = null;
         boolean inRange = false;
         final float dr = 0.5f;
         final Entity entity = attacker.getEntity();
+        final PartEntity<?>[] parts = attacked.getParts();
         float attackerLength = attacker.getPokedexEntry().length * attacker.getSize() + dr;
         final float attackerHeight = attacker.getPokedexEntry().height * attacker.getSize() + dr;
         float attackerWidth = attacker.getPokedexEntry().height * attacker.getSize() + dr;
@@ -163,16 +162,15 @@ public class MovesUtils implements IMoveConstants
         attackerWidth = Math.max(attackerWidth, attackerHeight);
         attackerLength = Math.max(attackerLength, attackerWidth);
         attackerWidth = attackerLength;
-        if (attacked instanceof ICompoundMob && (parts = ((ICompoundMob) attacked).getParts()).length > 0)
-            for (final ICompoundPart p : parts)
+        if (parts != null && parts.length > 0) for (final PartEntity<?> p : parts)
         {
-            final float attackedLength = p.getMob().getWidth();
-            final float attackedHeight = p.getMob().getHeight();
-            final float attackedWidth = p.getMob().getWidth();
+            final float attackedLength = p.getWidth();
+            final float attackedHeight = p.getHeight();
+            final float attackedWidth = p.getWidth();
 
-            final float dx = (float) (entity.getPosX() - p.getMob().getPosX());
-            final float dz = (float) (entity.getPosZ() - p.getMob().getPosZ());
-            final float dy = (float) (entity.getPosY() - p.getMob().getPosY());
+            final float dx = (float) (entity.getPosX() - p.getPosX());
+            final float dz = (float) (entity.getPosZ() - p.getPosZ());
+            final float dy = (float) (entity.getPosY() - p.getPosY());
 
             final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
             final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
@@ -394,38 +392,31 @@ public class MovesUtils implements IMoveConstants
     {
         float ret = 1;
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
-        if (type == PokeType.getType("dragon")) if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY))
-            ret = 0.5f;
+        if (type == PokeType.getType("dragon")) if (effect.isEffectActive(
+                PokemobTerrainEffects.TerrainEffectType.MISTY)) ret = 0.5f;
         if (type == PokeType.getType("electric") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
         {
-            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC))
-                ret = 1.5f;
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC)) ret = 1.5f;
 
-            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MUD))
-                ret *= 0.33f;
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MUD)) ret *= 0.33f;
         }
 
-        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5)) if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS))
-            ret = 1.5f;
+        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5)) if (effect
+                .isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS)) ret = 1.5f;
 
         if (type == PokeType.getType("water"))
         {
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
-                ret = 1.5f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN)) ret = 1.5f;
 
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN))
-                ret = 0.5f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN)) ret = 0.5f;
         }
         if (type == PokeType.getType("fire"))
         {
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN))
-                ret = 1.5f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN)) ret = 1.5f;
 
-            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
-                ret = 0.5f;
+            if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN)) ret = 0.5f;
 
-            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.WATER))
-                ret *= 0.33f;
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.WATER)) ret *= 0.33f;
         }
         return ret;
     }
