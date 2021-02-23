@@ -13,7 +13,10 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
@@ -40,6 +43,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.BusBuilder;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -250,6 +254,34 @@ public class PokecubeCore
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
             Database.postInit();
             PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
+        }
+
+        @SubscribeEvent
+        public static void onEntityAttributes(final EntityAttributeCreationEvent event)
+        {
+            // register a new mob here
+            PokecubeCore.LOGGER.debug("Registering Pokecube Attributes");
+
+            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes()
+                    .createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(
+                            Attributes.ATTACK_KNOCKBACK).createMutableAttribute(Attributes.MAX_HEALTH, 10.0D);
+            event.put(EntityPokecube.TYPE, attribs.create());
+            event.put(EntityPokemobEgg.TYPE, attribs.create());
+            event.put(NpcMob.TYPE, attribs.create());
+
+            for (final PokedexEntry entry : Database.getSortedFormes())
+            {
+                if (entry.dummy) continue;
+                if (!entry.stock) continue;
+                try
+                {
+                    event.put(entry.getEntityType(), attribs.create());
+                }
+                catch (final Exception e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         @SubscribeEvent
