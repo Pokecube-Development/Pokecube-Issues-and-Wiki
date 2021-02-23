@@ -13,11 +13,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
@@ -230,21 +226,10 @@ public class PokecubeCore
             event.getRegistry().register(EntityPokemobEgg.TYPE.setRegistryName(PokecubeCore.MODID, "egg"));
             event.getRegistry().register(NpcMob.TYPE.setRegistryName(PokecubeCore.MODID, "npc"));
             event.getRegistry().register(EntityMoveUse.TYPE.setRegistryName(PokecubeCore.MODID, "move_use"));
-
-            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes()
-                    .createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(
-                            Attributes.ATTACK_KNOCKBACK).createMutableAttribute(Attributes.MAX_HEALTH, 10.0D);
-
-            GlobalEntityTypeAttributes.put(EntityPokecube.TYPE, attribs.create());
-            GlobalEntityTypeAttributes.put(EntityPokemobEgg.TYPE, attribs.create());
-            GlobalEntityTypeAttributes.put(NpcMob.TYPE, attribs.create());
-
             Database.init();
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
-
             PokedexEntryLoader.postInit();
-
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 if (entry.dummy) continue;
@@ -254,7 +239,6 @@ public class PokecubeCore
                     final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
                     type.setRegistryName(PokecubeCore.MODID, entry.getTrimmedName());
                     event.getRegistry().register(type);
-                    GlobalEntityTypeAttributes.put(type, attribs.create());
                     Pokedex.getInstance().registerPokemon(entry);
                     PokecubeCore.typeMap.put(type, entry);
                 }

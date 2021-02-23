@@ -1,21 +1,15 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import java.io.IOException;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.Pose;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.INetHandler;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.entity.PartEntity;
 import pokecube.core.interfaces.IPokemob;
-import thut.api.entity.ICompoundMob;
-import thut.api.entity.ICompoundMob.ICompoundPart;
 
-public class PokemobPart extends Entity implements ICompoundPart
+public class PokemobPart extends PartEntity<PokemobHasParts>
 {
     public final PokemobHasParts base;
 
@@ -28,7 +22,7 @@ public class PokemobPart extends Entity implements ICompoundPart
     public PokemobPart(final PokemobHasParts base, final float width, final float height, final int x, final int y,
             final int z)
     {
-        super(base.getType(), base.getEntityWorld());
+        super(base);
         this.size = EntitySize.flexible(width, height);
         this.pokemob = base.pokemobCap;
         this.base = base;
@@ -98,43 +92,9 @@ public class PokemobPart extends Entity implements ICompoundPart
     }
 
     @Override
-    public IPacket<?> createSpawnPacket()
-    {
-        return new IPacket<INetHandler>()
-        {
-            @Override
-            public void readPacketData(final PacketBuffer buf) throws IOException
-            {
-            }
-
-            @Override
-            public void writePacketData(final PacketBuffer buf) throws IOException
-            {
-            }
-
-            @Override
-            public void processPacket(final INetHandler handler)
-            {
-            }
-        };
-    }
-
-    @Override
     public EntitySize getSize(final Pose poseIn)
     {
         return this.size;
-    }
-
-    @Override
-    public ICompoundMob getBase()
-    {
-        return this.base;
-    }
-
-    @Override
-    public Entity getMob()
-    {
-        return this;
     }
 
 }

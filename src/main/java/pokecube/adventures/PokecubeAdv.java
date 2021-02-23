@@ -9,10 +9,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.inventory.container.ContainerType;
@@ -94,12 +90,6 @@ public class PokecubeAdv
             // register a new mob here
             event.getRegistry().register(TrainerNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "trainer"));
             event.getRegistry().register(LeaderNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "leader"));
-
-            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes()
-                    .createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(
-                            Attributes.ATTACK_KNOCKBACK).createMutableAttribute(Attributes.MAX_HEALTH, 20.0D);
-            GlobalEntityTypeAttributes.put(TrainerNpc.TYPE, attribs.create());
-            GlobalEntityTypeAttributes.put(LeaderNpc.TYPE, attribs.create());
         }
 
         @SubscribeEvent

@@ -13,7 +13,6 @@ import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
-import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -38,6 +37,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
 
 public class EntityMoveUse extends ThrowableEntity
@@ -146,9 +146,8 @@ public class EntityMoveUse extends ThrowableEntity
 
     Predicate<Entity> valid = e ->
     {
-        UUID targetID = e.getUniqueID();
-        // TODO replace with forge multipart entity in 1.16.5
-        if (e instanceof EnderDragonPartEntity) targetID = ((EnderDragonPartEntity) e).dragon.getUniqueID();
+        if (EntityTools.getCoreLiving(e) == null) return false;
+        final UUID targetID = EntityTools.getCoreEntity(e).getUniqueID();
         return !this.alreadyHit.contains(targetID);
     };
 
@@ -228,15 +227,12 @@ public class EntityMoveUse extends ThrowableEntity
     {
         final Move_Base attack = this.getMove();
         final Entity user = this.getUser();
-        if (!this.valid.test(target)) return;
+        final LivingEntity living = EntityTools.getCoreLiving(target);
+        if (!this.valid.test(target) || living == null) return;
         if (user == null || !this.isAlive() || !user.isAlive()) return;
-
         // We only want to hit living entities, but non-living ones can be
         // detected as parts of other mobs, like ender dragons.
-        UUID targetID = target instanceof LivingEntity ? target.getUniqueID() : null;
-        // TODO replace with forge multipart entity in 1.16.5
-        if (target instanceof EnderDragonPartEntity) targetID = ((EnderDragonPartEntity) target).dragon.getUniqueID();
-
+        final UUID targetID = living.getUniqueID();
         // If it is null here, it means that the target was not a living entity,
         // or a part of one.
         if (targetID == null) return;

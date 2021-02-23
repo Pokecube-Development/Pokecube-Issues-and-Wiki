@@ -12,6 +12,8 @@ import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,6 +26,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -50,6 +53,7 @@ import pokecube.adventures.capabilities.utils.ActionContext;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
+import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.Linker;
@@ -240,6 +244,15 @@ public class TrainerEventHandler
         for (final ICapabilityProvider provider : event.getCapabilities().values())
             if (provider.getCapability(TrainerCaps.HASPOKEMOBS_CAP).isPresent()) return true;
         return false;
+    }
+
+    public static void onEntityAttributes(final EntityAttributeCreationEvent event)
+    {
+        final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes().createMutableAttribute(
+                Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(Attributes.ATTACK_KNOCKBACK)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 20.0D);
+        event.put(TrainerNpc.TYPE, attribs.create());
+        event.put(LeaderNpc.TYPE, attribs.create());
     }
 
     public static void onEntityInteract(final CustomInteractEvent evt)

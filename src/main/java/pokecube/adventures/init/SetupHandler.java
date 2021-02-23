@@ -50,6 +50,8 @@ public class SetupHandler
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST,
                 TrainerEventHandler::onAttachMobCaps);
 
+        // Entry attribute adding
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onEntityAttributes);
         // These two interact ones handle right click custom effects on npcs
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onEntityInteract);
         // This one handles npcs being invulnerable to pokemobs, as well as some

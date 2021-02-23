@@ -16,6 +16,8 @@ import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -40,6 +42,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -71,6 +74,7 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
@@ -99,6 +103,7 @@ import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.network.packets.PacketDataSync;
@@ -350,6 +355,9 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onItemRightClick);
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEmptyRightClick);
 
+        // Mob Attribute adding
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEntityAttributes);
+
         // now let our other handlers register their stuff
 
         MoveEventsHandler.register();
@@ -365,6 +373,30 @@ public class EventsHandler
         // initializing the tracked pokemob maps, etc.
         MinecraftForge.EVENT_BUS.addListener(PokemobTracker::onWorldLoad);
 
+    }
+
+    private static void onEntityAttributes(final EntityAttributeCreationEvent event)
+    {
+        final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes().createMutableAttribute(
+                Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(Attributes.ATTACK_KNOCKBACK)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 10.0D);
+        event.put(EntityPokecube.TYPE, attribs.create());
+        event.put(EntityPokemobEgg.TYPE, attribs.create());
+        event.put(NpcMob.TYPE, attribs.create());
+
+        for (final PokedexEntry entry : Database.getSortedFormes())
+        {
+            if (entry.dummy) continue;
+            if (!entry.stock) continue;
+            try
+            {
+                event.put(entry.getEntityType(), attribs.create());
+            }
+            catch (final Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private static void onEntityInteract(final PlayerInteractEvent.EntityInteract evt)
