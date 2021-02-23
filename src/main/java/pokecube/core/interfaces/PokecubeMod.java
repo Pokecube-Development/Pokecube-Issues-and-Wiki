@@ -124,7 +124,7 @@ public abstract class PokecubeMod
         final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve(log + ".log").toFile();
         if (logfile.exists())
         {
-            FMLPaths.GAMEDIR.get().resolve("logs").resolve(log).toFile().mkdirs();
+            FMLPaths.GAMEDIR.get().resolve("logs").resolve("old").toFile().mkdirs();
             try
             {
                 final DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;

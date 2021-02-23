@@ -16,6 +16,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -34,8 +35,6 @@ import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
-import thut.api.entity.ICompoundMob;
-import thut.api.entity.ICompoundMob.ICompoundPart;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
@@ -45,8 +44,9 @@ public class SendOutManager
             final boolean respectRoom)
     {
         AxisAlignedBB box = mob.getBoundingBox();
-        if (mob instanceof ICompoundMob) for (final ICompoundPart part : ((ICompoundMob) mob).getParts())
-            box = box.union(part.getMob().getBoundingBox());
+        final PartEntity<?>[] parts = mob.getParts();
+        if (parts != null) for (final PartEntity<?> part : parts)
+            box = box.union(part.getBoundingBox());
         if (SendOutManager.valid(box, world)) return pos.copy();
         final int size = 10;
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector();

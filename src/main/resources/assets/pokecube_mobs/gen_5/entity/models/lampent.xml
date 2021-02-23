@@ -2,7 +2,8 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.4"/>
-  <material name="Body" meshs="Cube_004" transluscent="true"/>
+  <material name="Body" light="1" alpha="0.6" smooth="true" transluscent="true"/>
+  <material name="Head" light="1" alpha="0.6" smooth="true" transluscent="true"/>
   <customTex default="lampent">
    <part name="Head" tex="lampenteye"/>
    <animation diffs="0,0.4" part="Head" trigger="random:0.005:5"/>

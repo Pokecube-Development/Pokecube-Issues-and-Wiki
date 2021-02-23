@@ -14,11 +14,10 @@ import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.capabilities.PokemobCaps;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import thut.api.entity.ICompoundMob;
 import thut.api.entity.IMobColourable;
 
 public abstract class PokemobBase extends ShoulderRidingEntity implements IEntityAdditionalSpawnData, IFlyingAnimal,
-        IMobColourable, ICompoundMob
+        IMobColourable
 {
     public final DefaultPokemob pokemobCap;
 

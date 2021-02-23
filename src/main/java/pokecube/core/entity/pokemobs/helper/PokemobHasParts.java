@@ -64,13 +64,19 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
+    public PokemobPart[] getParts()
+    {
+        return this.parts;
+    }
+
+    @Override
     protected void collideWithNearbyEntities()
     {
         final AxisAlignedBB box = this.getBoundingBox();
         final List<Entity> list = this.world.getEntitiesInAABBexcluding(this, box, EntityPredicates.pushableBy(this));
         if (!list.isEmpty())
         {
-            list.removeIf(e -> e instanceof PokemobPart && ((PokemobPart) e).getBase() == this);
+            list.removeIf(e -> e instanceof PokemobPart && ((PokemobPart) e).getParent() == this);
 
             final int i = this.world.getGameRules().getInt(GameRules.MAX_ENTITY_CRAMMING);
             if (i > 0 && list.size() > i - 1 && this.rand.nextInt(4) == 0)
@@ -164,18 +170,5 @@ public abstract class PokemobHasParts extends PokemobCombat
         // }
         // else
         super.move(typeIn, pos);
-    }
-
-    @Override
-    public ICompoundPart[] getParts()
-    {
-        this.updatePartsPos();
-        return this.parts;
-    }
-
-    @Override
-    public Entity getMob()
-    {
-        return this;
     }
 }

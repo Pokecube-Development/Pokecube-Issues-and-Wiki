@@ -8,15 +8,17 @@ import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.EntityTools;
 
 public class BeastBoost extends Ability
 {
     @Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
-        final LivingEntity target = (LivingEntity) move.attacked;
+        final LivingEntity target = EntityTools.getCoreLiving(move.attacked);
+        if (target == null) return;
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
-
+        if (targetMob == null) return;
         if (mob == move.attacked) if (!targetMob.inCombat())
         {
             byte boost = IMoveConstants.ATTACK;

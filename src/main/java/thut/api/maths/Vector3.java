@@ -47,8 +47,7 @@ import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import thut.api.entity.ICompoundMob;
-import thut.api.entity.ICompoundMob.ICompoundPart;
+import net.minecraftforge.entity.PartEntity;
 
 /** @author Thutmose */
 public class Vector3
@@ -124,14 +123,14 @@ public class Vector3
     public static final Vector3 thirdAxis     = Vector3.getNewVector().set(0, 0, 1);
     public static final Vector3 thirdAxisNeg  = Vector3.getNewVector().set(0, 0, -1);
 
-    public static final Vector3 empty         = Vector3.getNewVector();
-    public static final int     length        = 3;
-    public static Vector3       vecMult       = Vector3.getNewVector();
-    public static double[][]    rotBox        = new double[3][3];
+    public static final Vector3 empty   = Vector3.getNewVector();
+    public static final int     length  = 3;
+    public static Vector3       vecMult = Vector3.getNewVector();
+    public static double[][]    rotBox  = new double[3][3];
 
-    static Vector3              move1         = Vector3.getNewVector();
+    static Vector3 move1 = Vector3.getNewVector();
 
-    static Vector3              move2         = Vector3.getNewVector();
+    static Vector3 move2 = Vector3.getNewVector();
 
     private static FakePlayer USEDFORRAYTRACECONTEXT = null;
 
@@ -153,7 +152,8 @@ public class Vector3
         return mid;
     }
 
-    /** Locates the first solid block in the line indicated by the direction
+    /**
+     * Locates the first solid block in the line indicated by the direction
      * vector, starting from the source if range is given as 0, it will check
      * out to 320 blocks.
      *
@@ -161,7 +161,8 @@ public class Vector3
      * @param source
      * @param direction
      * @param range
-     * @return */
+     * @return
+     */
     public static Vector3 findNextSolidBlock(final IBlockReader world, final Vector3 source, Vector3 direction,
             final double range)
     {
@@ -179,14 +180,14 @@ public class Vector3
 
             if (ytest > 255) return null;
 
-            if (!(Vector3.Int(xtest) == Vector3.Int(xprev) && Vector3.Int(ytest) == Vector3.Int(yprev)
-                    && Vector3.Int(ztest) == Vector3.Int(zprev)))
+            if (!(Vector3.Int(xtest) == Vector3.Int(xprev) && Vector3.Int(ytest) == Vector3.Int(yprev) && Vector3.Int(
+                    ztest) == Vector3.Int(zprev)))
             {
                 test.set(xtest, ytest, ztest);
                 final boolean clear = test.isClearOfBlocks(world);
 
-                if (!clear)
-                    return Vector3.getNewVector().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(ztest));
+                if (!clear) return Vector3.getNewVector().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(
+                        ztest));
             }
 
             yprev = ytest;
@@ -201,14 +202,16 @@ public class Vector3
         return new Vector3();
     }
 
-    /** determines whether the source can see out as far as range in the given
+    /**
+     * determines whether the source can see out as far as range in the given
      * direction.
      *
      * @param world
      * @param source
      * @param direction
      * @param range
-     * @return */
+     * @return
+     */
     public static Vector3 getNextSurfacePoint(final IBlockReader world, final Vector3 source, Vector3 direction,
             final double range)
     {
@@ -271,14 +274,16 @@ public class Vector3
         return false;
     }
 
-    /** determines whether the source can see out as far as range in the given
+    /**
+     * determines whether the source can see out as far as range in the given
      * direction.
      *
      * @param world
      * @param source
      * @param direction
      * @param range
-     * @return */
+     * @return
+     */
     public static boolean isVisibleRange(final IBlockReader world, final Vector3 source, Vector3 direction,
             final double range)
     {
@@ -339,11 +344,13 @@ public class Vector3
             points[i] = points[i].rotateAboutAngles(pitch, yaw, temp, temp1);
     }
 
-    /** Returns the dot (scalar) product of the two vectors
+    /**
+     * Returns the dot (scalar) product of the two vectors
      *
      * @param vector1
      * @param vector2
-     * @return */
+     * @return
+     */
     public static double vectorDot(final Vector3 vector1, final Vector3 vector2)
     {
         double dot = 0;
@@ -352,11 +359,11 @@ public class Vector3
         return dot;
     }
 
-    public double   x;
+    public double x;
 
-    public double   y;
+    public double y;
 
-    public double   z;
+    public double z;
 
     MutableBlockPos pos;
 
@@ -365,11 +372,13 @@ public class Vector3
         this.x = this.y = this.z = 0;
     }
 
-    /** This takes degrees then converts to radians, as it seems most people
+    /**
+     * This takes degrees then converts to radians, as it seems most people
      * like to work with degrees.
      *
      * @param pitch
-     * @param yaw */
+     * @param yaw
+     */
     private Vector3(final double pitch, final double yaw)
     {
         this.x = 1;
@@ -434,11 +443,13 @@ public class Vector3
         else if (i == 2) this.z += j;
     }
 
-    /** Adds vectorA to vectorB
+    /**
+     * Adds vectorA to vectorB
      *
      * @param vectorA
      * @param vectorB
-     * @return */
+     * @return
+     */
     public Vector3 add(final Vector3 vectorB)
     {
         final Vector3 vectorC = Vector3.getNewVector();
@@ -455,11 +466,13 @@ public class Vector3
         return this;
     }
 
-    /** Adds vectorA to vectorB
+    /**
+     * Adds vectorA to vectorB
      *
      * @param vectorA
      * @param vectorB
-     * @return */
+     * @return
+     */
     public Vector3 addTo(final Vector3 b)
     {
         if (b == null) return this;
@@ -488,12 +501,12 @@ public class Vector3
         final float f = 0.5F;
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
-        ICompoundPart[] parts = null;
+        PartEntity<?>[] parts = null;
         for (final Entity entity1 : mobs)
-            if (entity1 instanceof ICompoundMob && (parts = ((ICompoundMob) entity1).getParts()).length > 0) partcheck:
-            for (final ICompoundPart part : parts)
+            if ((parts = entity1.getParts()) != null && parts.length > 0) partcheck:
+            for (final PartEntity<?> part : parts)
             {
-                final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
+                final AxisAlignedBB axisalignedbb = part.getBoundingBox().grow(0.3F);
                 final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
@@ -523,12 +536,12 @@ public class Vector3
         final float f = 1F;
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
-        ICompoundPart[] parts = null;
+        PartEntity<?>[] parts = null;
         for (final Entity entity1 : mobs)
-            if (entity1 instanceof ICompoundMob && (parts = ((ICompoundMob) entity1).getParts()).length > 0) partcheck:
-            for (final ICompoundPart part : parts)
+            if ((parts = entity1.getParts()) != null && parts.length > 0) partcheck:
+            for (final PartEntity<?> part : parts)
             {
-                final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(size);
+                final AxisAlignedBB axisalignedbb = part.getBoundingBox().grow(size);
                 final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
@@ -635,7 +648,8 @@ public class Vector3
      *
      * @param vector1
      * @param vector2
-     * @return */
+     * @return
+     */
     public double dot(final Vector3 vector2)
     {
         double dot = 0;
@@ -690,8 +704,8 @@ public class Vector3
         double rMag;
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector();
         Vector3 rTest = Vector3.getNewVector();
-        final Vector3 rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector(),
-                ret = Vector3.getNewVector();
+        final Vector3 rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector(), ret = Vector3
+                .getNewVector();
 
         final HashMap<Class<?>, List<Object>> interfaces = new HashMap<>();
 
@@ -791,12 +805,12 @@ public class Vector3
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(entity, aabb, predicate);
         ds *= ds;
-        ICompoundPart[] parts = null;
+        PartEntity<?>[] parts = null;
         for (final Entity entity1 : mobs)
-            if (entity1 instanceof ICompoundMob && (parts = ((ICompoundMob) entity1).getParts()).length > 0) partcheck:
-            for (final ICompoundPart part : parts)
+            if ((parts = entity1.getParts()) != null && parts.length > 0) partcheck:
+            for (final PartEntity<?> part : parts)
             {
-                final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
+                final AxisAlignedBB axisalignedbb = part.getBoundingBox().grow(0.3F);
                 final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
@@ -851,8 +865,8 @@ public class Vector3
 
             final double x0 = xtest > 0 ? (int) xtest : (int) xtest - 1, y0 = ytest > 0 ? (int) ytest : (int) ytest - 1,
                     z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
-            final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded,
-                    new AxisAlignedBB(x0 - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
+            final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded, new AxisAlignedBB(x0
+                    - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
             if (targets != null && targets.size() > 0)
             {
                 final List<Entity> ret = new ArrayList<>();
@@ -943,10 +957,10 @@ public class Vector3
         for (int i = 0; i < range; i++)
             for (int j = 0; j < range; j++)
             {
-                if (this.getMaxY(world, this.intX() + i, this.intZ() + j) < minY)
-                    minY = this.getMaxY(world, this.intX() + i, this.intZ() + j);
-                if (this.getMaxY(world, this.intX() + i, this.intZ() + j) > maxY)
-                    maxY = this.getMaxY(world, this.intX() + i, this.intZ() + j);
+                if (this.getMaxY(world, this.intX() + i, this.intZ() + j) < minY) minY = this.getMaxY(world, this.intX()
+                        + i, this.intZ() + j);
+                if (this.getMaxY(world, this.intX() + i, this.intZ() + j) > maxY) maxY = this.getMaxY(world, this.intX()
+                        + i, this.intZ() + j);
             }
 
         ret[0] = minY;
@@ -1049,8 +1063,8 @@ public class Vector3
         if (world instanceof World)
         {
             final BlockState state = world.getBlockState(this.getPos());
-            return state.getBlock() == null || (m = this.getBlockMaterial(world)) == null || m == Material.AIR
-                    || state.getBlock().isAir(state, world, this.getPos());
+            return state.getBlock() == null || (m = this.getBlockMaterial(world)) == null || m == Material.AIR || state
+                    .getBlock().isAir(state, world, this.getPos());
         }
         return (m = this.getBlockMaterial(world)) == null || m == Material.AIR;
     }
@@ -1095,8 +1109,8 @@ public class Vector3
 
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
-                ret = ret
-                        && v.set(this).addTo(v1.set(i * size.width / 2, 0, j * size.width / 2)).isClearOfBlocks(world);
+                ret = ret && v.set(this).addTo(v1.set(i * size.width / 2, 0, j * size.width / 2)).isClearOfBlocks(
+                        world);
         if (!ret) return ret;
 
         for (int i = -1; i <= 1; i++)
@@ -1107,9 +1121,11 @@ public class Vector3
         return ret;
     }
 
-    /** @param world
+    /**
+     * @param world
      *            - world the block is in
-     * @return if the block is a liquid */
+     * @return if the block is a liquid
+     */
     public boolean isFluid(final World world)
     {
         return !world.getFluidState(this.getPos()).isEmpty();
@@ -1158,8 +1174,8 @@ public class Vector3
     {
         final int x0 = this.intX(), y0 = this.intY(), z0 = this.intZ();
         final List<Entity> ret = new ArrayList<>();
-        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class,
-                new AxisAlignedBB(x0, y0, z0, x0 + 1, y0 + 1, z0 + 1));
+        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(x0, y0, z0, x0
+                + 1, y0 + 1, z0 + 1));
         for (final Entity e : targets)
             if (!this.isPointClearOfEntity(this.x, this.y, this.z, e)) ret.add(e);
         return ret;
@@ -1169,37 +1185,43 @@ public class Vector3
     {
         final int x0 = this.intX(), y0 = this.intY(), z0 = this.intZ();
         final List<Entity> ret = new ArrayList<>();
-        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class,
-                new AxisAlignedBB(x0, y0, z0, x0 + 1, y0 + 1, z0 + 1));
+        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(x0, y0, z0, x0
+                + 1, y0 + 1, z0 + 1));
         for (final Entity e : targets)
             if (!this.isPointClearOfEntity(this.x, this.y, this.z, e) && e != entity) ret.add(e);
         return ret;
     }
 
-    /** Returns the magnitude of vector
+    /**
+     * Returns the magnitude of vector
      *
      * @param vector
-     * @return */
+     * @return
+     */
     public double mag()
     {
         final double vmag = Math.sqrt(this.magSq());
         return vmag;
     }
 
-    /** Returns the magnitude of vector squared
+    /**
+     * Returns the magnitude of vector squared
      *
      * @param vector
-     * @return */
+     * @return
+     */
     public double magSq()
     {
         return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
-    /** Left multiplies the Matrix by the Vector
+    /**
+     * Left multiplies the Matrix by the Vector
      *
      * @param Matrix
      * @param vector
-     * @return */
+     * @return
+     */
     public Vector3 matrixMult(final Matrix3 Matrix)
     {
         final Vector3 newVect = Vector3.vecMult.clear();
@@ -1214,10 +1236,12 @@ public class Vector3
         e.setPosition(this.x, this.y, this.z);
     }
 
-    /** Normalizes this vector.
+    /**
+     * Normalizes this vector.
      *
      * @param vector
-     * @return unit vector in direction of vector. */
+     * @return unit vector in direction of vector.
+     */
     public Vector3 norm()
     {
         final double vmag = this.mag();
@@ -1226,10 +1250,12 @@ public class Vector3
         return this;
     }
 
-    /** Returns the unit vector in with the same direction as vector.
+    /**
+     * Returns the unit vector in with the same direction as vector.
      *
      * @param vector
-     * @return unit vector in direction of vector. */
+     * @return unit vector in direction of vector.
+     */
     public Vector3 normalize()
     {
         final double vmag = this.mag();
@@ -1257,12 +1283,14 @@ public class Vector3
         return this;
     }
 
-    /** Rotates the given vector by the given amounts of pitch and yaw.
+    /**
+     * Rotates the given vector by the given amounts of pitch and yaw.
      *
      * @param vector
      * @param pitch
      * @param yaw
-     * @return */
+     * @return
+     */
     public Vector3 rotateAboutAngles(final double pitch, final double yaw, final Vector3 temp, final Vector3 temp1)
     {
         if (this.isEmpty() || pitch == 0 && yaw == 0) return this;
@@ -1275,13 +1303,15 @@ public class Vector3
         return temp;
     }
 
-    /** Rotates the given vector around the given line by the given angle. This
+    /**
+     * Rotates the given vector around the given line by the given angle. This
      * internally normalizes the line incase it is not already normalized
      *
      * @param vectorH
      * @param line
      * @param angle
-     * @return */
+     * @return
+     */
     public Vector3 rotateAboutLine(Vector3 line, final double angle, Vector3 ret)
     {
         if (line.magSq() != 1) line = line.normalize();
@@ -1290,21 +1320,21 @@ public class Vector3
         final double[][] mat = Vector3.rotBox;
 
         mat[0][0] = line.get(0) * line.get(0) * (1 - MathHelper.cos((float) angle)) + MathHelper.cos((float) angle);
-        mat[0][1] = line.get(0) * line.get(1) * (1 - MathHelper.cos((float) angle))
-                - line.get(2) * MathHelper.sin((float) angle);
-        mat[0][2] = line.get(0) * line.get(2) * (1 - MathHelper.cos((float) angle))
-                + line.get(1) * MathHelper.sin((float) angle);
+        mat[0][1] = line.get(0) * line.get(1) * (1 - MathHelper.cos((float) angle)) - line.get(2) * MathHelper.sin(
+                (float) angle);
+        mat[0][2] = line.get(0) * line.get(2) * (1 - MathHelper.cos((float) angle)) + line.get(1) * MathHelper.sin(
+                (float) angle);
 
-        mat[1][0] = line.get(1) * line.get(0) * (1 - MathHelper.cos((float) angle))
-                + line.get(2) * MathHelper.sin((float) angle);
+        mat[1][0] = line.get(1) * line.get(0) * (1 - MathHelper.cos((float) angle)) + line.get(2) * MathHelper.sin(
+                (float) angle);
         mat[1][1] = line.get(1) * line.get(1) * (1 - MathHelper.cos((float) angle)) + MathHelper.cos((float) angle);
-        mat[1][2] = line.get(1) * line.get(2) * (1 - MathHelper.cos((float) angle))
-                - line.get(0) * MathHelper.sin((float) angle);
+        mat[1][2] = line.get(1) * line.get(2) * (1 - MathHelper.cos((float) angle)) - line.get(0) * MathHelper.sin(
+                (float) angle);
 
-        mat[2][0] = line.get(2) * line.get(0) * (1 - MathHelper.cos((float) angle))
-                - line.get(1) * MathHelper.sin((float) angle);
-        mat[2][1] = line.get(2) * line.get(1) * (1 - MathHelper.cos((float) angle))
-                + line.get(0) * MathHelper.sin((float) angle);
+        mat[2][0] = line.get(2) * line.get(0) * (1 - MathHelper.cos((float) angle)) - line.get(1) * MathHelper.sin(
+                (float) angle);
+        mat[2][1] = line.get(2) * line.get(1) * (1 - MathHelper.cos((float) angle)) + line.get(0) * MathHelper.sin(
+                (float) angle);
         mat[2][2] = line.get(2) * line.get(2) * (1 - MathHelper.cos((float) angle)) + MathHelper.cos((float) angle);
 
         ret.x = mat[0][0] * this.x + mat[0][1] * this.y + mat[0][2] * this.z;
@@ -1319,11 +1349,13 @@ public class Vector3
         return this.intX() == vec.intX() && this.intY() == vec.intY() && this.intZ() == vec.intZ();
     }
 
-    /** Multiplies the vector by the constant.
+    /**
+     * Multiplies the vector by the constant.
      *
      * @param vector
      * @param constant
-     * @return */
+     * @return
+     */
     public Vector3 scalarMult(final double constant)
     {
         final Vector3 newVector = Vector3.getNewVector();
@@ -1476,7 +1508,8 @@ public class Vector3
         final int i = x & BiomeContainer.HORIZONTAL_MASK;
         final int j = (int) MathHelper.clamp(this.y, 0, BiomeContainer.VERTICAL_MASK);
         final int k = z & BiomeContainer.HORIZONTAL_MASK;
-        final int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i;
+        final int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS
+                | i;
         Arrays.fill(biomes.biomes, biome);
         biomes.biomes[index] = biome;
     }
@@ -1497,11 +1530,13 @@ public class Vector3
         e.setMotion(this.x, this.y, this.z);
     }
 
-    /** Subtracts vectorB from vectorA
+    /**
+     * Subtracts vectorB from vectorA
      *
      * @param vectorA
      * @param vectorB
-     * @return */
+     * @return
+     */
     public Vector3 subtract(final Vector3 vectorB)
     {
         final Vector3 vectorC = Vector3.getNewVector();
@@ -1510,11 +1545,13 @@ public class Vector3
         return vectorC;
     }
 
-    /** Subtracts vectorB from vectorA
+    /**
+     * Subtracts vectorB from vectorA
      *
      * @param vectorA
      * @param vectorB
-     * @return */
+     * @return
+     */
     public Vector3 subtractFrom(final Vector3 b)
     {
         if (b == null) return this;
@@ -1524,10 +1561,12 @@ public class Vector3
         return this;
     }
 
-    /** Returns the unit vector in with the same direction as vector.
+    /**
+     * Returns the unit vector in with the same direction as vector.
      *
      * @param vector
-     * @return unit vector in direction of vector. */
+     * @return unit vector in direction of vector.
+     */
     public Vector3 toSpherical()
     {
         final Vector3 vectorSpher = Vector3.getNewVector();

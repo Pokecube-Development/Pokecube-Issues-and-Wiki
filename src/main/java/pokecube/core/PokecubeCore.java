@@ -17,7 +17,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
@@ -44,6 +43,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.BusBuilder;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -230,21 +230,10 @@ public class PokecubeCore
             event.getRegistry().register(EntityPokemobEgg.TYPE.setRegistryName(PokecubeCore.MODID, "egg"));
             event.getRegistry().register(NpcMob.TYPE.setRegistryName(PokecubeCore.MODID, "npc"));
             event.getRegistry().register(EntityMoveUse.TYPE.setRegistryName(PokecubeCore.MODID, "move_use"));
-
-            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes()
-                    .createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(
-                            Attributes.ATTACK_KNOCKBACK).createMutableAttribute(Attributes.MAX_HEALTH, 10.0D);
-
-            GlobalEntityTypeAttributes.put(EntityPokecube.TYPE, attribs.create());
-            GlobalEntityTypeAttributes.put(EntityPokemobEgg.TYPE, attribs.create());
-            GlobalEntityTypeAttributes.put(NpcMob.TYPE, attribs.create());
-
             Database.init();
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
-
             PokedexEntryLoader.postInit();
-
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 if (entry.dummy) continue;
@@ -254,7 +243,6 @@ public class PokecubeCore
                     final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
                     type.setRegistryName(PokecubeCore.MODID, entry.getTrimmedName());
                     event.getRegistry().register(type);
-                    GlobalEntityTypeAttributes.put(type, attribs.create());
                     Pokedex.getInstance().registerPokemon(entry);
                     PokecubeCore.typeMap.put(type, entry);
                 }
@@ -266,6 +254,34 @@ public class PokecubeCore
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
             Database.postInit();
             PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
+        }
+
+        @SubscribeEvent
+        public static void onEntityAttributes(final EntityAttributeCreationEvent event)
+        {
+            // register a new mob here
+            PokecubeCore.LOGGER.debug("Registering Pokecube Attributes");
+
+            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes()
+                    .createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(
+                            Attributes.ATTACK_KNOCKBACK).createMutableAttribute(Attributes.MAX_HEALTH, 10.0D);
+            event.put(EntityPokecube.TYPE, attribs.create());
+            event.put(EntityPokemobEgg.TYPE, attribs.create());
+            event.put(NpcMob.TYPE, attribs.create());
+
+            for (final PokedexEntry entry : Database.getSortedFormes())
+            {
+                if (entry.dummy) continue;
+                if (!entry.stock) continue;
+                try
+                {
+                    event.put(entry.getEntityType(), attribs.create());
+                }
+                catch (final Exception e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         @SubscribeEvent
