@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "pokecube_legends:block/stripped_corrupted_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "pokecube_legends:block/stripped_corrupted_log"
+    },
+    "axis=z": {
+      "model": "pokecube_legends:block/stripped_corrupted_log",
+      "x": 90
+    }
+  }
+}

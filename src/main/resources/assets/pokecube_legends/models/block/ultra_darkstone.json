@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+    "down": "pokecube_legends:blocks/ultra_darkstone",
+    "up": "pokecube_legends:blocks/ultra_darkstone",
+    "north": "pokecube_legends:blocks/ultra_darkstone",
+    "east": "pokecube_legends:blocks/ultra_darkstone",
+    "south": "pokecube_legends:blocks/ultra_darkstone",
+    "west": "pokecube_legends:blocks/ultra_darkstone",
+    "particle": "pokecube_legends:blocks/ultra_darkstone"
+  }
+}

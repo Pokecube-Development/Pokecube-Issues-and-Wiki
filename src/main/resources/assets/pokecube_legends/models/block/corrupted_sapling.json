@@ -1,0 +1,7 @@
+{
+   "parent": "block/cross",
+   "textures": {
+	"cross": "pokecube_legends:blocks/corrupted_sapling",
+    "particle": "pokecube_legends:blocks/corrupted_sapling"
+   }
+}

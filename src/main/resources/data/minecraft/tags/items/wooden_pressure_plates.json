@@ -10,6 +10,12 @@
     "pokecube_legends:aged_pressure_plate",
     "pokecube_legends:distortic_pressure_plate",
     "pokecube_legends:inverted_pressure_plate",
-    "pokecube_legends:temporal_pressure_plate"
+    "pokecube_legends:temporal_pressure_plate",
+	"pokecube_legends:ultra_darkstone_pressure_plate",
+    "pokecube_legends:ultra_sandstone_pressure_plate",
+	"pokecube_legends:ultra_metal_pressure_plate",
+	"pokecube_legends:ultra_stone_pressure_plate",
+	"pokecube_legends:mirage_pressure_plate",
+	"pokecube_legends:corrupted_pressure_plate"
   ]
 }

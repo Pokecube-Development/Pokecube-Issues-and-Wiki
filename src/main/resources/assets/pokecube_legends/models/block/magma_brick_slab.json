@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "pokecube_legends:blocks/magmabrick",
+    "top": "pokecube_legends:blocks/magmabrick",
+    "side": "pokecube_legends:blocks/magmabrick"
+  }
+}

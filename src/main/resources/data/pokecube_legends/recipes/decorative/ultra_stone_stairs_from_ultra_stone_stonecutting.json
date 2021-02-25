@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:ultrastone"
+  },
+  "result": "pokecube_legends:ultra_stone_stairs",
+  "count": 3
+}

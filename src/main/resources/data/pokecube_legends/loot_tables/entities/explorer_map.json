@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:sky_pillar",
+              "decoration": "target_x",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        }
+      ]
+    }
+  ]
+}

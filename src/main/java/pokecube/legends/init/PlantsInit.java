@@ -32,45 +32,4 @@ public class PlantsInit
     public static void registry() {
 
     }
-
-    /*public void init(final FMLCommonSetupEvent event)
-    {
-        PlantsInit.SpawnPlant(PlantsInit.MUSH_PLANT1.get(), "pokecube_legends:ub001", 2);
-        PlantsInit.SpawnPlant(PlantsInit.MUSH_PLANT2.get(), "pokecube_legends:ub001", 2);
-        PlantsInit.SpawnPlant(PlantsInit.AGED_FLOWER.get(), "pokecube_legends:ub006", 2);
-        PlantsInit.SpawnPlant(PlantsInit.DIRST_FLOWER.get(), "pokecube_legends:ub005", 1);
-    }*/
-
-	/*public static void SpawnPlant(final Block block, final String biomeName, final int spawnRate)
-    {
-    	final FlowersFeature<BlockClusterFeatureConfig> feature = new DefaultFlowersFeature(BlockClusterFeatureConfig::deserialize) {
-			@Override
-			public BlockState getFlowerToPlace(final Random random, final BlockPos bp, final BlockClusterFeatureConfig fc) {
-				return block.getDefaultState();
-			}
-
-			@Override
-			public boolean place(final IWorld world, ChunkGenerator<?> generator, final Random random, final BlockPos pos, final BlockClusterFeatureConfig config) {
-				final RegistryKey<World> dimensionType = world.getDimensionKey();
-				boolean dimensionCriteria = false;
-				if (dimensionType == ModDimensions.DIMENSION_TYPE_US)
-					dimensionCriteria = true;
-				if (!dimensionCriteria)
-					return false;
-				return super.place(world, generator, random, pos, config);
-			}
-		};
-		for (final Biome biome : ForgeRegistries.BIOMES.getValues()) {
-			boolean biomeCriteria = false;
-			if (ForgeRegistries.BIOMES.getKey(biome).equals(new ResourceLocation(biomeName)))
-				biomeCriteria = true;
-			if (!biomeCriteria)
-				continue;
-			biome.ad(GenerationStage.Decoration.VEGETAL_DECORATION,
-					feature.withConfiguration(
-							new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(block.getDefaultState()), new SimpleBlockPlacer())
-									.tries(64).build())
-							.withPlacement(Placement.HEIGHTMAP_WORLD_SURFACE.configure(new NoPlacementConfig())));
-		}
-    }*/
 }

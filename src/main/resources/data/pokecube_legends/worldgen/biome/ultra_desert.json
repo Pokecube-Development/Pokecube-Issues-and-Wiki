@@ -1,18 +1,18 @@
 {
-  "scale": 0.25,
   "effects": {
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,
       "block_search_extent": 8,
-      "offset": 2.0
+      "offset": 2
     },
-    "sky_color": 12451835,
-    "fog_color": 10997197,
-    "water_color": 10484187,
-    "water_fog_color": 5007508,
-    "grass_color": 16777215,
-    "foliage_color": 15592941
+    "sky_color": 10092031,
+    "fog_color": 16777215,
+    "water_color": 65484,
+    "water_fog_color": 1269131,
+    "foliage_color": 14996921,
+    "grass_color": 14406061,
+    "ambient_sound": "minecraft:ambient.basalt_deltas.mood"
   },
   "surface_builder": "pokecube_legends:ultra_desert",
   "carvers": {
@@ -37,16 +37,22 @@
      "pokecube_legends:ore_cosmic"
     ],
     [],
-    [],
+    [
+     "pokecube_legends:mirage_vegetation",
+     "pokecube_legends:mirage_staff_vegetation"
+    ],
     []
   ],
-  "starts": [],
+  "starts": [
+    "minecraft:desert_pyramid"
+  ],
   "spawners":{},
   "spawn_costs": {},
-  "player_spawn_friendly": false,
-  "precipitation": "none",
-  "temperature": 2.0,
-  "downfall": 0.0,
   "category": "desert",
-  "depth": 0.225
+  "precipitation": "none",
+  "scale": 0.07,
+  "downfall": 0.4,
+  "depth": 0.12,
+  "temperature": 2,
+  "player_spawn_friendly": false
 }

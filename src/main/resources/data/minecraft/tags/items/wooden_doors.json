@@ -10,6 +10,8 @@
     "pokecube_legends:aged_door",
     "pokecube_legends:distortic_door",
     "pokecube_legends:inverted_door",
-    "pokecube_legends:temporal_door"
+    "pokecube_legends:temporal_door",
+	"pokecube_legends:corrupted_door",
+	"pokecube_legends:mirage_door"
   ]
 }
