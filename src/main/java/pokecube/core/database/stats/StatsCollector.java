@@ -34,7 +34,7 @@ public class StatsCollector
             if (!stats.hasFirst()) stats.setHasFirst(player);
             PlayerDataHandler.saveCustomData(stats.getIdentifier());
             Triggers.CATCHPOKEMOB.trigger(player, captured);
-            PacketDataSync.sendInitPacket(player, stats.getIdentifier());
+            PacketDataSync.syncData(player, stats.getIdentifier());
         }
     }
 
@@ -57,7 +57,7 @@ public class StatsCollector
             stats.addHatch(dbe);
             PlayerDataHandler.getInstance().save(owner, stats.getIdentifier());
             Triggers.HATCHPOKEMOB.trigger((ServerPlayerEntity) hatched.getEggOwner(), mob);
-            PacketDataSync.sendInitPacket((ServerPlayerEntity) hatched.getEggOwner(), stats.getIdentifier());
+            PacketDataSync.syncData((ServerPlayerEntity) hatched.getEggOwner(), stats.getIdentifier());
         }
     }
 
@@ -74,7 +74,7 @@ public class StatsCollector
             stats.addKill(dbe);
             PlayerDataHandler.getInstance().save(owner, stats.getIdentifier());
             Triggers.KILLPOKEMOB.trigger((ServerPlayerEntity) killer.getOwner(), killed);
-            PacketDataSync.sendInitPacket((ServerPlayerEntity) killer.getOwner(), stats.getIdentifier());
+            PacketDataSync.syncData((ServerPlayerEntity) killer.getOwner(), stats.getIdentifier());
         }
     }
 

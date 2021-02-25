@@ -44,9 +44,9 @@ public class SendOutManager
             final boolean respectRoom)
     {
         AxisAlignedBB box = mob.getBoundingBox();
-        final PartEntity<?>[] parts = mob.getParts();
-        if (parts != null)
+        if (mob.isMultipartEntity())
         {
+            final PartEntity<?>[] parts = mob.getParts();
             box = null;
             // If it has parts, use that for the bounds instead.
             for (final PartEntity<?> part : parts)

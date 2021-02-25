@@ -65,10 +65,14 @@ public class ItemPokedex extends Item
         {
             final Entity entityHit = target;
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
+
             // Not a pokemob, or not a stock pokemob, only the watch will do
             // anything on right click, pokedex is for accessing the mob.
-            if (pokemob == null || !pokemob.getPokedexEntry().stock && !this.watch) break interact;
-            this.showGui(playerIn, pokemob);
+            final boolean doInteract = target instanceof ServerPlayerEntity || pokemob != null && pokemob
+                    .getPokedexEntry().stock && this.watch;
+
+            if (doInteract) break interact;
+            this.showGui(playerIn, target, pokemob);
             return ActionResultType.SUCCESS;
         }
         return super.itemInteractionForEntity(stack, playerIn, target, hand);
@@ -84,7 +88,7 @@ public class ItemPokedex extends Item
         {
             final Entity entityHit = Tools.getPointedEntity(player, 16);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
-            this.showGui(player, pokemob);
+            this.showGui(player, entityHit, pokemob);
             return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
         }
         return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
@@ -115,7 +119,7 @@ public class ItemPokedex extends Item
             if (!worldIn.isRemote)
             {
                 CommandTools.sendMessage(playerIn, "pokedex.setteleport");
-                PacketDataSync.sendInitPacket(playerIn, "pokecube-data");
+                PacketDataSync.syncData(playerIn, "pokecube-data");
             }
             return ActionResultType.SUCCESS;
         }
@@ -137,23 +141,23 @@ public class ItemPokedex extends Item
         {
             final Entity entityHit = Tools.getPointedEntity(playerIn, 16);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
-            this.showGui(playerIn, pokemob);
+            this.showGui(playerIn, entityHit, pokemob);
         }
         return ActionResultType.FAIL;
     }
 
-    private void showGui(final PlayerEntity player, final IPokemob pokemob)
+    private void showGui(final PlayerEntity player, final Entity mob, final IPokemob pokemob)
     {
         if (player instanceof ServerPlayerEntity)
         {
             final IChunk chunk = player.getEntityWorld().getChunk(player.getPosition());
             TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z),
                     (ServerPlayerEntity) player);
-            PacketDataSync.sendInitPacket(player, "pokecube-stats");
+            PacketDataSync.syncData(player, "pokecube-stats");
             PacketPokedex.sendSecretBaseInfoPacket((ServerPlayerEntity) player, this.watch);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player).getData(
                     PokecubePlayerStats.class).inspect(player, pokemob);
-            PacketPokedex.sendOpenPacket((ServerPlayerEntity) player, pokemob, this.watch);
+            PacketPokedex.sendOpenPacket((ServerPlayerEntity) player, mob, this.watch);
         }
     }
 

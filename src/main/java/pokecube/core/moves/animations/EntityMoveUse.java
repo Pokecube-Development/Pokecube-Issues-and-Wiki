@@ -29,6 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeTileEntity;
+import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IMoveAnimation.MovePacketInfo;
@@ -490,6 +491,15 @@ public class EntityMoveUse extends ThrowableEntity
         final Vector3d v = this.getMotion();
         testBox = testBox.expand(v.x, v.y, v.z);
         final List<Entity> hits = this.getEntityWorld().getEntitiesInAABBexcluding(this, testBox, this.valid);
+        final AxisAlignedBB hitBox = testBox;
+        hits.removeIf(e ->
+        {
+            if (!e.isMultipartEntity()) return false;
+            final PartEntity<?>[] parts = e.getParts();
+            for (final PartEntity<?> part : parts)
+                if (part.getBoundingBox().intersects(hitBox)) return false;
+            return true;
+        });
 
         for (final Entity e : hits)
             this.doMoveUse(e);
