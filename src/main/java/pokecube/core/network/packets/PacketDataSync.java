@@ -14,7 +14,25 @@ import thut.core.common.network.Packet;
 
 public class PacketDataSync extends Packet
 {
-    public static void sendInitPacket(final PlayerEntity player, final String dataType)
+    public static PacketDataSync makePacket(final PlayerData data, final UUID owner)
+    {
+        final PacketDataSync packet = new PacketDataSync();
+        packet.data.putString("type", data.getIdentifier());
+        final CompoundNBT tag1 = new CompoundNBT();
+        data.writeToNBT(tag1);
+        packet.data.put("data", tag1);
+        packet.data.putUniqueId("uuid", owner);
+        return packet;
+    }
+
+    public static void syncData(final PlayerData data, final UUID owner, final ServerPlayerEntity sendTo,
+            final boolean toTracking)
+    {
+        PokecubeCore.packets.sendTo(PacketDataSync.makePacket(data, owner), sendTo);
+        if (toTracking) PokecubeCore.packets.sendToTracking(PacketDataSync.makePacket(data, owner), sendTo);
+    }
+
+    public static void syncData(final PlayerEntity player, final String dataType)
     {
         final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player);
         final PlayerData data = manager.getData(dataType);
@@ -23,50 +41,7 @@ public class PacketDataSync extends Packet
             PokecubeCore.LOGGER.error("No datatype for " + dataType);
             return;
         }
-        final PacketDataSync packet = new PacketDataSync();
-        packet.data.putString("type", dataType);
-        final CompoundNBT tag1 = new CompoundNBT();
-        data.writeToNBT(tag1);
-        packet.data.put("data", tag1);
-        PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) player);
-    }
-
-    public static void sendUpdatePacket(final ServerPlayerEntity playerSend, final ServerPlayerEntity playerTo,
-            final String dataType)
-    {
-        final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(playerSend);
-        final PlayerData data = manager.getData(dataType);
-        if (data == null)
-        {
-            PokecubeCore.LOGGER.error("No datatype for " + dataType);
-            return;
-        }
-        final PacketDataSync packet = new PacketDataSync();
-        packet.data.putUniqueId("uuid", playerSend.getUniqueID());
-        packet.data.putString("type", dataType);
-        final CompoundNBT tag1 = new CompoundNBT();
-        data.writeToNBT(tag1);
-        packet.data.put("data", tag1);
-        PokecubeCore.packets.sendTo(packet, playerTo);
-    }
-
-    public static void sendUpdatePacket(final ServerPlayerEntity player, final String dataType, final boolean toOthers)
-    {
-        final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player);
-        final PlayerData data = manager.getData(dataType);
-        if (data == null)
-        {
-            PokecubeCore.LOGGER.error("No datatype for " + dataType);
-            return;
-        }
-        final PacketDataSync packet = new PacketDataSync();
-        packet.data.putUniqueId("uuid", player.getUniqueID());
-        packet.data.putString("type", dataType);
-        final CompoundNBT tag1 = new CompoundNBT();
-        data.writeToNBT(tag1);
-        packet.data.put("data", tag1);
-        PokecubeCore.packets.sendTo(packet, player);
-        if (toOthers) PokecubeCore.packets.sendToTracking(packet, player);
+        PacketDataSync.syncData(data, player.getUniqueID(), (ServerPlayerEntity) player, true);
     }
 
     public CompoundNBT data = new CompoundNBT();

@@ -12,6 +12,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -97,18 +98,20 @@ public class PerTypeProgress extends Progress
             final int index = PokeType.values().length == 0 ? 0 : 1;
             this.type = PokeType.values()[index];
         }
+        PlayerEntity player = this.watch.player;
+        if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
         this.text.setText(PokeType.getTranslatedName(this.type).getString());
 
         final int total_of_type = SpecialCaseRegister.countSpawnableTypes(this.type);
 
-        this.caught0 = CaptureStats.getUniqueOfTypeCaughtBy(this.watch.player.getUniqueID(), this.type);
-        this.caught1 = CaptureStats.getTotalOfTypeCaughtBy(this.watch.player.getUniqueID(), this.type);
+        this.caught0 = CaptureStats.getUniqueOfTypeCaughtBy(player.getUniqueID(), this.type);
+        this.caught1 = CaptureStats.getTotalOfTypeCaughtBy(player.getUniqueID(), this.type);
 
-        this.hatched0 = EggStats.getUniqueOfTypeHatchedBy(this.watch.player.getUniqueID(), this.type);
-        this.hatched1 = EggStats.getTotalOfTypeHatchedBy(this.watch.player.getUniqueID(), this.type);
+        this.hatched0 = EggStats.getUniqueOfTypeHatchedBy(player.getUniqueID(), this.type);
+        this.hatched1 = EggStats.getTotalOfTypeHatchedBy(player.getUniqueID(), this.type);
 
-        this.killed0 = KillStats.getUniqueOfTypeKilledBy(this.watch.player.getUniqueID(), this.type);
-        this.killed1 = KillStats.getTotalOfTypeKilledBy(this.watch.player.getUniqueID(), this.type);
+        this.killed0 = KillStats.getUniqueOfTypeKilledBy(player.getUniqueID(), this.type);
+        this.killed1 = KillStats.getTotalOfTypeKilledBy(player.getUniqueID(), this.type);
 
         final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.type.caught",
                 this.caught1, this.caught0, this.type, total_of_type);
