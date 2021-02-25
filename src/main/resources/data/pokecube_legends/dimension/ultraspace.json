@@ -6,31 +6,31 @@
     "biome_source": {
       "type": "minecraft:multi_noise",
       "seed": 1402523832,
-      "altitude_noise": {
-        "firstOctave": -9,
-        "amplitudes": [
-          1,
-          1
-        ]
-      },
       "temperature_noise": {
-        "firstOctave": -12,
+        "firstOctave": -7,
         "amplitudes": [
           1,
           1
         ]
       },
       "humidity_noise": {
-        "firstOctave": -10,
+        "firstOctave": -7,
         "amplitudes": [
-          4,
-          4
+          1,
+          1
+        ]
+      },
+      "altitude_noise": {
+        "firstOctave": -7,
+        "amplitudes": [
+          1,
+          1
         ]
       },
       "weirdness_noise": {
-        "firstOctave": -8,
+        "firstOctave": -7,
         "amplitudes": [
-          3,
+          1,
           1
         ]
       },
@@ -38,61 +38,61 @@
         {
           "biome": "pokecube_legends:ultra_deep_cave",
           "parameters": {
-            "altitude": 0.2,
-            "temperature": 0.7,
-            "humidity": 1,
-            "weirdness": 0.01,
-            "offset": 0
+            "altitude": 0.1,
+            "weirdness": 0.4,
+            "offset": 0.3,
+            "temperature": 0.5,
+            "humidity": 0.3
           }
         },
         {
           "biome": "pokecube_legends:ultra_jungle",
           "parameters": {
-            "altitude": 0.2,
-            "temperature": -1,
-            "humidity": -1,
-            "weirdness": 1,
-            "offset": 0
+            "altitude": 0.5,
+            "weirdness": 0.3,
+            "offset": 0.2,
+            "temperature": 0.5,
+            "humidity": 0.3
           }
         },
         {
           "biome": "pokecube_legends:ultra_desert",
           "parameters": {
             "altitude": 0.2,
-            "temperature": 0.1,
-            "humidity": 1,
-            "weirdness": 0.001,
-            "offset": 0
+            "weirdness": 0.1,
+            "offset": 0.2,
+            "temperature": 0.8,
+            "humidity": 0.1
           }
         },
         {
           "biome": "pokecube_legends:ultra_dark_valley",
-          "parameters": {
-            "altitude": 0.2,
-            "temperature": 0.5,
-            "humidity": -1,
-            "weirdness": -1,
-            "offset": 0
+           "parameters": {
+            "altitude": 0.3,
+            "weirdness": 0,
+            "offset": 0.2,
+            "temperature": 0.8,
+            "humidity": 0.3
           }
         },
         {
           "biome": "pokecube_legends:ultra_deep_hills",
-          "parameters": {
-            "altitude": 0.2,
-            "temperature": 0.4,
-            "humidity": 1,
-            "weirdness": -0.3,
-            "offset": 0
+           "parameters": {
+            "altitude": 0.6,
+            "weirdness": 0.5,
+            "offset": 0.1,
+            "temperature": 0.3,
+            "humidity": 0.1
           }
         },
         {
           "biome": "pokecube_legends:ultra_forgotten_plains",
           "parameters": {
-            "altitude": 0.2,
-            "temperature": 1,
-            "humidity": -1,
-            "weirdness": 1,
-            "offset": 0
+            "altitude": 0.4,
+            "weirdness": 0.2,
+            "offset": 0,
+            "temperature": 0.6,
+            "humidity": 0.3
           }
         }
       ]

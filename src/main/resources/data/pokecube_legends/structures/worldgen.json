@@ -465,6 +465,23 @@
       ]
     },
     {
+      "name":"pokecube_legends:ultra_pyramid",
+      "rigid":true,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:ultraspace/ultra_pyramid"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ultra_desert_mirage",
+      "rigid":true,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:ultraspace/mirage_house1",
+        "pokecube_legends:ultraspace/mirage_house2"
+      ]
+    },
+    {
       "name":"pokecube_legends:ub004",
       "rigid":true,
       "ignoreAir":true,
@@ -976,6 +993,36 @@
       "biomeType":"none",
       "distance":5,
       "separation":1,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_desert"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:ultra_pyramid",
+      "root":"pokecube_legends:ultra_pyramid",
+      "biomeType":"none",
+      "distance":20,
+      "separation":10,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_desert"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:ultra_desert_mirage",
+      "root":"pokecube_legends:ultra_desert_mirage",
+      "biomeType":"none",
+      "distance":10,
+      "separation":5,
       "dimWhitelist":[
         "pokecube_legends:ultraspace"
       ],

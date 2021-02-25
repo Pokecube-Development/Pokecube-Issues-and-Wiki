@@ -1,18 +1,28 @@
 {
-  "scale": 0.2,
   "effects": {
     "mood_sound": {
-      "sound": "minecraft:ambient.cave",
+      "sound": "minecraft:ambient.crimson_forest.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
-      "offset": 2.0
+      "offset": 2
     },
-    "sky_color": 13525051,
-    "fog_color": 10028293,
-    "water_color": 15790676,
-    "water_fog_color": 13274180,
-    "grass_color": 15629847,
-    "foliage_color": 16732196
+    "sky_color": 16763520,
+    "fog_color": 16643037,
+    "water_color": 4182244,
+    "water_fog_color": 3105703,
+    "foliage_color": 15512651,
+    "grass_color": 15975968,
+    "particle": {
+      "options": {
+        "type": "minecraft:dust",
+        "scale": 0.4,
+        "r": 0.9058823529411765,
+        "g": 0.9176470588235294,
+        "b": 0.3254901960784314
+      },
+      "probability": 0.01
+    },
+    "ambient_sound": "minecraft:ambient.crimson_forest.loop"
   },
   "surface_builder": "pokecube_legends:forgotten_plains",
   "carvers": {
@@ -44,10 +54,11 @@
   "starts": [],
   "spawners": {},
   "spawn_costs": {},
-  "player_spawn_friendly": true,
-  "precipitation": "rain",
-  "temperature": 0.25,
-  "downfall": 0.8,
-  "category": "taiga",
-  "depth": 0.2
+  "category": "plains",
+  "precipitation": "none",
+  "scale": 0.05,
+  "downfall": 0.7,
+  "depth": 0.14,
+  "temperature": 0.9,
+  "player_spawn_friendly": false
 }

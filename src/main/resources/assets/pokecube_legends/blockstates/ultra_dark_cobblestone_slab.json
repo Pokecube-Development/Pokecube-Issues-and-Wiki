@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube_legends:block/ultra_dark_cobblestone_slab"
+    },
+    "type=double": {
+      "model": "pokecube_legends:block/ultra_dark_cobblestone"
+    },
+    "type=top": {
+      "model": "pokecube_legends:block/ultra_dark_cobblestone_slab_top"
+    }
+  }
+}

@@ -1,24 +1,24 @@
 {
-  "scale": 0.1,
-  "effects": {
+ "effects": {
     "mood_sound": {
-      "sound": "minecraft:ambient.cave",
+      "sound": "minecraft:ambient.nether_wastes.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
-      "offset": 2.0
+      "offset": 2
     },
+    "sky_color": 1184274,
+    "fog_color": 855309,
+    "water_color": 11994630,
+    "water_fog_color": 7340032,
+    "foliage_color": 2958880,
+    "grass_color": 3944746,
     "particle": {
       "options": {
-        "type": "minecraft:ash"
+        "type": "minecraft:cloud"
       },
-      "probability": 0.10
+      "probability": 0.01
     },
-    "sky_color": 197379,
-    "fog_color": 0,
-    "water_color": 16711680,
-    "water_fog_color": 6356992,
-    "grass_color": 5723991,
-    "foliage_color": 13619151
+    "ambient_sound": "minecraft:ambient.nether_wastes.loop"
   },
   "surface_builder": "pokecube_legends:dark_valley",
   "carvers": {
@@ -49,11 +49,12 @@
   ],
   "starts": [],
   "spawners": {},
-  "spawn_costs": {},
+  "category": "mesa",
+  "precipitation": "snow",
+  "scale": 0.04,
+  "downfall": 0.1,
+  "depth": 0.1,
+  "temperature": 0.1,
   "player_spawn_friendly": false,
-  "precipitation": "rain",
-  "temperature": 0.8,
-  "downfall": 0.9,
-  "category": "swamp",
-  "depth": -0.2
+  "spawn_costs": {}
 }

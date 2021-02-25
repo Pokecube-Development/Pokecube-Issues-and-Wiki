@@ -1,0 +1,18 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+	"## ",
+	"###"
+  ],
+  "key": {
+    "#": {
+      "item": "pokecube_legends:ultra_sandstone_smooth"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:ultra_sandstone_smooth_stairs",
+    "count": 6
+  }
+}

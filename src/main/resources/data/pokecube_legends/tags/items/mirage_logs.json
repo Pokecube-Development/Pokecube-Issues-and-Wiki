@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:mirage_log",
+    "pokecube_legends:mirage_wood",
+    "pokecube_legends:stripped_mirage_log",
+    "pokecube_legends:stripped_mirage_wood"
+  ]
+}

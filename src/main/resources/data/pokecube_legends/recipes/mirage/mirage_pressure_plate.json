@@ -1,0 +1,15 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:mirage_plank"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:mirage_pressure_plate"
+  }
+}

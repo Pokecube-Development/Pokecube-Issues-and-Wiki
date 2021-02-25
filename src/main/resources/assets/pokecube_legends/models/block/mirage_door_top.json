@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "pokecube_legends:blocks/mirage_door_top",
+    "bottom": "pokecube_legends:blocks/mirage_door_bottom"
+  }
+}

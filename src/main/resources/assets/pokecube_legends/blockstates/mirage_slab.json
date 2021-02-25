@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube_legends:block/mirage_slab"
+    },
+    "type=double": {
+      "model": "pokecube_legends:block/mirage_plank"
+    },
+    "type=top": {
+      "model": "pokecube_legends:block/mirage_slab_top"
+    }
+  }
+}

@@ -1,24 +1,25 @@
 {
-  "scale": 0.2,
   "effects": {
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,
       "block_search_extent": 8,
-      "offset": 2.0
+      "offset": 2
     },
+    "sky_color": 1250367,
+    "fog_color": 3943523,
+    "water_color": 15066598,
+    "water_fog_color": 10987433,
+    "foliage_color": 5051432,
+    "grass_color": 3280927,
     "particle": {
       "options": {
-        "type": "minecraft:warped_spore"
+        "type": "minecraft:falling_dust",
+        "Name": "minecraft:gravel"
       },
-      "probability": 0.024
+      "probability": 0.005
     },
-    "sky_color": 1575455,
-    "fog_color": 3810395,
-    "water_color": 16777215,
-    "water_fog_color": 9079434,
-    "grass_color": 5126771,
-    "foliage_color": 1970746
+    "ambient_sound": "minecraft:ambient.cave"
   },
   "surface_builder": "pokecube_legends:deep_cave",
   "carvers": {
@@ -44,17 +45,21 @@
     [],
     [
      "pokecube_legends:deep_cave_vegetation",
-     "pokecube_legends:deep_flower"
+     "pokecube_legends:deep_flower",
+     "minecraft:patch_grass_plain",
+     "minecraft:brown_mushroom_normal",
+     "minecraft:red_mushroom_normal"
     ],
     []
   ],
   "starts": [],
   "spawners": {},
   "spawn_costs": {},
-  "player_spawn_friendly": false,
-  "precipitation": "none",
-  "temperature": 2.0,
-  "downfall": 0.0,
-  "category": "mesa",
-  "depth": 0.1
+  "category": "extreme_hills",
+  "precipitation": "rain",
+  "scale": 0.05,
+  "downfall": 0.4,
+  "depth": 0.12,
+  "temperature": 0.8,
+  "player_spawn_friendly": true
 }
