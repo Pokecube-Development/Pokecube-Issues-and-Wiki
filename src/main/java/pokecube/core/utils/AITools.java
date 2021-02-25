@@ -45,9 +45,10 @@ public class AITools
     private static class ValidCheck implements Predicate<Entity>
     {
         @Override
-        public boolean test(final Entity input)
+        public boolean test(Entity input)
         {
             if (input == null) return true;
+            input = EntityTools.getCoreEntity(input);
             final ResourceLocation eid = input.getType().getRegistryName();
             if (AITools.invalidIDs.contains(eid)) return false;
             for (final String tag : AITools.invalidTags)

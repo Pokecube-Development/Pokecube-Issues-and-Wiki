@@ -1,7 +1,5 @@
 package thut.api.maths.vecmath;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.Vector3;
 
 /**
@@ -11,6 +9,12 @@ import thut.api.maths.Vector3;
  */
 public class Vector3f extends Tuple3f implements java.io.Serializable
 {
+    public static Vector3f XN = new Vector3f(-1.0F, 0.0F, 0.0F);
+    public static Vector3f XP = new Vector3f(1.0F, 0.0F, 0.0F);
+    public static Vector3f YN = new Vector3f(0.0F, -1.0F, 0.0F);
+    public static Vector3f YP = new Vector3f(0.0F, 1.0F, 0.0F);
+    public static Vector3f ZN = new Vector3f(0.0F, 0.0F, -1.0F);
+    public static Vector3f ZP = new Vector3f(0.0F, 0.0F, 1.0F);
 
     // Combatible with 1.1
     static final long serialVersionUID = -7031930069184524614L;
@@ -93,7 +97,16 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
         super();
     }
 
-    @OnlyIn(value = Dist.CLIENT)
+    public Quat4f rotation(final float valueIn)
+    {
+        return new Quat4f(this, valueIn, false);
+    }
+
+    public Quat4f rotationDegrees(final float valueIn)
+    {
+        return new Quat4f(this, valueIn, true);
+    }
+
     public net.minecraft.util.math.vector.Vector3f toMC()
     {
         return new net.minecraft.util.math.vector.Vector3f(this.x, this.y, this.z);
