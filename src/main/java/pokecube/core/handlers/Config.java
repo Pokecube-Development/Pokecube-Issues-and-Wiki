@@ -212,13 +212,13 @@ public class Config extends ConfigData
     public boolean pokemobsEatGravel     = false;
     @Configure(category = Config.mobAI, comment = "if true, hungy lithovores will eat rocks to cobble/gravel")
     public boolean pokemobsEatRocks      = true;
-    @Configure(category = Config.mobAI, comment = "if ture, hungry herbivores will eat random plants")
+    @Configure(category = Config.mobAI, comment = "if true, hungry herbivores will eat random plants")
     public boolean pokemobsEatPlants     = true;
     @Configure(category = Config.mobAI, comment = "if true, there will be a warning in chat if a wild pokemob agresses you")
     public boolean pokemobagresswarning  = true;
     @Configure(category = Config.mobAI, comment = "if true, player's pokemobs can hit them with AOE moves and misses")
     public boolean pokemobsDamageOwner   = false;
-    @Configure(category = Config.mobAI, comment = "if ture, pokemobs can hurt players")
+    @Configure(category = Config.mobAI, comment = "if true, pokemobs can hurt players")
     public boolean pokemobsDamagePlayers = true;
     @Configure(category = Config.mobAI, comment = "if true, pokemob attacks can remove or destroy blocks in the world.")
     public boolean pokemobsDamageBlocks  = false;
