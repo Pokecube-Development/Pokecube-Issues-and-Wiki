@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "pokecube_legends:blocks/koko_totem/tapukoko_light_blue",
-		"particle": "pokecube_legends:blocks/koko_totem/tapukoko_light_blue"
+		"0": "pokecube_legends:blocks/koko_totem/tapukoko_lightgray",
+		"particle": "pokecube_legends:blocks/koko_totem/tapukoko_lightgray"
 	},
 	"elements": [
 		{

@@ -1,5 +1,5 @@
 {
-   "parent": "pokecube_legends:block/koko_totem/koko_light_gray_totem",
+   "parent": "pokecube_legends:block/bulu_totem/bulu_lightblue_totem",
    "display": {
     "gui": {
       "rotation": [ 30, 225, 0 ],
