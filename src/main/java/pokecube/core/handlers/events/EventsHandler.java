@@ -114,6 +114,9 @@ import pokecube.nbtedit.NBTEdit;
 import thut.api.entity.ShearableCaps;
 import thut.api.item.ItemList;
 import thut.core.common.commands.CommandConfigs;
+import thut.core.common.handlers.PlayerDataHandler;
+import thut.core.common.handlers.PlayerDataHandler.PlayerData;
+import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
 public class EventsHandler
@@ -313,7 +316,9 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerLogin);
         // This one handles not sending "hidden" pokecubes to the player, for
         // loot-pokecubes which the player is not allowed to pick up yet.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPokecubeWatch);
+        // This also handles syncing player data over to other players, for
+        // stats information in pokewatch.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onStartTracking);
 
         // This initializes some things in the Database, is HIGHEST to ensure
         // that is finished before addons do their own things. It also does some
@@ -607,7 +612,7 @@ public class EventsHandler
         EventsHandler.sendInitInfo((ServerPlayerEntity) player);
     }
 
-    private static void onPokecubeWatch(final StartTracking event)
+    private static void onStartTracking(final StartTracking event)
     {
         // Check if the pokecube is loot, and is not collectable by the player,
         // if this is the case, it should be set invisible.
@@ -617,6 +622,14 @@ public class EventsHandler
             if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity())) PacketPokecube.sendMessage(
                     (PlayerEntity) event.getEntity(), pokecube.getEntityId(), pokecube.world.getGameTime()
                             + pokecube.resetTime);
+        }
+        if (event.getTarget() instanceof ServerPlayerEntity && event.getEntity() instanceof ServerPlayerEntity)
+        {
+            final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData((PlayerEntity) event
+                    .getTarget());
+            final PlayerData data = manager.getData("pokecube-stats");
+            PacketDataSync.syncData(data, event.getTarget().getUniqueID(), (ServerPlayerEntity) event.getEntity(),
+                    false);
         }
     }
 
@@ -696,8 +709,8 @@ public class EventsHandler
 
     public static void sendInitInfo(final ServerPlayerEntity player)
     {
-        PacketDataSync.sendInitPacket(player, "pokecube-data");
-        PacketDataSync.sendInitPacket(player, "pokecube-stats");
+        PacketDataSync.syncData(player, "pokecube-data");
+        PacketDataSync.syncData(player, "pokecube-stats");
         PacketPokedex.sendLoginPacket(player);
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
         else if (!PokecubeSerializer.getInstance().hasStarter(player)) player.sendMessage(new TranslationTextComponent(

@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -76,6 +77,10 @@ public class ProgressPage extends PageWithSubPages<Progress>
         AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 10, colour);
         AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 20,
                 colour);
+
+        PlayerEntity player = this.watch.player;
+        if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
+        AbstractGui.drawCenteredString(mat, this.font, player.getDisplayName().getString(), x + 135, y + 30, colour);
     }
 
     @Override

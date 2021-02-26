@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GRG",
+    "CCC"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:black_dye"
+    },
+    "R": {
+      "item": "pokecube_legends:b1_flower"
+    },
+    "C": {
+      "item": "pokecube:pokecube"
+    }
+  },
+  "result": {
+    "item": "pokecube:rocketcube",
+    "count": 3
+  }
+}

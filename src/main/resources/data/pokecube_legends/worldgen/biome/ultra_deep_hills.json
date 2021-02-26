@@ -1,24 +1,24 @@
 {
-  "scale": 0.45000002,
   "effects": {
     "mood_sound": {
-      "sound": "minecraft:ambient.cave",
+      "sound": "minecraft:ambient.soul_sand_valley.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
-      "offset": 2.0
+      "offset": 2
     },
+    "sky_color": 1704752,
+    "fog_color": 1710113,
+    "water_color": 3883333,
+    "water_fog_color": 1908000,
+    "foliage_color": 2694159,
+    "grass_color": 2564635,
     "particle": {
       "options": {
         "type": "minecraft:white_ash"
       },
-      "probability": 0.11
+      "probability": 0.011
     },
-    "sky_color": 7368816,
-    "fog_color": 3026478,
-    "water_color": 9837923,
-    "water_fog_color": 11096477,
-    "grass_color": 328965,
-    "foliage_color": 328965
+    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop"
   },
   "surface_builder": "pokecube_legends:deep_hills",
   "carvers": {
@@ -44,19 +44,18 @@
     ],
     [],
     [
-     "pokecube_legends:hills_flower"
+     "pokecube_legends:deep_hills_vegetation"
     ],
-    [
-    ]
+    []
   ],
   "starts": [],
-  "creature_spawn_probability": 0.07,
   "spawners": {},
-  "spawn_costs": {},
+  "category": "swamp",
+  "precipitation": "none",
+  "scale": 0.05,
+  "downfall": 0.2,
+  "depth": 0.16,
+  "temperature": 0.3,
   "player_spawn_friendly": false,
-  "precipitation": "snow",
-  "temperature": 0.0,
-  "downfall": 0.5,
-  "category": "icy",
-  "depth": 0.425
+  "spawn_costs": {}
 }

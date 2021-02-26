@@ -53,6 +53,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
+import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import thut.api.maths.Vector3;
@@ -198,10 +199,11 @@ public abstract class EntityPokecubeBase extends LivingEntity
             break;
         case ENTITY:
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;
-            final IPokemob hitMob = CapabilityPokemob.getPokemobFor(hit.getEntity());
+            final Entity hitEntity = EntityTools.getCoreEntity(hit.getEntity());
+            final IPokemob hitMob = CapabilityPokemob.getPokemobFor(hitEntity);
 
-            final boolean invalidStick = hit.getEntity() instanceof PlayerEntity || !capturing || hitMob == null
-                    || hitMob.getOwnerId() != null;
+            final boolean invalidStick = hitEntity instanceof PlayerEntity || !capturing || hitMob == null || hitMob
+                    .getOwnerId() != null;
 
             // Set us to the location, but not stick to players.
             if (!invalidStick) this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
@@ -214,9 +216,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 final LivingEntity sent = SendOutManager.sendOut(this, true);
                 if (sent instanceof MobEntity && hit.getEntity() instanceof LivingEntity) BrainUtils.initiateCombat(
                         (MobEntity) sent, (LivingEntity) hit.getEntity());
-
             }
-            else CaptureManager.captureAttempt(this, this.rand, hit.getEntity());
+            else CaptureManager.captureAttempt(this, this.rand, hitEntity);
             break;
         case MISS:
             break;
@@ -264,9 +265,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
         final Predicate<Entity> valid = (mob) ->
         {
-            return !mob.isSpectator() && mob.canBeCollidedWith() && !(mob instanceof EntityPokecubeBase)
-                    && mob instanceof LivingEntity && mob != this.ignoreEntity && mob != this && this.getDistanceSq(
-                            mob) < 4;
+            final Entity e = EntityTools.getCoreEntity(mob);
+            return !e.isSpectator() && mob.canBeCollidedWith() && !(e instanceof EntityPokecubeBase)
+                    && e instanceof LivingEntity && e != this.ignoreEntity && e != this;
         };
 
         if (!this.isReleasing()) for (final Entity entity : this.world.getEntitiesInAABBexcluding(this, axisalignedbb,
@@ -679,8 +680,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
      * Gets the EntityRayTraceResult representing the entity hit
      */
     @Nullable
-    public static EntityRayTraceResult rayTraceEntities(final World worldIn, final Entity projectile, final Vector3d startVec, final Vector3d endVec,
-            final AxisAlignedBB boundingBox, final Predicate<Entity> filter, final double distance)
+    public static EntityRayTraceResult rayTraceEntities(final World worldIn, final Entity projectile,
+            final Vector3d startVec, final Vector3d endVec, final AxisAlignedBB boundingBox,
+            final Predicate<Entity> filter, final double distance)
     {
         double d0 = distance;
         Entity entity = null;

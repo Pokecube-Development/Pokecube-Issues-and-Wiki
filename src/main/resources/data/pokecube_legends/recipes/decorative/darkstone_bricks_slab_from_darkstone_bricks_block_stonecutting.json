@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:ultra_darkstone_bricks"
+  },
+  "result": "pokecube_legends:ultra_darkstone_bricks_slab",
+  "count": 2
+}

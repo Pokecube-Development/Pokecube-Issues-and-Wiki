@@ -1,0 +1,18 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "444",
+    "   "
+  ],
+  "key": {
+    "4": {
+      "item": "minecraft:purpur_block"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:spatianbrick",
+    "count": 3
+  }
+}

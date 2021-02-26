@@ -1,0 +1,319 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "name": "pokecube_legends_pool_maps",
+      "rolls": 2,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 50,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:sky_pillar",
+              "decoration": "target_x",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 49,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:lugia_tower",
+              "decoration": "blue_marker",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 48,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:hooh_tower",
+              "decoration": "red_marker",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 42,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:kyogre_temple",
+              "decoration": "target_point",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 40,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:celebi_temple",
+              "decoration": "banner_lime",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 32,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:zacian_temple",
+              "decoration": "banner_blue",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 32,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:zamazenta_temple",
+              "decoration": "banner_red",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 28,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:keldeo_place",
+              "decoration": "frame",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 27,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:nature_place",
+              "decoration": "banner_green",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 24,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:xerneas_place",
+              "decoration": "banner_white",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 25,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:yveltal_place",
+              "decoration": "banner_red",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 22,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:legendy_tree",
+              "decoration": "red_x",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 17,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:castle_n",
+              "decoration": "banner_black",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:regidrago_temple",
+              "decoration": "banner_red",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:regieleki_temple",
+              "decoration": "banner_yellow",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:regice_temple",
+              "decoration": "banner_light_blue",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:registeel_temple",
+              "decoration": "banner_gray",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:regirock_temple",
+              "decoration": "banner_orange",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:regigigas_temple",
+              "decoration": "banner_white",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:kubfu_water",
+              "decoration": "blue_marker",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:kubfu_dark",
+              "decoration": "red_marker",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 14,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:tapus_temple",
+              "decoration": "banner_purple",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        }
+      ]
+    }
+  ]
+}

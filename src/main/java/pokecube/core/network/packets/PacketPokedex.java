@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -122,12 +123,12 @@ public class PacketPokedex extends Packet
         PokecubeCore.packets.sendToServer(packet);
     }
 
-    public static void sendOpenPacket(final ServerPlayerEntity player, final IPokemob pokemob, final boolean watch)
+    public static void sendOpenPacket(final ServerPlayerEntity player, final Entity pokemob, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex();
         packet.message = PacketPokedex.OPEN;
         packet.data.putBoolean("W", watch);
-        if (pokemob != null) packet.data.putInt("M", pokemob.getEntity().getEntityId());
+        if (pokemob != null) packet.data.putInt("M", pokemob.getEntityId());
         PokecubeCore.packets.sendTo(packet, player);
     }
 
@@ -258,7 +259,8 @@ public class PacketPokedex extends Packet
                     "M"), true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             final boolean watch = this.data.getBoolean("W");
-            if (watch) net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new GuiPokeWatch(player, pokemob));
+            if (watch) net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new GuiPokeWatch(player,
+                    mob instanceof LivingEntity ? (LivingEntity) mob : null));
             else net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new GuiPokedex(pokemob, player));
             return;
         case REQUEST:
@@ -517,7 +519,7 @@ public class PacketPokedex extends Packet
             final int index2 = this.data.getInt("2");
             PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
             TeleportHandler.swapTeleports(player.getCachedUniqueIdString(), index1, index2);
-            PacketDataSync.sendInitPacket(player, "pokecube-data");
+            PacketDataSync.syncData(player, "pokecube-data");
             return;
         case REMOVE:
             final int index = this.data.getInt("I");
@@ -525,14 +527,14 @@ public class PacketPokedex extends Packet
             TeleportHandler.unsetTeleport(index, player.getCachedUniqueIdString());
             player.sendMessage(new StringTextComponent("Deleted " + loc.getName()), Util.DUMMY_UUID);
             PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
-            PacketDataSync.sendInitPacket(player, "pokecube-data");
+            PacketDataSync.syncData(player, "pokecube-data");
             return;
         case RENAME:
             final String name = this.data.getString("N");
             TeleportHandler.renameTeleport(player.getCachedUniqueIdString(), this.data.getInt("I"), name);
             player.sendMessage(new StringTextComponent("Set teleport as " + name), Util.DUMMY_UUID);
             PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
-            PacketDataSync.sendInitPacket(player, "pokecube-data");
+            PacketDataSync.syncData(player, "pokecube-data");
             return;
         case INSPECT:
             final boolean reward = this.data.getBoolean("R");

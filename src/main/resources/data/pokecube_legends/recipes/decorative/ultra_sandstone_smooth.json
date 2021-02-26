@@ -1,0 +1,17 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "pokecube_legends:ultrasandstone"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:ultra_sandstone_smooth",
+    "count": 4
+  }
+}

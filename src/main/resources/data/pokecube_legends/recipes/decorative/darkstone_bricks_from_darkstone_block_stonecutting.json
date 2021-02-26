@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:ultracobbles"
+  },
+  "result": "pokecube_legends:ultra_darkstone_bricks",
+  "count": 1
+}

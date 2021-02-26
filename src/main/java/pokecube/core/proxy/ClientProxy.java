@@ -75,6 +75,15 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    public PlayerEntity getPlayer(final UUID uuid)
+    {
+        // This is null on single player, so we have an integrated server
+        if (Minecraft.getInstance().getCurrentServerData() == null) return super.getPlayer(uuid);
+        // Otherwise ask the world for the player.
+        return this.getWorld().getPlayerByUuid(uuid);
+    }
+
+    @Override
     public PlayerEntity getPlayer()
     {
         return Minecraft.getInstance().player;

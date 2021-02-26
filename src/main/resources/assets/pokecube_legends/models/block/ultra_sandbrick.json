@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+    "down": "pokecube_legends:blocks/ultra_sandbrick",
+    "up": "pokecube_legends:blocks/ultra_sandbrick",
+    "north": "pokecube_legends:blocks/ultra_sandbrick",
+    "east": "pokecube_legends:blocks/ultra_sandbrick",
+    "south": "pokecube_legends:blocks/ultra_sandbrick",
+    "west": "pokecube_legends:blocks/ultra_sandbrick",
+    "particle": "pokecube_legends:blocks/ultra_sandbrick"
+  }
+}

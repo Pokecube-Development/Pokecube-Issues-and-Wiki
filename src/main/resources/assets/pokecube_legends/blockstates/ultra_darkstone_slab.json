@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube_legends:block/ultra_darkstone_slab"
+    },
+    "type=double": {
+      "model": "pokecube_legends:block/ultra_darkstone"
+    },
+    "type=top": {
+      "model": "pokecube_legends:block/ultra_darkstone_slab_top"
+    }
+  }
+}

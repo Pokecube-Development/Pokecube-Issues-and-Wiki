@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -22,6 +23,7 @@ import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class GuiPokeWatch extends Screen
@@ -101,13 +103,15 @@ public class GuiPokeWatch extends Screen
     public WatchPage current_page = null;
 
     public final IPokemob     pokemob;
+    public final LivingEntity target;
     public final PlayerEntity player;
     public int                index = 0;
 
-    public GuiPokeWatch(final PlayerEntity player, final IPokemob pokemob)
+    public GuiPokeWatch(final PlayerEntity player, final LivingEntity target)
     {
         super(new TranslationTextComponent("pokecube.watch"));
-        this.pokemob = pokemob;
+        this.target = target;
+        this.pokemob = CapabilityPokemob.getPokemobFor(target);
         if (this.pokemob != null)
         {
             PacketPokedex.sendInspectPacket(this.pokemob);

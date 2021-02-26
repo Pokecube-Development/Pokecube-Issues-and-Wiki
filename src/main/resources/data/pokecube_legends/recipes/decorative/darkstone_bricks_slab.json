@@ -1,0 +1,16 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:ultra_darkstone_bricks"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:ultra_darkstone_bricks_slab",
+    "count": 6
+  }
+}

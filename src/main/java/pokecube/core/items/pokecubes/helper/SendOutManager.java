@@ -44,9 +44,15 @@ public class SendOutManager
             final boolean respectRoom)
     {
         AxisAlignedBB box = mob.getBoundingBox();
-        final PartEntity<?>[] parts = mob.getParts();
-        if (parts != null) for (final PartEntity<?> part : parts)
-            box = box.union(part.getBoundingBox());
+        if (mob.isMultipartEntity())
+        {
+            final PartEntity<?>[] parts = mob.getParts();
+            box = null;
+            // If it has parts, use that for the bounds instead.
+            for (final PartEntity<?> part : parts)
+                if (box == null) box = part.getBoundingBox();
+                else box = box.union(part.getBoundingBox());
+        }
         if (SendOutManager.valid(box, world)) return pos.copy();
         final int size = 10;
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector();

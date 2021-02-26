@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "pokecube_legends:blocks/spectrum_block",
+    "top": "pokecube_legends:blocks/spectrum_block",
+    "side": "pokecube_legends:blocks/spectrum_block"
+  }
+}

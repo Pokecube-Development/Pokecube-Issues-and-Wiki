@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -32,14 +33,18 @@ public class GlobalProgress extends Progress
     public void onPageOpened()
     {
         this.lines.clear();
-        this.caught0 = CaptureStats.getNumberUniqueCaughtBy(this.watch.player.getUniqueID());
-        this.caught1 = CaptureStats.getTotalNumberCaughtBy(this.watch.player.getUniqueID());
 
-        this.hatched0 = EggStats.getNumberUniqueHatchedBy(this.watch.player.getUniqueID());
-        this.hatched1 = EggStats.getTotalNumberHatchedBy(this.watch.player.getUniqueID());
+        PlayerEntity player = this.watch.player;
+        if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
 
-        this.killed0 = KillStats.getNumberUniqueKilledBy(this.watch.player.getUniqueID());
-        this.killed1 = KillStats.getTotalNumberKilledBy(this.watch.player.getUniqueID());
+        this.caught0 = CaptureStats.getNumberUniqueCaughtBy(player.getUniqueID());
+        this.caught1 = CaptureStats.getTotalNumberCaughtBy(player.getUniqueID());
+
+        this.hatched0 = EggStats.getNumberUniqueHatchedBy(player.getUniqueID());
+        this.hatched1 = EggStats.getTotalNumberHatchedBy(player.getUniqueID());
+
+        this.killed0 = KillStats.getNumberUniqueKilledBy(player.getUniqueID());
+        this.killed1 = KillStats.getTotalNumberKilledBy(player.getUniqueID());
 
         final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.global.caught",
                 this.caught1, this.caught0);
@@ -68,6 +73,8 @@ public class GlobalProgress extends Progress
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
 
         inspectBtn.setFGColor(0x444444);
+
+        if (player != this.watch.player) inspectBtn.visible = false;
 
         for (final IFormattableTextComponent line : ListHelper.splitText(captureLine, 190, this.font, false))
             this.lines.add(line.getString());

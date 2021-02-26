@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom",
+  "textures": {
+    "top": "pokecube_legends:blocks/corrupted_door_top",
+    "bottom": "pokecube_legends:blocks/corrupted_door_bottom"
+  }
+}

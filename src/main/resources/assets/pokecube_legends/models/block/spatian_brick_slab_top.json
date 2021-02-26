@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "pokecube_legends:blocks/spatianbrick",
+    "top": "pokecube_legends:blocks/spatianbrick",
+    "side": "pokecube_legends:blocks/spatianbrick"
+  }
+}

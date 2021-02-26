@@ -9,6 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -106,12 +107,12 @@ public class PerMobProgress extends Progress
             this.entry = Database.getEntry(name);
             if (this.entry == null) this.entry = Pokedex.getInstance().getFirstEntry();
         }
+        PlayerEntity player = this.watch.player;
+        if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
         this.text.setText(this.entry.getName());
-        this.caught0 = CaptureStats.getTotalNumberOfPokemobCaughtBy(this.watch.player.getUniqueID(), this.entry);
-
-        this.hatched0 = EggStats.getTotalNumberOfPokemobHatchedBy(this.watch.player.getUniqueID(), this.entry);
-
-        this.killed0 = KillStats.getTotalNumberOfPokemobKilledBy(this.watch.player.getUniqueID(), this.entry);
+        this.caught0 = CaptureStats.getTotalNumberOfPokemobCaughtBy(player.getUniqueID(), this.entry);
+        this.hatched0 = EggStats.getTotalNumberOfPokemobHatchedBy(player.getUniqueID(), this.entry);
+        this.killed0 = KillStats.getTotalNumberOfPokemobKilledBy(player.getUniqueID(), this.entry);
 
         final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.mob.caught",
                 this.caught0, this.entry);

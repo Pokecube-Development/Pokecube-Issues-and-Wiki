@@ -1,0 +1,11 @@
+
+{
+  "variants": {
+    "powered=false": {
+      "model": "pokecube_legends:block/ultra_darkstone_pressure_plate"
+    },
+    "powered=true": {
+      "model": "pokecube_legends:block/ultra_darkstone_pressure_plate_down"
+    }
+  }
+}

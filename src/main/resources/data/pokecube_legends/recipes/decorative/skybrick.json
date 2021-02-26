@@ -1,0 +1,21 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " 0 ",
+    "040",
+    " 0 "
+  ],
+  "key": {
+    "0": {
+      "tag": "minecraft:stone_bricks"
+    },
+    "4": {
+      "tag": "forge:dyes/light_blue"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:skybrick",
+    "count": 4
+  }
+}
