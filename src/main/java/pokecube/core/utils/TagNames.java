@@ -86,6 +86,8 @@ public interface TagNames
     public static final String HATCHED = "pokecube:hatched";
     public static final String TRADED  = "pokecube:traded";
     public static final String NOPOOF  = "pokecube:nodespawn";
+    public static final String NODROP  = "pokecube:nodrop";
+    public static final String CLONED  = "pokecube:cloned";
 
     public static final String CAPTURING = "pokecube:capturing";
 
