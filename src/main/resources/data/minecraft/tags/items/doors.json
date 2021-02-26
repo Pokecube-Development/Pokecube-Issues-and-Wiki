@@ -1,6 +1,17 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:wooden_doors"
+    "pokecube:enigma_door",
+    "pokecube:leppa_door",
+    "pokecube:nanab_door",
+    "pokecube:oran_door",
+    "pokecube:pecha_door",
+    "pokecube:sitrus_door",
+    "pokecube_legends:aged_door",
+    "pokecube_legends:distortic_door",
+    "pokecube_legends:inverted_door",
+    "pokecube_legends:temporal_door",
+	"pokecube_legends:corrupted_door",
+	"pokecube_legends:mirage_door"
   ]
 }
