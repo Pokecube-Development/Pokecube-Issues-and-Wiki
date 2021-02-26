@@ -39,6 +39,12 @@ public class DynamaxGene implements Gene<DynaObject>
     }
 
     @Override
+    public float getMutationRate()
+    {
+        return GeneticsManager.mutationRates.get(this.getKey());
+    }
+
+    @Override
     public DynaObject getValue()
     {
         return this.value;
