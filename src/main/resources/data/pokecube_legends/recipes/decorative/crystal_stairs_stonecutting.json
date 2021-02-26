@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:temporal_crystal"
+  },
+  "result": "pokecube_legends:crystal_stairs",
+  "count": 1
+}

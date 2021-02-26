@@ -8,7 +8,7 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:netherrack"
+      "tag": "forge:netherrack"
     },
     "Z": {
       "item": "minecraft:magma_block"

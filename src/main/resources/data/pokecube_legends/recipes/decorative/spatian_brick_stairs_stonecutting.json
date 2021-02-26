@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:spatianbrick"
+  },
+  "result": "pokecube_legends:spatian_brick_stairs",
+  "count": 1
+}

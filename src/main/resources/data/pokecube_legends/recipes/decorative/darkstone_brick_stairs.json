@@ -8,11 +8,11 @@
   ],
   "key": {
     "#": {
-      "item": "pokecube_legends:ultracobbles"
+      "item": "pokecube_legends:ultra_darkstone_bricks"
     }
   },
   "result": {
-    "item": "pokecube_legends:ultra_darkstone_stairs",
+    "item": "pokecube_legends:ultra_darkstone_bricks_stairs",
     "count": 4
   }
 }

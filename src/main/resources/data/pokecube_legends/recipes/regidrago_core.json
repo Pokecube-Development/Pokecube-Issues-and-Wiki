@@ -7,10 +7,10 @@
   ],
   "key": {
     "R": {
-      "item": "minecraft:obsidian"
+      "tag": "forge:obsidian"
     },
     "A": {
-      "item": "pokecube_legends:ruby_block"
+      "tag": "forge:storage_blocks/ruby"
     },
     "C": {
       "item": "minecraft:magma_block"

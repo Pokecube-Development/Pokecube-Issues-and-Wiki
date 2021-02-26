@@ -8,7 +8,7 @@
   ],
   "key": {
     "4": {
-      "item": "minecraft:gold_block"
+      "tag": "forge:storage_blocks/gold"
     },
     "2": {
       "item": "pokecube_legends:grayorb"

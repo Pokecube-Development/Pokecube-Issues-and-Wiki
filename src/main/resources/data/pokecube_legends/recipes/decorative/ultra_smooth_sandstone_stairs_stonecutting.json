@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:ultra_sandstone_smooth"
+  },
+  "result": "pokecube_legends:ultra_sandstone_smooth_stairs",
+  "count": 1
+}

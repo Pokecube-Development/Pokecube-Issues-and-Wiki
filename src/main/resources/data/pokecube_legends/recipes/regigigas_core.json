@@ -7,16 +7,16 @@
   ],
   "key": {
     "R": {
-      "item": "minecraft:emerald_block"
+      "tag": "forge:storage_blocks/emerald"
     },
     "A": {
-      "item": "minecraft:redstone_block"
+      "tag": "forge:storage_blocks/redstone"
     },
     "C": {
       "item": "minecraft:end_stone_bricks"
     },
     "G": {
-      "item": "minecraft:gold_block"
+      "tag": "forge:storage_blocks/gold"
     }
   },
   "result": {
