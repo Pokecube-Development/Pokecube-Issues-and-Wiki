@@ -15,7 +15,7 @@ public class EntityTools
         to.readAdditional(tag);
     }
 
-    public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
+    public static void copyRotations(final Entity to, final Entity from)
     {
         to.rotationPitch = from.rotationPitch;
         to.ticksExisted = from.ticksExisted;
@@ -23,15 +23,39 @@ public class EntityTools
         to.setRotationYawHead(from.getRotationYawHead());
         to.prevRotationPitch = from.prevRotationPitch;
         to.prevRotationYaw = from.prevRotationYaw;
+    }
+
+    public static void copyPositions(final Entity to, final Entity from)
+    {
+        to.lastTickPosX = from.lastTickPosX;
+        to.lastTickPosY = from.lastTickPosY;
+        to.lastTickPosZ = from.lastTickPosZ;
+
+        to.prevPosX = from.prevPosX;
+        to.prevPosY = from.prevPosY;
+        to.prevPosZ = from.prevPosZ;
+
+        to.chunkCoordX = from.chunkCoordX;
+        to.chunkCoordY = from.chunkCoordY;
+        to.chunkCoordZ = from.chunkCoordZ;
+
+        to.setPosition(from.getPosX(), from.getPosY(), from.getPosZ());
+        to.setMotion(from.getMotion());
+    }
+
+    public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
+    {
+        EntityTools.copyRotations(to, from);
+
         to.prevRotationYawHead = from.prevRotationYawHead;
         to.prevRenderYawOffset = from.prevRenderYawOffset;
         to.renderYawOffset = from.renderYawOffset;
 
-        to.setOnGround(from.isOnGround());
-
         to.prevLimbSwingAmount = from.prevLimbSwingAmount;
         to.limbSwing = from.limbSwing;
         to.limbSwingAmount = from.limbSwingAmount;
+
+        to.setOnGround(from.isOnGround());
     }
 
     public static void copyPokemobData(final IPokemob from, final IPokemob to)

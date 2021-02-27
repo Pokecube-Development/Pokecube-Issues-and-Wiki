@@ -152,7 +152,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         Move_Base move = null;
         move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
         if (move == null) move = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
-        double var1 = (double) (this.entity.getWidth() * 2.0F) * (this.entity.getWidth() * 2.0F);
+        double var1 = (this.entity.getWidth() + 0.75) * (this.entity.getWidth() + 0.75);
         boolean distanced = false;
         final boolean self = (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
         final double dist = this.entity.getDistanceSq(this.entityTarget.getPosX(), this.entityTarget.getPosY(),

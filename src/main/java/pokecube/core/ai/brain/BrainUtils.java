@@ -171,7 +171,6 @@ public class BrainUtils
         else brain.setMemory(MemoryModules.LEAP_TARGET, target);
         final IPokemob mob = CapabilityPokemob.getPokemobFor(mobIn);
         if (mob != null) mob.setCombatState(CombatStates.LEAPING, target != null);
-
     }
 
     public static List<NearBlock> getNearBlocks(final LivingEntity mobIn)

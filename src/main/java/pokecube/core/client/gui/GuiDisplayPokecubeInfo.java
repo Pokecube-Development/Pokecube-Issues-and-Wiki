@@ -388,11 +388,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             if (entity == null || !entity.isAlive()) break render;
 
             evt.mat.push();
-
-            final int[] transforms = GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().targetRef,
-                    PokecubeCore.getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore
+            GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().targetRef, PokecubeCore
+                    .getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore
                             .getConfig().targetSize);
-
             // Render HP
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
