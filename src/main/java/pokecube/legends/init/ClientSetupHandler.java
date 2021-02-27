@@ -18,6 +18,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.blocks.PlantBase;
@@ -63,6 +64,8 @@ public class ClientSetupHandler
                     }
                 }
             if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
+            
+            RenderTypeLookup.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.getTranslucent());
         }
     	
     	for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
