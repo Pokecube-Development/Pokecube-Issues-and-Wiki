@@ -87,6 +87,7 @@ public class LegendarySpawn
                 PokecubePlayerDataHandler.getCustomDataTag(playerIn).putBoolean("spwn:" + entry.getTrimmedName(), true);
                 entity.getPersistentData().putUniqueId("spwnedby:", playerIn.getUniqueID());
                 entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
+                entity.getPersistentData().putBoolean(TagNames.NODROP, true);
                 entity.setHealth(entity.getMaxHealth());
                 location.add(0, 1, 0).moveEntity(entity);
                 spawnCondition.onSpawn(pokemob);

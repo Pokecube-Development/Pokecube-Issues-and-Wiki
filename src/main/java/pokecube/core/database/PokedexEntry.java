@@ -935,7 +935,8 @@ public class PokedexEntry
      * water (filter feeds from water)
      */
     @CopyToGender
-    public boolean[]                        foods      = { false, false, false, false, false, true, false };
+    public boolean[] foods = { false, false, false, false, false, true, false };
+
     @CopyToGender
     public HashMap<ItemStack, PokedexEntry> formeItems = Maps.newHashMap();
 

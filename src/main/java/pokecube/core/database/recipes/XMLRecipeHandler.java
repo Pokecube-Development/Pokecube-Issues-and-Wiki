@@ -2,15 +2,12 @@ package pokecube.core.database.recipes;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
-import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.core.xml.bind.annotation.XmlAnyAttribute;
@@ -73,8 +70,6 @@ public class XMLRecipeHandler
         @XmlElement(name = "Recipe")
         public List<XMLRecipe> recipes = Lists.newArrayList();
     }
-
-    public static Set<ResourceLocation> recipeFiles = Sets.newHashSet();
 
     public static Map<String, IRecipeParser> recipeParsers = Maps.newHashMap();
 

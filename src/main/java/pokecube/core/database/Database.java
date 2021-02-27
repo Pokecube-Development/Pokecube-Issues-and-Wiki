@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -190,8 +191,6 @@ public class Database
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
 
     public static List<PokedexEntry> spawnables = new ArrayList<>();
-
-    public static ResourceLocation STARTERPACK = new ResourceLocation("pokecube:database/pack.xml");
 
     public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo");
 
@@ -654,8 +653,9 @@ public class Database
     {
         for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values())
             parser.init();
-
-        for (final ResourceLocation name : XMLRecipeHandler.recipeFiles)
+        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+                "database/recipes", s -> s.endsWith(".json"));
+        for (final ResourceLocation name : resources)
             try
             {
                 final IReloadableResourceManager manager = Database.resourceManager;
@@ -689,7 +689,9 @@ public class Database
 
     private static void loadRewards()
     {
-        for (final ResourceLocation name : XMLRewardsHandler.recipeFiles)
+        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+                "database/rewards", s -> s.endsWith(".json"));
+        for (final ResourceLocation name : resources)
             try
             {
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
@@ -715,16 +717,28 @@ public class Database
     {
         try
         {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager.getResource(
-                    Database.STARTERPACK).getInputStream()));
-            final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
-            reader.close();
-            // Only clear this if things have not failed earlier
-            Database.starterPack.clear();
-            for (final Drop drop : database.drops)
+            final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+                    "database/starterpack", s -> s.endsWith(".json"));
+            boolean valid = false;
+            final List<ItemStack> kit = Lists.newArrayList();
+            for (final ResourceLocation pack : resources)
             {
-                final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
-                if (!stack.isEmpty()) Database.starterPack.add(stack);
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
+                        .getResource(pack).getInputStream()));
+                final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
+                reader.close();
+                valid = true;
+                for (final Drop drop : database.drops)
+                {
+                    final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
+                    if (!stack.isEmpty()) kit.add(stack);
+                }
+            }
+            if (valid)
+            {
+                // Only clear this if things have not failed earlier
+                Database.starterPack.clear();
+                Database.starterPack.addAll(kit);
             }
         }
         catch (final Exception e)

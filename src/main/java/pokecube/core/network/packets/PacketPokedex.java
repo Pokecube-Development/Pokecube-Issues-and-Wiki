@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,6 +21,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Util;
@@ -38,6 +41,7 @@ import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.rewards.XMLRewardsHandler;
+import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.database.util.UnderscoreIgnore;
@@ -61,6 +65,7 @@ import thut.core.common.network.Packet;
 
 public class PacketPokedex extends Packet
 {
+    public static final byte CHECKLEGEND  = -14;
     public static final byte REWARDS      = -13;
     public static final byte BREEDLIST    = -12;
     public static final byte OPEN         = -11;
@@ -82,6 +87,8 @@ public class PacketPokedex extends Packet
     public static List<SpawnBiomeMatcher>              selectedMob  = Lists.newArrayList();
     public static Map<PokedexEntry, SpawnBiomeMatcher> selectedLoc  = Maps.newHashMap();
     public static Map<String, List<String>>            relatedLists = Maps.newHashMap();
+
+    public static Set<PokedexEntry> haveConditions = Sets.newHashSet();
 
     public static boolean repelled = false;
 
@@ -112,6 +119,14 @@ public class PacketPokedex extends Packet
         PlayerDataHandler.getInstance().getPlayerData(PokecubeCore.proxy.getPlayer()).getData(PokecubePlayerStats.class)
                 .inspect(PokecubeCore.proxy.getPlayer(), pokemob);
         packet.data.putInt("V", pokemob.getEntity().getEntityId());
+        PokecubeCore.packets.sendToServer(packet);
+    }
+
+    @OnlyIn(value = Dist.CLIENT)
+    public static void sendCaptureCheck(final PokedexEntry pokemob)
+    {
+        final PacketPokedex packet = new PacketPokedex(PacketPokedex.CHECKLEGEND);
+        packet.data.putString("V", pokemob.getTrimmedName());
         PokecubeCore.packets.sendToServer(packet);
     }
 
@@ -223,6 +238,12 @@ public class PacketPokedex extends Packet
             message.data.putString("R", reward);
             PokecubeCore.packets.sendTo(message, target);
         }
+        final PacketPokedex message = new PacketPokedex(PacketPokedex.CHECKLEGEND);
+        final ListNBT legends = new ListNBT();
+        for (final PokedexEntry e : ISpecialCaptureCondition.captureMap.keySet())
+            legends.add(StringNBT.valueOf(e.getTrimmedName()));
+        message.data.put("legends", legends);
+        PokecubeCore.packets.sendTo(message, target);
     }
 
     byte message;
@@ -328,6 +349,15 @@ public class PacketPokedex extends Packet
             if (!reward.isEmpty()) Database.loadRewards(reward);
             pokecube.core.client.gui.GuiInfoMessages.clear();
             return;
+        case CHECKLEGEND:
+            PacketPokedex.haveConditions.clear();
+            final ListNBT legends = this.data.getList("legends", 8);
+            for (int i = 0; i < legends.size(); i++)
+            {
+                final PokedexEntry p = Database.getEntry(legends.getString(i));
+                if (p != null) PacketPokedex.haveConditions.add(p);
+            }
+            return;
         }
     }
 
@@ -355,6 +385,9 @@ public class PacketPokedex extends Packet
             pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player).getData(
                     PokecubePlayerStats.class).inspect(player, pokemob);
+            return;
+        case SETWATCHPOKE:
+            PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.data.getString("V"));
             return;
         case REQUESTMOB:
             pos = Vector3.getNewVector().set(player);
@@ -552,6 +585,22 @@ public class PacketPokedex extends Packet
                 if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"),
                         Util.DUMMY_UUID);
                 player.closeScreen();
+            }
+            return;
+        case CHECKLEGEND:
+            entry = Database.getEntry(this.data.getString("V"));
+            if (entry != null && ISpecialCaptureCondition.captureMap.containsKey(entry))
+            {
+                final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
+                final boolean valid = condition.canCapture(player);
+                if (valid) player.sendMessage(new TranslationTextComponent("pokewatch.capture.check.yes", entry
+                        .getTranslatedName()), Util.DUMMY_UUID);
+                else
+                {
+                    player.sendMessage(condition.getFailureMessage(player), Util.DUMMY_UUID);
+                    player.sendMessage(new TranslationTextComponent("pokewatch.capture.check.no", entry
+                            .getTranslatedName()), Util.DUMMY_UUID);
+                }
             }
             return;
         }

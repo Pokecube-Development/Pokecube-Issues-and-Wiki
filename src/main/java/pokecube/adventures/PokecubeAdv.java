@@ -72,8 +72,6 @@ import pokecube.adventures.proxy.CommonProxy;
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.recipes.XMLRecipeHandler;
-import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.utils.PokeType;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
@@ -311,9 +309,6 @@ public class PokecubeAdv
 
         MinecraftForge.EVENT_BUS.register(this);
         PokecubeCore.POKEMOB_BUS.register(this);
-
-        XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeAdv.MODID, "database/rewards.json"));
-        XMLRecipeHandler.recipeFiles.add(new ResourceLocation(PokecubeAdv.MODID, "database/recipes.json"));
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)
