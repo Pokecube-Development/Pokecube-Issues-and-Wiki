@@ -28,7 +28,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
@@ -99,9 +98,6 @@ public class PokecubeMobs
         PokecubeCore.POKEMOB_BUS.register(this);
         // We override these so that they use ours instead of default ones.
         CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
-
-        DBLoader.trainerDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trainers.json"));
-        DBLoader.tradeDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trades.json"));
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
