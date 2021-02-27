@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -20,6 +21,7 @@ import pokecube.core.client.gui.watch.progress.PerTypeProgress;
 import pokecube.core.client.gui.watch.progress.Progress;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.network.packets.PacketPokedex;
 
 public class ProgressPage extends PageWithSubPages<Progress>
 {
@@ -81,6 +83,14 @@ public class ProgressPage extends PageWithSubPages<Progress>
         PlayerEntity player = this.watch.player;
         if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
         AbstractGui.drawCenteredString(mat, this.font, player.getDisplayName().getString(), x + 135, y + 30, colour);
+    }
+
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getCurrentLanguage()
+                .getCode());
     }
 
     @Override

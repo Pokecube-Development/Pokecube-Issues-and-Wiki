@@ -8,11 +8,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
@@ -20,6 +23,7 @@ import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.network.packets.PacketPokedex;
 
 public class Description extends ListPage<LineEntry>
 {
@@ -34,6 +38,24 @@ public class Description extends ListPage<LineEntry>
     {
         super(parent, "description", Description.TEX_DM, Description.TEX_NM);
         this.parent = parent;
+    }
+
+    @Override
+    public void init()
+    {
+        super.init();
+        final PokedexEntry e = this.parent.pokemob.getPokedexEntry();
+        if (PacketPokedex.haveConditions.contains(e))
+        {
+            final int x = this.watch.width / 2 + 10;
+            final int y = this.watch.height / 2 + 22;
+            final ITextComponent check_conditions = new TranslationTextComponent("pokewatch.capture.check");
+            final TexButton button = this.addButton(new TexButton(x, y, 100, 12, check_conditions, b ->
+            {
+                PacketPokedex.sendCaptureCheck(e);
+            }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
+            button.setFGColor(0x444444);
+        }
     }
 
     @Override

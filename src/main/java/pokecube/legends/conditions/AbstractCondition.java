@@ -131,13 +131,11 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     abstract boolean hasRequirements(Entity trainer);
 
-    abstract void sendFailureMessage(final Entity trainer);
-
     public boolean canCapture(final Entity trainer, final boolean message)
     {
         if (!this.canCapture(trainer))
         {
-            if (message && trainer != null) this.sendFailureMessage(trainer);
+            if (message && trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.DUMMY_UUID);
             return false;
         }
         return true;
@@ -235,49 +233,52 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     @Override
     public void onCaptureFail(final Entity trainer, final IPokemob pokemob)
     {
-        if (trainer != null) this.sendFailureMessage(trainer);
+        if (trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.DUMMY_UUID);
     }
 
-    public void sendNoTrust(final Entity trainer)
+    public IFormattableTextComponent sendNoTrust(final Entity trainer)
     {
         final String message = "msg.notrust.info";
-        final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
-                .getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component, Util.DUMMY_UUID);
+        final TranslationTextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(
+                this.getEntry().getUnlocalizedName()));
+        return component;
     }
 
-    public void sendNoHere(final Entity trainer)
+    public IFormattableTextComponent sendNoHere(final Entity trainer)
     {
         final String message = "msg.nohere.info";
-        final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
-                .getEntry().getUnlocalizedName()));
+        final TranslationTextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(
+                this.getEntry().getUnlocalizedName()));
         trainer.sendMessage(component, Util.DUMMY_UUID);
+        return component;
     }
 
     // Basic Legend
-    public void sendLegend(final Entity trainer, final String type, final int numA, final int numB)
+    public IFormattableTextComponent sendLegend(final Entity trainer, final String type, final int numA, final int numB)
     {
         final String message = "msg.infolegend.info";
         final ITextComponent typeMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 type)));
-        trainer.sendMessage(new TranslationTextComponent(message, typeMess, numA + 1, numB), Util.DUMMY_UUID);
+        final TranslationTextComponent component = new TranslationTextComponent(message, typeMess, numA + 1, numB);
+        return component;
     }
 
     // Duo Type Legend
-    public void sendLegendDuo(final Entity trainer, final String type, final String kill, final int numA,
-            final int numB, final int killa, final int killb)
+    public IFormattableTextComponent sendLegendDuo(final Entity trainer, final String type, final String kill,
+            final int numA, final int numB, final int killa, final int killb)
     {
         final String message = "msg.infolegendduo.info";
         final ITextComponent typeMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 type)));
         final ITextComponent killMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 kill)));
-        trainer.sendMessage(new TranslationTextComponent(message, typeMess, killMess, numA + 1, numB, killa + 1, killb),
-                Util.DUMMY_UUID);
+        final TranslationTextComponent component = new TranslationTextComponent(message, typeMess, killMess, numA + 1,
+                numB, killa + 1, killb);
+        return component;
     }
 
     // Catch specific Legend
-    public void sendLegendExtra(final Entity trainer, final String names)
+    public IFormattableTextComponent sendLegendExtra(final Entity trainer, final String names)
     {
         final String message = "msg.infolegendextra.info";
         final String[] split = names.split(", ");
@@ -289,21 +290,24 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
             if (namemes == null) namemes = new TranslationTextComponent(entry.getUnlocalizedName());
             else namemes = namemes.appendString(", ").append(new TranslationTextComponent(entry.getUnlocalizedName()));
         }
-        trainer.sendMessage(new TranslationTextComponent(message, namemes), Util.DUMMY_UUID);
+        final TranslationTextComponent component = new TranslationTextComponent(message, namemes);
+        return component;
     }
 
     // Build Legend
-    public void sendLegendBuild(final Entity trainer, final String name)
+    public IFormattableTextComponent sendLegendBuild(final Entity trainer, final String name)
     {
         final String message = "msg.reginotlookright.info";
-        trainer.sendMessage(new TranslationTextComponent(message, name), Util.DUMMY_UUID);
+        final TranslationTextComponent component = new TranslationTextComponent(message, name);
+        trainer.sendMessage(component, Util.DUMMY_UUID);
+        return component;
     }
 
-    public void sendAngered(final Entity trainer)
+    public IFormattableTextComponent sendAngered(final Entity trainer)
     {
         final String message = "msg.angeredlegend.json";
-        final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
-                .getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component, Util.DUMMY_UUID);
+        final TranslationTextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(
+                this.getEntry().getUnlocalizedName()));
+        return component;
     }
 }

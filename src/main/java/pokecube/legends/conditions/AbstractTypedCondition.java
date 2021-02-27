@@ -1,6 +1,7 @@
 package pokecube.legends.conditions;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.text.IFormattableTextComponent;
 import pokecube.core.utils.PokeType;
 
 public abstract class AbstractTypedCondition extends AbstractCondition
@@ -33,13 +34,12 @@ public abstract class AbstractTypedCondition extends AbstractCondition
     }
 
     @Override
-    void sendFailureMessage(final Entity trainer)
+    public IFormattableTextComponent getFailureMessage(final Entity trainer)
     {
         final int count1 = this.caughtNumber(trainer, PokeType.getType(this.type));
         final int count2 = this.spawnNumber(PokeType.getType(this.type));
         final float numTotal = this.threshold;
-        this.sendNoTrust(trainer);
-        this.sendLegend(trainer, this.type, (int) (count2 * numTotal), count1);
+        return this.sendNoTrust(trainer).appendString("\n").append(this.sendLegend(trainer, this.type, (int) (count2 * numTotal), count1));
     }
 
 }

@@ -1,8 +1,7 @@
 package pokecube.legends.conditions;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Util;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -27,10 +26,9 @@ public class Mew extends AbstractCondition
     }
 
     @Override
-    void sendFailureMessage(final Entity trainer)
+    public IFormattableTextComponent getFailureMessage(final Entity trainer)
     {
-        if (trainer instanceof PlayerEntity) ((PlayerEntity) trainer).sendMessage(new TranslationTextComponent(
-                "pokecube_legends.mew.badges"), Util.DUMMY_UUID);
+        return new TranslationTextComponent("pokecube_legends.mew.badges", this.getEntry().getTranslatedName());
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.text.IFormattableTextComponent;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 
@@ -28,7 +29,7 @@ public abstract class AbstractEntriedCondition extends AbstractCondition
     }
 
     @Override
-    void sendFailureMessage(final Entity trainer)
+    public IFormattableTextComponent getFailureMessage(final Entity trainer)
     {
         if (this.names == null)
         {
@@ -37,11 +38,10 @@ public abstract class AbstractEntriedCondition extends AbstractCondition
             this.names = entry.getName();
             for (int i = 1; i < this.needed.size(); i++)
             {
-                entry = Database.getEntry(this.needed.get(1));
-                this.names = this.names + ", " + entry.getName();
+                entry = Database.getEntry(this.needed.get(i));
+                this.names = this.names + ", " + entry.getTranslatedName().getString();
             }
         }
-        this.sendNoTrust(trainer);
-        this.sendLegendExtra(trainer, this.names);
+        return this.sendNoTrust(trainer).appendString("\n").append(this.sendLegendExtra(trainer, this.names));
     }
 }

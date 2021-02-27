@@ -201,7 +201,7 @@ public class EntityPokemob extends PokemobHasParts
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        if (this.getPersistentData().getBoolean(TagNames.CLONED)) return null;
+        if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return null;
         if (this.getPersistentData().getBoolean(TagNames.NODROP)) return null;
         if (PokecubeCore.getConfig().pokemobsDropItems) return this.pokemobCap.getPokedexEntry().lootTable;
         else return null;
