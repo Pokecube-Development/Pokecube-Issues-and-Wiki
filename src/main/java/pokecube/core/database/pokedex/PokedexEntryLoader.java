@@ -493,6 +493,16 @@ public class PokedexEntryLoader
         public String item_preset;
     }
 
+    public static class DyeInfo
+    {
+        // Colour for the normal mob
+        public String base;
+        // Colour for the shiny mob
+        public String shiny;
+        // If this is populated, only the listed dyes will work!
+        public List<String> dyes = Lists.newArrayList();
+    }
+
     public static class XMLPokedexEntry
     {
         public String  name;
@@ -529,6 +539,8 @@ public class PokedexEntryLoader
 
         public StatsNode stats;
         public Moves     moves;
+
+        public DyeInfo dye = null;
 
         public List<DefaultFormeHolder> models = Lists.newArrayList();
 
@@ -1084,60 +1096,6 @@ public class PokedexEntryLoader
                 final String keyString = key.toString();
                 final String value = values.get(key);
                 if (keyString.equals("stationary")) entry.isStationary = Boolean.parseBoolean(value);
-                if (keyString.equals("dye"))
-                {
-                    String[] args = value.split("#");
-                    entry.dyeable = Boolean.parseBoolean(args[0]);
-                    if (args.length > 1)
-                    {
-                        String defaultSpecial = args[1];
-                        try
-                        {
-                            entry.defaultSpecial = Integer.parseInt(defaultSpecial);
-                        }
-                        catch (final NumberFormatException e)
-                        {
-                            defaultSpecial = ThutCore.trim(defaultSpecial);
-                            for (final DyeColor dye : DyeColor.values())
-                                if (ThutCore.trim(dye.name()).equals(defaultSpecial))
-                                {
-                                    entry.defaultSpecial = dye.getId();
-                                    break;
-                                }
-                        }
-                        if (args.length > 2)
-                        {
-                            defaultSpecial = args[2];
-                            try
-                            {
-                                entry.defaultSpecials = Integer.parseInt(defaultSpecial);
-                            }
-                            catch (final NumberFormatException e)
-                            {
-                                defaultSpecial = ThutCore.trim(defaultSpecial);
-                                for (final DyeColor dye : DyeColor.values())
-                                    if (ThutCore.trim(dye.name()).equals(defaultSpecial))
-                                    {
-                                        entry.defaultSpecials = dye.getId();
-                                        break;
-                                    }
-                            }
-                            if (args.length > 3)
-                            {
-                                defaultSpecial = args[3];
-                                args = defaultSpecial.split(",");
-                                for (final String s : args)
-                                    for (final DyeColor dye : DyeColor.values())
-                                        if (dye.name().equals(s) || dye.getTranslationKey().equals(s))
-                                        {
-                                            entry.validDyes.add(dye);
-                                            break;
-                                        }
-
-                            }
-                        }
-                    }
-                }
             }
         }
         try
@@ -1274,6 +1232,43 @@ public class PokedexEntryLoader
                 try
                 {
                     PokedexEntryLoader.postIniStats(entry, stats);
+
+                    // Now handle dyable stuff
+                    if (xmlEntry.dye != null)
+                    {
+                        String base = xmlEntry.dye.base;
+                        String shiny = xmlEntry.dye.shiny;
+                        final List<String> opts = xmlEntry.dye.dyes;
+                        entry.dyeable = true;
+                        // Parse base colour
+                        base = ThutCore.trim(base);
+                        for (final DyeColor dye : DyeColor.values())
+                            if (ThutCore.trim(dye.name()).equals(base))
+                            {
+                                entry.defaultSpecial = dye.getId();
+                                break;
+                            }
+                        // Parse shiny colour
+                        shiny = ThutCore.trim(shiny);
+                        for (final DyeColor dye : DyeColor.values())
+                            if (ThutCore.trim(dye.name()).equals(shiny))
+                            {
+                                entry.defaultSpecials = dye.getId();
+                                break;
+                            }
+                        entry.validDyes.clear();
+                        // Parse any limits on colours
+                        for (String s : opts)
+                        {
+                            s = ThutCore.trim(s);
+                            for (final DyeColor dye : DyeColor.values())
+                                if (ThutCore.trim(dye.name()).equals(s))
+                                {
+                                    entry.validDyes.add(dye);
+                                    break;
+                                }
+                        }
+                    }
                 }
                 catch (final Exception e)
                 {

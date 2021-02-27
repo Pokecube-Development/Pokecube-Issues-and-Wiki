@@ -191,6 +191,7 @@ public class JsonHelper
 
         tags.put("pokemobs_interacts", new String[][] {
             // @formatter:off
+            { "dye" },
             { "stats", "evolutions" },
             { "stats", "formeItems" } ,
             { "stats", "foodMat" } ,
