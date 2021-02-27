@@ -8,16 +8,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 public class MirageGlass extends GlassBlock
 {  
-	protected static final VoxelShape COLLISION_SHAPE = Block.makeCuboidShape(0.1D, 0.0D, 0.1D, 15.9D, 15.9D, 15.9D);
-	protected static final VoxelShape OUTLINE_SHAPE = Block.makeCuboidShape(0.1D, 0.0D, 0.1D, 15.9D, 16.0D, 15.9D);
+	protected static final VoxelShape OUTLINE_SHAPE = Block.makeCuboidShape(0D, 0D, 0D, 16D, 16D, 16D);
 	   
     public MirageGlass(final String name, final Properties props)
     {
@@ -28,10 +29,6 @@ public class MirageGlass extends GlassBlock
 	public boolean shouldDisplayFluidOverlay(final BlockState state, final IBlockDisplayReader world, final BlockPos pos, final FluidState fluidstate) {
 		return true;
 	}
-	
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-	      return COLLISION_SHAPE;
-    }
 
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 	      return OUTLINE_SHAPE;
@@ -41,5 +38,10 @@ public class MirageGlass extends GlassBlock
 		if ((entityIn instanceof PlayerEntity)) {
 			entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 		}
+    }
+
+    @Override
+    public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
+        return new float[]{0.00f, 0.95f, 1.00f};
     }
 }
