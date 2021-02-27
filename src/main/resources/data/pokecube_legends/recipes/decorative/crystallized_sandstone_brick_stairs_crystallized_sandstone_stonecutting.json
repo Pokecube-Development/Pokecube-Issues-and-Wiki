@@ -3,6 +3,6 @@
   "ingredient": {
     "item": "pokecube_legends:ultra_sandbrick"
   },
-  "result": "pokecube_legends:ultra_sandbricks_slab",
-  "count": 2
+  "result": "pokecube_legends:ultra_sandbrick_stairs",
+  "count": 1
 }
