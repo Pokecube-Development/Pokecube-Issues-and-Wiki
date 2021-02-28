@@ -35,7 +35,6 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -141,7 +140,7 @@ public class PokecubeLegends
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
 
-        
+
         //Biomes Dictionary
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB2, Type.JUNGLE, Type.FOREST, Type.DENSE);
@@ -149,7 +148,7 @@ public class PokecubeLegends
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB4, Type.HILLS, Type.DEAD, Type.SPOOKY);
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB5, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB6, Type.MAGICAL, Type.FOREST, Type.SPARSE);
-        
+
         BlockInit.init();
         ItemInit.init();
         MoveRegister.init();
@@ -187,7 +186,7 @@ public class PokecubeLegends
             return new ItemStack(BlockInit.SKY_BRICK.get());
         }
     };
-    
+
     public static final ItemGroup LEGEND_TAB = new ItemGroup("legendtab")
     {
 
