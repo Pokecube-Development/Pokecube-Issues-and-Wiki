@@ -120,6 +120,12 @@ public class UseMoveTask extends UtilTask
     }
 
     @Override
+    public boolean loadThrottle()
+    {
+        return false;
+    }
+
+    @Override
     public void tick()
     {
         // If the move was ranged, check that it is visible, if so, execute

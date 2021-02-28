@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks;
 
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -109,11 +110,18 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         return !(sitting || sleeping || frozen);
     }
 
+    public static boolean doLoadThrottling = false;
+
+    public static int runRate = 10;
+
     protected final IPokemob pokemob;
 
     protected final ServerWorld world;
 
     int priority = 0;
+
+    boolean tempRun  = false;
+    boolean tempCont = false;
 
     public TaskBase(final IPokemob pokemob)
     {
@@ -155,6 +163,19 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         return this;
     }
 
+    private final boolean isPaused(final MobEntity owner)
+    {
+        if (!this.loadThrottle() || !TaskBase.doLoadThrottling) return false;
+        final Random rng = new Random(owner.getUniqueID().hashCode());
+        final int tick = rng.nextInt(TaskBase.runRate);
+        return owner.ticksExisted % TaskBase.runRate == tick;
+    }
+
+    public boolean loadThrottle()
+    {
+        return false;
+    }
+
     @Override
     public void tick()
     {
@@ -163,7 +184,8 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     @Override
     protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
     {
-        return this.shouldRun();
+        if (this.isPaused(owner)) return this.tempRun;
+        return this.tempRun = this.shouldRun();
     }
 
     @Override
@@ -176,12 +198,14 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
-        return this.shouldRun();
+        if (this.isPaused(entityIn)) return this.tempCont;
+        return this.tempCont = this.shouldRun();
     }
 
     @Override
     protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
+        if (this.isPaused(owner));
         this.run();
         this.tick();
         this.finish();
