@@ -7,7 +7,7 @@
   ],
   "key": {
     "M": {
-      "item": "minecraft:diamond"
+      "tag": "forge:gems/diamond"
     },
     "O": {
       "item": "pokecube_legends:grayorb"

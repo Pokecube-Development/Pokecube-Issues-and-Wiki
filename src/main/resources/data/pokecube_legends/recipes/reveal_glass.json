@@ -7,7 +7,7 @@
   ],
   "key": {
     "A": {
-      "item": "pokecube_legends:temporal_crystal"
+      "tag": "forge:storage_blocks/crystal"
     },
     "Q": {
       "item": "pokecube_legends:blueorb"
@@ -19,7 +19,7 @@
       "item": "pokecube_legends:greenorb"
     },
     "G": {
-      "item": "minecraft:quartz"
+      "tag": "forge:gems/quartz"
     }
   },
   "result": {

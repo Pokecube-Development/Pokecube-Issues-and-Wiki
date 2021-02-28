@@ -7,7 +7,7 @@
   ],
   "key": {
     "G": {
-      "item": "minecraft:black_dye"
+      "tag": "forge:dyes/black"
     },
     "R": {
       "item": "pokecube_legends:b1_flower"

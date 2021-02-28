@@ -7,10 +7,10 @@
   ],
   "key": {
     "G": {
-      "item": "minecraft:glass"
+      "tag": "forge:glass"
     },
     "A": {
-      "item": "pokecube_legends:spectrum_shard"
+      "tag": "forge:gems/spectrum"
     }
   },
   "result": {

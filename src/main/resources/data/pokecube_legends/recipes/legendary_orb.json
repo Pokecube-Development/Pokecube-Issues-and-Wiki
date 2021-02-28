@@ -10,7 +10,7 @@
       "item": "minecraft:ender_eye"
     },
     "A": {
-      "item": "minecraft:end_stone"
+      "tag": "forge:end_stones"
     },
     "R": {
       "item": "pokecube_legends:greenorb"

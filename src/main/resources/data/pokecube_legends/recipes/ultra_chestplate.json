@@ -7,13 +7,13 @@
   ],
   "key": {
     "X": {
-      "item": "minecraft:iron_ingot"
+      "tag": "forge:ingots/iron"
     },
     "T": {
       "item": "pokecube_legends:ultramagnetic"
     },
     "R": {
-      "item": "pokecube_legends:spectrum_shard"
+      "tag": "forge:gems/spectrum"
     }
   },
   "result": {

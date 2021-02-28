@@ -9,7 +9,7 @@
       "item": "pokecube_legends:ultramagnetic"
     },
     "X": {
-      "item": "pokecube_legends:spectrum_shard"
+      "tag": "forge:gems/spectrum"
     }
   },
   "result": {

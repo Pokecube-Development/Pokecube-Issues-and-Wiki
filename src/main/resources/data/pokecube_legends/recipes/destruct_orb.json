@@ -7,7 +7,7 @@
   ],
   "key": {
     "M": {
-      "item": "minecraft:obsidian"
+      "tag": "forge:obsidian"
     },
     "O": {
       "item": "pokecube_legends:grayorb"

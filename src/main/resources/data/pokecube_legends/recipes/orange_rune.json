@@ -8,13 +8,13 @@
   ],
   "key": {
     "0": {
-      "item": "minecraft:stone"
+      "tag": "forge:stone"
     },
     "1": {
       "item": "pokecube_legends:redorb"
     },
     "4": {
-      "item": "minecraft:orange_dye"
+      "tag": "forge:dyes/orange"
     }
   },
   "result": {

@@ -8,7 +8,7 @@
   ],
   "key": {
     "0": {
-      "item": "minecraft:emerald"
+      "tag": "forge:gems/emerald"
     },
     "1": {
       "item": "minecraft:ender_eye"

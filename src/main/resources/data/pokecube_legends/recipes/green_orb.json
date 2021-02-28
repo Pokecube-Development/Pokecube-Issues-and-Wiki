@@ -7,13 +7,13 @@
   ],
   "key": {
     "G": {
-      "item": "minecraft:emerald"
+      "tag": "forge:gems/emerald"
     },
     "A": {
       "item": "pokecube_legends:grayorb"
     },
     "R": {
-      "item": "minecraft:emerald_block"
+      "tag": "forge:storage_blocks/emerald"
     }
   },
   "result": {
