@@ -1,6 +1,6 @@
 {
   "pools":[
-  	//
+  	// Aether Foundation
   	{
       "name":"pokecube_legends:village/ocean/town_centers",
       "options":[
@@ -51,6 +51,66 @@
         "pokecube_legends:village/ocean/gym/aether_base1;{\"flag\":\"gym\"}"
       ]
     },
+    //
+    
+    //Ultra Space Village
+    {
+      "name":"pokecube_legends:village/ultraspace/town_centers",
+      "options":[
+        "pokecube_legends:village/ultraspace/town_centers/center_1"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ultraspace/terminators",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:village/ultraspace/terminators/terminator_01"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ultraspace/streets",
+      "target":"pokecube_legends:village/ultraspace/terminators",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:village/ultraspace/streets/road_01;{\"weight\":20}",
+        "pokecube_legends:village/ultraspace/streets/crossroad_01;{\"weight\":3}",
+        "pokecube_legends:village/ultraspace/streets/crossroad_02;{\"weight\":2}",
+        "pokecube_legends:village/ultraspace/streets/crossroad_03;{\"weight\":2}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ultraspace/pokecenter/path",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:village/ultraspace/pokecenter/path"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ultraspace/gym/path",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:village/ultraspace/gym/path"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ultraspace/houses",
+      "target":"pokecube_legends:village/ultraspace/terminators",
+      "ignoreAir":false,
+      "options":[
+        "empty;{\"weight\":2}",
+        "pokecube_legends:village/ultraspace/houses/house_1;{\"weight\":5}",
+        "pokecube_legends:village/ultraspace/houses/house_2;{\"weight\":5}",
+        "pokecube_legends:village/ultraspace/houses/house_3;{\"weight\":5}",
+        "pokecube_legends:village/ultraspace/houses/house_4;{\"weight\":5}",
+        "pokecube_legends:village/ultraspace/houses/house_5;{\"weight\":5}",
+        "pokecube_legends:village/ultraspace/houses/house_6;{\"weight\":5}",
+        "pokecube_legends:village/ultraspace/houses/house_7;{\"weight\":5}",
+        "pokecube_legends:village/ultraspace/houses/house_8;{\"weight\":3}",
+        "pokecube_legends:village/ultraspace/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube_legends:village/ultraspace/gym/gym_01;{\"flag\":\"gym\"}"
+      ]
+    },
+    //
     
     //
     {
@@ -92,6 +152,31 @@
       "ignoreAir":false,
       "options":[
         "pokecube_legends:temples/surface/team_rocket;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+	
+	{
+      "name":"pokecube_legends:necrozma_tower",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:ultraspace/temples/necro_1"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ultraspace/temples/necro_2",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:ultraspace/temples/necro_2"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ultraspace/temples/necro_3",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:ultraspace/temples/necro_3"
       ]
     },
 	
@@ -546,6 +631,34 @@
           "types":"ocean",
           "typesBlacklist":"cold",
           "categoryBlacklist":"the_end,nether,icy,beach"
+        }
+      }
+    },
+    //
+    {
+      "type":"pokecube_legends:village",
+      "name":"pokecube_legends:village/ultraspace",
+      "root":"pokecube_legends:village/ultraspace/town_centers",
+      "chance":1,
+      "distance":40,
+      "separation":16,
+      "size":7,
+      "priority":10,
+      "biomeType":"none",
+      "needed_once":[
+        "pokecenter",
+        "gym"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_deep_cave, pokecube_legends:ultra_junglee, pokecube_legends:ultra_desert, pokecube_legends:ultra_dark_valley, pokecube_legends:ultra_deep_hills, pokecube_legends:ultra_forgotten_plains"
         }
       }
     },
@@ -1029,6 +1142,22 @@
       "spawn":{
         "values":{
           "biomes":"pokecube_legends:ultra_desert"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:necrozma_tower",
+      "root":"pokecube_legends:necrozma_tower",
+      "biomeType":"none",
+      "distance":54,
+      "separation":22,
+      "size":6,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_dark_valley"
         }
       }
     },

@@ -26,7 +26,6 @@ import pokecube.legends.blocks.SaplingBase;
 import pokecube.legends.blocks.customblocks.HeatranBlock;
 import pokecube.legends.blocks.customblocks.KeldeoBlock;
 import pokecube.legends.blocks.customblocks.LegendaryBlock;
-import pokecube.legends.blocks.customblocks.MirageGlass;
 import pokecube.legends.blocks.customblocks.NatureCoreBlock;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
@@ -37,7 +36,6 @@ import pokecube.legends.blocks.customblocks.Regigigas_Core;
 import pokecube.legends.blocks.customblocks.Regirock_Core;
 import pokecube.legends.blocks.customblocks.Registeel_Core;
 import pokecube.legends.blocks.customblocks.SpaceCoreBlock;
-import pokecube.legends.blocks.customblocks.SpectrumGlass;
 import pokecube.legends.blocks.customblocks.TaoTrioBlock;
 import pokecube.legends.blocks.customblocks.TapuBuluCore;
 import pokecube.legends.blocks.customblocks.TapuFiniCore;
@@ -58,9 +56,11 @@ import pokecube.legends.blocks.normalblocks.GrassDistorticBlock;
 import pokecube.legends.blocks.normalblocks.GrassJungleBlock;
 import pokecube.legends.blocks.normalblocks.GrassMussBlock;
 import pokecube.legends.blocks.normalblocks.MagneticBlock;
+import pokecube.legends.blocks.normalblocks.CrystallizedCactus;
 import pokecube.legends.blocks.normalblocks.MirageLeaveBlock;
 import pokecube.legends.blocks.normalblocks.SandDistorBlock;
 import pokecube.legends.blocks.normalblocks.SandUltraBlock;
+import pokecube.legends.blocks.normalblocks.UltraGlass;
 import pokecube.legends.blocks.normalblocks.UltraTorch1;
 import pokecube.legends.blocks.normalblocks.UltraTorch1Wall;
 import pokecube.legends.blocks.plants.Distortic_Tree;
@@ -351,6 +351,7 @@ public class BlockInit
     public static final RegistryObject<Block> MIRAGE_DOOR;
     public static final RegistryObject<Block> MIRAGE_BUTTON;
     public static final RegistryObject<Block> MIRAGE_PR_PLATE;
+    public static final RegistryObject<Block> CRYSTALLIZED_CACTUS;
 
     // Portal
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
@@ -676,7 +677,7 @@ public class BlockInit
         //
 
         // Dimensions
-        SPECTRUM_GLASS = PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new SpectrumGlass("spectrum_glass",
+        SPECTRUM_GLASS = PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new UltraGlass("spectrum_glass",
                 Block.Properties.from(Blocks.GLASS).notSolid()));
         ULTRA_AGED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt3", () -> new BlockBase("ultradirt3",
                 Material.ORGANIC, MaterialColor.YELLOW_TERRACOTTA, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL, 1).noInfoBlock());
@@ -745,6 +746,8 @@ public class BlockInit
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, Block.Properties
                         .create(Material.ROCK, MaterialColor.BLACK).sound(SoundType.NETHER_BRICK).doesNotBlockMovement().hardnessAndResistance(
                                 0.7F)));
+        CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus("crystallized_cactus",
+                Block.Properties.from(Blocks.CACTUS)));
         
         // Ultra Desert
         ULTRA_SAND = PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new SandUltraBlock("ultrasand",
@@ -1043,7 +1046,7 @@ public class BlockInit
                         2.0f, 3.0f).notSolid()));
         
         // MIRAGE Blocks
-        MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new MirageGlass("mirage_glass",
+        MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new UltraGlass("mirage_glass",
                 Block.Properties.from(Blocks.GLASS).notSolid()));
         MIRAGE_LEAVE = PokecubeLegends.BLOCKS_TAB.register("mirage_leave", () -> new MirageLeaveBlock());
         MIRAGE_LOG = PokecubeLegends.BLOCKS_TAB.register("mirage_log", () -> Blocks.createLogBlock(

@@ -16,7 +16,7 @@ public class MirageLeaveBlock extends LeavesBlock
 {
     public MirageLeaveBlock()
     {
-        super(Properties.create(Material.LEAVES, MaterialColor.SNOW).sound(SoundType.NYLIUM).hardnessAndResistance(1, 2));
+        super(Properties.create(Material.LEAVES, MaterialColor.SNOW).sound(SoundType.NYLIUM).hardnessAndResistance(1, 2).notSolid());
     }
 
     @OnlyIn(Dist.CLIENT)

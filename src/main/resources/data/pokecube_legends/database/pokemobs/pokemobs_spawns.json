@@ -1,6 +1,84 @@
 {
   "pokemon": [
     {
+      "name": "Articuno",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Moltres",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Zapdos",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Moltres Galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "sandy",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Articuno Galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "snowy",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Zapdos Galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "category": "plains",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Lugia",
       "stats": {
         "spawnRules": [
@@ -15,6 +93,45 @@
     },
     {
       "name": "Ho-Oh",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Entei",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Suicune",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Raikou",
       "stats": {
         "spawnRules": [
           {
@@ -144,6 +261,32 @@
       }
     },
     {
+      "name": "Deoxys",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:sky_pillar",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Jirachi",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:sky_pillar",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Rayquaza",
       "stats": {
         "spawnRules": [
@@ -163,6 +306,19 @@
           {
             "values": {
               "category": "nether",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Cosmog",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
               "rate": "0.0"
             }
           }
@@ -326,6 +482,25 @@
       }
     },
     {
+      "name": "Zygarde_50",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:xerneas_place",
+              "rate": "0.0"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:yveltal_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Tapu_Koko",
       "stats": {
         "spawnRules": [
@@ -378,6 +553,19 @@
       }
     },
     {
+      "name": "Necrozma",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:necrozma_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Zacian",
       "stats": {
         "spawnRules": [
@@ -423,6 +611,19 @@
           {
             "values": {
               "types": "spooky",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Calyrex",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "category": "taiga",
               "rate": "0.0"
             }
           }

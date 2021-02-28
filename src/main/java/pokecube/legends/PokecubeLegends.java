@@ -20,6 +20,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -33,6 +35,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -44,6 +47,7 @@ import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
+import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
@@ -137,6 +141,15 @@ public class PokecubeLegends
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
 
+        
+        //Biomes Dictionary
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB2, Type.JUNGLE, Type.FOREST, Type.DENSE);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB3, Type.SANDY, Type.WASTELAND, Type.HOT);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB4, Type.HILLS, Type.DEAD, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB5, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB6, Type.MAGICAL, Type.FOREST, Type.SPARSE);
+        
         BlockInit.init();
         ItemInit.init();
         MoveRegister.init();
@@ -172,6 +185,16 @@ public class PokecubeLegends
         public ItemStack createIcon()
         {
             return new ItemStack(BlockInit.SKY_BRICK.get());
+        }
+    };
+    
+    public static final ItemGroup LEGEND_TAB = new ItemGroup("legendtab")
+    {
+
+        @Override
+        public ItemStack createIcon()
+        {
+            return new ItemStack(ItemInit.RAINBOW_ORB.get());
         }
     };
 
