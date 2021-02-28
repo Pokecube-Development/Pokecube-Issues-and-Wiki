@@ -11,10 +11,10 @@
       "item": "pokecube:trade_machine"
     },
     "S": {
-      "item": "minecraft:diamond_block"
+      "tag": "forge:storage_blocks/diamond"
     },
     "I": {
-      "item": "minecraft:gold_ingot"
+      "tag": "forge:ingots/gold"
     },
     "M": {
       "item": "minecraft:golden_apple"

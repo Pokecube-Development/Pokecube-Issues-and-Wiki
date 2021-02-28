@@ -11,10 +11,10 @@
       "item": "pokecube:trade_machine"
     },
     "S": {
-      "item": "minecraft:iron_block"
+      "tag": "forge:storage_blocks/iron"
     },
     "I": {
-      "item": "minecraft:iron_ingot"
+      "tag": "forge:ingots/iron"
     },
     "M": {
       "item": "minecraft:comparator"

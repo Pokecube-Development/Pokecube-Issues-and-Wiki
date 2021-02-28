@@ -7,7 +7,7 @@
   ],
   "key": {
     "G": {
-      "item": "minecraft:glass"
+      "tag": "forge:glass"
     },
     "A": {
       "item": "pokecube_legends:crystal_shard"
