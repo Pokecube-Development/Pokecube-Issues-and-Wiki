@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.RootTask;
@@ -37,10 +36,10 @@ public class RunAway extends RootTask<CreatureEntity>
     protected void startExecuting(final ServerWorld worldIn, final CreatureEntity entityIn, final long gameTimeIn)
     {
         final Entity entity = entityIn.getBrain().getMemory(this.badMemory).get();
-        RunAway.runAway(entityIn, entity, this.runSpeed);
+        this.runAway(entityIn, entity, this.runSpeed);
     }
 
-    public static void runAway(final CreatureEntity mob, final Entity runFrom, final float speedIn)
+    public void runAway(final CreatureEntity mob, final Entity runFrom, final float speedIn)
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -48,7 +47,7 @@ public class RunAway extends RootTask<CreatureEntity>
             final Vector3d vec3d1 = RandomPositionGenerator.func_223548_b(mob, 16, 7, vec3d);
             if (vec3d1 != null)
             {
-                mob.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(vec3d1, speedIn, 0));
+                this.setWalkTo(vec3d1, speedIn, 0);
                 return;
             }
         }

@@ -22,6 +22,7 @@ import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.impl.PersistantStatusEffect;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.maths.Vector3;
 
 /**
@@ -52,7 +53,7 @@ public class LogicMovesUpdates extends LogicBase
         this.pokemob.getMoveStats().timeSinceIgnited += i;
 
         if (this.pokemob.getMoveStats().timeSinceIgnited < 0) this.pokemob.getMoveStats().timeSinceIgnited = 0;
-        if (!BrainUtils.hasAttackTarget(this.entity) && this.pokemob.getMoveStats().timeSinceIgnited > 50) //
+        if (this.pokemob.getMoveStats().timeSinceIgnited > 50 && !BrainUtils.hasAttackTarget(this.entity))
         {
             this.pokemob.setExplosionState(-1);
             this.pokemob.getMoveStats().timeSinceIgnited--;
@@ -112,27 +113,29 @@ public class LogicMovesUpdates extends LogicBase
         // Update move cooldowns.
         final int num = this.pokemob.getAttackCooldown();
 
+        final EntityMoveUse move = this.pokemob.getActiveMove();
+
         // Check if active move is done, if so, clear it.
-        if (this.pokemob.getActiveMove() != null && this.pokemob.getActiveMove().isDone()) this.pokemob.setActiveMove(
-                null);
+        if (move != null && move.isDone()) this.pokemob.setActiveMove(null);
 
         // Only reduce cooldown if the pokemob does not currently have a
         // move being fired.
-        if (num > 0 && this.pokemob.getActiveMove() == null) this.pokemob.setAttackCooldown(num - 1);
+        if (num > 0 && move == null) this.pokemob.setAttackCooldown(num - 1);
 
         // Revert transform if not in battle or breeding.
-        if (this.pokemob.getTransformedTo() != null && !BrainUtils.hasAttackTarget(this.entity) && !this.pokemob
-                .getGeneralState(GeneralStates.MATING)) this.pokemob.setTransformedTo(null);
+        if (this.pokemob.getTransformedTo() != null && !this.pokemob.getGeneralState(GeneralStates.MATING)
+                && !BrainUtils.hasAttackTarget(this.entity)) this.pokemob.setTransformedTo(null);
 
         // Update abilities.
         if (this.pokemob.getAbility() != null && this.entity.isServerWorld()) this.pokemob.getAbility().onUpdate(
                 this.pokemob);
 
         // Tick held items.
-        final IPokemobUseable usable = IPokemobUseable.getUsableFor(this.pokemob.getHeldItem());
-        if (this.entity.isAlive() && usable != null)
+        final ItemStack held = this.pokemob.getHeldItem();
+        final IPokemobUseable usable = IPokemobUseable.getUsableFor(held);
+        if (usable != null && this.entity.isAlive())
         {
-            final ActionResult<ItemStack> result = usable.onTick(this.pokemob, this.pokemob.getHeldItem());
+            final ActionResult<ItemStack> result = usable.onTick(this.pokemob, held);
             if (result.getType() == ActionResultType.SUCCESS) this.pokemob.setHeldItem(result.getResult());
             if (this.pokemob.getHeldItem().isEmpty()) this.pokemob.setHeldItem(ItemStack.EMPTY);
         }

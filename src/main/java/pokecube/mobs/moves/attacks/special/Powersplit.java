@@ -20,13 +20,13 @@ public class Powersplit extends Move_Basic
         }
 
         @Override
-        public float getModifier(Stats stat)
+        public float getModifier(final Stats stat)
         {
             return this.modifiers[stat.ordinal()];
         }
 
         @Override
-        public float getModifierRaw(Stats stat)
+        public float getModifierRaw(final Stats stat)
         {
             return this.modifiers[stat.ordinal()];
         }
@@ -38,9 +38,9 @@ public class Powersplit extends Move_Basic
         }
 
         @Override
-        public boolean isFlat()
+        public float apply(final Stats stat, final float valueIn)
         {
-            return true;
+            return valueIn + this.getModifier(stat);
         }
 
         @Override
@@ -50,7 +50,7 @@ public class Powersplit extends Move_Basic
         }
 
         @Override
-        public void setModifier(Stats stat, float value)
+        public void setModifier(final Stats stat, final float value)
         {
             this.modifiers[stat.ordinal()] = value;
         }
@@ -68,7 +68,7 @@ public class Powersplit extends Move_Basic
     }
 
     @Override
-    public void postAttack(MovePacket packet)
+    public void postAttack(final MovePacket packet)
     {
         super.postAttack(packet);
         if (packet.canceled || packet.failed) return;

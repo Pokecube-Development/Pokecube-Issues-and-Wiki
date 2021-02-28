@@ -64,7 +64,6 @@ import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.interfaces.IPokemob;
@@ -807,17 +806,6 @@ public class Database
         if (removedNums.size() > 0) PokecubeCore.LOGGER.debug("Removed " + toRemove);
 
         toRemove.clear();
-
-        // Handle loading worldgen spawn presets
-        for (final ResourceLocation s : WorldgenHandler.spawnPresets)
-            try
-            {
-                StructureSpawnPresetLoader.loadDatabase(s);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error loading presets from " + s, e);
-            }
     }
 
     public static void onResourcesReloaded()
@@ -829,6 +817,7 @@ public class Database
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
+        StructureSpawnPresetLoader.loadDatabase();
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;

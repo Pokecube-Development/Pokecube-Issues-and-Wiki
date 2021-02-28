@@ -33,11 +33,13 @@ public interface IStatsModifiers
     int getPriority();
 
     /**
-     * Is the result of getModifier a percantage or a flat value?
+     * Applies the modifier for the given stat to the value.
      *
-     * @return
+     * @param stat
+     * @param valueIn
+     * @return Modified valueIn for the stat
      */
-    boolean isFlat();
+    float apply(Stats stat, float valueIn);
 
     /**
      * Is this modifier saved with the pokemob, and persists outside of battle

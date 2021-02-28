@@ -324,11 +324,10 @@ public class LogicFloatFlySwim extends LogicBase
 
         final PathNavigator oldNavi = this.entity.getNavigator();
 
-        final boolean alive = this.entity.isAlive();
         final boolean air = this.pokemob.floats() || this.pokemob.flys();
         final boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
 
-        if (air && alive)
+        if (air && this.entity.isAlive())
         {
             if (this.state != NaviState.FLY)
             {
@@ -338,7 +337,7 @@ public class LogicFloatFlySwim extends LogicBase
             }
             this.state = NaviState.FLY;
         }
-        else if (water && alive)
+        else if (water && this.entity.isAlive())
         {
             if (this.state != NaviState.SWIM)
             {
@@ -358,6 +357,7 @@ public class LogicFloatFlySwim extends LogicBase
             this.state = NaviState.WALK;
         }
         final PathNavigator newNavi = this.entity.getNavigator();
-        if (world instanceof ServerWorld && newNavi != oldNavi) WorldWorkerManager.addWorker(new NaviUpdate((ServerWorld) world, oldNavi, newNavi));
+        if (world instanceof ServerWorld && newNavi != oldNavi) WorldWorkerManager.addWorker(new NaviUpdate(
+                (ServerWorld) world, oldNavi, newNavi));
     }
 }

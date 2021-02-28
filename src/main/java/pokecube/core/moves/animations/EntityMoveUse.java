@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
@@ -446,9 +447,10 @@ public class EntityMoveUse extends ThrowableEntity
         final int age = this.getDuration() - 1;
         this.setDuration(age);
 
-        final IPokemob userMob = CapabilityPokemob.getPokemobFor(this.user);
+        final Entity user = this.getUser();
+        final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
         // Finished, or is invalid
-        if (this.getMove() == null || this.getUser() == null || !this.isAlive() || !this.getUser().isAlive() || age < 0)
+        if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {
             this.remove();
             return;
@@ -458,19 +460,36 @@ public class EntityMoveUse extends ThrowableEntity
         AxisAlignedBB testBox = this.getBoundingBox();
         final Move_Base attack = this.getMove();
 
+        final List<AxisAlignedBB> hitboxes = Lists.newArrayList();
+
         if (attack.aoe)
         {
             // AOE moves are just a 8-radius box around us.
             final double frac = (this.startAge - this.getDuration()) / this.startAge;
             testBox = this.start.getAABB().grow(8 * frac);
+            hitboxes.add(testBox);
         }
         else if (this.onSelf || this.contact)
         {
             // Self or contact moves will stick to the user.
-            this.start.set(this.getUser());
+            this.start.set(user);
             this.end.set(this.start);
-            this.setMotion(this.getUser().getMotion());
-            this.start.moveEntity(this);
+            EntityTools.copyPositions(this, user);
+            final float s = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
+            testBox = user.getBoundingBox().grow(s);
+            if (user.isMultipartEntity())
+            {
+                testBox = null;
+                for (final PartEntity<?> part : user.getParts())
+                {
+                    final AxisAlignedBB box = part.getBoundingBox().grow(s);
+                    if (testBox == null) testBox = box;
+                    else testBox = box.union(testBox);
+                    hitboxes.add(box);
+                }
+            }
+            else hitboxes.add(testBox);
+
         }
         else
         {
@@ -480,6 +499,8 @@ public class EntityMoveUse extends ThrowableEntity
             this.setPosition(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac, this.start.z
                     + this.dir.z * frac);
             this.here.set(this);
+            testBox = this.getBoundingBox();
+            hitboxes.add(testBox);
         }
 
         if (this.getEntityWorld().isRemote && attack.getAnimation(userMob) != null) attack.getAnimation(userMob)
@@ -494,6 +515,14 @@ public class EntityMoveUse extends ThrowableEntity
         final AxisAlignedBB hitBox = testBox;
         hits.removeIf(e ->
         {
+            boolean hit = hitboxes.size() > 1;
+            if (!hit) for (final AxisAlignedBB box : hitboxes)
+                if (box.intersects(e.getBoundingBox()))
+                {
+                    hit = true;
+                    break;
+                }
+            if (!hit) return true;
             if (!e.isMultipartEntity()) return false;
             final PartEntity<?>[] parts = e.getParts();
             for (final PartEntity<?> part : parts)

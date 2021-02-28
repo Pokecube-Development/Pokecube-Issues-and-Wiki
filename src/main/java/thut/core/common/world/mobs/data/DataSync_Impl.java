@@ -2,6 +2,7 @@ package thut.core.common.world.mobs.data;
 
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -35,13 +36,13 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
         DataSync_Impl.addMapping(Data_ItemStack.class);
     }
 
-    public static void addMapping(Class<? extends Data<?>> dataType)
+    public static void addMapping(final Class<? extends Data<?>> dataType)
     {
         DataSync_Impl.REGISTRY.put(DataSync_Impl.REGISTRY.size(), dataType);
     }
 
     @SuppressWarnings("deprecation")
-    public static int getID(Data<?> data)
+    public static int getID(final Data<?> data)
     {
         if (data.getUID() != -1) return data.getUID();
         for (final Entry<Integer, Class<? extends Data<?>>> entry : DataSync_Impl.REGISTRY.entrySet())
@@ -54,7 +55,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T makeData(int id) throws InstantiationException, IllegalAccessException
+    public static <T> T makeData(final int id) throws InstantiationException, IllegalAccessException
     {
         final Class<? extends Data<?>> dataType = DataSync_Impl.REGISTRY.get(id);
         if (dataType == null) throw new NullPointerException("No type registered for ID: " + id);
@@ -64,35 +65,44 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     }
 
     public Int2ObjectArrayMap<Data<?>>   data   = new Int2ObjectArrayMap<>();
-    private final ReadWriteLock          lock   = new ReentrantReadWriteLock();
     private final LazyOptional<DataSync> holder = LazyOptional.of(() -> this);
 
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+
+    private final Lock r = this.lock.readLock();
+    private final Lock w = this.lock.writeLock();
+
     @Override
-    public <T> T get(int key)
+    @SuppressWarnings("unchecked")
+    public <T> T get(final int key)
     {
-        this.lock.readLock().lock();
-        @SuppressWarnings("unchecked")
-        final Data<T> value = (Data<T>) this.data.get(key);
-        this.lock.readLock().unlock();
-        return value.get();
+        this.r.lock();
+        try
+        {
+            return (T) this.data.get(key).get();
+        }
+        finally
+        {
+            this.r.unlock();
+        }
     }
 
     @Override
     public List<Data<?>> getAll()
     {
         List<Data<?>> list = null;
-        this.lock.readLock().lock();
+        this.r.lock();
         for (final Data<?> value : this.data.values())
         {
             if (list == null) list = Lists.newArrayList();
             list.add(value);
         }
-        this.lock.readLock().unlock();
+        this.r.unlock();
         return list;
     }
 
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing)
+    public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
         return SyncHandler.CAP.orEmpty(capability, this.holder);
     }
@@ -101,19 +111,19 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     public List<Data<?>> getDirty()
     {
         List<Data<?>> list = null;
-        this.lock.readLock().lock();
+        this.r.lock();
         for (final Data<?> value : this.data.values())
             if (value.dirty())
             {
                 if (list == null) list = Lists.newArrayList();
                 list.add(value);
             }
-        this.lock.readLock().unlock();
+        this.r.unlock();
         return list;
     }
 
     @Override
-    public <T> int register(Data<T> data, T value)
+    public <T> int register(final Data<T> data, final T value)
     {
         data.set(value);
         final int id = this.data.size();
@@ -125,19 +135,19 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     }
 
     @Override
-    public <T> void set(int key, T value)
+    public <T> void set(final int key, final T value)
     {
-        this.lock.writeLock().lock();
+        this.w.lock();
         @SuppressWarnings("unchecked")
         final Data<T> type = (Data<T>) this.data.get(key);
         type.set(value);
-        this.lock.writeLock().unlock();
+        this.w.unlock();
     }
 
     @Override
-    public void update(List<Data<?>> values)
+    public void update(final List<Data<?>> values)
     {
-        this.lock.writeLock().lock();
+        this.w.lock();
         for (final Data<?> value : values)
         {
             // Only update things we already have. This fixes issues on
@@ -151,7 +161,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
             if (uid1 != uid2) continue;
             this.data.put(value.getID(), value);
         }
-        this.lock.writeLock().unlock();
+        this.w.unlock();
     }
 
 }

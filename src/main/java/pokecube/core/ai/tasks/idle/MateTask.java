@@ -12,10 +12,12 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.util.math.EntityPosWrapper;
+import net.minecraft.util.math.IPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.InterestingMobs;
+import pokecube.core.ai.pathing.PosWrapWrap;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -58,7 +60,7 @@ public class MateTask extends BaseIdleTask
     @Override
     public void reset()
     {
-        this.spawnBabyDelay = 0;
+        this.spawnBabyDelay = -1;
         this.mate = null;
         this.mobA = null;
         this.mobB = null;
@@ -146,7 +148,8 @@ public class MateTask extends BaseIdleTask
         this.pokemob.setGeneralState(GeneralStates.MATING, true);
         final IPokemob other = CapabilityPokemob.getPokemobFor(this.mate);
         if (other != null) other.setGeneralState(GeneralStates.MATING, true);
-        if (this.spawnBabyDelay++ < 100) return;
+        if (this.spawnBabyDelay <= 0) this.spawnBabyDelay = this.entity.ticksExisted + 100;
+        if (this.spawnBabyDelay < this.entity.ticksExisted) return;
         if (other instanceof IBreedingMob) this.pokemob.mateWith((IBreedingMob) other);
         this.reset();
         other.resetLoveStatus();
@@ -161,7 +164,7 @@ public class MateTask extends BaseIdleTask
 
     void approach(final LivingEntity living, final LivingEntity target, final float speed)
     {
-        final EntityPosWrapper entityposwrapper = new EntityPosWrapper(target, false);
+        final IPosWrapper entityposwrapper = new PosWrapWrap(new EntityPosWrapper(target, false), this.loadThrottle());
         final WalkTarget walktarget = new WalkTarget(entityposwrapper, speed, 0);
         living.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, entityposwrapper);
         living.getBrain().setMemory(MemoryModuleType.WALK_TARGET, walktarget);

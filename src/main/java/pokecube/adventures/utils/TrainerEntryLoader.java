@@ -1,13 +1,16 @@
 package pokecube.adventures.utils;
 
-import java.io.InputStream;
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.Reader;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -18,7 +21,9 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
+import pokecube.core.entity.npc.NpcType;
 import pokecube.core.utils.Tools;
+import thut.core.common.ThutCore;
 
 public class TrainerEntryLoader
 {
@@ -40,6 +45,7 @@ public class TrainerEntryLoader
         boolean belt          = true;
         Held    held;
         Held    reward;
+        Boolean replace;
 
         List<SpawnRule> spawns = Lists.newArrayList();
         List<String>    tags   = Lists.newArrayList();
@@ -53,57 +59,61 @@ public class TrainerEntryLoader
 
     public static class XMLDatabase
     {
-        private final List<TrainerEntry> trainers = Lists.newArrayList();
+        private final List<TrainerEntry> trainers     = Lists.newArrayList();
+        Map<String, TrainerEntry>        _trainer_map = Maps.newHashMap();
+
+        public void addEntry(final TrainerEntry entry)
+        {
+            final boolean replace = entry.replace != null && entry.replace;
+            if (!this._trainer_map.containsKey(entry.type) || replace)
+            {
+                this.trainers.add(entry);
+                this._trainer_map.put(entry.type, entry);
+                return;
+            }
+        }
     }
 
     static XMLDatabase database;
 
-    private static XMLDatabase loadDatabase(final ResourceLocation file) throws Exception
+    private static XMLDatabase loadDatabase()
     {
-        final InputStream res = Database.resourceManager.getResource(file).getInputStream();
-        final Reader reader = new InputStreamReader(res);
-        final XMLDatabase database = PokedexEntryLoader.gson.fromJson(reader, XMLDatabase.class);
-        for (final TrainerEntry entry : database.trainers)
+        final XMLDatabase full = new XMLDatabase();
+        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(NpcType.DATALOC,
+                s -> s.endsWith(".json"));
+        for (final ResourceLocation file : resources)
         {
-            if (entry.type != null) entry.type = entry.type.trim();
-            if (entry.pokemon != null) entry.pokemon = entry.pokemon.trim();
-            if (entry.gender != null) entry.gender = entry.gender.trim();
-        }
-        reader.close();
-        return database;
-    }
-
-    public static void makeEntries(final ResourceLocation file)
-    {
-        if (TrainerEntryLoader.database == null) try
-        {
-            TrainerEntryLoader.database = TrainerEntryLoader.loadDatabase(file);
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.warn(file + "", e);
-            return;
-        }
-        else try
-        {
-            PokecubeCore.LOGGER.debug("Loading Database: " + file);
-            final XMLDatabase newDatabase = TrainerEntryLoader.loadDatabase(file);
-            for (final TrainerEntry entry : newDatabase.trainers)
+            JsonObject loaded;
+            try
             {
-                for (final TrainerEntry old : TrainerEntryLoader.database.trainers)
-                    if (old.type.equals(entry.type))
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
+                        .getResource(file).getInputStream()));
+                loaded = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
+                reader.close();
+                if (loaded.has("trainers"))
+                {
+                    final XMLDatabase database = PokedexEntryLoader.gson.fromJson(loaded, XMLDatabase.class);
+                    for (final TrainerEntry entry : database.trainers)
                     {
-                        TrainerEntryLoader.database.trainers.remove(old);
-                        break;
+                        if (entry.type != null) entry.type = ThutCore.trim(entry.type);
+                        else continue;
+                        if (entry.pokemon != null) entry.pokemon = entry.pokemon.trim();
+                        if (entry.gender != null) entry.gender = entry.gender.trim();
+                        full.addEntry(entry);
                     }
-                TrainerEntryLoader.database.trainers.add(entry);
+                }
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error loading trainer database from {}", file, e);
             }
         }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.warn(file + "", e);
-            return;
-        }
+        return full;
+    }
+
+    public static void makeEntries()
+    {
+        TrainerEntryLoader.database = TrainerEntryLoader.loadDatabase();
         for (final TrainerEntry entry : TrainerEntryLoader.database.trainers)
         {
             final String name = entry.type;

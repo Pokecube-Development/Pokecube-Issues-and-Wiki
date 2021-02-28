@@ -2,6 +2,7 @@ package pokecube.core.ai.tasks.misc;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -22,6 +23,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.RootTask;
+import pokecube.core.ai.pathing.PosWrapWrap;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -50,6 +52,13 @@ public class WalkToTask extends RootTask<MobEntity>
         return true;
     }
 
+    private boolean tryPause(final MobEntity owner)
+    {
+        final Random rng = new Random(owner.getUniqueID().hashCode());
+        final int tick = rng.nextInt(RootTask.runRate);
+        return owner.ticksExisted % RootTask.runRate != tick;
+    }
+
     @Override
     protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
     {
@@ -58,6 +67,17 @@ public class WalkToTask extends RootTask<MobEntity>
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(owner);
         if (pokemob != null && !TaskBase.canMove(pokemob)) return false;
+
+        if (RootTask.doLoadThrottling)
+        {
+            final boolean pauseable = walktarget.getTarget() instanceof PosWrapWrap;
+            final boolean pauseTick = this.tryPause(owner);
+            if (pauseable && pauseTick)
+            {
+                final PosWrapWrap wrapped = (PosWrapWrap) walktarget.getTarget();
+                if (wrapped.canThrottle) return false;
+            }
+        }
 
         if (!this.hasReachedTarget(owner, walktarget) && this.isPathValid(owner, walktarget, worldIn.getGameTime()))
         {

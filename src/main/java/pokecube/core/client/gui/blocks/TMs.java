@@ -49,12 +49,6 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public boolean charTyped(final char codePoint, final int modifiers)
-    {
-        return super.charTyped(codePoint, modifiers);
-    }
-
-    @Override
     protected void drawGuiContainerForegroundLayer(final MatrixStack matrixStack, final int x, final int y)
     {
         // NOOP, this would draw name and title.
