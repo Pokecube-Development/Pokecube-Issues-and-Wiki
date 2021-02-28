@@ -209,7 +209,7 @@ public class EventsHandlerClient
                         .getRenderViewEntity().getRidingEntity())) != null) if (evt.getInfo().getRenderViewEntity()
                                 .isInWater() && mount.canUseDive())
         {
-            evt.setDensity(0.05f);
+            evt.setDensity(0.005f);
             evt.setCanceled(true);
         }
     }
