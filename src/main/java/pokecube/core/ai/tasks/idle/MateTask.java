@@ -60,7 +60,7 @@ public class MateTask extends BaseIdleTask
     @Override
     public void reset()
     {
-        this.spawnBabyDelay = 0;
+        this.spawnBabyDelay = -1;
         this.mate = null;
         this.mobA = null;
         this.mobB = null;
@@ -148,7 +148,8 @@ public class MateTask extends BaseIdleTask
         this.pokemob.setGeneralState(GeneralStates.MATING, true);
         final IPokemob other = CapabilityPokemob.getPokemobFor(this.mate);
         if (other != null) other.setGeneralState(GeneralStates.MATING, true);
-        if (this.spawnBabyDelay++ < 100) return;
+        if (this.spawnBabyDelay <= 0) this.spawnBabyDelay = this.entity.ticksExisted + 100;
+        if (this.spawnBabyDelay < this.entity.ticksExisted) return;
         if (other instanceof IBreedingMob) this.pokemob.mateWith((IBreedingMob) other);
         this.reset();
         other.resetLoveStatus();

@@ -467,7 +467,7 @@ public class PokemobEventsHandler
 
     private static void onServerTick(final ServerTickEvent event)
     {
-        if (event.phase != Phase.END) return;
+        if (event.phase != Phase.END || !PokecubeCore.getConfig().doLoadBalancing) return;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         final double meanTickTime = PokemobEventsHandler.mean(server.tickTimeArray) * 1.0E-6D;
         final double maxTick = 2;
