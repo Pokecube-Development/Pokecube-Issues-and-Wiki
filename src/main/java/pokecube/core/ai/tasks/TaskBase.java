@@ -115,6 +115,9 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
 
     int priority = 0;
 
+    boolean tempRun  = false;
+    boolean tempCont = false;
+
     public TaskBase(final IPokemob pokemob)
     {
         this(pokemob, ImmutableMap.of());
@@ -163,12 +166,16 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     @Override
     protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
     {
-        return this.shouldRun();
+        if (this.isPaused(owner)) return this.tempRun;
+        return this.tempRun = this.shouldRun();
     }
 
     @Override
     protected void resetTask(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
+        // Incase this is called when paused, we don't want to accept it, so
+        // return early.
+        if (this.isPaused(entityIn)) return;
         this.reset();
     }
 
@@ -176,12 +183,14 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
-        return this.shouldRun();
+        if (this.isPaused(entityIn)) return this.tempCont;
+        return this.tempCont = this.shouldRun();
     }
 
     @Override
     protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
+        if (this.isPaused(owner)) return;
         this.run();
         this.tick();
         this.finish();

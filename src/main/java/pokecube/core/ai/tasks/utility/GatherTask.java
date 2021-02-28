@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
+import net.minecraft.block.NetherWartBlock;
 import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -75,6 +76,9 @@ public class GatherTask extends UtilTask
             .hasProperty(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input
                     .getBlock()).getMaxAge();
 
+    private static final Predicate<BlockState> fullCropNetherWart = input -> input.getBlock() instanceof NetherWartBlock
+            && input.hasProperty(NetherWartBlock.AGE) && input.get(NetherWartBlock.AGE) >= 3;
+
     private static final Predicate<BlockState> sweetBerry = input -> input.getBlock() instanceof SweetBerryBushBlock
             && input.get(SweetBerryBushBlock.AGE) > 1;
 
@@ -86,7 +90,8 @@ public class GatherTask extends UtilTask
     {
         final boolean blacklisted = ItemList.is(GatherTask.BLACKLIST, input);
         if (blacklisted) return false;
-        final boolean fullCrop = GatherTask.fullCropNormal.test(input) || GatherTask.fullCropBeet.test(input);
+        final boolean fullCrop = GatherTask.fullCropNormal.test(input) || GatherTask.fullCropBeet.test(input)
+                || GatherTask.fullCropNetherWart.test(input);
         return fullCrop || ItemList.is(GatherTask.HARVEST, input);
     };
 

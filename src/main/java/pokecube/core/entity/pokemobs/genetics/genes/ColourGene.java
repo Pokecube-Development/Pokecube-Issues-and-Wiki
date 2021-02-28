@@ -57,49 +57,46 @@ public class ColourGene extends GeneIntArray
         final Random r = new Random();
         final int first = r.nextInt(3);
         byte red = 127, green = 127, blue = 127;
+
+        final double shift = 4;
+
+        final double dr = Math.min((shift - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127);
+        final double dg = Math.min((shift - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127);
+        final double db = Math.min((shift - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127);
+
         if (first == 0)
         {
             int min = 0;
-            red = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
+            red = (byte) Math.max(dr, min);
             min = red < 63 ? 63 : 0;
 
-            green = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
+            green = (byte) Math.max(dg, min);
             min = green < 63 ? 63 : 0;
 
-            blue = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
+            blue = (byte) Math.max(db, min);
         }
         if (first == 1)
         {
             int min = 0;
 
-            green = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
+            green = (byte) Math.max(dg, min);
             min = green < 63 ? 63 : 0;
 
-            red = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
+            red = (byte) Math.max(dr, min);
             min = red < 63 ? 63 : 0;
 
-            blue = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
+            blue = (byte) Math.max(db, min);
         }
         if (first == 2)
         {
             int min = 0;
-            blue = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
+            blue = (byte) Math.max(db, min);
             min = blue < 63 ? 63 : 0;
 
-            red = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
+            red = (byte) Math.max(dr, min);
             min = red < 63 ? 63 : 0;
 
-            green = (byte) Math.max(Math.min((5 - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127),
-                    min);
-
+            green = (byte) Math.max(dg, min);
         }
         this.value[0] = red + 128;
         this.value[1] = green + 128;

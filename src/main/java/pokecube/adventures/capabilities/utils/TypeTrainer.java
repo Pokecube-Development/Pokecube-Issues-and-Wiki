@@ -45,7 +45,6 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
-import pokecube.adventures.utils.DBLoader;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
@@ -401,17 +400,7 @@ public class TypeTrainer extends NpcType
 
     public static void postInitTrainers()
     {
-
-        for (final ResourceLocation s : DBLoader.tradeDatabases)
-            try
-            {
-                TradeEntryLoader.makeEntries(s);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error loading trades from " + s, e);
-            }
-
+        TradeEntryLoader.makeEntries();
         final List<TypeTrainer> toRemove = new ArrayList<>();
         for (final TypeTrainer t : TypeTrainer.typeMap.values())
         {

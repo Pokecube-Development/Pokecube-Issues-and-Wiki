@@ -209,7 +209,7 @@ public class EventsHandlerClient
                         .getRenderViewEntity().getRidingEntity())) != null) if (evt.getInfo().getRenderViewEntity()
                                 .isInWater() && mount.canUseDive())
         {
-            evt.setDensity(0.05f);
+            evt.setDensity(0.005f);
             evt.setCanceled(true);
         }
     }
@@ -316,8 +316,8 @@ public class EventsHandlerClient
     {
         try
         {
-            if (!Screen.hasAltDown()) return;
             if (!(event.getGui() instanceof ContainerScreen)) return;
+            if (!Screen.hasAltDown()) return;
             final ContainerScreen<?> gui = (ContainerScreen<?>) event.getGui();
             final List<Slot> slots = gui.getContainer().inventorySlots;
             for (final Slot slot : slots)
@@ -332,7 +332,14 @@ public class EventsHandlerClient
                     j = slot.yPos;
                     final int x = i + gui.getGuiLeft();
                     final int y = j + gui.getGuiTop();
-                    EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
+                    if (Screen.hasControlDown())
+                    {
+                        final float z = Minecraft.getInstance().getItemRenderer().zLevel;
+                        Minecraft.getInstance().getItemRenderer().zLevel += 200;
+                        Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(pokemob.getHeldItem(), x, y - 2);
+                        Minecraft.getInstance().getItemRenderer().zLevel = z;
+                    }
+                    else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
         }
         catch (final Exception e)
@@ -363,7 +370,14 @@ public class EventsHandlerClient
                     x = i + x + 20 * l - 8;
                     int y = h;
                     y = j + y - 9;
-                    EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
+                    if (Screen.hasControlDown())
+                    {
+                        final float z = Minecraft.getInstance().getItemRenderer().zLevel;
+                        Minecraft.getInstance().getItemRenderer().zLevel += 100;
+                        Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(pokemob.getHeldItem(), x, y - 2);
+                        Minecraft.getInstance().getItemRenderer().zLevel = z;
+                    }
+                    else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
             }
         }
@@ -449,7 +463,6 @@ public class EventsHandlerClient
     {
         final CompoundNBT pokemobTag = TagNames.getPokecubePokemobTag(tag);
         final INBT genesTag = TagNames.getPokecubeGenesTag(tag);
-        pokemobTag.remove(TagNames.INVENTORYTAG);
         pokemobTag.remove(TagNames.AITAG);
         pokemobTag.remove(TagNames.MOVESTAG);
         pokemob.setHealth(tag.getFloat("CHP"));

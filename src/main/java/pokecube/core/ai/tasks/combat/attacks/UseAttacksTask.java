@@ -152,7 +152,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         Move_Base move = null;
         move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
         if (move == null) move = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
-        double var1 = (double) (this.entity.getWidth() * 2.0F) * (this.entity.getWidth() * 2.0F);
+        double var1 = (this.entity.getWidth() + 0.75) * (this.entity.getWidth() + 0.75);
         boolean distanced = false;
         final boolean self = (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
         final double dist = this.entity.getDistanceSq(this.entityTarget.getPosX(), this.entityTarget.getPosY(),
@@ -196,10 +196,9 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                 CombatStates.DODGING);
 
         // If the target is not trying to dodge, and the move allows it,
-        // then
-        // set target location to where the target is now. This is so that
-        // it can use the older postion set above, lowering the accuracy of
-        // move use, allowing easier dodging.
+        // then set target location to where the target is now. This is so that
+        // it can use the older postion set above, lowering the accuracy of move
+        // use, allowing easier dodging.
         if (!isTargetDodging) this.targetLoc.set(this.entityTarget).addTo(0, this.entityTarget.getHeight() / 2, 0);
 
         boolean delay = false;
@@ -234,7 +233,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             final float f = (float) this.targetLoc.distToEntity(this.entity);
             if (this.entity.addedToChunk)
             {
-                if (this.entityTarget.isAlive()) this.pokemob.executeMove(this.entityTarget, this.targetLoc.copy(), f);
+                this.pokemob.executeMove(this.entityTarget, this.targetLoc.copy(), f);
                 // Reset executing move and no item use status now that we have
                 // used a move.
                 this.clearUseMove();

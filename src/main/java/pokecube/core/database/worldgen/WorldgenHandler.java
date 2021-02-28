@@ -252,9 +252,6 @@ public class WorldgenHandler
 
     public static Set<RegistryKey<World>> SOFTBLACKLIST = Sets.newHashSet();
 
-    public static List<ResourceLocation> spawnPresets = Lists.newArrayList(new ResourceLocation(PokecubeCore.MODID,
-            "database/spawn_presets.json"));
-
     private static void initSpaceMap()
     {
         synchronized (WorldgenHandler.SORTED_PRIOR_LIST)

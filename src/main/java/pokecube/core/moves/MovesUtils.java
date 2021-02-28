@@ -481,7 +481,7 @@ public class MovesUtils implements IMoveConstants
                     }
                     else if (affect != null) affect.addEffect(new StatEffect(Stats.values()[i], diff[i]));
                 }
-            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULTMODIFIERS, affected);
+            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, affected);
         }
         return ret;
     }
@@ -512,7 +512,7 @@ public class MovesUtils implements IMoveConstants
             for (byte i = 0; i < diff.length; i++)
                 if (diff[i] != 0 && attacker != null) MovesUtils.displayStatsMessage(targetMob, attacker, 0, i,
                         diff[i]);
-            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULTMODIFIERS, targetMob);
+            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, targetMob);
         }
         return ret;
     }

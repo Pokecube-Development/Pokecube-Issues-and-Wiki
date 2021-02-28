@@ -41,6 +41,8 @@ public class NpcType
         }
     }
 
+    public static final String DATALOC = "database/trainer";
+
     public static final Map<String, NpcType> typeMap = Maps.newHashMap();
 
     private static final NpcType PROFESSOR = new NpcType("professor");

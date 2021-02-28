@@ -39,4 +39,9 @@ public abstract class UtilTask extends TaskBase
         super(pokemob, RootTask.merge(UtilTask.MEMS, mems));
     }
 
+    @Override
+    public boolean loadThrottle()
+    {
+        return true;
+    }
 }

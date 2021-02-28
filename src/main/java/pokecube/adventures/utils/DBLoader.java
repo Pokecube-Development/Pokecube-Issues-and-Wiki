@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.PokecubeAdv;
@@ -17,11 +14,7 @@ import pokecube.core.database.Database;
 
 public class DBLoader
 {
-    public static List<ResourceLocation> trainerDatabases = Lists.newArrayList(new ResourceLocation(PokecubeAdv.MODID,
-            "database/types.json"));
-    public static List<ResourceLocation> tradeDatabases   = Lists.newArrayList();
-
-    public static ResourceLocation NAMESLOC = new ResourceLocation(PokecubeAdv.MODID, "database/names.csv");
+    public static ResourceLocation NAMESLOC = new ResourceLocation(PokecubeAdv.MODID, "database/trainer/names.csv");
 
     public static boolean loaded = false;
 
@@ -74,22 +67,7 @@ public class DBLoader
         if (DBLoader.loaded) return;
         PokecubeCore.LOGGER.debug("Loading Trainer Databases");
         DBLoader.loaded = true;
-        try
-        {
-            for (final ResourceLocation s : DBLoader.trainerDatabases)
-                try
-                {
-                    TrainerEntryLoader.makeEntries(s);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error loading trainers from " + s, e);
-                }
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.warn("error loading databases.", e);
-        }
+        TrainerEntryLoader.makeEntries();
         DBLoader.loadNames();
     }
 

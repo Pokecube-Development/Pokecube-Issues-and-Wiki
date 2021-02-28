@@ -2,6 +2,7 @@ package pokecube.core.ai.brain;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -17,6 +18,7 @@ import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityPosWrapper;
 import net.minecraft.util.math.vector.Vector3d;
+import pokecube.core.ai.pathing.PosWrapWrap;
 import thut.api.maths.Vector3;
 
 public class RootTask<E extends LivingEntity> extends Task<E>
@@ -30,6 +32,10 @@ public class RootTask<E extends LivingEntity> extends Task<E>
         ret.putAll(mems3);
         return ImmutableMap.copyOf(ret);
     }
+
+    public static boolean doLoadThrottling = false;
+
+    public static int runRate = 10;
 
     protected final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems;
 
@@ -106,7 +112,7 @@ public class RootTask<E extends LivingEntity> extends Task<E>
         this.setWalkTo(new WalkTarget(new EntityPosWrapper(mobIn, false), (float) speed, dist));
     }
 
-    protected void setWalkTo(final WalkTarget target)
+    protected void setWalkTo(WalkTarget target)
     {
         if (!(target.getTarget() instanceof EntityPosWrapper) && target != null)
         {
@@ -114,7 +120,26 @@ public class RootTask<E extends LivingEntity> extends Task<E>
                     .getDistance());
             if (inRange) return;
         }
+        // In this case, we want to wrap it to include throttling information.
+        if (target != null)
+        {
+            final PosWrapWrap wrapped = new PosWrapWrap(target.getTarget(), this.loadThrottle());
+            target = new WalkTarget(wrapped, target.getSpeed(), target.getDistance());
+        }
         this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, target);
+    }
+
+    protected final boolean isPaused(final E mobIn)
+    {
+        if (!this.loadThrottle() || !RootTask.doLoadThrottling) return false;
+        final Random rng = new Random(mobIn.getUniqueID().hashCode());
+        final int tick = rng.nextInt(RootTask.runRate);
+        return mobIn.ticksExisted % RootTask.runRate != tick;
+    }
+
+    public boolean loadThrottle()
+    {
+        return false;
     }
 
     @Override
@@ -128,13 +153,14 @@ public class RootTask<E extends LivingEntity> extends Task<E>
     public boolean hasRequiredMemories(final E mobIn)
     {
         this.entity = mobIn;
+        // If we are paused, return early here.
+        if (this.isPaused(mobIn)) return false;
         final Brain<?> brain = mobIn.getBrain();
         for (int i = 0; i < this.neededStatus.length; i++)
             if (!brain.hasMemory(this.neededModules[i], this.neededStatus[i])) return false;
-
         // Dead mobs don't have AI!
         if (!this.runWhileDead && !mobIn.isAlive()) return false;
-
+        // Otherwise continue;
         return true;
     }
 }

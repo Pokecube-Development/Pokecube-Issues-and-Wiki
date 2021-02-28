@@ -2401,6 +2401,10 @@
     },
     {
       "name": "mareep",
+      "dye": {
+        "base": "yellow",
+        "shiny": "pink"
+      },
       "stats": {
         "evolutions": [
           {
@@ -2467,6 +2471,10 @@
     },
     {
       "name": "flaaffy",
+      "dye": {
+        "base": "white",
+        "shiny": "white"
+      },
       "stats": {
         "evolutions": [
           {
@@ -3016,6 +3024,13 @@
             }
           }
         ]
+      }
+    },
+    {
+      "name": "smeargle",
+      "dye": {
+        "base": "green",
+        "shiny": "red"
       }
     },
     {
@@ -3999,8 +4014,6 @@
         "hatedMaterials": "water",
         "interactions": [
           {
-            "male": false,
-            "female": true,
             "cooldown": 50,
             "variance": 100,
             "baseHunger": 100,
@@ -7755,6 +7768,11 @@
     },
     {
       "name": "flabebe",
+      "dye": {
+        "base": "red",
+        "shiny": "red",
+        "dyes": ["red","yellow","orange","blue","white"]
+      },
       "stats": {
         "evolutions": [
           {
@@ -7766,6 +7784,11 @@
     },
     {
       "name": "floette",
+      "dye": {
+        "base": "red",
+        "shiny": "red",
+        "dyes": ["red","yellow","orange","blue","white"]
+      },
       "stats": {
         "evolutions": [
           {
@@ -7773,6 +7796,14 @@
             "item_preset": "shinystone"
           }
         ]
+      }
+    },
+    {
+      "name": "florges",
+      "dye": {
+        "base": "red",
+        "shiny": "red",
+        "dyes": ["red","yellow","orange","blue","white"]
       }
     },
     {
@@ -9619,6 +9650,10 @@
     },
     {
       "name": "wooloo",
+      "dye": {
+        "base": "white",
+        "shiny": "black"
+      },
       "stats": {
         "evolutions": [
           {

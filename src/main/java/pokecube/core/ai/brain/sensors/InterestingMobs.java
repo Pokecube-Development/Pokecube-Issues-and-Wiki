@@ -2,6 +2,7 @@ package pokecube.core.ai.brain.sensors;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
@@ -20,6 +21,7 @@ import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -62,6 +64,14 @@ public class InterestingMobs extends Sensor<LivingEntity>
     {
         final double s = 16;
         if (!TerrainManager.isAreaLoaded(entityIn.getEntityWorld(), entityIn.getPosition(), 8 + s)) return;
+
+        if (TaskBase.doLoadThrottling)
+        {
+            final Random rng = new Random(entityIn.getUniqueID().hashCode());
+            final int tick = rng.nextInt(TaskBase.runRate);
+            if (entityIn.ticksExisted % TaskBase.runRate != tick) return;
+        }
+
         final List<AgeableEntity> mates = Lists.newArrayList();
         final List<ItemEntity> items = Lists.newArrayList();
         final List<LivingEntity> mobs = Lists.newArrayList();

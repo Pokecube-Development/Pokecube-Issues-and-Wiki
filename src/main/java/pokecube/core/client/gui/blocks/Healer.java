@@ -35,6 +35,13 @@ public class Healer<T extends HealerContainer> extends ContainerScreen<T>
     }
 
     @Override
+    protected void drawGuiContainerForegroundLayer(final MatrixStack matrixStack, final int x, final int y)
+    {
+        // NOOP, vanilla here draws labels for inventory titles, we don't need
+        // those.
+    }
+
+    @Override
     public void init()
     {
         super.init();
