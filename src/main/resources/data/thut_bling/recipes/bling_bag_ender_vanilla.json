@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "item": "minecraft:string"
+      "tag": "forge:string"
     },
     "C": {
-      "item": "minecraft:ender_chest"
+      "tag": "forge:chests/ender"
     },
     "L": {
-      "item": "minecraft:leather"
+      "tag": "forge:leather"
     }
   },
   "result": {

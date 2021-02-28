@@ -8,10 +8,10 @@
   ],
   "key": {
     "S": {
-      "item": "minecraft:string"
+      "tag": "forge:string"
     },
     "L": {
-      "item": "minecraft:gold_nugget"
+      "tag": "forge:nuggets/gold"
     }
   },
   "result": {
