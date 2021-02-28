@@ -7,10 +7,10 @@
   ],
   "key": {
     "R": {
-      "item": "minecraft:blue_dye"
+      "tag": "forge:dyes/blue"
     },
     "A": {
-      "item": "minecraft:obsidian"
+      "tag": "forge:obsidian"
     },
     "D": {
       "item": "pokecube_legends:a1_flower"

@@ -11,7 +11,7 @@
       "item": "pokecube_legends:totem_block"
     },
     "X": {
-      "item": "minecraft:magenta_dye"
+      "tag": "forge:dyes/magenta"
     }
   },
   "result": {
