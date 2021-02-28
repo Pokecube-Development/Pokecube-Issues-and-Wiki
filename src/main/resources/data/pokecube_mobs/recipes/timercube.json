@@ -14,11 +14,11 @@
       "tag": "forge:gems/quartz"
     },
     "C": {
-      "item": "minecraft:coal",
+      "tag": "minecraft:coals",
       "data": 0
     },
     "S": {
-      "item": "minecraft:sand",
+      "tag": "minecraft:sand",
       "data": 1
     }
   },

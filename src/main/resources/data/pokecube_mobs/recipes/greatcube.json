@@ -11,7 +11,7 @@
       "item": "pokecube:premiercube"
     },
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     },
     "L": {
       "tag": "forge:dyes/blue"

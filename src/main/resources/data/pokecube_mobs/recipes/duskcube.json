@@ -11,7 +11,7 @@
       "item": "pokecube:premiercube"
     },
     "C": {
-      "item": "minecraft:coal"
+      "tag": "minecraft:coals"
     },
     "G": {
       "tag": "forge:dyes/green"

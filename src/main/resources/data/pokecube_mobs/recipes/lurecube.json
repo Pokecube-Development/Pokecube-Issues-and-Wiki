@@ -14,7 +14,7 @@
       "tag": "forge:dyes/blue"
     },
     "G": {
-      "item": "minecraft:gold_ingot"
+      "tag": "forge:ingots/gold"
     },
     "F": {
       "tag": "minecraft:fishes"

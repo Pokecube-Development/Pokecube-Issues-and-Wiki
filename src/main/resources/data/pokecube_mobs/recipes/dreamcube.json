@@ -11,19 +11,19 @@
       "item": "pokecube:mastercube"
     },
     "O": {
-      "item": "minecraft:obsidian"
+      "tag": "forge:obsidian"
     },
     "A": {
       "item": "minecraft:golden_apple"
     },
     "D": {
-      "item": "minecraft:diamond_block"
+      "tag": "forge:storage_blocks/diamond"
     },
     "L": {
-      "item": "minecraft:lapis_block"
+      "tag": "forge:storage_blocks/lapis"
     },
     "R": {
-      "item": "minecraft:redstone_block"
+      "tag": "forge:storage_blocks/redstone"
     }
   },
   "result": {

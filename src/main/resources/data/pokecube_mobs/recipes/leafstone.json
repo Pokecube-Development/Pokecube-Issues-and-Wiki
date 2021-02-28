@@ -8,7 +8,7 @@
   ],
   "key": {
     "S": {
-      "item": "minecraft:stone"
+      "tag": "forge:stone"
     },
     "W": {
       "tag": "minecraft:saplings"

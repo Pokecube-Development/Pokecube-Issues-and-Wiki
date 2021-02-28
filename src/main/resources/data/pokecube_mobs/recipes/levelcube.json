@@ -11,10 +11,10 @@
       "item": "pokecube:premiercube"
     },
     "B": {
-      "item": "minecraft:brick"
+      "tag": "forge:ingots/brick"
     },
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     },
     "C": {
       "tag": "minecraft:coals"

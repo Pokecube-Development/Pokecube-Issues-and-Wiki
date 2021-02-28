@@ -11,10 +11,10 @@
       "item": "minecraft:stone_button"
     },
     "C": {
-      "tag": "coals"
+      "tag": "minecraft:coals"
     },
     "I": {
-      "item": "minecraft:iron_ingot"
+      "tag": "forge:ingots/iron"
     }
   },
   "result": {

@@ -7,7 +7,7 @@
   ],
   "key": {
     "M": {
-      "item": "minecraft:ender_pearl"
+      "tag": "forge:ender_pearls"
     },
     "O": {
       "item": "pokecube_legends:grayorb"

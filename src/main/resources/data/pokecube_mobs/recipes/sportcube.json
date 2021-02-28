@@ -14,7 +14,7 @@
       "tag": "forge:dyes/yellow"
     },
     "G": {
-      "item": "minecraft:gold_nugget"
+      "tag": "forge:nuggets/gold"
     }
   },
   "result": {
