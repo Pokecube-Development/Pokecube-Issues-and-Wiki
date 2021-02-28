@@ -14,7 +14,7 @@
       "item": "minecraft:book"
     },
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     }
   },
   "result": {
