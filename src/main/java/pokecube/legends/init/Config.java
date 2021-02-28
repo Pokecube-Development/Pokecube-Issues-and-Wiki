@@ -119,7 +119,8 @@ public class Config extends ConfigData
             "pokecube_legends:castle_n",
             "pokecube_legends:elite_four",
             "pokecube_legends:tapus_temple",
-            "pokecube_legends:ultra_pyramid"
+            "pokecube_legends:ultra_pyramid",
+            "pokecube_legends:necrozma_tower"
         //@formatter:on
         );
 

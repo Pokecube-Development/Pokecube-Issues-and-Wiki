@@ -507,6 +507,21 @@
             }
           ],
           "values": {
+            "chance": "0.06"
+          }
+        },
+        {
+          "type": "tag_sell",
+          "custom": "pokecube_legends:sells_for_64",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "64"
+              }
+            }
+          ],
+          "values": {
             "chance": "0.05"
           }
         }

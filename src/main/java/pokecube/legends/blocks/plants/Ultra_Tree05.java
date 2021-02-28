@@ -7,8 +7,8 @@ import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import pokecube.legends.worldgen.trees.Trees;
 
-public class Ultra_Tree05 extends Tree {
-
+public class Ultra_Tree05 extends Tree 
+{	
 	@Override
     protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(final Random randomIn, final boolean b)
     {

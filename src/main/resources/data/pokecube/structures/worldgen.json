@@ -5,8 +5,10 @@
       "rigid":true,
       "biomeType":"ruin",
       "options":[
-        "pokecube:scattered/ruins_rigid/ancient_tomb",
-        "pokecube:scattered/ruins_rigid/ruin_1"
+        "pokecube:scattered/ruins_rigid/ancient_tomb;{\"weight\":10}",
+        "pokecube:scattered/ruins_rigid/ruin_1;{\"weight\":9}",
+        "pokecube:scattered/ruins_rigid/ancient_tomb_1;{\"weight\":3}",
+        "pokecube:scattered/ruins_rigid/ruin_2;{\"weight\":3}"
       ]
     },
     {

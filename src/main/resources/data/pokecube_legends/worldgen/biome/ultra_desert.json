@@ -10,8 +10,8 @@
     "fog_color": 16777215,
     "water_color": 65484,
     "water_fog_color": 1269131,
-    "foliage_color": 14996921,
-    "grass_color": 14406061,
+    "foliage_color": 35327,
+    "grass_color": 2542847,
     "ambient_sound": "minecraft:ambient.basalt_deltas.mood"
   },
   "surface_builder": "pokecube_legends:ultra_desert",

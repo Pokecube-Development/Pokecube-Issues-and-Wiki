@@ -10,8 +10,8 @@
     "fog_color": 1710113,
     "water_color": 3883333,
     "water_fog_color": 1908000,
-    "foliage_color": 2694159,
-    "grass_color": 2564635,
+    "foliage_color": 4143695,
+    "grass_color": 3288639,
     "particle": {
       "options": {
         "type": "minecraft:white_ash"
