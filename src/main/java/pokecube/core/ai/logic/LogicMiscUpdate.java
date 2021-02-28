@@ -1,13 +1,17 @@
 package pokecube.core.ai.logic;
 
 import java.util.Calendar;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
@@ -28,10 +32,12 @@ import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.HappinessType;
+import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.interfaces.pokemob.stats.IStatsModifiers;
 import pokecube.core.interfaces.pokemob.stats.StatModifiers;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
@@ -46,12 +52,36 @@ import thut.api.maths.Vector3;
  */
 public class LogicMiscUpdate extends LogicBase
 {
-    public static final int[] FLAVCOLOURS      = new int[] { 0xFFFF4932, 0xFF4475ED, 0xFFF95B86, 0xFF2EBC63,
-            0xFFEBCE36 };
-    public static int         EXITCUBEDURATION = 40;
+    public static final int[] FLAVCOLOURS = new int[] { 0xFFFF4932, 0xFF4475ED, 0xFFF95B86, 0xFF2EBC63, 0xFFEBCE36 };
+
+    public static int EXITCUBEDURATION = 40;
 
     public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25 && Calendar
             .getInstance().get(Calendar.MONTH) == 11;
+
+    public static void getStatModifiers(final EquipmentSlotType slot, final ItemStack stack,
+            final Map<Stats, Float> vals)
+    {
+        if (stack.isEmpty()) return;
+        switch (slot)
+        {
+        case CHEST:
+            break;
+        case FEET:
+            break;
+        case HEAD:
+            break;
+        case LEGS:
+            break;
+        case MAINHAND:
+            break;
+        case OFFHAND:
+            break;
+        default:
+            break;
+
+        }
+    }
 
     private final int[] flavourAmounts = new int[5];
 
@@ -131,7 +161,7 @@ public class LogicMiscUpdate extends LogicBase
                 this.pokemob.getMoveStats().reset();
                 this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
                 if (this.pokemob.getOwner() instanceof ServerPlayerEntity) PacketSyncModifier.sendUpdate(
-                        StatModifiers.DEFAULTMODIFIERS, this.pokemob);
+                        StatModifiers.DEFAULT, this.pokemob);
             }
             this.combatTimer--;
 
@@ -268,6 +298,19 @@ public class LogicMiscUpdate extends LogicBase
         this.prevOwner = ownerID;
         this.prevID = uuid;
 
+        // Here we apply worn/held equipment modifiers
+        final Map<Stats, Float> vals = Maps.newHashMap();
+        for (final EquipmentSlotType type : EquipmentSlotType.values())
+            LogicMiscUpdate.getStatModifiers(type, this.entity.getItemStackFromSlot(type), vals);
+
+        for (final Stats stat : Stats.values())
+        {
+            final Float val = vals.getOrDefault(stat, (float) 0);
+            final IStatsModifiers mods = this.pokemob.getModifiers().getModifiers(StatModifiers.ARMOUR);
+            mods.setModifier(stat, val);
+        }
+
+        // Now some server only processing
         if (!world.isRemote)
         {
             // Check that AI states are correct

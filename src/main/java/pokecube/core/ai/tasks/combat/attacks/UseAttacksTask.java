@@ -196,10 +196,9 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                 CombatStates.DODGING);
 
         // If the target is not trying to dodge, and the move allows it,
-        // then
-        // set target location to where the target is now. This is so that
-        // it can use the older postion set above, lowering the accuracy of
-        // move use, allowing easier dodging.
+        // then set target location to where the target is now. This is so that
+        // it can use the older postion set above, lowering the accuracy of move
+        // use, allowing easier dodging.
         if (!isTargetDodging) this.targetLoc.set(this.entityTarget).addTo(0, this.entityTarget.getHeight() / 2, 0);
 
         boolean delay = false;

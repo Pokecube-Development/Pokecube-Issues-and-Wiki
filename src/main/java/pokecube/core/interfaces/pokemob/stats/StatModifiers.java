@@ -14,13 +14,15 @@ import pokecube.core.utils.PokeType;
 public class StatModifiers
 {
 
-    public static final String DEFAULTMODIFIERS = "default";
+    public static final String DEFAULT = "default";
+    public static final String ARMOUR  = "armour";
 
     public static Map<String, Class<? extends IStatsModifiers>> modifierClasses = Maps.newHashMap();
 
     static
     {
-        StatModifiers.modifierClasses.put(StatModifiers.DEFAULTMODIFIERS, DefaultModifiers.class);
+        StatModifiers.registerModifier(StatModifiers.DEFAULT, DefaultModifiers.class);
+        StatModifiers.registerModifier(StatModifiers.ARMOUR, ArmourModifier.class);
     }
 
     public static void registerModifier(final String name, final Class<? extends IStatsModifiers> modclass)
@@ -47,7 +49,7 @@ public class StatModifiers
             {
                 e.printStackTrace();
             }
-        this.defaultmods = this.getModifiers(StatModifiers.DEFAULTMODIFIERS, DefaultModifiers.class);
+        this.defaultmods = this.getModifiers(StatModifiers.DEFAULT, DefaultModifiers.class);
         this.sortedModifiers.addAll(this.modifiers.values());
         Collections.sort(this.sortedModifiers, (o1, o2) ->
         {
@@ -106,8 +108,7 @@ public class StatModifiers
             }
         }
         if (modified) for (final IStatsModifiers mods : this.sortedModifiers)
-            if (mods.isFlat()) actualStat += mods.getModifier(stat);
-            else actualStat *= mods.getModifier(stat);
+            actualStat = mods.apply(stat, actualStat);
         return actualStat;
     }
 

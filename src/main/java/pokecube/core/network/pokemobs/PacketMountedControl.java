@@ -32,6 +32,7 @@ public class PacketMountedControl extends Packet
         if (controller.downInputDown) packet.message += PacketMountedControl.DOWN;
         if (controller.followOwnerLook) packet.message += PacketMountedControl.SYNCLOOK;
         packet.y = (float) controller.throttle;
+        controller.refreshInput();
         PokecubeCore.packets.sendToServer(packet);
     }
 
@@ -121,6 +122,7 @@ public class PacketMountedControl extends Packet
             controller.downInputDown = (this.message & PacketMountedControl.DOWN) > 0;
             controller.followOwnerLook = (this.message & PacketMountedControl.SYNCLOOK) > 0;
             controller.throttle = this.y;
+            controller.refreshInput();
             mob.getPersistentData().putDouble("pokecube:mob_throttle", this.y);
             PacketMountedControl.sendUpdatePacket(mob);
         }

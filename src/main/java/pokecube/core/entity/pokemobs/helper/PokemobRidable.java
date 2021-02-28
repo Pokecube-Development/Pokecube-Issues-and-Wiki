@@ -3,20 +3,31 @@ package pokecube.core.entity.pokemobs.helper;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IEquipable;
+import net.minecraft.entity.IJumpingMount;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.database.PokedexEntry;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.maths.vecmath.Vector3f;
 
-public abstract class PokemobRidable extends PokemobBase implements IMultiplePassengerEntity
+public abstract class PokemobRidable extends PokemobBase implements IMultiplePassengerEntity, IJumpingMount, IEquipable
 {
 
     public PokemobRidable(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
@@ -44,6 +55,63 @@ public abstract class PokemobRidable extends PokemobBase implements IMultiplePas
     public boolean canBeRiddenInWater(final Entity rider)
     {
         return this.pokemobCap.canUseSurf() || this.pokemobCap.canUseDive();
+    }
+
+    // ========== Jumping Mount and Equipable stuff here ==========
+    protected float jumpPower;
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void setJumpPower(int jumpPowerIn)
+    {
+        if (jumpPowerIn < 0) jumpPowerIn = 0;
+        if (jumpPowerIn >= 90) this.jumpPower = 1;
+        else this.jumpPower = 0.4F + 0.4F * jumpPowerIn / 90.0F;
+    }
+
+    @Override
+    public boolean canJump()
+    {
+        return true;
+    }
+
+    @Override
+    public void handleStartJump(final int jumpPower)
+    {
+        // Horse plays a sdound here
+        this.playSound(SoundEvents.ENTITY_HORSE_JUMP, 0.4F, 1.0F);
+    }
+
+    @Override
+    public void handleStopJump()
+    {
+        // Horse does nothing here
+    }
+
+    @Override
+    /**
+     * This is "can have saddle equipped
+     */
+    public boolean func_230264_L__()
+    {
+        return this.isAlive() && this.getOwnerId() != null;
+    }
+
+    @Override
+    /**
+     * This is "add saddle"
+     */
+    public void func_230266_a_(@Nullable final SoundCategory sound)
+    {
+        this.pokemobCap.getInventory().setInventorySlotContents(0, new ItemStack(Items.SADDLE));
+        if (sound != null) this.world.playMovingSound((PlayerEntity) null, this, SoundEvents.ENTITY_HORSE_SADDLE, sound,
+                0.5F, 1.0F);
+    }
+
+    @Override
+    public boolean isHorseSaddled()
+    {
+        return !this.pokemobCap.getInventory().getStackInSlot(0).isEmpty();
     }
 
     // ========== IMultipassenger stuff below here ==============
