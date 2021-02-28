@@ -11,13 +11,13 @@ public class DefaultModifiers implements IStatsModifiers
     }
 
     @Override
-    public float getModifier(Stats stat)
+    public float getModifier(final Stats stat)
     {
         return this.modifierToRatio((byte) this.values[stat.ordinal()], stat.ordinal() > 5);
     }
 
     @Override
-    public float getModifierRaw(Stats stat)
+    public float getModifierRaw(final Stats stat)
     {
         return this.values[stat.ordinal()];
     }
@@ -29,12 +29,12 @@ public class DefaultModifiers implements IStatsModifiers
     }
 
     @Override
-    public boolean isFlat()
+    public float apply(final Stats stat, final float valueIn)
     {
-        return false;
+        return valueIn * this.getModifier(stat);
     }
 
-    public float modifierToRatio(byte mod, boolean accuracy)
+    public float modifierToRatio(final byte mod, final boolean accuracy)
     {
         float modifier = 1;
         if (mod == 0) modifier = 1;
@@ -60,7 +60,7 @@ public class DefaultModifiers implements IStatsModifiers
     }
 
     @Override
-    public void setModifier(Stats stat, float value)
+    public void setModifier(final Stats stat, final float value)
     {
         this.values[stat.ordinal()] = value;
     }

@@ -55,7 +55,7 @@ public abstract class PokeInfoPage extends WatchPage
     {
         super.init();
         final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2 - 5;
+        final int y = this.watch.height / 2 - 3;
         final ITextComponent next = new StringTextComponent(">");
         final ITextComponent prev = new StringTextComponent("<");
         final ITextComponent form = new StringTextComponent("\u2500");

@@ -73,8 +73,6 @@ public class LeapTask extends TaskBase implements IAICombat
         // Target loc could just be a position
         this.leapTarget.set(this.pos.getPos());
 
-        final boolean airborne = this.pokemob.floats() || this.pokemob.flys();
-
         final Vector3 location = Vector3.getNewVector().set(this.entity);
         final Vector3 diff = this.leapTarget.subtract(location);
 
@@ -105,7 +103,9 @@ public class LeapTask extends TaskBase implements IAICombat
         // Adjust for existing velocity differential.
         dir.subtractFrom(dv);
 
+        final boolean airborne = this.pokemob.floats() || this.pokemob.flys();
         if (airborne && !this.pokemob.inCombat()) dir.scalarMultBy(0.25);
+        else if (airborne) dir.y *= 2;
 
         /*
          * Apply the leap

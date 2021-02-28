@@ -46,7 +46,14 @@ public class LogicMountedControl extends LogicBase
     public boolean followOwnerLook  = false;
     public double  throttle         = 0.5;
 
+    private boolean input     = false;
     private boolean wasRiding = false;
+
+    public boolean canFly;
+    public boolean canSurf;
+    public boolean canDive;
+
+    public boolean inFluid;
 
     public LogicMountedControl(final IPokemob pokemob_)
     {
@@ -55,37 +62,22 @@ public class LogicMountedControl extends LogicBase
                 .getPersistentData().getDouble("pokecube:mob_throttle");
     }
 
-    @Override
-    public void tick(final World world)
+    public void refreshInput()
     {
+        this.input = this.leftInputDown || this.rightInputDown || this.forwardInputDown || this.backInputDown
+                || this.upInputDown || this.downInputDown;
+
         final Entity rider = this.entity.getControllingPassenger();
-        this.entity.stepHeight = 1.1f;
-        this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
-
-        boolean canFly = this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
-        if (rider == null)
-        {
-            if (this.wasRiding && canFly)
-            {
-                this.entity.setNoGravity(false);
-                this.wasRiding = false;
-            }
-            return;
-        }
-        this.wasRiding = true;
-        final Config config = PokecubeCore.getConfig();
-        boolean move = false;
-        this.entity.rotationYaw = this.pokemob.getHeading();
-        boolean shouldControl = this.entity.isOnGround() || this.pokemob.floats();
-        boolean verticalControl = false;
-        boolean waterSpeed = false;
-        final boolean inFluid = this.entity.isInWater() || this.entity.isInLava();
-        boolean airSpeed = !this.entity.isOnGround();
-
-        boolean canSurf = this.pokemob.canUseSurf();
-        boolean canDive = this.pokemob.canUseDive();
 
         ServerPlayerEntity player = null;
+
+        this.inFluid = this.entity.isInWater() || this.entity.isInLava();
+
+        this.canFly = this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
+        this.canSurf = this.pokemob.canUseSurf();
+        this.canDive = this.pokemob.canUseDive();
+
+        final Config config = PokecubeCore.getConfig();
 
         if (rider instanceof ServerPlayerEntity)
         {
@@ -93,32 +85,64 @@ public class LogicMountedControl extends LogicBase
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
             final PokedexEntry entry = this.pokemob.getPokedexEntry();
-            if (config.permsFly && canFly && !handler.hasPermission(player.getGameProfile(), Permissions.FLYPOKEMOB,
-                    context)) canFly = false;
-            if (config.permsFlySpecific && canFly && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.FLYSPECIFIC.get(entry), context)) canFly = false;
-            if (config.permsSurf && canSurf && !handler.hasPermission(player.getGameProfile(), Permissions.SURFPOKEMOB,
-                    context)) canSurf = false;
-            if (config.permsSurfSpecific && canSurf && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.SURFSPECIFIC.get(entry), context)) canSurf = false;
-            if (config.permsDive && canDive && !handler.hasPermission(player.getGameProfile(), Permissions.DIVEPOKEMOB,
-                    context)) canDive = false;
-            if (config.permsDiveSpecific && canDive && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.DIVESPECIFIC.get(entry), context)) canDive = false;
+            if (config.permsFly && this.canFly && !handler.hasPermission(player.getGameProfile(),
+                    Permissions.FLYPOKEMOB, context)) this.canFly = false;
+            if (config.permsFlySpecific && this.canFly && !handler.hasPermission(player.getGameProfile(),
+                    Permissions.FLYSPECIFIC.get(entry), context)) this.canFly = false;
+            if (config.permsSurf && this.canSurf && !handler.hasPermission(player.getGameProfile(),
+                    Permissions.SURFPOKEMOB, context)) this.canSurf = false;
+            if (config.permsSurfSpecific && this.canSurf && !handler.hasPermission(player.getGameProfile(),
+                    Permissions.SURFSPECIFIC.get(entry), context)) this.canSurf = false;
+            if (config.permsDive && this.canDive && !handler.hasPermission(player.getGameProfile(),
+                    Permissions.DIVEPOKEMOB, context)) this.canDive = false;
+            if (config.permsDiveSpecific && this.canDive && !handler.hasPermission(player.getGameProfile(),
+                    Permissions.DIVESPECIFIC.get(entry), context)) this.canDive = false;
         }
-        if (canFly) canFly = !LogicMountedControl.BLACKLISTED.contains(world.getDimensionKey());
-        if (canFly)
+        if (this.canFly) this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getEntityWorld()
+                .getDimensionKey());
+    }
+
+    public boolean hasInput()
+    {
+        return this.input;
+    }
+
+    @Override
+    public void tick(final World world)
+    {
+        final Entity rider = this.entity.getControllingPassenger();
+        this.entity.stepHeight = 1.1f;
+        this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
+        if (rider == null)
+        {
+            if (this.wasRiding && this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE))
+            {
+                this.entity.setNoGravity(false);
+                this.wasRiding = false;
+            }
+            return;
+        }
+
+        this.wasRiding = true;
+        final Config config = PokecubeCore.getConfig();
+        boolean move = false;
+        this.entity.rotationYaw = this.pokemob.getHeading();
+
+        boolean shouldControl = this.entity.isOnGround() || this.pokemob.floats() || this.pokemob.flys();
+        boolean verticalControl = false;
+        boolean waterSpeed = false;
+        boolean airSpeed = !this.entity.isOnGround();
+
+        if (this.canFly)
         {
             shouldControl = verticalControl = PokecubeCore.getConfig().flyEnabled || shouldControl;
             if (verticalControl) this.entity.setNoGravity(true);
         }
-        if ((canSurf || canDive) && (waterSpeed = this.entity.isInWater()))
+        if ((this.canSurf || this.canDive) && (waterSpeed = this.entity.isInWater()))
             shouldControl = verticalControl = PokecubeCore.getConfig().surfEnabled || shouldControl;
-
         if (waterSpeed) airSpeed = false;
 
         final Entity controller = rider;
-
         final ItemStack stack = new ItemStack(Blocks.BARRIER);
         final List<EffectInstance> buffs = Lists.newArrayList();
 
@@ -140,6 +164,11 @@ public class LogicMountedControl extends LogicBase
             no_burning.setCurativeItems(Lists.newArrayList(stack));
             buffs.add(no_burning);
         }
+        if (!this.hasInput()) return;
+
+        shouldControl = verticalControl || this.inFluid;
+
+        if (!shouldControl) return;
 
         for (final Entity e : this.entity.getRecursivePassengers())
             if (e instanceof LivingEntity)
@@ -170,7 +199,7 @@ public class LogicMountedControl extends LogicBase
                 vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
                 vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
             }
-            else if (inFluid)
+            else if (this.inFluid)
             {
                 f *= 0.1;
                 vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
@@ -198,14 +227,14 @@ public class LogicMountedControl extends LogicBase
             net.minecraftforge.common.ForgeHooks.onLivingJump(this.entity);
         }
         else if (verticalControl) vy += 0.1 * this.throttle;
-        else if (inFluid) vy += 0.05 * this.throttle;
+        else if (this.inFluid) vy += 0.05 * this.throttle;
         if (this.downInputDown)
         {
             if (verticalControl && !this.entity.isOnGround()) vy -= 0.1 * this.throttle;
         }
         else if (!verticalControl && !this.entity.isOnGround()) vy -= 0.1;
 
-        if (inFluid && !(this.upInputDown || this.downInputDown))
+        if (this.inFluid && !(this.upInputDown || this.downInputDown))
         {
             double fraction = -1;
             if (this.entity.isInWater()) fraction = this.entity.func_233571_b_(FluidTags.WATER);
@@ -235,7 +264,7 @@ public class LogicMountedControl extends LogicBase
                     vx += MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
                     vz += MathHelper.sin(this.entity.rotationYaw * 0.017453292F) * f;
                 }
-                else if (inFluid)
+                else if (this.inFluid)
                 {
                     f *= 0.1;
                     vx += MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
@@ -254,7 +283,7 @@ public class LogicMountedControl extends LogicBase
                     vx -= MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
                     vz -= MathHelper.sin(this.entity.rotationYaw * 0.017453292F) * f;
                 }
-                else if (inFluid)
+                else if (this.inFluid)
                 {
                     f *= 0.1;
                     vx -= MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;

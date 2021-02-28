@@ -1,6 +1,7 @@
 package pokecube.legends.conditions;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.text.IFormattableTextComponent;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.utils.PokeType;
@@ -31,8 +32,9 @@ public class Kyogre extends AbstractCondition
     }
 
     @Override
-    void sendFailureMessage(final Entity trainer)
+    public IFormattableTextComponent getFailureMessage(final Entity trainer)
     {
+        final IFormattableTextComponent noTrust = this.sendNoTrust(trainer);
         final int count1 = this.caughtNumber(trainer, PokeType.getType("water"));
         final int count2 = this.killedNumber(trainer, PokeType.getType("ground"));
         final int count3 = this.spawnNumber(PokeType.getType("water"));
@@ -41,8 +43,8 @@ public class Kyogre extends AbstractCondition
         final float numKill = 0.5f;
         final String type = "Water";
         final String kill = "Ground";
-        this.sendNoTrust(trainer);
-        this.sendLegendDuo(trainer, type, kill, (int) (numTotal * count3), count1, (int) (numKill * count4), count2);
+        final IFormattableTextComponent needTypes = this.sendLegendDuo(trainer, type, kill, (int) (numTotal * count3), count1,
+                (int) (numKill * count4), count2);
+        return noTrust.appendString("\n").append(needTypes);
     }
-
 }

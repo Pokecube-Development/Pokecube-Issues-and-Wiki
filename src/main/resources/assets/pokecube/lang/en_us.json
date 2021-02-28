@@ -89,6 +89,10 @@
 
     "pokewatch.progress.inspect": "Check Progress",
 
+    "pokewatch.capture.check": "Capture Check",
+    "pokewatch.capture.check.yes": "§aYou may capture %s",
+    "pokewatch.capture.check.no": "§cYou may not capture %s",
+
     "pokewatch.spawns.peaceful": "§cNothing can spawn on Peaceful!",
     "pokewatch.spawns.repelled": "§cSomething is reducing wild spawns here!",
     "pokewatch.spawns.times": "Times:",
@@ -170,7 +174,7 @@
     "pokedex.locationinfo4": "%1$s Spawn here",
 
     "pokedex.inspect.nothing": "§cThere are no new rewards from the Pokédex",
-    "pokedex.inspect.available": "§aYou have a new Pokédex reward available, click the Blue light in the Pokédex to get it!",
+    "pokedex.inspect.available": "§aYou have a new Pokédex reward available, click the Check Progress button in the trainer career page in the watch!",
 
     "pokedex.inspect.guidebook": "§aYou recieved a Guide Book from the Pokédex.",
     "pokedex.inspect.carebook": "§aYou recieved a Care Book from the Pokédex.",

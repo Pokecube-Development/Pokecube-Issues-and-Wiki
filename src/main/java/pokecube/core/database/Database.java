@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -63,7 +64,6 @@ import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.interfaces.IPokemob;
@@ -190,8 +190,6 @@ public class Database
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
 
     public static List<PokedexEntry> spawnables = new ArrayList<>();
-
-    public static ResourceLocation STARTERPACK = new ResourceLocation("pokecube:database/pack.xml");
 
     public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo");
 
@@ -654,8 +652,9 @@ public class Database
     {
         for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values())
             parser.init();
-
-        for (final ResourceLocation name : XMLRecipeHandler.recipeFiles)
+        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+                "database/recipes", s -> s.endsWith(".json"));
+        for (final ResourceLocation name : resources)
             try
             {
                 final IReloadableResourceManager manager = Database.resourceManager;
@@ -689,7 +688,9 @@ public class Database
 
     private static void loadRewards()
     {
-        for (final ResourceLocation name : XMLRewardsHandler.recipeFiles)
+        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+                "database/rewards", s -> s.endsWith(".json"));
+        for (final ResourceLocation name : resources)
             try
             {
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
@@ -715,16 +716,28 @@ public class Database
     {
         try
         {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager.getResource(
-                    Database.STARTERPACK).getInputStream()));
-            final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
-            reader.close();
-            // Only clear this if things have not failed earlier
-            Database.starterPack.clear();
-            for (final Drop drop : database.drops)
+            final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+                    "database/starterpack", s -> s.endsWith(".json"));
+            boolean valid = false;
+            final List<ItemStack> kit = Lists.newArrayList();
+            for (final ResourceLocation pack : resources)
             {
-                final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
-                if (!stack.isEmpty()) Database.starterPack.add(stack);
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
+                        .getResource(pack).getInputStream()));
+                final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
+                reader.close();
+                valid = true;
+                for (final Drop drop : database.drops)
+                {
+                    final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
+                    if (!stack.isEmpty()) kit.add(stack);
+                }
+            }
+            if (valid)
+            {
+                // Only clear this if things have not failed earlier
+                Database.starterPack.clear();
+                Database.starterPack.addAll(kit);
             }
         }
         catch (final Exception e)
@@ -793,17 +806,6 @@ public class Database
         if (removedNums.size() > 0) PokecubeCore.LOGGER.debug("Removed " + toRemove);
 
         toRemove.clear();
-
-        // Handle loading worldgen spawn presets
-        for (final ResourceLocation s : WorldgenHandler.spawnPresets)
-            try
-            {
-                StructureSpawnPresetLoader.loadDatabase(s);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error loading presets from " + s, e);
-            }
     }
 
     public static void onResourcesReloaded()
@@ -815,6 +817,7 @@ public class Database
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
+        StructureSpawnPresetLoader.loadDatabase();
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;

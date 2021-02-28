@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 
@@ -26,7 +27,13 @@ public abstract class BaseIdleTask extends TaskBase
 
     public BaseIdleTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
     {
-        super(pokemob, TaskBase.merge(BaseIdleTask.MEMS, mems));
+        super(pokemob, RootTask.merge(BaseIdleTask.MEMS, mems));
+    }
+
+    @Override
+    public boolean loadThrottle()
+    {
+        return true;
     }
 
 }

@@ -21,6 +21,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -54,6 +55,8 @@ public class Count
         Collections.sort(entries, (o1, o2) -> o2.getValue() - o1.getValue());
         source.sendFeedback(new TranslationTextComponent("pokecube.command.count", count1, count2), true);
         source.sendFeedback(new StringTextComponent(entries.toString()), true);
+        if (RootTask.doLoadThrottling) source.sendFeedback(new StringTextComponent("Load Factor: " + RootTask.runRate),
+                true);
         return 0;
     }
 

@@ -14,9 +14,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
@@ -29,12 +31,14 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.potion.Effects;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
@@ -45,6 +49,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.SpawnBiomeMatcher;
@@ -52,6 +57,7 @@ import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
 import pokecube.core.events.pokemob.FaintEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
+import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
@@ -188,12 +194,88 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     public void travel(final Vector3d dr)
     {
+
+        // If we are ridden on ground, do similar stuff to horses.
+        if (this.isBeingRidden())
+        {
+            final LogicMountedControl controller = this.pokemobCap.getController();
+            if (!controller.hasInput())
+            {
+                this.setMoveForward(0);
+                this.setMoveStrafing(0);
+                this.setMoveVertical(0);
+                super.travel(dr);
+                final Vector3d motion = this.getMotion();
+                this.setMotion(motion.x * 0.5, motion.y, motion.z * 0.5);
+                return;
+            }
+            final LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
+            this.pokemobCap.setHeading(livingentity.rotationYaw);
+            this.prevRotationYaw = this.rotationYaw;
+            this.rotationPitch = livingentity.rotationPitch * 0.5F;
+            this.setRotation(this.rotationYaw, this.rotationPitch);
+            this.renderYawOffset = this.rotationYaw;
+            this.rotationYawHead = this.renderYawOffset;
+            float strafe = livingentity.moveStrafing * 0.5F;
+            float forwards = livingentity.moveForward;
+            if (forwards <= 0.0F) forwards *= 0.25F;
+            if (this.onGround && this.jumpPower == 0.0F)
+            {
+                strafe = 0.0F;
+                forwards = 0.0F;
+            }
+            if (this.jumpPower > 0.0F && !this.isJumping)
+            {
+                final double jumpStrength = 1.7;
+                final double preBoostJump = jumpStrength * this.jumpPower * this.getJumpFactor();
+                double jumpAmount;
+                if (this.isPotionActive(Effects.JUMP_BOOST)) jumpAmount = preBoostJump + (this.getActivePotionEffect(
+                        Effects.JUMP_BOOST).getAmplifier() + 1) * 0.1F;
+                else jumpAmount = preBoostJump;
+
+                final Vector3d vector3d = this.getMotion();
+                this.setMotion(vector3d.x, jumpAmount, vector3d.z);
+                this.setJumping(true);
+                this.isAirBorne = true;
+                net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+                if (forwards > 0.0F)
+                {
+                    final float sinYaw = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
+                    final float cosYaw = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
+                    this.setMotion(this.getMotion().add(-0.4F * sinYaw * this.jumpPower, 0.0D, 0.4F * cosYaw
+                            * this.jumpPower));
+                }
+                this.jumpPower = 0.0F;
+            }
+
+            this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
+            if (this.canPassengerSteer())
+            {
+                final double speed = controller.throttle;
+                final float speedFactor = (float) (1 + Math.sqrt(this.pokemobCap.getPokedexEntry().getStatVIT()) / 10F);
+                final Config config = PokecubeCore.getConfig();
+                final float moveSpeed = (float) (config.groundSpeedFactor * speed * speedFactor);
+                this.setAIMoveSpeed(moveSpeed);
+                super.travel(new Vector3d(strafe, dr.y, forwards));
+            }
+            else if (livingentity instanceof PlayerEntity) this.setMotion(Vector3d.ZERO);
+
+            if (this.onGround)
+            {
+                this.jumpPower = 0.0F;
+                this.setJumping(false);
+            }
+            this.func_233629_a_(this, false);
+            return;
+        }
+        // Swimming mobs get their own treatment while swimming
         if (this.isServerWorld() && this.isInWater() && this.pokemobCap.swims())
         {
             this.moveRelative(this.getAIMoveSpeed(), dr);
             this.move(MoverType.SELF, this.getMotion());
             this.setMotion(this.getMotion().scale(0.8D));
         }
+        // Otherwise just act like vanilla
         else super.travel(dr);
     }
 
@@ -201,7 +283,7 @@ public class EntityPokemob extends PokemobHasParts
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        if (this.getPersistentData().getBoolean(TagNames.CLONED)) return null;
+        if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return null;
         if (this.getPersistentData().getBoolean(TagNames.NODROP)) return null;
         if (PokecubeCore.getConfig().pokemobsDropItems) return this.pokemobCap.getPokedexEntry().lootTable;
         else return null;

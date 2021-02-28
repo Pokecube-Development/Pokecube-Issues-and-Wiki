@@ -16,8 +16,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
-import pokecube.core.database.recipes.XMLRecipeHandler;
-import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
@@ -78,7 +76,6 @@ public class Config extends ConfigData
     public boolean legendsBreed         = false;
     @Configure(category = Config.misc, comment = "If true, using a bed will heal your pokemobs")
     public boolean bedsHeal             = true;
-    /** does defeating a tame pokemob give exp */
     @Configure(category = Config.misc, comment = "If true, defeating an NPC's pokemobs gives exp")
     public boolean trainerExp           = true;
     @Configure(category = Config.misc, comment = "If true, your items which fit in PC will be sent there when you die")
@@ -86,11 +83,11 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, comment = "If false, the PC can hold any item")
     public boolean pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc, comment = "If true, you will be prompted to choose a pokemob when creating a world, without having to look for a professor")
-    /** is there a choose first gui on login */
     public boolean guiOnLogin           = false;
     @Configure(category = Config.misc, comment = "If true, defeating a player's pokemobs gives exp")
-    /** does defeating a tame pokemob give exp */
     public boolean pvpExp               = false;
+    @Configure(category = Config.misc, comment = "If true, mobs marked as \"cloned\" will drop items on death.")
+    public boolean clonesDrop           = false;
 
     @Configure(category = Config.misc, comment = "A list of custom sounds to register")
     public List<String> customSounds = Lists.newArrayList();
@@ -257,6 +254,9 @@ public class Config extends ConfigData
 
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will slowly heal while out of combat")
     public boolean outOfCombatHealing = true;
+
+    @Configure(category = Config.mobAI, comment = "If true, idle AI for pokemobs will slow down as server load increases")
+    public boolean doLoadBalancing = true;
 
     @Configure(category = Config.mobAI, comment = "A random sound from here is played when a pokemob dodges in combat")
     public List<String> dodgeSounds        = Lists.newArrayList("entity.witch.throw");
@@ -540,11 +540,6 @@ public class Config extends ConfigData
     @Configure(category = Config.genetics)
     public List<String> mutationRates        = GeneticsManager.getMutationConfig();
 
-    @Configure(category = Config.database)
-    public List<String> recipeDatabases = Lists.newArrayList(new String[] { "recipes" });
-    @Configure(category = Config.database)
-    public List<String> rewardDatabases = Lists.newArrayList(new String[] { "rewards" });
-
     @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean doHealthBars         = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT)
@@ -700,16 +695,6 @@ public class Config extends ConfigData
         PokecubeSerializer.MeteorDistance = this.meteorDistance * this.meteorDistance;
         PokecubeMod.debug = this.debug;
 
-        for (String s : this.recipeDatabases)
-        {
-            if (!s.endsWith(".json")) s = s + ".json";
-            XMLRecipeHandler.recipeFiles.add(PokecubeItems.toPokecubeResource(s));
-        }
-        for (String s : this.rewardDatabases)
-        {
-            if (!s.endsWith(".json")) s = s + ".json";
-            XMLRewardsHandler.recipeFiles.add(PokecubeItems.toPokecubeResource(s));
-        }
         if (this.extraVars.size() != Config.defaults.extraVars.size())
         {
             final List<String> old = Lists.newArrayList(this.extraVars);

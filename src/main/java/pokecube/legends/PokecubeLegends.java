@@ -33,7 +33,6 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -128,11 +127,6 @@ public class PokecubeLegends
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        DBLoader.trainerDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trainers.json"));
-        DBLoader.tradeDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trades.json"));
-
-        WorldgenHandler.spawnPresets.add(new ResourceLocation(Reference.ID, "database/trainer/spawn_presets.json"));
 
         modEventBus.addListener(this::loadComplete);
 

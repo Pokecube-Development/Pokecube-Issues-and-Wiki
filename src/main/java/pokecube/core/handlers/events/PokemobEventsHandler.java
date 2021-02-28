@@ -22,6 +22,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
@@ -45,6 +46,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.Tags.IOptionalNamedTag;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -56,12 +59,15 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
@@ -144,6 +150,8 @@ public class PokemobEventsHandler
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobTracking);
         // This syncs rotation of the ridden pokemob with the rider.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onWorldTick);
+        // Monitors sim speed and reduces idle tick rate if lagging too much
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onServerTick);
         // This pauses the pokemobs if too close to the edge of the loaded area,
         // preventing them from chunkloading during their AI. It also then
         // ensures their UUID is correct after evolution, and then ticks the
@@ -447,6 +455,29 @@ public class PokemobEventsHandler
                 final LivingEntity ridden = (LivingEntity) player.getRidingEntity();
                 EntityTools.copyEntityTransforms(ridden, player);
             }
+    }
+
+    private static long mean(final long[] values)
+    {
+        long sum = 0L;
+        for (final long v : values)
+            sum += v;
+        return sum / values.length;
+    }
+
+    private static void onServerTick(final ServerTickEvent event)
+    {
+        if (event.phase != Phase.END || !PokecubeCore.getConfig().doLoadBalancing) return;
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final double meanTickTime = PokemobEventsHandler.mean(server.tickTimeArray) * 1.0E-6D;
+        final double maxTick = 2;
+        if (meanTickTime > maxTick)
+        {
+            final double factor = meanTickTime / maxTick;
+            RootTask.doLoadThrottling = true;
+            RootTask.runRate = (int) factor;
+        }
+        else RootTask.doLoadThrottling = false;
     }
 
     private static void onMobTick(final LivingUpdateEvent evt)

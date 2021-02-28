@@ -120,12 +120,11 @@ public class XMLRewardsHandler
             boolean percent = false;
             if (reward.condition.values.containsKey(CaptureParser.PERCENT)) percent = Boolean.parseBoolean(
                     reward.condition.values.get(CaptureParser.PERCENT));
-            final ItemStack give = XMLRewardsHandler.getStack(reward.output);
+            final ItemStack give = Tools.getStack(reward.output.getValues());
             if (give == null || key == null || mess == null) throw new NullPointerException(key + " " + mess + " "
                     + give);
             PokedexInspector.rewards.add(new InspectCapturesReward(give, num, percent, mess, key));
         }
-
     }
 
     public static class FreeBookParser implements IRewardParser
@@ -326,8 +325,6 @@ public class XMLRewardsHandler
         public List<XMLReward> recipes = Lists.newArrayList();
     }
 
-    public static Set<ResourceLocation> recipeFiles = Sets.newHashSet();
-
     public static Set<String> loadedRecipes = Sets.newHashSet();
 
     public static Map<String, IRewardParser> recipeParsers = Maps.newHashMap();
@@ -349,10 +346,5 @@ public class XMLRewardsHandler
         {
             PokecubeCore.LOGGER.error("Error with a recipe, Error for: " + recipe, e);
         }
-    }
-
-    public static ItemStack getStack(final Drop drop)
-    {
-        return Tools.getStack(drop.getValues());
     }
 }

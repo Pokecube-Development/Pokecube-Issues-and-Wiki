@@ -78,6 +78,12 @@ public abstract class AbstractBurrowTask extends TaskBase
     abstract protected boolean doTask();
 
     @Override
+    public boolean loadThrottle()
+    {
+        return true;
+    }
+
+    @Override
     public boolean shouldRun()
     {
         if (this.burrow == null || this.check_timer-- < 0)

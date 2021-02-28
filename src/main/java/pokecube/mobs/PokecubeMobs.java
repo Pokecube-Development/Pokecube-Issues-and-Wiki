@@ -28,7 +28,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
@@ -36,8 +35,6 @@ import pokecube.core.database.CombatTypeLoader;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.recipes.XMLRecipeHandler;
-import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.StatsCollector;
@@ -101,13 +98,7 @@ public class PokecubeMobs
         PokecubeCore.POKEMOB_BUS.register(this);
         // We override these so that they use ours instead of default ones.
         CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
-        Database.STARTERPACK = new ResourceLocation(PokecubeMobs.MODID, "database/pack.json");
 
-        DBLoader.trainerDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trainers.json"));
-        DBLoader.tradeDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trades.json"));
-
-        XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeMobs.MODID, "database/rewards.json"));
-        XMLRecipeHandler.recipeFiles.add(new ResourceLocation(PokecubeMobs.MODID, "database/recipes.json"));
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         new WorldgenHandler(PokecubeMobs.MODID, bus);

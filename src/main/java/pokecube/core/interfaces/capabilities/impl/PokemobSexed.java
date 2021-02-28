@@ -35,10 +35,10 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     @Override
     public boolean canMate(final AgeableEntity otherAnimal)
     {
-        if (otherAnimal == null || !otherAnimal.isAlive()) return false;
         if (otherAnimal == this.getEntity()) return false;
         // Not allowed to mate!
         if (!this.canBreed()) return false;
+        if (otherAnimal == null || !otherAnimal.isAlive()) return false;
         // Too injured, no mate!
         if (otherAnimal.getHealth() < otherAnimal.getMaxHealth() / 2) return false;
 
@@ -157,8 +157,8 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     protected void mate(final IBreedingMob male)
     {
         final IPokemob mate = (IPokemob) male;
-        if (male == null || !mate.getEntity().isAlive()) return;
         if (this.getSexe() == IPokemob.MALE || male.getSexe() == IPokemob.FEMALE && male != this) return;
+        if (male == null || !mate.getEntity().isAlive()) return;
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 2;
         mate.setHungerTime(mate.getHungerTime() + hungerValue);
         this.setHungerTime(this.getHungerTime() + hungerValue);
