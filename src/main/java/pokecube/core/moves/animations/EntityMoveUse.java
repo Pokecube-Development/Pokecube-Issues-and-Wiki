@@ -450,7 +450,7 @@ public class EntityMoveUse extends ThrowableEntity
         final Entity user = this.getUser();
         final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
         // Finished, or is invalid
-        if (this.getMove() == null || user == null || !this.isAlive() || !user.isAlive() || age < 0)
+        if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {
             this.remove();
             return;

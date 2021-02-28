@@ -445,9 +445,9 @@ public class HungerTask extends BaseIdleTask
         if (hunger != hungerTime) this.pokemob.setHungerTime(hunger);
 
         // Regenerate health if out of battle.
-        if (!BrainUtils.hasAttackTarget(this.entity) && this.pokemob.getHealth() > 0 && this.entity.isAlive()
-                && !this.entity.getEntityWorld().isRemote && this.pokemob.getHungerCooldown() < 0 && this.pokemob
-                        .getHungerTime() < 0 && cur % 10 == tick)
+        if (!BrainUtils.hasAttackTarget(this.entity) && this.pokemob.getHealth() > 0 && !this.entity
+                .getEntityWorld().isRemote && this.pokemob.getHungerCooldown() < 0 && this.pokemob.getHungerTime() < 0
+                && cur % 10 == tick)
         {
             final float dh = Math.max(1, this.pokemob.getMaxHealth() * 0.05f);
             final float toHeal = this.pokemob.getHealth() + dh;

@@ -233,7 +233,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             final float f = (float) this.targetLoc.distToEntity(this.entity);
             if (this.entity.addedToChunk)
             {
-                if (this.entityTarget.isAlive()) this.pokemob.executeMove(this.entityTarget, this.targetLoc.copy(), f);
+                this.pokemob.executeMove(this.entityTarget, this.targetLoc.copy(), f);
                 // Reset executing move and no item use status now that we have
                 // used a move.
                 this.clearUseMove();

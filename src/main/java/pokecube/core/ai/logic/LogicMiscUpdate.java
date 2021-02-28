@@ -94,6 +94,8 @@ public class LogicMiscUpdate extends LogicBase
     private long    dynatime    = -1;
     private boolean de_dyna     = false;
 
+    private IStatsModifiers mods;
+
     boolean inCombat = false;
 
     int combatTimer = 0;
@@ -302,12 +304,11 @@ public class LogicMiscUpdate extends LogicBase
         final Map<Stats, Float> vals = Maps.newHashMap();
         for (final EquipmentSlotType type : EquipmentSlotType.values())
             LogicMiscUpdate.getStatModifiers(type, this.entity.getItemStackFromSlot(type), vals);
-
+        if (this.mods == null) this.mods = this.pokemob.getModifiers().getModifiers(StatModifiers.ARMOUR);
         for (final Stats stat : Stats.values())
         {
             final Float val = vals.getOrDefault(stat, (float) 0);
-            final IStatsModifiers mods = this.pokemob.getModifiers().getModifiers(StatModifiers.ARMOUR);
-            mods.setModifier(stat, val);
+            this.mods.setModifier(stat, val);
         }
 
         // Now some server only processing

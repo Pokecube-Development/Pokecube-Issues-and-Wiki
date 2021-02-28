@@ -40,9 +40,9 @@ public class Retaliate extends BaseAgroTask
     {
         if (target == null) return false;
         final Brain<?> brain = this.entity.getBrain();
+        if (!EntityPredicates.CAN_AI_TARGET.test(target)) return false;
         if (!brain.hasMemory(MemoryModuleType.HURT_BY_ENTITY)) return false;
         if (!(target.isAlive() && BrainUtils.canSee(this.entity, target))) return false;
-        if (!EntityPredicates.CAN_AI_TARGET.test(target)) return false;
         return brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).get() == target;
     }
 

@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks;
 
 import java.util.Map;
-import java.util.Random;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -110,10 +109,6 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         return !(sitting || sleeping || frozen);
     }
 
-    public static boolean doLoadThrottling = false;
-
-    public static int runRate = 10;
-
     protected final IPokemob pokemob;
 
     protected final ServerWorld world;
@@ -163,19 +158,6 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         return this;
     }
 
-    private final boolean isPaused(final MobEntity owner)
-    {
-        if (!this.loadThrottle() || !TaskBase.doLoadThrottling) return false;
-        final Random rng = new Random(owner.getUniqueID().hashCode());
-        final int tick = rng.nextInt(TaskBase.runRate);
-        return owner.ticksExisted % TaskBase.runRate == tick;
-    }
-
-    public boolean loadThrottle()
-    {
-        return false;
-    }
-
     @Override
     public void tick()
     {
@@ -191,6 +173,9 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     @Override
     protected void resetTask(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
+        // Incase this is called when paused, we don't want to accept it, so
+        // return early.
+        if (this.isPaused(entityIn)) return;
         this.reset();
     }
 
@@ -205,7 +190,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     @Override
     protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
-        if (this.isPaused(owner));
+        if (this.isPaused(owner)) return;
         this.run();
         this.tick();
         this.finish();

@@ -67,8 +67,8 @@ import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.logic.Logic;
-import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.entity.pokemobs.EntityPokemob;
@@ -470,13 +470,14 @@ public class PokemobEventsHandler
         if (event.phase != Phase.END) return;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         final double meanTickTime = PokemobEventsHandler.mean(server.tickTimeArray) * 1.0E-6D;
-        if (meanTickTime > 25)
+        final double maxTick = 12.5;
+        if (meanTickTime > maxTick)
         {
-            final double factor = meanTickTime / 25f;
-            TaskBase.doLoadThrottling = true;
-            TaskBase.runRate = (int) (10 * factor);
+            final double factor = meanTickTime / maxTick;
+            RootTask.doLoadThrottling = true;
+            RootTask.runRate = (int) (10 * factor);
         }
-        else TaskBase.doLoadThrottling = false;
+        else RootTask.doLoadThrottling = false;
     }
 
     private static void onMobTick(final LivingUpdateEvent evt)
