@@ -470,12 +470,12 @@ public class PokemobEventsHandler
         if (event.phase != Phase.END) return;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         final double meanTickTime = PokemobEventsHandler.mean(server.tickTimeArray) * 1.0E-6D;
-        final double maxTick = 12.5;
+        final double maxTick = 2;
         if (meanTickTime > maxTick)
         {
             final double factor = meanTickTime / maxTick;
             RootTask.doLoadThrottling = true;
-            RootTask.runRate = (int) (10 * factor);
+            RootTask.runRate = (int) factor;
         }
         else RootTask.doLoadThrottling = false;
     }

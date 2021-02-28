@@ -75,11 +75,7 @@ public class WalkToTask extends RootTask<MobEntity>
             if (pauseable && pauseTick)
             {
                 final PosWrapWrap wrapped = (PosWrapWrap) walktarget.getTarget();
-                if (wrapped.canThrottle)
-                {
-                    this.time_till_next_check = 2 + worldIn.getRandom().nextInt(10);
-                    return true;
-                }
+                if (wrapped.canThrottle) return false;
             }
         }
 
