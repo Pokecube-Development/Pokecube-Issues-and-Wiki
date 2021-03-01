@@ -2,7 +2,7 @@
     "ambientocclusion": false,
     "textures": {
         "particle": "pokecube_legends:blocks/crystallized_cactus_side",
-        "bottom": "pokecube_legends:blocks/crystallized_cactus_buttom",
+        "bottom": "pokecube_legends:blocks/crystallized_cactus_bottom",
         "top": "pokecube_legends:blocks/crystallized_cactus_top",
         "side": "pokecube_legends:blocks/crystallized_cactus_side"
     },
