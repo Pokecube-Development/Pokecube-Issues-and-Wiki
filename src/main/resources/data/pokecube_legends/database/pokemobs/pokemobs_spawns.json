@@ -45,7 +45,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "sandy",
+              "structures": "pokecube_legends:lugia_tower",
               "rate": "0.0"
             }
           }
@@ -58,7 +58,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "snowy",
+              "structures": "pokecube_legends:lugia_tower",
               "rate": "0.0"
             }
           }
@@ -71,7 +71,7 @@
         "spawnRules": [
           {
             "values": {
-              "category": "plains",
+              "structures": "pokecube_legends:lugia_tower",
               "rate": "0.0"
             }
           }
