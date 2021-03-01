@@ -11,10 +11,10 @@
       "item": "pokecube:megastone"
     },
     "B": {
-      "item": "minecraft:glass_pane"
+      "tag": "forge:glass_panes"
     },
     "G": {
-      "item": "minecraft:iron_ingot"
+      "tag": "forge:ingots/iron"
     }
   },
   "result": {

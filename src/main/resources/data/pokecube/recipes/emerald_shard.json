@@ -3,10 +3,10 @@
   "group": "pokecube",
   "ingredients": [
     {
-      "item": "minecraft:emerald"
+      "tag": "forge:gems/emerald"
     },
     {
-      "item": "minecraft:emerald"
+      "tag": "forge:gems/emerald"
     }
   ],
   "result": {

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GAG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:glass"
+    },
+    "A": {
+      "item": "pokecube_legends:crystal_shard"
+    }
+  },
+  "result": {
+    "item": "pokecube_adventures:laboratory_glass",
+    "count": 8
+  }
+}

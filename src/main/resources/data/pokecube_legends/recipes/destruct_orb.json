@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MNM",
+    "MOM",
+    "MBM"
+  ],
+  "key": {
+    "M": {
+      "tag": "forge:obsidian"
+    },
+    "O": {
+      "item": "pokecube_legends:grayorb"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "B": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:destructorb",
+    "count": 1
+  }
+}

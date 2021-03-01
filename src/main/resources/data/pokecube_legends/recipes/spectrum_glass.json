@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "RAR",
-    "AAA",
-    "RAR"
+    "GGG",
+    "GAG",
+    "GGG"
   ],
   "key": {
-    "R": {
-      "item": "pokecube_legends:ultrasand"
+    "G": {
+      "tag": "forge:glass"
     },
     "A": {
-      "item": "pokecube_legends:spectrum_shard"
+      "tag": "forge:gems/spectrum"
     }
   },
   "result": {
     "item": "pokecube_legends:spectrum_glass",
-    "count": 4
+    "count": 8
   }
 }

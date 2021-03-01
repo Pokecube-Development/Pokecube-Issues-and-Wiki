@@ -8,13 +8,13 @@
   ],
   "key": {
     "0": {
-      "item": "minecraft:stone"
+      "tag": "forge:stone"
     },
     "1": {
       "item": "pokecube_legends:blueorb"
     },
     "4": {
-      "item": "minecraft:lapis_lazuli"
+      "tag": "forge:gems/lapis"
     }
   },
   "result": {

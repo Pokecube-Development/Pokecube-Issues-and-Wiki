@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RCR",
+    "CAC",
+    "RCR"
+  ],
+  "key": {
+    "R": {
+      "tag": "forge:storage_blocks/lapis"
+    },
+    "A": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "C": {
+      "item": "minecraft:packed_ice"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:regice_spawn",
+    "count": 1
+  }
+}

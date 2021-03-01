@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GRG",
+    "RAR",
+    "GRG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:gems/emerald"
+    },
+    "A": {
+      "item": "pokecube_legends:grayorb"
+    },
+    "R": {
+      "tag": "forge:storage_blocks/emerald"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:greenorb",
+    "count": 1
+  }
+}

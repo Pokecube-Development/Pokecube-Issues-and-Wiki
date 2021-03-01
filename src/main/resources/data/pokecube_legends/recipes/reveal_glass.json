@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "QAD",
+    "GGG"
+  ],
+  "key": {
+    "A": {
+      "tag": "forge:storage_blocks/crystal"
+    },
+    "Q": {
+      "item": "pokecube_legends:blueorb"
+    },
+    "W": {
+      "item": "pokecube_legends:redorb"
+    },
+    "D": {
+      "item": "pokecube_legends:greenorb"
+    },
+    "G": {
+      "tag": "forge:gems/quartz"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:revealglass",
+    "count": 1
+  }
+}

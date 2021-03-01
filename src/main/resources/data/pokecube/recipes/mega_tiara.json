@@ -11,10 +11,10 @@
       "item": "pokecube:megastone"
     },
     "B": {
-      "item": "minecraft:gold_nugget"
+      "tag": "forge:nuggets/gold"
     },
     "G": {
-      "item": "minecraft:lapis_lazuli"
+      "tag": "forge:gems/lapis"
     }
   },
   "result": {

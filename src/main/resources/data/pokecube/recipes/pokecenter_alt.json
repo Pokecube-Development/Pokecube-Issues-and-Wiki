@@ -8,13 +8,13 @@
   ],
   "key": {
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     },
     "S": {
-      "item": "minecraft:stone"
+      "tag": "forge:stone"
     },
     "I": {
-      "item": "minecraft:iron_ingot"
+      "tag": "forge:ingots/iron"
     },
     "M": {
       "item": "pokecube:luckyegg"

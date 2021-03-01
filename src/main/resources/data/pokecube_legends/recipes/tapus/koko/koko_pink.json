@@ -11,7 +11,7 @@
       "item": "pokecube_legends:totem_block"
     },
     "X": {
-      "item": "minecraft:pink_dye"
+      "tag": "forge:dyes/pink"
     }
   },
   "result": {

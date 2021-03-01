@@ -11,7 +11,7 @@
       "item": "pokecube_legends:totem_block"
     },
     "X": {
-      "item": "minecraft:light_gray_dye"
+      "tag": "forge:dyes/light_gray"
     }
   },
   "result": {

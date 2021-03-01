@@ -14,7 +14,7 @@
       "item": "minecraft:stone_button"
     },
     "G": {
-      "item": "minecraft:glass"
+      "tag": "forge:glass"
     },
     "I": {
       "tag": "forge:dyes/blue"

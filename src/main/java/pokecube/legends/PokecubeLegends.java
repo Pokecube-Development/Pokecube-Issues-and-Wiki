@@ -157,6 +157,7 @@ public class PokecubeLegends
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
         BlockInit.strippableBlocks(event);
+        BlockInit.compostables();
     }
 
     @SubscribeEvent

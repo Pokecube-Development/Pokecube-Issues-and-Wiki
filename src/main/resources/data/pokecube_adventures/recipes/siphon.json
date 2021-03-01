@@ -12,7 +12,7 @@
       "data": 0
     },
     "B": {
-      "item": "minecraft:redstone_block"
+      "tag": "forge:storage_blocks/redstone"
     }
   },
   "result": {

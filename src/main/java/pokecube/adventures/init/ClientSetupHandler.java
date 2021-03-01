@@ -160,6 +160,9 @@ public class ClientSetupHandler
         ScreenManager.registerFactory(PokecubeAdv.TRAINER_CONT.get(), Trainer::new);
 
         RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.EXTRACTOR.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.getTranslucent());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(

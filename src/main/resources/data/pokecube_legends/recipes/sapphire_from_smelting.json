@@ -1,0 +1,12 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:smelting",
+  "experience": 1,
+  "cookingtime": 200,
+  "ingredient": {
+    "item": "pokecube_legends:sapphire_ore"
+  },
+  "result": {
+    "item": "pokecube_legends:sapphire"
+  }
+}

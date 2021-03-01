@@ -11,13 +11,13 @@
       "item": "pokecube:premiercube"
     },
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     },
     "C": {
-      "item": "minecraft:coal"
+      "tag": "minecraft:coals"
     },
     "I": {
-      "item": "minecraft:iron_ingot"
+      "tag": "forge:ingots/iron"
     }
   },
   "result": {

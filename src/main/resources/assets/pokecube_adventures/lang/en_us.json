@@ -9,7 +9,7 @@
 
     "item.pokecube_adventures.target": "Target",
     "item.pokecube_adventures.linker": "Location Linker",
-    "item.pokecube_adventures.linker.set": "Saved Location to Linker",
+    "item.pokecube_adventures.linker.set": "Location saved to Linker",
     "item.pokecube_adventures.linker.unset": "Reset Linker",
     "item.pokecube_adventures.linked.mob": "Set guard location for %1$s to %2$s, %3$s, %4$s",
     "item.pokecube_adventures.linked.mob.fail": "You are not allowed to do that!",
@@ -55,6 +55,7 @@
     "block.pokecube_adventures.daycare": "Daycare Block",
     "block.pokecube_adventures.commander": "Pokemob Command Block",
     "block.pokecube_adventures.siphon": "Energy Siphon",
+    "block.pokecube_adventures.laboratory_glass": "Laboratory Glass",
     
     "gui.pokecube_adventures.cloner.warning_0": "WARNING!",
     "gui.pokecube_adventures.cloner.warning_1": "Read Manual Before Use!",

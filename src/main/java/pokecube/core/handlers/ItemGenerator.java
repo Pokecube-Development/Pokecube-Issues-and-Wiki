@@ -12,6 +12,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
@@ -29,6 +30,7 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IItemProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
@@ -405,6 +407,37 @@ public class ItemGenerator
             {
                 ItemGenerator.addStrippable(ItemGenerator.logs.get(name), ItemGenerator.stripped_logs.get(name));
                 ItemGenerator.addStrippable(ItemGenerator.woods.get(name), ItemGenerator.stripped_woods.get(name));
+            }
+        });
+    }
+    
+    public static void compostableBlocks(float chance, IItemProvider item) 
+    {
+        ComposterBlock.CHANCES.put(item, chance);
+    }
+    
+    public static void compostables(final FMLLoadCompleteEvent event) 
+    {
+    	final List<String> leaves = Lists.newArrayList(ItemGenerator.berryLeaves.keySet());
+    	final List<String> onlyLeaves = Lists.newArrayList(ItemGenerator.onlyBerryLeaves.keySet());
+        final List<Integer> ids = Lists.newArrayList(BerryManager.berryItems.keySet());
+        Collections.sort(leaves);
+        Collections.sort(onlyLeaves);
+        Collections.sort(ids);
+        event.enqueueWork(() ->
+        {
+        	for (final String name : leaves)
+        	{
+                compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
+        	}
+        	for (final String name : onlyLeaves)
+        	{
+                compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
+        	}
+            for (final Integer id : ids)
+            {
+                final int index = id;
+                compostableBlocks(0.65f, BerryManager.berryItems.get(index));
             }
         });
     }

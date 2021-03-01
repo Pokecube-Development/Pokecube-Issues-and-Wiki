@@ -1,6 +1,7 @@
 {
-    "parent": "block/cube_all",
+    "parent": "block/cube_column",
     "textures": {
-        "all": "pokecube_adventures:blocks/commander"
+        "end": "pokecube_adventures:blocks/commander_top",
+        "side": "pokecube_adventures:blocks/commander"
     }
 }

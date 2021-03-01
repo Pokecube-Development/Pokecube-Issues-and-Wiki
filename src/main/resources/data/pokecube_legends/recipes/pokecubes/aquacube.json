@@ -7,10 +7,10 @@
   ],
   "key": {
     "R": {
-      "item": "minecraft:white_dye"
+      "tag": "forge:dyes/white"
     },
     "A": {
-      "item": "minecraft:blue_dye"
+      "tag": "forge:dyes/blue"
     },
     "C": {
       "item": "pokecube:divecube"

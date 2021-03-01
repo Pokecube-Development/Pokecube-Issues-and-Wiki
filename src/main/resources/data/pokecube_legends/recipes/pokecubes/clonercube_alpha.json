@@ -10,7 +10,7 @@
       "item": "pokecube_legends:mush_plant1"
     },
     "D": {
-      "item": "minecraft:obsidian"
+      "tag": "forge:obsidian"
     },
     "T": {
       "item": "minecraft:ender_eye"

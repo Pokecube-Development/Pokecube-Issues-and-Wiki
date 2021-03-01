@@ -8,7 +8,7 @@
   ],
   "key": {
     "S": {
-      "item": "minecraft:soul_sand"
+      "tag": "minecraft:soul_fire_base_blocks"
     },
     "W": {
       "item": "minecraft:torch"

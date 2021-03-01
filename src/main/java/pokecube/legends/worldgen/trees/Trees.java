@@ -34,7 +34,7 @@ public class Trees
                 new SimpleBlockStateProvider(BlockInit.INVERTED_LOG.get().getDefaultState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.INVERTED_LEAVE.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.INVERTED_LEAVES.get().getDefaultState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
@@ -66,7 +66,7 @@ public class Trees
                 new SimpleBlockStateProvider(BlockInit.TEMPORAL_LOG.get().getDefaultState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.TEMPORAL_LEAVE.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.TEMPORAL_LEAVES.get().getDefaultState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
@@ -98,7 +98,7 @@ public class Trees
                 new SimpleBlockStateProvider(BlockInit.AGED_LOG.get().getDefaultState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.AGED_LEAVE.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.AGED_LEAVES.get().getDefaultState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
@@ -130,7 +130,7 @@ public class Trees
                 new SimpleBlockStateProvider(BlockInit.CORRUPTED_LOG.get().getDefaultState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.CORRUPTED_LEAVE.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.CORRUPTED_LEAVES.get().getDefaultState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
@@ -164,7 +164,7 @@ public class Trees
                 new SimpleBlockStateProvider(BlockInit.MIRAGE_LOG.get().getDefaultState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.MIRAGE_LEAVE.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.MIRAGE_LEAVES.get().getDefaultState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
@@ -196,7 +196,7 @@ public class Trees
                 new SimpleBlockStateProvider(BlockInit.DISTORTIC_LOG.get().getDefaultState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.DISTORTIC_LEAVE.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.DISTORTIC_LEAVES.get().getDefaultState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available

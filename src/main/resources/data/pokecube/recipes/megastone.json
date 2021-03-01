@@ -8,7 +8,7 @@
   ],
   "key": {
     "D": {
-      "item": "minecraft:diamond"
+      "tag": "forge:gems/diamond"
     },
     "E": {
       "item": "minecraft:ender_eye"

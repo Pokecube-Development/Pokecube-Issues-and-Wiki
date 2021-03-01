@@ -1,0 +1,18 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+	"## ",
+	"###"
+  ],
+  "key": {
+    "#": {
+      "item": "pokecube_legends:crystalbrick"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:crystal_bricks_stairs",
+    "count": 4
+  }
+}

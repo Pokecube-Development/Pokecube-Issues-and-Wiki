@@ -1,8 +1,5 @@
 package pokecube.adventures.blocks.siphon;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -18,7 +15,6 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -29,62 +25,22 @@ import pokecube.core.blocks.InteractableHorizontalBlock;
 
 public class SiphonBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
-	private static final Map<Direction, VoxelShape> SIPHON  = new HashMap<>();
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
-    static
-    {// @formatter:off
-    	SiphonBlock.SIPHON.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 0, 16, 1, 16),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 1, 1, 15, 7, 15),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 12, 1, 15, 16, 15),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 7, 2, 14, 12, 14),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1, 0, 9.5, 4, 16),
-                    Block.makeCuboidShape(0, 1, 6.5, 16, 4, 9.5),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	SiphonBlock.SIPHON.put(Direction.EAST,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 0, 16, 1, 16),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 1, 1, 15, 7, 15),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 12, 1, 15, 16, 15),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 7, 2, 14, 12, 14),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1, 0, 9.5, 4, 16),
-                Block.makeCuboidShape(0, 1, 6.5, 16, 4, 9.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	SiphonBlock.SIPHON.put(Direction.SOUTH,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 0, 16, 1, 16),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 1, 1, 15, 7, 15),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 12, 1, 15, 16, 15),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 7, 2, 14, 12, 14),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1, 0, 9.5, 4, 16),
-                Block.makeCuboidShape(0, 1, 6.5, 16, 4, 9.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	SiphonBlock.SIPHON.put(Direction.WEST,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 0, 16, 1, 16),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 1, 1, 15, 7, 15),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 12, 1, 15, 16, 15),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 7, 2, 14, 12, 14),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1, 0, 9.5, 4, 16),
-                Block.makeCuboidShape(0, 1, 6.5, 16, 4, 9.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    }// @formatter:on
+    private static final VoxelShape SIPHON = VoxelShapes.or(Block.makeCuboidShape(0, 0, 0, 16, 1, 16), 
+    		Block.makeCuboidShape(1, 1, 1, 15, 7, 15), Block.makeCuboidShape(2, 7, 2, 14, 12, 14), 
+            Block.makeCuboidShape(1, 12, 1, 15, 16, 15), Block.makeCuboidShape(6, 1, 0, 10, 5, 16), 
+            Block.makeCuboidShape(0, 1, 6, 16, 5, 10)).simplify();
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        return SiphonBlock.SIPHON.get(state.get(SiphonBlock.FACING));
+        return SIPHON;
     }
     
     public SiphonBlock(final Properties properties, final MaterialColor color)

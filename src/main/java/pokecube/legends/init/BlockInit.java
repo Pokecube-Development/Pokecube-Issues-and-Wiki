@@ -2,6 +2,7 @@ package pokecube.legends.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
@@ -100,8 +101,8 @@ public class BlockInit
     public static final RegistryObject<Block> DARKSKY_BRICK_SLAB;
     public static final RegistryObject<Block> DARKSKY_BRICK_STAIRS;
     
-    public static final RegistryObject<Block> DYNA_LEAVE1;
-    public static final RegistryObject<Block> DYNA_LEAVE2;
+    public static final RegistryObject<Block> DYNA_LEAVES1;
+    public static final RegistryObject<Block> DYNA_LEAVES2;
     public static final RegistryObject<Block> TOTEM_BLOCK;
     
     //Tapus Totens
@@ -263,7 +264,7 @@ public class BlockInit
 
     public static final RegistryObject<Block> INVERTED_LOG;
     public static final RegistryObject<Block> INVERTED_PLANK;
-    public static final RegistryObject<Block> INVERTED_LEAVE;
+    public static final RegistryObject<Block> INVERTED_LEAVES;
     public static final RegistryObject<Block> INVERTED_WOOD;
     public static final RegistryObject<Block> STRIP_INVERTED_LOG;
     public static final RegistryObject<Block> STRIP_INVERTED_WOOD;
@@ -278,7 +279,7 @@ public class BlockInit
 
     public static final RegistryObject<Block> TEMPORAL_LOG;
     public static final RegistryObject<Block> TEMPORAL_PLANK;
-    public static final RegistryObject<Block> TEMPORAL_LEAVE;
+    public static final RegistryObject<Block> TEMPORAL_LEAVES;
     public static final RegistryObject<Block> TEMPORAL_WOOD;
     public static final RegistryObject<Block> STRIP_TEMPORAL_LOG;
     public static final RegistryObject<Block> STRIP_TEMPORAL_WOOD;
@@ -293,7 +294,7 @@ public class BlockInit
 
     public static final RegistryObject<Block> AGED_LOG;
     public static final RegistryObject<Block> AGED_PLANK;
-    public static final RegistryObject<Block> AGED_LEAVE;
+    public static final RegistryObject<Block> AGED_LEAVES;
     public static final RegistryObject<Block> AGED_WOOD;
     public static final RegistryObject<Block> STRIP_AGED_LOG;
     public static final RegistryObject<Block> STRIP_AGED_WOOD;
@@ -308,7 +309,7 @@ public class BlockInit
 
     public static final RegistryObject<Block> DISTORTIC_LOG;
     public static final RegistryObject<Block> DISTORTIC_PLANK;
-    public static final RegistryObject<Block> DISTORTIC_LEAVE;
+    public static final RegistryObject<Block> DISTORTIC_LEAVES;
     public static final RegistryObject<Block> DISTORTIC_WOOD;
     public static final RegistryObject<Block> STRIP_DISTORTIC_LOG;
     public static final RegistryObject<Block> STRIP_DISTORTIC_WOOD;
@@ -323,7 +324,7 @@ public class BlockInit
     
     public static final RegistryObject<Block> CORRUPTED_LOG;
     public static final RegistryObject<Block> CORRUPTED_PLANK;
-    public static final RegistryObject<Block> CORRUPTED_LEAVE;
+    public static final RegistryObject<Block> CORRUPTED_LEAVES;
     public static final RegistryObject<Block> CORRUPTED_WOOD;
     public static final RegistryObject<Block> STRIP_CORRUPTED_LOG;
     public static final RegistryObject<Block> STRIP_CORRUPTED_WOOD;
@@ -339,7 +340,7 @@ public class BlockInit
     public static final RegistryObject<Block> MIRAGE_GLASS;
     public static final RegistryObject<Block> MIRAGE_LOG;
     public static final RegistryObject<Block> MIRAGE_PLANK;
-    public static final RegistryObject<Block> MIRAGE_LEAVE;
+    public static final RegistryObject<Block> MIRAGE_LEAVES;
     public static final RegistryObject<Block> MIRAGE_WOOD;
     public static final RegistryObject<Block> STRIP_MIRAGE_LOG;
     public static final RegistryObject<Block> STRIP_MIRAGE_WOOD;
@@ -408,9 +409,9 @@ public class BlockInit
                 .setInfoBlockName("raidspawn"));
 
         // Decorative_Blocks
-        DYNA_LEAVE1 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_1", () -> new LeavesBlock(Block.Properties.create(
+        DYNA_LEAVES1 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_1", () -> new LeavesBlock(Block.Properties.create(
                 Material.LEAVES, MaterialColor.PINK).hardnessAndResistance(1f, 5).sound(SoundType.WET_GRASS).noDrops().notSolid()));
-        DYNA_LEAVE2 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_2", () -> new LeavesBlock(Block.Properties.create(
+        DYNA_LEAVES2 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_2", () -> new LeavesBlock(Block.Properties.create(
                 Material.LEAVES, MaterialColor.PINK).hardnessAndResistance(1f, 5).sound(SoundType.WET_GRASS).noDrops().notSolid()));
 
         OCEAN_BRICK = PokecubeLegends.DECORATION_TAB.register("oceanbrick", () -> new Block(Block.Properties.create(
@@ -867,7 +868,7 @@ public class BlockInit
 
         // Woods (LOGS/LEAVES/PLANKS)
         // Inverted Blocks
-        INVERTED_LEAVE = PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.create(
+        INVERTED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(Block.Properties.create(
                 Material.LEAVES, MaterialColor.LIGHT_BLUE).hardnessAndResistance(1f, 5).sound(SoundType.PLANT).notSolid()));
         INVERTED_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> Blocks.createLogBlock(
                 MaterialColor.LIGHT_BLUE_TERRACOTTA, MaterialColor.LIGHT_BLUE_TERRACOTTA));
@@ -903,7 +904,7 @@ public class BlockInit
                         2.0f, 3.0f).notSolid()));
 
         // Temporal Blocks
-        TEMPORAL_LEAVE = PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.create(
+        TEMPORAL_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(Block.Properties.create(
                 Material.LEAVES, MaterialColor.FOLIAGE).hardnessAndResistance(1f, 5).sound(SoundType.PLANT).notSolid()));
         TEMPORAL_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> Blocks.createLogBlock(
                 MaterialColor.GREEN, MaterialColor.YELLOW));
@@ -939,7 +940,7 @@ public class BlockInit
                         2.0f, 3.0f).notSolid()));
 
         // Aged Blocks
-        AGED_LEAVE = PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.create(
+        AGED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(Block.Properties.create(
                 Material.LEAVES, MaterialColor.YELLOW).hardnessAndResistance(1f, 5).sound(SoundType.PLANT).notSolid()));
         AGED_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> Blocks.createLogBlock(
                 MaterialColor.BROWN, MaterialColor.BROWN));
@@ -975,7 +976,7 @@ public class BlockInit
                         2.0f, 3.0f).notSolid()));
 
         // Distortic Blocks
-        DISTORTIC_LEAVE = PokecubeLegends.BLOCKS_TAB.register("distortic_leave", () -> new LeavesBlock(Block.Properties.create(
+        DISTORTIC_LEAVES = PokecubeLegends.BLOCKS_TAB.register("distortic_leave", () -> new LeavesBlock(Block.Properties.create(
                 Material.LEAVES, MaterialColor.PURPLE).hardnessAndResistance(1f, 5).sound(SoundType.PLANT).notSolid()));
         DISTORTIC_LOG = PokecubeLegends.BLOCKS_TAB.register("distortic_log", () -> Blocks.createLogBlock(
                 MaterialColor.BLUE, MaterialColor.BLUE));
@@ -1011,7 +1012,7 @@ public class BlockInit
                         2.0f, 3.0f).notSolid()));
         
         // Corrupted Blocks
-        CORRUPTED_LEAVE = PokecubeLegends.BLOCKS_TAB.register("corrupted_leave", () -> new CorruptedLeaveBlock());
+        CORRUPTED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("corrupted_leave", () -> new CorruptedLeaveBlock());
         CORRUPTED_LOG = PokecubeLegends.BLOCKS_TAB.register("corrupted_log", () -> Blocks.createLogBlock(
                 MaterialColor.BLUE, MaterialColor.BLACK));
         CORRUPTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("corrupted_wood", () -> Blocks.createLogBlock(
@@ -1048,7 +1049,7 @@ public class BlockInit
         // MIRAGE Blocks
         MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new UltraGlass("mirage_glass",
                 Block.Properties.from(Blocks.GLASS).notSolid()));
-        MIRAGE_LEAVE = PokecubeLegends.BLOCKS_TAB.register("mirage_leave", () -> new MirageLeaveBlock());
+        MIRAGE_LEAVES = PokecubeLegends.BLOCKS_TAB.register("mirage_leave", () -> new MirageLeaveBlock());
         MIRAGE_LOG = PokecubeLegends.BLOCKS_TAB.register("mirage_log", () -> Blocks.createLogBlock(
                 MaterialColor.BLUE, MaterialColor.BLACK));
         MIRAGE_WOOD = PokecubeLegends.BLOCKS_TAB.register("mirage_wood", () -> Blocks.createLogBlock(
@@ -1243,5 +1244,32 @@ public class BlockInit
             ItemGenerator.addStrippable(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());
             
         });
+    }
+    
+    public static void compostableBlocks(float chance, RegistryObject<Block> item) 
+    {
+        ComposterBlock.CHANCES.put(item.get().asItem(), chance);
+    }
+    
+    public static void compostables() 
+    {
+        compostableBlocks(0.3f, BlockInit.DYNA_LEAVES1);
+        compostableBlocks(0.3f, BlockInit.DYNA_LEAVES2);
+        compostableBlocks(0.3f, BlockInit.INVERTED_SAPLING);
+        compostableBlocks(0.3f, BlockInit.ULTRA_JUNGLE_SAPLING);
+        compostableBlocks(0.3f, BlockInit.AGED_SAPLING);
+        compostableBlocks(0.3f, BlockInit.CORRUPTED_SAPLING);
+        compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
+        compostableBlocks(0.3f, BlockInit.DISTORTIC_SAPLING);
+        compostableBlocks(0.3f, BlockInit.INVERTED_LEAVES);
+        compostableBlocks(0.3f, BlockInit.AGED_LEAVES);
+        compostableBlocks(0.3f, BlockInit.CORRUPTED_LEAVES);
+        compostableBlocks(0.3f, BlockInit.DISTORTIC_LEAVES);
+        compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
+        compostableBlocks(0.75f, BlockInit.CRYSTALLIZED_CACTUS);
+        compostableBlocks(0.65f, PlantsInit.MUSH_PLANT1);
+        compostableBlocks(0.65f, PlantsInit.MUSH_PLANT2);
+        compostableBlocks(0.65f, PlantsInit.AGED_FLOWER);
+        compostableBlocks(0.65f, PlantsInit.DIRST_FLOWER);
     }
 }

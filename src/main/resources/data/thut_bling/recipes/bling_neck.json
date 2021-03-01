@@ -6,7 +6,7 @@
       "item": "thut_bling:bling_ring"
     },
     {
-      "item": "minecraft:string"
+      "tag": "forge:string"
     }
   ],
   "result": {

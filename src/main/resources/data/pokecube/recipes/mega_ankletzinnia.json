@@ -11,7 +11,7 @@
       "item": "pokecube:megastone"
     },
     "B": {
-      "item": "minecraft:iron_nugget"
+      "tag": "forge:nuggets/iron"
     },
     "G": {
       "item": "minecraft:iron_boots"

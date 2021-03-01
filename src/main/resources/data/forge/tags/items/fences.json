@@ -1,6 +1,17 @@
 {
   "replace": false,
   "values": [
-    "#forge:fences/wooden"
+    "pokecube:enigma_fence",
+    "pokecube:leppa_fence",
+    "pokecube:nanab_fence",
+    "pokecube:oran_fence",
+    "pokecube:pecha_fence",
+    "pokecube:sitrus_fence",
+    "pokecube_legends:aged_fence",
+    "pokecube_legends:distortic_fence",
+    "pokecube_legends:inverted_fence",
+    "pokecube_legends:temporal_fence",
+	"pokecube_legends:mirage_fence",
+	"pokecube_legends:corrupted_fence"
   ]
 }

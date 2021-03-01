@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/inner_stairs",
   "textures": {
-    "bottom": "pokecube_legends:blocks/ultra_sandstone_smooth",
-    "top": "pokecube_legends:blocks/ultra_sandstone_smooth",
-    "side": "pokecube_legends:blocks/ultra_sandstone_smooth"
+    "bottom": "pokecube_legends:blocks/ultrasandstonetop",
+    "top": "pokecube_legends:blocks/ultrasandstonetop",
+    "side": "pokecube_legends:blocks/ultrasandstonetop"
   }
 }

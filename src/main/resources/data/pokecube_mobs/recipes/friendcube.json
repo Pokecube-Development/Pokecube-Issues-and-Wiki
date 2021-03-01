@@ -11,13 +11,13 @@
       "item": "pokecube:premiercube"
     },
     "L": {
-      "tag": "leaves"
+      "tag": "minecraft:leaves"
     },
     "G": {
-      "item": "minecraft:glowstone_dust"
+      "tag": "forge:dusts/glowstone"
     },
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     }
   },
   "result": {

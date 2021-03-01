@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "pokecube_legends:ultra_sandbrick"
-  },
-  "result": "pokecube_legends:ultra_sandbricks_slab",
-  "count": 3
-}

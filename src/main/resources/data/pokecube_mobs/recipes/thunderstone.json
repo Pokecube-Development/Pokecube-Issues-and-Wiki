@@ -8,10 +8,10 @@
   ],
   "key": {
     "S": {
-      "item": "minecraft:stone"
+      "tag": "forge:stone"
     },
     "W": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     }
   },
   "result": {

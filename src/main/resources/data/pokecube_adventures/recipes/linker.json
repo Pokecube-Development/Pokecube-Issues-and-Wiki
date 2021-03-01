@@ -8,13 +8,13 @@
   ],
   "key": {
     "R": {
-      "item": "minecraft:emerald"
+      "tag": "forge:gems/emerald"
     },
     "E": {
       "item": "minecraft:ender_eye"
     },
     "O": {
-      "item": "minecraft:stone"
+      "tag": "forge:stone"
     }
   },
   "result": {

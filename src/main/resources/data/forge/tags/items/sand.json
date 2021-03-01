@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:sand/white"
+    "#forge:sand/white",
+    "#pokecube_legends:ultra_sands"
   ]
 }

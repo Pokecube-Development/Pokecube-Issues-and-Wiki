@@ -11,10 +11,10 @@
       "item": "pokecube:premiercube"
     },
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     },
     "G": {
-      "item": "minecraft:glowstone_dust"
+      "tag": "forge:dusts/glowstone"
     },
     "F": {
       "item": "minecraft:rabbit_foot"

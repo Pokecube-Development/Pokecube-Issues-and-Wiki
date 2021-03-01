@@ -11,7 +11,7 @@
       "item": "pokecube:megastone"
     },
     "I": {
-      "item": "minecraft:iron_ingot"
+      "tag": "forge:ingots/iron"
     }
   },
   "result": {

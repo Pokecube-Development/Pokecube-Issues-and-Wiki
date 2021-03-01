@@ -11,7 +11,7 @@
       "item": "pokecube_legends:totem_block"
     },
     "X": {
-      "item": "minecraft:cyan_dye"
+      "tag": "forge:dyes/cyan"
     }
   },
   "result": {

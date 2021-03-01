@@ -13,11 +13,11 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.INBT;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.particles.ParticleType;
@@ -74,6 +74,7 @@ import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.proxy.ClientProxy;
 import thut.core.proxy.CommonProxy;
+import thut.crafts.ThutCrafts;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ThutCore.MODID)
@@ -298,7 +299,7 @@ public class ThutCore
     {
         ThutCore.LOGGER.info("Setup");
 
-        if (ThutCore.THUTICON.isEmpty()) ThutCore.THUTICON = new ItemStack(Blocks.STONE);
+        if (ThutCore.THUTICON.isEmpty()) ThutCore.THUTICON = new ItemStack(ThutCrafts.CRAFTMAKER);
 
         // Register the actual packets
         ThutCore.packets.registerMessage(EntityUpdate.class, EntityUpdate::new);

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RCR",
+    "CAC",
+    "RCR"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:terracotta"
+    },
+    "A": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "R": {
+      "tag": "forge:storage_blocks/gold"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:regirock_spawn",
+    "count": 1
+  }
+}

@@ -14,7 +14,7 @@
       "tag": "minecraft:saplings"
     },
     "I": {
-      "item": "minecraft:gold_ingot"
+      "tag": "forge:ingots/gold"
     }
   },
   "result": {

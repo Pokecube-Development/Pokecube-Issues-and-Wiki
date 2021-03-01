@@ -8,10 +8,10 @@
   ],
   "key": {
     "S": {
-      "item": "minecraft:quartz"
+      "tag": "forge:gems/quartz"
     },
-    "W": {
-      "item": "minecraft:glowstone_dust"
+    "W": 
+      "tag": "forge:dusts/glowstone"
     }
   },
   "result": {
