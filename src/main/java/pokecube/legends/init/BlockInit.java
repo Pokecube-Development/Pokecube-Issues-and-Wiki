@@ -1265,6 +1265,8 @@ public class BlockInit
         compostableBlocks(0.3f, BlockInit.AGED_LEAVES);
         compostableBlocks(0.3f, BlockInit.CORRUPTED_LEAVES);
         compostableBlocks(0.3f, BlockInit.DISTORTIC_LEAVES);
+        compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
+        compostableBlocks(0.75f, BlockInit.CRYSTALLIZED_CACTUS);
         compostableBlocks(0.65f, PlantsInit.MUSH_PLANT1);
         compostableBlocks(0.65f, PlantsInit.MUSH_PLANT2);
         compostableBlocks(0.65f, PlantsInit.AGED_FLOWER);
