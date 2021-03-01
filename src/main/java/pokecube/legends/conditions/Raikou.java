@@ -7,7 +7,7 @@ public class Raikou extends AbstractTypedCondition
 {
     public Raikou()
     {
-        super("electric");
+        super("electric", 0.4f);
     }
 
     @Override

@@ -1,0 +1,12 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:smelting",
+  "experience": 1,
+  "cookingtime": 260,
+  "ingredient": {
+    "item": "pokecube_legends:crystallized_cactus"
+  },
+  "result": {
+    "item": "pokecube_legends:crystal_shard"
+  }
+}

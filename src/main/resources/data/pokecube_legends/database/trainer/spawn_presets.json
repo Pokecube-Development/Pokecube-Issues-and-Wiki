@@ -13,6 +13,13 @@
 	  "aiStates": 128
     },
     {
+      "preset_name": "space",
+      "trainerType":"space",
+      "customTrades":"space",
+      "level":42,
+	  "aiStates": 128
+    },
+    {
       "preset_name": "plasma",
       "trainerType":"plasma",
       "level":39,

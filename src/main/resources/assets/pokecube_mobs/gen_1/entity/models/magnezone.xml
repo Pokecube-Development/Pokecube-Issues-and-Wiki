@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.6"/>
+  <phase name="global" scale="0.3"/>
    <customTex default="magnezone">
    <part name="Head" tex="magnezoneeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>

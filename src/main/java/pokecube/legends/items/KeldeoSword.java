@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.IItemTier;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -20,7 +21,7 @@ public class KeldeoSword extends ToolSword
 	String  tooltipname;
 	boolean hasTooltip = true;
 	    
-    public KeldeoSword(final int bonusDamage, final int attackSpeed, final IItemTier material, final String name)
+    public KeldeoSword(final int bonusDamage, final int attackSpeed, final IItemTier material, final String name, final ItemGroup group)
     {
         super(bonusDamage, attackSpeed, material);
         this.setTooltipName(name);

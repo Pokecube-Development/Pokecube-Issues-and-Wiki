@@ -1,10 +1,11 @@
 {
     "_comment": "Pokecube Legends translation",
 
-	"_comment": "/Trainers",
+	// Trainers
 	"pokecube.aether.named": "Aether F. Employee %s",
 	"pokecube.rocket.named": "Rocket Employee %s",
 	"pokecube.plasma.named": "Plasma Employee %s",
+	"pokecube.space.named":  "Ultra Employee %s",
 	
 	"pokecube.giovanni.named": "Giovanni",
 	"pokecube.zinnia.named": "Zinnia",
@@ -45,7 +46,7 @@
 	"pokecube.cynthia.named": "Cynthia",
 	"pokecube.thutmose.named": "Dev. Thutmose",
 	
-    "_comment": "/pokecubes",
+    // Pokecubes
     "item.pokecube.beastcube": "Beastcube",
     "item.pokecube.beastcube.desc": "A modified pokécube that increases chance in other dimensions.",
     
@@ -65,7 +66,7 @@
     "item.pokecube.rocketcube.desc": "A modified pokécube used by Team Rocket.",
 
 
-    "_comment": "/Alert Pokemon Legendary Capture",
+    // Alert Pokemon Legendary Capture
     "msg.infolegend.info": "§aCapture [%1$s§a] Type Pokemobs so he can Trust You. Needs: %2$s, §aOwn: %3$s.",
     "msg.infolegendduo.info": "§aCapture [%1$s§a] Type Pokemobs, and Kill [%2$s§a] Type Pokemobs. Needs: %3$s, §aOwn: %4$s. §aNeeds Kill: %5$s, §aKilled: %6$s.",
     "msg.infolegendextra.info": "§a Get [%1$s§a] to Catch this Pokemob.",
@@ -75,22 +76,22 @@
     "msg.wrongitem.info": "§c[§a%1$s§c] does not like your offering.",
     "msg.alreadyspawned.info": "§c You have already spawned [§a%1$s§c]!",   
     "msg.reginotlookright.info": "§cYou built the [%1$s§c] the wrong way.",
-    "pokecube_legends.mew.badges": "§cYou do not have enough badges to control [§a%1$s§c]!",
+	"pokecube_legends.mew.badges": "§cYou do not have enough badges to control [§a%1$s§c]!",
     
-    "_comment": "/Messages related to temples",
+    // Messages related to temples
     
     "msg.cannot_defile_temple": "§cArceus does not allow you to do that!",
     
-    "_comment": "/Raid Related messages Names",
+    // Raid Related messages Names
     "msg.notaraidspot.info": "§cThis den does not seem to be able to be activated.",
     
-    "_comment": "/Hoopa Portal",
+    // Hoopa Portal
     "msg.hoopaportal.deny.too_weak" : "§cYour pokemob not have enough level...",
     "msg.hoopaportal.deny.too_soon" : "§cYou cannot create another portal yet..",
     "msg.hoopaportal.deny.invalid" : "§cThe portal failed to create..",
     "msg.hoopaportal.accept.info" : "§aHoopa Ring created!",
     
-    "_comment": "/Buried Treasure Maps",
+    // Buried Treasure Maps
     "filled_map.pokecube_legends:sky_pillar": "Buried Treasure Map: Sky Pillar",
     "filled_map.pokecube_legends:lugia_tower": "Buried Treasure Map: Lugia Tower",
     "filled_map.pokecube_legends:hooh_tower": "Buried Treasure Map: Ho-oh Tower",
@@ -114,9 +115,9 @@
     "filled_map.pokecube_legends:kubfu_water": "Buried Treasure Map: Kubfu Water Tower",
     "filled_map.pokecube_legends:kubfu_dark": "Buried Treasure Map: Kubfu Dark Tower",
     
-	"_comment": "/Dimensions Part",   
+	// Dimensions Part   
 	
-	"_comment": "/Advancements",
+	// Advancements
 	"advancements.mirror.title": "Welcome to Distortic World!",
     "advancements.mirror.descr": "Enter Distortic World for the first time.",
     
@@ -138,13 +139,13 @@
     "advancements.spectrum.title": "Maybe valuable?",
     "advancements.spectrum.descr": "Get the Ultra Space ore.",
     
-	"_comment": "Armor",
+	// Armor
 	"item.pokecube_legends.ultra_helmet": 		"Ultra Armor Helmet",
 	"item.pokecube_legends.ultra_chestplate": 	"Ultra Armor Chestplate",
 	"item.pokecube_legends.ultra_leggings": 	"Ultra Armor Leggings",
 	"item.pokecube_legends.ultra_boots": 		"Ultra Armor Boots",
 	
-    "_comment": "/Biome Names",   
+    // Biome Names   
     "biome.pokecube_legends.distorted_biome": "Distorted World",
     
     "biome.pokecube_legends.ultra_deep_cave": "Ultra Deep Caves",
@@ -154,11 +155,12 @@
     "biome.pokecube_legends.ultra_deep_hills": "Ultra Deep Hills",
     "biome.pokecube_legends.ultra_forgotten_plains": "Ultra Forgotten Plains",
 
-    "_comment": "/Plants",
+    // Plants
     "block.pokecube_legends.mush_plant1": "Distorced Mushroom U_05",
     "block.pokecube_legends.mush_plant2": "Compreced Mushroom U_02",
     "block.pokecube_legends.a1_flower": "Aged Golden Flower U_25",
     "block.pokecube_legends.b1_flower": "Temporal Dead Flower U_14",
+    "block.pokecube_legends.crystallized_cactus": "Crystallized Cactus",
     
     "block.pokecube_legends.ultra_sapling01": "Inverted Sapling",
     "block.pokecube_legends.ultra_sapling02": "Temporal Sapling",
@@ -171,10 +173,10 @@
     "block.pokecube_legends.dyna_leave_2": "Dyna Leaves",
         
     "itemGroup.ultratab": "Pokecube Dimensions",
-    
+    "itemGroup.legendtab":  "Pokecube Legends",
     "itemGroup.decotab": "Pokecube Decoration",
     
-    "_comment": "/Blocks",
+    // Blocks
     
     "block.pokecube_legends.cosmic_dust_ore": "Cosmic Ore",
     "block.pokecube_legends.meteor_block": 		"Meteor Block",
@@ -353,7 +355,27 @@
     "block.pokecube_legends.distortic_stone_stairs": 	"Distortic Stone Stairs",
     "block.pokecube_legends.distortic_mirror": 			"Distortic Mirror",
     
-    "_comment": "/Items",
+    // Items
+    
+    "item.pokecube_legends.fire_wing": "Fire Wing",
+    "item.pokecube_legends.ice_wing": "Ice Wing",
+    "item.pokecube_legends.electric_wing": "Electric Wing",
+    
+    "item.pokecube_legends.dark_fire_wing": "Dark Fire Wing",
+    "item.pokecube_legends.ice_dark_wing": "Ice Dark Wing",
+    "item.pokecube_legends.static_wing": "Static Wing",
+    
+    "item.pokecube_legends.flame_gem": "Flame Gem",
+    "item.pokecube_legends.water_gem": "Water Gem",
+    "item.pokecube_legends.thunder_gem": "Thunder Gem",
+    
+    "item.pokecube_legends.meteor_shard": "Meteor Shard",
+    "item.pokecube_legends.star_core": "Star Core",
+    "item.pokecube_legends.lighting_crystal": "Lighting Crystal",
+    
+    "item.pokecube_legends.wooden_crown": "Wooden Crown",
+    "item.pokecube_legends.cosmic_orb": "Cosmic Orb",
+    
     "item.pokecube_legends.lightstone": "Light Stone",
     "item.pokecube_legends.darkstone": "Dark Stone",
     "item.pokecube_legends.sapphire": "Sapphire",
@@ -396,7 +418,8 @@
     "item.pokecube_legends.imprisonment_helmet":"Imprisonment Helmet",
     "item.pokecube_legends.keldeo_sword": "Keldeo Sword",
 
-    "_comment": "/Mint Nature",
+    // Mint Nature
+    
     "item.pokecube_legends.mint_adamant": "Mint Adamant",
     "item.pokecube_legends.mint_bold": "Mint Bold",
     "item.pokecube_legends.mint_brave": "Mint Brave",
@@ -423,7 +446,8 @@
     "item.pokecube_legends.mint_docile": "Mint Docile",
     "item.pokecube_legends.mint_bashful": "Mint Bashful",
 
-    "_comment": "/Z Move",
+    // Z Move
+    
     "item.pokecube_legends.z_grass": "Grassium Z",
     "item.pokecube_legends.z_bug": "Buginium Z",
     "item.pokecube_legends.z_dark": "Darkinum Z",
@@ -444,12 +468,13 @@
     "item.pokecube_legends.z_flying": "Flyingium Z",
     "item.pokecube_legends.z_unknown": "Incomununium Z",
 
-    "_comment": "/Orbs",
+    // Orbs
+    
     "item.pokecube_legends.grayorb": "Gray Orb",
     "item.pokecube_legends.redorb": "Red Orb",
     "item.pokecube_legends.greenorb": "Green Orb",
     "item.pokecube_legends.blueorb": "Blue Orb",
-    "item.pokecube_legends.legendaryorb": "Legendary Orb",
+    "item.pokecube_legends.legendaryorb": "Rainbow Orb",
     "item.pokecube_legends.lustrousorb": "Lustrous Orb",
     "item.pokecube_legends.adamantorb": "Adamant Orb",
     "item.pokecube_legends.oceanorb": "Ocean Orb",
@@ -462,20 +487,22 @@
     "item.pokecube_legends.lele_orb": "Tapu-Lele Orb",
     "item.pokecube_legends.fini_orb": "Tapu-Fini Orb",
 
-    "_comment": "/Core",
+    // Core
+    
     "item.pokecube_legends.rockcore": "Rock Core",
     "item.pokecube_legends.icecore": "Ice Core",
     "item.pokecube_legends.steelcore": "Steel Core",
     "item.pokecube_legends.magmacore": "Magma Core",
 
-    "_comment": "/Tools",
+    // Tools
     "item.pokecube_legends.rainbow_sword": "Rainbow Sword",
     "item.pokecube_legends.wishing_piece": "Wishing Piece",
     "item.pokecube_legends.gigantic_shard": "Gigant Shard",
     "item.pokecube_legends.giratina_mirror": "Distortic Mirror",
     "item.pokecube_legends.ultrakey": "Ultra Dimensional Key",
 
-    "_comment": "/Blocks",
+    // Blocks
+    
     "block.pokecube_legends.trough_block": "Trough Block Spawn",
     "block.pokecube_legends.golem_stone": "Golem Stone",
     "block.pokecube_legends.regirock_spawn": "Regirock Core",
@@ -509,7 +536,8 @@
     "block.pokecube_legends.fini_core": "Tapu Fini Spawn",
     "block.pokecube_legends.bulu_core": "Tapu Bulu Spawn",
     
-    "_comment": "/Decoration",
+    // Decoration
+    
     "block.pokecube_legends.oceanbrick": "Ocean Bricks",
     "block.pokecube_legends.ocean_brick_slab": "Ocean Brick Slab",
     "block.pokecube_legends.ocean_brick_stairs": "Ocean Brick Stairs",
@@ -594,13 +622,34 @@
     "block.pokecube_legends.fini_white_totem": "Fini Totem (White)",
     "block.pokecube_legends.fini_brown_totem": "Fini Totem (Brown)",
 
-    "_comment": "/Tooltips Block",
+    // Tooltips Block
+    
     "legendblock.portalwarp.tooltip": "Summon a random pokemob using this block!",
     "legendblock.raidspawn.tooltip": "Use to create a Raid battle!",
 	"legends.gigantic_shard.tooltip": "Use to make your pokemob use Gigantamax!",
     "legends.wishing_piece.tooltip": "Use this item on an inactive raid spot to activate it!",
 
-    "_comment": "/Tooltips Items",
+    // Tooltips Items
+    // Dimension
+    "legends.mirror.tooltip": "Use this item to access the Distorted Dimension!",
+    "legends.ultrakey.tooltip": "Use this item to teleport to Ultra Space!\n%1$s[You need Cosmic Dust in your inventory! Minimum: %2$s]",
+    
+    // Mobs
+    "legends.fire_wing.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Moltres",
+    "legends.dark_fire_wing.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Moltres Galar",
+    "legends.ice_wing.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Articuno",
+    "legends.ice_dark_wing.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Articuno Galar",
+    "legends.electric_wing.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Zapdos",
+    "legends.static_wing.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Zapdos Galar",
+    "legends.flame_gem.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Entei",
+    "legends.water_gem.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Suicune",
+    "legends.thunder_gem.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Raikou",
+    "legends.meteor_shard.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Deoxys",
+    "legends.star_core.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Jirachi",
+    "legends.cosmic_orb.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Time and Space Spawn- to spawn Cosmog",
+    "legends.lighting_crystal.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Necrozma",
+    "legends.wooden_crown.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Trough Block Spawn- to spawn Calyrex",
+    
     "legends.adamantorb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Time and Space Spawn- to spawn Dialga.",
     "legends.azureflute.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Time and Space Spawn- to spawn Arceus",
     "legends.blueorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCraftable or buyable item!%3$s\nUse this item on a -Legendary Spawn- to spawn Kyogre",
@@ -610,9 +659,7 @@
     "legends.dnasplicer.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item in -Kyurem- to change it.",
     "legends.emblem.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Victini Spawn- to spawn Victini",
     "legends.gracidea.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item in -Shaymin- to change it.",
-    
-    "legends.greenorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCraftable or buyable item!%3$s\nUse this item on a -Legendary Spawn- to spawn Celebi",
-    
+    "legends.greenorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCraftable or buyable item!%3$s\nUse this item on a -Legendary Spawn- to spawn Celebi",    
     "legends.greenrune.tooltip": "%1$s%2$s[Craft]%3$s %1$sCraftable or buyable item!%3$s\nUse this item on a -Nature Spawn- to spawn Tornadus",
     "legends.griseousorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCraftable or buyable item!%3$s\nUse this item in -Giratina- to change it",
     "legends.icecore.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Regice Core- to spawn Regice",
@@ -638,13 +685,9 @@
     "legends.revealglass.tooltip": "%1$s%2$s[Craft]%3$s %1$sCraftable or buyable item!%3$s\nUse this item in -Thundurus/Tornadus/Landorus- to change it.",
     "legends.rustedshield.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!%3$s\nUse this item on a -Legendary Spawn- to spawn Zamazenta.\nUse this item in -Zamazenta- to change it.",
     "legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!%3$s\nUse this item on a -Legendary Spawn- to spawn Zacian.\nUse this item in -Zacian- to change it.",
-    "legends.zygardecube.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item in -Zygarde- to change it.",   
+    "legends.zygardecube.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Aura Tree or Cocoon of Destruction- to spawn Zygarde.\nUse this item in -Zygarde- to change it.",
 	"legends.pdark.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!%3$s\nUse this item to evolve Kubfu into Single Strike Style",
     "legends.pwater.tooltip": "%1$s%2$s[Location]%3$s %1$sItem found in summoning structure or buying!%3$s\nUse this item to evolve Kubfu into Rapid Strike Style",
-    
-    "legends.mirror.tooltip": "Use this item to access the Distorted Dimension!",
-    "legends.ultrakey.tooltip": "Use this item to teleport to Ultra Space!\n%1$s[You need Cosmic Dust in your inventory! Minimum: %2$s]",
-    
     "legends.reins_unity.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest!%3$s\nUse this item in -Calyrex- to change it.",
     "legends.shadow_c.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Trough Block Spawn- to spawn Spectrier",
     "legends.ice_c.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Trough Block Spawn- to spawn Glastrier",

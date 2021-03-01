@@ -180,57 +180,60 @@ public class LogicMountedControl extends LogicBase
             }
 
         final float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
-        final float moveSpeed = (float) (0.25f * this.throttle * speedFactor);
+        final float baseSpd = (float) (0.25f * this.throttle * speedFactor);
+        float moveFwd = this.backInputDown ? -baseSpd / 2 : baseSpd;
+        float moveUp = this.upInputDown ? baseSpd : this.downInputDown ? -baseSpd : 0;
+
+        float pitch = controller.rotationPitch;
+
+        if (Math.abs(pitch) > 25)
+        {
+            pitch *= -0.017453292F;
+            if (this.backInputDown) pitch *= -1;
+            final float sin = (float) Math.sin(pitch);
+            final float cos = (float) Math.cos(pitch);
+            moveUp = baseSpd;
+            moveFwd *= cos;
+            moveUp *= sin;
+            if (Math.abs(pitch) > 75)
+            {
+                moveFwd = 0;
+                moveUp = Math.signum(pitch) * baseSpd;
+            }
+            if (this.upInputDown) moveUp = Math.abs(moveUp);
+            else if (this.downInputDown) moveUp = -Math.abs(moveUp);
+        }
+        moveUp *= 0.25;
+
+        final boolean goUp = this.upInputDown || moveUp > 0;
+        final boolean goDown = this.downInputDown || moveUp < 0;
+
         double vx = this.entity.getMotion().x;
         double vy = this.entity.getMotion().y;
         double vz = this.entity.getMotion().z;
-        if (this.forwardInputDown)
+        if (this.forwardInputDown || this.backInputDown)
         {
             move = true;
-            float f = moveSpeed / 2;
-
+            float f = moveFwd;
             if (airSpeed) f *= config.flySpeedFactor;
             else if (waterSpeed) f *= config.surfSpeedFactor;
             else f *= config.groundSpeedFactor;
-
+            if (this.inFluid) f *= 0.1;
             if (shouldControl)
             {
-                if (!this.entity.isOnGround()) f *= 2;
-                vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
-                vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
-            }
-            else if (this.inFluid)
-            {
-                f *= 0.1;
                 vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
                 vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
             }
         }
-        if (this.backInputDown)
+        if ((goUp || goDown) && verticalControl)
         {
+            vy += moveUp;
             move = true;
-            float f = -moveSpeed / 4;
-            if (shouldControl)
-            {
-                if (airSpeed) f *= config.flySpeedFactor;
-                else if (waterSpeed) f *= config.surfSpeedFactor;
-                else f *= config.groundSpeedFactor;
-                vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
-                vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
-            }
         }
-        if (this.upInputDown) if (this.entity.isOnGround() && !verticalControl)
+        else if (this.inFluid)
         {
-            this.entity.isAirBorne = true;
-            // TODO somehow configure this jump value.
-            vy += 1;
-            net.minecraftforge.common.ForgeHooks.onLivingJump(this.entity);
-        }
-        else if (verticalControl) vy += 0.1 * this.throttle;
-        else if (this.inFluid) vy += 0.05 * this.throttle;
-        if (this.downInputDown)
-        {
-            if (verticalControl && !this.entity.isOnGround()) vy -= 0.1 * this.throttle;
+            vy += 0.05 * this.throttle;
+            move = true;
         }
         else if (!verticalControl && !this.entity.isOnGround()) vy -= 0.1;
 
@@ -251,13 +254,12 @@ public class LogicMountedControl extends LogicBase
         else if (!this.entity.getPassengers().isEmpty())
         {
             this.pokemob.setHeading(controller.rotationYaw);
-            float f = moveSpeed / 2;
+            float f = moveFwd / 2;
             if (this.leftInputDown)
             {
                 move = true;
                 if (shouldControl)
                 {
-                    if (!this.entity.isOnGround()) f *= 2;
                     if (airSpeed) f *= config.flySpeedFactor;
                     else if (waterSpeed) f *= config.surfSpeedFactor;
                     else f *= config.groundSpeedFactor;
@@ -276,7 +278,6 @@ public class LogicMountedControl extends LogicBase
                 move = true;
                 if (shouldControl)
                 {
-                    if (!this.entity.isOnGround()) f *= 2;
                     if (airSpeed) f *= config.flySpeedFactor;
                     else if (waterSpeed) f *= config.surfSpeedFactor;
                     else f *= config.groundSpeedFactor;
@@ -295,6 +296,7 @@ public class LogicMountedControl extends LogicBase
         {
             vx *= 0.5;
             vz *= 0.5;
+            if (verticalControl) vy *= 0.5;
         }
         this.entity.setMotion(vx, vy, vz);
     }

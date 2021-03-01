@@ -268,6 +268,10 @@ public abstract class PokemobRidable extends PokemobBase implements IMultiplePas
     protected void removePassenger(final Entity passenger)
     {
         super.removePassenger(passenger);
+        final double x = this.getPosX();
+        final double y = this.getPosY();
+        final double z = this.getPosZ();
+        passenger.setPosition(x, y, z);
         this.initSeats();
         if (!this.world.isRemote) for (int i = 0; i < this.seatCount; i++)
             if (this.getSeat(i).getEntityId().equals(passenger.getUniqueID()))
