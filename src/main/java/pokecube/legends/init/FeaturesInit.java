@@ -24,12 +24,12 @@ public class FeaturesInit
     //
 
     // Biomes
-    public static final RegistryKey<Biome> BIOME_UB1 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, FeaturesInit.IDLOC_ULTRA);
-    public static final RegistryKey<Biome> BIOME_UB2 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, FeaturesInit.IDLOC_ULTRA);
-    public static final RegistryKey<Biome> BIOME_UB3 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, FeaturesInit.IDLOC_ULTRA);
-    public static final RegistryKey<Biome> BIOME_UB4 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, FeaturesInit.IDLOC_ULTRA);
-    public static final RegistryKey<Biome> BIOME_UB5 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, FeaturesInit.IDLOC_ULTRA);
-    public static final RegistryKey<Biome> BIOME_UB6 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, FeaturesInit.IDLOC_ULTRA);
+    public static final RegistryKey<Biome> BIOME_UB1 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(Reference.ID, "ultra_deep_cave"));
+    public static final RegistryKey<Biome> BIOME_UB2 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(Reference.ID, "ultra_jungle"));
+    public static final RegistryKey<Biome> BIOME_UB3 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(Reference.ID, "ultra_desert"));
+    public static final RegistryKey<Biome> BIOME_UB4 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(Reference.ID, "ultra_dark_valley"));
+    public static final RegistryKey<Biome> BIOME_UB5 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(Reference.ID, "ultra_deep_hills"));
+    public static final RegistryKey<Biome> BIOME_UB6 = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(Reference.ID, "ultra_forgotten_plains"));
 
     public static final RegistryKey<Biome> BIOME_DISTORTED = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, FeaturesInit.IDLOC_DISTO);
     //
