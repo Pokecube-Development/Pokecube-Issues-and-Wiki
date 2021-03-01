@@ -46,7 +46,7 @@ public class LegendaryConditions
         new LegendarySpawn("arceus", ItemInit.AZURE_FLUTE, BlockInit.TIMESPACE_CORE);
         new LegendarySpawn("palkia", ItemInit.LUSTROUS_ORB, BlockInit.TIMESPACE_CORE);
         new LegendarySpawn("dialga", ItemInit.ADAMANT_ORB, BlockInit.TIMESPACE_CORE);
-        
+
         new LegendarySpawn("reshiram", ItemInit.LIGHT_STONE, BlockInit.TAO_BLOCK);
         new LegendarySpawn("zekrom", ItemInit.DARK_STONE, BlockInit.TAO_BLOCK);
 
@@ -66,7 +66,7 @@ public class LegendaryConditions
         new LegendarySpawn("tapu_bulu", ItemInit.BULU_ORB, BlockInit.TAPU_BULU_CORE);
         new LegendarySpawn("tapu_fini", ItemInit.FINI_ORB, BlockInit.TAPU_FINI_CORE);
         new LegendarySpawn("tapu_lele", ItemInit.LELE_ORB, BlockInit.TAPU_LELE_CORE);
-        
+
         new LegendarySpawn("zacian", ItemInit.RSWORD, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("zamazenta", ItemInit.RSHIELD, BlockInit.LEGENDARY_SPAWN);
 
@@ -76,29 +76,29 @@ public class LegendaryConditions
         // Legendary spawn alternative
         new LegendarySpawn("articuno", ItemInit.ICE_WING, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("articunogalar", ItemInit.ICE_DARK_WING, BlockInit.LEGENDARY_SPAWN);
-        
+
         new LegendarySpawn("zapdos", ItemInit.ELECTRIC_WING, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("zapdosgalar", ItemInit.STATIC_WING, BlockInit.LEGENDARY_SPAWN);
-        
+
         new LegendarySpawn("moltres", ItemInit.FIRE_WING, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("moltresgalar", ItemInit.DARK_FIRE_WING, BlockInit.LEGENDARY_SPAWN);
-        
+
         new LegendarySpawn("entei", ItemInit.FLAME_GEM, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("raikou", ItemInit.THUNDER_GEM, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("suicune", ItemInit.WATER_GEM, BlockInit.LEGENDARY_SPAWN);
-        
+
         new LegendarySpawn("deoxys", ItemInit.METEOR_SHARD, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("jirachi", ItemInit.STAR_CORE, BlockInit.LEGENDARY_SPAWN);
-        
+
         new LegendarySpawn("zygarde10", ItemInit.ZYGARDE_CUBE, BlockInit.XERNEAS_CORE);
         new LegendarySpawn("zygarde10", ItemInit.ZYGARDE_CUBE, BlockInit.YVELTAL_CORE);
-        
+
         new LegendarySpawn("cosmog", ItemInit.COSMIC_ORB, BlockInit.TIMESPACE_CORE);
         new LegendarySpawn("necrozma", ItemInit.LIGHTING_CRYSTAL, BlockInit.LEGENDARY_SPAWN);
-        
+
         new LegendarySpawn("calyrex", ItemInit.WOODEN_CROWN, BlockInit.TROUGH_BLOCK);
-        
-        
+
+
         // Register the thng that prevents genetic modification of protected
         // mobs
         MinecraftForge.EVENT_BUS.register(new GeneProtector());

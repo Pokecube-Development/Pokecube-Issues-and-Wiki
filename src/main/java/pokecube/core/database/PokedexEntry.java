@@ -182,7 +182,7 @@ public class PokedexEntry
                 final List<String> biomeNames = Lists.newArrayList();
                 for (final BiomeType t : this.matcher._validSubBiomes)
                     biomeNames.add(I18n.format(t.readableName));
-                for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
+                for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
                 {
                     final boolean valid = this.matcher.getValidBiomes().contains(test);
                     if (valid)
@@ -196,7 +196,7 @@ public class PokedexEntry
                 {
                     for (final BiomeType t : matcher._validSubBiomes)
                         biomeNames.add(I18n.format(t.readableName));
-                    for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomes())
+                    for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
                     {
                         final boolean valid = matcher.getValidBiomes().contains(test);
                         if (valid)
@@ -760,10 +760,7 @@ public class PokedexEntry
         public void postInit()
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-            {
                 matcher.reset();
-                matcher.parse();
-            }
         }
     }
 
@@ -1154,6 +1151,8 @@ public class PokedexEntry
         if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
         // Apply default interactions
         InteractionLogic.initForEntry(this);
+
+        if (this.getSpawnData() != null) this.getSpawnData().postInit();
 
         final Class<?> me = this.getClass();
         Required c;

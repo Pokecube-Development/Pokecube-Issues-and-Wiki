@@ -79,7 +79,7 @@ public class SpawnEventsHandler
      */
     private static void onSpawnCheck(final SpawnEvent.Check event)
     {
-        if (!SpawnHandler.canSpawnInWorld((World) event.world)) event.setCanceled(true);
+        if (!SpawnHandler.canSpawnInWorld((World) event.world, event.forSpawn)) event.setCanceled(true);
     }
 
     private static void PickSpawn(final SpawnEvent.Pick.Pre event)

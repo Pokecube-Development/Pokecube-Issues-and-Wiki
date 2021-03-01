@@ -7,10 +7,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ForgeRegistries;
+import thut.core.common.ThutCore;
 
 public class BiomeDatabase
 {
@@ -25,7 +27,9 @@ public class BiomeDatabase
 
     public static Biome getBiome(final RegistryKey<Biome> key)
     {
-        return ForgeRegistries.BIOMES.getValue(key.getLocation());
+        final DynamicRegistries REG = ThutCore.proxy.getRegistries();
+        final MutableRegistry<Biome> biomes = REG.getRegistry(Registry.BIOME_KEY);
+        return biomes.getOrDefault(key.getLocation());
     }
 
     public static boolean isAType(final String name)

@@ -115,17 +115,6 @@ public class SpawnsPage extends ListPage<LineEntry>
             }
         };
 
-        if (Minecraft.getInstance().world.getDifficulty() == Difficulty.PEACEFUL)
-        {
-            final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
-            final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
-            for (final IFormattableTextComponent entry : list)
-            {
-                final LineEntry line = new LineEntry(this.list, 20, 30, this.font, entry, 0xFFFFFFFF);
-                this.list.addEntry(line);
-            }
-        }
-
         for (final PokedexEntry pokeEntry : names)
         {
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, PacketPokedex.selectedLoc.get(pokeEntry),
@@ -173,7 +162,15 @@ public class SpawnsPage extends ListPage<LineEntry>
         final int colour = 0xFF78C850;
         AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x + 130, y + 30, colour);
 
-        if (this.repel = PacketPokedex.repelled)
+        if (Minecraft.getInstance().world.getDifficulty() == Difficulty.PEACEFUL)
+        {
+            final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
+            final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            int n = 0;
+            for (final IFormattableTextComponent entry : list)
+                AbstractGui.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
+        }
+        else if (this.repel = PacketPokedex.repelled)
         {
             final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.repelled");
             final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
