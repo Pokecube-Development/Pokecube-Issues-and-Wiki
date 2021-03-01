@@ -64,7 +64,8 @@ public class LegendarySpawn
         final PlayerEntity playerIn = evt.getPlayer();
         final ServerWorld worldIn = (ServerWorld) evt.getWorld();
         final PokedexEntry entry = spawn.entry;
-        if (!spawn.heldItemChecker.test(stack)) return SpawnResult.WRONGITEM;
+
+        final SpawnResult result = !spawn.heldItemChecker.test(stack) ? SpawnResult.WRONGITEM : SpawnResult.FAIL;
 
         final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
         final ISpecialCaptureCondition captureCondition = ISpecialCaptureCondition.captureMap.get(entry);
@@ -75,6 +76,7 @@ public class LegendarySpawn
             if (test == CanSpawn.ALREADYHAVE) return SpawnResult.ALREADYHAVE;
             if (test.test())
             {
+                if (result == SpawnResult.WRONGITEM) return result;
                 MobEntity entity = PokecubeCore.createPokemob(entry, worldIn);
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                 if (captureCondition != null && !captureCondition.canCapture(playerIn, pokemob))
@@ -100,7 +102,7 @@ public class LegendarySpawn
                 evt.setCanceled(true);
                 return SpawnResult.SUCCESS;
             }
-            else return test == CanSpawn.NO ? SpawnResult.FAIL : SpawnResult.NOSPAWN;
+            else return test == CanSpawn.NO ? result : SpawnResult.NOSPAWN;
         }
         return SpawnResult.FAIL;
     }
@@ -190,6 +192,8 @@ public class LegendarySpawn
                 return;
             }
         }
+
+        wrong_items.removeAll(wrong_biomes);
 
         if (worked)
         {

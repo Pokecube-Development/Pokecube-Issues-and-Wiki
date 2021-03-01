@@ -538,7 +538,7 @@ public class PacketPokedex extends Packet
                         }
                         if (hasBiomes) break;
                     }
-                    if (hasBiomes) for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomes())
+                    if (hasBiomes) for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomeKeys())
                         if (b != null) if (data.isValid(b)) biomes.add(b.getRegistryName().toString());
                     for (final BiomeType b : BiomeType.values())
                         if (data.isValid(b)) biomes.add(b.readableName);

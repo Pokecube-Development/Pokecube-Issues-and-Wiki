@@ -17,7 +17,7 @@
       "tag": "forge:gems/quartz"
     },
     "S": {
-      "tag": "forge:dusts/gunpowder"
+      "tag": "forge:gunpowder"
     },
     "T": {
       "item": "minecraft:torch"

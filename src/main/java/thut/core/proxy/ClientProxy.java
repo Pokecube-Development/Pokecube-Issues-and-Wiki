@@ -10,11 +10,13 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -22,22 +24,24 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
+import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -67,15 +71,11 @@ public class ClientProxy extends CommonProxy
     private boolean initParticles = false;
 
     @Override
-    public boolean isClientSide()
+    public DynamicRegistries getRegistries()
     {
-        return EffectiveSide.get() == LogicalSide.CLIENT;
-    }
-
-    @Override
-    public boolean isServerSide()
-    {
-        return EffectiveSide.get() == LogicalSide.SERVER;
+        // This is null on single player, so we have an integrated server
+        if (Minecraft.getInstance().getCurrentServerData() == null) return super.getRegistries();
+        return Minecraft.getInstance().world.func_241828_r();
     }
 
     @Override
@@ -126,6 +126,14 @@ public class ClientProxy extends CommonProxy
         final String msg = "Sub-Biome: " + I18n.format(type.readableName) + " (" + type.name + ")";
         event.getLeft().add("");
         event.getLeft().add(msg);
+
+        if (Screen.hasAltDown())
+        {
+            event.getLeft().add("");
+            final Biome b = v.getBiome(Minecraft.getInstance().world);
+            final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
+            event.getLeft().add(key.getLocation() + ": " + BiomeDictionary.getTypes(key) + ", " + b.getCategory());
+        }
     }
 
     BiomeType getSubbiome(final ItemStack held)
