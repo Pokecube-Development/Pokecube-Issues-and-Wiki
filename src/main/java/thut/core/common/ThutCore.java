@@ -13,7 +13,6 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
@@ -61,7 +60,6 @@ import thut.api.particle.ThutParticles;
 import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.StructureManager;
 import thut.api.world.mobs.data.DataSync;
-import thut.bling.BlingItem;
 import thut.core.common.config.Config;
 import thut.core.common.genetics.DefaultGeneStorage;
 import thut.core.common.genetics.DefaultGenetics;
