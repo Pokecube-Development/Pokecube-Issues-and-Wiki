@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -12,14 +13,13 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.PokecubeItems;
 
 public class LegendaryOrb extends ItemBase
 {
 
-    public LegendaryOrb(final String name, final int num)
+    public LegendaryOrb(final String name, final int num, final ItemGroup group)
     {
-        super(name, num, PokecubeItems.POKECUBEITEMS);
+        super(name, num, group);
     }
 
     @Override

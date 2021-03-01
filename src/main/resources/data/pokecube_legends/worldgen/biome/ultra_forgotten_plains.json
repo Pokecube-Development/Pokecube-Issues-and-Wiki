@@ -10,8 +10,8 @@
     "fog_color": 16643037,
     "water_color": 4182244,
     "water_fog_color": 3105703,
-    "foliage_color": 15512651,
-    "grass_color": 15975968,
+    "foliage_color": 16763145,
+    "grass_color": 16763145,
     "particle": {
       "options": {
         "type": "minecraft:dust",

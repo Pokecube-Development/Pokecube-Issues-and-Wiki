@@ -29,6 +29,11 @@
       "gender": "Both"
     },
     {
+      "type": "space",
+      "pokemon": "poipole,naganadel,nihilego,buzzwole,kartana,pheromosa,gardevoir,scolipede,cofagrigus,zoroark,klinklang,elgyem,beheeyem,golurk,inkay,malamar,trevenant,vikavolt,araquinid,oranguru,xurkitree,hatterene,grimmsnarl",
+      "gender": "Both"
+    },
+    {
       "type": "zinnia",
       "pokemon": "whismur,goodra,tyrantrum,altaria,noivern,salamence,rayquaza",
       "gender": "Female"

@@ -1,6 +1,112 @@
 {
   "trades": [
     {
+      "template": "space",
+      "trades": [
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:ultracube",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "6"
+              }
+            }
+          ],
+          "values": {
+            "chance": "1"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:beastcube",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "10"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.8"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:revive",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "6"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.8"
+          }
+        },
+        {
+          "custom": "allVitamins",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "12"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.9"
+          }
+        },
+        {
+          "type": "tag_sell",
+          "custom": "pokecube:pokemob_evo",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "16"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.5"
+          }
+        },
+        {
+          "type": "tag_sell",
+          "custom": "pokecube_legends:sells_for_32",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "32"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.05"
+          }
+        }
+      ]
+    },
+    {
       "template": "zinnia",
       "trades": [
         {
