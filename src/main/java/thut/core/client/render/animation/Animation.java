@@ -26,6 +26,8 @@ public class Animation
 {
     private UUID id;
 
+    public UUID _uuid = UUID.randomUUID();
+
     public String name       = "";
     public String identifier = "";
     public int    length     = -1;
@@ -37,6 +39,8 @@ public class Animation
     public int    priority   = 10;
 
     public boolean loops = true;
+
+    public boolean hasLimbBased = false;
 
     public TreeMap<String, ArrayList<AnimationComponent>> sets = new TreeMap<>(Ordering.natural());
 
@@ -69,13 +73,13 @@ public class Animation
     public void initLength()
     {
         this.length = -1;
+        this.hasLimbBased = false;
         for (final Entry<String, ArrayList<AnimationComponent>> entry : this.sets.entrySet())
             for (final AnimationComponent component : entry.getValue())
+            {
                 this.length = Math.max(this.length, component.startKey + component.length);
-        // Thread.dumpStack();
-        // System.out.println(this.length + " " + this.name + " " +
-        // super.toString() + " " + this.id + " " + this.sets
-        // .size());
+                this.hasLimbBased = this.hasLimbBased || component.limbBased;
+            }
     }
 
     @Override

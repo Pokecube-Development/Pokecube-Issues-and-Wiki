@@ -22,6 +22,7 @@ import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
@@ -225,9 +226,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
         if (!this.isLoaded()) return;
-        this.renderer.setAnimationHolder(AnimationHelper.getHolder(entityIn));
+        final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
+        holder.preRun();
+        this.renderer.setAnimationHolder(holder);
         if (this.renderer.getAnimationChanger() != null) this.renderer.setAnimation(entityIn, partialTickTime);
         this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
+        holder.postRun();
     }
 
     @Override
