@@ -16,7 +16,6 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearableChecker;
 import thut.wearables.ThutWearables;
-import thut.wearables.events.WearableDroppedEvent;
 import thut.wearables.events.WearablesLoadedEvent;
 import thut.wearables.inventory.PlayerWearables;
 import top.theillusivec4.curios.api.CuriosCapability;
@@ -53,7 +52,8 @@ public class Impl
         public CuriosChecker()
         {
             MinecraftForge.EVENT_BUS.addListener(this::onCuriosChange);
-            MinecraftForge.EVENT_BUS.addListener(this::onWearableDrop);
+            // We do not handle the drop, as the change event handles it!
+            // MinecraftForge.EVENT_BUS.addListener(this::onWearableDrop);
             MinecraftForge.EVENT_BUS.addListener(this::onWearablesLoad);
         }
 
@@ -140,12 +140,6 @@ public class Impl
                 wearables.setWearable(slot, to, index);
                 ThutWearables.syncWearables(mob);
             }
-        }
-
-        private void onWearableDrop(final WearableDroppedEvent event)
-        {
-            final EnumWearable worn = EnumWearable.getWearable(event.getIndex());
-            if (CuriosChecker.identMap.containsValue(worn)) event.setCanceled(true);
         }
 
         private void onWearablesLoad(final WearablesLoadedEvent event)

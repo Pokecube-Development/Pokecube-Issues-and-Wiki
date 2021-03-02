@@ -260,7 +260,7 @@ public class ThutWearables
         for (int i = 0; i < 13; i++)
         {
             final ItemStack stack = cap.getStackInSlot(i);
-            if (stack != null)
+            if (!stack.isEmpty())
             {
                 EnumWearable.takeOff(mob, stack, i);
                 final WearableDroppedEvent dropEvent = new WearableDroppedEvent(mob, stack, i);
