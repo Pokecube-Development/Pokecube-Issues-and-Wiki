@@ -1,5 +1,7 @@
 package pokecube.legends.blocks.normalblocks;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -22,6 +24,11 @@ public class SandUltraBlock extends BlockBase
     {
         super(name, Properties.create(material, color).sound(SoundType.SAND).hardnessAndResistance(2, 6).harvestTool(
                 ToolType.SHOVEL).harvestLevel(1));
+    }
+
+    @Override
+    public boolean matchesBlock(Block block) {
+        return this == Blocks.SAND || this == block;
     }
 
     @Override
