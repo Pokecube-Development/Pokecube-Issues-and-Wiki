@@ -334,10 +334,10 @@ public class SpawnBiomeMatcher
         if (this.getInvalidBiomes().contains(biome)) return false;
         final boolean explicit = this.getValidBiomes().contains(biome);
         if (!explicit && SpawnBiomeMatcher.SOFTBLACKLIST.contains(biome)) return false;
+        // The check for all subbiomes overrides the check for biomes.
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
-        if (this._validSubBiomes.contains(BiomeType.NONE) || this.getValidBiomes().isEmpty() && this.getInvalidBiomes()
-                .isEmpty()) return false;
-        return explicit;
+        final boolean hasValid = !this.getValidBiomes().isEmpty();
+        return explicit || !hasValid;
     }
 
     private boolean weatherMatches(final SpawnCheck checker)
