@@ -54,7 +54,7 @@ public abstract class PokemobHungry extends PokemobMoves
                 this.addHappiness(weight);
             }
         }
-        this.setHungerTime(this.getHungerTime() - hungerValue);
+        this.applyHunger(-hungerValue);
         this.hungerCooldown = 0;
         this.setCombatState(CombatStates.HUNTING, false);
         if (!this.getEntity().isAlive()) return null;

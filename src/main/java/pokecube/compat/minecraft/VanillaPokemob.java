@@ -133,8 +133,7 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
                     .getGameTime());
             final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
             final List<ItemStack> list = action.stacks;
-            final int time = this.getHungerTime();
-            this.setHungerTime(time + action.hunger);
+            this.applyHunger(action.hunger);
             for (final ItemStack stack : list)
             {
                 ItemStack toAdd = stack.copy();

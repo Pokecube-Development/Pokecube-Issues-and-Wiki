@@ -232,7 +232,7 @@ public class HungerTask extends BaseIdleTask
     {
         if (this.entity.getEntityWorld().isDaytime() && this.v.canSeeSky(this.world))
         {
-            this.pokemob.setHungerTime(this.pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan / 4);
+            this.pokemob.applyHunger(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
             this.pokemob.setCombatState(CombatStates.HUNTING, false);
             return true;
         }
@@ -340,7 +340,7 @@ public class HungerTask extends BaseIdleTask
 
         // Apply cooldowns and increment hunger.
         this.pokemob.setHungerCooldown(this.pokemob.getHungerCooldown() - hungerTicks);
-        this.pokemob.setHungerTime(this.pokemob.getHungerTime() + hungerTicks);
+        this.pokemob.applyHunger(hungerTicks);
 
         this.calculateHunger();
 

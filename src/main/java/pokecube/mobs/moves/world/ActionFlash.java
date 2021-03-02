@@ -28,7 +28,7 @@ public class ActionFlash implements IMoveAction
         count = (int) Math.max(1, Math.ceil(count * Math.pow((100 - level) / 100d, 3))) * hungerValue;
         final EffectInstance effect = new EffectInstance(Effects.NIGHT_VISION, 5000);
         owner.addPotionEffect(effect);
-        mob.setHungerTime(mob.getHungerTime() + count);
+        mob.applyHunger(count);
         return true;
     }
 

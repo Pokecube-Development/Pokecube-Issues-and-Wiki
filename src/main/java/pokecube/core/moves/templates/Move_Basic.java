@@ -90,7 +90,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         final int pp = this.getPP();
         float relative = (50 - pp) / 30;
         relative = relative * relative;
-        attacker.setHungerTime(attacker.getHungerTime() + (int) (relative * 100));
+        attacker.applyHunger((int) (relative * 100));
     }
 
     @Override

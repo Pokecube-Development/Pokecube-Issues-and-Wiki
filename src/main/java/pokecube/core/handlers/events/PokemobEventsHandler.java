@@ -722,7 +722,7 @@ public class PokemobEventsHandler
                     .addHappiness(255);
             // Debug thing to increase hunger time
             if (held.getItem() == Items.GOLDEN_HOE) if (player.abilities.isCreativeMode && player.isSneaking()) pokemob
-                    .setHungerTime(pokemob.getHungerTime() + 4000);
+                    .applyHunger(+4000);
             // Use shiny charm to make shiny
             if (ItemList.is(new ResourceLocation("pokecube:shiny_charm"), held))
             {

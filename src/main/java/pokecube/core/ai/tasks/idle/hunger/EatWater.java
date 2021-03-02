@@ -34,7 +34,7 @@ public class EatWater extends EatBlockBase
 
         if (!EatWater.checker.test(current)) return EatResult.NOEAT;
 
-        pokemob.setHungerTime(pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan / 4);
+        pokemob.applyHunger(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
 
         return EatResult.EATEN;
     }

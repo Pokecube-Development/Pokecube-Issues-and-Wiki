@@ -213,7 +213,7 @@ public class MoveEventsHandler
                     int hunger = PokecubeCore.getConfig().baseSmeltingHunger * num;
                     hunger = (int) Math.max(1, hunger / (float) attacker.getLevel());
                     if (f > 0) hunger *= f;
-                    attacker.setHungerTime(attacker.getHungerTime() + hunger);
+                    attacker.applyHunger(hunger);
                     item.setItem(newstack);
                     item.lifespan += 6000;
                     smelt = true;
