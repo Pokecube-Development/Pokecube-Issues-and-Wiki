@@ -4,11 +4,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -32,7 +34,9 @@ public class CapabilityAnimation
         Map<String, List<Animation>> anims = Maps.newHashMap();
 
         List<Animation> playingList = DefaultImpl.EMPTY;
-        List<Animation> non_static  = Lists.newArrayList();
+
+        Object2IntOpenHashMap<UUID> non_static = new Object2IntOpenHashMap<>();
+        List<Animation>             keys       = Lists.newArrayList();
 
         String pending = "";
         String playing = "";
@@ -60,13 +64,17 @@ public class CapabilityAnimation
         @Override
         public List<Animation> getPlaying()
         {
-            if (this.non_static.isEmpty() && !this.pending.isEmpty())
+            if (this.keys.isEmpty() && !this.pending.isEmpty())
             {
                 this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
                 this.playing = this.pending;
                 this.non_static.clear();
                 for (final Animation a : this.playingList)
-                    if (a.getLength() > 0) this.non_static.add(a);
+                    if (a.getLength() > 0)
+                    {
+                        this.non_static.put(a._uuid, 0);
+                        this.keys.add(a);
+                    }
             }
             return this.playingList;
         }
@@ -75,8 +83,8 @@ public class CapabilityAnimation
         public void setPendingAnimations(final List<Animation> list, final String name)
         {
             this.anims.put(name, Lists.newArrayList(list));
-            this.getPlaying();
             this.pending = name;
+            this.getPlaying();
         }
 
         @Override
@@ -84,13 +92,37 @@ public class CapabilityAnimation
         {
             // Only reset if we have a pending animation.
             final int l = animation.getLength();
-            if (l != 0 && step > l && !this.pending.equals(this.playing)) this.non_static.remove(animation);
+            final boolean finished = l != 0 && step > l || animation.hasLimbBased;
+            if (finished && (!animation.loops || !this.pending.equals(this.playing))) this.non_static.put(
+                    animation._uuid, 0);
+            else this.non_static.put(animation._uuid, l != 0 ? l : 10);
         }
 
         @Override
         public String getAnimation(final Entity entityIn)
         {
             return this.playing;
+        }
+
+        @Override
+        public void preRun()
+        {
+            this.non_static.replaceAll((a, i) -> 0);
+        }
+
+        @Override
+        public void postRun()
+        {
+            this.keys.removeIf(a ->
+            {
+                final int i = this.non_static.getInt(a._uuid);
+                if (i <= 0)
+                {
+                    this.non_static.removeInt(a._uuid);
+                    return true;
+                }
+                return false;
+            });
         }
     }
 
@@ -115,11 +147,13 @@ public class CapabilityAnimation
          */
         void setPendingAnimations(final List<Animation> list, final String name);
 
-        /** Sets the last tick this animation was run. Can set to 0 to count
+        /**
+         * Sets the last tick this animation was run. Can set to 0 to count
          * this animation as cleared.
          *
          * @param animation
-         * @param step */
+         * @param step
+         */
         void setStep(Animation animation, float step);
 
         /**
@@ -130,6 +164,10 @@ public class CapabilityAnimation
          * @return
          */
         String getAnimation(Entity entityIn);
+
+        void preRun();
+
+        void postRun();
     }
 
     private static class Storage implements Capability.IStorage<IAnimationHolder>
@@ -148,17 +186,17 @@ public class CapabilityAnimation
         }
     }
 
-    private static final Set<Class<? extends Entity>> ANIMATE    = Sets.newHashSet();
-    private static final ResourceLocation             ANIM       = new ResourceLocation("thutcore:animations");
+    private static final Set<Class<? extends Entity>> ANIMATE = Sets.newHashSet();
+    private static final ResourceLocation             ANIM    = new ResourceLocation("thutcore:animations");
 
     @CapabilityInject(IAnimationHolder.class)
-    public static final Capability<IAnimationHolder>  CAPABILITY = null;
+    public static final Capability<IAnimationHolder> CAPABILITY = null;
 
     @SubscribeEvent
     public static void attachCap(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (CapabilityAnimation.ANIMATE.contains(event.getObject().getClass()))
-            event.addCapability(CapabilityAnimation.ANIM, new DefaultImpl());
+        if (CapabilityAnimation.ANIMATE.contains(event.getObject().getClass())) event.addCapability(
+                CapabilityAnimation.ANIM, new DefaultImpl());
     }
 
     public static void registerAnimateClass(final Class<? extends Entity> clazz)

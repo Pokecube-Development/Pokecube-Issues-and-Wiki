@@ -256,14 +256,9 @@ public class AnimationGui extends Screen
 
         this.toRender.onGenesChanged();
         this.dyeColour.setText("" + this.toRender.getDyeColour());
-        if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
-
         this.renderHolder = RenderPokemob.holders.get(AnimationGui.entry);
         if (this.holder != null) this.renderHolder = RenderPokemob.customs.getOrDefault(this.holder.key,
                 this.renderHolder);
-
-        this.renderHolder.overrideAnim = true;
-        this.renderHolder.anim = ThutCore.trim(this.anim.getText());
         this.renderHolder.init();
         PacketPokedex.updateWatchEntry(AnimationGui.entry);
 
@@ -470,7 +465,6 @@ public class AnimationGui extends Screen
     @Override
     public void onClose()
     {
-        if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
         super.onClose();
     }
 
@@ -527,7 +521,11 @@ public class AnimationGui extends Screen
             entity.ticksExisted = Minecraft.getInstance().player.ticksExisted;
             entity.limbSwing += 0.0125;
             final float zoom = this.scale;
-
+            if (this.renderHolder != null)
+            {
+                this.renderHolder.overrideAnim = true;
+                this.renderHolder.anim = ThutCore.trim(this.anim.getText());
+            }
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
@@ -535,6 +533,7 @@ public class AnimationGui extends Screen
             GuiPokemobBase.renderMob(entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
                     this.xHeadRenderAngle, zoom);
             GuiPokemobBase.autoScale = true;
+            if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
         }
 
         if (this.cap)
