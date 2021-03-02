@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -16,6 +17,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
+import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
@@ -439,6 +441,10 @@ public class Config extends ConfigData
     @Configure(category = Config.spawning, comment = "Enables using spawnDimWhitelist to determine if a dimension is valid for spawn")
     public boolean      spawnWhitelisted  = false;
 
+    @Configure(category = Config.spawning, comment = "Pokemobs will not spawn in these biomes unless explicitly allowed to")
+    public List<String> softSpawnBiomeBlacklist = Lists.newArrayList("the_bumblezone:sugar_water_floor",
+            "the_bumblezone:hive_wall", "the_bumblezone:hive_pillar");
+
     @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player")
     public int spawnRate   = 2;
     @Configure(category = Config.spawning, comment = "Default radius of effect for repels, also applies to max spots")
@@ -678,6 +684,13 @@ public class Config extends ConfigData
             WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
         WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(
                 "pokecube:secret_base")));
+
+        SpawnBiomeMatcher.SOFTBLACKLIST.clear();
+        for (final String name : this.softSpawnBiomeBlacklist)
+        {
+            final RegistryKey<Biome> key = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(name));
+            SpawnBiomeMatcher.SOFTBLACKLIST.add(key);
+        }
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
         SpawnHandler.MAXNUM = this.mobSpawnNumber;
