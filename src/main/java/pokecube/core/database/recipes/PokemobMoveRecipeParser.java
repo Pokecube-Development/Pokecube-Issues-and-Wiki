@@ -274,7 +274,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             final List<ItemStack> stacks = Lists.newArrayList();
             items.forEach(e -> stacks.add(e.getItem()));
             final int depth = this.tryCraft(stacks, location, world, 0);
-            attacker.setHungerTime(attacker.getHungerTime() + this.hungerCost * depth);
+            attacker.applyHunger(this.hungerCost * depth);
             return depth > 0;
         }
 

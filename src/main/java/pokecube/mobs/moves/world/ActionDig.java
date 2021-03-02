@@ -35,7 +35,7 @@ public class ActionDig implements IMoveAction
         {
             this.digHole(user, location, false);
             used = true;
-            user.setHungerTime(user.getHungerTime() + count);
+            user.applyHunger(count);
         }
         return used;
     }

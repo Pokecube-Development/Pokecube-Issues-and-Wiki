@@ -210,6 +210,8 @@ public class SpawnBiomeMatcher
     private static List<RegistryKey<Biome>> allBiomeKeys   = Lists.newArrayList();
     private static List<Biome>              allBiomes      = Lists.newArrayList();
 
+    public static Set<RegistryKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
+
     public static Collection<RegistryKey<Biome>> getAllBiomeKeys()
     {
         final DynamicRegistries REG = ThutCore.proxy.getRegistries();
@@ -330,15 +332,12 @@ public class SpawnBiomeMatcher
         this.parse();
         if (!this.valid) return false;
         if (this.getInvalidBiomes().contains(biome)) return false;
+        final boolean explicit = this.getValidBiomes().contains(biome);
+        if (!explicit && SpawnBiomeMatcher.SOFTBLACKLIST.contains(biome)) return false;
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         if (this._validSubBiomes.contains(BiomeType.NONE) || this.getValidBiomes().isEmpty() && this.getInvalidBiomes()
                 .isEmpty()) return false;
-        return this.getValidBiomes().contains(biome);
-    }
-
-    public boolean checkBiome(final Biome biome)
-    {
-        return this.checkBiome(BiomeDatabase.getKey(biome));
+        return explicit;
     }
 
     private boolean weatherMatches(final SpawnCheck checker)
@@ -359,10 +358,14 @@ public class SpawnBiomeMatcher
         if (checker.type == null) type = BiomeType.ALL;
 
         // Check the blacklist first, if this does match, we leave early.
-        final boolean blackListed = this.getInvalidBiomes().contains(checker.biome) || this._blackListSubBiomes
-                .contains(type);
+        final boolean blackListed = this._blackListSubBiomes.contains(type);
 
         if (blackListed) return false;
+
+        // If we are not allowed in this biome, return false.
+        // This checks if we are blackisted for the biome, or if we need
+        // specific biomes and this is not one of them.
+        if (!this.checkBiome(checker.biome)) return false;
 
         final IChunk chunk = checker.chunk;
         // No chunk here, no spawn here!
@@ -399,16 +402,12 @@ public class SpawnBiomeMatcher
         // We need a subbiome, but there is none here! so no spawn.
         if (needsSubbiome && noSubbiome) return false;
 
-        // If we got to here, we are valid if the biomes has this biome, or no
-        // biomes are needed.
-        final boolean rightBiome = this.getValidBiomes().contains(checker.biome) || this.getValidBiomes().isEmpty();
-
         // We are the correct subbiome if we either don't need one, or the valid
         // subbiomes has out current one.
         final boolean rightSubBiome = noSubbiome || this._validSubBiomes.contains(checker.type);
 
         // Return true if both correct biome and subbiome.
-        return rightBiome && rightSubBiome;
+        return rightSubBiome;
     }
 
     private boolean conditionsMatch(final SpawnCheck checker)

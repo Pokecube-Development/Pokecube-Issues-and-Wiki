@@ -44,7 +44,7 @@ public class ActionSmash implements IMoveAction
         {
             this.smashRock(user, location, false);
             used = true;
-            user.setHungerTime(user.getHungerTime() + count);
+            user.applyHunger(count);
         }
         if (!used)
         {

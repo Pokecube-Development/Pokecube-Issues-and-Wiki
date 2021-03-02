@@ -12,9 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -22,6 +20,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
 
 public class DaycareTile extends InteractableTile implements ITickableTileEntity
@@ -65,8 +64,6 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
     }
 
     private IItemHandlerModifiable itemstore;
-
-    private Chunk chunk = null;
 
     public float power = 0;
 
@@ -116,10 +113,8 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
             }
             return;
         }
-        if (this.chunk == null) this.chunk = this.getWorld().getChunkAt(this.getPos());
-        final ClassInheritanceMultiMap<Entity> mobs = this.chunk.getEntityLists()[this.getPos().getY() >> 4];
-        final List<Entity> list = Lists.newArrayList(mobs);
-
+        final List<Entity> list = Lists.newArrayList();
+        EntityTools.getNearMobsFast(list, this.getWorld(), this.getPos(), 16, e -> true);
         for (final Entity mob : list)
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);

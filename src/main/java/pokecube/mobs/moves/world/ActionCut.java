@@ -44,7 +44,7 @@ public class ActionCut implements IMoveAction
         {
             remover.cut(false);
             used = true;
-            user.setHungerTime(user.getHungerTime() + count);
+            user.applyHunger(count);
         }
         remover.clear();
         return used;

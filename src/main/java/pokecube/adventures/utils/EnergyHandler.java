@@ -273,7 +273,10 @@ public class EnergyHandler
     public static class ProviderPokemob extends EnergyStorage implements ICapabilityProvider
     {
         private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
-        final IPokemob                             pokemob;
+
+        final IPokemob pokemob;
+
+        long lastTickCheck = -1;
 
         public ProviderPokemob(final IPokemob pokemob)
         {
@@ -288,45 +291,51 @@ public class EnergyHandler
         }
 
         @Override
-        public boolean canExtract()
+        public boolean canReceive()
         {
-            return this.pokemob.isType(PokeType.getType("electric"));
+            return this.checkElectricType();
         }
 
         @Override
-        public int extractEnergy(final int power, final boolean simulate)
+        public boolean canExtract()
         {
-            if (!this.canExtract()) return 0;
+            return this.checkElectricType();
+        }
+
+        /**
+         * This checks if we are electric type, and also does an update of the
+         * internal power, if this is the first time this is run during a tick.
+         *
+         * @return
+         */
+        private boolean checkElectricType()
+        {
+            // Not electric type, no energy to extract.
+            if (!this.pokemob.isType(PokeType.getType("electric"))) return false;
+
             final MobEntity living = this.pokemob.getEntity();
-            final int spAtk = this.pokemob.getStat(Stats.SPATTACK, true);
-            final int atk = this.pokemob.getStat(Stats.ATTACK, true);
-            final int level = this.pokemob.getLevel();
-            final int maxEnergy = EnergyHandler.getMaxEnergy(level, spAtk, atk, this.pokemob.getPokedexEntry());
-            int pokeEnergy = maxEnergy;
-            int dE;
-            final long energyTime = living.getEntityWorld().getGameTime();
-            if (living.getPersistentData().contains("energyRemaining"))
+            // We will update our energy when this is called, as that
+            if (living.getEntityWorld().getGameTime() != this.lastTickCheck)
             {
-                final long time = living.getPersistentData().getLong("energyTime");
-                if (energyTime != time) pokeEnergy = maxEnergy;
-                else pokeEnergy = living.getPersistentData().getInt("energyRemaining");
-            }
-            dE = maxEnergy;
-            dE = Math.min(dE, power);
-            if (!simulate)
-            {
-                living.getPersistentData().putLong("energyTime", energyTime);
-                living.getPersistentData().putInt("energyRemaining", pokeEnergy - dE);
-                int drain = 0;
-                if (pokeEnergy - dE < 0) drain = dE - pokeEnergy;
-                if (living.ticksExisted % 2 == 0)
+                this.lastTickCheck = living.getEntityWorld().getGameTime();
+                final int spAtk = this.pokemob.getStat(Stats.SPATTACK, true);
+                final int atk = this.pokemob.getStat(Stats.ATTACK, true);
+                final int level = this.pokemob.getLevel();
+                this.capacity = EnergyHandler.getMaxEnergy(level, spAtk, atk, this.pokemob.getPokedexEntry());
+                this.energy = living.getPersistentData().getInt("pokecube:energy");
+                final int dE = this.capacity - this.energy;
+                this.maxReceive = this.capacity / 5;
+                this.maxExtract = this.capacity;
+                final double regen = Math.min(this.capacity / 10d, dE) / this.capacity;
+                if (dE > 0)
                 {
-                    final int time = this.pokemob.getHungerTime();
-                    this.pokemob.setHungerTime(time + Config.instance.energyHungerCost + drain
-                            * Config.instance.energyHungerCost);
+                    this.energy += dE;
+                    this.pokemob.applyHunger((int) (Config.instance.energyHungerCost + regen
+                            * Config.instance.energyHungerCost));
+                    living.getPersistentData().putInt("pokecube:energy", this.energy);
                 }
             }
-            return dE;
+            return true;
         }
     }
 

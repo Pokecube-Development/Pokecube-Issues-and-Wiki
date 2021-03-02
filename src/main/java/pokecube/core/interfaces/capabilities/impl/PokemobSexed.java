@@ -160,8 +160,8 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         if (this.getSexe() == IPokemob.MALE || male.getSexe() == IPokemob.FEMALE && male != this) return;
         if (male == null || !mate.getEntity().isAlive()) return;
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 2;
-        mate.setHungerTime(mate.getHungerTime() + hungerValue);
-        this.setHungerTime(this.getHungerTime() + hungerValue);
+        mate.applyHunger(hungerValue);
+        this.applyHunger(hungerValue);
         male.resetLoveStatus();
         BrainUtils.deagro(this.getEntity());
         BrainUtils.deagro(mate.getEntity());

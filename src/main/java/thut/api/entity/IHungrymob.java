@@ -20,37 +20,37 @@ public interface IHungrymob
      * @param e
      */
     @Nullable
-    public <T> T eat(@Nonnull T e);
+    <T> T eat(@Nonnull T e);
 
     /** Mob eats berries */
-    public boolean eatsBerries();
+    boolean eatsBerries();
 
     /** Mob eats from being in water */
-    public boolean filterFeeder();
+    boolean filterFeeder();
 
     /**
      * @return Cooldown time between looking for meal, will only look if this
      *         is less than or equal to 0
      */
-    public int getHungerCooldown();
+    int getHungerCooldown();
 
     /** @return Time since last meal */
-    public int getHungerTime();
+    int getHungerTime();
 
     /** Mob eats other mobs */
-    public boolean isCarnivore();
+    boolean isCarnivore();
 
     /** Mob eats electricity */
-    public boolean isElectrotroph();
+    boolean isElectrotroph();
 
     /** Mob eats plants (grass, flowers, etc) */
-    public boolean isHerbivore();
+    boolean isHerbivore();
 
     /** Mob eats rock */
-    public boolean isLithotroph();
+    boolean isLithotroph();
 
     /** Mob eats light */
-    public boolean isPhototroph();
+    boolean isPhototroph();
 
     /**
      * returns true if the mob is not actually a hungry mob, but uses the
@@ -58,7 +58,7 @@ public interface IHungrymob
      *
      * @return
      */
-    public boolean neverHungry();
+    boolean neverHungry();
 
     /**
      * Called when the mob fails to eat the entity, this is often because it
@@ -66,19 +66,31 @@ public interface IHungrymob
      *
      * @param e
      */
-    public void noEat(Object e);
+    void noEat(Object e);
 
     /**
      * Sets the hungerCooldown
      *
      * @param hungerCooldown
      */
-    public void setHungerCooldown(int hungerCooldown);
+    void setHungerCooldown(int hungerCooldown);
 
     /**
      * sets time since last meal.
      *
      * @param hungerTime
      */
-    public void setHungerTime(int hungerTime);
+    void setHungerTime(int hungerTime);
+
+    /**
+     * Applies the amount to the hunger, this should be positive for things that
+     * make the mob more hungry, and negative for things that make it less
+     * hungry.
+     *
+     * @param amount
+     */
+    default void applyHunger(final int amount)
+    {
+        this.setHungerTime(this.getHungerTime() + amount);
+    }
 }

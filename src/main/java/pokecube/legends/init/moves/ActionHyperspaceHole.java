@@ -68,7 +68,7 @@ public class ActionHyperspaceHole implements IMoveAction
             if (state == null)
             {
                 message = new TranslationTextComponent("msg.hoopaportal.deny.invalid");
-                mob.setHungerTime(mob.getHungerTime() + count);
+                mob.applyHunger(count);
             }
             else
             {
@@ -77,7 +77,7 @@ public class ActionHyperspaceHole implements IMoveAction
                 final TileEntity tile = world.getTileEntity(prevPos.up());
                 if (tile instanceof RingTile) ((RingTile) tile).despawns = true;
                 message = new TranslationTextComponent("msg.hoopaportal.accept.info");
-                mob.setHungerTime(mob.getHungerTime() + count);
+                mob.applyHunger(count);
             }
             owner.sendMessage(message, Util.DUMMY_UUID);
             return true;
