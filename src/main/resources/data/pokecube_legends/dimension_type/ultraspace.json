@@ -2,7 +2,7 @@
   "has_raids": false,
   "logical_height": 256,
   "infiniburn": "minecraft:infiniburn_overworld",
-  "effects": "minecraft:the_end",
+  "effects": "minecraft:the_nether",
   "ambient_light": 0,
   "piglin_safe": false,
   "bed_works": true,
