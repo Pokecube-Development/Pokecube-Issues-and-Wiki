@@ -44,6 +44,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
 import thut.api.entity.BreedableCaps;
@@ -321,6 +322,7 @@ public class ThutCore
         LinkableCaps.setup();
         ShearableCaps.setup();
         BreedableCaps.setup();
+        AnimatedCaps.setup();
 
         // Register terrain capabilies
         CapabilityManager.INSTANCE.register(CapabilityTerrain.ITerrainProvider.class, new CapabilityTerrain.Storage(),

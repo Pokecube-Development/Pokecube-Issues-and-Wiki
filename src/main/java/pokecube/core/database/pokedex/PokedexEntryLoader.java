@@ -5,8 +5,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
@@ -39,6 +37,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -89,14 +88,40 @@ public class PokedexEntryLoader
     public static class BodyNode
     {
         public List<BodyPart> parts = Lists.newArrayList();
+
+        public void onLoad()
+        {
+            this.parts.forEach(p -> p.onLoad());
+        }
     }
 
-    @XmlRootElement(name = "PART")
     public static class BodyPart
     {
         public String name;
         public String offset;
-        public String dimensions;
+        public String size;
+
+        public String ride;
+
+        public Vector3d __pos__;
+        public Vector3d __size__;
+        public Vector3d __ride__;
+
+        public void onLoad()
+        {
+            String[] args = this.offset.split(",");
+            this.__pos__ = new Vector3d(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(
+                    args[2]));
+            args = this.size.split(",");
+            this.__size__ = new Vector3d(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(
+                    args[2]));
+            if (this.ride != null)
+            {
+                args = this.ride.split(",");
+                this.__ride__ = new Vector3d(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double
+                        .parseDouble(args[2]));
+            }
+        }
     }
 
     @XmlRootElement(name = "Drop")
@@ -531,7 +556,7 @@ public class PokedexEntryLoader
 
         public String ridden_offsets = "0.75";
 
-        public BodyNode body;
+        public Map<String, BodyNode> poseShapes = Maps.newHashMap();
 
         public DefaultFormeHolder model        = null;
         public DefaultFormeHolder male_model   = null;
@@ -858,15 +883,6 @@ public class PokedexEntryLoader
         if (xmlStats.prey != null) entry.food = xmlStats.prey.trim().split(" ");
     }
 
-    public static PokemobsJson loadDatabase(final InputStream stream, final boolean json) throws Exception
-    {
-        PokemobsJson database = null;
-        final InputStreamReader reader = new InputStreamReader(stream);
-        database = PokedexEntryLoader.gson.fromJson(reader, PokemobsJson.class);
-        reader.close();
-        return database;
-    }
-
     public static void updateEntry(final PokedexEntry entry)
     {
         PokemobsDatabases.load();
@@ -880,6 +896,13 @@ public class PokedexEntryLoader
             PokedexEntryLoader.updateEntry(xmlEntry, false);
             return;
         }
+    }
+
+    public static void onReloaded()
+    {
+        PokemobsDatabases.load();
+        for (final XMLPokedexEntry xmlEntry : PokemobsDatabases.compound.pokemon)
+            PokedexEntryLoader.updateEntry(xmlEntry, false);
     }
 
     public static void makeEntries(final boolean create)
@@ -1171,7 +1194,6 @@ public class PokedexEntryLoader
         {
             PokecubeCore.LOGGER.error("Error with " + xmlEntry + " entry? " + entry, e);
         }
-
     }
 
     public static void updateEntry(final XMLPokedexEntry xmlEntry, final boolean init)
@@ -1181,6 +1203,14 @@ public class PokedexEntryLoader
         final String name = xmlEntry.name;
         final PokedexEntry entry = Database.getEntry(name);
         entry.modelExt = xmlEntry.modelType;
+
+        entry.poseShapes = null;
+
+        if (xmlEntry.poseShapes != null && !xmlEntry.poseShapes.isEmpty())
+        {
+            xmlEntry.poseShapes.forEach((s, n) -> n.onLoad());
+            entry.poseShapes = xmlEntry.poseShapes;
+        }
 
         entry.setMega(xmlEntry.mega != null && xmlEntry.mega);
         entry.setGMax(xmlEntry.gmax != null && xmlEntry.gmax);

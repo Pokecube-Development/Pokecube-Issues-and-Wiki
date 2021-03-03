@@ -453,7 +453,7 @@ public class PokemobEventsHandler
                     .getRidingEntity()) != null)
             {
                 final LivingEntity ridden = (LivingEntity) player.getRidingEntity();
-                EntityTools.copyEntityTransforms(ridden, player);
+                EntityTools.copyRotations(ridden, player);
             }
     }
 

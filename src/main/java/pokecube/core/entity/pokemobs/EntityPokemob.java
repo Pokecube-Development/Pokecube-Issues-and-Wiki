@@ -53,7 +53,7 @@ import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.SpawnBiomeMatcher;
-import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
+import pokecube.core.entity.pokemobs.helper.PokemobRidable;
 import pokecube.core.events.pokemob.FaintEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
@@ -77,7 +77,7 @@ import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
-public class EntityPokemob extends PokemobHasParts
+public class EntityPokemob extends PokemobRidable
 {
     static ResourceLocation WALL_CLIMBERS = new ResourceLocation(PokecubeMod.ID, "wall_climbing");
 
@@ -219,7 +219,7 @@ public class EntityPokemob extends PokemobHasParts
             float strafe = livingentity.moveStrafing * 0.5F;
             float forwards = livingentity.moveForward;
             if (forwards <= 0.0F) forwards *= 0.25F;
-            if (this.onGround && this.jumpPower == 0.0F)
+            if (!this.onGround && this.jumpPower == 0.0F)
             {
                 strafe = 0.0F;
                 forwards = 0.0F;

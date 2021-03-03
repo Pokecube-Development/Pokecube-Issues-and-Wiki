@@ -90,6 +90,8 @@ public class PacketPokedex extends Packet
 
     public static Set<PokedexEntry> haveConditions = Sets.newHashSet();
 
+    public static Set<PokedexEntry> noBreeding = Sets.newHashSet();
+
     public static boolean repelled = false;
 
     @OnlyIn(value = Dist.CLIENT)
@@ -243,6 +245,10 @@ public class PacketPokedex extends Packet
         for (final PokedexEntry e : ISpecialCaptureCondition.captureMap.keySet())
             legends.add(StringNBT.valueOf(e.getTrimmedName()));
         message.data.put("legends", legends);
+        final ListNBT no_breed = new ListNBT();
+        for (final PokedexEntry e : Database.getSortedFormes())
+            if (!e.breeds) no_breed.add(StringNBT.valueOf(e.getTrimmedName()));
+        message.data.put("no_breed", no_breed);
         PokecubeCore.packets.sendTo(message, target);
     }
 
@@ -356,6 +362,13 @@ public class PacketPokedex extends Packet
             {
                 final PokedexEntry p = Database.getEntry(legends.getString(i));
                 if (p != null) PacketPokedex.haveConditions.add(p);
+            }
+            PacketPokedex.noBreeding.clear();
+            final ListNBT no_breed = this.data.getList("no_breed", 8);
+            for (int i = 0; i < no_breed.size(); i++)
+            {
+                final PokedexEntry p = Database.getEntry(no_breed.getString(i));
+                if (p != null) PacketPokedex.noBreeding.add(p);
             }
             return;
         }

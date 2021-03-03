@@ -1,5 +1,7 @@
 package pokecube.core.database.pokedex;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +27,7 @@ public class PokemobsDatabases
         final List<PokemobsJson> allFound = Lists.newArrayList();
 
         PokemobsDatabases.compound.pokemon.clear();
+        PokemobsDatabases.compound.__map__.clear();
 
         for (final String path : PokemobsDatabases.DATABASES)
         {
@@ -35,8 +38,8 @@ public class PokemobsDatabases
             {
                 try
                 {
-                    final PokemobsJson database = PokedexEntryLoader.loadDatabase(Database.resourceManager.getResource(
-                            l).getInputStream(), true);
+                    final PokemobsJson database = PokemobsDatabases.loadDatabase(Database.resourceManager.getResource(l)
+                            .getInputStream());
                     if (database != null)
                     {
                         database.pokemon.forEach(e -> e.name = ThutCore.trim(e.name));
@@ -49,7 +52,7 @@ public class PokemobsDatabases
                                 allHere = allHere || ModList.get().isLoaded(s);
                             if (!allHere) return;
                         }
-                        PokecubeCore.LOGGER.info(l);
+                        PokecubeCore.LOGGER.debug("Loaded Database File: {}, entries: {}", l, database.pokemon.size());
                         allFound.add(database);
                     }
                 }
@@ -79,6 +82,15 @@ public class PokemobsDatabases
                 }
             n++;
         }
+    }
+
+    private static PokemobsJson loadDatabase(final InputStream stream) throws Exception
+    {
+        PokemobsJson database = null;
+        final InputStreamReader reader = new InputStreamReader(stream);
+        database = PokedexEntryLoader.gson.fromJson(reader, PokemobsJson.class);
+        reader.close();
+        return database;
     }
 
     public static void preInitLoad()

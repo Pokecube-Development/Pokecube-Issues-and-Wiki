@@ -54,6 +54,7 @@ import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Action;
+import pokecube.core.database.pokedex.PokedexEntryLoader.BodyNode;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Evolution;
@@ -1108,6 +1109,8 @@ public class PokedexEntry
     public ResourceLocation texture   = PokedexEntry.TEXNO;
     public ResourceLocation animation = PokedexEntry.ANIMNO;
 
+    public Map<String, BodyNode> poseShapes = null;
+
     // Here we have things that need to wait until loaded for initialization, so
     // we cache them.
     public List<Interact>    _loaded_interactions = Lists.newArrayList();
@@ -1206,7 +1209,7 @@ public class PokedexEntry
         if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
 
-        if (this.lootTable == null) PokecubeCore.LOGGER.debug("Missing loot table for {}", this.getTrimmedName());
+        if (this.isMega() || this.isGMax()) this.breeds = false;
 
         if (this._forme_items != null)
         {
@@ -1297,8 +1300,6 @@ public class PokedexEntry
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
             }
         }
-
-        // Sync values to gender based formes as well
         this.copyToGenderFormes();
     }
 
@@ -1908,8 +1909,6 @@ public class PokedexEntry
             PokedexEntry.addFromEvolution(temp, this);
         }
         final Set<String> ourTags = Tags.BREEDING.lookupTags(this.getTrimmedName());
-        if (ourTags.isEmpty() && Tags.BREEDING.validLoad) PokecubeCore.LOGGER.debug("No egg group assigned for {}", this
-                .getTrimmedName());
         entries:
         for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries())
         {

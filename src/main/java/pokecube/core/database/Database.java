@@ -814,13 +814,21 @@ public class Database
         // don't want to do anything here.
         if (!Database.listener.loaded) return;
 
+        long time = System.nanoTime();
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
         StructureSpawnPresetLoader.loadDatabase();
+
+        long dt = System.nanoTime() - time;
+        PokecubeCore.LOGGER.debug("Resource Stage 1: {}s", dt / 1e9d);
+
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;
+        time = System.nanoTime();
+        // Reload the database incase things are adjusted
+        PokedexEntryLoader.onReloaded();
 
         PokedexInspector.rewards.clear();
         XMLRewardsHandler.loadedRecipes.clear();
@@ -835,6 +843,7 @@ public class Database
             p._childNb = null;
             p.noItemForm = null;
         }
+
         /** Initialize relations, prey, children. */
         for (final PokedexEntry p : Database.allFormes)
             p.initRelations();
@@ -843,11 +852,26 @@ public class Database
         // Children last, as relies on relations.
         for (final PokedexEntry p : Database.allFormes)
             p.getChild();
-
+        // Final setup of things
         for (final PokedexEntry entry : Database.getSortedFormes())
             entry.onResourcesReloaded();
+
+        // Some debug messages
+        for (final PokedexEntry entry : Database.getSortedFormes())
+        {
+            final Set<String> ourTags = Tags.BREEDING.lookupTags(entry.getTrimmedName());
+            if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty()) PokecubeCore.LOGGER.debug(
+                    "No egg group assigned for {}", entry.getTrimmedName());
+        }
+        for (final PokedexEntry entry : Database.getSortedFormes())
+            if (entry.lootTable == null && !(entry.isMega() || entry.isGMax())) PokecubeCore.LOGGER.debug(
+                    "Missing loot table for {}", entry.getTrimmedName());
+
         // This gets re-set to true if listener hears a reload
         Database.listener.loaded = false;
+
+        dt = System.nanoTime() - time;
+        PokecubeCore.LOGGER.debug("Resource Stage 2: {}s", dt / 1e9d);
     }
 
     /**

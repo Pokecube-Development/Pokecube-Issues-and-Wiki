@@ -23,6 +23,7 @@ public class CommandManager
         Count.register(command);
         Restore.register(command);
         Reset.register(command);
+        Reload.register(command);
 
         commandDispatcher.register(command);
         TM.register(commandDispatcher);

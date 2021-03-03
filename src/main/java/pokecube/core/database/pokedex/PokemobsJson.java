@@ -34,7 +34,6 @@ public class PokemobsJson implements Comparable<PokemobsJson>
         if (this.__map__.containsKey(toAdd.name)) this.pokemon.remove(this.__map__.remove(toAdd.name));
         this.__map__.put(toAdd.name, toAdd);
         this.pokemon.add(toAdd);
-
         this.pokemon.removeIf(value ->
         {
             if (value.number == null)
@@ -52,7 +51,6 @@ public class PokemobsJson implements Comparable<PokemobsJson>
             }
             return false;
         });
-
         Collections.sort(this.pokemon, PokedexEntryLoader.ENTRYSORTER);
     }
 

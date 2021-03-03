@@ -24,26 +24,20 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder.TexColours;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
-import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.TextureableCaps.PokemobCap;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import pokecube.core.moves.MovesUtils;
+import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
+import thut.api.entity.IAnimated;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
@@ -158,17 +152,6 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         public Vector3                          scale      = Vector3.getNewVector();
         ResourceLocation                        texture;
         PokedexEntry                            entry;
-        // Used to check if it has a custom sleeping animation.
-        private boolean checkedForContactAttack   = false;
-        private boolean hasContactAttackAnimation = false;
-
-        // Used to check if it has a custom sleeping animation.
-        private boolean checkedForRangedAttack   = false;
-        private boolean hasRangedAttackAnimation = false;
-
-        // Used to check if it has a custom sleeping animation.
-        private boolean checkedForDead   = false;
-        private boolean hasDeadAnimation = false;
 
         public boolean reload       = false;
         public boolean overrideAnim = false;
@@ -298,92 +281,11 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         private String getPhase(final MobEntity entity, final IPokemob pokemob)
         {
             if (!this.wrapper.isLoaded()) return "not_loaded_yet!";
-            String phase = "idle";
+            final String phase = "idle";
             if (this.model == null || pokemob == null) return phase;
-            final Vector3d velocity = entity.getMotion();
-            final float dStep = entity.limbSwingAmount - entity.prevLimbSwingAmount;
-            final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
-            final float stationary = 0.00001f;
-            final boolean asleep = pokemob.getStatus() == IMoveConstants.STATUS_SLP || pokemob.getLogicState(
-                    LogicStates.SLEEPING);
-
-            if (!this.checkedForContactAttack)
-            {
-                this.hasContactAttackAnimation = this.hasAnimation("attack_contact", entity);
-                this.checkedForContactAttack = true;
-            }
-            if (!this.checkedForRangedAttack)
-            {
-                this.hasRangedAttackAnimation = this.hasAnimation("attack_ranged", entity);
-                this.checkedForRangedAttack = true;
-            }
-            if (!this.checkedForDead)
-            {
-                this.hasDeadAnimation = this.hasAnimation("dead", entity);
-                this.checkedForDead = true;
-            }
-
-            if (entity.deathTime > 0) return this.hasDeadAnimation ? "dead" : phase;
-            if (pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
-            {
-                final int index = pokemob.getMoveIndex();
-                Move_Base move;
-                if (index < 4 && (move = MovesUtils.getMoveFromName(pokemob.getMove(index))) != null)
-                {
-                    if (this.hasContactAttackAnimation && (move.getAttackCategory()
-                            & IMoveConstants.CATEGORY_CONTACT) > 0)
-                    {
-                        phase = "attack_contact";
-                        return phase;
-                    }
-                    if (this.hasRangedAttackAnimation && (move.getAttackCategory()
-                            & IMoveConstants.CATEGORY_DISTANCE) > 0)
-                    {
-                        phase = "attack_ranged";
-                        return phase;
-                    }
-                }
-            }
-
-            for (final LogicStates state : LogicStates.values())
-            {
-                final String anim = ThutCore.trim(state.toString());
-                if (pokemob.getLogicState(state) && this.hasAnimation(anim, entity)) return anim;
-            }
-
-            BlockPos pos;
-            final boolean flying = !entity.isOnGround() && !(entity.getPosY() - (int) entity.getPosY() < 0.01f && entity
-                    .getEntityWorld().getBlockState(pos = entity.getPosition().down()).isTopSolid(entity
-                            .getEntityWorld(), pos, entity, Direction.UP));
-            final boolean walking = entity.isOnGround() && walkspeed > stationary;
-            final boolean swimming = entity.isInWater();
-
-            if (asleep && this.hasAnimation("sleeping", entity))
-            {
-                phase = "sleeping";
-                return phase;
-            }
-            if (flying && this.hasAnimation("flying", entity))
-            {
-                phase = "flying";
-                return phase;
-            }
-            if (swimming && this.hasAnimation("swimming", entity))
-            {
-                phase = "swimming";
-                return phase;
-            }
-            if (walking && this.hasAnimation("walking", entity))
-            {
-                phase = "walking";
-                return phase;
-            }
-
-            for (final CombatStates state : CombatStates.values())
-            {
-                final String anim = ThutCore.trim(state.toString());
-                if (pokemob.getCombatState(state) && this.hasAnimation(anim, entity)) return anim;
-            }
+            final IAnimated anims = AnimatedCaps.getAnimated(entity);
+            for (final String s : anims.getChoices())
+                if (this.hasAnimation(s, entity)) return s;
             return phase;
         }
 
