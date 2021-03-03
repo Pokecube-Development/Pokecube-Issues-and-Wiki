@@ -1,6 +1,6 @@
 package pokecube.core.items.megastuff;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -24,7 +24,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
 
     public static interface RingChecker
     {
-        boolean canMegaEvolve(PlayerEntity player, PokedexEntry toEvolve);
+        boolean canMegaEvolve(LivingEntity player, PokedexEntry toEvolve);
     }
 
     public static RingChecker checker = (player, toEvolve) ->
@@ -35,7 +35,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
         return false;
     };
 
-    public static boolean canMegaEvolve(final PlayerEntity player, final IPokemob target)
+    public static boolean canMegaEvolve(final LivingEntity player, final IPokemob target)
     {
         final PokedexEntry entry = target.getPokedexEntry();
         return MegaCapability.checker.canMegaEvolve(player, entry);

@@ -43,10 +43,10 @@ public class Commander extends Screen
     }
 
     @Override
-    public void render(final MatrixStack mat,final int a, final int b, final float c)
+    public void render(final MatrixStack mat, final int a, final int b, final float c)
     {
         this.renderBackground(mat);
-        super.render(mat,a, b, c);
+        super.render(mat, a, b, c);
     }
 
     @Override
@@ -60,29 +60,33 @@ public class Commander extends Screen
         final List<String> names = Lists.newArrayList();
         for (final Command command : types)
             names.add(command.name());
-        names.add("");
 
-        this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 85, 20, 20, new StringTextComponent("\u25b2"), b ->
-        {
-            if (this.index < names.size() - 1) this.index++;
-            else this.index = 0;
-            this.command.setText(names.get(this.index));
-        }));
+        this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 85, 20, 20,
+                new StringTextComponent("\u25b2"), b ->
+                {
+                    if (this.index < names.size() - 1) this.index++;
+                    else this.index = 0;
+                    this.command.setText(names.get(this.index));
+                }));
 
-        this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 65, 20, 20, new StringTextComponent("\u25bc"), b ->
-        {
-            if (this.index > 0) this.index--;
-            else this.index = names.size() - 1;
-            this.command.setText(names.get(this.index));
-        }));
+        this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 65, 20, 20,
+                new StringTextComponent("\u25bc"), b ->
+                {
+                    if (this.index > 0) this.index--;
+                    else this.index = names.size() - 1;
+                    this.command.setText(names.get(this.index));
+                }));
 
-        this.command = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 20 + yOffset, 100, 10,new StringTextComponent( ""));
-        this.command.setText(this.tile.getCommand() == null ? "" : "" + this.tile.getCommand());
+        this.command = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 74 + yOffset, 100, 10,
+                new StringTextComponent(""));
+        final String init = this.tile.getCommand() == null ? "ATTACKLOCATION" : "" + this.tile.getCommand();
+        this.command.setText(init);
 
         for (this.index = 0; this.index < names.size(); this.index++)
-            if (this.command.getText().equals(names.get(this.index))) break;
+            if (init.equals(names.get(this.index))) break;
 
-        this.args = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 40 + yOffset, 100, 10, new StringTextComponent(""));
+        this.args = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 94 + yOffset, 100, 10,
+                new StringTextComponent(""));
         this.args.setText(this.tile.args);
 
         this.addButton(this.command);
