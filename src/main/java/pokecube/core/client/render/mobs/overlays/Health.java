@@ -27,6 +27,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.entity.PartEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.database.PokedexEntry;
@@ -35,7 +36,6 @@ import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Tools;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -122,7 +122,6 @@ public class Health
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null || !entity.addedToChunk || !pokemob.getPokedexEntry().stock) return;
         if (entity.getDistance(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
-        final PokedexEntry entry = pokemob.getPokedexEntry();
         final Config config = PokecubeCore.getConfig();
         final Minecraft mc = Minecraft.getInstance();
         final EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
@@ -157,8 +156,15 @@ public class Health
 
             if (maxHealth <= 0) break processing;
 
-            final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? config.dynamax_scale
-                    : entry.height * pokemob.getSize();
+            double dy = entity.getHeight();
+
+            if (entity.isMultipartEntity())
+            {
+                dy = 0;
+                for (final PartEntity<?> part : entity.getParts())
+                    dy = Math.max(dy, part.getHeight() + part.getPosY() - entity.getPosY());
+            }
+
             mat.translate(0, dy + config.heightAbove, 0);
             Quaternion quaternion;
             quaternion = viewer.getRotation();

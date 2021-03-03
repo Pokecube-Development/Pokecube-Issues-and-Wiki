@@ -230,7 +230,7 @@ public class EntityMoveUse extends ThrowableEntity
         final Move_Base attack = this.getMove();
         final Entity user = this.getUser();
         final LivingEntity living = EntityTools.getCoreLiving(target);
-        if (!this.valid.test(target) || living == null) return;
+        if (!this.valid.test(target) || living == null || !target.canBeCollidedWith()) return;
         if (user == null || !this.isAlive() || !user.isAlive()) return;
         // We only want to hit living entities, but non-living ones can be
         // detected as parts of other mobs, like ender dragons.

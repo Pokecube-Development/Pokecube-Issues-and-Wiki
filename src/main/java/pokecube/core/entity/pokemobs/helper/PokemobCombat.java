@@ -22,12 +22,6 @@ public abstract class PokemobCombat extends PokemobBase
     }
 
     @Override
-    public boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount)
-    {
-        return this.attackEntityFrom(source, amount);
-    }
-
-    @Override
     public boolean isInvulnerableTo(final DamageSource source)
     {
         // Check type effectiveness for damage sources.

@@ -285,7 +285,6 @@ public class EventsHandlerClient
         else GuiDisplayPokecubeInfo.instance().pokemobBack();
         if (ClientSetupHandler.mobAttack.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobAttack();
         if (ClientSetupHandler.mobStance.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobStance();
-
         if (ClientSetupHandler.mobMove1.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(0);
         if (ClientSetupHandler.mobMove2.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(1);
         if (ClientSetupHandler.mobMove3.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(2);

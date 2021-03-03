@@ -210,18 +210,25 @@ public class PokemobEventsHandler
         }
         // was not from the hive, so exit
         if (!fromHive) return;
-        // not loaded, definitely not a bee leaving hive
-        if (!world.isAreaLoaded(pos.getPos(), 0)) return;
-        final TileEntity tile = world.getTileEntity(pos.getPos());
-        // No tile entity here? also not a bee leaving hive!
-        if (tile == null) return;
-        // Not the same class, so return as well.
-        if (tile.getClass() != c) return;
-        final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
-        // Not a habitat, so not going to be a bee leaving a hive
-        if (habitat == null) return;
-        habitat.onExitHabitat(mob);
-        inhabitor.onExitHabitat();
+        final Class<?> clss = c;
+        // from here down, schedule for end of tick, incase things happen
+        // related to block placement, etc
+        EventsHandler.Schedule(world, w ->
+        {
+            // not loaded, definitely not a bee leaving hive
+            if (!world.isAreaLoaded(pos.getPos(), 0)) return true;
+            final TileEntity tile = world.getTileEntity(pos.getPos());
+            // No tile entity here? also not a bee leaving hive!
+            if (tile == null) return true;
+            // Not the same class, so return as well.
+            if (tile.getClass() != clss) return true;
+            final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+            // Not a habitat, so not going to be a bee leaving a hive
+            if (habitat == null) return true;
+            habitat.onExitHabitat(mob);
+            inhabitor.onExitHabitat();
+            return true;
+        });
     }
 
     private static void onLivingDrops(final LivingDropsEvent event)
