@@ -843,6 +843,7 @@ public class Database
             p._childNb = null;
             p.noItemForm = null;
         }
+
         /** Initialize relations, prey, children. */
         for (final PokedexEntry p : Database.allFormes)
             p.initRelations();
@@ -851,9 +852,21 @@ public class Database
         // Children last, as relies on relations.
         for (final PokedexEntry p : Database.allFormes)
             p.getChild();
-
+        // Final setup of things
         for (final PokedexEntry entry : Database.getSortedFormes())
             entry.onResourcesReloaded();
+
+        // Some debug messages
+        for (final PokedexEntry entry : Database.getSortedFormes())
+        {
+            final Set<String> ourTags = Tags.BREEDING.lookupTags(entry.getTrimmedName());
+            if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty()) PokecubeCore.LOGGER.debug(
+                    "No egg group assigned for {}", entry.getTrimmedName());
+        }
+        for (final PokedexEntry entry : Database.getSortedFormes())
+            if (entry.lootTable == null && !(entry.isMega() || entry.isGMax())) PokecubeCore.LOGGER.debug(
+                    "Missing loot table for {}", entry.getTrimmedName());
+
         // This gets re-set to true if listener hears a reload
         Database.listener.loaded = false;
 

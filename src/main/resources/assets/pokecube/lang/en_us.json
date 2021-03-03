@@ -541,6 +541,9 @@
     "pokecube.command.checkreward": "Does %1$s have %2$s: %3$s.",
     "pokecube.command.resetreward": "Reset %2$s for %1$s.",
 
+    "pokecube.command.reloading_packs.start": "Starting reloading Pokecube Datapacks!",
+    "pokecube.command.reloading_packs.end": "Reload Complete",
+
     "_comment": "Misc",
     
     "biome.pokecube.secret_base": "Secret Base"

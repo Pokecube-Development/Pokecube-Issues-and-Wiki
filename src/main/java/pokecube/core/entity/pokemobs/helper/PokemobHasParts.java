@@ -13,8 +13,11 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
@@ -39,6 +42,8 @@ public abstract class PokemobHasParts extends PokemobCombat
     final Matrix3f rot = new Matrix3f();
     final Vector3f r   = new Vector3f();
 
+    int update_tick = 0;
+
     String effective_pose;
 
     Map<String, PokemobPart[]> partMap = Maps.newHashMap();
@@ -46,6 +51,7 @@ public abstract class PokemobHasParts extends PokemobCombat
     public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
         super(type, worldIn);
+        this.effective_pose = "";
         this.initSizes(1);
     }
 
@@ -75,8 +81,6 @@ public abstract class PokemobHasParts extends PokemobCombat
 
     protected void initSizes(final float size)
     {
-        if (size == this.last_size) return;
-        this.last_size = size;
         final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
 
         if (entry.poseShapes != null)
@@ -156,7 +160,30 @@ public abstract class PokemobHasParts extends PokemobCombat
         // lookup finds the parts at all for things like projectile impact
         // calculations.
         this.size = EntitySize.fixed(Math.max(width, length), height);
+        final boolean first = this.firstUpdate;
+        this.firstUpdate = true;
         this.recalculateSize();
+        this.firstUpdate = first;
+    }
+
+    @Override
+    public void recalculateSize()
+    {
+        if (!this.isMultipartEntity())
+        {
+            super.recalculateSize();
+            return;
+        }
+        final EntitySize entitysize = this.size;
+        final Pose pose = this.getPose();
+        final net.minecraftforge.event.entity.EntityEvent.Size sizeEvent = net.minecraftforge.event.ForgeEventFactory
+                .getEntitySizeForge(this, pose, this.getSize(pose), this.getEyeHeight(pose, entitysize));
+        final EntitySize entitysize1 = sizeEvent.getNewSize();
+        this.size = entitysize1;
+        this.eyeHeight = sizeEvent.getNewEyeHeight();
+        final double d0 = entitysize1.width / 2.0D;
+        this.setBoundingBox(new AxisAlignedBB(this.getPosX() - d0, this.getPosY(), this.getPosZ() - d0, this.getPosX()
+                + d0, this.getPosY() + entitysize1.height, this.getPosZ() + d0));
     }
 
     @Override
@@ -170,7 +197,11 @@ public abstract class PokemobHasParts extends PokemobCombat
     {
         // This only does something complex if the parts have changed, otherwise
         // it just ensures their locations are synced to us.
-        this.updatePartsPos();
+        if (this.update_tick != this.ticksExisted)
+        {
+            this.update_tick = this.ticksExisted;
+            this.updatePartsPos();
+        }
         return this.parts;
     }
 
@@ -242,7 +273,7 @@ public abstract class PokemobHasParts extends PokemobCombat
             this.r.set((float) v.getX(), (float) v.getY(), (float) v.getZ());
             final Vector3d dr = new Vector3d(this.r.x - this.lastTickPosX, this.r.y - this.lastTickPosY, this.r.z
                     - this.lastTickPosZ);
-            this.rot.rotY((float) Math.toRadians(180 - this.rotationYaw));
+            this.rot.rotY((float) Math.toRadians(180 - this.renderYawOffset));
             for (final PokemobPart p : this.parts)
                 p.update(this.rot, this.r, dr);
         }
@@ -258,10 +289,24 @@ public abstract class PokemobHasParts extends PokemobCombat
         }
         final EntitySize backup = this.size;
         this.size = new EntitySize(this.colWidth, this.colHeight, true);
+
+        final boolean first = this.firstUpdate;
+        this.firstUpdate = true;
         this.recalculateSize();
+        this.firstUpdate = first;
         super.move(typeIn, pos);
+
+        final BlockPos down = this.getPositionUnderneath();
+        final VoxelShape s = this.world.getBlockState(down).getCollisionShape(this.world, down).withOffset(down.getX(),
+                down.getY(), down.getZ());
+        final double tol = -1e-3;
+        final double d = s.getAllowedOffset(Axis.Y, this.getBoundingBox(), tol);
+        if (d != tol) this.setOnGround(true);
+
         this.size = backup;
+        this.firstUpdate = true;
         this.recalculateSize();
+        this.firstUpdate = first;
     }
 
     @Override

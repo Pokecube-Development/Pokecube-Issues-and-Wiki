@@ -13,7 +13,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.moves.damage.PokemobDamageSource;
 
-public abstract class PokemobCombat extends PokemobRidable
+public abstract class PokemobCombat extends PokemobBase
 {
 
     public PokemobCombat(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)

@@ -101,8 +101,11 @@ public class PokedexEntryLoader
         public String offset;
         public String size;
 
+        public String ride;
+
         public Vector3d __pos__;
         public Vector3d __size__;
+        public Vector3d __ride__;
 
         public void onLoad()
         {
@@ -112,6 +115,12 @@ public class PokedexEntryLoader
             args = this.size.split(",");
             this.__size__ = new Vector3d(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(
                     args[2]));
+            if (this.ride != null)
+            {
+                args = this.ride.split(",");
+                this.__ride__ = new Vector3d(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double
+                        .parseDouble(args[2]));
+            }
         }
     }
 

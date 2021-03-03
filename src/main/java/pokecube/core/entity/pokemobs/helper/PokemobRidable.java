@@ -24,10 +24,13 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.pokedex.PokedexEntryLoader.BodyNode;
+import pokecube.core.database.pokedex.PokedexEntryLoader.BodyPart;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.maths.vecmath.Vector3f;
 
-public abstract class PokemobRidable extends PokemobBase implements IMultiplePassengerEntity, IJumpingMount, IEquipable
+public abstract class PokemobRidable extends PokemobHasParts implements IMultiplePassengerEntity, IJumpingMount,
+        IEquipable
 {
 
     public PokemobRidable(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
@@ -118,9 +121,9 @@ public abstract class PokemobRidable extends PokemobBase implements IMultiplePas
     @SuppressWarnings("unchecked")
     static final DataParameter<Seat>[] SEAT = new DataParameter[10];
 
-    private boolean      init      = false;
-    private PokedexEntry lastCheck = null;
-    protected int        seatCount = 0;
+    private boolean init      = false;
+    private String  lastPose  = "";
+    protected int   seatCount = 0;
 
     static
     {
@@ -190,26 +193,69 @@ public abstract class PokemobRidable extends PokemobBase implements IMultiplePas
         }
     }
 
+    @Override
+    protected void initSizes(final float size)
+    {
+        if (size == this.last_size) return;
+        this.last_size = size;
+        this.init = false;
+        this.initSeats();
+        super.initSizes(size);
+    }
+
+    @Override
+    protected void updatePartsPos()
+    {
+        super.updatePartsPos();
+        this.initSeats();
+    }
+
     protected void initSeats()
     {
         if (!(this.getEntityWorld() instanceof ServerWorld)) return;
-        if (this.init && this.lastCheck == this.pokemobCap.getPokedexEntry()) return;
-        this.lastCheck = this.pokemobCap.getPokedexEntry();
+        if (this.init && this.lastPose.equals(this.effective_pose)) return;
+        final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
+        this.lastPose = this.effective_pose;
         this.init = true;
-        this.seatCount = this.pokemobCap.getPokedexEntry().passengerOffsets.length;
-        for (int index = 0; index < this.seatCount; index++)
+        final List<BodyPart> bodySeats = Lists.newArrayList();
+        BodyNode body;
+        if (entry.poseShapes != null && (body = entry.poseShapes.get(this.lastPose)) != null)
+            for (final BodyPart part : body.parts)
+            if (part.__ride__ != null) bodySeats.add(part);
+        final float size = this.pokemobCap.getSize();
+        if (!bodySeats.isEmpty())
         {
-            final Vector3f seat = new Vector3f();
-            final double[] offset = this.pokemobCap.getPokedexEntry().passengerOffsets[index];
-            seat.x = (float) offset[0];
-            seat.y = (float) offset[1];
-            seat.z = (float) offset[2];
-            final float dx = this.pokemobCap.getPokedexEntry().width * this.pokemobCap.getSize(), dz = this.pokemobCap
-                    .getPokedexEntry().length * this.pokemobCap.getSize();
-            seat.x *= dx;
-            seat.y *= this.pokemobCap.getPokedexEntry().height * this.pokemobCap.getSize();
-            seat.z *= dz;
-            this.getSeat(index).seat = seat;
+            this.seatCount = bodySeats.size();
+            for (int index = 0; index < this.seatCount; index++)
+            {
+                final Vector3f seat = new Vector3f();
+                final BodyPart part = bodySeats.get(index);
+                seat.x = (float) (part.__pos__.x + part.__ride__.x) * size;
+                seat.y = (float) (part.__pos__.y + part.__ride__.y) * size;
+                seat.z = (float) (part.__pos__.z + part.__ride__.z) * size;
+                final Seat newSeat = (Seat) this.getSeat(index).clone();
+                newSeat.seat = seat;
+                this.dataManager.set(PokemobRidable.SEAT[index], newSeat);
+            }
+        }
+        else
+        {
+            this.seatCount = entry.passengerOffsets.length;
+            for (int index = 0; index < this.seatCount; index++)
+            {
+                final Vector3f seat = new Vector3f();
+                final double[] offset = entry.passengerOffsets[index];
+                seat.x = (float) offset[0];
+                seat.y = (float) offset[1];
+                seat.z = (float) offset[2];
+                final float dx = entry.width * size, dz = entry.length * size;
+                seat.x *= dx;
+                seat.y *= entry.height * size;
+                seat.z *= dz;
+                final Seat newSeat = (Seat) this.getSeat(index).clone();
+                newSeat.seat = seat;
+                this.dataManager.set(PokemobRidable.SEAT[index], newSeat);
+            }
         }
     }
 

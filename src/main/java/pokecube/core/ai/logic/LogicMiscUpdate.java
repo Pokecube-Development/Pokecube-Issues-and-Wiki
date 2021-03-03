@@ -102,6 +102,8 @@ public class LogicMiscUpdate extends LogicBase
     private long    dynatime    = -1;
     private boolean de_dyna     = false;
 
+    private int floatTimer = 0;
+
     private IStatsModifiers mods;
 
     boolean inCombat = false;
@@ -319,6 +321,9 @@ public class LogicMiscUpdate extends LogicBase
             this.mods.setModifier(stat, val);
         }
 
+        if (this.entity.isOnGround()) this.floatTimer = 0;
+        else this.floatTimer++;
+
         // Now some server only processing
         if (!world.isRemote)
         {
@@ -373,6 +378,9 @@ public class LogicMiscUpdate extends LogicBase
         }
         final int id = this.pokemob.getTargetID();
 
+        // This is used server side as well, for hitbox positions.
+        this.checkAnimationStates();
+
         final LivingEntity targ = BrainUtils.getAttackTarget(this.entity);
         if (this.entity.getEntityWorld() instanceof ServerWorld)
         {
@@ -391,8 +399,6 @@ public class LogicMiscUpdate extends LogicBase
                 .getEntity(world, id, false));
         if (id < 0 && targ != null) this.entity.setAttackTarget(null);
         if (targ != null && !targ.isAlive()) this.entity.setAttackTarget(null);
-
-        this.checkAnimationStates();
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = new Random();
@@ -523,7 +529,7 @@ public class LogicMiscUpdate extends LogicBase
         if (this.entity.deathTime > 0 || this.entity.getShouldBeDead()) next = Pose.DYING;
         else if (sleeping) next = Pose.SLEEPING;
         else if (this.entity.isInWater() || this.entity.isInLava()) next = Pose.SWIMMING;
-        else if (this.entity.isOnGround()) next = Pose.STANDING;
+        else if (this.floatTimer < 5) next = Pose.STANDING;
         else next = Pose.FALL_FLYING;
         if (next != old) this.entity.setPose(next);
     }
@@ -537,10 +543,10 @@ public class LogicMiscUpdate extends LogicBase
         final Vector3d velocity = this.entity.getMotion();
         final float dStep = this.entity.limbSwingAmount - this.entity.prevLimbSwingAmount;
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
-        final float stationary = 0.00001f;
+        final float stationary = 1e-5f;
         final boolean moving = walkspeed > stationary;
         final Pose pose = this.entity.getPose();
-        final boolean walking = this.entity.isOnGround() && moving;
+        final boolean walking = this.floatTimer < 5 && moving;
         if (pose == Pose.DYING) anims.add("dead");
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
