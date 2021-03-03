@@ -54,6 +54,7 @@ import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Action;
+import pokecube.core.database.pokedex.PokedexEntryLoader.BodyNode;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Evolution;
@@ -1107,6 +1108,8 @@ public class PokedexEntry
     public ResourceLocation model     = PokedexEntry.MODELNO;
     public ResourceLocation texture   = PokedexEntry.TEXNO;
     public ResourceLocation animation = PokedexEntry.ANIMNO;
+
+    public Map<String, BodyNode> poseShapes = null;
 
     // Here we have things that need to wait until loaded for initialization, so
     // we cache them.

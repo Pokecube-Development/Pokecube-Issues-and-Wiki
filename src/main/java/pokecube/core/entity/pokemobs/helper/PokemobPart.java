@@ -24,12 +24,19 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
 
     public final Vector3f r0;
 
+    public final float width;
+    public final float height;
+
     public Vector3f r;
 
     public PokemobPart(final PokemobHasParts base, final float width, final float height, final float x, final float y,
             final float z)
     {
         super(base);
+
+        this.width = width;
+        this.height = height;
+
         this.size = EntitySize.flexible(width, height);
         this.pokemob = base.pokemobCap;
         this.base = base;

@@ -78,7 +78,7 @@ public class Breeding extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
         final int height = this.font.FONT_HEIGHT * 7;
-        int width = 90; //135
+        int width = 90; // 135
 
         final int colour = 0xFFFFFFFF;
 
@@ -107,8 +107,8 @@ public class Breeding extends ListPage<LineEntry>
         this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.FONT_HEIGHT / 2,
                 this.font.FONT_HEIGHT, offsetX, offsetY);
         IFormattableTextComponent main = new TranslationTextComponent(ourEntry.getUnlocalizedName());
-        if (ourEntry.breeds) for (final String name : PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(),
-                Collections.emptyList()))
+        if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
+                .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))
         {
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;

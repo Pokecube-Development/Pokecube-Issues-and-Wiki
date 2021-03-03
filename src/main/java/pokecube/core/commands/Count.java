@@ -3,10 +3,13 @@ package pokecube.core.commands;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -39,11 +42,13 @@ public class Count
         int count2 = 0;
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();
         final double threshold = PokecubeCore.getConfig().maxSpawnRadius * PokecubeCore.getConfig().maxSpawnRadius;
+        final Set<UUID> found = Sets.newHashSet();
         for (final Object o : mobs.toArray())
         {
             final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
             if (e != null)
             {
+                if (!found.add(e.getEntity().getUniqueID())) continue;
                 if (((Entity) o).getDistanceSq(pos.x, pos.y, pos.z) > threshold) count2++;
                 else count1++;
                 Integer i = counts.get(e.getPokedexEntry());

@@ -1,6 +1,7 @@
 package pokecube.core.ai.logic;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -17,6 +19,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -27,23 +30,29 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
+import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.HappinessType;
 import pokecube.core.interfaces.IPokemob.Stats;
+import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.interfaces.pokemob.stats.IStatsModifiers;
 import pokecube.core.interfaces.pokemob.stats.StatModifiers;
+import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
+import thut.api.AnimatedCaps;
+import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that
@@ -79,7 +88,6 @@ public class LogicMiscUpdate extends LogicBase
             break;
         default:
             break;
-
         }
     }
 
@@ -320,6 +328,8 @@ public class LogicMiscUpdate extends LogicBase
             this.checkEvolution();
             // Check and tick inventory
             this.checkInventory(world);
+            // Ensure our pose matches what we are doing
+            this.checkPose();
 
             // // Ensure the cache position is kept updated
             if (this.cacheTimer++ % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
@@ -381,6 +391,8 @@ public class LogicMiscUpdate extends LogicBase
                 .getEntity(world, id, false));
         if (id < 0 && targ != null) this.entity.setAttackTarget(null);
         if (targ != null && !targ.isAlive()) this.entity.setAttackTarget(null);
+
+        this.checkAnimationStates();
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = new Random();
@@ -500,5 +512,79 @@ public class LogicMiscUpdate extends LogicBase
             }
         }
         this.particle = null;
+    }
+
+    private void checkPose()
+    {
+        final Pose old = this.entity.getPose();
+        final boolean sleeping = this.pokemob.getStatus() == IMoveConstants.STATUS_SLP || this.pokemob.getLogicState(
+                LogicStates.SLEEPING);
+        Pose next = old;
+        if (this.entity.deathTime > 0 || this.entity.getShouldBeDead()) next = Pose.DYING;
+        else if (sleeping) next = Pose.SLEEPING;
+        else if (this.entity.isInWater() || this.entity.isInLava()) next = Pose.SWIMMING;
+        else if (this.entity.isOnGround()) next = Pose.STANDING;
+        else next = Pose.FALL_FLYING;
+        if (next != old) this.entity.setPose(next);
+    }
+
+    private void checkAnimationStates()
+    {
+        final IAnimated holder = AnimatedCaps.getAnimated(this.entity);
+        if (holder == null) return;
+        final List<String> anims = holder.getChoices();
+        anims.clear();
+        final Vector3d velocity = this.entity.getMotion();
+        final float dStep = this.entity.limbSwingAmount - this.entity.prevLimbSwingAmount;
+        final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
+        final float stationary = 0.00001f;
+        final boolean moving = walkspeed > stationary;
+        final Pose pose = this.entity.getPose();
+        final boolean walking = this.entity.isOnGround() && moving;
+        if (pose == Pose.DYING) anims.add("dead");
+        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
+        {
+            final int index = this.pokemob.getMoveIndex();
+            Move_Base move;
+            if (index < 4 && (move = MovesUtils.getMoveFromName(this.pokemob.getMove(index))) != null)
+            {
+                if ((move.getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) > 0) anims.add("attack_contact");
+                if ((move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0) anims.add("attack_ranged");
+            }
+        }
+        for (final LogicStates state : LogicStates.values())
+        {
+            final String anim = ThutCore.trim(state.toString());
+            if (this.pokemob.getLogicState(state)) anims.add(anim);
+        }
+        if (walking) anims.add("walking");
+        switch (pose)
+        {
+        case DYING:
+            break;
+        case CROUCHING:
+            break;
+        case FALL_FLYING:
+            if (!moving) anims.add("floating");
+            anims.add("flying");
+            break;
+        case SLEEPING:
+            anims.add("sleeping");
+            break;
+        case SPIN_ATTACK:
+            break;
+        case STANDING:
+            break;
+        case SWIMMING:
+            anims.add("swimming");
+            break;
+        default:
+            break;
+        }
+        for (final CombatStates state : CombatStates.values())
+        {
+            final String anim = ThutCore.trim(state.toString());
+            if (this.pokemob.getCombatState(state)) anims.add(anim);
+        }
     }
 }
