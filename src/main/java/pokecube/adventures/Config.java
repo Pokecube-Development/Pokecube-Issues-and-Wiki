@@ -90,6 +90,10 @@ public class Config extends ConfigData
     public int     trainer_min_rep         = -100;
     @Configure(category = Config.TRAINER, comment = "Maximum reputation for tracking, players at this or more, are not visible for auto-agro")
     public int     trainer_max_rep         = 100;
+    @Configure(category = Config.TRAINER, comment = "Reputation gain on killing a wild pokemob")
+    public int     trainer_wild_kill_rep   = 5;
+    @Configure(category = Config.TRAINER, comment = "Reputation gain on killing a tame pokemob")
+    public int     trainer_tame_kill_rep   = 2;
 
     @Configure(category = Config.TRAINER, comment = "if true, trainers will not agress a player within pokecenter_radius of a pokecenter")
     public boolean no_battle_near_pokecenter = true;
