@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -206,6 +207,13 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
+    public boolean canBeCollidedWith()
+    {
+        if (this.isMultipartEntity()) return false;
+        return super.canBeCollidedWith();
+    }
+
+    @Override
     public boolean canBePushed()
     {
         return !this.isMultipartEntity() && super.canBePushed();
@@ -215,6 +223,19 @@ public abstract class PokemobHasParts extends PokemobCombat
     protected void collideWithNearbyEntities()
     {
         if (!this.isMultipartEntity()) super.collideWithNearbyEntities();
+    }
+
+    @Override
+    public boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount)
+    {
+        return super.attackEntityFrom(source, amount);
+    }
+
+    @Override
+    public boolean attackEntityFrom(final DamageSource source, final float amount)
+    {
+        if (this.isMultipartEntity()) return false;
+        return super.attackEntityFrom(source, amount);
     }
 
     @Override

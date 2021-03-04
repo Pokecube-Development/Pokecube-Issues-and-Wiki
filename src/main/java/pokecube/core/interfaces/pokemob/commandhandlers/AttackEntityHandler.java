@@ -3,7 +3,6 @@ package pokecube.core.interfaces.pokemob.commandhandlers;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -15,6 +14,7 @@ import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
+import pokecube.core.utils.EntityTools;
 
 public class AttackEntityHandler extends DefaultHandler
 {
@@ -33,14 +33,9 @@ public class AttackEntityHandler extends DefaultHandler
     public void handleCommand(final IPokemob pokemob)
     {
         final World world = pokemob.getEntity().getEntityWorld();
-        Entity target = PokecubeCore.getEntityProvider().getEntity(world, this.targetId, true);
-
-        if (target instanceof EnderDragonPartEntity)
-        {
-            final EnderDragonPartEntity part = (EnderDragonPartEntity) target;
-            target = part.dragon;
-        }
-
+        final Entity target = PokecubeCore.getEntityProvider().getEntity(world, this.targetId, true);
+        final LivingEntity living = EntityTools.getCoreLiving(target);
+        System.out.println(target + " " + living);
         if (target == null || !(target instanceof LivingEntity))
         {
             if (PokecubeMod.debug) if (target == null) PokecubeCore.LOGGER.error("Target Mob cannot be null!",

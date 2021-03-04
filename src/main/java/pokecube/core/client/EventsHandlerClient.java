@@ -65,10 +65,10 @@ import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.IHasCommands.Command;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.interfaces.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.network.pokemobs.PacketChangeForme;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.PokemobTracker;
@@ -258,8 +258,8 @@ public class EventsHandlerClient
         if (ClientSetupHandler.mobMegavolve.isPressed())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (current != null && !current.getGeneralState(GeneralStates.EVOLVING)) PacketChangeForme
-                    .sendPacketToServer(current.getEntity(), null);
+            if (current != null && !current.getGeneralState(GeneralStates.EVOLVING)) PacketCommand.sendCommand(current,
+                    Command.CHANGEFORM, new ChangeFormHandler());
         }
         if (ClientSetupHandler.arrangeGui.isPressed()) GuiArranger.toggle = !GuiArranger.toggle;
         if (ClientSetupHandler.noEvolve.isPressed() && GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null)
@@ -285,7 +285,6 @@ public class EventsHandlerClient
         else GuiDisplayPokecubeInfo.instance().pokemobBack();
         if (ClientSetupHandler.mobAttack.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobAttack();
         if (ClientSetupHandler.mobStance.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobStance();
-
         if (ClientSetupHandler.mobMove1.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(0);
         if (ClientSetupHandler.mobMove2.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(1);
         if (ClientSetupHandler.mobMove3.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(2);

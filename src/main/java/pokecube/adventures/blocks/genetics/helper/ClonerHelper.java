@@ -89,13 +89,14 @@ public class ClonerHelper
         final String[] args = line.split(":");
         String domain = "pokecube";
         String path = "";
-        if (args.length == 1) path = ThutCore.trim(args[0]);
-        else
+        if (args.length == 2)
         {
             domain = args[0];
-            path = ThutCore.trim(args[1]);
+            path = args[1];
         }
+        else path = args[0];
         path = path.split("#")[0];
+        path = ThutCore.trim(path);
         final ResourceLocation location = new ResourceLocation(domain, path);
         final Class<? extends Gene<?>> geneClass = GeneRegistry.getClass(location);
         return geneClass;
@@ -161,7 +162,6 @@ public class ClonerHelper
     public static int getIndex(final ItemStack stack)
     {
         if (stack.isEmpty() || !stack.hasTag()) return -1;
-        if (!stack.getDisplayName().getString().startsWith("Selector")) return -1;
         if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListNBT)
         {
             final ListNBT pages = (ListNBT) stack.getTag().get("pages");

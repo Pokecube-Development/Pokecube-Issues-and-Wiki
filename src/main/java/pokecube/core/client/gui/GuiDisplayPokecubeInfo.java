@@ -21,7 +21,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -30,6 +29,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
@@ -60,6 +60,7 @@ import pokecube.core.moves.MovesUtils.AbleStatus;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.utils.AITools;
+import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
@@ -560,10 +561,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
         };
         Entity target = Tools.getPointedEntity(player, 32, selector);
-
+        target = EntityTools.getCoreEntity(target);
         if (target == null && Minecraft.getInstance().pointedEntity != null && selector.test(Minecraft
                 .getInstance().pointedEntity)) target = Minecraft.getInstance().pointedEntity;
-
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
         boolean sameOwner = false;
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
@@ -584,7 +584,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 return;
             }
         }
-        if (target != null && !sameOwner && (target instanceof LivingEntity || target instanceof EnderDragonPartEntity))
+        if (target != null && !sameOwner && (target instanceof LivingEntity || target instanceof PartEntity<?>))
             PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getEntityId())
                     .setFromOwner(true));
         else if (targetLocation != null) PacketCommand.sendCommand(pokemob, Command.ATTACKLOCATION,

@@ -207,7 +207,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
         }
         this.cost = (int) Math.ceil(value);
 
-        boolean shouldUseEnergy = this.pokemob != null && this.ability != null && !this.noEnergy;
+        boolean shouldUseEnergy = this.pokemob != null && this.ability != null && !this.noEnergy || this.shiny;
         if (this.pokemob != null && this.ability != null) this.shiny = false;
 
         if (shouldUseEnergy && this.energy < this.cost)

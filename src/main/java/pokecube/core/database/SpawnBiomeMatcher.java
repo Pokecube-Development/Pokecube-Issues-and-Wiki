@@ -620,7 +620,7 @@ public class SpawnBiomeMatcher
                 if (!s.contains(":")) s = "minecraft:" + s;
                 final RegistryKey<Biome> biome = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(
                         s));
-                if (biome != null) this._validBiomes.add(biome);
+                this._validBiomes.add(biome);
             }
         }
         boolean hasForgeTypes = false;
@@ -697,7 +697,6 @@ public class SpawnBiomeMatcher
                 if (matches) this._validBiomes.add(b);
             }
 
-        final Set<RegistryKey<Biome>> toRemove = Sets.newHashSet();
         for (final RegistryKey<Biome> b : keys)
             if (b != null && !this._blackListBiomes.contains(b))
             {
@@ -707,13 +706,9 @@ public class SpawnBiomeMatcher
                     matches = matches || BiomeDatabase.contains(b, type);
                     if (matches) break;
                 }
-                if (matches)
-                {
-                    toRemove.add(b);
-                    this._blackListBiomes.add(b);
-                }
+                if (matches) this._blackListBiomes.add(b);
             }
-        this._validBiomes.removeAll(toRemove);
+        this._validBiomes.removeAll(this._blackListBiomes);
 
         // We are not valid if we specified some types, but found no biomes.
         if (hasForgeTypes && this._validBiomes.isEmpty()) this.valid = false;

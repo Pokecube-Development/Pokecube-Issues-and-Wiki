@@ -8,11 +8,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.PartEntity;
+import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.network.pokemobs.PacketPartInteract;
 import thut.api.maths.vecmath.Matrix3f;
 import thut.api.maths.vecmath.Vector3f;
 
@@ -22,10 +27,10 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
 
     public final IPokemob pokemob;
 
-    public final Vector3f r0;
+    public Vector3f r0;
 
-    public final float width;
-    public final float height;
+    public float width;
+    public float height;
 
     public Vector3f r;
 
@@ -97,12 +102,22 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vector3d vec, final Hand hand)
     {
+        if (this.world.isRemote)
+        {
+            final PacketPartInteract packet = new PacketPartInteract(this.getParent(), hand, vec, player.isSneaking());
+            PokecubeCore.packets.sendToServer(packet);
+        }
         return this.getParent().applyPlayerInteraction(player, vec, hand);
     }
 
     @Override
     public ActionResultType processInitialInteract(final PlayerEntity player, final Hand hand)
     {
+        if (this.world.isRemote)
+        {
+            final PacketPartInteract packet = new PacketPartInteract(this.getParent(), hand, player.isSneaking());
+            PokecubeCore.packets.sendToServer(packet);
+        }
         return this.getParent().processInitialInteract(player, hand);
     }
 
@@ -115,8 +130,7 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public boolean canBeCollidedWith()
     {
-        // TODO Auto-generated method stub
-        return super.canBeCollidedWith();
+        return true;
     }
 
     @Override
@@ -160,5 +174,17 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
                 this.move(MoverType.SELF, new Vector3d(f, 0.0D, f));
             }
         }
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
+    {
+        return this.getParent().getCapability(cap, side);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(final Capability<T> cap)
+    {
+        return this.getParent().getCapability(cap);
     }
 }
