@@ -448,11 +448,11 @@ public class WorldgenHandler
     @SubscribeEvent
     public void addDimensionalSpacing(final WorldEvent.Load event)
     {
-        if (ThutCore.proxy.getRegistries() == null) throw new IllegalStateException(
-                "Loading world before registries????");
-
         if (event.getWorld() instanceof ServerWorld)
         {
+            if (ThutCore.proxy.getRegistries() == null) throw new IllegalStateException(
+                    "Loading world before registries????");
+
             final ServerWorld serverWorld = (ServerWorld) event.getWorld();
             final RegistryKey<World> key = serverWorld.getDimensionKey();
 
