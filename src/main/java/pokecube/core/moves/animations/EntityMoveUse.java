@@ -500,6 +500,8 @@ public class EntityMoveUse extends ThrowableEntity
                     + this.dir.z * frac);
             this.here.set(this);
             testBox = this.getBoundingBox();
+            // Increase size near end to increase accuracy a bit
+            if (this.end.distToSq(this.here) < 1) testBox = testBox.grow(1);
             hitboxes.add(testBox);
         }
 
