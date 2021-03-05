@@ -528,7 +528,7 @@ public class EventsHandler
 
     private static void onWorldCaps(final AttachCapabilitiesEvent<World> event)
     {
-        if (event.getObject() instanceof ServerWorld && event.getObject().getDimensionKey().equals(World.OVERWORLD))
+        if (event.getObject() instanceof ServerWorld && World.OVERWORLD.equals(event.getObject().getDimensionKey()))
             PokecubeSerializer.newInstance((ServerWorld) event.getObject());
     }
 
