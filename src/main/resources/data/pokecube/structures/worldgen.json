@@ -12,7 +12,7 @@
       ]
     },
     {
-      "name":"pokecube:scattered/ruins_loose/rock_piles",
+      "name":"pokecube:ruins_base/rock_piles",
       "rigid":false,
       "options":[
         "empty;{\"weight\":5}",
