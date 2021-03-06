@@ -80,7 +80,7 @@ public class PacketPokedex extends Packet
     public static final byte REMOVE       = -2;
     public static final byte RENAME       = -1;
 
-    private static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE)
+    public static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE)
             .setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
 
     public static List<String>                         values       = Lists.newArrayList();

@@ -29,8 +29,10 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.events.pokemob.SpawnCheckEvent;
+import pokecube.core.network.packets.PacketPokedex;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
@@ -314,10 +316,23 @@ public class SpawnBiomeMatcher
 
     public Set<RegistryKey<Biome>> getInvalidBiomes()
     {
+        // Ensures we are actually loaded in, this is required to set loadedIn
+        // true for the below check.
+        SpawnBiomeMatcher.getAllBiomeKeys();
         if (!this._checked_cats && SpawnBiomeMatcher.loadedIn)
         {
+            this._checked_cats = true;
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
-                if (this._blackListCats.contains(b.getCategory())) this._blackListBiomes.add(BiomeDatabase.getKey(b));
+            {
+                final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
+                if (this._blackListCats.contains(b.getCategory())) this._blackListBiomes.add(key);
+                for (final BiomeDictionary.Type type : this._invalidTypes)
+                    if (BiomeDictionary.hasType(key, type))
+                    {
+                        this.getInvalidBiomes().add(key);
+                        break;
+                    }
+            }
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             {
                 final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
@@ -326,7 +341,16 @@ public class SpawnBiomeMatcher
                     this._validBiomes.remove(key);
                     continue;
                 }
-                if (this._validCats.contains(b.getCategory())) this._validBiomes.add(key);
+                if (this._validCats.isEmpty() && this._validTypes.isEmpty()) continue;
+                if (!this._validCats.isEmpty() && !this._validCats.contains(b.getCategory())) continue;
+                if (!this._validTypes.isEmpty())
+                {
+                    boolean hasAll = true;
+                    for (final BiomeDictionary.Type type : this._validTypes)
+                        hasAll = hasAll && BiomeDictionary.hasType(key, type);
+                    if (!hasAll) continue;
+                }
+                this._validBiomes.add(key);
             }
         }
         return this._blackListBiomes;
@@ -360,22 +384,7 @@ public class SpawnBiomeMatcher
         this.parse();
         if (!this.valid) return false;
         if (this.getInvalidBiomes().contains(biome)) return false;
-        // Check invalid first
-        for (final BiomeDictionary.Type type : this._invalidTypes)
-            if (BiomeDictionary.hasType(biome, type))
-            {
-                this.getInvalidBiomes().add(biome);
-                return false;
-            }
-        boolean explicit = this.getValidBiomes().contains(biome);
-        if (!explicit && !this._validTypes.isEmpty())
-        {
-            explicit = true;
-            for (final BiomeDictionary.Type type : this._validTypes)
-                explicit = explicit && BiomeDictionary.hasType(biome, type);
-            if (explicit) this.getValidBiomes().add(biome);
-        }
-        if (explicit) return true;
+        if (this.getValidBiomes().contains(biome)) return true;
         if (SpawnBiomeMatcher.SOFTBLACKLIST.contains(biome)) return false;
         // The check for all subbiomes overrides the check for biomes.
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
@@ -472,6 +481,8 @@ public class SpawnBiomeMatcher
 
     public boolean matches(final SpawnCheck checker)
     {
+        this.parse();
+        if (!this.valid) return false;
         if (!this.children.isEmpty())
         {
             for (final SpawnBiomeMatcher child : this.children)
@@ -711,6 +722,9 @@ public class SpawnBiomeMatcher
 
         this._validBiomes.removeAll(this._blackListBiomes);
 
+        // This refeshes the _validBiomes, and validates things.
+        this.getValidBiomes();
+
         // We are not valid if we specified some types, but found no biomes.
         if (hasForgeTypes && this._validBiomes.isEmpty()) this.valid = false;
 
@@ -724,6 +738,9 @@ public class SpawnBiomeMatcher
                                 );
         //@formatter:on
         if (!hasSomething) this.valid = false;
+
+        if (!this.valid && SpawnBiomeMatcher.loadedIn) PokecubeCore.LOGGER.error("Invalid Matcher: {}",
+                PacketPokedex.gson.toJson(this));
     }
 
     private void preParseSubBiomes()
@@ -751,6 +768,9 @@ public class SpawnBiomeMatcher
     {
         this.parsed = false;
         this._checked_cats = false;
+
+        // Somehow these can end up null after the gson parsing, so we need to
+        // ensure they are not null here.
         if (this._validTypes == null) this._validTypes = Sets.newHashSet();
         if (this._invalidTypes == null) this._invalidTypes = Sets.newHashSet();
         if (this._validBiomes == null) this._validBiomes = Sets.newHashSet();
@@ -763,6 +783,8 @@ public class SpawnBiomeMatcher
         if (this._validCats == null) this._validCats = Sets.newHashSet();
         if (this._blackListCats == null) this._blackListCats = Sets.newHashSet();
         if (this.children == null) this.children = Sets.newHashSet();
+
+        // Now lets ensure they are empty.
         this._validCats.clear();
         this._blackListCats.clear();
         this._validTypes.clear();
