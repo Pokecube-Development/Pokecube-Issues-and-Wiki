@@ -72,7 +72,7 @@ public abstract class NBTPacket extends Packet
 
     public CompoundNBT getTag()
     {
-        return tag;
+        return this.tag;
     }
 
 }

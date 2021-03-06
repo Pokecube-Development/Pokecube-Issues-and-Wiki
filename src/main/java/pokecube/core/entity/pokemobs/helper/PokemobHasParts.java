@@ -3,9 +3,12 @@ package pokecube.core.entity.pokemobs.helper;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
@@ -35,6 +38,8 @@ public abstract class PokemobHasParts extends PokemobCombat
 {
     private PokemobPart[] parts;
 
+    public List<PokemobPart> allParts = Lists.newArrayList();
+
     float colWidth  = 0;
     float colHeight = 0;
 
@@ -52,11 +57,12 @@ public abstract class PokemobHasParts extends PokemobCombat
     public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
         super(type, worldIn);
+        this.update_tick = -1;
         this.effective_pose = "";
         this.initSizes(1);
     }
 
-    private PokemobPart makePart(final BodyPart part, final float size)
+    private PokemobPart makePart(final BodyPart part, final float size, final Set<String> names)
     {
         final float dx = (float) (part.__pos__.x * size);
         final float dy = (float) (part.__pos__.y * size);
@@ -68,21 +74,36 @@ public abstract class PokemobHasParts extends PokemobCombat
 
         final float dw = Math.max(sx, sz);
         final float dh = sy;
-
-        return new PokemobPart(this, dw, dh, dx, dy, dz);
+        String name = part.name;
+        int n = 0;
+        while (names.contains(name))
+            name = part.name + n++;
+        return new PokemobPart(this, dw, dh, dx, dy, dz, name);
     }
 
     private void addPart(final String key, final float size, final BodyNode node)
     {
         final PokemobPart[] parts = new PokemobPart[node.parts.size()];
+        final Set<String> names = Sets.newHashSet();
         for (int i = 0; i < parts.length; i++)
-            parts[i] = this.makePart(node.parts.get(i), size);
+        {
+            parts[i] = this.makePart(node.parts.get(i), size, names);
+            this.allParts.add(parts[i]);
+        }
         this.partMap.put(key, parts);
     }
 
     protected void initSizes(final float size)
     {
         final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
+
+        // final List<PokemobPart> allParts = this.allParts;
+        // We need to here send a packet to sync the IDs of the new parts vs the
+        // old parts.
+        // if (!this.getEntityWorld().isRemote) allParts =
+        // Lists.newArrayList(allParts);
+
+        this.allParts.clear();
 
         if (entry.poseShapes != null)
         {
@@ -118,8 +139,12 @@ public abstract class PokemobHasParts extends PokemobCombat
             for (int y = 0; y < ny; y++)
                 for (int x = 0; x < nx; x++)
                     for (int z = 0; z < nz; z++)
-                        this.parts[i++] = new PokemobPart(this, dw, dh, x * dx - nx * dx / 2f, y * dy, z * dz - nz * dz
-                                / 2f);
+                    {
+                        this.parts[i] = new PokemobPart(this, dw, dh, x * dx - nx * dx / 2f, y * dy, z * dz - nz * dz
+                                / 2f, "part_" + i);
+                        this.allParts.add(this.parts[i]);
+                        i++;
+                    }
 
             this.colWidth = Math.min(1, maxW);
             this.colHeight = Math.min(1, maxH);
@@ -157,6 +182,8 @@ public abstract class PokemobHasParts extends PokemobCombat
             width = maxX - minX;
             length = maxZ - minZ;
         }
+        // if (!this.getEntityWorld().isRemote)
+        // PacketPartsUpdate.sendUpdate(this, allParts, this.allParts);
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
@@ -203,6 +230,9 @@ public abstract class PokemobHasParts extends PokemobCombat
             this.update_tick = this.ticksExisted;
             this.updatePartsPos();
         }
+
+        if (!this.isAddedToWorld()) return this.allParts.toArray(new PokemobPart[0]);
+
         return this.parts;
     }
 

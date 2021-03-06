@@ -14,6 +14,7 @@ import net.minecraftforge.fml.network.IContainerFactory;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.EntityTools;
 import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
 
@@ -23,7 +24,7 @@ public class ContainerPokemob extends BaseContainer
             (IContainerFactory<ContainerPokemob>) ContainerPokemob::new);
 
     public final IInventory pokemobInv;
-    public final IPokemob pokemob;
+    public final IPokemob   pokemob;
 
     public byte         mode;
     public PacketBuffer data;
@@ -34,7 +35,8 @@ public class ContainerPokemob extends BaseContainer
         super(ContainerPokemob.TYPE, id);
         LivingEntity entity = playerInv.player;
         final int num = data.readInt();
-        final Entity mob = entity.getEntityWorld().getEntityByID(num);
+        Entity mob = entity.getEntityWorld().getEntityByID(num);
+        mob = EntityTools.getCoreEntity(mob);
         if (mob instanceof LivingEntity) entity = (LivingEntity) mob;
         this.pokemob = CapabilityPokemob.getPokemobFor(entity);
         this.pokemobInv = this.pokemob.getInventory();

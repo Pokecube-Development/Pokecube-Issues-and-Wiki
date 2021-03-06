@@ -34,13 +34,17 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
 
     public Vector3f r;
 
+    public final String id;
+
     public PokemobPart(final PokemobHasParts base, final float width, final float height, final float x, final float y,
-            final float z)
+            final float z, final String id)
     {
         super(base);
 
         this.width = width;
         this.height = height;
+
+        this.id = id;
 
         this.size = EntitySize.flexible(width, height);
         this.pokemob = base.pokemobCap;
@@ -81,7 +85,13 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public boolean attackEntityFrom(final DamageSource source, final float amount)
     {
-        return this.isInvulnerableTo(source) ? false : this.base.attackFromPart(this, source, amount);
+        if (this.getEntityWorld().isRemote && source.getImmediateSource() instanceof PlayerEntity)
+        {
+            final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), source
+                    .getImmediateSource().isSneaking());
+            PokecubeCore.packets.sendToServer(packet);
+        }
+        return this.base.isInvulnerableTo(source) ? false : this.base.attackFromPart(this, source, amount);
     }
 
     /**
@@ -102,9 +112,10 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vector3d vec, final Hand hand)
     {
-        if (this.world.isRemote)
+        if (this.getEntityWorld().isRemote)
         {
-            final PacketPartInteract packet = new PacketPartInteract(this.getParent(), hand, vec, player.isSneaking());
+            final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand, vec, player
+                    .isSneaking());
             PokecubeCore.packets.sendToServer(packet);
         }
         return this.getParent().applyPlayerInteraction(player, vec, hand);
@@ -113,9 +124,10 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public ActionResultType processInitialInteract(final PlayerEntity player, final Hand hand)
     {
-        if (this.world.isRemote)
+        if (this.getEntityWorld().isRemote)
         {
-            final PacketPartInteract packet = new PacketPartInteract(this.getParent(), hand, player.isSneaking());
+            final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand, player
+                    .isSneaking());
             PokecubeCore.packets.sendToServer(packet);
         }
         return this.getParent().processInitialInteract(player, hand);
@@ -136,14 +148,12 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public void applyEntityCollision(final Entity entityIn)
     {
-        // TODO Auto-generated method stub
         super.applyEntityCollision(entityIn);
     }
 
     @Override
     public boolean canCollide(final Entity entity)
     {
-        // TODO Auto-generated method stub
         return super.canCollide(entity);
     }
 

@@ -123,12 +123,6 @@ public class EntityUpdate extends NBTPacket
     }
 
     @Override
-    public void write(final PacketBuffer buffer)
-    {
-        buffer.writeCompoundTag(this.getTag());
-    }
-
-    @Override
     @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
