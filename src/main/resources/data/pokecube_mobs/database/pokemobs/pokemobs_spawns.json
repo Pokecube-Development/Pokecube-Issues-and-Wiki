@@ -5837,7 +5837,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "river,cave,swamp",
+              "types": "swamp,cave",
+              "rate": "0.02"
+            }
+          },
+          {
+            "values": {
+              "typesBlacklist": "cold",
+              "types": "river,cave",
               "rate": "0.02"
             }
           }
@@ -7711,7 +7718,7 @@
           },
           {
             "values": {
-              "type": "flower",
+              "types": "flower",
               "rate": "0.7"
             }
           }
@@ -7994,7 +8001,7 @@
           },
           {
             "values": {
-              "category": "spooky",
+              "types": "spooky",
               "rate": "0.18"
             }
           }
@@ -8091,7 +8098,7 @@
           },
           {
             "values": {
-              "category": "village",
+              "types": "village",
               "rate": "0.18"
             }
           }
