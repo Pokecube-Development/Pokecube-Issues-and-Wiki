@@ -76,7 +76,7 @@ public class PokemobsDatabases
                 {
                     // Lower priorities than this are assumed to be adding
                     // entries, any higher are adding extra things to the entry.
-                    if (json.priority < 10) PokecubeCore.LOGGER.info("Adding entry again? {} {}", e.name, json._file);
+                    if (json.priority > 10) PokecubeCore.LOGGER.info("Adding entry again? {} {}", e.name, json._file);
                     PokemobsDatabases.compound.addEntry(e);
                 }
     }
