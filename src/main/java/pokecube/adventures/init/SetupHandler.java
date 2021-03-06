@@ -55,6 +55,9 @@ public class SetupHandler
         // This one handles npcs being invulnerable to pokemobs, as well as some
         // damage target allocation
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingHurt);
+        // Increases reputation for nearby NPCs if the player defeats wild
+        // pokemobs
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingDeath);
 
         // One phase of initializing trainers.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onJoinWorld);

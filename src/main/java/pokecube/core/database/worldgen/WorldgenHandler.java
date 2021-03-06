@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -68,6 +69,7 @@ import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
 import pokecube.core.world.gen.jigsaw.JigsawConfig;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.core.common.ThutCore;
 
 public class WorldgenHandler
 {
@@ -354,12 +356,14 @@ public class WorldgenHandler
 
     private final FMLReger reg = new FMLReger();
 
-    private final Map<BiomeFeature, Predicate<RegistryKey<Biome>>>   features   = Maps.newHashMap();
-    private final Map<BiomeStructure, Predicate<RegistryKey<Biome>>> structures = Maps.newHashMap();
+    private final Map<BiomeFeature, Predicate<BiomeLoadingEvent>>   features   = Maps.newHashMap();
+    private final Map<BiomeStructure, Predicate<BiomeLoadingEvent>> structures = Maps.newHashMap();
 
     public final Map<String, JigsawPattern> patterns = Maps.newHashMap();
 
     public final Map<JigSawConfig, CustomJigsawStructure> toConfigure = Maps.newHashMap();
+
+    private final Map<CustomJigsawStructure, Set<JigSawConfig>> variants = Maps.newHashMap();
 
     public Structures defaults;
 
@@ -446,6 +450,9 @@ public class WorldgenHandler
     {
         if (event.getWorld() instanceof ServerWorld)
         {
+            if (ThutCore.proxy.getRegistries() == null) throw new IllegalStateException(
+                    "Loading world before registries????");
+
             final ServerWorld serverWorld = (ServerWorld) event.getWorld();
             final RegistryKey<World> key = serverWorld.getDimensionKey();
 
@@ -462,21 +469,18 @@ public class WorldgenHandler
             // We only want to run setup uniquely per structure itself, so we
             // use
             // this set to ensure that.
-            final Set<CustomJigsawStructure> setup = Sets.newHashSet();
-            for (final JigSawConfig struct : this.toConfigure.keySet())
+            for (final Entry<CustomJigsawStructure, Set<JigSawConfig>> entry : this.variants.entrySet())
             {
-                final CustomJigsawStructure structure = this.toConfigure.get(struct);
-
-                // Ensures we only do this once!
-                if (!setup.add(structure)) continue;
-
-                final boolean add = !struct.isBlackisted(key);
-
+                final Set<JigSawConfig> opts = entry.getValue();
+                final CustomJigsawStructure structure = entry.getKey();
+                boolean allowed = false;
+                for (final JigSawConfig opt : opts)
+                    allowed = allowed || !opt.isBlackisted(key);
                 // Actually register the structure to the chunk provider,
                 // without this it won't generate!
                 final Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld
                         .getChunkProvider().generator.func_235957_b_().func_236195_a_());
-                if (add) tempMap.put(structure, DimensionStructuresSettings.field_236191_b_.get(structure));
+                if (allowed) tempMap.put(structure, DimensionStructuresSettings.field_236191_b_.get(structure));
                 else tempMap.remove(structure);
                 serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
             }
@@ -497,6 +501,11 @@ public class WorldgenHandler
         }
     }
 
+    private RegistryKey<Biome> from(final BiomeLoadingEvent event)
+    {
+        return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName());
+    }
+
     protected void registerConfigured()
     {
         for (final JigSawConfig struct : this.toConfigure.keySet())
@@ -509,7 +518,7 @@ public class WorldgenHandler
             final BiomeStructure value = new BiomeStructure(configured, struct);
             // Add the structures to the list, the predicate based on the spawn
             // rules it made.
-            this.structures.put(value, c -> struct._matcher == null ? false : struct._matcher.checkBiome(c));
+            this.structures.put(value, c -> struct._matcher == null ? false : struct._matcher.checkLoadEvent(c));
         }
     }
 
@@ -517,7 +526,7 @@ public class WorldgenHandler
             final ConfiguredFeature<?, ?> feature)
     {
         final BiomeFeature toAdd = new BiomeFeature(stage, feature);
-        this.features.put(toAdd, selector);
+        this.features.put(toAdd, c -> selector.test(this.from(c)));
     }
 
     public void loadStructures() throws Exception
@@ -558,14 +567,12 @@ public class WorldgenHandler
             return;
         }
         for (final BiomeFeature feat : this.features.keySet())
-            if (this.features.get(feat).test(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName()))) event
-                    .getGeneration().withFeature(feat.stage, feat.feature);
+            if (this.features.get(feat).test(event)) event.getGeneration().withFeature(feat.stage, feat.feature);
         for (final BiomeStructure feat : this.structures.keySet())
-            if (this.structures.get(feat).test(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName())))
+            if (this.structures.get(feat).test(event))
             {
                 final JigsawConfig conf = (JigsawConfig) feat.feature.field_236269_c_;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}",
-                        conf.struct_config.name, event.getName());
+                PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
                 event.getGeneration().getStructures().add(() -> feat.feature);
             }
     }
@@ -604,6 +611,9 @@ public class WorldgenHandler
         PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name, struct.biomeType);
         // Add it to our list for configuration
         this.toConfigure.put(struct, structure);
+        Set<JigSawConfig> types = this.variants.get(structure);
+        if (types == null) this.variants.put(structure, types = Sets.newHashSet());
+        types.add(struct);
         return structure;
     }
 

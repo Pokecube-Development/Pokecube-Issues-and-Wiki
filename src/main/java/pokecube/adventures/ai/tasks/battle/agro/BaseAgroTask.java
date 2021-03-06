@@ -100,7 +100,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
                 if (mob instanceof PlayerEntity && this.entity instanceof VillagerEntity)
                 {
                     final VillagerEntity villager = (VillagerEntity) this.entity;
-                    final int rep = villager.getPlayerReputation((PlayerEntity) mob);
+                    final int rep = villager.getPlayerReputation((PlayerEntity) mob) + rep_base;
                     double s1 = s;
                     if (rep > rep_cap) s1 = 0;
                     else if (rep < rep_base) s1 *= 2;

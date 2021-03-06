@@ -8,7 +8,6 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -64,7 +63,7 @@ public class HungerTask extends BaseIdleTask
             if (!stack.isEmpty())
             {
                 ItemStackTools.addItemStackToInventory(stack.copy(), this.pokemob.getInventory(), 2);
-                this.pokemob.eat(new ItemEntity(world, 0, 0, 0, stack));
+                this.pokemob.eat(stack);
             }
             return true;
         }
@@ -208,7 +207,7 @@ public class HungerTask extends BaseIdleTask
         // Too hungry to check inventory.
         if (this.hitThreshold(HungerTask.DEATH)) return false;
 
-        for (int i = 2; i < 7; i++)
+        for (int i = 2; i < this.pokemob.getInventory().getSizeInventory(); i++)
         {
             final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
             if (ItemList.is(HungerTask.FOODTAG, stack))

@@ -1,8 +1,10 @@
 package pokecube.adventures.events;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -13,18 +15,24 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.village.GossipType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
@@ -74,6 +82,8 @@ import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
@@ -276,6 +286,50 @@ public class TrainerEventHandler
         }
     }
 
+    public static Function<LivingEntity, Integer> goodKill = (e) ->
+    {
+        // The VillagerEntity.sawMurder handles this case just fine.
+        if (e instanceof VillagerEntity) return 0;
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
+        if (pokemob != null) return pokemob.getGeneralState(GeneralStates.TAMED)
+                ? PokecubeAdv.config.trainer_tame_kill_rep
+                : PokecubeAdv.config.trainer_wild_kill_rep;
+        return 0;
+    };
+
+    public static void onLivingDeath(final LivingDeathEvent event)
+    {
+        final DamageSource source = event.getSource();
+        final Entity user = source.getTrueSource();
+        if (user instanceof ServerPlayerEntity)
+        {
+            final LivingEntity mob = event.getEntityLiving();
+            // Check if the target was a wild pokemob.
+            final int repGain = TrainerEventHandler.goodKill.apply(mob);
+            final ServerPlayerEntity murderer = (ServerPlayerEntity) user;
+            if (repGain != 0)
+            {
+                final GossipType type = repGain > 0 ? GossipType.MINOR_POSITIVE : GossipType.MINOR_NEGATIVE;
+                final Optional<List<LivingEntity>> optional = mob.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS);
+                if (optional.isPresent())
+                {
+                    final List<LivingEntity> mobs = optional.get();
+                    mobs.stream().filter((gossipTarget) ->
+                    {
+                        // TODO use reputation tracking later instead, once
+                        // things support adding different types beyond the
+                        // hardcoded villager system!
+                        return gossipTarget instanceof VillagerEntity;
+                    }).forEach((gossipTarget) ->
+                    {
+                        final VillagerEntity villager = (VillagerEntity) gossipTarget;
+                        villager.getGossip().add(murderer.getUniqueID(), type, repGain);
+                    });
+                }
+            }
+        }
+    }
+
     /**
      * Initializes the AI for the trainers when they join the world.
      *
@@ -370,6 +424,15 @@ public class TrainerEventHandler
 
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
+
+        if (target instanceof VillagerEntity && evt.getPlayer() instanceof ServerPlayerEntity)
+        {
+            final VillagerEntity villager = (VillagerEntity) target;
+            final PlayerEntity player = evt.getPlayer();
+            final int rep_base = PokecubeAdv.config.trainer_min_rep;
+            final int rep = villager.getPlayerReputation(player) + rep_base;
+            player.sendMessage(new StringTextComponent(" (" + rep + ")"), null);
+        }
 
         if (evt.getItemStack().getItem() instanceof Linker && Linker.interact((ServerPlayerEntity) evt.getPlayer(),
                 target, evt.getItemStack()))

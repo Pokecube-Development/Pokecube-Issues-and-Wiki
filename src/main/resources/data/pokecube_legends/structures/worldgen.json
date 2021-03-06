@@ -628,7 +628,7 @@
       ],
       "spawn":{
         "values":{
-          "types":"ocean",
+          "category":"ocean",
           "typesBlacklist":"cold",
           "categoryBlacklist":"the_end,nether,icy,beach"
         }
