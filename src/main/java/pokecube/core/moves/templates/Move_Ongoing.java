@@ -8,6 +8,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.core.interfaces.entity.impl.OngoingMoveEffect;
+import pokecube.core.moves.damage.GenericDamageSource;
 
 public class Move_Ongoing extends Move_Basic
 {
@@ -47,7 +48,7 @@ public class Move_Ongoing extends Move_Basic
 
     protected DamageSource getOngoingDamage(final LivingEntity user)
     {
-        final DamageSource source = DamageSource.causeMobDamage(user);
+        final DamageSource source = GenericDamageSource.causeMobDamage(user);
         if (CapabilityPokemob.getPokemobFor(user) != null)
         {
             source.setDamageIsAbsolute();
