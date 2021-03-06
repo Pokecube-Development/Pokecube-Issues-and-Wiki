@@ -98,7 +98,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         {
             final float rate1 = rates.get(o1);
             final float rate2 = rates.get(o2);
-            return rate1 > rate2 ? -1 : rate1 < rate2 ? 1 : 0;
+            return rate1 > rate2 ? -1 : rate1 < rate2 ? 1 : o1.getTrimmedName().compareTo(o2.getTrimmedName());
         });
         final IClickListener listener = new IClickListener()
         {
