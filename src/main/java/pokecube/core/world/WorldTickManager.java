@@ -136,6 +136,7 @@ public class WorldTickManager
 
     public static void onWorldLoad(final WorldEvent.Load event)
     {
+        if (event.getWorld().isRemote()) return;
         if (!(event.getWorld() instanceof ServerWorld)) return;
         final ServerWorld world = (ServerWorld) event.getWorld();
         final RegistryKey<World> key = world.getDimensionKey();
@@ -151,6 +152,7 @@ public class WorldTickManager
 
     public static void onWorldUnload(final WorldEvent.Unload event)
     {
+        if (event.getWorld().isRemote()) return;
         if (!(event.getWorld() instanceof ServerWorld)) return;
         final ServerWorld world = (ServerWorld) event.getWorld();
         final RegistryKey<World> key = world.getDimensionKey();

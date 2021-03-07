@@ -75,6 +75,8 @@ public class PokecubeSerializer
 
     public static void newInstance(final ServerWorld world)
     {
+        if (world.isRemote()) return;
+        PokecubeSerializer.clearInstance();
         PokecubeSerializer.instance = new PokecubeSerializer(world);
     }
 
