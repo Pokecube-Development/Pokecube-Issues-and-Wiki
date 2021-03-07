@@ -26,7 +26,6 @@ import net.minecraft.item.MerchantOffers;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.village.GossipType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -425,14 +424,14 @@ public class TrainerEventHandler
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
-        if (target instanceof VillagerEntity && evt.getPlayer() instanceof ServerPlayerEntity)
-        {
-            final VillagerEntity villager = (VillagerEntity) target;
-            final PlayerEntity player = evt.getPlayer();
-            final int rep_base = PokecubeAdv.config.trainer_min_rep;
-            final int rep = villager.getPlayerReputation(player) + rep_base;
-            player.sendMessage(new StringTextComponent(" (" + rep + ")"), null);
-        }
+//        if (target instanceof VillagerEntity && evt.getPlayer() instanceof ServerPlayerEntity)
+//        {
+//            final VillagerEntity villager = (VillagerEntity) target;
+//            final PlayerEntity player = evt.getPlayer();
+//            final int rep_base = PokecubeAdv.config.trainer_min_rep;
+//            final int rep = villager.getPlayerReputation(player) + rep_base;
+//            player.sendMessage(new StringTextComponent(" (" + rep + ")"), null);
+//        }
 
         if (evt.getItemStack().getItem() instanceof Linker && Linker.interact((ServerPlayerEntity) evt.getPlayer(),
                 target, evt.getItemStack()))
