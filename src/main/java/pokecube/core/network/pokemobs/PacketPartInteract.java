@@ -75,7 +75,7 @@ public class PacketPartInteract extends Packet
         if (this.action == CUseEntityPacket.Action.INTERACT || this.action == CUseEntityPacket.Action.INTERACT_AT)
             this.hand = buf.readEnumValue(Hand.class);
         this.sneaking = buf.readBoolean();
-        this.id = buf.readString();
+        this.id = buf.readString(32767);
     }
 
     @Override
