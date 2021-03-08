@@ -160,7 +160,7 @@ public class ThutTeleporter
         @SubscribeEvent
         public void damage(final LivingHurtEvent event)
         {
-            if (event.getEntity() != this.entity) return;
+            if (!event.getEntity().getUniqueID().equals(this.entity.getUniqueID())) return;
             final long time = this.overworld.getGameTime();
             if (time - this.start > 20)
             {

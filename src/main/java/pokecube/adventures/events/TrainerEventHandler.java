@@ -306,7 +306,7 @@ public class TrainerEventHandler
             // Check if the target was a wild pokemob.
             final int repGain = TrainerEventHandler.goodKill.apply(mob);
             final ServerPlayerEntity murderer = (ServerPlayerEntity) user;
-            if (repGain != 0)
+            if (repGain != 0 && mob.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS))
             {
                 final GossipType type = repGain > 0 ? GossipType.MINOR_POSITIVE : GossipType.MINOR_NEGATIVE;
                 final Optional<List<LivingEntity>> optional = mob.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS);
@@ -424,14 +424,15 @@ public class TrainerEventHandler
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
-//        if (target instanceof VillagerEntity && evt.getPlayer() instanceof ServerPlayerEntity)
-//        {
-//            final VillagerEntity villager = (VillagerEntity) target;
-//            final PlayerEntity player = evt.getPlayer();
-//            final int rep_base = PokecubeAdv.config.trainer_min_rep;
-//            final int rep = villager.getPlayerReputation(player) + rep_base;
-//            player.sendMessage(new StringTextComponent(" (" + rep + ")"), null);
-//        }
+        // if (target instanceof VillagerEntity && evt.getPlayer() instanceof
+        // ServerPlayerEntity)
+        // {
+        // final VillagerEntity villager = (VillagerEntity) target;
+        // final PlayerEntity player = evt.getPlayer();
+        // final int rep_base = PokecubeAdv.config.trainer_min_rep;
+        // final int rep = villager.getPlayerReputation(player) + rep_base;
+        // player.sendMessage(new StringTextComponent(" (" + rep + ")"), null);
+        // }
 
         if (evt.getItemStack().getItem() instanceof Linker && Linker.interact((ServerPlayerEntity) evt.getPlayer(),
                 target, evt.getItemStack()))
