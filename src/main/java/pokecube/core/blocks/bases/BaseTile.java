@@ -7,6 +7,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ActionResultType;
@@ -15,6 +16,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
@@ -27,7 +29,7 @@ import thut.api.block.IOwnableTE;
 public class BaseTile extends InteractableTile
 {
     boolean           any       = false;
-    public BlockPos   last_base = null;
+    public GlobalPos  last_base = null;
     public BlockState original  = Blocks.STONE.getDefaultState();
 
     public BaseTile()
@@ -47,11 +49,11 @@ public class BaseTile extends InteractableTile
             final IOwnableTE tile = (IOwnableTE) this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             targetBase = tile.getOwnerId();
             if (targetBase == null) return ActionResultType.SUCCESS;
-            BlockPos exit_here;
+            GlobalPos exit_here;
             try
             {
                 exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.getEntityWorld()
-                        .getDimensionKey());
+                        .getDimensionKey() == SecretBaseDimension.WORLD_KEY);
             }
             catch (final Exception e)
             {
@@ -59,7 +61,8 @@ public class BaseTile extends InteractableTile
                 return ActionResultType.FAIL;
             }
             if (this.last_base == null) this.last_base = exit_here;
-            if (exit_here.distanceSq(this.last_base.getX(), this.last_base.getY(), this.last_base.getZ(), false) > 0.0)
+            if (exit_here.getPos().distanceSq(this.last_base.getPos().getX(), this.last_base.getPos().getY(),
+                    this.last_base.getPos().getZ(), false) > 0.0)
             {
                 // We need to remove the location.
                 this.world.setBlockState(pos, this.original);
@@ -68,8 +71,9 @@ public class BaseTile extends InteractableTile
             }
         }
         final RegistryKey<World> dim = player.getEntityWorld().getDimensionKey();
-        if (dim == World.OVERWORLD) SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
-        else SecretBaseDimension.sendToExit((ServerPlayerEntity) player, targetBase);
+        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit((ServerPlayerEntity) player,
+                targetBase);
+        else SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
         return ActionResultType.SUCCESS;
     }
 
@@ -78,11 +82,8 @@ public class BaseTile extends InteractableTile
     {
         super.read(stateIn, compound);
         this.any = compound.getBoolean("any_use");
-        if (compound.contains("base_pos"))
-        {
-            final CompoundNBT tag = compound.getCompound("base_pos");
-            this.last_base = NBTUtil.readBlockPos(tag);
-        }
+        if (compound.contains("last_base")) this.last_base = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, compound
+                .get("last_base")).result().get().getFirst();
         if (compound.contains("revert_to"))
         {
             final CompoundNBT tag = compound.getCompound("revert_to");
@@ -94,11 +95,8 @@ public class BaseTile extends InteractableTile
     public CompoundNBT write(final CompoundNBT compound)
     {
         compound.putBoolean("any_use", this.any);
-        if (this.last_base != null)
-        {
-            final CompoundNBT tag = NBTUtil.writeBlockPos(this.last_base);
-            compound.put("base_pos", tag);
-        }
+        if (this.last_base != null) compound.put("last_base", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE,
+                this.last_base).get().left().get());
         if (this.original != null)
         {
             final CompoundNBT tag = NBTUtil.writeBlockState(this.original);
