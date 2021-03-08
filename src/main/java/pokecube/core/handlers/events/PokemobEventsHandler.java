@@ -216,7 +216,7 @@ public class PokemobEventsHandler
         EventsHandler.Schedule(world, w ->
         {
             // not loaded, definitely not a bee leaving hive
-            if (!world.isAreaLoaded(pos.getPos(), 0)) return true;
+            if (!world.isAreaLoaded(pos.getPos(), 8)) return true;
             final TileEntity tile = world.getTileEntity(pos.getPos());
             // No tile entity here? also not a bee leaving hive!
             if (tile == null) return true;
