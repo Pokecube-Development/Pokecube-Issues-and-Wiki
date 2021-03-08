@@ -1,38 +1,20 @@
 package pokecube.core;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.Vector;
-import java.util.regex.Pattern;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Food;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.item.Item.Properties;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.Rarity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.Property;
@@ -78,6 +60,12 @@ import pokecube.core.items.revive.ItemRevive;
 import pokecube.core.items.vitamins.ItemCandy;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class PokecubeItems extends ItemList
 {
@@ -197,7 +185,7 @@ public class PokecubeItems extends ItemList
         HEALER = PokecubeItems.BLOCKS.register("pokecenter", () -> new HealerBlock(Block.Properties.create(
                 Material.IRON, MaterialColor.WOOL).hardnessAndResistance(2000)));
         NESTBLOCK = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(Block.Properties.create(
-                Material.ORGANIC, MaterialColor.STONE)));
+                Material.ORGANIC, MaterialColor.WOOD).sound(SoundType.PLANT)));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(Block.Properties.create(
                 Material.ORGANIC, MaterialColor.GREEN)));
         DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(Block.Properties.create(Material.ROCK)

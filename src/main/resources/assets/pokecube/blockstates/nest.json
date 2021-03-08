@@ -1,5 +1,5 @@
 {
 	"variants": {
-		"": { "model": "minecraft:block/stone" }
+		"": { "model": "pokecube:block/nest" }
 	}
 }
