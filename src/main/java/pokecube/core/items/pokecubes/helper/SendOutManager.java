@@ -52,6 +52,7 @@ public class SendOutManager
             for (final PartEntity<?> part : parts)
                 if (box == null) box = part.getBoundingBox();
                 else box = box.union(part.getBoundingBox());
+            if (box == null) box = mob.getBoundingBox();
         }
         if (SendOutManager.valid(box, world)) return pos.copy();
         final int size = 10;
