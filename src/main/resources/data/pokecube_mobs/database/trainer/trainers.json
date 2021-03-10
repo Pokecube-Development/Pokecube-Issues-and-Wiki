@@ -66,7 +66,19 @@
         {
           "values": {
             "rate": "0.25",
-            "types": "water, beach, lake"
+            "types": "water"
+          }
+        },
+        {
+          "values": {
+            "rate": "0.25",
+            "types": "beach"
+          }
+        },
+        {
+          "values": {
+            "rate": "0.25",
+            "types": "lake"
           }
         }
       ],
@@ -134,7 +146,13 @@
         {
           "values": {
             "rate": "0.05",
-            "types": "industrial, village"
+            "types": "industrial"
+          }
+        },
+        {
+          "values": {
+            "rate": "0.05",
+            "types": "village"
           }
         }
       ],
@@ -238,7 +256,13 @@
         {
           "values": {
             "rate": "0.05",
-            "types": "industrial,village"
+            "types": "industrial"
+          }
+        },
+        {
+          "values": {
+            "rate": "0.05",
+            "types": "village"
           }
         }
       ],
@@ -342,7 +366,13 @@
         {
           "values": {
             "rate": "0.25",
-            "types": "ocean,beach"
+            "types": "beach"
+          }
+        },
+        {
+          "values": {
+            "rate": "0.25",
+            "types": "ocean"
           }
         }
       ],
@@ -355,7 +385,21 @@
         {
           "values": {
             "rate": "0.25",
-            "types": "water,beach,lake",
+            "types": "lake",
+            "water": "true"
+          }
+        },
+        {
+          "values": {
+            "rate": "0.25",
+            "types": "beach",
+            "water": "true"
+          }
+        },
+        {
+          "values": {
+            "rate": "0.25",
+            "types": "water",
             "water": "true"
           }
         }

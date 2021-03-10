@@ -268,6 +268,12 @@ public class SpawnBiomeMatcher
     public Set<Weather> _neededWeather = Sets.newHashSet();
     public Set<Weather> _bannedWeather = Sets.newHashSet();
 
+    // These two sets are used for syncing _validBiomes and _validTypes over to
+    // clients on multiplayer.
+    public Set<RegistryKey<Biome>> clientBiomes = Sets.newHashSet();
+
+    public Set<String> clientTypes = Sets.newHashSet();
+
     /**
      * If the spawnRule has an anyType key, make a child for each type in it,
      * then check if any of the children are valid.
@@ -336,6 +342,7 @@ public class SpawnBiomeMatcher
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             {
                 final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
+                if (key.getLocation() == null) continue;
                 if (this._blackListBiomes.contains(key))
                 {
                     this._validBiomes.remove(key);

@@ -175,7 +175,14 @@ public class PokemobEventsHandler
     {
         // We only consider MobEntities
         if (!(event.getEntity() instanceof MobEntity)) return;
+
         final MobEntity mob = (MobEntity) event.getEntity();
+
+        if (mob.getEntityWorld().isRemote()) return;
+
+        // We only want to run this from execution thread.
+        if (!mob.getServer().isOnExecutionThread()) return;
+
         final IInhabitor inhabitor = mob.getCapability(CapabilityInhabitor.CAPABILITY).orElse(null);
         // Not a valid inhabitor of things, so return.
         if (inhabitor == null) return;
@@ -204,31 +211,27 @@ public class PokemobEventsHandler
             catch (final ClassNotFoundException e)
             {
                 // NOOP, why would this happen anyway?
-                e.printStackTrace();
+                PokecubeCore.LOGGER.error("Error with class for {}??", element.getClassName());
             }
             if (fromHive || n++ > 100) break;
         }
         // was not from the hive, so exit
         if (!fromHive) return;
         final Class<?> clss = c;
+        // not loaded, definitely not a bee leaving hive
+        if (!world.isAreaLoaded(pos.getPos(), 8)) return;
+        final TileEntity tile = world.getTileEntity(pos.getPos());
+        // No tile entity here? also not a bee leaving hive!
+        if (tile == null) return;
+        // Not the same class, so return as well.
+        if (tile.getClass() != clss) return;
+        final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+        // Not a habitat, so not going to be a bee leaving a hive
+        if (habitat == null) return;
         // from here down, schedule for end of tick, incase things happen
         // related to block placement, etc
-        EventsHandler.Schedule(world, w ->
-        {
-            // not loaded, definitely not a bee leaving hive
-            if (!world.isAreaLoaded(pos.getPos(), 0)) return true;
-            final TileEntity tile = world.getTileEntity(pos.getPos());
-            // No tile entity here? also not a bee leaving hive!
-            if (tile == null) return true;
-            // Not the same class, so return as well.
-            if (tile.getClass() != clss) return true;
-            final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
-            // Not a habitat, so not going to be a bee leaving a hive
-            if (habitat == null) return true;
-            habitat.onExitHabitat(mob);
-            inhabitor.onExitHabitat();
-            return true;
-        });
+        habitat.onExitHabitat(mob);
+        inhabitor.onExitHabitat();
     }
 
     private static void onLivingDrops(final LivingDropsEvent event)

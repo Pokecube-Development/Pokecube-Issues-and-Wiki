@@ -75,6 +75,7 @@ public class ClientProxy extends CommonProxy
     {
         // This is null on single player, so we have an integrated server
         if (Minecraft.getInstance().getCurrentServerData() == null) return super.getRegistries();
+        if (Minecraft.getInstance().world == null) return null;
         return Minecraft.getInstance().world.func_241828_r();
     }
 

@@ -96,9 +96,9 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
             double cost = 0;
             final Vector3 here = Vector3.getNewVector().set(this);
-            WarppadTile.parser.setVarValue("dx", link.getX() - here.x);
-            WarppadTile.parser.setVarValue("dy", link.getY() - here.y);
-            WarppadTile.parser.setVarValue("dz", link.getZ() - here.z);
+            WarppadTile.parser.setVarValue("dx", link.getX() - here.x + 0.5);
+            WarppadTile.parser.setVarValue("dy", link.getY() - here.y + 0.5);
+            WarppadTile.parser.setVarValue("dz", link.getZ() - here.z + 0.5);
             WarppadTile.parser.setVarValue("dw", 0);// TODO Decide on distance
                                                     // between dimensions
             cost = WarppadTile.parser.getValue();

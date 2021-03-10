@@ -318,16 +318,18 @@ public abstract class PokemobHasParts extends PokemobCombat
             if (this.partMap.containsKey(this.effective_pose)) this.parts = this.partMap.get(this.effective_pose);
         }
 
-        if (this.parts.length > 0)
-        {
-            final Vector3d v = this.getPositionVec();
-            this.r.set((float) v.getX(), (float) v.getY(), (float) v.getZ());
-            final Vector3d dr = new Vector3d(this.r.x - this.lastTickPosX, this.r.y - this.lastTickPosY, this.r.z
-                    - this.lastTickPosZ);
-            this.rot.rotY((float) Math.toRadians(180 - this.renderYawOffset));
-            for (final PokemobPart p : this.parts)
-                p.update(this.rot, this.r, dr);
-        }
+        if (this.parts.length == 0 && this.allParts.isEmpty()) return;
+
+        final Vector3d v = this.getPositionVec();
+        this.r.set((float) v.getX(), (float) v.getY(), (float) v.getZ());
+        final Vector3d dr = new Vector3d(this.r.x - this.lastTickPosX, this.r.y - this.lastTickPosY, this.r.z
+                - this.lastTickPosZ);
+        this.rot.rotY((float) Math.toRadians(180 - this.renderYawOffset));
+
+        if (this.isAddedToWorld()) for (final PokemobPart p : this.parts)
+            p.update(this.rot, this.r, dr);
+        else for (final PokemobPart p : this.allParts)
+            p.update(this.rot, this.r, dr);
     }
 
     @Override

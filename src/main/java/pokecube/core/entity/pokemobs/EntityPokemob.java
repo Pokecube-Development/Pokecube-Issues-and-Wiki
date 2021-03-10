@@ -204,6 +204,8 @@ public class EntityPokemob extends PokemobRidable
                 this.setMoveForward(0);
                 this.setMoveStrafing(0);
                 this.setMoveVertical(0);
+                this.jumpPower = 0.0f;
+                this.setJumping(false);
                 super.travel(dr);
                 final Vector3d motion = this.getMotion();
                 this.setMotion(motion.x * 0.5, motion.y, motion.z * 0.5);
@@ -219,12 +221,13 @@ public class EntityPokemob extends PokemobRidable
             float strafe = livingentity.moveStrafing * 0.5F;
             float forwards = livingentity.moveForward;
             if (forwards <= 0.0F) forwards *= 0.25F;
+
             if (!this.onGround && this.jumpPower == 0.0F)
             {
                 strafe = 0.0F;
                 forwards = 0.0F;
             }
-            if (this.jumpPower > 0.0F && !this.isJumping)
+            if (this.jumpPower > 0.0F && !this.isJumping && this.onGround)
             {
                 final double jumpStrength = 1.7;
                 final double preBoostJump = jumpStrength * this.jumpPower * this.getJumpFactor();
@@ -247,7 +250,6 @@ public class EntityPokemob extends PokemobRidable
                 }
                 this.jumpPower = 0.0F;
             }
-
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
             if (this.canPassengerSteer())
             {
@@ -268,6 +270,7 @@ public class EntityPokemob extends PokemobRidable
             this.func_233629_a_(this, false);
             return;
         }
+        this.jumpMovementFactor = 0.02f;
         // Swimming mobs get their own treatment while swimming
         if (this.isServerWorld() && this.isInWater() && this.pokemobCap.swims())
         {

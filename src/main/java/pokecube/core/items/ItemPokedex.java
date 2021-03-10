@@ -71,7 +71,7 @@ public class ItemPokedex extends Item
             final boolean doInteract = target instanceof ServerPlayerEntity || pokemob != null && pokemob
                     .getPokedexEntry().stock && this.watch;
 
-            if (doInteract) break interact;
+            if (!doInteract) break interact;
             this.showGui(playerIn, target, pokemob);
             return ActionResultType.SUCCESS;
         }

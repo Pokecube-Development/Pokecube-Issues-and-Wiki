@@ -74,10 +74,9 @@ public class SecretBase
             player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit.notinbase"), Util.DUMMY_UUID);
             return 1;
         }
-        final RegistryKey<World> targetDim = World.OVERWORLD;
-        final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUniqueID(), player.getServer(), targetDim);
+        final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUniqueID(), player.getServer(), false);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.getPosition(targetDim, pos), v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
         player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.DUMMY_UUID);
         return 0;
     }
@@ -97,9 +96,10 @@ public class SecretBase
                 final BaseTile tile = (BaseTile) player.getEntityWorld().getTileEntity(pos.getPos());
                 final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
                 ownable.setPlacer(player);
-                tile.last_base = base_pos;
+                final GlobalPos gpos = GlobalPos.getPosition(loc.getDimension(), base_pos);
+                tile.last_base = gpos;
                 tile.original = original;
-                SecretBaseDimension.setSecretBasePoint(player, base_pos, type);
+                SecretBaseDimension.setSecretBasePoint(player, gpos, type == SecretBaseDimension.WORLD_KEY);
                 pos.x = pos.intX();
                 pos.y = pos.intY();
                 pos.z = pos.intZ();

@@ -41,8 +41,7 @@ public class ThutTeleporter
                 ThutCore.LOGGER.error("Error loading value", e);
                 return null;
             }
-            final TeleDest dest = new TeleDest().setLoc(pos, loc).setPos(pos).setName(name).setIndex(index).setVersion(
-                    version);
+            final TeleDest dest = new TeleDest().setLoc(pos, loc).setName(name).setIndex(index).setVersion(version);
             final TeleLoadEvent event = new TeleLoadEvent(dest);
             // This returns true if the event is cancelled.
             if (MinecraftForge.EVENT_BUS.post(event)) return null;
@@ -161,7 +160,7 @@ public class ThutTeleporter
         @SubscribeEvent
         public void damage(final LivingHurtEvent event)
         {
-            if (event.getEntity() != this.entity) return;
+            if (!event.getEntity().getUniqueID().equals(this.entity.getUniqueID())) return;
             final long time = this.overworld.getGameTime();
             if (time - this.start > 20)
             {
