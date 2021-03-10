@@ -387,14 +387,14 @@
             "rate": "0.25",
             "types": "lake",
             "water": "true"
-          },
+          }
         },
         {
           "values": {
             "rate": "0.25",
             "types": "beach",
             "water": "true"
-          },
+          }
         },
         {
           "values": {
