@@ -827,14 +827,10 @@ public class Database
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;
         time = System.nanoTime();
-        // Reload the database incase things are adjusted
-        PokedexEntryLoader.onReloaded();
 
+        Database.spawnables.clear();
         PokedexInspector.rewards.clear();
         XMLRewardsHandler.loadedRecipes.clear();
-        Database.loadStarterPack();
-        Database.loadRecipes();
-        Database.loadRewards();
 
         // Clear the values that will be set below
         for (final PokedexEntry p : Database.allFormes)
@@ -842,7 +838,15 @@ public class Database
             p.related.clear();
             p._childNb = null;
             p.noItemForm = null;
+            p.setSpawnData(null);
         }
+
+        // Reload the database incase things are adjusted
+        PokedexEntryLoader.onReloaded();
+
+        Database.loadStarterPack();
+        Database.loadRecipes();
+        Database.loadRewards();
 
         /** Initialize relations, prey, children. */
         for (final PokedexEntry p : Database.allFormes)

@@ -448,6 +448,8 @@ public class WorldgenHandler
     @SubscribeEvent
     public void addDimensionalSpacing(final WorldEvent.Load event)
     {
+        if (event.getWorld().isRemote()) return;
+
         if (event.getWorld() instanceof ServerWorld)
         {
             if (ThutCore.proxy.getRegistries() == null) throw new IllegalStateException(

@@ -170,6 +170,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
 
     public void checkRecipes()
     {
+        if (this.hasWorld() && this.getWorld().isRemote) return;
         if (this.getProcess() == null || !this.getProcess().valid())
         {
             if (this.check)
@@ -313,7 +314,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public void read(BlockState state, final CompoundNBT nbt)
+    public void read(final BlockState state, final CompoundNBT nbt)
     {
         super.read(state, nbt);
         InvHelper.load(this, nbt);
@@ -374,7 +375,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     @Override
     public void tick()
     {
-        if (this.world.isRemote) return;
+        // This internally handles the world remote checks.
         this.checkRecipes();
     }
 

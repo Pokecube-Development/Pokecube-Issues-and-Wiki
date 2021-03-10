@@ -11,6 +11,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -56,7 +58,6 @@ import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 
 public class SecretBaseDimension
 {
@@ -74,41 +75,55 @@ public class SecretBaseDimension
 
     public static void sendToBase(final ServerPlayerEntity player, final UUID baseOwner)
     {
-        final RegistryKey<World> targetDim = SecretBaseDimension.WORLD_KEY;
-        final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
+        final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), true);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.getPosition(targetDim, pos), v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
         player.sendMessage(new TranslationTextComponent("pokecube.secretbase.enter"), Util.DUMMY_UUID);
     }
 
     public static void sendToExit(final ServerPlayerEntity player, final UUID baseOwner)
     {
-        final RegistryKey<World> targetDim = World.OVERWORLD;
-        final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
+        final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), false);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.getPosition(targetDim, pos), v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
         player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.DUMMY_UUID);
     }
 
-    public static void setSecretBasePoint(final ServerPlayerEntity player, final BlockPos pos,
-            final RegistryKey<World> dim)
+    public static void setSecretBasePoint(final ServerPlayerEntity player, final GlobalPos gpos, final boolean inBase)
     {
         final CompoundNBT tag = PokecubePlayerDataHandler.getCustomDataTag(player);
-        final CompoundNBT exit = new CompoundNBT();
-        exit.putInt("x", pos.getX());
-        exit.putInt("y", pos.getY());
-        exit.putInt("z", pos.getZ());
-        if (dim == SecretBaseDimension.WORLD_KEY) tag.put("secret_base_internal", exit);
+        final BlockPos pos = gpos.getPos();
+
+        if (inBase)
+        {
+            final CompoundNBT exit = new CompoundNBT();
+            exit.putInt("x", pos.getX());
+            exit.putInt("y", pos.getY());
+            exit.putInt("z", pos.getZ());
+            tag.put("secret_base_internal", exit);
+        }
         else
         {
+            final INBT exit = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, gpos).get().left().get();
             if (tag.contains("secret_base_exit"))
             {
                 final CompoundNBT exito = tag.getCompound("secret_base_exit");
-                final Vector4 old = new Vector4(exito.getInt("x"), exito.getInt("y"), exito.getInt("z"), 0);
-                PokecubeSerializer.getInstance().bases.removeIf(c -> old.withinDistance(0.25f, old));
+                GlobalPos old = null;
+                try
+                {
+                    old = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, exito).result().get().getFirst();
+                }
+                catch (final Exception e)
+                {
+                    old = GlobalPos.getPosition(World.OVERWORLD, new BlockPos(exito.getInt("x"), exito.getInt("y"),
+                            exito.getInt("z")));
+                }
+                final GlobalPos orig = old;
+                PokecubeSerializer.getInstance().bases.removeIf(c -> orig.getDimension().getLocation().equals(c
+                        .getDimension().getLocation()) && orig.getPos().equals(c.getPos()));
             }
             tag.put("secret_base_exit", exit);
-            PokecubeSerializer.getInstance().bases.add(GlobalPos.getPosition(dim, pos));
+            PokecubeSerializer.getInstance().bases.add(gpos);
         }
     }
 
@@ -146,16 +161,16 @@ public class SecretBaseDimension
         return x + z * scale;
     }
 
-    public static BlockPos getSecretBaseLoc(final UUID player, final MinecraftServer server,
-            final RegistryKey<World> dim)
+    public static GlobalPos getSecretBaseLoc(final UUID player, final MinecraftServer server, final boolean inBase)
     {
         final CompoundNBT tag = PokecubePlayerDataHandler.getCustomDataTag(player.toString());
-        if (dim == SecretBaseDimension.WORLD_KEY)
+        if (inBase)
         {
             if (tag.contains("secret_base_internal"))
             {
                 final CompoundNBT exit = tag.getCompound("secret_base_internal");
-                return new BlockPos(exit.getInt("x"), exit.getInt("y"), exit.getInt("z"));
+                return GlobalPos.getPosition(SecretBaseDimension.WORLD_KEY, new BlockPos(exit.getInt("x"), exit.getInt(
+                        "y"), exit.getInt("z")));
             }
             int index;
             if (!tag.contains("secret_base_index"))
@@ -166,13 +181,23 @@ public class SecretBaseDimension
             }
             else index = tag.getInt("secret_base_index");
             final ChunkPos chunk = SecretBaseDimension.getFromIndex(index);
-            return new BlockPos((chunk.x << 4) + 8, 64, (chunk.z << 4) + 8);
+            return GlobalPos.getPosition(SecretBaseDimension.WORLD_KEY, new BlockPos((chunk.x << 4) + 8, 64,
+                    (chunk.z << 4) + 8));
         }
-        else if (!tag.contains("secret_base_exit")) return server.getWorld(dim).getSpawnPoint();
+        else if (!tag.contains("secret_base_exit")) return GlobalPos.getPosition(World.OVERWORLD, server.getWorld(
+                World.OVERWORLD).getSpawnPoint());
         else
         {
             final CompoundNBT exit = tag.getCompound("secret_base_exit");
-            return new BlockPos(exit.getInt("x"), exit.getInt("y"), exit.getInt("z"));
+            try
+            {
+                return GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, exit).result().get().getFirst();
+            }
+            catch (final Exception e)
+            {
+                return GlobalPos.getPosition(World.OVERWORLD, new BlockPos(exit.getInt("x"), exit.getInt("y"), exit
+                        .getInt("z")));
+            }
         }
     }
 

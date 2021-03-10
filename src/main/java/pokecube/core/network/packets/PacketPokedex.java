@@ -42,7 +42,6 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
-import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.database.util.UnderscoreIgnore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
@@ -80,7 +79,7 @@ public class PacketPokedex extends Packet
     public static final byte REMOVE       = -2;
     public static final byte RENAME       = -1;
 
-    private static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE)
+    public static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE)
             .setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
 
     public static List<String>                         values       = Lists.newArrayList();
@@ -342,9 +341,6 @@ public class PacketPokedex extends Packet
             data = this.data.getCompound("V");
             final String entry = this.data.getString("e");
             final List<String> related = Lists.newArrayList();
-
-            System.out.println(Database.getEntry(entry) + " " + Tags.BREEDING.lookupTags(entry));
-
             num = data.getInt("n");
             for (int i = 0; i < num; i++)
                 related.add(data.getString("" + i));
@@ -372,6 +368,21 @@ public class PacketPokedex extends Packet
             }
             return;
         }
+    }
+
+    private String serialize(final SpawnBiomeMatcher matcher)
+    {
+        // First ensure the client side stuff is cleared.
+        matcher.clientBiomes.clear();
+        matcher.clientTypes.clear();
+        // Then populate it for serialisation
+        matcher.clientBiomes.addAll(matcher.getValidBiomes());
+        matcher._validSubBiomes.forEach(b -> matcher.clientTypes.add(b.name));
+        final String ret = PacketPokedex.gson.toJson(matcher);
+        // Then clear afterwards
+        matcher.clientBiomes.clear();
+        matcher.clientBiomes.clear();
+        return ret;
     }
 
     @Override
@@ -410,7 +421,7 @@ public class PacketPokedex extends Packet
             if (entry.getSpawnData() != null) for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers
                     .keySet())
             {
-                spawns.putString("" + n, PacketPokedex.gson.toJson(matcher));
+                spawns.putString("" + n, this.serialize(matcher));
                 n++;
             }
             spawns.putInt("n", n);
@@ -462,7 +473,7 @@ public class PacketPokedex extends Packet
                 final SpawnBiomeMatcher matcher = matchers.get(e);
                 matcher.spawnRule.values.put(new QName("Local_Rate"), rates.get(e) + "");
                 spawns.putString("e" + n, e.getName());
-                spawns.putString("" + n, PacketPokedex.gson.toJson(matcher));
+                spawns.putString("" + n, this.serialize(matcher));
                 n++;
             }
             packet.data.put("V", spawns);

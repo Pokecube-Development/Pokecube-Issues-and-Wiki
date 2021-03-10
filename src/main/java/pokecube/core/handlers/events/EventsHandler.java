@@ -686,6 +686,7 @@ public class EventsHandler
 
     private static void onWorldSave(final WorldEvent.Save evt)
     {
+        if (evt.getWorld().isRemote()) return;
         if (!(evt.getWorld() instanceof ServerWorld)) return;
         // Save the pokecube data whenever the overworld saves.
         if (((World) evt.getWorld()).getDimensionKey().equals(World.OVERWORLD))

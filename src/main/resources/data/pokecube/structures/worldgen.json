@@ -12,6 +12,19 @@
       ]
     },
     {
+      "name":"pokecube:ruins_base/rock_piles",
+      "rigid":false,
+      "options":[
+        "empty;{\"weight\":5}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_01;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_02;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_03;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_04;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_05;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_06;{\"weight\":6}"
+      ]
+    },
+    {
       "name":"pokecube:scattered/ruins_loose/rock_piles",
       "rigid":false,
       "options":[

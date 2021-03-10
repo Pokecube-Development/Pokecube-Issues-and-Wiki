@@ -5,7 +5,6 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
@@ -25,7 +24,6 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.SpawnBiomeMatcher;
-import thut.api.terrain.BiomeType;
 
 public class SpawnListEntry
 {
@@ -47,14 +45,12 @@ public class SpawnListEntry
         this.value = value;
         this.parent = parent;
         this.fontRender = fontRender;
-        value._additionalConditions = Sets.newHashSet();
-        value._blackListSubBiomes = Sets.newHashSet();
-        value._validSubBiomes = Sets.newHashSet();
+
         value.reset();
         value.parse();
 
         final List<ITextComponent> biomes = Lists.newArrayList();
-        for (final RegistryKey<Biome> b : value.getValidBiomes())
+        for (final RegistryKey<Biome> b : value.clientBiomes)
             biomes.add(new TranslationTextComponent(String.format("biome.%s.%s", b.getLocation().getNamespace(), b
                     .getLocation().getPath())));
 
@@ -78,8 +74,8 @@ public class SpawnListEntry
         }
 
         final List<String> types = Lists.newArrayList();
-        if (value._validSubBiomes != null) for (final BiomeType t : value._validSubBiomes)
-            types.add(I18n.format(t.readableName));
+        if (value.clientTypes != null) for (final String s : value.clientTypes)
+            types.add(I18n.format("thutcore.biometype." + s));
         if (!types.isEmpty())
         {
             String typeString = I18n.format("pokewatch.spawns.types") + " ";

@@ -28,6 +28,7 @@ import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
@@ -1446,6 +1447,11 @@ public class Vector3
         else if (o instanceof BlockPos)
         {
             final BlockPos c = (BlockPos) o;
+            this.set(c.getX(), c.getY(), c.getZ());
+        }
+        else if (o instanceof GlobalPos)
+        {
+            final BlockPos c = ((GlobalPos) o).getPos();
             this.set(c.getX(), c.getY(), c.getZ());
         }
         else if (o instanceof PathPoint)

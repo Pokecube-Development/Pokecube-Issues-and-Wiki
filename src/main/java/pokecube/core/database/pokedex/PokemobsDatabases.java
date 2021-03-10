@@ -64,10 +64,7 @@ public class PokemobsDatabases
         }
 
         Collections.sort(allFound);
-        int n = 0;
-
         for (final PokemobsJson json : allFound)
-        {
             for (final XMLPokedexEntry e : json.pokemon)
                 if (PokemobsDatabases.compound.__map__.containsKey(e.name))
                 {
@@ -77,11 +74,11 @@ public class PokemobsDatabases
                 }
                 else
                 {
-                    if (n != 0) PokecubeCore.LOGGER.info("Adding entry again? {} {}", e.name, json._file);
+                    // Lower priorities than this are assumed to be adding
+                    // entries, any higher are adding extra things to the entry.
+                    if (json.priority > 10) PokecubeCore.LOGGER.info("Adding entry again? {} {}", e.name, json._file);
                     PokemobsDatabases.compound.addEntry(e);
                 }
-            n++;
-        }
     }
 
     private static PokemobsJson loadDatabase(final InputStream stream) throws Exception
