@@ -13,6 +13,10 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.StructureMode;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -167,11 +171,11 @@ public class CustomJigsawPiece extends SingleJigsawPiece
 
         final Template template = this.getTemplate(templates);
         final PlacementSettings placementsettings = this.func_230379_a_(rotation, box, notJigsaw);
-        if (!template.func_237146_a_(seedReader, pos1, pos2, placementsettings, rng, 18)) return false;
+        final int placeFlags = 18;
+        if (!template.func_237146_a_(seedReader, pos1, pos2, placementsettings, rng, placeFlags)) return false;
         else
         {
             if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);
-
             if (this.config.name != null)
             {
                 final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, this.world,
@@ -180,11 +184,42 @@ public class CustomJigsawPiece extends SingleJigsawPiece
                 MinecraftForge.EVENT_BUS.post(event);
             }
             this.maskCheck = this.mask != null && this.mask.intersectsWith(box);
-            final List<BlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
-            for (final BlockInfo info : data)
+
+            // Check if we need to undo any waterlogging which may have
+            // occurred, we also process data markers here as to not duplicate
+            // loop later, as this operation is expensive enough anyway.
+            if (this.opts.extra.containsKey("markers_to_air"))
             {
-                final BlockPos blockpos = Template.transformedBlockPos(placementsettings, info.pos).add(pos1);
-                this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
+                final List<Template.BlockInfo> list = placementsettings.func_237132_a_(template.blocks, pos1)
+                        .func_237157_a_();
+                for (final BlockInfo info : list)
+                {
+                    final boolean isDataMarker = info.state.getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt != null
+                            && StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA;
+                    if (isDataMarker)
+                    {
+                        final BlockPos blockpos = Template.transformedBlockPos(placementsettings, info.pos).add(pos1);
+                        this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
+                    }
+                    else if (info.state.hasProperty(BlockStateProperties.WATERLOGGED))
+                    {
+                        final BlockPos blockpos = Template.transformedBlockPos(placementsettings, info.pos).add(pos1);
+                        final BlockState blockstate = info.state.mirror(placementsettings.getMirror()).rotate(
+                                seedReader, blockpos, placementsettings.getRotation());
+                        seedReader.setBlockState(blockpos, blockstate.with(BlockStateProperties.WATERLOGGED, false),
+                                placeFlags);
+                    }
+                }
+            }
+            else
+            {
+                // The false is if to return transformed position
+                final List<BlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
+                for (final BlockInfo info : data)
+                {
+                    final BlockPos blockpos = Template.transformedBlockPos(placementsettings, info.pos).add(pos1);
+                    this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
+                }
             }
             return true;
         }
