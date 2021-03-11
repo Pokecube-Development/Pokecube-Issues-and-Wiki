@@ -18,7 +18,7 @@ public class CustomJigsawFeature extends Feature<JigsawConfig>
     }
 
     @Override
-    public boolean generate(final ISeedReader reader, final ChunkGenerator generator, final Random rand, final BlockPos pos,
+    public boolean place(final ISeedReader reader, final ChunkGenerator generator, final Random rand, final BlockPos pos,
             final JigsawConfig config)
     {
         return false;

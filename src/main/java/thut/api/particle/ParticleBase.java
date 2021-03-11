@@ -25,7 +25,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     private static final IParticleData.IDeserializer<ParticleBase> DESERIALIZER = new IParticleData.IDeserializer<ParticleBase>()
     {
         @Override
-        public ParticleBase deserialize(
+        public ParticleBase fromCommand(
                 final ParticleType<ParticleBase> particleTypeIn,
                 final StringReader reader)
                 throws CommandSyntaxException
@@ -35,7 +35,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         }
 
         @Override
-        public ParticleBase read(
+        public ParticleBase fromNetwork(
                 final ParticleType<ParticleBase> particleTypeIn,
                 final PacketBuffer buffer)
         {
@@ -75,7 +75,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     }
 
     @Override
-    public String getParameters()
+    public String writeToString()
     {
         // TODO jsonify ourselves maybe?
         return ForgeRegistries.PARTICLE_TYPES.getKey(this).toString();
@@ -154,13 +154,13 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         final float u1 = u * 1f / 16f, v1 = v * 1f / 16f;
         final float u2 = (u + 1) * 1f / 16f, v2 = (v + 1) * 1f / 16f;
 
-        buffer.pos(verts[0].getX(), verts[0].getY(), verts[0].getZ()).color(r, g, b, a).tex(u1, v2).lightmap(j)
+        buffer.vertex(verts[0].x(), verts[0].y(), verts[0].z()).color(r, g, b, a).uv(u1, v2).uv2(j)
                 .endVertex();
-        buffer.pos(verts[1].getX(), verts[1].getY(), verts[1].getZ()).color(r, g, b, a).tex(u2, v2).lightmap(j)
+        buffer.vertex(verts[1].x(), verts[1].y(), verts[1].z()).color(r, g, b, a).uv(u2, v2).uv2(j)
                 .endVertex();
-        buffer.pos(verts[2].getX(), verts[2].getY(), verts[2].getZ()).color(r, g, b, a).tex(u2, v1).lightmap(j)
+        buffer.vertex(verts[2].x(), verts[2].y(), verts[2].z()).color(r, g, b, a).uv(u2, v1).uv2(j)
                 .endVertex();
-        buffer.pos(verts[3].getX(), verts[3].getY(), verts[3].getZ()).color(r, g, b, a).tex(u1, v1).lightmap(j)
+        buffer.vertex(verts[3].x(), verts[3].y(), verts[3].z()).color(r, g, b, a).uv(u1, v1).uv2(j)
                 .endVertex();
     }
 
@@ -170,7 +170,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
             final Vector3f offset)
     {
         Quaternion quaternion;
-        quaternion = renderInfo.getRotation();
+        quaternion = renderInfo.rotation();
         this.render(buffer, quaternion, offset);
     }
 
@@ -244,7 +244,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     }
 
     @Override
-    public void write(final PacketBuffer buffer)
+    public void writeToNetwork(final PacketBuffer buffer)
     {
         buffer.writeInt(this.duration);
         buffer.writeInt(this.lifetime);
@@ -262,7 +262,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     }
 
     @Override
-    public Codec<ParticleBase> func_230522_e_()
+    public Codec<ParticleBase> codec()
     {
         return this.codec;
     }

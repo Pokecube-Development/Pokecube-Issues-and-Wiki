@@ -30,22 +30,22 @@ public class EatFromChest extends EatBlockBase
         final MobEntity entity = pokemob.getEntity();
 
         double diff = 1.5;
-        diff = Math.max(diff, entity.getWidth());
-        final double dist = block.getPos().manhattanDistance(entity.getPosition());
+        diff = Math.max(diff, entity.getBbWidth());
+        final double dist = block.getPos().distManhattan(entity.blockPosition());
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
-        final ServerWorld world = (ServerWorld) entity.getEntityWorld();
+        final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatFromChest.checker.test(current)) return EatResult.NOEAT;
-        final IInventory container = (IInventory) world.getTileEntity(block.getPos());
-        for (int i1 = 0; i1 < container.getSizeInventory(); i1++)
+        final IInventory container = (IInventory) world.getBlockEntity(block.getPos());
+        for (int i1 = 0; i1 < container.getContainerSize(); i1++)
         {
-            final ItemStack stack = container.getStackInSlot(i1);
+            final ItemStack stack = container.getItem(i1);
             if (ItemList.is(HungerTask.FOODTAG, stack))
             {
                 pokemob.eat(stack);
                 stack.shrink(1);
-                if (stack.isEmpty()) container.setInventorySlotContents(i1, ItemStack.EMPTY);
+                if (stack.isEmpty()) container.setItem(i1, ItemStack.EMPTY);
                 return EatResult.EATEN;
             }
         }

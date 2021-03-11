@@ -21,8 +21,8 @@ public class HealerTile extends TileEntity implements ITickableTileEntity
     public void tick()
     {
         if (!PokecubeCore.getConfig().pokeCenterMusic) return;
-        if (!this.getWorld().isRemote || HealerTile.MUSICLOOP == null) return;
-        final int power = this.getWorld().getRedstonePowerFromNeighbors(this.getPos());
+        if (!this.getLevel().isClientSide || HealerTile.MUSICLOOP == null) return;
+        final int power = this.getLevel().getBestNeighborSignal(this.getBlockPos());
         this.play = power > 0;
         PokecubeCore.proxy.pokecenterloop(this, this.play);
     }

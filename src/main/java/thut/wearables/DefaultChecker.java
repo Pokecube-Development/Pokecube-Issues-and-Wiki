@@ -28,9 +28,9 @@ public class DefaultChecker implements IWearableChecker
     {
         if (!itemstack.isEmpty())
         {
-            final ActionResultType result = itemstack.getItem().onItemUse(context);
-            if (result == ActionResultType.PASS && player instanceof PlayerEntity) itemstack.useItemRightClick(player
-                    .getEntityWorld(), (PlayerEntity) player, Hand.MAIN_HAND);
+            final ActionResultType result = itemstack.getItem().useOn(context);
+            if (result == ActionResultType.PASS && player instanceof PlayerEntity) itemstack.use(player
+                    .getCommandSenderWorld(), (PlayerEntity) player, Hand.MAIN_HAND);
         }
     }
 
@@ -74,9 +74,9 @@ public class DefaultChecker implements IWearableChecker
                 .onUpdate(player, itemstack, slot, subIndex);
         if (itemstack.getItem() instanceof IActiveWearable) ((IActiveWearable) itemstack.getItem()).onUpdate(player,
                 itemstack, slot, subIndex);
-        else if (player instanceof PlayerEntity) itemstack.getItem().onArmorTick(itemstack, player.getEntityWorld(),
+        else if (player instanceof PlayerEntity) itemstack.getItem().onArmorTick(itemstack, player.getCommandSenderWorld(),
                 (PlayerEntity) player);
-        else itemstack.getItem().inventoryTick(itemstack, player.getEntityWorld(), player, slot.index + subIndex,
+        else itemstack.getItem().inventoryTick(itemstack, player.getCommandSenderWorld(), player, slot.index + subIndex,
                 false);
     }
 }

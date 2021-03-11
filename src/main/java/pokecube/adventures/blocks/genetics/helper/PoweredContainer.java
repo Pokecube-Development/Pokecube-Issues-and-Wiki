@@ -21,11 +21,11 @@ public abstract class PoweredContainer<T extends BaseGeneticsTile> extends BaseC
         this.tile = provider.getTile(this);
         this.inv = this.tile;
 
-        this.trackIntArray(this.tile.syncValues);
+        this.addDataSlots(this.tile.syncValues);
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return true;
     }
@@ -39,7 +39,7 @@ public abstract class PoweredContainer<T extends BaseGeneticsTile> extends BaseC
     @Override
     public int getInventorySlotCount()
     {
-        return this.tile.getSizeInventory();
+        return this.tile.getContainerSize();
     }
 
 }

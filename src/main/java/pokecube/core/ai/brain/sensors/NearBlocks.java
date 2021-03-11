@@ -64,7 +64,7 @@ public class NearBlocks extends Sensor<LivingEntity>
     }
 
     @Override
-    protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
+    protected void doTick(final ServerWorld worldIn, final LivingEntity entityIn)
     {
         try
         {
@@ -82,7 +82,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
                 AIRoutine.GATHER) && this.tameCheck(pokemob);
         final int size = gathering ? 15 : 8;
-        if (!TerrainManager.isAreaLoaded(entityIn.getEntityWorld(), entityIn.getPosition(), size + 8)) return;
+        if (!TerrainManager.isAreaLoaded(entityIn.getCommandSenderWorld(), entityIn.blockPosition(), size + 8)) return;
 
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector();
         final Vector3 origin = Vector3.getNewVector();
@@ -96,10 +96,10 @@ public class NearBlocks extends Sensor<LivingEntity>
             final Vector3d end = new Vector3d(input.getX() + 0.5, input.getY() + 0.5, input.getZ() + 0.5);
             final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
                     entityIn);
-            final RayTraceResult result = worldIn.rayTraceBlocks(context);
+            final RayTraceResult result = worldIn.clip(context);
             if (result.getType() == Type.MISS) return true;
             final BlockRayTraceResult hit = (BlockRayTraceResult) result;
-            return hit.getPos().equals(input);
+            return hit.getBlockPos().equals(input);
         };
 
         for (int i = 0; i < size * size * size; i++)
@@ -115,15 +115,15 @@ public class NearBlocks extends Sensor<LivingEntity>
             list.add(new NearBlock(state, bpos));
         }
 
-        final BlockPos o0 = entityIn.getPosition();
-        list.sort((o1, o2) -> (int) (o1.getPos().distanceSq(o0) - o1.getPos().distanceSq(o0)));
+        final BlockPos o0 = entityIn.blockPosition();
+        list.sort((o1, o2) -> (int) (o1.getPos().distSqr(o0) - o1.getPos().distSqr(o0)));
         final Brain<?> brain = entityIn.getBrain();
         if (!list.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_BLOCKS, list);
-        else brain.removeMemory(MemoryModules.VISIBLE_BLOCKS);
+        else brain.eraseMemory(MemoryModules.VISIBLE_BLOCKS);
     }
 
     @Override
-    public Set<MemoryModuleType<?>> getUsedMemories()
+    public Set<MemoryModuleType<?>> requires()
     {
         return ImmutableSet.of(MemoryModules.VISIBLE_BLOCKS);
     }

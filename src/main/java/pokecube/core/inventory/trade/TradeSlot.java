@@ -22,16 +22,16 @@ public class TradeSlot extends Slot
     }
 
     @Override
-    public boolean canTakeStack(final PlayerEntity playerIn)
+    public boolean mayPickup(final PlayerEntity playerIn)
     {
         if (this.tile.confirmed[this.getSlotIndex()]) return false;
-        final ItemStack stack = this.getStack();
+        final ItemStack stack = this.getItem();
         if (PokecubeManager.isFilled(stack))
         {
             final String id = PokecubeManager.getOwner(stack);
-            return id.equals(playerIn.getCachedUniqueIdString());
+            return id.equals(playerIn.getStringUUID());
         }
-        return super.canTakeStack(playerIn);
+        return super.mayPickup(playerIn);
     }
 
     @Override
@@ -42,14 +42,14 @@ public class TradeSlot extends Slot
     }
 
     @Override
-    public boolean isItemValid(final ItemStack stack)
+    public boolean mayPlace(final ItemStack stack)
     {
         if (this.tile.confirmed[this.getSlotIndex()]) return false;
         if (this.validCheck != null && PokecubeManager.isFilled(stack))
         {
             final String id = PokecubeManager.getOwner(stack);
-            return id.equals(this.validCheck.getCachedUniqueIdString());
+            return id.equals(this.validCheck.getStringUUID());
         }
-        return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
+        return this.container.canPlaceItem(this.getSlotIndex(), stack);
     }
 }

@@ -57,7 +57,7 @@ public class UseMoveTask extends UtilTask
     @Override
     public void run()
     {
-        this.destination.set(this.pos.getPos());
+        this.destination.set(this.pos.currentPosition());
         final Move_Base move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
 
         if (move == null)
@@ -132,9 +132,9 @@ public class UseMoveTask extends UtilTask
         // move, otherwise path to location.
         if (this.checkRange)
         {
-            RayTraceContext context = new RayTraceContext(this.entity.getPositionVec(), new Vector3d(this.destination.x,
+            RayTraceContext context = new RayTraceContext(this.entity.position(), new Vector3d(this.destination.x,
                     this.destination.y, this.destination.z), BlockMode.COLLIDER, FluidMode.NONE, this.entity);
-            RayTraceResult trace = this.world.rayTraceBlocks(context);
+            RayTraceResult trace = this.world.clip(context);
             BlockRayTraceResult result = null;
 
             // Adjust destination accordingly based on side hit, since it is
@@ -142,7 +142,7 @@ public class UseMoveTask extends UtilTask
             if (trace.getType() == Type.BLOCK)
             {
                 result = (BlockRayTraceResult) trace;
-                final Vector3i dir = result.getFace().getDirectionVec();
+                final Vector3i dir = result.getDirection().getNormal();
                 // Make a new location that is shifted to closer to edge of
                 // the block for the visiblity checks.
                 final Vector3 loc = this.destination.copy();
@@ -150,15 +150,15 @@ public class UseMoveTask extends UtilTask
                 if (loc.y % 1 == 0.5) loc.y += dir.getY() * 0.49;
                 if (loc.z % 1 == 0.5) loc.z += dir.getZ() * 0.49;
                 result = null;
-                context = new RayTraceContext(this.entity.getPositionVec(), new Vector3d(loc.x, loc.y, loc.z),
+                context = new RayTraceContext(this.entity.position(), new Vector3d(loc.x, loc.y, loc.z),
                         BlockMode.COLLIDER, FluidMode.NONE, this.entity);
                 // Raytrace against shifted location.
-                trace = this.world.rayTraceBlocks(context);
+                trace = this.world.clip(context);
                 if (trace.getType() == Type.BLOCK) result = (BlockRayTraceResult) trace;
             }
 
             // Apply move directly from here.
-            if (result == null || result.getPos().equals(this.destination.getPos()))
+            if (result == null || result.getBlockPos().equals(this.destination.getPos()))
             {
                 this.pokemob.executeMove(null, this.destination, 0);
                 this.running = false;

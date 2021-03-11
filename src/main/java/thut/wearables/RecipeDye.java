@@ -45,8 +45,8 @@ public class RecipeDye extends SpecialRecipe
     {
         if (RecipeDye.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
-            final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getTranslationKey());
-            RecipeDye.DYETAGS.put(colour, ItemTags.getCollection().getTagByID(tag));
+            final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
+            RecipeDye.DYETAGS.put(colour, ItemTags.getAllTags().getTagOrEmpty(tag));
         }
         return RecipeDye.DYETAGS;
     }
@@ -57,19 +57,19 @@ public class RecipeDye extends SpecialRecipe
     }
 
     @Override
-    public boolean canFit(final int width, final int height)
+    public boolean canCraftInDimensions(final int width, final int height)
     {
         return width * height > 1;
     }
 
     @Override
-    public ItemStack getCraftingResult(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         ItemStack wearable = ItemStack.EMPTY;
         ItemStack dye = ItemStack.EMPTY;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack stack = inv.getStackInSlot(i);
+            final ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
             IWearable wear = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null && stack.getItem() instanceof IWearable) wear = (IWearable) stack.getItem();
@@ -79,7 +79,7 @@ public class RecipeDye extends SpecialRecipe
                 continue;
             }
             final ITag<Item> dyeTag = Tags.Items.DYES;
-            if (stack.getItem().isIn(dyeTag))
+            if (stack.getItem().is(dyeTag))
             {
                 dye = stack;
                 continue;
@@ -92,7 +92,7 @@ public class RecipeDye extends SpecialRecipe
 
         final Map<DyeColor, ITag<Item>> tags = RecipeDye.getDyeTagMap();
         for (final DyeColor colour : DyeColor.values())
-            if (dye.getItem().isIn(tags.get(colour)))
+            if (dye.getItem().is(tags.get(colour)))
             {
                 dyeColour = colour;
                 break;
@@ -104,11 +104,11 @@ public class RecipeDye extends SpecialRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
     {
-        final NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack> withSize(inv.getSizeInventory(),
+        final NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack> withSize(inv.getContainerSize(),
                 ItemStack.EMPTY);
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            final ItemStack itemstack = inv.getStackInSlot(i);
+            final ItemStack itemstack = inv.getItem(i);
             nonnulllist.set(i, this.toKeep(i, itemstack, inv));
         }
         return nonnulllist;
@@ -125,9 +125,9 @@ public class RecipeDye extends SpecialRecipe
     {
         boolean wearable = false;
         boolean dye = false;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack stack = inv.getStackInSlot(i);
+            final ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
             IWearable wear = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null && stack.getItem() instanceof IWearable) wear = (IWearable) stack.getItem();
@@ -138,7 +138,7 @@ public class RecipeDye extends SpecialRecipe
                 continue;
             }
             final ITag<Item> dyeTag = Tags.Items.DYES;
-            if (stack.getItem().isIn(dyeTag))
+            if (stack.getItem().is(dyeTag))
             {
                 if (dye) return false;
                 dye = true;

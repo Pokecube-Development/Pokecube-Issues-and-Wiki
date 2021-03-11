@@ -32,7 +32,7 @@ public class Commander extends Screen
     {
         super(new TranslationTextComponent("pokecube_adventures.commander.gui"));
         this.pos = tilePos;
-        this.tile = (CommanderTile) PokecubeCore.proxy.getWorld().getTileEntity(this.pos);
+        this.tile = (CommanderTile) PokecubeCore.proxy.getWorld().getBlockEntity(this.pos);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Commander extends Screen
                 {
                     if (this.index < names.size() - 1) this.index++;
                     else this.index = 0;
-                    this.command.setText(names.get(this.index));
+                    this.command.setValue(names.get(this.index));
                 }));
 
         this.addButton(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 65, 20, 20,
@@ -74,42 +74,42 @@ public class Commander extends Screen
                 {
                     if (this.index > 0) this.index--;
                     else this.index = names.size() - 1;
-                    this.command.setText(names.get(this.index));
+                    this.command.setValue(names.get(this.index));
                 }));
 
         this.command = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 74 + yOffset, 100, 10,
                 new StringTextComponent(""));
         final String init = this.tile.getCommand() == null ? "ATTACKLOCATION" : "" + this.tile.getCommand();
-        this.command.setText(init);
+        this.command.setValue(init);
 
         for (this.index = 0; this.index < names.size(); this.index++)
             if (init.equals(names.get(this.index))) break;
 
         this.args = new TextFieldWidget(this.font, this.width / 2 - 50, this.height / 4 + 94 + yOffset, 100, 10,
                 new StringTextComponent(""));
-        this.args.setText(this.tile.args);
+        this.args.setValue(this.tile.args);
 
         this.addButton(this.command);
         this.addButton(this.args);
     }
 
     @Override
-    public void onClose()
+    public void removed()
     {
         this.sendChooseToServer();
-        super.onClose();
+        super.removed();
     }
 
     private void sendChooseToServer()
     {
         final CompoundNBT tag = new CompoundNBT();
-        tag.putString("biome", this.command.getText());
+        tag.putString("biome", this.command.getValue());
         final PacketCommander mess = new PacketCommander();
-        mess.data.putInt("x", this.tile.getPos().getX());
-        mess.data.putInt("y", this.tile.getPos().getY());
-        mess.data.putInt("z", this.tile.getPos().getZ());
-        mess.data.putString("C", this.command.getText());
-        mess.data.putString("A", this.args.getText());
+        mess.data.putInt("x", this.tile.getBlockPos().getX());
+        mess.data.putInt("y", this.tile.getBlockPos().getY());
+        mess.data.putInt("z", this.tile.getBlockPos().getZ());
+        mess.data.putString("C", this.command.getValue());
+        mess.data.putString("A", this.args.getValue());
         PokecubeAdv.packets.sendToServer(mess);
     }
 }

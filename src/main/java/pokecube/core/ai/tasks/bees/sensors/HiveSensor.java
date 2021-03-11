@@ -70,10 +70,10 @@ public class HiveSensor extends Sensor<MobEntity>
         HiveSensor.hiveSpaceCheckers.add(vanillaCheck);
         final IHiveLocator vanillaLocator = (entityIn) ->
         {
-            final BlockPos blockpos = entityIn.getPosition();
-            final PointOfInterestManager pointofinterestmanager = ((ServerWorld) entityIn.world)
-                    .getPointOfInterestManager();
-            final Stream<PointOfInterest> stream = pointofinterestmanager.func_219146_b((type) ->
+            final BlockPos blockpos = entityIn.blockPosition();
+            final PointOfInterestManager pointofinterestmanager = ((ServerWorld) entityIn.level)
+                    .getPoiManager();
+            final Stream<PointOfInterest> stream = pointofinterestmanager.getInRange((type) ->
             {
                 return type == PointOfInterestType.BEEHIVE || type == PointOfInterestType.BEE_NEST;
             }, blockpos, 20, PointOfInterestManager.Status.ANY);
@@ -82,7 +82,7 @@ public class HiveSensor extends Sensor<MobEntity>
                 return HiveSensor.doesHiveHaveSpace(entityIn, pos);
             }).sorted(Comparator.comparingDouble((pos) ->
             {
-                return pos.distanceSq(blockpos);
+                return pos.distSqr(blockpos);
             })).collect(Collectors.toList());
         };
         HiveSensor.hiveLocators.add(vanillaLocator);
@@ -91,18 +91,18 @@ public class HiveSensor extends Sensor<MobEntity>
     private static List<BlockPos> getNearbyFreeHives(final MobEntity entityIn)
     {
         final List<BlockPos> hives = Lists.newArrayList();
-        final BlockPos blockpos = entityIn.getPosition();
+        final BlockPos blockpos = entityIn.blockPosition();
         HiveSensor.hiveLocators.forEach(l -> hives.addAll(l.getHives(entityIn)));
         hives.sort(Comparator.comparingDouble((pos) ->
         {
-            return pos.distanceSq(blockpos);
+            return pos.distSqr(blockpos);
         }));
         return hives;
     }
 
     public static boolean doesHiveHaveSpace(final MobEntity entityIn, final BlockPos pos)
     {
-        final TileEntity tile = entityIn.getEntityWorld().getTileEntity(pos);
+        final TileEntity tile = entityIn.getCommandSenderWorld().getBlockEntity(pos);
         if (tile != null) for (final IHiveSpaceCheck checker : HiveSensor.hiveSpaceCheckers)
             if (checker.canAddBee(entityIn, tile)) return true;
         return false;
@@ -110,37 +110,37 @@ public class HiveSensor extends Sensor<MobEntity>
 
     public static boolean tryAddToBeeHive(final MobEntity entityIn, final BlockPos hive)
     {
-        final TileEntity tile = entityIn.getEntityWorld().getTileEntity(hive);
+        final TileEntity tile = entityIn.getCommandSenderWorld().getBlockEntity(hive);
         if (tile != null) for (final IHiveEnterer checker : HiveSensor.hiveEnterers)
             if (checker.addBee(entityIn, tile)) return true;
         return false;
     }
 
     @Override
-    protected void update(final ServerWorld worldIn, final MobEntity entityIn)
+    protected void doTick(final ServerWorld worldIn, final MobEntity entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
-        if (brain.hasMemory(BeeTasks.HIVE_POS)) return;
+        if (brain.hasMemoryValue(BeeTasks.HIVE_POS)) return;
         final List<BlockPos> hives = HiveSensor.getNearbyFreeHives(entityIn);
         Collections.shuffle(hives);
         if (!hives.isEmpty())
         {
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
-            brain.removeMemory(BeeTasks.NO_HIVE_TIMER);
-            brain.setMemory(BeeTasks.HIVE_POS, GlobalPos.getPosition(entityIn.getEntityWorld().getDimensionKey(), hives
+            brain.eraseMemory(BeeTasks.NO_HIVE_TIMER);
+            brain.setMemory(BeeTasks.HIVE_POS, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(), hives
                     .get(0)));
         }
         else
         {
             int timer = 0;
-            if (brain.hasMemory(BeeTasks.NO_HIVE_TIMER)) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER).get();
+            if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER)) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER).get();
             brain.setMemory(BeeTasks.NO_HIVE_TIMER, timer + 1);
         }
     }
 
     @Override
-    public Set<MemoryModuleType<?>> getUsedMemories()
+    public Set<MemoryModuleType<?>> requires()
     {
         return HiveSensor.MEMS;
     }

@@ -195,14 +195,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private void postRender(final MatrixStack mat)
     {
         // Pop ours first.
-        mat.pop();
+        mat.popPose();
         // Then pop all the parent's
         if (this.parent != null) this.parent.unRotateForChild(mat);
     }
 
     private void preRender(final MatrixStack mat)
     {
-        mat.push();
+        mat.pushPose();
         mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         // Translate of offset for rotation.
         mat.translate(this.offset.x, this.offset.y, this.offset.z);

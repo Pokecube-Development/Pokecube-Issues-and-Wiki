@@ -24,7 +24,7 @@ public class LookAtMob extends RootTask<LivingEntity>
     {
         this((mob) ->
         {
-            return type.equals(mob.getType().getClassification());
+            return type.equals(mob.getType().getCategory());
         }, distance);
     }
 
@@ -39,7 +39,7 @@ public class LookAtMob extends RootTask<LivingEntity>
     public LookAtMob(final Predicate<LivingEntity> matcher, final float distance)
     {
         super(ImmutableMap.of(MemoryModuleType.LOOK_TARGET, MemoryModuleStatus.VALUE_ABSENT,
-                MemoryModuleType.VISIBLE_MOBS, MemoryModuleStatus.VALUE_PRESENT));
+                MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleStatus.VALUE_PRESENT));
         this.matcher = matcher;
         this.distance_squared = distance * distance;
     }
@@ -51,20 +51,20 @@ public class LookAtMob extends RootTask<LivingEntity>
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
-        return owner.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get().stream().anyMatch(this.matcher);
+        return owner.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get().stream().anyMatch(this.matcher);
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         final Brain<?> brain = entityIn.getBrain();
-        brain.getMemory(MemoryModuleType.VISIBLE_MOBS).ifPresent((list) ->
+        brain.getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).ifPresent((list) ->
         {
             list.stream().filter(this.matcher).filter((mob) ->
             {
-                return mob.getDistanceSq(entityIn) <= this.distance_squared;
+                return mob.distanceToSqr(entityIn) <= this.distance_squared;
             }).findFirst().ifPresent((mob) ->
             {
                 brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityPosWrapper(mob, true));

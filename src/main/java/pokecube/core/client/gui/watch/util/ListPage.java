@@ -33,7 +33,7 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     @Override
     public void init()
     {
-        this.getEventListeners().clear();
+        this.children().clear();
         super.init();
         this.initList();
     }
@@ -46,7 +46,7 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     @Override
     public void onPageOpened()
     {
-        this.getEventListeners().clear();
+        this.children().clear();
         this.initList();
         super.onPageOpened();
     }

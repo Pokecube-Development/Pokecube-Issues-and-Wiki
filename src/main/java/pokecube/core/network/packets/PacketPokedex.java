@@ -119,7 +119,7 @@ public class PacketPokedex extends Packet
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.INSPECTMOB);
         PlayerDataHandler.getInstance().getPlayerData(PokecubeCore.proxy.getPlayer()).getData(PokecubePlayerStats.class)
                 .inspect(PokecubeCore.proxy.getPlayer(), pokemob);
-        packet.data.putInt("V", pokemob.getEntity().getEntityId());
+        packet.data.putInt("V", pokemob.getEntity().getId());
         PokecubeCore.packets.sendToServer(packet);
     }
 
@@ -144,7 +144,7 @@ public class PacketPokedex extends Packet
         final PacketPokedex packet = new PacketPokedex();
         packet.message = PacketPokedex.OPEN;
         packet.data.putBoolean("W", watch);
-        if (pokemob != null) packet.data.putInt("M", pokemob.getEntityId());
+        if (pokemob != null) packet.data.putInt("M", pokemob.getId());
         PokecubeCore.packets.sendTo(packet, player);
     }
 
@@ -175,35 +175,35 @@ public class PacketPokedex extends Packet
         packet.data.putInt("2", index2);
         packet.data.putInt("1", index1);
         PokecubeCore.packets.sendToServer(packet);
-        TeleportHandler.swapTeleports(PokecubeCore.proxy.getPlayer().getCachedUniqueIdString(), index1, index2);
+        TeleportHandler.swapTeleports(PokecubeCore.proxy.getPlayer().getStringUUID(), index1, index2);
     }
 
     public static void sendSecretBaseInfoPacket(final ServerPlayerEntity player, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex();
         ListNBT list = new ListNBT();
-        final BlockPos pos = player.getPosition();
-        final GlobalPos here = GlobalPos.getPosition(player.getEntityWorld().getDimensionKey(), pos);
+        final BlockPos pos = player.blockPosition();
+        final GlobalPos here = GlobalPos.of(player.getCommandSenderWorld().dimension(), pos);
         for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
         {
-            final CompoundNBT nbt = NBTUtil.writeBlockPos(c.getPos());
+            final CompoundNBT nbt = NBTUtil.writeBlockPos(c.pos());
             list.add(nbt);
         }
         packet.data.put("_bases_", list);
         packet.data.putBoolean("M", watch);
         packet.data.putInt("R", PokecubeCore.getConfig().baseRadarRange);
         final List<GlobalPos> meteors = Lists.newArrayList(PokecubeSerializer.getInstance().meteors);
-        meteors.removeIf(p -> p.getDimension() != here.getDimension());
+        meteors.removeIf(p -> p.dimension() != here.dimension());
         meteors.sort((c1, c2) ->
         {
-            final int d1 = c1.getPos().compareTo(pos);
-            final int d2 = c2.getPos().compareTo(pos);
+            final int d1 = c1.pos().compareTo(pos);
+            final int d2 = c2.pos().compareTo(pos);
             return d2 - d1;
         });
         list = new ListNBT();
         for (int i = 0; i < Math.min(10, meteors.size()); i++)
         {
-            final CompoundNBT nbt = NBTUtil.writeBlockPos(meteors.get(i).getPos());
+            final CompoundNBT nbt = NBTUtil.writeBlockPos(meteors.get(i).pos());
             list.add(nbt);
         }
         packet.data.put("_meteors_", list);
@@ -267,7 +267,7 @@ public class PacketPokedex extends Packet
     public PacketPokedex(final PacketBuffer buf)
     {
         this.message = buf.readByte();
-        if (buf.isReadable()) this.data = buf.readCompoundTag();
+        if (buf.isReadable()) this.data = buf.readNbt();
     }
 
     @Override
@@ -281,17 +281,17 @@ public class PacketPokedex extends Packet
         switch (this.message)
         {
         case OPEN:
-            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.data.getInt(
+            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.data.getInt(
                     "M"), true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             final boolean watch = this.data.getBoolean("W");
-            if (watch) net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new GuiPokeWatch(player,
+            if (watch) net.minecraft.client.Minecraft.getInstance().setScreen(new GuiPokeWatch(player,
                     mob instanceof LivingEntity ? (LivingEntity) mob : null));
-            else net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new GuiPokedex(pokemob, player));
+            else net.minecraft.client.Minecraft.getInstance().setScreen(new GuiPokedex(pokemob, player));
             return;
         case REQUEST:
             PacketPokedex.values.clear();
-            n = this.data.keySet().size();
+            n = this.data.getAllKeys().size();
             for (int i = 0; i < n; i++)
                 PacketPokedex.values.add(this.data.getString("" + i));
             return;
@@ -321,7 +321,7 @@ public class PacketPokedex extends Packet
         case REQUESTLOC:
             PacketPokedex.selectedLoc.clear();
             data = this.data.getCompound("V");
-            n = data.keySet().size() / 2;
+            n = data.getAllKeys().size() / 2;
             for (int i = 0; i < n; i++)
                 PacketPokedex.selectedLoc.put(Database.getEntry(data.getString("e" + i)), PacketPokedex.gson.fromJson(
                         data.getString("" + i), SpawnBiomeMatcher.class));
@@ -405,7 +405,7 @@ public class PacketPokedex extends Packet
         switch (this.message)
         {
         case INSPECTMOB:
-            mob = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.data.getInt("V"), true);
+            mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.data.getInt("V"), true);
             pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player).getData(
                     PokecubePlayerStats.class).inspect(player, pokemob);
@@ -415,7 +415,7 @@ public class PacketPokedex extends Packet
             return;
         case REQUESTMOB:
             pos = Vector3.getNewVector().set(player);
-            checker = new SpawnCheck(pos, player.getEntityWorld());
+            checker = new SpawnCheck(pos, player.getCommandSenderWorld());
             entry = Database.getEntry(this.data.getString("V"));
             packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
             if (entry.getSpawnData() != null) for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers
@@ -444,9 +444,9 @@ public class PacketPokedex extends Packet
         case REQUESTLOC:
             rates = Maps.newHashMap();
             pos = Vector3.getNewVector().set(player);
-            checker = new SpawnCheck(pos, player.getEntityWorld());
+            checker = new SpawnCheck(pos, player.getCommandSenderWorld());
             names = new ArrayList<>();
-            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getEntityWorld(), pos
+            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getCommandSenderWorld(), pos
                     .getPos()) != ForbidReason.NONE;
             for (final PokedexEntry e : Database.spawnables)
                 if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
@@ -489,7 +489,7 @@ public class PacketPokedex extends Packet
             {
                 rates = Maps.newHashMap();
                 pos = Vector3.getNewVector().set(player);
-                checker = new SpawnCheck(pos, player.getEntityWorld());
+                checker = new SpawnCheck(pos, player.getCommandSenderWorld());
                 names = new ArrayList<>();
                 for (final PokedexEntry e : Database.spawnables)
                     if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
@@ -574,23 +574,23 @@ public class PacketPokedex extends Packet
         case REORDER:
             final int index1 = this.data.getInt("1");
             final int index2 = this.data.getInt("2");
-            PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
-            TeleportHandler.swapTeleports(player.getCachedUniqueIdString(), index1, index2);
+            PlayerDataHandler.getInstance().save(player.getStringUUID());
+            TeleportHandler.swapTeleports(player.getStringUUID(), index1, index2);
             PacketDataSync.syncData(player, "pokecube-data");
             return;
         case REMOVE:
             final int index = this.data.getInt("I");
-            final TeleDest loc = TeleportHandler.getTeleport(player.getCachedUniqueIdString(), index);
-            TeleportHandler.unsetTeleport(index, player.getCachedUniqueIdString());
-            player.sendMessage(new StringTextComponent("Deleted " + loc.getName()), Util.DUMMY_UUID);
-            PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
+            final TeleDest loc = TeleportHandler.getTeleport(player.getStringUUID(), index);
+            TeleportHandler.unsetTeleport(index, player.getStringUUID());
+            player.sendMessage(new StringTextComponent("Deleted " + loc.getName()), Util.NIL_UUID);
+            PlayerDataHandler.getInstance().save(player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
         case RENAME:
             final String name = this.data.getString("N");
-            TeleportHandler.renameTeleport(player.getCachedUniqueIdString(), this.data.getInt("I"), name);
-            player.sendMessage(new StringTextComponent("Set teleport as " + name), Util.DUMMY_UUID);
-            PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
+            TeleportHandler.renameTeleport(player.getStringUUID(), this.data.getInt("I"), name);
+            player.sendMessage(new StringTextComponent("Set teleport as " + name), Util.NIL_UUID);
+            PlayerDataHandler.getInstance().save(player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
         case INSPECT:
@@ -602,13 +602,13 @@ public class PacketPokedex extends Packet
             if (!reward)
             {
                 if (inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.available"),
-                        Util.DUMMY_UUID);
+                        Util.NIL_UUID);
             }
             else
             {
                 if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"),
-                        Util.DUMMY_UUID);
-                player.closeScreen();
+                        Util.NIL_UUID);
+                player.closeContainer();
             }
             return;
         case CHECKLEGEND:
@@ -618,12 +618,12 @@ public class PacketPokedex extends Packet
                 final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
                 final boolean valid = condition.canCapture(player);
                 if (valid) player.sendMessage(new TranslationTextComponent("pokewatch.capture.check.yes", entry
-                        .getTranslatedName()), Util.DUMMY_UUID);
+                        .getTranslatedName()), Util.NIL_UUID);
                 else
                 {
-                    player.sendMessage(condition.getFailureMessage(player), Util.DUMMY_UUID);
+                    player.sendMessage(condition.getFailureMessage(player), Util.NIL_UUID);
                     player.sendMessage(new TranslationTextComponent("pokewatch.capture.check.no", entry
-                            .getTranslatedName()), Util.DUMMY_UUID);
+                            .getTranslatedName()), Util.NIL_UUID);
                 }
             }
             return;
@@ -636,6 +636,6 @@ public class PacketPokedex extends Packet
     public void write(final PacketBuffer buf)
     {
         buf.writeByte(this.message);
-        if (!this.data.isEmpty()) buf.writeCompoundTag(this.data);
+        if (!this.data.isEmpty()) buf.writeNbt(this.data);
     }
 }

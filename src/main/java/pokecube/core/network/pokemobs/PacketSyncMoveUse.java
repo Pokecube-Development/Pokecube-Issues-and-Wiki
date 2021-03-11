@@ -13,10 +13,10 @@ public class PacketSyncMoveUse extends Packet
 {
     public static void sendUpdate(IPokemob pokemob)
     {
-        if (pokemob.getEntity().getEntityWorld().isRemote || !(pokemob.getOwner() instanceof PlayerEntity))
+        if (pokemob.getEntity().getCommandSenderWorld().isClientSide || !(pokemob.getOwner() instanceof PlayerEntity))
             return;
         final PacketSyncMoveUse packet = new PacketSyncMoveUse();
-        packet.entityId = pokemob.getEntity().getEntityId();
+        packet.entityId = pokemob.getEntity().getId();
         packet.index = pokemob.getMoveIndex();
         PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) pokemob.getOwner());
     }
@@ -40,7 +40,7 @@ public class PacketSyncMoveUse extends Packet
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final int index = this.index;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         final IPokemob mob = CapabilityPokemob.getPokemobFor(e);
         if (mob != null) mob.getMoveStats().lastMove = mob.getMove(index);
     }

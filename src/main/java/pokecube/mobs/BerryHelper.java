@@ -58,7 +58,7 @@ public class BerryHelper implements IMoveConstants
                 pokemob.setFlavourAmount(i, pokemob.getFlavourAmount(i) + flavours[i]);
         }
         boolean useStack = applied;
-        if (useStack && user instanceof PlayerEntity && ((PlayerEntity) user).abilities.isCreativeMode)
+        if (useStack && user instanceof PlayerEntity && ((PlayerEntity) user).abilities.instabuild)
             useStack = false;
         if (useStack) stack.split(1);
         return new ActionResult<>(applied ? ActionResultType.SUCCESS : ActionResultType.FAIL, stack);

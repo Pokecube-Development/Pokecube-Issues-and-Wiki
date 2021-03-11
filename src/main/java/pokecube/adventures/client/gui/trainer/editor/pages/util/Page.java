@@ -24,7 +24,7 @@ public abstract class Page extends Screen implements IGuiEventListener
         this.title = title;
         this.parent = parent;
         this.minecraft = Minecraft.getInstance();
-        this.font = this.minecraft.fontRenderer;
+        this.font = this.minecraft.font;
     }
 
     @Override
@@ -45,14 +45,14 @@ public abstract class Page extends Screen implements IGuiEventListener
 
     public void onPageClosed()
     {
-        this.parent.getEventListeners().remove(this);
+        this.parent.children().remove(this);
     }
 
     public void onPageOpened()
     {
-        this.parent.getEventListeners().remove(this.parent.current_page);
+        this.parent.children().remove(this.parent.current_page);
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.parent.getEventListeners();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.parent.children();
         list.add(this);
     }
 }

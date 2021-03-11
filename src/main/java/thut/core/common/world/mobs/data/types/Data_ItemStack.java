@@ -23,7 +23,7 @@ public class Data_ItemStack extends Data_Base<ItemStack>
     @Override
     protected boolean isDifferent(ItemStack last, ItemStack value)
     {
-        return !ItemStack.areItemStacksEqual(last, value);
+        return !ItemStack.matches(last, value);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Data_ItemStack extends Data_Base<ItemStack>
         try
         {
             wrapped.writeBytes(dst);
-            this.value = wrapped.readItemStack();
+            this.value = wrapped.readItem();
         }
         catch (final Exception e)
         {
@@ -63,7 +63,7 @@ public class Data_ItemStack extends Data_Base<ItemStack>
     {
         super.write(buf);
         final PacketBuffer wrapped = new PacketBuffer(Unpooled.buffer(0));
-        wrapped.writeItemStack(this.value);
+        wrapped.writeItem(this.value);
         final int num = wrapped.readableBytes();
         buf.writeInt(num);
         buf.writeBytes(wrapped);

@@ -59,7 +59,7 @@ public abstract class AbstractWorkTask extends AbstractAntTask
             {
                 this.world.destroyBlock(pos, true, this.entity);
                 // attempt to collect the drops
-                final List<ItemEntity> drops = this.world.getEntitiesWithinAABB(ItemEntity.class, v.getAABB().grow(3));
+                final List<ItemEntity> drops = this.world.getEntitiesOfClass(ItemEntity.class, v.getAABB().inflate(3));
                 for (final ItemEntity e : drops)
                 {
                     final ItemStack stack = e.getItem().copy();
@@ -85,17 +85,17 @@ public abstract class AbstractWorkTask extends AbstractAntTask
     @Override
     public final boolean doTask()
     {
-        if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getPos())) return false;
+        if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getBlockPos())) return false;
         final Brain<?> brain = this.entity.getBrain();
-        if (!brain.hasMemory(AntTasks.WORK_POS)) return false;
+        if (!brain.hasMemoryValue(AntTasks.WORK_POS)) return false;
 
         if (this.storage == null) for (final IAIRunnable run : this.pokemob.getTasks())
             if (run instanceof StoreTask)
             {
                 this.storage = (StoreTask) run;
                 this.pokemob.setRoutineState(AIRoutine.STORE, true);
-                this.storage.storageLoc = this.nest.nest.getPos();
-                this.storage.berryLoc = this.nest.nest.getPos();
+                this.storage.storageLoc = this.nest.nest.getBlockPos();
+                this.storage.berryLoc = this.nest.nest.getBlockPos();
                 break;
             }
         if (this.storage == null) return false;

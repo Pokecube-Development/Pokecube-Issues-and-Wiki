@@ -17,14 +17,14 @@ public class TextFieldWidget2 extends TextFieldWidget
 
     /** replaces selected text, or inserts text at the position on the cursor */
     @Override
-    public void writeText(final String textToWrite)
+    public void insertText(final String textToWrite)
     {
         String s = "";
         final String s1 = CharacterFilter.filterAllowedCharacters(textToWrite, this.allowSection);
-        final int i = this.cursorPosition < this.selectionEnd ? this.cursorPosition : this.selectionEnd;
-        final int j = this.cursorPosition < this.selectionEnd ? this.selectionEnd : this.cursorPosition;
-        final int k = this.maxStringLength - this.text.length() - (i - j);
-        if (!this.text.isEmpty()) s = s + this.text.substring(0, i);
+        final int i = this.cursorPos < this.highlightPos ? this.cursorPos : this.highlightPos;
+        final int j = this.cursorPos < this.highlightPos ? this.highlightPos : this.cursorPos;
+        final int k = this.maxLength - this.value.length() - (i - j);
+        if (!this.value.isEmpty()) s = s + this.value.substring(0, i);
 
         int l;
         if (k < s1.length())
@@ -38,14 +38,14 @@ public class TextFieldWidget2 extends TextFieldWidget
             l = s1.length();
         }
 
-        if (!this.text.isEmpty() && j < this.text.length()) s = s + this.text.substring(j);
+        if (!this.value.isEmpty() && j < this.value.length()) s = s + this.value.substring(j);
 
-        if (this.validator.test(s))
+        if (this.filter.test(s))
         {
-            this.text = s;
-            this.clampCursorPosition(i + l);
-            this.setSelectionPos(this.cursorPosition);
-            this.onTextChanged(this.text);
+            this.value = s;
+            this.setCursorPosition(i + l);
+            this.setHighlightPos(this.cursorPos);
+            this.onValueChange(this.value);
         }
     }
 }

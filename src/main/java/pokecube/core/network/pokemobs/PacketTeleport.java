@@ -26,7 +26,7 @@ public class PacketTeleport extends Packet
     @Override
     public void handleServer(ServerPlayerEntity player)
     {
-        TeleportHandler.setTeleIndex(player.getCachedUniqueIdString(), this.index);
+        TeleportHandler.setTeleIndex(player.getStringUUID(), this.index);
     }
 
     @Override

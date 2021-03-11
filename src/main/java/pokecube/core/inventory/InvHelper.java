@@ -64,21 +64,21 @@ public class InvHelper
         {
             final CompoundNBT compoundnbt = listnbt.getCompound(i);
             final int j = compoundnbt.getByte("Slot") & 255;
-            if (j >= 0 && j < inven.getSizeInventory()) inven.setInventorySlotContents(j, ItemStack.read(compoundnbt));
+            if (j >= 0 && j < inven.getContainerSize()) inven.setItem(j, ItemStack.of(compoundnbt));
         }
     }
 
     public static void save(final IInventory inven, final CompoundNBT tag)
     {
         final ListNBT listnbt = new ListNBT();
-        for (int i = 0; i < inven.getSizeInventory(); ++i)
+        for (int i = 0; i < inven.getContainerSize(); ++i)
         {
-            final ItemStack itemstack = inven.getStackInSlot(i);
+            final ItemStack itemstack = inven.getItem(i);
             if (!itemstack.isEmpty())
             {
                 final CompoundNBT compoundnbt = new CompoundNBT();
                 compoundnbt.putByte("Slot", (byte) i);
-                itemstack.write(compoundnbt);
+                itemstack.save(compoundnbt);
                 listnbt.add(compoundnbt);
             }
         }

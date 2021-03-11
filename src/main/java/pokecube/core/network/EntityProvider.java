@@ -16,7 +16,7 @@ public class EntityProvider implements IEntityProvider
     @Override
     public Entity getEntity(World world, int id, boolean expectsPokemob)
     {
-        final Entity ret = world.getEntityByID(id);
+        final Entity ret = world.getEntity(id);
         if (ret == null && this.defaults != null) return this.defaults.getEntity(world, id, expectsPokemob);
         return ret;
     }

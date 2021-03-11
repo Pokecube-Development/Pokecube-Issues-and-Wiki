@@ -49,8 +49,8 @@ public class ClientProxy extends CommonProxy
         final Block[] leaves = ItemGenerator.leaves.values().toArray(new Block[0]);
         event.getBlockColors().register((state, reader, pos, tintIndex) ->
         {
-            return reader != null && pos != null ? BiomeColors.getFoliageColor(reader, pos)
-                    : FoliageColors.getDefault();
+            return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
+                    : FoliageColors.getDefaultColor();
         }, leaves);
     }
 
@@ -60,7 +60,7 @@ public class ClientProxy extends CommonProxy
         final Block[] leaves = ItemGenerator.leaves.values().toArray(new Block[0]);
         event.getItemColors().register((stack, tintIndex) ->
         {
-            final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
+            final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
         }, leaves);
 
@@ -78,9 +78,9 @@ public class ClientProxy extends CommonProxy
     public PlayerEntity getPlayer(final UUID uuid)
     {
         // This is null on single player, so we have an integrated server
-        if (Minecraft.getInstance().getCurrentServerData() == null) return super.getPlayer(uuid);
+        if (Minecraft.getInstance().getCurrentServer() == null) return super.getPlayer(uuid);
         // Otherwise ask the world for the player.
-        return this.getWorld().getPlayerByUuid(uuid);
+        return this.getWorld().getPlayerByUUID(uuid);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public World getWorld()
     {
-        return Minecraft.getInstance().world;
+        return Minecraft.getInstance().level;
     }
 
     @Override
@@ -101,15 +101,15 @@ public class ClientProxy extends CommonProxy
         if (ClientProxy.players.containsKey(name)) return ClientProxy.players.get(name);
         final Minecraft minecraft = Minecraft.getInstance();
         GameProfile profile = new GameProfile((UUID) null, name);
-        profile = SkullTileEntity.updateGameProfile(profile);
+        profile = SkullTileEntity.updateGameprofile(profile);
         final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraft.getSkinManager()
-                .loadSkinFromCache(profile);
+                .getInsecureSkinInformation(profile);
         ResourceLocation resourcelocation;
-        if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) resourcelocation = minecraft.getSkinManager().loadSkin(
+        if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) resourcelocation = minecraft.getSkinManager().registerTexture(
                 map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
         else
         {
-            final UUID uuid = PlayerEntity.getUUID(profile);
+            final UUID uuid = PlayerEntity.createPlayerUUID(profile);
             resourcelocation = DefaultPlayerSkin.getDefaultSkin(uuid);
         }
         ClientProxy.players.put(name, resourcelocation);
@@ -123,23 +123,23 @@ public class ClientProxy extends CommonProxy
         try
         {
             final TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
-            final File file0 = new File(Minecraft.getInstance().gameDir, "assets/");
+            final File file0 = new File(Minecraft.getInstance().gameDirectory, "assets/");
             final String s = Hashing.sha1().hashUnencodedChars(FilenameUtils.getBaseName(urlSkin)).toString();
             final ResourceLocation resourcelocation = new ResourceLocation("skins/" + s);
             final File file1 = new File(new File(file0, "skins"), s.length() > 2 ? s.substring(0, 2) : "xx");
             file1.mkdirs();
             final File file2 = new File(file1, s);
             final DownloadingTexture downloadingtexture = new DownloadingTexture(file2, urlSkin, DefaultPlayerSkin
-                    .getDefaultSkinLegacy(), true, () ->
+                    .getDefaultSkin(), true, () ->
                     {
                     });
-            texturemanager.loadTexture(resourcelocation, downloadingtexture);
+            texturemanager.register(resourcelocation, downloadingtexture);
             ClientProxy.urlSkins.put(urlSkin, resourcelocation);
         }
         catch (final Exception e)
         {
             e.printStackTrace();
-            return DefaultPlayerSkin.getDefaultSkinLegacy();
+            return DefaultPlayerSkin.getDefaultSkin();
         }
         return ClientProxy.urlSkins.get(urlSkin);
     }
@@ -153,17 +153,17 @@ public class ClientProxy extends CommonProxy
     @Override
     public void pokecenterloop(final HealerTile tileIn, final boolean play)
     {
-        if (play && !ClientProxy.pokecenter_sounds.containsKey(tileIn.getPos()))
+        if (play && !ClientProxy.pokecenter_sounds.containsKey(tileIn.getBlockPos()))
         {
             final PokecenterSound sound = new PokecenterSound(tileIn);
-            Minecraft.getInstance().getSoundHandler().play(sound);
-            ClientProxy.pokecenter_sounds.put(tileIn.getPos(), sound);
+            Minecraft.getInstance().getSoundManager().play(sound);
+            ClientProxy.pokecenter_sounds.put(tileIn.getBlockPos(), sound);
         }
-        else if (!play && ClientProxy.pokecenter_sounds.containsKey(tileIn.getPos()))
+        else if (!play && ClientProxy.pokecenter_sounds.containsKey(tileIn.getBlockPos()))
         {
-            final PokecenterSound sound = ClientProxy.pokecenter_sounds.remove(tileIn.getPos());
+            final PokecenterSound sound = ClientProxy.pokecenter_sounds.remove(tileIn.getBlockPos());
             sound.stopped = true;
-            Minecraft.getInstance().getSoundHandler().stop(sound);
+            Minecraft.getInstance().getSoundManager().stop(sound);
         }
 
     }

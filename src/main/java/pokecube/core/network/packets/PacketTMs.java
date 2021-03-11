@@ -17,25 +17,25 @@ public class PacketTMs extends Packet
 
     public PacketTMs(final PacketBuffer buf)
     {
-        this.data = buf.readCompoundTag();
+        this.data = buf.readNbt();
     }
 
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final Container cont = player.openContainer;
+        final Container cont = player.containerMenu;
         if (!(cont instanceof TMContainer)) return;
         final TMContainer container = (TMContainer) cont;
         final String[] moves = container.moves;
         final int index = this.data.getInt("m");
-        if (index < moves.length) container.getInv().setInventorySlotContents(0, container.tile.addMoveToTM(
-                moves[index], container.getInv().getStackInSlot(0)));
+        if (index < moves.length) container.getInv().setItem(0, container.tile.addMoveToTM(
+                moves[index], container.getInv().getItem(0)));
     }
 
     @Override
     public void write(final PacketBuffer buf)
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 }

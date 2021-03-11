@@ -74,8 +74,8 @@ public class PacketDataSync extends Packet
     @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        final World world = net.minecraft.client.Minecraft.getInstance().world;
-        final Entity mob = world.getEntityByID(this.id);
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
+        final Entity mob = world.getEntity(this.id);
         if (mob == null) return;
         final DataSync sync = SyncHandler.getData(mob);
         if (sync == null) return;

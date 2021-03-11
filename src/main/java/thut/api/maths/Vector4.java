@@ -30,7 +30,7 @@ public class Vector4
     @OnlyIn(value = Dist.CLIENT)
     public Vector4(final Quaternion quat)
     {
-        this(quat.getX(), quat.getY(), quat.getZ(), quat.getW());
+        this(quat.i(), quat.j(), quat.k(), quat.r());
         this.quat = quat;
     }
 
@@ -53,7 +53,7 @@ public class Vector4
 
     public Vector4(final Entity e)
     {
-        this(e.getPosX(), e.getPosY(), e.getPosZ(), 0);
+        this(e.getX(), e.getY(), e.getZ(), 0);
     }
 
     public Vector4(final String toParse)
@@ -120,13 +120,13 @@ public class Vector4
     @OnlyIn(value = Dist.CLIENT)
     public void glRotate(final MatrixStack mat)
     {
-        mat.rotate(this.toMCQ());
+        mat.mulPose(this.toMCQ());
     }
 
     @OnlyIn(value = Dist.CLIENT)
     public void glUnRotate(final MatrixStack mat)
     {
-        mat.rotate(this.toMCQInv());
+        mat.mulPose(this.toMCQInv());
     }
 
     public boolean isEmpty()
@@ -279,7 +279,7 @@ public class Vector4
     public Quaternion toMCQInv()
     {
         final Quaternion quat = this.toMCQ();
-        quat.conjugate();
+        quat.conj();
         return quat;
     }
 }

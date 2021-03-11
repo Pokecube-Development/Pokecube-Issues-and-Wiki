@@ -30,16 +30,16 @@ public class ParticleFactories
     public static class RenderType implements IParticleRenderType
     {
         @Override
-        public void beginRender(final BufferBuilder builder, final TextureManager textures)
+        public void begin(final BufferBuilder builder, final TextureManager textures)
         {
-            textures.bindTexture(ParticleBase.TEXTUREMAP);
+            textures.bind(ParticleBase.TEXTUREMAP);
             builder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
         @Override
-        public void finishRender(final Tessellator tes)
+        public void end(final Tessellator tes)
         {
-            tes.draw();
+            tes.end();
         }
 
     }
@@ -54,15 +54,15 @@ public class ParticleFactories
             super((ClientWorld) worldIn, particleIn.position.x, particleIn.position.y, particleIn.position.z);
             this.particle = particleIn;
             this.world = worldIn;
-            if (this.particle instanceof ParticleNoGravity) this.particleGravity = 0;
-            this.motionX = this.particle.velocity.x;
-            this.motionY = this.particle.velocity.z;
-            this.motionZ = this.particle.velocity.y;
-            this.setMaxAge(this.particle.lifetime);
+            if (this.particle instanceof ParticleNoGravity) this.gravity = 0;
+            this.xd = this.particle.velocity.x;
+            this.yd = this.particle.velocity.z;
+            this.zd = this.particle.velocity.y;
+            this.setLifetime(this.particle.lifetime);
         }
 
         @Override
-        public int getMaxAge()
+        public int getLifetime()
         {
             return this.particle.lifetime;
         }
@@ -80,13 +80,13 @@ public class ParticleFactories
         }
 
         @Override
-        public void renderParticle(final IVertexBuilder buffer, final ActiveRenderInfo renderInfo,
+        public void render(final IVertexBuilder buffer, final ActiveRenderInfo renderInfo,
                 final float partialTicks)
         {
-            final Vector3d vec3d = renderInfo.getProjectedView();
-            final float x = (float) (MathHelper.lerp(partialTicks, this.prevPosX, this.posX) - vec3d.x);
-            final float y = (float) (MathHelper.lerp(partialTicks, this.prevPosY, this.posY) - vec3d.y);
-            final float z = (float) (MathHelper.lerp(partialTicks, this.prevPosZ, this.posZ) - vec3d.z);
+            final Vector3d vec3d = renderInfo.getPosition();
+            final float x = (float) (MathHelper.lerp(partialTicks, this.xo, this.x) - vec3d.x);
+            final float y = (float) (MathHelper.lerp(partialTicks, this.yo, this.y) - vec3d.y);
+            final float z = (float) (MathHelper.lerp(partialTicks, this.zo, this.z) - vec3d.z);
             final Vector3f source = new Vector3f(x, y, z);
             this.particle.renderParticle(buffer, renderInfo, partialTicks, source);
         }
@@ -101,7 +101,7 @@ public class ParticleFactories
             if (this.particle.getDuration() < 0)
             {
                 this.particle.kill();
-                this.setExpired();
+                this.remove();
             }
         }
 

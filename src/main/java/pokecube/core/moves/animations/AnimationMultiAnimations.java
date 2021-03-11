@@ -138,13 +138,13 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 // Check source sounds.
                 if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
                         : info.attacker);
-                if (valid) world.playSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundCategory.HOSTILE, volume, pitch,
+                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundCategory.HOSTILE, volume, pitch,
                         true);
                 // Check target sounds.
                 valid = toRun.soundTarget;
                 if (valid = info.target != null || info.attacked != null) pos.set(info.target != null ? info.target
                         : info.attacked);
-                if (valid) world.playSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundCategory.HOSTILE, volume, pitch,
+                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundCategory.HOSTILE, volume, pitch,
                         true);
             }
         }

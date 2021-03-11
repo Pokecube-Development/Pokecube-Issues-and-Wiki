@@ -61,8 +61,8 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
     @Override
     public boolean shouldHelpPath(final MobEntity mob, final WalkTarget target)
     {
-        final BlockPos from = mob.getPosition();
-        final BlockPos to = target.getTarget().getBlockPos();
+        final BlockPos from = mob.blockPosition();
+        final BlockPos to = target.getTarget().currentBlockPosition();
         if (this.getBounds() == null) return false;
         // TODO also do similar if to is inside, first by pathing to the
         // entrance, then pathing the rest of the way.
@@ -75,10 +75,10 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
     @Override
     public Path getPath(final MobEntity mob, final WalkTarget target)
     {
-        final ServerWorld world = (ServerWorld) mob.getEntityWorld();
-        final BlockPos to = target.getTarget().getBlockPos();
+        final ServerWorld world = (ServerWorld) mob.getCommandSenderWorld();
+        final BlockPos to = target.getTarget().currentBlockPosition();
         this.pather = new SwimAndWalkNodeProcessor();
-        this.pather.setCanEnterDoors(true);
+        this.pather.setCanPassDoors(true);
         this.finder = new PathFinder(this.pather, 256);
 
         // TODO also do similar if to is inside, first by pathing to the
@@ -92,7 +92,7 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
             this.r = new Region(world, min, max);
             this.regionSetTimer = world.getGameTime() + 20;
         }
-        return this.finder.func_227478_a_(this.r, mob, ImmutableSet.of(to), 128, target.getDistance(), 10);
+        return this.finder.findPath(this.r, mob, ImmutableSet.of(to), 128, target.getCloseEnoughDist(), 10);
     }
 
     @Override
@@ -216,12 +216,12 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
             p.setOutBounds(p.getOutBounds());
         }
         if (this.bounds == null) this.bounds = node.getOutBounds();
-        else this.bounds = this.bounds.union(node.getOutBounds());
+        else this.bounds = this.bounds.minmax(node.getOutBounds());
     }
 
     public AxisAlignedBB getBounds()
     {
-        if (this.bounds == null) return AxisAlignedBB.withSizeAtOrigin(0, 0, 0);
+        if (this.bounds == null) return AxisAlignedBB.ofSize(0, 0, 0);
         return this.bounds;
     }
 
@@ -252,8 +252,8 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
                 if (e.node2.isOnShell(pos)) return e.node2;
                 if (e.isOnShell(pos))
                 {
-                    final double ds2_1 = e.node1.getCenter().distanceSq(pos);
-                    final double ds2_2 = e.node2.getCenter().distanceSq(pos);
+                    final double ds2_1 = e.node1.getCenter().distSqr(pos);
+                    final double ds2_2 = e.node2.getCenter().distSqr(pos);
                     return ds2_1 < ds2_2 ? e.node1 : e.node2;
                 }
             }

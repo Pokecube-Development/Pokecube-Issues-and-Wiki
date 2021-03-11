@@ -52,13 +52,13 @@ public class ForgetTargetTask extends CombatTask
         @Override
         public int hashCode()
         {
-            return this.mob.getUniqueID().hashCode();
+            return this.mob.getUUID().hashCode();
         }
 
         @Override
         public boolean equals(final Object obj)
         {
-            return this.mob.getUniqueID().equals(obj);
+            return this.mob.getUUID().equals(obj);
         }
     }
 
@@ -123,7 +123,7 @@ public class ForgetTargetTask extends CombatTask
         boolean deAgro = mate == this.entityTarget;
 
         final ForgetEntry entry = new ForgetEntry(this.world.getGameTime(), this.entityTarget);
-        if (this.forgotten.containsKey(entry.mob.getUniqueID())) deAgro = true;
+        if (this.forgotten.containsKey(entry.mob.getUUID())) deAgro = true;
 
         agroCheck:
         if (mobB != null && !deAgro)
@@ -161,10 +161,10 @@ public class ForgetTargetTask extends CombatTask
                     mobA.setCombatState(CombatStates.MATEFIGHT, false);
                     mobB.setCombatState(CombatStates.MATEFIGHT, false);
 
-                    if (weHealth < 0.5) if (mobA.getEntity().getBrain().hasMemory(MemoryModules.HUNTED_BY,
+                    if (weHealth < 0.5) if (mobA.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY,
                             MemoryModuleStatus.REGISTERED)) mobA.getEntity().getBrain().setMemory(
                                     MemoryModules.HUNTED_BY, mobB.getEntity());
-                    if (theyHealth < 0.5) if (mobB.getEntity().getBrain().hasMemory(MemoryModules.HUNTED_BY,
+                    if (theyHealth < 0.5) if (mobB.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY,
                             MemoryModuleStatus.REGISTERED)) mobB.getEntity().getBrain().setMemory(
                                     MemoryModules.HUNTED_BY, mobA.getEntity());
 
@@ -208,7 +208,7 @@ public class ForgetTargetTask extends CombatTask
             }
 
             // If our target is owner, we should forget it.
-            if (this.entityTarget.getUniqueID().equals(this.pokemob.getOwnerId()))
+            if (this.entityTarget.getUUID().equals(this.pokemob.getOwnerId()))
             {
                 PokecubeCore.LOGGER.debug("Cannot target owner.");
                 deAgro = true;
@@ -223,7 +223,7 @@ public class ForgetTargetTask extends CombatTask
                 final Entity owner = this.pokemob.getOwner();
                 final boolean stayOrGuard = this.pokemob.getCombatState(CombatStates.GUARDING) || this.pokemob
                         .getGeneralState(GeneralStates.STAYING);
-                if (owner != null && !stayOrGuard && owner.getDistance(this.entity) > PokecubeCore
+                if (owner != null && !stayOrGuard && owner.distanceTo(this.entity) > PokecubeCore
                         .getConfig().chaseDistance)
                 {
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Cannot target mob that far while guarding.");
@@ -252,7 +252,7 @@ public class ForgetTargetTask extends CombatTask
                         .getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message, Util.DUMMY_UUID);
+                    this.entityTarget.sendMessage(message, Util.NIL_UUID);
                 }
                 catch (final Exception e)
                 {
@@ -263,14 +263,14 @@ public class ForgetTargetTask extends CombatTask
             }
 
             // Target is too far away, lets forget it.
-            if (this.entity.getDistance(this.entityTarget) > PokecubeCore.getConfig().chaseDistance)
+            if (this.entity.distanceTo(this.entityTarget) > PokecubeCore.getConfig().chaseDistance)
             {
                 // Send deagress message and put mob on cooldown.
                 final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
                         .getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message, Util.DUMMY_UUID);
+                    this.entityTarget.sendMessage(message, Util.NIL_UUID);
                 }
                 catch (final Exception e)
                 {
@@ -293,7 +293,7 @@ public class ForgetTargetTask extends CombatTask
     {
         this.entityTarget = BrainUtils.getAttackTarget(this.entity);
 
-        if (this.entityTarget == null && this.entity.getBrain().hasMemory(MemoryModuleType.HURT_BY_ENTITY))
+        if (this.entityTarget == null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY))
             this.entityTarget = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
 
         this.pokemobTarget = CapabilityPokemob.getPokemobFor(this.entityTarget);

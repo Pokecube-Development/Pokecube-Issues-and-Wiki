@@ -25,10 +25,10 @@ public class Reload
 
     public static int execute(final CommandSource source) throws CommandSyntaxException
     {
-        source.sendFeedback(new TranslationTextComponent("pokecube.command.reloading_packs.start"), true);
+        source.sendSuccess(new TranslationTextComponent("pokecube.command.reloading_packs.start"), true);
         Database.listener.loaded = true;
         Database.onResourcesReloaded();
-        source.sendFeedback(new TranslationTextComponent("pokecube.command.reloading_packs.end"), true);
+        source.sendSuccess(new TranslationTextComponent("pokecube.command.reloading_packs.end"), true);
         return 0;
     }
 

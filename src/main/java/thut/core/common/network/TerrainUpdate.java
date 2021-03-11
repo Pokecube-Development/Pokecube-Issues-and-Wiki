@@ -19,8 +19,8 @@ public class TerrainUpdate extends NBTPacket
 
     public static void sendTerrainToClient(final ChunkPos pos, final ServerPlayerEntity player)
     {
-        final World world = player.getEntityWorld();
-        if (!world.isAreaLoaded(pos.asBlockPos(), 0)) return;
+        final World world = player.getCommandSenderWorld();
+        if (!world.isAreaLoaded(pos.getWorldPosition(), 0)) return;
         final ITerrainProvider provider = world.getChunk(pos.x, pos.z).getCapability(ThutCaps.TERRAIN_CAP, null).orElse(
                 null);
         final CompoundNBT terrainData = (CompoundNBT) ThutCaps.TERRAIN_CAP.writeNBT(provider, null);
@@ -49,7 +49,7 @@ public class TerrainUpdate extends NBTPacket
     @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
-        final World world = net.minecraft.client.Minecraft.getInstance().world;
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
         final CompoundNBT nbt = this.tag;
         final Chunk chunk = world.getChunk(nbt.getInt("c_x"), nbt.getInt("c_z"));
         final ITerrainProvider terrain = chunk.getCapability(ThutCaps.TERRAIN_CAP, null).orElse(null);

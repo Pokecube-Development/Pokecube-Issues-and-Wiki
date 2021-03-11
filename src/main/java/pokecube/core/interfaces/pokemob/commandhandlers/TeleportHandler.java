@@ -136,7 +136,7 @@ public class TeleportHandler extends DefaultHandler
     public void handleCommand(final IPokemob pokemob) throws Exception
     {
         final ServerPlayerEntity player = (ServerPlayerEntity) pokemob.getOwner();
-        final TeleDest d = TeleportHandler.getTeleport(player.getCachedUniqueIdString());
+        final TeleDest d = TeleportHandler.getTeleport(player.getStringUUID());
         final boolean inCombat = pokemob.inCombat();
         if (inCombat)
         {
@@ -146,8 +146,8 @@ public class TeleportHandler extends DefaultHandler
             return;
         }
         if (d == null) return;
-        final RegistryKey<World> dim = d.getPos().getDimension();
-        final RegistryKey<World> oldDim = player.getEntityWorld().getDimensionKey();
+        final RegistryKey<World> dim = d.getPos().dimension();
+        final RegistryKey<World> oldDim = player.getCommandSenderWorld().dimension();
         int needed = PokecubeCore.getConfig().telePearlsCostSameDim;
         if (dim != oldDim)
         {
@@ -161,9 +161,9 @@ public class TeleportHandler extends DefaultHandler
             }
         }
         int count = 0;
-        for (int i = 2; i < pokemob.getInventory().getSizeInventory(); i++)
+        for (int i = 2; i < pokemob.getInventory().getContainerSize(); i++)
         {
-            final ItemStack stack = pokemob.getInventory().getStackInSlot(i);
+            final ItemStack stack = pokemob.getInventory().getItem(i);
             if (!stack.isEmpty()) if (TeleportHandler.VALIDTELEITEMS.test(stack)) count += stack.getCount();
         }
         if (needed > count)
@@ -172,9 +172,9 @@ public class TeleportHandler extends DefaultHandler
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
-        if (needed > 0) for (int i = 2; i < pokemob.getInventory().getSizeInventory(); i++)
+        if (needed > 0) for (int i = 2; i < pokemob.getInventory().getContainerSize(); i++)
         {
-            final ItemStack stack = pokemob.getInventory().getStackInSlot(i);
+            final ItemStack stack = pokemob.getInventory().getItem(i);
             if (!stack.isEmpty())
             {
                 if (TeleportHandler.VALIDTELEITEMS.test(stack))
@@ -182,8 +182,8 @@ public class TeleportHandler extends DefaultHandler
                     final int toRemove = Math.min(needed, stack.getCount());
                     stack.split(toRemove);
                     needed -= toRemove;
-                    if (!stack.isEmpty()) pokemob.getInventory().setInventorySlotContents(i, stack);
-                    else pokemob.getInventory().setInventorySlotContents(i, ItemStack.EMPTY);
+                    if (!stack.isEmpty()) pokemob.getInventory().setItem(i, stack);
+                    else pokemob.getInventory().setItem(i, ItemStack.EMPTY);
                 }
                 if (needed <= 0) break;
             }

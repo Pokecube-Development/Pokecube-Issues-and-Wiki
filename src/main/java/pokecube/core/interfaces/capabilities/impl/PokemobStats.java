@@ -123,11 +123,11 @@ public abstract class PokemobStats extends PokemobGenes
                         if (evo != null) ret = evo;
                     }
                     ret.levelUp(newLvl);
-                    if (this.getEntity().addedToChunk && ret.getOwner() instanceof PlayerEntity && this.getEntity()
-                            .getEntityWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT) && !this.getEntity()
-                                    .getEntityWorld().isRemote) this.getEntity().getEntityWorld().addEntity(
-                                            new ExperienceOrbEntity(this.getEntity().getEntityWorld(), this.getEntity()
-                                                    .getPosX(), this.getEntity().getPosY(), this.getEntity().getPosZ(),
+                    if (this.getEntity().inChunk && ret.getOwner() instanceof PlayerEntity && this.getEntity()
+                            .getCommandSenderWorld().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) && !this.getEntity()
+                                    .getCommandSenderWorld().isClientSide) this.getEntity().getCommandSenderWorld().addFreshEntity(
+                                            new ExperienceOrbEntity(this.getEntity().getCommandSenderWorld(), this.getEntity()
+                                                    .getX(), this.getEntity().getY(), this.getEntity().getZ(),
                                                     1));
                 }
             }
@@ -160,9 +160,9 @@ public abstract class PokemobStats extends PokemobGenes
     public void setPokemonNickname(final String nickname)
     {
         final boolean oldName = this.getPokedexEntry().getName().equals(nickname) || nickname.trim().isEmpty();
-        if (!this.getEntity().isServerWorld())
+        if (!this.getEntity().isEffectiveAi())
         {
-            if (!nickname.equals(this.getPokemonNickname()) && this.getEntity().addedToChunk) PacketNickname.sendPacket(
+            if (!nickname.equals(this.getPokemonNickname()) && this.getEntity().inChunk) PacketNickname.sendPacket(
                     this.getEntity(), nickname);
         }
         else if (oldName) this.dataSync().set(this.params.NICKNAMEDW, "");

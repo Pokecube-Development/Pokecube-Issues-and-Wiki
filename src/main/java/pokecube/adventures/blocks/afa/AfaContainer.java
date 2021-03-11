@@ -30,15 +30,15 @@ public class AfaContainer extends BaseContainer
 
     public AfaContainer(final int id, final PlayerInventory invIn)
     {
-        this(id, invIn, IWorldPosCallable.DUMMY);
+        this(id, invIn, IWorldPosCallable.NULL);
     }
 
     public AfaContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
     {
         super(PokecubeAdv.AFA_CONT.get(), id);
-        pos.consume((w, p) ->
+        pos.execute((w, p) ->
         {
-            final TileEntity tile = w.getTileEntity(p);
+            final TileEntity tile = w.getBlockEntity(p);
             // Server side
             if (tile instanceof AfaTile)
             {
@@ -53,7 +53,7 @@ public class AfaContainer extends BaseContainer
             this.tile = new AfaTile();
             this.ownable = (IOwnableTE) this.tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             this.inv = this.tile.inventory;
-            this.tile.setWorldAndPos(PokecubeCore.proxy.getWorld(), invIn.player.getPosition());
+            this.tile.setLevelAndPosition(PokecubeCore.proxy.getWorld(), invIn.player.blockPosition());
         }
 
         final int di = 12;
@@ -63,7 +63,7 @@ public class AfaContainer extends BaseContainer
         this.addSlot(new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18, "pokecube:items/slot_cube"));
         this.bindPlayerInventory(invIn, -19);
 
-        this.trackIntArray(this.tile.syncValues);
+        this.addDataSlots(this.tile.syncValues);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class AfaContainer extends BaseContainer
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return this.ownable.canEdit(playerIn);
     }

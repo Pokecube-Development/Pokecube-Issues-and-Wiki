@@ -24,20 +24,20 @@ public class LegendaryOrb extends ItemBase
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(final ItemStack itemstack)
+    public boolean isFoil(final ItemStack itemstack)
     {
         return true;
     }
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
+    public void appendHoverText(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
             final ITooltipFlag flagIn)
     {
     	if (!this.hasTooltip) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip", TextFormatting.GOLD, TextFormatting.BOLD, TextFormatting.RESET);
-        else message = I18n.format("pokecube.tooltip.advanced");
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", TextFormatting.GOLD, TextFormatting.BOLD, TextFormatting.RESET);
+        else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
 }

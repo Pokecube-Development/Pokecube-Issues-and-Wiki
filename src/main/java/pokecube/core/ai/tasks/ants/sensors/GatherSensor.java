@@ -17,12 +17,12 @@ public class GatherSensor extends Sensor<MobEntity>
             MemoryModules.VISIBLE_BLOCKS, AntTasks.NO_WORK_TIME);
 
     @Override
-    protected void update(final ServerWorld worldIn, final MobEntity entityIn)
+    protected void doTick(final ServerWorld worldIn, final MobEntity entityIn)
     {
     }
 
     @Override
-    public Set<MemoryModuleType<?>> getUsedMemories()
+    public Set<MemoryModuleType<?>> requires()
     {
         return GatherSensor.MEMS;
     }

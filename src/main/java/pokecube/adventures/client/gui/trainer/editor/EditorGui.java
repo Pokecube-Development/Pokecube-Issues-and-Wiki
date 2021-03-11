@@ -18,6 +18,7 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.client.gui.trainer.editor.pages.AI;
 import pokecube.adventures.client.gui.trainer.editor.pages.LivePokemob;
 import pokecube.adventures.client.gui.trainer.editor.pages.Messages;
@@ -26,7 +27,6 @@ import pokecube.adventures.client.gui.trainer.editor.pages.Rewards;
 import pokecube.adventures.client.gui.trainer.editor.pages.Spawn;
 import pokecube.adventures.client.gui.trainer.editor.pages.Trainer;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
-import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.interfaces.IPokemob;
@@ -41,7 +41,7 @@ public class EditorGui extends Screen
         public MissingPage(final EditorGui watch)
         {
             super(new TranslationTextComponent("pokewatch.title.blank"), watch);
-            this.font = Minecraft.getInstance().fontRenderer;
+            this.font = Minecraft.getInstance().font;
         }
 
         @Override
@@ -49,7 +49,7 @@ public class EditorGui extends Screen
         {
             final int x = (this.parent.width - 160) / 2 + 80;
             final int y = (this.parent.height - 160) / 2 + 70;
-            AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
+            AbstractGui.drawCenteredString(mat, this.font, I18n.get("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
             super.render(mat, mouseX, mouseY, partialTicks);
         }
 
@@ -128,7 +128,7 @@ public class EditorGui extends Screen
     {
         super.render(mat, mouseX, mouseY, partialTicks);
 
-        this.minecraft.textureManager.bindTexture(new ResourceLocation(PokecubeAdv.MODID,
+        this.minecraft.textureManager.bind(new ResourceLocation(PokecubeAdv.MODID,
                 "textures/gui/traineredit.png"));
         final int j2 = (this.width - 256) / 2;
         final int k2 = (this.height - 160) / 2;

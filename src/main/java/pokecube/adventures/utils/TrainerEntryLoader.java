@@ -79,7 +79,7 @@ public class TrainerEntryLoader
     private static XMLDatabase loadDatabase()
     {
         final XMLDatabase full = new XMLDatabase();
-        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(NpcType.DATALOC,
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(NpcType.DATALOC,
                 s -> s.endsWith(".json"));
         for (final ResourceLocation file : resources)
         {

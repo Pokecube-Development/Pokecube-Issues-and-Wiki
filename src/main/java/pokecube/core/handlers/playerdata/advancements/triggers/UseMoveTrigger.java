@@ -76,14 +76,14 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
             List<ICriterionTrigger.Listener<UseMoveTrigger.Instance>> list = null;
 
             for (final ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener : this.listeners)
-                if (listener.getCriterionInstance().test(player, packet))
+                if (listener.getTriggerInstance().test(player, packet))
                 {
                     if (list == null) list = Lists.<ICriterionTrigger.Listener<UseMoveTrigger.Instance>> newArrayList();
 
                     list.add(listener);
                 }
             if (list != null) for (final ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener1 : list)
-                listener1.grantCriterion(this.playerAdvancements);
+                listener1.run(this.playerAdvancements);
         }
     }
 
@@ -96,7 +96,7 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
     }
 
     @Override
-    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+    public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
     {
         UseMoveTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -112,9 +112,9 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
 
 
     @Override
-    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         final String attack = json.get("move").getAsString();
         // TODO get this done better.
         final MovePacket packet = new MovePacket(null, null, MovesUtils.getMoveFromName(attack));
@@ -128,13 +128,13 @@ public class UseMoveTrigger implements ICriterionTrigger<UseMoveTrigger.Instance
     }
 
     @Override
-    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
+    public void removePlayerListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+    public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
     {
         final UseMoveTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);

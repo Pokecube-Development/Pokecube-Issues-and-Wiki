@@ -26,7 +26,7 @@ public class GuiWearableButton extends Button
             final float p_renderButton_3_)
     {
         final Minecraft minecraft = Minecraft.getInstance();
-        minecraft.getTextureManager().bindTexture(GuiWearables.background);
+        minecraft.getTextureManager().bind(GuiWearables.background);
         final int i = this.getYImage(this.isHovered());
         this.blit(mat, this.x, this.y, 0, i, this.width, this.height);
     }

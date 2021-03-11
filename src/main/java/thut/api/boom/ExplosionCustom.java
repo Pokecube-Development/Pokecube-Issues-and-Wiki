@@ -82,17 +82,17 @@ public class ExplosionCustom extends Explosion
         {
             for (final Entry<BlockPos> pos : result.results.object2FloatEntrySet())
             {
-                boom.getAffectedBlockPositions().add(pos.getKey());
+                boom.getToBlow().add(pos.getKey());
                 final BlockState destroyed = boom.world.getBlockState(pos.getKey());
                 final float power = pos.getFloatValue();
-                BlockState to = Blocks.AIR.getDefaultState();
+                BlockState to = Blocks.AIR.defaultBlockState();
                 if (power < 36)
                 {
-                    if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.getDefaultState();
-                    if (destroyed.getMaterial() == Material.TALL_PLANTS) to = Blocks.FIRE.getDefaultState();
+                    if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
+                    if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT) to = Blocks.FIRE.defaultBlockState();
                 }
                 // TODO re-implement dust/melt at some point?
-                boom.world.setBlockState(pos.getKey(), to, 3);
+                boom.world.setBlock(pos.getKey(), to, 3);
             }
         }
     }
@@ -108,10 +108,10 @@ public class ExplosionCustom extends Explosion
 
     public IEntityHitter hitter = (e, power, boom) ->
     {
-        final EntitySize size = e.getSize(e.getPose());
+        final EntitySize size = e.getDimensions(e.getPose());
         final float area = size.width * size.height;
         final float damage = area * power;
-        e.attackEntityFrom(DamageSource.causeExplosionDamage(boom), damage);
+        e.hurt(DamageSource.explosion(boom), damage);
     };
 
     int currentIndex = 0;
@@ -220,7 +220,7 @@ public class ExplosionCustom extends Explosion
 
     private void applyBlockEffects(final BlastResult result)
     {
-        this.getAffectedBlockPositions().clear();
+        this.getToBlow().clear();
         this.breaker.breakBlocks(result, this);
     }
 
@@ -261,8 +261,8 @@ public class ExplosionCustom extends Explosion
     public void doExplosion()
     {
         this.world.playSound((PlayerEntity) null, this.explosionX, this.explosionY, this.explosionZ,
-                SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.rand.nextFloat()
-                        - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
+                SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.random.nextFloat()
+                        - this.world.random.nextFloat()) * 0.2F) * 0.7F);
         this.world.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D,
                 0.0D);
         MinecraftForge.EVENT_BUS.register(this);
@@ -270,14 +270,14 @@ public class ExplosionCustom extends Explosion
     }
 
     @Override
-    public void doExplosionA()
+    public void explode()
     {
         ThutCore.LOGGER.error("This should not be run anymore", new Exception());
     }
 
     /** Does the second part of the explosion (sound, particles, drop spawn) */
     @Override
-    public void doExplosionB(final boolean par1)
+    public void finalizeExplosion(final boolean par1)
     {
         ThutCore.LOGGER.error("This should not be run anymore", new Exception());
     }
@@ -359,7 +359,7 @@ public class ExplosionCustom extends Explosion
     {
         if (evt.phase == Phase.START || evt.world != this.world) return;
 
-        this.clearAffectedBlockPositions();
+        this.clearToBlow();
         final BlastResult result = new Checker(this).getBlocksToRemove();
         this.applyBlockEffects(result);
         this.applyEntityEffects(result);

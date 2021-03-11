@@ -87,18 +87,18 @@ public class LegendarySpawn
                     return SpawnResult.NOCAPTURE;
                 }
                 PokecubePlayerDataHandler.getCustomDataTag(playerIn).putBoolean("spwn:" + entry.getTrimmedName(), true);
-                entity.getPersistentData().putUniqueId("spwnedby:", playerIn.getUniqueID());
+                entity.getPersistentData().putUUID("spwnedby:", playerIn.getUUID());
                 entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
                 entity.getPersistentData().putBoolean(TagNames.NODROP, true);
                 entity.setHealth(entity.getMaxHealth());
                 location.add(0, 1, 0).moveEntity(entity);
                 spawnCondition.onSpawn(pokemob);
-                playerIn.getHeldItemMainhand().setCount(0);
-                if (PokecubeLegends.config.singleUseLegendSpawns) worldIn.setBlockState(evt.getPos(), Blocks.AIR
-                        .getDefaultState());
+                playerIn.getMainHandItem().setCount(0);
+                if (PokecubeLegends.config.singleUseLegendSpawns) worldIn.setBlockAndUpdate(evt.getPos(), Blocks.AIR
+                        .defaultBlockState());
                 if (pokemob.getExp() < 100) entity = pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), 50))
                         .getEntity();
-                worldIn.addEntity(entity);
+                worldIn.addFreshEntity(entity);
                 evt.setCanceled(true);
                 return SpawnResult.SUCCESS;
             }
@@ -110,15 +110,15 @@ public class LegendarySpawn
     @SubscribeEvent
     public static void livingDeath(final LivingDeathEvent evt)
     {
-        if (!(evt.getEntity().getEntityWorld() instanceof ServerWorld)) return;
+        if (!(evt.getEntity().getCommandSenderWorld() instanceof ServerWorld)) return;
 
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (attacked != null && attacked.getOwnerId() == null && evt.getEntity().getPersistentData().hasUniqueId(
+        if (attacked != null && attacked.getOwnerId() == null && evt.getEntity().getPersistentData().hasUUID(
                 "spwnedby:"))
         {
-            ServerWorld world = (ServerWorld) evt.getEntity().getEntityWorld();
-            world = world.getServer().getWorld(World.OVERWORLD);
-            final UUID id = evt.getEntity().getPersistentData().getUniqueId("spwnedby:");
+            ServerWorld world = (ServerWorld) evt.getEntity().getCommandSenderWorld();
+            world = world.getServer().getLevel(World.OVERWORLD);
+            final UUID id = evt.getEntity().getPersistentData().getUUID("spwnedby:");
             PokecubePlayerDataHandler.getCustomDataTag(id).putLong("spwn_ded:" + attacked.getPokedexEntry()
                     .getTrimmedName(), world.getGameTime());
             PokecubePlayerDataHandler.saveCustomData(id.toString());
@@ -145,8 +145,8 @@ public class LegendarySpawn
 
         ItemStack stack = evt.getItemStack();
         // Try both hands just incase.
-        if (stack.isEmpty()) stack = evt.getPlayer().getHeldItemMainhand();
-        if (stack.isEmpty()) stack = evt.getPlayer().getHeldItemOffhand();
+        if (stack.isEmpty()) stack = evt.getPlayer().getMainHandItem();
+        if (stack.isEmpty()) stack = evt.getPlayer().getOffhandItem();
 
         if (stack.isEmpty())
         {
@@ -163,7 +163,7 @@ public class LegendarySpawn
                 if (spawnCondition.canSpawn(evt.getPlayer(), location, false).test()) break;
             }
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.noitem.info", new TranslationTextComponent(
-                    match.entry.getUnlocalizedName())), Util.DUMMY_UUID);
+                    match.entry.getUnlocalizedName())), Util.NIL_UUID);
             evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", evt.getWorld().getGameTime());
             return;
         }
@@ -207,7 +207,7 @@ public class LegendarySpawn
         {
             Collections.shuffle(already_spawned);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.alreadyspawned.info",
-                    new TranslationTextComponent(already_spawned.get(0).getUnlocalizedName())), Util.DUMMY_UUID);
+                    new TranslationTextComponent(already_spawned.get(0).getUnlocalizedName())), Util.NIL_UUID);
             return;
         }
 
@@ -215,14 +215,14 @@ public class LegendarySpawn
         {
             Collections.shuffle(wrong_items);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.wrongitem.info", new TranslationTextComponent(
-                    wrong_items.get(0).getUnlocalizedName())), Util.DUMMY_UUID);
+                    wrong_items.get(0).getUnlocalizedName())), Util.NIL_UUID);
             return;
         }
         if (wrong_biomes.size() > 0)
         {
             Collections.shuffle(wrong_biomes);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.nohere.info", new TranslationTextComponent(
-                    matches.get(0).entry.getUnlocalizedName())), Util.DUMMY_UUID);
+                    matches.get(0).entry.getUnlocalizedName())), Util.NIL_UUID);
             return;
         }
 

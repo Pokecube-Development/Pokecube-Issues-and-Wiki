@@ -29,7 +29,7 @@ import thut.core.client.gui.ConfigGui;
 public class ClientSetupHandler
 {
     static final Predicate<Material> notSolid = m -> m == Material.GLASS || m == Material.ICE ||
-    		m == Material.PACKED_ICE || m == Material.LEAVES || m == Material.ANVIL;
+    		m == Material.ICE_SOLID || m == Material.LEAVES || m == Material.HEAVY_METAL;
 
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
@@ -37,9 +37,9 @@ public class ClientSetupHandler
     	for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries())
         {
     		final Block b = reg.get();
-            if (b instanceof PlantBase) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
+            if (b instanceof PlantBase) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
             boolean fullCube = true;
-                for (final BlockState state : b.getStateContainer().getValidStates())
+                for (final BlockState state : b.getStateDefinition().getPossibleStates())
                 {
                     final Material m = state.getMaterial();
                     if (ClientSetupHandler.notSolid.test(m))
@@ -50,7 +50,7 @@ public class ClientSetupHandler
                     try
                     {
                         final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                        if (s != VoxelShapes.fullCube())
+                        if (s != VoxelShapes.block())
                         {
                             fullCube = false;
                             break;
@@ -62,17 +62,17 @@ public class ClientSetupHandler
                         break;
                     }
                 }
-            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
+            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
 
-            RenderTypeLookup.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
         }
 
     	for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
         {
     		final Block b = reg.get();
-            if (b instanceof PlantBase) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
+            if (b instanceof PlantBase) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
             boolean fullCube = true;
-                for (final BlockState state : b.getStateContainer().getValidStates())
+                for (final BlockState state : b.getStateDefinition().getPossibleStates())
                 {
                     final Material m = state.getMaterial();
                     if (ClientSetupHandler.notSolid.test(m))
@@ -83,7 +83,7 @@ public class ClientSetupHandler
                     try
                     {
                         final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                        if (s != VoxelShapes.fullCube())
+                        if (s != VoxelShapes.block())
                         {
                             fullCube = false;
                             break;
@@ -95,14 +95,14 @@ public class ClientSetupHandler
                         break;
                     }
                 }
-            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
+            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
         }
 
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
         {
             final Block b = reg.get();
             boolean fullCube = true;
-                for (final BlockState state : b.getStateContainer().getValidStates())
+                for (final BlockState state : b.getStateDefinition().getPossibleStates())
                 {
                     final Material m = state.getMaterial();
                     if (ClientSetupHandler.notSolid.test(m))
@@ -113,7 +113,7 @@ public class ClientSetupHandler
                     try
                     {
                         final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                        if (s != VoxelShapes.fullCube())
+                        if (s != VoxelShapes.block())
                         {
                             fullCube = false;
                             break;
@@ -125,7 +125,7 @@ public class ClientSetupHandler
                         break;
                     }
                 }
-            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.getCutout());
+            if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
         }
 
         // Renderer for raid spawn

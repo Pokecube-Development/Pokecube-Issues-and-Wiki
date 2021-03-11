@@ -53,7 +53,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     {
 
         @Override
-        public int size()
+        public int getCount()
         {
             return 2;
         }
@@ -153,9 +153,9 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
      * Returns true if automation can extract the given item in the given slot
      * from the given side.
      */
-    public boolean canExtractItem(final int index, final ItemStack stack, final Direction direction)
+    public boolean canTakeItemThroughFace(final int index, final ItemStack stack, final Direction direction)
     {
-        return !this.isItemValidForSlot(index, stack);
+        return !this.canPlaceItem(index, stack);
     }
 
     @Override
@@ -163,14 +163,14 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
      * Returns true if automation can insert the given item in the given slot
      * from the given side.
      */
-    public boolean canInsertItem(final int index, final ItemStack stack, final Direction direction)
+    public boolean canPlaceItemThroughFace(final int index, final ItemStack stack, final Direction direction)
     {
-        return this.isItemValidForSlot(index, stack);
+        return this.canPlaceItem(index, stack);
     }
 
     public void checkRecipes()
     {
-        if (this.hasWorld() && this.getWorld().isRemote) return;
+        if (this.hasLevel() && this.getLevel().isClientSide) return;
         if (this.getProcess() == null || !this.getProcess().valid())
         {
             if (this.check)
@@ -203,27 +203,27 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
             {
                 this.setProcess(null);
                 this.progress = 0;
-                this.markDirty();
+                this.setChanged();
             }
         }
     }
 
     @Override
-    public void clear()
+    public void clearContent()
     {
         this.inventory.clear();
     }
 
     @Override
-    public void closeInventory(final PlayerEntity player)
+    public void stopOpen(final PlayerEntity player)
     {
         if (this.user == player) this.user = null;
     }
 
     @Override
-    public ItemStack decrStackSize(final int arg0, final int arg1)
+    public ItemStack removeItem(final int arg0, final int arg1)
     {
-        final ItemStack stack = this.getStackInSlot(arg0);
+        final ItemStack stack = this.getItem(arg0);
         return stack.split(arg1);
     }
 
@@ -266,7 +266,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public int getSizeInventory()
+    public int getContainerSize()
     {
         return this.getInventory().size();
     }
@@ -276,7 +276,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     {
         if (this.slots == null)
         {
-            this.slots = new int[this.getSizeInventory()];
+            this.slots = new int[this.getContainerSize()];
             for (int i = 0; i < this.slots.length; i++)
                 this.slots[i] = i;
         }
@@ -284,7 +284,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public ItemStack getStackInSlot(final int arg0)
+    public ItemStack getItem(final int arg0)
     {
         return this.inventory.get(arg0);
     }
@@ -302,21 +302,21 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public boolean isUsableByPlayer(final PlayerEntity player)
+    public boolean stillValid(final PlayerEntity player)
     {
         return this.user == null || this.user == player;
     }
 
     @Override
-    public void openInventory(final PlayerEntity player)
+    public void startOpen(final PlayerEntity player)
     {
         if (this.user == null) this.user = player;
     }
 
     @Override
-    public void read(final BlockState state, final CompoundNBT nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
-        super.read(state, nbt);
+        super.load(state, nbt);
         InvHelper.load(this, nbt);
         if (nbt.contains("progress"))
         {
@@ -330,15 +330,15 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
      * invalidates a tile entity
      */
     @Override
-    public void remove()
+    public void setRemoved()
     {
-        super.remove();
+        super.setRemoved();
         for (final LazyOptional<? extends IItemHandler> wrapper : this.wrappers)
             wrapper.invalidate();
     }
 
     @Override
-    public ItemStack removeStackFromSlot(final int arg0)
+    public ItemStack removeItemNoUpdate(final int arg0)
     {
         return this.inventory.remove(arg0);
     }
@@ -350,7 +350,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public void setInventorySlotContents(final int index, final ItemStack stack)
+    public void setItem(final int index, final ItemStack stack)
     {
         this.check = true;
         if (stack.isEmpty()) this.getInventory().set(index, ItemStack.EMPTY);
@@ -380,9 +380,9 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT nbt)
+    public CompoundNBT save(final CompoundNBT nbt)
     {
-        super.write(nbt);
+        super.save(nbt);
         InvHelper.save(this, nbt);
         if (this.getProcess() != null) nbt.put("progress", this.getProcess().save());
         return nbt;

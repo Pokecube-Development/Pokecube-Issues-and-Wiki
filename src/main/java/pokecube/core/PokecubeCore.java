@@ -175,9 +175,9 @@ public class PokecubeCore
                         .contains(k, "sandy");
                 // Currently this uses same settings as gold ore.
                 WorldgenHandler.get(PokecubeCore.MODID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Feature.ORE.withConfiguration(new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, PokecubeItems.FOSSILSTONE.get()
-                                        .getDefaultState(), 9)).range(32).square().func_242731_b(2));
+                        Feature.ORE.configured(new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE.get()
+                                        .defaultBlockState(), 9)).range(32).squared().count(2));
             }
 
             // Register the general structure piece we use
@@ -262,12 +262,12 @@ public class PokecubeCore
             // register a new mob here
             PokecubeCore.LOGGER.debug("Registering Pokecube Attributes");
 
-            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.registerAttributes()
-                    .createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D).createMutableAttribute(
-                            Attributes.ATTACK_KNOCKBACK).createMutableAttribute(Attributes.MAX_HEALTH, 10.0D);
-            event.put(EntityPokecube.TYPE, attribs.create());
-            event.put(EntityPokemobEgg.TYPE, attribs.create());
-            event.put(NpcMob.TYPE, attribs.create());
+            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.createLivingAttributes()
+                    .add(Attributes.FOLLOW_RANGE, 16.0D).add(
+                            Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
+            event.put(EntityPokecube.TYPE, attribs.build());
+            event.put(EntityPokemobEgg.TYPE, attribs.build());
+            event.put(NpcMob.TYPE, attribs.build());
 
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
@@ -275,7 +275,7 @@ public class PokecubeCore
                 if (!entry.stock) continue;
                 try
                 {
-                    event.put(entry.getEntityType(), attribs.create());
+                    event.put(entry.getEntityType(), attribs.build());
                 }
                 catch (final Exception e)
                 {
@@ -328,7 +328,7 @@ public class PokecubeCore
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
-            if (!event.getMap().getTextureLocation().toString().equals("minecraft:textures/atlas/blocks.png")) return;
+            if (!event.getMap().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_cube"));
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_tm"));

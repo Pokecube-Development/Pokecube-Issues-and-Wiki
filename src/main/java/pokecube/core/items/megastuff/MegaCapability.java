@@ -120,7 +120,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
         final boolean isBling = ItemList.is(MegaCapability.BLINGTAG, stack);
         if (isBling && stack.hasTag() && stack.getTag().contains("gemTag"))
         {
-            final ItemStack stack2 = ItemStack.read(stack.getChildTag("gemTag"));
+            final ItemStack stack2 = ItemStack.of(stack.getTagElement("gemTag"));
             if (!stack2.isEmpty()) return MegaCapability.getForStack(stack2);
         }
         return Database.missingno;

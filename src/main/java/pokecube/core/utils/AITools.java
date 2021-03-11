@@ -36,7 +36,7 @@ public class AITools
                     .getConfig().mobAgroRate) == 0;
             else wildAgress = false;
             // Check if the mob should always be agressive.
-            if (!tame && !wildAgress && input.getEntity().ticksExisted % 20 == 0) wildAgress = input.getEntity()
+            if (!tame && !wildAgress && input.getEntity().tickCount % 20 == 0) wildAgress = input.getEntity()
                     .getPersistentData().getBoolean("alwaysAgress");
             return wildAgress;
         }
@@ -61,7 +61,7 @@ public class AITools
                 // Do not target creative or spectator
                 if (player.isCreative() || player.isSpectator()) return false;
                 // Do not target any player on easy or peaceful
-                if (player.getServerWorld().getDifficulty().getId() <= Difficulty.EASY.getId()) return false;
+                if (player.getLevel().getDifficulty().getId() <= Difficulty.EASY.getId()) return false;
                 return true;
             }
             // Confirm is not an egg or a pokecube as well

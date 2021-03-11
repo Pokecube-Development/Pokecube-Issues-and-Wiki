@@ -82,7 +82,7 @@ public class CapabilityNPCMessages
         {
             if (target instanceof FakePlayer || this.messages.get(state) == null || this.messages.get(state).trim()
                     .isEmpty()) return false;
-            target.sendMessage(new TranslationTextComponent(this.messages.get(state), args), Util.DUMMY_UUID);
+            target.sendMessage(new TranslationTextComponent(this.messages.get(state), args), Util.NIL_UUID);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(state + ": " + this.messages.get(state));
             return true;
         }

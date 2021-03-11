@@ -20,8 +20,8 @@ import net.minecraftforge.items.IItemHandler;
 
 public abstract class InteractableBlock extends Block
 {
-    public static final VoxelShape PARTIAL_BASE  = Block.makeCuboidShape(0.05D, 0.0D, 0.05D, 15.95D, 2.0D, 15.95D);
-    public static final VoxelShape CENTRALCOLUMN = Block.makeCuboidShape(4.0D, 2.0D, 4.0D, 12.0D, 14.0D, 12.0D);
+    public static final VoxelShape PARTIAL_BASE  = Block.box(0.05D, 0.0D, 0.05D, 15.95D, 2.0D, 15.95D);
+    public static final VoxelShape CENTRALCOLUMN = Block.box(4.0D, 2.0D, 4.0D, 12.0D, 14.0D, 12.0D);
     public static final VoxelShape RENDERSHAPE   = VoxelShapes.or(InteractableBlock.PARTIAL_BASE,
             InteractableBlock.CENTRALCOLUMN);
 
@@ -31,29 +31,29 @@ public abstract class InteractableBlock extends Block
     }
 
     @Override
-    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
-        final TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getBlockEntity(pos);
         if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
         return ActionResultType.PASS;
     }
 
     @Override
-    public void onEntityWalk(final World worldIn, final BlockPos pos, final Entity entityIn)
+    public void stepOn(final World worldIn, final BlockPos pos, final Entity entityIn)
     {
-        final TileEntity tile = worldIn.getTileEntity(pos);
+        final TileEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onReplaced(final BlockState state, final World worldIn, final BlockPos pos, final BlockState newState,
+    public void onRemove(final BlockState state, final World worldIn, final BlockPos pos, final BlockState newState,
             final boolean isMoving)
     {
         if (state.getBlock() != newState.getBlock())
         {
-            final TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof InteractableTile) ((InteractableTile) tileentity).onBroken();
             if (tileentity == null)
             {
@@ -61,8 +61,8 @@ public abstract class InteractableBlock extends Block
             }
             else if (tileentity instanceof IInventory)
             {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
-                worldIn.updateComparatorOutputLevel(pos, this);
+                InventoryHelper.dropContents(worldIn, pos, (IInventory) tileentity);
+                worldIn.updateNeighbourForOutputSignal(pos, this);
             }
             else
             {
@@ -75,28 +75,28 @@ public abstract class InteractableBlock extends Block
                     {
 
                         @Override
-                        public void clear()
+                        public void clearContent()
                         {
                         }
 
                         @Override
-                        public void setInventorySlotContents(final int index, final ItemStack stack)
+                        public void setItem(final int index, final ItemStack stack)
                         {
                         }
 
                         @Override
-                        public ItemStack removeStackFromSlot(final int index)
+                        public ItemStack removeItemNoUpdate(final int index)
                         {
                             return ItemStack.EMPTY;
                         }
 
                         @Override
-                        public void markDirty()
+                        public void setChanged()
                         {
                         }
 
                         @Override
-                        public boolean isUsableByPlayer(final PlayerEntity player)
+                        public boolean stillValid(final PlayerEntity player)
                         {
                             return false;
                         }
@@ -108,28 +108,28 @@ public abstract class InteractableBlock extends Block
                         }
 
                         @Override
-                        public ItemStack getStackInSlot(final int index)
+                        public ItemStack getItem(final int index)
                         {
                             return items.getStackInSlot(index);
                         }
 
                         @Override
-                        public int getSizeInventory()
+                        public int getContainerSize()
                         {
                             return items.getSlots();
                         }
 
                         @Override
-                        public ItemStack decrStackSize(final int index, final int count)
+                        public ItemStack removeItem(final int index, final int count)
                         {
                             return ItemStack.EMPTY;
                         }
                     };
-                    InventoryHelper.dropInventoryItems(worldIn, pos, inventory);
-                    worldIn.updateComparatorOutputLevel(pos, this);
+                    InventoryHelper.dropContents(worldIn, pos, inventory);
+                    worldIn.updateNeighbourForOutputSignal(pos, this);
                 }
             }
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 }

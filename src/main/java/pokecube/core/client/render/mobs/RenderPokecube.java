@@ -42,7 +42,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         float          ageInTicks;
 
         @Override
-        public void setRotationAngles(final EntityPokecube entityIn, final float limbSwing, final float limbSwingAmount,
+        public void setupAnim(final EntityPokecube entityIn, final float limbSwing, final float limbSwingAmount,
                 final float ageInTicks, final float netHeadYaw, final float headPitch)
         {
             this.cube = entityIn;
@@ -50,43 +50,43 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         }
 
         @Override
-        public void render(final MatrixStack mat, final IVertexBuilder bufferIn, final int packedLightIn,
+        public void renderToBuffer(final MatrixStack mat, final IVertexBuilder bufferIn, final int packedLightIn,
                 final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
         {
-            mat.push();
+            mat.pushPose();
             mat.translate(0.125, 1.5, -0.125);
             final float scale = 0.25f;
             mat.scale(scale, scale, scale);
-            mat.rotate(Vector3f.ZP.rotationDegrees(180));
+            mat.mulPose(Vector3f.ZP.rotationDegrees(180));
 
             if (PokecubeManager.getTilt(this.cube.getItem()) > 0)
             {
                 final float rotateY = MathHelper.cos(MathHelper.abs((float) (Math.PI * this.ageInTicks) / 12));
                 mat.translate(.5, 0.5, 0);
-                mat.rotate(Vector3f.ZP.rotation(rotateY));
+                mat.mulPose(Vector3f.ZP.rotation(rotateY));
                 mat.translate(-.5, -0.5, 0);
             }
             ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
 
-            final RenderType rendertype = RenderTypeLookup.func_239219_a_(renderStack, true);
+            final RenderType rendertype = RenderTypeLookup.getRenderType(renderStack, true);
             RenderType rendertype1;
-            if (Objects.equals(rendertype, Atlases.getTranslucentCullBlockType())) rendertype1 = Atlases
-                    .getTranslucentCullBlockType();
+            if (Objects.equals(rendertype, Atlases.translucentCullBlockSheet())) rendertype1 = Atlases
+                    .translucentCullBlockSheet();
             else rendertype1 = rendertype;
-            final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
-                    .getBufferSource();
-            final IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(irendertypebuffer$impl, rendertype1, true,
-                    renderStack.hasEffect());
+            final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()
+                    .bufferSource();
+            final IVertexBuilder ivertexbuilder = ItemRenderer.getFoilBuffer(irendertypebuffer$impl, rendertype1, true,
+                    renderStack.hasFoil());
 
             final Minecraft mc = Minecraft.getInstance();
-            final IBakedModel ibakedmodel = mc.getItemRenderer().getItemModelWithOverrides(renderStack, this.cube.world,
+            final IBakedModel ibakedmodel = mc.getItemRenderer().getModel(renderStack, this.cube.level,
                     (LivingEntity) null);
-            mc.getItemRenderer().renderModel(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat,
+            mc.getItemRenderer().renderModelLists(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat,
                     ivertexbuilder);
 
-            mat.pop();
+            mat.popPose();
         }
     }
 
@@ -98,7 +98,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
     }
 
     @Override
-    protected boolean canRenderName(final EntityPokecube entity)
+    protected boolean shouldShowName(final EntityPokecube entity)
     {
         return false;
     }
@@ -108,7 +108,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final long time = entity.reset;
-        final long world = entity.getEntityWorld().getGameTime();
+        final long world = entity.getCommandSenderWorld().getGameTime();
         if (time > world) return;
 
         final ResourceLocation num = PokecubeItems.getCubeId(entity.getItem());
@@ -122,7 +122,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
     }
 
     @Override
-    public ResourceLocation getEntityTexture(final EntityPokecube entity)
+    public ResourceLocation getTextureLocation(final EntityPokecube entity)
     {
         return new ResourceLocation(PokecubeMod.ID, "textures/items/pokecubefront.png");
     }

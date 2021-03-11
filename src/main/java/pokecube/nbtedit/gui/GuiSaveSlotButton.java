@@ -75,17 +75,17 @@ public class GuiSaveSlotButton extends Button
 
         int textColor = this.isHovered() ? 16777120 : 0xffffff;
         this.renderVanillaButton(mat, this.x, this.y, 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
-        AbstractGui.drawCenteredString(mat, this.mc.fontRenderer, this.getMessage(), this.x + this.width / 2, this.y + 6,
+        AbstractGui.drawCenteredString(mat, this.mc.font, this.getMessage(), this.x + this.width / 2, this.y + 6,
                 textColor);
-        if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0) this.mc.fontRenderer.drawStringWithShadow(mat, "_", this.x
-                + (this.width + this.mc.fontRenderer.getStringWidth(this.getMessage().getString())) / 2 + 1, this.y + 6, 0xffffff);
+        if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0) this.mc.font.drawShadow(mat, "_", this.x
+                + (this.width + this.mc.font.width(this.getMessage().getString())) / 2 + 1, this.y + 6, 0xffffff);
 
         if (this.xVisible)
         {
             textColor = this.inBoundsOfX(mx, my) ? 16777120 : 0xffffff;
             this.renderVanillaButton(mat, this.leftBoundOfX(), this.topBoundOfX(), 0, 66, GuiSaveSlotButton.X_SIZE,
                     GuiSaveSlotButton.X_SIZE);
-            AbstractGui.drawCenteredString(mat, this.mc.fontRenderer, "x", this.x - GuiSaveSlotButton.GAP
+            AbstractGui.drawCenteredString(mat, this.mc.font, "x", this.x - GuiSaveSlotButton.GAP
                     - GuiSaveSlotButton.X_SIZE / 2, this.y + 6, textColor);
         }
     }
@@ -107,7 +107,7 @@ public class GuiSaveSlotButton extends Button
             final int height)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(GuiSaveSlotButton.TEXTURE);
+        this.mc.getTextureManager().bind(GuiSaveSlotButton.TEXTURE);
 
         // Top Left
         this.blit(mat, x, y, u, v, width / 2, height / 2);
@@ -161,7 +161,7 @@ public class GuiSaveSlotButton extends Button
 
     private void updatePosition()
     {
-        this.width = this.mc.fontRenderer.getStringWidth(this.getMessage().getString()) + 24;
+        this.width = this.mc.font.width(this.getMessage().getString()) + 24;
         if (this.width % 2 == 1) ++this.width;
         this.width = MathHelper.clamp(this.width, GuiSaveSlotButton.MIN_WIDTH, GuiSaveSlotButton.MAX_WIDTH);
         this.x = this.rightX - this.width;

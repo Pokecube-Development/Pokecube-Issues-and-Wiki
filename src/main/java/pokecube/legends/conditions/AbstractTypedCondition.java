@@ -39,7 +39,7 @@ public abstract class AbstractTypedCondition extends AbstractCondition
         final int count1 = this.caughtNumber(trainer, PokeType.getType(this.type));
         final int count2 = this.spawnNumber(PokeType.getType(this.type));
         final float numTotal = this.threshold;
-        return this.sendNoTrust(trainer).appendString("\n").append(this.sendLegend(trainer, this.type, (int) (count2 * numTotal), count1));
+        return this.sendNoTrust(trainer).append("\n").append(this.sendLegend(trainer, this.type, (int) (count2 * numTotal), count1));
     }
 
 }

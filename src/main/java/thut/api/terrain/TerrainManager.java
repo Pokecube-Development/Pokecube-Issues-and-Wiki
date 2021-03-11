@@ -51,9 +51,9 @@ public class TerrainManager
 
     public static boolean isAreaLoaded(final IWorld world, final BlockPos blockPos, final double distance)
     {
-        if (world.isRemote()) return world.getChunk(blockPos) != null;
+        if (world.isClientSide()) return world.getChunk(blockPos) != null;
         RegistryKey<World> dim = null;
-        if (world instanceof World) dim = ((World) world).getDimensionKey();
+        if (world instanceof World) dim = ((World) world).dimension();
         return TerrainManager.isAreaLoaded(dim, blockPos, distance);
     }
 
@@ -80,7 +80,7 @@ public class TerrainManager
     public static boolean chunkIsReal(final IWorld world, final ChunkPos pos)
     {
         RegistryKey<World> dim = null;
-        if (world instanceof World) dim = ((World) world).getDimensionKey();
+        if (world instanceof World) dim = ((World) world).dimension();
         return TerrainManager.chunkIsReal(dim, pos);
     }
 
@@ -94,8 +94,8 @@ public class TerrainManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         RegistryKey<World> dim = null;
-        if (evt.getWorld() instanceof World && !evt.getWorld().isRemote()) dim = ((World) evt.getWorld())
-                .getDimensionKey();
+        if (evt.getWorld() instanceof World && !evt.getWorld().isClientSide()) dim = ((World) evt.getWorld())
+                .dimension();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
@@ -105,8 +105,8 @@ public class TerrainManager
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
         RegistryKey<World> dim = null;
-        if (evt.getWorld() instanceof World && !evt.getWorld().isRemote()) dim = ((World) evt.getWorld())
-                .getDimensionKey();
+        if (evt.getWorld() instanceof World && !evt.getWorld().isClientSide()) dim = ((World) evt.getWorld())
+                .dimension();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 
@@ -152,7 +152,7 @@ public class TerrainManager
     public TerrainSegment getTerrainForEntity(final Entity e)
     {
         if (e == null) return null;
-        return this.getTerrain(e.getEntityWorld(), e.getPosX(), e.getPosY(), e.getPosZ());
+        return this.getTerrain(e.getCommandSenderWorld(), e.getX(), e.getY(), e.getZ());
     }
 
     public TerrainSegment getTerrian(final IWorld world, final Vector3 v)

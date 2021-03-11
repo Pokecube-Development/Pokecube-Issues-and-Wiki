@@ -27,14 +27,14 @@ public class Bonus extends PokeInfoPage
     int                   last = 0;
     final PokemobInfoPage parent;
 
-    private IBidiRenderer      splitRenderer = IBidiRenderer.field_243257_a;
+    private IBidiRenderer      splitRenderer = IBidiRenderer.EMPTY;
     private final FontRenderer fontRender;
 
     public Bonus(final PokemobInfoPage parent)
     {
         super(parent, "extra", Bonus.TEX_DM, Bonus.TEX_NM);
         this.parent = parent;
-        this.fontRender = Minecraft.getInstance().fontRenderer;
+        this.fontRender = Minecraft.getInstance().font;
     }
 
     // Default
@@ -62,8 +62,8 @@ public class Bonus extends PokeInfoPage
         // Draw ability
         if (ability != null)
         {
-            final String abilityName = I18n.format(ability.getName());
-            this.font.drawString(mat, I18n.format("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
+            final String abilityName = I18n.get(ability.getName());
+            this.font.draw(mat, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
         }
         final int happiness = this.parent.pokemob.getHappiness();
         TextComponent message = new StringTextComponent("");
@@ -71,16 +71,16 @@ public class Bonus extends PokeInfoPage
         // Draw size
         dy += 10; // 50
         message = new TranslationTextComponent("pokewatch.size", this.parent.pokemob.getSize());
-        this.splitRenderer = IBidiRenderer.func_243258_a(this.fontRender, message, 100);
-        this.splitRenderer.func_241866_c(mat, x + dx, y + dy, 12, sizeColour);
+        this.splitRenderer = IBidiRenderer.create(this.fontRender, message, 100);
+        this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, sizeColour);
 
         // Draw Nature
         dy += 11; // 50
         if (nature != null)
         {
             message = new TranslationTextComponent("pokewatch.nature", this.parent.pokemob.getNature());
-            this.splitRenderer = IBidiRenderer.func_243258_a(this.fontRender, message, 100);
-            this.splitRenderer.func_241866_c(mat, x + dx, y + dy, 12, natureColour);
+            this.splitRenderer = IBidiRenderer.create(this.fontRender, message, 100);
+            this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, natureColour);
         }
 
         if (happiness == 0) message = new TranslationTextComponent("pokemob.info.happy0");
@@ -92,8 +92,8 @@ public class Bonus extends PokeInfoPage
         if (happiness > 254) message = new TranslationTextComponent("pokemob.info.happy6");
         // Draw Happiness
         dy += 16; // 50
-        this.splitRenderer = IBidiRenderer.func_243258_a(this.fontRender, message, 100);
-        this.splitRenderer.func_241866_c(mat, x + dx, y + dy, 12, abilitycolour);
+        this.splitRenderer = IBidiRenderer.create(this.fontRender, message, 100);
+        this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, abilitycolour);
     }
 
     @Override

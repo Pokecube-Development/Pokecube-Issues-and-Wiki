@@ -26,7 +26,7 @@ public class ConfigGui extends Screen
         this.addButton(new Button(this.width / 2 - 50, this.height / 2 + 20, 100, 20, new TranslationTextComponent(
                 "gui.done"), w ->
         {
-            this.minecraft.displayGuiScreen(this.parent);
+            this.minecraft.setScreen(this.parent);
         }));
     }
 

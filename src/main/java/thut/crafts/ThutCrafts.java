@@ -102,7 +102,7 @@ public class ThutCrafts
     {
         ThutCrafts.CRAFTMAKER = new Item(new Item.Properties()).setRegistryName(Reference.MODID, "craftmaker");
         ThutCrafts.CRAFTBLOCK = TempBlock.make().setRegistryName(Reference.MODID, "craft");
-        ThutCrafts.CRAFTTE = TileEntityType.Builder.create(TempTile::new, ThutCrafts.CRAFTBLOCK).build(null);
+        ThutCrafts.CRAFTTE = TileEntityType.Builder.of(TempTile::new, ThutCrafts.CRAFTBLOCK).build(null);
         ThutCrafts.CRAFTTE.setRegistryName(Reference.MODID, "craft");
         TempTile.TYPE = ThutCrafts.CRAFTTE;
         BlockEntityBase.FAKEBLOCK = ThutCrafts.CRAFTBLOCK;

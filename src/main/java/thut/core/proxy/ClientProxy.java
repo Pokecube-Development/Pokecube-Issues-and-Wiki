@@ -57,15 +57,15 @@ public class ClientProxy extends CommonProxy
             final float dy1, final float dz1, final float dx2, final float dy2, final float dz2, final float r,
             final float g, final float b, final float a)
     {
-        builder.pos(positionMatrix, dx1, dy1, dz1).color(r, g, b, a).endVertex();
-        builder.pos(positionMatrix, dx2, dy2, dz2).color(r, g, b, a).endVertex();
+        builder.vertex(positionMatrix, dx1, dy1, dz1).color(r, g, b, a).endVertex();
+        builder.vertex(positionMatrix, dx2, dy2, dz2).color(r, g, b, a).endVertex();
     }
 
     public static void line(final IVertexBuilder builder, final Matrix4f positionMatrix, final Vector3f start,
             final Vector3f end, final float r, final float g, final float b, final float a)
     {
-        ClientProxy.line(builder, positionMatrix, start.getX(), start.getY(), start.getZ(), end.getX(), end.getY(), end
-                .getZ(), r, g, b, a);
+        ClientProxy.line(builder, positionMatrix, start.x(), start.y(), start.z(), end.x(), end.y(), end
+                .z(), r, g, b, a);
     }
 
     private boolean initParticles = false;
@@ -74,9 +74,9 @@ public class ClientProxy extends CommonProxy
     public DynamicRegistries getRegistries()
     {
         // This is null on single player, so we have an integrated server
-        if (Minecraft.getInstance().getCurrentServerData() == null) return super.getRegistries();
-        if (Minecraft.getInstance().world == null) return null;
-        return Minecraft.getInstance().world.func_241828_r();
+        if (Minecraft.getInstance().getCurrentServer() == null) return super.getRegistries();
+        if (Minecraft.getInstance().level == null) return null;
+        return Minecraft.getInstance().level.registryAccess();
     }
 
     @Override
@@ -108,40 +108,40 @@ public class ClientProxy extends CommonProxy
     {
         if (this.initParticles) return;
         this.initParticles = true;
-        Minecraft.getInstance().particles.registerFactory(ThutParticles.AURORA, ParticleFactories.GENERICFACTORY);
-        Minecraft.getInstance().particles.registerFactory(ThutParticles.MISC, ParticleFactories.GENERICFACTORY);
-        Minecraft.getInstance().particles.registerFactory(ThutParticles.STRING, ParticleFactories.GENERICFACTORY);
-        Minecraft.getInstance().particles.registerFactory(ThutParticles.LEAF, ParticleFactories.GENERICFACTORY);
-        Minecraft.getInstance().particles.registerFactory(ThutParticles.POWDER, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.AURORA, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.MISC, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.STRING, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.LEAF, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.POWDER, ParticleFactories.GENERICFACTORY);
     }
 
     @SubscribeEvent
     public void textOverlay(final RenderGameOverlayEvent.Text event)
     {
-        final boolean debug = Minecraft.getInstance().gameSettings.showDebugInfo;
+        final boolean debug = Minecraft.getInstance().options.renderDebug;
         if (!debug) return;
         final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(Minecraft.getInstance().player);
         final Vector3 v = Vector3.getNewVector().set(Minecraft.getInstance().player);
         final int num = t.getBiome(v);
         final BiomeType type = BiomeType.getType(num);
-        final String msg = "Sub-Biome: " + I18n.format(type.readableName) + " (" + type.name + ")";
+        final String msg = "Sub-Biome: " + I18n.get(type.readableName) + " (" + type.name + ")";
         event.getLeft().add("");
         event.getLeft().add(msg);
 
         if (Screen.hasAltDown())
         {
             event.getLeft().add("");
-            final Biome b = v.getBiome(Minecraft.getInstance().world);
+            final Biome b = v.getBiome(Minecraft.getInstance().level);
             final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
-            event.getLeft().add(key.getLocation() + ": " + BiomeDictionary.getTypes(key) + ", " + b.getCategory());
+            event.getLeft().add(key.location() + ": " + BiomeDictionary.getTypes(key) + ", " + b.getBiomeCategory());
         }
     }
 
     BiomeType getSubbiome(final ItemStack held)
     {
-        if (held.getDisplayName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
+        if (held.getHoverName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
         {
-            final String[] args = held.getDisplayName().getString().split("->");
+            final String[] args = held.getHoverName().getString().split("->");
             if (args.length != 2) return null;
             return BiomeType.getBiome(args[1].trim());
         }
@@ -154,19 +154,19 @@ public class ClientProxy extends CommonProxy
     {
         ItemStack held;
         final PlayerEntity player = Minecraft.getInstance().player;
-        if (!(held = player.getHeldItemMainhand()).isEmpty() || !(held = player.getHeldItemOffhand()).isEmpty())
+        if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
         {
             if (this.getSubbiome(held) == null) return;
             if (held.getTag() != null && held.getTag().contains("min"))
             {
                 final Minecraft mc = Minecraft.getInstance();
-                final Vector3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
+                final Vector3d projectedView = mc.gameRenderer.getMainCamera().getPosition();
                 Vector3d pointed = new Vector3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player
-                        .getLook(event.getPartialTicks()));
-                if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == Type.BLOCK)
+                        .getViewVector(event.getPartialTicks()));
+                if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
-                    final BlockRayTraceResult result = (BlockRayTraceResult) mc.objectMouseOver;
-                    pointed = new Vector3d(result.getPos().getX(), result.getPos().getY(), result.getPos().getZ());
+                    final BlockRayTraceResult result = (BlockRayTraceResult) mc.hitResult;
+                    pointed = new Vector3d(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos().getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
@@ -213,15 +213,15 @@ public class ClientProxy extends CommonProxy
                 lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) maxZ), new Vector3f((float) maxX,
                         (float) maxY, (float) maxZ)));
 
-                mat.push();
+                mat.pushPose();
 
-                final Matrix4f positionMatrix = mat.getLast().getMatrix();
+                final Matrix4f positionMatrix = mat.last().pose();
 
-                final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+                final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                 final IVertexBuilder builder = buffer.getBuffer(RenderType.LINES);
                 for (final Pair<Vector3f, Vector3f> line : lines)
                     ClientProxy.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0, 1f);
-                mat.pop();
+                mat.popPose();
             }
         }
     }

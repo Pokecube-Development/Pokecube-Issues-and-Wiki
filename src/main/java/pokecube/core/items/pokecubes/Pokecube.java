@@ -82,7 +82,7 @@ public class Pokecube extends Item implements IPokecube
 
         final boolean flag5 = nbt.contains("dye");
 
-        if (flag5) list.add(new TranslationTextComponent(DyeColor.byId(nbt.getInt("dye")).getTranslationKey()));
+        if (flag5) list.add(new TranslationTextComponent(DyeColor.byId(nbt.getInt("dye")).getName()));
     }
 
     public Pokecube(final Properties properties)
@@ -96,7 +96,7 @@ public class Pokecube extends Item implements IPokecube
      */
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack item, @Nullable final World world, final List<ITextComponent> list,
+    public void appendHoverText(final ItemStack item, @Nullable final World world, final List<ITextComponent> list,
             final ITooltipFlag advanced)
     {
         if (PokecubeManager.isFilled(item))
@@ -126,7 +126,7 @@ public class Pokecube extends Item implements IPokecube
             {
                 String arg = "";
                 for (final String s : pokemob.getMoves())
-                    if (s != null) arg += I18n.format(MovesUtils.getUnlocalizedMove(s)) + ", ";
+                    if (s != null) arg += I18n.get(MovesUtils.getUnlocalizedMove(s)) + ", ";
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
                 list.add(new TranslationTextComponent("pokecube.tooltip.moves", arg));
                 arg = "";
@@ -194,9 +194,9 @@ public class Pokecube extends Item implements IPokecube
             final FakePlayer player = PokecubeMod.getFakePlayer(world);
             final EntityPokecube cube = new EntityPokecube(EntityPokecube.TYPE, world);
             cube.shootingEntity = player;
-            cube.shooter = player.getUniqueID();
+            cube.shooter = player.getUUID();
             cube.setItem(itemstack);
-            cube.setMotion(0, 0, 0);
+            cube.setDeltaMovement(0, 0, 0);
             cube.shootingEntity = null;
             cube.shooter = null;
             Vector3.getNewVector().set(oldItem).moveEntity(cube);
@@ -243,7 +243,7 @@ public class Pokecube extends Item implements IPokecube
      * returns the action that specifies what animation to play when the items
      * is being used
      */
-    public UseAction getUseAction(final ItemStack stack)
+    public UseAction getUseAnimation(final ItemStack stack)
     {
         return UseAction.BOW;
     }
@@ -275,10 +275,10 @@ public class Pokecube extends Item implements IPokecube
     // Pokeseal stuff
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(final World world, final PlayerEntity player, final Hand hand)
+    public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand)
     {
-        player.setActiveHand(hand);
-        return new ActionResult<>(ActionResultType.SUCCESS, player.getHeldItem(hand));
+        player.startUsingItem(hand);
+        return new ActionResult<>(ActionResultType.SUCCESS, player.getItemInHand(hand));
     }
 
     @Override
@@ -286,10 +286,10 @@ public class Pokecube extends Item implements IPokecube
      * Called when the player stops using an Item (stops holding the right
      * mouse button).
      */
-    public void onPlayerStoppedUsing(final ItemStack stack, final World worldIn, final LivingEntity MobEntity,
+    public void releaseUsing(final ItemStack stack, final World worldIn, final LivingEntity MobEntity,
             final int timeLeft)
     {
-        if (MobEntity instanceof PlayerEntity && !worldIn.isRemote)
+        if (MobEntity instanceof PlayerEntity && !worldIn.isClientSide)
         {
             final PlayerEntity player = (PlayerEntity) MobEntity;
             final Predicate<Entity> selector = input ->
@@ -300,7 +300,7 @@ public class Pokecube extends Item implements IPokecube
                 return pokemob.getOwner() != player;
             };
             Entity target = Tools.getPointedEntity(player, 32, selector);
-            final Vector3 direction = Vector3.getNewVector().set(player.getLook(0));
+            final Vector3 direction = Vector3.getNewVector().set(player.getViewVector(0));
             final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
             if (target instanceof EntityPokecube) target = null;
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
@@ -310,7 +310,7 @@ public class Pokecube extends Item implements IPokecube
             if (!filled && target instanceof LivingEntity && this.getCaptureModifier(target, PokecubeItems.getCubeId(
                     stack)) == 0) target = null;
             boolean used = false;
-            final boolean filledOrSneak = filled || player.isSneaking() || dt > 5;
+            final boolean filledOrSneak = filled || player.isShiftKeyDown() || dt > 5;
             if (target != null && EntityPokecubeBase.SEEKING) used = this.throwPokecubeAt(worldIn, player, stack,
                     targetLocation, target) != null;
             else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
@@ -327,10 +327,10 @@ public class Pokecube extends Item implements IPokecube
             if (used)
             {
                 if (PokecubeManager.isFilled(stack) || !player.isCreative()) stack.split(1);
-                if (stack.isEmpty()) for (int i = 0; i < player.inventory.getSizeInventory(); i++)
-                    if (player.inventory.getStackInSlot(i) == stack)
+                if (stack.isEmpty()) for (int i = 0; i < player.inventory.getContainerSize(); i++)
+                    if (player.inventory.getItem(i) == stack)
                     {
-                        player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                        player.inventory.setItem(i, ItemStack.EMPTY);
                         break;
                     }
             }
@@ -348,7 +348,7 @@ public class Pokecube extends Item implements IPokecube
      * ItemStack's NBT tag will be sent to the client.
      */
     @Override
-    public boolean shouldSyncTag()
+    public boolean shouldOverrideMultiplayerNbt()
     {
         return true;
     }
@@ -383,22 +383,22 @@ public class Pokecube extends Item implements IPokecube
         }
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
-        entity.shootingEntity = thrower.isSneaking() ? null : thrower;
-        if (thrower.isSneaking()) entity.setNoCollisionRelease();
+        entity.shootingEntity = thrower.isShiftKeyDown() ? null : thrower;
+        if (thrower.isShiftKeyDown()) entity.setNoCollisionRelease();
         else entity.autoRelease = config.pokecubeAutoSendOutDelay;
-        entity.shooter = thrower.getUniqueID();
+        entity.shooter = thrower.getUUID();
         entity.setItem(stack);
 
         final Vector3 temp = Vector3.getNewVector().set(thrower).addTo(0, thrower.getEyeHeight(), 0);
         if (thrower instanceof ServerPlayerEntity && !(thrower instanceof FakePlayer))
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) thrower;
-            final Hand hand = player.getActiveHand();
-            final Vector3d tmp = thrower.getLookVec();
+            final Hand hand = player.getUsedItemHand();
+            final Vector3d tmp = thrower.getLookAngle();
             final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
             final Vector3f shift = new Vector3f();
             shift.cross(look, new Vector3f(0, 1, 0));
-            shift.scale(player.getWidth() / 2);
+            shift.scale(player.getBbWidth() / 2);
             switch (hand)
             {
             case MAIN_HAND:
@@ -417,12 +417,12 @@ public class Pokecube extends Item implements IPokecube
         entity.seeking = false;
         entity.targetEntity = null;
         entity.targetLocation.clear();
-        entity.forceSpawn = true;
-        if (hasMob && !thrower.isSneaking()) entity.targetLocation.y = -1;
-        if (!world.isRemote)
+        entity.forcedLoading = true;
+        if (hasMob && !thrower.isShiftKeyDown()) entity.targetLocation.y = -1;
+        if (!world.isClientSide)
         {
-            thrower.playSound(SoundEvents.ENTITY_EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
-            world.addEntity(entity);
+            thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
+            world.addFreshEntity(entity);
             if (hasMob && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(stack, false, false);
         }
         return entity;
@@ -439,13 +439,13 @@ public class Pokecube extends Item implements IPokecube
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
         entity.shootingEntity = thrower;
-        entity.shooter = thrower.getUniqueID();
-        entity.forceSpawn = true;
+        entity.shooter = thrower.getUUID();
+        entity.forcedLoading = true;
         entity.setItem(stack);
         final boolean rightclick = target == thrower;
         if (rightclick) target = null;
 
-        if (target instanceof LivingEntity || PokecubeManager.isFilled(cube) || thrower.isSneaking()
+        if (target instanceof LivingEntity || PokecubeManager.isFilled(cube) || thrower.isShiftKeyDown()
                 || thrower instanceof FakePlayer)
         {
             if (target instanceof LivingEntity) entity.targetEntity = (LivingEntity) target;
@@ -457,12 +457,12 @@ public class Pokecube extends Item implements IPokecube
             if (thrower instanceof ServerPlayerEntity && !(thrower instanceof FakePlayer))
             {
                 final ServerPlayerEntity player = (ServerPlayerEntity) thrower;
-                final Hand hand = player.getActiveHand();
-                final Vector3d tmp = thrower.getLookVec();
+                final Hand hand = player.getUsedItemHand();
+                final Vector3d tmp = thrower.getLookAngle();
                 final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
                 final Vector3f shift = new Vector3f();
                 shift.cross(look, new Vector3f(0, 1, 0));
-                shift.scale(player.getWidth() / 2);
+                shift.scale(player.getBbWidth() / 2);
                 switch (hand)
                 {
                 case MAIN_HAND:
@@ -475,16 +475,16 @@ public class Pokecube extends Item implements IPokecube
                 }
                 temp.addTo(shift.x, shift.y, shift.z);
             }
-            if (thrower.isSneaking())
+            if (thrower.isShiftKeyDown())
             {
                 temp.clear().setVelocities(entity);
                 entity.targetEntity = null;
                 entity.targetLocation.clear();
             }
-            if (!world.isRemote)
+            if (!world.isClientSide)
             {
-                thrower.playSound(SoundEvents.ENTITY_EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
-                world.addEntity(entity);
+                thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
+                world.addFreshEntity(entity);
                 if (PokecubeManager.isFilled(stack) && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(
                         stack, false, false);
             }

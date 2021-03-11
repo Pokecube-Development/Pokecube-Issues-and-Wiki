@@ -57,7 +57,7 @@ public abstract class AbstractBurrowTask extends TaskBase
             {
                 this.world.destroyBlock(pos, true, this.entity);
                 // attempt to collect the drops
-                final List<ItemEntity> drops = this.world.getEntitiesWithinAABB(ItemEntity.class, v.getAABB().grow(3));
+                final List<ItemEntity> drops = this.world.getEntitiesOfClass(ItemEntity.class, v.getAABB().inflate(3));
                 for (final ItemEntity e : drops)
                 {
                     final ItemStack stack = e.getItem().copy();

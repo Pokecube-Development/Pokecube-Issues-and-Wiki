@@ -19,7 +19,7 @@ public class RouteEditHelper
             final Function<CompoundNBT, CompoundNBT> function, final Entity entity, final Screen parent,
             final int width, final int dx, final int dy, final int height)
     {
-        final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+        final FontRenderer fontRenderer = Minecraft.getInstance().font;
         int num = 0;
         final StringTextComponent blank = new StringTextComponent("");
         for (final IGuardTask task : guard.getTasks())
@@ -27,16 +27,16 @@ public class RouteEditHelper
             final TextFieldWidget location = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
             final TextFieldWidget time = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
             final TextFieldWidget dist = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
-            location.setMaxStringLength(Short.MAX_VALUE);
-            time.setMaxStringLength(Short.MAX_VALUE);
-            dist.setMaxStringLength(Short.MAX_VALUE);
-            if (task.getPos() != null) location.setText(task.getPos().getX() + " " + task.getPos().getY() + " " + task
+            location.setMaxLength(Short.MAX_VALUE);
+            time.setMaxLength(Short.MAX_VALUE);
+            dist.setMaxLength(Short.MAX_VALUE);
+            if (task.getPos() != null) location.setValue(task.getPos().getX() + " " + task.getPos().getY() + " " + task
                     .getPos().getZ());
-            time.setText(task.getActiveTime().startTick + " " + task.getActiveTime().endTick);
-            dist.setText(task.getRoamDistance() + "");
-            location.moveCursorBy(-location.getCursorPosition());
-            time.moveCursorBy(-time.getCursorPosition());
-            dist.moveCursorBy(-dist.getCursorPosition());
+            time.setValue(task.getActiveTime().startTick + " " + task.getActiveTime().endTick);
+            dist.setValue(task.getRoamDistance() + "");
+            location.moveCursor(-location.getCursorPosition());
+            time.moveCursor(-time.getCursorPosition());
+            dist.moveCursor(-dist.getCursorPosition());
             final GuardEntry entry = new GuardEntry(num++, guard, entity, parent, location, time, dist, function, dx,
                     dy, height);
             entries.addEntry(entry);
@@ -45,9 +45,9 @@ public class RouteEditHelper
         final TextFieldWidget location = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
         final TextFieldWidget time = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
         final TextFieldWidget dist = new TextFieldWidget(fontRenderer, 0, 0, width, 10, blank);
-        location.setMaxStringLength(Short.MAX_VALUE);
-        time.setMaxStringLength(Short.MAX_VALUE);
-        dist.setMaxStringLength(Short.MAX_VALUE);
+        location.setMaxLength(Short.MAX_VALUE);
+        time.setMaxLength(Short.MAX_VALUE);
+        dist.setMaxLength(Short.MAX_VALUE);
         final GuardEntry entry = new GuardEntry(num++, guard, entity, parent, location, time, dist, function, dx, dy,
                 height);
         entries.addEntry(entry);

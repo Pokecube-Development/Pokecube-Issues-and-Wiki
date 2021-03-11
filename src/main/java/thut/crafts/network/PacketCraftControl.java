@@ -26,7 +26,7 @@ public class PacketCraftControl extends Packet
     public static void sendControlPacket(Entity pokemob, CraftController controller)
     {
         final PacketCraftControl packet = new PacketCraftControl();
-        packet.entityId = pokemob.getEntityId();
+        packet.entityId = pokemob.getId();
         if (controller.backInputDown) packet.message += PacketCraftControl.BACK;
         if (controller.forwardInputDown) packet.message += PacketCraftControl.FORWARD;
         if (controller.leftInputDown) packet.message += PacketCraftControl.LEFT;
@@ -60,7 +60,7 @@ public class PacketCraftControl extends Packet
         ctx.get().enqueueWork(() ->
         {
             final PlayerEntity player = ctx.get().getSender();
-            final Entity mob = player.getEntityWorld().getEntityByID(this.entityId);
+            final Entity mob = player.getCommandSenderWorld().getEntity(this.entityId);
             if (mob != null && mob instanceof EntityCraft)
             {
                 final CraftController controller = ((EntityCraft) mob).controller;

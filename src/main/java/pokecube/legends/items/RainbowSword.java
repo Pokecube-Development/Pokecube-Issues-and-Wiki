@@ -15,7 +15,7 @@ public class RainbowSword extends ToolSword
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(final ItemStack itemstack)
+    public boolean isFoil(final ItemStack itemstack)
     {
         return true;
     }

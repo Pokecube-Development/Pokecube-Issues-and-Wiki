@@ -13,7 +13,7 @@ public class ShedSkin extends Ability
         if (mob.getStatus() != IMoveConstants.STATUS_NON)
         {
             final LivingEntity poke = mob.getEntity();
-            if (poke.ticksExisted % 20 == 0 && Math.random() < 0.3) mob.healStatus();
+            if (poke.tickCount % 20 == 0 && Math.random() < 0.3) mob.healStatus();
         }
     }
 }

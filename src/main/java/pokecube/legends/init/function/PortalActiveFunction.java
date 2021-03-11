@@ -80,7 +80,7 @@ public class PortalActiveFunction
         final PokedexEntry entityToSpawn = PortalActiveFunction.getRandomEntry();
         final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
         final Vector3 v = Vector3.getNewVector().set(pos);
-        final RegistryKey<World> key = world.getDimensionKey();
+        final RegistryKey<World> key = world.dimension();
 
         // // Normal Worlds
         if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega()
@@ -88,8 +88,8 @@ public class PortalActiveFunction
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);
-            entity.setPosition(v.x, v.y, v.z);
-            world.addEntity(entity);
+            entity.setPos(v.x, v.y, v.z);
+            world.addFreshEntity(entity);
         }
 
         // Ultra Space
@@ -97,11 +97,11 @@ public class PortalActiveFunction
         {
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);
-            entity.setPosition(v.x, v.y, v.z);
-            world.addEntity(entity);
+            entity.setPos(v.x, v.y, v.z);
+            world.addFreshEntity(entity);
         }
-        world.setBlockState(pos, state.with(PortalWarp.ACTIVE, false));
-        world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.NEUTRAL, 1, 1, false);
+        world.setBlockAndUpdate(pos, state.setValue(PortalWarp.ACTIVE, false));
+        world.playLocalSound(v.x, v.y, v.z, SoundEvents.WITHER_DEATH, SoundCategory.NEUTRAL, 1, 1, false);
 
     }
 }

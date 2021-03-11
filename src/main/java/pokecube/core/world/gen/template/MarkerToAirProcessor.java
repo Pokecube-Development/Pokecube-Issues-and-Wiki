@@ -19,12 +19,12 @@ public class MarkerToAirProcessor extends StructureProcessor
 
     @Override
     @Nullable
-    public Template.BlockInfo func_230386_a_(final IWorldReader p_230386_1_, final BlockPos p_230386_2_,
+    public Template.BlockInfo processBlock(final IWorldReader p_230386_1_, final BlockPos p_230386_2_,
             final BlockPos p_230386_3_, final Template.BlockInfo raw, final Template.BlockInfo mod,
             final PlacementSettings p_230386_6_)
     {
         return mod.state.getBlock() == Blocks.STRUCTURE_BLOCK ? new Template.BlockInfo(mod.pos, Blocks.AIR
-                .getDefaultState(), mod.nbt) : mod;
+                .defaultBlockState(), mod.nbt) : mod;
     }
 
     @Override

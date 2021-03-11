@@ -19,8 +19,8 @@ public class ListHelper
 
     public static String removeTextColorsIfConfigured(final String text, final boolean forceColor)
     {
-        return !forceColor && !Minecraft.getInstance().gameSettings.chatColor ? TextFormatting
-                .getTextWithoutFormattingCodes(text) : text;
+        return !forceColor && !Minecraft.getInstance().options.chatColors ? TextFormatting
+                .stripFormatting(text) : text;
     }
 
     public static void addSiblings(final ITextComponent base, final List<IFormattableTextComponent> toAdd)
@@ -29,7 +29,7 @@ public class ListHelper
         if (base instanceof IFormattableTextComponent) us = (IFormattableTextComponent) base;
         else
         {
-            us = new StringTextComponent(base.getUnformattedComponentText());
+            us = new StringTextComponent(base.getContents());
             us.setStyle(base.getStyle());
         }
         toAdd.add(us);
@@ -49,7 +49,7 @@ public class ListHelper
         {
             final IFormattableTextComponent itextcomponent1 = list1.get(j);
             // This gets the raw copy, without siblings, etc
-            String s = itextcomponent1.copyRaw().getString();
+            String s = itextcomponent1.plainCopy().getString();
             Style style = itextcomponent1.getStyle();
 
             // This means it has arguments, that might have styles themselves!
@@ -58,14 +58,14 @@ public class ListHelper
                 final TranslationTextComponent comp = (TranslationTextComponent) itextcomponent1;
                 boolean hasClick = comp.getStyle().getClickEvent() != null;
                 boolean hasHover = comp.getStyle().getHoverEvent() != null;
-                for (final Object o : comp.getFormatArgs())
+                for (final Object o : comp.getArgs())
                 {
                     if (!(o instanceof ITextComponent)) continue;
                     final ITextComponent sub = (ITextComponent) o;
                     hasClick = sub.getStyle().getClickEvent() != null;
-                    if (hasClick) style = style.setClickEvent(sub.getStyle().getClickEvent());
+                    if (hasClick) style = style.withClickEvent(sub.getStyle().getClickEvent());
                     hasHover = sub.getStyle().getHoverEvent() != null;
-                    if (hasHover) style = style.setHoverEvent(sub.getStyle().getHoverEvent());
+                    if (hasHover) style = style.withHoverEvent(sub.getStyle().getHoverEvent());
                 }
             }
             boolean flag = false;
@@ -81,7 +81,7 @@ public class ListHelper
 
             final String s4 = s;
             final String s5 = s4.endsWith("\n") ? s4.substring(0, s4.length() - 1) : s4;
-            int i1 = fontRendererIn.getStringWidth(s5);
+            int i1 = fontRendererIn.width(s5);
             IFormattableTextComponent itextcomponent3 = new StringTextComponent(s5).setStyle(itextcomponent1
                     .getStyle());
             if (i + i1 > maxTextLenght)
@@ -91,7 +91,7 @@ public class ListHelper
                 if (s3 != null && !s3.isEmpty())
                 {
                     int l = s3.charAt(0) != ' ' ? s2.lastIndexOf(32) : s2.length();
-                    if (l >= 0 && fontRendererIn.getStringWidth(s4.substring(0, l)) > 0)
+                    if (l >= 0 && fontRendererIn.width(s4.substring(0, l)) > 0)
                     {
                         s2 = s4.substring(0, l);
                         if (trimSpace) ++l;
@@ -108,7 +108,7 @@ public class ListHelper
                     list1.add(j + 1, itextcomponent4);
                 }
 
-                i1 = fontRendererIn.getStringWidth(s2);
+                i1 = fontRendererIn.width(s2);
                 itextcomponent3 = new StringTextComponent(s2);
                 itextcomponent3.setStyle(style);
                 flag = true;
@@ -144,7 +144,7 @@ public class ListHelper
                 final TextFormatting textformatting = ListHelper.fromFormattingCode(stringIn.charAt(i + 1));
                 if (textformatting != null)
                 {
-                    if (!textformatting.isFancyStyling()) stringbuilder.setLength(0);
+                    if (!textformatting.isFormat()) stringbuilder.setLength(0);
 
                     if (textformatting != TextFormatting.RESET) stringbuilder.append(textformatting);
                 }
@@ -158,7 +158,7 @@ public class ListHelper
         final char c0 = Character.toString(formattingCodeIn).toLowerCase(Locale.ROOT).charAt(0);
 
         for (final TextFormatting textformatting : TextFormatting.values())
-            if (textformatting.formattingCode == c0) return textformatting;
+            if (textformatting.code == c0) return textformatting;
 
         return null;
     }
@@ -179,14 +179,14 @@ public class ListHelper
             if (flag)
             {
                 flag = false;
-                final TextFormatting textformatting = TextFormatting.fromFormattingCode(c0);
+                final TextFormatting textformatting = TextFormatting.getByCode(c0);
                 if (textformatting == TextFormatting.BOLD) flag1 = true;
-                else if (textformatting != null && !textformatting.isFancyStyling()) flag1 = false;
+                else if (textformatting != null && !textformatting.isFormat()) flag1 = false;
             }
             else if (c0 == 167) flag = true;
             else
             {
-                f += fontRendererIn.getStringWidth(c0 + "");
+                f += fontRendererIn.width(c0 + "");
                 if (flag1) ++f;
             }
 

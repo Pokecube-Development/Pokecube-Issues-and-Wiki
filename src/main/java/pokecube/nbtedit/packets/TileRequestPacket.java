@@ -25,7 +25,7 @@ public class TileRequestPacket extends Packet
 
     public TileRequestPacket(final PacketBuffer buf)
     {
-        this.pos = BlockPos.fromLong(buf.readLong());
+        this.pos = BlockPos.of(buf.readLong());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class TileRequestPacket extends Packet
     @Override
     public void write(final PacketBuffer buf)
     {
-        buf.writeLong(this.pos.toLong());
+        buf.writeLong(this.pos.asLong());
     }
 
 }

@@ -24,7 +24,7 @@ public class LeaderNpc extends TrainerNpc
 
     static
     {
-        TYPE = EntityType.Builder.create(LeaderNpc::new, EntityClassification.CREATURE).setCustomClientFactory((s,
+        TYPE = EntityType.Builder.of(LeaderNpc::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> LeaderNpc.TYPE.create(w)).build("leader");
     }
 
@@ -52,7 +52,7 @@ public class LeaderNpc extends TrainerNpc
         final List<PokedexEntry> options = Lists.newArrayList();
         for (final PokedexEntry e : Database.spawnables)
             if (e.isType(type)) options.add(e);
-        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.world, options);
+        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.level, options);
     }
 
     @Override

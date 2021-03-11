@@ -28,7 +28,7 @@ public class CommandConfigs
         {
             final Field f = data.getClass().getField(field);
             final Object value = f.get(data);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.check", field, value), true);
+            source.sendSuccess(new TranslationTextComponent("thutcore.command.settings.check", field, value), true);
         }
         catch (final Exception e)
         {
@@ -58,7 +58,7 @@ public class CommandConfigs
         if (val.equals("!set"))
         {
             CommandConfigs.handleSet(data, args, value, f);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.set", field, value),
+            source.sendSuccess(new TranslationTextComponent("thutcore.command.settings.array.set", field, value),
                     true);
             return 0;
         }
@@ -66,7 +66,7 @@ public class CommandConfigs
         if (val.equals("!add"))
         {
             CommandConfigs.handleAdd(data, args, value, f);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.add", field, value),
+            source.sendSuccess(new TranslationTextComponent("thutcore.command.settings.array.add", field, value),
                     true);
             return 0;
         }
@@ -74,7 +74,7 @@ public class CommandConfigs
         if (val.equals("!remove"))
         {
             CommandConfigs.handleRemove(data, args, value, f);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.remove", field, value),
+            source.sendSuccess(new TranslationTextComponent("thutcore.command.settings.array.remove", field, value),
                     true);
             return 0;
         }
@@ -90,7 +90,7 @@ public class CommandConfigs
         {
             throw new CommandException(new StringTextComponent("Error with setting field name " + field));
         }
-        source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.set", field, value), true);
+        source.sendSuccess(new TranslationTextComponent("thutcore.command.settings.set", field, value), true);
 
         return 0;
     }

@@ -115,8 +115,8 @@ public class TradeEntryLoader
         else if (flag.equals("tag_sell"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final ITag<Item> itemtag = ItemTags.getCollection().getTagByID(tag);
-            for (final Item i : itemtag.getAllElements())
+            final ITag<Item> itemtag = ItemTags.getAllTags().getTagOrEmpty(tag);
+            for (final Item i : itemtag.getValues())
             {
                 final ItemStack stack = new ItemStack(i);
                 if (!stack.isEmpty())
@@ -148,8 +148,8 @@ public class TradeEntryLoader
         else if (flag.equals("tag_buy"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final ITag<Item> itemtag = ItemTags.getCollection().getTagByID(tag);
-            if (itemtag != null) for (final Item i : itemtag.getAllElements())
+            final ITag<Item> itemtag = ItemTags.getAllTags().getTagOrEmpty(tag);
+            if (itemtag != null) for (final Item i : itemtag.getValues())
             {
                 final ItemStack stack = new ItemStack(i);
                 if (!stack.isEmpty())
@@ -176,7 +176,7 @@ public class TradeEntryLoader
     public static XMLDatabase loadDatabase()
     {
         final XMLDatabase full = new XMLDatabase();
-        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(NpcType.DATALOC,
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(NpcType.DATALOC,
                 s -> s.endsWith(".json"));
         for (final ResourceLocation file : resources)
         {

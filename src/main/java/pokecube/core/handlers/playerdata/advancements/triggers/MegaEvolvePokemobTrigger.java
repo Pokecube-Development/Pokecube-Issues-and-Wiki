@@ -72,7 +72,7 @@ public class MegaEvolvePokemobTrigger implements ICriterionTrigger<MegaEvolvePok
             List<ICriterionTrigger.Listener<MegaEvolvePokemobTrigger.Instance>> list = null;
 
             for (final ICriterionTrigger.Listener<MegaEvolvePokemobTrigger.Instance> listener : this.listeners)
-                if (listener.getCriterionInstance().test(player, pokemob))
+                if (listener.getTriggerInstance().test(player, pokemob))
                 {
                     if (list == null)
                         list = Lists.<ICriterionTrigger.Listener<MegaEvolvePokemobTrigger.Instance>> newArrayList();
@@ -80,7 +80,7 @@ public class MegaEvolvePokemobTrigger implements ICriterionTrigger<MegaEvolvePok
                     list.add(listener);
                 }
             if (list != null) for (final ICriterionTrigger.Listener<MegaEvolvePokemobTrigger.Instance> listener1 : list)
-                listener1.grantCriterion(this.playerAdvancements);
+                listener1.run(this.playerAdvancements);
         }
     }
 
@@ -93,7 +93,7 @@ public class MegaEvolvePokemobTrigger implements ICriterionTrigger<MegaEvolvePok
     }
 
     @Override
-    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+    public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<MegaEvolvePokemobTrigger.Instance> listener)
     {
         MegaEvolvePokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -109,9 +109,9 @@ public class MegaEvolvePokemobTrigger implements ICriterionTrigger<MegaEvolvePok
 
 
     @Override
-    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         final String name = json.has("entry") ? json.get("entry").getAsString() : "";
         return new MegaEvolvePokemobTrigger.Instance(pred, Database.getEntry(name));
     }
@@ -123,13 +123,13 @@ public class MegaEvolvePokemobTrigger implements ICriterionTrigger<MegaEvolvePok
     }
 
     @Override
-    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
+    public void removePlayerListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+    public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<MegaEvolvePokemobTrigger.Instance> listener)
     {
         final MegaEvolvePokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(

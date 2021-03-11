@@ -33,8 +33,8 @@ public class Neck
         dy = -.0f;
         dz = -0.03f;
         s = 0.525f;
-        mat.rotate(Vector3f.XP.rotationDegrees(90));
-        mat.rotate(Vector3f.ZP.rotationDegrees(180));
+        mat.mulPose(Vector3f.XP.rotationDegrees(90));
+        mat.mulPose(Vector3f.ZP.rotationDegrees(180));
         mat.translate(dx, dy, dz);
         mat.scale(s, s, s);
         final String colorpart = "main";

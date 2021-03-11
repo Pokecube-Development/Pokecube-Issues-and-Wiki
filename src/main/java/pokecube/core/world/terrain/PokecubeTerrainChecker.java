@@ -90,8 +90,8 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
 
     private static boolean isPlant(final Material m)
     {
-        return m == Material.PLANTS || m == Material.TALL_PLANTS || m == Material.SEA_GRASS
-                || m == Material.OCEAN_PLANT;
+        return m == Material.PLANT || m == Material.REPLACEABLE_PLANT || m == Material.REPLACEABLE_WATER_PLANT
+                || m == Material.WATER_PLANT;
     }
 
     public static boolean isEdiblePlant(final BlockState state)
@@ -144,7 +144,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         final World rworld = (World) world;
         if (caveAdjusted)
         {
-            final Set<StructureInfo> set = StructureManager.getFor(rworld.getDimensionKey(), v.getPos());
+            final Set<StructureInfo> set = StructureManager.getFor(rworld.dimension(), v.getPos());
             for (final StructureInfo info : set)
             {
                 String name = info.name;
@@ -157,7 +157,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
                     return biom.getType();
                 }
             }
-            if (rworld.getDimensionType().getHasCeiling() || v.canSeeSky(world) || !PokecubeCore
+            if (rworld.dimensionType().hasCeiling() || v.canSeeSky(world) || !PokecubeCore
                     .getConfig().autoDetectSubbiomes) return -1;
             boolean sky = false;
             final Vector3 temp1 = Vector3.getNewVector();

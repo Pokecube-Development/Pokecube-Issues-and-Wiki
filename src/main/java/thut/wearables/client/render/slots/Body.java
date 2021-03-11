@@ -27,7 +27,7 @@ public class Body
         float[] offsetArr;
         boolean render = false;
 
-        mat.push();
+        mat.pushPose();
         switch (slot)
         {
         case BACK:
@@ -35,7 +35,7 @@ public class Body
             if (wearer.isCrouching() && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(7)) != null) mat
                     .translate(offsetArr[0], offsetArr[1], offsetArr[2]);
 
-            theModel.bipedBody.translateRotate(mat);
+            theModel.body.translateAndRotate(mat);
             if ((offsetArr = ThutWearables.config.renderOffsets.get(7)) != null) mat.translate(offsetArr[0],
                     offsetArr[1], offsetArr[2]);
             render = true;
@@ -45,14 +45,14 @@ public class Body
             if (wearer.isCrouching() && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(6)) != null) mat
                     .translate(offsetArr[0], offsetArr[1], offsetArr[2]);
 
-            theModel.bipedBody.translateRotate(mat);
+            theModel.body.translateAndRotate(mat);
             if ((offsetArr = ThutWearables.config.renderOffsets.get(6)) != null) mat.translate(offsetArr[0],
                     offsetArr[1], offsetArr[2]);
             render = true;
             break;
         case WAIST:
             if (ThutWearables.config.renderBlacklist.contains(8)) break;
-            theModel.bipedBody.translateRotate(mat);
+            theModel.body.translateAndRotate(mat);
             if (wearer.isCrouching() && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(8)) != null) mat
                     .translate(offsetArr[0], offsetArr[1], offsetArr[2]);
 
@@ -66,6 +66,6 @@ public class Body
         }
         if (render) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
 
-        mat.pop();
+        mat.popPose();
     }
 }

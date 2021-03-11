@@ -27,16 +27,16 @@ public class PCTile extends InteractableTile
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         if (this.isBound()) compound.putString("boundid", this.boundId.toString());
-        return super.write(compound);
+        return super.save(compound);
     }
 
     @Override
-    public void read(final BlockState state, final CompoundNBT compound)
+    public void load(final BlockState state, final CompoundNBT compound)
     {
-        super.read(state, compound);
+        super.load(state, compound);
         if (compound.contains("boundid")) this.boundId = UUID.fromString(compound.getString("boundid"));
     }
 
@@ -48,7 +48,7 @@ public class PCTile extends InteractableTile
     public void bind(final ServerPlayerEntity player)
     {
         if (player == null) this.boundId = PokecubeMod.fakeUUID;
-        else this.boundId = player.getUniqueID();
+        else this.boundId = player.getUUID();
         this.inventory = PCInventory.getPC(this.boundId);
     }
 

@@ -30,7 +30,7 @@ public class BaseTile extends InteractableTile
 {
     boolean           any       = false;
     public GlobalPos  last_base = null;
-    public BlockState original  = Blocks.STONE.getDefaultState();
+    public BlockState original  = Blocks.STONE.defaultBlockState();
 
     public BaseTile()
     {
@@ -43,7 +43,7 @@ public class BaseTile extends InteractableTile
     {
         if (!(player instanceof ServerPlayerEntity)) return ActionResultType.SUCCESS;
         final MinecraftServer server = player.getServer();
-        UUID targetBase = player.getUniqueID();
+        UUID targetBase = player.getUUID();
         if (!this.any)
         {
             final IOwnableTE tile = (IOwnableTE) this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
@@ -52,8 +52,8 @@ public class BaseTile extends InteractableTile
             GlobalPos exit_here;
             try
             {
-                exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.getEntityWorld()
-                        .getDimensionKey() == SecretBaseDimension.WORLD_KEY);
+                exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.getCommandSenderWorld()
+                        .dimension() == SecretBaseDimension.WORLD_KEY);
             }
             catch (final Exception e)
             {
@@ -61,16 +61,16 @@ public class BaseTile extends InteractableTile
                 return ActionResultType.FAIL;
             }
             if (this.last_base == null) this.last_base = exit_here;
-            if (exit_here.getPos().distanceSq(this.last_base.getPos().getX(), this.last_base.getPos().getY(),
-                    this.last_base.getPos().getZ(), false) > 0.0)
+            if (exit_here.pos().distSqr(this.last_base.pos().getX(), this.last_base.pos().getY(),
+                    this.last_base.pos().getZ(), false) > 0.0)
             {
                 // We need to remove the location.
-                this.world.setBlockState(pos, this.original);
-                player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"), Util.DUMMY_UUID);
+                this.level.setBlockAndUpdate(pos, this.original);
+                player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"), Util.NIL_UUID);
                 return ActionResultType.FAIL;
             }
         }
-        final RegistryKey<World> dim = player.getEntityWorld().getDimensionKey();
+        final RegistryKey<World> dim = player.getCommandSenderWorld().dimension();
         if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit((ServerPlayerEntity) player,
                 targetBase);
         else SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
@@ -78,9 +78,9 @@ public class BaseTile extends InteractableTile
     }
 
     @Override
-    public void read(final BlockState stateIn, final CompoundNBT compound)
+    public void load(final BlockState stateIn, final CompoundNBT compound)
     {
-        super.read(stateIn, compound);
+        super.load(stateIn, compound);
         this.any = compound.getBoolean("any_use");
         if (compound.contains("last_base")) this.last_base = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, compound
                 .get("last_base")).result().get().getFirst();
@@ -92,7 +92,7 @@ public class BaseTile extends InteractableTile
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         compound.putBoolean("any_use", this.any);
         if (this.last_base != null) compound.put("last_base", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE,
@@ -102,6 +102,6 @@ public class BaseTile extends InteractableTile
             final CompoundNBT tag = NBTUtil.writeBlockState(this.original);
             compound.put("revert_to", tag);
         }
-        return super.write(compound);
+        return super.save(compound);
     }
 }

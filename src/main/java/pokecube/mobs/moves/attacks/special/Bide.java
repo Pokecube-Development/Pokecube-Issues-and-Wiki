@@ -22,20 +22,20 @@ public class Bide extends Move_Basic
         final LivingEntity attacker = packet.attacker.getEntity();
         if (!packet.attacker.getMoveStats().biding)
         {
-            attacker.getPersistentData().putLong("bideTime", attacker.getEntityWorld().getGameTime() + PokecubeCore
+            attacker.getPersistentData().putLong("bideTime", attacker.getCommandSenderWorld().getGameTime() + PokecubeCore
                     .getConfig().attackCooldown * 5);
             packet.attacker.getMoveStats().biding = true;
             packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
             packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
         }
-        else if (attacker.getPersistentData().getLong("bideTime") < attacker.getEntityWorld().getGameTime())
+        else if (attacker.getPersistentData().getLong("bideTime") < attacker.getCommandSenderWorld().getGameTime())
         {
             attacker.getPersistentData().remove("bideTime");
             final int damage = packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER + packet.attacker
                     .getMoveStats().SPECIALDAMAGETAKENCOUNTER;
             packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
             packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
-            packet.attacked.attackEntityFrom(new PokemobDamageSource(attacker, this), damage);
+            packet.attacked.hurt(new PokemobDamageSource(attacker, this), damage);
             packet.attacker.getMoveStats().biding = false;
         }
     }

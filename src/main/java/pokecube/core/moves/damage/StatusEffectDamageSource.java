@@ -46,13 +46,13 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
     }
 
     @Override
-    public ITextComponent getDeathMessage(final LivingEntity died)
+    public ITextComponent getLocalizedDeathMessage(final LivingEntity died)
     {
-        final ItemStack localObject = this.sourceMob != null ? this.sourceMob.getHeldItemMainhand()
+        final ItemStack localObject = this.sourceMob != null ? this.sourceMob.getMainHandItem()
                 : ItemStack.EMPTY;
-        if (!localObject.isEmpty() && localObject.hasDisplayName()) return new TranslationTextComponent("death.attack."
-                + this.damageType, new Object[] { died.getDisplayName(), this.sourceMob
-                        .getDisplayName(), localObject.getTextComponent() });
+        if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return new TranslationTextComponent("death.attack."
+                + this.msgId, new Object[] { died.getDisplayName(), this.sourceMob
+                        .getDisplayName(), localObject.getDisplayName() });
         final IPokemob sourceMob = CapabilityPokemob.getPokemobFor(this.sourceMob);
         if (sourceMob != null && sourceMob.getOwner() != null)
         {
@@ -67,19 +67,19 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
                     died.getDisplayName(), this.sourceMob.getDisplayName());
             return message;
         }
-        return new TranslationTextComponent("death.attack." + this.damageType, new Object[] { died
+        return new TranslationTextComponent("death.attack." + this.msgId, new Object[] { died
                 .getDisplayName(), this.sourceMob.getDisplayName() });
     }
 
     @Nullable
     @Override
-    public Entity getImmediateSource()
+    public Entity getDirectEntity()
     {
         return this.sourceMob;
     }
 
     @Override
-    public Entity getTrueSource()
+    public Entity getEntity()
     {
         final IPokemob sourceMob = CapabilityPokemob.getPokemobFor(this.sourceMob);
         if (sourceMob != null && sourceMob.getOwner() != null) return sourceMob.getOwner();

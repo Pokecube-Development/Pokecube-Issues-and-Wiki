@@ -45,6 +45,6 @@ public class Kyogre extends AbstractCondition
         final String kill = "Ground";
         final IFormattableTextComponent needTypes = this.sendLegendDuo(trainer, type, kill, (int) (numTotal * count3), count1,
                 (int) (numKill * count4), count2);
-        return noTrust.appendString("\n").append(needTypes);
+        return noTrust.append("\n").append(needTypes);
     }
 }

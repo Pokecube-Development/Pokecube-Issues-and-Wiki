@@ -52,8 +52,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.commands.Pokemake;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.events.MeteorEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
@@ -222,8 +222,8 @@ public final class SpawnHandler
     public static boolean addForbiddenSpawningCoord(final BlockPos pos, final World dim, final int range,
             final ForbidReason reason)
     {
-        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(dim.getDimensionKey());
-        if (entries == null) SpawnHandler.forbidReasons.put(dim.getDimensionKey(), entries = Maps.newHashMap());
+        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(dim.dimension());
+        if (entries == null) SpawnHandler.forbidReasons.put(dim.dimension(), entries = Maps.newHashMap());
         if (entries.containsKey(pos)) return false;
         entries.put(pos, new ForbiddenEntry(range, reason, pos));
         return true;
@@ -232,8 +232,8 @@ public final class SpawnHandler
     public static boolean addForbiddenSpawningCoord(final World dim, final ForbidRegion region,
             final ForbidReason reason)
     {
-        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(dim.getDimensionKey());
-        if (entries == null) SpawnHandler.forbidReasons.put(dim.getDimensionKey(), entries = Maps.newHashMap());
+        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(dim.dimension());
+        if (entries == null) SpawnHandler.forbidReasons.put(dim.dimension(), entries = Maps.newHashMap());
         if (entries.containsKey(region.getPos())) return false;
         entries.put(region.getPos(), new ForbiddenEntry(reason, region));
         return true;
@@ -269,9 +269,9 @@ public final class SpawnHandler
         if (world == null) return true;
         if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return false;
         if (!SpawnHandler.doSpawns) return false;
-        if (SpawnHandler.dimensionBlacklist.contains(world.getDimensionKey())) return false;
+        if (SpawnHandler.dimensionBlacklist.contains(world.dimension())) return false;
         if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world
-                .getDimensionKey())) return false;
+                .dimension())) return false;
         return true;
     }
 
@@ -303,13 +303,13 @@ public final class SpawnHandler
             }
 
             @Override
-            public BlockPos getSpawnerPosition()
+            public BlockPos getPos()
             {
                 return spawnPoint.getPos();
             }
 
             @Override
-            public World getWorld()
+            public World getLevel()
             {
                 return world;
             }
@@ -327,7 +327,7 @@ public final class SpawnHandler
 
     public static ForbiddenEntry getForbiddenEntry(final World world, final int x, final int y, final int z)
     {
-        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.getDimensionKey());
+        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
         if (entries == null) return null;
         final BlockPos here = new BlockPos(x, y, z);
         for (final ForbiddenEntry entry : entries.values())
@@ -349,10 +349,10 @@ public final class SpawnHandler
     private static BlockPos getRandomHeight(final World worldIn, final Chunk chunk, final int yCenter, final int dy)
     {
         final ChunkPos chunkpos = chunk.getPos();
-        final int x = chunkpos.getXStart() + worldIn.rand.nextInt(16);
-        final int z = chunkpos.getZStart() + worldIn.rand.nextInt(16);
-        int y = yCenter - dy + worldIn.rand.nextInt(2 * dy + 1);
-        final int top = chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, x, z) + 1;
+        final int x = chunkpos.getMinBlockX() + worldIn.random.nextInt(16);
+        final int z = chunkpos.getMinBlockZ() + worldIn.random.nextInt(16);
+        int y = yCenter - dy + worldIn.random.nextInt(2 * dy + 1);
+        final int top = chunk.getHeight(Heightmap.Type.WORLD_SURFACE, x, z) + 1;
         if (y > top) y = top;
         return new BlockPos(x, y, z);
     }
@@ -378,9 +378,9 @@ public final class SpawnHandler
             vec.set(j + 0.5, k, l + 0.5);
             if (vec.distanceTo(pos) > range) continue;
             final BlockState blockstate = world.getBlockState(blockpos);
-            if (blockstate.isNormalCube(world, blockpos)) continue;
+            if (blockstate.isRedstoneConductor(world, blockpos)) continue;
             final VoxelShape shape = blockstate.getCollisionShape(world, blockpos);
-            if (!shape.isEmpty()) vec.y += shape.getEnd(Axis.Y);
+            if (!shape.isEmpty()) vec.y += shape.max(Axis.Y);
             return vec;
         }
         return null;
@@ -389,8 +389,8 @@ public final class SpawnHandler
 
     public static Vector3 getRandomPointNear(final Entity player, final int range)
     {
-        if (player == null || !(player.getEntityWorld() instanceof ServerWorld)) return null;
-        return SpawnHandler.getRandomPointNear((ServerWorld) player.getEntityWorld(), Vector3.getNewVector().set(
+        if (player == null || !(player.getCommandSenderWorld() instanceof ServerWorld)) return null;
+        return SpawnHandler.getRandomPointNear((ServerWorld) player.getCommandSenderWorld(), Vector3.getNewVector().set(
                 player), range);
     }
 
@@ -481,7 +481,7 @@ public final class SpawnHandler
     public static void loadFunctionFromString(final String args)
     {
         final Function func = PokedexEntryLoader.gson.fromJson(args, Function.class);
-        final RegistryKey<World> dim = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(func.dim));
+        final RegistryKey<World> dim = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(func.dim));
         SpawnHandler.functions.put(dim, func);
         SpawnHandler.parsers.put(dim, SpawnHandler.initJEP(new JEP(), func.func, func.radial));
     }
@@ -520,19 +520,19 @@ public final class SpawnHandler
                     {
                         final BlockPos pos = entry.getKey();
                         final float power = entry.getFloatValue();
-                        boom.getAffectedBlockPositions().add(pos);
+                        boom.getToBlow().add(pos);
                         final BlockState destroyed = boom.world.getBlockState(pos);
-                        BlockState to = Blocks.AIR.getDefaultState();
+                        BlockState to = Blocks.AIR.defaultBlockState();
                         if (power < 36)
                         {
-                            if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.getDefaultState();
-                            if (destroyed.getMaterial() == Material.TALL_PLANTS) to = Blocks.FIRE.getDefaultState();
+                            if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
+                            if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT) to = Blocks.FIRE.defaultBlockState();
                         }
                         final MeteorEvent event = new MeteorEvent(destroyed, to, pos, power, boom);
                         MinecraftForge.EVENT_BUS.post(event);
                         final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
                         seg.setBiome(pos, BiomeType.METEOR.getType());
-                        boom.world.setBlockState(pos, to, 3);
+                        boom.world.setBlock(pos, to, 3);
                     }
                 }
             };
@@ -541,7 +541,7 @@ public final class SpawnHandler
             PokecubeCore.LOGGER.debug(message);
             boom.doExplosion();
         }
-        PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.getPosition(world.getDimensionKey(), location
+        PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.dimension(), location
                 .getPos()));
     }
 
@@ -549,8 +549,8 @@ public final class SpawnHandler
     {
         if (!(world instanceof ServerWorld)) return 0;
         // BlockPos p = world.
-        final Vector3 spawn = Vector3.getNewVector().set(((ServerWorld) world).getSpawnPoint());
-        final RegistryKey<World> type = world.getDimensionKey();
+        final Vector3 spawn = Vector3.getNewVector().set(((ServerWorld) world).getSharedSpawnPos());
+        final RegistryKey<World> type = world.dimension();
         final JEP toUse = SpawnHandler.getParser(type);
         final Function function = SpawnHandler.getFunction(type);
         final boolean r = function.radial;
@@ -655,7 +655,7 @@ public final class SpawnHandler
     public static boolean removeForbiddenSpawningCoord(final BlockPos pos, final World world)
     {
         if (world == null) return false;
-        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.getDimensionKey());
+        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
         if (entries == null) return false;
         return entries.remove(pos) != null;
     }
@@ -670,9 +670,9 @@ public final class SpawnHandler
     public void doMeteor(final ServerWorld world)
     {
         if (!PokecubeCore.getConfig().meteors) return;
-        if (!world.getDimensionType().getHasCeiling()) return;
-        if (!world.getDimensionType().hasSkyLight()) return;
-        final List<ServerPlayerEntity> players = world.getPlayers();
+        if (!world.dimensionType().hasCeiling()) return;
+        if (!world.dimensionType().hasSkyLight()) return;
+        final List<ServerPlayerEntity> players = world.players();
         if (players.size() < 1) return;
         final Random rand = new Random(world.getSeed() + world.getGameTime());
         if (rand.nextInt(100) == 0)
@@ -689,7 +689,7 @@ public final class SpawnHandler
             if (!TerrainManager.isAreaLoaded(world, v, 0)) return;
             // This getHeight can block if the above check doesn't work out!
             loc.y = world.getHeight(Type.WORLD_SURFACE, (int) loc.x, (int) loc.z);
-            final GlobalPos pos = GlobalPos.getPosition(world.getDimensionKey(), new BlockPos(loc.x, loc.y, loc.z));
+            final GlobalPos pos = GlobalPos.of(world.dimension(), new BlockPos(loc.x, loc.y, loc.z));
             if (PokecubeSerializer.getInstance().canMeteorLand(pos, world))
             {
                 final Vector3 direction = v1.set(rand.nextGaussian() / 2, -1, rand.nextGaussian() / 2);
@@ -697,8 +697,8 @@ public final class SpawnHandler
                 final Vector3 location = Vector3.getNextSurfacePoint(world, v, direction, 255);
                 if (location != null)
                 {
-                    if (world.getClosestPlayer(location.x, location.y, location.z, 96,
-                            EntityPredicates.NOT_SPECTATING) != null) return;
+                    if (world.getNearestPlayer(location.x, location.y, location.z, 96,
+                            EntityPredicates.NO_SPECTATORS) != null) return;
                     final float energy = (float) Math.abs((rand.nextGaussian() + 1) * 50);
                     SpawnHandler.makeMeteor(world, location, energy);
                 }
@@ -711,7 +711,7 @@ public final class SpawnHandler
         int ret = 0;
         int num = 0;
         if (!SpawnHandler.checkNoSpawnerInArea(world, v.intX(), v.intY(), v.intZ())) return ret;
-        if (v.y <= 0 || v.y >= world.getDimensionType().getLogicalHeight()) return ret;
+        if (v.y <= 0 || v.y >= world.dimensionType().logicalHeight()) return ret;
         SpawnHandler.refreshTerrain(v, world, true);
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, v);
         if (SpawnHandler.onlySubbiomes && t.getBiome(v) < 0) return ret;
@@ -769,10 +769,10 @@ public final class SpawnHandler
         if (minRadius > maxRadius) return;
         long time = System.nanoTime();
         if (!TerrainManager.isAreaLoaded(world, v, maxRadius)) return;
-        final int height = world.getHeight();
+        final int height = world.getMaxBuildHeight();
         // This lookup box uses configs rather than the passed in radius.
         final int boxR = PokecubeCore.getConfig().maxSpawnRadius;
-        final AxisAlignedBB box = v.getAABB().grow(boxR, Math.max(height, boxR), boxR);
+        final AxisAlignedBB box = v.getAABB().inflate(boxR, Math.max(height, boxR), boxR);
         int num = PokemobTracker.countPokemobs(world, box);
         if (num > SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return;
         final Vector3 v1 = SpawnHandler.getRandomPointNear(world, v, maxRadius);
@@ -828,8 +828,8 @@ public final class SpawnHandler
                     if (event.getPicked() == null) continue;
                     entity = PokecubeCore.createPokemob(event.getPicked(), world);
                     entity.setHealth(entity.getMaxHealth());
-                    entity.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F, 0.0F);
-                    if (entity.canSpawn(world, SpawnReason.NATURAL))
+                    entity.moveTo(x, y, z, world.random.nextFloat() * 360.0F, 0.0F);
+                    if (entity.checkSpawnRules(world, SpawnReason.NATURAL))
                     {
                         if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, v3.set(entity), entry,
                                 matcher)) != null)
@@ -848,9 +848,9 @@ public final class SpawnHandler
                             }
                             final SpawnEvent.Post evt = new SpawnEvent.Post(dbe, v3, world, pokemob);
                             PokecubeCore.POKEMOB_BUS.post(evt);
-                            entity.onInitialSpawn(world, world.getDifficultyForLocation(v.getPos()),
+                            entity.finalizeSpawn(world, world.getCurrentDifficultyAt(v.getPos()),
                                     SpawnReason.NATURAL, null, null);
-                            world.addEntity(entity);
+                            world.addFreshEntity(entity);
                             totalSpawnCount++;
                         }
                     }
@@ -872,12 +872,12 @@ public final class SpawnHandler
 
     private void spawn(final ServerWorld world)
     {
-        final List<ServerPlayerEntity> players = world.getPlayers();
+        final List<ServerPlayerEntity> players = world.players();
         if (players.isEmpty()) return;
         Collections.shuffle(players);
         for (final ServerPlayerEntity player : players)
         {
-            if (player.getEntityWorld().getDimensionKey() != world.getDimensionKey()) continue;
+            if (player.getCommandSenderWorld().dimension() != world.dimension()) continue;
             this.doSpawnForPlayer(player, world, PokecubeCore.getConfig().minSpawnRadius, PokecubeCore
                     .getConfig().maxSpawnRadius);
         }

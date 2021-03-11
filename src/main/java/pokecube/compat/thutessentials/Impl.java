@@ -75,10 +75,10 @@ public class Impl
         @Override
         public String getTeam(final Entity entityIn)
         {
-            if (entityIn.getEntityWorld().isRemote) return "";
+            if (entityIn.getCommandSenderWorld().isClientSide) return "";
             final IOwnable ownable = OwnableCaps.getOwnable(entityIn);
             UUID id = ownable != null ? ownable.getOwnerId() : null;
-            if (id == null) id = entityIn.getUniqueID();
+            if (id == null) id = entityIn.getUUID();
             final LandTeam team = LandManager.getTeam(id);
             if (team != LandManager.getDefaultTeam()) return team.teamName;
             return this.parent.getTeam(entityIn);
@@ -96,7 +96,7 @@ public class Impl
             {
                 if (teamA == teamB) return true;
                 if (teamA.isAlly(teamB)) return true;
-                if (teamA.isAlly(target.getUniqueID())) return true;
+                if (teamA.isAlly(target.getUUID())) return true;
                 return false;
             }
             return false;
@@ -113,7 +113,7 @@ public class Impl
             if (dest == null) return;
             if (dest.version != Essentials.config.dim_verison)
             {
-                if (!Essentials.config.versioned_dim_keys.contains(dest.getPos().getDimension().getLocation())) return;
+                if (!Essentials.config.versioned_dim_keys.contains(dest.getPos().dimension().location())) return;
                 Essentials.LOGGER.info("Invalidating stale teledest {} ({})", dest.getName(), dest.getPos());
                 event.setCanceled(true);
                 event.setOverride(null);
@@ -138,23 +138,23 @@ public class Impl
 
     public static void recallOutMobsOnLogout(final PlayerLoggedOutEvent event)
     {
-        if (!(event.getPlayer().getEntityWorld() instanceof ServerWorld)) return;
-        final ServerWorld world = (ServerWorld) event.getPlayer().getEntityWorld();
-        if (!Essentials.config.versioned_dim_keys.contains(world.getDimensionKey().getLocation())) return;
+        if (!(event.getPlayer().getCommandSenderWorld() instanceof ServerWorld)) return;
+        final ServerWorld world = (ServerWorld) event.getPlayer().getCommandSenderWorld();
+        if (!Essentials.config.versioned_dim_keys.contains(world.dimension().location())) return;
         final List<Entity> mobs = PokemobTracker.getMobs(event.getPlayer(), e -> Essentials.config.versioned_dim_keys
-                .contains(e.getEntityWorld().getDimensionKey().getLocation()));
+                .contains(e.getCommandSenderWorld().dimension().location()));
         PCEventsHandler.recallAll(mobs, true);
     }
 
     public static void recallOutMobsOnUnload(final ChunkEvent.Unload event)
     {
-        if (event.getWorld() == null || event.getWorld().isRemote()) return;
+        if (event.getWorld() == null || event.getWorld().isClientSide()) return;
         if (!(event.getWorld() instanceof ServerWorld && event.getChunk() instanceof Chunk)) return;
         final ServerWorld world = (ServerWorld) event.getWorld();
-        if (!Essentials.config.versioned_dim_keys.contains(world.getDimensionKey().getLocation())) return;
+        if (!Essentials.config.versioned_dim_keys.contains(world.dimension().location())) return;
         final List<Entity> mobs = Lists.newArrayList();
         final Chunk chunk = (Chunk) event.getChunk();
-        for (final ClassInheritanceMultiMap<Entity> list : chunk.getEntityLists())
+        for (final ClassInheritanceMultiMap<Entity> list : chunk.getEntitySections())
             list.forEach(e ->
             {
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);

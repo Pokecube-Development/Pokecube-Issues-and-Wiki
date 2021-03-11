@@ -37,11 +37,11 @@ public class GuiInfoMessages
         if (PokecubeCore.getConfig().battleLogInChat)
         {
             if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message,
-                    Util.DUMMY_UUID);
+                    Util.NIL_UUID);
             return;
         }
         GuiInfoMessages.messages.push(message.getString());
-        GuiInfoMessages.time = Minecraft.getInstance().player.ticksExisted;
+        GuiInfoMessages.time = Minecraft.getInstance().player.tickCount;
         GuiInfoMessages.recent.addFirst(message.getString());
         if (GuiInfoMessages.messages.size() > 100) GuiInfoMessages.messages.remove(0);
     }
@@ -57,11 +57,11 @@ public class GuiInfoMessages
         if (PokecubeCore.getConfig().battleLogInChat) return;
         final Minecraft minecraft = Minecraft.getInstance();
         // TODO see about this?
-        if (event.getType() == ElementType.CHAT && !(minecraft.currentScreen instanceof ChatScreen)) return;
-        if (event.getType() != ElementType.CHAT && minecraft.currentScreen != null) return;
+        if (event.getType() == ElementType.CHAT && !(minecraft.screen instanceof ChatScreen)) return;
+        if (event.getType() != ElementType.CHAT && minecraft.screen != null) return;
 
-        event.mat.push();
-        final int texH = minecraft.fontRenderer.FONT_HEIGHT;
+        event.mat.pushPose();
+        final int texH = minecraft.font.lineHeight;
         final int trim = PokecubeCore.getConfig().messageWidth;
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
@@ -69,7 +69,7 @@ public class GuiInfoMessages
         // TODO possbly fix lighitng here?
         final int[] mess = GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().messageRef, PokecubeCore
                 .getConfig().messagePos, new int[] { PokecubeCore.getConfig().messageWidth, 7
-                        * minecraft.fontRenderer.FONT_HEIGHT }, (float) PokecubeCore.getConfig().messageSize);
+                        * minecraft.font.lineHeight }, (float) PokecubeCore.getConfig().messageSize);
         int x = 0, y = 0;
         final float s = (float) PokecubeCore.getConfig().messageSize;
         x = x - 150;
@@ -82,14 +82,14 @@ public class GuiInfoMessages
         int j1 = -10;
 
         double mx, my;
-        mx = minecraft.mouseHelper.getMouseX();
-        my = minecraft.mouseHelper.getMouseY();
+        mx = minecraft.mouseHandler.xpos();
+        my = minecraft.mouseHandler.ypos();
 
-        if (minecraft.currentScreen != null)
+        if (minecraft.screen != null)
         {
-            i1 = (int) (mx * minecraft.currentScreen.width / minecraft.getMainWindow().getScaledWidth());
-            j1 = (int) (minecraft.currentScreen.height - my * minecraft.currentScreen.height / minecraft.getMainWindow()
-                    .getScaledHeight() - 1);
+            i1 = (int) (mx * minecraft.screen.width / minecraft.getWindow().getGuiScaledWidth());
+            j1 = (int) (minecraft.screen.height - my * minecraft.screen.height / minecraft.getWindow()
+                    .getGuiScaledHeight() - 1);
         }
         i1 = i1 - mess[0];
         j1 = j1 - mess[1];
@@ -107,7 +107,7 @@ public class GuiInfoMessages
             if (GuiInfoMessages.offset > GuiInfoMessages.messages.size() - 7)
                 GuiInfoMessages.offset = GuiInfoMessages.messages.size() - 7;
         }
-        else if (GuiInfoMessages.time > minecraft.player.ticksExisted - 30)
+        else if (GuiInfoMessages.time > minecraft.player.tickCount - 30)
         {
             num = 6;
             GuiInfoMessages.offset = 0;
@@ -116,7 +116,7 @@ public class GuiInfoMessages
         {
             GuiInfoMessages.offset = 0;
             num = 6;
-            GuiInfoMessages.time = minecraft.player.ticksExisted;
+            GuiInfoMessages.time = minecraft.player.tickCount;
             if (!GuiInfoMessages.recent.isEmpty()) GuiInfoMessages.recent.removeLast();
         }
         while (GuiInfoMessages.recent.size() > 8)
@@ -131,7 +131,7 @@ public class GuiInfoMessages
             if (index < 0) index = 0;
             if (index > size) break;
             final StringTextComponent mess2 = new StringTextComponent(toUse.get(index));
-            final List<IFormattableTextComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.fontRenderer,
+            final List<IFormattableTextComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font,
                     true);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
@@ -139,11 +139,11 @@ public class GuiInfoMessages
                 w = x - trim;
                 final int ph = 6 * texH - h;
                 AbstractGui.fill(event.mat, w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.fontRenderer.drawString(event.mat, mess1.get(j).getString(), x - trim, ph, 0xffffff);
+                minecraft.font.draw(event.mat, mess1.get(j).getString(), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;
         }
-        event.mat.pop();
+        event.mat.popPose();
     }
 }

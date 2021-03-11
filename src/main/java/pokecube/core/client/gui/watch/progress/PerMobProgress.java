@@ -44,7 +44,7 @@ public class PerMobProgress extends Progress
     {
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
-            final String text = this.text.getText();
+            final String text = this.text.getValue();
             final String trimmed = ThutCore.trim(text);
             final List<String> ret = new ArrayList<>();
             for (final PokedexEntry entry : Database.getSortedFormes())
@@ -68,20 +68,20 @@ public class PerMobProgress extends Progress
                 if (t.startsWith("'") && t.endsWith("'")) t = t.substring(1, t.length() - 1);
                 return t;
             });
-            if (!ret.isEmpty()) this.text.setText(ret.get(0));
+            if (!ret.isEmpty()) this.text.setValue(ret.get(0));
             return true;
         }
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
-            final PokedexEntry newEntry = Database.getEntry(this.text.getText());
+            final PokedexEntry newEntry = Database.getEntry(this.text.getValue());
             if (newEntry != null)
             {
-                this.text.setText(newEntry.getName());
+                this.text.setValue(newEntry.getName());
                 PacketPokedex.updateWatchEntry(newEntry);
                 this.entry = newEntry;
                 this.onPageOpened();
             }
-            else this.text.setText(this.entry.getName());
+            else this.text.setValue(this.entry.getName());
             return true;
         }
         return super.keyPressed(keyCode, b, c);
@@ -109,10 +109,10 @@ public class PerMobProgress extends Progress
         }
         PlayerEntity player = this.watch.player;
         if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
-        this.text.setText(this.entry.getName());
-        this.caught0 = CaptureStats.getTotalNumberOfPokemobCaughtBy(player.getUniqueID(), this.entry);
-        this.hatched0 = EggStats.getTotalNumberOfPokemobHatchedBy(player.getUniqueID(), this.entry);
-        this.killed0 = KillStats.getTotalNumberOfPokemobKilledBy(player.getUniqueID(), this.entry);
+        this.text.setValue(this.entry.getName());
+        this.caught0 = CaptureStats.getTotalNumberOfPokemobCaughtBy(player.getUUID(), this.entry);
+        this.hatched0 = EggStats.getTotalNumberOfPokemobHatchedBy(player.getUUID(), this.entry);
+        this.killed0 = KillStats.getTotalNumberOfPokemobKilledBy(player.getUUID(), this.entry);
 
         final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.mob.caught",
                 this.caught0, this.entry);
@@ -122,9 +122,9 @@ public class PerMobProgress extends Progress
                 this.hatched0, this.entry);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
-        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
+        final AxisAlignedBB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
                 .getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getEntityWorld().getEntitiesInAABBexcluding(this.watch.player,
+        final List<Entity> otherMobs = this.watch.player.getCommandSenderWorld().getEntities(this.watch.player,
                 bb, input ->
                 {
                     IPokemob pokemob;

@@ -34,20 +34,20 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     public static final BooleanProperty               WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
-    private static final VoxelShape CLONER_BOTTOM = VoxelShapes.or(Block.makeCuboidShape(0, 0, 0, 16, 12, 16), Block
-            .makeCuboidShape(0.5, 12, 0.5, 15.5, 13, 15.5), Block.makeCuboidShape(1, 13, 1, 15, 16, 15))
-            .simplify();
+    private static final VoxelShape CLONER_BOTTOM = VoxelShapes.or(Block.box(0, 0, 0, 16, 12, 16), Block
+            .box(0.5, 12, 0.5, 15.5, 13, 15.5), Block.box(1, 13, 1, 15, 16, 15))
+            .optimize();
 
-    private static final VoxelShape CLONER_TOP = VoxelShapes.or(Block.makeCuboidShape(0, 12, 0, 16, 16, 16), Block
-            .makeCuboidShape(0.5, 11, 0.5, 15.5, 12, 15.5), Block.makeCuboidShape(1, 0, 1, 15, 11, 15))
-            .simplify();
+    private static final VoxelShape CLONER_TOP = VoxelShapes.or(Block.box(0, 12, 0, 16, 16, 16), Block
+            .box(0.5, 11, 0.5, 15.5, 12, 15.5), Block.box(1, 0, 1, 15, 11, 15))
+            .optimize();
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        final ClonerBlockPart half = state.get(ClonerBlock.HALF);
+        final ClonerBlockPart half = state.getValue(ClonerBlock.HALF);
         if (half == ClonerBlockPart.BOTTOM) return ClonerBlock.CLONER_BOTTOM;
         else return ClonerBlock.CLONER_TOP;
     }
@@ -56,30 +56,30 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     public ClonerBlock(final Properties properties, final MaterialColor color)
     {
         super(properties, color);
-        this.setDefaultState(this.stateContainer.getBaseState().with(ClonerBlock.HALF, ClonerBlockPart.BOTTOM).with(
-                HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH).with(ClonerBlock.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ClonerBlock.HALF, ClonerBlockPart.BOTTOM).setValue(
+                HorizontalBlock.FACING, Direction.NORTH).setValue(ClonerBlock.WATERLOGGED, false));
     }
 
     // Places Cloner with both top and bottom pieces
     @Override
-    public void onBlockPlacedBy(final World world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
             final LivingEntity placer, final ItemStack stack)
     {
         if (placer != null)
         {
-            final FluidState fluidState = world.getFluidState(pos.up());
-            world.setBlockState(pos.up(), state.with(ClonerBlock.HALF, ClonerBlockPart.TOP).with(
-                    ClonerBlock.WATERLOGGED, fluidState.getFluid() == Fluids.WATER), 1);
+            final FluidState fluidState = world.getFluidState(pos.above());
+            world.setBlock(pos.above(), state.setValue(ClonerBlock.HALF, ClonerBlockPart.TOP).setValue(
+                    ClonerBlock.WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
         }
     }
 
     // Breaking Cloner breaks both parts and returns one item only
     @Override
-    public void onBlockHarvested(final World world, final BlockPos pos, final BlockState state,
+    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
             final PlayerEntity player)
     {
-        final Direction facing = state.get(HorizontalBlock.HORIZONTAL_FACING);
-        final BlockPos clonerPos = this.getClonerPos(pos, state.get(ClonerBlock.HALF), facing);
+        final Direction facing = state.getValue(HorizontalBlock.FACING);
+        final BlockPos clonerPos = this.getClonerPos(pos, state.getValue(ClonerBlock.HALF), facing);
         BlockState clonerBlockState = world.getBlockState(clonerPos);
         if (clonerBlockState.getBlock() == this && !pos.equals(clonerPos)) this.removeHalf(world, clonerPos,
                 clonerBlockState);
@@ -87,7 +87,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
         clonerBlockState = world.getBlockState(clonerPartPos);
         if (clonerBlockState.getBlock() == this && !pos.equals(clonerPartPos)) this.removeHalf(world, clonerPartPos,
                 clonerBlockState);
-        super.onBlockHarvested(world, pos, state, player);
+        super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getClonerTopPos(final BlockPos base, final Direction facing)
@@ -95,7 +95,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
         switch (facing)
         {
         default:
-            return base.up();
+            return base.above();
         }
     }
 
@@ -105,7 +105,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
         switch (facing)
         {
         default:
-            return pos.down();
+            return pos.below();
         }
     }
 
@@ -113,23 +113,23 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     private void removeHalf(final World world, final BlockPos pos, final BlockState state)
     {
         final FluidState fluidState = world.getFluidState(pos);
-        if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
-        else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
+        if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
+        else world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
     }
 
     // Prevents the Cloner from replacing blocks above it and checks for water
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-        final BlockPos pos = context.getPos();
+        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final BlockPos pos = context.getClickedPos();
 
-        final BlockPos clonerPos = this.getClonerTopPos(pos, context.getPlacementHorizontalFacing().getOpposite());
-        if (pos.getY() < 255 && clonerPos.getY() < 255 && context.getWorld().getBlockState(pos.up()).isReplaceable(
-                context)) return this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, context
-                        .getPlacementHorizontalFacing().getOpposite()).with(ClonerBlock.HALF, ClonerBlockPart.BOTTOM)
-                        .with(ClonerBlock.WATERLOGGED, ifluidstate.isTagged(FluidTags.WATER) && ifluidstate
-                                .getLevel() == 8);
+        final BlockPos clonerPos = this.getClonerTopPos(pos, context.getHorizontalDirection().getOpposite());
+        if (pos.getY() < 255 && clonerPos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
+                context)) return this.defaultBlockState().setValue(HorizontalBlock.FACING, context
+                        .getHorizontalDirection().getOpposite()).setValue(ClonerBlock.HALF, ClonerBlockPart.BOTTOM)
+                        .setValue(ClonerBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
+                                .getAmount() == 8);
         return null;
     }
 
@@ -137,13 +137,13 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     @Override
     public FluidState getFluidState(final BlockState state)
     {
-        return state.get(ClonerBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.getValue(ClonerBlock.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
-        builder.add(ClonerBlock.HALF, HorizontalBlock.HORIZONTAL_FACING, ClonerBlock.WATERLOGGED);
+        builder.add(ClonerBlock.HALF, HorizontalBlock.FACING, ClonerBlock.WATERLOGGED);
     }
 
     @Override

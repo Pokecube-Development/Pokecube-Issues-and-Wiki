@@ -88,7 +88,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.variation.visible = false;
 
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) parent.getEventListeners();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) parent.children();
         // Add us first so we can add linker-clicking to the location field
         list.add(this);
 
@@ -117,7 +117,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
 
     private void confirmClicked(final Button b)
     {
-        this.confirm.playDownSound(this.parent.getMinecraft().getSoundHandler());
+        this.confirm.playDownSound(this.parent.getMinecraft().getSoundManager());
         // Send packet for removal server side
         this.delete();
     }
@@ -129,14 +129,14 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         tag.putBoolean("GU", true);
         tag.putInt("I", this.index);
         data.put("T", tag);
-        data.putInt("I", this.entity.getEntityId());
+        data.putInt("I", this.entity.getId());
         if (this.index < this.guard.getTasks().size()) this.guard.getTasks().remove(this.index);
         this.function.apply(data);
     }
 
     private void deleteClicked(final Button b)
     {
-        this.delete.playDownSound(this.parent.getMinecraft().getSoundHandler());
+        this.delete.playDownSound(this.parent.getMinecraft().getSoundManager());
         this.confirm.active = !this.confirm.active;
     }
 
@@ -147,9 +147,9 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         BlockPos newLink = null;
         final PlayerInventory inv = Minecraft.getInstance().player.inventory;
         boolean effect = false;
-        if (!inv.getItemStack().isEmpty() && inv.getItemStack().hasTag())
+        if (!inv.getCarried().isEmpty() && inv.getCarried().hasTag())
         {
-            final CompoundNBT link = inv.getItemStack().getTag().getCompound("link_pos");
+            final CompoundNBT link = inv.getCarried().getTag().getCompound("link_pos");
             if (!link.isEmpty())
             {
                 final Vector4 pos = new Vector4(link);
@@ -160,7 +160,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         {
             if (newLink != null && text.isFocused())
             {
-                text.setText(newLink.getX() + " " + newLink.getY() + " " + newLink.getZ());
+                text.setValue(newLink.getX() + " " + newLink.getY() + " " + newLink.getZ());
                 effect = true;
             }
             if (ret) effect = true;
@@ -175,14 +175,14 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
 
     public void moveDownClicked(final Button b)
     {
-        this.moveDown.playDownSound(this.parent.getMinecraft().getSoundHandler());
+        this.moveDown.playDownSound(this.parent.getMinecraft().getSoundManager());
         // Update the list for the page.
         this.reOrder(1);
     }
 
     public void moveUpClicked(final Button b)
     {
-        this.moveUp.playDownSound(this.parent.getMinecraft().getSoundHandler());
+        this.moveUp.playDownSound(this.parent.getMinecraft().getSoundManager());
         // Update the list for the page.
         this.reOrder(-1);
     }
@@ -202,13 +202,13 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         {
             // Send status message about not working here.
             final ITextComponent mess = new TranslationTextComponent("traineredit.info.pos.formaterror");
-            this.parent.getMinecraft().player.sendStatusMessage(mess, true);
+            this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
             final ITextComponent mess = new TranslationTextComponent("traineredit.info.pos.formatinfo");
-            this.parent.getMinecraft().player.sendStatusMessage(mess, true);
+            this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         return null;
     }
@@ -265,7 +265,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.update.y = y - 5 - 20;
         this.update.x = x - 1 + this.location.getWidth();
 
-        RenderHelper.disableStandardItemLighting();
+        RenderHelper.turnOff();
         this.location.render(mat, mouseX, mouseY, partialTicks);
         this.timeperiod.render(mat, mouseX, mouseY, partialTicks);
         this.variation.render(mat, mouseX, mouseY, partialTicks);
@@ -285,7 +285,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         tag.putInt("I", this.index);
         tag.putInt("N", dir);
         data.put("T", tag);
-        data.putInt("I", this.entity.getEntityId());
+        data.putInt("I", this.entity.getId());
         final int index1 = tag.getInt("I");
         final int index2 = index1 + tag.getInt("N");
         final IGuardTask temp = this.guard.getTasks().get(index1);
@@ -308,30 +308,30 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         {
             // Send status message about not working here.
             final ITextComponent mess = new TranslationTextComponent("traineredit.info.time.formaterror");
-            this.parent.getMinecraft().player.sendStatusMessage(mess, true);
+            this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
             final ITextComponent mess = new TranslationTextComponent("traineredit.info.time.formatinfo");
-            this.parent.getMinecraft().player.sendStatusMessage(mess, true);
+            this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         return null;
     }
 
     public void update()
     {
-        final BlockPos loc = this.posFromText(this.location.getText());
-        final TimePeriod time = this.timeFromText(this.timeperiod.getText());
+        final BlockPos loc = this.posFromText(this.location.getValue());
+        final TimePeriod time = this.timeFromText(this.timeperiod.getValue());
         float dist = 2;
         try
         {
-            dist = Float.parseFloat(this.variation.getText());
+            dist = Float.parseFloat(this.variation.getValue());
         }
         catch (final NumberFormatException e)
         {
             final ITextComponent mess = new TranslationTextComponent("traineredit.info.dist.formatinfo");
-            this.parent.getMinecraft().player.sendStatusMessage(mess, false);
+            this.parent.getMinecraft().player.displayClientMessage(mess, false);
             return;
         }
         if (loc != null && time != null)
@@ -350,10 +350,10 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
             final INBT var = task.serialze();
             tag.put("V", var);
             data.put("T", tag);
-            data.putInt("I", this.entity.getEntityId());
+            data.putInt("I", this.entity.getId());
             this.function.apply(data);
             final ITextComponent mess = new TranslationTextComponent("pokemob.route.updated");
-            this.parent.getMinecraft().player.sendStatusMessage(mess, false);
+            this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
     }
 }

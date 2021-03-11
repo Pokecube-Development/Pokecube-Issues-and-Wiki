@@ -52,10 +52,10 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         if (hab.related.isEmpty()) return null;
         hab.setPos(pos);
         final Predicate<MobEntity> filter = mob -> hab.canEnterHabitat(mob);
-        final List<MobEntity> mobs = pokemob.getEntity().getEntityWorld().getEntitiesWithinAABB(MobEntity.class,
-                hab.burrow.getOutBounds().grow(10), filter);
+        final List<MobEntity> mobs = pokemob.getEntity().getCommandSenderWorld().getEntitiesOfClass(MobEntity.class,
+                hab.burrow.getOutBounds().inflate(10), filter);
         for (final MobEntity mob : mobs)
-            if (!hab.mobs.contains(mob.getUniqueID())) hab.mobs.add(mob.getUniqueID());
+            if (!hab.mobs.contains(mob.getUUID())) hab.mobs.add(mob.getUUID());
         return hab;
     }
 
@@ -85,7 +85,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     @Override
     public void updateRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
-        final AxisAlignedBB box = this.burrow.getOutBounds().grow(16, 0, 16);
+        final AxisAlignedBB box = this.burrow.getOutBounds().inflate(16, 0, 16);
         this.repelled = new AABBRegion(box);
     }
 
@@ -131,7 +131,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
             size = Math.max(3, size);
             final float direction = new Random().nextInt(360);
             this.burrow = new Room(direction, size);
-            this.burrow.setCenter(pos.down((int) Math.ceil(size + 2)), size, direction);
+            this.burrow.setCenter(pos.below((int) Math.ceil(size + 2)), size, direction);
             this.burrow.started = true;
         }
     }
@@ -146,7 +146,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         this.eggs.forEach(uuid ->
         {
             final CompoundNBT tag = new CompoundNBT();
-            tag.putUniqueId("id", uuid);
+            tag.putUUID("id", uuid);
             eggs.add(tag);
         });
         nbt.put("eggs", eggs);
@@ -154,7 +154,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         this.mobs.forEach(uuid ->
         {
             final CompoundNBT tag = new CompoundNBT();
-            tag.putUniqueId("id", uuid);
+            tag.putUUID("id", uuid);
             mobs.add(tag);
         });
         nbt.put("mobs", mobs);
@@ -184,7 +184,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         final List<IPokemob> pokemobs = Lists.newArrayList();
         this.mobs.removeIf(uuid ->
         {
-            final Entity mob = world.getEntityByUuid(uuid);
+            final Entity mob = world.getEntity(uuid);
             if (mob == null || !(mob instanceof MobEntity)) return true;
             if (!this.canEnterHabitat((MobEntity) mob)) return true;
             pokemobs.add(CapabilityPokemob.getPokemobFor(mob));
@@ -203,7 +203,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         y = this.burrow.getCenter().getY();
         z = this.burrow.getCenter().getZ();
 
-        final boolean playerNear = !world.getPlayers(p -> p.getDistanceSq(x, y, z) < PokecubeCore
+        final boolean playerNear = !world.getPlayers(p -> p.distanceToSqr(x, y, z) < PokecubeCore
                 .getConfig().cullDistance).isEmpty();
 
         final Random rng = new Random();
@@ -211,11 +211,11 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid ->
         {
-            final Entity mob = world.getEntityByUuid(uuid);
+            final Entity mob = world.getEntity(uuid);
             if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
             final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
-            if (this.mobs.size() > PokecubeCore.getConfig().nestMobNumber || !playerNear) egg.setGrowingAge(-100);
-            else if (egg.getGrowingAge() < -100) egg.setGrowingAge(-rng.nextInt(100));
+            if (this.mobs.size() > PokecubeCore.getConfig().nestMobNumber || !playerNear) egg.setAge(-100);
+            else if (egg.getAge() < -100) egg.setAge(-rng.nextInt(100));
             return false;
         });
 
@@ -231,11 +231,11 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                 for (final IPokemob pokemob : pokemobs)
                 {
                     final Brain<?> brain = pokemob.getEntity().getBrain();
-                    if (!brain.hasMemory(BurrowTasks.JOB_INFO)) brain.setMemory(BurrowTasks.JOB_INFO, tag);
+                    if (!brain.hasMemoryValue(BurrowTasks.JOB_INFO)) brain.setMemory(BurrowTasks.JOB_INFO, tag);
                 }
             }
 
-            final TileEntity tile = world.getTileEntity(this.burrow.getCenter());
+            final TileEntity tile = world.getBlockEntity(this.burrow.getCenter());
 
             if (tile instanceof NestTile)
             {
@@ -243,18 +243,18 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                 {
                     if (p == null) return true;
                     if (!p.getEntity().isAlive()) return true;
-                    if (!p.getEntity().addedToChunk) return true;
+                    if (!p.getEntity().inChunk) return true;
                     return false;
                 });
-                ((NestTile) tile).residents.forEach(p -> this.mobs.add(p.getEntity().getUniqueID()));
+                ((NestTile) tile).residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
             }
 
             // Here we cleanup the burrow, and see if any other mobs of similar
             // sizes will fit.
             if (this.mobs.isEmpty() && this.eggs.isEmpty())
             {
-                final List<EntityType<?>> types = Lists.newArrayList(EntityTypeTags.getTagById(IMoveConstants.BURROWS
-                        .toString()).getAllElements());
+                final List<EntityType<?>> types = Lists.newArrayList(EntityTypeTags.bind(IMoveConstants.BURROWS
+                        .toString()).getValues());
                 Collections.shuffle(types);
                 final Biome b = world.getBiome(this.burrow.getCenter());
                 selection:
@@ -311,10 +311,10 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                     if (!this.related.contains(entry)) this.addRelations(entry, this.mutations);
                 }
                 final BlockPos pos = this.burrow.getCenter();
-                if (world.isAirBlock(pos.up()))
+                if (world.isEmptyBlock(pos.above()))
                 {
                     final EntityPokemobEgg egg = NestTile.spawnEgg(entry, pos, world, false);
-                    if (egg != null) this.eggs.add(egg.getUniqueID());
+                    if (egg != null) this.eggs.add(egg.getUUID());
                 }
             }
         }
@@ -334,13 +334,13 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         for (int i = 0; i < eggs.size(); ++i)
         {
             final CompoundNBT tag = eggs.getCompound(i);
-            this.eggs.add(tag.getUniqueId("id"));
+            this.eggs.add(tag.getUUID("id"));
         }
         final ListNBT mobs = nbt.getList("mobs", compoundId);
         for (int i = 0; i < mobs.size(); ++i)
         {
             final CompoundNBT tag = mobs.getCompound(i);
-            this.mobs.add(tag.getUniqueId("id"));
+            this.mobs.add(tag.getUUID("id"));
         }
         final int stringId = 8;
         final ListNBT muts = nbt.getList("mutated", stringId);
@@ -358,8 +358,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     {
         if (this.canEnterHabitat(mob))
         {
-            this.mobs.add(mob.getUniqueID());
-            mob.setHomePosAndDistance(this.burrow.getCenter(), 64);
+            this.mobs.add(mob.getUUID());
+            mob.restrictTo(this.burrow.getCenter(), 64);
         }
         return false;
     }

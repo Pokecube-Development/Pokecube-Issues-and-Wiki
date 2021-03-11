@@ -94,33 +94,33 @@ public class FollowOwnerTask extends TaskBase
             this.pathing = true;
         }
         // Look at owner.
-        if (BrainUtils.canSee(this.entity, this.theOwner)) BrainUtil.lookAt(this.entity, this.theOwner);
-        else if (!this.petPathfinder.noPath() && this.petPathfinder.getPath().getCurrentPathIndex() < this.petPathfinder
-                .getPath().getCurrentPathLength() - 3)
+        if (BrainUtils.canSee(this.entity, this.theOwner)) BrainUtil.lookAtEntity(this.entity, this.theOwner);
+        else if (!this.petPathfinder.isDone() && this.petPathfinder.getPath().getNextNodeIndex() < this.petPathfinder
+                .getPath().getNodeCount() - 3)
         {
             double x, y, z;
-            x = this.petPathfinder.getPath().getPathPointFromIndex(this.petPathfinder.getPath().getCurrentPathIndex()
+            x = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex()
                     + 1).x + 0.5;
-            y = this.petPathfinder.getPath().getPathPointFromIndex(this.petPathfinder.getPath().getCurrentPathIndex()
+            y = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex()
                     + 1).y + 0.5;
-            z = this.petPathfinder.getPath().getPathPointFromIndex(this.petPathfinder.getPath().getCurrentPathIndex()
+            z = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex()
                     + 1).z + 0.5;
             // Or look at path location
             BrainUtils.lookAt(this.entity, x, y, z);
         }
-        final boolean hasTarget = this.entity.getBrain().hasMemory(MemoryModuleType.WALK_TARGET);
+        final boolean hasTarget = this.entity.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET);
         WalkTarget target = hasTarget ? this.entity.getBrain().getMemory(MemoryModuleType.WALK_TARGET).get() : null;
-        if (target == null || target.getTarget().getPos().squareDistanceTo(this.theOwner.getPositionVec()) > 1)
+        if (target == null || target.getTarget().currentPosition().distanceToSqr(this.theOwner.position()) > 1)
             target = new WalkTarget(new EntityPosWrapper(this.theOwner, false), (float) this.speed, 1);
 
         final boolean isSprinting = this.entity.isSprinting();
-        final double ds2 = target.getTarget().getPos().squareDistanceTo(this.entity.getPositionVec());
+        final double ds2 = target.getTarget().currentPosition().distanceToSqr(this.entity.position());
         final boolean shouldSprint = isSprinting ? ds2 > 4 : ds2 > 9;
         if (shouldSprint && !isSprinting) this.entity.setSprinting(shouldSprint);
         final ModifiableAttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null) iattributeinstance
                 .removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
-        if (this.entity.isSprinting()) iattributeinstance.applyNonPersistentModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        if (this.entity.isSprinting()) iattributeinstance.addTransientModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
         this.setWalkTo(target);
     }
 
@@ -130,12 +130,12 @@ public class FollowOwnerTask extends TaskBase
         if (!this.pokemob.isRoutineEnabled(AIRoutine.FOLLOW)) return false;
         if (!TaskBase.canMove(this.pokemob)) return false;
         final LivingEntity LivingEntity = this.pokemob.getOwner();
-        this.petPathfinder = this.entity.getNavigator();
+        this.petPathfinder = this.entity.getNavigation();
         // Nothing to follow
         if (LivingEntity == null) return false;
         else if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
-        else if (this.pathing && this.entity.getDistanceSq(LivingEntity) > this.maxDist * this.maxDist) return true;
-        else if (this.entity.getDistanceSq(LivingEntity) < this.minDist * this.minDist) return false;
+        else if (this.pathing && this.entity.distanceToSqr(LivingEntity) > this.maxDist * this.maxDist) return true;
+        else if (this.entity.distanceToSqr(LivingEntity) < this.minDist * this.minDist) return false;
         else if (Vector3.getNewVector().set(LivingEntity).distToSq(this.ownerPos) < this.minDist * this.minDist)
             return false;
         // Follow owner.

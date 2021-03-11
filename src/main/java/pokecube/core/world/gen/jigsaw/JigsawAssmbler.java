@@ -71,8 +71,8 @@ public class JigsawAssmbler
     public static ServerWorld getForGen(final ChunkGenerator chunkGen)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        for (final ServerWorld w : server.getWorlds())
-            if (w.getChunkProvider().generator == chunkGen) return w;
+        for (final ServerWorld w : server.getAllLevels())
+            if (w.getChunkSource().generator == chunkGen) return w;
         throw new IllegalStateException("Did not find a world for this chunk generator!");
     }
 
@@ -118,9 +118,9 @@ public class JigsawAssmbler
     private JigsawPattern init(final DynamicRegistries dynamicRegistryManager,
             final ResourceLocation resourceLocationIn)
     {
-        final MutableRegistry<JigsawPattern> mutableregistry = dynamicRegistryManager.getRegistry(
-                Registry.JIGSAW_POOL_KEY);
-        return mutableregistry.getOrDefault(resourceLocationIn);
+        final MutableRegistry<JigsawPattern> mutableregistry = dynamicRegistryManager.registryOrThrow(
+                Registry.TEMPLATE_POOL_REGISTRY);
+        return mutableregistry.get(resourceLocationIn);
     }
 
     public boolean build(final DynamicRegistries dynamicRegistryManager, final ResourceLocation resourceLocationIn,
@@ -128,7 +128,7 @@ public class JigsawAssmbler
             final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
             final Random rand, final Biome biome, final Predicate<JigsawPiece> isValid, final int default_k)
     {
-        return this.build(this.init(dynamicRegistryManager, resourceLocationIn), Rotation.randomRotation(rand), depth,
+        return this.build(this.init(dynamicRegistryManager, resourceLocationIn), Rotation.getRandom(rand), depth,
                 pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome, default_k, isValid);
     }
 
@@ -154,14 +154,14 @@ public class JigsawAssmbler
                 : Type.WORLD_SURFACE_WG;
         else if (!this.config.surface) this.SURFACE_TYPE = null;
 
-        final JigsawPiece jigsawpiece = jigsawpattern.getRandomPiece(rand);
+        final JigsawPiece jigsawpiece = jigsawpattern.getRandomTemplate(rand);
         final AbstractVillagePiece abstractvillagepiece = pieceFactory.create(templateManagerIn, jigsawpiece, pos,
                 jigsawpiece.getGroundLevelDelta(), rotation, jigsawpiece.getBoundingBox(templateManagerIn, pos,
                         rotation));
 
         final MutableBoundingBox mutableboundingbox = abstractvillagepiece.getBoundingBox();
-        final int i = (mutableboundingbox.maxX + mutableboundingbox.minX) / 2;
-        final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
+        final int i = (mutableboundingbox.x1 + mutableboundingbox.x0) / 2;
+        final int j = (mutableboundingbox.z1 + mutableboundingbox.z0) / 2;
         int k = default_k;
         // If we have not been provided with a default value, determine where to
         // place the ground for the structure
@@ -170,25 +170,25 @@ public class JigsawAssmbler
             final int variance = this.config.variance <= 0 ? 0 : rand.nextInt(this.config.variance);
             // Air spawns are a somewhat random distance above the surface
             // reference.
-            if (this.config.air) k = chunkGenerator.getNoiseHeight(i, j, this.SURFACE_TYPE) + variance;
+            if (this.config.air) k = chunkGenerator.getFirstFreeHeight(i, j, this.SURFACE_TYPE) + variance;
             // If we have a surface reference, then lets use that
-            else if (this.SURFACE_TYPE != null) k = chunkGenerator.getNoiseHeight(i, j, this.SURFACE_TYPE);
+            else if (this.SURFACE_TYPE != null) k = chunkGenerator.getFirstFreeHeight(i, j, this.SURFACE_TYPE);
             else
             {
                 // Otherwise, pick a random value below ground
-                k = this.chunkGenerator.getNoiseHeight(i, j, Heightmap.Type.OCEAN_FLOOR_WG);
+                k = this.chunkGenerator.getFirstFreeHeight(i, j, Heightmap.Type.OCEAN_FLOOR_WG);
                 if (k > 0) k = this.rand.nextInt(k + 1);
                 else k = chunkGenerator.getSeaLevel();
             }
         }
         // Ensure it is placed in range
-        if (k <= 0 || k >= chunkGenerator.getMaxBuildHeight())
+        if (k <= 0 || k >= chunkGenerator.getGenDepth())
         {
-            k = chunkGenerator.getMaxBuildHeight();
+            k = chunkGenerator.getGenDepth();
             k = this.rand.nextInt(k + 1);
         }
         final int dy = -this.config.height;
-        abstractvillagepiece.offset(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta() + dy),
+        abstractvillagepiece.move(0, k - (mutableboundingbox.y0 + abstractvillagepiece.getGroundLevelDelta() + dy),
                 0);
         parts.add(abstractvillagepiece);
         if (depth > 0)
@@ -196,7 +196,7 @@ public class JigsawAssmbler
             final int l = 80;
             final AxisAlignedBB axisalignedbb = new AxisAlignedBB(i - l, k - l, j - l, i + l + 1, k + l + 1, j + l + 1);
             this.availablePieces.addLast(new Entry(abstractvillagepiece, new AtomicReference<>(VoxelShapes
-                    .combineAndSimplify(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB.toImmutable(
+                    .join(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB.of(
                             mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + l, 0));
 
             while (!this.availablePieces.isEmpty())
@@ -211,8 +211,8 @@ public class JigsawAssmbler
         {
             if (!(part instanceof AbstractVillagePiece)) continue;
             final AbstractVillagePiece jig = (AbstractVillagePiece) part;
-            if (!(jig.getJigsawPiece() instanceof CustomJigsawPiece)) continue;
-            final CustomJigsawPiece piece = (CustomJigsawPiece) jig.getJigsawPiece();
+            if (!(jig.getElement() instanceof CustomJigsawPiece)) continue;
+            final CustomJigsawPiece piece = (CustomJigsawPiece) jig.getElement();
             if (piece.opts != null) guarenteed.remove(piece.opts.flag);
         }
         return guarenteed.isEmpty();
@@ -245,52 +245,52 @@ public class JigsawAssmbler
     private void addPiece(final AbstractVillagePiece villagePieceIn, final AtomicReference<VoxelShape> atomicVoxelShape,
             final int part_index, final int current_depth, final int default_k)
     {
-        final JigsawPiece part = villagePieceIn.getJigsawPiece();
-        final BlockPos blockpos = villagePieceIn.getPos();
+        final JigsawPiece part = villagePieceIn.getElement();
+        final BlockPos blockpos = villagePieceIn.getPosition();
         final Rotation rotation = villagePieceIn.getRotation();
-        final JigsawPattern.PlacementBehaviour placmenet = part.getPlacementBehaviour();
+        final JigsawPattern.PlacementBehaviour placmenet = part.getProjection();
         final boolean root_rigid = placmenet == JigsawPattern.PlacementBehaviour.RIGID;
         final AtomicReference<VoxelShape> atomicreference = new AtomicReference<>();
         final MutableBoundingBox part_box = villagePieceIn.getBoundingBox();
-        final int part_min_y = part_box.minY;
+        final int part_min_y = part_box.y0;
 
         int k0 = default_k;
 
         if (k0 == -1 && this.SURFACE_TYPE == null)
         {
-            k0 = this.chunkGenerator.getNoiseHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.OCEAN_FLOOR_WG);
+            k0 = this.chunkGenerator.getFirstFreeHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.OCEAN_FLOOR_WG);
             if (k0 > 0) k0 = this.rand.nextInt(k0 + 1);
             else k0 = -1;
         }
 
         label123:
-        for (final Template.BlockInfo jigsaw_block : part.getJigsawBlocks(this.templateManager, blockpos, rotation,
+        for (final Template.BlockInfo jigsaw_block : part.getShuffledJigsawBlocks(this.templateManager, blockpos, rotation,
                 this.rand))
         {
-            final Direction jig_dir = JigsawBlock.getConnectingDirection(jigsaw_block.state);
+            final Direction jig_dir = JigsawBlock.getFrontFacing(jigsaw_block.state);
             final BlockPos jig_pos = jigsaw_block.pos;
-            final BlockPos jig_target = jig_pos.offset(jig_dir);
+            final BlockPos jig_target = jig_pos.relative(jig_dir);
             final int jig_min_y = jig_pos.getY() - part_min_y;
             int k = k0;
-            final JigsawPattern pool = WorldGenRegistries.JIGSAW_POOL.getOrDefault(new ResourceLocation(jigsaw_block.nbt
+            final JigsawPattern pool = WorldGenRegistries.TEMPLATE_POOL.get(new ResourceLocation(jigsaw_block.nbt
                     .getString("pool")));
             if (pool == null)
             {
                 PokecubeCore.LOGGER.error(jigsaw_block.nbt.getString("pool") + " is a null pool! " + jigsaw_block.nbt);
                 continue;
             }
-            final JigsawPattern pool_pattern = WorldGenRegistries.JIGSAW_POOL.getOrDefault(pool.getFallback());
-            if (pool.getNumberOfPieces() != 0 || pool.getName().equals(JigsawPatternRegistry.field_244091_a
-                    .getLocation()))
+            final JigsawPattern pool_pattern = WorldGenRegistries.TEMPLATE_POOL.get(pool.getFallback());
+            if (pool.size() != 0 || pool.getName().equals(JigsawPatternRegistry.EMPTY
+                    .location()))
             {
-                final boolean target_in_box = part_box.isVecInside(jig_target);
+                final boolean target_in_box = part_box.isInside(jig_target);
                 AtomicReference<VoxelShape> atomicreference1;
                 int l;
                 if (target_in_box)
                 {
                     atomicreference1 = atomicreference;
                     l = part_min_y;
-                    if (atomicreference.get() == null) atomicreference.set(VoxelShapes.create(AxisAlignedBB.toImmutable(
+                    if (atomicreference.get() == null) atomicreference.set(VoxelShapes.create(AxisAlignedBB.of(
                             part_box)));
                 }
                 else
@@ -300,8 +300,8 @@ public class JigsawAssmbler
                 }
 
                 final List<JigsawPiece> list = Lists.newArrayList();
-                if (current_depth != this.depth) list.addAll(pool.getShuffledPieces(this.rand));
-                list.addAll(pool_pattern.getShuffledPieces(this.rand));
+                if (current_depth != this.depth) list.addAll(pool.getShuffledTemplates(this.rand));
+                list.addAll(pool_pattern.getShuffledTemplates(this.rand));
                 this.sort(list);
 
                 for (final JigsawPiece next_part : list)
@@ -312,29 +312,29 @@ public class JigsawAssmbler
                     if (next_part instanceof CustomJigsawPiece && !(once = ((CustomJigsawPiece) next_part).opts.flag)
                             .isEmpty() && this.once_added.contains(once)) continue;
 
-                    for (final Rotation dir : Rotation.shuffledRotations(this.rand))
+                    for (final Rotation dir : Rotation.getShuffled(this.rand))
                     {
-                        final List<Template.BlockInfo> next_jigsaws = next_part.getJigsawBlocks(this.templateManager,
+                        final List<Template.BlockInfo> next_jigsaws = next_part.getShuffledJigsawBlocks(this.templateManager,
                                 BlockPos.ZERO, dir, this.rand);
                         final MutableBoundingBox next_box = next_part.getBoundingBox(this.templateManager,
                                 BlockPos.ZERO, dir);
                         int i1;
-                        if (next_box.getYSize() > 16) i1 = 0;
+                        if (next_box.getYSpan() > 16) i1 = 0;
                         else i1 = next_jigsaws.stream().mapToInt((blockInfo) ->
                         {
-                            if (!next_box.isVecInside(blockInfo.pos.offset(blockInfo.state.get(JigsawBlock.ORIENTATION)
-                                    .func_239642_b_()))) return 0;
+                            if (!next_box.isInside(blockInfo.pos.relative(blockInfo.state.getValue(JigsawBlock.ORIENTATION)
+                                    .front()))) return 0;
                             else
                             {
                                 final ResourceLocation pool_loc = new ResourceLocation(blockInfo.nbt.getString("pool"));
-                                final JigsawPattern next_pool = WorldGenRegistries.JIGSAW_POOL.getOrDefault(pool_loc);
+                                final JigsawPattern next_pool = WorldGenRegistries.TEMPLATE_POOL.get(pool_loc);
                                 if (next_pool == null)
                                 {
                                     PokecubeCore.LOGGER.error(pool_loc + " is null! " + jigsaw_block.nbt.getString(
                                             "pool") + " " + jigsaw_block.nbt);
                                     return 0;
                                 }
-                                final JigsawPattern fallback_pool = WorldGenRegistries.JIGSAW_POOL.getOrDefault(
+                                final JigsawPattern fallback_pool = WorldGenRegistries.TEMPLATE_POOL.get(
                                         next_pool.getFallback());
                                 return Math.max(next_pool.getMaxSize(this.templateManager), fallback_pool.getMaxSize(
                                         this.templateManager));
@@ -342,43 +342,43 @@ public class JigsawAssmbler
                         }).max().orElse(0);
 
                         for (final Template.BlockInfo next_jigsaw : next_jigsaws)
-                            if (JigsawBlock.hasJigsawMatch(jigsaw_block, next_jigsaw))
+                            if (JigsawBlock.canAttach(jigsaw_block, next_jigsaw))
                             {
                                 final BlockPos next_pos = next_jigsaw.pos;
                                 final BlockPos dr_0 = new BlockPos(jig_target.getX() - next_pos.getX(), jig_target
                                         .getY() - next_pos.getY(), jig_target.getZ() - next_pos.getZ());
                                 final MutableBoundingBox box_1 = next_part.getBoundingBox(this.templateManager, dr_0,
                                         dir);
-                                final int next_min_y = box_1.minY;
+                                final int next_min_y = box_1.y0;
                                 final JigsawPattern.PlacementBehaviour placementRule = next_part
-                                        .getPlacementBehaviour();
+                                        .getProjection();
                                 final boolean rigid = placementRule == JigsawPattern.PlacementBehaviour.RIGID;
                                 final int target_y = next_pos.getY();
-                                final int l1 = jig_min_y - target_y + JigsawBlock.getConnectingDirection(
-                                        jigsaw_block.state).getYOffset();
+                                final int l1 = jig_min_y - target_y + JigsawBlock.getFrontFacing(
+                                        jigsaw_block.state).getStepY();
                                 int i2;
                                 if (root_rigid && rigid) i2 = part_min_y + l1;
                                 else
                                 {
-                                    if (k == -1) k = this.chunkGenerator.getNoiseHeight(jig_pos.getX(), jig_pos.getZ(),
+                                    if (k == -1) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(), jig_pos.getZ(),
                                             this.SURFACE_TYPE);
                                     i2 = k - target_y;
                                 }
 
                                 final int next_rel_y = i2 - next_min_y;
-                                final MutableBoundingBox box_2 = box_1.func_215127_b(0, next_rel_y, 0);
-                                final BlockPos dr_1 = dr_0.add(0, next_rel_y, 0);
+                                final MutableBoundingBox box_2 = box_1.moved(0, next_rel_y, 0);
+                                final BlockPos dr_1 = dr_0.offset(0, next_rel_y, 0);
                                 if (i1 > 0)
                                 {
-                                    final int k2 = Math.max(i1 + 1, box_2.maxY - box_2.minY);
-                                    box_2.maxY = box_2.minY + k2;
+                                    final int k2 = Math.max(i1 + 1, box_2.y1 - box_2.y0);
+                                    box_2.y1 = box_2.y0 + k2;
                                 }
 
-                                if (!VoxelShapes.compare(atomicreference1.get(), VoxelShapes.create(AxisAlignedBB
-                                        .toImmutable(box_2).shrink(0.25D)), IBooleanFunction.ONLY_SECOND))
+                                if (!VoxelShapes.joinIsNotEmpty(atomicreference1.get(), VoxelShapes.create(AxisAlignedBB
+                                        .of(box_2).deflate(0.25D)), IBooleanFunction.ONLY_SECOND))
                                 {
-                                    atomicreference1.set(VoxelShapes.combine(atomicreference1.get(), VoxelShapes.create(
-                                            AxisAlignedBB.toImmutable(box_2)), IBooleanFunction.ONLY_FIRST));
+                                    atomicreference1.set(VoxelShapes.joinUnoptimized(atomicreference1.get(), VoxelShapes.create(
+                                            AxisAlignedBB.of(box_2)), IBooleanFunction.ONLY_FIRST));
                                     final int j3 = villagePieceIn.getGroundLevelDelta();
                                     int l2;
                                     if (rigid) l2 = j3 - l1;
@@ -391,7 +391,7 @@ public class JigsawAssmbler
                                     else if (rigid) i3 = i2 + target_y;
                                     else
                                     {
-                                        if (k == -1) k = this.chunkGenerator.getNoiseHeight(jig_pos.getX(), jig_pos
+                                        if (k == -1) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(), jig_pos
                                                 .getZ(), this.SURFACE_TYPE);
                                         i3 = k + l1 / 2;
                                     }

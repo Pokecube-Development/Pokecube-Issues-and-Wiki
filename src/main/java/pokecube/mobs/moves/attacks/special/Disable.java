@@ -23,8 +23,8 @@ public class Disable extends Move_Basic
             final IPokemob target = CapabilityPokemob.getPokemobFor(packet.attacked);
             if (target != null)
             {
-                final int index = packet.attacker.getEntity().getRNG().nextInt(4);
-                final int timer = packet.attacker.getEntity().getRNG().nextInt(7);
+                final int index = packet.attacker.getEntity().getRandom().nextInt(4);
+                final int timer = packet.attacker.getEntity().getRandom().nextInt(7);
                 if (target.getDisableTimer(index) <= 0 && timer > 0) target.setDisableTimer(index, PokecubeCore
                         .getConfig().attackCooldown * timer);
                 else // TODO failed message

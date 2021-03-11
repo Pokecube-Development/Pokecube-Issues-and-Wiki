@@ -31,19 +31,19 @@ public abstract class PokemobCombat extends PokemobBase
     }
 
     @Override
-    public int getTotalArmorValue()
+    public int getArmorValue()
     {
         return (int) (this.pokemobCap.getStat(Stats.DEFENSE, true) / 12.5);
     }
 
     @Override
-    protected float applyArmorCalculations(final DamageSource source, float damage)
+    protected float getDamageAfterArmorAbsorb(final DamageSource source, float damage)
     {
         if (!(source instanceof PokemobDamageSource))
         {
             int armour = 0;
-            if (source.isMagicDamage()) armour = (int) (this.pokemobCap.getStat(Stats.SPDEFENSE, true) / 12.5);
-            else armour = this.getTotalArmorValue();
+            if (source.isMagic()) armour = (int) (this.pokemobCap.getStat(Stats.SPDEFENSE, true) / 12.5);
+            else armour = this.getArmorValue();
             damage = CombatRules.getDamageAfterAbsorb(damage, armour, (float) this.getAttribute(
                     Attributes.ARMOR_TOUGHNESS).getValue());
         }
@@ -53,16 +53,16 @@ public abstract class PokemobCombat extends PokemobBase
     @Override
     protected void dropExperience()
     {
-        if (!this.world.isRemote && (this.isPlayer() || this.recentlyHit > 0 && this.canDropLoot() && this.world
-                .getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) && this.pokemobCap.getOwnerId() == null)
+        if (!this.level.isClientSide && (this.isAlwaysExperienceDropper() || this.lastHurtByPlayerTime > 0 && this.shouldDropExperience() && this.level
+                .getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) && this.pokemobCap.getOwnerId() == null)
         {
-            int i = this.getExperiencePoints(this.attackingPlayer);
-            i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.attackingPlayer, i);
+            int i = this.getExperienceReward(this.lastHurtByPlayer);
+            i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.lastHurtByPlayer, i);
             while (i > 0)
             {
-                final int j = ExperienceOrbEntity.getXPSplit(i);
+                final int j = ExperienceOrbEntity.getExperienceValue(i);
                 i -= j;
-                this.world.addEntity(new ExperienceOrbEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(),
+                this.level.addFreshEntity(new ExperienceOrbEntity(this.level, this.getX(), this.getY(), this.getZ(),
                         j));
             }
         }
@@ -70,7 +70,7 @@ public abstract class PokemobCombat extends PokemobBase
 
     @Override
     /** Get the experience points the entity currently has. */
-    protected int getExperiencePoints(final PlayerEntity player)
+    protected int getExperienceReward(final PlayerEntity player)
     {
         final float scale = (float) PokecubeCore.getConfig().expFromDeathDropScale;
         final int exp = (int) Math.max(1, this.pokemobCap.getBaseXP() * scale * 0.01 * Math.sqrt(this.pokemobCap

@@ -92,7 +92,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         scale *= 30;
         if (pokemob != null)
         {
-            if (entity.addedToChunk) pokemob = AnimationGui.getRenderMob(pokemob);
+            if (entity.inChunk) pokemob = AnimationGui.getRenderMob(pokemob);
 
             pokemob.setSize(1);
             renderMob = pokemob.getEntity();
@@ -110,7 +110,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
                         final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
                         mobScale = Math.max(dims.z, Math.max(dims.y, dims.x));
                     }
-                    else mobScale = Math.max(renderMob.getHeight(), renderMob.getWidth());
+                    else mobScale = Math.max(renderMob.getBbHeight(), renderMob.getBbWidth());
                 }
             }
             else
@@ -122,27 +122,27 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
             if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
             else scale /= mobScale;
         }
-        mat.push();
+        mat.pushPose();
         mat.translate(j + 55, k + 60, 50.0F);
         mat.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
         final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(yaw);
-        quaternion.multiply(quaternion1);
-        quaternion.multiply(Vector3f.XP.rotationDegrees(pitch));
-        mat.rotate(quaternion);
-        final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
-        quaternion1.conjugate();
-        entityrenderermanager.setCameraOrientation(quaternion1);
+        quaternion.mul(quaternion1);
+        quaternion.mul(Vector3f.XP.rotationDegrees(pitch));
+        mat.mulPose(quaternion);
+        final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
+        quaternion1.conj();
+        entityrenderermanager.overrideCameraOrientation(quaternion1);
         entityrenderermanager.setRenderShadow(false);
-        final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
-                .getBufferSource();
+        final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()
+                .bufferSource();
         RenderMobOverlays.enabled = false;
-        entityrenderermanager.renderEntityStatic(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mat,
+        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mat,
                 irendertypebuffer$impl, 15728880);
         RenderMobOverlays.enabled = true;
-        irendertypebuffer$impl.finish();
+        irendertypebuffer$impl.endBatch();
         entityrenderermanager.setRenderShadow(true);
-        mat.pop();
+        mat.popPose();
     }
 
     public static void setPokemob(final IPokemob pokemobIn)
@@ -167,13 +167,13 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         if (this.name.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.name.setFocused(false);
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
-            String var = this.name.getText();
+            String var = this.name.getValue();
             if (var.length() > 20)
             {
                 var = var.substring(0, 20);
-                this.name.setText(var);
+                this.name.setValue(var);
             }
-            this.container.pokemob.setPokemonNickname(var);
+            this.menu.pokemob.setPokemonNickname(var);
             return true;
         }
         else if (keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
@@ -181,16 +181,16 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX,
+    protected void renderBg(final MatrixStack mat, final float partialTicks, final int mouseX,
             final int mouseY)
     {
-        this.getMinecraft().getTextureManager().bindTexture(Resources.GUI_POKEMOB);
-        final int k = (this.width - this.xSize) / 2;
-        final int l = (this.height - this.ySize) / 2;
-        this.blit(mat, k, l, 0, 0, this.xSize, this.ySize);
-        if (this.container.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.ySize, 90, 18);
-        this.blit(mat, k + 7, l + 35, 0, this.ySize + 54, 18, 18);
-        if (this.container.pokemob != null) GuiPokemobBase.renderMob(mat, this.container.pokemob.getEntity(), k, l, 0, 0, 0,
+        this.getMinecraft().getTextureManager().bind(Resources.GUI_POKEMOB);
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
+        this.blit(mat, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        if (this.menu.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.imageHeight, 90, 18);
+        this.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
+        if (this.menu.pokemob != null) GuiPokemobBase.renderMob(mat, this.menu.pokemob.getEntity(), k, l, 0, 0, 0,
                 0, 1);
     }
 
@@ -199,9 +199,9 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
      * of the items)
      */
     @Override
-    protected void drawGuiContainerForegroundLayer(final MatrixStack mat, final int mouseX, final int mouseY)
+    protected void renderLabels(final MatrixStack mat, final int mouseX, final int mouseY)
     {
-        this.font.drawString(mat, this.playerInventory.getDisplayName().getString(), 8.0F, this.ySize - 96 + 2,
+        this.font.draw(mat, this.inventory.getDisplayName().getString(), 8.0F, this.imageHeight - 96 + 2,
                 4210752);
     }
 
@@ -214,8 +214,8 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         final ITextComponent comp = new StringTextComponent("");
         this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, comp);
         this.name.setTextColor(0xFFFFFFFF);
-        this.name.disabledColor = 4210752;
-        if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName().getString());
+        this.name.textColorUneditable = 4210752;
+        if (this.menu.pokemob != null) this.name.setValue(this.menu.pokemob.getDisplayName().getString());
         this.addButton(this.name);
     }
 

@@ -40,7 +40,7 @@ public class CarryEgg extends AbstractWorkTask
     public void reset()
     {
         this.egg = null;
-        this.entity.getNavigator().resetRangeMultiplier();
+        this.entity.getNavigation().resetMaxVisitedNodesMultiplier();
     }
 
     @Override
@@ -50,10 +50,10 @@ public class CarryEgg extends AbstractWorkTask
         AntTasks.setJob(this.entity, AntJob.NONE);
         final Brain<?> brain = this.entity.getBrain();
         final GlobalPos dropOff = brain.getMemory(AntTasks.WORK_POS).get();
-        this.entity.getNavigator().setRangeMultiplier(10);
-        if (!this.entity.isPassenger(this.egg))
+        this.entity.getNavigation().setMaxVisitedNodesMultiplier(10);
+        if (!this.entity.hasPassenger(this.egg))
         {
-            final double d = this.entity.getDistanceSq(this.egg);
+            final double d = this.entity.distanceToSqr(this.egg);
             if (d > 2)
             {
                 this.setWalkTo(this.egg, 1, 0);
@@ -63,15 +63,15 @@ public class CarryEgg extends AbstractWorkTask
         }
         else
         {
-            if (!this.nest.hab.eggs.contains(this.egg.getUniqueID())) this.nest.hab.eggs.add(this.egg.getUniqueID());
-            final BlockPos p = dropOff.getPos();
-            final double d = p.distanceSq(this.entity.getPosition());
+            if (!this.nest.hab.eggs.contains(this.egg.getUUID())) this.nest.hab.eggs.add(this.egg.getUUID());
+            final BlockPos p = dropOff.pos();
+            final double d = p.distSqr(this.entity.blockPosition());
             if (d > 3) this.setWalkTo(p, 1, 0);
             else
             {
                 this.egg.stopRiding();
-                brain.removeMemory(AntTasks.EGG);
-                brain.removeMemory(AntTasks.WORK_POS);
+                brain.eraseMemory(AntTasks.EGG);
+                brain.eraseMemory(AntTasks.WORK_POS);
                 brain.setMemory(AntTasks.GOING_HOME, true);
             }
         }

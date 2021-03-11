@@ -55,25 +55,25 @@ public class ClientProxy extends CommonProxy
     {
         if (event.phase == Phase.START || event.player != Minecraft.getInstance().player) return;
         control:
-        if (event.player.isPassenger() && Minecraft.getInstance().currentScreen == null)
+        if (event.player.isPassenger() && Minecraft.getInstance().screen == null)
         {
-            final Entity e = event.player.getRidingEntity();
+            final Entity e = event.player.getVehicle();
             if (e instanceof EntityCraft)
             {
                 final ClientPlayerEntity player = (ClientPlayerEntity) event.player;
                 final CraftController controller = ((EntityCraft) e).controller;
                 if (controller == null) break control;
-                controller.backInputDown = player.movementInput.backKeyDown;
-                controller.forwardInputDown = player.movementInput.forwardKeyDown;
-                controller.leftInputDown = player.movementInput.leftKeyDown;
-                controller.rightInputDown = player.movementInput.rightKeyDown;
-                controller.upInputDown = this.UP.isKeyDown();
-                controller.downInputDown = this.DOWN.isKeyDown();
+                controller.backInputDown = player.input.down;
+                controller.forwardInputDown = player.input.up;
+                controller.leftInputDown = player.input.left;
+                controller.rightInputDown = player.input.right;
+                controller.upInputDown = this.UP.isDown();
+                controller.downInputDown = this.DOWN.isDown();
 
                 if (ThutCrafts.conf.canRotate)
                 {
-                    controller.rightRotateDown = this.ROTATERIGHT.isKeyDown();
-                    controller.leftRotateDown = this.ROTATELEFT.isKeyDown();
+                    controller.rightRotateDown = this.ROTATERIGHT.isDown();
+                    controller.leftRotateDown = this.ROTATELEFT.isDown();
                 }
                 PacketCraftControl.sendControlPacket(e, controller);
             }
@@ -86,19 +86,19 @@ public class ClientProxy extends CommonProxy
     {
         ItemStack held;
         final PlayerEntity player = Minecraft.getInstance().player;
-        if (!(held = player.getHeldItemMainhand()).isEmpty() || !(held = player.getHeldItemOffhand()).isEmpty())
+        if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
         {
             if (held.getItem() != ThutCrafts.CRAFTMAKER) return;
             if (held.getTag() != null && held.getTag().contains("min"))
             {
                 final Minecraft mc = Minecraft.getInstance();
-                final Vector3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
+                final Vector3d projectedView = mc.gameRenderer.getMainCamera().getPosition();
                 Vector3d pointed = new Vector3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player
-                        .getLook(event.getPartialTicks()));
-                if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == Type.BLOCK)
+                        .getViewVector(event.getPartialTicks()));
+                if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
-                    final BlockRayTraceResult result = (BlockRayTraceResult) mc.objectMouseOver;
-                    pointed = new Vector3d(result.getPos().getX(), result.getPos().getY(), result.getPos().getZ());
+                    final BlockRayTraceResult result = (BlockRayTraceResult) mc.hitResult;
+                    pointed = new Vector3d(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos().getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
@@ -145,16 +145,16 @@ public class ClientProxy extends CommonProxy
                 lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) maxZ), new Vector3f((float) maxX,
                         (float) maxY, (float) maxZ)));
 
-                mat.push();
+                mat.pushPose();
 
-                final Matrix4f positionMatrix = mat.getLast().getMatrix();
+                final Matrix4f positionMatrix = mat.last().pose();
 
-                final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+                final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                 final IVertexBuilder builder = buffer.getBuffer(RenderType.LINES);
                 for (final Pair<Vector3f, Vector3f> line : lines)
                     thut.core.proxy.ClientProxy.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0,
                             1f);
-                mat.pop();
+                mat.popPose();
             }
         }
     }
@@ -168,15 +168,15 @@ public class ClientProxy extends CommonProxy
     @Override
     public void setupClient(final FMLClientSetupEvent event)
     {
-        this.UP = new KeyBinding("crafts.key.up", InputMappings.INPUT_INVALID.getKeyCode(), "keys.crafts");
-        this.DOWN = new KeyBinding("crafts.key.down", InputMappings.INPUT_INVALID.getKeyCode(), "keys.crafts");
+        this.UP = new KeyBinding("crafts.key.up", InputMappings.UNKNOWN.getValue(), "keys.crafts");
+        this.DOWN = new KeyBinding("crafts.key.down", InputMappings.UNKNOWN.getValue(), "keys.crafts");
 
         final KeyConflictContext inGame = KeyConflictContext.IN_GAME;
         this.UP.setKeyConflictContext(inGame);
         this.DOWN.setKeyConflictContext(inGame);
 
-        this.ROTATERIGHT = new KeyBinding("crafts.key.left", InputMappings.INPUT_INVALID.getKeyCode(), "keys.crafts");
-        this.ROTATELEFT = new KeyBinding("crafts.key.right", InputMappings.INPUT_INVALID.getKeyCode(), "keys.crafts");
+        this.ROTATERIGHT = new KeyBinding("crafts.key.left", InputMappings.UNKNOWN.getValue(), "keys.crafts");
+        this.ROTATELEFT = new KeyBinding("crafts.key.right", InputMappings.UNKNOWN.getValue(), "keys.crafts");
         this.ROTATELEFT.setKeyConflictContext(inGame);
         this.ROTATERIGHT.setKeyConflictContext(inGame);
 

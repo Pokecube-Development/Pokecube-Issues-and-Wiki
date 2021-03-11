@@ -56,13 +56,13 @@ public class NpcType
         new NpcType("none");
         final IInteract trade = (player, hand, mob) ->
         {
-            if (player.isSneaking()) return false;
-            final boolean validCustomer = mob.getCustomer() == null;
+            if (player.isShiftKeyDown()) return false;
+            final boolean validCustomer = mob.getTradingPlayer() == null;
             if (validCustomer && !mob.getOffers().isEmpty())
             {
-                if (mob.getCustomer() == player) return true;
-                mob.setCustomer(player);
-                mob.openMerchantContainer(player, mob.getDisplayName(), 10);
+                if (mob.getTradingPlayer() == player) return true;
+                mob.setTradingPlayer(player);
+                mob.openTradingScreen(player, mob.getDisplayName(), 10);
                 return true;
             }
             return false;
@@ -71,7 +71,7 @@ public class NpcType
         {
             if (player instanceof ServerPlayerEntity && !PokecubeSerializer.getInstance().hasStarter(player))
             {
-                if (player.isSneaking()) return false;
+                if (player.isShiftKeyDown()) return false;
                 PacketChoose packet;
                 final boolean special = false;
                 final boolean pick = false;
@@ -83,10 +83,10 @@ public class NpcType
         };
         final IInteract heal = (player, hand, mob) ->
         {
-            if (player.isSneaking()) return false;
-            if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
-                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, IWorldPosCallable.of(
-                            mob.world, mob.getPosition())), player.getDisplayName()));
+            if (player.isShiftKeyDown()) return false;
+            if (player instanceof ServerPlayerEntity) player.openMenu(new SimpleNamedContainerProvider((id,
+                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, IWorldPosCallable.create(
+                            mob.level, mob.blockPosition())), player.getDisplayName()));
             return true;
         };
         // Initialize the interactions for these defaults.

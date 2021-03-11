@@ -31,7 +31,7 @@ public class PokemobsDatabases
 
         for (final String path : PokemobsDatabases.DATABASES)
         {
-            final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(path, s -> s
+            final Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, s -> s
                     .endsWith(".json"));
 
             resources.forEach(l ->

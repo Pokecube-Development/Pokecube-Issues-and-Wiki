@@ -53,12 +53,12 @@ public class Room extends Part
         final double minY = this.centre.getY();
         final double maxY = minY + 7;
         if (pos.getY() > maxY || pos.getY() < minY) return false;
-        final Vector3d e1 = new Vector3d(this.entrance.getX(), this.entrance.getY(), this.entrance.getZ());
-        final Vector3d e2 = new Vector3d(this.exit.getX(), this.exit.getY(), this.exit.getZ());
+        final Vector3d e1 = new Vector3d(this.entrance.x(), this.entrance.y(), this.entrance.z());
+        final Vector3d e2 = new Vector3d(this.exit.x(), this.exit.y(), this.exit.z());
         final Vector3d e3 = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
         Vector3d n = e2.subtract(e1).normalize();
         final Vector3d diff = e1.subtract(e3);
-        n = n.crossProduct(diff);
+        n = n.cross(diff);
         return n.length() < size;
     }
 
@@ -68,7 +68,7 @@ public class Room extends Part
         if (!this.getInBounds().contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
         final Vector3d x0 = this.mid;
         Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
-        x = x.mul(1, this.size / 2, 1);
+        x = x.multiply(1, this.size / 2, 1);
         // check if in the main room
         final double r = x.length();
         // This is in he main room itself
@@ -83,7 +83,7 @@ public class Room extends Part
         if (!this.getOutBounds().contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
         final Vector3d x0 = this.mid;
         Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
-        x = x.mul(1, this.size / 2, 1);
+        x = x.multiply(1, this.size / 2, 1);
         // check if in the main room
         final double r = x.length();
         return r <= this.size + 2 && x.y > -2;

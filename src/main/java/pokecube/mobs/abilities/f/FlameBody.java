@@ -41,8 +41,8 @@ public class FlameBody extends Ability
     public void onUpdate(IPokemob mob)
     {
         final Vector3 v = Vector3.getNewVector().set(mob.getEntity());
-        final List<EntityPokemobEgg> eggs = mob.getEntity().getEntityWorld().getEntitiesWithinAABB(
-                EntityPokemobEgg.class, v.getAABB().expand(this.range, this.range, this.range));
+        final List<EntityPokemobEgg> eggs = mob.getEntity().getCommandSenderWorld().getEntitiesOfClass(
+                EntityPokemobEgg.class, v.getAABB().expandTowards(this.range, this.range, this.range));
         for (final EntityPokemobEgg egg : eggs)
             egg.incubateEgg();
     }

@@ -42,16 +42,16 @@ public class TempTile extends TileEntity implements ITickableTileEntity
     {
         if (this.blockEntity != null && !this.blockEntity.isAddedToWorld()) this.shape = null;
         if (this.blockEntity != null && !this.blockEntity.isAlive()) this.shape = null;
-        if (this.shape == null || this.shape.isEmpty()) this.world.removeBlock(this.getPos(), false);
+        if (this.shape == null || this.shape.isEmpty()) this.level.removeBlock(this.getBlockPos(), false);
         else
         {
             final BlockState fake = this.getEffectiveState();
             final BlockState real = this.getBlockState();
             if (fake != null)
             {
-                final int lightR = real.getLightValue(this.getWorld(), this.getPos());
-                final int lightF = fake.getLightValue();
-                if (lightR != lightF) this.getWorld().setBlockState(this.getPos(), real.with(TempBlock.LIGHTLEVEL,
+                final int lightR = real.getLightValue(this.getLevel(), this.getBlockPos());
+                final int lightF = fake.getLightEmission();
+                if (lightR != lightF) this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(TempBlock.LIGHTLEVEL,
                         lightF));
             }
         }
@@ -59,13 +59,13 @@ public class TempTile extends TileEntity implements ITickableTileEntity
 
     public TileEntity getEffectiveTile()
     {
-        if (this.blockEntity != null) return this.blockEntity.getFakeWorld().getTile(this.getPos());
+        if (this.blockEntity != null) return this.blockEntity.getFakeWorld().getTile(this.getBlockPos());
         return null;
     }
 
     public BlockState getEffectiveState()
     {
-        if (this.blockEntity != null) return this.blockEntity.getFakeWorld().getBlock(this.getPos());
+        if (this.blockEntity != null) return this.blockEntity.getFakeWorld().getBlock(this.getBlockPos());
         return null;
     }
 
@@ -81,34 +81,34 @@ public class TempTile extends TileEntity implements ITickableTileEntity
     {
         if (this.blockEntity == null) return;
         final VoxelShape shapeHere = this.getShape();
-        double top = shapeHere.getEnd(Axis.Y);
+        double top = shapeHere.max(Axis.Y);
         // Not a top surface.
         if (top > 1 || top < 0) return;
-        top = top + this.pos.getY();
-        final Vector3 v = Vector3.getNewVector().set(this.pos);
-        final AxisAlignedBB box = v.getAABB().expand(1, 1, 1);
-        final Vector3d ev = entityIn.getMotion();
+        top = top + this.worldPosition.getY();
+        final Vector3 v = Vector3.getNewVector().set(this.worldPosition);
+        final AxisAlignedBB box = v.getAABB().expandTowards(1, 1, 1);
+        final Vector3d ev = entityIn.getDeltaMovement();
 
-        boolean serverSide = entityIn.getEntityWorld().isRemote;
+        boolean serverSide = entityIn.getCommandSenderWorld().isClientSide;
         final boolean isPlayer = entityIn instanceof PlayerEntity;
         if (isPlayer) serverSide = entityIn instanceof ServerPlayerEntity;
 
-        if (shapeHere.withOffset(this.pos.getX(), this.pos.getY(), this.pos.getZ()).getBoundingBox().intersects(box))
+        if (shapeHere.move(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ()).bounds().intersects(box))
         {
-            final Vector3d bv = this.blockEntity.getMotion();
-            final Vector3d dr = new Vector3d(0, top - entityIn.getPosY(), 0);
-            entityIn.setPosition(entityIn.getPosX() + dr.x, entityIn.getPosY() + dr.y, entityIn.getPosZ() + dr.z);
+            final Vector3d bv = this.blockEntity.getDeltaMovement();
+            final Vector3d dr = new Vector3d(0, top - entityIn.getY(), 0);
+            entityIn.setPos(entityIn.getX() + dr.x, entityIn.getY() + dr.y, entityIn.getZ() + dr.z);
             final double vx = ev.x;
             final double vy = bv.y;
             final double vz = ev.z;
-            entityIn.setMotion(vx, vy, vz);
+            entityIn.setDeltaMovement(vx, vy, vz);
 
             if (isPlayer && serverSide)
             {
                 final ServerPlayerEntity serverplayer = (ServerPlayerEntity) entityIn;
                 // Meed to set floatingTickCount to prevent being kicked
-                serverplayer.connection.vehicleFloatingTickCount = 0;
-                serverplayer.connection.floatingTickCount = 0;
+                serverplayer.connection.aboveGroundVehicleTickCount = 0;
+                serverplayer.connection.aboveGroundTickCount = 0;
             }
             return;
         }
@@ -119,9 +119,9 @@ public class TempTile extends TileEntity implements ITickableTileEntity
         VoxelShape ret = VoxelShapes.empty();
         if (this.blockEntity != null)
         {
-            final Vector3 r = Vector3.getNewVector().set(this.pos);
+            final Vector3 r = Vector3.getNewVector().set(this.worldPosition);
             final VoxelShape shape = this.blockEntity.collider.buildShape();
-            if (!shape.isEmpty()) ret = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), shape.withOffset(-r.x,
+            if (!shape.isEmpty()) ret = VoxelShapes.join(VoxelShapes.block(), shape.move(-r.x,
                     -r.y, -r.z), IBooleanFunction.AND);
         }
         this.shape = ret;

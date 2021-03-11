@@ -31,7 +31,7 @@ public class Retaliate extends BaseAgroTask
     public boolean ignoreHasBattled(final LivingEntity target)
     {
         final Brain<?> brain = this.entity.getBrain();
-        if (!brain.hasMemory(MemoryModuleType.HURT_BY_ENTITY)) return false;
+        if (!brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)) return false;
         return brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).get() == target;
     }
 
@@ -40,8 +40,8 @@ public class Retaliate extends BaseAgroTask
     {
         if (target == null) return false;
         final Brain<?> brain = this.entity.getBrain();
-        if (!EntityPredicates.CAN_AI_TARGET.test(target)) return false;
-        if (!brain.hasMemory(MemoryModuleType.HURT_BY_ENTITY)) return false;
+        if (!EntityPredicates.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
+        if (!brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)) return false;
         if (!(target.isAlive() && BrainUtils.canSee(this.entity, target))) return false;
         return brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).get() == target;
     }

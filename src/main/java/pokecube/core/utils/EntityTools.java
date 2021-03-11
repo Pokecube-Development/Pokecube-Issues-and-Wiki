@@ -20,49 +20,49 @@ public class EntityTools
     public static void copyEntityData(final LivingEntity to, final LivingEntity from)
     {
         final CompoundNBT tag = new CompoundNBT();
-        from.writeAdditional(tag);
-        to.readAdditional(tag);
+        from.addAdditionalSaveData(tag);
+        to.readAdditionalSaveData(tag);
     }
 
     public static void copyRotations(final Entity to, final Entity from)
     {
-        to.rotationPitch = from.rotationPitch;
-        to.ticksExisted = from.ticksExisted;
-        to.rotationYaw = from.rotationYaw;
-        to.setRotationYawHead(from.getRotationYawHead());
-        to.prevRotationPitch = from.prevRotationPitch;
-        to.prevRotationYaw = from.prevRotationYaw;
+        to.xRot = from.xRot;
+        to.tickCount = from.tickCount;
+        to.yRot = from.yRot;
+        to.setYHeadRot(from.getYHeadRot());
+        to.xRotO = from.xRotO;
+        to.yRotO = from.yRotO;
     }
 
     public static void copyPositions(final Entity to, final Entity from)
     {
-        to.lastTickPosX = from.lastTickPosX;
-        to.lastTickPosY = from.lastTickPosY;
-        to.lastTickPosZ = from.lastTickPosZ;
+        to.xOld = from.xOld;
+        to.yOld = from.yOld;
+        to.zOld = from.zOld;
 
-        to.prevPosX = from.prevPosX;
-        to.prevPosY = from.prevPosY;
-        to.prevPosZ = from.prevPosZ;
+        to.xo = from.xo;
+        to.yo = from.yo;
+        to.zo = from.zo;
 
-        to.chunkCoordX = from.chunkCoordX;
-        to.chunkCoordY = from.chunkCoordY;
-        to.chunkCoordZ = from.chunkCoordZ;
+        to.xChunk = from.xChunk;
+        to.yChunk = from.yChunk;
+        to.zChunk = from.zChunk;
 
-        to.setPosition(from.getPosX(), from.getPosY(), from.getPosZ());
-        to.setMotion(from.getMotion());
+        to.setPos(from.getX(), from.getY(), from.getZ());
+        to.setDeltaMovement(from.getDeltaMovement());
     }
 
     public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
     {
         EntityTools.copyRotations(to, from);
 
-        to.prevRotationYawHead = from.prevRotationYawHead;
-        to.prevRenderYawOffset = from.prevRenderYawOffset;
-        to.renderYawOffset = from.renderYawOffset;
+        to.yHeadRotO = from.yHeadRotO;
+        to.yBodyRotO = from.yBodyRotO;
+        to.yBodyRot = from.yBodyRot;
 
-        to.prevLimbSwingAmount = from.prevLimbSwingAmount;
-        to.limbSwing = from.limbSwing;
-        to.limbSwingAmount = from.limbSwingAmount;
+        to.animationSpeedOld = from.animationSpeedOld;
+        to.animationPosition = from.animationPosition;
+        to.animationSpeed = from.animationSpeed;
 
         to.setOnGround(from.isOnGround());
     }
@@ -116,7 +116,7 @@ public class EntityTools
                 final Chunk chunk = (Chunk) c;
                 for (int k = -r; k <= r; k++)
                 {
-                    final ClassInheritanceMultiMap<Entity> mobs = chunk.getEntityLists()[y];
+                    final ClassInheritanceMultiMap<Entity> mobs = chunk.getEntitySections()[y];
                     toFill.addAll(mobs);
                 }
             }

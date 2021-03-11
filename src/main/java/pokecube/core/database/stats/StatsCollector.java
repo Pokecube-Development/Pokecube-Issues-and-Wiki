@@ -25,7 +25,7 @@ public class StatsCollector
                 .getOwner() instanceof FakePlayer))
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) captured.getOwner();
-            owner = captured.getOwner().getCachedUniqueIdString();
+            owner = captured.getOwner().getStringUUID();
             final PokedexEntry dbe = Database.getEntry(captured);
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
                     PokecubePlayerStats.class);
@@ -44,7 +44,7 @@ public class StatsCollector
         IPokemob mob = null;
         if (hatched.getEggOwner() instanceof PlayerEntity && !(hatched.getEggOwner() instanceof FakePlayer))
         {
-            owner = hatched.getEggOwner().getCachedUniqueIdString();
+            owner = hatched.getEggOwner().getStringUUID();
             mob = hatched.getPokemob(true);
             if (mob == null)
             {
@@ -67,7 +67,7 @@ public class StatsCollector
         String owner;
         if (killer.getOwner() instanceof PlayerEntity)
         {
-            owner = killer.getOwner().getCachedUniqueIdString();
+            owner = killer.getOwner().getStringUUID();
             final PokedexEntry dbe = Database.getEntry(killed);
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
                     PokecubePlayerStats.class);

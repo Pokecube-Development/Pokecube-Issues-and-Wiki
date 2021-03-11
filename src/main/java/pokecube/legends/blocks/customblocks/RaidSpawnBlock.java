@@ -48,7 +48,7 @@ public class RaidSpawnBlock extends MaxBlock
         }
 
         @Override
-        public String getString()
+        public String getSerializedName()
         {
             return this.name;
         }
@@ -67,20 +67,20 @@ public class RaidSpawnBlock extends MaxBlock
 
     public RaidSpawnBlock(final Material material, MaterialColor color)
     {
-        super(Properties.create(material).sound(SoundType.METAL).tickRandomly().hardnessAndResistance(2000, 2000), color);
-        this.setDefaultState(this.stateContainer.getBaseState().with(RaidSpawnBlock.ACTIVE, State.EMPTY));
+        super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
+        this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
     }
 
     @Override
-    public boolean ticksRandomly(final BlockState state)
+    public boolean isRandomlyTicking(final BlockState state)
     {
         return true;
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
-        super.fillStateContainer(builder);
+        super.createBlockStateDefinition(builder);
         builder.add(RaidSpawnBlock.ACTIVE);
     }
 
@@ -98,26 +98,26 @@ public class RaidSpawnBlock extends MaxBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
+    public void appendHoverText(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
             final ITooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legendblock." + this.infoname + ".tooltip");
-        else message = I18n.format("pokecube.tooltip.advanced");
+        if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
+        else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
 
     @Override
-    public ActionResultType onBlockActivated(final BlockState state, final World worldIn, final BlockPos pos,
+    public ActionResultType use(final BlockState state, final World worldIn, final BlockPos pos,
             final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
         if (worldIn instanceof ServerWorld)
         {
-            final boolean active = state.get(RaidSpawnBlock.ACTIVE).active();
+            final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
             if (active)
             {
                 MaxRaidFunction.executeProcedure(pos, state, (ServerWorld) worldIn);
-                worldIn.setBlockState(pos, state.with(RaidSpawnBlock.ACTIVE, State.EMPTY));
+                worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
             }
         }
         ;
@@ -127,12 +127,12 @@ public class RaidSpawnBlock extends MaxBlock
     @Override
     public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
-        final boolean active = state.get(RaidSpawnBlock.ACTIVE).active();
+        final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
         if (active) return;
         final double rng = random.nextDouble();
         final boolean reset = rng < PokecubeLegends.config.raidResetChance;
         if (!reset) return;
-        worldIn.setBlockState(pos, state.with(RaidSpawnBlock.ACTIVE, random
+        worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, random
                 .nextDouble() > PokecubeLegends.config.rareRaidChance ? State.NORMAL : State.RARE));
 
     }
@@ -141,7 +141,7 @@ public class RaidSpawnBlock extends MaxBlock
     @Override
     public void animateTick(final BlockState state, final World world, final BlockPos pos, final Random random)
     {
-        if (!state.get(RaidSpawnBlock.ACTIVE).active()) return;
+        if (!state.getValue(RaidSpawnBlock.ACTIVE).active()) return;
 
         final int x = pos.getX();
         final int y = pos.getY();

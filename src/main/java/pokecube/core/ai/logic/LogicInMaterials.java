@@ -32,21 +32,21 @@ public class LogicInMaterials extends LogicBase
             if (material.equalsIgnoreCase("light"))
             {
                 float value = 0.5f;
-                if (this.entity.getEntityWorld().isDaytime() && !this.entity.getEntityWorld().isRemote && !this.pokemob
+                if (this.entity.getCommandSenderWorld().isDay() && !this.entity.getCommandSenderWorld().isClientSide && !this.pokemob
                         .getGeneralState(GeneralStates.TAMED))
                 {
 
                     value = Float.parseFloat(this.pokemob.getPokedexEntry().hatedMaterial[1]);
                     final String action = this.pokemob.getPokedexEntry().hatedMaterial[2];
                     final float f = this.entity.getBrightness();
-                    if (f > value && this.entity.getEntityWorld().canBlockSeeSky(this.entity.getPosition())) if (action
+                    if (f > value && this.entity.getCommandSenderWorld().canSeeSkyFromBelowWater(this.entity.blockPosition())) if (action
                             .equalsIgnoreCase("despawn")) this.entity.remove();
-                    else if (action.equalsIgnoreCase("hurt") && Math.random() < 0.1) this.entity.attackEntityFrom(
+                    else if (action.equalsIgnoreCase("hurt") && Math.random() < 0.1) this.entity.hurt(
                             DamageSource.ON_FIRE, 1);
                 }
             }
-            else if (material.equalsIgnoreCase("water")) if (this.entity.isInWater() && this.entity.getRNG().nextInt(
-                    10) == 0) this.entity.attackEntityFrom(new TerrainDamageSource("material", TerrainType.MATERIAL,
+            else if (material.equalsIgnoreCase("water")) if (this.entity.isInWater() && this.entity.getRandom().nextInt(
+                    10) == 0) this.entity.hurt(new TerrainDamageSource("material", TerrainType.MATERIAL,
                             null), 1);
         }
     }

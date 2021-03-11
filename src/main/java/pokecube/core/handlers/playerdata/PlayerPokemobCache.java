@@ -26,7 +26,7 @@ public class PlayerPokemobCache extends PlayerData
     public static void UpdateCache(final IPokemob mob)
     {
         if (!mob.isPlayerOwned() || mob.getOwnerId() == null) return;
-        if (!mob.getEntity().isServerWorld()) return;
+        if (!mob.getEntity().isEffectiveAi()) return;
         final ItemStack stack = PokecubeManager.pokemobToItem(mob);
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         // Schedule this to run at some point, as it takes a while.
@@ -68,7 +68,7 @@ public class PlayerPokemobCache extends PlayerData
     public static void RemoveFromCache(final UUID owner, final IPokemob pokemob)
     {
         if (!pokemob.isPlayerOwned() || pokemob.getOwnerId() == null || owner == null) return;
-        if (!pokemob.getEntity().isServerWorld()) return;
+        if (!pokemob.getEntity().isEffectiveAi()) return;
         final ItemStack stack = PokecubeManager.pokemobToItem(pokemob);
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         // Schedule this to run at some point, as it takes a while.
@@ -136,7 +136,7 @@ public class PlayerPokemobCache extends PlayerData
             {
                 final CompoundNBT var = list.getCompound(i);
                 Integer id = -1;
-                final ItemStack stack = ItemStack.read(var);
+                final ItemStack stack = ItemStack.of(var);
                 if (var.contains("uid")) id = var.getInt("uid");
                 else id = PokecubeManager.getUID(stack);
                 if (id != -1)
@@ -166,7 +166,7 @@ public class PlayerPokemobCache extends PlayerData
             var.putBoolean("_in_pc_", this._in_pc_.contains(id));
             var.putBoolean("_dead_", this._dead_.contains(id));
             final ItemStack stack = this.cache.get(id);
-            stack.write(var);
+            stack.save(var);
             list.add(var);
         }
         tag.put("data", list);

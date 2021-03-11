@@ -32,8 +32,8 @@ public class RepelBlock extends InteractableBlock
     public void neighborChanged(final BlockState state, final World worldIn, final BlockPos pos, final Block blockIn,
             final BlockPos fromPos, final boolean isMoving)
     {
-        final int power = worldIn.getRedstonePowerFromNeighbors(pos);
-        final TileEntity tile = worldIn.getTileEntity(pos);
+        final int power = worldIn.getBestNeighborSignal(pos);
+        final TileEntity tile = worldIn.getBlockEntity(pos);
         if (tile == null || !(tile instanceof RepelTile)) return;
         final RepelTile repel = (RepelTile) tile;
         if (power != 0)

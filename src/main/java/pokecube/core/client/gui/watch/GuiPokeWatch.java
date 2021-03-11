@@ -35,7 +35,7 @@ public class GuiPokeWatch extends Screen
         {
             super(new TranslationTextComponent("pokewatch.title.blank"), watch, GuiPokeWatch.TEX_DM,
                     GuiPokeWatch.TEX_NM);
-            this.font = Minecraft.getInstance().fontRenderer;
+            this.font = Minecraft.getInstance().font;
         }
 
         @Override
@@ -43,7 +43,7 @@ public class GuiPokeWatch extends Screen
         {
             final int x = (this.watch.width - 160) / 2 + 80;
             final int y = (this.watch.height - 160) / 2 + 70;
-            AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.title.blank"), x, y - 20, 0xFFFFFFFF);
+            AbstractGui.drawCenteredString(mat, this.font, I18n.get("pokewatch.title.blank"), x, y - 20, 0xFFFFFFFF);
             super.render(mat, mouseX, mouseY, partialTicks);
         }
 
@@ -131,9 +131,9 @@ public class GuiPokeWatch extends Screen
     public boolean canEdit(final IPokemob pokemob)
     {
         // Not a real mob
-        if (!pokemob.getEntity().addedToChunk) return false;
+        if (!pokemob.getEntity().inChunk) return false;
         // Otherwise, check if owned, or if player is creative mode
-        return this.player.getUniqueID().equals(pokemob.getOwnerId()) || this.player.abilities.isCreativeMode;
+        return this.player.getUUID().equals(pokemob.getOwnerId()) || this.player.abilities.instabuild;
     }
 
     public void changePage(final int newIndex)
@@ -174,14 +174,14 @@ public class GuiPokeWatch extends Screen
     {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE && this.shouldCloseOnEsc())
         {
+            this.removed();
             this.onClose();
-            this.closeScreen();
             return true;
         }
 
         // We overwrite this to reverse the ordering of checking if tab was
         // pressed
-        final boolean subpages = this.getListener() != null && this.getListener().keyPressed(keyCode, b, c);
+        final boolean subpages = this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
 
         if (subpages) return true;
         if (keyCode == GLFW.GLFW_KEY_TAB)

@@ -49,7 +49,7 @@ public class GuiNBTTree extends Screen
     private final int                 X_GAP   = 10, START_X = 10;
 
     final int                         START_Y = 30;
-    private final int                 Y_GAP   = Minecraft.getInstance().fontRenderer.FONT_HEIGHT + 2;
+    private final int                 Y_GAP   = Minecraft.getInstance().font.lineHeight + 2;
 
     private int                       y, yClick;
 
@@ -131,7 +131,7 @@ public class GuiNBTTree extends Screen
                 final GuiSaveSlotButton button = (GuiSaveSlotButton) b;
                 button.reset();
                 NBTEdit.getSaveStates().save();
-                this.mc.getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                this.mc.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 return;
             });
             this.addButton(this.saves[i]);
@@ -196,7 +196,7 @@ public class GuiNBTTree extends Screen
         if (parent instanceof ListNBT)
         {
             final ListNBT list = (ListNBT) parent;
-            return list.size() == 0 || list.getTagType() == child.getId();
+            return list.size() == 0 || list.getElementType() == child.getId();
         }
         return false;
     }
@@ -293,7 +293,7 @@ public class GuiNBTTree extends Screen
         if (this.heightDiff > 0)
         {
 
-            if (Minecraft.getInstance().mouseHelper.isLeftDown())
+            if (Minecraft.getInstance().mouseHandler.isLeftPressed())
             {
                 if (this.yClick == -1)
                 {
@@ -424,7 +424,7 @@ public class GuiNBTTree extends Screen
         if (this.window != null)
         {
             @SuppressWarnings("unchecked")
-            final List<IGuiEventListener> list = (List<IGuiEventListener>) this.getEventListeners();
+            final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
             list.add(this.window);
         }
 
@@ -533,8 +533,8 @@ public class GuiNBTTree extends Screen
     protected void overlayBackground(final int par1, final int par2, final int par3, final int par4)
     {
         final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder worldRenderer = tessellator.getBuffer();
-        this.mc.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
+        final BufferBuilder worldRenderer = tessellator.getBuilder();
+        this.mc.getTextureManager().bind(AbstractGui.BACKGROUND_LOCATION);
         final float var6 = 32.0F;
         worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
         final Color color = new Color(4210752);
@@ -542,11 +542,11 @@ public class GuiNBTTree extends Screen
         final int g = color.getRed();
         final int b = color.getRed();
         final int a = par4;
-        worldRenderer.pos(0.0D, par2, 0.0D).color(r, g, b, a).tex(0.0f, par2 / var6).endVertex();
-        worldRenderer.pos(this.width, par2, 0.0D).color(r, g, b, a).tex(this.width / var6, par2 / var6).endVertex();
-        worldRenderer.pos(this.width, par1, 0.0D).color(r, g, b, a).tex(this.width / var6, par1 / var6).endVertex();
-        worldRenderer.pos(0.0D, par1, 0.0D).color(r, g, b, a).tex(0.0f, par1 / var6).endVertex();
-        tessellator.draw();
+        worldRenderer.vertex(0.0D, par2, 0.0D).color(r, g, b, a).uv(0.0f, par2 / var6).endVertex();
+        worldRenderer.vertex(this.width, par2, 0.0D).color(r, g, b, a).uv(this.width / var6, par2 / var6).endVertex();
+        worldRenderer.vertex(this.width, par1, 0.0D).color(r, g, b, a).uv(this.width / var6, par1 / var6).endVertex();
+        worldRenderer.vertex(0.0D, par1, 0.0D).color(r, g, b, a).uv(0.0f, par1 / var6).endVertex();
+        tessellator.end();
     }
 
     private boolean paste()
@@ -711,7 +711,7 @@ public class GuiNBTTree extends Screen
         if (index != -1)
         {
             final GuiNBTNode gui = this.nodes.get(index);
-            this.shift((this.bottom + this.START_Y + 1) / 2 - (gui.y + gui.getHeightRealms()));
+            this.shift((this.bottom + this.START_Y + 1) / 2 - (gui.y + gui.getHeight()));
         }
     }
 

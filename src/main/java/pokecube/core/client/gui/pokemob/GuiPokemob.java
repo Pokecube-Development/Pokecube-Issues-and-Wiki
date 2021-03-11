@@ -99,16 +99,16 @@ public class GuiPokemob extends GuiPokemobBase
         int h = 10;
 
         this.addButton(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h,
-                new TranslationTextComponent("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.container.pokemob,
-                        Command.STANCE, new StanceHandler(!this.container.pokemob.getLogicState(LogicStates.SITTING),
+                new TranslationTextComponent("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.menu.pokemob,
+                        Command.STANCE, new StanceHandler(!this.menu.pokemob.getLogicState(LogicStates.SITTING),
                                 StanceHandler.SIT))));
         this.addButton(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h,
-                new TranslationTextComponent("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.container.pokemob,
-                        Command.STANCE, new StanceHandler(!this.container.pokemob.getGeneralState(
+                new TranslationTextComponent("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.menu.pokemob,
+                        Command.STANCE, new StanceHandler(!this.menu.pokemob.getGeneralState(
                                 GeneralStates.STAYING), StanceHandler.STAY))));
         this.addButton(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h,
                 new TranslationTextComponent("pokemob.gui.guard"), c -> PacketCommand.sendCommand(
-                        this.container.pokemob, Command.STANCE, new StanceHandler(!this.container.pokemob
+                        this.menu.pokemob, Command.STANCE, new StanceHandler(!this.menu.pokemob
                                 .getCombatState(CombatStates.GUARDING), StanceHandler.GUARD))));
         // Bar width
         w = 89;
@@ -116,7 +116,7 @@ public class GuiPokemob extends GuiPokemobBase
         h = 5;
         // Bar positioning
         final int i = 9, j = 48;
-        this.addButton(this.bar = new HungerBar(this.width / 2 - i, this.height / 2 - j, w, h, this.container.pokemob));
+        this.addButton(this.bar = new HungerBar(this.width / 2 - i, this.height / 2 - j, w, h, this.menu.pokemob));
 
         xOffset = 10;
         yOffset = 77;
@@ -124,13 +124,13 @@ public class GuiPokemob extends GuiPokemobBase
         h = 10;
         this.addButton(new Button(this.width / 2 - xOffset + 60, this.height / 2 - yOffset, w, h,
                 new TranslationTextComponent("pokemob.gui.ai"), c -> PacketPokemobGui.sendPagePacket(
-                        PacketPokemobGui.AI, this.container.pokemob.getEntity().getEntityId())));
+                        PacketPokemobGui.AI, this.menu.pokemob.getEntity().getId())));
         this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset, w, h,
                 new TranslationTextComponent("pokemob.gui.storage"), c -> PacketPokemobGui.sendPagePacket(
-                        PacketPokemobGui.STORAGE, this.container.pokemob.getEntity().getEntityId())));
+                        PacketPokemobGui.STORAGE, this.menu.pokemob.getEntity().getId())));
         this.addButton(new Button(this.width / 2 - xOffset + 00, this.height / 2 - yOffset, w, h,
                 new TranslationTextComponent("pokemob.gui.routes"), c -> PacketPokemobGui.sendPagePacket(
-                        PacketPokemobGui.ROUTES, this.container.pokemob.getEntity().getEntityId())));
+                        PacketPokemobGui.ROUTES, this.menu.pokemob.getEntity().getId())));
     }
 
     /** Draws the screen and all the components in it. */
@@ -139,26 +139,26 @@ public class GuiPokemob extends GuiPokemobBase
     {
         super.render(mat, x, y, z);
         final List<String> text = Lists.newArrayList();
-        if (this.container.pokemob == null) return;
+        if (this.menu.pokemob == null) return;
 
-        final boolean guarding = this.container.pokemob.getCombatState(CombatStates.GUARDING);
-        final boolean sitting = this.container.pokemob.getLogicState(LogicStates.SITTING);
-        final boolean staying = this.container.pokemob.getGeneralState(GeneralStates.STAYING);
+        final boolean guarding = this.menu.pokemob.getCombatState(CombatStates.GUARDING);
+        final boolean sitting = this.menu.pokemob.getLogicState(LogicStates.SITTING);
+        final boolean staying = this.menu.pokemob.getGeneralState(GeneralStates.STAYING);
 
         this.guard.setFGColor(guarding ? 0xFF00FF00 : 0xFFFF0000);
         this.sit.setFGColor(sitting ? 0xFF00FF00 : 0xFFFF0000);
         this.stay.setFGColor(staying ? 0xFF00FF00 : 0xFFFF0000);
 
-        if (this.guard.isMouseOver(x, y)) if (guarding) text.add(I18n.format("pokemob.stance.guard"));
-        else text.add(I18n.format("pokemob.stance.no_guard"));
-        if (this.stay.isMouseOver(x, y)) if (staying) text.add(I18n.format("pokemob.stance.stay"));
-        else text.add(I18n.format("pokemob.stance.follow"));
-        if (this.sit.isMouseOver(x, y)) if (sitting) text.add(I18n.format("pokemob.stance.sit"));
-        else text.add(I18n.format("pokemob.stance.no_sit"));
-        if (this.bar.isMouseOver(x, y)) text.add(I18n.format("pokemob.bar.value", this.bar.value));
+        if (this.guard.isMouseOver(x, y)) if (guarding) text.add(I18n.get("pokemob.stance.guard"));
+        else text.add(I18n.get("pokemob.stance.no_guard"));
+        if (this.stay.isMouseOver(x, y)) if (staying) text.add(I18n.get("pokemob.stance.stay"));
+        else text.add(I18n.get("pokemob.stance.follow"));
+        if (this.sit.isMouseOver(x, y)) if (sitting) text.add(I18n.get("pokemob.stance.sit"));
+        else text.add(I18n.get("pokemob.stance.no_sit"));
+        if (this.bar.isMouseOver(x, y)) text.add(I18n.get("pokemob.bar.value", this.bar.value));
         final List<ITextComponent> msgs = new ArrayList<>();
         for(final String s: text) msgs.add(new StringTextComponent(s));
         if (!text.isEmpty()) this.renderWrappedToolTip(mat, msgs, x, y, this.font);
-        this.renderHoveredTooltip(mat, x, y);
+        this.renderTooltip(mat, x, y);
     }
 }

@@ -43,13 +43,13 @@ public class GuiPokemobRoutes extends GuiPokemobBase
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
+    protected void renderBg(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
-        super.drawGuiContainerBackgroundLayer(mat, partialTicks, mouseX, mouseY);
-        final int k = (this.width - this.xSize) / 2;
-        final int l = (this.height - this.ySize) / 2;
+        super.renderBg(mat, partialTicks, mouseX, mouseY);
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
         final String number = this.num + "";
-        this.font.drawString(mat, number, k + 87 - this.font.getStringWidth(number), l + 62, 0xFF888888);
+        this.font.draw(mat, number, k + 87 - this.font.width(number), l + 62, 0xFF888888);
     }
 
     @Override
@@ -60,11 +60,11 @@ public class GuiPokemobRoutes extends GuiPokemobBase
         final int xOffset = this.width / 2 - 10;
         final int yOffset = this.height / 2 - 77;
         this.addButton(new Button(xOffset + 60, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.inventory"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getEntityId())));
+                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
         this.addButton(new Button(xOffset + 30, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.storage"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getEntityId())));
+                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getId())));
         this.addButton(new Button(xOffset + 00, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.ai"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.AI, this.entity.getEntityId())));
+                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.AI, this.entity.getId())));
 
         this.list = new ScrollGui<>(this, this.minecraft, 92, 50, 50, xOffset, yOffset + 10);
         final Function<CompoundNBT, CompoundNBT> function = t ->
@@ -103,6 +103,6 @@ public class GuiPokemobRoutes extends GuiPokemobBase
     {
         super.render(mat, i, j, f);
         this.list.render(mat, i, j, f);
-        this.renderHoveredTooltip(mat, i, j);
+        this.renderTooltip(mat, i, j);
     }
 }

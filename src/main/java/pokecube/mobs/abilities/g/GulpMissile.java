@@ -44,14 +44,14 @@ public class GulpMissile extends Ability
         final IPokemob attacker = move.attacker;
         if (attacker == mob || move.pre || attacker == move.attacked) return;
         final float amount = attacker.getEntity().getMaxHealth() / 4;
-        final DamageSource source = new GenericDamageSource(this.getName(), mob.getEntity()).setDamageIsAbsolute()
+        final DamageSource source = new GenericDamageSource(this.getName(), mob.getEntity()).bypassMagic()
                 .setProjectile();
         // Hit for Arrakuda
         if (mobs == GulpMissile.arrakuda)
         {
             if (move.hit)
             {
-                attacker.getEntity().attackEntityFrom(source, amount);
+                attacker.getEntity().hurt(source, amount);
                 MovesUtils.handleStats2(mob, attacker.getEntity(), IMoveConstants.DEFENSE, IMoveConstants.FALL);
                 mob.setPokedexEntry(GulpMissile.baseNormal);
             }
@@ -59,7 +59,7 @@ public class GulpMissile extends Ability
         // Hit for Pikachu
         else if (mobs == GulpMissile.pikachu) if (move.hit)
         {
-            attacker.getEntity().attackEntityFrom(source, amount);
+            attacker.getEntity().hurt(source, amount);
             MovesUtils.setStatus(attacker.getEntity(), IMoveConstants.STATUS_PAR);
             mob.setPokedexEntry(GulpMissile.baseNormal);
         }

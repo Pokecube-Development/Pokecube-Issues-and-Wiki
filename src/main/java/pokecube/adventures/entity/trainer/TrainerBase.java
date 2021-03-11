@@ -73,43 +73,43 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
+    public ActionResultType mobInteract(final PlayerEntity player, final Hand hand)
     {
-        final ItemStack stack = player.getHeldItem(hand);
-        if (player.abilities.isCreativeMode && player.isCrouching())
+        final ItemStack stack = player.getItemInHand(hand);
+        if (player.abilities.instabuild && player.isCrouching())
         {
-            if (this.pokemobsCap.getType() != null && !this.getEntityWorld().isRemote && stack.isEmpty())
+            if (this.pokemobsCap.getType() != null && !this.getCommandSenderWorld().isClientSide && stack.isEmpty())
             {
                 String message = this.getName() + " " + this.aiStates.getAIState(AIState.STATIONARY) + " "
                         + this.pokemobsCap.countPokemon() + " ";
                 for (int ind = 0; ind < this.pokemobsCap.getMaxPokemobCount(); ind++)
                 {
                     final ItemStack i = this.pokemobsCap.getPokemob(ind);
-                    if (!i.isEmpty()) message += i.getDisplayName() + " ";
+                    if (!i.isEmpty()) message += i.getHoverName() + " ";
                 }
-                player.sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
+                player.sendMessage(new StringTextComponent(message), Util.NIL_UUID);
             }
-            else if (!this.getEntityWorld().isRemote && player.isCrouching() && player.getHeldItemMainhand()
+            else if (!this.getCommandSenderWorld().isClientSide && player.isCrouching() && player.getMainHandItem()
                     .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
-            return ActionResultType.func_233537_a_(this.world.isRemote);
+            return ActionResultType.sidedSuccess(this.level.isClientSide);
         }
         else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this.getOffers()
                 .isEmpty())
         {
             stack.split(1);
-            player.setHeldItem(hand, stack);
+            player.setItemInHand(hand, stack);
             this.pokemobsCap.onSetTarget(null);
             for (final IPokemob pokemob : this.currentPokemobs)
                 pokemob.onRecall(false);
             this.pokemobsCap.friendlyCooldown = 2400;
             this.playCelebrateSound();
-            return ActionResultType.func_233537_a_(this.world.isRemote);
+            return ActionResultType.sidedSuccess(this.level.isClientSide);
         }
         else if (this.canTrade(player))
         {
-            final boolean customer = player == this.getCustomer();
-            if (customer) return ActionResultType.func_233537_a_(this.world.isRemote);
-            this.setCustomer(player);
+            final boolean customer = player == this.getTradingPlayer();
+            if (customer) return ActionResultType.sidedSuccess(this.level.isClientSide);
+            this.setTradingPlayer(player);
             if (!this.fixedTrades)
             {
                 this.resetTrades();
@@ -120,9 +120,9 @@ public abstract class TrainerBase extends NpcMob
                 // This adds in pokemobs to trade.
                 if (this.aiStates.getAIState(AIState.TRADES_MOBS)) this.addMobTrades(player, stack);
             }
-            if (!this.getOffers().isEmpty()) this.openMerchantContainer(player, this.getDisplayName(), 0);
-            else this.setCustomer(null);
-            return ActionResultType.func_233537_a_(this.world.isRemote);
+            if (!this.getOffers().isEmpty()) this.openTradingScreen(player, this.getDisplayName(), 0);
+            else this.setTradingPlayer(null);
+            return ActionResultType.sidedSuccess(this.level.isClientSide);
         }
         else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK) this.pokemobsCap.onSetTarget(
                 player);
@@ -136,10 +136,10 @@ public abstract class TrainerBase extends NpcMob
         this.invuln = true;
         if (PokecubeAdv.config.trainerAIPause)
         {
-            final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
+            final PlayerEntity near = this.getCommandSenderWorld().getNearestPlayer(this, -1);
             if (near != null)
             {
-                final float dist = near.getDistance(this);
+                final float dist = near.distanceTo(this);
                 if (dist > PokecubeAdv.config.aiPauseDistance) return;
             }
         }
@@ -164,21 +164,21 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public void livingTick()
+    public void aiStep()
     {
-        super.livingTick();
-        if (!this.isServerWorld()) return;
+        super.aiStep();
+        if (!this.isEffectiveAi()) return;
 
         ItemStack cube = this.pokemobsCap.getNextPokemob();
         ItemStack reward = this.rewardsCap.getRewards().isEmpty() ? ItemStack.EMPTY
                 : this.rewardsCap.getRewards().get(0).stack;
-        if (this.pokemobsCap.getCooldown() > this.world.getGameTime())
+        if (this.pokemobsCap.getCooldown() > this.level.getGameTime())
         {
             cube = ItemStack.EMPTY;
             reward = ItemStack.EMPTY;
         }
-        this.setHeldItem(Hand.MAIN_HAND, cube);
-        this.setHeldItem(Hand.OFF_HAND, reward);
+        this.setItemInHand(Hand.MAIN_HAND, cube);
+        this.setItemInHand(Hand.OFF_HAND, reward);
 
         if (this.pokemobsCap.countPokemon() == 0 && !this.fixedMobs)
         {
@@ -186,7 +186,7 @@ public abstract class TrainerBase extends NpcMob
             if (type != null && !type.pokemon.isEmpty() && !this.checkedMobs)
             {
                 this.checkedMobs = true;
-                final int level = SpawnHandler.getSpawnLevel(this.getEntityWorld(), Vector3.getNewVector().set(this),
+                final int level = SpawnHandler.getSpawnLevel(this.getCommandSenderWorld(), Vector3.getNewVector().set(this),
                         type.pokemon.get(0));
                 this.initTeam(level);
                 type.initTrainerItems(this);
@@ -218,17 +218,17 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    protected void onVillagerTrade(final MerchantOffer offer)
+    protected void rewardTradeXp(final MerchantOffer offer)
     {
         this.trades.applyTrade(offer);
-        super.onVillagerTrade(offer);
+        super.rewardTradeXp(offer);
     }
 
     @Override
-    public void setCustomer(final PlayerEntity player)
+    public void setTradingPlayer(final PlayerEntity player)
     {
         this.trades.setCustomer(player);
-        super.setCustomer(player);
+        super.setTradingPlayer(player);
     }
 
     @Override
@@ -249,24 +249,24 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public boolean hasXPBar()
+    public boolean showProgressBar()
     {
         // Not sure what this does, wandering is false, village is true?
-        return super.hasXPBar();
+        return super.showProgressBar();
     }
 
     @Override
-    public void verifySellingItem(final ItemStack stack)
+    public void notifyTradeUpdated(final ItemStack stack)
     {
         this.trades.verify(stack);
-        super.verifySellingItem(stack);
+        super.notifyTradeUpdated(stack);
     }
 
     @Override
-    public void openMerchantContainer(final PlayerEntity player, final ITextComponent tittle, final int level)
+    public void openTradingScreen(final PlayerEntity player, final ITextComponent tittle, final int level)
     {
         // This is the player specific get recipes and open inventory thing
-        final OptionalInt optionalint = player.openContainer(new SimpleNamedContainerProvider((int_unk_2,
+        final OptionalInt optionalint = player.openMenu(new SimpleNamedContainerProvider((int_unk_2,
                 player_inventory, unk) ->
         {
             return new MerchantContainer(int_unk_2, player_inventory, this);
@@ -275,8 +275,8 @@ public abstract class TrainerBase extends NpcMob
         {
             final MerchantOffers merchantoffers = this.getOffers();
             // TODO here we add in a hook to see if we want to trade pokemobs.
-            if (!merchantoffers.isEmpty()) player.openMerchantContainer(optionalint.getAsInt(), merchantoffers, level,
-                    this.getXp(), this.hasXPBar(), true);
+            if (!merchantoffers.isEmpty()) player.sendMerchantOffers(optionalint.getAsInt(), merchantoffers, level,
+                    this.getVillagerXp(), this.showProgressBar(), true);
         }
 
     }

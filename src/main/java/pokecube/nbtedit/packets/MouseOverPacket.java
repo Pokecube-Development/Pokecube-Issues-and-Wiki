@@ -27,17 +27,17 @@ public class MouseOverPacket extends Packet
     @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        final RayTraceResult pos = Minecraft.getInstance().objectMouseOver;
+        final RayTraceResult pos = Minecraft.getInstance().hitResult;
         if (pos != null)
         {
             Packet ret = null;
             switch (pos.getType())
             {
             case BLOCK:
-                ret = new TileRequestPacket(((BlockRayTraceResult) pos).getPos());
+                ret = new TileRequestPacket(((BlockRayTraceResult) pos).getBlockPos());
                 break;
             case ENTITY:
-                ret = new EntityRequestPacket(((EntityRayTraceResult) pos).getEntity().getEntityId());
+                ret = new EntityRequestPacket(((EntityRayTraceResult) pos).getEntity().getId());
                 break;
             case MISS:
                 NBTEdit.proxy.sendMessage(null, "Error - No tile or entity selected", TextFormatting.RED);

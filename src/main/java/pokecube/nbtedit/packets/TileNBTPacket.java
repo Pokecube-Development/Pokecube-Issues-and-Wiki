@@ -30,7 +30,7 @@ public class TileNBTPacket extends NBTPacket
     public TileNBTPacket(final BlockPos pos, final CompoundNBT tag)
     {
         super();
-        tag.putLong("_nbtedit_pos", pos.toLong());
+        tag.putLong("_nbtedit_pos", pos.asLong());
         this.tag = tag;
 
     }
@@ -43,7 +43,7 @@ public class TileNBTPacket extends NBTPacket
     @Override
     protected void onCompleteClient()
     {
-        this.pos = BlockPos.fromLong(this.getTag().getLong("_nbtedit_pos"));
+        this.pos = BlockPos.of(this.getTag().getLong("_nbtedit_pos"));
         this.getTag().remove("_nbtedit_pos");
         NBTEdit.proxy.openEditGUI(this.pos, this.getTag());
     }
@@ -51,15 +51,15 @@ public class TileNBTPacket extends NBTPacket
     @Override
     protected void onCompleteServer(final ServerPlayerEntity player)
     {
-        this.pos = BlockPos.fromLong(this.getTag().getLong("_nbtedit_pos"));
+        this.pos = BlockPos.of(this.getTag().getLong("_nbtedit_pos"));
         this.getTag().remove("_nbtedit_pos");
-        final TileEntity te = player.world.getTileEntity(this.pos);
+        final TileEntity te = player.level.getBlockEntity(this.pos);
         if (te != null && NBTEdit.proxy.checkPermission(player)) try
         {
-            te.read(player.world.getBlockState(this.pos), this.getTag());
-            te.markDirty();// Ensures changes gets saved to disk later on.
-            if (te.hasWorld() && te.getWorld() instanceof ServerWorld) ((ServerWorld) te.getWorld()).getChunkProvider()
-                    .markBlockChanged(this.pos);
+            te.load(player.level.getBlockState(this.pos), this.getTag());
+            te.setChanged();// Ensures changes gets saved to disk later on.
+            if (te.hasLevel() && te.getLevel() instanceof ServerWorld) ((ServerWorld) te.getLevel()).getChunkSource()
+                    .blockChanged(this.pos);
             NBTEdit.log(Level.TRACE, player.getName().getString() + " edited a tag -- Tile Entity at " + this.pos.getX()
                     + ", " + this.pos.getY() + ", " + this.pos.getZ());
             NBTEdit.logTag(this.getTag());

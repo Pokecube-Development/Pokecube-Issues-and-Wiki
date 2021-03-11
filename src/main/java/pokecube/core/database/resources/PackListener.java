@@ -21,7 +21,7 @@ public class PackListener implements IFutureReloadListener
             final IResourceManager resourceManager, final IProfiler preparationsProfiler,
             final IProfiler reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
     {
-        return CompletableFuture.completedFuture((Void) null).thenCompose(stage::markCompleteAwaitingOthers)
+        return CompletableFuture.completedFuture((Void) null).thenCompose(stage::wait)
                 .thenAcceptAsync((v) ->
                 {
                     this.add(resourceManager);
@@ -37,7 +37,7 @@ public class PackListener implements IFutureReloadListener
         for (final IResourcePack pack : Database.customPacks)
         {
             PokecubeCore.LOGGER.debug("Reloading Pack: " + pack.getName());
-            ((SimpleReloadableResourceManager) resourceManager).addResourcePack(pack);
+            ((SimpleReloadableResourceManager) resourceManager).add(pack);
         }
         this.loaded = true;
     }

@@ -77,15 +77,15 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
         @Override
         public IPokemob getLeft()
         {
-            final CompoundNBT tag = this.player.getLeftShoulderEntity();
-            EntityType.byKey(tag.getString("id")).filter((type) ->
+            final CompoundNBT tag = this.player.getShoulderEntityLeft();
+            EntityType.byString(tag.getString("id")).filter((type) ->
             {
                 return type instanceof PokemobType;
             }).ifPresent((type) ->
             {
                 final int uid = tag.getInt("pokemob:uid");
                 if (this.left != null) if (this.left.getPokemonUID() == uid) return;
-                final Optional<Entity> mob = EntityType.loadEntityUnchecked(tag, this.player.getEntityWorld());
+                final Optional<Entity> mob = EntityType.create(tag, this.player.getCommandSenderWorld());
                 if (mob.isPresent()) this.left = CapabilityPokemob.getPokemobFor(mob.get());
             });
             return this.left;
@@ -94,15 +94,15 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
         @Override
         public IPokemob getRight()
         {
-            final CompoundNBT tag = this.player.getRightShoulderEntity();
-            EntityType.byKey(tag.getString("id")).filter((type) ->
+            final CompoundNBT tag = this.player.getShoulderEntityRight();
+            EntityType.byString(tag.getString("id")).filter((type) ->
             {
                 return type instanceof PokemobType;
             }).ifPresent((type) ->
             {
                 final int uid = tag.getInt("pokemob:uid");
                 if (this.right != null) if (this.right.getPokemonUID() == uid) return;
-                final Optional<Entity> mob = EntityType.loadEntityUnchecked(tag, this.player.getEntityWorld());
+                final Optional<Entity> mob = EntityType.create(tag, this.player.getCommandSenderWorld());
                 if (mob.isPresent()) this.right = CapabilityPokemob.getPokemobFor(mob.get());
             });
             return this.right;
@@ -137,8 +137,8 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
             final float partialTicks, final float ageInTicks, final float netHeadYaw, final float headPitch,
             final boolean leftside)
     {
-        final CompoundNBT compoundnbt = leftside ? player.getLeftShoulderEntity() : player.getRightShoulderEntity();
-        EntityType.byKey(compoundnbt.getString("id")).filter((type) ->
+        final CompoundNBT compoundnbt = leftside ? player.getShoulderEntityLeft() : player.getShoulderEntityRight();
+        EntityType.byString(compoundnbt.getString("id")).filter((type) ->
         {
             return type instanceof PokemobType;
         }).ifPresent((type) ->
@@ -150,32 +150,32 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
             if (pokemob == null) return;
             @SuppressWarnings("unchecked")
             final LivingRenderer<LivingEntity, ?> render = (LivingRenderer<LivingEntity, ?>) Minecraft.getInstance()
-                    .getRenderManager().getRenderer(pokemob.getEntity());
+                    .getEntityRenderDispatcher().getRenderer(pokemob.getEntity());
             final LivingEntity to = pokemob.getEntity();
 
             EntityTools.copyEntityTransforms(pokemob.getEntity(), player);
 
-            matrixStackIn.push();
+            matrixStackIn.pushPose();
 
             final float s = 1;
 
             if (leftside)
             {
-                to.prevRenderYawOffset = 180;
-                to.renderYawOffset = 180;
+                to.yBodyRotO = 180;
+                to.yBodyRot = 180;
                 matrixStackIn.scale(s, -s, s);
             }
             else
             {
-                to.prevRenderYawOffset = 0;
-                to.renderYawOffset = 0;
+                to.yBodyRotO = 0;
+                to.yBodyRot = 0;
                 matrixStackIn.scale(s, -s, -s);
             }
-            float dw = pokemob.getEntity().getWidth() * pokemob.getSize() * 1.5f;
+            float dw = pokemob.getEntity().getBbWidth() * pokemob.getSize() * 1.5f;
             if (dw < 1) dw = 0.4f;
             matrixStackIn.translate(leftside ? dw : -dw, player.isCrouching() ? -0.2F : -0.0F, 0.0F);
             render.render(pokemob.getEntity(), 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-            matrixStackIn.pop();
+            matrixStackIn.popPose();
         });
     }
 }

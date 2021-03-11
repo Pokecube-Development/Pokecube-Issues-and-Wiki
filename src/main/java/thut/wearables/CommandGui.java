@@ -29,13 +29,13 @@ public class CommandGui
     public static int execute(final CommandSource commandSource, final LivingEntity target) throws CommandException,
             CommandSyntaxException
     {
-        final ServerPlayerEntity user = commandSource.asPlayer();
+        final ServerPlayerEntity user = commandSource.getPlayerOrException();
         if (!PermissionAPI.hasPermission(user, CommandGui.PERMWEARABLESCMD)) throw new CommandException(
                 new TranslationTextComponent("wearables.command.fail.noperms"));
         if (target == null) ThutWearables.packets.sendTo(new MouseOverPacket(), user);
         else
         {
-            final int id = target.getEntityId();
+            final int id = target.getId();
             final PacketGui packet = new PacketGui();
             packet.data.putInt("w_open_target_", id);
             packet.handleServer(user);

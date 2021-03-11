@@ -25,27 +25,27 @@ public class CommandNBTEdit// extends CommandBase
 
     private static int execute(final CommandSource source, final BlockPos pos) throws CommandSyntaxException
     {
-        final ServerPlayerEntity player = source.asPlayer();
-        NBTEdit.log(Level.TRACE, source.getName() + " issued command \"/pcedit " + pos + "\"");
+        final ServerPlayerEntity player = source.getPlayerOrException();
+        NBTEdit.log(Level.TRACE, source.getTextName() + " issued command \"/pcedit " + pos + "\"");
         PacketHandler.sendTile(player, pos);
         return 0;
     }
 
     private static int execute(final CommandSource source, final Entity target) throws CommandSyntaxException
     {
-        final ServerPlayerEntity player = source.asPlayer();
-        NBTEdit.log(Level.TRACE, source.getName() + " issued command \"/pcedit " + target.getEntityId() + "\"");
-        PacketHandler.sendEntity(player, target.getEntityId());
+        final ServerPlayerEntity player = source.getPlayerOrException();
+        NBTEdit.log(Level.TRACE, source.getTextName() + " issued command \"/pcedit " + target.getId() + "\"");
+        PacketHandler.sendEntity(player, target.getId());
         return 0;
     }
 
     private static int execute(final CommandSource source, final ServerPlayerEntity target, final String value)
             throws CommandSyntaxException
     {
-        final ServerPlayerEntity player = source.asPlayer();
-        NBTEdit.log(Level.TRACE, source.getName() + " issued command \"/pcedit " + target.getName()
-                .getUnformattedComponentText() + " " + value + "\"");
-        PacketHandler.sendCustomTag(player, target.getEntityId(), value);
+        final ServerPlayerEntity player = source.getPlayerOrException();
+        NBTEdit.log(Level.TRACE, source.getTextName() + " issued command \"/pcedit " + target.getName()
+                .getContents() + " " + value + "\"");
+        PacketHandler.sendCustomTag(player, target.getId(), value);
         return 0;
     }
 
@@ -63,7 +63,7 @@ public class CommandNBTEdit// extends CommandBase
     {
         final LiteralArgumentBuilder<CommandSource> command = Commands.literal("pcedit").requires(cs -> NBTEdit.proxy
                 .checkPermission(cs)).then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(
-                        ctx -> CommandNBTEdit.execute(ctx.getSource(), BlockPosArgument.getBlockPos(ctx, "pos")))).then(
+                        ctx -> CommandNBTEdit.execute(ctx.getSource(), BlockPosArgument.getOrLoadBlockPos(ctx, "pos")))).then(
                                 Commands.argument("target", EntityArgument.entity()).executes(ctx -> CommandNBTEdit
                                         .execute(ctx.getSource(), EntityArgument.getEntity(ctx, "target")))).then(
                                                 Commands.argument("target", EntityArgument.player()).then(Commands

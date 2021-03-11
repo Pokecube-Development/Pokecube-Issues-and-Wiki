@@ -60,8 +60,8 @@ public class TMTile extends InteractableTile
     public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
-        player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new TMContainer(id,
-                playerInventory, IWorldPosCallable.of(this.getWorld(), pos)), player.getDisplayName()));
+        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new TMContainer(id,
+                playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), player.getDisplayName()));
         return ActionResultType.SUCCESS;
     }
 }

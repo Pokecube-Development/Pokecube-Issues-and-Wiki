@@ -25,17 +25,17 @@ public class TickHandler
      */
     public static void PlayerTick(final PlayerTickEvent event)
     {
-        if (event.phase == Phase.END && TickHandler.playerTickTracker.containsKey(event.player.getUniqueID()))
+        if (event.phase == Phase.END && TickHandler.playerTickTracker.containsKey(event.player.getUUID()))
         {
-            final Integer time = TickHandler.playerTickTracker.get(event.player.getUniqueID());
+            final Integer time = TickHandler.playerTickTracker.get(event.player.getUUID());
             if (time < (int) (System.currentTimeMillis() % 2000) - 100) Minecraft
-                    .getInstance().gameSettings.viewBobbing = true;
+                    .getInstance().options.bobView = true;
         }
         /**
          * This deals with the massive hunger reduction for standing on the
          * block entities.
          */
-        if (event.phase == Phase.END && event.side == LogicalSide.CLIENT) if (event.player.ticksExisted == event.player
+        if (event.phase == Phase.END && event.side == LogicalSide.CLIENT) if (event.player.tickCount == event.player
                 .getPersistentData().getInt("lastStandTick") + 1) event.player.setOnGround(true);
     }
 }

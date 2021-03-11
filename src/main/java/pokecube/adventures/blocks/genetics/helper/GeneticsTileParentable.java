@@ -24,33 +24,33 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     public abstract BaseGeneticsTile getParent();
 
     @Override
-    public ItemStack getStackInSlot(final int arg0)
+    public ItemStack getItem(final int arg0)
     {
-        if (this.getParent() != null) return this.getParent().getStackInSlot(arg0);
-        return super.getStackInSlot(arg0);
+        if (this.getParent() != null) return this.getParent().getItem(arg0);
+        return super.getItem(arg0);
     }
 
     @Override
-    public void setInventorySlotContents(final int index, final ItemStack stack)
+    public void setItem(final int index, final ItemStack stack)
     {
-        if (this.getParent() != null) this.getParent().setInventorySlotContents(index, stack);
-        super.setInventorySlotContents(index, stack);
+        if (this.getParent() != null) this.getParent().setItem(index, stack);
+        super.setItem(index, stack);
         this.progress = 0;
         this.total = 0;
     }
 
     @Override
-    public boolean canExtractItem(final int index, final ItemStack stack, final Direction direction)
+    public boolean canTakeItemThroughFace(final int index, final ItemStack stack, final Direction direction)
     {
-        if (this.getParent() != null) return this.getParent().canExtractItem(index, stack, direction);
-        return super.canExtractItem(index, stack, direction);
+        if (this.getParent() != null) return this.getParent().canTakeItemThroughFace(index, stack, direction);
+        return super.canTakeItemThroughFace(index, stack, direction);
     }
 
     @Override
-    public boolean canInsertItem(final int index, final ItemStack itemStackIn, final Direction direction)
+    public boolean canPlaceItemThroughFace(final int index, final ItemStack itemStackIn, final Direction direction)
     {
-        if (this.getParent() != null) return this.getParent().canInsertItem(index, itemStackIn, direction);
-        return super.canInsertItem(index, itemStackIn, direction);
+        if (this.getParent() != null) return this.getParent().canPlaceItemThroughFace(index, itemStackIn, direction);
+        return super.canPlaceItemThroughFace(index, itemStackIn, direction);
     }
 
     @Override
@@ -68,26 +68,26 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     }
 
     @Override
-    public void closeInventory(final PlayerEntity player)
+    public void stopOpen(final PlayerEntity player)
     {
-        if (this.getParent() != null) this.getParent().closeInventory(player);
-        super.closeInventory(player);
+        if (this.getParent() != null) this.getParent().stopOpen(player);
+        super.stopOpen(player);
     }
 
     @Override
-    public int count(final Item itemIn)
+    public int countItem(final Item itemIn)
     {
-        if (this.getParent() != null) return this.getParent().count(itemIn);
-        return super.count(itemIn);
+        if (this.getParent() != null) return this.getParent().countItem(itemIn);
+        return super.countItem(itemIn);
     }
 
     @Override
-    public ItemStack decrStackSize(final int arg0, final int arg1)
+    public ItemStack removeItem(final int arg0, final int arg1)
     {
         this.progress = 0;
         this.total = 0;
-        if (this.getParent() != null) return this.getParent().decrStackSize(arg0, arg1);
-        return super.decrStackSize(arg0, arg1);
+        if (this.getParent() != null) return this.getParent().removeItem(arg0, arg1);
+        return super.removeItem(arg0, arg1);
     }
 
     @Override
@@ -147,10 +147,10 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     }
 
     @Override
-    public int getInventoryStackLimit()
+    public int getMaxStackSize()
     {
-        if (this.getParent() != null) return this.getParent().getInventoryStackLimit();
-        return super.getInventoryStackLimit();
+        if (this.getParent() != null) return this.getParent().getMaxStackSize();
+        return super.getMaxStackSize();
     }
 
     @Override
@@ -182,10 +182,10 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     }
 
     @Override
-    public int getSizeInventory()
+    public int getContainerSize()
     {
-        if (this.getParent() != null) return this.getParent().getSizeInventory();
-        return super.getSizeInventory();
+        if (this.getParent() != null) return this.getParent().getContainerSize();
+        return super.getContainerSize();
     }
 
     @Override
@@ -203,10 +203,10 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     }
 
     @Override
-    public boolean isItemValidForSlot(final int index, final ItemStack stack)
+    public boolean canPlaceItem(final int index, final ItemStack stack)
     {
-        if (this.getParent() != null) return this.getParent().isItemValidForSlot(index, stack);
-        return super.isItemValidForSlot(index, stack);
+        if (this.getParent() != null) return this.getParent().canPlaceItem(index, stack);
+        return super.canPlaceItem(index, stack);
     }
 
     @Override
@@ -217,10 +217,10 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     }
 
     @Override
-    public boolean isUsableByPlayer(final PlayerEntity player)
+    public boolean stillValid(final PlayerEntity player)
     {
-        if (this.getParent() != null) return this.getParent().isUsableByPlayer(player);
-        return super.isUsableByPlayer(player);
+        if (this.getParent() != null) return this.getParent().stillValid(player);
+        return super.stillValid(player);
     }
 
     @Override
@@ -238,17 +238,17 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     }
 
     @Override
-    public void openInventory(final PlayerEntity player)
+    public void startOpen(final PlayerEntity player)
     {
-        if (this.getParent() != null) this.getParent().openInventory(player);
-        else super.openInventory(player);
+        if (this.getParent() != null) this.getParent().startOpen(player);
+        else super.startOpen(player);
     }
 
     @Override
-    public ItemStack removeStackFromSlot(final int arg0)
+    public ItemStack removeItemNoUpdate(final int arg0)
     {
-        if (this.getParent() != null) return this.getParent().removeStackFromSlot(arg0);
-        return super.removeStackFromSlot(arg0);
+        if (this.getParent() != null) return this.getParent().removeItemNoUpdate(arg0);
+        return super.removeItemNoUpdate(arg0);
     }
 
     @Override

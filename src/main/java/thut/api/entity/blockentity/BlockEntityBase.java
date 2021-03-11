@@ -65,13 +65,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     private static class VecSer implements IDataSerializer<Vector3d>
     {
         @Override
-        public Vector3d copyValue(final Vector3d value)
+        public Vector3d copy(final Vector3d value)
         {
             return new Vector3d(value.x, value.y, value.z);
         }
 
         @Override
-        public DataParameter<Vector3d> createKey(final int id)
+        public DataParameter<Vector3d> createAccessor(final int id)
         {
             return new DataParameter<>(id, this);
         }
@@ -95,9 +95,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public static Block FAKEBLOCK = null;
 
-    static final DataParameter<Vector3d> velocity = EntityDataManager.<Vector3d> createKey(BlockEntityBase.class,
+    static final DataParameter<Vector3d> velocity = EntityDataManager.<Vector3d> defineId(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
-    static final DataParameter<Vector3d> position = EntityDataManager.<Vector3d> createKey(BlockEntityBase.class,
+    static final DataParameter<Vector3d> position = EntityDataManager.<Vector3d> defineId(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
 
     public BlockPos boundMin = BlockPos.ZERO;
@@ -131,9 +131,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final World par1World)
     {
         super(type, par1World);
-        this.ignoreFrustumCheck = true;
-        this.hurtResistantTime = 0;
-        this.noClip = true;
+        this.noCulling = true;
+        this.invulnerableTime = 0;
+        this.noPhysics = true;
     }
 
     abstract protected void accelerate();
@@ -141,7 +141,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public BlockPos getOriginalPos()
     {
-        if (this.originalPos == null) this.originalPos = this.getPosition();
+        if (this.originalPos == null) this.originalPos = this.blockPosition();
         return this.originalPos;
     }
 
@@ -150,10 +150,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
      * other. Args: entity
      */
     @Override
-    public void applyEntityCollision(final Entity entity)
+    public void push(final Entity entity)
     {
         if (this.collider == null) this.collider = new BlockEntityUpdater(this);
-        if (!entity.canBePushed()) return;
+        if (!entity.isPushable()) return;
         try
         {
             // this.collider.applyEntityCollision(entity);
@@ -166,23 +166,23 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     @Override
     /** Applies the given player interaction to this Entity. */
-    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vector3d vec, final Hand hand)
+    public ActionResultType interactAt(final PlayerEntity player, final Vector3d vec, final Hand hand)
     {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         try
         {
-            return this.interacter.applyPlayerInteraction(player, vec, player.getHeldItem(hand), hand);
+            return this.interacter.applyPlayerInteraction(player, vec, player.getItemInHand(hand), hand);
         }
         catch (final Exception e)
         {
             ThutCore.LOGGER.error("Error handling interactions for " + this, e);
-            return super.applyPlayerInteraction(player, vec, hand);
+            return super.interactAt(player, vec, hand);
         }
     }
 
     @Override
     /** Called when the entity is attacked. */
-    public boolean attackEntityFrom(final DamageSource source, final float amount)
+    public boolean hurt(final DamageSource source, final float amount)
     {
         return false;
     }
@@ -192,14 +192,14 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
      * this Entity.
      */
     @Override
-    public boolean canBeCollidedWith()
+    public boolean isPickable()
     {
         return this.isAlive();
     }
 
     public boolean isServerWorld()
     {
-        return !this.world.isRemote;
+        return !this.level.isClientSide;
     }
 
     /**
@@ -207,7 +207,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
      * when colliding.
      */
     @Override
-    public boolean canBePushed()
+    public boolean isPushable()
     {
         return false;
     }
@@ -217,13 +217,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
      * updates.
      */
     @Override
-    public boolean canPassengerSteer()
+    public boolean isControlledByLocalInstance()
     {
         return true;
     }
 
     @Override
-    public boolean canRenderOnFire()
+    public boolean displayFireAnimation()
     {
         return false;
     }
@@ -232,13 +232,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public void checkCollision()
     {
-        BlockPos.getAllInBox(this.getBoundingBox().grow(1)).forEach(p ->
+        BlockPos.betweenClosedStream(this.getBoundingBox().inflate(1)).forEach(p ->
         {
-            final World world = this.getEntityWorld();
+            final World world = this.getCommandSenderWorld();
             final BlockState block = world.getBlockState(p);
-            if (world.isAirBlock(p) && block.getBlock() != BlockEntityBase.FAKEBLOCK) world.setBlockState(p,
-                    BlockEntityBase.FAKEBLOCK.getDefaultState());
-            final TileEntity te = world.getTileEntity(p);
+            if (world.isEmptyBlock(p) && block.getBlock() != BlockEntityBase.FAKEBLOCK) world.setBlockAndUpdate(p,
+                    BlockEntityBase.FAKEBLOCK.defaultBlockState());
+            final TileEntity te = world.getBlockEntity(p);
             if (te instanceof TempTile)
             {
                 final TempTile tile = (TempTile) te;
@@ -265,19 +265,19 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     abstract protected BlockEntityInteractHandler createInteractHandler();
 
     @Override
-    public IPacket<?> createSpawnPacket()
+    public IPacket<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     public final void doMotion()
     {
-        final Vector3d v = this.getMotion();
+        final Vector3d v = this.getDeltaMovement();
         this.move(MoverType.SELF, v);
     }
 
     @Override
-    public Iterable<ItemStack> getArmorInventoryList()
+    public Iterable<ItemStack> getArmorSlots()
     {
         return Lists.newArrayList();
     }
@@ -302,7 +302,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         if (this.fake_world == null)
         {
-            this.fake_world = new WorldEntity(this.world);
+            this.fake_world = new WorldEntity(this.level);
             this.fake_world.setBlockEntity(this);
         }
         return this.fake_world;
@@ -328,9 +328,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public Vector3d getMotion()
+    public Vector3d getDeltaMovement()
     {
-        return this.getDataManager().get(BlockEntityBase.velocity);
+        return this.getEntityData().get(BlockEntityBase.velocity);
     }
 
     protected double getSpeed(final double pos, final double destPos, final double speed, double speedPos,
@@ -380,7 +380,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public boolean isInRangeToRenderDist(final double distance)
+    public boolean shouldRenderAtSqrDistance(final double distance)
     {
         return true;
     }
@@ -391,14 +391,14 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     /** First layer of player interaction */
     @Override
-    public ActionResultType processInitialInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType interact(final PlayerEntity player, final Hand hand)
     {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
-        return this.interacter.processInitialInteract(player, player.getHeldItem(hand), hand);
+        return this.interacter.processInitialInteract(player, player.getItemInHand(hand), hand);
     }
 
     @Override
-    public void readAdditional(final CompoundNBT nbt)
+    public void readAdditionalSaveData(final CompoundNBT nbt)
     {
         if (nbt.contains("bounds"))
         {
@@ -434,7 +434,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                         if (blockTag.contains("T" + i + "," + k + "," + j)) try
                         {
                             final CompoundNBT tag = blockTag.getCompound("T" + i + "," + k + "," + j);
-                            this.tiles[i][k][j] = TileEntity.readTileEntity(state, tag);
+                            this.tiles[i][k][j] = TileEntity.loadStatic(state, tag);
                         }
                         catch (final Exception e)
                         {
@@ -448,7 +448,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void recalculateSize()
+    public void refreshDimensions()
     {
         // if (this.collider != null)
         // this.setBoundingBox(this.collider.getBoundingBox());
@@ -459,13 +459,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         AxisAlignedBB box = super.getBoundingBox();
         final BlockPos size = this.getSize();
-        if (this.collider != null && (box.getXSize() != size.getX() + 1 || box.getYSize() != size.getY() + 1 || box
-                .getZSize() != size.getZ() + 1)) box = this.collider.getBoundingBox();
+        if (this.collider != null && (box.getXsize() != size.getX() + 1 || box.getYsize() != size.getY() + 1 || box
+                .getZsize() != size.getZ() + 1)) box = this.collider.getBoundingBox();
         return box;
     }
 
     @Override
-    protected AxisAlignedBB getBoundingBox(final Pose pose)
+    protected AxisAlignedBB getBoundingBoxForPose(final Pose pose)
     {
         return this.getBoundingBox();
     }
@@ -473,21 +473,21 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void readSpawnData(final PacketBuffer data)
     {
-        this.readAdditional(data.readCompoundTag());
+        this.readAdditionalSaveData(data.readNbt());
     }
 
     @Override
-    protected void registerData()
+    protected void defineSynchedData()
     {
-        this.getDataManager().register(BlockEntityBase.velocity, Vector3d.ZERO);
-        this.getDataManager().register(BlockEntityBase.position, Vector3d.ZERO);
+        this.getEntityData().define(BlockEntityBase.velocity, Vector3d.ZERO);
+        this.getEntityData().define(BlockEntityBase.position, Vector3d.ZERO);
     }
 
     /** Will get destroyed next tick. */
     @Override
     public void remove()
     {
-        if (!this.getEntityWorld().isRemote && this.isAlive() && this.shouldRevert) IBlockEntity.BlockEntityFormer
+        if (!this.getCommandSenderWorld().isClientSide && this.isAlive() && this.shouldRevert) IBlockEntity.BlockEntityFormer
                 .RevertEntity(this);
         super.remove();
     }
@@ -524,46 +524,46 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void setMotion(final Vector3d vec)
+    public void setDeltaMovement(final Vector3d vec)
     {
-        this.getDataManager().set(BlockEntityBase.velocity, vec);
+        this.getEntityData().set(BlockEntityBase.velocity, vec);
     }
 
     @Override
-    public void setRawPosition(final double x, final double y, final double z)
+    public void setPosRaw(final double x, final double y, final double z)
     {
         final Vector3d pos = new Vector3d(x, y, z);
         Vector3d vec = pos;
-        if (this.getDataManager() != null) vec = this.getDataManager().get(BlockEntityBase.position);
-        final double ds2 = vec.squareDistanceTo(pos);
-        super.setRawPosition(x, y, z);
+        if (this.getEntityData() != null) vec = this.getEntityData().get(BlockEntityBase.position);
+        final double ds2 = vec.distanceToSqr(pos);
+        super.setPosRaw(x, y, z);
 
-        if (this.isServerWorld() && this.getDataManager() != null && ds2 > 0) this.getDataManager().set(
+        if (this.isServerWorld() && this.getEntityData() != null && ds2 > 0) this.getEntityData().set(
                 BlockEntityBase.position, pos);
 
         // This is null during init, when setPosition is first called.
-        if (this.getDataManager() == null) return;
+        if (this.getEntityData() == null) return;
         if (!this.isServerWorld())
         {
-            vec = this.getDataManager().get(BlockEntityBase.position);
-            if (!vec.equals(Vector3d.ZERO)) super.setRawPosition(vec.x, vec.y, vec.z);
+            vec = this.getEntityData().get(BlockEntityBase.position);
+            if (!vec.equals(Vector3d.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
         }
     }
 
     @Override
-    public void resetPositionToBB()
+    public void setLocationFromBoundingbox()
     {
         final AxisAlignedBB box = this.getBoundingBox();
-        this.setRawPosition(box.minX, box.minY, box.minZ);
+        this.setPosRaw(box.minX, box.minY, box.minZ);
         // Forge - Process chunk registration after moving.
-        if (this.isAddedToWorld() && !this.world.isRemote && this.world instanceof ServerWorld)
-            ((ServerWorld) this.world).chunkCheck(this);
+        if (this.isAddedToWorld() && !this.level.isClientSide && this.level instanceof ServerWorld)
+            ((ServerWorld) this.level).updateChunkPos(this);
     }
 
     @Override
-    public void setPosition(final double x, final double y, final double z)
+    public void setPos(final double x, final double y, final double z)
     {
-        super.setRawPosition(x, y, z);
+        super.setPosRaw(x, y, z);
     }
 
     @Override
@@ -575,43 +575,43 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void tick()
     {
-        if (this.getBlocks() == null && this.getEntityWorld().isRemote) return;
+        if (this.getBlocks() == null && this.getCommandSenderWorld().isClientSide) return;
 
-        this.prevPosX = this.getPosX();
-        this.prevPosY = this.getPosY();
-        this.prevPosZ = this.getPosZ();
+        this.xo = this.getX();
+        this.yo = this.getY();
+        this.zo = this.getZ();
 
         if (this.collider == null) this.collider = new BlockEntityUpdater(this);
         this.setBoundingBox(this.collider.getBoundingBox());
 
         if (this.isServerWorld())
         {
-            final Vector3d orig = this.getMotion();
+            final Vector3d orig = this.getDeltaMovement();
             final Vector3d motion = new Vector3d(orig.x, orig.y, orig.z);
-            this.setMotion(motion);
+            this.setDeltaMovement(motion);
         }
 
-        this.rotationYaw = 0;
-        this.rotationPitch = 0;
+        this.yRot = 0;
+        this.xRot = 0;
         this.preColliderTick();
         this.collider.onUpdate();
         this.accelerate();
-        final int dy = (int) (this.getMotion().x * 16);
-        final int dx = (int) (this.getMotion().y * 16);
-        final int dz = (int) (this.getMotion().z * 16);
+        final int dy = (int) (this.getDeltaMovement().x * 16);
+        final int dx = (int) (this.getDeltaMovement().y * 16);
+        final int dz = (int) (this.getDeltaMovement().z * 16);
         if (this.toMoveY || this.toMoveX || this.toMoveZ) this.doMotion();
-        else if (dx == dy && dy == dz && dz == 0 && !this.world.isRemote)
+        else if (dx == dy && dy == dz && dz == 0 && !this.level.isClientSide)
         {
-            final BlockPos pos = this.getPosition();
-            final boolean update = this.getPosX() != pos.getX() || this.getPosY() != Math.round(this.getPosY()) || this
-                    .getPosZ() != pos.getZ();
+            final BlockPos pos = this.blockPosition();
+            final boolean update = this.getX() != pos.getX() || this.getY() != Math.round(this.getY()) || this
+                    .getZ() != pos.getZ();
             if (update) this.onGridAlign();
         }
         this.checkCollision();
     }
 
     @Override
-    public void writeAdditional(final CompoundNBT nbt)
+    public void addAdditionalSaveData(final CompoundNBT nbt)
     {
         final CompoundNBT vector = new CompoundNBT();
         vector.putDouble("minx", this.boundMin.getX());
@@ -657,7 +657,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                             if (this.tiles[i][k][j] != null)
                             {
                                 CompoundNBT tag = new CompoundNBT();
-                                tag = this.tiles[i][k][j].write(tag);
+                                tag = this.tiles[i][k][j].save(tag);
                                 blocksTag.put("T" + i + "," + k + "," + j, tag);
                             }
                         }
@@ -694,7 +694,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void writeSpawnData(final PacketBuffer data)
     {
         final CompoundNBT tag = new CompoundNBT();
-        this.writeAdditional(tag);
-        data.writeCompoundTag(tag);
+        this.addAdditionalSaveData(tag);
+        data.writeNbt(tag);
     }
 }

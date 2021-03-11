@@ -30,7 +30,7 @@ public class CommonProxy implements Proxy
         ServerPlayerEntity player;
         try
         {
-            player = cs.asPlayer();
+            player = cs.getPlayerOrException();
         }
         catch (final CommandSyntaxException e)
         {
@@ -44,7 +44,7 @@ public class CommonProxy implements Proxy
         if (!this.reg) PermissionAPI.registerNode(NBTEdit.MODID, DefaultPermissionLevel.OP,
                 "Allowed to use nbt edit commands.");
         this.reg = true;
-        if (NBTEdit.opOnly ? PermissionAPI.hasPermission(player, NBTEdit.MODID) : player.abilities.isCreativeMode)
+        if (NBTEdit.opOnly ? PermissionAPI.hasPermission(player, NBTEdit.MODID) : player.abilities.instabuild)
             return true;
         return false;
     }
@@ -74,8 +74,8 @@ public class CommonProxy implements Proxy
         if (player != null)
         {
             final ITextComponent component = new StringTextComponent(message);
-            component.getStyle().setColor(Color.fromTextFormatting(color));
-            player.sendMessage(component, Util.DUMMY_UUID);
+            component.getStyle().withColor(Color.fromLegacyFormat(color));
+            player.sendMessage(component, Util.NIL_UUID);
         }
     }
 

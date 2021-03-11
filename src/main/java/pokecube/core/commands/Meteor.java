@@ -20,8 +20,8 @@ public class Meteor
 
     public static int execute(final CommandSource source, final int power) throws CommandSyntaxException
     {
-        final ServerWorld world = source.getWorld();
-        final Vector3d pos = source.getPos();
+        final ServerWorld world = source.getLevel();
+        final Vector3d pos = source.getPosition();
 
         final Vector3 v = Vector3.getNewVector().set(pos);
         v.x = v.intX() + 0.5;
@@ -42,7 +42,7 @@ public class Meteor
         // /fill ~-11 ~-11 ~-11 ~11 ~11 ~11 minecraft:dirt replace air
         // @formatter:on
 
-        source.sendFeedback(new TranslationTextComponent("pokecube.meteor.spawned", pos, power), true);
+        source.sendSuccess(new TranslationTextComponent("pokecube.meteor.spawned", pos, power), true);
         return 0;
     }
 

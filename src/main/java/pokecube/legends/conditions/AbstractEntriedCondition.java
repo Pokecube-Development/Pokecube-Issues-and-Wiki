@@ -42,6 +42,6 @@ public abstract class AbstractEntriedCondition extends AbstractCondition
                 this.names = this.names + ", " + entry.getTranslatedName().getString();
             }
         }
-        return this.sendNoTrust(trainer).appendString("\n").append(this.sendLegendExtra(trainer, this.names));
+        return this.sendNoTrust(trainer).append("\n").append(this.sendLegendExtra(trainer, this.names));
     }
 }
