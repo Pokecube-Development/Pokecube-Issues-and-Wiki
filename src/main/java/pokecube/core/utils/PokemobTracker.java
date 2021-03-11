@@ -37,12 +37,12 @@ public class PokemobTracker
         public MobEntry(final IPokemob pokemob)
         {
             this.pokemob = pokemob;
-            this.id = pokemob.getEntity().getUniqueID();
+            this.id = pokemob.getEntity().getUUID();
         }
 
         public BlockPos getPos()
         {
-            return this.pokemob.getEntity().getPosition();
+            return this.pokemob.getEntity().blockPosition();
         }
 
         @Override
@@ -55,7 +55,7 @@ public class PokemobTracker
         @Override
         public int hashCode()
         {
-            return this.pokemob.getEntity().getUniqueID().hashCode();
+            return this.pokemob.getEntity().getUUID().hashCode();
         }
 
         @Override
@@ -81,21 +81,21 @@ public class PokemobTracker
 
         public BlockPos getPos()
         {
-            return this.cube.getEntity().getPosition();
+            return this.cube.getEntity().blockPosition();
         }
 
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof MobEntry) return ((MobEntry) obj).pokemob.getEntity().getUniqueID().equals(this.cube
-                    .getEntity().getUniqueID());
+            if (obj instanceof MobEntry) return ((MobEntry) obj).pokemob.getEntity().getUUID().equals(this.cube
+                    .getEntity().getUUID());
             return false;
         }
 
         @Override
         public int hashCode()
         {
-            return this.cube.getEntity().getUniqueID().hashCode();
+            return this.cube.getEntity().getUUID().hashCode();
         }
 
         @Override
@@ -111,12 +111,12 @@ public class PokemobTracker
 
     private static PokemobTracker getFor(final Entity mob)
     {
-        return mob.getEntityWorld() instanceof ServerWorld ? PokemobTracker.SERVER : PokemobTracker.CLIENT;
+        return mob.getCommandSenderWorld() instanceof ServerWorld ? PokemobTracker.SERVER : PokemobTracker.CLIENT;
     }
 
     private static PokemobTracker getFor(final IWorld mob)
     {
-        return mob.isRemote() ? PokemobTracker.CLIENT : PokemobTracker.SERVER;
+        return mob.isClientSide() ? PokemobTracker.CLIENT : PokemobTracker.SERVER;
     }
 
     private final Map<RegistryKey<World>, List<MobEntry>> liveMobs = new ConcurrentHashMap<>();
@@ -139,7 +139,7 @@ public class PokemobTracker
         this._removePokemob(pokemob);
         if (pokemob.getAbility() != null) pokemob.getAbility().init(pokemob);
         final MobEntry e = new MobEntry(pokemob);
-        RegistryKey<World> dim = pokemob.getEntity().getEntityWorld().getDimensionKey();
+        RegistryKey<World> dim = pokemob.getEntity().getCommandSenderWorld().dimension();
         if (dim == null) dim = this.defaults;
         // Find the appropriate map
         final List<MobEntry> mobList = this.liveMobs.getOrDefault(dim, new ArrayList<>());
@@ -163,7 +163,7 @@ public class PokemobTracker
     private MobEntry _removePokemob(final IPokemob pokemob)
     {
         if (pokemob.getAbility() != null) pokemob.getAbility().destroy();
-        final MobEntry e = this._removeMobEntry(pokemob.getEntity().getUniqueID());
+        final MobEntry e = this._removeMobEntry(pokemob.getEntity().getUUID());
         return e;
     }
 
@@ -241,7 +241,7 @@ public class PokemobTracker
     {
         final PokemobTracker tracker = PokemobTracker.getFor(world);
         RegistryKey<World> key = World.OVERWORLD;
-        if (world instanceof World) key = ((World) world).getDimensionKey();
+        if (world instanceof World) key = ((World) world).dimension();
         final MobEntry[] mobList = tracker.liveMobs.getOrDefault(key, new ArrayList<>()).toArray(new MobEntry[0]);
         int num = 0;
         for (final MobEntry e : mobList)
@@ -258,20 +258,20 @@ public class PokemobTracker
     public static int countPokemobs(final Vector3 location, final IWorld world, final double distance,
             final PokedexEntry entry)
     {
-        final AxisAlignedBB box = location.getAABB().grow(distance, distance, distance);
+        final AxisAlignedBB box = location.getAABB().inflate(distance, distance, distance);
         return PokemobTracker.countPokemobs(world, box, e -> e.getPokedexEntry() == entry);
     }
 
     public static int countPokemobs(final Vector3 location, final IWorld world, final double distance,
             final PokeType type)
     {
-        final AxisAlignedBB box = location.getAABB().grow(distance, distance, distance);
+        final AxisAlignedBB box = location.getAABB().inflate(distance, distance, distance);
         return PokemobTracker.countPokemobs(world, box, e -> e.isType(type));
     }
 
     public static int countPokemobs(final IWorld world, final Vector3 location, final double radius)
     {
-        final AxisAlignedBB box = location.getAABB().grow(radius, radius, radius);
+        final AxisAlignedBB box = location.getAABB().inflate(radius, radius, radius);
         return PokemobTracker.countPokemobs(world, box);
     }
 
@@ -279,7 +279,7 @@ public class PokemobTracker
     {
         final PokemobTracker tracker = PokemobTracker.getFor(owner);
         final List<Entity> pokemobs = Lists.newArrayList();
-        final UUID id = owner.getUniqueID();
+        final UUID id = owner.getUUID();
         final Set<MobEntry> mobs = tracker.ownerMap.getOrDefault(id, Collections.emptySet());
         final Set<CubeEntry> cubes = tracker.ownedCubes.getOrDefault(id, Collections.emptySet());
         mobs.forEach(e ->
@@ -297,13 +297,13 @@ public class PokemobTracker
     public static void onWorldLoad(final Load evt)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(evt.getWorld());
-        if (evt.getWorld().isRemote())
+        if (evt.getWorld().isClientSide())
         {
             tracker.ownedCubes.clear();
             tracker.ownerMap.clear();
         }
         RegistryKey<World> key = World.OVERWORLD;
-        if (evt.getWorld() instanceof World) key = ((World) evt.getWorld()).getDimensionKey();
+        if (evt.getWorld() instanceof World) key = ((World) evt.getWorld()).dimension();
         // Reset the tracked map for this world
         tracker.liveMobs.put(key, new ArrayList<>());
         if (tracker == PokemobTracker.CLIENT) tracker.setDim(key);

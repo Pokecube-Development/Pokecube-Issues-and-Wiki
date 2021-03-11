@@ -86,16 +86,16 @@ public class CartesianFunction extends MoveAnimationBase
     public void spawnClientEntities(MovePacketInfo info)
     {
         final Vector3 source = this.reverse ? info.source : info.target;
-        this.initColour(info.attacker.getEntityWorld().getDayTime() * 20, 0, info.move);
+        this.initColour(info.attacker.getCommandSenderWorld().getDayTime() * 20, 0, info.move);
         final Vector3 temp = Vector3.getNewVector();
         double scale = this.width;
-        if (!this.absolute) if (this.reverse && info.attacker != null) scale *= info.attacker.getWidth();
-        else if (!this.reverse && info.attacked != null) scale *= info.attacked.getWidth();
+        if (!this.absolute) if (this.reverse && info.attacker != null) scale *= info.attacker.getBbWidth();
+        else if (!this.reverse && info.attacked != null) scale *= info.attacked.getBbWidth();
         for (double i = info.currentTick; i < info.currentTick + 1; i += this.density)
         {
             this.setVector(i, temp);
             temp.scalarMultBy(scale).addTo(source);
-            PokecubeCore.spawnParticle(info.attacker.getEntityWorld(), this.particle, temp, null, this.rgba,
+            PokecubeCore.spawnParticle(info.attacker.getCommandSenderWorld(), this.particle, temp, null, this.rgba,
                     this.particleLife);
         }
     }

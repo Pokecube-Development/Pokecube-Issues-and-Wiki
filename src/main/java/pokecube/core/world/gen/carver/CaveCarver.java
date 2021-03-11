@@ -16,7 +16,7 @@ public class CaveCarver extends CaveWorldCarver
     }
 
     @Override
-    protected boolean isCarvable(final BlockState state)
+    protected boolean canReplaceBlock(final BlockState state)
     {
         return PokecubeTerrainChecker.isCave(state);
     }

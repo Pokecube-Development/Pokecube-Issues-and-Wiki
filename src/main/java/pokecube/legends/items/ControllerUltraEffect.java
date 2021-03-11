@@ -28,19 +28,19 @@ public class ControllerUltraEffect extends ItemBase
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(final ItemStack itemstack)
+    public boolean isFoil(final ItemStack itemstack)
     {
         return true;
     }
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
+    public void appendHoverText(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
             final ITooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip");
-        else message = I18n.format("pokecube.tooltip.advanced");
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip");
+        else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
     
@@ -64,12 +64,12 @@ public class ControllerUltraEffect extends ItemBase
 		Entity entity = (Entity) dependencies.get("entity");
 		if (entity instanceof ServerPlayerEntity) {
 			
-			if ((((entity instanceof ServerPlayerEntity) ? ((PlayerEntity) entity).inventory.armorInventory.get(0) : ItemStack.EMPTY)
+			if ((((entity instanceof ServerPlayerEntity) ? ((PlayerEntity) entity).inventory.armor.get(0) : ItemStack.EMPTY)
 					.getItem() == new ItemStack(ItemInit.ULTRA_HELMET.get(), (int) (1)).getItem())) {
 
 			
 			 if (entity instanceof LivingEntity)
-					((LivingEntity) entity).clearActivePotions();
+					((LivingEntity) entity).removeAllEffects();
 			}
 		}
 	}

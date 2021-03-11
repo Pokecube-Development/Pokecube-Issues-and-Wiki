@@ -25,7 +25,7 @@ public abstract class BaseTask extends RootTask<LivingEntity>
             final Map<MemoryModuleType<?>, MemoryModuleStatus> requiredMemoryStateIn)
     {
         super(trainer, requiredMemoryStateIn);
-        this.world = (ServerWorld) trainer.getEntityWorld();
+        this.world = (ServerWorld) trainer.getCommandSenderWorld();
         this.aiTracker = TrainerCaps.getNPCAIStates(trainer);
         this.trainer = TrainerCaps.getHasPokemobs(trainer);
         this.messages = TrainerCaps.getMessages(trainer);

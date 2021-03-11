@@ -26,20 +26,20 @@ public class MouseOverPacket extends Packet
     @Override
     public void handleClient()
     {
-        final RayTraceResult pos = Minecraft.getInstance().objectMouseOver;
+        final RayTraceResult pos = Minecraft.getInstance().hitResult;
         if (pos != null && pos.getType() == Type.ENTITY)
         {
             final EntityRayTraceResult result = (EntityRayTraceResult) pos;
             if (result.getEntity() != null)
             {
-                final int id = result.getEntity().getEntityId();
+                final int id = result.getEntity().getId();
                 final PacketGui packet = new PacketGui();
                 packet.data.putInt("w_open_target_", id);
                 ThutWearables.packets.sendToServer(packet);
             }
         }
         else Minecraft.getInstance().player.sendMessage(new TranslationTextComponent("wearables.other.fail"),
-                Util.DUMMY_UUID);
+                Util.NIL_UUID);
     }
 
     @Override

@@ -40,8 +40,8 @@ public class Head
             {
                 if (ThutWearables.config.renderBlacklist.contains(9)) break;
                 mat.translate(-0.25, -0.1, 0.0);
-                mat.rotate(Vector3f.YP.rotationDegrees(90));
-                mat.rotate(Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(Vector3f.YP.rotationDegrees(90));
+                mat.mulPose(Vector3f.XP.rotationDegrees(90));
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(9)) != null) mat.translate(offsetArr[0],
                         offsetArr[1], offsetArr[2]);
                 render = true;
@@ -50,8 +50,8 @@ public class Head
             {
                 if (ThutWearables.config.renderBlacklist.contains(10)) break;
                 mat.translate(0.25, -0.1, 0.0);
-                mat.rotate(Vector3f.YP.rotationDegrees(90));
-                mat.rotate(Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(Vector3f.YP.rotationDegrees(90));
+                mat.mulPose(Vector3f.XP.rotationDegrees(90));
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(10)) != null) mat.translate(offsetArr[0],
                         offsetArr[1], offsetArr[2]);
                 Utils.mirror(1, 0, 0, mat);
@@ -89,13 +89,13 @@ public class Head
             wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
             return;
         }
-        mat.push();
-        Head.preOffset(mat, wearer.isChild(), wearer.isSneaking());
+        mat.pushPose();
+        Head.preOffset(mat, wearer.isBaby(), wearer.isShiftKeyDown());
         // Translate to head
-        theModel.getModelHead().translateRotate(mat);
+        theModel.getHead().translateAndRotate(mat);
         if (Head.postOffset(mat, index, slot)) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness,
                 overlay);
-        mat.pop();
+        mat.popPose();
     }
 
 }

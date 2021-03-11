@@ -26,13 +26,13 @@ public class Leg
         }
         float[] offsetArr;
 
-        mat.push();
+        mat.pushPose();
 
         if (wearer.isCrouching() && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(4 + index)) != null) mat
                 .translate(offsetArr[0], offsetArr[1], offsetArr[2]);
 
-        if (index == 0) theModel.bipedRightLeg.translateRotate(mat);
-        else theModel.bipedLeftLeg.translateRotate(mat);
+        if (index == 0) theModel.rightLeg.translateAndRotate(mat);
+        else theModel.leftLeg.translateAndRotate(mat);
 
         mat.translate(0.0F, 0.4375F, 0.0625F);
 
@@ -44,7 +44,7 @@ public class Leg
         // Mirror left leg.
         if (index == 1) Utils.mirror(1, 0, 0, mat);
         if (render) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-        mat.pop();
+        mat.popPose();
     }
 
 }

@@ -24,7 +24,7 @@ public class Regidrago extends AbstractRegiCondition
         mob = mob.setForSpawn(54500);
         final Vector3 location = Vector3.getNewVector().set(mob.getEntity()).add(0, -1, 0);
         final ArrayList<Vector3> locations = new ArrayList<>();
-        final World world = mob.getEntity().getEntityWorld();
+        final World world = mob.getEntity().getCommandSenderWorld();
         locations.add(location.add(0, -1, 0));
         locations.add(location.add(0, -2, 0));
         locations.add(location.add(1, -1, 0));
@@ -48,7 +48,7 @@ public class Regidrago extends AbstractRegiCondition
 
         final ArrayList<Vector3> locations = new ArrayList<>();
         boolean check = false;
-        final World world = trainer.getEntityWorld();
+        final World world = trainer.getCommandSenderWorld();
 
         locations.add(location.add(0, -1, 0));
         locations.add(location.add(0, -2, 0));

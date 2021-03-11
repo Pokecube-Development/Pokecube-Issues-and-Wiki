@@ -19,44 +19,44 @@ public class GuardTask<T extends LivingEntity> extends RootTask<T>
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
-        return this.goal.shouldContinueExecuting();
+        return this.goal.canContinueToUse();
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
-        final boolean valid = this.goal.shouldExecute();
-        if (!valid && owner.getBrain().hasActivity(Activities.STATIONARY)) owner.getBrain().switchTo(Activity.IDLE);
+        final boolean valid = this.goal.canUse();
+        if (!valid && owner.getBrain().isActive(Activities.STATIONARY)) owner.getBrain().setActiveActivityIfPossible(Activity.IDLE);
         return valid;
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
-        entityIn.getBrain().switchTo(Activities.STATIONARY);
-        this.goal.startExecuting();
+        entityIn.getBrain().setActiveActivityIfPossible(Activities.STATIONARY);
+        this.goal.start();
     }
 
     @Override
-    protected void resetTask(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void stop(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
-        entityIn.getBrain().switchTo(Activity.IDLE);
-        this.goal.resetTask();
+        entityIn.getBrain().setActiveActivityIfPossible(Activity.IDLE);
+        this.goal.stop();
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         this.goal.tick();
     }
 
     @Override
-    protected boolean isTimedOut(final long gameTime)
+    protected boolean timedOut(final long gameTime)
     {
-        return !this.goal.shouldContinueExecuting();
+        return !this.goal.canContinueToUse();
     }
 
 }

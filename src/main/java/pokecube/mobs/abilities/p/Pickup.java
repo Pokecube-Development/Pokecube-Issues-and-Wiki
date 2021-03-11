@@ -30,17 +30,17 @@ public class Pickup extends Ability
         // Only works if your pokemob is following you.
         if (mob.getLogicState(LogicStates.SITTING)) return;
 
-        if (poke.ticksExisted % 200 != 0 || Math.random() > 0.05) return;
+        if (poke.tickCount % 200 != 0 || Math.random() > 0.05) return;
         if (!mob.getHeldItem().isEmpty()) return;
 
         if (Pickup.lootTable != null && Pickup.useLootTable)
         {
-            final LootTable loottable = mob.getEntity().getEntityWorld().getServer().getLootTableManager()
-                    .getLootTableFromLocation(Pickup.lootTable);
+            final LootTable loottable = mob.getEntity().getCommandSenderWorld().getServer().getLootTables()
+                    .get(Pickup.lootTable);
             final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntity()
-                    .getEntityWorld()).withRandom(poke.getRNG());
+                    .getCommandSenderWorld()).withRandom(poke.getRandom());
             // Generate the loot list.
-            final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
+            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
             // Shuffle the list.
             if (!list.isEmpty()) Collections.shuffle(list);
             for (final ItemStack itemstack : list)

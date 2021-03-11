@@ -109,7 +109,7 @@ public class BeeTasks
         public GlobalPos getHome()
         {
             final Brain<?> brain = this.bee.getBrain();
-            if (!brain.hasMemory(BeeTasks.HIVE_POS)) return null;
+            if (!brain.hasMemoryValue(BeeTasks.HIVE_POS)) return null;
             return brain.getMemory(BeeTasks.HIVE_POS).get();
         }
 
@@ -117,19 +117,19 @@ public class BeeTasks
         public void onExitHabitat()
         {
             final Brain<?> brain = this.bee.getBrain();
-            if (!brain.hasMemory(BeeTasks.HAS_NECTAR)) return;
+            if (!brain.hasMemoryValue(BeeTasks.HAS_NECTAR)) return;
             final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this.bee);
             if (pokemob != null && nectar) pokemob.eat(ItemStack.EMPTY);
-            brain.removeMemory(BeeTasks.HAS_NECTAR);
+            brain.eraseMemory(BeeTasks.HAS_NECTAR);
         }
 
         @Override
         public GlobalPos getWorkSite()
         {
             final Brain<?> brain = this.bee.getBrain();
-            if (!brain.hasMemory(BeeTasks.FLOWER_POS)) return null;
+            if (!brain.hasMemoryValue(BeeTasks.FLOWER_POS)) return null;
             return brain.getMemory(BeeTasks.FLOWER_POS).get();
         }
 
@@ -137,7 +137,7 @@ public class BeeTasks
         public void setWorldSite(final GlobalPos site)
         {
             final Brain<?> brain = this.bee.getBrain();
-            if (site == null) brain.removeMemory(BeeTasks.FLOWER_POS);
+            if (site == null) brain.eraseMemory(BeeTasks.FLOWER_POS);
             else brain.setMemory(BeeTasks.FLOWER_POS, site);
         }
     }
@@ -156,21 +156,21 @@ public class BeeTasks
         public void onExitHabitat(final MobEntity mob)
         {
             final Brain<?> brain = mob.getBrain();
-            if (!brain.hasMemory(BeeTasks.HAS_NECTAR)) return;
+            if (!brain.hasMemoryValue(BeeTasks.HAS_NECTAR)) return;
             final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             if (nectar)
             {
-                final World world = mob.getEntityWorld();
-                final BlockState state = world.getBlockState(this.hive.getPos());
-                if (state.getBlock().isIn(BlockTags.BEEHIVES))
+                final World world = mob.getCommandSenderWorld();
+                final BlockState state = world.getBlockState(this.hive.getBlockPos());
+                if (state.getBlock().is(BlockTags.BEEHIVES))
                 {
                     final int i = BeehiveTileEntity.getHoneyLevel(state);
                     if (i < 5)
                     {
-                        int j = world.rand.nextInt(100) == 0 ? 2 : 1;
+                        int j = world.random.nextInt(100) == 0 ? 2 : 1;
                         if (i + j > 5) --j;
-                        world.setBlockState(this.hive.getPos(), state.with(BeehiveBlock.HONEY_LEVEL, Integer.valueOf(i
+                        world.setBlockAndUpdate(this.hive.getBlockPos(), state.setValue(BeehiveBlock.HONEY_LEVEL, Integer.valueOf(i
                                 + j)));
                     }
                 }
@@ -180,17 +180,17 @@ public class BeeTasks
         @Override
         public boolean onEnterHabitat(final MobEntity mob)
         {
-            final int num = this.hive.bees.size();
+            final int num = this.hive.stored.size();
             final Brain<?> brain = mob.getBrain();
             final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             // Try to enter the hive
-            this.hive.tryEnterHive(mob, nectar);
+            this.hive.addOccupant(mob, nectar);
             // If this changed, then we added correctly.
-            final boolean added = num < this.hive.bees.size();
+            final boolean added = num < this.hive.stored.size();
             // BeehiveTileEntity checks this boolean directly for if
             // there is nectar in the bee.
-            if (added) this.hive.bees.get(num).entityData.putBoolean("HasNectar", nectar);
+            if (added) this.hive.stored.get(num).entityData.putBoolean("HasNectar", nectar);
             return added;
         }
 
@@ -198,7 +198,7 @@ public class BeeTasks
         public boolean canEnterHabitat(final MobEntity mob)
         {
             if (!BeeTasks.isValid(mob)) return false;
-            return !this.hive.isFullOfBees();
+            return !this.hive.isFull();
         }
     }
 }

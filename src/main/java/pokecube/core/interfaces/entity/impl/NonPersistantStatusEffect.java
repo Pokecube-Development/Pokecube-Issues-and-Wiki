@@ -45,7 +45,7 @@ public class NonPersistantStatusEffect extends BaseEffect
             switch (this.status)
             {
             case CONFUSED:
-                entity.addPotionEffect(new EffectInstance(Effects.NAUSEA, 10));
+                entity.addEffect(new EffectInstance(Effects.CONFUSION, 10));
                 break;
             case CURSED:
                 if (pokemob != null)
@@ -54,17 +54,17 @@ public class NonPersistantStatusEffect extends BaseEffect
                             .getDisplayName());
                     pokemob.displayMessageToOwner(mess);
                 }
-                LivingEntity targetM = entity.getAttackingEntity();
-                if (targetM == null) targetM = entity.getRevengeTarget();
-                if (targetM == null) targetM = entity.getLastAttackedEntity();
+                LivingEntity targetM = entity.getKillCredit();
+                if (targetM == null) targetM = entity.getLastHurtByMob();
+                if (targetM == null) targetM = entity.getLastHurtMob();
                 if (targetM == null) targetM = entity;
                 float scale = 1;
                 final IPokemob user = CapabilityPokemob.getPokemobFor(targetM);
                 final DamageSource source = new StatusEffectDamageSource(targetM);
                 if (pokemob != null)
                 {
-                    source.setDamageIsAbsolute();
-                    source.setDamageBypassesArmor();
+                    source.bypassMagic();
+                    source.bypassArmor();
                 }
                 else if (entity instanceof PlayerEntity) scale = (float) (user != null && user.isPlayerOwned()
                         ? PokecubeCore.getConfig().ownedPlayerDamageRatio
@@ -72,7 +72,7 @@ public class NonPersistantStatusEffect extends BaseEffect
                 else scale = (float) (entity instanceof INPC ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
                         : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio);
                 if (scale <= 0) effect.setDuration(0);
-                entity.attackEntityFrom(source, scale * entity.getMaxHealth() * 0.25f);
+                entity.hurt(source, scale * entity.getMaxHealth() * 0.25f);
                 break;
             case FLINCH:
                 break;

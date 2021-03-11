@@ -155,7 +155,7 @@ public class TypeTrainer extends NpcType
                 if (npc instanceof LeaderNpc) return true;
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
                 final int num = PokecubeAdv.config.trainer_crowding_number;
-                if (TrainerTracker.countTrainers(e.getEntityWorld(), Vector3.getNewVector().set(e), dist) > num)
+                if (TrainerTracker.countTrainers(e.getCommandSenderWorld(), Vector3.getNewVector().set(e), dist) > num)
                     return false;
                 return true;
             };
@@ -165,7 +165,7 @@ public class TypeTrainer extends NpcType
                 {
                     final VillagerEntity villager = (VillagerEntity) e;
                     final Schedule s = villager.getBrain().getSchedule();
-                    final Activity a = s.getScheduledActivity((int) (e.world.getDayTime() % 24000L));
+                    final Activity a = s.getActivityAt((int) (e.level.getDayTime() % 24000L));
                     if (a == Activity.REST) return false;
                 }
                 return noRunIfCrowded.test(e);
@@ -176,7 +176,7 @@ public class TypeTrainer extends NpcType
                 {
                     final VillagerEntity villager = (VillagerEntity) e;
                     final Schedule s = villager.getBrain().getSchedule();
-                    final Activity a = s.getScheduledActivity((int) (e.world.getDayTime() % 24000L));
+                    final Activity a = s.getActivityAt((int) (e.level.getDayTime() % 24000L));
                     if (a == Activity.MEET) return false;
                 }
                 return noRunIfCrowded.test(e);
@@ -192,9 +192,9 @@ public class TypeTrainer extends NpcType
             final Predicate<LivingEntity> notNearHealer = e ->
             {
                 if (!PokecubeAdv.config.no_battle_near_pokecenter) return true;
-                final ServerWorld world = (ServerWorld) npc.getEntityWorld();
-                final BlockPos blockpos = e.getPosition();
-                final PointOfInterestManager pois = world.getPointOfInterestManager();
+                final ServerWorld world = (ServerWorld) npc.getCommandSenderWorld();
+                final BlockPos blockpos = e.blockPosition();
+                final PointOfInterestManager pois = world.getPoiManager();
                 final long num = pois.getCountInRange(p -> p == PointsOfInterest.HEALER.get(), blockpos,
                         PokecubeAdv.config.pokecenter_radius, Status.ANY);
                 return num == 0;
@@ -248,11 +248,11 @@ public class TypeTrainer extends NpcType
 
         public MerchantOffer getRecipe(final Random rand)
         {
-            ItemStack buy1 = this.getBuyingStackFirst();
-            ItemStack buy2 = this.getBuyingStackSecond();
+            ItemStack buy1 = this.getBaseCostA();
+            ItemStack buy2 = this.getCostB();
             if (!buy1.isEmpty()) buy1 = buy1.copy();
             if (!buy2.isEmpty()) buy2 = buy2.copy();
-            ItemStack sell = this.getSellingStack();
+            ItemStack sell = this.getResult();
             if (!sell.isEmpty()) sell = sell.copy();
             else return null;
             if (this.min != -1 && this.max != -1)
@@ -367,13 +367,13 @@ public class TypeTrainer extends NpcType
     public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final IWorld world,
             final int level)
     {
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getEntityWorld()));
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getCommandSenderWorld()));
         if (pokemob != null)
         {
-            final double x = trainer.getPosX();
-            final double y = trainer.getPosY();
-            final double z = trainer.getPosZ();
-            pokemob.getEntity().forceSetPosition(x, y, z);
+            final double x = trainer.getX();
+            final double y = trainer.getY();
+            final double z = trainer.getZ();
+            pokemob.getEntity().setPosAndOldPos(x, y, z);
             for (int i = 1; i < level; i++)
                 if (pokemob.getPokedexEntry().canEvolve(i)) for (final EvolutionData d : pokemob.getPokedexEntry()
                         .getEvolutions())
@@ -388,7 +388,7 @@ public class TypeTrainer extends NpcType
                     }
             pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
             pokemob = pokemob.setPokedexEntry(entry);
-            pokemob.setOwner(trainer.getUniqueID());
+            pokemob.setOwner(trainer.getUUID());
             pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             final int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
             pokemob = pokemob.setForSpawn(exp, false);
@@ -547,7 +547,7 @@ public class TypeTrainer extends NpcType
         for (int i = 1; i < 5; i++)
         {
             final EquipmentSlotType slotIn = EquipmentSlotType.values()[i];
-            trainer.setItemStackToSlot(slotIn, this.loot[i - 1]);
+            trainer.setItemSlot(slotIn, this.loot[i - 1]);
         }
     }
 

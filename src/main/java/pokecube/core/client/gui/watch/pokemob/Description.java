@@ -68,7 +68,7 @@ public class Description extends ListPage<LineEntry>
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
                 if (entry != null && entry != this.parent.pokemob.getPokedexEntry()) this.parent.initPages(
-                        EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld()));
+                        EventsHandlerClient.getRenderMob(entry, this.watch.player.getCommandSenderWorld()));
                 return true;
             }
         }
@@ -82,7 +82,7 @@ public class Description extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
-        final int height = this.font.FONT_HEIGHT * 8;
+        final int height = this.font.lineHeight * 8;
         final int dx = 49;
         final int dy = -1;
         offsetY += dy;
@@ -107,7 +107,7 @@ public class Description extends ListPage<LineEntry>
         IFormattableTextComponent line;
         final IFormattableTextComponent page = (IFormattableTextComponent) this.parent.pokemob.getPokedexEntry()
                 .getDescription();
-        this.list = new ScrollGui<>(this, this.minecraft, 107, height, this.font.FONT_HEIGHT, offsetX, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, 107, height, this.font.lineHeight, offsetX, offsetY);
         final List<IFormattableTextComponent> list = ListHelper.splitText(page, 100, this.font, false);
         for (final ITextComponent element : list)
         {

@@ -44,12 +44,12 @@ public class GuardEggTask extends BaseIdleTask
         // No breeding while guarding egg.
         this.pokemob.resetLoveStatus();
         // If too close to egg, don't bother moving.
-        if (this.entity.getDistanceSq(this.egg) < 4) return;
+        if (this.entity.distanceToSqr(this.egg) < 4) return;
         // On cooldown
         if (this.eggPathCooldown-- > 0) return;
         this.eggPathCooldown = GuardEggTask.PATHCOOLDOWN;
         // Path to the egg.
-        this.setWalkTo(this.egg.getPositionVec(), 1, 0);
+        this.setWalkTo(this.egg.position(), 1, 0);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class GuardEggTask extends BaseIdleTask
             }
             return true;
         }
-        if (!this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS)) return false;
+        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return false;
 
         if (this.eggSearchCooldown-- > 0) return false;
         // Only the female (or neutral) will guard the eggs.
@@ -73,12 +73,12 @@ public class GuardEggTask extends BaseIdleTask
         this.eggSearchCooldown = GuardEggTask.SEARCHCOOLDOWN;
 
         final List<LivingEntity> list = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
         list.addAll(pokemobs);
         final Predicate<LivingEntity> isEgg = input -> input instanceof EntityPokemobEgg && GuardEggTask.this.entity
-                .getUniqueID().equals(((EntityPokemobEgg) input).getMotherId()) && input.isAlive();
+                .getUUID().equals(((EntityPokemobEgg) input).getMotherId()) && input.isAlive();
         list.removeIf(e -> !isEgg.test(e));
-        list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
+        list.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
         if (list.isEmpty()) return false;
         // Select first egg found to guard, remove target, set not angry
 

@@ -14,12 +14,12 @@ public class ChunkCoordinate
         final int j = MathHelper.floor(pos.getY() >> 4);
         final int k = MathHelper.floor(pos.getZ() >> 4);
         pos = new BlockPos(i, j, k);
-        return GlobalPos.getPosition(world.getDimensionKey(), pos);
+        return GlobalPos.of(world.dimension(), pos);
     }
 
     public static boolean isWithin(final GlobalPos a, final GlobalPos b, final int tolerance)
     {
-        return a.getDimension().equals(b.getDimension()) && ChunkCoordinate.isWithin(a.getPos(), b.getPos(), tolerance);
+        return a.dimension().equals(b.dimension()) && ChunkCoordinate.isWithin(a.pos(), b.pos(), tolerance);
     }
 
     public static boolean isWithin(final BlockPos a, final BlockPos b, final int tolerance)

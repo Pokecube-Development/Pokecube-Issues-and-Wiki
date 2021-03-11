@@ -152,7 +152,7 @@ public class Database
             return CompletableFuture.supplyAsync(() ->
             {
                 return this.prepare(resourceManager, preparationsProfiler);
-            }, backgroundExecutor).thenCompose(stage::markCompleteAwaitingOthers).thenAcceptAsync((object) ->
+            }, backgroundExecutor).thenCompose(stage::wait).thenAcceptAsync((object) ->
             {
                 this.apply(object, resourceManager, reloadProfiler);
             }, gameExecutor);
@@ -652,7 +652,7 @@ public class Database
     {
         for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values())
             parser.init();
-        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
                 "database/recipes", s -> s.endsWith(".json"));
         for (final ResourceLocation name : resources)
             try
@@ -688,7 +688,7 @@ public class Database
 
     private static void loadRewards()
     {
-        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
                 "database/rewards", s -> s.endsWith(".json"));
         for (final ResourceLocation name : resources)
             try
@@ -716,7 +716,7 @@ public class Database
     {
         try
         {
-            final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+            final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
                     "database/starterpack", s -> s.endsWith(".json"));
             boolean valid = false;
             final List<ItemStack> kit = Lists.newArrayList();
@@ -931,7 +931,7 @@ public class Database
                 if (applyToManager)
                 {
                     PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
-                    ((SimpleReloadableResourceManager) Database.resourceManager).addResourcePack(info);
+                    ((SimpleReloadableResourceManager) Database.resourceManager).add(info);
                 }
                 // Only add the zips or folders here, jars get properly added by
                 // forge to the real resourcemanager later

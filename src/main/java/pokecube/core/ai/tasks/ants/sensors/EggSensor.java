@@ -27,16 +27,16 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 public class EggSensor extends Sensor<MobEntity>
 {
     private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(AntTasks.NEST_POS,
-            MemoryModuleType.VISIBLE_MOBS, AntTasks.EGG, AntTasks.WORK_POS);
+            MemoryModuleType.VISIBLE_LIVING_ENTITIES, AntTasks.EGG, AntTasks.WORK_POS);
 
     @Override
-    protected void update(final ServerWorld worldIn, final MobEntity entityIn)
+    protected void doTick(final ServerWorld worldIn, final MobEntity entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
-        if (brain.hasMemory(AntTasks.EGG)) return;
-        if (brain.hasMemory(AntTasks.WORK_POS)) return;
-        if (!brain.hasMemory(AntTasks.NEST_POS)) return;
-        if (!brain.hasMemory(MemoryModuleType.VISIBLE_MOBS)) return;
+        if (brain.hasMemoryValue(AntTasks.EGG)) return;
+        if (brain.hasMemoryValue(AntTasks.WORK_POS)) return;
+        if (!brain.hasMemoryValue(AntTasks.NEST_POS)) return;
+        if (!brain.hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return;
         final Optional<AntNest> nest = NestSensor.getNest(entityIn);
         if (nest.isPresent())
         {
@@ -47,15 +47,15 @@ public class EggSensor extends Sensor<MobEntity>
             if (!eggRoom.isPresent()) return;
 
             final List<EntityPokemobEgg> eggs = Lists.newArrayList();
-            final List<LivingEntity> mobs = brain.getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+            final List<LivingEntity> mobs = brain.getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
             mobs.forEach(e -> this.addIfEgg(e, eggs));
             eggs.removeIf(egg -> EggSensor.isInEggRoomOrCarried(tile, hab, egg));
             if (!eggs.isEmpty())
             {
                 final EntityPokemobEgg egg = eggs.get(0);
-                egg.getPersistentData().putLong("__carried__", egg.world.getGameTime() + 100);
+                egg.getPersistentData().putLong("__carried__", egg.level.getGameTime() + 100);
                 brain.setMemory(AntTasks.EGG, egg);
-                brain.setMemory(AntTasks.WORK_POS, GlobalPos.getPosition(worldIn.getDimensionKey(), eggRoom.get()));
+                brain.setMemory(AntTasks.WORK_POS, GlobalPos.of(worldIn.dimension(), eggRoom.get()));
             }
         }
     }
@@ -64,9 +64,9 @@ public class EggSensor extends Sensor<MobEntity>
     {
         final List<Node> eggRooms = hab.getRooms(AntRoom.EGG);
         for (final Node p : eggRooms)
-            if (p.getCenter().withinDistance(egg.getPositionVec(), 3)) return true;
+            if (p.getCenter().closerThan(egg.position(), 3)) return true;
         final long carryTick = egg.getPersistentData().getLong("__carried__");
-        if (carryTick > egg.world.getGameTime()) return true;
+        if (carryTick > egg.level.getGameTime()) return true;
         return false;
     }
 
@@ -82,7 +82,7 @@ public class EggSensor extends Sensor<MobEntity>
     }
 
     @Override
-    public Set<MemoryModuleType<?>> getUsedMemories()
+    public Set<MemoryModuleType<?>> requires()
     {
         return EggSensor.MEMS;
     }

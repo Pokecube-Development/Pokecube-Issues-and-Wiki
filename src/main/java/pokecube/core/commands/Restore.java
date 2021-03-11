@@ -120,13 +120,13 @@ public class Restore
     private static int execute_give(final CommandSource source, final String uuid, final int id)
             throws CommandSyntaxException
     {
-        final ServerPlayerEntity user = source.asPlayer();
+        final ServerPlayerEntity user = source.getPlayerOrException();
         final PlayerPokemobCache pokemobCache = PlayerDataHandler.getInstance().getPlayerData(UUID.fromString(uuid))
                 .getData(PlayerPokemobCache.class);
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
         final ItemStack stack = cache.getOrDefault(id, ItemStack.EMPTY);
         Tools.giveItem(user, stack.copy());
-        PokecubeCore.LOGGER.info("{} Restored {}", user.getDisplayName().getString(), stack.getDisplayName()
+        PokecubeCore.LOGGER.info("{} Restored {}", user.getDisplayName().getString(), stack.getHoverName()
                 .getString());
         return 0;
     }
@@ -149,19 +149,19 @@ public class Restore
     {
         if (players.size() != 1)
         {
-            source.sendErrorMessage(new TranslationTextComponent("pokecube.command.restore_only_one"));
+            source.sendFailure(new TranslationTextComponent("pokecube.command.restore_only_one"));
             return 1;
         }
         toMatch = ThutCore.trim(toMatch);
 
-        final ServerPlayerEntity user = source.asPlayer();
+        final ServerPlayerEntity user = source.getPlayerOrException();
 
         final GameProfile profile = players.iterator().next();
         final PlayerPokemobCache pokemobCache = PlayerDataHandler.getInstance().getPlayerData(profile.getId()).getData(
                 PlayerPokemobCache.class);
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
         IFormattableTextComponent message = new StringTextComponent("Pokemobs: ");
-        user.sendMessage(message, Util.DUMMY_UUID);
+        user.sendMessage(message, Util.NIL_UUID);
         message = new StringTextComponent("");
         for (final Entry<Integer, ItemStack> entry : cache.entrySet())
         {
@@ -176,7 +176,7 @@ public class Restore
 
             if (!toMatch.isEmpty())
             {
-                final Entity mob = PokecubeManager.itemToMob(stack, user.getEntityWorld());
+                final Entity mob = PokecubeManager.itemToMob(stack, user.getCommandSenderWorld());
                 if (mob == null) continue;
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
                 if (pokemob != null)
@@ -198,20 +198,20 @@ public class Restore
             tag.remove(TagNames.POKEMOB);
             final ItemStack copy = stack.copy();
             copy.setTag(tag);
-            tag = copy.write(new CompoundNBT());
+            tag = copy.save(new CompoundNBT());
             final ClickEvent click = new ClickEvent(Action.RUN_COMMAND, command);
-            final IFormattableTextComponent sub = (IFormattableTextComponent) stack.getTextComponent();
-            sub.setStyle(sub.getStyle().setClickEvent(click));
-            sub.appendString(" ");
+            final IFormattableTextComponent sub = (IFormattableTextComponent) stack.getDisplayName();
+            sub.setStyle(sub.getStyle().withClickEvent(click));
+            sub.append(" ");
             message.append(sub);
             final int size = message.toString().getBytes().length;
             if (size > 32000)
             {
-                user.sendMessage(message, Util.DUMMY_UUID);
+                user.sendMessage(message, Util.NIL_UUID);
                 message = new StringTextComponent("");
             }
         }
-        user.sendMessage(message, Util.DUMMY_UUID);
+        user.sendMessage(message, Util.NIL_UUID);
         return 0;
     }
 }

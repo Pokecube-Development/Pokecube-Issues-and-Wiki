@@ -6,11 +6,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
@@ -29,18 +29,18 @@ public class Back
         Color colour;
         final ResourceLocation[] tex = textures.clone();
         float s;
-        mat.push();
+        mat.pushPose();
         s = 0.65f;
         mat.scale(s, -s, -s);
-        mat.rotate(Vector3f.XP.rotationDegrees(90));
-        mat.rotate(Vector3f.YP.rotationDegrees(180));
+        mat.mulPose(Vector3f.XP.rotationDegrees(90));
+        mat.mulPose(Vector3f.YP.rotationDegrees(180));
         mat.translate(0, -.18, -0.85);
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(255, 255, 255, 255, brightness, overlay);
         final IVertexBuilder buf0 = Util.makeBuilder(buff, tex[0]);
         renderable.renderAll(mat, buf0);
-        mat.pop();
-        mat.push();
+        mat.popPose();
+        mat.pushPose();
         mat.scale(s, -s, -s);
         ret = DyeColor.RED;
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -51,11 +51,11 @@ public class Back
         colour = new Color(ret.getColorValue() + 0xFF000000);
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
-        mat.rotate(Vector3f.XP.rotationDegrees(90));
-        mat.rotate(Vector3f.YP.rotationDegrees(180));
+        mat.mulPose(Vector3f.XP.rotationDegrees(90));
+        mat.mulPose(Vector3f.YP.rotationDegrees(180));
         mat.translate(0, -.18, -0.85);
         final IVertexBuilder buf1 = Util.makeBuilder(buff, tex[1]);
         renderable.renderAll(mat, buf1);
-        mat.pop();
+        mat.popPose();
     }
 }

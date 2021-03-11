@@ -56,7 +56,7 @@ public interface IHasMoves extends IHasStats
      */
     default void exchangeMoves(final int moveIndex0, final int moveIndex1)
     {
-        if (!this.getEntity().isServerWorld() && this.getGeneralState(GeneralStates.TAMED))
+        if (!this.getEntity().isEffectiveAi() && this.getGeneralState(GeneralStates.TAMED))
         {
             final String[] moves = this.getMoves();
             if (moveIndex0 >= moves.length && moveIndex1 >= moves.length) this.getMoveStats().num++;
@@ -232,7 +232,7 @@ public interface IHasMoves extends IHasStats
      */
     default void learn(final String moveName)
     {
-        if (moveName == null || this.getEntity().getEntityWorld() == null || this.getEntity().getEntityWorld().isRemote)
+        if (moveName == null || this.getEntity().getCommandSenderWorld() == null || this.getEntity().getCommandSenderWorld().isClientSide)
             return;
         if (!MovesUtils.isMoveImplemented(moveName)) return;
         final String[] moves = this.getMoves();
@@ -276,7 +276,7 @@ public interface IHasMoves extends IHasStats
         }
         else
         {
-            final int index = thisEntity.getRNG().nextInt(4);
+            final int index = thisEntity.getRandom().nextInt(4);
             this.setMove(index, moveName);
         }
     }

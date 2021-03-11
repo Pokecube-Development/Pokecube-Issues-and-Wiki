@@ -67,7 +67,7 @@ public class OwnableCaps
         @Override
         public void deserializeNBT(final ByteNBT nbt)
         {
-            this.playerOwned = nbt.getByte() != 0;
+            this.playerOwned = nbt.getAsByte() != 0;
         }
     }
 
@@ -78,8 +78,8 @@ public class OwnableCaps
         public HorseWrapper(final AbstractHorseEntity toWrap)
         {
             super(toWrap);
-            if (!this.playerOwned && toWrap.getOwnerUniqueId() != null && toWrap.getServer() != null)
-                this.playerOwned = toWrap.getServer().getPlayerProfileCache().getProfileByUUID(this
+            if (!this.playerOwned && toWrap.getOwnerUUID() != null && toWrap.getServer() != null)
+                this.playerOwned = toWrap.getServer().getProfileCache().get(this
                         .getOwnerId()) != null;
         }
 
@@ -87,15 +87,15 @@ public class OwnableCaps
         public LivingEntity getOwner()
         {
             if (this.getOwnerId() == null) this.owner = null;
-            if (this.getOwnerId() != null && this.owner == null && this.wrapped.getEntityWorld() instanceof ServerWorld)
-                return this.owner = this.getOwner((ServerWorld) this.wrapped.getEntityWorld(), this.owner);
+            if (this.getOwnerId() != null && this.owner == null && this.wrapped.getCommandSenderWorld() instanceof ServerWorld)
+                return this.owner = this.getOwner((ServerWorld) this.wrapped.getCommandSenderWorld(), this.owner);
             return this.owner;
         }
 
         @Override
         public UUID getOwnerId()
         {
-            return this.wrapped.getOwnerUniqueId();
+            return this.wrapped.getOwnerUUID();
         }
 
         @Override
@@ -109,13 +109,13 @@ public class OwnableCaps
         public void setOwner(final LivingEntity e)
         {
             this.owner = e;
-            this.wrapped.setOwnerUniqueId(e == null ? null : e.getUniqueID());
+            this.wrapped.setOwnerUUID(e == null ? null : e.getUUID());
         }
 
         @Override
         public void setOwner(final UUID id)
         {
-            this.wrapped.setOwnerUniqueId(id);
+            this.wrapped.setOwnerUUID(id);
         }
 
     }
@@ -128,8 +128,8 @@ public class OwnableCaps
         {
             super(toWrap);
             this.playerOwned = toWrap.getOwner() instanceof PlayerEntity;
-            if (!this.playerOwned && toWrap.getOwnerId() != null && toWrap.getServer() != null)
-                this.playerOwned = toWrap.getServer().getPlayerProfileCache().getProfileByUUID(this
+            if (!this.playerOwned && toWrap.getOwnerUUID() != null && toWrap.getServer() != null)
+                this.playerOwned = toWrap.getServer().getProfileCache().get(this
                         .getOwnerId()) != null;
         }
 
@@ -138,15 +138,15 @@ public class OwnableCaps
         {
             if (this.getOwnerId() == null) this.owner = null;
             if (this.getOwnerId() != null) this.owner = this.wrapped.getOwner();
-            if (this.getOwnerId() != null && this.wrapped.getEntityWorld() instanceof ServerWorld)
-                return this.owner = this.getOwner((ServerWorld) this.wrapped.getEntityWorld(), this.owner);
+            if (this.getOwnerId() != null && this.wrapped.getCommandSenderWorld() instanceof ServerWorld)
+                return this.owner = this.getOwner((ServerWorld) this.wrapped.getCommandSenderWorld(), this.owner);
             return this.owner;
         }
 
         @Override
         public UUID getOwnerId()
         {
-            return this.wrapped.getOwnerId();
+            return this.wrapped.getOwnerUUID();
         }
 
         @Override
@@ -159,7 +159,7 @@ public class OwnableCaps
         @Override
         public void setOwner(final LivingEntity e)
         {
-            this.setOwner(e == null ? null : e.getUniqueID());
+            this.setOwner(e == null ? null : e.getUUID());
             this.owner = e;
             this.playerOwned = e instanceof PlayerEntity;
         }
@@ -167,8 +167,8 @@ public class OwnableCaps
         @Override
         public void setOwner(final UUID id)
         {
-            this.wrapped.setOwnerId(id);
-            this.wrapped.setTamed(id != null);
+            this.wrapped.setOwnerUUID(id);
+            this.wrapped.setTame(id != null);
         }
 
     }
@@ -212,7 +212,7 @@ public class OwnableCaps
         {
             this.playerOwned = e instanceof PlayerEntity;
             this.ownerMob = e;
-            if (e != null) this.setOwner(e.getUniqueID());
+            if (e != null) this.setOwner(e.getUUID());
             else this.setOwner((UUID) null);
         }
 
@@ -233,7 +233,7 @@ public class OwnableCaps
                 this.playerOwned = nbt.getBoolean("p");
                 try
                 {
-                    this.ownerId = nbt.getUniqueId("o");
+                    this.ownerId = nbt.getUUID("o");
                 }
                 catch (final Exception e)
                 {
@@ -249,7 +249,7 @@ public class OwnableCaps
             final CompoundNBT nbt = new CompoundNBT();
             if (this.ownerId != null)
             {
-                nbt.putUniqueId("o", this.ownerId);
+                nbt.putUUID("o", this.ownerId);
                 nbt.putBoolean("p", this.playerOwned);
             }
             return nbt;
@@ -325,7 +325,7 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onblockPlace(final BlockEvent.EntityPlaceEvent event)
     {
-        final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+        final TileEntity tile = event.getWorld().getBlockEntity(event.getPos());
         if (tile != null && event.getEntity() instanceof LivingEntity)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
@@ -337,12 +337,12 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onBlockHit(final PlayerInteractEvent.LeftClickBlock event)
     {
-        final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+        final TileEntity tile = event.getWorld().getBlockEntity(event.getPos());
         if (tile != null)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags
-                    .getCollection().getTagByID(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
+                    .getAllTags().getTagOrEmpty(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
                     && ((IOwnableTE) ownable).getOwnerId() != null) event.getWorld().destroyBlock(event.getPos(), true);
         }
     }
@@ -350,7 +350,7 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onBlockBreak(final BlockEvent.BreakEvent event)
     {
-        final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+        final TileEntity tile = event.getWorld().getBlockEntity(event.getPos());
         if (tile != null)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);

@@ -29,7 +29,7 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
     public RenderNPC(final EntityRendererManager renderManager)
     {
         super(renderManager, new PlayerModel<>(0.0F, false), 0.5F);
-        this.normal = this.getEntityModel();
+        this.normal = this.getModel();
         this.slim = new PlayerModel<>(0.0f, true);
         this.addLayer(new BipedArmorLayer<>(this, new BipedModel<>(0.5F), new BipedModel<>(1.0F)));
         this.addLayer(new HeldItemLayer<>(this));
@@ -44,13 +44,13 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final IMobTexturable mob = entityIn.getCapability(TextureableCaps.CAPABILITY).orElse(null);
-        if (mob instanceof NPCCap<?>) this.entityModel = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim
+        if (mob instanceof NPCCap<?>) this.model = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim
                 : this.normal;
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(final T entity)
+    public ResourceLocation getTextureLocation(final T entity)
     {
         final IMobTexturable mob = entity.getCapability(TextureableCaps.CAPABILITY).orElse(null);
         if (mob instanceof NPCCap) return ((NPCCap<?>) mob).texGetter.apply(entity);
@@ -58,11 +58,11 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
     }
 
     @Override
-    protected boolean canRenderName(final T entity)
+    protected boolean shouldShowName(final T entity)
     {
         final Minecraft minecraft = Minecraft.getInstance();
-        return PokecubeCore.getConfig().npcNameTags && entity.canEntityBeSeen(minecraft.getRenderViewEntity())
-                && super.canRenderName(entity);
+        return PokecubeCore.getConfig().npcNameTags && entity.canSee(minecraft.getCameraEntity())
+                && super.shouldShowName(entity);
     }
 
 }

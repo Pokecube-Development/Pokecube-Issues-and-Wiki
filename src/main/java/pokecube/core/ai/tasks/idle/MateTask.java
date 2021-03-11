@@ -105,7 +105,7 @@ public class MateTask extends BaseIdleTask
         // then be invalid for the next selection round of mating targets.
         BrainUtils.initiateCombat(this.mobA, this.mobB);
 
-        this.startSpot = new WalkTarget(this.entity.getPositionVec(), 1, 0);
+        this.startSpot = new WalkTarget(this.entity.position(), 1, 0);
     }
 
     @Override
@@ -148,8 +148,8 @@ public class MateTask extends BaseIdleTask
         this.pokemob.setGeneralState(GeneralStates.MATING, true);
         final IPokemob other = CapabilityPokemob.getPokemobFor(this.mate);
         if (other != null) other.setGeneralState(GeneralStates.MATING, true);
-        if (this.spawnBabyDelay <= 0) this.spawnBabyDelay = this.entity.ticksExisted + 100;
-        if (this.spawnBabyDelay < this.entity.ticksExisted) return;
+        if (this.spawnBabyDelay <= 0) this.spawnBabyDelay = this.entity.tickCount + 100;
+        if (this.spawnBabyDelay < this.entity.tickCount) return;
         if (other instanceof IBreedingMob) this.pokemob.mateWith((IBreedingMob) other);
         this.reset();
         other.resetLoveStatus();

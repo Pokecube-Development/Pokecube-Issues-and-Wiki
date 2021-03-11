@@ -47,7 +47,7 @@ public abstract class MixinMobEntity extends LivingEntity
         }
 
         @Override
-        protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
+        protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
         {
             final Brain<?> brain = owner.getBrain();
             brain.setMemory(MemoryTypes.DUMMY, true);
@@ -79,7 +79,7 @@ public abstract class MixinMobEntity extends LivingEntity
             MinecraftForge.EVENT_BUS.post(new BrainInitEvent(this));
             final List<Pair<Integer, ? extends Task<? super LivingEntity>>> dummyTasks = Lists.newArrayList();
             dummyTasks.add(Pair.of(0, new DummySetTask()));
-            for (final Activity a : brain.activities)
+            for (final Activity a : brain.activeActivities)
                 BrainUtils.addToActivity(brain, a, dummyTasks);
             brain.setMemory(MemoryTypes.DUMMY, false);
         }
@@ -102,9 +102,9 @@ public abstract class MixinMobEntity extends LivingEntity
         {
             @SuppressWarnings("unchecked")
             final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getBrain();
-            this.getEntityWorld().getProfiler().startSection("custom_brain");
-            brain.tick((ServerWorld) this.getEntityWorld(), this);
-            this.getEntityWorld().getProfiler().endSection();
+            this.getCommandSenderWorld().getProfiler().push("custom_brain");
+            brain.tick((ServerWorld) this.getCommandSenderWorld(), this);
+            this.getCommandSenderWorld().getProfiler().pop();
         }
     }
 
@@ -115,14 +115,14 @@ public abstract class MixinMobEntity extends LivingEntity
      */
     protected void onPostReadAdditional(final CompoundNBT compound, final CallbackInfo cbi)
     {
-        if (this.world instanceof ServerWorld)
+        if (this.level instanceof ServerWorld)
         {
             MinecraftForge.EVENT_BUS.post(new BrainInitEvent(this));
             if (compound.contains("Brain", 10))
             {
                 final Brain<?> brain = this.getBrain();
                 final CompoundNBT mems = compound.getCompound("Brain").getCompound("memories");
-                for (final String s : mems.keySet())
+                for (final String s : mems.getAllKeys())
                 {
                     final INBT nbt = mems.get(s);
                     try
@@ -131,7 +131,7 @@ public abstract class MixinMobEntity extends LivingEntity
                         @SuppressWarnings("unchecked")
                         final MemoryModuleType<Object> mem = (MemoryModuleType<Object>) ForgeRegistries.MEMORY_MODULE_TYPES
                                 .getValue(new ResourceLocation(s));
-                        final DataResult<?> res = mem.getMemoryCodec().map(DataResult::success).orElseGet(
+                        final DataResult<?> res = mem.getCodec().map(DataResult::success).orElseGet(
                                 () -> DataResult.error("Error loading Memory??")).flatMap(codec -> codec.parse(d));
                         final Memory<?> memory = (Memory<?>) res.getOrThrow(true, s1 -> PokecubeCore.LOGGER.error(s1));
                         brain.setMemory(mem, memory.getValue());

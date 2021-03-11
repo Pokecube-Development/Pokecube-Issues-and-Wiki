@@ -33,16 +33,16 @@ public class SetBlockHandler implements ICmdHandler
         {
             final String worldName = thing.get("world").getAsString();
             final String[] posStr = thing.get("pos").getAsString().split(",");
-            final RegistryKey<World> worldKey = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(
+            final RegistryKey<World> worldKey = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(
                     worldName));
-            final ServerWorld world = server.getWorld(worldKey);
+            final ServerWorld world = server.getLevel(worldKey);
             final BlockPos pos = new BlockPos(Integer.parseInt(posStr[0]), Integer.parseInt(posStr[1]), Integer
                     .parseInt(posStr[2]));
             final String block = thing.get("block").getAsString();
             try
             {
-                final BlockState state = BlockStateArgument.blockState().parse(new StringReader(block)).getState();
-                world.setBlockState(pos, state);
+                final BlockState state = BlockStateArgument.block().parse(new StringReader(block)).getState();
+                world.setBlockAndUpdate(pos, state);
             }
             catch (final CommandSyntaxException e)
             {

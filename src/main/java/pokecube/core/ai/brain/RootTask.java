@@ -116,15 +116,15 @@ public class RootTask<E extends LivingEntity> extends Task<E>
     {
         if (!(target.getTarget() instanceof EntityPosWrapper) && target != null)
         {
-            final boolean inRange = target.getTarget().getPos().isWithinDistanceOf(this.entity.getPositionVec(), target
-                    .getDistance());
+            final boolean inRange = target.getTarget().currentPosition().closerThan(this.entity.position(), target
+                    .getCloseEnoughDist());
             if (inRange) return;
         }
         // In this case, we want to wrap it to include throttling information.
         if (target != null)
         {
             final PosWrapWrap wrapped = new PosWrapWrap(target.getTarget(), this.loadThrottle());
-            target = new WalkTarget(wrapped, target.getSpeed(), target.getDistance());
+            target = new WalkTarget(wrapped, target.getSpeedModifier(), target.getCloseEnoughDist());
         }
         this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, target);
     }
@@ -132,9 +132,9 @@ public class RootTask<E extends LivingEntity> extends Task<E>
     protected final boolean isPaused(final E mobIn)
     {
         if (!this.loadThrottle() || !RootTask.doLoadThrottling) return false;
-        final Random rng = new Random(mobIn.getUniqueID().hashCode());
+        final Random rng = new Random(mobIn.getUUID().hashCode());
         final int tick = rng.nextInt(RootTask.runRate);
-        return mobIn.ticksExisted % RootTask.runRate != tick;
+        return mobIn.tickCount % RootTask.runRate != tick;
     }
 
     public boolean loadThrottle()
@@ -143,10 +143,10 @@ public class RootTask<E extends LivingEntity> extends Task<E>
     }
 
     @Override
-    protected boolean isTimedOut(final long gameTime)
+    protected boolean timedOut(final long gameTime)
     {
         if (!this.canTimeOut()) return false;
-        return super.isTimedOut(gameTime);
+        return super.timedOut(gameTime);
     }
 
     @Override
@@ -157,7 +157,7 @@ public class RootTask<E extends LivingEntity> extends Task<E>
         if (this.isPaused(mobIn)) return false;
         final Brain<?> brain = mobIn.getBrain();
         for (int i = 0; i < this.neededStatus.length; i++)
-            if (!brain.hasMemory(this.neededModules[i], this.neededStatus[i])) return false;
+            if (!brain.checkMemory(this.neededModules[i], this.neededStatus[i])) return false;
         // Dead mobs don't have AI!
         if (!this.runWhileDead && !mobIn.isAlive()) return false;
         // Otherwise continue;

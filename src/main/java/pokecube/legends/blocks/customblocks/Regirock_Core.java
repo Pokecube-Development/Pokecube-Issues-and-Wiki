@@ -17,32 +17,32 @@ import pokecube.legends.blocks.BlockBase;
 
 public class Regirock_Core extends BlockBase {
 
-	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
 	public Regirock_Core(final String name, final Material material, final MaterialColor color, 
 			final float hardnessresistance, final SoundType sound, final ToolType tool, final int harvest) {
 		super(name, material, color, hardnessresistance, sound, tool, harvest);
-		this.setDefaultState(this.stateContainer.getBaseState().with(Regirock_Core.FACING, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any().setValue(Regirock_Core.FACING, Direction.NORTH));
 	}
 
 	@Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(Regirock_Core.FACING);
 	}
 
 	@Override
     public BlockState rotate(final BlockState state, final Rotation rot) {
-		return state.with(Regirock_Core.FACING, rot.rotate(state.get(Regirock_Core.FACING)));
+		return state.setValue(Regirock_Core.FACING, rot.rotate(state.getValue(Regirock_Core.FACING)));
 	}
 
     @Override
     @SuppressWarnings("deprecation")
 	public BlockState mirror(final BlockState state, final Mirror mirrorIn) {
-		return state.rotate(mirrorIn.toRotation(state.get(Regirock_Core.FACING)));
+		return state.rotate(mirrorIn.getRotation(state.getValue(Regirock_Core.FACING)));
 	}
 
 	@Override
 	public BlockState getStateForPlacement(final BlockItemUseContext context) {
-		return this.getDefaultState().with(Regirock_Core.FACING, context.getPlacementHorizontalFacing().getOpposite());
+		return this.defaultBlockState().setValue(Regirock_Core.FACING, context.getHorizontalDirection().getOpposite());
 	}
 }

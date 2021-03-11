@@ -70,19 +70,19 @@ public class GatherTask extends UtilTask
     public static final ResourceLocation HARVEST   = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
 
     private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropsBlock && input
-            .hasProperty(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
+            .hasProperty(CropsBlock.AGE) && input.getValue(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
 
     private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropsBlock && input
-            .hasProperty(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input
+            .hasProperty(BeetrootBlock.AGE) && input.getValue(BeetrootBlock.AGE) >= ((CropsBlock) input
                     .getBlock()).getMaxAge();
 
     private static final Predicate<BlockState> fullCropNetherWart = input -> input.getBlock() instanceof NetherWartBlock
-            && input.hasProperty(NetherWartBlock.AGE) && input.get(NetherWartBlock.AGE) >= 3;
+            && input.hasProperty(NetherWartBlock.AGE) && input.getValue(NetherWartBlock.AGE) >= 3;
 
     private static final Predicate<BlockState> sweetBerry = input -> input.getBlock() instanceof SweetBerryBushBlock
-            && input.get(SweetBerryBushBlock.AGE) > 1;
+            && input.getValue(SweetBerryBushBlock.AGE) > 1;
 
-    private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
+    private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.inChunk
             || !input.isAddedToWorld();
 
     // Matcher used to determine if a block is a fruit or crop to be picked.
@@ -110,7 +110,7 @@ public class GatherTask extends UtilTask
         default void harvest(final MobEntity entity, final IPokemob pokemob, final BlockState state, final BlockPos pos,
                 final ServerWorld world)
         {
-            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             final List<ItemStack> list = Block.getDrops(state, world, pos, null);
             boolean replanted = false;
             // See if anything dropped was a seed for the thing we
@@ -121,13 +121,13 @@ public class GatherTask extends UtilTask
                 if (!replanted) replanted = new ReplantTask(stack, state, pos).run(world);
                 new InventoryChange(entity, 2, stack, true).run(world);
             }
-            if (!replanted) for (int i = 2; i < pokemob.getInventory().getSizeInventory(); i++)
+            if (!replanted) for (int i = 2; i < pokemob.getInventory().getContainerSize(); i++)
             {
-                final ItemStack stack = pokemob.getInventory().getStackInSlot(i);
+                final ItemStack stack = pokemob.getInventory().getItem(i);
                 if (!stack.isEmpty() && stack.getItem() instanceof IPlantable)
                 {
                     final IPlantable plantable = (IPlantable) stack.getItem();
-                    final BlockState plantState = plantable.getPlant(world, pos.up());
+                    final BlockState plantState = plantable.getPlant(world, pos.above());
                     if (plantState.getBlock() == state.getBlock() && !replanted)
                     {
                         replanted = new ReplantTask(stack, state, pos).run(world);
@@ -168,20 +168,20 @@ public class GatherTask extends UtilTask
         public boolean run(final World world)
         {
             if (this.seeds.isEmpty()) return false;
-            final BlockPos down = this.pos.down();
+            final BlockPos down = this.pos.below();
             // Use the fakeplayer to plant it
             final PlayerEntity player = PokecubeMod.getFakePlayer(world);
-            player.setPosition(this.pos.getX(), this.pos.getY(), this.pos.getZ());
-            player.inventory.mainInventory.set(player.inventory.currentItem, this.seeds);
+            player.setPos(this.pos.getX(), this.pos.getY(), this.pos.getZ());
+            player.inventory.items.set(player.inventory.selected, this.seeds);
             final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(
                     new Vector3d(0.5, 1, 0.5), Direction.UP, down, false));
             check:
             if (this.seeds.getItem() instanceof BlockItem && !this.selfPlacement)
             {
-                final Block block = Block.getBlockFromItem(this.seeds.getItem());
+                final Block block = Block.byItem(this.seeds.getItem());
                 if (block != this.oldState.getBlock()) break check;
 
-                final BlockState def = block.getDefaultState();
+                final BlockState def = block.defaultBlockState();
                 boolean same = true;
                 for (final Property<?> p : def.getProperties())
                 {
@@ -190,7 +190,7 @@ public class GatherTask extends UtilTask
                         same = false;
                         break;
                     }
-                    if (this.oldState.get(p) != def.get(p))
+                    if (this.oldState.getValue(p) != def.getValue(p))
                     {
                         same = false;
                         break;
@@ -200,7 +200,7 @@ public class GatherTask extends UtilTask
             }
 
             // Attempt to plant it.
-            final ActionResultType result = this.seeds.getItem().onItemUse(context);
+            final ActionResultType result = this.seeds.getItem().useOn(context);
             return result == ActionResultType.SUCCESS;
         }
     }
@@ -223,13 +223,13 @@ public class GatherTask extends UtilTask
             public void harvest(final MobEntity entity, final IPokemob pokemob, final BlockState state,
                     final BlockPos pos, final ServerWorld world)
             {
-                final int i = state.get(SweetBerryBushBlock.AGE);
+                final int i = state.getValue(SweetBerryBushBlock.AGE);
                 final boolean flag = i == 3;
-                world.setBlockState(pos, state.with(SweetBerryBushBlock.AGE, 1));
-                final int j = 1 + world.rand.nextInt(2);
+                world.setBlockAndUpdate(pos, state.setValue(SweetBerryBushBlock.AGE, 1));
+                final int j = 1 + world.random.nextInt(2);
                 final ItemStack stack = new ItemStack(Items.SWEET_BERRIES, j + (flag ? 1 : 0));
-                world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH,
-                        SoundCategory.BLOCKS, 1.0F, 0.8F + world.rand.nextFloat() * 0.4F);
+                world.playSound((PlayerEntity) null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
+                        SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
                 new InventoryChange(entity, 2, stack, true).run(world);
             }
 
@@ -280,7 +280,7 @@ public class GatherTask extends UtilTask
         if (this.targetItem != null && GatherTask.deaditemmatcher.apply(this.targetItem)) this.targetItem = null;
         if (this.targetBlock != null)
         {
-            final BlockState state = this.entity.getEntityWorld().getBlockState(this.targetBlock.getPos());
+            final BlockState state = this.entity.getCommandSenderWorld().getBlockState(this.targetBlock.getPos());
             final HarvestCheckEvent event = new HarvestCheckEvent(this.pokemob, state, this.targetBlock.getPos());
             PokecubeCore.POKEMOB_BUS.post(event);
             final boolean gatherable = event.getResult() == Result.ALLOW ? true
@@ -346,8 +346,8 @@ public class GatherTask extends UtilTask
         if (this.targetItem != null)
         {
             double diff = 1;
-            diff = Math.max(diff, this.entity.getWidth());
-            if (this.targetItem.getDistance(this.entity) < diff)
+            diff = Math.max(diff, this.entity.getBbWidth());
+            if (this.targetItem.distanceTo(this.entity) < diff)
             {
                 ItemStackTools.addItemStackToInventory(this.targetItem.getItem(), this.pokemob.getInventory(), 2);
                 this.targetItem.remove();
@@ -357,7 +357,7 @@ public class GatherTask extends UtilTask
             return;
         }
         double diff = 2.5;
-        diff = Math.max(diff, this.entity.getWidth());
+        diff = Math.max(diff, this.entity.getBbWidth());
         final double dist = stuffLoc.distToEntity(this.entity);
         this.v.set(this.entity).subtractFrom(stuffLoc);
         final double dy = this.v.y;
@@ -374,7 +374,7 @@ public class GatherTask extends UtilTask
 
         if (dist < diff)
         {
-            final BlockState state = stuffLoc.getBlockState(this.entity.getEntityWorld());
+            final BlockState state = stuffLoc.getBlockState(this.entity.getCommandSenderWorld());
             if (this.currentHarvester != null)
             {
                 final IHarvester harvest = GatherTask.REGISTRY.get(this.currentHarvester);
@@ -423,7 +423,7 @@ public class GatherTask extends UtilTask
         final Random rand = new Random(this.pokemob.getRNGValue());
         // Check if it has a location, if so, apply a delay and return false if
         // not correct tick for this pokemob.
-        if (this.pokemob.getHome() == null || this.entity.ticksExisted % rate != rand.nextInt(rate)) return false;
+        if (this.pokemob.getHome() == null || this.entity.tickCount % rate != rand.nextInt(rate)) return false;
 
         final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
         final List<ItemEntity> items = BrainUtils.getNearItems(this.entity);
@@ -431,7 +431,7 @@ public class GatherTask extends UtilTask
         final BlockPos home = this.pokemob.getHome();
         final float dist = this.pokemob.getHomeDistance() * this.pokemob.getHomeDistance();
 
-        final Predicate<BlockPos> inRange = p -> home != null ? home.distanceSq(p) < dist : true;
+        final Predicate<BlockPos> inRange = p -> home != null ? home.distSqr(p) < dist : true;
 
         if (blocks != null)
         {
@@ -454,7 +454,7 @@ public class GatherTask extends UtilTask
         if (items != null)
         {
             this.items = Lists.newArrayList(items);
-            this.items.removeIf(b -> !inRange.test(b.getPosition()));
+            this.items.removeIf(b -> !inRange.test(b.blockPosition()));
             if (this.items.isEmpty()) this.items = null;
         }
 

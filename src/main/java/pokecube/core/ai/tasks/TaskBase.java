@@ -37,7 +37,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
 
         public InventoryChange(final Entity entity, final int slot, final ItemStack stack, final boolean min)
         {
-            this.entity = entity.getEntityId();
+            this.entity = entity.getId();
             this.stack = stack;
             if (min)
             {
@@ -54,12 +54,12 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         @Override
         public boolean run(final World world)
         {
-            final Entity e = world.getEntityByID(this.entity);
+            final Entity e = world.getEntity(this.entity);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
             if (e == null || pokemob == null) return false;
-            if (this.slot > 0) pokemob.getInventory().setInventorySlotContents(this.slot, this.stack);
+            if (this.slot > 0) pokemob.getInventory().setItem(this.slot, this.stack);
             else if (!ItemStackTools.addItemStackToInventory(this.stack, pokemob.getInventory(), this.minSlot)) e
-                    .entityDropItem(this.stack, 0);
+                    .spawnAtLocation(this.stack, 0);
             return true;
         }
 
@@ -89,7 +89,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         @Override
         public boolean run(final World world)
         {
-            if (this.dim != world.getDimensionKey()) return false;
+            if (this.dim != world.dimension()) return false;
             world.playSound(null, this.loc.x, this.loc.y, this.loc.z, this.sound, this.cat, this.volume, this.pitch);
             return true;
         }
@@ -127,8 +127,8 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     {
         super(pokemob.getEntity(), neededMems);
         this.pokemob = pokemob;
-        if (this.entity.getEntityWorld() instanceof ServerWorld) this.world = (ServerWorld) this.entity
-                .getEntityWorld();
+        if (this.entity.getCommandSenderWorld() instanceof ServerWorld) this.world = (ServerWorld) this.entity
+                .getCommandSenderWorld();
         else this.world = null;
     }
 
@@ -164,14 +164,14 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final MobEntity owner)
     {
         if (this.isPaused(owner)) return this.tempRun;
         return this.tempRun = this.shouldRun();
     }
 
     @Override
-    protected void resetTask(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
+    protected void stop(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
         // Incase this is called when paused, we don't want to accept it, so
         // return early.
@@ -180,7 +180,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
         if (this.isPaused(entityIn)) return this.tempCont;
@@ -188,7 +188,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
         if (this.isPaused(owner)) return;
         this.run();

@@ -23,12 +23,12 @@ public class Schedules
         final ScheduleBuilder builder = new ScheduleBuilder(new Schedule());
         builder
         //@formatter:off
-        .add(10, Activity.IDLE)
-        .add(10, Activities.STATIONARY)
-        .add(2000,Activity.WORK)
-        .add(9000, Activity.MEET)
-        .add(11000, Activity.IDLE)
-        .add(12000, Activity.REST);
+        .changeActivityAt(10, Activity.IDLE)
+        .changeActivityAt(10, Activities.STATIONARY)
+        .changeActivityAt(2000,Activity.WORK)
+        .changeActivityAt(9000, Activity.MEET)
+        .changeActivityAt(11000, Activity.IDLE)
+        .changeActivityAt(12000, Activity.REST);
         //@formatter:on
         return builder.build();
     }
@@ -36,8 +36,8 @@ public class Schedules
     private static Schedule makeChild()
     {
         final ScheduleBuilder builder = new ScheduleBuilder(new Schedule());
-        builder.add(10, Activity.IDLE).add(10, Activities.STATIONARY).add(3000, Activity.PLAY).add(6000, Activity.IDLE)
-                .add(10000, Activity.PLAY).add(12000, Activity.REST);
+        builder.changeActivityAt(10, Activity.IDLE).changeActivityAt(10, Activities.STATIONARY).changeActivityAt(3000, Activity.PLAY).changeActivityAt(6000, Activity.IDLE)
+                .changeActivityAt(10000, Activity.PLAY).changeActivityAt(12000, Activity.REST);
         return builder.build();
     }
 }

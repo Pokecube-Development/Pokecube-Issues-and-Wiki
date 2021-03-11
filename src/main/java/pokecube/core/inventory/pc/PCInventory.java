@@ -41,14 +41,14 @@ public class PCInventory extends BigInventory
             if (world != null) PokecubeManager.heal(stack, world);
             PlayerPokemobCache.UpdateCache(mob, true, false);
             if (PokecubeCore.proxy.getPlayer(uuid) != null) PokecubeCore.proxy.getPlayer(uuid).sendMessage(
-                    new TranslationTextComponent("block.pc.sentto", mob.getDisplayName()), Util.DUMMY_UUID);
+                    new TranslationTextComponent("block.pc.sentto", mob.getHoverName()), Util.NIL_UUID);
         }
         pc.addItem(mob.copy());
     }
 
     public static PCInventory getPC(final Entity player)
     {
-        return PCInventory.getPC(player.getUniqueID());
+        return PCInventory.getPC(player.getUUID());
     }
 
     public static PCInventory getPC(final UUID uuid)

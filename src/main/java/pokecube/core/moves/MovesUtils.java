@@ -83,7 +83,7 @@ public class MovesUtils implements IMoveConstants
         {
             final ITextComponent message = new TranslationTextComponent(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else target.sendMessage(message, Util.DUMMY_UUID);
+            else target.sendMessage(message, Util.NIL_UUID);
         }
     }
 
@@ -99,7 +99,7 @@ public class MovesUtils implements IMoveConstants
         {
             final ITextComponent message = new TranslationTextComponent(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else target.sendMessage(message, Util.DUMMY_UUID);
+            else target.sendMessage(message, Util.NIL_UUID);
         }
     }
 
@@ -111,12 +111,12 @@ public class MovesUtils implements IMoveConstants
         if (attacked != null) if (change == IMoveConstants.CHANGE_CONFUSED) if (effect)
         {
             MovesUtils.sendPairedMessages(target, attacker, "pokemob.status.confuse.add");
-            attacked.getEntity().playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1, 1);
+            attacked.getEntity().playSound(SoundEvents.PLAYER_ATTACK_NODAMAGE, 1, 1);
         }
         else
         {
             MovesUtils.sendPairedMessages(target, attacker, "pokemob.move.stat.fail");
-            attacked.getEntity().playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1, 1);
+            attacked.getEntity().playSound(SoundEvents.PLAYER_ATTACK_NODAMAGE, 1, 1);
         }
     }
 
@@ -164,13 +164,13 @@ public class MovesUtils implements IMoveConstants
         attackerWidth = attackerLength;
         if (parts != null && parts.length > 0) for (final PartEntity<?> p : parts)
         {
-            final float attackedLength = p.getWidth();
-            final float attackedHeight = p.getHeight();
-            final float attackedWidth = p.getWidth();
+            final float attackedLength = p.getBbWidth();
+            final float attackedHeight = p.getBbHeight();
+            final float attackedWidth = p.getBbWidth();
 
-            final float dx = (float) (entity.getPosX() - p.getPosX());
-            final float dz = (float) (entity.getPosZ() - p.getPosZ());
-            final float dy = (float) (entity.getPosY() - p.getPosY());
+            final float dx = (float) (entity.getX() - p.getX());
+            final float dz = (float) (entity.getZ() - p.getZ());
+            final float dy = (float) (entity.getY() - p.getY());
 
             final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
             final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
@@ -180,13 +180,13 @@ public class MovesUtils implements IMoveConstants
         }
         else
         {
-            final float attackedLength = attacked.getWidth() + dr;
-            final float attackedHeight = attacked.getHeight() + dr;
-            final float attackedWidth = attacked.getWidth() + dr;
+            final float attackedLength = attacked.getBbWidth() + dr;
+            final float attackedHeight = attacked.getBbHeight() + dr;
+            final float attackedWidth = attacked.getBbWidth() + dr;
 
-            final float dx = (float) (entity.getPosX() - attacked.getPosX());
-            final float dz = (float) (entity.getPosZ() - attacked.getPosZ());
-            final float dy = (float) (entity.getPosY() - attacked.getPosY());
+            final float dx = (float) (entity.getX() - attacked.getX());
+            final float dz = (float) (entity.getZ() - attacked.getZ());
+            final float dy = (float) (entity.getY() - attacked.getY());
 
             final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
             final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
@@ -221,23 +221,23 @@ public class MovesUtils implements IMoveConstants
         if (efficiency == 0)
         {
             MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.move.doesnt.affect");
-            attacked.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1, 1);
+            attacked.playSound(SoundEvents.PLAYER_ATTACK_NODAMAGE, 1, 1);
         }
         else if (efficiency < 1)
         {
             MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.move.not.very.effective");
-            attacked.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, 1, 1);
+            attacked.playSound(SoundEvents.PLAYER_ATTACK_WEAK, 1, 1);
         }
         else if (efficiency > 1)
         {
             MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.move.super.effective");
-            attacked.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, 1, 1);
+            attacked.playSound(SoundEvents.PLAYER_ATTACK_STRONG, 1, 1);
         }
 
         if (criticalRatio > 1)
         {
             MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.move.critical.hit");
-            attacked.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, 1, 1);
+            attacked.playSound(SoundEvents.PLAYER_ATTACK_CRIT, 1, 1);
         }
     }
 
@@ -284,7 +284,7 @@ public class MovesUtils implements IMoveConstants
             {
                 final ITextComponent message = new TranslationTextComponent(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
-                else target.sendMessage(message, Util.DUMMY_UUID);
+                else target.sendMessage(message, Util.NIL_UUID);
             }
         }
     }
@@ -548,7 +548,7 @@ public class MovesUtils implements IMoveConstants
     public static ExplosionCustom newExplosion(final Entity entity, final double x, final double y, final double z,
             final float power)
     {
-        final ExplosionCustom var11 = new ExplosionCustom(entity.getEntityWorld(), entity, x, y, z, power).setMaxRadius(
+        final ExplosionCustom var11 = new ExplosionCustom(entity.getCommandSenderWorld(), entity, x, y, z, power).setMaxRadius(
                 PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = CapabilityPokemob.getPokemobFor(entity);
         if (poke != null) if (poke.getOwner() instanceof PlayerEntity) var11.owner = (PlayerEntity) poke.getOwner();
@@ -584,7 +584,7 @@ public class MovesUtils implements IMoveConstants
             {
                 final boolean apply = attackedPokemob.setStatus(status);
                 applied = applied || apply;
-                if (apply) attackedPokemob.getEntity().getNavigator().clearPath();
+                if (apply) attackedPokemob.getEntity().getNavigation().stop();
                 return true;
             }
             else if (attacked instanceof LivingEntity)
@@ -608,12 +608,12 @@ public class MovesUtils implements IMoveConstants
         {
             if (pokemob == null || e == attacker) return false;
             if (!(e instanceof LivingEntity)) return false;
-            if (attacker.isEntityEqual(e.getRidingEntity())) return false;
-            if (attacker.isEntityEqual(e)) return false;
+            if (attacker.is(e.getVehicle())) return false;
+            if (attacker.is(e)) return false;
             if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof PlayerEntity) return false;
-            if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUniqueID().equals(pokemob.getOwnerId()))
+            if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId()))
                 return false;
-            if (PokecubeCore.getEntityProvider().getEntity(attacker.getEntityWorld(), e.getEntityId(),
+            if (PokecubeCore.getEntityProvider().getEntity(attacker.getCommandSenderWorld(), e.getId(),
                     true) == attacker) return false;
             return true;
         };
@@ -623,7 +623,7 @@ public class MovesUtils implements IMoveConstants
     {
         final Vector3 source = Vector3.getNewVector().set(attacker, false);
         final boolean ignoreAllies = false;
-        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getEntityWorld(), attacker,
+        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getCommandSenderWorld(), attacker,
                 ignoreAllies, MovesUtils.targetMatcher(attacker));
     }
 
@@ -637,9 +637,9 @@ public class MovesUtils implements IMoveConstants
         double closest = 16;
 
         if (targets != null) for (final Entity e : targets)
-            if (attacker.getDistance(e) < closest)
+            if (attacker.distanceTo(e) < closest)
             {
-                closest = attacker.getDistance(e);
+                closest = attacker.distanceTo(e);
                 target = e;
             }
         return target;
@@ -649,7 +649,7 @@ public class MovesUtils implements IMoveConstants
     {
         final Vector3 source = Vector3.getNewVector().set(attacker);
         final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source, attacker
-                .getEntityWorld(), attacker);
+                .getCommandSenderWorld(), attacker);
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets)
             if (e instanceof LivingEntity) ret.add((LivingEntity) e);
@@ -659,8 +659,8 @@ public class MovesUtils implements IMoveConstants
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final double area)
     {
         final Vector3 source = Vector3.getNewVector().set(attacker);
-        final List<Entity> targets = attacker.getEntityWorld().getEntitiesWithinAABBExcludingEntity(attacker, source
-                .getAABB().grow(area));
+        final List<Entity> targets = attacker.getCommandSenderWorld().getEntities(attacker, source
+                .getAABB().inflate(area));
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets)
             if (e instanceof LivingEntity) ret.add((LivingEntity) e);

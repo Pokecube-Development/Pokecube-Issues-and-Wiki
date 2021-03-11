@@ -36,8 +36,8 @@ public class ChangeFormHandler extends DefaultHandler
         final LivingEntity player = pokemob.getOwner();
 
         final Entity mob = pokemob.getEntity();
-        final World world = mob.getEntityWorld();
-        final BlockPos pos = mob.getPosition();
+        final World world = mob.getCommandSenderWorld();
+        final BlockPos pos = mob.blockPosition();
         final MinecraftServer server = mob.getServer();
 
         if (pokemob.getGeneralState(GeneralStates.EVOLVING) || server == null || player == null) return;
@@ -46,7 +46,7 @@ public class ChangeFormHandler extends DefaultHandler
         if (!hasRing)
         {
             player.sendMessage(new TranslationTextComponent("pokecube.mega.noring", pokemob.getDisplayName()),
-                    Util.DUMMY_UUID);
+                    Util.NIL_UUID);
             return;
         }
         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -79,14 +79,14 @@ public class ChangeFormHandler extends DefaultHandler
             }
             else
             {
-                final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(player.getUniqueID()).getLong(
+                final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(player.getUUID()).getLong(
                         "pokecube:dynatime");
-                final long time = server.getWorld(World.OVERWORLD).getGameTime();
+                final long time = server.getLevel(World.OVERWORLD).getGameTime();
                 final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
                 if (dynatime != 0 && time < dynaagain)
                 {
                     player.sendMessage(new TranslationTextComponent("pokemob.dynamax.too_soon", pokemob
-                            .getDisplayName()), Util.DUMMY_UUID);
+                            .getDisplayName()), Util.NIL_UUID);
                     return;
                 }
 
@@ -148,7 +148,7 @@ public class ChangeFormHandler extends DefaultHandler
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
         }
         else player.sendMessage(new TranslationTextComponent("pokemob.megaevolve.failed", pokemob.getDisplayName()),
-                Util.DUMMY_UUID);
+                Util.NIL_UUID);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class AgroTargets extends BaseAgroTask
     public boolean isValidTarget(final LivingEntity target)
     {
         if (!this.validTargets.test(target)) return false;
-        if (!EntityPredicates.CAN_AI_TARGET.test(target)) return false;
+        if (!EntityPredicates.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
         if (!this.shouldRun.test(this.entity)) return false;
         if (!this.trainer.canBattle(target, false).test()) return false;
         return true;

@@ -56,17 +56,17 @@ public class GatherNectar extends AbstractBeeTask
         final Optional<GlobalPos> pos_opt = this.entity.getBrain().getMemory(BeeTasks.FLOWER_POS);
         if (pos_opt.isPresent())
         {
-            final World world = this.entity.getEntityWorld();
+            final World world = this.entity.getCommandSenderWorld();
             final GlobalPos pos = pos_opt.get();
-            boolean clearPos = pos.getDimension() != world.getDimensionKey();
+            boolean clearPos = pos.dimension() != world.dimension();
             // Once a second check if flower is still valid.
-            if (!clearPos && this.entity.ticksExisted % 20 == 0) clearPos = !FlowerSensor.flowerPredicate.test(world
-                    .getBlockState(pos.getPos()));
+            if (!clearPos && this.entity.tickCount % 20 == 0) clearPos = !FlowerSensor.flowerPredicate.test(world
+                    .getBlockState(pos.pos()));
             // If flower not still around, clear the memory and return early.
             // The FlowerSensor will find a new flower for us later.
             if (clearPos)
             {
-                this.entity.getBrain().removeMemory(BeeTasks.FLOWER_POS);
+                this.entity.getBrain().eraseMemory(BeeTasks.FLOWER_POS);
                 this.reset();
                 return;
             }
@@ -75,19 +75,19 @@ public class GatherNectar extends AbstractBeeTask
             // We have gathered enough, lets go home now
             if (this.gather_timer++ > 400)
             {
-                brain.removeMemory(BeeTasks.FLOWER_POS);
+                brain.eraseMemory(BeeTasks.FLOWER_POS);
                 brain.setMemory(BeeTasks.HAS_NECTAR, true);
                 this.reset();
                 return;
             }
 
-            this.flowerSpot.set(pos.getPos()).addTo(0.5, 0.5, 0.5);
+            this.flowerSpot.set(pos.pos()).addTo(0.5, 0.5, 0.5);
             // Set the mob as looking at the flower
             brain.setMemory(MemoryModules.LOOK_TARGET, new VectorPosWrapper(this.flowerSpot));
 
             // Find a random spot near the flower to move to, to fly around it
             // while gathering.
-            if (this.gatherSpot.isEmpty() || this.entity.getRNG().nextInt(25) == 0)
+            if (this.gatherSpot.isEmpty() || this.entity.getRandom().nextInt(25) == 0)
             {
                 this.gatherSpot.set(this.flowerSpot);
                 this.gatherSpot.addTo(this.getRandomOffset(), 0, this.getRandomOffset());
@@ -95,12 +95,12 @@ public class GatherNectar extends AbstractBeeTask
 
             // If too far, we path normally over to the flower, otherwise, use
             // MoveHelper directly.
-            if (this.entity.getDistanceSq(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z) < 4)
+            if (this.entity.distanceToSqr(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z) < 4)
             {
                 final BlockState state = this.flowerSpot.getBlockState(world);
-                if (state.ticksRandomly() && this.entity.getRNG().nextInt(10) == 0) state.randomTick(
-                        (ServerWorld) world, pos.getPos(), this.entity.getRNG());
-                this.entity.getMoveHelper().setMoveTo(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z, 0.35F);
+                if (state.isRandomlyTicking() && this.entity.getRandom().nextInt(10) == 0) state.randomTick(
+                        (ServerWorld) world, pos.pos(), this.entity.getRandom());
+                this.entity.getMoveControl().setWantedPosition(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z, 0.35F);
             }
             else this.setWalkTo(this.gatherSpot, 1, 0);
         }
@@ -112,7 +112,7 @@ public class GatherNectar extends AbstractBeeTask
      */
     private float getRandomOffset()
     {
-        return (this.entity.getRNG().nextFloat() * 2.0F - 1.0F) * 0.33333334F;
+        return (this.entity.getRandom().nextFloat() * 2.0F - 1.0F) * 0.33333334F;
     }
 
     @Override

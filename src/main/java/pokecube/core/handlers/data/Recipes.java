@@ -30,18 +30,18 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
         ConditionalRecipe.builder()
         .addCondition(TrueCondition.INSTANCE)
         .addRecipe(
-            ShapelessRecipeBuilder.shapelessRecipe(to, number)
-            .addIngredient(from)
-            .setGroup(to.getRegistryName().getNamespace())
-            .addCriterion("has_from", RecipeProvider.hasItem(from))
-            ::build
+            ShapelessRecipeBuilder.shapeless(to, number)
+            .requires(from)
+            .group(to.getRegistryName().getNamespace())
+            .unlockedBy("has_from", RecipeProvider.has(from))
+            ::save
         )
         .build(consumer, id);
         //@formatter:on
     }
 
     @Override
-    protected void registerRecipes(final Consumer<IFinishedRecipe> consumer)
+    protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> consumer)
     {
         for (final String s : ItemGenerator.logs.keySet())
         {

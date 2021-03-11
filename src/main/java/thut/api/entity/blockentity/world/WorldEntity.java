@@ -62,13 +62,13 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public int getLightFor(final LightType type, final BlockPos pos)
+    public int getBrightness(final LightType type, final BlockPos pos)
     {
-        return this.world.getLightFor(type, pos);
+        return this.world.getBrightness(type, pos);
     }
 
     @Override
-    public boolean setBlockState(final BlockPos pos, final BlockState newState, final int flags)
+    public boolean setBlock(final BlockPos pos, final BlockState newState, final int flags)
     {
         final IChunk c = this.getChunk(pos);
         return c.setBlockState(pos, newState, (flags & 64) != 0) != null;
@@ -83,10 +83,10 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public TileEntity getTileEntity(final BlockPos pos)
+    public TileEntity getBlockEntity(final BlockPos pos)
     {
         final TileEntity tile = this.getTile(pos);
-        if (tile == null) return this.world.getTileEntity(pos);
+        if (tile == null) return this.world.getBlockEntity(pos);
         return tile;
     }
 
@@ -104,27 +104,27 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public ITickList<Block> getPendingBlockTicks()
+    public ITickList<Block> getBlockTicks()
     {
-        return this.world.getPendingBlockTicks();
+        return this.world.getBlockTicks();
     }
 
     @Override
-    public ITickList<Fluid> getPendingFluidTicks()
+    public ITickList<Fluid> getLiquidTicks()
     {
-        return this.world.getPendingFluidTicks();
+        return this.world.getLiquidTicks();
     }
 
     @Override
-    public void playEvent(final PlayerEntity player, final int type, final BlockPos pos, final int data)
+    public void levelEvent(final PlayerEntity player, final int type, final BlockPos pos, final int data)
     {
-        this.world.playEvent(player, type, pos, data);
+        this.world.levelEvent(player, type, pos, data);
     }
 
     @Override
-    public List<? extends PlayerEntity> getPlayers()
+    public List<? extends PlayerEntity> players()
     {
-        return this.world.getPlayers();
+        return this.world.players();
     }
 
     @Override
@@ -134,7 +134,7 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public Biome getNoiseBiomeRaw(final int x, final int y, final int z)
+    public Biome getUncachedNoiseBiome(final int x, final int y, final int z)
     {
         return this.world.getNoiseBiome(x, y, z);
     }
@@ -152,9 +152,9 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public DifficultyInstance getDifficultyForLocation(final BlockPos pos)
+    public DifficultyInstance getCurrentDifficultyAt(final BlockPos pos)
     {
-        return this.world.getDifficultyForLocation(pos);
+        return this.world.getCurrentDifficultyAt(pos);
     }
 
     @Override
@@ -178,17 +178,17 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public List<Entity> getEntitiesInAABBexcluding(final Entity entityIn, final AxisAlignedBB boundingBox,
+    public List<Entity> getEntities(final Entity entityIn, final AxisAlignedBB boundingBox,
             final Predicate<? super Entity> predicate)
     {
-        return this.world.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
+        return this.world.getEntities(entityIn, boundingBox, predicate);
     }
 
     @Override
-    public <T extends Entity> List<T> getEntitiesWithinAABB(final Class<? extends T> clazz, final AxisAlignedBB aabb,
+    public <T extends Entity> List<T> getEntitiesOfClass(final Class<? extends T> clazz, final AxisAlignedBB aabb,
             final Predicate<? super T> filter)
     {
-        return this.world.getEntitiesWithinAABB(clazz, aabb, filter);
+        return this.world.getEntitiesOfClass(clazz, aabb, filter);
     }
 
     @Override
@@ -198,9 +198,9 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public int getSkylightSubtracted()
+    public int getSkyDarken()
     {
-        return this.world.getSkylightSubtracted();
+        return this.world.getSkyDarken();
     }
 
     @Override
@@ -210,9 +210,9 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public boolean isRemote()
+    public boolean isClientSide()
     {
-        return this.world.isRemote();
+        return this.world.isClientSide();
     }
 
     @Override
@@ -222,9 +222,9 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public WorldLightManager getLightManager()
+    public WorldLightManager getLightEngine()
     {
-        return this.world.getLightManager();
+        return this.world.getLightEngine();
     }
 
     @Override
@@ -234,37 +234,37 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public AbstractChunkProvider getChunkProvider()
+    public AbstractChunkProvider getChunkSource()
     {
         return this.chunks;
     }
 
     @Override
-    public DynamicRegistries func_241828_r()
+    public DynamicRegistries registryAccess()
     {
-        return this.world.func_241828_r();
+        return this.world.registryAccess();
     }
 
     @Override
-    public float func_230487_a_(final Direction p_230487_1_, final boolean p_230487_2_)
+    public float getShade(final Direction p_230487_1_, final boolean p_230487_2_)
     {
-        return this.world.func_230487_a_(p_230487_1_, p_230487_2_);
+        return this.world.getShade(p_230487_1_, p_230487_2_);
     }
 
     @Override
-    public IWorldInfo getWorldInfo()
+    public IWorldInfo getLevelData()
     {
-        return this.world.getWorldInfo();
+        return this.world.getLevelData();
     }
 
     @Override
-    public DimensionType getDimensionType()
+    public DimensionType dimensionType()
     {
-        return this.world.getDimensionType();
+        return this.world.dimensionType();
     }
 
     @Override
-    public boolean hasBlockState(final BlockPos p_217375_1_, final Predicate<BlockState> p_217375_2_)
+    public boolean isStateAtPosition(final BlockPos p_217375_1_, final Predicate<BlockState> p_217375_2_)
     {
         return false;
     }
@@ -282,7 +282,7 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public boolean setBlockState(final BlockPos pos, final BlockState state, final int flags, final int recursionLeft)
+    public boolean setBlock(final BlockPos pos, final BlockState state, final int flags, final int recursionLeft)
     {
         return false;
     }

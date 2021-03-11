@@ -21,7 +21,7 @@ public class Impl
 
     public static void toOrbit(final PlayerTickEvent event)
     {
-        if (!(event.player.getEntityWorld() instanceof ServerWorld)) return;
+        if (!(event.player.getCommandSenderWorld() instanceof ServerWorld)) return;
 //        final ServerWorld world = (ServerWorld) event.player.getEntityWorld();
 //        final Entity riding = event.player.getRidingEntity();
 //        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(riding);

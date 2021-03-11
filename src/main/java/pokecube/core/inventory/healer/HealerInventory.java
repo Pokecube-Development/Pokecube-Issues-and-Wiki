@@ -12,7 +12,7 @@ public class HealerInventory extends Inventory
     }
 
     @Override
-    public boolean isItemValidForSlot(final int index, final ItemStack stack)
+    public boolean canPlaceItem(final int index, final ItemStack stack)
     {
         return PokecubeManager.isFilled(stack);
     }

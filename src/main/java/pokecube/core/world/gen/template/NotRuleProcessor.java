@@ -30,17 +30,17 @@ public class NotRuleProcessor extends RuleStructureProcessor
     }
 
     @Override
-    public BlockInfo func_230386_a_(final IWorldReader worldReaderIn, final BlockPos pos, final BlockPos pos2,
+    public BlockInfo processBlock(final IWorldReader worldReaderIn, final BlockPos pos, final BlockPos pos2,
             final BlockInfo blockInfo1, final BlockInfo blockInfo2, final PlacementSettings placementSettingsIn)
     {
-        final Random random = new Random(MathHelper.getPositionRandom(blockInfo2.pos));
+        final Random random = new Random(MathHelper.getSeed(blockInfo2.pos));
         final BlockState blockstate = worldReaderIn.getBlockState(blockInfo2.pos);
         if (blockstate != null && blockstate.getBlock() != Blocks.AIR) for (final RuleEntry ruleentry : this.rules)
-            if (!ruleentry.func_237110_a_(blockInfo2.state, blockstate, blockInfo1.pos, blockInfo2.pos, pos2, random))
+            if (!ruleentry.test(blockInfo2.state, blockstate, blockInfo1.pos, blockInfo2.pos, pos2, random))
             {
                 final BlockState output = ruleentry.getOutputState();
                 if (output == null || output.getBlock() == Blocks.STRUCTURE_VOID) return null;
-                return new Template.BlockInfo(blockInfo2.pos, output, ruleentry.getOutputNbt());
+                return new Template.BlockInfo(blockInfo2.pos, output, ruleentry.getOutputTag());
 
             }
         return blockInfo2;
@@ -54,7 +54,7 @@ public class NotRuleProcessor extends RuleStructureProcessor
 
     static
     {
-        CODEC = RuleEntry.field_237108_a_.listOf().fieldOf("rules").xmap(NotRuleProcessor::new, (p_237126_0_) ->
+        CODEC = RuleEntry.CODEC.listOf().fieldOf("rules").xmap(NotRuleProcessor::new, (p_237126_0_) ->
         {
             return p_237126_0_.rules;
         }).codec();

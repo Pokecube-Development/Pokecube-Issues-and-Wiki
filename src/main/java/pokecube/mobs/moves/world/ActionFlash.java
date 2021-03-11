@@ -27,7 +27,7 @@ public class ActionFlash implements IMoveAction
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 16;
         count = (int) Math.max(1, Math.ceil(count * Math.pow((100 - level) / 100d, 3))) * hungerValue;
         final EffectInstance effect = new EffectInstance(Effects.NIGHT_VISION, 5000);
-        owner.addPotionEffect(effect);
+        owner.addEffect(effect);
         mob.applyHunger(count);
         return true;
     }

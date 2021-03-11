@@ -35,10 +35,10 @@ public class TradeInventory extends Inventory implements ICapabilitySerializable
     }
 
     @Override
-    public void closeInventory(final PlayerEntity player)
+    public void stopOpen(final PlayerEntity player)
     {
-        super.closeInventory(player);
-        if (this.tile != null) this.tile.users.remove(player.getUniqueID());
+        super.stopOpen(player);
+        if (this.tile != null) this.tile.users.remove(player.getUUID());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class TradeInventory extends Inventory implements ICapabilitySerializable
     }
 
     @Override
-    public boolean isItemValidForSlot(final int index, final ItemStack stack)
+    public boolean canPlaceItem(final int index, final ItemStack stack)
     {
         // Allow filled cubes.
         if (PokecubeManager.isFilled(stack)) return true;
@@ -65,10 +65,10 @@ public class TradeInventory extends Inventory implements ICapabilitySerializable
     }
 
     @Override
-    public void openInventory(final PlayerEntity player)
+    public void startOpen(final PlayerEntity player)
     {
-        super.openInventory(player);
-        if (this.tile != null) this.tile.users.add(player.getUniqueID());
+        super.startOpen(player);
+        if (this.tile != null) this.tile.users.add(player.getUUID());
     }
 
     @Override

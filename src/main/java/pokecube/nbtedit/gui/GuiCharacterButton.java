@@ -29,7 +29,7 @@ public class GuiCharacterButton extends Button
     @Override
     public void render(final MatrixStack mat, final int mx, final int my, final float m)
     {
-        Minecraft.getInstance().getTextureManager().bindTexture(GuiNBTNode.WIDGET_TEXTURE);
+        Minecraft.getInstance().getTextureManager().bind(GuiNBTNode.WIDGET_TEXTURE);
         if (this.isHovered()) AbstractGui.fill(mat, this.x, this.y, this.x + GuiCharacterButton.WIDTH, this.y
                 + GuiCharacterButton.HEIGHT, 0x80ffffff);
 

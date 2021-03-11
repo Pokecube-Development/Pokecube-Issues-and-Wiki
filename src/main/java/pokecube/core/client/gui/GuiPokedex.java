@@ -113,28 +113,28 @@ public class GuiPokedex extends Screen
         if (button == 1)
         {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 1);
-            this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }
         else if (button == 2)
         {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 1);
-            this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }
         else if (button == 3)
         {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 10);
-            this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }
         else if (button == 4)
         {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 10);
-            this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }
@@ -156,10 +156,10 @@ public class GuiPokedex extends Screen
 
         this.pokemobTextField = new TextFieldWidget(this.font, xOffset - 65, yOffset + 123, 110, 10,
                 new StringTextComponent(""));
-        this.pokemobTextField.setEnableBackgroundDrawing(false);
-        this.pokemobTextField.setEnabled(true);
+        this.pokemobTextField.setBordered(false);
+        this.pokemobTextField.setEditable(true);
 
-        if (GuiPokedex.pokedexEntry != null) this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry
+        if (GuiPokedex.pokedexEntry != null) this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry
                 .getUnlocalizedName()));
         this.addButton(this.pokemobTextField);
         this.initList();
@@ -170,10 +170,10 @@ public class GuiPokedex extends Screen
         if (this.list != null) this.children.remove(this.list);
         final int offsetX = (this.width - 160) / 2 + 90;
         final int offsetY = (this.height - 160) / 2 + 12;
-        final int height = 15 * this.font.FONT_HEIGHT;
+        final int height = 15 * this.font.lineHeight;
         IFormattableTextComponent line;
         final IFormattableTextComponent page = (IFormattableTextComponent) GuiPokedex.pokedexEntry.getDescription();
-        this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.FONT_HEIGHT, offsetX, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.lineHeight, offsetX, offsetY);
         final List<IFormattableTextComponent> list = ListHelper.splitText(page, 100, this.font, false);
 
         final IClickListener listen = new IClickListener()
@@ -216,13 +216,13 @@ public class GuiPokedex extends Screen
     {
         if (key == GLFW.GLFW_KEY_ENTER && this.pokemobTextField.isFocused())
         {
-            PokedexEntry entry = Database.getEntry(this.pokemobTextField.getText());
+            PokedexEntry entry = Database.getEntry(this.pokemobTextField.getValue());
             if (entry == null)
             {
                 for (final PokedexEntry e : Database.getSortedFormes())
                 {
-                    final String translated = I18n.format(e.getUnlocalizedName());
-                    if (translated.equalsIgnoreCase(this.pokemobTextField.getText()))
+                    final String translated = I18n.get(e.getUnlocalizedName());
+                    if (translated.equalsIgnoreCase(this.pokemobTextField.getValue()))
                     {
                         Database.data2.put(translated, e);
                         entry = e;
@@ -239,7 +239,7 @@ public class GuiPokedex extends Screen
                 this.initList();
                 PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
             }
-            else this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+            else this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
         }
         else if (key == GLFW.GLFW_KEY_UP)
         {
@@ -272,10 +272,10 @@ public class GuiPokedex extends Screen
         if (ret) return true;
         final int button = this.getButtonId(x, y);
 
-        if (button != 0) this.minecraft.getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+        if (button != 0) this.minecraft.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
         if (button == 14)
         {
-            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getCurrentLanguage()
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected()
                     .getCode());
             return true;
         }
@@ -298,15 +298,15 @@ public class GuiPokedex extends Screen
     {
         // Draw background
         final Minecraft minecraft = Minecraft.getInstance();
-        minecraft.getTextureManager().bindTexture(Resources.GUI_POKEDEX);
+        minecraft.getTextureManager().bind(Resources.GUI_POKEDEX);
         final int j2 = (this.width - this.xSize) / 2;
         final int k2 = (this.height - this.ySize) / 2;
         this.blit(mat, j2, k2, 0, 0, this.xSize, this.ySize);
 
         // Draw mob
         final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity
-                .getEntityWorld());
-        if (!renderMob.getEntity().addedToChunk) EntityTools.copyEntityTransforms(renderMob.getEntity(),
+                .getCommandSenderWorld());
+        if (!renderMob.getEntity().inChunk) EntityTools.copyEntityTransforms(renderMob.getEntity(),
                 this.PlayerEntity);
 
         final PokedexEntry pokedexEntry = renderMob.getPokedexEntry();
@@ -314,7 +314,7 @@ public class GuiPokedex extends Screen
                 .getData(PokecubePlayerStats.class);
         boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
                 || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
-                || this.minecraft.player.abilities.isCreativeMode;
+                || this.minecraft.player.abilities.instabuild;
 
         // Megas Inherit colouring from the base form.
         if (!fullColour && pokedexEntry.isMega()) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
@@ -325,8 +325,8 @@ public class GuiPokedex extends Screen
         else if (stats.hasInspected(pokedexEntry)) renderMob.setRGBA(127, 127, 127, 255);
         else renderMob.setRGBA(15, 15, 15, 255);
 
-        GlStateManager.enableDepthTest();
-        final float yaw = Util.milliTime() / 20;
+        GlStateManager._enableDepthTest();
+        final float yaw = Util.getMillis() / 20;
         final float pitch = 0;
         final float hx = 0;
         final float hy = yaw;
@@ -355,7 +355,7 @@ public class GuiPokedex extends Screen
         }
 
         // Draw default gui stuff.
-        final int length = this.font.getStringWidth(this.pokemobTextField.getText()) / 2;
+        final int length = this.font.width(this.pokemobTextField.getValue()) / 2;
         xOffset = this.width / 2 - 65;
         this.pokemobTextField.x = xOffset - length;
         super.render(mat, mouseX, mouseY, partialTick);

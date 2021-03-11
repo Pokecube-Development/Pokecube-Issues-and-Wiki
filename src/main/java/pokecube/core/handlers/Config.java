@@ -681,14 +681,14 @@ public class Config extends ConfigData
         PokecubeTerrainChecker.initStructMap();
         WorldgenHandler.SOFTBLACKLIST.clear();
         for (final String s : this.softWorldgenDimBlacklist)
-            WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
-        WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(
+            WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
+        WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(
                 "pokecube:secret_base")));
 
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
         {
-            final RegistryKey<Biome> key = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(name));
+            final RegistryKey<Biome> key = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(name));
             SpawnBiomeMatcher.SOFTBLACKLIST.add(key);
         }
 
@@ -804,19 +804,19 @@ public class Config extends ConfigData
         for (final String i : this.spawnDimBlacklist)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            SpawnHandler.dimensionBlacklist.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, key));
+            SpawnHandler.dimensionBlacklist.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, key));
         }
         SpawnHandler.dimensionWhitelist.clear();
         for (final String i : this.spawnDimWhitelist)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            SpawnHandler.dimensionWhitelist.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, key));
+            SpawnHandler.dimensionWhitelist.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, key));
         }
         LogicMountedControl.BLACKLISTED.clear();
         for (final String i : this.blackListedFlyDims)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            LogicMountedControl.BLACKLISTED.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, key));
+            LogicMountedControl.BLACKLISTED.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, key));
         }
 
         boolean failed = false;
@@ -841,7 +841,7 @@ public class Config extends ConfigData
             }
         }
 
-        if (failed) this.dodges = new SoundEvent[] { SoundEvents.ENTITY_GENERIC_SMALL_FALL };
+        if (failed) this.dodges = new SoundEvent[] { SoundEvents.GENERIC_SMALL_FALL };
 
         failed = false;
         if (this.leapSounds.size() == 0) failed = true;
@@ -865,7 +865,7 @@ public class Config extends ConfigData
             }
         }
 
-        if (failed) this.leaps = new SoundEvent[] { SoundEvents.ENTITY_GENERIC_SMALL_FALL };
+        if (failed) this.leaps = new SoundEvent[] { SoundEvents.GENERIC_SMALL_FALL };
 
         PokecubeManager.init();
     }

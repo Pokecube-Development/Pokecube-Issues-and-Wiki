@@ -15,7 +15,7 @@ public class PacketAIRoutine extends Packet
     public static void sentCommand(final IPokemob pokemob, final AIRoutine routine, final boolean state)
     {
         final PacketAIRoutine packet = new PacketAIRoutine();
-        packet.entityId = pokemob.getEntity().getEntityId();
+        packet.entityId = pokemob.getEntity().getId();
         packet.routine = routine;
         packet.state = state;
         PokecubeCore.packets.sendToServer(packet);
@@ -41,7 +41,7 @@ public class PacketAIRoutine extends Packet
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final Entity user = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.entityId, true);
+        final Entity user = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
         if (pokemob == null) return;
         pokemob.setRoutineState(this.routine, this.state);

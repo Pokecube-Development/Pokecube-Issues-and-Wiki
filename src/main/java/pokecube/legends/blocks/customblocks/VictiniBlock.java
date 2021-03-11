@@ -12,8 +12,8 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -39,84 +39,84 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     private static final Map<Direction, VoxelShape>     VICTINI_TOP    = new HashMap<>();
     private static final Map<Direction, VoxelShape>     VICTINI_BOTTOM = new HashMap<>();
     private static final BooleanProperty                WATERLOGGED    = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty              FACING         = HorizontalBlock.HORIZONTAL_FACING;
+    private static final DirectionProperty              FACING         = HorizontalBlock.FACING;
 
     // Precise selection box
     static
     {
       //@formatter:off
     VictiniBlock.VICTINI_TOP.put(Direction.NORTH,
-      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 3, 3.5, 16, 4, 4),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 2, 3.5, 15, 3, 4),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11, 1, 3.5, 14, 2, 4),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 0, 3.5, 13, 1, 4),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 0, 3.5, 6, 1, 4),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 1, 3.5, 5, 2, 4),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 2, 3.5, 4, 3, 4),
-                    Block.makeCuboidShape(0, 3, 3.5, 3, 4, 4),
+      VoxelShapes.join(Block.box(13, 3, 3.5, 16, 4, 4),
+        VoxelShapes.join(Block.box(12, 2, 3.5, 15, 3, 4),
+          VoxelShapes.join(Block.box(11, 1, 3.5, 14, 2, 4),
+            VoxelShapes.join(Block.box(10, 0, 3.5, 13, 1, 4),
+              VoxelShapes.join(Block.box(3, 0, 3.5, 6, 1, 4),
+                VoxelShapes.join(Block.box(2, 1, 3.5, 5, 2, 4),
+                  VoxelShapes.join(Block.box(1, 2, 3.5, 4, 3, 4),
+                    Block.box(0, 3, 3.5, 3, 4, 4),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
               IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
         IBooleanFunction.OR)
     );
     VictiniBlock.VICTINI_TOP.put(Direction.EAST,
-      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 3, 13, 12.5, 4, 16),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 2, 12, 12.5, 3, 15),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 1, 11, 12.5, 2, 14),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 0, 10, 12.5, 1, 13),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 0, 3, 12.5, 1, 6),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 1, 2, 12.5, 2, 5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 2, 1, 12.5, 3, 4),
-                    Block.makeCuboidShape(12, 3, 0, 12.5, 4, 3),
+      VoxelShapes.join(Block.box(12, 3, 13, 12.5, 4, 16),
+        VoxelShapes.join(Block.box(12, 2, 12, 12.5, 3, 15),
+          VoxelShapes.join(Block.box(12, 1, 11, 12.5, 2, 14),
+            VoxelShapes.join(Block.box(12, 0, 10, 12.5, 1, 13),
+              VoxelShapes.join(Block.box(12, 0, 3, 12.5, 1, 6),
+                VoxelShapes.join(Block.box(12, 1, 2, 12.5, 2, 5),
+                  VoxelShapes.join(Block.box(12, 2, 1, 12.5, 3, 4),
+                    Block.box(12, 3, 0, 12.5, 4, 3),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
               IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
         IBooleanFunction.OR)
     );
     VictiniBlock.VICTINI_TOP.put(Direction.SOUTH,
-      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 12, 3, 4, 12.5),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 2, 12, 4, 3, 12.5),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 1, 12, 5, 2, 12.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 0, 12, 6, 1, 12.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 0, 12, 13, 1, 12.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11, 1, 12, 14, 2, 12.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 2, 12, 15, 3, 12.5),
-                    Block.makeCuboidShape(13, 3, 12, 16, 4, 12.5),
+      VoxelShapes.join(Block.box(0, 3, 12, 3, 4, 12.5),
+        VoxelShapes.join(Block.box(1, 2, 12, 4, 3, 12.5),
+          VoxelShapes.join(Block.box(2, 1, 12, 5, 2, 12.5),
+            VoxelShapes.join(Block.box(3, 0, 12, 6, 1, 12.5),
+              VoxelShapes.join(Block.box(10, 0, 12, 13, 1, 12.5),
+                VoxelShapes.join(Block.box(11, 1, 12, 14, 2, 12.5),
+                  VoxelShapes.join(Block.box(12, 2, 12, 15, 3, 12.5),
+                    Block.box(13, 3, 12, 16, 4, 12.5),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
               IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
         IBooleanFunction.OR)
     );
     VictiniBlock.VICTINI_TOP.put(Direction.WEST,
-      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 3, 0, 4, 4, 3),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 2, 1, 4, 3, 4),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 1, 2, 4, 2, 5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 0, 3, 4, 1, 6),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 0, 10, 4, 1, 13),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 1, 11, 4, 2, 14),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 2, 12, 4, 3, 15),
-                    Block.makeCuboidShape(3.5, 3, 13, 4, 4, 16),
+      VoxelShapes.join(Block.box(3.5, 3, 0, 4, 4, 3),
+        VoxelShapes.join(Block.box(3.5, 2, 1, 4, 3, 4),
+          VoxelShapes.join(Block.box(3.5, 1, 2, 4, 2, 5),
+            VoxelShapes.join(Block.box(3.5, 0, 3, 4, 1, 6),
+              VoxelShapes.join(Block.box(3.5, 0, 10, 4, 1, 13),
+                VoxelShapes.join(Block.box(3.5, 1, 11, 4, 2, 14),
+                  VoxelShapes.join(Block.box(3.5, 2, 12, 4, 3, 15),
+                    Block.box(3.5, 3, 13, 4, 4, 16),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
               IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
         IBooleanFunction.OR)
     );
     VictiniBlock.VICTINI_BOTTOM.put(Direction.NORTH,
-      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13.5, 7, 7, 15.5, 15, 9),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 13, 7, 13.5, 15, 9),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 13, 7, 4, 15, 9),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 0, 4, 12, 2, 12),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 6.5, 6, 10, 8.5, 10),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 10, 12, 16, 12),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 6, 6, 12, 16, 10),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 6, 6, 16, 10),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 4, 12, 16, 6),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 14, 3.5, 12, 15, 4),
-                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5, 13, 3.5, 11, 14, 4),
-                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9, 15, 3.5, 12, 16, 4),
-                              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 12, 3.5, 10, 13, 4),
-                                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 2, 6.5, 9.5, 6, 9.5),
-                                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 11, 3.5, 9, 12, 4),
-                                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 15, 3.5, 7, 16, 4),
-                                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0.5, 7, 7, 2.5, 15, 9),
-                                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 7, 7, 4, 9, 9),
-                                          Block.makeCuboidShape(12, 7, 7, 13.5, 9, 9),
+      VoxelShapes.join(Block.box(13.5, 7, 7, 15.5, 15, 9),
+        VoxelShapes.join(Block.box(12, 13, 7, 13.5, 15, 9),
+          VoxelShapes.join(Block.box(2.5, 13, 7, 4, 15, 9),
+            VoxelShapes.join(Block.box(4, 0, 4, 12, 2, 12),
+              VoxelShapes.join(Block.box(6, 6.5, 6, 10, 8.5, 10),
+                VoxelShapes.join(Block.box(4, 6, 10, 12, 16, 12),
+                  VoxelShapes.join(Block.box(10, 6, 6, 12, 16, 10),
+                    VoxelShapes.join(Block.box(4, 6, 6, 6, 16, 10),
+                      VoxelShapes.join(Block.box(4, 6, 4, 12, 16, 6),
+                        VoxelShapes.join(Block.box(4, 14, 3.5, 12, 15, 4),
+                          VoxelShapes.join(Block.box(5, 13, 3.5, 11, 14, 4),
+                            VoxelShapes.join(Block.box(9, 15, 3.5, 12, 16, 4),
+                              VoxelShapes.join(Block.box(6, 12, 3.5, 10, 13, 4),
+                                VoxelShapes.join(Block.box(6.5, 2, 6.5, 9.5, 6, 9.5),
+                                  VoxelShapes.join(Block.box(7, 11, 3.5, 9, 12, 4),
+                                    VoxelShapes.join(Block.box(4, 15, 3.5, 7, 16, 4),
+                                      VoxelShapes.join(Block.box(0.5, 7, 7, 2.5, 15, 9),
+                                        VoxelShapes.join(Block.box(2.5, 7, 7, 4, 9, 9),
+                                          Block.box(12, 7, 7, 13.5, 9, 9),
                                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                               IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
@@ -125,25 +125,25 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
     );
     VictiniBlock.VICTINI_BOTTOM.put(Direction.EAST,
-      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7, 13.5, 9, 15, 15.5),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 13, 12, 9, 15, 13.5),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 13, 2.5, 9, 15, 4),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 0, 4, 12, 2, 12),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 6.5, 6, 10, 8.5, 10),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 4, 6, 16, 12),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 6, 10, 10, 16, 12),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 6, 4, 10, 16, 6),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 6, 4, 12, 16, 12),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 14, 4, 12.5, 15, 12),
-                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 13, 5, 12.5, 14, 11),
-                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 15, 9, 12.5, 16, 12),
-                              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 12, 6, 12.5, 13, 10),
-                                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 2, 6.5, 9.5, 6, 9.5),
-                                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 11, 7, 12.5, 12, 9),
-                                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 15, 4, 12.5, 16, 7),
-                                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7, 0.5, 9, 15, 2.5),
-                                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7, 2.5, 9, 9, 4),
-                                          Block.makeCuboidShape(7, 7, 12, 9, 9, 13.5),
+      VoxelShapes.join(Block.box(7, 7, 13.5, 9, 15, 15.5),
+        VoxelShapes.join(Block.box(7, 13, 12, 9, 15, 13.5),
+          VoxelShapes.join(Block.box(7, 13, 2.5, 9, 15, 4),
+            VoxelShapes.join(Block.box(4, 0, 4, 12, 2, 12),
+              VoxelShapes.join(Block.box(6, 6.5, 6, 10, 8.5, 10),
+                VoxelShapes.join(Block.box(4, 6, 4, 6, 16, 12),
+                  VoxelShapes.join(Block.box(6, 6, 10, 10, 16, 12),
+                    VoxelShapes.join(Block.box(6, 6, 4, 10, 16, 6),
+                      VoxelShapes.join(Block.box(10, 6, 4, 12, 16, 12),
+                        VoxelShapes.join(Block.box(12, 14, 4, 12.5, 15, 12),
+                          VoxelShapes.join(Block.box(12, 13, 5, 12.5, 14, 11),
+                            VoxelShapes.join(Block.box(12, 15, 9, 12.5, 16, 12),
+                              VoxelShapes.join(Block.box(12, 12, 6, 12.5, 13, 10),
+                                VoxelShapes.join(Block.box(6.5, 2, 6.5, 9.5, 6, 9.5),
+                                  VoxelShapes.join(Block.box(12, 11, 7, 12.5, 12, 9),
+                                    VoxelShapes.join(Block.box(12, 15, 4, 12.5, 16, 7),
+                                      VoxelShapes.join(Block.box(7, 7, 0.5, 9, 15, 2.5),
+                                        VoxelShapes.join(Block.box(7, 7, 2.5, 9, 9, 4),
+                                          Block.box(7, 7, 12, 9, 9, 13.5),
                                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                               IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
@@ -152,25 +152,25 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
     );
     VictiniBlock.VICTINI_BOTTOM.put(Direction.SOUTH,
-      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0.5, 7, 7, 2.5, 15, 9),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 13, 7, 4, 15, 9),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 13, 7, 13.5, 15, 9),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 0, 4, 12, 2, 12),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 6.5, 6, 10, 8.5, 10),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 4, 12, 16, 6),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 6, 6, 16, 10),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 6, 6, 12, 16, 10),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 10, 12, 16, 12),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 14, 12, 12, 15, 12.5),
-                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5, 13, 12, 11, 14, 12.5),
-                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 15, 12, 7, 16, 12.5),
-                              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 12, 12, 10, 13, 12.5),
-                                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 2, 6.5, 9.5, 6, 9.5),
-                                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 11, 12, 9, 12, 12.5),
-                                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9, 15, 12, 12, 16, 12.5),
-                                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13.5, 7, 7, 15.5, 15, 9),
-                                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(12, 7, 7, 13.5, 9, 9),
-                                          Block.makeCuboidShape(2.5, 7, 7, 4, 9, 9),
+      VoxelShapes.join(Block.box(0.5, 7, 7, 2.5, 15, 9),
+        VoxelShapes.join(Block.box(2.5, 13, 7, 4, 15, 9),
+          VoxelShapes.join(Block.box(12, 13, 7, 13.5, 15, 9),
+            VoxelShapes.join(Block.box(4, 0, 4, 12, 2, 12),
+              VoxelShapes.join(Block.box(6, 6.5, 6, 10, 8.5, 10),
+                VoxelShapes.join(Block.box(4, 6, 4, 12, 16, 6),
+                  VoxelShapes.join(Block.box(4, 6, 6, 6, 16, 10),
+                    VoxelShapes.join(Block.box(10, 6, 6, 12, 16, 10),
+                      VoxelShapes.join(Block.box(4, 6, 10, 12, 16, 12),
+                        VoxelShapes.join(Block.box(4, 14, 12, 12, 15, 12.5),
+                          VoxelShapes.join(Block.box(5, 13, 12, 11, 14, 12.5),
+                            VoxelShapes.join(Block.box(4, 15, 12, 7, 16, 12.5),
+                              VoxelShapes.join(Block.box(6, 12, 12, 10, 13, 12.5),
+                                VoxelShapes.join(Block.box(6.5, 2, 6.5, 9.5, 6, 9.5),
+                                  VoxelShapes.join(Block.box(7, 11, 12, 9, 12, 12.5),
+                                    VoxelShapes.join(Block.box(9, 15, 12, 12, 16, 12.5),
+                                      VoxelShapes.join(Block.box(13.5, 7, 7, 15.5, 15, 9),
+                                        VoxelShapes.join(Block.box(12, 7, 7, 13.5, 9, 9),
+                                          Block.box(2.5, 7, 7, 4, 9, 9),
                                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                               IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
@@ -179,25 +179,25 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
     );
     VictiniBlock.VICTINI_BOTTOM.put(Direction.WEST,
-      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7, 0.5, 9, 15, 2.5),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 13, 2.5, 9, 15, 4),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 13, 12, 9, 15, 13.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 0, 4, 12, 2, 12),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 6.5, 6, 10, 8.5, 10),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 6, 4, 12, 16, 12),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 6, 4, 10, 16, 6),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 6, 10, 10, 16, 12),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 4, 6, 16, 12),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 14, 4, 4, 15, 12),
-                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 13, 5, 4, 14, 11),
-                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 15, 4, 4, 16, 7),
-                              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 12, 6, 4, 13, 10),
-                                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 2, 6.5, 9.5, 6, 9.5),
-                                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 11, 7, 4, 12, 9),
-                                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 15, 9, 4, 16, 12),
-                                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7, 13.5, 9, 15, 15.5),
-                                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7, 12, 9, 9, 13.5),
-                                          Block.makeCuboidShape(7, 7, 2.5, 9, 9, 4),
+      VoxelShapes.join(Block.box(7, 7, 0.5, 9, 15, 2.5),
+        VoxelShapes.join(Block.box(7, 13, 2.5, 9, 15, 4),
+          VoxelShapes.join(Block.box(7, 13, 12, 9, 15, 13.5),
+            VoxelShapes.join(Block.box(4, 0, 4, 12, 2, 12),
+              VoxelShapes.join(Block.box(6, 6.5, 6, 10, 8.5, 10),
+                VoxelShapes.join(Block.box(10, 6, 4, 12, 16, 12),
+                  VoxelShapes.join(Block.box(6, 6, 4, 10, 16, 6),
+                    VoxelShapes.join(Block.box(6, 6, 10, 10, 16, 12),
+                      VoxelShapes.join(Block.box(4, 6, 4, 6, 16, 12),
+                        VoxelShapes.join(Block.box(3.5, 14, 4, 4, 15, 12),
+                          VoxelShapes.join(Block.box(3.5, 13, 5, 4, 14, 11),
+                            VoxelShapes.join(Block.box(3.5, 15, 4, 4, 16, 7),
+                              VoxelShapes.join(Block.box(3.5, 12, 6, 4, 13, 10),
+                                VoxelShapes.join(Block.box(6.5, 2, 6.5, 9.5, 6, 9.5),
+                                  VoxelShapes.join(Block.box(3.5, 11, 7, 4, 12, 9),
+                                    VoxelShapes.join(Block.box(3.5, 15, 9, 4, 16, 12),
+                                      VoxelShapes.join(Block.box(7, 7, 13.5, 9, 15, 15.5),
+                                        VoxelShapes.join(Block.box(7, 7, 12, 9, 9, 13.5),
+                                          Block.box(7, 7, 2.5, 9, 9, 4),
                                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                               IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
@@ -213,38 +213,38 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        final VictiniBlockPart half = state.get(VictiniBlock.HALF);
-        if (half == VictiniBlockPart.BOTTOM) return VictiniBlock.VICTINI_BOTTOM.get(state.get(VictiniBlock.FACING));
-        else return VictiniBlock.VICTINI_TOP.get(state.get(VictiniBlock.FACING));
+        final VictiniBlockPart half = state.getValue(VictiniBlock.HALF);
+        if (half == VictiniBlockPart.BOTTOM) return VictiniBlock.VICTINI_BOTTOM.get(state.getValue(VictiniBlock.FACING));
+        else return VictiniBlock.VICTINI_TOP.get(state.getValue(VictiniBlock.FACING));
     }
 
     public VictiniBlock(final String name, final Properties props)
     {
         super(name, props);
-        this.setDefaultState(this.stateContainer.getBaseState().with(VictiniBlock.FACING, Direction.NORTH).with(
-                VictiniBlock.WATERLOGGED, false).with(VictiniBlock.HALF, VictiniBlockPart.BOTTOM));
+        this.registerDefaultState(this.stateDefinition.any().setValue(VictiniBlock.FACING, Direction.NORTH).setValue(
+                VictiniBlock.WATERLOGGED, false).setValue(VictiniBlock.HALF, VictiniBlockPart.BOTTOM));
     }
 
     // Places Victini Spawner with both top and bottom pieces
     @Override
-    public void onBlockPlacedBy(final World world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
             @Nullable final LivingEntity entity, final ItemStack stack)
     {
         if (entity != null)
         {
-            final FluidState fluidState = world.getFluidState(pos.up());
-            world.setBlockState(pos.up(), state.with(VictiniBlock.HALF, VictiniBlockPart.TOP).with(
-                    VictiniBlock.WATERLOGGED, fluidState.getFluid() == Fluids.WATER), 3);
+            final FluidState fluidState = world.getFluidState(pos.above());
+            world.setBlock(pos.above(), state.setValue(VictiniBlock.HALF, VictiniBlockPart.TOP).setValue(
+                    VictiniBlock.WATERLOGGED, fluidState.getType() == Fluids.WATER), 3);
         }
     }
 
     // Breaking Victini Spawner breaks both parts and returns one item only
     @Override
-    public void onBlockHarvested(final World world, final BlockPos pos, final BlockState state,
+    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
             final PlayerEntity player)
     {
-        final Direction facing = state.get(VictiniBlock.FACING);
-        final BlockPos victiniPos = this.getVictiniPos(pos, state.get(VictiniBlock.HALF), facing);
+        final Direction facing = state.getValue(VictiniBlock.FACING);
+        final BlockPos victiniPos = this.getVictiniPos(pos, state.getValue(VictiniBlock.HALF), facing);
         BlockState VictiniBlockState = world.getBlockState(victiniPos);
         if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPos) && this.getBlock() == BlockInit.VICTINI_CORE
                 .get()) this.removeHalf(world, victiniPos, VictiniBlockState);
@@ -252,7 +252,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
         VictiniBlockState = world.getBlockState(victiniPartPos);
         if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPartPos) && this
                 .getBlock() == BlockInit.VICTINI_CORE.get()) this.removeHalf(world, victiniPartPos, VictiniBlockState);
-        super.onBlockHarvested(world, pos, state, player);
+        super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getVictiniTopPos(final BlockPos base, final Direction facing)
@@ -260,7 +260,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
         switch (facing)
         {
         default:
-            return base.up();
+            return base.above();
         }
     }
 
@@ -270,7 +270,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
         switch (facing)
         {
         default:
-            return pos.down();
+            return pos.below();
         }
     }
 
@@ -278,8 +278,8 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     private void removeHalf(final World world, final BlockPos pos, final BlockState state)
     {
         final FluidState fluidState = world.getFluidState(pos);
-        if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
-        else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
+        if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
+        else world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
     }
 
     // Prevents the Victini Spawner from replacing blocks above it and checks
@@ -287,19 +287,19 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-        final BlockPos pos = context.getPos();
+        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final BlockPos pos = context.getClickedPos();
 
-        final BlockPos victiniPos = this.getVictiniTopPos(pos, context.getPlacementHorizontalFacing().getOpposite());
-        if (pos.getY() < 255 && victiniPos.getY() < 255 && context.getWorld().getBlockState(pos.up()).isReplaceable(
-                context)) return this.getDefaultState().with(VictiniBlock.FACING, context.getPlacementHorizontalFacing()
-                        .getOpposite()).with(VictiniBlock.HALF, VictiniBlockPart.BOTTOM).with(VictiniBlock.WATERLOGGED,
-                                ifluidstate.isTagged(FluidTags.WATER) && ifluidstate.getLevel() == 8);
+        final BlockPos victiniPos = this.getVictiniTopPos(pos, context.getHorizontalDirection().getOpposite());
+        if (pos.getY() < 255 && victiniPos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
+                context)) return this.defaultBlockState().setValue(VictiniBlock.FACING, context.getHorizontalDirection()
+                        .getOpposite()).setValue(VictiniBlock.HALF, VictiniBlockPart.BOTTOM).setValue(VictiniBlock.WATERLOGGED,
+                                ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
         return null;
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(VictiniBlock.HALF, VictiniBlock.FACING, VictiniBlock.WATERLOGGED);
     }

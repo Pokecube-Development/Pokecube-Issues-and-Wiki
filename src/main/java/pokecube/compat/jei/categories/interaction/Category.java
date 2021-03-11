@@ -38,7 +38,7 @@ public class Category implements IRecipeCategory<InteractRecipe>
     public Category(final IGuiHelper guiHelper)
     {
         this.background = guiHelper.createDrawable(Category.GUI, 29, 16, 116, 54);
-        this.localizedName = I18n.format("gui.jei.pokemobs.interact");
+        this.localizedName = I18n.get("gui.jei.pokemobs.interact");
         this.icon = guiHelper.createDrawable(Category.TABS, 48, 0, 16, 16);
     }
 

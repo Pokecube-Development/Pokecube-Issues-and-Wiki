@@ -58,12 +58,12 @@ public class BlockEventHandler
             if (user instanceof LivingEntity && own instanceof IOwnableTE && !((IOwnableTE) own).canEdit(
                     (LivingEntity) user) || pos == null) return false;
             // Assume that we right clicked the top of the block.
-            pos = GlobalPos.getPosition(pos.getDimension(), pos.getPos().up());
+            pos = GlobalPos.of(pos.dimension(), pos.pos().above());
             this.tile.getDest().setPos(pos);
             this.tile.getDest().shift(0.5, 0, 0.5);
-            if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
-                    "block.pokecube_adventures.warppad.link", pos.getPos().getX(), pos.getPos().getY(), pos.getPos()
-                            .getZ(), pos.getDimension()), Util.DUMMY_UUID);
+            if (!user.getCommandSenderWorld().isClientSide) user.sendMessage(new TranslationTextComponent(
+                    "block.pokecube_adventures.warppad.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
+                            .getZ(), pos.dimension()), Util.NIL_UUID);
             // Centre us properly.
             return true;
         }
@@ -100,7 +100,7 @@ public class BlockEventHandler
         {
             this.tile = tile;
             this.pos = new PosStorage();
-            this.pos.setLinkedPos(GlobalPos.getPosition(World.OVERWORLD, this.tile.getPos()), null);
+            this.pos.setLinkedPos(GlobalPos.of(World.OVERWORLD, this.tile.getBlockPos()), null);
         }
 
         @Override

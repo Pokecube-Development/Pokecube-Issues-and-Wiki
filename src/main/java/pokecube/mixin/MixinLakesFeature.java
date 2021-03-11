@@ -44,8 +44,8 @@ public abstract class MixinLakesFeature extends Feature<BlockStateFeatureConfig>
             final BlockPos blockPos, final BlockStateFeatureConfig config, final CallbackInfoReturnable<Boolean> cir)
     {
         if (!PokecubeCore.getConfig().lakeFeatureMixin) return;
-        for (final Structure<?> village : Structure.field_236384_t_)
-            if (world.func_241827_a(SectionPos.from(blockPos), village).findAny().isPresent())
+        for (final Structure<?> village : Structure.NOISE_AFFECTING_FEATURES)
+            if (world.startsForFeature(SectionPos.of(blockPos), village).findAny().isPresent())
             {
                 cir.setReturnValue(false);
                 break;

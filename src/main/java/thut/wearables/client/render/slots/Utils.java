@@ -14,9 +14,9 @@ public class Utils
         else y = -1;
         if (z == 0) z = 1;
         else z = -1;
-        final Matrix3f norms = mat.getLast().getNormal().copy();
+        final Matrix3f norms = mat.last().normal().copy();
         mat.scale(x, y, z);
-        mat.getLast().getNormal().set(norms);
+        mat.last().normal().load(norms);
 
     }
 }

@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 
 public class CrystallizedCactus extends Block
 {  
-	protected static final VoxelShape COLLISION_SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
-	protected static final VoxelShape OUTLINE_SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
+	protected static final VoxelShape COLLISION_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
+	protected static final VoxelShape OUTLINE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
     
 	public CrystallizedCactus(final String name, final Properties props)
     {
@@ -36,9 +36,9 @@ public class CrystallizedCactus extends Block
 	      return OUTLINE_SHAPE;
     }
 	
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+	public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
 		if ((entityIn instanceof PlayerEntity)) {
-			entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(DamageSource.CACTUS, 1.0F);
 		}
     }
 }

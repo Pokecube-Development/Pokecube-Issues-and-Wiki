@@ -39,7 +39,7 @@ public class Idle extends AbstractAntTask
     @Override
     public void run()
     {
-        if (this.entity.getNavigator().hasPath()) return;
+        if (this.entity.getNavigation().isInProgress()) return;
         final int num = this.nest.hab.rooms.allRooms.size();
         if (num == 0) return;
         if (this.timer-- > 0) return;
@@ -55,7 +55,7 @@ public class Idle extends AbstractAntTask
     @Override
     protected boolean doTask()
     {
-        if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getPos())) return false;
+        if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getBlockPos())) return false;
         return true;
     }
 

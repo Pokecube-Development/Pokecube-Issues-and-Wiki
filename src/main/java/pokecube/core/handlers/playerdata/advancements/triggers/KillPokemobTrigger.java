@@ -72,7 +72,7 @@ public class KillPokemobTrigger implements ICriterionTrigger<KillPokemobTrigger.
             List<ICriterionTrigger.Listener<KillPokemobTrigger.Instance>> list = null;
 
             for (final ICriterionTrigger.Listener<KillPokemobTrigger.Instance> listener : this.listeners)
-                if (listener.getCriterionInstance().test(player, pokemob))
+                if (listener.getTriggerInstance().test(player, pokemob))
                 {
                     if (list == null)
                         list = Lists.<ICriterionTrigger.Listener<KillPokemobTrigger.Instance>> newArrayList();
@@ -80,7 +80,7 @@ public class KillPokemobTrigger implements ICriterionTrigger<KillPokemobTrigger.
                     list.add(listener);
                 }
             if (list != null) for (final ICriterionTrigger.Listener<KillPokemobTrigger.Instance> listener1 : list)
-                listener1.grantCriterion(this.playerAdvancements);
+                listener1.run(this.playerAdvancements);
         }
     }
 
@@ -93,7 +93,7 @@ public class KillPokemobTrigger implements ICriterionTrigger<KillPokemobTrigger.
     }
 
     @Override
-    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+    public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<KillPokemobTrigger.Instance> listener)
     {
         KillPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -108,9 +108,9 @@ public class KillPokemobTrigger implements ICriterionTrigger<KillPokemobTrigger.
     }
 
     @Override
-    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         final String name = json.has("entry") ? json.get("entry").getAsString() : "";
         return new KillPokemobTrigger.Instance(pred, Database.getEntry(name));
     }
@@ -122,13 +122,13 @@ public class KillPokemobTrigger implements ICriterionTrigger<KillPokemobTrigger.
     }
 
     @Override
-    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
+    public void removePlayerListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+    public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<KillPokemobTrigger.Instance> listener)
     {
         final KillPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);

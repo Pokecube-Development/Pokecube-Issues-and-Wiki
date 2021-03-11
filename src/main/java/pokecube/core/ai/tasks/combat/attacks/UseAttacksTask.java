@@ -107,7 +107,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (!this.waitingToStart)
         {
             if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0) && !this.pokemob
-                    .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.getPositionVec(),
+                    .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.position(),
                             this.speed, 0);
             this.targetLoc.set(this.entityTarget);
             this.waitingToStart = true;
@@ -124,15 +124,15 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             if (!previousCaptureAttempt && PokecubeCore.getConfig().pokemobagresswarning
                     && this.entityTarget instanceof ServerPlayerEntity && !(this.entityTarget instanceof FakePlayer)
                     && !this.pokemob.getGeneralState(GeneralStates.TAMED) && ((PlayerEntity) this.entityTarget)
-                            .getRevengeTarget() != this.entity && ((PlayerEntity) this.entityTarget)
-                                    .getLastAttackedEntity() != this.entity)
+                            .getLastHurtByMob() != this.entity && ((PlayerEntity) this.entityTarget)
+                                    .getLastHurtMob() != this.entity)
             {
                 final ITextComponent message = new TranslationTextComponent("pokemob.agress", this.pokemob
                         .getDisplayName().getString());
                 try
                 {
                     // Only send this once.
-                    if (this.pokemob.getAttackCooldown() == 0) this.entityTarget.sendMessage(message, Util.DUMMY_UUID);
+                    if (this.pokemob.getAttackCooldown() == 0) this.entityTarget.sendMessage(message, Util.NIL_UUID);
                 }
                 catch (final Exception e)
                 {
@@ -144,7 +144,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         }
 
         // Look at the target
-        BrainUtil.lookAt(this.entity, this.entityTarget);
+        BrainUtil.lookAtEntity(this.entity, this.entityTarget);
 
         // No executing move state with no target location.
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove();
@@ -152,11 +152,11 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         Move_Base move = null;
         move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
         if (move == null) move = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
-        double var1 = (this.entity.getWidth() + 0.75) * (this.entity.getWidth() + 0.75);
+        double var1 = (this.entity.getBbWidth() + 0.75) * (this.entity.getBbWidth() + 0.75);
         boolean distanced = false;
         final boolean self = (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
-        final double dist = this.entity.getDistanceSq(this.entityTarget.getPosX(), this.entityTarget.getPosY(),
-                this.entityTarget.getPosZ());
+        final double dist = this.entity.distanceToSqr(this.entityTarget.getX(), this.entityTarget.getY(),
+                this.entityTarget.getZ());
 
         distanced = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0;
         // Check to see if the move is ranged, contact or self.
@@ -190,7 +190,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // have a move executing, we leave the old location to give the target
         // time to dodge needed.
         if (!this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) this.targetLoc.set(this.entityTarget).addTo(0,
-                this.entityTarget.getHeight() / 2, 0);
+                this.entityTarget.getBbHeight() / 2, 0);
 
         final boolean isTargetDodging = this.pokemobTarget != null && this.pokemobTarget.getCombatState(
                 CombatStates.DODGING);
@@ -199,14 +199,14 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // then set target location to where the target is now. This is so that
         // it can use the older postion set above, lowering the accuracy of move
         // use, allowing easier dodging.
-        if (!isTargetDodging) this.targetLoc.set(this.entityTarget).addTo(0, this.entityTarget.getHeight() / 2, 0);
+        if (!isTargetDodging) this.targetLoc.set(this.entityTarget).addTo(0, this.entityTarget.getBbHeight() / 2, 0);
 
         boolean delay = false;
         // Check if the attack should, applying a new delay if this is the
         // case..
         if (inRange && canSee || self)
         {
-            if (this.delayTime <= 0 && this.entity.addedToChunk)
+            if (this.delayTime <= 0 && this.entity.inChunk)
             {
                 this.delayTime = this.pokemob.getAttackCooldown();
                 delay = canUseMove;
@@ -228,10 +228,10 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             // Tell the target no need to try to dodge anymore, move is fired.
             if (this.pokemobTarget != null) this.pokemobTarget.setCombatState(CombatStates.DODGING, false);
             // Swing arm for effect.
-            if (this.entity.getHeldItemMainhand() != null) this.entity.swingArm(Hand.MAIN_HAND);
+            if (this.entity.getMainHandItem() != null) this.entity.swing(Hand.MAIN_HAND);
             // Apply the move.
             final float f = (float) this.targetLoc.distToEntity(this.entity);
-            if (this.entity.addedToChunk)
+            if (this.entity.inChunk)
             {
                 this.pokemob.executeMove(this.entityTarget, this.targetLoc.copy(), f);
                 // Reset executing move and no item use status now that we have
@@ -245,7 +245,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         }
         // If there is a target location, and it should path to it, queue a path
         // for the mob.
-        if (!this.targetLoc.isEmpty() && shouldPath) this.setWalkTo(this.entityTarget.getPositionVec(), this.speed, 0);
+        if (!this.targetLoc.isEmpty() && shouldPath) this.setWalkTo(this.entityTarget.position(), this.speed, 0);
     }
 
     @Override
@@ -271,6 +271,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     @Override
     public void tick()
     {
-        this.entity.getPersistentData().putLong("lastAttackTick", this.entity.getEntityWorld().getGameTime());
+        this.entity.getPersistentData().putLong("lastAttackTick", this.entity.getCommandSenderWorld().getGameTime());
     }
 }

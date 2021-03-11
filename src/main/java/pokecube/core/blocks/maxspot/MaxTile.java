@@ -40,30 +40,30 @@ public class MaxTile extends InteractableTile
 
     public boolean addForbiddenSpawningCoord()
     {
-        if (this.getWorld() == null || this.getWorld().isRemote || !this.enabled) return false;
-        final BlockPos pos = this.getPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos, this.world, this.range, MaxTile.MAXSPOT);
+        if (this.getLevel() == null || this.getLevel().isClientSide || !this.enabled) return false;
+        final BlockPos pos = this.getBlockPos();
+        return SpawnHandler.addForbiddenSpawningCoord(pos, this.level, this.range, MaxTile.MAXSPOT);
     }
 
     @Override
     public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
-        final ItemStack stack = player.getHeldItem(hand);
+        final ItemStack stack = player.getItemInHand(hand);
         if (stack.getItem() instanceof ItemBerry)
         {
             final ItemBerry berry = (ItemBerry) stack.getItem();
             final int old = this.range;
             this.range = Math.max(1, berry.type.index);
             if (!player.isCreative() && old != this.range) stack.split(1);
-            if (!this.getWorld().isRemote) player.sendMessage(new TranslationTextComponent("repel.info.setrange",
-                    this.range, this.enabled), Util.DUMMY_UUID);
+            if (!this.getLevel().isClientSide) player.sendMessage(new TranslationTextComponent("repel.info.setrange",
+                    this.range, this.enabled), Util.NIL_UUID);
             return ActionResultType.SUCCESS;
         }
         else if (stack.getItem() instanceof ItemPokedex)
         {
-            if (!this.getWorld().isRemote) player.sendMessage(new TranslationTextComponent("repel.info.getrange",
-                    this.range, this.enabled), Util.DUMMY_UUID);
+            if (!this.getLevel().isClientSide) player.sendMessage(new TranslationTextComponent("repel.info.getrange",
+                    this.range, this.enabled), Util.NIL_UUID);
             return ActionResultType.SUCCESS;
         }
         return ActionResultType.PASS;
@@ -71,30 +71,30 @@ public class MaxTile extends InteractableTile
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void read(final BlockState state, final CompoundNBT nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
-        super.read(state, nbt);
+        super.load(state, nbt);
         this.range = nbt.getInt("range");
         this.enabled = nbt.getBoolean("enabled");
     }
 
     @Override
-    public void remove()
+    public void setRemoved()
     {
-        super.remove();
+        super.setRemoved();
         this.removeForbiddenSpawningCoord();
     }
 
     public boolean removeForbiddenSpawningCoord()
     {
-        if (this.getWorld() == null || this.getWorld().isRemote) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world);
+        if (this.getLevel() == null || this.getLevel().isClientSide) return false;
+        return SpawnHandler.removeForbiddenSpawningCoord(this.getBlockPos(), this.level);
     }
 
     @Override
-    public void validate()
+    public void clearRemoved()
     {
-        super.validate();
+        super.clearRemoved();
         this.addForbiddenSpawningCoord();
     }
 
@@ -104,9 +104,9 @@ public class MaxTile extends InteractableTile
      * @return
      */
     @Override
-    public CompoundNBT write(final CompoundNBT nbt)
+    public CompoundNBT save(final CompoundNBT nbt)
     {
-        super.write(nbt);
+        super.save(nbt);
         nbt.putInt("range", this.range);
         nbt.putBoolean("enabled", true);
         return nbt;

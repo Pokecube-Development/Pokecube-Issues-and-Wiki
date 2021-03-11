@@ -30,13 +30,13 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isRemote || evt.getItemStack().isEmpty() || !evt
-                .getPlayer().isSneaking() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
+        if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty() || !evt
+                .getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
         final BlockPos pos = evt.getPos();
-        if (itemstack.hasTag() && playerIn.isSneaking() && itemstack.getTag().contains("min"))
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
             BlockPos min = pos;
@@ -51,15 +51,15 @@ public class CommonProxy implements Proxy
             if (max.getY() - min.getY() > 10 || dw > 2 * 5 + 1)
             {
                 final String message = "msg.craft.toobig";
-                if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
+                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message), Util.NIL_UUID);
                 return;
             }
-            if (!worldIn.isRemote)
+            if (!worldIn.isClientSide)
             {
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
                         EntityCraft.CRAFTTYPE);
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
+                playerIn.sendMessage(new TranslationTextComponent(message), Util.NIL_UUID);
             }
             itemstack.getTag().remove("min");
             evt.setCanceled(true);
@@ -71,7 +71,7 @@ public class CommonProxy implements Proxy
             Vector3.getNewVector().set(pos).writeToNBT(min, "");
             itemstack.getTag().put("min", min);
             final String message = "msg.craft.setcorner";
-            if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.DUMMY_UUID);
+            if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.NIL_UUID);
             evt.setCanceled(true);
             itemstack.getTag().putLong("time", worldIn.getGameTime());
         }
@@ -80,17 +80,17 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isRemote || evt.getItemStack().isEmpty() || !evt
-                .getPlayer().isSneaking() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
+        if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty() || !evt
+                .getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
-        if (itemstack.hasTag() && playerIn.isSneaking() && itemstack.getTag().contains("min") && itemstack.getTag()
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
                 .getLong("time") != worldIn.getGameTime())
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
-            final Vector3d loc = playerIn.getPositionVec().add(0, playerIn.getEyeHeight(), 0).add(playerIn
-                    .getLookVec().scale(2));
+            final Vector3d loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn
+                    .getLookAngle().scale(2));
             final BlockPos pos = new BlockPos(loc);
             BlockPos min = pos;
             BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
@@ -104,15 +104,15 @@ public class CommonProxy implements Proxy
             if (max.getY() - min.getY() > 15 || dw > 2 * 10 + 1)
             {
                 final String message = "msg.craft.toobig";
-                if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
+                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message), Util.NIL_UUID);
                 return;
             }
-            if (!worldIn.isRemote)
+            if (!worldIn.isClientSide)
             {
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
                         EntityCraft.CRAFTTYPE);
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                playerIn.sendMessage(new TranslationTextComponent(message), Util.DUMMY_UUID);
+                playerIn.sendMessage(new TranslationTextComponent(message), Util.NIL_UUID);
             }
             itemstack.getTag().remove("min");
         }
@@ -121,7 +121,7 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void logout(final PlayerLoggedOutEvent event)
     {
-        if (event.getPlayer().isPassenger() && event.getPlayer().getLowestRidingEntity() instanceof EntityCraft) event
+        if (event.getPlayer().isPassenger() && event.getPlayer().getRootVehicle() instanceof EntityCraft) event
                 .getPlayer().stopRiding();
     }
 

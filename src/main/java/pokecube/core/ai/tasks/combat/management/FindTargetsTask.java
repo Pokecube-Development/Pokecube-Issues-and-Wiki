@@ -58,7 +58,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     {
         if (!FindTargetsTask.handleDamagedTargets) return;
         List<Entity> mobs = PokemobTracker.getMobs(event.originalTarget, e -> CapabilityPokemob.getPokemobFor(e) != null
-                && e.getDistanceSq(event.originalTarget) < 4096);
+                && e.distanceToSqr(event.originalTarget) < 4096);
 
         // Remove any "non agressive" mobs, as they won't be actively drawing
         // agro from the player.
@@ -72,7 +72,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (targetHasMobs)
         {
 
-            mobs.sort((o1, o2) -> (int) (o1.getDistanceSq(event.mob) - o2.getDistanceSq(event.mob)));
+            mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(event.mob) - o2.distanceToSqr(event.mob)));
             final Entity mob = mobs.get(0);
             mobs = PokemobTracker.getMobs(mob, e -> true);
             // No loop diverting
@@ -88,7 +88,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (event.getTarget() == null) return;
 
         List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(), e -> CapabilityPokemob.getPokemobFor(e) != null
-                && e.getDistanceSq(event.getTarget()) < 4096);
+                && e.distanceToSqr(event.getTarget()) < 4096);
 
         // Remove any "non agressive" mobs, as they won't be actively drawing
         // agro from the player.
@@ -102,7 +102,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         if (targetHasMobs)
         {
-            mobs.sort((o1, o2) -> (int) (o1.getDistanceSq(event.getEntityLiving()) - o2.getDistanceSq(event
+            mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(event.getEntityLiving()) - o2.distanceToSqr(event
                     .getEntityLiving())));
             final Entity mob = mobs.get(0);
             mobs = PokemobTracker.getMobs(mob, e -> true);
@@ -124,7 +124,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (source instanceof PokemobDamageSource)
         {
             final LivingEntity hurt = event.getEntityLiving();
-            final Entity user = source.getImmediateSource();
+            final Entity user = source.getDirectEntity();
             // Only divert target if no target already, and this is a valid
             // target, this prevents player's mobs fighting each other.
             if (!BrainUtils.hasAttackTarget(hurt) && AITools.shouldBeAbleToAgro(hurt, user))
@@ -143,7 +143,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
     public FindTargetsTask(final IPokemob mob)
     {
-        super(mob, ImmutableMap.of(MemoryModuleType.VISIBLE_MOBS, MemoryModuleStatus.VALUE_PRESENT));
+        super(mob, ImmutableMap.of(MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleStatus.VALUE_PRESENT));
         this.validGuardTarget = input -> AITools.shouldBeAbleToAgro(this.entity, input);
     }
 
@@ -168,7 +168,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         final int rate = PokecubeCore.getConfig().guardTickRate;
         // Disable via rate out of bounds, or not correct time in the rate.
-        if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
+        if (rate <= 0 || this.entity.tickCount % rate != 0) return false;
 
         // Select either owner or home position as the centre of the check,
         // this results in it guarding either its home or its owner. Home is
@@ -179,11 +179,11 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         else centre.set(this.pokemob.getOwner());
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
         // Only allow valid guard targets.
         for (final LivingEntity o : pokemobs)
             if (this.validGuardTarget.test(o)) ret.add(o);
-        ret.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
+        ret.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
         if (ret.isEmpty()) return false;
 
         // This is already sorted by distance!
@@ -216,12 +216,12 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         final int rate = PokecubeCore.getConfig().guardTickRate;
         // Disable via rate out of bounds, or not correct time in the rate.
-        if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
+        if (rate <= 0 || this.entity.tickCount % rate != 0) return false;
 
         final List<LivingEntity> list = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
         list.addAll(pokemobs);
-        list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance
+        list.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance
                 && AITools.validTargets.test(e));
         if (list.isEmpty()) return false;
 
@@ -254,7 +254,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Check if pokemob can see the target, if yes start battle
         if (this.targetId != null)
         {
-            final Entity mob = this.world.getEntityByUuid(this.targetId);
+            final Entity mob = this.world.getEntity(this.targetId);
             if (!(mob instanceof LivingEntity) && !BrainUtils.canSee(this.entity, (LivingEntity) mob) && !this
                     .initiateBattle((LivingEntity) mob)) this.clear();
 
@@ -291,13 +291,13 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // found, try to aggress them immediately.
         if (!this.pokemob.getGeneralState(GeneralStates.STAYING)) if (this.checkOwner()) return;
 
-        final boolean playerNear = this.entity.getBrain().hasMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
+        final boolean playerNear = this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
 
         // If wild, randomly decided to agro a nearby player instead.
         if (playerNear && AITools.shouldAgroNearestPlayer.test(this.pokemob))
         {
             PlayerEntity player = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
-            if (player != null && player.getDistance(this.entity) > PokecubeCore.getConfig().mobAggroRadius)
+            if (player != null && player.distanceTo(this.entity) > PokecubeCore.getConfig().mobAggroRadius)
                 player = null;
             if (player != null && AITools.validTargets.test(player))
             {
@@ -322,11 +322,11 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     public boolean shouldRun()
     {
         if (!this.pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
-        if (!this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS)) return false;
+        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return false;
         if (BrainUtils.hasAttackTarget(this.entity))
         {
             final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
-            this.targetId = target.getUniqueID();
+            this.targetId = target.getUUID();
             this.forgetTimer = FindTargetsTask.DEAGROTIMER;
             return false;
         }

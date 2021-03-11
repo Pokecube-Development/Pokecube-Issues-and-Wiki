@@ -72,8 +72,8 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
     public TeleDest getDest()
     {
-        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.getPosition(this.getWorld() != null ? this
-                .getWorld().getDimensionKey() : World.OVERWORLD, this.getPos().up(4)));
+        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.of(this.getLevel() != null ? this
+                .getLevel().dimension() : World.OVERWORLD, this.getBlockPos().above(4)));
         return this.dest;
     }
 
@@ -81,12 +81,12 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     public void onWalkedOn(final Entity entityIn)
     {
         // TODO possible error log when things fail for reasons?
-        if (WarppadTile.invalidSources.contains(entityIn.getEntityWorld().getDimensionKey()) || entityIn
-                .getEntityWorld().isRemote) return;
+        if (WarppadTile.invalidSources.contains(entityIn.getCommandSenderWorld().dimension()) || entityIn
+                .getCommandSenderWorld().isClientSide) return;
 
         final TeleDest dest = this.getDest();
-        final BlockPos link = dest.loc.getPos();
-        final long time = this.world.getGameTime();
+        final BlockPos link = dest.loc.pos();
+        final long time = this.level.getGameTime();
         final long lastStepped = entityIn.getPersistentData().getLong("lastWarpPadUse");
         // No step now, too soon.
         if (lastStepped - WarppadTile.COOLDOWN > time) return;
@@ -104,21 +104,21 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
             cost = WarppadTile.parser.getValue();
             if (!this.noEnergyNeed && this.energy < cost)
             {
-                this.getWorld().playSound(null, this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos()
-                        .getZ() + 0.5, SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS, 1, 1);
+                this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos()
+                        .getZ() + 0.5, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS, 1, 1);
                 return;
             }
             else this.energy -= cost;
         }
-        this.getWorld().playSound(null, this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos().getZ()
-                + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
-        this.getWorld().playSound(null, link.getX() + 0.5, link.getY() + 0.5, link.getZ() + 0.5,
-                SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
+        this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos().getZ()
+                + 0.5, SoundEvents.ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
+        this.getLevel().playSound(null, link.getX() + 0.5, link.getY() + 0.5, link.getZ() + 0.5,
+                SoundEvents.ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
         WarppadTile.warp(entityIn, dest, true);
     }
 
     @Override
-    public void read(final BlockState stateIn, final CompoundNBT compound)
+    public void load(final BlockState stateIn, final CompoundNBT compound)
     {
         if (compound.contains("dest"))
         {
@@ -127,18 +127,18 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
         }
         this.energy = compound.getInt("energy");
         this.noEnergyNeed = compound.getBoolean("noEnergyNeed");
-        super.read(stateIn, compound);
+        super.load(stateIn, compound);
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         final CompoundNBT tag = new CompoundNBT();
         this.getDest().writeToNBT(tag);
         compound.put("dest", tag);
         compound.putInt("energy", this.energy);
         compound.putBoolean("noEnergyNeed", this.noEnergyNeed);
-        return super.write(compound);
+        return super.save(compound);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class CustomRequestPacket extends Packet
     public CustomRequestPacket(final PacketBuffer buf)
     {
         this.entityID = buf.readInt();
-        this.customName = new PacketBuffer(buf).readString(30);
+        this.customName = new PacketBuffer(buf).readUtf(30);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class CustomRequestPacket extends Packet
     public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityID);
-        new PacketBuffer(buf).writeString(this.customName);
+        new PacketBuffer(buf).writeUtf(this.customName);
     }
 }

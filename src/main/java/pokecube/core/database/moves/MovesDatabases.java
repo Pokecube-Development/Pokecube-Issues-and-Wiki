@@ -13,7 +13,7 @@ public class MovesDatabases
 
     public static void preInitLoad()
     {
-        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
                 MovesDatabases.DATABASES, s -> s.endsWith(".json") && !s.endsWith("_anims.json"));
         for (final ResourceLocation s : resources)
             try

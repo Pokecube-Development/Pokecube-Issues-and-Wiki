@@ -120,24 +120,24 @@ public class Pokemob extends Page
                     new StringTextComponent(""));
             this.evs[i] = new TextFieldWidget(this.font, evivshiftx + 30, evivshifty + i * 10, 30, 10,
                     new StringTextComponent(""));
-            this.ivs[i].setValidator(intValid);
-            this.evs[i].setValidator(intValid);
+            this.ivs[i].setFilter(intValid);
+            this.evs[i].setFilter(intValid);
             this.addButton(this.ivs[i]);
             this.addButton(this.evs[i]);
         }
         this.level = new TextFieldWidget(this.font, xOffset - 120, yOffset + 26, 27, 10, new StringTextComponent(""));
-        this.level.setValidator(intValid);
+        this.level.setFilter(intValid);
         this.addButton(this.level);
 
         this.size = new TextFieldWidget(this.font, xOffset - 90, yOffset + 26, 50, 10, new StringTextComponent(""));
-        this.size.setValidator(floatValid);
+        this.size.setFilter(floatValid);
         this.addButton(this.size);
 
         this.ability = new TextFieldWidget(this.font, xOffset - 60, yOffset + 50, 90, 10, new StringTextComponent(""));
         this.nature = new TextFieldWidget(this.font, xOffset - 120, yOffset + 50, 50, 10, new StringTextComponent(""));
         this.addButton(this.ability);
         this.addButton(this.nature);
-        this.nature.setEnabled(false);
+        this.nature.setEditable(false);
 
         for (int i = 0; i < 4; i++)
         {
@@ -147,17 +147,17 @@ public class Pokemob extends Page
                 move = this.pokemob.getMove(i);
                 if (move == null) move = "";
             }
-            this.moves[i].setText(move);
-            this.moves[i].moveCursorBy(-100);
+            this.moves[i].setValue(move);
+            this.moves[i].moveCursor(-100);
         }
         for (int i = 0; i < 6; i++)
         {
             int value = 0;
             if (this.pokemob != null) value = this.pokemob.getIVs()[i];
-            this.ivs[i].setText("" + value);
+            this.ivs[i].setValue("" + value);
             value = 0;
             if (this.pokemob != null) value = this.pokemob.getEVs()[i] - Byte.MIN_VALUE;
-            this.evs[i].setText("" + value);
+            this.evs[i].setValue("" + value);
         }
 
         int level = 1;
@@ -183,11 +183,11 @@ public class Pokemob extends Page
             this.shiny = this.pokemob.isShiny();
         }
         final String gender = this.gender == IPokemob.MALE ? "\u2642" : this.gender == IPokemob.FEMALE ? "\u2640" : "o";
-        this.nature.setText("" + nature);
-        this.ability.setText("" + ability);
-        this.size.setText("" + size);
-        this.level.setText("" + level);
-        this.type.setText(name);
+        this.nature.setValue("" + nature);
+        this.ability.setValue("" + ability);
+        this.size.setValue("" + size);
+        this.level.setValue("" + level);
+        this.type.setValue(name);
 
         // Now for the buttons
 
@@ -200,8 +200,8 @@ public class Pokemob extends Page
             if (index > Nature.values().length - 1) index = 0;
             this.nat = Nature.values()[index];
             this.pokemob.setNature(this.nat);
-            this.nature.setText("" + this.nat);
-            this.nature.moveCursorBy(-100);
+            this.nature.setValue("" + this.nat);
+            this.nature.moveCursor(-100);
             this.onChanged();
         }));
         this.addButton(new Button(xOffset - 112, yOffset + 62, 12, 12, prev, b ->
@@ -210,8 +210,8 @@ public class Pokemob extends Page
             if (index < 0) index = Nature.values().length - 1;
             this.nat = Nature.values()[index];
             this.pokemob.setNature(this.nat);
-            this.nature.setText("" + this.nat);
-            this.nature.moveCursorBy(-100);
+            this.nature.setValue("" + this.nat);
+            this.nature.moveCursor(-100);
             this.onChanged();
         }));
 
@@ -223,8 +223,8 @@ public class Pokemob extends Page
                 if (this.abilIndex > 2) this.abilIndex = 0;
                 this.pokemob.setAbilityIndex(this.abilIndex);
                 this.pokemob.setAbility(this.pokemob.getPokedexEntry().getAbility(this.abilIndex, this.pokemob));
-                this.ability.setText("" + this.pokemob.getAbility());
-                this.ability.moveCursorBy(-100);
+                this.ability.setValue("" + this.pokemob.getAbility());
+                this.ability.moveCursor(-100);
                 this.onChanged();
             }
         }));
@@ -234,8 +234,8 @@ public class Pokemob extends Page
             if (this.abilIndex < 0) this.abilIndex = 2;
             this.pokemob.setAbilityIndex(this.abilIndex);
             this.pokemob.setAbility(this.pokemob.getPokedexEntry().getAbility(this.abilIndex, this.pokemob));
-            this.ability.setText("" + this.pokemob.getAbility());
-            this.ability.moveCursorBy(-100);
+            this.ability.setValue("" + this.pokemob.getAbility());
+            this.ability.moveCursor(-100);
             this.onChanged();
         }));
 
@@ -300,7 +300,7 @@ public class Pokemob extends Page
         boolean newMob = this.pokemob == null;
         final CompoundNBT info = new CompoundNBT();
 
-        final PokedexEntry entry = Database.getEntry(this.type.getText());
+        final PokedexEntry entry = Database.getEntry(this.type.getValue());
         final boolean makeNew = this.pokemob == null || this.pokemob.getPokedexEntry() != entry;
 
         if (makeNew)
@@ -308,21 +308,21 @@ public class Pokemob extends Page
             PokecubeCore.LOGGER.debug("Creating new mob for trainer");
             if (entry == null || entry == Database.missingno)
             {
-                Minecraft.getInstance().player.sendStatusMessage(new TranslationTextComponent(
+                Minecraft.getInstance().player.displayClientMessage(new TranslationTextComponent(
                         "traineredit.info.invalidentry"), true);
-                this.type.setText("");
+                this.type.setValue("");
                 return;
             }
             else
             {
-                final Entity mob = PokecubeCore.createPokemob(entry, Minecraft.getInstance().world);
+                final Entity mob = PokecubeCore.createPokemob(entry, Minecraft.getInstance().level);
                 this.pokemob = CapabilityPokemob.getPokemobFor(mob);
                 newMob = true;
                 if (this.pokemob == null)
                 {
-                    Minecraft.getInstance().player.sendStatusMessage(new TranslationTextComponent(
+                    Minecraft.getInstance().player.displayClientMessage(new TranslationTextComponent(
                             "traineredit.info.invalidentry"), true);
-                    this.type.setText("");
+                    this.type.setValue("");
                     return;
                 }
                 int level = 1;
@@ -344,48 +344,48 @@ public class Pokemob extends Page
                     this.gender = this.pokemob.getSexe();
                     this.abilIndex = this.pokemob.getAbilityIndex();
                 }
-                this.nature.setText("" + nature);
-                this.ability.setText("" + ability);
-                this.size.setText("" + size);
-                this.level.setText("" + level);
-                this.type.setText(name);
+                this.nature.setValue("" + nature);
+                this.ability.setValue("" + ability);
+                this.size.setValue("" + size);
+                this.level.setValue("" + level);
+                this.type.setValue(name);
             }
         }
         if (this.pokemob != null && !newMob)
         {
             for (int i = 0; i < 4; i++)
             {
-                final String move = this.moves[i].getText();
+                final String move = this.moves[i].getValue();
                 info.putString("m_" + i, move);
                 this.pokemob.setMove(i, move);
             }
             for (int i = 0; i < 6; i++)
             {
-                final byte iv = Byte.parseByte(this.ivs[i].getText());
+                final byte iv = Byte.parseByte(this.ivs[i].getValue());
                 final byte[] ivs = this.pokemob.getIVs();
                 ivs[i] = iv;
                 info.putByte("iv_" + i, iv);
                 this.pokemob.setIVs(ivs);
-                final byte ev = (byte) (Integer.parseInt(this.evs[i].getText()) + Byte.MIN_VALUE);
+                final byte ev = (byte) (Integer.parseInt(this.evs[i].getValue()) + Byte.MIN_VALUE);
                 final byte[] evs = this.pokemob.getEVs();
                 evs[i] = ev;
                 info.putByte("ev_" + i, ev);
                 this.pokemob.setEVs(evs);
             }
-            if (!AbilityManager.abilityExists(this.ability.getText())) this.ability.setText("" + this.pokemob
+            if (!AbilityManager.abilityExists(this.ability.getValue())) this.ability.setValue("" + this.pokemob
                     .getAbility());
             else
             {
-                this.pokemob.setAbility(AbilityManager.getAbility(this.ability.getText()));
-                info.putString("a", this.ability.getText());
+                this.pokemob.setAbility(AbilityManager.getAbility(this.ability.getValue()));
+                info.putString("a", this.ability.getValue());
             }
 
             this.pokemob.setExp(Tools.levelToXp(this.pokemob.getExperienceMode(), Integer.parseInt(this.level
-                    .getText())), false);
-            info.putInt("l", Integer.parseInt(this.level.getText()));
+                    .getValue())), false);
+            info.putInt("l", Integer.parseInt(this.level.getValue()));
 
-            this.pokemob.setSize(Float.parseFloat(this.size.getText()));
-            info.putFloat("s", Float.parseFloat(this.size.getText()));
+            this.pokemob.setSize(Float.parseFloat(this.size.getValue()));
+            info.putFloat("s", Float.parseFloat(this.size.getValue()));
 
             this.pokemob.setNature(this.nat);
             info.putString("n", this.nat.name());
@@ -401,9 +401,9 @@ public class Pokemob extends Page
             final ItemStack stack = this.parent.trainer.getPokemob(this.index);
             final CompoundNBT tag = new CompoundNBT();
             tag.put("__custom_info__", info);
-            stack.write(tag);
+            stack.save(tag);
             final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
-            message.getTag().putInt("I", this.parent.entity.getEntityId());
+            message.getTag().putInt("I", this.parent.entity.getId());
             message.getTag().putInt("__trainers__", this.index);
             message.getTag().put("__pokemob__", tag);
             message.getTag().putBoolean("__reopen__", newMob);
@@ -411,15 +411,15 @@ public class Pokemob extends Page
 
             if (newMob)
             {
-                this.closeScreen();
+                this.onClose();
                 // This is needed to update that the pokemobs have changed
                 Trainer.lastMobIndex = this.index;
             }
         }
-        else if (this.pokemob != null && this.pokemob.getEntity().addedToChunk)
+        else if (this.pokemob != null && this.pokemob.getEntity().inChunk)
         {
             final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
-            message.getTag().putInt("I", this.parent.entity.getEntityId());
+            message.getTag().putInt("I", this.parent.entity.getId());
             message.getTag().put("__pokemob__", info);
             PacketTrainer.ASSEMBLER.sendToServer(message);
         }
@@ -442,19 +442,19 @@ public class Pokemob extends Page
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         final int x = this.parent.width / 2;
         final int y = this.parent.height / 2 - 70;
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.pokemob"), x - 110, y + 5, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.moves"), x - 120, y + 30, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.shiny"), x - 60, y + 30, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.level"), x - 120, y + 85, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.size"), x - 90, y + 85, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.nature"), x - 120, y + 110, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.ability"), x - 60, y + 110, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.evs"), x + 90, y, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("traineredit.info.ivs"), x + 60, y, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.pokemob"), x - 110, y + 5, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.moves"), x - 120, y + 30, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.shiny"), x - 60, y + 30, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.level"), x - 120, y + 85, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.size"), x - 90, y + 85, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.nature"), x - 120, y + 110, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.ability"), x - 60, y + 110, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.evs"), x + 90, y, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("traineredit.info.ivs"), x + 60, y, 0xFFFFFFFF);
 
         if (this.pokemob != null)
         {
-            final float yaw = Util.milliTime() / 20;
+            final float yaw = Util.getMillis() / 20;
             final int dx = -50;
             final int dy = +20;
             // Draw the actual pokemob

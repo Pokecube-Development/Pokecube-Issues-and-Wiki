@@ -41,7 +41,7 @@ public class RecipePokeseals extends SpecialRecipe
         {
             final ItemStack blank = cube.copy();
             blank.setTag(new CompoundNBT());
-            blank.write(pokecubeTag);
+            blank.save(pokecubeTag);
         }
         if (!pokecubeTag.contains("tag")) pokecubeTag.put("tag", new CompoundNBT());
         final CompoundNBT cubeTag = pokecubeTag.getCompound("tag");
@@ -59,21 +59,21 @@ public class RecipePokeseals extends SpecialRecipe
     }
 
     @Override
-    public boolean canFit(final int width, final int height)
+    public boolean canCraftInDimensions(final int width, final int height)
     {
         return width * height > 1;
     }
 
     @Override
-    public ItemStack getCraftingResult(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         final ItemStack toCraft = new ItemStack(PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL), 1);
         final CompoundNBT tag = new CompoundNBT();
         final CompoundNBT tag1 = new CompoundNBT();
         boolean dye;
-        for (int l1 = 0; l1 < inv.getSizeInventory(); ++l1)
+        for (int l1 = 0; l1 < inv.getContainerSize(); ++l1)
         {
-            final ItemStack itemstack = inv.getStackInSlot(l1);
+            final ItemStack itemstack = inv.getItem(l1);
             dye = ItemList.is(RecipePokeseals.ANYDYE, itemstack);
             if (dye)
             {
@@ -112,9 +112,9 @@ public class RecipePokeseals extends SpecialRecipe
         int cube = 0;
         int addons = 0;
         boolean dye = false;
-        for (int k1 = 0; k1 < inv.getSizeInventory(); ++k1)
+        for (int k1 = 0; k1 < inv.getContainerSize(); ++k1)
         {
-            final ItemStack itemstack = inv.getStackInSlot(k1);
+            final ItemStack itemstack = inv.getItem(k1);
             dye = ItemList.is(RecipePokeseals.ANYDYE, itemstack);
             if (dye)
             {

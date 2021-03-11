@@ -126,7 +126,7 @@ public class AntTasks
     public static AntJob getJob(final MobEntity ant)
     {
         int index = 0;
-        if (ant.getBrain().hasMemory(AntTasks.JOB_TYPE)) index = ant.getBrain().getMemory(AntTasks.JOB_TYPE).get();
+        if (ant.getBrain().hasMemoryValue(AntTasks.JOB_TYPE)) index = ant.getBrain().getMemory(AntTasks.JOB_TYPE).get();
         final AntJob job = AntJob.values()[index];
         return job;
     }
@@ -138,7 +138,7 @@ public class AntTasks
 
     public static boolean shouldAntBeInNest(final ServerWorld world, final BlockPos pos)
     {
-        return !world.isDaytime() || world.isRainingAt(pos);
+        return !world.isDay() || world.isRainingAt(pos);
     }
 
     public static class AntInhabitor implements IInhabitor
@@ -156,7 +156,7 @@ public class AntTasks
         public GlobalPos getHome()
         {
             final Brain<?> brain = this.ant.getBrain();
-            if (!brain.hasMemory(AntTasks.NEST_POS)) return null;
+            if (!brain.hasMemoryValue(AntTasks.NEST_POS)) return null;
             return brain.getMemory(AntTasks.NEST_POS).get();
         }
 
@@ -170,7 +170,7 @@ public class AntTasks
         public GlobalPos getWorkSite()
         {
             final Brain<?> brain = this.ant.getBrain();
-            if (!brain.hasMemory(AntTasks.WORK_POS)) return null;
+            if (!brain.hasMemoryValue(AntTasks.WORK_POS)) return null;
             return brain.getMemory(AntTasks.WORK_POS).get();
         }
 
@@ -178,7 +178,7 @@ public class AntTasks
         public void setWorldSite(final GlobalPos site)
         {
             final Brain<?> brain = this.ant.getBrain();
-            if (site == null) brain.removeMemory(AntTasks.WORK_POS);
+            if (site == null) brain.eraseMemory(AntTasks.WORK_POS);
             else brain.setMemory(AntTasks.WORK_POS, site);
         }
     }

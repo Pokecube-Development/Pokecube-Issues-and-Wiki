@@ -46,7 +46,7 @@ public class AnimationPowder extends MoveAnimationBase
     public void spawnClientEntities(MovePacketInfo info)
     {
         final Vector3 target = info.target;
-        this.initColour(info.attacker.getEntityWorld().getDayTime() * 20, 0, info.move);
+        this.initColour(info.attacker.getCommandSenderWorld().getDayTime() * 20, 0, info.move);
         final Vector3 temp = Vector3.getNewVector();
         final Random rand = new Random();
         for (int i = 0; i < 100 * this.density; i++)
@@ -54,7 +54,7 @@ public class AnimationPowder extends MoveAnimationBase
             temp.set(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
             temp.scalarMult(0.010 * this.width);
             temp.addTo(target);
-            PokecubeCore.spawnParticle(info.attacker.getEntityWorld(), this.particle, temp.copy(), null, this.rgba,
+            PokecubeCore.spawnParticle(info.attacker.getCommandSenderWorld(), this.particle, temp.copy(), null, this.rgba,
                     this.particleLife);
         }
     }

@@ -38,7 +38,7 @@ public class StructureEvent extends Event
             this.chunkPosZ = chunkPosZ;
             this.struct = struct;
             final World world = JigsawAssmbler.getForGen(chunkGen);
-            if(world!=null) this.key = world.getDimensionKey();
+            if(world!=null) this.key = world.dimension();
             else this.key = World.OVERWORLD;
         }
 

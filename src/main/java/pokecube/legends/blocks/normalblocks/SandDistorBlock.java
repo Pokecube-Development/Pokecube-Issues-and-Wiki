@@ -24,7 +24,7 @@ public class SandDistorBlock extends BlockBase
 {
     public SandDistorBlock(final String name, final Material material, MaterialColor color)
     {
-        super(name, Properties.create(material, color).sound(SoundType.SCAFFOLDING).hardnessAndResistance(4, 5).harvestTool(
+        super(name, Properties.of(material, color).sound(SoundType.SCAFFOLDING).strength(4, 5).harvestTool(
                 ToolType.SHOVEL).harvestLevel(2));
     }
     
@@ -36,9 +36,9 @@ public class SandDistorBlock extends BlockBase
     }
 
     @Override
-    public void onEntityWalk(final World world, final BlockPos pos, final Entity entity)
+    public void stepOn(final World world, final BlockPos pos, final Entity entity)
     {
-        super.onEntityWalk(world, pos, entity);
+        super.stepOn(world, pos, entity);
         {
             final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
             $_dependencies.put("entity", entity);
@@ -55,12 +55,12 @@ public class SandDistorBlock extends BlockBase
         }
         final Entity entity = (Entity) dependencies.get("entity");
         if (entity instanceof ServerPlayerEntity) {
-        	if ((((PlayerEntity) entity).inventory.armorInventory.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()) ||
-                    (((PlayerEntity) entity).inventory.armorInventory.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()) ||
-                    (((PlayerEntity) entity).inventory.armorInventory.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()) || 
-                    (((PlayerEntity) entity).inventory.armorInventory.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())) 
+        	if ((((PlayerEntity) entity).inventory.armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()) ||
+                    (((PlayerEntity) entity).inventory.armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()) ||
+                    (((PlayerEntity) entity).inventory.armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()) || 
+                    (((PlayerEntity) entity).inventory.armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())) 
                 {
-        	((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 120, 1));
+        	((LivingEntity) entity).addEffect(new EffectInstance(Effects.DIG_SLOWDOWN, 120, 1));
                 }
         }
     }

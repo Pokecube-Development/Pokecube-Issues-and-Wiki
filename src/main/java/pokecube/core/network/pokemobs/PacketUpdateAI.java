@@ -21,7 +21,7 @@ public class PacketUpdateAI extends Packet
         tag.put(ai.getIdentifier(), base);
         final PacketUpdateAI packet = new PacketUpdateAI();
         packet.data = tag;
-        packet.entityId = pokemob.getEntity().getEntityId();
+        packet.entityId = pokemob.getEntity().getId();
         PokecubeCore.packets.sendToServer(packet);
     }
 
@@ -36,7 +36,7 @@ public class PacketUpdateAI extends Packet
     public PacketUpdateAI(final PacketBuffer buffer)
     {
         this.entityId = buffer.readInt();
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
     }
 
     @SuppressWarnings("unchecked")
@@ -45,7 +45,7 @@ public class PacketUpdateAI extends Packet
     {
         final int id = this.entityId;
         final CompoundNBT data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
         if (pokemob != null) for (final IAIRunnable runnable : pokemob.getTasks())
             if (runnable instanceof INBTSerializable && data.contains(runnable.getIdentifier()))
@@ -59,6 +59,6 @@ public class PacketUpdateAI extends Packet
     public void write(final PacketBuffer buffer)
     {
         buffer.writeInt(this.entityId);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 }

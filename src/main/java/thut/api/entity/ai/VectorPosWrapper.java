@@ -14,25 +14,25 @@ public class VectorPosWrapper implements IPosWrapper
 
     public VectorPosWrapper(final Vector3 pos)
     {
-        this.bpos = pos.getPos().toImmutable();
+        this.bpos = pos.getPos().immutable();
         this.vpos = pos.toVec3d();
         this.pos = pos.copy();
     }
 
     @Override
-    public BlockPos getBlockPos()
+    public BlockPos currentBlockPosition()
     {
         return this.bpos;
     }
 
     @Override
-    public Vector3d getPos()
+    public Vector3d currentPosition()
     {
         return this.vpos;
     }
 
     @Override
-    public boolean isVisibleTo(final LivingEntity p_220610_1_)
+    public boolean isVisibleBy(final LivingEntity p_220610_1_)
     {
         return true;
     }

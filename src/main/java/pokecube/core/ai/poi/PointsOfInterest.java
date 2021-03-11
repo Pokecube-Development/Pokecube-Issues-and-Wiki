@@ -15,11 +15,11 @@ public class PointsOfInterest
             PokecubeCore.MODID);
 
     public static final RegistryObject<PointOfInterestType> HEALER = PointsOfInterest.REG.register("healer",
-            () -> new PointOfInterestType("healer", Sets.newHashSet(PokecubeItems.HEALER.get().getStateContainer()
-                    .getValidStates()), 1, 2));
+            () -> new PointOfInterestType("healer", Sets.newHashSet(PokecubeItems.HEALER.get().getStateDefinition()
+                    .getPossibleStates()), 1, 2));
     public static final RegistryObject<PointOfInterestType> NEST   = PointsOfInterest.REG.register("pokemob_nest",
             () -> new PointOfInterestType("pokemob_nest", Sets.newHashSet(PokecubeItems.NESTBLOCK.get()
-                    .getStateContainer().getValidStates()), 1, 2));
+                    .getStateDefinition().getPossibleStates()), 1, 2));
 
     public static void postInit()
     {

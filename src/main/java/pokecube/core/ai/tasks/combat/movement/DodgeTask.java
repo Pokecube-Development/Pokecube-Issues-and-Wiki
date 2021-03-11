@@ -71,7 +71,7 @@ public class DodgeTask extends CombatTask implements IAICombat
          * Compute a random perpendicular direction.
          */
         final Vector3 loc = Vector3.getNewVector().set(this.entity);
-        final Vector3 target = Vector3.getNewVector().set(this.pos.getPos());
+        final Vector3 target = Vector3.getNewVector().set(this.pos.currentPosition());
         final Vector3 temp = Vector3.getNewVector();
         Vector3 perp = target.subtractFrom(loc).rotateAboutLine(Vector3.secondAxis, Math.PI / 2, temp);
         if (Math.random() > 0.5) perp = perp.scalarMultBy(-1);
@@ -98,7 +98,7 @@ public class DodgeTask extends CombatTask implements IAICombat
          */
         perp.addVelocities(this.entity);
 
-        new PlaySound(this.entity.getEntityWorld().getDimensionKey(), Vector3.getNewVector().set(this.entity), this.getDodgeSound(),
+        new PlaySound(this.entity.getCommandSenderWorld().dimension(), Vector3.getNewVector().set(this.entity), this.getDodgeSound(),
                 SoundCategory.HOSTILE, 1, 1).run(this.world);
     }
 
@@ -127,7 +127,7 @@ public class DodgeTask extends CombatTask implements IAICombat
         this.pos = BrainUtils.getMoveUseTarget(target);
         if (this.pos != null)
         {
-            final double ds2 = this.entity.getDistanceSq(this.pos.getPos());
+            final double ds2 = this.entity.distanceToSqr(this.pos.currentPosition());
             // No need to dodge if the target isn't near us
             if (ds2 > 16) return false;
         }

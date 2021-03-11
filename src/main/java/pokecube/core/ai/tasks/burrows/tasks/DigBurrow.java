@@ -52,20 +52,20 @@ public class DigBurrow extends AbstractBurrowTask
     {
         super(pokemob, DigBurrow.mems);
 
-        this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).isSolid() && this.world.getBlockState(p
-                .up()).allowsMovement(this.world, p, PathType.LAND);
+        this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).canOcclude() && this.world.getBlockState(p
+                .above()).isPathfindable(this.world, p, PathType.LAND);
 
-        this.canStandNear = pos -> PokecubeMod.debug || BlockPos.getAllInBox(pos.add(-2, -2, -2), pos.add(2, 2, 2))
-                .anyMatch(p2 -> p2.distanceSq(pos) < this.ds2Max && this.canStand.test(p2));
+        this.canStandNear = pos -> PokecubeMod.debug || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))
+                .anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
 
         this.hasEmptySpace = pos ->
         {
             if (PokecubeMod.debug) return true;
             for (final Direction dir : Direction.values())
             {
-                final BlockPos pos2 = pos.offset(dir);
+                final BlockPos pos2 = pos.relative(dir);
                 final BlockState state = this.world.getBlockState(pos2);
-                if (state.allowsMovement(this.world, pos2, PathType.LAND)) return true;
+                if (state.isPathfindable(this.world, pos2, PathType.LAND)) return true;
             }
             return false;
         };
@@ -74,7 +74,7 @@ public class DigBurrow extends AbstractBurrowTask
     @Override
     public void reset()
     {
-        this.entity.getBrain().removeMemory(BurrowTasks.JOB_INFO);
+        this.entity.getBrain().eraseMemory(BurrowTasks.JOB_INFO);
         this.work_pos = null;
         this.progressTimer = 0;
     }
@@ -100,18 +100,18 @@ public class DigBurrow extends AbstractBurrowTask
             }
             return false;
         });
-        final BlockPos pos = this.entity.getPosition();
+        final BlockPos pos = this.entity.blockPosition();
         // Stream -> filter gets us only the valid postions.
         // Min then gets us the one closest to the ant.
         final Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) ->
         {
-            final double d1 = p1.distanceSq(pos);
-            final double d2 = p2.distanceSq(pos);
+            final double d1 = p1.distSqr(pos);
+            final double d2 = p2.distSqr(pos);
             return Double.compare(d1, d2);
         });
         if (valid.isPresent())
         {
-            this.work_pos = valid.get().toImmutable();
+            this.work_pos = valid.get().immutable();
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Found Dig Site!");
             return true;
         }
@@ -127,9 +127,9 @@ public class DigBurrow extends AbstractBurrowTask
             this.progressTimer++;
             final Part part = this.burrow.hab.burrow;
             if (!this.checkDigSite()) return;
-            final Path p = this.entity.getNavigator().getPath();
-            final double dr = this.work_pos.distanceSq(this.entity.getPosition());
-            final double dr2 = p == null ? dr : p.getFinalPathPoint().func_224759_a().distanceSq(this.work_pos);
+            final Path p = this.entity.getNavigation().getPath();
+            final double dr = this.work_pos.distSqr(this.entity.blockPosition());
+            final double dr2 = p == null ? dr : p.getEndNode().asBlockPos().distSqr(this.work_pos);
 
             if (dr2 > this.ds2Max) this.setWalkTo(this.work_pos, 1, MathHelper.ceil(this.dsMax - 1));
             else if (this.progressTimer > 20) this.progressTimer = 20;

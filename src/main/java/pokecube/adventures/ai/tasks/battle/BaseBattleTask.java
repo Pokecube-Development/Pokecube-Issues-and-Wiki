@@ -35,10 +35,10 @@ public abstract class BaseBattleTask extends BaseTask
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
         final Brain<?> brain = owner.getBrain();
-        if (!brain.hasMemory(MemoryTypes.BATTLETARGET)) return false;
+        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
         this.target = brain.getMemory(MemoryTypes.BATTLETARGET).get();
         return true;
     }

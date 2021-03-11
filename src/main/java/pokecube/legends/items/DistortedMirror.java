@@ -34,33 +34,33 @@ public class DistortedMirror extends ItemBase
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
+    public void appendHoverText(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
             final ITooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip");
-        else message = I18n.format("pokecube.tooltip.advanced");
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip");
+        else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(final World world, final PlayerEntity entity, final Hand hand)
+    public ActionResult<ItemStack> use(final World world, final PlayerEntity entity, final Hand hand)
     {
-        final ActionResult<ItemStack> ar = super.onItemRightClick(world, entity, hand);
-        final RegistryKey<World> dim = world.getDimensionKey();
-        final double x = entity.getPosX();
-        final double y = entity.getPosY();
-        final double z = entity.getPosZ();
+        final ActionResult<ItemStack> ar = super.use(world, entity, hand);
+        final RegistryKey<World> dim = world.dimension();
+        final double x = entity.getX();
+        final double y = entity.getY();
+        final double z = entity.getZ();
 
         if (dim == World.OVERWORLD)
         {
             if (entity instanceof ServerPlayerEntity) DimensionTranserHelper.sentToDistorted(
                     (ServerPlayerEntity) entity);
 
-            if (entity instanceof PlayerEntity) entity.getCooldownTracker().setCooldown(ItemInit.GIRATINA_MIRROR.get(),
+            if (entity instanceof PlayerEntity) entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
                     PokecubeLegends.config.mirrorCooldown);
 
-            world.playSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+            world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                     "block.end_gateway.spawn")), SoundCategory.NEUTRAL, 1, 1, false);
 
             return ar;
@@ -70,10 +70,10 @@ public class DistortedMirror extends ItemBase
             if (entity instanceof ServerPlayerEntity) DimensionTranserHelper.sendToOverworld(
                     (ServerPlayerEntity) entity);
 
-            if (entity instanceof PlayerEntity) entity.getCooldownTracker().setCooldown(ItemInit.GIRATINA_MIRROR.get(),
+            if (entity instanceof PlayerEntity) entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
                     PokecubeLegends.config.mirrorCooldown);
 
-            world.playSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+            world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                     "block.end_gateway.spawn")), SoundCategory.NEUTRAL, 1, 1, false);
 
             return ar;

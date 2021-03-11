@@ -19,10 +19,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
@@ -305,8 +305,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
     {
         // FIXME obj rotation
-        mat.rotate(Vector3f.XP.rotationDegrees(180));
-        mat.rotate(Vector3f.YP.rotationDegrees(180));
+        mat.mulPose(Vector3f.XP.rotationDegrees(180));
+        mat.mulPose(Vector3f.YP.rotationDegrees(180));
         mat.translate(0, -1.5, 0);
     }
 

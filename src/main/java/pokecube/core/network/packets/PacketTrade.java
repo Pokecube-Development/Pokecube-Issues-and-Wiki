@@ -30,14 +30,14 @@ public class PacketTrade extends Packet
 
     public PacketTrade(final PacketBuffer buf)
     {
-        this.data = buf.readCompoundTag();
+        this.data = buf.readNbt();
     }
 
     @Override
     public void handleClient()
     {
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
-        final Container cont = player.openContainer;
+        final Container cont = player.containerMenu;
         if (!(cont instanceof TradeContainer)) return;
         final TradeContainer container = (TradeContainer) cont;
         if (this.data.contains("r"))
@@ -62,7 +62,7 @@ public class PacketTrade extends Packet
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final Container cont = player.openContainer;
+        final Container cont = player.containerMenu;
         if (!(cont instanceof TradeContainer)) return;
         final TradeContainer container = (TradeContainer) cont;
 
@@ -83,7 +83,7 @@ public class PacketTrade extends Packet
 
             boolean canInteract = !stack.isEmpty();
             final boolean filled = PokecubeManager.isFilled(stack);
-            if (filled) canInteract = PokecubeManager.getOwner(stack).equals(player.getCachedUniqueIdString());
+            if (filled) canInteract = PokecubeManager.getOwner(stack).equals(player.getStringUUID());
 
             if (!canInteract)
             {
@@ -94,7 +94,7 @@ public class PacketTrade extends Packet
                 container.tile.confirmed[1] = false;
                 for (final UUID id : container.tile.users)
                 {
-                    final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayerByUUID(id);
+                    final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayer(id);
                     if (user != null) PokecubeCore.packets.sendTo(trade, user);
                 }
                 return;
@@ -135,7 +135,7 @@ public class PacketTrade extends Packet
                     container.tile.confirmed[1] = false;
                     for (final UUID id : container.tile.users)
                     {
-                        final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayerByUUID(id);
+                        final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayer(id);
                         if (user != null) PokecubeCore.packets.sendTo(trade, user);
                     }
                     return;
@@ -179,8 +179,8 @@ public class PacketTrade extends Packet
                 trade:
                 if (toTrade)
                 {
-                    final IPokemob pokemob0 = PokecubeManager.itemToPokemob(pokecube0, player.getEntityWorld());
-                    final IPokemob pokemob1 = PokecubeManager.itemToPokemob(pokecube1, player.getEntityWorld());
+                    final IPokemob pokemob0 = PokecubeManager.itemToPokemob(pokecube0, player.getCommandSenderWorld());
+                    final IPokemob pokemob1 = PokecubeManager.itemToPokemob(pokecube1, player.getCommandSenderWorld());
                     final UUID owner0 = pokemob0.getOwnerId();
                     final UUID owner1 = pokemob1.getOwnerId();
                     if (owner0 != null && owner0.equals(owner1)) break trade;
@@ -200,7 +200,7 @@ public class PacketTrade extends Packet
                 else if (pokeseal) RecipePokeseals.process(cube, seal);
                 else if (reskin)
                 {
-                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, player.getEntityWorld());
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, player.getCommandSenderWorld());
                     pokemob.setPokecube(skin);
                     inv.setStackInSlot(cubeIndex, PokecubeManager.pokemobToItem(pokemob));
                     inv.setStackInSlot(cubeIndex == 0 ? 1 : 0, ItemStack.EMPTY);
@@ -213,9 +213,9 @@ public class PacketTrade extends Packet
                 container.tile.confirmed[1] = false;
                 for (final UUID id : container.tile.users)
                 {
-                    final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayerByUUID(id);
+                    final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayer(id);
                     if (user != null) PokecubeCore.packets.sendTo(trade, user);
-                    container.clearContainer(user, user.getEntityWorld(), inv.getInv());
+                    container.clearContainer(user, user.getCommandSenderWorld(), inv.getInv());
                 }
                 return;
 
@@ -233,6 +233,6 @@ public class PacketTrade extends Packet
     public void write(final PacketBuffer buf)
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 }

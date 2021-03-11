@@ -36,10 +36,10 @@ public class MoveQueue
         @Override
         public void onTickEnd(final ServerWorld world)
         {
-            final MoveQueue queue = MoveQueuer.queues.get(world.getDimensionKey());
+            final MoveQueue queue = MoveQueuer.queues.get(world.dimension());
             if (queue == null)
             {
-                PokecubeCore.LOGGER.error("Critical Error with world for dimension " + world.getDimensionKey()
+                PokecubeCore.LOGGER.error("Critical Error with world for dimension " + world.dimension()
                         + " It is somehow ticking when not loaded, this should not happen.", new Exception());
                 return;
             }
@@ -48,24 +48,24 @@ public class MoveQueue
             queue.executeMoves();
             final double dt = (System.nanoTime() - time) / 1000d;
             if (dt > 1000) PokecubeCore.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt, world
-                    .getDimensionKey(), num);
+                    .dimension(), num);
         }
 
         @Override
         public void onDetach(final ServerWorld world)
         {
-            MoveQueuer.queues.remove(world.getDimensionKey());
+            MoveQueuer.queues.remove(world.dimension());
         }
 
         @Override
         public void onAttach(final ServerWorld world)
         {
-            MoveQueuer.queues.put(world.getDimensionKey(), new MoveQueue(world));
+            MoveQueuer.queues.put(world.dimension(), new MoveQueue(world));
         }
 
         public static void queueMove(final EntityMoveUse move)
         {
-            final MoveQueue queue = MoveQueuer.queues.get(move.getEntityWorld().getDimensionKey());
+            final MoveQueue queue = MoveQueuer.queues.get(move.getCommandSenderWorld().dimension());
             if (queue == null) throw new NullPointerException("why is world queue null?");
             if (move.getUser() != null) queue.moves.add(move);
         }
@@ -100,7 +100,7 @@ public class MoveQueue
                 if (toUse)
                 {
                     final IPokemob mob = CapabilityPokemob.getPokemobFor(move.getUser());
-                    this.world.addEntity(move);
+                    this.world.addFreshEntity(move);
                     move.getMove().applyHungerCost(mob);
                     MovesUtils.displayMoveMessages(mob, move.getTarget(), move.getMove().name);
                 }

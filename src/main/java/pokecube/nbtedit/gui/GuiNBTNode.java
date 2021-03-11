@@ -31,13 +31,13 @@ public class GuiNBTNode extends Button
 
     public GuiNBTNode(final GuiNBTTree tree, final Node<NamedNBT> node, final int x, final int y)
     {
-        super(x, y, 10, Minecraft.getInstance().fontRenderer.FONT_HEIGHT, new StringTextComponent(node.toString()), b -> tree.nodeClicked(
+        super(x, y, 10, Minecraft.getInstance().font.lineHeight, new StringTextComponent(node.toString()), b -> tree.nodeClicked(
                 (GuiNBTNode) b));
         this.tree = tree;
         this.node = node;
         this.x = x;
         this.y = y;
-        this.height = this.mc.fontRenderer.FONT_HEIGHT;
+        this.height = this.mc.font.lineHeight;
         this.updateDisplay();
     }
 
@@ -83,7 +83,7 @@ public class GuiNBTNode extends Button
         final int dx = this.node.hasChildren() ? 10 : 0;
         final int x = this.x + dx;
 
-        this.mc.getTextureManager().bindTexture(GuiNBTNode.WIDGET_TEXTURE);
+        this.mc.getTextureManager().bind(GuiNBTNode.WIDGET_TEXTURE);
 
         if (selected)
         {
@@ -98,7 +98,7 @@ public class GuiNBTNode extends Button
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.blit(mat, x + 1, this.y, (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
-        AbstractGui.drawString(mat, this.mc.fontRenderer, this.displayString, x + 11, this.y + (this.height - 8) / 2, color);
+        AbstractGui.drawString(mat, this.mc.font, this.displayString, x + 11, this.y + (this.height - 8) / 2, color);
     }
 
     public void shift(final int dy)
@@ -119,7 +119,7 @@ public class GuiNBTNode extends Button
     public void updateDisplay()
     {
         this.displayString = NBTStringHelper.getNBTNameSpecial(this.node.getObject());
-        this.width = this.mc.fontRenderer.getStringWidth(this.displayString) + 12;
+        this.width = this.mc.font.width(this.displayString) + 12;
     }
 
 }

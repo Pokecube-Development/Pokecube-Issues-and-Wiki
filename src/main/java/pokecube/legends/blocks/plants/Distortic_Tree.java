@@ -10,7 +10,7 @@ import pokecube.legends.worldgen.trees.Trees;
 public class Distortic_Tree extends Tree {
 
 	@Override
-    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(final Random randomIn, final boolean b)
+    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getConfiguredFeature(final Random randomIn, final boolean b)
     {
         return Trees.DISTORTIC_TREE;
     }

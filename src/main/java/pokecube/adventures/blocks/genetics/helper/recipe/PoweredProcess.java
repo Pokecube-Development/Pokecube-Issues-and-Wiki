@@ -12,7 +12,7 @@ public class PoweredProcess
 {
     public static PoweredRecipe findRecipe(final IPoweredProgress tile, final World world)
     {
-        if (!tile.getStackInSlot(tile.getOutputSlot()).isEmpty()) return null;
+        if (!tile.getItem(tile.getOutputSlot()).isEmpty()) return null;
         PoweredRecipe output = null;
         final RecipeClone cloneRecipe = new RecipeClone(RecipePokeAdv.REVIVE.getId());
         final RecipeSplice spliceRecipe = new RecipeSplice(RecipePokeAdv.SPLICE.getId());
@@ -20,10 +20,10 @@ public class PoweredProcess
         // This one checks if it matches, as has no item output.
         if (tile.isValid(RecipeClone.class) && cloneRecipe.matches(tile.getCraftMatrix(), world)) output = cloneRecipe;
         // This checks for item output
-        else if (tile.isValid(RecipeSplice.class) && !spliceRecipe.getCraftingResult(tile.getCraftMatrix()).isEmpty())
+        else if (tile.isValid(RecipeSplice.class) && !spliceRecipe.assemble(tile.getCraftMatrix()).isEmpty())
             output = spliceRecipe;
         // This checks for item output also
-        else if (tile.isValid(RecipeExtract.class) && !extractRecipe.getCraftingResult(tile.getCraftMatrix()).isEmpty())
+        else if (tile.isValid(RecipeExtract.class) && !extractRecipe.assemble(tile.getCraftMatrix()).isEmpty())
             output = extractRecipe;
         return output;
     }
@@ -49,12 +49,12 @@ public class PoweredProcess
     {
         if (this.recipe == null || this.tile == null) return false;
         final boolean ret = this.recipe.complete(this.tile);
-        if (this.tile.getStackInSlot(this.tile.getOutputSlot()).isEmpty())
+        if (this.tile.getItem(this.tile.getOutputSlot()).isEmpty())
         {
-            this.tile.setInventorySlotContents(this.tile.getOutputSlot(), this.recipe.getCraftingResult(this.tile
+            this.tile.setItem(this.tile.getOutputSlot(), this.recipe.assemble(this.tile
                     .getCraftMatrix()));
             if (this.tile.getCraftMatrix().eventHandler != null) this.tile.getCraftMatrix().eventHandler
-                    .onCraftMatrixChanged(this.tile);
+                    .slotsChanged(this.tile);
             TileUpdate.sendUpdate((TileEntity) this.tile);
         }
         if (ret)
@@ -89,8 +89,8 @@ public class PoweredProcess
     public PoweredProcess setTile(final IPoweredProgress tile)
     {
         this.tile = tile;
-        this.world = ((TileEntity) tile).getWorld();
-        this.pos = ((TileEntity) tile).getPos();
+        this.world = ((TileEntity) tile).getLevel();
+        this.pos = ((TileEntity) tile).getBlockPos();
         this.recipe = PoweredProcess.findRecipe(tile, this.world);
         if (this.recipe != null) this.needed = this.recipe.getEnergyCost(this.tile);
         return this;
@@ -111,6 +111,6 @@ public class PoweredProcess
         if (this.world == null || this.recipe == null) return false;
         final boolean valid = this.recipe.matches(this.tile.getCraftMatrix(), this.world);
         // check this, as the "matches" sometimes checks the energy value.
-        return valid || !this.recipe.getCraftingResult(this.tile.getCraftMatrix()).isEmpty();
+        return valid || !this.recipe.assemble(this.tile.getCraftMatrix()).isEmpty();
     }
 }

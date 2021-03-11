@@ -127,12 +127,12 @@ public class CapabilityHasPokemobs
             public boolean isValid(final Entity in, final long resetTime)
             {
                 if (in == null) return false;
-                if (!this.map.containsKey(in.getCachedUniqueIdString())) return false;
+                if (!this.map.containsKey(in.getStringUUID())) return false;
                 // If this is the case, then this mob is not re-battleable.
                 if (resetTime <= 0) return true;
-                final DefeatEntry s = this.map.get(in.getCachedUniqueIdString());
+                final DefeatEntry s = this.map.get(in.getStringUUID());
                 // Otherwise check the diff.
-                final long diff = in.getEntityWorld().getGameTime() - s.time;
+                final long diff = in.getCommandSenderWorld().getGameTime() - s.time;
                 if (diff > resetTime) return false;
                 return true;
             }
@@ -140,10 +140,10 @@ public class CapabilityHasPokemobs
             public void validate(final Entity in)
             {
                 if (in == null) return;
-                final DefeatEntry s = this.map.getOrDefault(in.getCachedUniqueIdString(), new DefeatEntry(in
-                        .getCachedUniqueIdString(), 0));
-                s.time = in.getEntityWorld().getGameTime();
-                this.map.put(in.getCachedUniqueIdString(), s);
+                final DefeatEntry s = this.map.getOrDefault(in.getStringUUID(), new DefeatEntry(in
+                        .getStringUUID(), 0));
+                s.time = in.getCommandSenderWorld().getGameTime();
+                this.map.put(in.getStringUUID(), s);
             }
 
             public void load(final ListNBT list)
@@ -261,10 +261,10 @@ public class CapabilityHasPokemobs
         {
             if (nbt.contains("pokemobs", 9))
             {
-                if (this.clearOnLoad()) this.clear();
+                if (this.clearOnLoad()) this.clearContent();
                 final ListNBT ListNBT = nbt.getList("pokemobs", 10);
                 if (ListNBT.size() != 0) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
-                    this.setPokemob(i, ItemStack.read(ListNBT.getCompound(i)));
+                    this.setPokemob(i, ItemStack.of(ListNBT.getCompound(i)));
             }
             this.initCount();
             this.setType(TypeTrainer.getTrainer(nbt.getString("type"), true));
@@ -355,14 +355,14 @@ public class CapabilityHasPokemobs
         @Override
         public UUID getOutID()
         {
-            if (this.outID != null && this.outMob == null && this.user.getEntityWorld() instanceof ServerWorld)
+            if (this.outID != null && this.outMob == null && this.user.getCommandSenderWorld() instanceof ServerWorld)
             {
-                this.outMob = CapabilityPokemob.getPokemobFor(((ServerWorld) this.user.getEntityWorld())
-                        .getEntityByUuid(this.outID));
+                this.outMob = CapabilityPokemob.getPokemobFor(((ServerWorld) this.user.getCommandSenderWorld())
+                        .getEntity(this.outID));
                 if (this.outMob == null) this.outID = null;
             }
             if (this.outMob != null && (this.outMob.getEntity().getHealth() <= 0 || !this.outMob
-                    .getEntity().addedToChunk)) this.setOutMob(null);
+                    .getEntity().inChunk)) this.setOutMob(null);
             return this.outID;
         }
 
@@ -383,7 +383,7 @@ public class CapabilityHasPokemobs
         public LivingEntity getTarget()
         {
             final Brain<?> brain = this.user.getBrain();
-            if (!brain.hasMemory(MemoryTypes.BATTLETARGET)) return null;
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return null;
             return brain.getMemory(MemoryTypes.BATTLETARGET).get();
         }
 
@@ -396,7 +396,7 @@ public class CapabilityHasPokemobs
         @Override
         public TypeTrainer getType()
         {
-            if (!(this.user.getEntityWorld() instanceof ServerWorld))
+            if (!(this.user.getCommandSenderWorld() instanceof ServerWorld))
             {
                 final String t = this.datasync.get(this.holder.TYPE);
                 // Handle possible null type for if things are called at wrong
@@ -442,7 +442,7 @@ public class CapabilityHasPokemobs
         {
             // If someone punches us, we will retaliate, so no permafriendly
             // then.
-            if (this.aiStates.getAIState(AIState.PERMFRIENDLY) && this.user.getAttackingEntity() == null)
+            if (this.aiStates.getAIState(AIState.PERMFRIENDLY) && this.user.getKillCredit() == null)
             {
                 this.friendlyCooldown = 10;
                 return;
@@ -467,7 +467,7 @@ public class CapabilityHasPokemobs
                     || !this.getNextPokemob().isEmpty()) return;
             this.aiStates.setAIState(AIState.INBATTLE, false);
             if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING)) if (this
-                    .getCooldown() <= this.user.getEntityWorld().getGameTime())
+                    .getCooldown() <= this.user.getCommandSenderWorld().getGameTime())
             {
                 this.onLose(this.getTarget());
                 this.setNextSlot(0);
@@ -483,8 +483,8 @@ public class CapabilityHasPokemobs
                 this.defeated.validate(lost);
 
                 // If available, we will increase reputation out of pity
-                if (this.user instanceof VillagerEntity) ((VillagerEntity) this.user).getGossip().add(lost
-                        .getUniqueID(), GossipType.MINOR_POSITIVE, 10);
+                if (this.user instanceof VillagerEntity) ((VillagerEntity) this.user).getGossips().add(lost
+                        .getUUID(), GossipType.MINOR_POSITIVE, 10);
             }
             if (lost == this.getTarget()) this.onSetTarget(null);
         }
@@ -507,7 +507,7 @@ public class CapabilityHasPokemobs
             }
 
             // Get this cleanup stuff done first.
-            this.setCooldown(this.user.getEntityWorld().getGameTime() + 100);
+            this.setCooldown(this.user.getCommandSenderWorld().getGameTime() + 100);
             this.onSetTarget(null);
 
             // Then parse if rewards and actions should be dealt with.
@@ -529,7 +529,7 @@ public class CapabilityHasPokemobs
                 }
 
                 // If applicable, increase reputation for winning the battle.
-                if (this.user instanceof VillagerEntity) ((VillagerEntity) this.user).getGossip().add(won.getUniqueID(),
+                if (this.user instanceof VillagerEntity) ((VillagerEntity) this.user).getGossips().add(won.getUUID(),
                         GossipType.MINOR_POSITIVE, 20);
             }
 
@@ -539,8 +539,8 @@ public class CapabilityHasPokemobs
                 if (this.notifyDefeat && won instanceof ServerPlayerEntity)
                 {
                     final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
-                    packet.getTag().putInt("I", this.user.getEntityId());
-                    packet.getTag().putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTimeLose);
+                    packet.getTag().putInt("I", this.user.getId());
+                    packet.getTag().putLong("L", this.user.getCommandSenderWorld().getGameTime() + this.resetTimeLose);
                     PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayerEntity) won);
                 }
                 if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, new ActionContext(
@@ -582,7 +582,7 @@ public class CapabilityHasPokemobs
                 final ItemStack i = this.getPokemob(index);
                 if (i.isEmpty()) continue;
                 final CompoundNBT CompoundNBT = new CompoundNBT();
-                ListNBT.add(i.write(CompoundNBT));
+                ListNBT.add(i.save(CompoundNBT));
             }
 
             nbt.put("pokemobs", ListNBT);
@@ -654,7 +654,7 @@ public class CapabilityHasPokemobs
         {
             this.outMob = mob;
             if (mob == null) this.outID = null;
-            else this.outID = mob.getEntity().getUniqueID();
+            else this.outID = mob.getEntity().getUUID();
         }
 
         @Override
@@ -664,9 +664,9 @@ public class CapabilityHasPokemobs
             {
                 final String owner = PokecubeManager.getOwner(cube);
                 // Make trainer own it when place in.
-                if (!this.getTrainer().getCachedUniqueIdString().equals(owner))
+                if (!this.getTrainer().getStringUUID().equals(owner))
                 {
-                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, this.getTrainer().getEntityWorld());
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, this.getTrainer().getCommandSenderWorld());
                     if (pokemob != null)
                     {
                         pokemob.setOwner(this.getTrainer());
@@ -693,7 +693,7 @@ public class CapabilityHasPokemobs
             // No next pokemob, so we shouldn't have a target in this case.
 
             // Set this here, before trying to validate other's target below.
-            this.getTrainer().getBrain().removeMemory(MemoryTypes.BATTLETARGET);
+            this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET);
             if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET, target);
 
             final IHasPokemobs oldOther = TrainerCaps.getHasPokemobs(old);
@@ -707,8 +707,8 @@ public class CapabilityHasPokemobs
                 this.aiStates.setAIState(AIState.THROWING, false);
                 this.aiStates.setAIState(AIState.INBATTLE, false);
                 BrainUtils.deagro(this.getTrainer());
-                this.getTrainer().getBrain().removeMemory(MemoryTypes.BATTLETARGET);
-                this.getTrainer().getBrain().switchTo(Activity.IDLE);
+                this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET);
+                this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
                 return;
             }
 
@@ -718,9 +718,9 @@ public class CapabilityHasPokemobs
             if (target != null && this.getAttackCooldown() <= 0)
             {
                 int cooldown = Config.instance.trainerBattleDelay;
-                final LivingEntity hitBy = this.user.getBrain().hasMemory(MemoryModuleType.HURT_BY_ENTITY) ? this.user
+                final LivingEntity hitBy = this.user.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY) ? this.user
                         .getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get() : null;
-                final int hurtTimer = this.user.ticksExisted - this.user.getLastAttackedEntityTime();
+                final int hurtTimer = this.user.tickCount - this.user.getLastHurtMobTimestamp();
                 // No cooldown if someone was punching is!
                 if (hitBy == target && hurtTimer < 500) cooldown = 0;
                 this.setAttackCooldown(cooldown);
@@ -748,16 +748,16 @@ public class CapabilityHasPokemobs
             {
                 BrainUtils.deagro(this.getTrainer());
                 this.resetPokemob();
-                this.getTrainer().getBrain().switchTo(Activity.IDLE);
+                this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
             }
-            else this.getTrainer().getBrain().switchTo(Activities.BATTLE);
+            else this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE);
         }
 
         @Override
         public void setType(final TypeTrainer type)
         {
             this.type = type;
-            if (!this.user.getEntityWorld().isRemote) this.datasync.set(this.holder.TYPE, type == null ? ""
+            if (!this.user.getCommandSenderWorld().isClientSide) this.datasync.set(this.holder.TYPE, type == null ? ""
                     : type.getName());
         }
 
@@ -765,7 +765,7 @@ public class CapabilityHasPokemobs
         public void throwCubeAt(final Entity target)
         {
             if (target == null || this.aiStates.getAIState(AIState.THROWING) || !(target
-                    .getEntityWorld() instanceof ServerWorld)) return;
+                    .getCommandSenderWorld() instanceof ServerWorld)) return;
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())
             {
@@ -774,8 +774,8 @@ public class CapabilityHasPokemobs
                 final Vector3 here = Vector3.getNewVector().set(this.user);
                 final Vector3 t = Vector3.getNewVector().set(target);
                 t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
-                PokecubeManager.heal(i, target.getEntityWorld());
-                final EntityPokecubeBase thrown = cube.throwPokecubeAt(this.user.getEntityWorld(), this.user, i, t,
+                PokecubeManager.heal(i, target.getCommandSenderWorld());
+                final EntityPokecubeBase thrown = cube.throwPokecubeAt(this.user.getCommandSenderWorld(), this.user, i, t,
                         null);
                 if (thrown != null)
                 {
@@ -784,7 +784,7 @@ public class CapabilityHasPokemobs
                     this.aiStates.setAIState(AIState.THROWING, true);
                     this.attackCooldown = Config.instance.trainerSendOutDelay;
                     this.messages.sendMessage(MessageState.SENDOUT, target, this.user.getDisplayName(), i
-                            .getDisplayName(), target.getDisplayName());
+                            .getHoverName(), target.getDisplayName());
                     if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT, new ActionContext(
                             (LivingEntity) target, this.getTrainer()));
                 }
@@ -811,7 +811,7 @@ public class CapabilityHasPokemobs
         public LivingEntity getTargetRaw()
         {
             final Brain<?> brain = this.user.getBrain();
-            if (!brain.hasMemory(MemoryTypes.BATTLETARGET)) return null;
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return null;
             return brain.getMemory(MemoryTypes.BATTLETARGET).get();
         }
 
@@ -839,7 +839,7 @@ public class CapabilityHasPokemobs
         // Things below are from IInventory
 
         @Override
-        public int getSizeInventory()
+        public int getContainerSize()
         {
             return 6;
         }
@@ -847,24 +847,24 @@ public class CapabilityHasPokemobs
         @Override
         public boolean isEmpty()
         {
-            return this.getStackInSlot(0).isEmpty();
+            return this.getItem(0).isEmpty();
         }
 
         @Override
-        public ItemStack getStackInSlot(final int index)
+        public ItemStack getItem(final int index)
         {
             return this.getPokemob(index);
         }
 
         @Override
-        public ItemStack decrStackSize(final int index, final int count)
+        public ItemStack removeItem(final int index, final int count)
         {
             // We should only ever have counts of 1 anyway.
-            return this.removeStackFromSlot(index);
+            return this.removeItemNoUpdate(index);
         }
 
         @Override
-        public ItemStack removeStackFromSlot(final int index)
+        public ItemStack removeItemNoUpdate(final int index)
         {
             final ItemStack stack = this.getPokemob(index);
             this.setPokemob(index, ItemStack.EMPTY);
@@ -872,13 +872,13 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public void setInventorySlotContents(final int index, final ItemStack stack)
+        public void setItem(final int index, final ItemStack stack)
         {
             this.setPokemob(index, stack);
         }
 
         @Override
-        public void markDirty()
+        public void setChanged()
         {
             // NOOP
         }
@@ -886,11 +886,11 @@ public class CapabilityHasPokemobs
         PlayerEntity usingPlayer = null;
 
         @Override
-        public boolean isUsableByPlayer(final PlayerEntity player)
+        public boolean stillValid(final PlayerEntity player)
         {
             if (this.usingPlayer == player) return true;
             if (this.getLatestContext() == null || this.getLatestContext().target != player) this.setLatestContext(
-                    new ActionContext(player, this.getTrainer(), player.getHeldItemMainhand()));
+                    new ActionContext(player, this.getTrainer(), player.getMainHandItem()));
 
             // No item in action, no allow.
             if (this.getLatestContext().playerStack.isEmpty()) return false;
@@ -906,21 +906,21 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public void openInventory(final PlayerEntity player)
+        public void startOpen(final PlayerEntity player)
         {
-            IHasPokemobs.super.openInventory(player);
+            IHasPokemobs.super.startOpen(player);
             this.usingPlayer = player;
         }
 
         @Override
-        public void closeInventory(final PlayerEntity player)
+        public void stopOpen(final PlayerEntity player)
         {
-            IHasPokemobs.super.closeInventory(player);
+            IHasPokemobs.super.stopOpen(player);
             this.usingPlayer = null;
         }
 
         @Override
-        public int getInventoryStackLimit()
+        public int getMaxStackSize()
         {
             return 1;
         }
@@ -967,7 +967,7 @@ public class CapabilityHasPokemobs
             if (mob.hasTag()) if (mob.getTag().contains("Pokemob"))
             {
                 final CompoundNBT nbt = mob.getTag().getCompound("Pokemob");
-                mobID = nbt.getUniqueId("UUID");
+                mobID = nbt.getUUID("UUID");
             }
             UUID testID = UUID.randomUUID();
             boolean found = false;
@@ -979,7 +979,7 @@ public class CapabilityHasPokemobs
                 if (ours.getTag().contains("Pokemob"))
                 {
                     final CompoundNBT nbt = ours.getTag().getCompound("Pokemob");
-                    testID = nbt.getUniqueId("UUID");
+                    testID = nbt.getUUID("UUID");
                     if (testID.equals(mobID))
                     {
                         found = true;
@@ -992,7 +992,7 @@ public class CapabilityHasPokemobs
             }
             if (found)
             {
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getDisplayName()
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getHoverName()
                         .getString(), foundID);
                 this.setPokemob(foundID, mob.copy());
             }
@@ -1002,7 +1002,7 @@ public class CapabilityHasPokemobs
                 if (!found && ours.isEmpty())
                 {
                     this.setPokemob(i, mob.copy());
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getDisplayName()
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getHoverName()
                             .getString(), i);
                     break;
                 }
@@ -1048,7 +1048,7 @@ public class CapabilityHasPokemobs
         boolean canMegaEvolve();
 
         @Override
-        default void clear()
+        default void clearContent()
         {
             for (int i = 0; i < this.getMaxPokemobCount(); i++)
                 this.setPokemob(i, ItemStack.EMPTY);
@@ -1201,7 +1201,7 @@ public class CapabilityHasPokemobs
             // Every so often check if we have an out mob, and respond
             // accodingly
             mobcheck:
-            if (this.getTrainer().ticksExisted % 600 == 10 && !this.isInBattle() && !(this
+            if (this.getTrainer().tickCount % 600 == 10 && !this.isInBattle() && !(this
                     .getTrainer() instanceof PlayerEntity))
             {
                 final List<Entity> mobs = PCEventsHandler.getOutMobs(this.getTrainer(), false);
@@ -1215,14 +1215,14 @@ public class CapabilityHasPokemobs
         {
             if (us != null)
             {
-                us.getTrainer().setRevengeTarget(null);
-                us.getTrainer().setLastAttackedEntity(null);
+                us.getTrainer().setLastHurtByMob(null);
+                us.getTrainer().setLastHurtMob(null);
                 us.onSetTarget(null);
             }
             if (them != null)
             {
-                them.getTrainer().setRevengeTarget(null);
-                them.getTrainer().setLastAttackedEntity(null);
+                them.getTrainer().setLastHurtByMob(null);
+                them.getTrainer().setLastHurtMob(null);
                 them.onSetTarget(null);
             }
         }

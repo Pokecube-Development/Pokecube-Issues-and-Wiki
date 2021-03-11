@@ -32,14 +32,14 @@ public class PacketHandler
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
-            final Entity entity = player.getServerWorld().getEntityByID(entityId);
+            final Entity entity = player.getLevel().getEntity(entityId);
 
             if (entity != null && !(entity instanceof PlayerEntity)) NBTEdit.proxy.sendMessage(player,
                     "\"Error- Target must be a player", TextFormatting.RED);
             else if (entity != null)
             {
                 final CompoundNBT tag = new CompoundNBT();
-                final PlayerData data = PlayerDataHandler.getInstance().getPlayerData(entity.getCachedUniqueIdString())
+                final PlayerData data = PlayerDataHandler.getInstance().getPlayerData(entity.getStringUUID())
                         .getData(customType);
                 if (data == null) NBTEdit.proxy.sendMessage(player, "\"Error - Unknown DataType " + customType,
                         TextFormatting.RED);
@@ -66,7 +66,7 @@ public class PacketHandler
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
-            final Entity entity = player.getServerWorld().getEntityByID(entityId);
+            final Entity entity = player.getLevel().getEntity(entityId);
             if (entity instanceof PlayerEntity && entity != player)
             {
                 NBTEdit.proxy.sendMessage(player, "Error - You may not use NBTEdit on other Players",
@@ -77,7 +77,7 @@ public class PacketHandler
             if (entity != null)
             {
                 final CompoundNBT tag = new CompoundNBT();
-                entity.writeWithoutTypeId(tag);
+                entity.saveWithoutId(tag);
                 EntityNBTPacket.ASSEMBLER.sendTo(new EntityNBTPacket(entityId, tag), player);
             }
             else NBTEdit.proxy.sendMessage(player, "\"Error - Unknown EntityID #" + entityId, TextFormatting.RED);
@@ -96,11 +96,11 @@ public class PacketHandler
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
-            final TileEntity te = player.getServerWorld().getTileEntity(pos);
+            final TileEntity te = player.getLevel().getBlockEntity(pos);
             if (te != null)
             {
                 final CompoundNBT tag = new CompoundNBT();
-                te.write(tag);
+                te.save(tag);
                 TileNBTPacket.ASSEMBLER.sendTo(new TileNBTPacket(pos, tag), player);
             }
             else NBTEdit.proxy.sendMessage(player, "Error - There is no TileEntity at " + pos.getX() + ", " + pos.getY()

@@ -35,7 +35,7 @@ public class StructureManager
 
         public StructureInfo(final Entry<Structure<?>, StructureStart<?>> entry)
         {
-            this.name = entry.getKey().getStructureName();
+            this.name = entry.getKey().getFeatureName();
             this.start = entry.getValue();
             this.key = this.name + " " + this.start.getBoundingBox();
             this.hash = this.key.hashCode();
@@ -43,8 +43,8 @@ public class StructureManager
 
         public boolean isIn(final BlockPos pos)
         {
-            if (!this.start.getBoundingBox().isVecInside(pos)) return false;
-            for (final StructurePiece p1 : this.start.getComponents())
+            if (!this.start.getBoundingBox().isInside(pos)) return false;
+            for (final StructurePiece p1 : this.start.getPieces())
                 if (this.isIn(p1.getBoundingBox(), pos)) return true;
             return false;
         }
@@ -59,7 +59,7 @@ public class StructureManager
                     for (int z = z1; z < z1 + TerrainSegment.GRIDSIZE; z++)
                     {
                         pos = new BlockPos(x, y, z);
-                        if (b.isVecInside(pos)) return true;
+                        if (b.isInside(pos)) return true;
                     }
             return false;
         }
@@ -114,15 +114,15 @@ public class StructureManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         // The world is null when it is loaded off thread during worldgen!
-        if (!(evt.getWorld() instanceof World) || evt.getWorld().isRemote()) return;
+        if (!(evt.getWorld() instanceof World) || evt.getWorld().isClientSide()) return;
         final World w = (World) evt.getWorld();
-        final RegistryKey<World> dim = w.getDimensionKey();
-        for (final Entry<Structure<?>, StructureStart<?>> entry : evt.getChunk().getStructureStarts().entrySet())
+        final RegistryKey<World> dim = w.dimension();
+        for (final Entry<Structure<?>, StructureStart<?>> entry : evt.getChunk().getAllStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
             final MutableBoundingBox b = info.start.getBoundingBox();
-            for (int x = b.minX >> 4; x <= b.maxX >> 4; x++)
-                for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+            for (int x = b.x0 >> 4; x <= b.x1 >> 4; x++)
+                for (int z = b.z0 >> 4; z <= b.z1 >> 4; z++)
                 {
                     final ChunkPos p = new ChunkPos(x, z);
                     final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
@@ -135,9 +135,9 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        if (!(evt.getWorld() instanceof World) || evt.getWorld().isRemote()) return;
+        if (!(evt.getWorld() instanceof World) || evt.getWorld().isClientSide()) return;
         final World w = (World) evt.getWorld();
-        final RegistryKey<World> dim = w.getDimensionKey();
+        final RegistryKey<World> dim = w.dimension();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
         StructureManager.map_by_pos.remove(pos);
     }

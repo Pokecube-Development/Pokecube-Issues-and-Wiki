@@ -43,7 +43,7 @@ public class CaptureManager
 
     public static void captureAttempt(final EntityPokecubeBase cube, final Random rand, final Entity e)
     {
-        if (!(cube.getEntityWorld() instanceof ServerWorld)) return;
+        if (!(cube.getCommandSenderWorld() instanceof ServerWorld)) return;
         if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity)) return;
         if (e.isInvulnerable()) return;
@@ -83,7 +83,7 @@ public class CaptureManager
                     hitten.setPokecube(cube.getItem());
                     cube.setItem(PokecubeManager.pokemobToItem(hitten));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
-                    v.set(cube).addTo(0, mob.getHeight() / 2, 0).moveEntity(cube);
+                    v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
                     removeMob = true;
                     cube.setCapturing(mob);
                 }
@@ -99,7 +99,7 @@ public class CaptureManager
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
                 PokecubeManager.setTilt(cube.getItem(), n);
-                v.set(cube).addTo(0, mob.getHeight() / 2, 0).moveEntity(cube);
+                v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
                 removeMob = true;
                 cube.setCapturing(mob);
             }
@@ -136,7 +136,7 @@ public class CaptureManager
             PokecubeManager.addToCube(mobStack, mob);
             cube.setItem(mobStack);
             PokecubeManager.setTilt(cube.getItem(), n);
-            v.set(cube).addTo(0, mob.getHeight() / 2, 0).moveEntity(cube);
+            v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
             removeMob = true;
             cube.setCapturing(mob);
         }
@@ -150,8 +150,8 @@ public class CaptureManager
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         cube.setNotCapturing();
 
-        if (mob != null) mob.setLocationAndAngles(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z,
-                cube.rotationYaw, 0.0F);
+        if (mob != null) mob.moveTo(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z,
+                cube.yRot, 0.0F);
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
@@ -163,7 +163,7 @@ public class CaptureManager
             if (cube.shootingEntity instanceof PlayerEntity && !(cube.shootingEntity instanceof FakePlayer))
             {
                 final ITextComponent mess = new TranslationTextComponent("pokecube.missed", pokemob.getDisplayName());
-                ((PlayerEntity) cube.shootingEntity).sendMessage(mess, Util.DUMMY_UUID);
+                ((PlayerEntity) cube.shootingEntity).sendMessage(mess, Util.NIL_UUID);
             }
         }
         if (mob instanceof MobEntity && cube.shootingEntity != null) BrainUtils.initiateCombat((MobEntity) mob,
@@ -174,7 +174,7 @@ public class CaptureManager
     {
         cube.setNoCollisionRelease();
         PokecubeManager.setTilt(cube.getItem(), -2);
-        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
+        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getCommandSenderWorld());
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if (mob == null || cube.shooter == null)
@@ -193,7 +193,7 @@ public class CaptureManager
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
             if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).sendMessage(mess,
-                    Util.DUMMY_UUID);
+                    Util.NIL_UUID);
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return true;
         }
@@ -212,9 +212,9 @@ public class CaptureManager
         if (cube.shootingEntity instanceof PlayerEntity && !(cube.shootingEntity instanceof FakePlayer))
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", pokemob.getDisplayName());
-            ((PlayerEntity) cube.shootingEntity).sendMessage(mess, Util.DUMMY_UUID);
-            cube.setPosition(cube.shootingEntity.getPosX(), cube.shootingEntity.getPosY(), cube.shootingEntity
-                    .getPosZ());
+            ((PlayerEntity) cube.shootingEntity).sendMessage(mess, Util.NIL_UUID);
+            cube.setPos(cube.shootingEntity.getX(), cube.shootingEntity.getY(), cube.shootingEntity
+                    .getZ());
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
         }
         return true;

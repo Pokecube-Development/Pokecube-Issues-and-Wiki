@@ -48,15 +48,15 @@ public class RecipeClone extends PoweredRecipe
         @Override
         public boolean complete(final IPoweredProgress tile)
         {
-            final World world = ((TileEntity) tile).getWorld();
-            final BlockPos pos = ((TileEntity) tile).getPos();
+            final World world = ((TileEntity) tile).getLevel();
+            final BlockPos pos = ((TileEntity) tile).getBlockPos();
             final PokedexEntry entry = RecipeClone.getEntry(this, tile);
             if (entry == Database.missingno) return false;
             final boolean tame = !entry.isLegendary();
             MobEntity entity = PokecubeCore.createPokemob(entry, world);
             if (entity != null)
             {
-                ItemStack dnaSource = tile.getStackInSlot(0);
+                ItemStack dnaSource = tile.getItem(0);
                 if (!dnaSource.isEmpty()) dnaSource = dnaSource.copy();
                 IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                 entity.setHealth(entity.getMaxHealth());
@@ -68,18 +68,18 @@ public class RecipeClone extends PoweredRecipe
                 pokemob.getEntity().getPersistentData().putInt("spawnExp", exp);
                 pokemob = pokemob.spawnInit();
 
-                if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUniqueID());
+                if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
 
                 final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
                 if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
 
                 pokemob = event.getPokemob();
                 entity = pokemob.getEntity();
-                final Direction dir = world.getBlockState(pos).get(HorizontalBlock.HORIZONTAL_FACING);
-                entity.setLocationAndAngles(pos.getX() + 0.5 + dir.getXOffset(), pos.getY() + 1, pos.getZ() + 0.5 + dir
-                        .getZOffset(), world.rand.nextFloat() * 360F, 0.0F);
+                final Direction dir = world.getBlockState(pos).getValue(HorizontalBlock.FACING);
+                entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir
+                        .getStepZ(), world.random.nextFloat() * 360F, 0.0F);
                 entity.getPersistentData().putBoolean("cloned", true);
-                world.addEntity(entity);
+                world.addFreshEntity(entity);
                 entity.playAmbientSound();
             }
             return true;
@@ -88,9 +88,9 @@ public class RecipeClone extends PoweredRecipe
         @Override
         public PokedexEntry getEntry(final CraftingInventory inventory)
         {
-            final ItemStack dnaSource = inventory.getStackInSlot(0);
+            final ItemStack dnaSource = inventory.getItem(0);
             if (dnaSource.isEmpty()) return Database.missingno;
-            final ItemStack material = inventory.getStackInSlot(1);
+            final ItemStack material = inventory.getItem(1);
             if (material.isEmpty()) return Database.missingno;
             final PokedexEntry entry = ClonerHelper.getFromGenes(dnaSource);
             if (entry == null) return Database.missingno;
@@ -157,7 +157,7 @@ public class RecipeClone extends PoweredRecipe
     {
         if (!(tile instanceof ClonerTile)) return Database.missingno;
         final ClonerTile cloner = (ClonerTile) tile;
-        PokedexEntry entry = matcher.getEntry(tile.getCraftMatrix(), cloner.getWorld());
+        PokedexEntry entry = matcher.getEntry(tile.getCraftMatrix(), cloner.getLevel());
         final CloneEvent.Pick pick = new CloneEvent.Pick(cloner, entry);
         if (PokecubeCore.POKEMOB_BUS.post(pick)) entry = Database.missingno;
         entry = pick.getEntry();
@@ -187,7 +187,7 @@ public class RecipeClone extends PoweredRecipe
     }
 
     @Override
-    public boolean canFit(final int width, final int height)
+    public boolean canCraftInDimensions(final int width, final int height)
     {
         return width * height > 2;
     }
@@ -202,19 +202,19 @@ public class RecipeClone extends PoweredRecipe
         if (completed)
         {
             final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
-            tile.setInventorySlotContents(tile.getOutputSlot(), this.getCraftingResult(tile.getCraftMatrix()));
+            tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix()));
             for (int i = 0; i < remaining.size(); i++)
             {
                 final ItemStack stack = remaining.get(i);
-                if (!stack.isEmpty()) tile.setInventorySlotContents(i, stack);
+                if (!stack.isEmpty()) tile.setItem(i, stack);
                 else
                 {
-                    final ItemStack old = tile.getStackInSlot(i);
+                    final ItemStack old = tile.getItem(i);
                     if (PokecubeManager.isFilled(old)) PlayerPokemobCache.UpdateCache(old, false, true);
-                    tile.decrStackSize(i, 1);
+                    tile.removeItem(i, 1);
                 }
             }
-            if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.detectAndSendChanges();
+            if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.broadcastChanges();
         }
         return completed;
     }
@@ -226,7 +226,7 @@ public class RecipeClone extends PoweredRecipe
     }
 
     @Override
-    public ItemStack getCraftingResult(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         return ItemStack.EMPTY;
     }
@@ -265,21 +265,21 @@ public class RecipeClone extends PoweredRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
     {
-        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
         if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
         if (!(inv_p.inventory instanceof ClonerTile)) return nonnulllist;
         final ClonerTile tile = (ClonerTile) inv_p.inventory;
         ReviveMatcher matcher = RecipeClone.ANYMATCHER;
         for (final ReviveMatcher matcher2 : RecipeClone.getMatchers())
-            if (matcher2.getEntry(inv, tile.getWorld()) != Database.missingno)
+            if (matcher2.getEntry(inv, tile.getLevel()) != Database.missingno)
             {
                 matcher = matcher2;
                 break;
             }
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            final ItemStack item = inv.getStackInSlot(i);
+            final ItemStack item = inv.getItem(i);
             if (matcher.shouldKeep(item)) nonnulllist.set(i, item);
             else if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }

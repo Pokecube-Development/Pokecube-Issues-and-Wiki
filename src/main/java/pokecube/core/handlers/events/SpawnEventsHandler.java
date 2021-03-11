@@ -144,9 +144,9 @@ public class SpawnEventsHandler
             {
                 final NpcMob mob = NpcMob.TYPE.create(event.worldActual);
 
-                mob.enablePersistence();
-                mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
-                mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(
+                mob.setPersistenceRequired();
+                mob.moveTo(event.pos, 0.0F, 0.0F);
+                mob.finalizeSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(
                         event.pos), SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
 
                 JsonObject thing = new JsonObject();
@@ -175,9 +175,9 @@ public class SpawnEventsHandler
                     final JsonObject apply = thing;
                     EventsHandler.Schedule(event.worldActual, w ->
                     {
-                        w.getChunk(mob.getPosition());
+                        w.getChunk(mob.blockPosition());
                         SpawnEventsHandler.applyFunction(mob, apply);
-                        w.addEntity(mob);
+                        w.addFreshEntity(mob);
                         return true;
                     });
                 }
@@ -195,8 +195,8 @@ public class SpawnEventsHandler
         {
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final MutableBoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
-                    box.maxZ);
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1,
+                    box.z1);
             EventsHandler.Schedule((ServerWorld) event.getWorld(), world ->
             {
                 poses.forEach((p) ->
@@ -211,8 +211,8 @@ public class SpawnEventsHandler
             PokecubeCore.LOGGER.warn("Warning, world is not server world, things may break!");
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final MutableBoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
-                    box.maxZ);
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1,
+                    box.z1);
             final IWorld world = event.getWorld();
             poses.forEach((p) ->
             {
@@ -240,7 +240,7 @@ public class SpawnEventsHandler
         if (thing.has("gender"))
         {
             final boolean male = thing.get("gender").getAsString().equalsIgnoreCase("male") ? true
-                    : thing.get("gender").getAsString().equalsIgnoreCase("female") ? false : npc.getRNG().nextBoolean();
+                    : thing.get("gender").getAsString().equalsIgnoreCase("female") ? false : npc.getRandom().nextBoolean();
             npc.setMale(male);
         }
         GuardInfo info = null;
@@ -257,13 +257,13 @@ public class SpawnEventsHandler
         if (info == null) return;
         // Set us to sit at this location.
         final IGuardAICapability guard = npc.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
-        npc.setHomePosAndDistance(npc.getPosition(), info.roam);
+        npc.restrictTo(npc.blockPosition(), info.roam);
         if (guard != null)
         {
             TimePeriod duration = info.time.equals("allday") ? TimePeriod.fullDay : new TimePeriod(0.55, .95);
             duration = info.time.equals("day") ? new TimePeriod(0, 0.5) : duration;
             duration = info.time.equals("night") ? new TimePeriod(0.55, .95) : duration;
-            guard.getPrimaryTask().setPos(npc.getPosition());
+            guard.getPrimaryTask().setPos(npc.blockPosition());
             guard.getPrimaryTask().setRoamDistance(info.roam);
             guard.getPrimaryTask().setActiveTime(duration);
         }

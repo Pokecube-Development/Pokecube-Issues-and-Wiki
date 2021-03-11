@@ -33,8 +33,8 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
     public Bag(final T container, final PlayerInventory ivplay, final ITextComponent name)
     {
         super(container, ivplay, name);
-        this.xSize = 175;
-        this.ySize = 229;
+        this.imageWidth = 175;
+        this.imageHeight = 229;
         this.page = container.getPageNb();
         this.boxName = container.getPage();
     }
@@ -45,7 +45,7 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
         if (this.textFieldSearch.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
         if (this.textFieldSelectedBox.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER)
         {
-            final String entry = this.textFieldSelectedBox.getText();
+            final String entry = this.textFieldSelectedBox.getValue();
             int number = 1;
             try
             {
@@ -55,8 +55,8 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
             {
                 e.printStackTrace();
             }
-            number = Math.max(1, Math.min(number, this.container.inv.boxCount()));
-            this.container.gotoInventoryPage(number);
+            number = Math.max(1, Math.min(number, this.menu.inv.boxCount()));
+            this.menu.gotoInventoryPage(number);
             return true;
         }
         if (this.textFieldBoxName.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
@@ -67,19 +67,19 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float f, final int i, final int j)
+    protected void renderBg(final MatrixStack mat, final float f, final int i, final int j)
     {
         GL11.glColor4f(1f, 1f, 1f, 1f);
 
-        this.minecraft.getTextureManager().bindTexture(new ResourceLocation(ThutBling.MODID,
+        this.minecraft.getTextureManager().bind(new ResourceLocation(ThutBling.MODID,
                 "textures/gui/large_bag.png"));
-        final int x = (this.width - this.xSize) / 2;
-        final int y = (this.height - this.ySize) / 2;
-        this.blit(mat, x, y, 0, 0, this.xSize + 1, this.ySize + 1);
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
+        this.blit(mat, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(final MatrixStack mat, final int par1, final int par2)
+    protected void renderLabels(final MatrixStack mat, final int par1, final int par2)
     {
 
     }
@@ -93,14 +93,14 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
         final ITextComponent next = new TranslationTextComponent("block.pc.next");
         this.addButton(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10, next, b ->
         {
-            this.container.updateInventoryPages((byte) 1, this.minecraft.player.inventory);
-            this.textFieldSelectedBox.setText(this.container.getPageNb());
+            this.menu.updateInventoryPages((byte) 1, this.minecraft.player.inventory);
+            this.textFieldSelectedBox.setValue(this.menu.getPageNb());
         }));
         final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
         this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10, prev, b ->
         {
-            this.container.updateInventoryPages((byte) -1, this.minecraft.player.inventory);
-            this.textFieldSelectedBox.setText(this.container.getPageNb());
+            this.menu.updateInventoryPages((byte) -1, this.minecraft.player.inventory);
+            this.textFieldSelectedBox.setValue(this.menu.getPageNb());
         }));
         this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70, this.height / 2
                 - yOffset - 121, 25, 10, new StringTextComponent(this.page));
@@ -108,8 +108,8 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
         final ITextComponent rename = new TranslationTextComponent("block.pc.rename");
         this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
         {
-            final String box = this.textFieldBoxName.getText();
-            if (!box.equals(this.boxName)) this.container.changeName(box);
+            final String box = this.textFieldBoxName.getValue();
+            if (!box.equals(this.boxName)) this.menu.changeName(box);
             this.boxName = box;
         }));
 
@@ -122,8 +122,8 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
         this.addButton(this.textFieldBoxName);
         this.addButton(this.textFieldSearch);
 
-        this.textFieldSelectedBox.text = this.page;
-        this.textFieldBoxName.text = this.boxName;
+        this.textFieldSelectedBox.value = this.page;
+        this.textFieldBoxName.value = this.boxName;
     }
 
     /**
@@ -131,9 +131,9 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
      * events
      */
     @Override
-    public void onClose()
+    public void removed()
     {
-        if (this.minecraft.player != null) this.container.onContainerClosed(this.minecraft.player);
+        if (this.minecraft.player != null) this.menu.removed(this.minecraft.player);
     }
 
     @Override
@@ -142,14 +142,14 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
         this.renderBackground(mat);
         super.render(mat, mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
-            if (!this.textFieldSearch.getText().isEmpty())
+            if (!this.textFieldSearch.getValue().isEmpty())
             {
-                final ItemStack stack = this.container.inv.getStackInSlot(i + 54 * this.container.inv.getPage());
+                final ItemStack stack = this.menu.inv.getItem(i + 54 * this.menu.inv.getPage());
                 if (stack.isEmpty()) continue;
                 final int x = i % 9 * 18 + this.width / 2 - 80;
                 final int y = i / 9 * 18 + this.height / 2 - 96;
-                final String name = stack == null ? "" : stack.getDisplayName().getString();
-                if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
+                final String name = stack == null ? "" : stack.getHoverName().getString();
+                if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getValue())))
                 {
                     final int slotColor = 0x55FF0000;
                     AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
@@ -160,7 +160,7 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
                     AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
                 }
             }
-        this.renderHoveredTooltip(mat,mouseX, mouseY);
+        this.renderTooltip(mat,mouseX, mouseY);
     }
 
 }

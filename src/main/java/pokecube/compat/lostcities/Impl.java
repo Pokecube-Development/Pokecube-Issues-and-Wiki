@@ -42,7 +42,7 @@ public class Impl
     public static void buildStructure(final PickLocation event)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getWorld(event.getDimensionKey());
+        final ServerWorld world = server.getLevel(event.getDimensionKey());
         final IDimensionInfo dimInfo = Registration.LOSTCITY_FEATURE.getDimensionInfo(world);
         if (dimInfo == null)
         {
@@ -80,9 +80,9 @@ public class Impl
                 final boolean caveAdjusted)
         {
             check:
-            if (caveAdjusted) if (world_in.getChunkProvider() instanceof ServerChunkProvider)
+            if (caveAdjusted) if (world_in.getChunkSource() instanceof ServerChunkProvider)
             {
-                final ServerWorld world = ((ServerChunkProvider) world_in.getChunkProvider()).world;
+                final ServerWorld world = ((ServerChunkProvider) world_in.getChunkSource()).level;
                 final IDimensionInfo dimInfo = Registration.LOSTCITY_FEATURE.getDimensionInfo(world);
                 if (dimInfo == null) break check;
                 final BlockPos pos = v.getPos();

@@ -13,13 +13,13 @@ public interface IOwnableTE extends IOwnable
         final UUID owner = this.getOwnerId();
         if (owner == null) return true;
         if (editor == null) return false;
-        return editor.getUniqueID().equals(owner) || editor instanceof PlayerEntity && ((PlayerEntity) editor)
+        return editor.getUUID().equals(owner) || editor instanceof PlayerEntity && ((PlayerEntity) editor)
                 .isCreative();
     }
 
     default void setPlacer(final LivingEntity placer)
     {
         this.setOwner(placer);
-        this.setOwner(placer.getUniqueID());
+        this.setOwner(placer.getUUID());
     }
 }

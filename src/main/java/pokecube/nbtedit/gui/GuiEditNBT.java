@@ -39,7 +39,7 @@ public class GuiEditNBT extends Widget
         {
         case 7:
             String s = "";
-            for (final byte b : ((ByteArrayNBT) base).getByteArray())
+            for (final byte b : ((ByteArrayNBT) base).getAsByteArray())
                 s += b + " ";
             return s;
         case 9:
@@ -48,7 +48,7 @@ public class GuiEditNBT extends Widget
             return "TagCompound";
         case 11:
             String i = "";
-            for (final int a : ((IntArrayNBT) base).getIntArray())
+            for (final int a : ((IntArrayNBT) base).getAsIntArray())
                 i += a + " ";
             return i;
         default:
@@ -161,7 +161,7 @@ public class GuiEditNBT extends Widget
         }
         try
         {
-            GuiEditNBT.validValue(this.value.getText(), this.nbt.getId());
+            GuiEditNBT.validValue(this.value.getValue(), this.nbt.getId());
             valid &= true;
         }
         catch (final NumberFormatException e)
@@ -178,27 +178,27 @@ public class GuiEditNBT extends Widget
         this.y = y;
         this.parent.addButton(this.section = new GuiCharacterButton((byte) 0, x + GuiEditNBT.WIDTH - 1, y + 34, b ->
         {
-            this.value.writeText("" + NBTStringHelper.SECTION_SIGN);
+            this.value.insertText("" + NBTStringHelper.SECTION_SIGN);
             this.checkValidInput();
         }));
         this.parent.addButton(this.newLine = new GuiCharacterButton((byte) 1, x + GuiEditNBT.WIDTH - 1, y + 50, b ->
         {
-            this.value.writeText("\n");
+            this.value.insertText("\n");
             this.checkValidInput();
         }));
         final String sKey = this.node.getObject().getName();
         final String sValue = GuiEditNBT.getValue(this.nbt);
-        this.parent.addButton(this.key = new TextFieldWidget2(this.mc.fontRenderer, x + 46, y + 18, 116, 15, false));
-        this.parent.addButton(this.value = new TextFieldWidget2(this.mc.fontRenderer, x + 46, y + 44, 116, 15, true));
+        this.parent.addButton(this.key = new TextFieldWidget2(this.mc.font, x + 46, y + 18, 116, 15, false));
+        this.parent.addButton(this.value = new TextFieldWidget2(this.mc.font, x + 46, y + 44, 116, 15, true));
 
-        this.key.setText(sKey);
-        this.key.setEnableBackgroundDrawing(false);
-        this.key.isEnabled = this.canEditText;
+        this.key.setValue(sKey);
+        this.key.setBordered(false);
+        this.key.isEditable = this.canEditText;
 
-        this.value.isEnabled = this.canEditValue;
-        this.value.setMaxStringLength(256);
-        this.value.setText(sValue);
-        this.value.setEnableBackgroundDrawing(false);
+        this.value.isEditable = this.canEditValue;
+        this.value.setMaxLength(256);
+        this.value.setValue(sValue);
+        this.value.setBordered(false);
 
         if (!this.key.isFocused() && !this.value.isFocused()) if (this.canEditText) this.key.setFocused(true);
         else if (this.canEditValue) this.value.setFocused(true);
@@ -222,23 +222,23 @@ public class GuiEditNBT extends Widget
 
         this.section.active = this.value.isFocused();
         this.newLine.active = this.value.isFocused();
-        this.mc.getTextureManager().bindTexture(GuiEditNBT.WINDOW_TEXTURE);
+        this.mc.getTextureManager().bind(GuiEditNBT.WINDOW_TEXTURE);
 
         GL11.glColor4f(1, 1, 1, 1);
         this.blit(mat, this.x, this.y, 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
         if (!this.canEditText) AbstractGui.fill(mat, this.x + 42, this.y + 15, this.x + 169, this.y + 31, 0x80000000);
         if (!this.canEditValue) AbstractGui.fill(mat, this.x + 42, this.y + 41, this.x + 169, this.y + 57, 0x80000000);
 
-        if (this.kError != null) AbstractGui.drawCenteredString(mat,this.mc.fontRenderer, this.kError,
+        if (this.kError != null) AbstractGui.drawCenteredString(mat,this.mc.font, this.kError,
                 this.x + GuiEditNBT.WIDTH / 2, this.y + 4, 0xFF0000);
-        if (this.vError != null) AbstractGui.drawCenteredString(mat, this.mc.fontRenderer, this.vError,
+        if (this.vError != null) AbstractGui.drawCenteredString(mat, this.mc.font, this.vError,
                 this.x + GuiEditNBT.WIDTH / 2, this.y + 32, 0xFF0000);
     }
 
     private void saveAndQuit()
     {
-        if (this.canEditText) this.node.getObject().setName(this.key.getText());
-        GuiEditNBT.setValidValue(this.node, this.value.getText());
+        if (this.canEditText) this.node.getObject().setName(this.key.getValue());
+        GuiEditNBT.setValidValue(this.node, this.value.getValue());
         this.parent.nodeEdited(this.node);
         this.parent.closeWindow();
     }
@@ -248,7 +248,7 @@ public class GuiEditNBT extends Widget
         for (final Node<NamedNBT> node : this.node.getParent().getChildren())
         {
             final INBT base = node.getObject().getNBT();
-            if (base != this.nbt && node.getObject().getName().equals(this.key.getText())) return false;
+            if (base != this.nbt && node.getObject().getName().equals(this.key.getValue())) return false;
         }
         return true;
     }

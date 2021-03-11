@@ -27,7 +27,7 @@ public class FillerProcessor extends StructureProcessor
             final Template.BlockInfo old, final Template.BlockInfo blockInfo,
             final PlacementSettings placementSettingsIn, final Template ref)
     {
-        return worldReaderIn.isAirBlock(pos) ? blockInfo : null;
+        return worldReaderIn.isEmptyBlock(pos) ? blockInfo : null;
     }
 
     @Override

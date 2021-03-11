@@ -88,9 +88,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
         if (this.search.isFocused()) if (keyCode == GLFW.GLFW_KEY_RIGHT && this.search
-                .getCursorPosition() == this.search.text.length())
+                .getCursorPosition() == this.search.value.length())
         {
-            String text = this.search.getText();
+            String text = this.search.getValue();
             text = Database.trim(text);
             final List<String> ret = new ArrayList<>();
             for (final PokedexEntry entry : Database.getSortedFormes())
@@ -121,21 +121,21 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                     match = name;
                     break;
                 }
-            if (!ret.isEmpty()) this.search.setText(ret.get(0));
+            if (!ret.isEmpty()) this.search.setValue(ret.get(0));
             return true;
         }
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
             PokedexEntry entry = this.pokemob.getPokedexEntry();
-            final PokedexEntry newEntry = Database.getEntry(this.search.getText());
+            final PokedexEntry newEntry = Database.getEntry(this.search.getValue());
             // Search to see if maybe it was a translated name put into the
             // search.
             if (newEntry == null)
             {
                 for (final PokedexEntry e : Database.getSortedFormes())
                 {
-                    final String translated = I18n.format(e.getUnlocalizedName());
-                    if (translated.equalsIgnoreCase(this.search.getText()))
+                    final String translated = I18n.get(e.getUnlocalizedName());
+                    if (translated.equalsIgnoreCase(this.search.getValue()))
                     {
                         Database.data2.put(translated, e);
                         entry = e;
@@ -150,11 +150,11 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
             if (newEntry != null)
             {
-                this.search.setText(newEntry.getName());
+                this.search.setValue(newEntry.getName());
                 this.pokemob = AnimationGui.getRenderMob(newEntry);
                 this.initPages(this.pokemob);
             }
-            else this.search.setText(entry.getName());
+            else this.search.setValue(entry.getName());
             return true;
         }
         return super.keyPressed(keyCode, b, c);
@@ -189,7 +189,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         }
         this.pokemob = pokemob;
         this.search.setVisible(!this.watch.canEdit(pokemob));
-        this.search.setText(pokemob.getPokedexEntry().getName());
+        this.search.setValue(pokemob.getPokedexEntry().getName());
         PacketPokedex.sendSpecificSpawnsRequest(pokemob.getPokedexEntry());
         PacketPokedex.updateWatchEntry(pokemob.getPokedexEntry());
         // Force close and open the page to update.
@@ -211,7 +211,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         if (!this.watch.canEdit(this.pokemob))
         {
             // If it is actually a real mob, swap it out for the fake one.
-            if (this.pokemob.getEntity().addedToChunk) this.pokemob = AnimationGui.getRenderMob(this.pokemob);
+            if (this.pokemob.getEntity().inChunk) this.pokemob = AnimationGui.getRenderMob(this.pokemob);
 
             final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
             final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
@@ -274,23 +274,23 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 text.add(this.pokemob.getPokedexEntry().getTranslatedName().getString());
                 if (!this.pokemob.getPokemonNickname().isEmpty()) text.add("\"" + this.pokemob.getPokemonNickname()
                         + "\"");
-                GlStateManager.disableDepthTest();
+                GlStateManager._disableDepthTest();
                 mx = -65;
                 my = 20;
-                final int dy = this.font.FONT_HEIGHT;
+                final int dy = this.font.lineHeight;
                 int box = 0;
                 for (final String s : text)
-                    box = Math.max(box, this.font.getStringWidth(s) + 2);
+                    box = Math.max(box, this.font.width(s) + 2);
 
                 AbstractGui.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1,
                         0xFF78C850);
                 for (final String s : text)
                 {
                     AbstractGui.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-                    this.font.drawString(mat, s, x + mx + 1, y + my, 0xFFFFFFFF);
+                    this.font.draw(mat, s, x + mx + 1, y + my, 0xFFFFFFFF);
                     my += dy;
                 }
-                GlStateManager.enableDepthTest();
+                GlStateManager._enableDepthTest();
             }
         }
     }
@@ -304,16 +304,16 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final String name = PokecubePlayerDataHandler.getCustomDataTag(this.watch.player).getString("WEntry");
             if (!name.equals(this.pokemob.getPokedexEntry().getName()))
             {
-                this.search.setText(name);
+                this.search.setValue(name);
                 final PokedexEntry entry = this.pokemob.getPokedexEntry();
-                final PokedexEntry newEntry = Database.getEntry(this.search.getText());
+                final PokedexEntry newEntry = Database.getEntry(this.search.getValue());
                 if (newEntry != null && newEntry != entry)
                 {
-                    this.search.setText(newEntry.getName());
+                    this.search.setValue(newEntry.getName());
                     this.pokemob = AnimationGui.getRenderMob(newEntry);
                     this.initPages(this.pokemob);
                 }
-                else this.search.setText(entry.getName());
+                else this.search.setValue(entry.getName());
             }
         }
 
@@ -329,7 +329,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         // We only want to draw the level if we are actually inspecting a
         // pokemob.
         // Otherwise this will just show as lvl 1
-        boolean drawLevel = this.watch.pokemob != null && this.watch.pokemob.getEntity().addedToChunk;
+        boolean drawLevel = this.watch.pokemob != null && this.watch.pokemob.getEntity().inChunk;
 
         // Draw Pokemob
         if (this.pokemob != null)
@@ -337,13 +337,13 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             if (drawLevel) drawLevel = this.watch.pokemob.getPokedexEntry() == this.pokemob.getPokedexEntry();
 
             // Draw the icon indicating capture/inspect status.
-            this.minecraft.getTextureManager().bindTexture(GuiPokeWatch.TEXTURE_BASE);
+            this.minecraft.getTextureManager().bind(GuiPokeWatch.TEXTURE_BASE);
             final PokedexEntry pokedexEntry = this.pokemob.getPokedexEntry();
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
                     .getInstance().player).getData(PokecubePlayerStats.class);
             boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
                     || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
-                    || this.minecraft.player.abilities.isCreativeMode;
+                    || this.minecraft.player.abilities.instabuild;
 
             // Megas Inherit colouring from the base form.
             if (!fullColour && pokedexEntry.isMega()) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
@@ -352,7 +352,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
             IPokemob pokemob = this.pokemob;
             // Copy the stuff to the render mob if this mob is in world
-            if (pokemob.getEntity().addedToChunk)
+            if (pokemob.getEntity().inChunk)
             {
                 final IPokemob newMob = AnimationGui.getRenderMob(pokemob);
                 pokemob = newMob;
@@ -368,7 +368,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
             pokemob.setSize(1);
 
-            final float yaw = Util.milliTime() / 20;
+            final float yaw = Util.getMillis() / 20;
             dx = -69;
             dy = 40;
 
@@ -394,26 +394,26 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Only draw the lvl if it is a real mob, otherwise it will just say
             // L.1
             final int lvlColour = GuiPokeWatch.nightMode ? 0xFFFFFF : 0x444444;
-            if (drawLevel) this.font.drawString(mat, level, x + dx, y + dy, lvlColour);
+            if (drawLevel) this.font.draw(mat, level, x + dx, y + dy, lvlColour);
             dx = -80;
             dy = 97;
-            this.font.drawString(mat, gender, x + dx, y + dy, genderColor);
+            this.font.draw(mat, gender, x + dx, y + dy, genderColor);
             pokemob.getType1();
             final String type1 = PokeType.getTranslatedName(pokemob.getType1()).getString();
             dx = -80;
             dy = 114;
             colour = pokemob.getType1().colour;
-            this.font.drawString(mat, type1, x + dx, y + dy, colour);
+            this.font.draw(mat, type1, x + dx, y + dy, colour);
             dy = 114;
             if (pokemob.getType2() != PokeType.unknown)
             {
                 final String slash = "/";
                 colour = pokemob.getType2().colour;
-                dx += this.font.getStringWidth(type1);
-                this.font.drawString(mat, slash, x + dx, y + dy, 0x444444);
+                dx += this.font.width(type1);
+                this.font.draw(mat, slash, x + dx, y + dy, 0x444444);
                 final String type2 = PokeType.getTranslatedName(pokemob.getType2()).getString();
-                dx += this.font.getStringWidth(slash);
-                this.font.drawString(mat, type2, x + dx, y + dy, colour);
+                dx += this.font.width(slash);
+                this.font.draw(mat, type2, x + dx, y + dy, colour);
             }
         }
     }
@@ -421,7 +421,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     @Override
     public void preSubOpened()
     {
-        this.getEventListeners().clear();
+        this.children().clear();
         this.initPages(this.pokemob);
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;

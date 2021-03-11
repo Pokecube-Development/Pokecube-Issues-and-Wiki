@@ -33,28 +33,28 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     public BlockEntityChunkProvider(final WorldEntity worldIn)
     {
         this.world = worldIn;
-        this.lightManager = new WorldLightManager(this, true, worldIn.getWorld().getDimensionType().hasSkyLight());
+        this.lightManager = new WorldLightManager(this, true, worldIn.getWorld().dimensionType().hasSkyLight());
     }
 
     @Override
     public IChunk getChunk(final int chunkX, final int chunkZ, final ChunkStatus status, final boolean load)
     {
         final AxisAlignedBB chunkBox = new AxisAlignedBB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15,
-                this.world.getWorld().getHeight(), chunkZ * 16 + 15);
+                this.world.getWorld().getMaxBuildHeight(), chunkZ * 16 + 15);
         if (!this.intersects(chunkBox)) return this.world.getWorld().getChunk(chunkX, chunkZ);
 
         // TODO improvements to this.
 
         final Entity entity = (Entity) this.world.getBlockEntity();
-        if (this.lastOrigin == null || !this.lastOrigin.equals(entity.getPosition()))
+        if (this.lastOrigin == null || !this.lastOrigin.equals(entity.blockPosition()))
         {
-            this.lastOrigin = entity.getPosition();
+            this.lastOrigin = entity.blockPosition();
             this.chunks.clear();
         }
 
         final BlockPos.Mutable pos = new BlockPos.Mutable();
-        pos.setPos(chunkX, 0, chunkZ);
-        final BlockPos immut = pos.toImmutable();
+        pos.set(chunkX, 0, chunkZ);
+        final BlockPos immut = pos.immutable();
         if (this.chunks.containsKey(immut)) return this.chunks.get(immut);
         final ChunkPrimer primer = new ChunkPrimer(new ChunkPos(chunkX, chunkZ), UpgradeData.EMPTY);
 
@@ -67,7 +67,7 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
                     final int x = chunkX * 16 + i;
                     final int y = j;
                     final int z = chunkZ * 16 + k;
-                    pos.setPos(x, y, z);
+                    pos.set(x, y, z);
                     final BlockState state = this.world.getBlockState(pos);
                     if (state.getBlock() == Blocks.AIR) continue;
                     ChunkSection storage = ret.getSections()[j >> 4];
@@ -77,20 +77,20 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
                         ret.getSections()[j >> 4] = storage;
                     }
                     storage.setBlockState(i & 15, j & 15, k & 15, state, false);
-                    final TileEntity tile = this.world.getTileEntity(pos);
-                    if (tile != null) ret.addTileEntity(tile);
+                    final TileEntity tile = this.world.getBlockEntity(pos);
+                    if (tile != null) ret.addBlockEntity(tile);
                 }
         return ret;
     }
 
     @Override
-    public WorldLightManager getLightManager()
+    public WorldLightManager getLightEngine()
     {
         return this.lightManager;
     }
 
     @Override
-    public IBlockReader getWorld()
+    public IBlockReader getLevel()
     {
         return this.world;
     }
@@ -104,13 +104,13 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     }
 
     @Override
-    public String makeString()
+    public String gatherStats()
     {
         return "BlockEntity: " + this.world + " " + this.world.getWorld();
     }
 
     @Override
-    public boolean canTick(final BlockPos pos)
+    public boolean isTickingChunk(final BlockPos pos)
     {
         return false;
     }

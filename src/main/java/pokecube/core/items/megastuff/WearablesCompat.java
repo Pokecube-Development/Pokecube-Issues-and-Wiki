@@ -167,10 +167,10 @@ public class WearablesCompat
                 sx = 1.05f * s / 2;
                 sy = s * 1.8f / 2;
                 sz = s / 2;
-                mat.rotate(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
-                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
 
-                mat.push();
+                mat.pushPose();
                 mat.translate(dx, dy, dz);
                 mat.scale(sx, sy, sz);
                 DyeColor ret = DyeColor.GRAY;
@@ -190,7 +190,7 @@ public class WearablesCompat
                 buf = Util.makeBuilder(buff, this.watch);
                 this.model.renderPart(mat, buf, "watch");
 
-                mat.pop();
+                mat.popPose();
 
             }
         });
@@ -218,13 +218,13 @@ public class WearablesCompat
                 s = .2f;
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
-                mat.rotate(net.minecraft.util.math.vector.Vector3f.YP.rotationDegrees(90));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.YP.rotationDegrees(90));
                 buf = ModelRing.makeBuilder(buff, ModelRing.texture_1);
                 this.ring.pass = 1;
-                this.ring.render(mat, buf, brightness, overlay, 1, 1, 1, 1);
+                this.ring.renderToBuffer(mat, buf, brightness, overlay, 1, 1, 1, 1);
                 buf = ModelRing.makeBuilder(buff, ModelRing.texture_2);
                 this.ring.pass = 2;
-                this.ring.render(mat, buf, brightness, overlay, 1, 1, 1, 1);
+                this.ring.renderToBuffer(mat, buf, brightness, overlay, 1, 1, 1, 1);
             }
         });
         WearablesCompat.renderers.put("belt", new WearablesRenderer()
@@ -256,10 +256,10 @@ public class WearablesCompat
                 dy = -.0f;
                 dz = -0.6f;
                 s = 1.1f;
-                if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS).isEmpty()) s = .95f;
-                mat.rotate(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
-                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
-                mat.push();
+                if (wearer.getItemBySlot(EquipmentSlotType.LEGS).isEmpty()) s = .95f;
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
+                mat.pushPose();
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
                 IVertexBuilder buf = Util.makeBuilder(buff, this.keystone);
@@ -275,7 +275,7 @@ public class WearablesCompat
                         brightness, overlay);
                 buf = Util.makeBuilder(buff, this.belt_2);
                 this.belt.renderOnly(mat, buf, "belt");
-                mat.pop();
+                mat.popPose();
             }
         });
         WearablesCompat.renderers.put("hat", new WearablesRenderer()

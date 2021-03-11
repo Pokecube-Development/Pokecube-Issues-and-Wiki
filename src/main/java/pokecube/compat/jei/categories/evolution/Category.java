@@ -38,7 +38,7 @@ public class Category implements IRecipeCategory<Evolution>
     {
         final ResourceLocation location = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/evorecipe.png");
         this.background = guiHelper.createDrawable(location, 29, 16, Category.width, Category.height);
-        this.localizedName = I18n.format("gui.jei.pokemobs");
+        this.localizedName = I18n.get("gui.jei.pokemobs");
         this.icon = guiHelper.createDrawable(Category.TABS, 32, 0, 16, 16);
     }
 

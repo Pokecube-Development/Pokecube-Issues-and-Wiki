@@ -158,7 +158,7 @@ public class WikiPage extends ListPage<LineEntry>
 
         if (this.list != null) this.children.remove(this.list);
 
-        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.FONT_HEIGHT + 2, offsetX - 5, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.lineHeight + 2, offsetX - 5, offsetY);
         if (books.isEmpty()) return;
         if (this.index < 0) this.index = books.size() - 1;
         if (this.index >= books.size()) this.index = 0;
@@ -178,7 +178,7 @@ public class WikiPage extends ListPage<LineEntry>
             }
         };
         final boolean item_book = !book.page_file;
-        final String lang = this.minecraft.getLanguageManager().getCurrentLanguage().getCode().toLowerCase(Locale.ROOT);
+        final String lang = this.minecraft.getLanguageManager().getSelected().getCode().toLowerCase(Locale.ROOT);
         if (item_book)
         {
             final ItemStack bookStack = books.get(this.index).getInfoStack(lang);
@@ -188,7 +188,7 @@ public class WikiPage extends ListPage<LineEntry>
             ITextComponent line;
             for (int i = 0; i < bookPages.size(); i++)
             {
-                final IFormattableTextComponent page = ITextComponent.Serializer.getComponentFromJsonLenient(bookPages
+                final IFormattableTextComponent page = ITextComponent.Serializer.fromJsonLenient(bookPages
                         .getString(i));
                 final List<IFormattableTextComponent> list = ListHelper.splitText(page, 120, this.font, false);
                 for (final IFormattableTextComponent element : list)
@@ -217,8 +217,8 @@ public class WikiPage extends ListPage<LineEntry>
                 {
                     for (String line : page.lines)
                     {
-                        final String refin = "†";
-                        final String linkin = "‡";
+                        final String refin = "ï¿½";
+                        final String linkin = "ï¿½";
                         String ref_val = "";
                         String link_val = "";
                         Matcher match = link.matcher(line);
@@ -250,7 +250,7 @@ public class WikiPage extends ListPage<LineEntry>
                             {
                                 text = text.replace(linkin, "");
                                 entry = new StringTextComponent(text);
-                                style = style.setClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
+                                style = style.withClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
                             }
                             // We have a ref
                             if (text.contains(refin))

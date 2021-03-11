@@ -37,52 +37,52 @@ public class EntityChunk extends Chunk
     @Override
     public BlockState getBlockState(final BlockPos pos)
     {
-        if (!this.worldE.inBounds(pos)) return Blocks.AIR.getDefaultState();
+        if (!this.worldE.inBounds(pos)) return Blocks.AIR.defaultBlockState();
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.getPosX());
-        final int j = pos.getY() - MathHelper.floor(entity.getPosY());
-        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getZ());
         return mob.getBlocks()[i][j][k];
     }
 
     @Override
     public BlockState setBlockState(final BlockPos pos, final BlockState state, final boolean isMoving)
     {
-        if (!this.worldE.inBounds(pos)) return Blocks.AIR.getDefaultState();
+        if (!this.worldE.inBounds(pos)) return Blocks.AIR.defaultBlockState();
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.getPosX());
-        final int j = pos.getY() - MathHelper.floor(entity.getPosY());
-        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getZ());
         mob.getBlocks()[i][j][k] = state;
         return state;
     }
 
     @Override
-    public void addTileEntity(final BlockPos pos, final TileEntity tile)
+    public void setBlockEntity(final BlockPos pos, final TileEntity tile)
     {
         if (!this.worldE.inBounds(pos)) return;
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.getPosX());
-        final int j = pos.getY() - MathHelper.floor(entity.getPosY());
-        final int k = pos.getZ() - MathHelper.floor(entity.getPosZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getZ());
         mob.getTiles()[i][j][k] = tile;
         if (tile != null)
         {
-            tile.setWorldAndPos((World) this.worldE, pos.toImmutable());
+            tile.setLevelAndPosition((World) this.worldE, pos.immutable());
             final boolean invalid = tile.isRemoved();
-            if (!invalid) tile.remove();
-            tile.validate();
+            if (!invalid) tile.setRemoved();
+            tile.clearRemoved();
         }
         return;
     }
 
     @Override
-    public TileEntity getTileEntity(final BlockPos pos)
+    public TileEntity getBlockEntity(final BlockPos pos)
     {
-        return super.getTileEntity(pos);
+        return super.getBlockEntity(pos);
     }
 
 }

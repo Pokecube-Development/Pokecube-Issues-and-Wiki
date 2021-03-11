@@ -52,7 +52,7 @@ public class ItemMegawearable extends Item
 
     public ItemMegawearable(String name, String slot)
     {
-        super(new Properties().group(PokecubeItems.POKECUBEITEMS).maxStackSize(1));
+        super(new Properties().tab(PokecubeItems.POKECUBEITEMS).stacksTo(1));
         this.name = name;
         this.slot = slot;
         this.setRegistryName(PokecubeMod.ID, "mega_" + name);
@@ -65,14 +65,14 @@ public class ItemMegawearable extends Item
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World playerIn, List<ITextComponent> tooltip,
+    public void appendHoverText(ItemStack stack, @Nullable World playerIn, List<ITextComponent> tooltip,
             ITooltipFlag advanced)
     {
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
         {
             final int damage = stack.getTag().getInt("dyeColour");
             final DyeColor colour = DyeColor.byId(damage);
-            tooltip.add(new TranslationTextComponent(colour.getTranslationKey()));
+            tooltip.add(new TranslationTextComponent(colour.getName()));
         }
     }
 

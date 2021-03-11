@@ -16,13 +16,13 @@ import net.minecraft.world.IBlockReader;
 
 public class TaoTrioBlock extends Rotates implements IWaterLoggable
 {
-    private static final DirectionProperty          FACING      = HorizontalBlock.HORIZONTAL_FACING;
+    private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
-    private static final VoxelShape TAO = VoxelShapes.or(Block.makeCuboidShape(1, 0, 1, 15, 2, 15), 
-    		Block.makeCuboidShape(2, 10, 2, 14, 13, 14), Block.makeCuboidShape(5, 13, 5, 11, 16, 11), 
-            Block.makeCuboidShape(3, 2, 3, 13, 10, 13)).simplify();
+    private static final VoxelShape TAO = VoxelShapes.or(Block.box(1, 0, 1, 15, 2, 15), 
+    		Block.box(2, 10, 2, 14, 13, 14), Block.box(5, 13, 5, 11, 16, 11), 
+            Block.box(3, 2, 3, 13, 10, 13)).optimize();
 
     // Precise selection box
     @Override
@@ -35,7 +35,7 @@ public class TaoTrioBlock extends Rotates implements IWaterLoggable
     public TaoTrioBlock(final String name, final Properties props)
     {
         super(name, props);
-        this.setDefaultState(this.stateContainer.getBaseState().with(TaoTrioBlock.FACING, Direction.NORTH).with(
+        this.registerDefaultState(this.stateDefinition.any().setValue(TaoTrioBlock.FACING, Direction.NORTH).setValue(
         		TaoTrioBlock.WATERLOGGED, false));
     }
 }

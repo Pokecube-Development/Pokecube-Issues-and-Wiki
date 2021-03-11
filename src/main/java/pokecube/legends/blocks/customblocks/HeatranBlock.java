@@ -21,53 +21,53 @@ import net.minecraft.world.IBlockReader;
 public class HeatranBlock extends Rotates implements IWaterLoggable
 {
     private static final Map<Direction, VoxelShape> HEATRAN  = new HashMap<>();
-    private static final DirectionProperty          FACING      = HorizontalBlock.HORIZONTAL_FACING;
+    private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
     {// @formatter:off
     	HeatranBlock.HEATRAN.put(Direction.NORTH,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 6, 3, 13, 10, 13),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 10, 2, 14, 12, 14),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 4, 2, 14, 6, 14),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 12, 1, 15, 14, 15),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 2, 1, 15, 4, 15),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 14, 0, 16, 16, 16),
-				Block.makeCuboidShape(0, 0, 0, 16, 2, 16),
+		VoxelShapes.join(Block.box(3, 6, 3, 13, 10, 13),
+		VoxelShapes.join(Block.box(2, 10, 2, 14, 12, 14),
+		VoxelShapes.join(Block.box(2, 4, 2, 14, 6, 14),
+		VoxelShapes.join(Block.box(1, 12, 1, 15, 14, 15),
+		VoxelShapes.join(Block.box(1, 2, 1, 15, 4, 15),
+		VoxelShapes.join(Block.box(0, 14, 0, 16, 16, 16),
+				Block.box(0, 0, 0, 16, 2, 16),
                                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	HeatranBlock.HEATRAN.put(Direction.EAST,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 6, 3, 13, 10, 13),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 10, 2, 14, 12, 14),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 4, 2, 14, 6, 14),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 12, 1, 15, 14, 15),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 2, 1, 15, 4, 15),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 14, 0, 16, 16, 16),
-				Block.makeCuboidShape(0, 0, 0, 16, 2, 16),
+		VoxelShapes.join(Block.box(3, 6, 3, 13, 10, 13),
+		VoxelShapes.join(Block.box(2, 10, 2, 14, 12, 14),
+		VoxelShapes.join(Block.box(2, 4, 2, 14, 6, 14),
+		VoxelShapes.join(Block.box(1, 12, 1, 15, 14, 15),
+		VoxelShapes.join(Block.box(1, 2, 1, 15, 4, 15),
+		VoxelShapes.join(Block.box(0, 14, 0, 16, 16, 16),
+				Block.box(0, 0, 0, 16, 2, 16),
                                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	HeatranBlock.HEATRAN.put(Direction.SOUTH,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 6, 3, 13, 10, 13),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 10, 2, 14, 12, 14),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 4, 2, 14, 6, 14),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 12, 1, 15, 14, 15),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 2, 1, 15, 4, 15),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 14, 0, 16, 16, 16),
-				Block.makeCuboidShape(0, 0, 0, 16, 2, 16),
+		VoxelShapes.join(Block.box(3, 6, 3, 13, 10, 13),
+		VoxelShapes.join(Block.box(2, 10, 2, 14, 12, 14),
+		VoxelShapes.join(Block.box(2, 4, 2, 14, 6, 14),
+		VoxelShapes.join(Block.box(1, 12, 1, 15, 14, 15),
+		VoxelShapes.join(Block.box(1, 2, 1, 15, 4, 15),
+		VoxelShapes.join(Block.box(0, 14, 0, 16, 16, 16),
+				Block.box(0, 0, 0, 16, 2, 16),
                                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	HeatranBlock.HEATRAN.put(Direction.WEST,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 6, 3, 13, 10, 13),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 10, 2, 14, 12, 14),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 4, 2, 14, 6, 14),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 12, 1, 15, 14, 15),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 2, 1, 15, 4, 15),
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 14, 0, 16, 16, 16),
-				Block.makeCuboidShape(0, 0, 0, 16, 2, 16),
+		VoxelShapes.join(Block.box(3, 6, 3, 13, 10, 13),
+		VoxelShapes.join(Block.box(2, 10, 2, 14, 12, 14),
+		VoxelShapes.join(Block.box(2, 4, 2, 14, 6, 14),
+		VoxelShapes.join(Block.box(1, 12, 1, 15, 14, 15),
+		VoxelShapes.join(Block.box(1, 2, 1, 15, 4, 15),
+		VoxelShapes.join(Block.box(0, 14, 0, 16, 16, 16),
+				Block.box(0, 0, 0, 16, 2, 16),
                                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
         );
@@ -78,13 +78,13 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        return HeatranBlock.HEATRAN.get(state.get(HeatranBlock.FACING));
+        return HeatranBlock.HEATRAN.get(state.getValue(HeatranBlock.FACING));
     }
 
     public HeatranBlock(final String name, final Properties props)
     {
         super(name, props);
-        this.setDefaultState(this.stateContainer.getBaseState().with(HeatranBlock.FACING, Direction.NORTH).with(
+        this.registerDefaultState(this.stateDefinition.any().setValue(HeatranBlock.FACING, Direction.NORTH).setValue(
         		HeatranBlock.WATERLOGGED, false));
     }
 }

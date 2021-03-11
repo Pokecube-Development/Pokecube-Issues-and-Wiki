@@ -17,11 +17,11 @@ public class TexButton extends Button
     public static final ITooltip NAMEONHOVER = (button, matrixStack, mouseX, mouseY) ->
     {
         final Minecraft minecraft = Minecraft.getInstance();
-        final FontRenderer fontrenderer = minecraft.fontRenderer;
+        final FontRenderer fontrenderer = minecraft.font;
         final int j = button.getFGColor();
         // TODO decide if we want alpha as well?
         AbstractGui.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x + button.getWidth() / 2,
-                button.y + (button.getHeightRealms() - 8) / 2, j | MathHelper.ceil(255.0F) << 24);
+                button.y + (button.getHeight() - 8) / 2, j | MathHelper.ceil(255.0F) << 24);
     };
 
     public static class ShiftedTooltip implements ITooltip
@@ -54,15 +54,15 @@ public class TexButton extends Button
         public void onTooltip(final Button button, final MatrixStack matrixStack, final int mouseX, final int mouseY)
         {
             final Minecraft minecraft = Minecraft.getInstance();
-            final FontRenderer fontrenderer = minecraft.fontRenderer;
+            final FontRenderer fontrenderer = minecraft.font;
             final int j = button.getFGColor();
             if (this.shadowed) AbstractGui.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x
                     + this.dx, button.y + this.dy, j | this.alpha << 24);
             else
             {
                 final String msg = button.getMessage().getString();
-                final float dx = fontrenderer.getStringWidth(msg) / 2f;
-                fontrenderer.drawString(matrixStack, msg, button.x + this.dx - dx, button.y + this.dy, j
+                final float dx = fontrenderer.width(msg) / 2f;
+                fontrenderer.draw(matrixStack, msg, button.x + this.dx - dx, button.y + this.dy, j
                         | this.alpha << 24);
             }
         }
@@ -186,17 +186,17 @@ public class TexButton extends Button
             final float partialTicks)
     {
         final Minecraft minecraft = Minecraft.getInstance();
-        final FontRenderer fontrenderer = minecraft.fontRenderer;
-        minecraft.getTextureManager().bindTexture(this.texture);
+        final FontRenderer fontrenderer = minecraft.font;
+        minecraft.getTextureManager().bind(this.texture);
         this.render.render(this, matrixStack, mouseX, mouseY, partialTicks);
         this.renderBg(matrixStack, minecraft, mouseX, mouseY);
         final int j = this.getFGColor();
         if (this.renderName)
         {
             final String msg = this.getMessage().getString();
-            final float dx = fontrenderer.getStringWidth(msg) / 2f;
-            fontrenderer.drawString(matrixStack, msg, this.x + this.getWidth() / 2 - dx, this.y + (this
-                    .getHeightRealms() - 8) / 2, j | 255 << 24);
+            final float dx = fontrenderer.width(msg) / 2f;
+            fontrenderer.draw(matrixStack, msg, this.x + this.getWidth() / 2 - dx, this.y + (this
+                    .getHeight() - 8) / 2, j | 255 << 24);
         }
         if (this.isHovered()) this.renderToolTip(matrixStack, mouseX, mouseY);
     }

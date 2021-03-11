@@ -33,7 +33,7 @@ public class SplicerTile extends BaseGeneticsTile
     }
 
     @Override
-    public boolean isItemValidForSlot(final int index, final ItemStack stack)
+    public boolean canPlaceItem(final int index, final ItemStack stack)
     {
         switch (index)
         {
@@ -62,8 +62,8 @@ public class SplicerTile extends BaseGeneticsTile
             final BlockRayTraceResult hit)
     {
         final TranslationTextComponent name = new TranslationTextComponent("block.pokecube_adventures.splicer");
-        player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new SplicerContainer(
-                id, playerInventory, IWorldPosCallable.of(this.getWorld(), pos)), name));
+        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new SplicerContainer(
+                id, playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), name));
         return ActionResultType.SUCCESS;
     }
 }

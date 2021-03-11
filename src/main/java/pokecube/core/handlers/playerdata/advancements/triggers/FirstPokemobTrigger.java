@@ -65,7 +65,7 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
             List<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> list = null;
 
             for (final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener : this.listeners)
-                if (listener.getCriterionInstance().test())
+                if (listener.getTriggerInstance().test())
                 {
                     if (list == null)
                         list = Lists.<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> newArrayList();
@@ -73,7 +73,7 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
                     list.add(listener);
                 }
             if (list != null) for (final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener1 : list)
-                listener1.grantCriterion(this.playerAdvancements);
+                listener1.run(this.playerAdvancements);
         }
     }
 
@@ -86,7 +86,7 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
     }
 
     @Override
-    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+    public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
     {
         FirstPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -102,9 +102,9 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
 
 
     @Override
-    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         return new FirstPokemobTrigger.Instance(pred);
     }
 
@@ -115,13 +115,13 @@ public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigge
     }
 
     @Override
-    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
+    public void removePlayerListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+    public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
     {
         final FirstPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);

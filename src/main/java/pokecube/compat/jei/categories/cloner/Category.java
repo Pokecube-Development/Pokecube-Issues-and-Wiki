@@ -39,7 +39,7 @@ public class Category implements IRecipeCategory<Wrapper>
         this.guiHelper = guiHelper;
         this.background = guiHelper.createDrawable(Category.GUI, 29, 16, Category.width, Category.height);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(PokecubeAdv.CLONER.get()));
-        this.localizedName = I18n.format("block.pokecube_adventures.cloner");
+        this.localizedName = I18n.get("block.pokecube_adventures.cloner");
     }
 
     @Override

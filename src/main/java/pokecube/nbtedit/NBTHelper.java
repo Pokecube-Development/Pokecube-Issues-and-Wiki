@@ -21,12 +21,12 @@ public class NBTHelper
 
     public static Map<String, INBT> getMap(CompoundNBT tag)
     {
-        return tag.tagMap;
+        return tag.tags;
     }
 
     public static INBT getTagAt(ListNBT tag, int index)
     {
-        final List<INBT> list = tag.tagList;
+        final List<INBT> list = tag.list;
         return list.get(index);
     }
 

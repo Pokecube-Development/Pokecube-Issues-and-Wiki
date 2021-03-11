@@ -89,7 +89,7 @@ public class ProgressPage extends PageWithSubPages<Progress>
     public void onPageOpened()
     {
         super.onPageOpened();
-        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getCurrentLanguage()
+        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected()
                 .getCode());
     }
 

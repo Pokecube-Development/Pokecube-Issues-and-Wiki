@@ -50,13 +50,13 @@ public class GuardAICapability implements IGuardAICapability
         @Override
         public void continueTask(final MobEntity entity)
         {
-            final Vector3d newPos = entity.getPositionVec();
-            if (this.getPos().withinDistance(newPos, this.getRoamDistance())) return;
+            final Vector3d newPos = entity.position();
+            if (this.getPos().closerThan(newPos, this.getRoamDistance())) return;
 
             final double speed = entity.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
             this.path(entity, speed);
 
-            final double ds2 = this.lastPos == null ? 1 : newPos.squareDistanceTo(this.lastPos);
+            final double ds2 = this.lastPos == null ? 1 : newPos.distanceToSqr(this.lastPos);
 
             final boolean samePos = ds2 < 0.01;
             if (samePos)
@@ -120,7 +120,7 @@ public class GuardAICapability implements IGuardAICapability
         public void startTask(final MobEntity entity)
         {
             entity.getAttribute(Attributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
-            entity.getAttribute(Attributes.FOLLOW_RANGE).applyNonPersistentModifier(this.executingGuardTask);
+            entity.getAttribute(Attributes.FOLLOW_RANGE).addTransientModifier(this.executingGuardTask);
             final double speed = entity.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
             if (!this.path(entity, speed)) this.pathFail(entity);
         }
@@ -129,17 +129,17 @@ public class GuardAICapability implements IGuardAICapability
         {
             if (this.path_fails++ > 100)
             {
-                final ServerWorld world = (ServerWorld) entity.getEntityWorld();
+                final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
 
-                final BlockPos old = entity.getPosition();
+                final BlockPos old = entity.blockPosition();
                 // Only path fail if we actually are nearby.
-                if (old.distanceSq(this.getPos()) > 128 * 128) return;
+                if (old.distSqr(this.getPos()) > 128 * 128) return;
                 // Ensure chunk exists
                 world.getChunk(this.getPos());
                 final BlockState state = world.getBlockState(this.getPos());
                 final VoxelShape shape = state.getCollisionShape(world, this.getPos());
-                if (shape.isEmpty() || !state.isSolid()) entity.moveToBlockPosAndAngles(this.getPos(), 0, 0);
-                else entity.setLocationAndAngles(this.pos.getX() + 0.5D, this.pos.getY() + shape.getEnd(Axis.Y),
+                if (shape.isEmpty() || !state.canOcclude()) entity.moveTo(this.getPos(), 0, 0);
+                else entity.moveTo(this.pos.getX() + 0.5D, this.pos.getY() + shape.max(Axis.Y),
                         this.pos.getZ() + 0.5D, 0, 0);
                 this.path_fails = 0;
             }

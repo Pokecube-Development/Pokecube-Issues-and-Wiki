@@ -51,7 +51,7 @@ public class SendOutManager
             // If it has parts, use that for the bounds instead.
             for (final PartEntity<?> part : parts)
                 if (box == null) box = part.getBoundingBox();
-                else box = box.union(part.getBoundingBox());
+                else box = box.minmax(part.getBoundingBox());
             if (box == null) box = mob.getBoundingBox();
         }
         if (SendOutManager.valid(box, world)) return pos.copy();
@@ -69,14 +69,14 @@ public class SendOutManager
             final long diff = System.nanoTime() - start;
             if (diff > 2e6) break;
             if (!Vector3.isVisibleRange(world, pos, rHat, r.mag())) continue;
-            if (SendOutManager.valid(box.offset(r.x, r.y, r.z), world)) return rAbs;
+            if (SendOutManager.valid(box.move(r.x, r.y, r.z), world)) return rAbs;
         }
         return respectRoom ? null : pos.copy();
     }
 
     public static boolean valid(final AxisAlignedBB box, final ServerWorld world)
     {
-        final Stream<VoxelShape> colliding = world.getCollisionShapes(null, box);
+        final Stream<VoxelShape> colliding = world.getBlockCollisions(null, box);
         final long num = colliding.count();
         return num == 0;
     }
@@ -88,9 +88,9 @@ public class SendOutManager
 
     public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon, final boolean respectRoom)
     {
-        if (cube.getEntityWorld().isRemote || cube.isReleasing()) return null;
-        final ServerWorld world = (ServerWorld) cube.getEntityWorld();
-        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
+        if (cube.getCommandSenderWorld().isClientSide || cube.isReleasing()) return null;
+        final ServerWorld world = (ServerWorld) cube.getCommandSenderWorld();
+        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getCommandSenderWorld());
 
         if (mob == null) return null;
 
@@ -121,7 +121,7 @@ public class SendOutManager
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
                 user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"),
-                        Util.DUMMY_UUID);
+                        Util.NIL_UUID);
                 cube.remove();
             }
             return null;
@@ -139,9 +139,9 @@ public class SendOutManager
             if (pokemob != null) pokemob.onGenesChanged();
 
             v.set(v.intX() + 0.5, v.intY(), v.intZ() + 0.5);
-            final BlockState state = v.getBlockState(cube.getEntityWorld());
+            final BlockState state = v.getBlockState(cube.getCommandSenderWorld());
             final VoxelShape s = state.getCollisionShape(world, v.getPos());
-            if (!s.isEmpty()) v.y += s.getEnd(Axis.Y);
+            if (!s.isEmpty()) v.y += s.max(Axis.Y);
             // Ensure the mob's position is initialized properly first
             v.moveEntity(mob);
             v = SendOutManager.getFreeSpot(mob, world, v, respectRoom);
@@ -149,7 +149,7 @@ public class SendOutManager
             if (v == null && isPlayers)
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.sendMessage(new TranslationTextComponent("pokecube.noroom"), Util.DUMMY_UUID);
+                user.sendMessage(new TranslationTextComponent("pokecube.noroom"), Util.NIL_UUID);
                 cube.remove();
                 return null;
             }
@@ -171,20 +171,20 @@ public class SendOutManager
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.specific", pokemob
-                            .getDisplayName()), Util.DUMMY_UUID);
+                            .getDisplayName()), Util.NIL_UUID);
                     cube.remove();
                     return null;
                 }
             }
 
-            final SendOut evt = new SendOut.Pre(pokemob.getPokedexEntry(), v, cube.getEntityWorld(), pokemob);
+            final SendOut evt = new SendOut.Pre(pokemob.getPokedexEntry(), v, cube.getCommandSenderWorld(), pokemob);
             if (PokecubeCore.POKEMOB_BUS.post(evt))
             {
                 if (isPlayers)
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.cancelled", pokemob
-                            .getDisplayName()), Util.DUMMY_UUID);
+                            .getDisplayName()), Util.NIL_UUID);
                     cube.remove();
                 }
                 return null;
@@ -216,7 +216,7 @@ public class SendOutManager
         }
         else
         {
-            cube.entityDropItem(cube.getItem(), 0.5f);
+            cube.spawnAtLocation(cube.getItem(), 0.5f);
             cube.remove();
         }
         if (pokemob == null) return null;
@@ -226,7 +226,7 @@ public class SendOutManager
     private static void make(final ServerWorld world, final Entity mob, final Vector3 v, final IPokemob pokemob,
             final boolean summon)
     {
-        if (summon) world.summonEntity(mob);
+        if (summon) world.addWithUUID(mob);
         if (pokemob != null)
         {
             pokemob.onSendOut();
@@ -248,25 +248,25 @@ public class SendOutManager
     private static void apply(final ServerWorld world, final Entity mob, final Vector3 v, final IPokemob pokemob,
             final boolean summon)
     {
-        final Entity test = world.getEntityByUuid(mob.getUniqueID());
+        final Entity test = world.getEntity(mob.getUUID());
         final Vector3 vec = v.copy();
-        final UUID id = mob.getUniqueID();
+        final UUID id = mob.getUUID();
         if (test == null) SendOutManager.make(world, mob, vec, pokemob, summon);
         else
         {
             PokecubeCore.LOGGER.warn("Replacing errored UUID mob! {}", mob);
-            mob.getPersistentData().putUniqueId("old_uuid", id);
-            mob.setUniqueId(UUID.randomUUID());
+            mob.getPersistentData().putUUID("old_uuid", id);
+            mob.setUUID(UUID.randomUUID());
             SendOutManager.make(world, mob, vec, pokemob, summon);
             final IRunnable task = w ->
             {
                 // Ensure the chunk is loaded here.
                 w.getChunk(vec.getPos());
-                final Entity original = world.getEntityByUuid(id);
+                final Entity original = world.getEntity(id);
                 // The mob already exists in the world, remove it
                 if (original != null) world.removeEntity(original, false);
                 PokemobTracker.removePokemob(pokemob);
-                mob.setUniqueId(id);
+                mob.setUUID(id);
                 PokemobTracker.addPokemob(pokemob);
                 return true;
             };

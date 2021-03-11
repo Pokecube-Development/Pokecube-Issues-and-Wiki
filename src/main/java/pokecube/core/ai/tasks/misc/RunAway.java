@@ -26,14 +26,14 @@ public class RunAway extends RootTask<CreatureEntity>
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final CreatureEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final CreatureEntity owner)
     {
         final Entity entity = owner.getBrain().getMemory(this.badMemory).get();
-        return owner.getDistanceSq(entity) < 36.0D;
+        return owner.distanceToSqr(entity) < 36.0D;
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final CreatureEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final CreatureEntity entityIn, final long gameTimeIn)
     {
         final Entity entity = entityIn.getBrain().getMemory(this.badMemory).get();
         this.runAway(entityIn, entity, this.runSpeed);
@@ -43,8 +43,8 @@ public class RunAway extends RootTask<CreatureEntity>
     {
         for (int i = 0; i < 10; ++i)
         {
-            final Vector3d vec3d = new Vector3d(runFrom.getPosX(), runFrom.getPosY(), runFrom.getPosZ());
-            final Vector3d vec3d1 = RandomPositionGenerator.func_223548_b(mob, 16, 7, vec3d);
+            final Vector3d vec3d = new Vector3d(runFrom.getX(), runFrom.getY(), runFrom.getZ());
+            final Vector3d vec3d1 = RandomPositionGenerator.getLandPosAvoid(mob, 16, 7, vec3d);
             if (vec3d1 != null)
             {
                 this.setWalkTo(vec3d1, speedIn, 0);

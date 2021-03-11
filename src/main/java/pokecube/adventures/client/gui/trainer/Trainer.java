@@ -21,14 +21,14 @@ public class Trainer extends ContainerScreen<ContainerTrainer>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack matrixStack, final float partialTicks, final int x,
+    protected void renderBg(final MatrixStack matrixStack, final float partialTicks, final int x,
             final int y)
     {
         // bind texture
-        this.minecraft.getTextureManager().bindTexture(Trainer.TRAINER_GUI);
-        final int j2 = (this.width - this.xSize) / 2;
-        final int k2 = (this.height - this.ySize) / 2;
-        this.blit(matrixStack, j2, k2, 0, 0, this.xSize, this.ySize);
+        this.minecraft.getTextureManager().bind(Trainer.TRAINER_GUI);
+        final int j2 = (this.width - this.imageWidth) / 2;
+        final int k2 = (this.height - this.imageHeight) / 2;
+        this.blit(matrixStack, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Trainer extends ContainerScreen<ContainerTrainer>
     {
         this.renderBackground(mat);
         super.render(mat, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(mat, mouseX, mouseY);
+        this.renderTooltip(mat, mouseX, mouseY);
     }
 
 }

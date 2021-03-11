@@ -28,14 +28,14 @@ public class ItemList extends Items
         if (toCheck instanceof EntityType)
         {
             final EntityType<?> type = (EntityType<?>) toCheck;
-            final boolean tagged = EntityTypeTags.getCollection().getTagByID(tag).contains(type);
+            final boolean tagged = EntityTypeTags.getAllTags().getTagOrEmpty(tag).contains(type);
             if (!tagged) return type.getRegistryName().equals(tag);
             return tagged;
         }
         if (toCheck instanceof Item)
         {
             final Item item = (Item) toCheck;
-            boolean tagged = ItemTags.getCollection().getTagByID(tag).contains(item);
+            boolean tagged = ItemTags.getAllTags().getTagOrEmpty(tag).contains(item);
             tagged = tagged || ItemList.pendingTags.getOrDefault(tag, Collections.emptySet()).contains(item);
             if (!tagged) return item.getRegistryName().equals(tag);
             return tagged;
@@ -45,7 +45,7 @@ public class ItemList extends Items
         {
 
             final Block block = (Block) toCheck;
-            final boolean tagged = BlockTags.getCollection().getTagByID(tag).contains(block);
+            final boolean tagged = BlockTags.getAllTags().getTagOrEmpty(tag).contains(block);
             if (!tagged) return block.getRegistryName().equals(tag);
             return tagged;
         }

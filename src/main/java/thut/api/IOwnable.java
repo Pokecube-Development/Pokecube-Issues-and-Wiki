@@ -33,7 +33,7 @@ public interface IOwnable
     {
         if (_default == null && this.getOwnerId() != null)
         {
-            final Entity mob = world.getEntityByUuid(this.getOwnerId());
+            final Entity mob = world.getEntity(this.getOwnerId());
             if (mob instanceof LivingEntity)
             {
                 this.setOwner((LivingEntity) mob);

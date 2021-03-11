@@ -35,9 +35,9 @@ public class Count
 
     public static int execute(final CommandSource source) throws CommandSyntaxException
     {
-        final ServerWorld world = source.getWorld();
+        final ServerWorld world = source.getLevel();
         final Stream<Entity> mobs = world.getEntities();
-        final Vector3d pos = source.getPos();
+        final Vector3d pos = source.getPosition();
         int count1 = 0;
         int count2 = 0;
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();
@@ -48,8 +48,8 @@ public class Count
             final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
             if (e != null)
             {
-                if (!found.add(e.getEntity().getUniqueID())) continue;
-                if (((Entity) o).getDistanceSq(pos.x, pos.y, pos.z) > threshold) count2++;
+                if (!found.add(e.getEntity().getUUID())) continue;
+                if (((Entity) o).distanceToSqr(pos.x, pos.y, pos.z) > threshold) count2++;
                 else count1++;
                 Integer i = counts.get(e.getPokedexEntry());
                 if (i == null) i = 0;
@@ -58,9 +58,9 @@ public class Count
         }
         final List<Map.Entry<PokedexEntry, Integer>> entries = Lists.newArrayList(counts.entrySet());
         Collections.sort(entries, (o1, o2) -> o2.getValue() - o1.getValue());
-        source.sendFeedback(new TranslationTextComponent("pokecube.command.count", count1, count2), true);
-        source.sendFeedback(new StringTextComponent(entries.toString()), true);
-        if (RootTask.doLoadThrottling) source.sendFeedback(new StringTextComponent("Load Factor: " + RootTask.runRate),
+        source.sendSuccess(new TranslationTextComponent("pokecube.command.count", count1, count2), true);
+        source.sendSuccess(new StringTextComponent(entries.toString()), true);
+        if (RootTask.doLoadThrottling) source.sendSuccess(new StringTextComponent("Load Factor: " + RootTask.runRate),
                 true);
         return 0;
     }

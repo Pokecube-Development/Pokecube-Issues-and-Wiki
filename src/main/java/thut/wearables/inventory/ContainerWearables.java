@@ -58,38 +58,42 @@ public class ContainerWearables extends Container
 
         @Override
         /** Return whether this slot's stack can be taken from this slot. */
-        public boolean canTakeStack(final PlayerEntity playerIn)
+        public boolean mayPickup(final PlayerEntity playerIn)
         {
-            return EnumWearable.canTakeOff(this.wearer, this.getStack(), this.getSlotIndex());
+            return EnumWearable.canTakeOff(this.wearer, this.getItem(), this.getSlotIndex());
         }
 
         @Override
         @OnlyIn(Dist.CLIENT)
-        public Pair<ResourceLocation, ResourceLocation> getBackground()
+        public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
         {
-            return Pair.of(PlayerContainer.LOCATION_BLOCKS_TEXTURE, this.LOCATION);
+            return Pair.of(PlayerContainer.BLOCK_ATLAS, this.LOCATION);
         }
 
         @Override
-        /** Check if the stack is a valid item for this slot. Always true beside
-         * for the armor slots. */
-        public boolean isItemValid(@Nullable final ItemStack stack)
+        /**
+         * Check if the stack is a valid item for this slot. Always true beside
+         * for the armor slots.
+         */
+        public boolean mayPlace(@Nullable final ItemStack stack)
         {
-            return this.slots.isItemValidForSlot(this.getSlotIndex(), stack);
+            return this.slots.canPlaceItem(this.getSlotIndex(), stack);
         }
 
         @Override
         public ItemStack onTake(final PlayerEntity thePlayer, final ItemStack stack)
         {
-            if (!this.wearer.getEntityWorld().isRemote) EnumWearable.takeOff(thePlayer, stack, this.getSlotIndex());
+            if (!this.wearer.getCommandSenderWorld().isClientSide) EnumWearable.takeOff(thePlayer, stack, this
+                    .getSlotIndex());
             return super.onTake(thePlayer, stack);
         }
 
         @Override
-        public void putStack(final ItemStack stack)
+        public void set(final ItemStack stack)
         {
-            if (!this.wearer.getEntityWorld().isRemote) EnumWearable.putOn(this.wearer, stack, this.getSlotIndex());
-            super.putStack(stack);
+            if (!this.wearer.getCommandSenderWorld().isClientSide) EnumWearable.putOn(this.wearer, stack, this
+                    .getSlotIndex());
+            super.set(stack);
         }
     }
 
@@ -98,26 +102,26 @@ public class ContainerWearables extends Container
     public static final ContainerType<ContainerWearables> TYPE                  = new ContainerType<>(
             (IContainerFactory<ContainerWearables>) ContainerWearables::new);
 
-    public PlayerWearables                                slots;
+    public PlayerWearables wearables;
     /** Determines if inventory manipulation should be handled. */
-    public LivingEntity                                   wearer;
-    final boolean                                         hasPlayerSlots;
+    public LivingEntity    wearer;
+    final boolean          hasPlayerSlots;
 
     public ContainerWearables(final int id, final PlayerInventory player, final PacketBuffer extraData)
     {
         super(ContainerWearables.TYPE, id);
         LivingEntity wearer = player.player;
         final int num = extraData.readInt();
-        final Entity mob = wearer.getEntityWorld().getEntityByID(num);
+        final Entity mob = wearer.getCommandSenderWorld().getEntity(num);
         if (mob instanceof LivingEntity) wearer = (LivingEntity) mob;
 
         this.wearer = wearer;
-        this.slots = ThutWearables.getWearables(wearer);
+        this.wearables = ThutWearables.getWearables(wearer);
         final int xOffset = 116;
         final int yOffset = 8;
         final int xWidth = 18;
         final int yHeight = 18;
-        final InventoryWrapper wrapper = new InventoryWrapper(this.slots);
+        final InventoryWrapper wrapper = new InventoryWrapper(this.wearables);
 
         // First row of ear - hat - ear
         this.addSlot(new WornSlot(wearer, wrapper, 9, xOffset, yOffset));
@@ -154,21 +158,25 @@ public class ContainerWearables extends Container
             final EquipmentSlotType entityequipmentslot = ContainerWearables.VALID_EQUIPMENT_SLOTS[k];
             this.addSlot(new Slot(playerInventory, 39 - k, 8, 8 + k * 18)
             {
-                /** Return whether this slot's stack can be taken from this
-                 * slot. */
+                /**
+                 * Return whether this slot's stack can be taken from this
+                 * slot.
+                 */
                 @Override
-                public boolean canTakeStack(final PlayerEntity playerIn)
+                public boolean mayPickup(final PlayerEntity playerIn)
                 {
-                    final ItemStack itemstack = this.getStack();
-                    return !itemstack.isEmpty() && !playerIn.isCreative()
-                            && EnchantmentHelper.hasBindingCurse(itemstack) ? false : super.canTakeStack(playerIn);
+                    final ItemStack itemstack = this.getItem();
+                    return !itemstack.isEmpty() && !playerIn.isCreative() && EnchantmentHelper.hasBindingCurse(
+                            itemstack) ? false : super.mayPickup(playerIn);
                 }
 
-                /** Returns the maximum stack size for a given slot (usually the
+                /**
+                 * Returns the maximum stack size for a given slot (usually the
                  * same as getInventoryStackLimit(), but 1 in the case of armor
-                 * slots) */
+                 * slots)
+                 */
                 @Override
-                public int getSlotStackLimit()
+                public int getMaxStackSize()
                 {
                     return 1;
                 }
@@ -176,16 +184,18 @@ public class ContainerWearables extends Container
                 @Override
                 @Nullable
                 @OnlyIn(Dist.CLIENT)
-                public Pair<ResourceLocation, ResourceLocation> getBackground()
+                public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
                 {
-                    return Pair.of(PlayerContainer.LOCATION_BLOCKS_TEXTURE,
+                    return Pair.of(PlayerContainer.BLOCK_ATLAS,
                             ContainerWearables.ARMOR_SLOT_TEXTURES[entityequipmentslot.getIndex()]);
                 }
 
-                /** Check if the stack is allowed to be placed in this slot,
-                 * used for armor slots as well as furnace fuel. */
+                /**
+                 * Check if the stack is allowed to be placed in this slot,
+                 * used for armor slots as well as furnace fuel.
+                 */
                 @Override
-                public boolean isItemValid(final ItemStack stack)
+                public boolean mayPlace(final ItemStack stack)
                 {
                     return stack.getItem().canEquip(stack, entityequipmentslot, ContainerWearables.this.wearer);
                 }
@@ -207,50 +217,52 @@ public class ContainerWearables extends Container
             @Override
             @Nullable
             @OnlyIn(Dist.CLIENT)
-            public Pair<ResourceLocation, ResourceLocation> getBackground()
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
             {
-                return Pair.of(PlayerContainer.LOCATION_BLOCKS_TEXTURE, PlayerContainer.EMPTY_ARMOR_SLOT_SHIELD);
+                return Pair.of(PlayerContainer.BLOCK_ATLAS, PlayerContainer.EMPTY_ARMOR_SLOT_SHIELD);
             }
         });
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return true;
     }
 
     /** Called when the container is closed. */
     @Override
-    public void onContainerClosed(final PlayerEntity player)
+    public void removed(final PlayerEntity player)
     {
-        super.onContainerClosed(player);
-        if (!player.world.isRemote) ThutWearables.syncWearables(this.wearer);
+        super.removed(player);
+        if (!player.level.isClientSide) ThutWearables.syncWearables(this.wearer);
     }
 
-    /** Called when a player shift-clicks on a slot. You must override this or
-     * you will crash when someone does that. */
+    /**
+     * Called when a player shift-clicks on a slot. You must override this or
+     * you will crash when someone does that.
+     */
     @Override
-    public ItemStack transferStackInSlot(final PlayerEntity par1PlayerEntity, final int index)
+    public ItemStack quickMoveStack(final PlayerEntity par1PlayerEntity, final int index)
     {
         ItemStack itemstack = ItemStack.EMPTY;
-        final Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.getHasStack())
+        if (slot != null && slot.hasItem())
         {
-            final ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
 
             final int numRows = this.hasPlayerSlots ? 3 : 0;
             if (index < numRows * 9)
             {
-                if (!this.mergeItemStack(itemstack1, numRows * 9, this.inventorySlots.size(), false))
+                if (!this.moveItemStackTo(itemstack1, numRows * 9, this.slots.size(), false))
                     return ItemStack.EMPTY;
             }
-            else if (!this.mergeItemStack(itemstack1, 0, numRows * 9, false)) return ItemStack.EMPTY;
+            else if (!this.moveItemStackTo(itemstack1, 0, numRows * 9, false)) return ItemStack.EMPTY;
 
-            if (itemstack1.isEmpty()) slot.putStack(ItemStack.EMPTY);
-            else slot.onSlotChanged();
+            if (itemstack1.isEmpty()) slot.set(ItemStack.EMPTY);
+            else slot.setChanged();
         }
         return itemstack;
     }

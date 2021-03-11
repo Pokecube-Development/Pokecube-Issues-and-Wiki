@@ -53,10 +53,10 @@ public enum PokeType implements IExtensibleEnum
     public static IFormattableTextComponent getTranslatedName(final PokeType type)
     {
         IFormattableTextComponent ret = new StringTextComponent(type.name);
-        final String translated = I18n.format(PokeType.getUnlocalizedName(type));
+        final String translated = I18n.get(PokeType.getUnlocalizedName(type));
         if (translated != null && !translated.startsWith("type.")) ret = new TranslationTextComponent(PokeType
                 .getUnlocalizedName(type));
-        ret.setStyle(ret.getStyle().setColor(Color.fromInt(type.colour)));
+        ret.setStyle(ret.getStyle().withColor(Color.fromRgb(type.colour)));
         return ret;
     }
 

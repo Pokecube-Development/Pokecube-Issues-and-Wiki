@@ -41,14 +41,14 @@ public class ClonerTile extends GeneticsTileParentable
     @Override
     public BaseGeneticsTile getParent()
     {
-        if (!this.checkedParent && this.getWorld() != null)
+        if (!this.checkedParent && this.getLevel() != null)
         {
             this.checkedParent = true;
-            final BlockState state = this.getWorld().getBlockState(this.getPos());
-            if (state.get(ClonerBlock.HALF) == ClonerBlockPart.TOP)
+            final BlockState state = this.getLevel().getBlockState(this.getBlockPos());
+            if (state.getValue(ClonerBlock.HALF) == ClonerBlockPart.TOP)
             {
-                final BlockPos new_pos = this.getPos().down();
-                final TileEntity down = this.getWorld().getTileEntity(new_pos);
+                final BlockPos new_pos = this.getBlockPos().below();
+                final TileEntity down = this.getLevel().getBlockEntity(new_pos);
                 if (down instanceof ClonerTile) this.parent = (ClonerTile) down;
             }
         }
@@ -56,7 +56,7 @@ public class ClonerTile extends GeneticsTileParentable
     }
 
     @Override
-    public boolean isItemValidForSlot(final int index, final ItemStack stack)
+    public boolean canPlaceItem(final int index, final ItemStack stack)
     {
         switch (index)
         {
@@ -78,17 +78,17 @@ public class ClonerTile extends GeneticsTileParentable
     public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             BlockRayTraceResult hit)
     {
-        final BlockState state = this.getWorld().getBlockState(this.getPos());
-        if (state.get(ClonerBlock.HALF) == ClonerBlockPart.TOP)
+        final BlockState state = this.getLevel().getBlockState(this.getBlockPos());
+        if (state.getValue(ClonerBlock.HALF) == ClonerBlockPart.TOP)
         {
-            final BlockPos new_pos = this.getPos().down();
-            final BlockState down = this.getWorld().getBlockState(new_pos);
-            hit = new BlockRayTraceResult(hit.getHitVec(), hit.getFace(), new_pos, hit.isInside());
-            return down.onBlockActivated(this.getWorld(), player, hand, hit);
+            final BlockPos new_pos = this.getBlockPos().below();
+            final BlockState down = this.getLevel().getBlockState(new_pos);
+            hit = new BlockRayTraceResult(hit.getLocation(), hit.getDirection(), new_pos, hit.isInside());
+            return down.use(this.getLevel(), player, hand, hit);
         }
         final TranslationTextComponent name = new TranslationTextComponent("block.pokecube_adventures.cloner");
-        player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new ClonerContainer(id,
-                playerInventory, IWorldPosCallable.of(this.getWorld(), pos)), name));
+        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new ClonerContainer(id,
+                playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), name));
         return ActionResultType.SUCCESS;
     }
 

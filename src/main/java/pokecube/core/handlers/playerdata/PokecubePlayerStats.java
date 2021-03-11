@@ -112,21 +112,21 @@ public class PokecubePlayerStats extends PlayerData
         PokedexEntry entry;
         this.initMaps();
         this.hasFirst = tag.getBoolean("F");
-        for (final String s : temp.keySet())
+        for (final String s : temp.getAllKeys())
         {
             final int num = temp.getInt(s);
             if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++)
                 this.addKill(entry);
         }
         temp = tag.getCompound("captures");
-        for (final String s : temp.keySet())
+        for (final String s : temp.getAllKeys())
         {
             final int num = temp.getInt(s);
             if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++)
                 this.addCapture(entry);
         }
         temp = tag.getCompound("hatches");
-        for (final String s : temp.keySet())
+        for (final String s : temp.getAllKeys())
         {
             final int num = temp.getInt(s);
             if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++)

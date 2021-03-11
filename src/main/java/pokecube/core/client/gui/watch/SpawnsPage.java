@@ -77,7 +77,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        final int max = this.font.FONT_HEIGHT;
+        final int max = this.font.lineHeight;
         final int height = max * 6;
 
         final int dx = 55;
@@ -160,9 +160,9 @@ public class SpawnsPage extends ListPage<LineEntry>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
-        AbstractGui.drawCenteredString(mat, this.font, I18n.format("pokewatch.spawns.info"), x + 130, y + 30, colour);
+        AbstractGui.drawCenteredString(mat, this.font, I18n.get("pokewatch.spawns.info"), x + 130, y + 30, colour);
 
-        if (Minecraft.getInstance().world.getDifficulty() == Difficulty.PEACEFUL)
+        if (Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL)
         {
             final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
             final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);

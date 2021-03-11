@@ -99,15 +99,15 @@ public class RecipeHandlers
             @Override
             public boolean complete(final IPoweredProgress tile)
             {
-                final World world = ((TileEntity) tile).getWorld();
-                final BlockPos pos = ((TileEntity) tile).getPos();
+                final World world = ((TileEntity) tile).getLevel();
+                final BlockPos pos = ((TileEntity) tile).getBlockPos();
                 final PokedexEntry entry = RecipeClone.getEntry(this, tile);
                 if (entry == Database.missingno) return false;
                 final boolean tame = !entry.isLegendary() && this.tame;
                 MobEntity entity = PokecubeCore.createPokemob(entry, world);
                 if (entity != null)
                 {
-                    ItemStack dnaSource = tile.getStackInSlot(0);
+                    ItemStack dnaSource = tile.getItem(0);
                     if (!dnaSource.isEmpty()) dnaSource = dnaSource.copy();
                     IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                     entity.setHealth(entity.getMaxHealth());
@@ -116,17 +116,17 @@ public class RecipeHandlers
                     // that will make your pokemob around level 3-5.
                     // You can give him more XP if you want
                     entity = (pokemob = pokemob.setForSpawn(exp)).getEntity();
-                    if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUniqueID());
-                    final Direction dir = world.getBlockState(pos).get(HorizontalBlock.HORIZONTAL_FACING);
-                    entity.setLocationAndAngles(pos.getX() + 0.5 + dir.getXOffset(), pos.getY() + 1, pos.getZ() + 0.5
-                            + dir.getZOffset(), world.rand.nextFloat() * 360F, 0.0F);
+                    if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
+                    final Direction dir = world.getBlockState(pos).getValue(HorizontalBlock.FACING);
+                    entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5
+                            + dir.getStepZ(), world.random.nextFloat() * 360F, 0.0F);
                     entity.getPersistentData().putBoolean("cloned", true);
 
                     final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
                     if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
                     pokemob = event.getPokemob();
                     entity = pokemob.getEntity();
-                    world.addEntity(entity);
+                    world.addFreshEntity(entity);
                     final IMobGenetics genes = ClonerHelper.getGenes(dnaSource);
                     if (genes != null) GeneticsManager.initFromGenes(genes, pokemob);
                     entity.playAmbientSound();
@@ -137,7 +137,7 @@ public class RecipeHandlers
             @Override
             public PokedexEntry getEntry(final CraftingInventory inventory)
             {
-                if (inventory.getStackInSlot(1).isEmpty()) return Database.missingno;
+                if (inventory.getItem(1).isEmpty()) return Database.missingno;
                 boolean valid = false;
                 if (!this.stacks.isEmpty())
                 {
@@ -145,23 +145,23 @@ public class RecipeHandlers
                     temp.addAll(this.stacks);
                     outer:
                     // 0 and 1 are the egg and normal dna slots.
-                    for (int i = 2; i < inventory.getSizeInventory(); i++)
+                    for (int i = 2; i < inventory.getContainerSize(); i++)
                     {
-                        final ItemStack stack = inventory.getStackInSlot(i);
+                        final ItemStack stack = inventory.getItem(i);
                         if (stack.isEmpty()) continue;
                         for (final Ingredient ing : temp)
                             if (ing.test(stack))
                             {
                                 boolean hasTag = false;
                                 ItemStack test = ItemStack.EMPTY;
-                                for (final ItemStack s : ing.getMatchingStacks())
+                                for (final ItemStack s : ing.getItems())
                                 {
                                     hasTag = s.hasTag();
                                     test = s;
                                     if (hasTag) break;
                                 }
                                 if (hasTag && !stack.hasTag()) continue;
-                                if (hasTag && !ItemStack.areItemStackTagsEqual(stack, test)) continue;
+                                if (hasTag && !ItemStack.tagMatches(stack, test)) continue;
                                 temp.remove(ing);
                                 continue outer;
                             }
@@ -210,10 +210,10 @@ public class RecipeHandlers
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final ITag<Item> tag = ItemTags.getCollection().getTagByID(id);
-                    recipeItemsIn.add(Ingredient.fromTag(tag));
+                    final ITag<Item> tag = ItemTags.getAllTags().getTagOrEmpty(id);
+                    recipeItemsIn.add(Ingredient.of(tag));
                 }
-                else recipeItemsIn.add(Ingredient.fromStacks(Tools.getStack(value.getValues())));
+                else recipeItemsIn.add(Ingredient.of(Tools.getStack(value.getValues())));
             }
             final PokedexEntry entry = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOB));
             if (entry == null) throw new NullPointerException("No Entry for " + recipe.values.get(
@@ -353,7 +353,7 @@ public class RecipeHandlers
         final CraftingInventory inv = (CraftingInventory) event.getInventory();
         final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"));
 
-        if (!test.matches(inv, event.getEntity().getEntityWorld())) return;
+        if (!test.matches(inv, event.getEntity().getCommandSenderWorld())) return;
         final SelectorValue value = ClonerHelper.getSelectorValue(event.getCrafting());
         if (value == RecipeSelector.defaultSelector) return;
         event.getCrafting().getTag().remove(ClonerHelper.SELECTORTAG);

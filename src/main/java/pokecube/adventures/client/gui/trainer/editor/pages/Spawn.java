@@ -46,12 +46,12 @@ public class Spawn extends Page
         final List<String> types = Lists.newArrayList(NpcType.typeMap.keySet());
         types.sort((s1, s2) -> s1.compareTo(s2));
 
-        this.type.setText(types.get(this.index));
-        this.level.setText("5");
+        this.type.setValue(types.get(this.index));
+        this.level.setValue("5");
 
         this.stand = true;
 
-        this.level.setValidator(s ->
+        this.level.setFilter(s ->
         {
             if (s.isEmpty()) return true;
             try
@@ -65,7 +65,7 @@ public class Spawn extends Page
             }
         });
 
-        this.type.setEnabled(false);
+        this.type.setEditable(false);
 
         this.addButton(this.level);
         this.addButton(this.type);
@@ -74,14 +74,14 @@ public class Spawn extends Page
         {
             this.index++;
             this.index = this.index % types.size();
-            this.type.setText(types.get(this.index));
+            this.type.setValue(types.get(this.index));
 
         }));
         this.addButton(new Button(xOffset - 75 - 15, yOffset, 40, 20, new StringTextComponent("prev"), b ->
         {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
-            this.type.setText(types.get(this.index));
+            this.type.setValue(types.get(this.index));
         }));
         this.addButton(new Button(xOffset - 5, yOffset + 40, 40, 20, new StringTextComponent("stands"), b ->
         {
@@ -111,8 +111,8 @@ public class Spawn extends Page
     private void send(final String type)
     {
         final PacketTrainer message = new PacketTrainer(PacketTrainer.SPAWN);
-        message.getTag().putString("__type__", this.type.getText());
-        final int value = this.level.getText().isEmpty() ? 1 : Integer.parseInt(this.level.getText());
+        message.getTag().putString("__type__", this.type.getValue());
+        final int value = this.level.getValue().isEmpty() ? 1 : Integer.parseInt(this.level.getValue());
         message.getTag().putInt("L", value);
         message.getTag().putString("_npc_", type);
         message.getTag().putString("_g_", this.gender);

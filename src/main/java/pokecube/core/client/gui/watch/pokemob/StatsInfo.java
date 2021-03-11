@@ -35,12 +35,12 @@ public class StatsInfo extends PokeInfoPage
         final int offsetX = 130; // -50
         int dx = 20 + offsetX;
 
-        final String H = I18n.format("pokewatch.HP");
-        final String A = I18n.format("pokewatch.ATT");
-        final String D = I18n.format("pokewatch.DEF");
-        final String AS = I18n.format("pokewatch.ATTSP");
-        final String DS = I18n.format("pokewatch.DEFSP");
-        final String S = I18n.format("pokewatch.VIT");
+        final String H = I18n.get("pokewatch.HP");
+        final String A = I18n.get("pokewatch.ATT");
+        final String D = I18n.get("pokewatch.DEF");
+        final String AS = I18n.get("pokewatch.ATTSP");
+        final String DS = I18n.get("pokewatch.DEFSP");
+        final String S = I18n.get("pokewatch.VIT");
 
         AbstractGui.drawString(mat, this.font, H, x + dx, statYOffSet + 18, 0xFF0000);
         AbstractGui.drawString(mat, this.font, A, x + dx, statYOffSet + 27, 0xF08030);
@@ -94,14 +94,14 @@ public class StatsInfo extends PokeInfoPage
             AbstractGui.fill(mat, x + dx, statYOffSet + dy, x + dx + 107, statYOffSet + dy + 9, colours[i]);
         }
 
-        final String H = I18n.format("pokewatch.HP");
-        final String A = I18n.format("pokewatch.ATT");
-        final String D = I18n.format("pokewatch.DEF");
-        final String AS = I18n.format("pokewatch.ATTSP");
-        final String DS = I18n.format("pokewatch.DEFSP");
-        final String S = I18n.format("pokewatch.VIT");
+        final String H = I18n.get("pokewatch.HP");
+        final String A = I18n.get("pokewatch.ATT");
+        final String D = I18n.get("pokewatch.DEF");
+        final String AS = I18n.get("pokewatch.ATTSP");
+        final String DS = I18n.get("pokewatch.DEFSP");
+        final String S = I18n.get("pokewatch.VIT");
 
-        final String Header = I18n.format("pokewatch.TVIVEV");
+        final String Header = I18n.get("pokewatch.TVIVEV");
 
         AbstractGui.drawString(mat, this.font, Header, 43 + x + dx, statYOffSet + 9, 0xFFFFFF);
         AbstractGui.drawString(mat, this.font, H, x + dx, statYOffSet + 18, 0xFF0000);

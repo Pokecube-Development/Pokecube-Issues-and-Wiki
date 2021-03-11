@@ -68,7 +68,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             this.thisEntity = thisEntity;
             this.evolution = evolution;
-            this.world = thisEntity.getEntityWorld();
+            this.world = thisEntity.getCommandSenderWorld();
         }
 
         public void init()
@@ -80,7 +80,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             if (this.done) return;
             this.done = true;
-            final ServerWorld world = (ServerWorld) this.thisEntity.getEntityWorld();
+            final ServerWorld world = (ServerWorld) this.thisEntity.getCommandSenderWorld();
             final IPokemob old = CapabilityPokemob.getPokemobFor(this.thisEntity);
 
             if (this.thisEntity != this.evolution)
@@ -96,28 +96,28 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 if (old != null) old.setOwner((UUID) null);
                 this.thisEntity.getPersistentData().putBoolean(TagNames.REMOVED, true);
                 // Remove old mob
-                world.removeEntity(this.thisEntity);
+                world.despawn(this.thisEntity);
                 // Add new mob
                 if (!this.evolution.isAlive()) this.evolution.revive();
                 this.evolution.getPersistentData().remove(TagNames.REMOVED);
                 if (old != null) PokemobTracker.removePokemob(old);
-                this.evolution.setUniqueId(this.thisEntity.getUniqueID());
-                this.evolution.getEntityWorld().addEntity(this.evolution);
+                this.evolution.setUUID(this.thisEntity.getUUID());
+                this.evolution.getCommandSenderWorld().addFreshEntity(this.evolution);
 
-                this.evolution.recalculateSize();
+                this.evolution.refreshDimensions();
                 final AxisAlignedBB oldBox = this.thisEntity.getBoundingBox();
                 final AxisAlignedBB newBox = this.evolution.getBoundingBox();
 
                 // Take the larger of the boxes, collide off that.
-                final AxisAlignedBB biggerBox = oldBox.union(newBox);
+                final AxisAlignedBB biggerBox = oldBox.minmax(newBox);
 
                 final List<VoxelShape> hits = Lists.newArrayList();
                 // Find all voxel shapes in the area
-                BlockPos.getAllInBox(biggerBox).forEach(pos ->
+                BlockPos.betweenClosedStream(biggerBox).forEach(pos ->
                 {
                     final BlockState state = world.getBlockState(pos);
                     final VoxelShape shape = state.getCollisionShape(world, pos);
-                    if (!shape.isEmpty()) hits.add(shape.withOffset(pos.getX(), pos.getY(), pos.getZ()));
+                    if (!shape.isEmpty()) hits.add(shape.move(pos.getX(), pos.getY(), pos.getZ()));
                 });
 
                 // If there were any voxel shapes, then check if we need to
@@ -127,7 +127,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     VoxelShape total = VoxelShapes.empty();
                     // Merge the found shapes into a single one
                     for (final VoxelShape s : hits)
-                        total = VoxelShapes.combine(total, s, IBooleanFunction.OR);
+                        total = VoxelShapes.joinUnoptimized(total, s, IBooleanFunction.OR);
                     final List<AxisAlignedBB> aabbs = Lists.newArrayList();
                     // Convert to colliding AABBs
                     BlockEntityUpdater.fill(aabbs, biggerBox, total);
@@ -142,7 +142,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     {
                         Vector3 v = Vector3.getNewVector().set(this.evolution);
                         v = SendOutManager.getFreeSpot(this.evolution, world, v, false);
-                        this.evolution.recalculateSize();
+                        this.evolution.refreshDimensions();
                         if (v != null) v.moveEntity(this.evolution);
                     }
                 }
@@ -160,7 +160,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
         static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution, final boolean immediate)
         {
-            if (!(thisEntity.world instanceof ServerWorld)) return;
+            if (!(thisEntity.level instanceof ServerWorld)) return;
             final EvoTicker ticker = new EvoTicker(thisEntity, evolution);
             if (!immediate) ticker.init();
             else ticker.tick();
@@ -183,7 +183,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 final boolean dynamaxing)
         {
             this.mob = evolver.getEntity();
-            this.world = this.mob.getEntityWorld();
+            this.world = this.mob.getCommandSenderWorld();
             this.evoTime = this.world.getGameTime() + evoTime;
             this.message = message;
             this.mega = mega;
@@ -202,7 +202,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         public void tick(final WorldTickEvent evt)
         {
             if (evt.world != this.world || evt.phase != Phase.END) return;
-            if (!this.mob.addedToChunk || !this.mob.isAlive() || this.set)
+            if (!this.mob.inChunk || !this.mob.isAlive() || this.set)
             {
                 MinecraftForge.EVENT_BUS.unregister(this);
                 return;
@@ -233,7 +233,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     if (dyna)
                     {
                         this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
-                        final Long time = evt.world.getServer().getWorld(World.OVERWORLD).getGameTime();
+                        final Long time = evt.world.getServer().getLevel(World.OVERWORLD).getGameTime();
                         this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
                         if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler.getCustomDataTag(this.pokemob
                                 .getOwnerId()).putLong("pokecube:dynatime", time);
@@ -281,7 +281,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm,
             final ITextComponent message, final boolean dynamaxing)
     {
-        if (!(evolver.getEntity().world instanceof ServerWorld)) return;
+        if (!(evolver.getEntity().level instanceof ServerWorld)) return;
         new MegaEvoTicker(newForm, PokecubeCore.getConfig().evolutionTicks / 2, evolver, message, dynamaxing);
     }
 
@@ -293,9 +293,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
         if (!this.isEvolving()) return;
         final LivingEntity entity = this.getEntity();
-        if (this.getEntity().getEntityWorld().isRemote)
+        if (this.getEntity().getCommandSenderWorld().isClientSide)
         {
-            final MessageServer message = new MessageServer(MessageServer.CANCELEVOLVE, entity.getEntityId());
+            final MessageServer message = new MessageServer(MessageServer.CANCELEVOLVE, entity.getId());
             PokecubeCore.packets.sendToServer(message);
             return;
         }
@@ -315,7 +315,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     default boolean canEvolve(final ItemStack stack)
     {
         if (ItemList.is(ICanEvolve.EVERSTONE, stack)) return false;
-        if (this.getPokedexEntry().canEvolve() && this.getEntity().isServerWorld()) for (final EvolutionData d : this
+        if (this.getPokedexEntry().canEvolve() && this.getEntity().isEffectiveAi()) for (final EvolutionData d : this
                 .getPokedexEntry().getEvolutions())
             if (d.shouldEvolve((IPokemob) this, stack)) return true;
         return false;
@@ -496,7 +496,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         final List<String> moves = Database.getLevelUpMoves(theMob.getPokedexEntry(), level, theMob
                 .getMoveStats().oldLevel);
         Collections.shuffle(moves);
-        if (!theEntity.getEntityWorld().isRemote)
+        if (!theEntity.getCommandSenderWorld().isClientSide)
         {
             final ITextComponent mess = new TranslationTextComponent("pokemob.info.levelup", theMob.getDisplayName(),
                     level + "");
@@ -544,9 +544,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
     default IPokemob megaEvolve(final PokedexEntry newEntry)
     {
-        if (this.getEntity().getEntityWorld() instanceof ServerWorld)
+        if (this.getEntity().getCommandSenderWorld() instanceof ServerWorld)
         {
-            final ServerWorld world = (ServerWorld) this.getEntity().getEntityWorld();
+            final ServerWorld world = (ServerWorld) this.getEntity().getCommandSenderWorld();
             return this.megaEvolve(newEntry, !world.tickingEntities);
         }
         return this.megaEvolve(newEntry, true);
@@ -590,25 +590,25 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             this.setGeneralState(GeneralStates.EVOLVING, true);
 
-            evolution = PokecubeCore.createPokemob(newEntry, thisEntity.getEntityWorld());
+            evolution = PokecubeCore.createPokemob(newEntry, thisEntity.getCommandSenderWorld());
             if (evolution == null)
             {
                 PokecubeCore.LOGGER.warn("No Entry for " + newEntry);
                 return thisMob;
             }
-            final int id = evolution.getEntityId();
-            final UUID uuid = evolution.getUniqueID();
+            final int id = evolution.getId();
+            final UUID uuid = evolution.getUUID();
             evoMob = CapabilityPokemob.getPokemobFor(evolution);
             // Reset nickname if needed.
             if (this.getPokemonNickname().equals(oldEntry.getName())) this.setPokemonNickname("");
 
             // Copy NBT data over
-            evolution.read(thisEntity.writeWithoutTypeId(new CompoundNBT()));
+            evolution.load(thisEntity.saveWithoutId(new CompoundNBT()));
 
             // Copy transforms over.
             EntityTools.copyEntityTransforms(evolution, thisEntity);
-            evolution.setEntityId(id);
-            evolution.setUniqueId(uuid);
+            evolution.setId(id);
+            evolution.setUUID(uuid);
 
             // Sync over any active moves
             if (thisMob.getActiveMove() != null)
@@ -653,7 +653,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             final EvolveEvent evt = new EvolveEvent.Post(evoMob);
             PokecubeCore.POKEMOB_BUS.post(evt);
             // Schedule adding to world.
-            if (!evt.isCanceled() && thisEntity.addedToChunk) EvoTicker.scheduleEvolve(thisEntity, evolution,
+            if (!evt.isCanceled() && thisEntity.inChunk) EvoTicker.scheduleEvolve(thisEntity, evolution,
                     immediate);
         }
         return evoMob;

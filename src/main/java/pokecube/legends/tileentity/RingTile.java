@@ -34,8 +34,8 @@ public class RingTile extends TileEntity implements ITickableTileEntity
         final BlockState state = this.getBlockState();
         if (this.despawns)
         {
-            warp.remove(this.world, this.pos, state);
-            this.world.destroyBlock(this.getPos(), false);
+            warp.remove(this.level, this.worldPosition, state);
+            this.level.destroyBlock(this.getBlockPos(), false);
         }
         else
         {
@@ -48,42 +48,42 @@ public class RingTile extends TileEntity implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (this.getWorld().isRemote) return;
+        if (this.getLevel().isClientSide) return;
         final BlockState state = this.getBlockState();
-        final PortalWarpPart part = state.get(PortalWarp.PART);
-        final boolean active = state.get(PortalWarp.ACTIVE);
+        final PortalWarpPart part = state.getValue(PortalWarp.PART);
+        final boolean active = state.getValue(PortalWarp.ACTIVE);
         if (part != PortalWarpPart.MIDDLE) return;
         final PortalWarp warp = (PortalWarp) BlockInit.BLOCK_PORTALWARP.get();
         if (this.despawns && this.timer++ > PokecubeLegends.config.ticksPortalDespawn)
         {
-            warp.remove(this.world, this.pos, state);
-            this.world.setBlockState(this.pos, Blocks.AIR.getDefaultState());
-            this.world.playSound(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5,
-                    SoundEvents.ENTITY_ENDERMAN_STARE, SoundCategory.BLOCKS, 0.5F, this.world.getRandom().nextFloat()
+            warp.remove(this.level, this.worldPosition, state);
+            this.level.setBlockAndUpdate(this.worldPosition, Blocks.AIR.defaultBlockState());
+            this.level.playLocalSound(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5,
+                    SoundEvents.ENDERMAN_STARE, SoundCategory.BLOCKS, 0.5F, this.level.getRandom().nextFloat()
                             * 0.4F + 0.8F, false);
         }
         else if (!active && this.timer-- < 0)
         {
-            this.world.setBlockState(this.pos, state.with(PortalWarp.ACTIVE, true));
-            warp.setActiveState(this.world, this.pos, state, true);
+            this.level.setBlockAndUpdate(this.worldPosition, state.setValue(PortalWarp.ACTIVE, true));
+            warp.setActiveState(this.level, this.worldPosition, state, true);
             this.timer = 0;
         }
     }
 
     @Override
-    public void read(final BlockState state, final CompoundNBT nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
-        super.read(state, nbt);
+        super.load(state, nbt);
         this.despawns = nbt.getBoolean("despawns");
         this.timer = nbt.getInt("timer");
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         compound.putInt("timer", this.timer);
         compound.putBoolean("despawns", this.despawns);
-        return super.write(compound);
+        return super.save(compound);
     }
 
 }

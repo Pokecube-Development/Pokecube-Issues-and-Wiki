@@ -46,7 +46,7 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
 
         this.id = id;
 
-        this.size = EntitySize.flexible(width, height);
+        this.dimensions = EntitySize.scalable(width, height);
         this.pokemob = base.pokemobCap;
         this.base = base;
         this.r0 = new Vector3f(x + width / 2, y, z + width / 2);
@@ -58,24 +58,24 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
         this.r.set(this.r0.getX(), this.r0.getY(), this.r0.getZ());
         rot.transform(this.r);
         this.r.add(r);
-        this.setPosition(this.r.getX(), this.r.getY(), this.r.getZ());
-        this.lastTickPosX = this.getPosX() + dr.x;
-        this.lastTickPosY = this.getPosY() + dr.y;
-        this.lastTickPosZ = this.getPosZ() + dr.z;
+        this.setPos(this.r.getX(), this.r.getY(), this.r.getZ());
+        this.xOld = this.getX() + dr.x;
+        this.yOld = this.getY() + dr.y;
+        this.zOld = this.getZ() + dr.z;
     }
 
     @Override
-    protected void registerData()
+    protected void defineSynchedData()
     {
     }
 
     @Override
-    protected void readAdditional(final CompoundNBT compound)
+    protected void readAdditionalSaveData(final CompoundNBT compound)
     {
     }
 
     @Override
-    protected void writeAdditional(final CompoundNBT compound)
+    protected void addAdditionalSaveData(final CompoundNBT compound)
     {
     }
 
@@ -83,12 +83,12 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
      * Called when the entity is attacked.
      */
     @Override
-    public boolean attackEntityFrom(final DamageSource source, final float amount)
+    public boolean hurt(final DamageSource source, final float amount)
     {
-        if (this.getEntityWorld().isRemote && source.getImmediateSource() instanceof PlayerEntity)
+        if (this.getCommandSenderWorld().isClientSide && source.getDirectEntity() instanceof PlayerEntity)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), source
-                    .getImmediateSource().isSneaking());
+                    .getDirectEntity().isShiftKeyDown());
             PokecubeCore.packets.sendToServer(packet);
         }
         return this.base.isInvulnerableTo(source) ? false : this.base.attackFromPart(this, source, amount);
@@ -98,39 +98,39 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
      * Returns true if Entity argument is equal to this Entity
      */
     @Override
-    public boolean isEntityEqual(final Entity entityIn)
+    public boolean is(final Entity entityIn)
     {
         return this == entityIn || this.base == entityIn;
     }
 
     @Override
-    public EntitySize getSize(final Pose poseIn)
+    public EntitySize getDimensions(final Pose poseIn)
     {
-        return this.size;
+        return this.dimensions;
     }
 
     @Override
-    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vector3d vec, final Hand hand)
+    public ActionResultType interactAt(final PlayerEntity player, final Vector3d vec, final Hand hand)
     {
-        if (this.getEntityWorld().isRemote)
+        if (this.getCommandSenderWorld().isClientSide)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand, vec, player
-                    .isSneaking());
+                    .isShiftKeyDown());
             PokecubeCore.packets.sendToServer(packet);
         }
-        return this.getParent().applyPlayerInteraction(player, vec, hand);
+        return this.getParent().interactAt(player, vec, hand);
     }
 
     @Override
-    public ActionResultType processInitialInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType interact(final PlayerEntity player, final Hand hand)
     {
-        if (this.getEntityWorld().isRemote)
+        if (this.getCommandSenderWorld().isClientSide)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand, player
-                    .isSneaking());
+                    .isShiftKeyDown());
             PokecubeCore.packets.sendToServer(packet);
         }
-        return this.getParent().processInitialInteract(player, hand);
+        return this.getParent().interact(player, hand);
     }
 
     @Override
@@ -140,37 +140,37 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     }
 
     @Override
-    public boolean canBeCollidedWith()
+    public boolean isPickable()
     {
         return true;
     }
 
     @Override
-    public void applyEntityCollision(final Entity entityIn)
+    public void push(final Entity entityIn)
     {
-        super.applyEntityCollision(entityIn);
+        super.push(entityIn);
     }
 
     @Override
-    public boolean canCollide(final Entity entity)
+    public boolean canCollideWith(final Entity entity)
     {
-        return super.canCollide(entity);
+        return super.canCollideWith(entity);
     }
 
     @Override
-    public void recalculateSize()
+    public void refreshDimensions()
     {
-        final EntitySize entitysize = this.size;
+        final EntitySize entitysize = this.dimensions;
         final Pose pose = this.getPose();
         final net.minecraftforge.event.entity.EntityEvent.Size sizeEvent = net.minecraftforge.event.ForgeEventFactory
-                .getEntitySizeForge(this, pose, this.getSize(pose), this.getEyeHeight(pose, entitysize));
+                .getEntitySizeForge(this, pose, this.getDimensions(pose), this.getEyeHeight(pose, entitysize));
         final EntitySize entitysize1 = sizeEvent.getNewSize();
-        this.size = entitysize1;
+        this.dimensions = entitysize1;
         if (entitysize1.width < entitysize.width)
         {
             final double d0 = entitysize1.width / 2.0D;
-            this.setBoundingBox(new AxisAlignedBB(this.getPosX() - d0, this.getPosY(), this.getPosZ() - d0, this
-                    .getPosX() + d0, this.getPosY() + entitysize1.height, this.getPosZ() + d0));
+            this.setBoundingBox(new AxisAlignedBB(this.getX() - d0, this.getY(), this.getZ() - d0, this
+                    .getX() + d0, this.getY() + entitysize1.height, this.getZ() + d0));
         }
         else
         {
@@ -178,7 +178,7 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
             this.setBoundingBox(new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ,
                     axisalignedbb.minX + entitysize1.width, axisalignedbb.minY + entitysize1.height, axisalignedbb.minZ
                             + entitysize1.width));
-            if (entitysize1.width > entitysize.width && !this.firstUpdate && !this.world.isRemote)
+            if (entitysize1.width > entitysize.width && !this.firstTick && !this.level.isClientSide)
             {
                 final float f = entitysize.width - entitysize1.width;
                 this.move(MoverType.SELF, new Vector3d(f, 0.0D, f));

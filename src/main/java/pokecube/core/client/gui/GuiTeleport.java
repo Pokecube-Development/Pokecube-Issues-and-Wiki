@@ -58,7 +58,7 @@ public class GuiTeleport extends AbstractGui
     {
         this.minecraft = Minecraft.getInstance();
         MinecraftForge.EVENT_BUS.register(this);
-        this.fontRenderer = this.minecraft.fontRenderer;
+        this.fontRenderer = this.minecraft.font;
         GuiTeleport.instance = this;
     }
 
@@ -71,7 +71,7 @@ public class GuiTeleport extends AbstractGui
         final IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob == null) return;
 
-        event.mat.push();
+        event.mat.pushPose();
         GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().teleRef, PokecubeCore.getConfig().telePos,
                 GuiDisplayPokecubeInfo.teleDims, (float) PokecubeCore.getConfig().teleSize);
 
@@ -82,24 +82,24 @@ public class GuiTeleport extends AbstractGui
         final int yOffset = 0;
         final int dir = GuiTeleport.direction;
         // bind texture
-        this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+        this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
         this.blit(event.mat, xOffset + w, yOffset + h, 44, 0, 90, 13);
-        this.fontRenderer.drawString(event.mat, I18n.format("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
+        this.fontRenderer.draw(event.mat, I18n.get("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
                 GuiTeleport.lightGrey);
 
-        final TeleDest location = TeleportHandler.getTeleport(this.minecraft.player.getCachedUniqueIdString());
+        final TeleDest location = TeleportHandler.getTeleport(this.minecraft.player.getStringUUID());
         if (location != null)
         {
             final String name = location.getName();
             int shift = 13 + 12 * i + yOffset + h;
             if (dir == -1) shift -= 25;
             // bind texture
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
             this.blit(event.mat, xOffset + w, shift, 44, 22, 91, 12);
-            this.fontRenderer.drawString(event.mat, name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
+            this.fontRenderer.draw(event.mat, name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }
         i++;
-        event.mat.pop();
+        event.mat.popPose();
 
     }
 
@@ -110,7 +110,7 @@ public class GuiTeleport extends AbstractGui
 
     public void nextMove()
     {
-        final String uuid = this.minecraft.player.getCachedUniqueIdString();
+        final String uuid = this.minecraft.player.getStringUUID();
         final int index = TeleportHandler.getTeleIndex(uuid) + 1;
         TeleportHandler.setTeleIndex(uuid, index);
         PokecubeCore.packets.sendToServer(new PacketTeleport(index));
@@ -118,7 +118,7 @@ public class GuiTeleport extends AbstractGui
 
     public void previousMove()
     {
-        final String uuid = this.minecraft.player.getCachedUniqueIdString();
+        final String uuid = this.minecraft.player.getStringUUID();
         final int index = TeleportHandler.getTeleIndex(uuid) - 1;
         TeleportHandler.setTeleIndex(uuid, index);
         PokecubeCore.packets.sendToServer(new PacketTeleport(index));

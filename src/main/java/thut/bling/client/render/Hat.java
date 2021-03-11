@@ -33,17 +33,17 @@ public class Hat
         final ResourceLocation[] tex = textures.clone();
         final Minecraft minecraft = Minecraft.getInstance();
         float s;
-        mat.push();
+        mat.pushPose();
         s = 0.285f;
         mat.scale(s, -s, -s);
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(255, 255, 255, 255, brightness, overlay);
         final IVertexBuilder buf0 = Util.makeBuilder(buff, tex[0]);
         renderable.renderAll(mat, buf0);
-        mat.pop();
-        mat.push();
+        mat.popPose();
+        mat.pushPose();
         mat.scale(s * 0.995f, -s * 0.995f, -s * 0.995f);
-        minecraft.textureManager.bindTexture(tex[1]);
+        minecraft.textureManager.bind(tex[1]);
         ret = DyeColor.RED;
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
         {
@@ -56,6 +56,6 @@ public class Hat
         final IVertexBuilder buf1 = Util.makeBuilder(buff, tex[1]);
         renderable.renderAll(mat, buf1);
         GL11.glColor3f(1, 1, 1);
-        mat.pop();
+        mat.popPose();
     }
 }

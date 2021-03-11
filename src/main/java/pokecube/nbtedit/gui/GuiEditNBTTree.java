@@ -87,13 +87,13 @@ public class GuiEditNBTTree extends Screen
 
     public Entity getEntity()
     {
-        return this.entity ? this.minecraft.world.getEntityByID(this.entityOrX) : null;
+        return this.entity ? this.minecraft.level.getEntity(this.entityOrX) : null;
     }
 
     @Override
     public void init()
     {
-        this.minecraft.keyboardListener.enableRepeatEvents(true);
+        this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
         this.addButton(new Button(this.width / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Save"),
                 b -> this.quitWithSave()));
@@ -135,14 +135,14 @@ public class GuiEditNBTTree extends Screen
     }
 
     @Override
-    public void onClose()
+    public void removed()
     {
-        this.minecraft.keyboardListener.enableRepeatEvents(false);
+        this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
     }
 
     private void quitWithoutSaving()
     {
-        Minecraft.getInstance().displayGuiScreen(null);
+        Minecraft.getInstance().setScreen(null);
     }
 
     private void quitWithSave()
@@ -164,7 +164,7 @@ public class GuiEditNBTTree extends Screen
         }
         else TileNBTPacket.ASSEMBLER.sendToServer(new TileNBTPacket(new BlockPos(this.entityOrX, this.y, this.z),
                 this.guiTree.getNBTTree().toCompoundNBT()));
-        Minecraft.getInstance().displayGuiScreen(null);
+        Minecraft.getInstance().setScreen(null);
 
     }
 

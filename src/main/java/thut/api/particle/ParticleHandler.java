@@ -39,7 +39,7 @@ public class ParticleHandler
     public static void addParticle(final Vector3 location, final IParticle particle)
     {
         if (particle == null || location == null || Minecraft
-                .getInstance().gameSettings.particles == ParticleStatus.MINIMAL) return;
+                .getInstance().options.particles == ParticleStatus.MINIMAL) return;
         synchronized (ParticleHandler.particles)
         {
             ParticleHandler.particles.add(new ParticlePacket(location.copy(), particle));
@@ -60,7 +60,7 @@ public class ParticleHandler
             synchronized (ParticleHandler.particles)
             {
                 final MatrixStack mat = event.getMatrixStack();
-                mat.push();
+                mat.pushPose();
                 final List<ParticlePacket> list = Lists.newArrayList();
                 for (int i = 0; i < ParticleHandler.particles.size(); i++)
                 {
@@ -74,22 +74,22 @@ public class ParticleHandler
                         continue;
                     }
                     final PlayerEntity player = Minecraft.getInstance().player;
-                    final Vector3 source = Vector3.getNewVector().set(player.lastTickPosX, player.lastTickPosY,
-                            player.lastTickPosZ);
-                    mat.push();
+                    final Vector3 source = Vector3.getNewVector().set(player.xOld, player.yOld,
+                            player.zOld);
+                    mat.pushPose();
                     source.set(target.subtract(source));
                     mat.translate(source.x, source.y, source.z);
-                    final double d0 = (-player.getPosX() + player.lastTickPosX) * event.getPartialTicks();
-                    final double d1 = (-player.getPosY() + player.lastTickPosY) * event.getPartialTicks();
-                    final double d2 = (-player.getPosZ() + player.lastTickPosZ) * event.getPartialTicks();
+                    final double d0 = (-player.getX() + player.xOld) * event.getPartialTicks();
+                    final double d1 = (-player.getY() + player.yOld) * event.getPartialTicks();
+                    final double d2 = (-player.getZ() + player.zOld) * event.getPartialTicks();
                     source.set(d0, d1, d2);
                     mat.translate(source.x, source.y, source.z);
                     // particle.render(event.getRenderPartialTicks());
-                    mat.pop();
-                    if (particle.lastTick() != player.getEntityWorld().getGameTime())
+                    mat.popPose();
+                    if (particle.lastTick() != player.getCommandSenderWorld().getGameTime())
                     {
                         particle.setDuration(particle.getDuration() - 1);
-                        particle.setLastTick(player.getEntityWorld().getGameTime());
+                        particle.setLastTick(player.getCommandSenderWorld().getGameTime());
                     }
                     if (particle.getDuration() < 0)
                     {
@@ -97,7 +97,7 @@ public class ParticleHandler
                         list.add(packet);
                     }
                 }
-                mat.pop();
+                mat.popPose();
                 for (int i = 0; i < list.size(); i++)
                     ParticleHandler.particles.remove(list.get(i));
             }

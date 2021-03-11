@@ -89,7 +89,7 @@ public class PacketTrainer extends NBTPacket
     public static void requestEdit(final Entity target)
     {
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.REQUESTEDIT);
-        packet.getTag().putInt("I", target == null ? -1 : target.getEntityId());
+        packet.getTag().putInt("I", target == null ? -1 : target.getId());
         PacketTrainer.ASSEMBLER.sendToServer(packet);
     }
 
@@ -105,12 +105,12 @@ public class PacketTrainer extends NBTPacket
         if (!canEdit)
         {
             editor.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
-                    Util.DUMMY_UUID);
+                    Util.NIL_UUID);
             return;
         }
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         packet.getTag().putBoolean("O", true);
-        packet.getTag().putInt("I", target == null ? -1 : target.getEntityId());
+        packet.getTag().putInt("I", target == null ? -1 : target.getId());
 
         if (target != null)
         {
@@ -163,7 +163,7 @@ public class PacketTrainer extends NBTPacket
             if (this.getTag().getBoolean("O"))
             {
                 final int id = this.getTag().getInt("I");
-                final Entity mob = player.getEntityWorld().getEntityByID(id);
+                final Entity mob = player.getCommandSenderWorld().getEntity(id);
                 if (mob != null && this.getTag().contains("C"))
                 {
                     final CompoundNBT nbt = this.getTag().getCompound("C");
@@ -183,7 +183,7 @@ public class PacketTrainer extends NBTPacket
                     if (nbt.contains("M")) if (messages != null) CapabilityNPCMessages.storage.readNBT(
                             TrainerCaps.MESSAGES_CAP, messages, null, nbt.get("M"));
                 }
-                net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new EditorGui(mob));
+                net.minecraft.client.Minecraft.getInstance().setScreen(new EditorGui(mob));
                 return;
             }
 
@@ -195,7 +195,7 @@ public class PacketTrainer extends NBTPacket
     protected void onCompleteServer(final ServerPlayerEntity player)
     {
         this.message = this.getTag().getByte("__message__");
-        final World world = player.getEntityWorld();
+        final World world = player.getCommandSenderWorld();
         String type;
         String name;
         boolean male;
@@ -204,19 +204,19 @@ public class PacketTrainer extends NBTPacket
         name = this.getTag().getString("N");
         male = this.getTag().getBoolean("G");
         Entity mob;
-        mob = world.getEntityByID(id);
+        mob = world.getEntity(id);
         IHasPokemobs mobHolder;
         switch (this.message)
         {
         case REQUESTEDIT:
-            mob = id == -1 ? null : world.getEntityByID(id);
+            mob = id == -1 ? null : world.getEntity(id);
             PacketTrainer.sendEditOpenPacket(mob, player);
             break;
         case SPAWN:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
             {
                 player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
-                        Util.DUMMY_UUID);
+                        Util.NIL_UUID);
                 return;
             }
 
@@ -250,15 +250,15 @@ public class PacketTrainer extends NBTPacket
             }
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
-            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(),
-                    (ServerWorld) player.getEntityWorld(), player.getRNG(), MutableBoundingBox.getNewBoundingBox());
+            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getCommandSenderWorld(),
+                    (ServerWorld) player.getCommandSenderWorld(), player.getRandom(), MutableBoundingBox.getUnknownBox());
             MinecraftForge.EVENT_BUS.post(event);
             break;
         case UPDATETRAINER:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
             {
                 player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
-                        Util.DUMMY_UUID);
+                        Util.NIL_UUID);
                 return;
             }
 
@@ -271,7 +271,7 @@ public class PacketTrainer extends NBTPacket
                     @SuppressWarnings("unchecked")
                     final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) rewards;
                     ser.deserializeNBT(this.getTag().get("__rewards__"));
-                    player.sendStatusMessage(new StringTextComponent("Updated rewards list"), true);
+                    player.displayClientMessage(new StringTextComponent("Updated rewards list"), true);
                 }
                 catch (final Exception e)
                 {
@@ -289,7 +289,7 @@ public class PacketTrainer extends NBTPacket
                     final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) aiStates;
                     ser.deserializeNBT(this.getTag().get("__ai__"));
                     mob.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
-                    player.sendStatusMessage(new StringTextComponent("Updated AI Setting"), true);
+                    player.displayClientMessage(new StringTextComponent("Updated AI Setting"), true);
                 }
                 catch (final Exception e)
                 {
@@ -307,7 +307,7 @@ public class PacketTrainer extends NBTPacket
                     @SuppressWarnings("unchecked")
                     final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) messages;
                     ser.deserializeNBT(this.getTag().get("__messages__"));
-                    player.sendStatusMessage(new StringTextComponent("Updated AI Setting"), true);
+                    player.displayClientMessage(new StringTextComponent("Updated AI Setting"), true);
                 }
                 catch (final Exception e)
                 {
@@ -341,20 +341,20 @@ public class PacketTrainer extends NBTPacket
             if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
             {
                 player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
-                        Util.DUMMY_UUID);
+                        Util.NIL_UUID);
                 return;
             }
-            mob = player.getEntityWorld().getEntityByID(id);
+            mob = player.getCommandSenderWorld().getEntity(id);
             if (mob != null) mob.remove();
             break;
         case UPDATEMOB:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITMOB))
             {
                 player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
-                        Util.DUMMY_UUID);
+                        Util.NIL_UUID);
                 return;
             }
-            mob = player.getEntityWorld().getEntityByID(id);
+            mob = player.getCommandSenderWorld().getEntity(id);
             mobHolder = TrainerCaps.getHasPokemobs(mob);
             // This means we are editing a mob of a trainer.
             if (this.getTag().contains("__trainers__") && mobHolder != null)
@@ -364,7 +364,7 @@ public class PacketTrainer extends NBTPacket
                 if (this.getTag().contains("__pokemob__"))
                 {
                     final CompoundNBT mobtag = this.getTag().getCompound("__pokemob__");
-                    cube = ItemStack.read(mobtag);
+                    cube = ItemStack.of(mobtag);
                     final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, world);
                     // Load out the moves, since those don't send properly...
                     if (mobtag.contains("__custom_info__")) this.readPokemob(pokemob, mobtag.getCompound(

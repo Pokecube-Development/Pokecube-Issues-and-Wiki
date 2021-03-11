@@ -24,7 +24,7 @@ public class TM extends BasePeripheral<TMTile>
         public String[] getList() throws LuaException
         {
             final IPokemob pokemob = PokecubeManager.itemToPokemob(this.inventory.getStackInSlot(1), this.tile
-                    .getWorld());
+                    .getLevel());
             if (!PokecubeManager.isFilled(this.inventory.getStackInSlot(1))) throw new LuaException(
                     "Requires a filled cube in the cube slot!");
             return this.tile.getMoves(pokemob);
@@ -33,7 +33,7 @@ public class TM extends BasePeripheral<TMTile>
         public boolean applyIndex(final int index) throws LuaException
         {
             final IPokemob pokemob = PokecubeManager.itemToPokemob(this.inventory.getStackInSlot(1), this.tile
-                    .getWorld());
+                    .getLevel());
             if (!PokecubeManager.isFilled(this.inventory.getStackInSlot(1))) throw new LuaException(
                     "Requires a filled cube in the cube slot!");
             if (this.inventory.getStackInSlot(0).isEmpty()) throw new LuaException("Requires a TM in the TM slot!");

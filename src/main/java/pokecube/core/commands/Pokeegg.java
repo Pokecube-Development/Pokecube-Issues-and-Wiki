@@ -63,7 +63,7 @@ public class Pokeegg
                     entry = iterator.next();
             }
         }
-        final Entity mob = PokecubeCore.createPokemob(entry, source.getWorld());
+        final Entity mob = PokecubeCore.createPokemob(entry, source.getLevel());
         if (mob == null)
         {
             CommandTools.sendError(source, "pokecube.command.makeinvalid");
@@ -73,7 +73,7 @@ public class Pokeegg
         PlayerEntity owner = null;
 
         if (!args.isEmpty() && args.get(0) instanceof PlayerEntity) owner = (PlayerEntity) args.remove(0);
-        else owner = source.asPlayer();
+        else owner = source.getPlayerOrException();
 
         final List<String> newArgs = Lists.newArrayList();
         for (final Object o : args)
@@ -90,8 +90,8 @@ public class Pokeegg
         Tools.giveItem(owner, stack);
 
         final String text = TextFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
-        final ITextComponent message = ITextComponent.Serializer.getComponentFromJson("[\"" + text + "\"]");
-        source.sendFeedback(message, true);
+        final ITextComponent message = ITextComponent.Serializer.fromJson("[\"" + text + "\"]");
+        source.sendSuccess(message, true);
         return 0;
     }
 

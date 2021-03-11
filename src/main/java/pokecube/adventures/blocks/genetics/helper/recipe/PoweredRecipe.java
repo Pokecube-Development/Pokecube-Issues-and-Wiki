@@ -25,7 +25,7 @@ public abstract class PoweredRecipe extends SpecialRecipe implements IPoweredRec
     {
         if (!(inv instanceof PoweredCraftingInventory)) return false;
         final int energy = ((PoweredCraftingInventory) inv).getEnergy();
-        final ItemStack result = this.getCraftingResult(inv);
+        final ItemStack result = this.assemble(inv);
         if (result.isEmpty()) return false;
         final int needed = this.getCostFunction().apply(result);
         if (energy < needed) return false;

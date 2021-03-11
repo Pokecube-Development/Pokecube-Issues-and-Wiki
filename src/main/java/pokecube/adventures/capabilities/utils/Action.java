@@ -21,11 +21,11 @@ public class Action
         {
             String editedCommand = command;
             editedCommand = editedCommand.replace("@p", target.getName().getString());
-            editedCommand = editedCommand.replace("'x'", target.getPosX() + "");
-            editedCommand = editedCommand.replace("'y'", target.getPosY() + 1 + "");
-            editedCommand = editedCommand.replace("'z'", target.getPosZ() + "");
-            final Commands c = target.getServer().getCommandManager();
-            c.handleCommand(target.getServer().getCommandSource(), editedCommand);
+            editedCommand = editedCommand.replace("'x'", target.getX() + "");
+            editedCommand = editedCommand.replace("'y'", target.getY() + 1 + "");
+            editedCommand = editedCommand.replace("'z'", target.getZ() + "");
+            final Commands c = target.getServer().getCommands();
+            c.performCommand(target.getServer().createCommandSourceStack(), editedCommand);
         }
         return commands.length > 0;
     }

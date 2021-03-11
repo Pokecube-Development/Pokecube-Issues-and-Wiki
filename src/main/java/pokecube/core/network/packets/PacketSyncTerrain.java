@@ -38,7 +38,7 @@ public class PacketSyncTerrain extends Packet
         PacketSyncTerrain.encodeActiveEffect(packet.entryEffects, PokemobTerrainEffects.EntryEffectType.values(),
                 terrain);
 
-        PokecubeCore.packets.sendToTracking(packet, player.getEntityWorld().getChunk(new BlockPos(x * 16, y * 16, z
+        PokecubeCore.packets.sendToTracking(packet, player.getCommandSenderWorld().getChunk(new BlockPos(x * 16, y * 16, z
                 * 16)));
     }
 
@@ -80,7 +80,7 @@ public class PacketSyncTerrain extends Packet
     {
         PlayerEntity player;
         player = PokecubeCore.proxy.getPlayer();
-        final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getEntityWorld(), this.x * 16, this.y
+        final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getCommandSenderWorld(), this.x * 16, this.y
                 * 16, this.z * 16);
         final PokemobTerrainEffects effects = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
 

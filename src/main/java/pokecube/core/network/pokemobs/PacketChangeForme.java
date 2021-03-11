@@ -15,7 +15,7 @@ public class PacketChangeForme extends Packet
     public static void sendPacketToTracking(final Entity mob, final PokedexEntry forme)
     {
         final PacketChangeForme packet = new PacketChangeForme();
-        packet.entityId = mob.getEntityId();
+        packet.entityId = mob.getId();
         packet.forme = forme;
         PokecubeCore.packets.sendToTracking(packet, mob);
     }
@@ -31,14 +31,14 @@ public class PacketChangeForme extends Packet
     public PacketChangeForme(final PacketBuffer buffer)
     {
         this.entityId = buffer.readInt();
-        this.forme = Database.getEntry(buffer.readString(20));
+        this.forme = Database.getEntry(buffer.readUtf(20));
     }
 
     @Override
     public void handleClient()
     {
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
-        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.entityId, true);
+        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
         pokemob.setPokedexEntry(this.forme);
@@ -49,8 +49,8 @@ public class PacketChangeForme extends Packet
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeInt(this.entityId);
-        if (this.forme != null) buffer.writeString(this.forme.getName());
-        else buffer.writeString("");
+        if (this.forme != null) buffer.writeUtf(this.forme.getName());
+        else buffer.writeUtf("");
     }
 
 }

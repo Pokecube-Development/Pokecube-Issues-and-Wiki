@@ -118,21 +118,21 @@ public class NBTStringHelper
         switch (base.getId())
         {
         case 1:
-            return "" + ((ByteNBT) base).getByte();
+            return "" + ((ByteNBT) base).getAsByte();
         case 2:
-            return "" + ((ShortNBT) base).getShort();
+            return "" + ((ShortNBT) base).getAsShort();
         case 3:
-            return "" + ((IntNBT) base).getInt();
+            return "" + ((IntNBT) base).getAsInt();
         case 4:
-            return "" + ((LongNBT) base).getLong();
+            return "" + ((LongNBT) base).getAsLong();
         case 5:
-            return "" + ((FloatNBT) base).getFloat();
+            return "" + ((FloatNBT) base).getAsFloat();
         case 6:
-            return "" + ((DoubleNBT) base).getDouble();
+            return "" + ((DoubleNBT) base).getAsDouble();
         case 7:
             return base.toString();
         case 8:
-            return ((StringNBT) base).getString();
+            return ((StringNBT) base).getAsString();
         case 9:
             return "(TagList)";
         case 10:
