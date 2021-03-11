@@ -31,10 +31,10 @@ public abstract class MixinLakesFeature extends Feature<BlockStateFeatureConfig>
     @Inject(//@formatter:off
 
             // We hook into the "generate" method
-            method = "generate",
+            method = "place",
 
             // We want to look for where it assigns the pos = pos.down(4), hence looking for BlockPos;down(I)
-            at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/util/math/BlockPos;down(I)Lnet/minecraft/util/math/BlockPos;"),
+            at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/util/math/BlockPos;below(I)Lnet/minecraft/util/math/BlockPos;"),
 
             // We will cancel and return false early if our check works,
             // the stock behaviour returns true only for standard villages
