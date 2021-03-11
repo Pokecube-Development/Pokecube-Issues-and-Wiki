@@ -16,7 +16,7 @@ public class CorruptedLeaveBlock extends LeavesBlock
 {
     public CorruptedLeaveBlock()
     {
-        super(Properties.create(Material.LEAVES, MaterialColor.BROWN).sound(SoundType.SOUL_SAND).hardnessAndResistance(1, 2).notSolid());
+        super(Properties.create(Material.LEAVES, MaterialColor.BLACK).sound(SoundType.SOUL_SAND).hardnessAndResistance(1, 2).notSolid());
     }
 
     @OnlyIn(Dist.CLIENT)

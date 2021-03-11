@@ -1,6 +1,5 @@
 package pokecube.legends.blocks.normalblocks;
 
-import java.util.Random;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
@@ -12,11 +11,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Random;
+
 public class MirageLeaveBlock extends LeavesBlock
 {
     public MirageLeaveBlock()
     {
-        super(Properties.create(Material.LEAVES, MaterialColor.SNOW).sound(SoundType.NYLIUM).hardnessAndResistance(1, 2).notSolid());
+        super(Properties.create(Material.LEAVES, MaterialColor.LIGHT_BLUE).sound(SoundType.NYLIUM).hardnessAndResistance(1, 2).notSolid());
     }
 
     @OnlyIn(Dist.CLIENT)
