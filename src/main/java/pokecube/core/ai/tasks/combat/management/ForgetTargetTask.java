@@ -20,6 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IPokemob;
@@ -85,11 +86,6 @@ public class ForgetTargetTask extends CombatTask
     @Override
     public void reset()
     {
-        this.entityTarget = null;
-        this.pokemobTarget = null;
-        this.battleTime = 0;
-        this.ticksSinceSeen = 0;
-        this.endBattle();
     }
 
     @Override
@@ -123,7 +119,11 @@ public class ForgetTargetTask extends CombatTask
         boolean deAgro = mate == this.entityTarget;
 
         final ForgetEntry entry = new ForgetEntry(this.world.getGameTime(), this.entityTarget);
-        if (this.forgotten.containsKey(entry.mob.getUUID())) deAgro = true;
+        if (this.forgotten.containsKey(entry.mob.getUUID()))
+        {
+            deAgro = true;
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Was Marked as Forgotten!");
+        }
 
         agroCheck:
         if (mobB != null && !deAgro)
@@ -131,6 +131,7 @@ public class ForgetTargetTask extends CombatTask
             if (mobB.getCombatState(CombatStates.FAINTED))
             {
                 deAgro = true;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Target Fainted.");
                 break agroCheck;
             }
 
@@ -148,6 +149,7 @@ public class ForgetTargetTask extends CombatTask
             if (bothWild && this.battleTime > ForgetTargetTask.maxWildBattleDur)
             {
                 deAgro = true;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Wild Battle too long.");
                 break agroCheck;
             }
 
@@ -173,7 +175,11 @@ public class ForgetTargetTask extends CombatTask
                 }
             }
         }
-        if (mobA.getCombatState(CombatStates.FAINTED)) deAgro = true;
+        if (mobA.getCombatState(CombatStates.FAINTED))
+        {
+            deAgro = true;
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("we Fainted.");
+        }
 
         agroCheck:
         if (!deAgro)
@@ -245,7 +251,9 @@ public class ForgetTargetTask extends CombatTask
             if (BrainUtils.canSee(this.entity, this.entityTarget)) this.ticksSinceSeen = 0;
 
             // If it has been too long since last seen the target, give up.
-            if (this.ticksSinceSeen++ > 100)
+            int giveUpTimer = 600;
+            if (RootTask.doLoadThrottling) giveUpTimer *= RootTask.runRate;
+            if (this.ticksSinceSeen++ > giveUpTimer)
             {
                 // Send deagress message and put mob on cooldown.
                 final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
@@ -259,6 +267,7 @@ public class ForgetTargetTask extends CombatTask
                     PokecubeCore.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
                 }
                 deAgro = true;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Not seen for too long.");
                 break agroCheck;
             }
 
@@ -277,6 +286,7 @@ public class ForgetTargetTask extends CombatTask
                     PokecubeCore.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
                 }
                 deAgro = true;
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Too far from target.");
                 break agroCheck;
             }
         }
@@ -291,7 +301,15 @@ public class ForgetTargetTask extends CombatTask
     @Override
     public boolean shouldRun()
     {
-        this.entityTarget = BrainUtils.getAttackTarget(this.entity);
+        final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
+
+        if (target != this.entityTarget)
+        {
+            this.battleTime = 0;
+            this.ticksSinceSeen = 0;
+        }
+
+        this.entityTarget = target;
 
         if (this.entityTarget == null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY))
             this.entityTarget = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
@@ -314,5 +332,10 @@ public class ForgetTargetTask extends CombatTask
             this.pokemobTarget.onSetTarget(null, true);
         }
         BrainUtils.deagro(this.entity, this.mutualDeagro);
+
+        this.entityTarget = null;
+        this.pokemobTarget = null;
+        this.battleTime = 0;
+        this.ticksSinceSeen = 0;
     }
 }
