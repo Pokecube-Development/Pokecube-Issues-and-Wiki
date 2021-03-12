@@ -36,9 +36,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
@@ -68,31 +66,15 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
     }
 
     public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
-    private static final Map<Direction, VoxelShape> RAID_SPOT  = new HashMap<>();
 
     String  infoname;
     boolean hasTextInfo = true;
 
-    static {// @formatter:off
-        RAID_SPOT.put(Direction.NORTH, VoxelShapes.or(
-                Block.box(2, 2, 13, 14, 14, 16),
-                Block.box(3, 3, 7, 13, 13, 13)).optimize());
-        RAID_SPOT.put(Direction.EAST, VoxelShapes.or(
-                Block.box(0, 2, 2, 3, 14, 14),
-                Block.box(3, 3, 3, 9, 13, 13)).optimize());
-        RAID_SPOT.put(Direction.SOUTH, VoxelShapes.or(
-                Block.box(2, 2, 0, 14, 14, 3),
-                Block.box(3, 3, 3, 13, 13, 9)).optimize());
-        RAID_SPOT.put(Direction.WEST, VoxelShapes.or(
-                Block.box(13, 2, 2, 16, 14, 14),
-                Block.box(7, 3, 3, 13, 13, 13)).optimize());
-        RAID_SPOT.put(Direction.UP, VoxelShapes.or(
-                Block.box(2, 0, 2, 14, 3, 14),
-                Block.box(3, 3, 3, 13, 9, 13)).optimize());
-        RAID_SPOT.put(Direction.DOWN, VoxelShapes.or(
-                Block.box(2, 13, 2, 14, 16, 14),
-                Block.box(3, 7, 3, 13, 13, 13)).optimize());
-    }
+    // Precise selection box
+    private static final VoxelShape RAID_SPOT = VoxelShapes.or(
+            Block.box(2, 0, 2, 14, 3, 14),
+            Block.box(3, 3, 3, 13, 9, 13)).optimize();
+
 
     public RaidSpawnBlock(final Material material, MaterialColor color)
     {
@@ -106,14 +88,14 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
                                final ISelectionContext context)
     {
-        return RAID_SPOT.get(state.getValue(MaxBlock.FACING));
+        return RAID_SPOT;
     }
 
     @Override
     public VoxelShape getCollisionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
                                         final ISelectionContext context)
     {
-        return RAID_SPOT.get(state.getValue(MaxBlock.FACING));
+        return RAID_SPOT;
     }
 
     @Override
