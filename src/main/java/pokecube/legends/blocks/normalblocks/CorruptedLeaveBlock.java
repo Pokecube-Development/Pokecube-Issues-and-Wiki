@@ -1,7 +1,5 @@
 package pokecube.legends.blocks.normalblocks;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
@@ -13,11 +11,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Random;
+
 public class CorruptedLeaveBlock extends LeavesBlock
 {
     public CorruptedLeaveBlock()
     {
-        super(Properties.of(Material.LEAVES, MaterialColor.COLOR_BROWN).sound(SoundType.SOUL_SAND).strength(1, 2).noOcclusion());
+        super(Properties.of(Material.LEAVES, MaterialColor.COLOR_BLACK).sound(SoundType.SOUL_SAND).strength(1, 2).noOcclusion());
     }
 
     @OnlyIn(Dist.CLIENT)
