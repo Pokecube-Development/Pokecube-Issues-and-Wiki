@@ -33,7 +33,6 @@ public class GuiInfoMessages
             PokecubeCore.LOGGER.warn("Null message was sent!", new NullPointerException());
             return;
         }
-        PokecubeCore.LOGGER.debug("Recieved Message: " + message.getString());
         if (PokecubeCore.getConfig().battleLogInChat)
         {
             if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message,
@@ -67,8 +66,8 @@ public class GuiInfoMessages
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
 
         // TODO possbly fix lighitng here?
-        final int[] mess = GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().messageRef, PokecubeCore
-                .getConfig().messagePos, new int[] { PokecubeCore.getConfig().messageWidth, 7
+        final int[] mess = GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().messageRef,
+                PokecubeCore.getConfig().messagePos, new int[] { PokecubeCore.getConfig().messageWidth, 7
                         * minecraft.font.lineHeight }, (float) PokecubeCore.getConfig().messageSize);
         int x = 0, y = 0;
         final float s = (float) PokecubeCore.getConfig().messageSize;
@@ -131,8 +130,7 @@ public class GuiInfoMessages
             if (index < 0) index = 0;
             if (index > size) break;
             final StringTextComponent mess2 = new StringTextComponent(toUse.get(index));
-            final List<IFormattableTextComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font,
-                    true);
+            final List<IFormattableTextComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font, true);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
                 h = y + texH * shift;
