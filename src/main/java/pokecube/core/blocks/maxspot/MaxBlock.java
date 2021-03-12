@@ -7,6 +7,7 @@ import java.util.Objects;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -27,7 +28,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
-public class MaxBlock extends InteractableHorizontalBlock
+public class MaxBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
     private static final Map<Direction, VoxelShape> DYNAMAX     = new HashMap<>();
     protected static final DirectionProperty        FACING      = HorizontalBlock.FACING;
