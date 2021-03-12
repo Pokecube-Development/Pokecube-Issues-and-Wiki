@@ -33,21 +33,6 @@ public class MaxBlock extends InteractableDirectionalBlock implements IWaterLogg
     protected static final DirectionProperty        FACING      = DirectionalBlock.FACING;
     protected static final BooleanProperty          WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-//    // Precise selection box
-//    private static final VoxelShape DYNAMAX = VoxelShapes.or(
-//            Block.box(2, 0, 2, 14, 3, 14),
-//            Block.box(3, 3, 3, 13, 14, 13)).optimize();
-//    private static final VoxelShape DYNAMAX_COLLISION = VoxelShapes.or(
-//            Block.box(2, 0, 2, 14, 3, 14)).optimize();
-//
-//    // Precise selection box
-//    @Override
-//    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-//                               final ISelectionContext context)
-//    {
-//        return DYNAMAX;
-//    }
-
     static
     {// @formatter:off
         DYNAMAX.put(Direction.NORTH, VoxelShapes.or(
