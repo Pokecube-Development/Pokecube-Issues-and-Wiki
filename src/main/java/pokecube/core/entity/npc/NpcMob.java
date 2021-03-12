@@ -64,11 +64,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
 
     static
     {
-        TYPE = EntityType.Builder.create(NpcMob::new, EntityClassification.CREATURE).setCustomClientFactory((s,
+        TYPE = EntityType.Builder.of(NpcMob::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
     }
 
-    static final DataParameter<String> NAMEDW = EntityDataManager.<String> createKey(NpcMob.class,
+    static final DataParameter<String> NAMEDW = EntityDataManager.<String> defineId(NpcMob.class,
             DataSerializers.STRING);
 
     private NpcType   type       = NpcType.byType("none");
@@ -95,15 +95,15 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     protected NpcMob(final EntityType<? extends NpcMob> type, final World world)
     {
         super(type, world);
-        this.enablePersistence();
+        this.setPersistenceRequired();
         this.location = Vector3.getNewVector();
     }
 
     @Override
-    protected void registerData()
+    protected void defineSynchedData()
     {
-        super.registerData();
-        this.dataManager.register(NpcMob.NAMEDW, "");
+        super.defineSynchedData();
+        this.entityData.define(NpcMob.NAMEDW, "");
     }
 
     private ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addGuard(final GuardAI guardai,
@@ -121,7 +121,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void initBrain(final Brain<VillagerEntity> brain)
+    protected void registerBrainGoals(final Brain<VillagerEntity> brain)
     {
         final IGuardAICapability guard = this.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         if (guard != null)
@@ -129,62 +129,62 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             final GuardAI guardai = new GuardAI(this, guard);
             final VillagerProfession profession = this.getVillagerData().getProfession();
             if (this.getNpcType() != null && this.getNpcType().getProfession() != profession) this.setVillagerData(this
-                    .getVillagerData().withLevel(3).withProfession(this.getNpcType().getProfession()));
+                    .getVillagerData().setLevel(3).setProfession(this.getNpcType().getProfession()));
             final float f = (float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
-            if (this.isChild())
+            if (this.isBaby())
             {
                 brain.setSchedule(Schedules.CHILD);
-                brain.registerActivity(Activity.PLAY, this.addGuard(guardai, Tasks.play(f)));
+                brain.addActivity(Activity.PLAY, this.addGuard(guardai, Tasks.play(f)));
             }
             else
             {
                 brain.setSchedule(Schedules.ADULT);
-                brain.registerActivity(Activity.WORK, this.addGuard(guardai, Tasks.work(profession, f)), ImmutableSet
+                brain.addActivityWithConditions(Activity.WORK, this.addGuard(guardai, Tasks.work(profession, f)), ImmutableSet
                         .of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
             }
-            brain.registerActivity(Activity.CORE, this.addGuard(guardai, Tasks.core(profession, f)));
-            brain.registerActivity(Activity.MEET, this.addGuard(guardai, Tasks.meet(profession, f)), ImmutableSet.of(
+            brain.addActivity(Activity.CORE, this.addGuard(guardai, Tasks.core(profession, f)));
+            brain.addActivityWithConditions(Activity.MEET, this.addGuard(guardai, Tasks.meet(profession, f)), ImmutableSet.of(
                     Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
-            brain.registerActivity(Activity.REST, this.addGuard(guardai, Tasks.rest(profession, f)));
-            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, Tasks.idle(profession, f)));
-            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, Tasks.panic(profession, f)));
-            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, Tasks.preRaid(profession, f)));
-            brain.registerActivity(Activity.RAID, this.addGuard(guardai, Tasks.raid(profession, f)));
-            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, Tasks.hide(profession, f)));
-            brain.registerActivity(Activities.STATIONARY, this.addGuard(guardai, Tasks.stationary(profession, f)));
-            brain.setDefaultActivities(ImmutableSet.of(Activity.CORE));
-            brain.setFallbackActivity(Activity.IDLE);
-            brain.switchTo(Activity.IDLE);
-            brain.updateActivity(this.world.getDayTime(), this.world.getGameTime());
+            brain.addActivity(Activity.REST, this.addGuard(guardai, Tasks.rest(profession, f)));
+            brain.addActivity(Activity.IDLE, this.addGuard(guardai, Tasks.idle(profession, f)));
+            brain.addActivity(Activity.PANIC, this.addGuard(guardai, Tasks.panic(profession, f)));
+            brain.addActivity(Activity.PRE_RAID, this.addGuard(guardai, Tasks.preRaid(profession, f)));
+            brain.addActivity(Activity.RAID, this.addGuard(guardai, Tasks.raid(profession, f)));
+            brain.addActivity(Activity.HIDE, this.addGuard(guardai, Tasks.hide(profession, f)));
+            brain.addActivity(Activities.STATIONARY, this.addGuard(guardai, Tasks.stationary(profession, f)));
+            brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
+            brain.setDefaultActivity(Activity.IDLE);
+            brain.setActiveActivityIfPossible(Activity.IDLE);
+            brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
         }
-        else super.initBrain(brain);
+        else super.registerBrainGoals(brain);
     }
 
     @Override
-    public VillagerEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity p_241840_2_)
+    public VillagerEntity getBreedOffspring(final ServerWorld p_241840_1_, final AgeableEntity p_241840_2_)
     {
         return null;
     }
 
     @Override
-    public void func_241841_a(final ServerWorld p_241841_1_, final LightningBoltEntity p_241841_2_)
+    public void thunderHit(final ServerWorld p_241841_1_, final LightningBoltEntity p_241841_2_)
     {
-        this.forceFireTicks(this.getFireTimer() + 1);
-        if (this.getFireTimer() == 0) this.setFire(8);
-        this.attackEntityFrom(DamageSource.LIGHTNING_BOLT, 5.0F);
+        this.setRemainingFireTicks(this.getRemainingFireTicks() + 1);
+        if (this.getRemainingFireTicks() == 0) this.setSecondsOnFire(8);
+        this.hurt(DamageSource.LIGHTNING_BOLT, 5.0F);
     }
 
     @Override
-    public boolean attackEntityFrom(final DamageSource source, final float i)
+    public boolean hurt(final DamageSource source, final float i)
     {
-        final Entity e = source.getTrueSource();
-        if (e instanceof PlayerEntity && ((PlayerEntity) e).abilities.isCreativeMode && e.isCrouching())
+        final Entity e = source.getEntity();
+        if (e instanceof PlayerEntity && ((PlayerEntity) e).abilities.instabuild && e.isCrouching())
         {
             final PlayerEntity player = (PlayerEntity) e;
-            if (player.getHeldItemMainhand().isEmpty()) this.remove();
+            if (player.getMainHandItem().isEmpty()) this.remove();
         }
         if (this.invuln) return false;
-        return super.attackEntityFrom(source, i);
+        return super.hurt(source, i);
     }
 
     @Override
@@ -196,20 +196,20 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public IPacket<?> createSpawnPacket()
+    public IPacket<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
+    public ILivingEntityData finalizeSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
             final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
     {
         final VillagerProfession proff = this.getNpcType().getProfession();
-        this.setVillagerData(this.getVillagerData().withProfession(proff).withLevel(3));
-        this.getAttribute(Attributes.FOLLOW_RANGE).applyPersistentModifier(new AttributeModifier("Random spawn bonus",
-                this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
-        if (this.rand.nextFloat() < 0.05F) this.setLeftHanded(true);
+        this.setVillagerData(this.getVillagerData().setProfession(proff).setLevel(3));
+        this.getAttribute(Attributes.FOLLOW_RANGE).addPermanentModifier(new AttributeModifier("Random spawn bonus",
+                this.random.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
+        if (this.random.nextFloat() < 0.05F) this.setLeftHanded(true);
         else this.setLeftHanded(false);
         return spawnDataIn;
     }
@@ -223,30 +223,30 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public ActionResultType func_230254_b_(final PlayerEntity player, final Hand hand)
+    public ActionResultType mobInteract(final PlayerEntity player, final Hand hand)
     {
         // if () return ActionResultType
-        // .func_233537_a_(this.world.isRemote);
-        return super.func_230254_b_(player, hand);
+        // .sidedSuccess(this.world.isRemote);
+        return super.mobInteract(player, hand);
     }
 
     @Override
-    public void livingTick()
+    public void aiStep()
     {
-        super.livingTick();
+        super.aiStep();
         if (this.getVillagerData().getProfession() == VillagerProfession.NONE)
         {
             final VillagerProfession proff = this.getNpcType().getProfession();
-            this.setVillagerData(this.getVillagerData().withProfession(proff).withLevel(3));
+            this.setVillagerData(this.getVillagerData().setProfession(proff).setLevel(3));
         }
-        if (this.ticksExisted % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0) this
+        if (this.tickCount % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0) this
                 .setHealth(Math.min(this.getHealth() + 2, this.getMaxHealth()));
     }
 
     @Override
-    public void readAdditional(final CompoundNBT nbt)
+    public void readAdditionalSaveData(final CompoundNBT nbt)
     {
-        if (this.world instanceof ServerWorld) super.readAdditional(nbt);
+        if (this.level instanceof ServerWorld) super.readAdditionalSaveData(nbt);
         this.stationary = nbt.getBoolean("stationary");
         this.setMale(nbt.getBoolean("gender"));
         this.setNPCName(nbt.getString("name"));
@@ -280,9 +280,9 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
                 else display = new StringTextComponent(this.getNPCName());
             }
             else display = new StringTextComponent(this.getNPCName());
-            display.modifyStyle((style) ->
+            display.withStyle((style) ->
             {
-                return style.setHoverEvent(this.getHoverEvent()).setInsertion(this.getCachedUniqueIdString());
+                return style.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID());
             });
             return display;
         }
@@ -292,7 +292,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     @Override
     public void readSpawnData(final PacketBuffer additionalData)
     {
-        final CompoundNBT nbt = additionalData.readCompoundTag();
+        final CompoundNBT nbt = additionalData.readNbt();
         this.stationary = nbt.getBoolean("stationary");
         this.setMale(nbt.getBoolean("gender"));
         this.setNPCName(nbt.getString("name"));
@@ -312,9 +312,9 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void writeAdditional(final CompoundNBT nbt)
+    public void addAdditionalSaveData(final CompoundNBT nbt)
     {
-        super.writeAdditional(nbt);
+        super.addAdditionalSaveData(nbt);
         nbt.putBoolean("gender", this.isMale());
         nbt.putString("name", this.getNPCName());
         nbt.putBoolean("stationary", this.stationary);
@@ -337,14 +337,14 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         nbt.putString("urlSkin", this.urlSkin);
         nbt.putString("customTex", this.customTex);
         nbt.putString("type", this.getNpcType().getName());
-        buffer.writeCompoundTag(nbt);
+        buffer.writeNbt(nbt);
     }
 
     @Override
-    protected void onVillagerTrade(final MerchantOffer offer)
+    protected void rewardTradeXp(final MerchantOffer offer)
     {
         this.use_offer.accept(offer);
-        super.onVillagerTrade(offer);
+        super.rewardTradeXp(offer);
     }
 
     public void resetTrades()
@@ -363,13 +363,13 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         {
             this.offers = new MerchantOffers();
             this.onSetOffers();
-            this.populateTradeData();
+            this.updateTrades();
         }
         return this.offers;
     }
 
     @Override
-    protected void populateTradeData()
+    protected void updateTrades()
     {
         if (this.offers != null) this.offers.clear();
         this.init_offers.accept(this.offers);
@@ -423,11 +423,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
 
     public String getNPCName()
     {
-        return this.dataManager.get(NpcMob.NAMEDW);
+        return this.entityData.get(NpcMob.NAMEDW);
     }
 
     public void setNPCName(final String name)
     {
-        this.dataManager.set(NpcMob.NAMEDW, name);
+        this.entityData.set(NpcMob.NAMEDW, name);
     }
 }

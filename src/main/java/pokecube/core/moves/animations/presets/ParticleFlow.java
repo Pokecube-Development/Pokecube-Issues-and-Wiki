@@ -49,7 +49,7 @@ public class ParticleFlow extends MoveAnimationBase
     {
         final Vector3 source = this.reverse ? info.target : info.source;
         final Vector3 target = this.reverse ? info.source : info.target;
-        this.initColour(info.attacker.getEntityWorld().getDayTime() * 20, 0, info.move);
+        this.initColour(info.attacker.getCommandSenderWorld().getDayTime() * 20, 0, info.move);
         final double dist = source.distanceTo(target);
         final double frac2 = info.currentTick / (float) this.getDuration();
         final double frac = dist * frac2;
@@ -74,7 +74,7 @@ public class ParticleFlow extends MoveAnimationBase
                 if (this.flat) temp1.set(angleF.scalarMult(factor * (0.5 - rand.nextDouble())));
                 else temp1.set(factor * (0.5 - rand.nextDouble()), factor * (0.5 - rand.nextDouble()), factor * (0.5
                         - rand.nextDouble()));
-                PokecubeCore.spawnParticle(info.attacker.getEntityWorld(), this.particle, source.add(temp.scalarMult(i)
+                PokecubeCore.spawnParticle(info.attacker.getCommandSenderWorld(), this.particle, source.add(temp.scalarMult(i)
                         .addTo(temp1)), dir, this.rgba, this.particleLife);
             }
         }

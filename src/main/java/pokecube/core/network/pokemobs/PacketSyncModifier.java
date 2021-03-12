@@ -15,9 +15,9 @@ public class PacketSyncModifier extends Packet
     public static void sendUpdate(final String type, final IPokemob pokemob)
     {
         if (pokemob == null) return;
-        if (!pokemob.getEntity().addedToChunk) return;
+        if (!pokemob.getEntity().inChunk) return;
         final PacketSyncModifier packet = new PacketSyncModifier();
-        packet.entityId = pokemob.getEntity().getEntityId();
+        packet.entityId = pokemob.getEntity().getId();
         packet.modifier = pokemob.getModifiers().indecies.get(type);
         for (final Stats stat : Stats.values())
             packet.values[stat.ordinal()] = pokemob.getModifiers().sortedModifiers.get(packet.modifier).getModifierRaw(
@@ -48,7 +48,7 @@ public class PacketSyncModifier extends Packet
         final int id = this.entityId;
         final int modifier = this.modifier;
         final float[] values = this.values;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         final IPokemob mob = CapabilityPokemob.getPokemobFor(e);
         if (mob != null)
         {

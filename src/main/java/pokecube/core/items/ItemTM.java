@@ -25,7 +25,7 @@ public class ItemTM extends Item
 
     public static boolean applyEffect(final LivingEntity mob, final ItemStack stack)
     {
-        if (mob.getEntityWorld().isRemote) return stack.hasTag();
+        if (mob.getCommandSenderWorld().isClientSide) return stack.hasTag();
         if (stack.hasTag()) return ItemTM.feedToPokemob(stack, mob);
         return false;
     }
@@ -63,7 +63,7 @@ public class ItemTM extends Item
         nbt.putString("move", move.trim());
         stack.setTag(nbt);
         final ITextComponent name = MovesUtils.getMoveName(move.trim());
-        stack.setDisplayName(name);
+        stack.setHoverName(name);
         return stack;
     }
 
@@ -110,7 +110,7 @@ public class ItemTM extends Item
      * ItemStack's NBT tag will be sent to the client.
      */
     @Override
-    public boolean shouldSyncTag()
+    public boolean shouldOverrideMultiplayerNbt()
     {
         return true;
     }

@@ -97,7 +97,7 @@ public final class PacketAssembly<T extends NBTPacket>
 
     protected CompoundNBT onRead(final CompoundNBT tag)
     {
-        final UUID id = tag.getUniqueId("id");
+        final UUID id = tag.getUUID("id");
         final CompoundNBT made = this.assemblePacket(id, tag);
         return made;
     }
@@ -129,7 +129,7 @@ public final class PacketAssembly<T extends NBTPacket>
                 // The raw byte data to write
                 container.put("data", new ByteArrayNBT(part));
                 // Include who's packet we go to
-                container.putUniqueId("id", id);
+                container.putUUID("id", id);
                 pkts.add(container);
             }
 
@@ -177,7 +177,7 @@ public final class PacketAssembly<T extends NBTPacket>
             {
                 final DataInputStream dis = new DataInputStream(new BufferedInputStream(new GZIPInputStream(
                         new ByteArrayInputStream(tmp))));
-                final CompoundNBT tag = CompressedStreamTools.read(dis, NBTSizeTracker.INFINITE);
+                final CompoundNBT tag = CompressedStreamTools.read(dis, NBTSizeTracker.UNLIMITED);
                 dis.close();
                 return tag;
             }

@@ -50,7 +50,7 @@ public class PerTypeProgress extends Progress
     {
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
-            final String text = this.text.getText();
+            final String text = this.text.getValue();
             final List<String> ret = new ArrayList<>();
             for (final PokeType type : PokeType.values())
             {
@@ -61,19 +61,19 @@ public class PerTypeProgress extends Progress
                     ret.add(name);
                 }
             }
-            if (!ret.isEmpty()) this.text.setText(ret.get(0));
+            if (!ret.isEmpty()) this.text.setValue(ret.get(0));
             return true;
         }
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
-            final PokeType newType = PokeType.getType(this.text.getText());
+            final PokeType newType = PokeType.getType(this.text.getValue());
             if (newType != null)
             {
-                this.text.setText(PokeType.getTranslatedName(newType).getString());
+                this.text.setValue(PokeType.getTranslatedName(newType).getString());
                 this.type = newType;
                 this.onPageOpened();
             }
-            else this.text.setText(PokeType.getTranslatedName(this.type).getString());
+            else this.text.setValue(PokeType.getTranslatedName(this.type).getString());
             return true;
         }
         return super.keyPressed(keyCode, b, c);
@@ -100,18 +100,18 @@ public class PerTypeProgress extends Progress
         }
         PlayerEntity player = this.watch.player;
         if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
-        this.text.setText(PokeType.getTranslatedName(this.type).getString());
+        this.text.setValue(PokeType.getTranslatedName(this.type).getString());
 
         final int total_of_type = SpecialCaseRegister.countSpawnableTypes(this.type);
 
-        this.caught0 = CaptureStats.getUniqueOfTypeCaughtBy(player.getUniqueID(), this.type);
-        this.caught1 = CaptureStats.getTotalOfTypeCaughtBy(player.getUniqueID(), this.type);
+        this.caught0 = CaptureStats.getUniqueOfTypeCaughtBy(player.getUUID(), this.type);
+        this.caught1 = CaptureStats.getTotalOfTypeCaughtBy(player.getUUID(), this.type);
 
-        this.hatched0 = EggStats.getUniqueOfTypeHatchedBy(player.getUniqueID(), this.type);
-        this.hatched1 = EggStats.getTotalOfTypeHatchedBy(player.getUniqueID(), this.type);
+        this.hatched0 = EggStats.getUniqueOfTypeHatchedBy(player.getUUID(), this.type);
+        this.hatched1 = EggStats.getTotalOfTypeHatchedBy(player.getUUID(), this.type);
 
-        this.killed0 = KillStats.getUniqueOfTypeKilledBy(player.getUniqueID(), this.type);
-        this.killed1 = KillStats.getTotalOfTypeKilledBy(player.getUniqueID(), this.type);
+        this.killed0 = KillStats.getUniqueOfTypeKilledBy(player.getUUID(), this.type);
+        this.killed1 = KillStats.getTotalOfTypeKilledBy(player.getUUID(), this.type);
 
         final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.type.caught",
                 this.caught1, this.caught0, this.type, total_of_type);
@@ -121,9 +121,9 @@ public class PerTypeProgress extends Progress
                 this.hatched1, this.hatched0, this.type, total_of_type);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
-        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
+        final AxisAlignedBB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
                 .getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getEntityWorld().getEntitiesInAABBexcluding(this.watch.player,
+        final List<Entity> otherMobs = this.watch.player.getCommandSenderWorld().getEntities(this.watch.player,
                 bb, input ->
                 {
                     IPokemob pokemob;

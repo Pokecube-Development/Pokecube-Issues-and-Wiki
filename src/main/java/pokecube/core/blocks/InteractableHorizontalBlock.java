@@ -28,48 +28,48 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
 
     public InteractableHorizontalBlock(final Properties properties, final MaterialColor color)
     {
-        super(Properties.create(Material.IRON, color).hardnessAndResistance(3.0f, 5.0f).harvestTool(ToolType.PICKAXE));
-        this.setDefaultState(this.stateContainer.getBaseState().with(HorizontalBlock.HORIZONTAL_FACING,
+        super(Properties.of(Material.METAL, color).strength(3.0f, 5.0f).harvestTool(ToolType.PICKAXE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HorizontalBlock.FACING,
                 Direction.NORTH));
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
-        builder.add(HorizontalBlock.HORIZONTAL_FACING);
+        builder.add(HorizontalBlock.FACING);
     }
 
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        return this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING,
-                context.getPlacementHorizontalFacing().getOpposite());
+        return this.defaultBlockState().setValue(HorizontalBlock.FACING,
+                context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
-        final TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getBlockEntity(pos);
         if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
         return ActionResultType.PASS;
     }
 
     @Override
-    public void onEntityWalk(final World worldIn, final BlockPos pos, final Entity entityIn)
+    public void stepOn(final World worldIn, final BlockPos pos, final Entity entityIn)
     {
-        final TileEntity tile = worldIn.getTileEntity(pos);
+        final TileEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onReplaced(final BlockState state, final World worldIn, final BlockPos pos, final BlockState newState,
+    public void onRemove(final BlockState state, final World worldIn, final BlockPos pos, final BlockState newState,
             final boolean isMoving)
     {
         if (state.getBlock() != newState.getBlock())
         {
-            final TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof InteractableTile) ((InteractableTile) tileentity).onBroken();
             if (tileentity == null)
             {
@@ -77,8 +77,8 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
             }
             else if (tileentity instanceof IInventory)
             {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
-                worldIn.updateComparatorOutputLevel(pos, this);
+                InventoryHelper.dropContents(worldIn, pos, (IInventory) tileentity);
+                worldIn.updateNeighbourForOutputSignal(pos, this);
             }
             else
             {
@@ -91,28 +91,28 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
                     {
 
                         @Override
-                        public void clear()
+                        public void clearContent()
                         {
                         }
 
                         @Override
-                        public void setInventorySlotContents(final int index, final ItemStack stack)
+                        public void setItem(final int index, final ItemStack stack)
                         {
                         }
 
                         @Override
-                        public ItemStack removeStackFromSlot(final int index)
+                        public ItemStack removeItemNoUpdate(final int index)
                         {
                             return ItemStack.EMPTY;
                         }
 
                         @Override
-                        public void markDirty()
+                        public void setChanged()
                         {
                         }
 
                         @Override
-                        public boolean isUsableByPlayer(final PlayerEntity player)
+                        public boolean stillValid(final PlayerEntity player)
                         {
                             return false;
                         }
@@ -124,28 +124,28 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
                         }
 
                         @Override
-                        public ItemStack getStackInSlot(final int index)
+                        public ItemStack getItem(final int index)
                         {
                             return items.getStackInSlot(index);
                         }
 
                         @Override
-                        public int getSizeInventory()
+                        public int getContainerSize()
                         {
                             return items.getSlots();
                         }
 
                         @Override
-                        public ItemStack decrStackSize(final int index, final int count)
+                        public ItemStack removeItem(final int index, final int count)
                         {
                             return ItemStack.EMPTY;
                         }
                     };
-                    InventoryHelper.dropInventoryItems(worldIn, pos, inventory);
-                    worldIn.updateComparatorOutputLevel(pos, this);
+                    InventoryHelper.dropContents(worldIn, pos, inventory);
+                    worldIn.updateNeighbourForOutputSignal(pos, this);
                 }
             }
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 }

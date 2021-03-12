@@ -91,7 +91,7 @@ public class BreedPokemobTrigger implements ICriterionTrigger<BreedPokemobTrigge
             List<ICriterionTrigger.Listener<BreedPokemobTrigger.Instance>> list = null;
 
             for (final ICriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener : this.listeners)
-                if (listener.getCriterionInstance().test(player, first, second))
+                if (listener.getTriggerInstance().test(player, first, second))
                 {
                     if (list == null)
                         list = Lists.<ICriterionTrigger.Listener<BreedPokemobTrigger.Instance>> newArrayList();
@@ -99,7 +99,7 @@ public class BreedPokemobTrigger implements ICriterionTrigger<BreedPokemobTrigge
                     list.add(listener);
                 }
             if (list != null) for (final ICriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener1 : list)
-                listener1.grantCriterion(this.playerAdvancements);
+                listener1.run(this.playerAdvancements);
         }
     }
 
@@ -112,7 +112,7 @@ public class BreedPokemobTrigger implements ICriterionTrigger<BreedPokemobTrigge
     }
 
     @Override
-    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+    public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener)
     {
         BreedPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -133,13 +133,13 @@ public class BreedPokemobTrigger implements ICriterionTrigger<BreedPokemobTrigge
     }
 
     @Override
-    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
+    public void removePlayerListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+    public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener)
     {
         final BreedPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -159,9 +159,9 @@ public class BreedPokemobTrigger implements ICriterionTrigger<BreedPokemobTrigge
     }
 
     @Override
-    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         final String mate1 = json.has("mate1") ? json.get("mate1").getAsString() : "";
         final String mate2 = json.has("mate2") ? json.get("mate2").getAsString() : "";
         return new BreedPokemobTrigger.Instance(pred, Database.getEntry(mate1), Database.getEntry(mate2));

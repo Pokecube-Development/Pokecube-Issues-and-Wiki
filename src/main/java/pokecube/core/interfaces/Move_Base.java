@@ -331,7 +331,7 @@ public abstract class Move_Base
     {
         final Vector3 pos = Vector3.getNewVector();
         final float scale = (float) PokecubeCore.getConfig().moveVolumeCry;
-        final World world = attacker.getEntityWorld();
+        final World world = attacker.getCommandSenderWorld();
         final float pitch = 1;
         final float volume = 1 * scale;
         if (attacker != null) if (this.soundUser != null || this.move.baseEntry.soundEffectSource != null)
@@ -345,7 +345,7 @@ public abstract class Move_Base
                 this.move.baseEntry.soundEffectSource = null;
             }
             pos.set(attacker);
-            if (this.soundUser != null) world.playSound(pos.x, pos.y, pos.z, this.soundUser, SoundCategory.HOSTILE,
+            if (this.soundUser != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundUser, SoundCategory.HOSTILE,
                     volume, pitch, true);
         }
         if (attacked != null)
@@ -362,7 +362,7 @@ public abstract class Move_Base
                     this.move.baseEntry.soundEffectTarget = null;
                 }
                 pos.set(attacked);
-                if (this.soundTarget != null) world.playSound(pos.x, pos.y, pos.z, this.soundTarget,
+                if (this.soundTarget != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget,
                         SoundCategory.HOSTILE, volume, pitch, true);
             }
         }
@@ -378,7 +378,7 @@ public abstract class Move_Base
                 this.move.baseEntry.soundEffectTarget = null;
             }
             pos.set(targetPos);
-            if (this.soundTarget != null) world.playSound(pos.x, pos.y, pos.z, this.soundTarget, SoundCategory.HOSTILE,
+            if (this.soundTarget != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget, SoundCategory.HOSTILE,
                     volume, pitch, true);
         }
     }

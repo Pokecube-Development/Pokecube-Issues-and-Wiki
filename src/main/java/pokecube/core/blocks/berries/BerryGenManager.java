@@ -49,6 +49,7 @@ import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -93,7 +94,8 @@ public class BerryGenManager
     public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
 
     public static final RuleEntry REPLACEABLEONLY = new RuleEntry(AlwaysTrueRuleTest.INSTANCE, new TagMatchRuleTest(
-            BlockTags.getCollection().getTagByID(BerryGenManager.REPLACETAG)), Blocks.STRUCTURE_VOID.getDefaultState());
+            BlockTags.getAllTags().getTagOrEmpty(BerryGenManager.REPLACETAG)), Blocks.STRUCTURE_VOID
+                    .defaultBlockState());
 
     public static final NotRuleProcessor NOREPLACE = new NotRuleProcessor(ImmutableList.of(
             BerryGenManager.REPLACEABLEONLY));
@@ -190,7 +192,7 @@ public class BerryGenManager
         }
 
         @Override
-        public Decoration getDecorationStage()
+        public Decoration step()
         {
             return Decoration.SURFACE_STRUCTURES;
         }
@@ -204,7 +206,7 @@ public class BerryGenManager
         @Override
         public void growTree(final ServerWorld world, final BlockPos cropPos, final int berryId)
         {
-            Structure.init();
+            Structure.bootstrap();
             final int chunkX = cropPos.getX() >> 4;
             final int chunkZ = cropPos.getZ() >> 4;
             final Biome biome = world.getBiome(cropPos);
@@ -214,13 +216,13 @@ public class BerryGenManager
             yMin = 0;
             zMin = cropPos.getZ() - 32;
             xMax = cropPos.getX() + 32;
-            yMax = world.getHeight();
+            yMax = world.getMaxBuildHeight();
             zMax = cropPos.getZ() + 32;
             for (int i = -2; i <= 2; i++)
                 for (int j = -2; j <= 2; j++)
                     world.getChunk(i + chunkX, j + chunkZ);
             final MutableBoundingBox bounds = new MutableBoundingBox(xMin, yMin, zMin, xMax, yMax, zMax);
-            final Start make = new Start(null, chunkX, chunkZ, bounds, 0, cropPos.toLong() + world.getSeed() + world
+            final Start make = new Start(null, chunkX, chunkZ, bounds, 0, cropPos.asLong() + world.getSeed() + world
                     .getGameTime());
             make.berryType = BerryManager.berryNames.get(berryId);
             final Random rand = make.build(world, biome, this, cropPos, this.jigsaw);
@@ -230,39 +232,38 @@ public class BerryGenManager
 
                 boolean valid = true;
                 parts:
-                for (final StructurePiece part : make.getComponents())
+                for (final StructurePiece part : make.getPieces())
                     if (part instanceof AbstractVillagePiece)
                     {
                         final AbstractVillagePiece p = (AbstractVillagePiece) part;
-                        if (p.getJigsawPiece() instanceof CustomJigsawPiece)
+                        if (p.getElement() instanceof CustomJigsawPiece)
                         {
-                            final BlockPos pos = p.getPos();
-                            final CustomJigsawPiece piece = (CustomJigsawPiece) p.getJigsawPiece();
+                            final BlockPos pos = p.getPosition();
+                            final CustomJigsawPiece piece = (CustomJigsawPiece) p.getElement();
                             parts.add(piece);
-                            final Template t = piece.getTemplate(world.getStructureTemplateManager());
+                            final Template t = piece.getTemplate(world.getStructureManager());
                             valid = true;
                             piece.overrideList = WorldgenFeatures.BERRYLIST;
                             // TODO find out why this sometimes fails
-                            final PlacementSettings settings = piece.func_230379_a_(p.getRotation(), bounds, false);
+                            final PlacementSettings settings = piece.getSettings(p.getRotation(), bounds, false);
                             // DOLATER find out what the second block pos is
                             final List<BlockInfo> list = Template.processBlockInfos(world, pos, pos, settings, settings
-                                    .func_237132_a_(t.blocks, pos).func_237157_a_(), t);
+                                    .getRandomPalette(t.palettes, pos).blocks(), t);
                             for (final BlockInfo i : list)
                                 if (i != null && i.state != null && !(i.state.getBlock() == Blocks.JIGSAW || i.state
                                         .getBlock() == Blocks.STRUCTURE_VOID))
                                 {
                                     final BlockState state = world.getBlockState(i.pos);
                                     if (state != null && state.getBlock() != Blocks.AIR)
-                                        valid = BerryGenManager.REPLACEABLEONLY.func_237110_a_(state, state, pos, pos,
-                                                pos, rand);
+                                        valid = BerryGenManager.REPLACEABLEONLY.test(state, state, pos, pos, pos, rand);
                                     if (!valid) break parts;
                                 }
                         }
                     }
                 if (valid)
                 {
-                    world.setBlockState(cropPos, Blocks.AIR.getDefaultState());
-                    make.reallyBuild(world, world.getChunkProvider().getChunkGenerator(), cropPos);
+                    world.setBlockAndUpdate(cropPos, Blocks.AIR.defaultBlockState());
+                    make.reallyBuild(world, world.getChunkSource().getGenerator(), cropPos);
                 }
                 for (final CustomJigsawPiece part : parts)
                     part.overrideList = null;
@@ -280,7 +281,7 @@ public class BerryGenManager
             }
 
             @Override
-            public void func_230364_a_(final DynamicRegistries p_230364_1_, final ChunkGenerator p_230364_2_,
+            public void generatePieces(final DynamicRegistries p_230364_1_, final ChunkGenerator p_230364_2_,
                     final TemplateManager p_230364_3_, final int p_230364_4_, final int p_230364_5_,
                     final Biome p_230364_6_, final JigsawConfig p_230364_7_)
             {
@@ -289,22 +290,22 @@ public class BerryGenManager
 
             public void reallyBuild(final ServerWorld world, final ChunkGenerator generator, final BlockPos pos)
             {
-                this.func_230366_a_(world, world.func_241112_a_(), generator, this.rand, MutableBoundingBox
-                        .func_236990_b_(), new ChunkPos(pos));
+                this.placeInChunk(world, world.structureFeatureManager(), generator, this.random, MutableBoundingBox
+                        .infinite(), new ChunkPos(pos));
             }
 
             public Random build(final ServerWorld world, final Biome biome, final JigsawGrower grower,
                     final BlockPos pos, final BerryJigsaw jigsaw)
             {
-                final ChunkGenerator chunkGenerator = world.getChunkProvider().generator;
-                final TemplateManager manager = world.getStructureTemplateManager();
+                final ChunkGenerator chunkGenerator = world.getChunkSource().generator;
+                final TemplateManager manager = world.getStructureManager();
                 final JigsawAssmbler assembler = new JigsawAssmbler(jigsaw);
-                final boolean built = assembler.build(world.func_241828_r(), new ResourceLocation(jigsaw.root),
-                        jigsaw.size, AbstractVillagePiece::new, chunkGenerator, manager, pos, this.components,
-                        this.rand, biome, this.isValid(jigsaw), pos.getY());
+                final boolean built = assembler.build(world.registryAccess(), new ResourceLocation(jigsaw.root),
+                        jigsaw.size, AbstractVillagePiece::new, chunkGenerator, manager, pos, this.pieces, this.random,
+                        biome, this.isValid(jigsaw), pos.getY());
                 if (!built) return null;
-                this.recalculateStructureSize();
-                return this.rand;
+                this.calculateBoundingBox();
+                return this.random;
             }
 
             private Predicate<JigsawPiece> isValid(final BerryJigsaw jigsaw)
@@ -326,20 +327,20 @@ public class BerryGenManager
 
         public GenericGrower(final BlockState trunk)
         {
-            if (trunk == null) this.wood = Blocks.OAK_LOG.getDefaultState();
+            if (trunk == null) this.wood = Blocks.OAK_LOG.defaultBlockState();
             else this.wood = trunk;
         }
 
         @Override
         public void growTree(final ServerWorld world, final BlockPos pos, final int berryId)
         {
-            final int l = world.rand.nextInt(1) + 6;
+            final int l = world.random.nextInt(1) + 6;
             boolean flag = true;
             BlockPos temp;
             final int y = pos.getY();
             final int z = pos.getZ();
             final int x = pos.getX();
-            if (y >= 1 && y + l + 1 <= world.getHeight())
+            if (y >= 1 && y + l + 1 <= world.getMaxBuildHeight())
             {
                 int i1;
                 byte b0;
@@ -356,12 +357,12 @@ public class BerryGenManager
 
                     for (int l1 = x - b0; l1 <= x + b0 && flag; ++l1)
                         for (j1 = z - b0; j1 <= z + b0 && flag; ++j1)
-                            if (i1 >= 0 && i1 < world.getHeight())
+                            if (i1 >= 0 && i1 < world.getMaxBuildHeight())
                             {
                                 temp = new BlockPos(l1, i1, j1);
                                 final BlockState state = world.getBlockState(temp);
                                 final Block block = world.getBlockState(temp).getBlock();
-                                if (!world.isAirBlock(temp) && !PokecubeTerrainChecker.isLeaves(world.getBlockState(
+                                if (!world.isEmptyBlock(temp) && !PokecubeTerrainChecker.isLeaves(world.getBlockState(
                                         temp)) && block != Blocks.GRASS && block != Blocks.DIRT
                                         && !PokecubeTerrainChecker.isWood(state)) flag = false;
                             }
@@ -369,17 +370,17 @@ public class BerryGenManager
                 }
                 flag = true;
                 if (!flag) return;
-                temp = pos.down();
-                final Block soil = world.getBlockState(temp).getBlock();
-                final boolean isSoil = true;// (soil != null &&
-                // soil.canSustainPlant(par1World,
-                // par3,
-                // par4 - 1, par5, Direction.UP,
-                // (BlockSapling)Block.sapling));
+                temp = pos.below();
+                BlockState state = world.getBlockState(temp);
+                // final Block soil = state.getBlock();
+                final boolean isSoil = true;
+                // TODO This used to check canSustainPlant, maybe we should?
 
-                if (isSoil && y < world.getHeight() - l - 1)
+                if (isSoil && y < world.getMaxBuildHeight() - l - 1)
                 {
-                    soil.onPlantGrow(world.getBlockState(temp), world, temp, pos);
+                    // This is what onPlantGrow did.
+                    if (state.is(Tags.Blocks.DIRT)) world.setBlock(pos, Blocks.DIRT.defaultBlockState(), 2);
+
                     b0 = 3;
                     final byte b1 = 0;
                     int i2;
@@ -399,29 +400,29 @@ public class BerryGenManager
                             {
                                 final int i3 = l2 - z;
 
-                                if (Math.abs(k2) != i2 || Math.abs(i3) != i2 || world.rand.nextInt(2) != 0 && k1 != 0)
+                                if (Math.abs(k2) != i2 || Math.abs(i3) != i2 || world.random.nextInt(2) != 0 && k1 != 0)
                                 {
                                     temp = new BlockPos(j2, j1, l2);
                                     final Block block = world.getBlockState(temp).getBlock();
 
                                     if (block == null || block.canBeReplacedByLeaves(world.getBlockState(temp), world,
-                                            temp)) if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world,
+                                            temp)) if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world,
                                                     temp, berryId);
                                 }
                             }
                         }
                     }
 
-                    world.setBlockState(pos, this.wood);
+                    world.setBlockAndUpdate(pos, this.wood);
                     for (j1 = 0; j1 < l; ++j1)
                     {
                         temp = new BlockPos(x, y + j1, z);
-                        final BlockState state = world.getBlockState(temp);
+                        state = world.getBlockState(temp);
                         final Block block = state.getBlock();
 
                         if (block == null || block.isAir(world.getBlockState(temp), world, temp)
                                 || PokecubeTerrainChecker.isLeaves(world.getBlockState(temp)) && state
-                                        .getMaterial() == Material.LEAVES) world.setBlockState(temp, this.wood);
+                                        .getMaterial() == Material.LEAVES) world.setBlockAndUpdate(temp, this.wood);
                     }
                 }
             }
@@ -434,22 +435,22 @@ public class BerryGenManager
 
         public PalmGrower(final BlockState trunk)
         {
-            if (trunk == null) this.wood = Blocks.JUNGLE_LOG.getDefaultState();
+            if (trunk == null) this.wood = Blocks.JUNGLE_LOG.defaultBlockState();
             else this.wood = trunk;
         }
 
         @Override
         public void growTree(final ServerWorld world, final BlockPos pos, final int berryId)
         {
-            final int l = world.rand.nextInt(1) + 5;
+            final int l = world.random.nextInt(1) + 5;
             BlockPos temp;
-            if (pos.getY() >= 1 && pos.getY() + l + 1 <= world.getHeight())
+            if (pos.getY() >= 1 && pos.getY() + l + 1 <= world.getMaxBuildHeight())
             {
                 boolean stopped = false;
                 // Trunk
-                world.setBlockState(pos, this.wood);
+                world.setBlockAndUpdate(pos, this.wood);
                 for (int i = 1; i < l; i++)
-                    if (world.isAirBlock(temp = pos.up(i))) world.setBlockState(temp, this.wood);
+                    if (world.isEmptyBlock(temp = pos.above(i))) world.setBlockAndUpdate(temp, this.wood);
                     else
                     {
                         stopped = true;
@@ -465,7 +466,7 @@ public class BerryGenManager
                         d = i / 3;
                         temp = new BlockPos(pos.getX(), pos.getY() + l - d, pos.getZ() + i);
 
-                        if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
+                        if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
                         else if (i != 0)
                         {
                             stopped = true;
@@ -474,7 +475,7 @@ public class BerryGenManager
                         if (d1 != d)
                         {
                             temp = new BlockPos(pos.getX(), pos.getY() + l - d, pos.getZ() + i - 1);
-                            if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
+                            if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
                         }
 
                         d1 = d;
@@ -484,7 +485,7 @@ public class BerryGenManager
                     {
                         d = i / 3;
                         temp = new BlockPos(pos.getX(), pos.getY() + l - d, pos.getZ() - i);
-                        if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
+                        if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
                         else if (i != 0)
                         {
                             stopped = true;
@@ -493,7 +494,7 @@ public class BerryGenManager
                         if (d1 != d)
                         {
                             temp = new BlockPos(pos.getX(), pos.getY() + l - d, pos.getZ() - i + 1);
-                            if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
+                            if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
                         }
                         d1 = d;
                     }
@@ -502,7 +503,7 @@ public class BerryGenManager
                     {
                         d = i / 3;
                         temp = new BlockPos(pos.getX() + i, pos.getY() + l - d, pos.getZ());
-                        if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
+                        if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
                         else if (i != 0)
                         {
                             stopped = true;
@@ -511,7 +512,7 @@ public class BerryGenManager
                         if (d1 != d)
                         {
                             temp = new BlockPos(pos.getX() + i - 1, pos.getY() + l - d, pos.getZ());
-                            if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
+                            if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
                         }
                         d1 = d;
                     }
@@ -521,7 +522,7 @@ public class BerryGenManager
                         d = i / 3;
                         temp = new BlockPos(pos.getX() - i, pos.getY() + l - d, pos.getZ());
 
-                        if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
+                        if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
                         else if (i != 0)
                         {
                             stopped = true;
@@ -530,7 +531,7 @@ public class BerryGenManager
                         if (d1 != d)
                         {
                             temp = new BlockPos(pos.getX() - i + 1, pos.getY() + l - d, pos.getZ());
-                            if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
+                            if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world, temp, berryId);
                         }
                         d1 = d;
                     }
@@ -586,8 +587,8 @@ public class BerryGenManager
         if (toMatch == null) return ItemStack.EMPTY;
         final List<ItemStack> options = BerryGenManager.berryLocations.get(toMatch);
         if (options == null || options.isEmpty()) return ItemStack.EMPTY;
-        final ItemStack ret = options.get(world.rand.nextInt(options.size())).copy();
-        final int size = 1 + world.rand.nextInt(ret.getCount() + 15);
+        final ItemStack ret = options.get(world.random.nextInt(options.size())).copy();
+        final int size = 1 + world.random.nextInt(ret.getCount() + 15);
         ret.setCount(size);
         return ret;
     }
@@ -595,7 +596,7 @@ public class BerryGenManager
     private static void loadConfig()
     {
         BerryGenManager.list = new BerryGenList();
-        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(BerryGenManager.DATABASES,
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(BerryGenManager.DATABASES,
                 s -> s.endsWith(".json"));
         for (final ResourceLocation s : resources)
             try
@@ -658,7 +659,7 @@ public class BerryGenManager
             PokecubeCore.LOGGER.error("Trying to make leaves for unregistered berry: " + id);
             leaves = Blocks.OAK_LEAVES.getBlock();
         }
-        world.setBlockState(pos, leaves.getDefaultState());
+        world.setBlockAndUpdate(pos, leaves.defaultBlockState());
     }
 
 }

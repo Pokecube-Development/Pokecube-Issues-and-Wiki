@@ -43,14 +43,14 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         this.runType = type;
         tasks.forEach((pair) ->
         {
-            this.tasks.func_226313_a_(pair.getFirst(), pair.getSecond());
+            this.tasks.add(pair.getFirst(), pair.getSecond());
         });
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
+    protected boolean canStillUse(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
-        return this.tasks.func_220655_b().filter((task) ->
+        return this.tasks.stream().filter((task) ->
         {
             return task.getStatus() == Task.Status.RUNNING;
         }).anyMatch((task) ->
@@ -68,47 +68,47 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     }
 
     @Override
-    protected boolean isTimedOut(final long gameTime)
+    protected boolean timedOut(final long gameTime)
     {
         return false;
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
         this.ordering.apply(this.tasks);
         this.runType.process(this.tasks, worldIn, entityIn, gameTimeIn);
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final E owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final E owner, final long gameTime)
     {
-        this.tasks.func_220655_b().filter((task) ->
+        this.tasks.stream().filter((task) ->
         {
             return task.getStatus() == Task.Status.RUNNING;
         }).forEach((task) ->
         {
-            task.tick(worldIn, owner, gameTime);
+            task.tickOrStop(worldIn, owner, gameTime);
         });
     }
 
     @Override
-    protected void resetTask(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
+    protected void stop(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
-        this.tasks.func_220655_b().filter((task) ->
+        this.tasks.stream().filter((task) ->
         {
             return task.getStatus() == Task.Status.RUNNING;
         }).forEach((task) ->
         {
-            task.stop(worldIn, entityIn, gameTimeIn);
+            task.doStop(worldIn, entityIn, gameTimeIn);
         });
-        this.memoryModules.forEach(entityIn.getBrain()::removeMemory);
+        this.memoryModules.forEach(entityIn.getBrain()::eraseMemory);
     }
 
     @Override
     public String toString()
     {
-        final Set<? extends Task<? super E>> set = this.tasks.func_220655_b().filter((task) ->
+        final Set<? extends Task<? super E>> set = this.tasks.stream().filter((task) ->
         {
             return task.getStatus() == Task.Status.RUNNING;
         }).collect(Collectors.toSet());
@@ -119,7 +119,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     {
         ORDERED((list) ->
         {
-        }), SHUFFLED(WeightedList::func_226309_a_);
+        }), SHUFFLED(WeightedList::shuffle);
 
         private final Consumer<WeightedList<?>> consumer;
 
@@ -142,12 +142,12 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
             public <E extends LivingEntity> void process(final WeightedList<Task<? super E>> list,
                     final ServerWorld world, final E mob, final long time)
             {
-                list.func_220655_b().filter((sub_task) ->
+                list.stream().filter((sub_task) ->
                 {
                     return sub_task.getStatus() == Task.Status.STOPPED;
                 }).filter((sub_task) ->
                 {
-                    return sub_task.start(world, mob, time);
+                    return sub_task.tryStart(world, mob, time);
                 }).findFirst();
             }
         },
@@ -157,12 +157,12 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
             public <E extends LivingEntity> void process(final WeightedList<Task<? super E>> list,
                     final ServerWorld world, final E mob, final long time)
             {
-                list.func_220655_b().filter((sub_task) ->
+                list.stream().filter((sub_task) ->
                 {
                     return sub_task.getStatus() == Task.Status.STOPPED;
                 }).forEach((sub_task) ->
                 {
-                    sub_task.start(world, mob, time);
+                    sub_task.tryStart(world, mob, time);
                 });
             }
         };

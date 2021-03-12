@@ -24,7 +24,7 @@ public class Kill
     public static int execute(final CommandSource source, final boolean tame, final boolean cull)
             throws CommandSyntaxException
     {
-        final ServerWorld world = source.getWorld();
+        final ServerWorld world = source.getLevel();
         final Stream<Entity> mobs = world.getEntities();
         int count1 = 0;
         for (final Object o : mobs.toArray())
@@ -32,14 +32,14 @@ public class Kill
             final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
             if (e != null)
             {
-                if (cull && world.getClosestPlayer(e.getEntity(), PokecubeCore.getConfig().cullDistance) != null)
+                if (cull && world.getNearestPlayer(e.getEntity(), PokecubeCore.getConfig().cullDistance) != null)
                     continue;
                 if (!tame && e.getOwnerId() != null) continue;
                 e.onRecall();
                 count1++;
             }
         }
-        source.sendFeedback(new TranslationTextComponent("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
+        source.sendSuccess(new TranslationTextComponent("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
         return 0;
     }
 

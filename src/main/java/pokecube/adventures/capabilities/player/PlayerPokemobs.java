@@ -79,7 +79,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public int getMaxPokemobCount()
     {
-        return this.player.inventory.getSizeInventory();
+        return this.player.inventory.getContainerSize();
     }
 
     @Override
@@ -101,7 +101,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public ItemStack getPokemob(final int slot)
     {
-        final ItemStack stack = this.player.inventory.getStackInSlot(slot);
+        final ItemStack stack = this.player.inventory.getItem(slot);
         if (PokecubeManager.isFilled(stack)) return stack;
         return ItemStack.EMPTY;
     }
@@ -125,7 +125,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public void onSetTarget(final LivingEntity target)
     {
-        if (target != null && target.getServer() != null) this.setTargetTime = target.getServer().getWorld(
+        if (target != null && target.getServer() != null) this.setTargetTime = target.getServer().getLevel(
                 World.OVERWORLD).getGameTime();
         if (target == this.target) return;
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
@@ -144,7 +144,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public LivingEntity getTarget()
     {
-        if (this.target != null && this.target.getServer() != null) if (this.target.getServer().getWorld(
+        if (this.target != null && this.target.getServer() != null) if (this.target.getServer().getLevel(
                 World.OVERWORLD).getGameTime() - this.setTargetTime > 50) this.target = null;
         return this.target;
     }

@@ -249,9 +249,9 @@ public class Tools
 
     public static boolean isRidingOrRider(final Entity a, final Entity b)
     {
-        for (final Entity c : a.getRecursivePassengers())
+        for (final Entity c : a.getIndirectPassengers())
             if (b.equals(c)) return true;
-        for (final Entity c : b.getRecursivePassengers())
+        for (final Entity c : b.getIndirectPassengers())
             if (a.equals(c)) return true;
         return false;
     }
@@ -261,26 +261,26 @@ public class Tools
         final Vector3 pos = Vector3.getNewVector().set(entity, true);
         final Vector3 loc = Tools.getPointedLocation(entity, distance);
         if (loc != null) distance = loc.distanceTo(pos);
-        final Vector3d vec31 = entity.getLook(0);
-        Predicate<Entity> predicate = EntityPredicates.NOT_SPECTATING.and(c -> entity.canBeCollidedWith());
+        final Vector3d vec31 = entity.getViewVector(0);
+        Predicate<Entity> predicate = EntityPredicates.NO_SPECTATORS.and(c -> entity.isPickable());
         if (selector != null) predicate = predicate.and(selector);
-        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.canBeCollidedWith() && !Tools
+        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools
                 .isRidingOrRider(entity, c));
-        return pos.firstEntityExcluding(distance, vec31, entity.getEntityWorld(), entity, predicate);
+        return pos.firstEntityExcluding(distance, vec31, entity.getCommandSenderWorld(), entity, predicate);
     }
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
     {
-        final Vector3d vec3 = new Vector3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity
-                .getPosZ());
+        final Vector3d vec3 = new Vector3d(entity.getX(), entity.getY() + entity.getEyeHeight(), entity
+                .getZ());
         final double d0 = distance;
-        final Vector3d vec31 = entity.getLook(0);
+        final Vector3d vec31 = entity.getViewVector(0);
         final Vector3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
-        final World world = entity.getEntityWorld();
-        final BlockRayTraceResult result = world.rayTraceBlocks(new RayTraceContext(vec3, vec32,
+        final World world = entity.getCommandSenderWorld();
+        final BlockRayTraceResult result = world.clip(new RayTraceContext(vec3, vec32,
                 RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, entity));
-        if (result == null || result.getPos() == null) return null;
-        final Vector3 vec = Vector3.getNewVector().set(result.getHitVec());
+        if (result == null || result.getBlockPos() == null) return null;
+        final Vector3 vec = Vector3.getNewVector().set(result.getLocation());
         return vec;
     }
 
@@ -347,12 +347,12 @@ public class Tools
 
         if (isTable && world != null)
         {
-            final LootTable loottable = world.getServer().getLootTableManager().getLootTableFromLocation(
+            final LootTable loottable = world.getServer().getLootTables().get(
                     new ResourceLocation(table));
             final LootContext.Builder lootcontext$builder = new LootContext.Builder(world).withRandom(world
                     .getRandom());
             // Generate the loot list.
-            final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
+            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
             // Shuffle the list.
             if (!list.isEmpty()) Collections.shuffle(list);
             for (final ItemStack itemstack : list)
@@ -390,7 +390,7 @@ public class Tools
         stack.setCount(size);
         if (!tag.isEmpty()) try
         {
-            stack.setTag(JsonToNBT.getTagFromJson(tag));
+            stack.setTag(JsonToNBT.parseTag(tag));
         }
         catch (final CommandSyntaxException e)
         {
@@ -437,21 +437,21 @@ public class Tools
 
     public static void giveItem(final PlayerEntity PlayerEntity, final ItemStack itemstack)
     {
-        final boolean flag = PlayerEntity.inventory.addItemStackToInventory(itemstack);
+        final boolean flag = PlayerEntity.inventory.add(itemstack);
         if (flag)
         {
-            PlayerEntity.getEntityWorld().playSound((PlayerEntity) null, PlayerEntity.getPosX(), PlayerEntity.getPosY(),
-                    PlayerEntity.getPosZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((PlayerEntity
-                            .getRNG().nextFloat() - PlayerEntity.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
-            PlayerEntity.container.detectAndSendChanges();
+            PlayerEntity.getCommandSenderWorld().playSound((PlayerEntity) null, PlayerEntity.getX(), PlayerEntity.getY(),
+                    PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((PlayerEntity
+                            .getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+            PlayerEntity.inventoryMenu.broadcastChanges();
         }
         if (!flag)
         {
-            final ItemEntity ItemEntity = PlayerEntity.dropItem(itemstack, false);
+            final ItemEntity ItemEntity = PlayerEntity.drop(itemstack, false);
             if (ItemEntity != null)
             {
-                ItemEntity.setNoPickupDelay();
-                ItemEntity.setOwnerId(PlayerEntity.getUniqueID());
+                ItemEntity.setNoPickUpDelay();
+                ItemEntity.setOwner(PlayerEntity.getUUID());
             }
         }
     }
@@ -466,7 +466,7 @@ public class Tools
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
             final Entity entity)
     {
-        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getEntityWorld(), Vector3.getNewVector()
+        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getCommandSenderWorld(), Vector3.getNewVector()
                 .set(entity));
     }
 
@@ -475,14 +475,14 @@ public class Tools
     {
         final double dhm = rangeHorizontal * rangeHorizontal;
         final double dvm = rangeVertical * rangeVertical;
-        for (int i = 0; i < world.getPlayers().size(); ++i)
+        for (int i = 0; i < world.players().size(); ++i)
         {
-            final PlayerEntity PlayerEntity = world.getPlayers().get(i);
-            if (EntityPredicates.NOT_SPECTATING.test(PlayerEntity) || PokecubeCore.getConfig().debug)
+            final PlayerEntity PlayerEntity = world.players().get(i);
+            if (EntityPredicates.NO_SPECTATORS.test(PlayerEntity) || PokecubeCore.getConfig().debug)
             {
-                final double d0 = PlayerEntity.getPosX() - location.x;
-                final double d1 = PlayerEntity.getPosZ() - location.z;
-                final double d2 = PlayerEntity.getPosY() - location.y;
+                final double d0 = PlayerEntity.getX() - location.x;
+                final double d1 = PlayerEntity.getZ() - location.z;
+                final double d2 = PlayerEntity.getY() - location.y;
                 final double dh = d0 * d0 + d1 * d1;
                 final double dv = d2 * d2;
                 if (dh < dhm && dv < dvm) return true;
@@ -493,9 +493,9 @@ public class Tools
 
     public static boolean isAnyPlayerInRange(final double range, final Entity entity)
     {
-        final World world = entity.getEntityWorld();
-        return world.getClosestPlayer(entity.getPosX(), entity.getPosY(), entity.getPosZ(), range,
-                EntityPredicates.NOT_SPECTATING) != null;
+        final World world = entity.getCommandSenderWorld();
+        return world.getNearestPlayer(entity.getX(), entity.getY(), entity.getZ(), range,
+                EntityPredicates.NO_SPECTATORS) != null;
     }
 
     public static boolean isSameStack(final ItemStack a, final ItemStack b)
@@ -506,7 +506,7 @@ public class Tools
     public static boolean isSameStack(final ItemStack a, final ItemStack b, final boolean strict)
     {
         // TODO determine if to use the tags?
-        return ItemStack.areItemsEqualIgnoreDurability(a, b);
+        return ItemStack.isSameIgnoreDurability(a, b);
     }
 
     public static int levelToXp(final int type, int level)

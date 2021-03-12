@@ -31,17 +31,17 @@ public class Trees
         //@formatter:off
                 // This line specifies what is the base log, differnt block state providers
                 // can allow for randomization in the log
-                new SimpleBlockStateProvider(BlockInit.INVERTED_LOG.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.INVERTED_LOG.get().defaultBlockState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.INVERTED_LEAVES.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.INVERTED_LEAVES.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
                 // more can also probably be coded if needed
-                // The FeatureSpread.func_242252_a(2) is "base of 2, spread of 0", and FeatureSpread.func_242252_a(0)
+                // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
+                new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
 
                 // This is how the tree trunk work, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
@@ -52,7 +52,7 @@ public class Trees
                 // Different trees use a variety of the three valies below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 1))
-                .setIgnoreVines()
+                .ignoreVines()
                 .build();
         //@formatter:on
     }
@@ -63,17 +63,17 @@ public class Trees
         //@formatter:off
                 // This line specifies what is the base log, differnt block state providers
                 // can allow for randomization in the log
-                new SimpleBlockStateProvider(BlockInit.TEMPORAL_LOG.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.TEMPORAL_LOG.get().defaultBlockState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.TEMPORAL_LEAVES.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.TEMPORAL_LEAVES.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
                 // more can also probably be coded if needed
-                // The FeatureSpread.func_242252_a(2) is "base of 2, spread of 0", and FeatureSpread.func_242252_a(0)
+                // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new JungleFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
+                new JungleFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
 
                 // This is how the tree trunk work, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
@@ -84,7 +84,7 @@ public class Trees
                 // Different trees use a variety of the three valies below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(2, 0, 2))
-                .setIgnoreVines()
+                .ignoreVines()
                 .build();
         //@formatter:on
     }
@@ -95,17 +95,17 @@ public class Trees
         //@formatter:off
                 // This line specifies what is the base log, differnt block state providers
                 // can allow for randomization in the log
-                new SimpleBlockStateProvider(BlockInit.AGED_LOG.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.AGED_LOG.get().defaultBlockState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.AGED_LEAVES.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
                 // more can also probably be coded if needed
-                // The FeatureSpread.func_242252_a(2) is "base of 2, spread of 0", and FeatureSpread.func_242252_a(0)
+                // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new SpruceFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(3)),
+                new SpruceFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), FeatureSpread.fixed(3)),
 
                 // This is how the tree trunk work, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
@@ -116,7 +116,7 @@ public class Trees
                 // Different trees use a variety of the three valies below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 1))
-                .setIgnoreVines()
+                .ignoreVines()
                 .build();
         //@formatter:on
     }
@@ -127,19 +127,19 @@ public class Trees
         //@formatter:off
                 // This line specifies what is the base log, differnt block state providers
                 // can allow for randomization in the log
-                new SimpleBlockStateProvider(BlockInit.CORRUPTED_LOG.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.CORRUPTED_LOG.get().defaultBlockState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.CORRUPTED_LEAVES.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.CORRUPTED_LEAVES.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
                 // more can also probably be coded if needed
-                // The FeatureSpread.func_242252_a(2) is "base of 2, spread of 0", and FeatureSpread.func_242252_a(0)
+                // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(3), FeatureSpread.func_242252_a(0)),
+                new AcaciaFoliagePlacer(FeatureSpread.fixed(3), FeatureSpread.fixed(0)),
                 
-                //new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
+                //new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
                 
                 // This is how the tree trunk work, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
@@ -150,7 +150,7 @@ public class Trees
                 // Different trees use a variety of the three valies below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 2))
-                .setIgnoreVines()
+                .ignoreVines()
                 .build();
         //@formatter:on
     }
@@ -161,17 +161,17 @@ public class Trees
         //@formatter:off
                 // This line specifies what is the base log, differnt block state providers
                 // can allow for randomization in the log
-                new SimpleBlockStateProvider(BlockInit.MIRAGE_LOG.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.MIRAGE_LOG.get().defaultBlockState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.MIRAGE_LEAVES.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.MIRAGE_LEAVES.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
                 // more can also probably be coded if needed
-                // The FeatureSpread.func_242252_a(2) is "base of 2, spread of 0", and FeatureSpread.func_242252_a(0)
+                // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new BlobFoliagePlacer(FeatureSpread.func_242252_a(1), FeatureSpread.func_242252_a(0), 2),
+                new BlobFoliagePlacer(FeatureSpread.fixed(1), FeatureSpread.fixed(0), 2),
 
                 // This is how the tree trunk work, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
@@ -182,7 +182,7 @@ public class Trees
                 // Different trees use a variety of the three valies below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 1))
-                .setIgnoreVines()
+                .ignoreVines()
                 .build();
         //@formatter:on
     }
@@ -193,17 +193,17 @@ public class Trees
         //@formatter:off
                 // This line specifies what is the base log, differnt block state providers
                 // can allow for randomization in the log
-                new SimpleBlockStateProvider(BlockInit.DISTORTIC_LOG.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.DISTORTIC_LOG.get().defaultBlockState()),
 
                 // This one is similar, but for the leaves
-                new SimpleBlockStateProvider(BlockInit.DISTORTIC_LEAVES.get().getDefaultState()),
+                new SimpleBlockStateProvider(BlockInit.DISTORTIC_LEAVES.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
                 // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
                 // more can also probably be coded if needed
-                // The FeatureSpread.func_242252_a(2) is "base of 2, spread of 0", and FeatureSpread.func_242252_a(0)
+                // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new BlobFoliagePlacer(FeatureSpread.func_242252_a(3), FeatureSpread.func_242252_a(0), 3),
+                new BlobFoliagePlacer(FeatureSpread.fixed(3), FeatureSpread.fixed(0), 3),
 
                 // This is how the tree trunk work, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
@@ -214,7 +214,7 @@ public class Trees
                 // Different trees use a variety of the three valies below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 1))
-                .setIgnoreVines()
+                .ignoreVines()
                 .build();
         //@formatter:on
     }
@@ -222,22 +222,22 @@ public class Trees
     public static void register()
     {
         Trees.ULTRA_TREE01 = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree01", Trees.ULTRA_TREE01 = Feature.TREE.withConfiguration(Trees
+                "pokecube_legends:ultra_tree01", Trees.ULTRA_TREE01 = Feature.TREE.configured(Trees
                         .getUltra01()));
         Trees.ULTRA_TREE02 = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree02", Trees.ULTRA_TREE02 = Feature.TREE.withConfiguration(Trees
+                "pokecube_legends:ultra_tree02", Trees.ULTRA_TREE02 = Feature.TREE.configured(Trees
                         .getUltra02()));
         Trees.ULTRA_TREE03 = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree03", Trees.ULTRA_TREE03 = Feature.TREE.withConfiguration(Trees
+                "pokecube_legends:ultra_tree03", Trees.ULTRA_TREE03 = Feature.TREE.configured(Trees
                         .getUltra03()));
         Trees.ULTRA_TREE04 = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:corrupted_tree", Trees.ULTRA_TREE04 = Feature.TREE.withConfiguration(Trees
+                "pokecube_legends:corrupted_tree", Trees.ULTRA_TREE04 = Feature.TREE.configured(Trees
                         .getUltra04()));
         Trees.ULTRA_TREE05 = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:mirage_tree", Trees.ULTRA_TREE05 = Feature.TREE.withConfiguration(Trees
+                "pokecube_legends:mirage_tree", Trees.ULTRA_TREE05 = Feature.TREE.configured(Trees
                         .getUltra05()));
         Trees.DISTORTIC_TREE = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:distortic_tree", Trees.DISTORTIC_TREE = Feature.TREE.withConfiguration(Trees
+                "pokecube_legends:distortic_tree", Trees.DISTORTIC_TREE = Feature.TREE.configured(Trees
                         .getDist01()));
     }
 

@@ -22,14 +22,14 @@ public class BiomeDatabase
 
     public static RegistryKey<Biome> getKey(final Biome b)
     {
-        return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, b.getRegistryName());
+        return RegistryKey.create(Registry.BIOME_REGISTRY, b.getRegistryName());
     }
 
     public static Biome getBiome(final RegistryKey<Biome> key)
     {
         final DynamicRegistries REG = ThutCore.proxy.getRegistries();
-        final MutableRegistry<Biome> biomes = REG.getRegistry(Registry.BIOME_KEY);
-        return biomes.getOrDefault(key.getLocation());
+        final MutableRegistry<Biome> biomes = REG.registryOrThrow(Registry.BIOME_REGISTRY);
+        return biomes.get(key.location());
     }
 
     public static boolean isAType(final String name)

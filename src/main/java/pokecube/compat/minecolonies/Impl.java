@@ -77,7 +77,7 @@ public class Impl
             if (!(world instanceof World)) return -1;
             final World rworld = (World) world;
             check:
-            if (caveAdjusted) if (world.getChunkProvider() instanceof ServerChunkProvider)
+            if (caveAdjusted) if (world.getChunkSource() instanceof ServerChunkProvider)
             {
                 if (!Impl.instance.getColonyManager().isCoordinateInAnyColony(rworld, v.getPos())) break check;
 

@@ -48,7 +48,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
         this.pokeInventory = this.pokemob.getInventory();
         this.entity = this.pokemob.getEntity();
         this.ai = new StoreTask(this.pokemob);
-        final CompoundNBT tag = container.data.readCompoundTag();
+        final CompoundNBT tag = container.data.readNbt();
         this.ai.deserializeNBT(tag);
         container.setMode(PacketPokemobGui.STORAGE);
     }
@@ -83,16 +83,16 @@ public class GuiPokemobStorage extends GuiPokemobBase
      * the items)
      */
     @Override
-    protected void drawGuiContainerForegroundLayer(final MatrixStack mat,final int mouseX, final int mouseY)
+    protected void renderLabels(final MatrixStack mat,final int mouseX, final int mouseY)
     {
-        super.drawGuiContainerForegroundLayer(mat,mouseX, mouseY);
+        super.renderLabels(mat,mouseX, mouseY);
         final int x = 83;
         final int y = 20;
-        this.font.drawString(mat,I18n.format("pokemob.gui.berry"), x, y, 4210752);
-        this.font.drawString(mat,I18n.format("pokemob.gui.store"), x, y + 10, 4210752);
-        this.font.drawString(mat,I18n.format("pokemob.gui.face"), x, y + 20, 4210752);
-        this.font.drawString(mat,I18n.format("pokemob.gui.empty"), x, y + 30, 4210752);
-        this.font.drawString(mat,I18n.format("pokemob.gui.face"), x, y + 40, 4210752);
+        this.font.draw(mat,I18n.get("pokemob.gui.berry"), x, y, 4210752);
+        this.font.draw(mat,I18n.get("pokemob.gui.store"), x, y + 10, 4210752);
+        this.font.draw(mat,I18n.get("pokemob.gui.face"), x, y + 20, 4210752);
+        this.font.draw(mat,I18n.get("pokemob.gui.empty"), x, y + 30, 4210752);
+        this.font.draw(mat,I18n.get("pokemob.gui.face"), x, y + 40, 4210752);
     }
 
     @Override
@@ -103,11 +103,11 @@ public class GuiPokemobStorage extends GuiPokemobBase
         int xOffset = this.width / 2 - 10;
         final int yOffset = this.height / 2 - 77;
         this.addButton(new Button(xOffset + 60, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.inventory"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getEntityId())));
+                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
         this.addButton(new Button(xOffset + 30, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.ai"), b -> PacketPokemobGui
-                .sendPagePacket(PacketPokemobGui.AI, this.entity.getEntityId())));
+                .sendPagePacket(PacketPokemobGui.AI, this.entity.getId())));
         this.addButton(new Button(xOffset + 00, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.routes"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getEntityId())));
+                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getId())));
         xOffset += 29;
         final int dy = 13;
         final int ds = 10;
@@ -124,19 +124,19 @@ public class GuiPokemobStorage extends GuiPokemobBase
         final CompoundNBT berry = nbt.getCompound("b");
         final CompoundNBT storage = nbt.getCompound("s");
         final CompoundNBT empty = nbt.getCompound("e");
-        if (!berry.isEmpty()) this.berry.setText(berry.getInt("x") + " " + berry.getInt("y") + " " + berry.getInt("z"));
+        if (!berry.isEmpty()) this.berry.setValue(berry.getInt("x") + " " + berry.getInt("y") + " " + berry.getInt("z"));
         if (!storage.isEmpty())
         {
-            this.storage.setText(storage.getInt("x") + " " + storage.getInt("y") + " " + storage.getInt("z"));
-            this.storageFace.setText(Direction.values()[storage.getByte("f")] + "");
+            this.storage.setValue(storage.getInt("x") + " " + storage.getInt("y") + " " + storage.getInt("z"));
+            this.storageFace.setValue(Direction.values()[storage.getByte("f")] + "");
         }
-        else this.storageFace.setText("UP");
+        else this.storageFace.setValue("UP");
         if (!empty.isEmpty())
         {
-            this.empty.setText(empty.getInt("x") + " " + empty.getInt("y") + " " + empty.getInt("z"));
-            this.emptyFace.setText(Direction.values()[empty.getByte("f")] + "");
+            this.empty.setValue(empty.getInt("x") + " " + empty.getInt("y") + " " + empty.getInt("z"));
+            this.emptyFace.setValue(Direction.values()[empty.getByte("f")] + "");
         }
-        else this.emptyFace.setText("UP");
+        else this.emptyFace.setValue("UP");
 
     }
 
@@ -154,9 +154,9 @@ public class GuiPokemobStorage extends GuiPokemobBase
             BlockPos newLink = null;
             final PlayerInventory inv = this.playerInventory;
             boolean effect = false;
-            if (!inv.getItemStack().isEmpty() && inv.getItemStack().hasTag())
+            if (!inv.getCarried().isEmpty() && inv.getCarried().hasTag())
             {
-                final CompoundNBT link = inv.getItemStack().getTag().getCompound("link_pos");
+                final CompoundNBT link = inv.getCarried().getTag().getCompound("link_pos");
                 if (!link.isEmpty())
                 {
                     final Vector4 pos = new Vector4(link);
@@ -168,7 +168,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
                 if (newLink != null && text.isFocused() && (text == this.berry || text == this.storage
                         || text == this.empty))
                 {
-                    text.setText(newLink.getX() + " " + newLink.getY() + " " + newLink.getZ());
+                    text.setValue(newLink.getX() + " " + newLink.getY() + " " + newLink.getZ());
                     effect = true;
                 }
                 if (ret) effect = true;
@@ -212,21 +212,21 @@ public class GuiPokemobStorage extends GuiPokemobBase
     public void render(final MatrixStack mat, final int i, final int j, final float f)
     {
         super.render(mat,i, j, f);
-        this.renderHoveredTooltip(mat,i, j);
+        this.renderTooltip(mat,i, j);
     }
 
     private void sendUpdate()
     {
-        final BlockPos berryLoc = this.posFromText(this.berry.getText());
-        if (berryLoc == null) this.berry.setText("");
-        final BlockPos storageLoc = this.posFromText(this.storage.getText());
-        if (storageLoc == null) this.storage.setText("");
-        final BlockPos emptyInventory = this.posFromText(this.empty.getText());
-        if (emptyInventory == null) this.empty.setText("");
-        final Direction storageFace = this.dirFromText(this.storageFace.getText());
-        this.storageFace.setText(storageFace + "");
-        final Direction emptyFace = this.dirFromText(this.emptyFace.getText());
-        this.emptyFace.setText(emptyFace + "");
+        final BlockPos berryLoc = this.posFromText(this.berry.getValue());
+        if (berryLoc == null) this.berry.setValue("");
+        final BlockPos storageLoc = this.posFromText(this.storage.getValue());
+        if (storageLoc == null) this.storage.setValue("");
+        final BlockPos emptyInventory = this.posFromText(this.empty.getValue());
+        if (emptyInventory == null) this.empty.setValue("");
+        final Direction storageFace = this.dirFromText(this.storageFace.getValue());
+        this.storageFace.setValue(storageFace + "");
+        final Direction emptyFace = this.dirFromText(this.emptyFace.getValue());
+        this.emptyFace.setValue(emptyFace + "");
         this.ai.berryLoc = berryLoc;
         this.ai.storageLoc = storageLoc;
         this.ai.storageFace = storageFace;
@@ -235,6 +235,6 @@ public class GuiPokemobStorage extends GuiPokemobBase
         PacketUpdateAI.sendUpdatePacket(this.pokemob, this.ai);
 
         // Send status message thingy
-        this.minecraft.player.sendStatusMessage(new TranslationTextComponent("pokemob.gui.updatestorage"), true);
+        this.minecraft.player.displayClientMessage(new TranslationTextComponent("pokemob.gui.updatestorage"), true);
     }
 }

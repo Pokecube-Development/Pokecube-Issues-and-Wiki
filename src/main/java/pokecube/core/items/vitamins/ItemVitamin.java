@@ -31,12 +31,12 @@ public class ItemVitamin extends Item
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
+    public void appendHoverText(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
             final ITooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("pokecube.tooltip." + this.type);
-        else message = I18n.format("pokecube.tooltip.advanced");
+        if (Screen.hasShiftDown()) message = I18n.get("pokecube.tooltip." + this.type);
+        else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
 }

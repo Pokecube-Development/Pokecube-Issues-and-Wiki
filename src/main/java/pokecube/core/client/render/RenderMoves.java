@@ -31,15 +31,15 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
         if (move != null && (animation = move.getAnimation(CapabilityPokemob.getPokemobFor(entity.getUser()))) != null
                 && entity.getUser() != null)
         {
-            mat.push();
+            mat.pushPose();
             final MovePacketInfo info = entity.getMoveInfo();
             animation.clientAnimation(mat, bufferIn, info, partialTicks);
-            mat.pop();
+            mat.popPose();
         }
     }
 
     @Override
-    public ResourceLocation getEntityTexture(final EntityMoveUse entity)
+    public ResourceLocation getTextureLocation(final EntityMoveUse entity)
     {
         return RenderMoves.EMPTY;
     }

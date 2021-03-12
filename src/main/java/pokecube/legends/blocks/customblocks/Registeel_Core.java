@@ -18,17 +18,17 @@ import pokecube.legends.blocks.BlockBase;
 public class Registeel_Core extends BlockBase
 {
 
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
     public Registeel_Core(final String name, final Material material, final MaterialColor color, final float hardnessresistance,
             final SoundType sound, final ToolType tool, final int harvest)
     {
         super(name, material, color, hardnessresistance, sound, tool, harvest);
-        this.setDefaultState(this.stateContainer.getBaseState().with(Registeel_Core.FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(Registeel_Core.FACING, Direction.NORTH));
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(Registeel_Core.FACING);
     }
@@ -36,19 +36,19 @@ public class Registeel_Core extends BlockBase
     @Override
     public BlockState rotate(final BlockState state, final Rotation rot)
     {
-        return state.with(Registeel_Core.FACING, rot.rotate(state.get(Registeel_Core.FACING)));
+        return state.setValue(Registeel_Core.FACING, rot.rotate(state.getValue(Registeel_Core.FACING)));
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public BlockState mirror(final BlockState state, final Mirror mirrorIn)
     {
-        return state.rotate(mirrorIn.toRotation(state.get(Registeel_Core.FACING)));
+        return state.rotate(mirrorIn.getRotation(state.getValue(Registeel_Core.FACING)));
     }
 
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        return this.getDefaultState().with(Registeel_Core.FACING, context.getPlacementHorizontalFacing().getOpposite());
+        return this.defaultBlockState().setValue(Registeel_Core.FACING, context.getHorizontalDirection().getOpposite());
     }
 }

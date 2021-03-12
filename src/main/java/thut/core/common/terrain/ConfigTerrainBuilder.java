@@ -90,7 +90,7 @@ public class ConfigTerrainBuilder
                 for (final Property<?> prop : input.getProperties())
                     if (prop.getName().equals(key))
                     {
-                        final Object inputVal = input.get(prop);
+                        final Object inputVal = input.getValue(prop);
                         return inputVal.toString().equalsIgnoreCase(val);
                     }
                 return false;

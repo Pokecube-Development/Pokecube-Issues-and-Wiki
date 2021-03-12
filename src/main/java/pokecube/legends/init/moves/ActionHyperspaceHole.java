@@ -41,12 +41,12 @@ public class ActionHyperspaceHole implements IMoveAction
         if (level < PokecubeLegends.config.levelCreatePortal)
         {
             message = new TranslationTextComponent("msg.hoopaportal.deny.too_weak");
-            owner.sendMessage(message, Util.DUMMY_UUID);
+            owner.sendMessage(message, Util.NIL_UUID);
             return false;
         }
         else
         {
-            final World world = user.getEntity().getEntityWorld();
+            final World world = user.getEntity().getCommandSenderWorld();
             final long lastUse = user.getEntity().getPersistentData().getLong("pokecube_legends:last_portal_make");
             if (lastUse != 0)
             {
@@ -54,14 +54,14 @@ public class ActionHyperspaceHole implements IMoveAction
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
                     message = new TranslationTextComponent("msg.hoopaportal.deny.too_soon");
-                    owner.sendMessage(message, Util.DUMMY_UUID);
+                    owner.sendMessage(message, Util.NIL_UUID);
                     return false;
                 }
             }
             final PortalWarp block = (PortalWarp) BlockInit.BLOCK_PORTALWARP.get();
-            final UseContext context = MoveEventsHandler.getContext(world, user, block.getDefaultState(), location.add(
+            final UseContext context = MoveEventsHandler.getContext(world, user, block.defaultBlockState(), location.add(
                     0, 2, 0));
-            final BlockPos prevPos = context.getPos();
+            final BlockPos prevPos = context.getClickedPos();
             final BlockState state = BlockInit.BLOCK_PORTALWARP.get().getStateForPlacement(context);
 
             // Didn't place, so lets skip
@@ -73,13 +73,13 @@ public class ActionHyperspaceHole implements IMoveAction
             else
             {
                 user.getEntity().getPersistentData().putLong("pokecube_legends:last_portal_make", world.getGameTime());
-                block.place(world, prevPos, context.getPlacementHorizontalFacing());
-                final TileEntity tile = world.getTileEntity(prevPos.up());
+                block.place(world, prevPos, context.getHorizontalDirection());
+                final TileEntity tile = world.getBlockEntity(prevPos.above());
                 if (tile instanceof RingTile) ((RingTile) tile).despawns = true;
                 message = new TranslationTextComponent("msg.hoopaportal.accept.info");
                 mob.applyHunger(count);
             }
-            owner.sendMessage(message, Util.DUMMY_UUID);
+            owner.sendMessage(message, Util.NIL_UUID);
             return true;
         }
     }

@@ -23,27 +23,27 @@ public class LookAtTask extends RootTask<MobEntity>
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
         return entityIn.getBrain().getMemory(MemoryModuleType.LOOK_TARGET).filter((target) ->
         {
-            return target.isVisibleTo(entityIn);
+            return target.isVisibleBy(entityIn);
         }).isPresent();
     }
 
     @Override
-    protected void resetTask(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
+    protected void stop(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
-        entityIn.getBrain().removeMemory(MemoryModuleType.LOOK_TARGET);
+        entityIn.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
         owner.getBrain().getMemory(MemoryModuleType.LOOK_TARGET).ifPresent((pos) ->
         {
-            owner.getLookController().setLookPosition(pos.getPos());
+            owner.getLookControl().setLookAt(pos.currentPosition());
         });
     }
 }

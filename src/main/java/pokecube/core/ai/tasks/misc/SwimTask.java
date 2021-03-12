@@ -33,23 +33,23 @@ public class SwimTask extends RootTask<MobEntity>
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final MobEntity owner)
     {
         if (this.pokemob != null && this.pokemob.swims()) return false;
-        final boolean belowDepth = owner.func_233571_b_(FluidTags.WATER) > owner.func_233579_cu_();
+        final boolean belowDepth = owner.getFluidHeight(FluidTags.WATER) > owner.getFluidJumpThreshold();
         return owner.isInWater() && belowDepth || owner.isInLava();
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
-        return this.shouldExecute(worldIn, entityIn);
+        return this.checkExtraStartConditions(worldIn, entityIn);
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
-        if (owner.getRNG().nextFloat() < this.jumpChance) owner.getJumpController().setJumping();
+        if (owner.getRandom().nextFloat() < this.jumpChance) owner.getJumpControl().jump();
     }
 }

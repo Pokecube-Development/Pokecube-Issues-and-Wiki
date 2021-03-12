@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.brigadier.StringReader;
 
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.Vector4;
@@ -42,8 +42,8 @@ public class ParticleOrientable extends ParticleBase
             final Vector3f offset)
     {
         Quaternion quaternion;
-        quaternion = new Quaternion(renderInfo.getRotation());
-        quaternion.multiply(this.orientation.toMCQ());
+        quaternion = new Quaternion(renderInfo.rotation());
+        quaternion.mul(this.orientation.toMCQ());
         this.render(buffer, quaternion, offset);
     }
 
@@ -54,9 +54,9 @@ public class ParticleOrientable extends ParticleBase
     }
 
     @Override
-    public void write(final PacketBuffer buffer)
+    public void writeToNetwork(final PacketBuffer buffer)
     {
-        super.write(buffer);
+        super.writeToNetwork(buffer);
         buffer.writeFloat(this.orientation.x);
         buffer.writeFloat(this.orientation.y);
         buffer.writeFloat(this.orientation.z);

@@ -66,8 +66,8 @@ public class Build extends AbstractConstructTask
             final boolean tryLight = rng.nextDouble() > 0.9 || dx == 0 && dz == 0;
             if (tryLight)
             {
-                final BlockPos below = pos.down();
-                final BlockPos above = pos.up();
+                final BlockPos below = pos.below();
+                final BlockPos above = pos.above();
                 final boolean belowInside = node.getTree().isInside(below);
                 final boolean aboveOnShell = node.getTree().isOnShell(above);
                 if (belowInside && aboveOnShell) light = true;
@@ -75,7 +75,7 @@ public class Build extends AbstractConstructTask
 
             final double dh2 = dx * dx + dz * dz;
 
-            boolean valid = state.isOpaqueCube(world, pos) || state.getBlock() == Blocks.FARMLAND || state
+            boolean valid = state.isSolidRender(world, pos) || state.getBlock() == Blocks.FARMLAND || state
                     .getBlock() == Blocks.SHROOMLIGHT;
 
             switch (node.type)
@@ -93,11 +93,11 @@ public class Build extends AbstractConstructTask
                             edge = true;
                             break;
                         }
-                    if (!edge) valid = world.isAirBlock(pos);
+                    if (!edge) valid = world.isEmptyBlock(pos);
                 }
                 break;
             case FOOD:
-                if (dx == 0 && dz == 0 && dy == -1) valid = world.getFluidState(pos).isTagged(FluidTags.WATER);
+                if (dx == 0 && dz == 0 && dy == -1) valid = world.getFluidState(pos).is(FluidTags.WATER);
                 else if (dx == 0 && dz == 0 && dy == -2) valid = state.getBlock() == Blocks.SHROOMLIGHT;
                 else if (dy == -1 && dh2 <= node.size * node.size) valid = state.getBlock() == Blocks.FARMLAND;
                 break;
@@ -115,9 +115,9 @@ public class Build extends AbstractConstructTask
                 }
                 else if (UtilTask.diggable.test(state))
                 {
-                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 48);
+                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 48);
                     wouldBeValid = this.validWall(node, world, pos, null, false);
-                    world.setBlockState(pos, state, 48);
+                    world.setBlock(pos, state, 48);
                 }
                 valid = wouldBeValid;
             }
@@ -138,13 +138,13 @@ public class Build extends AbstractConstructTask
             final boolean tryLight = rng.nextDouble() > 0.9 || dx == 0 && dz == 0;
             if (tryLight)
             {
-                final BlockPos below = pos.down();
-                final BlockPos above = pos.up();
+                final BlockPos below = pos.below();
+                final BlockPos above = pos.above();
                 final boolean belowInside = node.getTree().isInside(below);
                 final boolean aboveOnShell = node.getTree().isOnShell(above);
                 if (belowInside && aboveOnShell) light = true;
             }
-            if (light) state = Blocks.SHROOMLIGHT.getDefaultState();
+            if (light) state = Blocks.SHROOMLIGHT.defaultBlockState();
 
             final double dh2 = dx * dx + dz * dz;
             switch (node.type)
@@ -163,13 +163,13 @@ public class Build extends AbstractConstructTask
                             edge = true;
                             break;
                         }
-                    if (!edge) state = Blocks.AIR.getDefaultState();
+                    if (!edge) state = Blocks.AIR.defaultBlockState();
                 }
                 break;
             case FOOD:
-                if (dx == 0 && dz == 0 && dy == -1) state = Blocks.WATER.getDefaultState();
-                else if (dx == 0 && dz == 0 && dy == -2) state = Blocks.SHROOMLIGHT.getDefaultState();
-                else if (dy == -1 && dh2 <= node.size * node.size) state = Blocks.FARMLAND.getDefaultState();
+                if (dx == 0 && dz == 0 && dy == -1) state = Blocks.WATER.defaultBlockState();
+                else if (dx == 0 && dz == 0 && dy == -2) state = Blocks.SHROOMLIGHT.defaultBlockState();
+                else if (dy == -1 && dh2 <= node.size * node.size) state = Blocks.FARMLAND.defaultBlockState();
                 break;
             case NODE:
                 break;
@@ -178,7 +178,7 @@ public class Build extends AbstractConstructTask
             }
             if (state.getBlock() == Blocks.AIR) return task == null ? world.destroyBlock(pos, true)
                     : task.tryHarvest(pos, true);
-            else return world.setBlockState(pos, state);
+            else return world.setBlockAndUpdate(pos, state);
         }
     }
 
@@ -305,14 +305,14 @@ public class Build extends AbstractConstructTask
         items:
         if (this.to_place.isEmpty())
         {
-            for (int i = 2; i < this.pokemob.getInventory().getSizeInventory(); i++)
+            for (int i = 2; i < this.pokemob.getInventory().getContainerSize(); i++)
             {
 
-                final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
+                final ItemStack stack = this.pokemob.getInventory().getItem(i);
                 if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
                 {
                     final BlockItem item = (BlockItem) stack.getItem();
-                    if (!PokecubeTerrainChecker.isTerrain(item.getBlock().getDefaultState())) continue;
+                    if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
                     this.storeInd = i;
                     this.to_place = stack;
                     this.progressTimer = -10;
@@ -322,9 +322,9 @@ public class Build extends AbstractConstructTask
             if (this.going_to_nest)
             {
                 this.progressTimer = -60;
-                final BlockPos pos = this.nest.nest.getPos();
+                final BlockPos pos = this.nest.nest.getBlockPos();
                 final IItemHandlerModifiable inv = this.storage.getInventory(this.world, pos, this.storage.storageFace);
-                if (pos.distanceSq(this.entity.getPosition()) > 9) this.setWalkTo(pos, 1, 1);
+                if (pos.distSqr(this.entity.blockPosition()) > 9) this.setWalkTo(pos, 1, 1);
                 else
                 {
                     for (int i = 0; i < inv.getSlots(); i++)
@@ -333,17 +333,17 @@ public class Build extends AbstractConstructTask
                         if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
                         {
                             final BlockItem item = (BlockItem) stack.getItem();
-                            if (!PokecubeTerrainChecker.isTerrain(item.getBlock().getDefaultState())) continue;
+                            if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
                             this.to_place = inv.extractItem(i, Math.min(stack.getCount(), 5), false);
                             this.storeInd = this.storage.firstEmpty;
-                            this.pokemob.getInventory().setInventorySlotContents(this.storage.firstEmpty,
+                            this.pokemob.getInventory().setItem(this.storage.firstEmpty,
                                     this.to_place);
                             return false;
                         }
                     }
                     this.to_place = new ItemStack(Blocks.PODZOL, 5);
                     this.storeInd = this.storage.firstEmpty;
-                    this.pokemob.getInventory().setInventorySlotContents(this.storage.firstEmpty, this.to_place);
+                    this.pokemob.getInventory().setItem(this.storage.firstEmpty, this.to_place);
                 }
             }
             this.going_to_nest = this.to_place.isEmpty();
@@ -383,7 +383,7 @@ public class Build extends AbstractConstructTask
         if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem && this.storeInd != -1)
         {
             final BlockItem item = (BlockItem) this.to_place.getItem();
-            final BlockState state = item.getBlock().getDefaultState();
+            final BlockState state = item.getBlock().defaultBlockState();
             boolean wall = false;
             final Part part = this.n == null ? this.e : this.n;
             final BlockPos pos = this.work_pos;
@@ -396,10 +396,10 @@ public class Build extends AbstractConstructTask
             if (!wall)
             {
                 handler.place(tree, this.world, this.work_pos, state, this);
-                if (!this.world.isAirBlock(pos)) this.to_place.shrink(1);
+                if (!this.world.isEmptyBlock(pos)) this.to_place.shrink(1);
             }
             part.markBuilt(this.work_pos, this.world.getGameTime() + 1200);
-            this.pokemob.getInventory().setInventorySlotContents(this.storeInd, this.to_place);
+            this.pokemob.getInventory().setItem(this.storeInd, this.to_place);
         }
     }
 }

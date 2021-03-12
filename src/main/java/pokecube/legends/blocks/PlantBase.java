@@ -3,6 +3,7 @@ package pokecube.legends.blocks;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowerBlock;
@@ -24,12 +25,12 @@ public class PlantBase extends FlowerBlock
 
     public PlantBase(final Material material, MaterialColor color, final float hardness, final float resistance, final SoundType sound)
     {
-        super(Effects.SATURATION, 0, Block.Properties.create(material, color).hardnessAndResistance(hardness, resistance)
-                .doesNotBlockMovement().sound(sound));
+        super(Effects.SATURATION, 0, AbstractBlock.Properties.of(material, color).strength(hardness, resistance)
+                .noCollission().sound(sound));
     }
 
     @Override
-	public boolean isReplaceable(final BlockState state, final BlockItemUseContext useContext) {
+	public boolean canBeReplaced(final BlockState state, final BlockItemUseContext useContext) {
 		return true;
 	}
 

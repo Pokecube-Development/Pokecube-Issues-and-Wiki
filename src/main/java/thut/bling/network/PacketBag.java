@@ -43,17 +43,17 @@ public class PacketBag extends Packet
         final String item = heldItem.getItem().getRegistryName().getPath();
         if (item.equalsIgnoreCase("bling_bag_ender_large"))
         {
-            PacketBag.sendOpenPacket(playerIn, playerIn.getUniqueID());
+            PacketBag.sendOpenPacket(playerIn, playerIn.getUUID());
             return;
         }
         else if (item.equalsIgnoreCase("bling_bag_ender_vanilla"))
         {
-            final EnderChestInventory enderchestinventory = playerIn.getInventoryEnderChest();
-            playerIn.openContainer(new SimpleNamedContainerProvider((id, p, e) ->
+            final EnderChestInventory enderchestinventory = playerIn.getEnderChestInventory();
+            playerIn.openMenu(new SimpleNamedContainerProvider((id, p, e) ->
             {
-                return ChestContainer.createGeneric9X3(id, p, enderchestinventory);
+                return ChestContainer.threeRows(id, p, enderchestinventory);
             }, PacketBag.ENDERBAG));
-            playerIn.addStat(Stats.OPEN_ENDERCHEST);
+            playerIn.awardStat(Stats.OPEN_ENDERCHEST);
             return;
         }
         else if (item.equalsIgnoreCase("bling_bag"))
@@ -61,10 +61,10 @@ public class PacketBag extends Packet
             if (!heldItem.hasTag()) heldItem.setTag(new CompoundNBT());
             final CompoundNBT tag = heldItem.getTag();
             UUID id = UUID.randomUUID();
-            if (tag.hasUniqueId("bag_id")) id = tag.getUniqueId("bag_id");
-            else tag.putUniqueId("bag_id", id);
+            if (tag.hasUUID("bag_id")) id = tag.getUUID("bag_id");
+            else tag.putUUID("bag_id", id);
             final SmallInventory inv = SmallManager.INSTANCE.get(id);
-            playerIn.openContainer(new SimpleNamedContainerProvider((gid, p, e) -> new SmallContainer(gid, p, inv),
+            playerIn.openMenu(new SimpleNamedContainerProvider((gid, p, e) -> new SmallContainer(gid, p, inv),
                     PacketBag.SMALLBAG));
         }
     }
@@ -97,14 +97,14 @@ public class PacketBag extends Packet
     public PacketBag(final byte message, final UUID owner)
     {
         this(message);
-        this.data.putUniqueId(PacketBag.OWNER, owner);
+        this.data.putUUID(PacketBag.OWNER, owner);
     }
 
     public PacketBag(final PacketBuffer buf)
     {
         this.message = buf.readByte();
         final PacketBuffer buffer = new PacketBuffer(buf);
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
     }
 
     @Override
@@ -124,7 +124,7 @@ public class PacketBag extends Packet
     {
 
         LargeContainer container = null;
-        if (player.openContainer instanceof LargeContainer) container = (LargeContainer) player.openContainer;
+        if (player.containerMenu instanceof LargeContainer) container = (LargeContainer) player.containerMenu;
         switch (this.message)
         {
         case SETPAGE:
@@ -149,7 +149,7 @@ public class PacketBag extends Packet
     {
         buf.writeByte(this.message);
         final PacketBuffer buffer = new PacketBuffer(buf);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 
 }

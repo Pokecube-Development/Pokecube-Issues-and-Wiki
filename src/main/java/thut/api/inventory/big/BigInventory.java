@@ -90,7 +90,7 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
         this.opened = new boolean[this.boxCount()];
         this.contents.defaultReturnValue(ItemStack.EMPTY);
         this.manager = manager;
-        if (buffer != null) this.deserializeNBT(buffer.readCompoundTag());
+        if (buffer != null) this.deserializeNBT(buffer.readNbt());
         this.isReal = false;
     }
 
@@ -102,22 +102,22 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
         final CompoundNBT tag = new CompoundNBT();
         tag.put("boxes", boxInfo);
         tag.putBoolean("Real", false);
-        buffer.writeCompoundTag(tag);
+        buffer.writeNbt(tag);
         return buffer;
     }
 
     public void addItem(final ItemStack stack)
     {
-        for (int i = this.getPage() * 54; i < this.getSizeInventory(); i++)
-            if (this.getStackInSlot(i).isEmpty())
+        for (int i = this.getPage() * 54; i < this.getContainerSize(); i++)
+            if (this.getItem(i).isEmpty())
             {
-                this.setInventorySlotContents(i, stack);
+                this.setItem(i, stack);
                 return;
             }
         for (int i = 0; i < this.getPage() * 54; i++)
-            if (this.getStackInSlot(i).isEmpty())
+            if (this.getItem(i).isEmpty())
             {
-                this.setInventorySlotContents(i, stack);
+                this.setItem(i, stack);
                 return;
             }
     }
@@ -125,19 +125,19 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
     public abstract int boxCount();
 
     @Override
-    public void clear()
+    public void clearContent()
     {
         this.contents.clear();
     }
 
     @Override
-    public void closeInventory(final PlayerEntity player)
+    public void stopOpen(final PlayerEntity player)
     {
         if (this.isReal) this.manager.save(this.id);
     }
 
     @Override
-    public ItemStack decrStackSize(final int i, final int j)
+    public ItemStack removeItem(final int i, final int j)
     {
         if (!this.contents.get(i).isEmpty())
         {
@@ -160,14 +160,14 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
         final int start = nbt.getInt("box") * 54;
         for (int i = start; i < start + 54; i++)
         {
-            this.setInventorySlotContents(i, ItemStack.EMPTY);
+            this.setItem(i, ItemStack.EMPTY);
             if (!nbt.contains("item" + i)) continue;
             final CompoundNBT CompoundNBT = nbt.getCompound("item" + i);
             final int j = CompoundNBT.getShort("Slot");
             if (j >= start && j < start + 54)
             {
-                final ItemStack itemstack = ItemStack.read(CompoundNBT);
-                this.setInventorySlotContents(j, itemstack);
+                final ItemStack itemstack = ItemStack.of(CompoundNBT);
+                this.setItem(j, itemstack);
             }
         }
         this.loading = false;
@@ -187,17 +187,17 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
     public void deserializeItems(final CompoundNBT nbt)
     {
         this.contents.clear();
-        for (final String key : nbt.keySet())
+        for (final String key : nbt.getAllKeys())
         {
             if (!key.startsWith("item")) continue;
             final CompoundNBT CompoundNBT = nbt.getCompound(key);
             final int j = CompoundNBT.getShort("Slot");
             this.loading = true;
-            if (j >= 0 && j < this.getSizeInventory())
+            if (j >= 0 && j < this.getContainerSize())
             {
                 if (this.contents.containsKey(j)) continue;
-                final ItemStack itemstack = ItemStack.read(CompoundNBT);
-                this.setInventorySlotContents(j, itemstack);
+                final ItemStack itemstack = ItemStack.of(CompoundNBT);
+                this.setItem(j, itemstack);
             }
             this.loading = false;
         }
@@ -212,7 +212,7 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
     }
 
     @Override
-    public ItemStack getStackInSlot(final int i)
+    public ItemStack getItem(final int i)
     {
         ItemStack stack = this.contents.get(i);
         if (stack.isEmpty()) stack = ItemStack.EMPTY;
@@ -235,29 +235,29 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
      * (ignoring stack size) into the given slot.
      */
     @Override
-    public boolean isItemValidForSlot(final int par1, final ItemStack stack)
+    public boolean canPlaceItem(final int par1, final ItemStack stack)
     {
         return this.manager.isItemValid(stack);
     }
 
     @Override
-    public boolean isUsableByPlayer(final PlayerEntity PlayerEntity)
+    public boolean stillValid(final PlayerEntity PlayerEntity)
     {
         return true;
     }
 
     @Override
-    public void markDirty()
+    public void setChanged()
     {
     }
 
     @Override
-    public void openInventory(final PlayerEntity player)
+    public void startOpen(final PlayerEntity player)
     {
     }
 
     @Override
-    public ItemStack removeStackFromSlot(final int i)
+    public ItemStack removeItemNoUpdate(final int i)
     {
         ItemStack stack = this.contents.remove(i);
         if (stack.isEmpty()) stack = ItemStack.EMPTY;
@@ -271,12 +271,12 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
         final int start = box * 54;
         for (int i = start; i < start + 54; i++)
         {
-            final ItemStack itemstack = this.getStackInSlot(i);
+            final ItemStack itemstack = this.getItem(i);
             final CompoundNBT CompoundNBT = new CompoundNBT();
             if (!itemstack.isEmpty())
             {
                 CompoundNBT.putShort("Slot", (short) i);
-                itemstack.write(CompoundNBT);
+                itemstack.save(CompoundNBT);
                 items.put("item" + i, CompoundNBT);
             }
         }
@@ -293,14 +293,14 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
 
     public void serializeItems(final CompoundNBT items)
     {
-        for (int i = 0; i < this.getSizeInventory(); i++)
+        for (int i = 0; i < this.getContainerSize(); i++)
         {
-            final ItemStack itemstack = this.getStackInSlot(i);
+            final ItemStack itemstack = this.getItem(i);
             final CompoundNBT CompoundNBT = new CompoundNBT();
             if (!itemstack.isEmpty())
             {
                 CompoundNBT.putShort("Slot", (short) i);
-                itemstack.write(CompoundNBT);
+                itemstack.save(CompoundNBT);
                 items.put("item" + i, CompoundNBT);
             }
         }
@@ -318,7 +318,7 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
     }
 
     @Override
-    public int getSizeInventory()
+    public int getContainerSize()
     {
         return this.boxCount() * 54;
     }
@@ -329,7 +329,7 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
     }
 
     @Override
-    public void setInventorySlotContents(final int i, final ItemStack itemstack)
+    public void setItem(final int i, final ItemStack itemstack)
     {
         final ItemStack old = this.contents.get(i);
         if (!itemstack.isEmpty()) this.contents.put(i, itemstack);

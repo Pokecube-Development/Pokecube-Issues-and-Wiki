@@ -17,8 +17,8 @@ public class PacketAFA extends Packet
     {
         final TranslationTextComponent name = new TranslationTextComponent("block.pokecube_adventures.afa");
         final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p, e) -> new AfaContainer(i,
-                p, IWorldPosCallable.of(tile.getWorld(), tile.getPos())), name);
-        player.openContainer(provider);
+                p, IWorldPosCallable.create(tile.getLevel(), tile.getBlockPos())), name);
+        player.openMenu(provider);
     }
 
     public CompoundNBT data = new CompoundNBT();
@@ -29,19 +29,19 @@ public class PacketAFA extends Packet
 
     public PacketAFA(final PacketBuffer buf)
     {
-        this.data = buf.readCompoundTag();
+        this.data = buf.readNbt();
     }
 
     @Override
     public void write(final PacketBuffer buffer)
     {
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final Container cont = player.openContainer;
+        final Container cont = player.containerMenu;
         if (cont instanceof AfaContainer)
         {
             final AfaTile tile = ((AfaContainer) cont).tile;

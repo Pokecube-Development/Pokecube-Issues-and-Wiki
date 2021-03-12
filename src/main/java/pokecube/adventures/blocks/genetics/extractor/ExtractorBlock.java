@@ -29,7 +29,7 @@ import pokecube.core.blocks.InteractableHorizontalBlock;
 public class ExtractorBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
 	private static final Map<Direction, VoxelShape> EXTRACTOR  = new HashMap<>();
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     
@@ -37,42 +37,42 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
     static
     {// @formatter:off
     	ExtractorBlock.EXTRACTOR.put(Direction.NORTH,
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 3, 16, 16, 16),
-    					VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 0, 0, 12.5, 3, 6),
-    							VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 8, 2, 15, 16, 3),
-    									VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.5, 3, 1, 5.5, 7, 2),
-    											VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.5, 3, 1, 11.5, 7, 2),
-    			Block.makeCuboidShape(7.5, 3, 1, 8.5, 7, 2),
+    			VoxelShapes.join(Block.box(0, 0, 3, 16, 16, 16),
+    					VoxelShapes.join(Block.box(3.5, 0, 0, 12.5, 3, 6),
+    							VoxelShapes.join(Block.box(1, 8, 2, 15, 16, 3),
+    									VoxelShapes.join(Block.box(4.5, 3, 1, 5.5, 7, 2),
+    											VoxelShapes.join(Block.box(10.5, 3, 1, 11.5, 7, 2),
+    			Block.box(7.5, 3, 1, 8.5, 7, 2),
                                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                           IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	ExtractorBlock.EXTRACTOR.put(Direction.EAST,
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 0, 13, 16, 16),
-    					VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 0, 3.5, 16, 3, 12.5),
-    							VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 8, 1, 14, 16, 15),
-    									VoxelShapes.combineAndSimplify(Block.makeCuboidShape(14, 3, 4.5, 15, 7, 5.5),
-    											VoxelShapes.combineAndSimplify(Block.makeCuboidShape(14, 3, 10.5, 15, 7, 11.5),
-    			Block.makeCuboidShape(14, 3, 7.5, 15, 7, 8.5),
+    			VoxelShapes.join(Block.box(0, 0, 0, 13, 16, 16),
+    					VoxelShapes.join(Block.box(10, 0, 3.5, 16, 3, 12.5),
+    							VoxelShapes.join(Block.box(13, 8, 1, 14, 16, 15),
+    									VoxelShapes.join(Block.box(14, 3, 4.5, 15, 7, 5.5),
+    											VoxelShapes.join(Block.box(14, 3, 10.5, 15, 7, 11.5),
+    			Block.box(14, 3, 7.5, 15, 7, 8.5),
                             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                       IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	ExtractorBlock.EXTRACTOR.put(Direction.SOUTH,
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 0, 16, 16, 13),
-    					VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3.5, 0, 10, 12.5, 3, 16),
-    							VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 8, 13, 15, 16, 14),
-    									VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.5, 3, 14, 11.5, 7, 15),
-    											VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.5, 3, 14, 5.5, 7, 15),
-    			Block.makeCuboidShape(7.5, 3, 14, 8.5, 7, 15),
+    			VoxelShapes.join(Block.box(0, 0, 0, 16, 16, 13),
+    					VoxelShapes.join(Block.box(3.5, 0, 10, 12.5, 3, 16),
+    							VoxelShapes.join(Block.box(1, 8, 13, 15, 16, 14),
+    									VoxelShapes.join(Block.box(10.5, 3, 14, 11.5, 7, 15),
+    											VoxelShapes.join(Block.box(4.5, 3, 14, 5.5, 7, 15),
+    			Block.box(7.5, 3, 14, 8.5, 7, 15),
                             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                       IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	ExtractorBlock.EXTRACTOR.put(Direction.WEST,
-    			VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 0, 0, 16, 16, 16),
-    					VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 3.5, 6, 3, 12.5),
-    							VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 8, 1, 3, 16, 15),
-    									VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 3, 10.5, 2, 7, 11.5),
-    											VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 3, 4.5, 2, 7, 5.5),
-    			Block.makeCuboidShape(1, 3, 7.5, 2, 7, 8.5),
+    			VoxelShapes.join(Block.box(3, 0, 0, 16, 16, 16),
+    					VoxelShapes.join(Block.box(0, 0, 3.5, 6, 3, 12.5),
+    							VoxelShapes.join(Block.box(2, 8, 1, 3, 16, 15),
+    									VoxelShapes.join(Block.box(1, 3, 10.5, 2, 7, 11.5),
+    											VoxelShapes.join(Block.box(1, 3, 4.5, 2, 7, 5.5),
+    			Block.box(1, 3, 7.5, 2, 7, 8.5),
                             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                       IBooleanFunction.OR), IBooleanFunction.OR)
         );
@@ -83,18 +83,18 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        return ExtractorBlock.EXTRACTOR.get(state.get(ExtractorBlock.FACING));
+        return ExtractorBlock.EXTRACTOR.get(state.getValue(ExtractorBlock.FACING));
     }
     
     public ExtractorBlock(final Properties properties, final MaterialColor color)
     {
         super(properties, color);
-        this.setDefaultState(this.stateContainer.getBaseState().with(ExtractorBlock.FACING, Direction.NORTH).with(
-        		ExtractorBlock.FIXED, false).with(WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ExtractorBlock.FACING, Direction.NORTH).setValue(
+        		ExtractorBlock.FIXED, false).setValue(WATERLOGGED, false));
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(ExtractorBlock.FACING);
         builder.add(ExtractorBlock.FIXED);
@@ -104,27 +104,27 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
-        return this.getDefaultState().with(ExtractorBlock.FACING, context.getPlacementHorizontalFacing().getOpposite())
-                .with(ExtractorBlock.FIXED, false).with(WATERLOGGED, flag);
+        boolean flag = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
+        return this.defaultBlockState().setValue(ExtractorBlock.FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(ExtractorBlock.FIXED, false).setValue(WATERLOGGED, flag);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos,
+    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos,
             BlockPos facingPos) 
     {
-        if (state.get(WATERLOGGED)) {
-            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        if (state.getValue(WATERLOGGED)) {
+            world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
-        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public FluidState getFluidState(BlockState state) 
     {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
     
     @Override

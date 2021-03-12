@@ -21,13 +21,13 @@ public class BerryCrop extends CropsBlock
     }
 
     @Override
-    protected IItemProvider getSeedsItem()
+    protected IItemProvider getBaseSeedId()
     {
         return BerryManager.berryItems.get(this.index);
     }
 
     @Override
-    public boolean ticksRandomly(final BlockState state)
+    public boolean isRandomlyTicking(final BlockState state)
     {
         // Unlike vanilla crops, we still do something when max age
         return true;
@@ -42,25 +42,25 @@ public class BerryCrop extends CropsBlock
         if (age == this.getMaxAge())
         {
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
-            final BlockPos up = pos.up();
+            final BlockPos up = pos.above();
             if (grower != null) grower.growTree(worldIn, pos, this.index);
-            else if (worldIn.isAirBlock(up)) worldIn.setBlockState(up, BerryManager.berryFruits.get(this.index)
-                    .getDefaultState());
+            else if (worldIn.isEmptyBlock(up)) worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index)
+                    .defaultBlockState());
         }
     }
 
     @Override
-    public void grow(final ServerWorld worldIn, final Random rand, final BlockPos pos, final BlockState state)
+    public void performBonemeal(final ServerWorld worldIn, final Random rand, final BlockPos pos, final BlockState state)
     {
-        super.grow(worldIn, rand, pos, state);
+        super.performBonemeal(worldIn, rand, pos, state);
         final int age = this.getAge(worldIn.getBlockState(pos));
         if (age == this.getMaxAge())
         {
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
-            final BlockPos up = pos.up();
+            final BlockPos up = pos.above();
             if (grower != null) grower.growTree(worldIn, pos, this.index);
-            else if (worldIn.isAirBlock(up)) worldIn.setBlockState(up, BerryManager.berryFruits.get(this.index)
-                    .getDefaultState());
+            else if (worldIn.isEmptyBlock(up)) worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index)
+                    .defaultBlockState());
         }
     }
 }

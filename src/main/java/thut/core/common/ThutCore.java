@@ -25,6 +25,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
+// The value here should match an entry in the META-INF/mods.toml file
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -76,7 +78,6 @@ import thut.core.proxy.ClientProxy;
 import thut.core.proxy.CommonProxy;
 import thut.crafts.ThutCrafts;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(ThutCore.MODID)
 public class ThutCore
 {
@@ -99,15 +100,15 @@ public class ThutCore
                 final Vector3d endVec, final AxisAlignedBB boundingBox, final Predicate<Entity> filter,
                 final double distance)
         {
-            final World world = shooter.world;
+            final World world = shooter.level;
             double d0 = distance;
             Entity entity = null;
             Vector3d vector3d = null;
 
-            for (final Entity entity1 : world.getEntitiesInAABBexcluding(shooter, boundingBox, filter))
+            for (final Entity entity1 : world.getEntities(shooter, boundingBox, filter))
             {
-                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(entity1.getCollisionBorderSize());
-                final Optional<Vector3d> optional = axisalignedbb.rayTrace(startVec, endVec);
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate(entity1.getPickRadius());
+                final Optional<Vector3d> optional = axisalignedbb.clip(startVec, endVec);
                 if (axisalignedbb.contains(startVec))
                 {
                     if (d0 >= 0.0D)
@@ -120,8 +121,8 @@ public class ThutCore
                 else if (optional.isPresent())
                 {
                     final Vector3d vector3d1 = optional.get();
-                    final double d1 = startVec.squareDistanceTo(vector3d1);
-                    if (d1 < d0 || d0 == 0.0D) if (entity1.getLowestRidingEntity() == shooter.getLowestRidingEntity()
+                    final double d1 = startVec.distanceToSqr(vector3d1);
+                    if (d1 < d0 || d0 == 0.0D) if (entity1.getRootVehicle() == shooter.getRootVehicle()
                             && !entity1.canRiderInteract())
                     {
                         if (d0 == 0.0D)
@@ -145,15 +146,15 @@ public class ThutCore
         public static void interact(final RightClickBlock event)
         {
             // Probably a block entity to interact with here.
-            if (event.getWorld().isAirBlock(event.getPos()))
+            if (event.getWorld().isEmptyBlock(event.getPos()))
             {
                 final PlayerEntity player = event.getPlayer();
                 final Vector3d face = event.getPlayer().getEyePosition(0);
-                final Vector3d look = event.getPlayer().getLookVec();
-                final AxisAlignedBB box = event.getPlayer().getBoundingBox().grow(3, 3, 3);
+                final Vector3d look = event.getPlayer().getLookAngle();
+                final AxisAlignedBB box = event.getPlayer().getBoundingBox().inflate(3, 3, 3);
                 final EntityRayTraceResult var = MobEvents.rayTraceEntities(player, face, look, box,
                         e -> e instanceof IBlockEntity, 3);
-                if (var != null && var.getType() == EntityRayTraceResult.Type.ENTITY)
+                if (var != null && var.getType() == RayTraceResult.Type.ENTITY)
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
                     if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(), event
@@ -211,7 +212,7 @@ public class ThutCore
     public static final ItemGroup THUTITEMS = new ItemGroup("thut")
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             return ThutCore.THUTICON;
         }

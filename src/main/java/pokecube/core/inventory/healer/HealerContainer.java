@@ -25,7 +25,7 @@ public class HealerContainer extends BaseContainer implements IHealer
 
     public HealerContainer(final int id, final PlayerInventory invIn)
     {
-        this(id, invIn, IWorldPosCallable.DUMMY);
+        this(id, invIn, IWorldPosCallable.NULL);
     }
 
     public HealerContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
@@ -38,16 +38,16 @@ public class HealerContainer extends BaseContainer implements IHealer
                 this.addSlot(new Slot(this.inv, index++, 62 + j * 18, 17 + i * 18)
                 {
                     @Override
-                    public boolean isItemValid(final ItemStack stack)
+                    public boolean mayPlace(final ItemStack stack)
                     {
-                        return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
+                        return this.container.canPlaceItem(this.getSlotIndex(), stack);
                     }
                 });
         this.bindPlayerInventory(invIn, -19);
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return true;
     }
@@ -66,18 +66,18 @@ public class HealerContainer extends BaseContainer implements IHealer
     @Override
     public void heal(final World world)
     {
-        if (!world.isRemote) for (int i = 0; i < 6; i++)
+        if (!world.isClientSide) for (int i = 0; i < 6; i++)
         {
             final Slot slot = this.getSlot(i);
-            if (PokecubeManager.isFilled(slot.getStack())) PokecubeManager.heal(slot.getStack(), world);
+            if (PokecubeManager.isFilled(slot.getItem())) PokecubeManager.heal(slot.getItem(), world);
         }
     }
 
     @Override
-    public void onContainerClosed(final PlayerEntity playerIn)
+    public void removed(final PlayerEntity playerIn)
     {
-        super.onContainerClosed(playerIn);
-        this.pos.consume((world, pos) ->
+        super.removed(playerIn);
+        this.pos.execute((world, pos) ->
         {
             this.clearContainer(playerIn, world, this.inv);
         });

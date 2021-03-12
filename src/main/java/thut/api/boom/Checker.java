@@ -115,19 +115,19 @@ public class Checker
         @Override
         public float get(final BlockPos pos)
         {
-            return this.resists.getOrDefault(pos.toLong(), 0);
+            return this.resists.getOrDefault(pos.asLong(), 0);
         }
 
         @Override
         public void set(final BlockPos pos, final float var)
         {
-            this.resists.put(pos.toLong(), var);
+            this.resists.put(pos.asLong(), var);
         }
 
         @Override
         public boolean has(final BlockPos pos)
         {
-            return this.resists.containsKey(pos.toLong());
+            return this.resists.containsKey(pos.asLong());
         }
 
     }
@@ -155,7 +155,7 @@ public class Checker
         public final boolean blocked(final BlockPos pos, final Vector3 dir)
         {
             this.tmp.set(dir).scalarMultBy(this.num);
-            final long key = this.tmp.getPos().toLong();
+            final long key = this.tmp.getPos().asLong();
             return this.blockedSet.contains(key);
         }
 
@@ -163,7 +163,7 @@ public class Checker
         public final void block(final BlockPos pos, final Vector3 dir)
         {
             this.tmp.set(dir).scalarMultBy(this.num);
-            final long key = this.tmp.getPos().toLong();
+            final long key = this.tmp.getPos().asLong();
             this.blockedSet.add(key);
         }
 
@@ -224,7 +224,7 @@ public class Checker
         BlockPos getPrevPos(final Vector3 r, final Vector3 rHat)
         {
             this.tmp.set(r).addTo(0.5, 0.5, 0.5).subtractFrom(rHat);
-            return this.tmp.getPos().toImmutable();
+            return this.tmp.getPos().immutable();
         }
 
         Cube getPrev(final Vector3 r, final Vector3 rHat)
@@ -318,7 +318,7 @@ public class Checker
                 return 0;
             }
             this.had = false;
-            float res = this.resistMap.getOrDefault(r.toLong(), -1);
+            float res = this.resistMap.getOrDefault(r.asLong(), -1);
             this.had = res != -1;
             if (!this.had) res = 0;
             return res;
@@ -332,13 +332,13 @@ public class Checker
                 System.out.println("wrong cube? " + r + " " + this.radius);
                 return;
             }
-            this.resistMap.put(r.toLong(), v);
+            this.resistMap.put(r.asLong(), v);
         }
 
         @Override
         public boolean has(final BlockPos pos)
         {
-            return this.resistMap.containsKey(pos.toLong());
+            return this.resistMap.containsKey(pos.asLong());
         }
     }
 
@@ -404,7 +404,7 @@ public class Checker
         double str;
         ChunkPos cpos;
 
-        if (this.boom.r.y + this.boom.centre.y > this.boom.world.getHeight()) return false;
+        if (this.boom.r.y + this.boom.centre.y > this.boom.world.getMaxBuildHeight()) return false;
         final double rSq = this.boom.r.magSq();
         if (rSq > radSq) return false;
         rMag = Math.sqrt(rSq);
@@ -442,8 +442,8 @@ public class Checker
         {
             if (ExplosionCustom.AFFECTINAIR)
             {
-                final List<Entity> hits = this.boom.world.getEntitiesWithinAABBExcludingEntity(this.boom.exploder,
-                        this.boom.rAbs.getAABB().grow(0.5, 0.5, 0.5));
+                final List<Entity> hits = this.boom.world.getEntities(this.boom.exploder,
+                        this.boom.rAbs.getAABB().inflate(0.5, 0.5, 0.5));
                 // If this is the case, we do actually need to trace to there.
                 if (hits != null && !hits.isEmpty())
                 {
@@ -478,12 +478,12 @@ public class Checker
 
         this.validateMinMax((float) rMag);
         this.boom.rAbs.set(this.boom.r).addTo(this.boom.centre);
-        final BlockPos pos = this.boom.rAbs.getPos().toImmutable();
+        final BlockPos pos = this.boom.rAbs.getPos().immutable();
         // Add as affected location.
-        this.boom.getAffectedBlockPositions().add(pos);
+        this.boom.getToBlow().add(pos);
         // Check for additional mobs to hit.
-        final List<Entity> hits = this.boom.world.getEntitiesWithinAABBExcludingEntity(this.boom.exploder,
-                this.boom.rAbs.getAABB().grow(0.5, 0.5, 0.5));
+        final List<Entity> hits = this.boom.world.getEntities(this.boom.exploder,
+                this.boom.rAbs.getAABB().inflate(0.5, 0.5, 0.5));
         if (hits != null) for (final Entity e : hits)
             entityAffected.add(new HitEntity(e, (float) str));
         // Add to blocks to remove list.

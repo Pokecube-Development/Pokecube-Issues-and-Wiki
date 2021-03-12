@@ -98,8 +98,8 @@ public class LogicMountedControl extends LogicBase
             if (config.permsDiveSpecific && this.canDive && !handler.hasPermission(player.getGameProfile(),
                     Permissions.DIVESPECIFIC.get(entry), context)) this.canDive = false;
         }
-        if (this.canFly) this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getEntityWorld()
-                .getDimensionKey());
+        if (this.canFly) this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getCommandSenderWorld()
+                .dimension());
     }
 
     public boolean hasInput()
@@ -111,7 +111,7 @@ public class LogicMountedControl extends LogicBase
     public void tick(final World world)
     {
         final Entity rider = this.entity.getControllingPassenger();
-        this.entity.stepHeight = 1.1f;
+        this.entity.maxUpStep = 1.1f;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
         if (rider == null)
         {
@@ -126,7 +126,7 @@ public class LogicMountedControl extends LogicBase
         this.wasRiding = true;
         final Config config = PokecubeCore.getConfig();
         boolean move = false;
-        this.entity.rotationYaw = this.pokemob.getHeading();
+        this.entity.yRot = this.pokemob.getHeading();
 
         boolean shouldControl = this.entity.isOnGround() || this.pokemob.floats() || this.pokemob.flys();
         boolean verticalControl = false;
@@ -156,7 +156,7 @@ public class LogicMountedControl extends LogicBase
             buffs.add(breathing);
         }
 
-        if (this.entity.isInLava() && this.entity.isImmuneToFire())
+        if (this.entity.isInLava() && this.entity.fireImmune())
         {
             final EffectInstance no_burning = new EffectInstance(Effects.FIRE_RESISTANCE, 60, 1, true, false);
             shouldControl = true;
@@ -170,12 +170,12 @@ public class LogicMountedControl extends LogicBase
 
         if (!shouldControl) return;
 
-        for (final Entity e : this.entity.getRecursivePassengers())
+        for (final Entity e : this.entity.getIndirectPassengers())
             if (e instanceof LivingEntity)
             {
                 final boolean doBuffs = !buffs.isEmpty();
                 if (doBuffs) for (final EffectInstance buff : buffs)
-                    ((LivingEntity) e).addPotionEffect(buff);
+                    ((LivingEntity) e).addEffect(buff);
                 else((LivingEntity) e).curePotionEffects(stack);
             }
 
@@ -184,7 +184,7 @@ public class LogicMountedControl extends LogicBase
         float moveFwd = this.backInputDown ? -baseSpd / 2 : baseSpd;
         float moveUp = this.upInputDown ? baseSpd : this.downInputDown ? -baseSpd : 0;
 
-        float pitch = controller.rotationPitch;
+        float pitch = controller.xRot;
 
         if (Math.abs(pitch) > 25)
         {
@@ -208,9 +208,9 @@ public class LogicMountedControl extends LogicBase
         final boolean goUp = this.upInputDown || moveUp > 0;
         final boolean goDown = this.downInputDown || moveUp < 0;
 
-        double vx = this.entity.getMotion().x;
-        double vy = this.entity.getMotion().y;
-        double vz = this.entity.getMotion().z;
+        double vx = this.entity.getDeltaMovement().x;
+        double vy = this.entity.getDeltaMovement().y;
+        double vz = this.entity.getDeltaMovement().z;
         if (this.forwardInputDown || this.backInputDown)
         {
             move = true;
@@ -221,8 +221,8 @@ public class LogicMountedControl extends LogicBase
             if (this.inFluid) f *= 0.1;
             if (shouldControl)
             {
-                vx += MathHelper.sin(-this.entity.rotationYaw * 0.017453292F) * f;
-                vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
+                vx += MathHelper.sin(-this.entity.yRot * 0.017453292F) * f;
+                vz += MathHelper.cos(this.entity.yRot * 0.017453292F) * f;
             }
         }
         if ((goUp || goDown) && verticalControl)
@@ -240,9 +240,9 @@ public class LogicMountedControl extends LogicBase
         if (this.inFluid && !(this.upInputDown || this.downInputDown))
         {
             double fraction = -1;
-            if (this.entity.isInWater()) fraction = this.entity.func_233571_b_(FluidTags.WATER);
-            if (this.entity.isInLava()) fraction = this.entity.func_233571_b_(FluidTags.LAVA);
-            final double threshold = this.entity.func_233579_cu_();
+            if (this.entity.isInWater()) fraction = this.entity.getFluidHeight(FluidTags.WATER);
+            if (this.entity.isInLava()) fraction = this.entity.getFluidHeight(FluidTags.LAVA);
+            final double threshold = this.entity.getFluidJumpThreshold();
             if (fraction > threshold) vy += 0.05;
         }
 
@@ -253,7 +253,7 @@ public class LogicMountedControl extends LogicBase
         }
         else if (!this.entity.getPassengers().isEmpty())
         {
-            this.pokemob.setHeading(controller.rotationYaw);
+            this.pokemob.setHeading(controller.yRot);
             float f = moveFwd / 2;
             if (this.leftInputDown)
             {
@@ -263,14 +263,14 @@ public class LogicMountedControl extends LogicBase
                     if (airSpeed) f *= config.flySpeedFactor;
                     else if (waterSpeed) f *= config.surfSpeedFactor;
                     else f *= config.groundSpeedFactor;
-                    vx += MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
-                    vz += MathHelper.sin(this.entity.rotationYaw * 0.017453292F) * f;
+                    vx += MathHelper.cos(-this.entity.yRot * 0.017453292F) * f;
+                    vz += MathHelper.sin(this.entity.yRot * 0.017453292F) * f;
                 }
                 else if (this.inFluid)
                 {
                     f *= 0.1;
-                    vx += MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
-                    vz += MathHelper.sin(this.entity.rotationYaw * 0.017453292F) * f;
+                    vx += MathHelper.cos(-this.entity.yRot * 0.017453292F) * f;
+                    vz += MathHelper.sin(this.entity.yRot * 0.017453292F) * f;
                 }
             }
             if (this.rightInputDown)
@@ -281,14 +281,14 @@ public class LogicMountedControl extends LogicBase
                     if (airSpeed) f *= config.flySpeedFactor;
                     else if (waterSpeed) f *= config.surfSpeedFactor;
                     else f *= config.groundSpeedFactor;
-                    vx -= MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
-                    vz -= MathHelper.sin(this.entity.rotationYaw * 0.017453292F) * f;
+                    vx -= MathHelper.cos(-this.entity.yRot * 0.017453292F) * f;
+                    vz -= MathHelper.sin(this.entity.yRot * 0.017453292F) * f;
                 }
                 else if (this.inFluid)
                 {
                     f *= 0.1;
-                    vx -= MathHelper.cos(-this.entity.rotationYaw * 0.017453292F) * f;
-                    vz -= MathHelper.sin(this.entity.rotationYaw * 0.017453292F) * f;
+                    vx -= MathHelper.cos(-this.entity.yRot * 0.017453292F) * f;
+                    vz -= MathHelper.sin(this.entity.yRot * 0.017453292F) * f;
                 }
             }
         }
@@ -298,7 +298,7 @@ public class LogicMountedControl extends LogicBase
             vz *= 0.5;
             if (verticalControl) vy *= 0.5;
         }
-        this.entity.setMotion(vx, vy, vz);
+        this.entity.setDeltaMovement(vx, vy, vz);
     }
 
 }

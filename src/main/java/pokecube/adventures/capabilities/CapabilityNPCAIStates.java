@@ -151,7 +151,7 @@ public class CapabilityNPCAIStates
         public void readNBT(final Capability<IHasNPCAIStates> capability, final IHasNPCAIStates instance,
                 final Direction side, final INBT nbt)
         {
-            if (nbt instanceof IntNBT) instance.setTotalState(((IntNBT) nbt).getInt());
+            if (nbt instanceof IntNBT) instance.setTotalState(((IntNBT) nbt).getAsInt());
             else if (nbt instanceof CompoundNBT)
             {
                 final CompoundNBT tag = (CompoundNBT) nbt;

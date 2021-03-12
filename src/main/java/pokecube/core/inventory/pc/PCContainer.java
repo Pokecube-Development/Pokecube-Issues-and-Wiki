@@ -111,12 +111,12 @@ public class PCContainer extends BaseContainer
                 this.addSlot(new PCSlot(this.inv, n + j + i * 9, 8 + j * 18 + PCContainer.xOffset, 18 + i * 18
                         + PCContainer.yOffset));
         // int k = 0;
-        for (final Object o : this.inventorySlots)
-            if (o instanceof Slot) ((Slot) o).onSlotChanged();
+        for (final Object o : this.slots)
+            if (o instanceof Slot) ((Slot) o).setChanged();
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity PlayerEntity)
+    public boolean stillValid(final PlayerEntity PlayerEntity)
     {
         return true;
     }
@@ -134,7 +134,7 @@ public class PCContainer extends BaseContainer
 
     protected void clearSlots()
     {
-        this.inventorySlots.clear();
+        this.slots.clear();
     }
 
     @Override
@@ -169,7 +169,7 @@ public class PCContainer extends BaseContainer
     @Override
     public Slot getSlot(final int par1)
     {
-        return this.inventorySlots.get(par1);
+        return this.slots.get(par1);
     }
 
     public void gotoInventoryPage(final int page)
@@ -186,10 +186,10 @@ public class PCContainer extends BaseContainer
     }
 
     @Override
-    public void onContainerClosed(final PlayerEntity player)
+    public void removed(final PlayerEntity player)
     {
-        super.onContainerClosed(player);
-        this.inv.closeInventory(player);
+        super.removed(player);
+        this.inv.stopOpen(player);
     }
 
     public void setRelease(final boolean bool, final UUID id)
@@ -207,7 +207,7 @@ public class PCContainer extends BaseContainer
     }
 
     @Override
-    public ItemStack slotClick(final int slotId, final int dragType, final ClickType clickTypeIn,
+    public ItemStack clicked(final int slotId, final int dragType, final ClickType clickTypeIn,
             final PlayerEntity player)
     {
         if (this.release)
@@ -215,7 +215,7 @@ public class PCContainer extends BaseContainer
             if (slotId < 54 && slotId >= 0) this.toRelease[slotId] = !this.toRelease[slotId];
             return ItemStack.EMPTY;
         }
-        return super.slotClick(slotId, dragType, clickTypeIn, player);
+        return super.clicked(slotId, dragType, clickTypeIn, player);
     }
 
     public void toggleAuto()

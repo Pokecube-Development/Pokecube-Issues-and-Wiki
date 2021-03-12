@@ -114,17 +114,17 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     protected int caughtNumber(final Entity trainer, final PokeType type)
     {
-        return CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), type);
+        return CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUUID(), type);
     }
 
     protected int killedNumber(final Entity trainer, final PokeType type)
     {
-        return KillStats.getUniqueOfTypeKilledBy(trainer.getUniqueID(), type);
+        return KillStats.getUniqueOfTypeKilledBy(trainer.getUUID(), type);
     }
 
     protected int caughtNumber(final Entity trainer, final PokedexEntry entry)
     {
-        return CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), entry);
+        return CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), entry);
     }
 
     public abstract PokedexEntry getEntry();
@@ -135,7 +135,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         if (!this.canCapture(trainer))
         {
-            if (message && trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.DUMMY_UUID);
+            if (message && trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.NIL_UUID);
             return false;
         }
         return true;
@@ -149,7 +149,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public final boolean canCapture(final Entity trainer)
     {
         if (trainer == null) return false;
-        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), this.getEntry()) > 0) return false;
+        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), this.getEntry()) > 0) return false;
         if (trainer instanceof ServerPlayerEntity && PokecubePlayerDataHandler.getCustomDataTag(
                 (ServerPlayerEntity) trainer).getBoolean("capt:" + this.getEntry().getTrimmedName())) return false;
         return this.hasRequirements(trainer);
@@ -165,7 +165,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         if (trainer == null) return CanSpawn.NO;
         // Already have one, cannot spawn again.
-        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), this.getEntry()) > 0)
+        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), this.getEntry()) > 0)
             return CanSpawn.ALREADYHAVE;
         // Also check if can capture, if not, no point in being able to spawn.
         if (trainer instanceof ServerPlayerEntity && PokecubePlayerDataHandler.getCustomDataTag(
@@ -183,7 +183,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
             final boolean prevDied = spwnDied > 0;
             if (prevDied)
             {
-                final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < server.getWorld(
+                final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < server.getLevel(
                         World.OVERWORLD).getGameTime();
                 if (doneCooldown)
                 {
@@ -205,10 +205,10 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         if (!test.test()) return test;
         final SpawnData data = this.getEntry().getSpawnData();
         final boolean canSpawnHere = data == null || SpawnHandler.canSpawn(this.getEntry().getSpawnData(), location,
-                trainer.getEntityWorld(), false);
+                trainer.getCommandSenderWorld(), false);
         if (canSpawnHere)
         {
-            final boolean here = PokemobTracker.countPokemobs(location, trainer.getEntityWorld(), 32, this
+            final boolean here = PokemobTracker.countPokemobs(location, trainer.getCommandSenderWorld(), 32, this
                     .getEntry()) > 0;
             return here ? CanSpawn.ALREADYHERE : CanSpawn.YES;
         }
@@ -220,10 +220,10 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public final boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
         boolean succeed = true;
-        if (pokemon.getEntity().getPersistentData().hasUniqueId("spwnedby"))
+        if (pokemon.getEntity().getPersistentData().hasUUID("spwnedby"))
         {
-            final UUID id = pokemon.getEntity().getPersistentData().getUniqueId("spwnedby");
-            if (!trainer.getUniqueID().equals(id)) succeed = false;
+            final UUID id = pokemon.getEntity().getPersistentData().getUUID("spwnedby");
+            if (!trainer.getUUID().equals(id)) succeed = false;
         }
         if (succeed) succeed = this.canCapture(trainer);
         if (!succeed) this.onCapureFail(pokemon);
@@ -233,7 +233,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     @Override
     public void onCaptureFail(final Entity trainer, final IPokemob pokemob)
     {
-        if (trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.DUMMY_UUID);
+        if (trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.NIL_UUID);
     }
 
     public IFormattableTextComponent sendNoTrust(final Entity trainer)
@@ -249,7 +249,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         final String message = "msg.nohere.info";
         final TranslationTextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(
                 this.getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component, Util.DUMMY_UUID);
+        trainer.sendMessage(component, Util.NIL_UUID);
         return component;
     }
 
@@ -288,7 +288,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
             PokedexEntry entry = Database.getEntry(s);
             if (entry == null) entry = Database.missingno;
             if (namemes == null) namemes = new TranslationTextComponent(entry.getUnlocalizedName());
-            else namemes = namemes.appendString(", ").append(new TranslationTextComponent(entry.getUnlocalizedName()));
+            else namemes = namemes.append(", ").append(new TranslationTextComponent(entry.getUnlocalizedName()));
         }
         final TranslationTextComponent component = new TranslationTextComponent(message, namemes);
         return component;
@@ -299,7 +299,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         final String message = "msg.reginotlookright.info";
         final TranslationTextComponent component = new TranslationTextComponent(message, name);
-        trainer.sendMessage(component, Util.DUMMY_UUID);
+        trainer.sendMessage(component, Util.NIL_UUID);
         return component;
     }
 

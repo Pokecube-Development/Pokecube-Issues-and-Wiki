@@ -22,14 +22,14 @@ public class ClientBot
 
     private static void onClientTick(final ClientTickEvent event)
     {
-        final World world = Minecraft.getInstance().world;
+        final World world = Minecraft.getInstance().level;
         final PlayerEntity player = Minecraft.getInstance().player;
-        if (world == null || player == null || world.isRemote) return;
+        if (world == null || player == null || world.isClientSide) return;
         final long timer = world.getGameTime() / 1000;
         final Random rng = new Random(timer * 213787354 + timer * timer * 123471753736l);
         final float yaw = rng.nextFloat() * 360f;
-        player.rotationYaw = yaw;
-        Minecraft.getInstance().keyboardListener.onKeyEvent(Minecraft.getInstance().getMainWindow().getHandle(),
+        player.yRot = yaw;
+        Minecraft.getInstance().keyboardHandler.keyPress(Minecraft.getInstance().getWindow().getWindow(),
                 GLFW.GLFW_KEY_W, 17, 1, 0);
     }
 

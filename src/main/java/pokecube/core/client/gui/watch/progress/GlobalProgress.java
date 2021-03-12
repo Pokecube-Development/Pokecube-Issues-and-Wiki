@@ -37,14 +37,14 @@ public class GlobalProgress extends Progress
         PlayerEntity player = this.watch.player;
         if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
 
-        this.caught0 = CaptureStats.getNumberUniqueCaughtBy(player.getUniqueID());
-        this.caught1 = CaptureStats.getTotalNumberCaughtBy(player.getUniqueID());
+        this.caught0 = CaptureStats.getNumberUniqueCaughtBy(player.getUUID());
+        this.caught1 = CaptureStats.getTotalNumberCaughtBy(player.getUUID());
 
-        this.hatched0 = EggStats.getNumberUniqueHatchedBy(player.getUniqueID());
-        this.hatched1 = EggStats.getTotalNumberHatchedBy(player.getUniqueID());
+        this.hatched0 = EggStats.getNumberUniqueHatchedBy(player.getUUID());
+        this.hatched1 = EggStats.getTotalNumberHatchedBy(player.getUUID());
 
-        this.killed0 = KillStats.getNumberUniqueKilledBy(player.getUniqueID());
-        this.killed1 = KillStats.getTotalNumberKilledBy(player.getUniqueID());
+        this.killed0 = KillStats.getNumberUniqueKilledBy(player.getUUID());
+        this.killed1 = KillStats.getTotalNumberKilledBy(player.getUUID());
 
         final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.global.caught",
                 this.caught1, this.caught0);
@@ -54,9 +54,9 @@ public class GlobalProgress extends Progress
                 this.hatched1, this.hatched0);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
-        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
+        final AxisAlignedBB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
                 .getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getEntityWorld().getEntitiesInAABBexcluding(this.watch.player,
+        final List<Entity> otherMobs = this.watch.player.getCommandSenderWorld().getEntities(this.watch.player,
                 bb, input -> input instanceof AnimalEntity && CapabilityPokemob.getPokemobFor(input) != null);
         final TranslationTextComponent nearbyLine = new TranslationTextComponent("pokewatch.progress.global.nearby",
                 otherMobs.size());
@@ -68,7 +68,7 @@ public class GlobalProgress extends Progress
 
         final TexButton inspectBtn = this.addButton(new TexButton(x - 50, y + 25, 100, 12, inspect, b ->
         {
-            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getCurrentLanguage()
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected()
                     .getCode());
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
 

@@ -46,7 +46,7 @@ public class TMInventory extends Inventory implements ICapabilitySerializable<Co
     }
 
     @Override
-    public boolean isItemValidForSlot(final int index, final ItemStack stack)
+    public boolean canPlaceItem(final int index, final ItemStack stack)
     {
         switch (index)
         {

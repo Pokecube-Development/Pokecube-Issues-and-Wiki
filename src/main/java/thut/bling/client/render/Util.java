@@ -30,17 +30,17 @@ public class Util
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
-        return alpha ? RenderType.makeType("thutbling:bling_a", DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256,
-                true, false, RenderType.State.getBuilder().texture(new RenderState.TextureState(loc, true, false))
-                        .diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(new RenderState.AlphaState(
-                                0.003921569F)).cull(new RenderState.CullState(false)).lightmap(
-                                        new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true))
-                        .build(false))
-                : RenderType.makeType("thutbling:bling_b", DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256, true,
-                        false, RenderType.State.getBuilder().texture(new RenderState.TextureState(loc, true, false))
-                                .diffuseLighting(new RenderState.DiffuseLightingState(true)).cull(
-                                        new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
-                                .overlay(new RenderState.OverlayState(true)).build(false));
+        return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256,
+                true, false, RenderType.State.builder().setTextureState(new RenderState.TextureState(loc, true, false))
+                        .setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(new RenderState.AlphaState(
+                                0.003921569F)).setCullState(new RenderState.CullState(false)).setLightmapState(
+                                        new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(true))
+                        .createCompositeState(false))
+                : RenderType.create("thutbling:bling_b", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256, true,
+                        false, RenderType.State.builder().setTextureState(new RenderState.TextureState(loc, true, false))
+                                .setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setCullState(
+                                        new RenderState.CullState(false)).setLightmapState(new RenderState.LightmapState(true))
+                                .setOverlayState(new RenderState.OverlayState(true)).createCompositeState(false));
     }
 
     static Map<String, IModel>             customModels   = Maps.newHashMap();
@@ -119,15 +119,15 @@ public class Util
         IExtendedModelPart part = model.getParts().get(colorpart);
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
-            gem = ItemStack.read(stack.getTag().getCompound("gemTag"));
-            final ResourceLocation sprite = Minecraft.getInstance().getItemRenderer().getItemModelMesher()
+            gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
+            final ResourceLocation sprite = Minecraft.getInstance().getItemRenderer().getItemModelShaper()
                     .getParticleIcon(gem).getName();
             final String namespace = sprite.getNamespace();
             final String val = "textures/" + sprite.getPath();
             tex0 = new ResourceLocation(namespace, val + ".png");
         }
         else tex0 = null;
-        mat.push();
+        mat.pushPose();
         mat.translate(dr.x, dr.y, dr.z);
         mat.scale(ds.x, ds.y, ds.z);
         if (part != null)
@@ -145,9 +145,9 @@ public class Util
         else if (part != null && !gem.isEmpty())
         {
             // TODO confirm this works
-            final IVertexBuilder buf0 = buff.getBuffer(RenderTypeLookup.func_239219_a_(gem, false));
+            final IVertexBuilder buf0 = buff.getBuffer(RenderTypeLookup.getRenderType(gem, false));
             renderable.renderPart(mat, buf0, itempart);
         }
-        mat.pop();
+        mat.popPose();
     }
 }

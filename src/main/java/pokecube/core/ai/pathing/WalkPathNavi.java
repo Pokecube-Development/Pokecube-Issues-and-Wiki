@@ -15,11 +15,11 @@ public class WalkPathNavi extends GroundPathNavigator
     }
 
     @Override
-    protected PathFinder getPathFinder(final int range)
+    protected PathFinder createPathFinder(final int range)
     {
-        this.nodeProcessor = new WalkAndSwimNodeProcessor();
-        this.nodeProcessor.setCanEnterDoors(true);
-        return new PathFinder(this.nodeProcessor, range);
+        this.nodeEvaluator = new WalkAndSwimNodeProcessor();
+        this.nodeEvaluator.setCanPassDoors(true);
+        return new PathFinder(this.nodeEvaluator, range);
     }
 
 }

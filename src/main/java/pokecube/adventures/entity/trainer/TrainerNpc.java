@@ -44,7 +44,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
 
     static
     {
-        TYPE = EntityType.Builder.create(TrainerNpc::new, EntityClassification.CREATURE).setCustomClientFactory((s,
+        TYPE = EntityType.Builder.of(TrainerNpc::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> TrainerNpc.TYPE.create(w)).build("trainer");
     }
 
@@ -57,19 +57,19 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         // This can be null in the case where fake worlds are used to initialize
         // us for testing.
         if (this.pokemobsCap != null) this.pokemobsCap.setType(TypeTrainer.get(this, true));
-        this.enablePersistence();
+        this.setPersistenceRequired();
     }
 
     @Override
     protected void addMobTrades(final PlayerEntity player, final ItemStack stack)
     {
-        if (this.getCustomer() != null) this.addMobTrades(stack);
+        if (this.getTradingPlayer() != null) this.addMobTrades(stack);
     }
 
     protected void addMobTrades(final ItemStack buy1)
     {
         final ItemStack buy = buy1.copy();
-        final IPokemob mon1 = PokecubeManager.itemToPokemob(buy1, this.getEntityWorld());
+        final IPokemob mon1 = PokecubeManager.itemToPokemob(buy1, this.getCommandSenderWorld());
         if (mon1 == null) return;
         final int stat1 = this.getBaseStats(mon1);
         for (int i = 0; i < this.pokemobsCap.getMaxPokemobCount(); i++)
@@ -77,14 +77,14 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
             ItemStack stack = this.pokemobsCap.getPokemob(i);
             if (PokecubeManager.isFilled(stack))
             {
-                final IPokemob mon = PokecubeManager.itemToPokemob(stack, this.getEntityWorld());
+                final IPokemob mon = PokecubeManager.itemToPokemob(stack, this.getCommandSenderWorld());
                 final int stat = this.getBaseStats(mon);
                 if (stat > stat1 || mon.getLevel() > mon1.getLevel() || SpecialCaseRegister.getCaptureCondition(mon
                         .getEvolutionEntry()) != null || SpecialCaseRegister.getSpawnCondition(mon
                                 .getEvolutionEntry()) != null) continue;
                 final UUID trader1 = mon1.getOwnerId();
                 final boolean everstone = ItemList.is(ICanEvolve.EVERSTONE, stack);
-                mon.setOriginalOwnerUUID(this.getUniqueID());
+                mon.setOriginalOwnerUUID(this.getUUID());
                 mon.setOwner(trader1);
                 mon.setTraded(!everstone);
                 stack = PokecubeManager.pokemobToItem(mon);
@@ -95,27 +95,27 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public void onTrade(final MerchantOffer recipe)
+    public void notifyTrade(final MerchantOffer recipe)
     {
-        super.onTrade(recipe);
+        super.notifyTrade(recipe);
         // If this was our mob trade, we need to set our mob as it.
-        ItemStack poke1 = recipe.getBuyingStackFirst();
-        final ItemStack poke2 = recipe.getSellingStack();
+        ItemStack poke1 = recipe.getBaseCostA();
+        final ItemStack poke2 = recipe.getResult();
         if (!(PokecubeManager.isFilled(poke1) && PokecubeManager.isFilled(poke2))) return;
         final int num = poke2.getTag().getInt("slotnum");
         final LivingEntity player2 = this;
-        final IPokemob mon1 = PokecubeManager.itemToPokemob(poke1, this.getEntityWorld());
-        final UUID trader2 = player2.getUniqueID();
+        final IPokemob mon1 = PokecubeManager.itemToPokemob(poke1, this.getCommandSenderWorld());
+        final UUID trader2 = player2.getUUID();
         mon1.setOwner(trader2);
         poke1 = PokecubeManager.pokemobToItem(mon1);
         this.pokemobsCap.setPokemob(num, poke1);
     }
 
     @Override
-    public VillagerEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity ageable)
+    public VillagerEntity getBreedOffspring(final ServerWorld p_241840_1_, final AgeableEntity ageable)
     {
-        if (this.isChild() || this.getGrowingAge() > 0 || !this.aiStates.getAIState(AIState.MATES)) return null;
-        if (TrainerTracker.countTrainers(this.getEntityWorld(), this.location.set(this),
+        if (this.isBaby() || this.getAge() > 0 || !this.aiStates.getAIState(AIState.MATES)) return null;
+        if (TrainerTracker.countTrainers(this.getCommandSenderWorld(), this.location.set(this),
                 PokecubeAdv.config.trainerBox) > 5) return null;
         if (this.pokemobsCap.getGender() == 2)
         {
@@ -124,8 +124,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
             if (other != null && otherAI != null && otherAI.getAIState(AIState.MATES) && other.getGender() == 1)
             {
                 if (this.location == null) this.location = Vector3.getNewVector();
-                final TrainerNpc baby = TrainerSpawnHandler.getTrainer(this.location.set(this), this.getEntityWorld());
-                if (baby != null) baby.setGrowingAge(-24000);
+                final TrainerNpc baby = TrainerSpawnHandler.getTrainer(this.location.set(this), this.getCommandSenderWorld());
+                if (baby != null) baby.setAge(-24000);
                 return baby;
             }
         }
@@ -140,9 +140,9 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public void readAdditional(final CompoundNBT nbt)
+    public void readAdditionalSaveData(final CompoundNBT nbt)
     {
-        super.readAdditional(nbt);
+        super.readAdditionalSaveData(nbt);
         this.fixedMobs = nbt.getBoolean("fixedMobs");
         this.setTypes();
     }
@@ -164,7 +164,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
             return this;
         }
         this.guardAI.setTimePeriod(TimePeriod.fullDay);
-        this.guardAI.setPos(this.getPosition());
+        this.guardAI.setPos(this.blockPosition());
         this.aiStates.setAIState(AIState.STATIONARY, true);
         return this;
     }
@@ -179,7 +179,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     @Override
     public void initTeam(final int level)
     {
-        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.world);
+        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.level);
     }
 
     public void setTypes()
@@ -198,9 +198,9 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public void writeAdditional(final CompoundNBT compound)
+    public void addAdditionalSaveData(final CompoundNBT compound)
     {
-        if (this.getHeldItem(Hand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty()) this.setHeldItem(
+        if (this.getItemInHand(Hand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty()) this.setItemInHand(
                 Hand.OFF_HAND, this.pokemobsCap.getType().held.copy());
         if (!this.pokemobsCap.getType().bag.isEmpty())
         {
@@ -209,7 +209,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
                     .getType().bag.copy());
         }
         this.setTypes(); // Ensure types are valid before saving.
-        super.writeAdditional(compound);
+        super.addAdditionalSaveData(compound);
         compound.putBoolean("fixedMobs", this.fixedMobs);
     }
 }

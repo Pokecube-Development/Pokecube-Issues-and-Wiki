@@ -22,9 +22,11 @@ import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.IPosWrapper;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.events.SetAttackTargetEvent;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.utils.AITools;
@@ -35,17 +37,17 @@ public class BrainUtils
 {
     public static boolean canSee(final LivingEntity mobIn, final LivingEntity target)
     {
-        final boolean brainMemory = mobIn.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS);
-        boolean canSee = brainMemory && BrainUtil.canSee(mobIn.getBrain(), target);
-        if (!brainMemory) canSee = mobIn.canEntityBeSeen(target);
+        final boolean brainMemory = mobIn.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES);
+        boolean canSee = brainMemory && BrainUtil.entityIsVisible(mobIn.getBrain(), target);
+        if (!brainMemory) canSee = mobIn.canSee(target);
         return canSee;
     }
 
     public static LivingEntity getAttackTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (brain.hasMemory(MemoryModules.ATTACKTARGET)) return brain.getMemory(MemoryModules.ATTACKTARGET).get();
-        else if (mobIn instanceof MobEntity) return ((MobEntity) mobIn).getAttackTarget();
+        if (brain.hasMemoryValue(MemoryModules.ATTACKTARGET)) return brain.getMemory(MemoryModules.ATTACKTARGET).get();
+        else if (mobIn instanceof MobEntity) return ((MobEntity) mobIn).getTarget();
         else return null;
     }
 
@@ -62,21 +64,21 @@ public class BrainUtils
     public static void setAttackTarget(final LivingEntity mobIn, final LivingEntity target)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (brain.hasMemory(MemoryModules.ATTACKTARGET, MemoryModuleStatus.REGISTERED)) brain.setMemory(
+        if (brain.checkMemory(MemoryModules.ATTACKTARGET, MemoryModuleStatus.REGISTERED)) brain.setMemory(
                 MemoryModules.ATTACKTARGET, target);
-        if (mobIn instanceof MobEntity) ((MobEntity) mobIn).setAttackTarget(target);
+        if (mobIn instanceof MobEntity) ((MobEntity) mobIn).setTarget(target);
     }
 
     public static void setHuntTarget(final LivingEntity mobIn, final LivingEntity target)
     {
         Brain<?> brain = mobIn.getBrain();
-        if (brain.hasMemory(MemoryModules.HUNTTARGET, MemoryModuleStatus.REGISTERED)) brain.setMemory(
+        if (brain.checkMemory(MemoryModules.HUNTTARGET, MemoryModuleStatus.REGISTERED)) brain.setMemory(
                 MemoryModules.HUNTTARGET, target);
         BrainUtils.setAttackTarget(mobIn, target);
         if (target != null)
         {
             brain = target.getBrain();
-            if (brain.hasMemory(MemoryModules.HUNTED_BY, MemoryModuleStatus.REGISTERED)) brain.setMemory(
+            if (brain.checkMemory(MemoryModules.HUNTED_BY, MemoryModuleStatus.REGISTERED)) brain.setMemory(
                     MemoryModules.HUNTED_BY, mobIn);
         }
     }
@@ -84,8 +86,8 @@ public class BrainUtils
     public static LivingEntity getHuntTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (brain.hasMemory(MemoryModules.HUNTTARGET)) return brain.getMemory(MemoryModules.HUNTTARGET).get();
-        else if (mobIn instanceof MobEntity) return ((MobEntity) mobIn).getAttackTarget();
+        if (brain.hasMemoryValue(MemoryModules.HUNTTARGET)) return brain.getMemory(MemoryModules.HUNTTARGET).get();
+        else if (mobIn instanceof MobEntity) return ((MobEntity) mobIn).getTarget();
         else return null;
     }
 
@@ -97,7 +99,7 @@ public class BrainUtils
     public static AgeableEntity getMateTarget(final AgeableEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (brain.hasMemory(MemoryModules.MATE_TARGET)) return brain.getMemory(MemoryModules.MATE_TARGET).get();
+        if (brain.hasMemoryValue(MemoryModules.MATE_TARGET)) return brain.getMemory(MemoryModules.MATE_TARGET).get();
         else return null;
     }
 
@@ -109,7 +111,7 @@ public class BrainUtils
     public static void setMateTarget(final AgeableEntity mobIn, final AgeableEntity target)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (brain.hasMemory(MemoryModules.MATE_TARGET, MemoryModuleStatus.REGISTERED)) brain.setMemory(
+        if (brain.checkMemory(MemoryModules.MATE_TARGET, MemoryModuleStatus.REGISTERED)) brain.setMemory(
                 MemoryModules.MATE_TARGET, target);
     }
 
@@ -137,7 +139,7 @@ public class BrainUtils
     public static void clearMoveUseTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
-        brain.removeMemory(MemoryModules.MOVE_TARGET);
+        brain.eraseMemory(MemoryModules.MOVE_TARGET);
     }
 
     public static boolean hasMoveUseTarget(final LivingEntity mobIn)
@@ -148,7 +150,7 @@ public class BrainUtils
     public static IPosWrapper getMoveUseTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (!brain.hasMemory(MemoryModules.MOVE_TARGET)) return null;
+        if (!brain.hasMemoryValue(MemoryModules.MOVE_TARGET)) return null;
         final Optional<IPosWrapper> pos = brain.getMemory(MemoryModules.MOVE_TARGET);
         if (pos == null || !pos.isPresent()) return null;
         return pos.get();
@@ -157,7 +159,7 @@ public class BrainUtils
     public static IPosWrapper getLeapTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (!brain.hasMemory(MemoryModules.LEAP_TARGET)) return null;
+        if (!brain.hasMemoryValue(MemoryModules.LEAP_TARGET)) return null;
         final Optional<IPosWrapper> pos = brain.getMemory(MemoryModules.LEAP_TARGET);
         if (pos == null || !pos.isPresent()) return null;
         return pos.get();
@@ -166,8 +168,8 @@ public class BrainUtils
     public static void setLeapTarget(final LivingEntity mobIn, final IPosWrapper target)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (!brain.hasMemory(MemoryModules.LEAP_TARGET, MemoryModuleStatus.REGISTERED)) return;
-        if (target == null) brain.removeMemory(MemoryModules.LEAP_TARGET);
+        if (!brain.checkMemory(MemoryModules.LEAP_TARGET, MemoryModuleStatus.REGISTERED)) return;
+        if (target == null) brain.eraseMemory(MemoryModules.LEAP_TARGET);
         else brain.setMemory(MemoryModules.LEAP_TARGET, target);
         final IPokemob mob = CapabilityPokemob.getPokemobFor(mobIn);
         if (mob != null) mob.setCombatState(CombatStates.LEAPING, target != null);
@@ -216,12 +218,12 @@ public class BrainUtils
             @SuppressWarnings("unchecked")
             final SensorType<? extends Sensor<? super LivingEntity>> stype = (SensorType<? extends Sensor<? super LivingEntity>>) type;
             @SuppressWarnings("unchecked")
-            final Sensor<LivingEntity> sense = (Sensor<LivingEntity>) stype.getSensor();
+            final Sensor<LivingEntity> sense = (Sensor<LivingEntity>) stype.create();
             brain.sensors.put(stype, sense);
         });
         brain.sensors.values().forEach((sensor) ->
         {
-            for (final MemoryModuleType<?> memorymoduletype : sensor.getUsedMemories())
+            for (final MemoryModuleType<?> memorymoduletype : sensor.requires())
                 if (!brain.memories.containsKey(memorymoduletype)) brain.memories.put(memorymoduletype, Optional
                         .empty());
         });
@@ -235,7 +237,7 @@ public class BrainUtils
         {
             final Integer prior = pair.getFirst();
             final Task<? super LivingEntity> task = pair.getSecond();
-            brain.taskPriorityMap.computeIfAbsent(prior, (val) ->
+            brain.availableBehaviorsByPriority.computeIfAbsent(prior, (val) ->
             {
                 return Maps.newHashMap();
             }).computeIfAbsent(act, (tmp) ->
@@ -296,6 +298,8 @@ public class BrainUtils
     {
         if (mob == null) return;
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
+        if (PokecubeMod.debug) if (mutual) PokecubeCore.LOGGER.error(mob + " " + mutual, new Exception());
+        else PokecubeCore.LOGGER.error(mob + " " + mutual);
         if (aggressor != null)
         {
             aggressor.getTargetFinder().clear();
@@ -306,9 +310,9 @@ public class BrainUtils
         final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
         if (oldTarget != null && mutual) BrainUtils.deagro(oldTarget, false);
         BrainUtils.clearAttackTarget(mob);
-        mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
-        mob.getBrain().removeMemory(MemoryModules.MATE_TARGET);
-        mob.getBrain().removeMemory(MemoryModuleType.HURT_BY_ENTITY);
-        mob.getBrain().removeMemory(MemoryModuleType.HURT_BY);
+        mob.getBrain().eraseMemory(MemoryModules.ATTACKTARGET);
+        mob.getBrain().eraseMemory(MemoryModules.MATE_TARGET);
+        mob.getBrain().eraseMemory(MemoryModuleType.HURT_BY_ENTITY);
+        mob.getBrain().eraseMemory(MemoryModuleType.HURT_BY);
     }
 }

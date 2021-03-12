@@ -34,7 +34,7 @@ public class PacketPokemobMessage extends Packet
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
         this.senderId = buffer.readInt();
-        this.message = buffer.readTextComponent();
+        this.message = buffer.readComponent();
     }
 
     @Override
@@ -50,6 +50,6 @@ public class PacketPokemobMessage extends Packet
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeInt(this.senderId);
-        buffer.writeTextComponent(this.message);
+        buffer.writeComponent(this.message);
     }
 }

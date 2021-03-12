@@ -26,7 +26,7 @@ public class TMContainer extends BaseContainer
 
     public TMContainer(final int id, final PlayerInventory inv)
     {
-        this(id, inv, IWorldPosCallable.DUMMY);
+        this(id, inv, IWorldPosCallable.NULL);
     }
 
     public TMContainer(final int id, final PlayerInventory inv, final IWorldPosCallable pos)
@@ -34,9 +34,9 @@ public class TMContainer extends BaseContainer
         super(TMContainer.TYPE, id);
         this.pos = pos;
 
-        pos.consume((w, p) ->
+        pos.execute((w, p) ->
         {
-            final TileEntity tile = w.getTileEntity(p);
+            final TileEntity tile = w.getBlockEntity(p);
             // Server side
             if (tile instanceof TMTile)
             {
@@ -50,7 +50,7 @@ public class TMContainer extends BaseContainer
         if (this.inv == null)
         {
             this.tile = new TMTile();
-            this.tile.setWorldAndPos(PokecubeCore.proxy.getWorld(), inv.player.getPosition());
+            this.tile.setLevelAndPosition(PokecubeCore.proxy.getWorld(), inv.player.blockPosition());
             final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
             this.inv = wrapper.getInv();
@@ -61,28 +61,28 @@ public class TMContainer extends BaseContainer
         this.addSlot(new TexturedSlot(this.inv, 1, 15 + 00, 12 + 49, "pokecube:items/slot_cube")
         {
             @Override
-            public boolean isItemValid(final ItemStack stack)
+            public boolean mayPlace(final ItemStack stack)
             {
                 if (PokecubeManager.isFilled(stack)) cont.moves = cont.tile.getMoves(PokecubeManager.itemToPokemob(
-                        stack, cont.tile.getWorld()));
+                        stack, cont.tile.getLevel()));
                 final String owner = PokecubeManager.getOwner(stack);
-                if (owner.isEmpty()) return super.isItemValid(stack);
-                return inv.player.getCachedUniqueIdString().equals(owner);
+                if (owner.isEmpty()) return super.mayPlace(stack);
+                return inv.player.getStringUUID().equals(owner);
             }
 
             @Override
-            public boolean canTakeStack(final PlayerEntity playerIn)
+            public boolean mayPickup(final PlayerEntity playerIn)
             {
-                final String owner = PokecubeManager.getOwner(this.getStack());
-                if (owner.isEmpty()) return super.canTakeStack(playerIn);
-                return playerIn.getCachedUniqueIdString().equals(owner);
+                final String owner = PokecubeManager.getOwner(this.getItem());
+                if (owner.isEmpty()) return super.mayPickup(playerIn);
+                return playerIn.getStringUUID().equals(owner);
             }
         });
         this.bindPlayerInventory(inv, -19);
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return true;
     }
@@ -100,10 +100,10 @@ public class TMContainer extends BaseContainer
     }
 
     @Override
-    public void onContainerClosed(final PlayerEntity playerIn)
+    public void removed(final PlayerEntity playerIn)
     {
-        super.onContainerClosed(playerIn);
-        this.pos.consume((world, pos) ->
+        super.removed(playerIn);
+        this.pos.execute((world, pos) ->
         {
             this.clearContainer(playerIn, world, this.inv);
         });

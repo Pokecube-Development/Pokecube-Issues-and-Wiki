@@ -18,21 +18,21 @@ public class PosWrapWrap implements IPosWrapper
     }
 
     @Override
-    public Vector3d getPos()
+    public Vector3d currentPosition()
     {
-        return this.wrapped.getPos();
+        return this.wrapped.currentPosition();
     }
 
     @Override
-    public BlockPos getBlockPos()
+    public BlockPos currentBlockPosition()
     {
-        return this.wrapped.getBlockPos();
+        return this.wrapped.currentBlockPosition();
     }
 
     @Override
-    public boolean isVisibleTo(final LivingEntity entity)
+    public boolean isVisibleBy(final LivingEntity entity)
     {
-        return this.wrapped.isVisibleTo(entity);
+        return this.wrapped.isVisibleBy(entity);
     }
 
 }

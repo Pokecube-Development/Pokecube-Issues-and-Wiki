@@ -51,14 +51,14 @@ public class PacketBag extends Packet
     public PacketBag(final byte message, final UUID owner)
     {
         this(message);
-        this.data.putUniqueId(PacketBag.OWNER, owner);
+        this.data.putUUID(PacketBag.OWNER, owner);
     }
 
     public PacketBag(final PacketBuffer buf)
     {
         this.message = buf.readByte();
         final PacketBuffer buffer = new PacketBuffer(buf);
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class PacketBag extends Packet
     {
 
         BagContainer container = null;
-        if (player.openContainer instanceof BagContainer) container = (BagContainer) player.openContainer;
+        if (player.containerMenu instanceof BagContainer) container = (BagContainer) player.containerMenu;
         switch (this.message)
         {
         case SETPAGE:
@@ -103,7 +103,7 @@ public class PacketBag extends Packet
     {
         buf.writeByte(this.message);
         final PacketBuffer buffer = new PacketBuffer(buf);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 
 }

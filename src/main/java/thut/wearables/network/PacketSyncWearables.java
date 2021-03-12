@@ -28,7 +28,7 @@ public class PacketSyncWearables extends Packet
         if (cap != null)
         {
             MinecraftForge.EVENT_BUS.post(new WearablesLoadedEvent(player, cap));
-            this.data.putInt("I", player.getEntityId());
+            this.data.putInt("I", player.getId());
             cap.writeToNBT(this.data);
         }
         else this.data.putInt("I", -1);
@@ -36,7 +36,7 @@ public class PacketSyncWearables extends Packet
 
     public PacketSyncWearables(final PacketBuffer buffer)
     {
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
 
     }
 
@@ -44,9 +44,9 @@ public class PacketSyncWearables extends Packet
     @Override
     public void handleClient()
     {
-        final World world = net.minecraft.client.Minecraft.getInstance().world;
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
         if (world == null) return;
-        final Entity p = world.getEntityByID(this.data.getInt("I"));
+        final Entity p = world.getEntity(this.data.getInt("I"));
         if (p != null && p instanceof LivingEntity)
         {
             final PlayerWearables cap = ThutWearables.getWearables((LivingEntity) p);
@@ -58,7 +58,7 @@ public class PacketSyncWearables extends Packet
     @Override
     public void write(final PacketBuffer buffer)
     {
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 
 }

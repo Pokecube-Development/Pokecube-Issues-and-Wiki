@@ -33,6 +33,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Explosion;
@@ -111,7 +112,7 @@ public class Vector3
         }
 
         @Override
-        public BlockPos toImmutable()
+        public BlockPos immutable()
         {
             return new BlockPos(this);
         }
@@ -140,7 +141,7 @@ public class Vector3
 
     public static Vector3 entity(final Entity e)
     {
-        if (e != null) return Vector3.getNewVector().set(e.getPosX(), e.getPosY() + e.getEyeHeight(), e.getPosZ());
+        if (e != null) return Vector3.getNewVector().set(e.getX(), e.getY() + e.getEyeHeight(), e.getZ());
         return null;
     }
 
@@ -243,7 +244,7 @@ public class Vector3
         final BlockState state = world.getBlockState(pos);
         if (state == null) return true;
         final VoxelShape shape = state.getCollisionShape(world, pos);
-        final List<AxisAlignedBB> aabbs = shape.toBoundingBoxList();
+        final List<AxisAlignedBB> aabbs = shape.toAabbs();
         for (final AxisAlignedBB aabb : aabbs)
             if (aabb != null) if (aabb.contains(x - x0, y - y0, z - z0)) return false;
         return true;
@@ -261,7 +262,7 @@ public class Vector3
         final BlockState state = world.getBlockState(pos = new BlockPos(x0, y0, z0));
         if (state == null) return true;
         final VoxelShape shape = state.getCollisionShape(world, pos);
-        final List<AxisAlignedBB> aabbs = shape.toBoundingBoxList();
+        final List<AxisAlignedBB> aabbs = shape.toAabbs();
         for (final AxisAlignedBB aabb : aabbs)
             if (aabb != null) if (aabb.contains(x - x0, y - y0, z - z0)) return false;
         return true;
@@ -270,7 +271,7 @@ public class Vector3
     public static boolean isVisibleEntityFromEntity(final Entity looker, final Entity target)
     {
         if (looker == null || target == null) return false;
-        if (looker instanceof LivingEntity) return ((LivingEntity) looker).canEntityBeSeen(target);
+        if (looker instanceof LivingEntity) return ((LivingEntity) looker).canSee(target);
         // TODO consider other raytrace here.
         return false;
     }
@@ -296,11 +297,11 @@ public class Vector3
             final Vector3d end = direction.scalarMultBy(range).addTo(source).toVec3d();
             if (Vector3.USEDFORRAYTRACECONTEXT == null) Vector3.USEDFORRAYTRACECONTEXT = FakePlayerFactory.get(
                     (ServerWorld) world, Vector3.FAKEPLAYER);
-            else Vector3.USEDFORRAYTRACECONTEXT.setWorld((World) world);
+            else Vector3.USEDFORRAYTRACECONTEXT.setLevel((World) world);
             final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
                     Vector3.USEDFORRAYTRACECONTEXT);
-            final BlockRayTraceResult result = world.rayTraceBlocks(context);
-            return result.getType() == BlockRayTraceResult.Type.MISS;
+            final BlockRayTraceResult result = world.clip(context);
+            return result.getType() == RayTraceResult.Type.MISS;
         }
 
         double dx, dy, dz;
@@ -398,15 +399,15 @@ public class Vector3
     {
         if (e != null && bool)
         {
-            this.x = e.getPosX();
-            this.y = e.getPosY() + e.getHeight() / 2;
-            this.z = e.getPosZ();
+            this.x = e.getX();
+            this.y = e.getY() + e.getBbHeight() / 2;
+            this.z = e.getZ();
         }
         else if (e != null)
         {
-            this.x = e.getPosX();
-            this.y = e.getPosY() + e.getEyeHeight();
-            this.z = e.getPosZ();
+            this.x = e.getX();
+            this.y = e.getY() + e.getEyeHeight();
+            this.z = e.getZ();
         }
     }
 
@@ -485,7 +486,7 @@ public class Vector3
 
     public void addVelocities(final Entity e)
     {
-        e.addVelocity(this.x, this.y, this.z);
+        e.push(this.x, this.y, this.z);
     }
 
     public List<Entity> allEntityLocationExcluding(final int range, final double size, Vector3 direction,
@@ -494,21 +495,21 @@ public class Vector3
         direction = direction.normalize();
         final List<Entity> ret = new ArrayList<>();
         Predicate<Entity> predicate = e -> e != excluded;
-        predicate = predicate.and(EntityPredicates.NOT_SPECTATING);
+        predicate = predicate.and(EntityPredicates.NO_SPECTATORS);
         final double ds = range;
         final Vector3d vec3 = source.toVec3d();
         final Vector3d vec31 = direction.toVec3d();
         final Vector3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
         final float f = 0.5F;
-        final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
-        final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
+        final AxisAlignedBB aabb = this.getAABB().expandTowards(vec31.x * ds, vec31.y * ds, vec31.z * ds).inflate(f, f, f);
+        final List<Entity> mobs = world.getEntities(excluded, aabb, predicate);
         PartEntity<?>[] parts = null;
         for (final Entity entity1 : mobs)
             if ((parts = entity1.getParts()) != null && parts.length > 0) partcheck:
             for (final PartEntity<?> part : parts)
             {
-                final AxisAlignedBB axisalignedbb = part.getBoundingBox().grow(0.3F);
-                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final AxisAlignedBB axisalignedbb = part.getBoundingBox().inflate(0.3F);
+                final Optional<Vector3d> optional = axisalignedbb.clip(vec3, vec32);
                 if (optional.isPresent())
                 {
                     ret.add(entity1);
@@ -517,8 +518,8 @@ public class Vector3
             }
             else
             {
-                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
-                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate(0.3F);
+                final Optional<Vector3d> optional = axisalignedbb.clip(vec3, vec32);
                 if (optional.isPresent()) ret.add(entity1);
             }
         return ret;
@@ -529,21 +530,21 @@ public class Vector3
     {
         direction = direction.normalize();
         final List<Entity> ret = new ArrayList<>();
-        if (predicate == null) predicate = EntityPredicates.NOT_SPECTATING;
+        if (predicate == null) predicate = EntityPredicates.NO_SPECTATORS;
         final double ds = range;
         final Vector3d vec3 = source.toVec3d();
         final Vector3d vec31 = direction.toVec3d();
         final Vector3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
         final float f = 1F;
-        final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
-        final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
+        final AxisAlignedBB aabb = this.getAABB().expandTowards(vec31.x * ds, vec31.y * ds, vec31.z * ds).inflate(f, f, f);
+        final List<Entity> mobs = world.getEntities(excluded, aabb, predicate);
         PartEntity<?>[] parts = null;
         for (final Entity entity1 : mobs)
             if ((parts = entity1.getParts()) != null && parts.length > 0) partcheck:
             for (final PartEntity<?> part : parts)
             {
-                final AxisAlignedBB axisalignedbb = part.getBoundingBox().grow(size);
-                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final AxisAlignedBB axisalignedbb = part.getBoundingBox().inflate(size);
+                final Optional<Vector3d> optional = axisalignedbb.clip(vec3, vec32);
                 if (optional.isPresent())
                 {
                     ret.add(entity1);
@@ -552,8 +553,8 @@ public class Vector3
             }
             else
             {
-                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(size);
-                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate(size);
+                final Optional<Vector3d> optional = axisalignedbb.clip(vec3, vec32);
                 if (optional.isPresent()) ret.add(entity1);
             }
         return ret;
@@ -798,24 +799,24 @@ public class Vector3
             Predicate<Entity> predicate)
     {
         Entity pointedEntity = null;
-        if (predicate == null) predicate = EntityPredicates.NOT_SPECTATING;
+        if (predicate == null) predicate = EntityPredicates.NO_SPECTATORS;
         double ds = range;
         final Vector3d vec3 = this.toVec3d();
         final Vector3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
         final float f = 2.5F;
-        final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
-        final List<Entity> mobs = world.getEntitiesInAABBexcluding(entity, aabb, predicate);
+        final AxisAlignedBB aabb = this.getAABB().expandTowards(vec31.x * ds, vec31.y * ds, vec31.z * ds).inflate(f, f, f);
+        final List<Entity> mobs = world.getEntities(entity, aabb, predicate);
         ds *= ds;
         PartEntity<?>[] parts = null;
         for (final Entity entity1 : mobs)
             if ((parts = entity1.getParts()) != null && parts.length > 0) partcheck:
             for (final PartEntity<?> part : parts)
             {
-                final AxisAlignedBB axisalignedbb = part.getBoundingBox().grow(0.3F);
-                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final AxisAlignedBB axisalignedbb = part.getBoundingBox().inflate(0.3F);
+                final Optional<Vector3d> optional = axisalignedbb.clip(vec3, vec32);
                 if (optional.isPresent())
                 {
-                    final double d1 = vec3.squareDistanceTo(optional.get());
+                    final double d1 = vec3.distanceToSqr(optional.get());
                     if (d1 < ds)
                     {
                         pointedEntity = entity1;
@@ -826,11 +827,11 @@ public class Vector3
             }
             else
             {
-                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
-                final Optional<Vector3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate(0.3F);
+                final Optional<Vector3d> optional = axisalignedbb.clip(vec3, vec32);
                 if (optional.isPresent())
                 {
-                    final double d1 = vec3.squareDistanceTo(optional.get());
+                    final double d1 = vec3.distanceToSqr(optional.get());
                     if (d1 < ds)
                     {
                         pointedEntity = entity1;
@@ -866,7 +867,7 @@ public class Vector3
 
             final double x0 = xtest > 0 ? (int) xtest : (int) xtest - 1, y0 = ytest > 0 ? (int) ytest : (int) ytest - 1,
                     z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
-            final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded, new AxisAlignedBB(x0
+            final List<Entity> targets = world.getEntities(excluded, new AxisAlignedBB(x0
                     - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
             if (targets != null && targets.size() > 0)
             {
@@ -933,7 +934,7 @@ public class Vector3
 
     public int getLightValue(final World world)
     {
-        return world.getLight(this.getPos());
+        return world.getMaxLocalRawBrightness(this.getPos());
     }
 
     public int getMaxY(final IWorld world)
@@ -944,8 +945,8 @@ public class Vector3
     public int getMaxY(final IWorld world, final int x, final int z)
     {
         final IChunk chunk = world.getChunk(this.getPos());
-        final int y1 = chunk.getTopBlockY(Type.OCEAN_FLOOR, this.intX() & 15, this.intZ() & 15);
-        final int y2 = chunk.getTopBlockY(Type.MOTION_BLOCKING_NO_LEAVES, this.intX() & 15, this.intZ() & 15);
+        final int y1 = chunk.getHeight(Type.OCEAN_FLOOR, this.intX() & 15, this.intZ() & 15);
+        final int y2 = chunk.getHeight(Type.MOTION_BLOCKING_NO_LEAVES, this.intX() & 15, this.intZ() & 15);
         return Math.min(y1, y2);
     }
 
@@ -978,7 +979,7 @@ public class Vector3
 
     public TileEntity getTileEntity(final IBlockReader world)
     {
-        return world.getTileEntity(this.getPos());
+        return world.getBlockEntity(this.getPos());
     }
 
     public TileEntity getTileEntity(final IBlockReader world, final Direction side)
@@ -1079,11 +1080,11 @@ public class Vector3
         ret = this.isAir(world);
         if (!ret) ret = ret || this.getBlockMaterial(world).isLiquid();
         if (!ret) ret = ret || this.getBlockMaterial(world).isReplaceable();
-        if (!ret) ret = ret || !this.getBlockMaterial(world).blocksMovement();
+        if (!ret) ret = ret || !this.getBlockMaterial(world).blocksMotion();
         if (!ret)
         {
             final VoxelShape shape = state.getCollisionShape(world, this.getPos());
-            final List<AxisAlignedBB> aabbs = shape.toBoundingBoxList();
+            final List<AxisAlignedBB> aabbs = shape.toAabbs();
             if (aabbs.size() == 0) return true;
             for (final AxisAlignedBB aabb : aabbs)
                 if (aabb != null && aabb.contains(this.x - this.intX(), this.y - this.intY(), this.z - this.intZ()))
@@ -1101,7 +1102,7 @@ public class Vector3
     public boolean isEntityClearOfBlocks(final IBlockReader world, final Entity e)
     {
         boolean ret = false;
-        final EntitySize size = e.getSize(e.getPose());
+        final EntitySize size = e.getDimensions(e.getPose());
         final Vector3 v = Vector3.getNewVector();
         final Vector3 v1 = Vector3.getNewVector();
         v.set(this);
@@ -1139,7 +1140,7 @@ public class Vector3
 
     public boolean isOnSurface(final Chunk chunk)
     {
-        return chunk.getTopBlockY(Type.MOTION_BLOCKING, this.intX() & 15, this.intZ() & 15) <= this.y;
+        return chunk.getHeight(Type.MOTION_BLOCKING, this.intX() & 15, this.intZ() & 15) <= this.y;
     }
 
     public boolean isOnSurface(final World world)
@@ -1149,7 +1150,7 @@ public class Vector3
 
     public boolean isOnSurfaceIgnoringDecorationAndWater(final Chunk chunk, final IBlockReader world)
     {
-        final int h = chunk.getTopBlockY(Type.WORLD_SURFACE_WG, this.intX() & 15, this.intZ() & 15);
+        final int h = chunk.getHeight(Type.WORLD_SURFACE_WG, this.intX() & 15, this.intZ() & 15);
         return h <= this.y;
     }
 
@@ -1175,7 +1176,7 @@ public class Vector3
     {
         final int x0 = this.intX(), y0 = this.intY(), z0 = this.intZ();
         final List<Entity> ret = new ArrayList<>();
-        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(x0, y0, z0, x0
+        final List<MobEntity> targets = world.getEntitiesOfClass(MobEntity.class, new AxisAlignedBB(x0, y0, z0, x0
                 + 1, y0 + 1, z0 + 1));
         for (final Entity e : targets)
             if (!this.isPointClearOfEntity(this.x, this.y, this.z, e)) ret.add(e);
@@ -1186,7 +1187,7 @@ public class Vector3
     {
         final int x0 = this.intX(), y0 = this.intY(), z0 = this.intZ();
         final List<Entity> ret = new ArrayList<>();
-        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(x0, y0, z0, x0
+        final List<MobEntity> targets = world.getEntitiesOfClass(MobEntity.class, new AxisAlignedBB(x0, y0, z0, x0
                 + 1, y0 + 1, z0 + 1));
         for (final Entity e : targets)
             if (!this.isPointClearOfEntity(this.x, this.y, this.z, e) && e != entity) ret.add(e);
@@ -1234,7 +1235,7 @@ public class Vector3
 
     public void moveEntity(final Entity e)
     {
-        e.setPosition(this.x, this.y, this.z);
+        e.setPos(this.x, this.y, this.z);
     }
 
     /**
@@ -1273,7 +1274,7 @@ public class Vector3
 
     public Vector3 offsetBy(final Direction side)
     {
-        return this.addTo(side.getXOffset(), side.getYOffset(), side.getZOffset());
+        return this.addTo(side.getStepX(), side.getStepY(), side.getStepZ());
     }
 
     public Vector3 reverse()
@@ -1375,9 +1376,9 @@ public class Vector3
 
     public Vector3 set(final Direction dir)
     {
-        this.x = dir.getXOffset();
-        this.y = dir.getYOffset();
-        this.z = dir.getZOffset();
+        this.x = dir.getStepX();
+        this.y = dir.getStepY();
+        this.z = dir.getStepZ();
         return this;
     }
 
@@ -1401,15 +1402,15 @@ public class Vector3
     {
         if (e != null && b)
         {
-            this.x = e.getPosX();
-            this.y = e.getPosY() + e.getHeight() / 2;
-            this.z = e.getPosZ();
+            this.x = e.getX();
+            this.y = e.getY() + e.getBbHeight() / 2;
+            this.z = e.getZ();
         }
         else if (e != null)
         {
-            this.x = e.getPosX();
-            this.y = e.getPosY() + e.getEyeHeight();
-            this.z = e.getPosZ();
+            this.x = e.getX();
+            this.y = e.getY() + e.getEyeHeight();
+            this.z = e.getZ();
         }
         return this;
     }
@@ -1426,12 +1427,12 @@ public class Vector3
         if (o instanceof Entity)
         {
             final Entity e = (Entity) o;
-            this.set(e.getPosX(), e.getPosY(), e.getPosZ());
+            this.set(e.getX(), e.getY(), e.getZ());
         }
         else if (o instanceof TileEntity)
         {
             final TileEntity te = (TileEntity) o;
-            this.set(te.getPos());
+            this.set(te.getBlockPos());
         }
         else if (o instanceof double[])
         {
@@ -1441,7 +1442,7 @@ public class Vector3
         else if (o instanceof Direction)
         {
             final Direction side = (Direction) o;
-            this.set(side.getXOffset(), side.getYOffset(), side.getZOffset());
+            this.set(side.getStepX(), side.getStepY(), side.getStepZ());
         }
         else if (o instanceof Vector3) this.set((Vector3) o);
         else if (o instanceof BlockPos)
@@ -1451,7 +1452,7 @@ public class Vector3
         }
         else if (o instanceof GlobalPos)
         {
-            final BlockPos c = ((GlobalPos) o).getPos();
+            final BlockPos c = ((GlobalPos) o).pos();
             this.set(c.getX(), c.getY(), c.getZ());
         }
         else if (o instanceof PathPoint)
@@ -1502,7 +1503,7 @@ public class Vector3
     {
         // TODO maybe see if there is a way to find the default "air" for this
         // world
-        world.setBlockState(this.getPos(), Blocks.AIR.getDefaultState());
+        world.setBlockAndUpdate(this.getPos(), Blocks.AIR.defaultBlockState());
     }
 
     public void setBiome(final Biome biome, final World world)
@@ -1522,18 +1523,18 @@ public class Vector3
 
     public void setBlock(final World world, final BlockState defaultState)
     {
-        world.setBlockState(this.getPos(), defaultState);
+        world.setBlockAndUpdate(this.getPos(), defaultState);
     }
 
     public Vector3 setToVelocity(final Entity e)
     {
-        this.set(e.getMotion());
+        this.set(e.getDeltaMovement());
         return this;
     }
 
     public void setVelocities(final Entity e)
     {
-        e.setMotion(this.x, this.y, this.z);
+        e.setDeltaMovement(this.x, this.y, this.z);
     }
 
     /**

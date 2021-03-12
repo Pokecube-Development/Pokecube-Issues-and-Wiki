@@ -25,7 +25,7 @@ public class HoopaPortalSpawn
     public static void portalSpawnTick(final World world, final int distance)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
-        final List<Object> players = new ArrayList<>(world.getPlayers());
+        final List<Object> players = new ArrayList<>(world.players());
         if (players.size() < 1) return;
         final Random rand = new Random();
         final Entity player = (Entity) players.get(rand.nextInt(players.size()));
@@ -55,13 +55,13 @@ public class HoopaPortalSpawn
             final FakePlayer placer = PokecubeMod.getFakePlayer(world);
             fakePos.moveEntity(placer);
 
-            final UseContext context = MoveEventsHandler.getContext(world, placer, block.getDefaultState(), v);
+            final UseContext context = MoveEventsHandler.getContext(world, placer, block.defaultBlockState(), v);
             final BlockState state = BlockInit.BLOCK_PORTALWARP.get().getStateForPlacement(context);
-            final BlockPos placePos = context.getPos();
-            ((PortalWarp) BlockInit.BLOCK_PORTALWARP.get()).place(world, v.getPos(), Direction.byHorizontalIndex(
+            final BlockPos placePos = context.getClickedPos();
+            ((PortalWarp) BlockInit.BLOCK_PORTALWARP.get()).place(world, v.getPos(), Direction.from2DDataValue(
                     rand.nextInt()));
             // Only place if valid, this fixes #478
-            if (state != null) block.place(world, placePos, context.getPlacementHorizontalFacing());
+            if (state != null) block.place(world, placePos, context.getHorizontalDirection());
 
         }
     }

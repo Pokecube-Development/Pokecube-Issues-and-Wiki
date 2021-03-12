@@ -37,8 +37,8 @@ public abstract class Progress extends WatchPage
         for (final String s : this.lines)
         {
             AbstractGui.drawCenteredString(mat, this.font, s, x + dx, y + dy, colour);
-            dy += this.font.FONT_HEIGHT;
-            if (s.isEmpty()) dy -= this.font.FONT_HEIGHT / 1.25f;
+            dy += this.font.lineHeight;
+            if (s.isEmpty()) dy -= this.font.lineHeight / 1.25f;
         }
         super.render(mat, mouseX, mouseY, partialTicks);
     }

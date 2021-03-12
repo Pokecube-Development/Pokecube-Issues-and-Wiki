@@ -13,22 +13,22 @@ public class CmdHandler implements ICmdHandler
 
         public SourceWrapper(final CommandSource wrapped)
         {
-            super(wrapped.getServer(), wrapped.getPos(), wrapped.getRotation(), wrapped.getWorld(), 4, wrapped
-                    .getName(), wrapped.getDisplayName(), wrapped.getServer(), wrapped.getEntity());
+            super(wrapped.getServer(), wrapped.getPosition(), wrapped.getRotation(), wrapped.getLevel(), 4, wrapped
+                    .getTextName(), wrapped.getDisplayName(), wrapped.getServer(), wrapped.getEntity());
         }
 
         @Override
-        public void sendFeedback(final ITextComponent message, final boolean allowLogging)
+        public void sendFailure(final ITextComponent message)
         {
             this.lastMsg = message;
-            super.sendFeedback(message, allowLogging);
+            super.sendFailure(message);
         }
 
         @Override
-        public void sendErrorMessage(final ITextComponent message)
+        public void sendSuccess(final ITextComponent message, final boolean p_197030_2_)
         {
             this.lastMsg = message;
-            super.sendErrorMessage(message);
+            super.sendSuccess(message, p_197030_2_);
         }
     }
 
@@ -39,8 +39,8 @@ public class CmdHandler implements ICmdHandler
     @Override
     public String handle(final MinecraftServer server, final String input)
     {
-        final SourceWrapper src = new SourceWrapper(server.getCommandSource());
-        final int ret = server.getCommandManager().handleCommand(src, input);
+        final SourceWrapper src = new SourceWrapper(server.createCommandSourceStack());
+        final int ret = server.getCommands().performCommand(src, input);
         return ret == 0 ? null : src.lastMsg == null ? "command success" : src.lastMsg.getString();
     }
 

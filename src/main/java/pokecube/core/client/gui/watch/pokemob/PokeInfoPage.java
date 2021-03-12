@@ -66,7 +66,7 @@ public abstract class PokeInfoPage extends WatchPage
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);
             PacketPokedex.selectedMob.clear();
-            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
+            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getCommandSenderWorld());
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
         final TexButton prevBtn = this.addButton(new TexButton(x - 96, y + 35, 12, 20, prev, b ->
@@ -75,12 +75,12 @@ public abstract class PokeInfoPage extends WatchPage
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
             PacketPokedex.selectedMob.clear();
-            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
+            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getCommandSenderWorld());
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
         final TexButton formBtn = this.addButton(new TexButton(x - 85, y + 35, 20, 10, form, b ->
         { // Cycle Form, only if not a real mob
-            if (this.parent.pokemob.getEntity().addedToChunk) return;
+            if (this.parent.pokemob.getEntity().inChunk) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             FormeHolder holder = null;
             PokeInfoPage.formes = Database.customModels.getOrDefault(entry, Collections.emptyList());

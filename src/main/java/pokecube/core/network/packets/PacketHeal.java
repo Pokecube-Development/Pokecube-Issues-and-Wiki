@@ -19,8 +19,8 @@ public class PacketHeal extends Packet
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final Container cont = player.openContainer;
-        if (cont instanceof IHealer) ((IHealer) cont).heal(player.getEntityWorld());
+        final Container cont = player.containerMenu;
+        if (cont instanceof IHealer) ((IHealer) cont).heal(player.getCommandSenderWorld());
     }
 
     @Override

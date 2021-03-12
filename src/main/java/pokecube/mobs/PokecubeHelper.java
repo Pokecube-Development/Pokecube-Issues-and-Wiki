@@ -42,7 +42,7 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        if (entity.getEntityWorld().getBlockState(entity.getPosition()).getBlock() == Blocks.WATER && mob.isType(
+        if (entity.getCommandSenderWorld().getBlockState(entity.blockPosition()).getBlock() == Blocks.WATER && mob.isType(
                 PokeType.getType("water"))) x = 3.5;
         return x;
     }
@@ -51,7 +51,7 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        final int light = entity.getEntityWorld().getLight(entity.getPosition());
+        final int light = entity.getCommandSenderWorld().getMaxLocalRawBrightness(entity.blockPosition());
         if (light < 5) x = 3.5;
         return x;
     }
@@ -100,11 +100,11 @@ public class PokecubeHelper
         if (mob.getPokedexEntry().swims())
         {// grow in 1.12
             final AxisAlignedBB bb = Vector3.getNewVector().set(entity).addTo(0, entity.getEyeHeight(), 0).getAABB()
-                    .grow(PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingBobberEntity> hooks = entity.getEntityWorld().getEntitiesWithinAABB(
+                    .inflate(PokecubeCore.getConfig().fishHookBaitRange);
+            final List<FishingBobberEntity> hooks = entity.getCommandSenderWorld().getEntitiesOfClass(
                     FishingBobberEntity.class, bb);
             if (!hooks.isEmpty()) for (final FishingBobberEntity hook : hooks)
-                if (hook.caughtEntity == entity) return 5;
+                if (hook.hookedIn == entity) return 5;
         }
         return 1;
     }
@@ -123,7 +123,7 @@ public class PokecubeHelper
     {
         if (mob.getPokedexEntry().canEvolve(1, PokecubeItems.getStack("moonstone"))) return 4;
         if (PokecubeHelper.moonMatcher.matches(new SpawnCheck(Vector3.getNewVector().set(mob.getEntity()), mob
-                .getEntity().getEntityWorld()))) return 4;
+                .getEntity().getCommandSenderWorld()))) return 4;
         return 1;
     }
 
@@ -156,7 +156,7 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        final double alive = entity.ticksExisted;
+        final double alive = entity.tickCount;
         if (!mob.getCombatState(CombatStates.ANGRY) && alive < 601) x = 4;
         return x;
     }
@@ -165,7 +165,7 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        final double alive = entity.ticksExisted;
+        final double alive = entity.tickCount;
         if (alive > 1500 && alive < 3001) x = 2;
         if (alive > 3000 && alive < 4501) x = 3;
         if (alive > 4500) x = 4;

@@ -22,7 +22,7 @@ public class ItemBase extends Item
 
     public ItemBase(final String name, final int num, final ItemGroup group)
     {
-        super(new Properties().group(group).maxStackSize(num));
+        super(new Properties().tab(group).stacksTo(num));
         this.setTooltipName(name);
     }
 
@@ -40,13 +40,13 @@ public class ItemBase extends Item
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
+    public void appendHoverText(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
             final ITooltipFlag flagIn)
     {
         if (!this.hasTooltip) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip", TextFormatting.GOLD, TextFormatting.BOLD, TextFormatting.RESET);
-        else message = I18n.format("pokecube.tooltip.advanced");
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", TextFormatting.GOLD, TextFormatting.BOLD, TextFormatting.RESET);
+        else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
 }

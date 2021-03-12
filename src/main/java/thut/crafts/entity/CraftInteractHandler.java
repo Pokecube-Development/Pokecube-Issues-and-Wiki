@@ -37,29 +37,29 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         if (player.isCrouching()) return ActionResultType.PASS;
         final ActionResultType result = super.applyPlayerInteraction(player, vec, stack, hand);
         boolean passed = result == ActionResultType.SUCCESS;
-        passed = passed || this.processInitialInteract(player, player.getHeldItem(hand),
+        passed = passed || this.processInitialInteract(player, player.getItemInHand(hand),
                 hand) == ActionResultType.SUCCESS;
         if (passed) return ActionResultType.SUCCESS;
         vec = vec.add(vec.x > 0 ? -0.01 : 0.01, vec.y > 0 ? -0.01 : 0.01, vec.z > 0 ? -0.01 : 0.01);
         if (this.trace == null)
         {
-            final Vector3d playerPos = player.getPositionVec().add(0, player.getEyeHeight(), 0);
-            final Vector3d start = playerPos.subtract(this.craft.getPositionVec());
+            final Vector3d playerPos = player.position().add(0, player.getEyeHeight(), 0);
+            final Vector3d start = playerPos.subtract(this.craft.position());
             final RayTraceResult hit = IBlockEntity.BlockEntityFormer.rayTraceInternal(start.add(this.craft
-                    .getPositionVec()), vec.add(this.craft.getPositionVec()), this.craft);
+                    .position()), vec.add(this.craft.position()), this.craft);
             this.trace = hit instanceof BlockRayTraceResult ? (BlockRayTraceResult) hit : null;
         }
         BlockPos pos;
-        if (this.trace == null) pos = this.craft.getPosition();
-        else pos = this.trace.getPos();
+        if (this.trace == null) pos = this.craft.blockPosition();
+        else pos = this.trace.getBlockPos();
         if (this.trace != null && this.interactInternal(player, pos, stack, hand) == ActionResultType.SUCCESS)
             return ActionResultType.SUCCESS;
-        else if (this.craft.rotationYaw != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
+        else if (this.craft.yRot != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
         {
             final Seat seat = this.craft.getSeat(i);
-            if (!this.craft.world.isRemote && seat.getEntityId().equals(Seat.BLANK))
+            if (!this.craft.level.isClientSide && seat.getEntityId().equals(Seat.BLANK))
             {
-                this.craft.setSeatID(i, player.getUniqueID());
+                this.craft.setSeatID(i, player.getUUID());
                 player.startRiding(this.craft);
                 return ActionResultType.SUCCESS;
             }
@@ -84,7 +84,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                     for (int j = 0; j < sizeY; j++)
                         for (int k = 0; k < sizeZ; k++)
                         {
-                            pos1.setPos(i + this.craft.getPosX(), j + this.craft.getPosY(), k + this.craft.getPosZ());
+                            pos1.set(i + this.craft.getX(), j + this.craft.getY(), k + this.craft.getZ());
                             final BlockState state1 = this.craft.getFakeWorld().getBlock(pos1);
                             if (state1.getBlock() instanceof StairsBlock)
                             {
@@ -93,7 +93,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                             }
                         }
             }
-            final BlockPos pos2 = new BlockPos(this.craft.getPositionVec());
+            final BlockPos pos2 = new BlockPos(this.craft.position());
             pos = pos.subtract(pos2);
 
             for (int i = 0; i < this.craft.getSeatCount(); i++)
@@ -103,9 +103,9 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                 final BlockPos pos1 = new BlockPos(seatPos.x, seatPos.y, seatPos.z);
                 if (pos1.equals(pos))
                 {
-                    if (!player.getEntityWorld().isRemote && !seat.getEntityId().equals(player.getUniqueID()))
+                    if (!player.getCommandSenderWorld().isClientSide && !seat.getEntityId().equals(player.getUUID()))
                     {
-                        this.craft.setSeatID(i, player.getUniqueID());
+                        this.craft.setSeatID(i, player.getUUID());
                         player.startRiding(this.craft);
                         return ActionResultType.SUCCESS;
                     }
@@ -120,9 +120,9 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     public ActionResultType processInitialInteract(final PlayerEntity player, @Nullable final ItemStack stack,
             final Hand hand)
     {
-        if (stack.getItem() == Items.BLAZE_ROD) if (!player.world.isRemote)
+        if (stack.getItem() == Items.BLAZE_ROD) if (!player.level.isClientSide)
         {
-            player.sendMessage(new TranslationTextComponent("msg.craft.killed"), Util.DUMMY_UUID);
+            player.sendMessage(new TranslationTextComponent("msg.craft.killed"), Util.NIL_UUID);
             this.craft.remove();
             return ActionResultType.SUCCESS;
         }

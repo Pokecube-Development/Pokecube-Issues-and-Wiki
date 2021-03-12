@@ -51,7 +51,7 @@ public class IdleWalkTask extends BaseIdleTask
         v.addTo(x, y, z);
 
         // Ensure the target location is loaded.
-        if (!TerrainManager.isAreaLoaded(mob.getEntity().getEntityWorld(), v, 8)) return null;
+        if (!TerrainManager.isAreaLoaded(mob.getEntity().getCommandSenderWorld(), v, 8)) return null;
 
         // TODO also ensure no lava, etc
         if (v.isClearOfBlocks(world)) return v;
@@ -106,12 +106,12 @@ public class IdleWalkTask extends BaseIdleTask
         final boolean up = Math.random() < 0.9;
         if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
         else if (!tamed) this.doGroundIdle();
-        final PlayerEntity player = this.world.getClosestPlayer(this.entity, PokecubeCore
+        final PlayerEntity player = this.world.getNearestPlayer(this.entity, PokecubeCore
                 .getConfig().aiDisableDistance);
         if (player != null)
         {
-            final double diff = Math.abs(player.getPosY() - this.y);
-            if (diff > 5) this.y = player.getPosY() + 5 * (1 - Math.random());
+            final double diff = Math.abs(player.getY() - this.y);
+            if (diff > 5) this.y = player.getY() + 5 * (1 - Math.random());
         }
     }
 
@@ -126,20 +126,20 @@ public class IdleWalkTask extends BaseIdleTask
     /** Stationary things will not idle path at all */
     public void doStationaryIdle()
     {
-        this.x = this.entity.getPosX();
-        this.y = this.entity.getPosY();
-        this.z = this.entity.getPosZ();
+        this.x = this.entity.getX();
+        this.y = this.entity.getY();
+        this.z = this.entity.getZ();
     }
 
     /** Water things will not idle path out of water. */
     public void doWaterIdle()
     {
         this.v.set(this.x, this.y, this.z);
-        if (this.world.getFluidState(this.v.getPos()).isTagged(FluidTags.WATER))
+        if (this.world.getFluidState(this.v.getPos()).is(FluidTags.WATER))
         {
-            this.x = this.entity.getPosX();
-            this.y = this.entity.getPosY();
-            this.z = this.entity.getPosZ();
+            this.x = this.entity.getX();
+            this.y = this.entity.getY();
+            this.z = this.entity.getZ();
         }
     }
 
@@ -159,7 +159,7 @@ public class IdleWalkTask extends BaseIdleTask
             }
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
-            if (this.entity.getPosition().distanceSq(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
+            if (this.entity.blockPosition().distSqr(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
                     * this.pokemob.getHomeDistance()) goHome = true;
         }
         else
@@ -210,7 +210,7 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
         this.run();
     }
@@ -225,7 +225,7 @@ public class IdleWalkTask extends BaseIdleTask
         if (!TaskBase.canMove(this.pokemob)) return false;
 
         // Check a random number as well
-        if (this.entity.getRNG().nextInt(IdleWalkTask.IDLETIMER) != 0) return false;
+        if (this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER) != 0) return false;
 
         // Wander disabled, so don't run.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
@@ -241,14 +241,14 @@ public class IdleWalkTask extends BaseIdleTask
 
         // Owner is controlling us.
         if (this.pokemob.getGeneralState(GeneralStates.CONTROLLED)) return false;
-        if (this.entity.getBrain().hasMemory(MemoryModules.WALK_TARGET)) return false;
+        if (this.entity.getBrain().hasMemoryValue(MemoryModules.WALK_TARGET)) return false;
         return true;
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
-        return !this.entity.getBrain().hasMemory(MemoryModules.WALK_TARGET);
+        return !this.entity.getBrain().hasMemoryValue(MemoryModules.WALK_TARGET);
     }
 }

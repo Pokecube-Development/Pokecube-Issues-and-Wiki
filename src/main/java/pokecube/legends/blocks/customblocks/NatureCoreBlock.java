@@ -14,8 +14,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -40,33 +40,33 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
 {
     private static final EnumProperty<NatureCorePart> HALF        = EnumProperty.create("half", NatureCorePart.class);
     private static final BooleanProperty              WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty            FACING      = HorizontalBlock.HORIZONTAL_FACING;
+    private static final DirectionProperty            FACING      = HorizontalBlock.FACING;
 
     // Precise selection box
-    private static final VoxelShape NATURE_CORE_TOP_NORTH = Block.makeCuboidShape(2.33, 0.21, 6.75, 12.96, 12.25, 9.5);
-    private static final VoxelShape NATURE_CORE_TOP_EAST  = Block.makeCuboidShape(6.5, 0.21, 2.33, 9.25, 12.25, 12.96);
-    private static final VoxelShape NATURE_CORE_TOP_SOUTH = Block.makeCuboidShape(3.04, 0.21, 6.5, 13.67, 12.25, 9.25);
-    private static final VoxelShape NATURE_CORE_TOP_WEST  = Block.makeCuboidShape(6.75, 0.21, 3.04, 9.5, 12.25, 13.67);
+    private static final VoxelShape NATURE_CORE_TOP_NORTH = Block.box(2.33, 0.21, 6.75, 12.96, 12.25, 9.5);
+    private static final VoxelShape NATURE_CORE_TOP_EAST  = Block.box(6.5, 0.21, 2.33, 9.25, 12.25, 12.96);
+    private static final VoxelShape NATURE_CORE_TOP_SOUTH = Block.box(3.04, 0.21, 6.5, 13.67, 12.25, 9.25);
+    private static final VoxelShape NATURE_CORE_TOP_WEST  = Block.box(6.75, 0.21, 3.04, 9.5, 12.25, 13.67);
 
-    private static final VoxelShape NATURE_CORE_BOTTOM = VoxelShapes.or(Block.makeCuboidShape(0, 0, 4, 2, 2, 12), Block
-            .makeCuboidShape(0, 14, 4, 2, 16, 12), Block.makeCuboidShape(2, 0, 4, 4, 4, 12), Block.makeCuboidShape(2,
-                    12, 4, 4, 16, 12), Block.makeCuboidShape(4, 0, 0, 12, 2, 2), Block.makeCuboidShape(4, 0, 12, 12, 4,
-                            14), Block.makeCuboidShape(4, 0, 14, 12, 2, 16), Block.makeCuboidShape(4, 0, 2, 12, 4, 4),
-            Block.makeCuboidShape(4, 0, 4, 12, 16, 12), Block.makeCuboidShape(4, 12, 2, 12, 16, 4), Block
-                    .makeCuboidShape(4, 12, 12, 12, 16, 14), Block.makeCuboidShape(4, 14, 0, 12, 16, 2), Block
-                            .makeCuboidShape(4, 14, 14, 12, 16, 16), Block.makeCuboidShape(12, 0, 4, 14, 4, 12), Block
-                                    .makeCuboidShape(14, 0, 4, 16, 2, 12), Block.makeCuboidShape(12, 12, 4, 14, 16, 12),
-            Block.makeCuboidShape(14, 14, 4, 16, 16, 12)).simplify();
+    private static final VoxelShape NATURE_CORE_BOTTOM = VoxelShapes.or(Block.box(0, 0, 4, 2, 2, 12), Block
+            .box(0, 14, 4, 2, 16, 12), Block.box(2, 0, 4, 4, 4, 12), Block.box(2,
+                    12, 4, 4, 16, 12), Block.box(4, 0, 0, 12, 2, 2), Block.box(4, 0, 12, 12, 4,
+                            14), Block.box(4, 0, 14, 12, 2, 16), Block.box(4, 0, 2, 12, 4, 4),
+            Block.box(4, 0, 4, 12, 16, 12), Block.box(4, 12, 2, 12, 16, 4), Block
+                    .box(4, 12, 12, 12, 16, 14), Block.box(4, 14, 0, 12, 16, 2), Block
+                            .box(4, 14, 14, 12, 16, 16), Block.box(12, 0, 4, 14, 4, 12), Block
+                                    .box(14, 0, 4, 16, 2, 12), Block.box(12, 12, 4, 14, 16, 12),
+            Block.box(14, 14, 4, 16, 16, 12)).optimize();
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        final NatureCorePart half = state.get(NatureCoreBlock.HALF);
+        final NatureCorePart half = state.getValue(NatureCoreBlock.HALF);
         if (half == NatureCorePart.BOTTOM) return NatureCoreBlock.NATURE_CORE_BOTTOM;
         else // return NATURE_CORE_TOP.get(state.get(FACING));
-            switch (state.get(NatureCoreBlock.FACING))
+            switch (state.getValue(NatureCoreBlock.FACING))
             {
             case NORTH:
             return NatureCoreBlock.NATURE_CORE_TOP_NORTH;
@@ -86,30 +86,30 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
             final SoundType sound, final ToolType tool, final int harvest)
     {
         super(name, material, color, hardness, resistance, sound, tool, harvest);
-        this.setDefaultState(this.stateContainer.getBaseState().with(NatureCoreBlock.HALF, NatureCorePart.BOTTOM).with(
-                NatureCoreBlock.FACING, Direction.NORTH).with(NatureCoreBlock.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(NatureCoreBlock.HALF, NatureCorePart.BOTTOM).setValue(
+                NatureCoreBlock.FACING, Direction.NORTH).setValue(NatureCoreBlock.WATERLOGGED, false));
     }
 
     // Places Nature Core Spawner with both top and bottom pieces
     @Override
-    public void onBlockPlacedBy(final World world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
             @Nullable final LivingEntity entity, final ItemStack stack)
     {
         if (entity != null)
         {
-            final FluidState fluidState = world.getFluidState(pos.up());
-            world.setBlockState(pos.up(), state.with(NatureCoreBlock.HALF, NatureCorePart.TOP).with(
-                    NatureCoreBlock.WATERLOGGED, fluidState.getFluid() == Fluids.WATER), 3);
+            final FluidState fluidState = world.getFluidState(pos.above());
+            world.setBlock(pos.above(), state.setValue(NatureCoreBlock.HALF, NatureCorePart.TOP).setValue(
+                    NatureCoreBlock.WATERLOGGED, fluidState.getType() == Fluids.WATER), 3);
         }
     }
 
     // Breaking Nature Core Spawner breaks both parts and returns one item only
     @Override
-    public void onBlockHarvested(final World world, final BlockPos pos, final BlockState state,
+    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
             final PlayerEntity player)
     {
-        final Direction facing = state.get(NatureCoreBlock.FACING);
-        final BlockPos natureCorePos = this.getNatureCorePos(pos, state.get(NatureCoreBlock.HALF), facing);
+        final Direction facing = state.getValue(NatureCoreBlock.FACING);
+        final BlockPos natureCorePos = this.getNatureCorePos(pos, state.getValue(NatureCoreBlock.HALF), facing);
         BlockState NatureCoreBlockState = world.getBlockState(natureCorePos);
         if (NatureCoreBlockState.getBlock() == this && !pos.equals(natureCorePos)) this.removeHalf(world, natureCorePos,
                 NatureCoreBlockState);
@@ -117,7 +117,7 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
         NatureCoreBlockState = world.getBlockState(natureCorePartPos);
         if (NatureCoreBlockState.getBlock() == this && !pos.equals(natureCorePartPos)) this.removeHalf(world,
                 natureCorePartPos, NatureCoreBlockState);
-        super.onBlockHarvested(world, pos, state, player);
+        super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getNatureCoreTopPos(final BlockPos base, final Direction facing)
@@ -125,7 +125,7 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
         switch (facing)
         {
         default:
-            return base.up();
+            return base.above();
         }
     }
 
@@ -135,7 +135,7 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
         switch (facing)
         {
         default:
-            return pos.down();
+            return pos.below();
         }
     }
 
@@ -143,8 +143,8 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     private void removeHalf(final World world, final BlockPos pos, final BlockState state)
     {
         final FluidState fluidState = world.getFluidState(pos);
-        if (fluidState.getFluid() == Fluids.WATER) world.setBlockState(pos, fluidState.getBlockState(), 35);
-        else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
+        if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
+        else world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
     }
 
     // Prevents the Nature Core Spawner from replacing blocks above it and
@@ -152,34 +152,34 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final FluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-        final BlockPos pos = context.getPos();
+        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final BlockPos pos = context.getClickedPos();
 
-        final BlockPos natureCorePos = this.getNatureCoreTopPos(pos, context.getPlacementHorizontalFacing()
+        final BlockPos natureCorePos = this.getNatureCoreTopPos(pos, context.getHorizontalDirection()
                 .getOpposite());
-        if (pos.getY() < 255 && natureCorePos.getY() < 255 && context.getWorld().getBlockState(pos.up()).isReplaceable(
-                context)) return this.getDefaultState().with(NatureCoreBlock.FACING, context
-                        .getPlacementHorizontalFacing().getOpposite()).with(NatureCoreBlock.HALF, NatureCorePart.BOTTOM)
-                        .with(NatureCoreBlock.WATERLOGGED, ifluidstate.isTagged(FluidTags.WATER) && ifluidstate
-                                .getLevel() == 8);
+        if (pos.getY() < 255 && natureCorePos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
+                context)) return this.defaultBlockState().setValue(NatureCoreBlock.FACING, context
+                        .getHorizontalDirection().getOpposite()).setValue(NatureCoreBlock.HALF, NatureCorePart.BOTTOM)
+                        .setValue(NatureCoreBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
+                                .getAmount() == 8);
         return null;
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
-        builder.add(NatureCoreBlock.HALF, HorizontalBlock.HORIZONTAL_FACING, NatureCoreBlock.WATERLOGGED);
+        builder.add(NatureCoreBlock.HALF, HorizontalBlock.FACING, NatureCoreBlock.WATERLOGGED);
     }
 
     public NatureCoreBlock(final String name, final Properties props)
     {
-        super(name, props.tickRandomly());
+        super(name, props.randomTicks());
     }
 
     @Override
     public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
-        if (random.nextInt(100) == 0) worldIn.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+        if (random.nextInt(100) == 0) worldIn.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
                 SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 }

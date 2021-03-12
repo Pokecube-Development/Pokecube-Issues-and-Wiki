@@ -74,12 +74,12 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         {
             ((Inventory) entity.getInventory()).addListener(this);
             // Initialize this.
-            this.onInventoryChanged(entity.getInventory());
+            this.containerChanged(entity.getInventory());
         }
     }
 
     @Override
-    public void onInventoryChanged(final IInventory invBasic)
+    public void containerChanged(final IInventory invBasic)
     {
         ItemStack stack;
         this.berrySlotIndex = -1;
@@ -113,7 +113,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
     private BlockPos checkDir(final IBlockReader world, final Direction dir, BlockPos centre, final Direction side)
     {
         if (centre == null) return null;
-        if (dir != null) centre = centre.offset(dir);
+        if (dir != null) centre = centre.relative(dir);
         if (this.getInventory(world, centre, side) != null) return centre;
         return null;
     }
@@ -175,7 +175,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         if (berries == null) return false;
         // No Berries in storage.
         if (!this.hasItem(HungerTask.FOODTAG, berries)) return false;
-        if (this.pokemob.getEntity().getPosition().distanceSq(this.berryLoc) > 9)
+        if (this.pokemob.getEntity().blockPosition().distSqr(this.berryLoc) > 9)
         {
             this.pathing = true;
             final double speed = 1;
@@ -224,7 +224,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         // No items to empty
         if (!this.hasItem(null, inventory)) return false;
         // Path to the inventory.
-        if (this.pokemob.getEntity().getPosition().distanceSq(this.emptyInventory) > 9)
+        if (this.pokemob.getEntity().blockPosition().distSqr(this.emptyInventory) > 9)
         {
             this.pathing = true;
             final double speed = 1;
@@ -263,7 +263,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         // No ItemStorage
         if (!this.findItemStorage(false)) return false;
         // check if should path to storage.
-        if (this.pokemob.getEntity().getPosition().distanceSq(this.storageLoc) > 9)
+        if (this.pokemob.getEntity().blockPosition().distSqr(this.storageLoc) > 9)
         {
             this.pathing = true;
             final double speed = 1;
@@ -326,7 +326,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
             if (found == null) found = this.checkDir(this.world, Direction.UP, this.emptyInventory, this.emptyFace);
             if (found != null) this.emptyInventory = found;
         }
-        return this.emptyInventory != null && this.emptyInventory.distanceSq(this.pokemob.getHome()) < 256;
+        return this.emptyInventory != null && this.emptyInventory.distSqr(this.pokemob.getHome()) < 256;
     }
 
     private boolean findItemStorage(final boolean refresh)
@@ -358,7 +358,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
     {
         if (pos == null) return null;
         if (!this.canBreak(world, pos)) return null;
-        final TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getBlockEntity(pos);
         if (tile == null) return null;
         IItemHandler handler;
         if ((handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElse(
@@ -374,10 +374,10 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         // owner is online.
         if (this.pokemob.getOwner() == null) return false;
         final PlayerEntity player = (PlayerEntity) this.pokemob.getOwner();
-        final BreakEvent evt = new BreakEvent(player.getEntityWorld(), pos, world.getBlockState(pos), player);
+        final BreakEvent evt = new BreakEvent(player.getCommandSenderWorld(), pos, world.getBlockState(pos), player);
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled()) return false;
-        this.knownValid.add(pos.toImmutable());
+        this.knownValid.add(pos.immutable());
         return true;
     }
 

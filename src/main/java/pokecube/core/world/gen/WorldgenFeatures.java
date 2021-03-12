@@ -46,8 +46,8 @@ public class WorldgenFeatures
             () -> new CanyonCarver(ProbabilityConfig.CODEC));
 
     public static final List<StructureProcessor> BERRYRULES   = ImmutableList.of(BerryGenManager.NOREPLACE);
-    public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.field_244110_j
-            .func_242919_a());
+    public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS
+            .list());
 
     public static final StructureProcessorList BERRYLIST;
     public static final StructureProcessorList GENERICLIST;
@@ -73,8 +73,8 @@ public class WorldgenFeatures
     {
         StructureProcessorList listToUse = null;
         final ResourceLocation key = new ResourceLocation(value);
-        if (WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.keySet().contains(key))
-            listToUse = WorldGenRegistries.STRUCTURE_PROCESSOR_LIST.getOrDefault(key);
+        if (WorldGenRegistries.PROCESSOR_LIST.keySet().contains(key))
+            listToUse = WorldGenRegistries.PROCESSOR_LIST.get(key);
         else listToUse = WorldgenFeatures.procLists.getOrDefault(key, null);
         return listToUse;
     }
@@ -114,12 +114,12 @@ public class WorldgenFeatures
         for (final String s : pool.includes)
         {
             final ResourceLocation incl = new ResourceLocation(s);
-            if (!WorldGenRegistries.JIGSAW_POOL.keySet().contains(incl))
+            if (!WorldGenRegistries.TEMPLATE_POOL.keySet().contains(incl))
             {
                 PokecubeCore.LOGGER.error("Warning, No pool by name {} was found!", s);
                 continue;
             }
-            final JigsawPattern toInclude = WorldGenRegistries.JIGSAW_POOL.getOrDefault(incl);
+            final JigsawPattern toInclude = WorldGenRegistries.TEMPLATE_POOL.get(incl);
             PokecubeCore.LOGGER.debug("Adding parts from {} to {}", s, pool.name);
             toInclude.rawTemplates.forEach(p ->
             {
@@ -132,15 +132,15 @@ public class WorldgenFeatures
         final JigsawPattern pattern = new JigsawPattern(new ResourceLocation(pool.name), new ResourceLocation(
                 pool.target), pairs, placement);
         PokecubeCore.LOGGER.debug("Registered Pattern/Pool: {}, with target: {}, of size: {}({},{})", pool.name,
-                pool.target, size, pairs.size(), pattern.getNumberOfPieces());
-        return JigsawPatternRegistry.func_244094_a(pattern);
+                pool.target, size, pairs.size(), pattern.size());
+        return JigsawPatternRegistry.register(pattern);
     }
 
     public static StructureProcessorList register(final String name, final List<StructureProcessor> list)
     {
         final ResourceLocation resourcelocation = new ResourceLocation("pokecube", name);
         final StructureProcessorList structureprocessorlist = new StructureProcessorList(list);
-        return WorldGenRegistries.register(WorldGenRegistries.STRUCTURE_PROCESSOR_LIST, resourcelocation,
+        return WorldGenRegistries.register(WorldGenRegistries.PROCESSOR_LIST, resourcelocation,
                 structureprocessorlist);
     }
 

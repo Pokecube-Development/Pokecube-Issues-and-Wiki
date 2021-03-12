@@ -74,7 +74,7 @@ public class GuiChooseFirstPokemob extends Screen
     {
         if (par2 == 1)
         {
-            this.player.closeScreen();
+            this.player.closeContainer();
             return true;
         }
         return super.charTyped(par1, par2);
@@ -115,7 +115,7 @@ public class GuiChooseFirstPokemob extends Screen
                 new TranslationTextComponent("gui.pokemob.select"), b ->
                 {
                     this.sendMessage(this.pokedexEntry);
-                    this.player.closeScreen();
+                    this.player.closeContainer();
                 }));
 
         this.addButton(this.accept = new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset + 30, 50, 20,
@@ -132,7 +132,7 @@ public class GuiChooseFirstPokemob extends Screen
                     if (!GuiChooseFirstPokemob.pick)
                     {
                         this.sendMessage((PokedexEntry) null);
-                        this.player.closeScreen();
+                        this.player.closeContainer();
                     }
                 }));
         this.addButton(this.deny = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset + 30, 50, 20,
@@ -168,7 +168,7 @@ public class GuiChooseFirstPokemob extends Screen
 
         if (GuiChooseFirstPokemob.special)
         {
-            AbstractGui.drawCenteredString(mat, this.font, I18n.format("gui.pokemob.choose1st.override"), this.width
+            AbstractGui.drawCenteredString(mat, this.font, I18n.get("gui.pokemob.choose1st.override"), this.width
                     / 2, 17, 0xffffff);
             return;
         }
@@ -180,16 +180,16 @@ public class GuiChooseFirstPokemob extends Screen
         if (this.pokedexEntry == null) this.pokedexEntry = Pokedex.getInstance().getFirstEntry();
         if (this.pokedexEntry == null)
         {
-            this.player.closeScreen();
+            this.player.closeContainer();
             return;
         }
 
         GL11.glPushMatrix();
 
-        AbstractGui.drawCenteredString(mat, this.font, I18n.format("gui.pokemob.choose1st"), this.width / 2, 17,
+        AbstractGui.drawCenteredString(mat, this.font, I18n.get("gui.pokemob.choose1st"), this.width / 2, 17,
                 0xffffff);
 
-        AbstractGui.drawCenteredString(mat, this.font, I18n.format(this.pokedexEntry.getUnlocalizedName()), this.width
+        AbstractGui.drawCenteredString(mat, this.font, I18n.get(this.pokedexEntry.getUnlocalizedName()), this.width
                 / 2, 45, 0xffffff);
 
         int n = 0;
@@ -211,7 +211,7 @@ public class GuiChooseFirstPokemob extends Screen
         }
         GL11.glPushMatrix();
 
-        this.minecraft.getTextureManager().bindTexture(Resources.GUI_POKEMOB);
+        this.minecraft.getTextureManager().bind(Resources.GUI_POKEMOB);
 
         GL11.glColor4f(255f / 255f, 0f / 255f, 0f / 255f, 1.0F);
         this.blit(mat, n + k, m + l, 0, 0, this.pokedexEntry.getStatHP(), 13);
@@ -231,12 +231,12 @@ public class GuiChooseFirstPokemob extends Screen
         GL11.glColor4f(243f / 255f, 86f / 255f, 132f / 255f, 1.0F);
         this.blit(mat, n + k, m + l + 65, 0, 0, this.pokedexEntry.getStatVIT(), 13);
 
-        final String H = I18n.format("pokewatch.HP");
-        final String A = I18n.format("pokewatch.ATT");
-        final String D = I18n.format("pokewatch.DEF");
-        final String AS = I18n.format("pokewatch.ATTSP");
-        final String DS = I18n.format("pokewatch.DEFSP");
-        final String S = I18n.format("pokewatch.VIT");
+        final String H = I18n.get("pokewatch.HP");
+        final String A = I18n.get("pokewatch.ATT");
+        final String D = I18n.get("pokewatch.DEF");
+        final String AS = I18n.get("pokewatch.ATTSP");
+        final String DS = I18n.get("pokewatch.DEFSP");
+        final String S = I18n.get("pokewatch.VIT");
 
         AbstractGui.drawCenteredString(mat, this.font, H + ": ", n + k - 10, m + l + 3, 0x930000);
         AbstractGui.drawCenteredString(mat, this.font, A + ": ", n + k - 10, m + l + 17, 0xAD5D22);
@@ -258,25 +258,25 @@ public class GuiChooseFirstPokemob extends Screen
         final ItemStack item = PokecubeItems.POKECUBE_CUBES;
         if (item.getItem() instanceof IPokecube)
         {
-            final IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(item, null,
+            final IBakedModel model = Minecraft.getInstance().getItemRenderer().getModel(item, null,
                     null);
 
             final MatrixStack matrixstack = new MatrixStack();
-            final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
-                    .getBufferSource();
-            matrixstack.push();
+            final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()
+                    .bufferSource();
+            matrixstack.pushPose();
             matrixstack.translate((float) x + 8, (float) y + 8, 100.0F);
             matrixstack.scale(50.0F, -50.0F, 50.0F);
-            final boolean flag = !model.isSideLit();
-            if (flag) RenderHelper.setupGuiFlatDiffuseLighting();
+            final boolean flag = !model.usesBlockLight();
+            if (flag) RenderHelper.setupForFlatItems();
 
-            Minecraft.getInstance().getItemRenderer().renderItem(item,
+            Minecraft.getInstance().getItemRenderer().render(item,
                     net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, matrixstack,
                     irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, model);
             RenderSystem.enableDepthTest();
-            if (flag) RenderHelper.setupGui3DDiffuseLighting();
-            matrixstack.pop();
-            irendertypebuffer$impl.finish();
+            if (flag) RenderHelper.setupFor3DItems();
+            matrixstack.popPose();
+            irendertypebuffer$impl.endBatch();
         }
     }
 
@@ -295,7 +295,7 @@ public class GuiChooseFirstPokemob extends Screen
             final int dx =-50 + (this.width - this.xSize)/2;
             final int dy = 50 + (this.height - this.ySize)/2;
             final float size = 1.5f;
-            final float yaw =  Util.milliTime() / 20;
+            final float yaw =  Util.getMillis() / 20;
             final float hx = 0;
             final float hy = yaw;
             //@formatter:on

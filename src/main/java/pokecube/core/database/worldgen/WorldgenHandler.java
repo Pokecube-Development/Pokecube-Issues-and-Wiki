@@ -91,10 +91,6 @@ public class WorldgenHandler
                 out.value(value.toString());
             }
         }).create();
-
-        CustomJigsawPiece.TYPE = IJigsawDeserializer.func_236851_a_("pokecube:custom_pool_element",
-                CustomJigsawPiece.CODEC);
-
     }
 
     public static class Options
@@ -229,9 +225,9 @@ public class WorldgenHandler
                 this._blacklisted.clear();
                 this._whitelisted.clear();
                 for (final String s : this.dimBlacklist)
-                    this._blacklisted.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
+                    this._blacklisted.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
                 for (final String s : this.dimWhitelist)
-                    this._whitelisted.add(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)));
+                    this._whitelisted.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
             }
             if (this._whitelisted.contains(dim)) return false;
             return this._blacklisted.contains(dim) || WorldgenHandler.SOFTBLACKLIST.contains(dim);
@@ -260,7 +256,7 @@ public class WorldgenHandler
         {
             if (WorldgenHandler.SORTED_PRIOR_LIST.isEmpty())
             {
-                WorldgenHandler.SORTED_PRIOR_LIST.addAll(Structure.STRUCTURE_DECORATION_STAGE_MAP.keySet());
+                WorldgenHandler.SORTED_PRIOR_LIST.addAll(Structure.STEP.keySet());
                 WorldgenHandler.SORTED_PRIOR_LIST.sort((s1, s2) ->
                 {
                     int p1 = 5;
@@ -379,6 +375,9 @@ public class WorldgenHandler
         bus.register(this.reg);
         MinecraftForge.EVENT_BUS.register(this);
         WorldgenHandler.WORLDGEN.put(this.MODID, this);
+
+        if (CustomJigsawPiece.TYPE == null) CustomJigsawPiece.TYPE = IJigsawDeserializer.register(
+                "pokecube:custom_pool_element", CustomJigsawPiece.makeCodec());
     }
 
     public static void setupAll()
@@ -409,8 +408,8 @@ public class WorldgenHandler
          * If the registration is setup properly for the structure,
          * getRegistryName() should never return null.
          */
-        Structure.NAME_STRUCTURE_BIMAP.put(structure.getRegistryName().toString(), structure);
-        Structure.STRUCTURE_DECORATION_STAGE_MAP.put(structure, Decoration.SURFACE_STRUCTURES);
+        Structure.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
+        Structure.STEP.put(structure, Decoration.SURFACE_STRUCTURES);
 
         /*
          * Will add land at the base of the structure like it does for Villages
@@ -430,8 +429,8 @@ public class WorldgenHandler
          * StructureTutorialMain to add
          * the structure spacing from this list into that dimension.
          */
-        DimensionStructuresSettings.field_236191_b_ = ImmutableMap.<Structure<?>, StructureSeparationSettings> builder()
-                .putAll(DimensionStructuresSettings.field_236191_b_).put(structure, config.toSettings()).build();
+        DimensionStructuresSettings.DEFAULTS = ImmutableMap.<Structure<?>, StructureSeparationSettings> builder()
+                .putAll(DimensionStructuresSettings.DEFAULTS).put(structure, config.toSettings()).build();
     }
 
     /**
@@ -448,7 +447,7 @@ public class WorldgenHandler
     @SubscribeEvent
     public void addDimensionalSpacing(final WorldEvent.Load event)
     {
-        if (event.getWorld().isRemote()) return;
+        if (event.getWorld().isClientSide()) return;
 
         if (event.getWorld() instanceof ServerWorld)
         {
@@ -456,14 +455,14 @@ public class WorldgenHandler
                     "Loading world before registries????");
 
             final ServerWorld serverWorld = (ServerWorld) event.getWorld();
-            final RegistryKey<World> key = serverWorld.getDimensionKey();
+            final RegistryKey<World> key = serverWorld.dimension();
 
             // Prevent spawning our structure in Vanilla's superflat world as
             // people seem to want their superflat worlds free of modded
             // structures.
             // Also that vanilla superflat is really tricky and buggy to work
             // with in my experience.
-            if (serverWorld.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator && key.equals(
+            if (serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && key.equals(
                     World.OVERWORLD)) return;
 
             CustomJigsawPiece.sent_events.clear();
@@ -481,10 +480,10 @@ public class WorldgenHandler
                 // Actually register the structure to the chunk provider,
                 // without this it won't generate!
                 final Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld
-                        .getChunkProvider().generator.func_235957_b_().func_236195_a_());
-                if (allowed) tempMap.put(structure, DimensionStructuresSettings.field_236191_b_.get(structure));
+                        .getChunkSource().generator.getSettings().structureConfig());
+                if (allowed) tempMap.put(structure, DimensionStructuresSettings.DEFAULTS.get(structure));
                 else tempMap.remove(structure);
-                serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
+                serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
             }
 
             // If we are the first one, we will check for a spawn location, just
@@ -496,7 +495,7 @@ public class WorldgenHandler
                                 final ResourceLocation location = new ResourceLocation("pokecube:village");
                                 final IForgeRegistry<Structure<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
                                 final Structure<?> structure = reg.getValue(location);
-                                if (reg.containsKey(location)) serverWorld.getWorld().func_241117_a_(structure,
+                                if (reg.containsKey(location)) serverWorld.getLevel().findNearestMapFeature(structure,
                                         BlockPos.ZERO, 50, false);
                             });
 
@@ -505,7 +504,7 @@ public class WorldgenHandler
 
     private RegistryKey<Biome> from(final BiomeLoadingEvent event)
     {
-        return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName());
+        return RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
     }
 
     protected void registerConfigured()
@@ -514,7 +513,7 @@ public class WorldgenHandler
         {
             final CustomJigsawStructure structure = this.toConfigure.get(struct);
             final JigsawConfig config = new JigsawConfig(struct);
-            StructureFeature<?, ?> configured = structure.withConfiguration(config);
+            StructureFeature<?, ?> configured = structure.configured(config);
             configured = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, struct.name,
                     configured);
             final BiomeStructure value = new BiomeStructure(configured, struct);
@@ -569,11 +568,11 @@ public class WorldgenHandler
             return;
         }
         for (final BiomeFeature feat : this.features.keySet())
-            if (this.features.get(feat).test(event)) event.getGeneration().withFeature(feat.stage, feat.feature);
+            if (this.features.get(feat).test(event)) event.getGeneration().addFeature(feat.stage, feat.feature);
         for (final BiomeStructure feat : this.structures.keySet())
             if (this.structures.get(feat).test(event))
             {
-                final JigsawConfig conf = (JigsawConfig) feat.feature.field_236269_c_;
+                final JigsawConfig conf = (JigsawConfig) feat.feature.config;
                 PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
                 event.getGeneration().getStructures().add(() -> feat.feature);
             }
@@ -598,10 +597,10 @@ public class WorldgenHandler
 
             for (final String s : PokecubeCore.getConfig().worldgenWorldSettings)
             {
-                final RegistryKey<DimensionSettings> key = RegistryKey.getOrCreateKey(Registry.NOISE_SETTINGS_KEY,
-                        new ResourceLocation(s));
-                WorldGenRegistries.NOISE_SETTINGS.getValueForKey(key).getStructures().func_236195_a_().put(structure,
-                        struct.toSettings());
+                final RegistryKey<DimensionSettings> key = RegistryKey.create(
+                        Registry.NOISE_GENERATOR_SETTINGS_REGISTRY, new ResourceLocation(s));
+                WorldGenRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(
+                        structure, struct.toSettings());
             }
         }
         PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);
@@ -621,8 +620,8 @@ public class WorldgenHandler
 
     private static void forceVillageFeature(final Structure<?> feature)
     {
-        final List<Structure<?>> list = Lists.newArrayList(Structure.field_236384_t_);
+        final List<Structure<?>> list = Lists.newArrayList(Structure.NOISE_AFFECTING_FEATURES);
         if (!list.contains(feature)) list.add(feature);
-        Structure.field_236384_t_ = list;
+        Structure.NOISE_AFFECTING_FEATURES = list;
     }
 }

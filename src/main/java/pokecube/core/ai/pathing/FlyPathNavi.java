@@ -14,15 +14,15 @@ public class FlyPathNavi extends FlyingPathNavigator
     }
 
     @Override
-    protected void pathFollow()
+    protected void followThePath()
     {
-        final Vector3d vec3d = this.getEntityPosition();
-        for (int i = this.currentPath.getCurrentPathIndex(); i < this.currentPath.getCurrentPathLength(); i++)
+        final Vector3d vec3d = this.getTempMobPos();
+        for (int i = this.path.getNextNodeIndex(); i < this.path.getNodeCount(); i++)
         {
-            final Vector3d vec3d1 = this.currentPath.getVectorFromIndex(this.entity, i);
-            if (this.isDirectPathBetweenPoints(vec3d, vec3d1, 1, 1, 1)) if (i - 1 > this.currentPath
-                    .getCurrentPathIndex()) this.currentPath.setCurrentPathIndex(i - 1);
+            final Vector3d vec3d1 = this.path.getEntityPosAtNode(this.mob, i);
+            if (this.canMoveDirectly(vec3d, vec3d1, 1, 1, 1)) if (i - 1 > this.path
+                    .getNextNodeIndex()) this.path.setNextNodeIndex(i - 1);
         }
-        super.pathFollow();
+        super.followThePath();
     }
 }

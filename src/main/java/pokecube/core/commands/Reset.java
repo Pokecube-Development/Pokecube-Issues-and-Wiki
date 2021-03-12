@@ -23,8 +23,8 @@ public class Reset
     {
         PokecubeSerializer.getInstance().setHasStarter(target, false);
         EventsHandler.sendInitInfo(target);
-        source.sendFeedback(new TranslationTextComponent("pokecube.command.reset", target.getDisplayName()), true);
-        target.sendMessage(new TranslationTextComponent("pokecube.command.canchoose"), Util.DUMMY_UUID);
+        source.sendSuccess(new TranslationTextComponent("pokecube.command.reset", target.getDisplayName()), true);
+        target.sendMessage(new TranslationTextComponent("pokecube.command.canchoose"), Util.NIL_UUID);
         PokecubeCore.LOGGER.info("Reset Starter for {}", target.getGameProfile());
         return 0;
     }

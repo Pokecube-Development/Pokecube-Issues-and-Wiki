@@ -12,7 +12,7 @@ public class Airlock extends Ability
     {
         if (!move.pre) return;
 
-        final World world = mob.getEntity().getEntityWorld();
+        final World world = mob.getEntity().getCommandSenderWorld();
         final boolean rain = world.isRaining();
         if (!rain)
         {

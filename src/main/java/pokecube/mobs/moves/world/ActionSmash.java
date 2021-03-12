@@ -48,8 +48,8 @@ public class ActionSmash implements IMoveAction
         }
         if (!used)
         {
-            final World world = user.getEntity().getEntityWorld();
-            final List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, location.getAABB().grow(1));
+            final World world = user.getEntity().getCommandSenderWorld();
+            final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(1));
             if (!items.isEmpty())
             {
                 final Move_Base move = MovesUtils.getMoveFromName(this.getMoveName());
@@ -64,8 +64,8 @@ public class ActionSmash implements IMoveAction
     {
 
         final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
-        pickaxe.addEnchantment(Enchantments.FORTUNE, fortune);
-        state.getBlock().harvestBlock(worldIn, player, pos, state, null, pickaxe);
+        pickaxe.enchant(Enchantments.BLOCK_FORTUNE, fortune);
+        state.getBlock().playerDestroy(worldIn, player, pos, state, null, pickaxe);
         worldIn.destroyBlock(pos, false);
     }
 
@@ -83,7 +83,7 @@ public class ActionSmash implements IMoveAction
         if (owner instanceof PlayerEntity) player = (PlayerEntity) owner;
         final int fortune = digger.getLevel() / 30;
         final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
-        final World world = digger.getEntity().getEntityWorld();
+        final World world = digger.getEntity().getCommandSenderWorld();
         final Vector3 temp = Vector3.getNewVector();
         temp.set(v);
         final int range = 1;

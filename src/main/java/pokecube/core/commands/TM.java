@@ -29,25 +29,25 @@ public class TM
     public static int execute(final CommandSource source, final ServerPlayerEntity serverplayerentity, final String tm)
     {
         final ItemStack itemstack = ItemTM.getTM(tm);
-        final boolean flag = serverplayerentity.inventory.addItemStackToInventory(itemstack);
+        final boolean flag = serverplayerentity.inventory.add(itemstack);
         if (flag && itemstack.isEmpty())
         {
             itemstack.setCount(1);
-            final ItemEntity itementity1 = serverplayerentity.dropItem(itemstack, false);
+            final ItemEntity itementity1 = serverplayerentity.drop(itemstack, false);
             if (itementity1 != null) itementity1.makeFakeItem();
-            serverplayerentity.world.playSound((PlayerEntity) null, serverplayerentity.getPosX(), serverplayerentity.getPosY(),
-                    serverplayerentity.getPosZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F,
-                    ((serverplayerentity.getRNG().nextFloat() - serverplayerentity.getRNG().nextFloat()) * 0.7F + 1.0F)
+            serverplayerentity.level.playSound((PlayerEntity) null, serverplayerentity.getX(), serverplayerentity.getY(),
+                    serverplayerentity.getZ(), SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F,
+                    ((serverplayerentity.getRandom().nextFloat() - serverplayerentity.getRandom().nextFloat()) * 0.7F + 1.0F)
                             * 2.0F);
-            serverplayerentity.container.detectAndSendChanges();
+            serverplayerentity.inventoryMenu.broadcastChanges();
         }
         else
         {
-            final ItemEntity itementity = serverplayerentity.dropItem(itemstack, false);
+            final ItemEntity itementity = serverplayerentity.drop(itemstack, false);
             if (itementity != null)
             {
-                itementity.setNoPickupDelay();
-                itementity.setOwnerId(serverplayerentity.getUniqueID());
+                itementity.setNoPickUpDelay();
+                itementity.setOwner(serverplayerentity.getUUID());
             }
         }
         return 0;
@@ -55,7 +55,7 @@ public class TM
 
     public static int execute(final CommandSource source, final String tm) throws CommandSyntaxException
     {
-        final ServerPlayerEntity player = source.asPlayer();
+        final ServerPlayerEntity player = source.getPlayerOrException();
         return TM.execute(source, player, tm);
     }
 

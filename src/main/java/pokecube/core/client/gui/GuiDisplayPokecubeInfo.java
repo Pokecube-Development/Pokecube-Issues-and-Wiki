@@ -77,13 +77,13 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     {
         final Minecraft minecraft = Minecraft.getInstance();
 
-        final MainWindow res = minecraft.getMainWindow();
+        final MainWindow res = minecraft.getWindow();
         int w = offsets.get(0);
         int h = offsets.get(1);
         int x = 0;
         int y = 0;
-        final int scaledWidth = res.getScaledWidth();
-        final int scaledHeight = res.getScaledHeight();
+        final int scaledWidth = res.getGuiScaledWidth();
+        final int scaledHeight = res.getGuiScaledHeight();
         int dx = 1;
         int dy = 1;
         switch (ref)
@@ -173,7 +173,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     public GuiDisplayPokecubeInfo()
     {
         this.minecraft = Minecraft.getInstance();
-        this.fontRenderer = this.minecraft.fontRenderer;
+        this.fontRenderer = this.minecraft.font;
         if (GuiDisplayPokecubeInfo.instance != null) MinecraftForge.EVENT_BUS.unregister(
                 GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
@@ -191,7 +191,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         }
         if (this.getPokemobsToDisplay().length == 0) return;
         if (this.indexPokemob >= this.getPokemobsToDisplay().length) this.indexPokemob = 0;
-        if (this.fontRenderer == null) this.fontRenderer = this.minecraft.fontRenderer;
+        if (this.fontRenderer == null) this.fontRenderer = this.minecraft.font;
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderSelectedInfo(event.getMatrixStack()));
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo(event.getMatrixStack()));
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports(event.getMatrixStack()));
@@ -219,12 +219,12 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         {
             String displayName = pokemob.getDisplayName().getString();
             final int currentMoveIndex = pokemob.getMoveIndex();
-            evt.mat.push();
+            evt.mat.pushPose();
             final float s = (float) PokecubeCore.getConfig().guiSize;
             GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().guiRef, PokecubeCore
                     .getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
             // Render HP
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = pokemob.getMaxHealth();
             float ratio = pokemob.getHealth() / total;
@@ -276,27 +276,27 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
             // Render Name
             if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
-            if (this.fontRenderer.getStringWidth(displayName) > 70)
+            if (this.fontRenderer.width(displayName) > 70)
             {
                 final List<IFormattableTextComponent> list = ListHelper.splitText(new StringTextComponent(displayName),
                         70, this.fontRenderer, true);
                 displayName = list.get(0).getString();
             }
-            this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
+            this.fontRenderer.draw(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render level
-            this.fontRenderer.drawString(evt.mat, "L." + level, nameOffsetX + 88 - this.fontRenderer.getStringWidth("L."
+            this.fontRenderer.draw(evt.mat, "L." + level, nameOffsetX + 88 - this.fontRenderer.width("L."
                     + level), nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
             final int n = this.getPokemobsToDisplay().length;
-            final int num = this.fontRenderer.getStringWidth("" + n);
+            final int num = this.fontRenderer.width("" + n);
             this.blit(evt.mat, nameOffsetX + 89, nameOffsetY, 0, 27, 15, 15);
-            this.fontRenderer.drawString(evt.mat, "" + n, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
+            this.fontRenderer.draw(evt.mat, "" + n, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
@@ -317,9 +317,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 {
 
                     // bind texture
-                    evt.mat.push();
+                    evt.mat.pushPose();
 
-                    this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+                    this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
                     RenderSystem.enableBlend();
                     this.blit(evt.mat, movesOffsetX, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
 
@@ -347,25 +347,25 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                         this.blit(evt.mat, movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
                     }
 
-                    evt.mat.pop();
-                    evt.mat.push();
+                    evt.mat.popPose();
+                    evt.mat.pushPose();
                     final Color moveColor = new Color(move.getType(pokemob).colour);
                     GL11.glColor4f(moveColor.getRed() / 255f, moveColor.getGreen() / 255f, moveColor.getBlue() / 255f,
                             1.0F);
-                    this.fontRenderer.drawString(evt.mat, MovesUtils.getMoveName(move.getName()).getString(), 5
+                    this.fontRenderer.draw(evt.mat, MovesUtils.getMoveName(move.getName()).getString(), 5
                             + movesOffsetX, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
-                    evt.mat.pop();
+                    evt.mat.popPose();
                 }
             }
 
             // Render Mob
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int mobOffsetX = 0;
             final int mobOffsetY = 0;
             this.blit(evt.mat, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
             GuiPokemobBase.renderMob(evt.mat, pokemob.getEntity(), mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f);
-            evt.mat.pop();
+            evt.mat.popPose();
         }
     }
 
@@ -388,12 +388,12 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final LivingEntity entity = BrainUtils.getAttackTarget(pokemob.getEntity());
             if (entity == null || !entity.isAlive()) break render;
 
-            evt.mat.push();
+            evt.mat.pushPose();
             GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().targetRef, PokecubeCore
                     .getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore
                             .getConfig().targetSize);
             // Render HP
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = entity.getMaxHealth();
             final float ratio = entity.getHealth() / total;
@@ -425,25 +425,25 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             }
 
             // Render Name
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             final String displayName = entity.getDisplayName().getString();
-            if (this.fontRenderer.getStringWidth(displayName) > 70)
+            if (this.fontRenderer.width(displayName) > 70)
             {
 
             }
-            this.fontRenderer.drawString(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
+            this.fontRenderer.draw(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Box behind Mob
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int mobBoxOffsetX = 0;
             final int mobBoxOffsetY = 0;
             this.blit(evt.mat, mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
             // Render Mob
             GuiPokemobBase.renderMob(evt.mat, entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f);
-            evt.mat.pop();
+            evt.mat.popPose();
         }
     }
 
@@ -463,14 +463,14 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
         final PlayerEntity player = this.minecraft.player;
 
-        if (player == null || player.getEntityWorld() == null) return GuiDisplayPokecubeInfo.EMPTY;
+        if (player == null || player.getCommandSenderWorld() == null) return GuiDisplayPokecubeInfo.EMPTY;
 
         final List<IPokemob> pokemobs = EventsHandlerClient.getPokemobs(player, 96);
         final List<IPokemob> ret = new ArrayList<>();
         for (final IPokemob pokemob : pokemobs)
         {
             boolean owner = pokemob.getOwnerId() != null;
-            if (owner) owner = player.getUniqueID().equals(pokemob.getOwnerId());
+            if (owner) owner = player.getUUID().equals(pokemob.getOwnerId());
             if (owner && !pokemob.getLogicState(LogicStates.SITTING) && !pokemob.getGeneralState(GeneralStates.STAYING))
                 ret.add(pokemob);
         }
@@ -481,13 +481,13 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final Entity e1 = o1.getEntity();
             final Entity e2 = o2.getEntity();
 
-            if (e1.ticksExisted == e2.ticksExisted)
+            if (e1.tickCount == e2.tickCount)
             {
                 if (o2.getLevel() == o1.getLevel()) return o1.getDisplayName().getString().compareTo(o2.getDisplayName()
                         .getString());
                 return o2.getLevel() - o1.getLevel();
             }
-            return e1.ticksExisted - e2.ticksExisted;
+            return e1.tickCount - e2.tickCount;
         });
         return this.pokemobsCache;
     }
@@ -538,8 +538,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     {
         try
         {
-            if ((this.minecraft.currentScreen == null || GuiArranger.toggle) && !Minecraft
-                    .getInstance().gameSettings.hideGUI && event.getType() == ElementType.HOTBAR || event
+            if ((this.minecraft.screen == null || GuiArranger.toggle) && !Minecraft
+                    .getInstance().options.hideGui && event.getType() == ElementType.HOTBAR || event
                             .getType() == ElementType.CHAT) this.draw(event);
         }
         catch (final Throwable e)
@@ -562,8 +562,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         };
         Entity target = Tools.getPointedEntity(player, 32, selector);
         target = EntityTools.getCoreEntity(target);
-        if (target == null && Minecraft.getInstance().pointedEntity != null && selector.test(Minecraft
-                .getInstance().pointedEntity)) target = Minecraft.getInstance().pointedEntity;
+        if (target == null && Minecraft.getInstance().crosshairPickEntity != null && selector.test(Minecraft
+                .getInstance().crosshairPickEntity)) target = Minecraft.getInstance().crosshairPickEntity;
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
         boolean sameOwner = false;
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
@@ -585,7 +585,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             }
         }
         if (target != null && !sameOwner && (target instanceof LivingEntity || target instanceof PartEntity<?>))
-            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getEntityId())
+            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getId())
                     .setFromOwner(true));
         else if (targetLocation != null) PacketCommand.sendCommand(pokemob, Command.ATTACKLOCATION,
                 new AttackLocationHandler(targetLocation).setFromOwner(true));
@@ -614,7 +614,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final PlayerEntity player = this.minecraft.player;
             final Entity target = Tools.getPointedEntity(player, 32);
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
-            if (targetMob != null && player.getUniqueID().equals(targetMob.getOwnerId())) targetMob.onRecall();
+            if (targetMob != null && player.getUUID().equals(targetMob.getOwnerId())) targetMob.onRecall();
         }
 
         if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob--;
@@ -632,7 +632,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         IPokemob pokemob;
         if ((pokemob = this.getCurrentPokemob()) != null)
         {
-            final boolean isRiding = pokemob.getEntity().isRidingOrBeingRiddenBy(pokemob.getOwner());
+            final boolean isRiding = pokemob.getEntity().hasIndirectPassenger(pokemob.getOwner());
             if (!isRiding) PacketCommand.sendCommand(pokemob, Command.STANCE, new StanceHandler(!pokemob.getLogicState(
                     LogicStates.SITTING), StanceHandler.SIT).setFromOwner(true));
             else

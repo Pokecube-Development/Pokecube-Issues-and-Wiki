@@ -77,7 +77,7 @@ public class CylindricalFunction extends MoveAnimationBase
     {
         final Vector3 source = info.source;
         final Vector3 target = info.target;
-        this.initColour(info.attacker.getEntityWorld().getDayTime() * 20, 0, info.move);
+        this.initColour(info.attacker.getCommandSenderWorld().getDayTime() * 20, 0, info.move);
         final double dist = source.distanceTo(target);
         final double frac2 = info.currentTick / (float) this.getDuration();
         final double frac = dist * frac2;
@@ -90,7 +90,7 @@ public class CylindricalFunction extends MoveAnimationBase
             if (this.density < 1 && Math.random() > this.density) continue;
             if (i / dist > 1) return;
             this.setVector(angleF, temp, i / dist, temp1);
-            PokecubeCore.spawnParticle(info.attacker.getEntityWorld(), this.particle, source.add(temp.scalarMult(i)
+            PokecubeCore.spawnParticle(info.attacker.getCommandSenderWorld(), this.particle, source.add(temp.scalarMult(i)
                     .addTo(temp1)), null, this.rgba, this.particleLife);
         }
     }

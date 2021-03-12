@@ -23,7 +23,7 @@ public class SmallManager extends Manager<SmallInventory>
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = server.func_240776_a_(new FolderName("thut_bling"));
+        Path path = server.getWorldPath(new FolderName("thut_bling"));
         // This is to the uuid specific folder
         path = path.resolve(uuid);
         final File dir = path.toFile();

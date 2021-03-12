@@ -36,7 +36,7 @@ public class ItemTyped extends Item
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World playerIn, List<ITextComponent> list,
+    public void appendHoverText(ItemStack stack, @Nullable World playerIn, List<ITextComponent> list,
             ITooltipFlag advanced)
     {
         list.add(new StringTextComponent(this.type));

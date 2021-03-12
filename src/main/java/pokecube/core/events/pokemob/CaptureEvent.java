@@ -57,7 +57,7 @@ public class CaptureEvent extends Event
         if (pokecube != null)
         {
             this.filledCube = pokecube.getItem();
-            this.caught = PokecubeManager.itemToPokemob(pokecube.getItem(), pokecube.getEntityWorld());
+            this.caught = PokecubeManager.itemToPokemob(pokecube.getItem(), pokecube.getCommandSenderWorld());
         }
         else
         {

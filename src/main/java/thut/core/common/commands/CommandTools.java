@@ -19,7 +19,7 @@ public class CommandTools
     {
         try
         {
-            final ServerPlayerEntity player = source.asPlayer();
+            final ServerPlayerEntity player = source.getPlayerOrException();
             return CommandTools.hasPerm(player, permission);
         }
         catch (final CommandSyntaxException e)
@@ -58,12 +58,12 @@ public class CommandTools
         {
             final String[] args2 = formatting.split(":");
             final String colour = args2[0].toUpperCase(java.util.Locale.ROOT);
-            translated.getStyle().setColor(Color.fromTextFormatting(TextFormatting.getValueByName(colour)));
+            translated.getStyle().withColor(Color.fromLegacyFormat(TextFormatting.getByName(colour)));
             if (args2.length > 1) for (int i1 = 1; i1 < args2.length; i1++)
             {
                 final String arg = args2[i1];
-                if (arg.equalsIgnoreCase("italic")) translated.getStyle().setItalic(true);
-                if (arg.equalsIgnoreCase("bold")) translated.getStyle().setBold(true);
+                if (arg.equalsIgnoreCase("italic")) translated.getStyle().withItalic(true);
+                if (arg.equalsIgnoreCase("bold")) translated.getStyle().withBold(true);
                 if (arg.equalsIgnoreCase("underlined")) translated.getStyle().setUnderlined(true);
                 if (arg.equalsIgnoreCase("strikethrough")) translated.getStyle().setStrikethrough(true);
                 if (arg.equalsIgnoreCase("obfuscated")) translated.getStyle().setObfuscated(true);
@@ -74,32 +74,32 @@ public class CommandTools
 
     public static void sendBadArgumentsMissingArg(final ICommandSource sender)
     {
-        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidmissing"), Util.DUMMY_UUID);
+        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidmissing"), Util.NIL_UUID);
     }
 
     public static void sendBadArgumentsTryTab(final ICommandSource sender)
     {
-        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidtab"), Util.DUMMY_UUID);
+        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidtab"), Util.NIL_UUID);
     }
 
     public static void sendError(final CommandSource sender, final String text)
     {
-        sender.sendErrorMessage(CommandTools.makeError(text));
+        sender.sendFailure(CommandTools.makeError(text));
     }
 
     public static void sendError(final ICommandSource sender, final String text)
     {
-        sender.sendMessage(CommandTools.makeError(text), Util.DUMMY_UUID);
+        sender.sendMessage(CommandTools.makeError(text), Util.NIL_UUID);
     }
 
     public static void sendMessage(final ICommandSource sender, final String text)
     {
         final ITextComponent message = CommandTools.makeTranslatedMessage(text, null);
-        sender.sendMessage(message, Util.DUMMY_UUID);
+        sender.sendMessage(message, Util.NIL_UUID);
     }
 
     public static void sendNoPermissions(final ICommandSource sender)
     {
-        sender.sendMessage(CommandTools.makeError("pokecube.command.noperms"), Util.DUMMY_UUID);
+        sender.sendMessage(CommandTools.makeError("pokecube.command.noperms"), Util.NIL_UUID);
     }
 }

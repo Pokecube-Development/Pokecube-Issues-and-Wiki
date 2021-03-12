@@ -32,7 +32,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
     protected void closeSubPage()
     {
         this.current_page.onPageClosed();
-        this.getEventListeners().remove(this.current_page);
+        this.children().remove(this.current_page);
     }
 
     protected abstract T createPage(int index);
@@ -73,7 +73,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
             PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         }
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.getEventListeners();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
         list.add(this.current_page);
     }
 
@@ -102,7 +102,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
     @Override
     public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        if (this.font == null) this.font = Minecraft.getInstance().fontRenderer;
+        if (this.font == null) this.font = Minecraft.getInstance().font;
         this.prePageDraw(mat, mouseX, mouseY, partialTicks);
         this.current_page.render(mat, mouseX, mouseY, partialTicks);
         this.postPageDraw(mat, mouseX, mouseY, partialTicks);

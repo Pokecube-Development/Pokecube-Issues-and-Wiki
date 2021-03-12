@@ -22,17 +22,17 @@ public class Counter extends Move_Basic
         final LivingEntity attacker = packet.attacker.getEntity();
         if (!packet.attacker.getMoveStats().biding)
         {
-            attacker.getPersistentData().putLong("bideTime", attacker.getEntityWorld().getGameTime() + PokecubeCore
+            attacker.getPersistentData().putLong("bideTime", attacker.getCommandSenderWorld().getGameTime() + PokecubeCore
                     .getConfig().attackCooldown);
             packet.attacker.getMoveStats().biding = true;
             packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
         }
-        else if (attacker.getPersistentData().getLong("bideTime") < attacker.getEntityWorld().getGameTime())
+        else if (attacker.getPersistentData().getLong("bideTime") < attacker.getCommandSenderWorld().getGameTime())
         {
             attacker.getPersistentData().remove("bideTime");
             final int damage = 2 * packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER;
             packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
-            if (packet.attacked != null) packet.attacked.attackEntityFrom(new PokemobDamageSource(attacker, this),
+            if (packet.attacked != null) packet.attacked.hurt(new PokemobDamageSource(attacker, this),
                     damage);
             packet.attacker.getMoveStats().biding = false;
         }

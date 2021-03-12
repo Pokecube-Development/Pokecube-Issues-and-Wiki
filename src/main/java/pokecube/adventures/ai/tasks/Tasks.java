@@ -77,8 +77,8 @@ public class Tasks
         task = new ManagePokemobTarget(mob);
         battle_list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        brain.registerActivity(Activities.BATTLE, ImmutableList.copyOf(battle_list), ImmutableSet.of(Pair.of(
-                MemoryModuleType.VISIBLE_MOBS, MemoryModuleStatus.VALUE_PRESENT)));
+        brain.addActivityWithConditions(Activities.BATTLE, ImmutableList.copyOf(battle_list), ImmutableSet.of(Pair.of(
+                MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleStatus.VALUE_PRESENT)));
 
         BrainUtils.addToActivity(brain, Activity.CORE, other_list);
         BrainUtils.addToActivity(brain, Activity.IDLE, other_list);

@@ -12,12 +12,12 @@ public class TexturedSlot extends Slot
             final String texture)
     {
         super(inventoryIn, index, xPosition, yPosition);
-        this.setBackground(PlayerContainer.LOCATION_BLOCKS_TEXTURE, new ResourceLocation(texture));
+        this.setBackground(PlayerContainer.BLOCK_ATLAS, new ResourceLocation(texture));
     }
 
     @Override
-    public boolean isItemValid(final ItemStack stack)
+    public boolean mayPlace(final ItemStack stack)
     {
-        return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
+        return this.container.canPlaceItem(this.getSlotIndex(), stack);
     }
 }

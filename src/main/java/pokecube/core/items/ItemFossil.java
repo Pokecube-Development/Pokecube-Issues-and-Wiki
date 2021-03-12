@@ -34,7 +34,7 @@ public class ItemFossil extends Item
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World playerIn, List<ITextComponent> list,
+    public void appendHoverText(ItemStack stack, @Nullable World playerIn, List<ITextComponent> list,
             ITooltipFlag advanced)
     {
         if (this.entry == null) this.entry = Database.getEntry(this.type);

@@ -23,14 +23,14 @@ public abstract class NBTPacket extends Packet
     public NBTPacket(final PacketBuffer buffer)
     {
         this();
-        this.tag = buffer.readCompoundTag();
+        this.tag = buffer.readNbt();
         this.assembler.onRead(this.getTag());
     }
 
     @Override
     public void write(final PacketBuffer buffer)
     {
-        buffer.writeCompoundTag(this.getTag());
+        buffer.writeNbt(this.getTag());
     }
 
     public void setTag(final CompoundNBT tag)

@@ -63,8 +63,8 @@ public class ThutBling
         @Override
         public void setupClient(final FMLClientSetupEvent event)
         {
-            ScreenManager.registerFactory(LargeContainer.TYPE, Bag<LargeContainer>::new);
-            ScreenManager.registerFactory(SmallContainer.TYPE, ChestScreen::new);
+            ScreenManager.register(LargeContainer.TYPE, Bag<LargeContainer>::new);
+            ScreenManager.register(SmallContainer.TYPE, ChestScreen::new);
         }
 
         @Override

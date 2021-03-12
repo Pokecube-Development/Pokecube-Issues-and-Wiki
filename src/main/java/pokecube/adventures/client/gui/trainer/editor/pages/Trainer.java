@@ -66,7 +66,7 @@ public class Trainer extends Page
                 ""));
         this.urlSkin = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(""));
 
-        this.urlSkin.maxStringLength = 255;
+        this.urlSkin.maxLength = 255;
 
         this.index = this.index % NpcType.typeMap.size();
         final List<String> types = Lists.newArrayList(NpcType.typeMap.keySet());
@@ -90,17 +90,17 @@ public class Trainer extends Page
                 name = name.split(":")[1];
                 this.typename = true;
             }
-            this.name.setText(name);
-            this.type.setText(mob.getNpcType().getName());
+            this.name.setValue(name);
+            this.type.setValue(mob.getNpcType().getName());
             for (i = 0; i < types.size(); i++)
                 if (NpcType.typeMap.get(types.get(0)) == mob.getNpcType())
                 {
                     this.index = i;
                     break;
                 }
-            this.playerName.setText(mob.playerName);
-            this.customTex.setText(mob.customTex);
-            this.urlSkin.setText(mob.urlSkin);
+            this.playerName.setValue(mob.playerName);
+            this.customTex.setValue(mob.customTex);
+            this.urlSkin.setValue(mob.urlSkin);
         }
         this.addButton(this.name);
         this.addButton(this.tradeList);
@@ -108,8 +108,8 @@ public class Trainer extends Page
         this.addButton(this.playerName);
         this.addButton(this.customTex);
 
-        if (this.parent.entity instanceof NpcMob) this.tradeList.setText(((NpcMob) this.parent.entity).customTrades);
-        else this.tradeList.setEnabled(false);
+        if (this.parent.entity instanceof NpcMob) this.tradeList.setValue(((NpcMob) this.parent.entity).customTrades);
+        else this.tradeList.setEditable(false);
 
         // this.addButton(this.urlSkin);
         int index = 0;
@@ -128,15 +128,15 @@ public class Trainer extends Page
                 if (!(this.parent.current_page instanceof Pokemob)) return;
                 final Pokemob page = (Pokemob) this.parent.current_page;
                 page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(Trainer.lastMobIndex),
-                        this.parent.entity.getEntityWorld());
+                        this.parent.entity.getCommandSenderWorld());
                 page.index = Trainer.lastMobIndex;
                 page.deleteCallback = () ->
                 {
                     final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
-                    message.getTag().putInt("I", this.parent.entity.getEntityId());
+                    message.getTag().putInt("I", this.parent.entity.getId());
                     message.getTag().putInt("__trainers__", page.index);
                     PacketTrainer.ASSEMBLER.sendToServer(message);
-                    this.closeScreen();
+                    this.onClose();
                     // This is needed to update that the pokemobs
                     // have changed
                     PacketTrainer.requestEdit(this.parent.entity);
@@ -161,15 +161,15 @@ public class Trainer extends Page
                             if (!(this.parent.current_page instanceof Pokemob)) return;
                             final Pokemob page = (Pokemob) this.parent.current_page;
                             page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(i2),
-                                    this.parent.entity.getEntityWorld());
+                                    this.parent.entity.getCommandSenderWorld());
                             page.index = i2;
                             page.deleteCallback = () ->
                             {
                                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
-                                message.getTag().putInt("I", this.parent.entity.getEntityId());
+                                message.getTag().putInt("I", this.parent.entity.getId());
                                 message.getTag().putInt("__trainers__", page.index);
                                 PacketTrainer.ASSEMBLER.sendToServer(message);
-                                this.closeScreen();
+                                this.onClose();
                                 // This is needed to update that the pokemobs
                                 // have changed
                                 PacketTrainer.requestEdit(this.parent.entity);
@@ -196,7 +196,7 @@ public class Trainer extends Page
                             {
                                 this.parent.trainer.setPokemob(0, ItemStack.EMPTY);
                                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
-                                message.getTag().putInt("I", this.parent.entity.getEntityId());
+                                message.getTag().putInt("I", this.parent.entity.getId());
                                 message.getTag().putInt("__trainers__", page.index);
                                 PacketTrainer.ASSEMBLER.sendToServer(message);
                                 this.parent.changePage(ourIndex);
@@ -215,7 +215,7 @@ public class Trainer extends Page
         {
             this.index++;
             this.index = this.index % types.size();
-            this.type.setText(types.get(this.index));
+            this.type.setValue(types.get(this.index));
             this.onUpdated();
 
         }));
@@ -223,15 +223,15 @@ public class Trainer extends Page
         {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
-            this.type.setText(types.get(this.index));
+            this.type.setValue(types.get(this.index));
             this.onUpdated();
         }));
         this.addButton(new Button(x - 123, y + 55, 40, 20, new StringTextComponent("Delete"), b ->
         {
             final PacketTrainer message = new PacketTrainer(PacketTrainer.KILLTRAINER);
-            message.getTag().putInt("I", this.parent.entity.getEntityId());
+            message.getTag().putInt("I", this.parent.entity.getId());
             PacketTrainer.ASSEMBLER.sendToServer(message);
-            this.closeScreen();
+            this.onClose();
         }));
         this.addButton(new Button(x - 19, y + dy + 9, 10, 10, new StringTextComponent(this.male ? "\u2642" : "\u2640"),
                 b ->
@@ -254,7 +254,7 @@ public class Trainer extends Page
         this.addButton(new Button(x + 80, y + 55, 40, 20, new StringTextComponent("Exit"), b ->
         {
             this.onUpdated();
-            this.closeScreen();
+            this.onClose();
         }));
 
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
@@ -308,13 +308,13 @@ public class Trainer extends Page
     private void onUpdated()
     {
         final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-        message.getTag().putInt("I", this.parent.entity.getEntityId());
-        message.getTag().putString("__type__", this.type.getText());
-        message.getTag().putString("N", this.name.getText());
-        message.getTag().putString("pS", this.playerName.getText());
-        message.getTag().putString("uS", this.urlSkin.getText());
-        message.getTag().putString("cS", this.customTex.getText());
-        message.getTag().putString("cT", this.tradeList.getText());
+        message.getTag().putInt("I", this.parent.entity.getId());
+        message.getTag().putString("__type__", this.type.getValue());
+        message.getTag().putString("N", this.name.getValue());
+        message.getTag().putString("pS", this.playerName.getValue());
+        message.getTag().putString("uS", this.urlSkin.getValue());
+        message.getTag().putString("cS", this.customTex.getValue());
+        message.getTag().putString("cT", this.tradeList.getValue());
         message.getTag().putBoolean("rawName", !this.typename);
         message.getTag().putBoolean("G", this.male);
         PacketTrainer.ASSEMBLER.sendToServer(message);
@@ -333,14 +333,14 @@ public class Trainer extends Page
         if (this.parent.entity instanceof LivingEntity)
         {
             mob = (LivingEntity) this.parent.entity;
-            final float yaw = Util.milliTime() / 40;
+            final float yaw = Util.getMillis() / 40;
             GuiPokemobBase.renderMob(mob, x - 60, y + 70, 0, yaw, 0, yaw, 1f);
         }
 
-        this.font.drawString(matrixStack, I18n.format("Trainer Type"), x + 20, y + dy * i++, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("Name"), x + 11, y + dy * i++, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("Trades List"), x, y + dy * i++, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("Player Texture"), x, y + dy * i++, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("Custom Texture"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Trainer Type"), x + 20, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Name"), x + 11, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Trades List"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Player Texture"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Custom Texture"), x, y + dy * i++, 0xFFFFFFFF);
     }
 }

@@ -22,9 +22,9 @@ public class ReturnHome extends AbstractBurrowTask
     @Override
     public void reset()
     {
-        this.entity.getBrain().removeMemory(BurrowTasks.GOING_HOME);
+        this.entity.getBrain().eraseMemory(BurrowTasks.GOING_HOME);
         this.homePos.clear();
-        this.entity.getNavigator().resetRangeMultiplier();
+        this.entity.getNavigation().resetMaxVisitedNodesMultiplier();
         this.enterTimer = 0;
     }
 
@@ -33,16 +33,16 @@ public class ReturnHome extends AbstractBurrowTask
     {
         // This should path the mob over to the center of the home room, maybe
         // call "enter" for it as well?{
-        this.entity.getBrain().removeMemory(BurrowTasks.JOB_INFO);
-        this.homePos.set(this.burrow.nest.getPos());
-        if (this.enterTimer++ > 6000) this.entity.setPosition(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
+        this.entity.getBrain().eraseMemory(BurrowTasks.JOB_INFO);
+        this.homePos.set(this.burrow.nest.getBlockPos());
+        if (this.enterTimer++ > 6000) this.entity.setPos(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
                 + 0.5);
-        final BlockPos pos = this.entity.getPosition();
+        final BlockPos pos = this.entity.blockPosition();
         this.burrow.hab.onEnterHabitat(this.entity);
-        if (pos.distanceSq(this.homePos.getPos()) > this.burrow.hab.burrow.getSize())
+        if (pos.distSqr(this.homePos.getPos()) > this.burrow.hab.burrow.getSize())
         {
-            final Path p = this.entity.getNavigator().getPath();
-            final boolean targ = p != null && p.reachesTarget();
+            final Path p = this.entity.getNavigation().getPath();
+            final boolean targ = p != null && p.canReach();
             if (!targ) this.setWalkTo(this.homePos, 1, 1);
         }
         else
@@ -58,7 +58,7 @@ public class ReturnHome extends AbstractBurrowTask
         // We were already heading home, so keep doing that.
         if (!this.homePos.isEmpty()) return true;
         final Brain<?> brain = this.entity.getBrain();
-        if (brain.hasMemory(BurrowTasks.GOING_HOME)) return true;
+        if (brain.hasMemoryValue(BurrowTasks.GOING_HOME)) return true;
         if (BurrowTasks.shouldBeInside(this.world, this.burrow))
         {
             brain.setMemory(BurrowTasks.GOING_HOME, true);

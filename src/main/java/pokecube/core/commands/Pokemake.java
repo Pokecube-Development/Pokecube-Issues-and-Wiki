@@ -111,7 +111,7 @@ public class Pokemake
                 try
                 {
                     final ItemInput item = ItemArgument.item().parse(new StringReader(val));
-                    itemstack = item.createStack(1, false);
+                    itemstack = item.createItemStack(1, false);
                 }
                 catch (final Throwable e)
                 {
@@ -244,7 +244,7 @@ public class Pokemake
                     entry = iterator.next();
             }
         }
-        final Entity mob = PokecubeCore.createPokemob(entry, source.getWorld());
+        final Entity mob = PokecubeCore.createPokemob(entry, source.getLevel());
         if (mob == null)
         {
             CommandTools.sendError(source, "pokecube.command.makeinvalid");
@@ -255,7 +255,7 @@ public class Pokemake
         if (!args.isEmpty() && args.get(0) instanceof LivingEntity)
         {
             final LivingEntity owner = (LivingEntity) args.remove(0);
-            pokemob.setOwner(owner.getUniqueID());
+            pokemob.setOwner(owner.getUUID());
             PokecubeCore.LOGGER.debug("Creating " + pokemob.getPokedexEntry() + " for " + owner.getName());
             pokemob.setGeneralState(GeneralStates.TAMED, true);
         }
@@ -271,14 +271,14 @@ public class Pokemake
         Pokemake.setToArgs(newArgs.toArray(new String[0]), pokemob, 0, offset);
         pokemob.spawnInit();
         final Vector3 temp = Vector3.getNewVector();
-        temp.set(source.getPos()).addTo(offset);
+        temp.set(source.getPosition()).addTo(offset);
         temp.moveEntity(mob);
         GeneticsManager.initMob(mob);
-        mob.getEntityWorld().addEntity(mob);
+        mob.getCommandSenderWorld().addFreshEntity(mob);
 
         final String text = TextFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
-        final ITextComponent message = ITextComponent.Serializer.getComponentFromJson("[\"" + text + "\"]");
-        source.sendFeedback(message, true);
+        final ITextComponent message = ITextComponent.Serializer.fromJson("[\"" + text + "\"]");
+        source.sendSuccess(message, true);
         return 0;
     }
 

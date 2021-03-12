@@ -47,8 +47,8 @@ public class EntityMoveUse extends ThrowableEntity
     public static EntityType<EntityMoveUse> TYPE;
     static
     {
-        EntityMoveUse.TYPE = EntityType.Builder.create(EntityMoveUse::new, EntityClassification.MISC).disableSummoning()
-                .immuneToFire().setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).size(
+        EntityMoveUse.TYPE = EntityType.Builder.of(EntityMoveUse::new, EntityClassification.MISC).noSummon()
+                .fireImmune().setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).sized(
                         0.5f, 0.5f).setCustomClientFactory((spawnEntity, world) ->
                         {
                             return EntityMoveUse.TYPE.create(world);
@@ -66,7 +66,7 @@ public class EntityMoveUse extends ThrowableEntity
 
         protected Builder(final Entity user, final Move_Base move, final Vector3 start)
         {
-            this.toMake = new EntityMoveUse(EntityMoveUse.TYPE, user.getEntityWorld());
+            this.toMake = new EntityMoveUse(EntityMoveUse.TYPE, user.getCommandSenderWorld());
             this.toMake.setMove(move).setUser(user).setStart(start).setEnd(start);
         }
 
@@ -95,30 +95,30 @@ public class EntityMoveUse extends ThrowableEntity
         }
     }
 
-    static final DataParameter<String>  MOVENAME  = EntityDataManager.<String> createKey(EntityMoveUse.class,
+    static final DataParameter<String>  MOVENAME  = EntityDataManager.<String> defineId(EntityMoveUse.class,
             DataSerializers.STRING);
-    static final DataParameter<Float>   ENDX      = EntityDataManager.<Float> createKey(EntityMoveUse.class,
+    static final DataParameter<Float>   ENDX      = EntityDataManager.<Float> defineId(EntityMoveUse.class,
             DataSerializers.FLOAT);
-    static final DataParameter<Float>   ENDY      = EntityDataManager.<Float> createKey(EntityMoveUse.class,
+    static final DataParameter<Float>   ENDY      = EntityDataManager.<Float> defineId(EntityMoveUse.class,
             DataSerializers.FLOAT);
-    static final DataParameter<Float>   ENDZ      = EntityDataManager.<Float> createKey(EntityMoveUse.class,
+    static final DataParameter<Float>   ENDZ      = EntityDataManager.<Float> defineId(EntityMoveUse.class,
             DataSerializers.FLOAT);
-    static final DataParameter<Float>   STARTX    = EntityDataManager.<Float> createKey(EntityMoveUse.class,
+    static final DataParameter<Float>   STARTX    = EntityDataManager.<Float> defineId(EntityMoveUse.class,
             DataSerializers.FLOAT);
-    static final DataParameter<Float>   STARTY    = EntityDataManager.<Float> createKey(EntityMoveUse.class,
+    static final DataParameter<Float>   STARTY    = EntityDataManager.<Float> defineId(EntityMoveUse.class,
             DataSerializers.FLOAT);
-    static final DataParameter<Float>   STARTZ    = EntityDataManager.<Float> createKey(EntityMoveUse.class,
+    static final DataParameter<Float>   STARTZ    = EntityDataManager.<Float> defineId(EntityMoveUse.class,
             DataSerializers.FLOAT);
-    static final DataParameter<Integer> USER      = EntityDataManager.<Integer> createKey(EntityMoveUse.class,
-            DataSerializers.VARINT);
-    static final DataParameter<Integer> TARGET    = EntityDataManager.<Integer> createKey(EntityMoveUse.class,
-            DataSerializers.VARINT);
-    static final DataParameter<Integer> TICK      = EntityDataManager.<Integer> createKey(EntityMoveUse.class,
-            DataSerializers.VARINT);
-    static final DataParameter<Integer> STARTTICK = EntityDataManager.<Integer> createKey(EntityMoveUse.class,
-            DataSerializers.VARINT);
-    static final DataParameter<Integer> APPLYTICK = EntityDataManager.<Integer> createKey(EntityMoveUse.class,
-            DataSerializers.VARINT);
+    static final DataParameter<Integer> USER      = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
+            DataSerializers.INT);
+    static final DataParameter<Integer> TARGET    = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
+            DataSerializers.INT);
+    static final DataParameter<Integer> TICK      = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
+            DataSerializers.INT);
+    static final DataParameter<Integer> STARTTICK = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
+            DataSerializers.INT);
+    static final DataParameter<Integer> APPLYTICK = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
+            DataSerializers.INT);
 
     Vector3 end   = Vector3.getNewVector();
     Vector3 start = Vector3.getNewVector();
@@ -149,14 +149,14 @@ public class EntityMoveUse extends ThrowableEntity
     Predicate<Entity> valid = e ->
     {
         if (EntityTools.getCoreLiving(e) == null) return false;
-        final UUID targetID = EntityTools.getCoreEntity(e).getUniqueID();
+        final UUID targetID = EntityTools.getCoreEntity(e).getUUID();
         return !this.alreadyHit.contains(targetID);
     };
 
     public EntityMoveUse(final EntityType<EntityMoveUse> type, final World worldIn)
     {
         super(type, worldIn);
-        this.ignoreFrustumCheck = true;
+        this.noCulling = true;
     }
 
     protected void init()
@@ -185,19 +185,19 @@ public class EntityMoveUse extends ThrowableEntity
         if (!this.start.equals(this.end)) this.dir.set(this.end).subtractFrom(this.start).norm();
         else this.onSelf = true;
         this.dist = this.start.distanceTo(this.end);
-        this.recalculateSize();
+        this.refreshDimensions();
 
         this.here.set(this);
 
         // Put us and our user in here by default.
-        this.alreadyHit.add(this.getUniqueID());
-        this.alreadyHit.add(this.user.getUniqueID());
+        this.alreadyHit.add(this.getUUID());
+        this.alreadyHit.add(this.user.getUUID());
     }
 
     @Override
-    public EntitySize getSize(final Pose poseIn)
+    public EntitySize getDimensions(final Pose poseIn)
     {
-        EntitySize size = super.getSize(poseIn);
+        EntitySize size = super.getDimensions(poseIn);
         this.getMove();
         if (this.move == null) return size;
         this.contact = (this.move.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
@@ -205,22 +205,22 @@ public class EntityMoveUse extends ThrowableEntity
         if (this.contact)
         {
             final float s = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
-            final float width = this.user.getWidth();
-            final float height = this.user.getHeight();
+            final float width = this.user.getBbWidth();
+            final float height = this.user.getBbHeight();
             size = EntitySize.fixed(width + s, height + s);
         }
         else if (aoe)
         {
             final float s = 8;
-            final float width = this.user.getWidth();
-            final float height = this.user.getHeight();
+            final float width = this.user.getBbWidth();
+            final float height = this.user.getBbHeight();
             size = EntitySize.fixed(width + s, height + s);
         }
         return size;
     }
 
     @Override
-    public IPacket<?> createSpawnPacket()
+    public IPacket<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
@@ -230,24 +230,24 @@ public class EntityMoveUse extends ThrowableEntity
         final Move_Base attack = this.getMove();
         final Entity user = this.getUser();
         final LivingEntity living = EntityTools.getCoreLiving(target);
-        if (!this.valid.test(target) || living == null || !target.canBeCollidedWith()) return;
+        if (!this.valid.test(target) || living == null || !target.isPickable()) return;
         if (user == null || !this.isAlive() || !user.isAlive()) return;
         // We only want to hit living entities, but non-living ones can be
         // detected as parts of other mobs, like ender dragons.
-        final UUID targetID = living.getUniqueID();
+        final UUID targetID = living.getUUID();
         // If it is null here, it means that the target was not a living entity,
         // or a part of one.
         if (targetID == null) return;
 
         final Entity targ = this.getTarget();
-        final UUID targId = targ == null ? null : targ.getUniqueID();
+        final UUID targId = targ == null ? null : targ.getUUID();
 
         this.alreadyHit.add(targetID);
 
         // Only hit multipart entities once
         // Only can hit our valid target!
         if (targId != null && !attack.move.canHitNonTarget() && !targId.equals(targetID)) return;
-        if (!this.getEntityWorld().isRemote)
+        if (!this.getCommandSenderWorld().isClientSide)
         {
             final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
@@ -257,26 +257,26 @@ public class EntityMoveUse extends ThrowableEntity
 
     public int getDuration()
     {
-        return this.getDataManager().get(EntityMoveUse.TICK);
+        return this.getEntityData().get(EntityMoveUse.TICK);
     }
 
     public int getApplicationTick()
     {
-        return this.getDataManager().get(EntityMoveUse.APPLYTICK);
+        return this.getEntityData().get(EntityMoveUse.APPLYTICK);
     }
 
     public Vector3 getEnd()
     {
-        this.end.x = this.getDataManager().get(EntityMoveUse.ENDX);
-        this.end.y = this.getDataManager().get(EntityMoveUse.ENDY);
-        this.end.z = this.getDataManager().get(EntityMoveUse.ENDZ);
+        this.end.x = this.getEntityData().get(EntityMoveUse.ENDX);
+        this.end.y = this.getEntityData().get(EntityMoveUse.ENDY);
+        this.end.z = this.getEntityData().get(EntityMoveUse.ENDZ);
         return this.end;
     }
 
     public Move_Base getMove()
     {
         if (this.move != null) return this.move;
-        final String name = this.getDataManager().get(EntityMoveUse.MOVENAME);
+        final String name = this.getEntityData().get(EntityMoveUse.MOVENAME);
         if (name.isEmpty()) return null;
         return this.move = MovesUtils.getMoveFromName(name);
     }
@@ -292,34 +292,34 @@ public class EntityMoveUse extends ThrowableEntity
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public AxisAlignedBB getRenderBoundingBox()
+    public AxisAlignedBB getBoundingBoxForCulling()
     {
         return IForgeTileEntity.INFINITE_EXTENT_AABB;
     }
 
     public Vector3 getStart()
     {
-        this.start.x = this.getDataManager().get(EntityMoveUse.STARTX);
-        this.start.y = this.getDataManager().get(EntityMoveUse.STARTY);
-        this.start.z = this.getDataManager().get(EntityMoveUse.STARTZ);
+        this.start.x = this.getEntityData().get(EntityMoveUse.STARTX);
+        this.start.y = this.getEntityData().get(EntityMoveUse.STARTY);
+        this.start.z = this.getEntityData().get(EntityMoveUse.STARTZ);
         return this.start;
     }
 
     public int getStartTick()
     {
-        return this.getDataManager().get(EntityMoveUse.STARTTICK);
+        return this.getEntityData().get(EntityMoveUse.STARTTICK);
     }
 
     public Entity getTarget()
     {
         if (this.target != null) return this.target;
-        return this.target = this.getEntityWorld().getEntityByID(this.getDataManager().get(EntityMoveUse.TARGET));
+        return this.target = this.getCommandSenderWorld().getEntity(this.getEntityData().get(EntityMoveUse.TARGET));
     }
 
     public Entity getUser()
     {
         if (this.user != null) return this.user;
-        return this.user = PokecubeCore.getEntityProvider().getEntity(this.getEntityWorld(), this.getDataManager().get(
+        return this.user = PokecubeCore.getEntityProvider().getEntity(this.getCommandSenderWorld(), this.getEntityData().get(
                 EntityMoveUse.USER), true);
     }
 
@@ -329,57 +329,57 @@ public class EntityMoveUse extends ThrowableEntity
     }
 
     @Override
-    protected void onImpact(final RayTraceResult result)
+    protected void onHit(final RayTraceResult result)
     {
         // We don't do anything, as we are a "fake" projectile, damage is
         // handled by whatever threw us instead.
     }
 
     @Override
-    public void readAdditional(final CompoundNBT compound)
+    public void readAdditionalSaveData(final CompoundNBT compound)
     {
         // Do nothing, if it needs to load/save, it should delete itself
         // instead.
     }
 
     @Override
-    protected void registerData()
+    protected void defineSynchedData()
     {
-        this.getDataManager().register(EntityMoveUse.MOVENAME, "");
-        this.getDataManager().register(EntityMoveUse.ENDX, 0f);
-        this.getDataManager().register(EntityMoveUse.ENDY, 0f);
-        this.getDataManager().register(EntityMoveUse.ENDZ, 0f);
-        this.getDataManager().register(EntityMoveUse.STARTX, 0f);
-        this.getDataManager().register(EntityMoveUse.STARTY, 0f);
-        this.getDataManager().register(EntityMoveUse.STARTZ, 0f);
-        this.getDataManager().register(EntityMoveUse.USER, -1);
-        this.getDataManager().register(EntityMoveUse.TARGET, -1);
-        this.getDataManager().register(EntityMoveUse.TICK, 0);
-        this.getDataManager().register(EntityMoveUse.APPLYTICK, 0);
-        this.getDataManager().register(EntityMoveUse.STARTTICK, 0);
+        this.getEntityData().define(EntityMoveUse.MOVENAME, "");
+        this.getEntityData().define(EntityMoveUse.ENDX, 0f);
+        this.getEntityData().define(EntityMoveUse.ENDY, 0f);
+        this.getEntityData().define(EntityMoveUse.ENDZ, 0f);
+        this.getEntityData().define(EntityMoveUse.STARTX, 0f);
+        this.getEntityData().define(EntityMoveUse.STARTY, 0f);
+        this.getEntityData().define(EntityMoveUse.STARTZ, 0f);
+        this.getEntityData().define(EntityMoveUse.USER, -1);
+        this.getEntityData().define(EntityMoveUse.TARGET, -1);
+        this.getEntityData().define(EntityMoveUse.TICK, 0);
+        this.getEntityData().define(EntityMoveUse.APPLYTICK, 0);
+        this.getEntityData().define(EntityMoveUse.STARTTICK, 0);
     }
 
     protected void setDuration(final int age)
     {
-        this.getDataManager().set(EntityMoveUse.TICK, age);
+        this.getEntityData().set(EntityMoveUse.TICK, age);
     }
 
     protected void setApplicationTick(final int tick)
     {
-        this.getDataManager().set(EntityMoveUse.APPLYTICK, tick);
+        this.getEntityData().set(EntityMoveUse.APPLYTICK, tick);
     }
 
     protected void setStartTick(final int tick)
     {
-        this.getDataManager().set(EntityMoveUse.STARTTICK, tick);
+        this.getEntityData().set(EntityMoveUse.STARTTICK, tick);
     }
 
     public EntityMoveUse setEnd(final Vector3 location)
     {
         this.end.set(location);
-        this.getDataManager().set(EntityMoveUse.ENDX, (float) this.end.x);
-        this.getDataManager().set(EntityMoveUse.ENDY, (float) this.end.y);
-        this.getDataManager().set(EntityMoveUse.ENDZ, (float) this.end.z);
+        this.getEntityData().set(EntityMoveUse.ENDX, (float) this.end.x);
+        this.getEntityData().set(EntityMoveUse.ENDY, (float) this.end.y);
+        this.getEntityData().set(EntityMoveUse.ENDZ, (float) this.end.z);
         return this;
     }
 
@@ -388,7 +388,7 @@ public class EntityMoveUse extends ThrowableEntity
         this.move = move;
         String name = "";
         if (move != null) name = move.name;
-        this.getDataManager().set(EntityMoveUse.MOVENAME, name);
+        this.getEntityData().set(EntityMoveUse.MOVENAME, name);
         final IPokemob user = CapabilityPokemob.getPokemobFor(this.getUser());
         if (move.getAnimation(user) != null)
         {
@@ -402,7 +402,7 @@ public class EntityMoveUse extends ThrowableEntity
     public EntityMoveUse setMove(final Move_Base move, final int tickOffset)
     {
         this.setMove(move);
-        this.getDataManager().set(EntityMoveUse.STARTTICK, tickOffset);
+        this.getEntityData().set(EntityMoveUse.STARTTICK, tickOffset);
         return this;
     }
 
@@ -410,26 +410,26 @@ public class EntityMoveUse extends ThrowableEntity
     {
         this.start.set(location);
         this.start.moveEntity(this);
-        this.getDataManager().set(EntityMoveUse.STARTX, (float) this.start.x);
-        this.getDataManager().set(EntityMoveUse.STARTY, (float) this.start.y);
-        this.getDataManager().set(EntityMoveUse.STARTZ, (float) this.start.z);
+        this.getEntityData().set(EntityMoveUse.STARTX, (float) this.start.x);
+        this.getEntityData().set(EntityMoveUse.STARTY, (float) this.start.y);
+        this.getEntityData().set(EntityMoveUse.STARTZ, (float) this.start.z);
         return this;
     }
 
     public EntityMoveUse setTarget(final Entity target)
     {
         this.target = target;
-        if (target != null) this.getDataManager().set(EntityMoveUse.TARGET, target.getEntityId());
-        else this.getDataManager().set(EntityMoveUse.TARGET, -1);
+        if (target != null) this.getEntityData().set(EntityMoveUse.TARGET, target.getId());
+        else this.getEntityData().set(EntityMoveUse.TARGET, -1);
         return this;
     }
 
     public EntityMoveUse setUser(final Entity user)
     {
         this.user = user;
-        this.getDataManager().set(EntityMoveUse.USER, user.getEntityId());
-        this.alreadyHit.add(this.user.getUniqueID());
-        if (this.init) this.recalculateSize();
+        this.getEntityData().set(EntityMoveUse.USER, user.getId());
+        this.alreadyHit.add(this.user.getUUID());
+        if (this.init) this.refreshDimensions();
         return this;
     }
 
@@ -440,7 +440,7 @@ public class EntityMoveUse extends ThrowableEntity
         if (!this.init) return;
 
         final int start = this.getStartTick() - 1;
-        this.getDataManager().set(EntityMoveUse.STARTTICK, start);
+        this.getEntityData().set(EntityMoveUse.STARTTICK, start);
         // Not ready to start yet
         if (start > 0) return;
 
@@ -466,7 +466,7 @@ public class EntityMoveUse extends ThrowableEntity
         {
             // AOE moves are just a 8-radius box around us.
             final double frac = (this.startAge - this.getDuration()) / this.startAge;
-            testBox = this.start.getAABB().grow(8 * frac);
+            testBox = this.start.getAABB().inflate(8 * frac);
             hitboxes.add(testBox);
         }
         else if (this.onSelf || this.contact)
@@ -476,15 +476,15 @@ public class EntityMoveUse extends ThrowableEntity
             this.end.set(this.start);
             EntityTools.copyPositions(this, user);
             final float s = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
-            testBox = user.getBoundingBox().grow(s);
+            testBox = user.getBoundingBox().inflate(s);
             if (user.isMultipartEntity())
             {
                 testBox = null;
                 for (final PartEntity<?> part : user.getParts())
                 {
-                    final AxisAlignedBB box = part.getBoundingBox().grow(s);
+                    final AxisAlignedBB box = part.getBoundingBox().inflate(s);
                     if (testBox == null) testBox = box;
-                    else testBox = box.union(testBox);
+                    else testBox = box.minmax(testBox);
                     hitboxes.add(box);
                 }
             }
@@ -495,25 +495,25 @@ public class EntityMoveUse extends ThrowableEntity
         {
             // Otherwise they fly in a straight line from the user to the target
             final double frac = this.dist * (this.startAge - this.getDuration()) / this.startAge;
-            this.setMotion(this.dir.x * frac, this.dir.y * frac, this.dir.z * frac);
-            this.setPosition(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac, this.start.z
+            this.setDeltaMovement(this.dir.x * frac, this.dir.y * frac, this.dir.z * frac);
+            this.setPos(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac, this.start.z
                     + this.dir.z * frac);
             this.here.set(this);
             testBox = this.getBoundingBox();
             // Increase size near end to increase accuracy a bit
-            if (this.end.distToSq(this.here) < 1) testBox = testBox.grow(1);
+            if (this.end.distToSq(this.here) < 1) testBox = testBox.inflate(1);
             hitboxes.add(testBox);
         }
 
-        if (this.getEntityWorld().isRemote && attack.getAnimation(userMob) != null) attack.getAnimation(userMob)
+        if (this.getCommandSenderWorld().isClientSide && attack.getAnimation(userMob) != null) attack.getAnimation(userMob)
                 .spawnClientEntities(this.getMoveInfo());
 
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
 
-        final Vector3d v = this.getMotion();
-        testBox = testBox.expand(v.x, v.y, v.z);
-        final List<Entity> hits = this.getEntityWorld().getEntitiesInAABBexcluding(this, testBox, this.valid);
+        final Vector3d v = this.getDeltaMovement();
+        testBox = testBox.expandTowards(v.x, v.y, v.z);
+        final List<Entity> hits = this.getCommandSenderWorld().getEntities(this, testBox, this.valid);
         final AxisAlignedBB hitBox = testBox;
         hits.removeIf(e ->
         {
@@ -535,19 +535,19 @@ public class EntityMoveUse extends ThrowableEntity
         for (final Entity e : hits)
             this.doMoveUse(e);
 
-        if (this.getMove() != null && userMob != null && !this.applied && !this.getEntityWorld().isRemote)
+        if (this.getMove() != null && userMob != null && !this.applied && !this.getCommandSenderWorld().isClientSide)
         {
             boolean canApply = false;
             this.getEnd();
             if (this.contact)
             {
                 final double range = userMob.inCombat() ? 0.5 : 4;
-                final AxisAlignedBB endPos = new AxisAlignedBB(this.end.getPos()).grow(range);
+                final AxisAlignedBB endPos = new AxisAlignedBB(this.end.getPos()).inflate(range);
                 canApply = endPos.intersects(this.getBoundingBox());
             }
             else
             {
-                final EntityRayTraceResult hit = ProjectileHelper.rayTraceEntities(this.getEntityWorld(), this,
+                final EntityRayTraceResult hit = ProjectileHelper.getEntityHitResult(this.getCommandSenderWorld(), this,
                         this.here.toVec3d(), this.end.toVec3d(), this.getBoundingBox(), this.valid);
                 canApply = hit == null || hit.getType() == Type.MISS;
             }
@@ -562,7 +562,7 @@ public class EntityMoveUse extends ThrowableEntity
     }
 
     @Override
-    public void writeAdditional(final CompoundNBT compound)
+    public void addAdditionalSaveData(final CompoundNBT compound)
     {
     }
 }

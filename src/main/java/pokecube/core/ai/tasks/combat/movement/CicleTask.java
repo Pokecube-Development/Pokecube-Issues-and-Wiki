@@ -55,12 +55,12 @@ public class CicleTask extends CombatTask implements IAICombat
         PathPoint point = null;
         // If the mob has a path already, check if it is near the end, if not,
         // return early, getFinalPathPoint() is nullable!
-        if (!this.entity.getNavigator().noPath() && (point = this.entity.getNavigator().getPath()
-                .getFinalPathPoint()) != null)
+        if (!this.entity.getNavigation().isDone() && (point = this.entity.getNavigation().getPath()
+                .getEndNode()) != null)
         {
             final Vector3 end = Vector3.getNewVector().set(point);
             final Vector3 here = Vector3.getNewVector().set(this.entity);
-            float f = this.entity.getWidth();
+            float f = this.entity.getBbWidth();
             f = Math.max(f, 0.5f);
             if (here.distTo(end) > f) return;
         }
@@ -84,7 +84,7 @@ public class CicleTask extends CombatTask implements IAICombat
         {
             final Vector3 perp = diff.horizonalPerp().scalarMultBy(combatDistance);
             final int revTime = 200;
-            if (this.entity.ticksExisted % revTime > revTime / 2) perp.reverse();
+            if (this.entity.tickCount % revTime > revTime / 2) perp.reverse();
             perp.addTo(here);
             if (Math.abs(perp.y - this.centre.y) > combatDistance / 2) perp.y = this.centre.y;
             this.setWalkTo(perp, this.movementSpeed, 0);

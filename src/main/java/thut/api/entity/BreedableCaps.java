@@ -54,7 +54,7 @@ public class BreedableCaps
         @Override
         public Object getChild(final IBreedingMob male)
         {
-            return this.wrapped.func_241840_a((ServerWorld) this.wrapped.getEntityWorld(), male.getEntity());
+            return this.wrapped.getBreedOffspring((ServerWorld) this.wrapped.getCommandSenderWorld(), male.getEntity());
         }
 
         @Override
@@ -63,7 +63,7 @@ public class BreedableCaps
             try
             {
                 if (this.wrapped instanceof AnimalEntity && other instanceof AnimalEntity)
-                    return ((AnimalEntity) this.wrapped).canMateWith((AnimalEntity) other);
+                    return ((AnimalEntity) this.wrapped).canMate((AnimalEntity) other);
             }
             catch (final Exception e)
             {
@@ -97,7 +97,7 @@ public class BreedableCaps
         @Override
         public void resetLoveStatus()
         {
-            if (this.wrapped instanceof AnimalEntity) ((AnimalEntity) this.wrapped).resetInLove();
+            if (this.wrapped instanceof AnimalEntity) ((AnimalEntity) this.wrapped).resetLove();
         }
 
         @Override

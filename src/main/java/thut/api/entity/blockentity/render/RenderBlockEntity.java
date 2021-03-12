@@ -49,7 +49,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     float         yaw   = 0.0f;
     long          time  = 0;
     boolean       up    = true;
-    BufferBuilder b     = RenderBlockEntity.t.getBuffer();
+    BufferBuilder b     = RenderBlockEntity.t.getBuilder();
 
     ResourceLocation texture;
 
@@ -66,7 +66,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         if (!(entity instanceof IBlockEntity)) return;
         try
         {
-            mat.push();
+            mat.pushPose();
 
             final BlockPos.Mutable pos = new BlockPos.Mutable();
             final IBlockEntity blockEntity = entity;
@@ -80,33 +80,33 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
 
             mat.translate(xMin, 0, zMin);
 
-            mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
-            mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
-            mat.rotate(Vector3f.XP.rotationDegrees(180.0F));
+            mat.mulPose(Vector3f.YN.rotationDegrees(180.0F));
+            mat.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+            mat.mulPose(Vector3f.XP.rotationDegrees(180.0F));
             if (entity instanceof IMultiplePassengerEntity)
             {
                 final IMultiplePassengerEntity multi = (IMultiplePassengerEntity) entity;
                 final float yaw = -(multi.getPrevYaw() + (multi.getYaw() - multi.getPrevYaw()) * partialTicks);
                 final float pitch = -(multi.getPrevPitch() + (multi.getPitch() - multi.getPrevPitch()) * partialTicks);
-                mat.rotate(new Quaternion(0, yaw, pitch, true));
+                mat.mulPose(new Quaternion(0, yaw, pitch, true));
             }
 
             for (int i = xMin; i <= xMax; i++)
                 for (int j = yMin; j <= yMax; j++)
                     for (int k = zMin; k <= zMax; k++)
                     {
-                        pos.setPos(i - xMin, j - yMin, k - zMin);
+                        pos.set(i - xMin, j - yMin, k - zMin);
                         if (!blockEntity.shouldHide(pos))
                         {
-                            mat.push();
+                            mat.pushPose();
                             mat.translate(pos.getX(), pos.getY(), pos.getZ());
                             this.drawTileAt(pos, blockEntity, partialTicks, mat, bufferIn, packedLightIn);
                             this.drawBlockAt(pos, blockEntity, mat, bufferIn, packedLightIn);
-                            mat.pop();
+                            mat.popPose();
                         }
                         else this.drawCrateAt(pos, blockEntity, mat, bufferIn, packedLightIn);
                     }
-            mat.pop();
+            mat.popPose();
 
         }
         catch (final Exception e)
@@ -121,8 +121,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         if (entity.getBlocks() == null) return;
         BlockState state = entity.getBlocks()[pos.getX()][pos.getY()][pos.getZ()];
         final BlockPos mobPos = entity.getMin();
-        final BlockPos realpos = pos.add(mobPos).add(((Entity) entity).getPosition());
-        if (state == null) state = Blocks.AIR.getDefaultState();
+        final BlockPos realpos = pos.offset(mobPos).offset(((Entity) entity).blockPosition());
+        if (state == null) state = Blocks.AIR.defaultBlockState();
         if (state.getMaterial() != Material.AIR)
         {
             final BlockState actualstate = state;// .getBlock().getStateAtViewpoint(state,
@@ -135,23 +135,23 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     private void drawCrateAt(final BlockPos.Mutable pos, final IBlockEntity blockEntity, final MatrixStack mat,
             final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
-        mat.push();
-        mat.rotate(new Quaternion(-180, 90, 0, true));
+        mat.pushPose();
+        mat.mulPose(new Quaternion(-180, 90, 0, true));
         mat.translate(0.5F, 0.5F, 0.5F);
-        RenderHelper.disableStandardItemLighting();
+        RenderHelper.turnOff();
         final float f7 = 1.0F;
         mat.scale(-f7, -f7, f7);
-        this.getRenderManager().textureManager.bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
+        this.getDispatcher().textureManager.bind(PlayerContainer.BLOCK_ATLAS);
         this.getCrateModel();
-        RenderHelper.enableStandardItemLighting();
-        mat.pop();
+        RenderHelper.turnBackOn();
+        mat.popPose();
     }
 
     private void drawTileAt(final BlockPos pos, final IBlockEntity entity, final float partialTicks,
             final MatrixStack mat, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final TileEntity tile = entity.getTiles()[pos.getX()][pos.getY()][pos.getZ()];
-        if (tile != null) TileEntityRendererDispatcher.instance.renderTileEntity(tile, partialTicks, mat, bufferIn);
+        if (tile != null) TileEntityRendererDispatcher.instance.render(tile, partialTicks, mat, bufferIn);
     }
 
     private IBakedModel getCrateModel()
@@ -166,25 +166,25 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     }
 
     @Override
-    public ResourceLocation getEntityTexture(final T entity)
+    public ResourceLocation getTextureLocation(final T entity)
     {
-        return PlayerContainer.LOCATION_BLOCKS_TEXTURE;
+        return PlayerContainer.BLOCK_ATLAS;
     }
 
     private void renderBakedBlockModel(final IBlockEntity entity, final BlockState state, final IBlockReader world,
             final BlockPos real_pos, final BlockPos relPos, final MatrixStack mat, final IRenderTypeBuffer bufferIn,
             final int packedLightIn)
     {
-        final IModelData data = Minecraft.getInstance().getBlockRendererDispatcher().getModelForState(state)
+        final IModelData data = Minecraft.getInstance().getBlockRenderer().getBlockModel(state)
                 .getModelData((IBlockDisplayReader) world, real_pos, state, EmptyModelData.INSTANCE);
-        final BlockPos rpos = relPos.add(entity.getOriginalPos());
-        for (final RenderType type : RenderType.getBlockRenderTypes())
+        final BlockPos rpos = relPos.offset(entity.getOriginalPos());
+        for (final RenderType type : RenderType.chunkBufferLayers())
             if (RenderTypeLookup.canRenderInLayer(state, type))
             {
-                final BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRendererDispatcher();
-                final IBakedModel model = blockRenderer.getModelForState(state);
-                blockRenderer.getBlockModelRenderer().renderModel((IBlockDisplayReader) world, model, state, real_pos,
-                        mat, bufferIn.getBuffer(type), false, new Random(), state.getPositionRandom(rpos),
+                final BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
+                final IBakedModel model = blockRenderer.getBlockModel(state);
+                blockRenderer.getModelRenderer().renderModel((IBlockDisplayReader) world, model, state, real_pos,
+                        mat, bufferIn.getBuffer(type), false, new Random(), state.getSeed(rpos),
                         packedLightIn, data);
             }
     }

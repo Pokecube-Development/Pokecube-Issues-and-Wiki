@@ -27,10 +27,10 @@ public class ArenaTrap extends Ability
     @Override
     public void onUpdate(final IPokemob mob)
     {
-        if (!(mob.getEntity().getEntityWorld() instanceof ServerWorld)) return;
-        if (mob.getEntity().ticksExisted % 20 == 0)
+        if (!(mob.getEntity().getCommandSenderWorld() instanceof ServerWorld)) return;
+        if (mob.getEntity().tickCount % 20 == 0)
         {
-            final ServerWorld world = (ServerWorld) mob.getEntity().getEntityWorld();
+            final ServerWorld world = (ServerWorld) mob.getEntity().getCommandSenderWorld();
             PokecubeCore.spawner.doSpawnForPoint(Vector3.getNewVector().set(mob.getEntity()), world, 0, this.range);
         }
     }

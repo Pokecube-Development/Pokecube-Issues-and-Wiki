@@ -47,31 +47,31 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.parent = parent;
             this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b ->
             {
-                b.playDownSound(this.mc.getSoundHandler());
+                b.playDownSound(this.mc.getSoundManager());
                 // Send packet for removal server side
                 PacketPokedex.sendRemoveTelePacket(this.dest.index);
                 // Also remove it client side so we update now.
-                TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getCachedUniqueIdString());
+                TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getStringUUID());
                 // Update the list for the page.
                 this.parent.initList();
             });
             this.delete = new Button(0, 0, 10, 10, new StringTextComponent("x"), b ->
             {
-                b.playDownSound(this.mc.getSoundHandler());
+                b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             });
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
             this.moveUp = new Button(0, 0, 10, 10, new StringTextComponent("\u21e7"), b ->
             {
-                b.playDownSound(this.mc.getSoundHandler());
+                b.playDownSound(this.mc.getSoundManager());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                 // Update the list for the page.
                 this.parent.initList();
             });
             this.moveDown = new Button(0, 0, 10, 10, new StringTextComponent("\u21e9"), b ->
             {
-                b.playDownSound(this.mc.getSoundHandler());
+                b.playDownSound(this.mc.getSoundManager());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
                 // Update the list for the page.
                 this.parent.initList();
@@ -87,10 +87,10 @@ public class TeleportsPage extends ListPage<TeleOption>
             {
                 if (keyCode == GLFW.GLFW_KEY_ENTER)
                 {
-                    if (!this.text.getText().equals(this.dest.getName()))
+                    if (!this.text.getValue().equals(this.dest.getName()))
                     {
-                        PacketPokedex.sendRenameTelePacket(this.text.getText(), this.dest.index);
-                        this.dest.setName(this.text.getText());
+                        PacketPokedex.sendRenameTelePacket(this.text.getValue(), this.dest.index);
+                        this.dest.setName(this.text.getValue());
                         return true;
                     }
                     return false;
@@ -105,10 +105,10 @@ public class TeleportsPage extends ListPage<TeleOption>
         {
             if (this.text.isFocused()) return this.text.charTyped(typedChar, keyCode);
 
-            if (keyCode == GLFW.GLFW_KEY_ENTER) if (!this.text.getText().equals(this.dest.getName()))
+            if (keyCode == GLFW.GLFW_KEY_ENTER) if (!this.text.getValue().equals(this.dest.getName()))
             {
-                PacketPokedex.sendRenameTelePacket(this.text.getText(), this.dest.index);
-                this.dest.setName(this.text.getText());
+                PacketPokedex.sendRenameTelePacket(this.text.getValue(), this.dest.index);
+                this.dest.setName(this.text.getValue());
                 return true;
             }
             return super.charTyped(typedChar, keyCode);
@@ -121,33 +121,33 @@ public class TeleportsPage extends ListPage<TeleOption>
             fits = this.text.y >= this.offsetY;
             fits = fits && mouseX - this.text.x >= 0;
             fits = fits && mouseX - this.text.x <= this.text.getWidth();
-            fits = fits && this.text.y + this.text.getHeightRealms() <= this.offsetY + this.guiHeight;
+            fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
             this.text.setFocused(fits);
             if (this.delete.isMouseOver(mouseX, mouseY))
             {
-                this.delete.playDownSound(this.mc.getSoundHandler());
+                this.delete.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             }
             else if (this.confirm.isMouseOver(mouseX, mouseY) && this.confirm.active)
             {
-                this.confirm.playDownSound(this.mc.getSoundHandler());
+                this.confirm.playDownSound(this.mc.getSoundManager());
                 // Send packet for removal server side
                 PacketPokedex.sendRemoveTelePacket(this.dest.index);
                 // Also remove it client side so we update now.
-                TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getCachedUniqueIdString());
+                TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getStringUUID());
                 // Update the list for the page.
                 this.parent.initList();
             }
             else if (this.moveUp.isMouseOver(mouseX, mouseY) && this.moveUp.active)
             {
-                this.moveUp.playDownSound(this.mc.getSoundHandler());
+                this.moveUp.playDownSound(this.mc.getSoundManager());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                 // Update the list for the page.
                 this.parent.initList();
             }
             else if (this.moveDown.isMouseOver(mouseX, mouseY) && this.moveDown.active)
             {
-                this.moveDown.playDownSound(this.mc.getSoundHandler());
+                this.moveDown.playDownSound(this.mc.getSoundManager());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
                 // Update the list for the page.
                 this.parent.initList();
@@ -172,7 +172,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.moveDown.y = y - 5;
             this.moveDown.x = x - 2 + 26 + this.text.getWidth();
             fits = this.text.y >= this.offsetY;
-            fits = fits && this.text.y + this.text.getHeightRealms() <= this.offsetY + this.guiHeight;
+            fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
             if (fits)
             {
                 this.text.render(mat, mouseX, mouseY, partialTicks);
@@ -201,7 +201,7 @@ public class TeleportsPage extends ListPage<TeleOption>
     public void initList()
     {
         super.initList();
-        this.locations = TeleportHandler.getTeleports(this.watch.player.getCachedUniqueIdString());
+        this.locations = TeleportHandler.getTeleports(this.watch.player.getStringUUID());
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 55;
         final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 27;
         final int height = 120;
@@ -210,7 +210,7 @@ public class TeleportsPage extends ListPage<TeleOption>
         for (final TeleDest d : this.locations)
         {
             final TextFieldWidget name = new TextFieldWidget(this.font, 0, 0, 104, 10, new StringTextComponent(""));
-            name.setText(d.getName());
+            name.setValue(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));
         }
         this.children.add(this.list);

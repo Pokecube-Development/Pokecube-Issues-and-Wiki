@@ -29,42 +29,42 @@ public class FlowerSensor extends Sensor<LivingEntity>
 
     public static final Predicate<BlockState> flowerPredicate = (state) ->
     {
-        if (state.isIn(BlockTags.BEE_GROWABLES)) return true;
-        if (state.isIn(BlockTags.TALL_FLOWERS))
+        if (state.is(BlockTags.BEE_GROWABLES)) return true;
+        if (state.is(BlockTags.TALL_FLOWERS))
         {
-            if (state.isIn(Blocks.SUNFLOWER)) return state.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
+            if (state.is(Blocks.SUNFLOWER)) return state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
             else return true;
         }
-        else return state.isIn(BlockTags.SMALL_FLOWERS);
+        else return state.is(BlockTags.SMALL_FLOWERS);
     };
 
     private final float flowerSenseChance = 0.5f;
 
     @Override
-    protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
+    protected void doTick(final ServerWorld worldIn, final LivingEntity entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
-        if (brain.hasMemory(BeeTasks.FLOWER_POS)) return;
+        if (brain.hasMemoryValue(BeeTasks.FLOWER_POS)) return;
         final List<NearBlock> blocks = BrainUtils.getNearBlocks(entityIn);
         if (blocks == null) return;
         for (final NearBlock b : blocks)
-            if (FlowerSensor.flowerPredicate.test(b.getState()) && entityIn.getRNG()
+            if (FlowerSensor.flowerPredicate.test(b.getState()) && entityIn.getRandom()
                     .nextFloat() < this.flowerSenseChance)
             {
-                brain.removeMemory(BeeTasks.NO_FLOWER_TIME);
-                brain.setMemory(BeeTasks.FLOWER_POS, GlobalPos.getPosition(entityIn.getEntityWorld().getDimensionKey(),
+                brain.eraseMemory(BeeTasks.NO_FLOWER_TIME);
+                brain.setMemory(BeeTasks.FLOWER_POS, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(),
                         b.getPos()));
                 return;
             }
         // we returned earlier if we had found a flower, so here we increment
         // the timer since last flower found.
         int timer = 0;
-        if (brain.hasMemory(BeeTasks.NO_FLOWER_TIME)) timer = brain.getMemory(BeeTasks.NO_FLOWER_TIME).get();
+        if (brain.hasMemoryValue(BeeTasks.NO_FLOWER_TIME)) timer = brain.getMemory(BeeTasks.NO_FLOWER_TIME).get();
         brain.setMemory(BeeTasks.NO_FLOWER_TIME, timer + 1);
     }
 
     @Override
-    public Set<MemoryModuleType<?>> getUsedMemories()
+    public Set<MemoryModuleType<?>> requires()
     {
         return FlowerSensor.MEMS;
     }

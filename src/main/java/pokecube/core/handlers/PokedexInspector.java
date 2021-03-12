@@ -54,10 +54,10 @@ public class PokedexInspector
                 if (giveReward)
                 {
                     tag.putBoolean(this.tagString, true);
-                    entity.sendMessage(new TranslationTextComponent(this.message), Util.DUMMY_UUID);
+                    entity.sendMessage(new TranslationTextComponent(this.message), Util.NIL_UUID);
                     final PlayerEntity PlayerEntity = (PlayerEntity) entity;
                     Tools.giveItem(PlayerEntity, reward);
-                    PokecubePlayerDataHandler.saveCustomData(entity.getCachedUniqueIdString());
+                    PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                 }
                 return true;
             }
@@ -67,7 +67,7 @@ public class PokedexInspector
         @Override
         public boolean inspect(final PokecubePlayerCustomData data, final Entity entity, final boolean giveReward)
         {
-            final int num = CaptureStats.getNumberUniqueCaughtBy(entity.getUniqueID());
+            final int num = CaptureStats.getNumberUniqueCaughtBy(entity.getUUID());
             try
             {
                 return this.check(entity, (String) this.configField.get(PokecubeCore.getConfig()), data.tag,
@@ -102,7 +102,7 @@ public class PokedexInspector
         MinecraftForge.EVENT_BUS.post(evt = new PokedexInspectEvent(player, reward));
         if (evt.isCanceled())
         {
-            final String uuid = evt.getEntity().getCachedUniqueIdString();
+            final String uuid = evt.getEntity().getStringUUID();
             PlayerDataHandler.getInstance().save(uuid);
         }
         return evt.isCanceled();
@@ -111,7 +111,7 @@ public class PokedexInspector
     @SubscribeEvent(receiveCanceled = false, priority = EventPriority.LOWEST)
     public static void inspectEvent(final PokedexInspectEvent evt)
     {
-        final String uuid = evt.getEntity().getCachedUniqueIdString();
+        final String uuid = evt.getEntity().getStringUUID();
         final PokecubePlayerCustomData data = PlayerDataHandler.getInstance().getPlayerData(uuid).getData(
                 PokecubePlayerCustomData.class);
         boolean done = false;

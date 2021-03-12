@@ -29,7 +29,7 @@ public class ItemStackTools
                 if (j >= 0)
                 {
                     toAddTo.setStackInSlot(j, itemStackIn.copy());
-                    toAddTo.getStackInSlot(j).setAnimationsToGo(5);
+                    toAddTo.getStackInSlot(j).setPopTime(5);
                     itemStackIn.setCount(0);
                     return true;
                 }
@@ -48,8 +48,8 @@ public class ItemStackTools
         }
         catch (final Throwable throwable)
         {
-            final CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Adding item to inventory");
-            crashreport.makeCategory("Item being added");
+            final CrashReport crashreport = CrashReport.forThrowable(throwable, "Adding item to inventory");
+            crashreport.addCategory("Item being added");
             // crashreportcategory.addCrashSection("Item ID",
             // Integer.valueOf(Item.getIdFromItem(itemStackIn.getItem())));
             // crashreportcategory.addCrashSection("Item data",
@@ -81,7 +81,7 @@ public class ItemStackTools
     /** Checks item, NBT, and meta if the item is not damageable */
     private static boolean stackEqualExact(ItemStack stack1, ItemStack stack2)
     {
-        return stack1.getItem() == stack2.getItem() && ItemStack.areItemStackTagsEqual(stack1, stack2);
+        return stack1.getItem() == stack2.getItem() && ItemStack.tagMatches(stack1, stack2);
     }
 
     /** stores an itemstack in the users inventory */
@@ -124,7 +124,7 @@ public class ItemStackTools
         if (k == 0) return i;
         i = i - k;
         inventory.getStackInSlot(j).setCount(size + k);
-        inventory.getStackInSlot(j).setAnimationsToGo(5);
+        inventory.getStackInSlot(j).setPopTime(5);
         return i;
     }
 }

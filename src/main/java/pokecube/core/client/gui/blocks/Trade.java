@@ -30,28 +30,28 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float f, final int i, final int j)
+    protected void renderBg(final MatrixStack mat, final float f, final int i, final int j)
     {
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
         this.minecraft.getTextureManager()
-                .bindTexture(new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"));
-        final int x = (this.width - this.xSize) / 2;
-        final int y = (this.height - this.ySize) / 2;
-        this.blit(mat, x, y, 0, 0, this.xSize, this.ySize);
+                .bind(new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"));
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
+        this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);
         GL11.glPopMatrix();
     }
 
     /** Draw the foreground layer for the ContainerScreen (everything in front
      * of the items) */
     @Override
-    protected void drawGuiContainerForegroundLayer(final MatrixStack mat, final int p_146979_1_, final int p_146979_2_)
+    protected void renderLabels(final MatrixStack mat, final int p_146979_1_, final int p_146979_2_)
     {
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
-        ItemStack stack = this.container.getInv().getStackInSlot(0);
+        ItemStack stack = this.menu.getInv().getItem(0);
         if (PokecubeManager.isFilled(stack)) this.renderMob(0);
-        stack = this.container.getInv().getStackInSlot(1);
+        stack = this.menu.getInv().getItem(1);
         if (PokecubeManager.isFilled(stack)) this.renderMob(1);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
@@ -77,9 +77,9 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public void onClose()
+    public void removed()
     {
-        super.onClose();
+        super.removed();
         final PacketTrade packet = new PacketTrade();
         packet.data.putBoolean("c", true);
         PokecubeCore.packets.sendToServer(packet);
@@ -90,17 +90,17 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     {
         this.renderBackground(mat);
         super.render(mat,i, j, f);
-        if (this.container.tile.confirmed[0]) this.buttons.get(0).setFGColor(0xFF88FF00);
+        if (this.menu.tile.confirmed[0]) this.buttons.get(0).setFGColor(0xFF88FF00);
         else this.buttons.get(0).setFGColor(0xFFFFFFFF);
 
-        if (this.container.tile.confirmed[1]) this.buttons.get(1).setFGColor(0xFF88FF00);
+        if (this.menu.tile.confirmed[1]) this.buttons.get(1).setFGColor(0xFF88FF00);
         else this.buttons.get(1).setFGColor(0xFFFFFFFF);
-        this.renderHoveredTooltip(mat,i, j);
+        this.renderTooltip(mat,i, j);
     }
 
     protected void renderMob(final int index)
     {
-        final LivingEntity mob = PokecubeManager.itemToMob(this.container.getInv().getStackInSlot(index),
+        final LivingEntity mob = PokecubeManager.itemToMob(this.menu.getInv().getItem(index),
                 PokecubeCore.proxy.getWorld());
         int dx = 0;
         float rotX = 0;

@@ -31,7 +31,7 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public boolean canFit(final int width, final int height)
+    public boolean canCraftInDimensions(final int width, final int height)
     {
         return width * height > 2;
     }
@@ -40,14 +40,14 @@ public class RecipeSplice extends PoweredRecipe
     public boolean complete(final IPoweredProgress tile)
     {
         final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
-        tile.setInventorySlotContents(tile.getOutputSlot(), this.getCraftingResult(tile.getCraftMatrix()));
+        tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix()));
         for (int i = 0; i < remaining.size(); i++)
         {
             final ItemStack stack = remaining.get(i);
-            if (!stack.isEmpty()) tile.setInventorySlotContents(i, stack);
-            else tile.decrStackSize(i, 1);
+            if (!stack.isEmpty()) tile.setItem(i, stack);
+            else tile.removeItem(i, 1);
         }
-        if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.detectAndSendChanges();
+        if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.broadcastChanges();
         return true;
     }
 
@@ -58,7 +58,7 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public ItemStack getCraftingResult(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
@@ -66,9 +66,9 @@ public class RecipeSplice extends PoweredRecipe
         final SplicerTile tile = (SplicerTile) inv_p.inventory;
 
         ItemStack output = ItemStack.EMPTY;
-        ItemStack dna = inv.getStackInSlot(0);
-        ItemStack egg = inv.getStackInSlot(2);
-        ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
+        ItemStack dna = inv.getItem(0);
+        ItemStack egg = inv.getItem(2);
+        ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
         if (ClonerHelper.getGenes(dna) == null) dna = ItemStack.EMPTY;
         if (ClonerHelper.getGenes(egg) == null) egg = ItemStack.EMPTY;
         if (ClonerHelper.getGeneSelectors(selector).isEmpty()) selector = ItemStack.EMPTY;
@@ -94,12 +94,12 @@ public class RecipeSplice extends PoweredRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
     {
-        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
         if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
         if (!(inv_p.inventory instanceof SplicerTile)) return nonnulllist;
         final SplicerTile tile = (SplicerTile) inv_p.inventory;
-        final ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
+        final ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
         boolean keepDNA = false;
         boolean keepSelector = false;
         final SelectorValue value = ClonerHelper.getSelectorValue(selector);
@@ -108,7 +108,7 @@ public class RecipeSplice extends PoweredRecipe
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            final ItemStack item = inv.getStackInSlot(i).copy();
+            final ItemStack item = inv.getItem(i).copy();
             if (i == 1 && keepSelector) nonnulllist.set(i, item);
             if (i == 0)
             {

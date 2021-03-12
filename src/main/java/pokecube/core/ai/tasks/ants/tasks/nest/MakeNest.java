@@ -45,13 +45,13 @@ public class MakeNest extends BaseIdleTask
     {
         final BlockPos pos = b.getPos();
         final Brain<?> brain = this.entity.getBrain();
-        this.world.setBlockState(pos, PokecubeItems.NESTBLOCK.get().getDefaultState());
-        final TileEntity tile = this.world.getTileEntity(pos);
+        this.world.setBlockAndUpdate(pos, PokecubeItems.NESTBLOCK.get().defaultBlockState());
+        final TileEntity tile = this.world.getBlockEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
         nest.setWrappedHab(new AntHabitat());
         nest.addResident(this.pokemob);
-        brain.removeMemory(AntTasks.NO_HIVE_TIMER);
+        brain.eraseMemory(AntTasks.NO_HIVE_TIMER);
         return true;
     }
 
@@ -104,7 +104,7 @@ public class MakeNest extends BaseIdleTask
         if (!tameCheck) return false;
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
-        if (brain.hasMemory(AntTasks.NO_HIVE_TIMER)) timer = brain.getMemory(AntTasks.NO_HIVE_TIMER).get();
+        if (brain.hasMemoryValue(AntTasks.NO_HIVE_TIMER)) timer = brain.getMemory(AntTasks.NO_HIVE_TIMER).get();
         return timer > 60;
     }
 

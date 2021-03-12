@@ -38,18 +38,18 @@ public class CheckHive extends AbstractBeeTask
             final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS);
             if (pos_opt.isPresent())
             {
-                final World world = this.entity.getEntityWorld();
+                final World world = this.entity.getCommandSenderWorld();
                 final GlobalPos pos = pos_opt.get();
-                boolean clearHive = pos.getDimension() != world.getDimensionKey();
+                boolean clearHive = pos.dimension() != world.dimension();
                 if (!clearHive)
                 {
                     // Not loaded, skip this check, hive may still be there.
-                    if (!world.isAreaLoaded(pos.getPos(), 0)) return;
-                    clearHive = !HiveSensor.doesHiveHaveSpace(this.entity, pos.getPos());
+                    if (!world.isAreaLoaded(pos.pos(), 0)) return;
+                    clearHive = !HiveSensor.doesHiveHaveSpace(this.entity, pos.pos());
                 }
                 // If we should clear the hive, remove the memory, the
                 // HiveSensor will find a new hive.
-                if (clearHive) this.entity.getBrain().removeMemory(BeeTasks.HIVE_POS);
+                if (clearHive) this.entity.getBrain().eraseMemory(BeeTasks.HIVE_POS);
             }
         }
     }

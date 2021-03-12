@@ -22,21 +22,21 @@ public class MagneticBlock extends BlockBase
 {
     public MagneticBlock(final String name, final Material material, MaterialColor color)
     {
-        super(name, Properties.create(material).sound(SoundType.STONE).hardnessAndResistance(3, 8).harvestTool(
+        super(name, Properties.of(material).sound(SoundType.STONE).strength(3, 8).harvestTool(
                 ToolType.PICKAXE).harvestLevel(1));
     }
 
     @SuppressWarnings("deprecation")
 	@Override
-	public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos, final PlayerEntity entity, final Hand hand,
+	public ActionResultType use(final BlockState state, final World world, final BlockPos pos, final PlayerEntity entity, final Hand hand,
 			final BlockRayTraceResult hit) {
-		super.onBlockActivated(state, world, pos, entity, hand, hit);
+		super.use(state, world, pos, entity, hand, hit);
 		final int x = pos.getX();
 		final int y = pos.getY();
 		final int z = pos.getZ();
 		@SuppressWarnings("unused")
         final
-		Direction direction = hit.getFace();
+		Direction direction = hit.getDirection();
 		{
 			final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
 			$_dependencies.put("entity", entity);
@@ -63,7 +63,7 @@ public class MagneticBlock extends BlockBase
         final World world = (World) dependencies.get("world");
         final Entity entity = (Entity) dependencies.get("entity");
         if (entity instanceof ServerPlayerEntity) {
-        	if (!world.isRemote) world.createExplosion(null, x, y, z, 3, Explosion.Mode.BREAK);
+        	if (!world.isClientSide) world.explode(null, x, y, z, 3, Explosion.Mode.BREAK);
 
         	if (world instanceof ServerWorld) {
 				//((ServerWorld) world).addEntity(new LightningBoltEntity(null, world));

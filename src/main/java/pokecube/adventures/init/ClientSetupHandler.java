@@ -59,9 +59,9 @@ public class ClientSetupHandler
         @SubscribeEvent
         public static void onKey(final InputEvent.KeyInputEvent event)
         {
-            if (ClientSetupHandler.trainerEditKey.isPressed())
+            if (ClientSetupHandler.trainerEditKey.consumeClick())
             {
-                final RayTraceResult pos = Minecraft.getInstance().objectMouseOver;
+                final RayTraceResult pos = Minecraft.getInstance().hitResult;
                 Entity target = null;
                 switch (pos.getType())
                 {
@@ -87,7 +87,7 @@ public class ClientSetupHandler
             if (tag.contains("dyeColour"))
             {
                 final ITextComponent colour = new TranslationTextComponent(DyeColor.byId(tag.getInt("dyeColour"))
-                        .getTranslationKey());
+                        .getName());
                 boolean has = false;
                 for (final ITextComponent s : evt.getToolTip())
                 {
@@ -96,8 +96,8 @@ public class ClientSetupHandler
                 }
                 if (!has) evt.getToolTip().add(colour);
             }
-            if (player == null || player.openContainer == null) return;
-            if (player.openContainer instanceof PoweredContainer || Screen.hasShiftDown() && !ClonerHelper
+            if (player == null || player.containerMenu == null) return;
+            if (player.containerMenu instanceof PoweredContainer || Screen.hasShiftDown() && !ClonerHelper
                     .getGeneSelectors(stack).isEmpty())
             {
                 final IMobGenetics genes = ClonerHelper.getGenes(stack);
@@ -152,23 +152,23 @@ public class ClientSetupHandler
         RenderingRegistry.registerEntityRenderingHandler(LeaderNpc.TYPE, (manager) -> new RenderNPC<>(manager));
 
         // Register container guis.
-        ScreenManager.registerFactory(PokecubeAdv.CLONER_CONT.get(), Cloner::new);
-        ScreenManager.registerFactory(PokecubeAdv.SPLICER_CONT.get(), Splicer::new);
-        ScreenManager.registerFactory(PokecubeAdv.EXTRACTOR_CONT.get(), Extractor::new);
-        ScreenManager.registerFactory(PokecubeAdv.AFA_CONT.get(), AFA::new);
-        ScreenManager.registerFactory(PokecubeAdv.BAG_CONT.get(), Bag<BagContainer>::new);
-        ScreenManager.registerFactory(PokecubeAdv.TRAINER_CONT.get(), Trainer::new);
+        ScreenManager.register(PokecubeAdv.CLONER_CONT.get(), Cloner::new);
+        ScreenManager.register(PokecubeAdv.SPLICER_CONT.get(), Splicer::new);
+        ScreenManager.register(PokecubeAdv.EXTRACTOR_CONT.get(), Extractor::new);
+        ScreenManager.register(PokecubeAdv.AFA_CONT.get(), AFA::new);
+        ScreenManager.register(PokecubeAdv.BAG_CONT.get(), Bag<BagContainer>::new);
+        ScreenManager.register(PokecubeAdv.TRAINER_CONT.get(), Trainer::new);
 
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.EXTRACTOR.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER.get(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.EXTRACTOR.get(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.translucent());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeAdv.config, parent)));
 
-        ClientSetupHandler.trainerEditKey = new KeyBinding("EditTrainer", InputMappings.INPUT_INVALID.getKeyCode(),
+        ClientSetupHandler.trainerEditKey = new KeyBinding("EditTrainer", InputMappings.UNKNOWN.getValue(),
                 "Pokecube");
         ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
     }

@@ -21,13 +21,13 @@ public class Warppad extends BasePeripheral<WarppadTile>
         {
             final TeleDest dest = this.tile.getDest();
 
-            return new float[] { dest.loc.getPos().getX(), dest.loc.getPos().getY(), dest.loc.getPos().getZ() };
+            return new float[] { dest.loc.pos().getX(), dest.loc.pos().getY(), dest.loc.pos().getZ() };
         }
 
         public boolean setDest(final int x, final int y, final int z) throws LuaException
         {
             final TeleDest dest = this.tile.getDest();
-            dest.setPos(GlobalPos.getPosition(this.tile.getWorld().getDimensionKey(), new BlockPos(x, y, z)));
+            dest.setPos(GlobalPos.of(this.tile.getLevel().dimension(), new BlockPos(x, y, z)));
             return true;
         }
     }

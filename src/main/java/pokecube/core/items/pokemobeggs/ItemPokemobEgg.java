@@ -149,7 +149,7 @@ public class ItemPokemobEgg extends Item
         {
             e.printStackTrace();
         }
-        nbt.putString("motherId", mother.getEntity().getCachedUniqueIdString());
+        nbt.putString("motherId", mother.getEntity().getStringUUID());
         return;
     }
 
@@ -172,22 +172,22 @@ public class ItemPokemobEgg extends Item
     private static LivingEntity imprintOwner(final IPokemob mob)
     {
         final Vector3 location = Vector3.getNewVector().set(mob.getEntity());
-        PlayerEntity player = mob.getEntity().getEntityWorld().getClosestPlayer(location.x, location.y, location.z,
-                ItemPokemobEgg.PLAYERDIST, EntityPredicates.NOT_SPECTATING);
+        PlayerEntity player = mob.getEntity().getCommandSenderWorld().getNearestPlayer(location.x, location.y,
+                location.z, ItemPokemobEgg.PLAYERDIST, EntityPredicates.NO_SPECTATORS);
         LivingEntity owner = player;
-        final AxisAlignedBB box = location.getAABB().grow(ItemPokemobEgg.MOBDIST, ItemPokemobEgg.MOBDIST,
+        final AxisAlignedBB box = location.getAABB().inflate(ItemPokemobEgg.MOBDIST, ItemPokemobEgg.MOBDIST,
                 ItemPokemobEgg.MOBDIST);
         if (owner == null)
         {
-            final List<LivingEntity> list = mob.getEntity().getEntityWorld().getEntitiesWithinAABB(LivingEntity.class,
-                    box, (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
+            final List<LivingEntity> list = mob.getEntity().getCommandSenderWorld().getEntitiesOfClass(
+                    LivingEntity.class, box, (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
             double d0 = Double.MAX_VALUE;
             for (final LivingEntity t1 : list)
-                if (t1 != closestTo && EntityPredicates.NOT_SPECTATING.test(t1))
+                if (t1 != closestTo && EntityPredicates.NO_SPECTATORS.test(t1))
                 {
-                    final double d1 = closestTo.getDistanceSq(t1);
+                    final double d1 = closestTo.distanceToSqr(t1);
 
                     if (d1 <= d0)
                     {
@@ -228,7 +228,7 @@ public class ItemPokemobEgg extends Item
         }
         if (owner != null)
         {
-            mob.setOwner(owner.getUniqueID());
+            mob.setOwner(owner.getUUID());
             mob.setGeneralState(GeneralStates.TAMED, true);
             mob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             mob.setHeldItem(ItemStack.EMPTY);
@@ -268,8 +268,8 @@ public class ItemPokemobEgg extends Item
             int exp = Tools.levelToXp(mob.getExperienceMode(), 1);
             exp = Math.max(1, exp);
             mob.setForSpawn(exp);
-            entity.setLocationAndAngles(Math.floor(egg.getPosX()) + 0.5, Math.floor(egg.getPosY()) + 0.5, Math.floor(egg
-                    .getPosZ()) + 0.5, world.rand.nextFloat() * 360F, 0.0F);
+            entity.moveTo(Math.floor(egg.getX()) + 0.5, Math.floor(egg.getY()) + 0.5, Math.floor(egg.getZ()) + 0.5,
+                    world.random.nextFloat() * 360F, 0.0F);
             final CompoundNBT nbt = stack.getTag();
             final boolean hasNest = nbt.contains("nestLoc");
             if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag(), !hasNest);
@@ -282,25 +282,25 @@ public class ItemPokemobEgg extends Item
     {
         final MobEntity entity = mob.getEntity();
         final CompoundNBT nbt = stack.getTag();
-        world.addEntity(entity);
+        world.addFreshEntity(entity);
         if (mob.getOwner() != null)
         {
             final LivingEntity owner = mob.getOwner();
             owner.sendMessage(new TranslationTextComponent("pokemob.hatch", mob.getDisplayName().getString()),
-                    Util.DUMMY_UUID);
-            if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(world,
-                    entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.getRNG().nextInt(7) + 1));
+                    Util.NIL_UUID);
+            if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrbEntity(
+                    world, entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
         }
         final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
         PokecubeCore.POKEMOB_BUS.post(evt);
         if (nbt.contains("nestLoc"))
         {
             final BlockPos pos = NBTUtil.readBlockPos(nbt.getCompound("nestLoc"));
-            final TileEntity tile = world.getTileEntity(pos);
+            final TileEntity tile = world.getBlockEntity(pos);
             if (tile instanceof NestTile) ((NestTile) tile).addResident(mob);
             mob.setGeneralState(GeneralStates.EXITINGCUBE, false);
         }
-        entity.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
+        entity.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
         entity.playAmbientSound();
     }
 
@@ -316,12 +316,12 @@ public class ItemPokemobEgg extends Item
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(final ItemStack stack, @Nullable final World playerIn,
+    public void appendHoverText(final ItemStack stack, @Nullable final World playerIn,
             final List<ITextComponent> tooltip, final ITooltipFlag advanced)
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
-        if (entry != null) tooltip.add(1, new TranslationTextComponent("item.pokecube.pokemobegg.named", I18n.format(
-                entry.getUnlocalizedName())));
+        if (entry != null) tooltip.add(1, new TranslationTextComponent("item.pokecube.pokemobegg.named", I18n.get(entry
+                .getUnlocalizedName())));
     }
 
     /**
@@ -343,9 +343,9 @@ public class ItemPokemobEgg extends Item
     {
         if (this.hasCustomEntity(itemstack))
         {
-            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setStack(itemstack).setPos(
-                    oldItem.getPosX(), oldItem.getPosY(), oldItem.getPosZ());
-            egg.setMotion(oldItem.getMotion());
+            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setStack(itemstack)
+                    .setToPos(oldItem.getX(), oldItem.getY(), oldItem.getZ());
+            egg.setDeltaMovement(oldItem.getDeltaMovement());
             return egg;
         }
         return null;
@@ -358,11 +358,11 @@ public class ItemPokemobEgg extends Item
         final ItemStack eggItemStack = new ItemStack(ItemPokemobEgg.EGG, 1);
         if (stack.hasTag()) eggItemStack.setTag(stack.getTag());
         else eggItemStack.setTag(new CompoundNBT());
-        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setPos(location).setStack(
+        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setToPos(location).setStack(
                 eggItemStack);
         final EggEvent.Place event = new EggEvent.Place(entity);
         MinecraftForge.EVENT_BUS.post(event);
-        world.addEntity(entity);
+        world.addFreshEntity(entity);
         return true;
     }
 
@@ -384,20 +384,20 @@ public class ItemPokemobEgg extends Item
     }
 
     @Override
-    public ActionResultType onItemUse(final ItemUseContext context)
+    public ActionResultType useOn(final ItemUseContext context)
     {
-        final World worldIn = context.getWorld();
-        if (worldIn.isRemote) return ActionResultType.SUCCESS;
-        final Vector3d hit = context.getHitVec();
+        final World worldIn = context.getLevel();
+        if (worldIn.isClientSide) return ActionResultType.SUCCESS;
+        final Vector3d hit = context.getClickLocation();
         final Vector3 loc = Vector3.getNewVector().set(hit);
-        final ItemStack stack = context.getItem();
+        final ItemStack stack = context.getItemInHand();
         final PlayerEntity playerIn = context.getPlayer();
-        if (this.dropEgg(worldIn, stack, loc, playerIn) && !playerIn.abilities.isCreativeMode) stack.shrink(1);
+        if (this.dropEgg(worldIn, stack, loc, playerIn) && !playerIn.abilities.instabuild) stack.shrink(1);
         return ActionResultType.SUCCESS;
     }
 
     @Override
-    public boolean shouldSyncTag()
+    public boolean shouldOverrideMultiplayerNbt()
     {
         return true;
     }

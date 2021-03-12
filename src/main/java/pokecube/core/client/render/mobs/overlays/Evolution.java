@@ -10,12 +10,12 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderState.TransparencyState;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3f;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
@@ -34,10 +34,10 @@ public class Evolution
     });
 
     private static final float      sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
-    private static final RenderType EFFECT  = RenderType.makeType("pokemob:evo_effect",
-            DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true, RenderType.State.getBuilder().writeMask(
-                    new RenderState.WriteMaskState(true, false)).transparency(Evolution.TRANSP).shadeModel(
-                            new RenderState.ShadeModelState(true)).build(false));
+    private static final RenderType EFFECT  = RenderType.create("pokemob:evo_effect",
+            DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true, RenderType.State.builder().setWriteMaskState(
+                    new RenderState.WriteMaskState(true, false)).setTransparencyState(Evolution.TRANSP).setShadeModelState(
+                            new RenderState.ShadeModelState(true)).createCompositeState(false));
 
     public static void render(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer iRenderTypeBuffer,
             final float partialTick)
@@ -49,7 +49,7 @@ public class Evolution
     public static void renderEffect(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer bufferIn,
             final float partialTick, final int duration, final boolean scaleMob)
     {
-        if (!pokemob.getEntity().addedToChunk) return;
+        if (!pokemob.getEntity().inChunk) return;
         int ticks = pokemob.getEvolutionTicks();
         final PokedexEntry entry = pokemob.getPokedexEntry();
         final int color1 = entry.getType1().colour;
@@ -68,29 +68,29 @@ public class Evolution
         if (f5 > 0.8F) f7 = (f5 - 0.8F) / 0.2F;
 
         final IVertexBuilder ivertexbuilder2 = Utils.makeBuilder(Evolution.EFFECT, bufferIn);
-        mat.push();
+        mat.pushPose();
         if (scaleMob)
         {
             final float mobScale = pokemob.getSize();
             final thut.api.maths.vecmath.Vector3f dims = entry.getModelSize();
             scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-            mat.translate(0.0F, dims.y * pokemob.getSize() * pokemob.getEntity().getRenderScale() / 2, 0.0F);
+            mat.translate(0.0F, dims.y * pokemob.getSize() * pokemob.getEntity().getScale() / 2, 0.0F);
         }
         for (int i = 0; i < (f5 + f5 * f5) / 2.0F * 100.0F; ++i)
         {
-            mat.rotate(Vector3f.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.rotate(Vector3f.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.rotate(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.rotate(Vector3f.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.rotate(Vector3f.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.rotate(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F + f5 * 90.0F));
+            mat.mulPose(Vector3f.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Vector3f.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Vector3f.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Vector3f.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F + f5 * 90.0F));
             float f3 = random.nextFloat() * 20.0F + 5.0F + f7 * 10.0F;
             float f4 = random.nextFloat() * 2.0F + 1.0F + f7 * 2.0F;
 
             f3 *= scale;
             f4 *= scale;
 
-            final Matrix4f matrix4f = mat.getLast().getMatrix();
+            final Matrix4f matrix4f = mat.last().pose();
             final int j = (int) (200 * (1.0F - f7));
             try
             {
@@ -109,7 +109,7 @@ public class Evolution
                 PokecubeCore.LOGGER.debug("Error drawing evo effect: {}, {}", e.toString(), i);
             }
         }
-        mat.pop();
+        mat.popPose();
     }
 
     private static void white_points(final IVertexBuilder builder, final Matrix4f posmat, final int alpha,
@@ -118,10 +118,10 @@ public class Evolution
         if (builder instanceof BufferBuilder)
         {
             final BufferBuilder buf = (BufferBuilder) builder;
-            if (buf.getVertexFormat().getSize() != 16) return;
+            if (buf.getVertexFormat().getVertexSize() != 16) return;
         }
-        builder.pos(posmat, 0.0F, 0.0F, 0.0F).color(col.getRed(), col.getGreen(), col.getBlue(), alpha).endVertex();
-        builder.pos(posmat, 0.0F, 0.0F, 0.0F).color(col.getRed(), col.getGreen(), col.getBlue(), alpha).endVertex();
+        builder.vertex(posmat, 0.0F, 0.0F, 0.0F).color(col.getRed(), col.getGreen(), col.getBlue(), alpha).endVertex();
+        builder.vertex(posmat, 0.0F, 0.0F, 0.0F).color(col.getRed(), col.getGreen(), col.getBlue(), alpha).endVertex();
     }
 
     private static void transp_point_a(final IVertexBuilder builder, final Matrix4f posmat, final float dy,
@@ -130,9 +130,9 @@ public class Evolution
         if (builder instanceof BufferBuilder)
         {
             final BufferBuilder buf = (BufferBuilder) builder;
-            if (buf.getVertexFormat().getSize() != 16) return;
+            if (buf.getVertexFormat().getVertexSize() != 16) return;
         }
-        builder.pos(posmat, -Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz).color(col.getRed(), col.getGreen(), col
+        builder.vertex(posmat, -Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz).color(col.getRed(), col.getGreen(), col
                 .getBlue(), 0).endVertex();
     }
 
@@ -142,9 +142,9 @@ public class Evolution
         if (builder instanceof BufferBuilder)
         {
             final BufferBuilder buf = (BufferBuilder) builder;
-            if (buf.getVertexFormat().getSize() != 16) return;
+            if (buf.getVertexFormat().getVertexSize() != 16) return;
         }
-        builder.pos(posmat, Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz).color(col.getRed(), col.getGreen(), col.getBlue(),
+        builder.vertex(posmat, Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz).color(col.getRed(), col.getGreen(), col.getBlue(),
                 0).endVertex();
     }
 
@@ -154,8 +154,8 @@ public class Evolution
         if (builder instanceof BufferBuilder)
         {
             final BufferBuilder buf = (BufferBuilder) builder;
-            if (buf.getVertexFormat().getSize() != 16) return;
+            if (buf.getVertexFormat().getVertexSize() != 16) return;
         }
-        builder.pos(posmat, 0.0F, dy, 1.0F * dz).color(col.getRed(), col.getGreen(), col.getBlue(), 0).endVertex();
+        builder.vertex(posmat, 0.0F, dy, 1.0F * dz).color(col.getRed(), col.getGreen(), col.getBlue(), 0).endVertex();
     }
 }

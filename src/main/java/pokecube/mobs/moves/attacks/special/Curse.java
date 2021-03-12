@@ -39,7 +39,7 @@ public class Curse extends Move_Basic
                 if (!move.canceled)
                 {
                     MovesUtils.addChange(packet.attacked, packet.attacker, IMoveConstants.CHANGE_CURSE);
-                    packet.attacker.getEntity().attackEntityFrom(DamageSource.MAGIC, packet.attacker.getEntity()
+                    packet.attacker.getEntity().hurt(DamageSource.MAGIC, packet.attacker.getEntity()
                             .getMaxHealth() / 2);
                 }
             }

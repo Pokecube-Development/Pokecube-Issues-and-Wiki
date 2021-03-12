@@ -51,11 +51,11 @@ public class CustomNBTPacket extends NBTPacket
     {
         final int entityID = this.getTag().getInt("_nbtedit_id");
         final String customName = this.getTag().getString("_nbtedit_name");
-        final Entity entity = player.world.getEntityByID(entityID);
+        final Entity entity = player.level.getEntity(entityID);
         if (entity != null && NBTEdit.proxy.checkPermission(player)) try
         {
             final CompoundNBT tag = this.getTag();
-            final PlayerData data = PlayerDataHandler.getInstance().getPlayerData(entity.getCachedUniqueIdString())
+            final PlayerData data = PlayerDataHandler.getInstance().getPlayerData(entity.getStringUUID())
                     .getData(customName);
             data.readFromNBT(tag);
             NBTEdit.log(Level.TRACE, player.getName().getString() + " edited a tag -- Entity ID #" + entityID);

@@ -28,7 +28,7 @@ public class DeAgro extends BaseBattleTask
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         boolean deagro = !this.target.isAlive() || this.target.getHealth() <= 0;
 
@@ -40,7 +40,7 @@ public class DeAgro extends BaseBattleTask
 
         if (!deagro)
         {
-            final double distance = this.entity.getDistanceSq(this.target);
+            final double distance = this.entity.distanceToSqr(this.target);
             if (distance > PokecubeCore.getConfig().chaseDistance * PokecubeCore.getConfig().chaseDistance)
                 deagro = true;
         }
@@ -55,11 +55,11 @@ public class DeAgro extends BaseBattleTask
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
 
         final Brain<?> brain = this.entity.getBrain();
-        final LivingEntity lastHitBy = brain.hasMemory(MemoryModuleType.HURT_BY_ENTITY) ? brain.getMemory(
+        final LivingEntity lastHitBy = brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY) ? brain.getMemory(
                 MemoryModuleType.HURT_BY_ENTITY).get() : null;
         boolean hitUs = lastHitBy == this.target;
 
-        hitUs = hitUs && this.entity.ticksExisted - this.entity.getLastAttackedEntityTime() > 20;
+        hitUs = hitUs && this.entity.tickCount - this.entity.getLastHurtMobTimestamp() > 20;
 
         if (!deagro && !hitUs && other != null && other.getNextPokemob().isEmpty())
         {
@@ -80,7 +80,7 @@ public class DeAgro extends BaseBattleTask
                 {
                     boolean found = false;
                     for (final Entity mob : mobs)
-                        if (mob.addedToChunk && mob.getDistanceSq(this.target) < 32 * 32)
+                        if (mob.inChunk && mob.distanceToSqr(this.target) < 32 * 32)
                         {
                             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
                             if (pokemob != null && !found)
@@ -108,14 +108,14 @@ public class DeAgro extends BaseBattleTask
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
-        return this.shouldExecute(worldIn, entityIn);
+        return this.checkExtraStartConditions(worldIn, entityIn);
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         this.deagroTimer = 20;
         this.noSeeTicks = 0;

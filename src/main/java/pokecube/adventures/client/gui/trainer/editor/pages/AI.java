@@ -103,21 +103,21 @@ public class AI extends Page
             }
         };
 
-        this.resetTimeLose.setValidator(intValid);
-        this.resetTimeWin.setValidator(intValid);
-        this.battleCooldown.setValidator(intValid);
-        this.faceDirection.setValidator(floatValid);
+        this.resetTimeLose.setFilter(intValid);
+        this.resetTimeWin.setFilter(intValid);
+        this.battleCooldown.setFilter(intValid);
+        this.faceDirection.setFilter(floatValid);
 
-        this.faceDirection.setText(this.parent.aiStates.getDirection() + "");
+        this.faceDirection.setValue(this.parent.aiStates.getDirection() + "");
         this.addButton(this.faceDirection);
 
         if (this.parent.trainer instanceof DefaultPokemobs)
         {
             final DefaultPokemobs trainer = (DefaultPokemobs) this.parent.trainer;
 
-            this.resetTimeLose.setText(trainer.resetTimeLose + "");
-            this.resetTimeWin.setText(trainer.resetTimeWin + "");
-            this.battleCooldown.setText(trainer.battleCooldown + "");
+            this.resetTimeLose.setValue(trainer.resetTimeLose + "");
+            this.resetTimeWin.setValue(trainer.resetTimeWin + "");
+            this.battleCooldown.setValue(trainer.battleCooldown + "");
 
             this.addButton(this.resetTimeLose);
             this.addButton(this.resetTimeWin);
@@ -170,12 +170,12 @@ public class AI extends Page
         final int y = this.parent.height / 2 - 72;
         final int dy = 12;
         int i = 0;
-        this.font.drawString(matrixStack, I18n.format("Loss Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("Win Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("Battle Cooldown"), x, y + dy * i++, 0xFFFFFFFF);
-        this.font.drawString(matrixStack, I18n.format("Fixed Facing"), x - 20, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Loss Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Win Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Battle Cooldown"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Fixed Facing"), x - 20, y + dy * i++, 0xFFFFFFFF);
 
-        this.font.drawString(matrixStack, I18n.format("Guard Locations"), x + 100, y, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Guard Locations"), x + 100, y, 0xFFFFFFFF);
     }
 
     private void onChanged()
@@ -185,7 +185,7 @@ public class AI extends Page
             final ICapabilitySerializable<? extends INBT> ser = (ICapabilitySerializable<?>) this.parent.aiStates;
             final INBT tag = ser.serializeNBT();
             final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            message.getTag().putInt("I", this.parent.entity.getEntityId());
+            message.getTag().putInt("I", this.parent.entity.getId());
             message.getTag().put("__ai__", tag);
             PacketTrainer.ASSEMBLER.sendToServer(message);
         }

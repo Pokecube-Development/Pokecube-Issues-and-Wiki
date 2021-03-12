@@ -8,6 +8,6 @@ public class ToolSword extends SwordItem
 {
     public ToolSword(final int maxDamage, final int attackSpeed, final IItemTier material)
     {
-        super(material, maxDamage, attackSpeed, new Properties().group(PokecubeItems.POKECUBEITEMS));
+        super(material, maxDamage, attackSpeed, new Properties().tab(PokecubeItems.POKECUBEITEMS));
     }
 }

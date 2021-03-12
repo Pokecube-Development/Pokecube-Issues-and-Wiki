@@ -15,10 +15,13 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
@@ -49,7 +52,7 @@ public class ForgeEventHandlers
         if (ItemList.is(ForgeEventHandlers.WHILTELISTED, state)) return false;
         if (newState != null && ItemList.is(ForgeEventHandlers.WHILTELISTED, newState)) return false;
         if (player != null && player.isCreative()) return false;
-        final Set<StructureInfo> set = StructureManager.getFor(world.getDimensionKey(), pos);
+        final Set<StructureInfo> set = StructureManager.getFor(world.dimension(), pos);
         for (final StructureInfo info : set)
         {
             String name = info.name;
@@ -105,11 +108,11 @@ public class ForgeEventHandlers
         if (!(evt.getEntity() instanceof ServerPlayerEntity) || !PokecubeLegends.config.protectTemples) return;
 
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getEntity();
-        final ServerWorld world = (ServerWorld) player.getEntityWorld();
+        final ServerWorld world = (ServerWorld) player.getCommandSenderWorld();
         if (this.protectTemple(player, world, evt.getPlacedBlock(), evt.getPos()))
         {
             evt.setCanceled(true);
-            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.DUMMY_UUID);
+            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
         }
     }
 
@@ -119,11 +122,30 @@ public class ForgeEventHandlers
         if (!(evt.getPlayer() instanceof ServerPlayerEntity) || !PokecubeLegends.config.protectTemples) return;
 
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
-        final ServerWorld world = (ServerWorld) player.getEntityWorld();
+        final ServerWorld world = (ServerWorld) player.getCommandSenderWorld();
         if (this.protectTemple(player, world, null, evt.getPos()))
         {
             evt.setCanceled(true);
-            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.DUMMY_UUID);
+            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void bucket(final FillBucketEvent evt)
+    {
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity) || !PokecubeLegends.config.protectTemples) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final ServerWorld world = (ServerWorld) player.getCommandSenderWorld();
+        BlockPos pos = player.blockPosition();
+        if (evt.getTarget() instanceof BlockRayTraceResult && evt.getTarget().getType() != Type.MISS)
+        {
+            final BlockRayTraceResult trace = (BlockRayTraceResult) evt.getTarget();
+            pos = trace.getBlockPos().relative(trace.getDirection());
+        }
+        if (this.protectTemple(player, world, null, pos))
+        {
+            evt.setCanceled(true);
+            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
         }
     }
 
@@ -133,15 +155,15 @@ public class ForgeEventHandlers
         final World worldIn = event.getBoom().world;
         final BlockPos pos = event.getPos();
         if (event.getPower() > PokecubeLegends.config.meteorPowerThreshold && worldIn.getRandom()
-                .nextDouble() < PokecubeLegends.config.meteorChanceForAny && !worldIn.isRemote)
+                .nextDouble() < PokecubeLegends.config.meteorChanceForAny && !worldIn.isClientSide)
         {
             final BlockState block = worldIn.getRandom().nextDouble() > PokecubeLegends.config.meteorChanceForDust
-                    ? BlockInit.METEOR_BLOCK.get().getDefaultState()
-                    : BlockInit.OVERWORLD_COSMIC_DUST_ORE.get().getDefaultState();
+                    ? BlockInit.METEOR_BLOCK.get().defaultBlockState()
+                    : BlockInit.OVERWORLD_COSMIC_DUST_ORE.get().defaultBlockState();
             final FallingBlockEntity entity = new FallingBlockEntity(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ()
                     + 0.5D, block);
-            entity.fallTime = 1;
-            worldIn.addEntity(entity);
+            entity.time = 1;
+            worldIn.addFreshEntity(entity);
         }
     }
 }

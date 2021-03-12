@@ -74,17 +74,17 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     static
     {
-        ENTITYID = EntityDataManager.<Integer> createKey(EntityPokecubeBase.class, DataSerializers.VARINT);
-        ITEM = EntityDataManager.<ItemStack> createKey(EntityPokecubeBase.class, DataSerializers.ITEMSTACK);
-        RELEASING = EntityDataManager.<Boolean> createKey(EntityPokecubeBase.class, DataSerializers.BOOLEAN);
-        TIME = EntityDataManager.<Integer> createKey(EntityPokecubeBase.class, DataSerializers.VARINT);
+        ENTITYID = EntityDataManager.<Integer> defineId(EntityPokecubeBase.class, DataSerializers.INT);
+        ITEM = EntityDataManager.<ItemStack> defineId(EntityPokecubeBase.class, DataSerializers.ITEM_STACK);
+        RELEASING = EntityDataManager.<Boolean> defineId(EntityPokecubeBase.class, DataSerializers.BOOLEAN);
+        TIME = EntityDataManager.<Integer> defineId(EntityPokecubeBase.class, DataSerializers.INT);
     }
 
     public static boolean canCaptureBasedOnConfigs(final IPokemob pokemob)
     {
         if (PokecubeCore.getConfig().captureDelayTillAttack) return !pokemob.getCombatState(CombatStates.NOITEMUSE);
         final long lastAttempt = pokemob.getEntity().getPersistentData().getLong(EntityPokecubeBase.CUBETIMETAG);
-        final boolean capture = lastAttempt <= pokemob.getEntity().getEntityWorld().getGameTime();
+        final boolean capture = lastAttempt <= pokemob.getEntity().getCommandSenderWorld().getGameTime();
         if (capture) pokemob.getEntity().getPersistentData().remove(EntityPokecubeBase.CUBETIMETAG);
         return capture;
     }
@@ -93,7 +93,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     {
         if (PokecubeCore.getConfig().captureDelayTillAttack) pokemob.setCombatState(CombatStates.NOITEMUSE, true);
         else pokemob.getEntity().getPersistentData().putLong(EntityPokecubeBase.CUBETIMETAG, pokemob.getEntity()
-                .getEntityWorld().getGameTime() + PokecubeCore.getConfig().captureDelayTicks);
+                .getCommandSenderWorld().getGameTime() + PokecubeCore.getConfig().captureDelayTicks);
     }
 
     public boolean canBePickedUp = true;
@@ -138,19 +138,19 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public EntityPokecubeBase(final EntityType<? extends EntityPokecubeBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.noClip = false;
+        this.noPhysics = false;
     }
 
     /** Called when the entity is attacked. */
     @Override
-    public boolean attackEntityFrom(final DamageSource source, final float damage)
+    public boolean hurt(final DamageSource source, final float damage)
     {
         if (this.isLoot || this.isReleasing() || !this.canBePickedUp) return false;
-        if (source.getImmediateSource() instanceof ServerPlayerEntity && (this.tilt <= 0 || ((PlayerEntity) source
-                .getImmediateSource()).abilities.isCreativeMode))
+        if (source.getDirectEntity() instanceof ServerPlayerEntity && (this.tilt <= 0 || ((PlayerEntity) source
+                .getDirectEntity()).abilities.instabuild))
         {
-            final ServerPlayerEntity player = (ServerPlayerEntity) source.getImmediateSource();
-            this.processInitialInteract(player, Hand.MAIN_HAND);
+            final ServerPlayerEntity player = (ServerPlayerEntity) source.getDirectEntity();
+            this.interact(player, Hand.MAIN_HAND);
             return false;
         }
         if (source == DamageSource.OUT_OF_WORLD)
@@ -177,7 +177,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     {
         if (!this.isAlive()) return;
 
-        final boolean serverSide = this.getEntityWorld() instanceof ServerWorld;
+        final boolean serverSide = this.getCommandSenderWorld() instanceof ServerWorld;
         final boolean capturing = this.getTilt() >= 0;
         final boolean releasing = this.isReleasing();
 
@@ -206,7 +206,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
                     .getOwnerId() != null;
 
             // Set us to the location, but not stick to players.
-            if (!invalidStick) this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
+            if (!invalidStick) this.setPos(result.getLocation().x, result.getLocation().y, result.getLocation().z);
 
             // Capturing or on client, break early.
             if (!serverSide || capturing || releasing) break;
@@ -217,7 +217,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 if (sent instanceof MobEntity && hit.getEntity() instanceof LivingEntity) BrainUtils.initiateCombat(
                         (MobEntity) sent, (LivingEntity) hit.getEntity());
             }
-            else CaptureManager.captureAttempt(this, this.rand, hitEntity);
+            else CaptureManager.captureAttempt(this, this.random, hitEntity);
             break;
         case MISS:
             break;
@@ -241,13 +241,13 @@ public abstract class EntityPokecubeBase extends LivingEntity
     }
 
     @Override
-    public boolean canBeCollidedWith()
+    public boolean isPickable()
     {
         return true;
     }
 
     @Override
-    public boolean canBePushed()
+    public boolean isPushable()
     {
         return !this.isReleasing();
     }
@@ -260,17 +260,17 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     public void checkCollision()
     {
-        final AxisAlignedBB axisalignedbb = this.getBoundingBox().expand(this.getMotion()).grow(.2D);
+        final AxisAlignedBB axisalignedbb = this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(.2D);
         if (this.shootingEntity != null) this.ignoreEntity = this.shootingEntity;
 
         final Predicate<Entity> valid = (mob) ->
         {
             final Entity e = EntityTools.getCoreEntity(mob);
-            return !e.isSpectator() && mob.canBeCollidedWith() && !(e instanceof EntityPokecubeBase)
+            return !e.isSpectator() && mob.isPickable() && !(e instanceof EntityPokecubeBase)
                     && e instanceof LivingEntity && e != this.ignoreEntity && e != this;
         };
 
-        if (!this.isReleasing()) for (final Entity entity : this.world.getEntitiesInAABBexcluding(this, axisalignedbb,
+        if (!this.isReleasing()) for (final Entity entity : this.level.getEntities(this, axisalignedbb,
                 valid))
         {
             if (entity == this.ignoreEntity)
@@ -279,7 +279,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 break;
             }
 
-            if (this.shootingEntity != null && this.ticksExisted < 2 && this.ignoreEntity == null)
+            if (this.shootingEntity != null && this.tickCount < 2 && this.ignoreEntity == null)
             {
                 this.ignoreEntity = entity;
                 this.ignoreTime = 10;
@@ -296,15 +296,15 @@ public abstract class EntityPokecubeBase extends LivingEntity
         trace:
         if (raytraceresult.getType() != RayTraceResult.Type.MISS)
         {
-            if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(
-                    ((BlockRayTraceResult) raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) this.setPortal(
-                            ((BlockRayTraceResult) raytraceresult).getPos());
+            if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.level.getBlockState(
+                    ((BlockRayTraceResult) raytraceresult).getBlockPos()).getBlock() == Blocks.NETHER_PORTAL) this.handleInsidePortal(
+                            ((BlockRayTraceResult) raytraceresult).getBlockPos());
             if (raytraceresult instanceof BlockRayTraceResult)
             {
                 final BlockRayTraceResult result = (BlockRayTraceResult) raytraceresult;
-                final BlockState hit = this.getEntityWorld().getBlockState(result.getPos());
-                final VoxelShape shape = hit.getCollisionShape(this.getEntityWorld(), result.getPos());
-                if (!shape.isEmpty() && !shape.getBoundingBox().offset(result.getPos()).intersects(axisalignedbb))
+                final BlockState hit = this.getCommandSenderWorld().getBlockState(result.getBlockPos());
+                final VoxelShape shape = hit.getCollisionShape(this.getCommandSenderWorld(), result.getBlockPos());
+                if (!shape.isEmpty() && !shape.bounds().move(result.getBlockPos()).intersects(axisalignedbb))
                     break trace;
             }
             if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
@@ -312,8 +312,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
             return;
         }
         if (this.isReleasing()) return;
-        if (this.shootingEntity != null && this.tilt < 0 && this.getMotion().lengthSquared() == 0 && this
-                .isServerWorld() && PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
+        if (this.shootingEntity != null && this.tilt < 0 && this.getDeltaMovement().lengthSqr() == 0 && this
+                .isEffectiveAi() && PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
         else if (!this.getNoCollisionRelease() && this.isInWater() && PokecubeManager.isFilled(this.getItem()))
             SendOutManager.sendOut(this, true);
     }
@@ -336,9 +336,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
             final Vector3 dir = Vector3.getNewVector().set(target);
             if (this.targetEntity != null)
             {
-                dir.x += this.targetEntity.getMotion().x;
-                dir.y += this.targetEntity.getMotion().y;
-                dir.z += this.targetEntity.getMotion().z;
+                dir.x += this.targetEntity.getDeltaMovement().x;
+                dir.y += this.targetEntity.getDeltaMovement().y;
+                dir.z += this.targetEntity.getDeltaMovement().z;
             }
             final double dr = dir.distanceTo(here);
             double dist = dr / 10;
@@ -352,52 +352,52 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     private void validateDirection(final Vector3d vec3d)
     {
-        final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
+        final float f = MathHelper.sqrt(Entity.getHorizontalDistanceSqr(vec3d));
         if (f > 0.5)
         {
-            this.rotationYaw = (float) (-MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
-            for (this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F
-                    / (float) Math.PI)); this.rotationPitch
-                            - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+            this.yRot = (float) (-MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
+            for (this.xRot = (float) (MathHelper.atan2(vec3d.y, f) * (180F
+                    / (float) Math.PI)); this.xRot
+                            - this.xRotO < -180.0F; this.xRotO -= 360.0F)
                 ;
         }
-        else this.rotationPitch = 0;
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
-            this.prevRotationPitch += 360.0F;
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
-            this.prevRotationYaw -= 360.0F;
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
-            this.prevRotationYaw += 360.0F;
-        this.renderYawOffset = this.rotationYaw;
-        this.prevRenderYawOffset = this.prevRotationYaw;
-        this.rotationYawHead = this.rotationYaw;
-        this.prevRotationYawHead = this.prevRotationYaw;
+        else this.xRot = 0;
+        while (this.xRot - this.xRotO >= 180.0F)
+            this.xRotO += 360.0F;
+        while (this.yRot - this.yRotO < -180.0F)
+            this.yRotO -= 360.0F;
+        while (this.yRot - this.yRotO >= 180.0F)
+            this.yRotO += 360.0F;
+        this.yBodyRot = this.yRot;
+        this.yBodyRotO = this.yRotO;
+        this.yHeadRot = this.yRot;
+        this.yHeadRotO = this.yRotO;
     }
 
     private void postValidateVelocity()
     {
-        final Vector3d vec3d = this.getMotion();
+        final Vector3d vec3d = this.getDeltaMovement();
         this.validateDirection(vec3d);
         float f1;
         if (this.isInWater())
         {
             for (int i = 0; i < 4; ++i)
-                this.world.addParticle(ParticleTypes.BUBBLE, this.getPosX() - vec3d.x * 0.25D, this.getPosY() - vec3d.y
-                        * 0.25D, this.getPosZ() - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+                this.level.addParticle(ParticleTypes.BUBBLE, this.getX() - vec3d.x * 0.25D, this.getY() - vec3d.y
+                        * 0.25D, this.getZ() - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
             f1 = 0.8F;
         }
         else f1 = 0.99F;
 
-        this.setMotion(vec3d.scale(f1));
-        final Vector3d motion = this.getMotion();
-        if (motion.y == 0) this.setMotion(motion.x * 0.8, motion.y, motion.z * 0.8);
-        if (!this.hasNoGravity())
+        this.setDeltaMovement(vec3d.scale(f1));
+        final Vector3d motion = this.getDeltaMovement();
+        if (motion.y == 0) this.setDeltaMovement(motion.x * 0.8, motion.y, motion.z * 0.8);
+        if (!this.isNoGravity())
         {
-            final Vector3d vec3d1 = this.getMotion();
-            this.setMotion(vec3d1.x, vec3d1.y - this.getGravityVelocity(), vec3d1.z);
+            final Vector3d vec3d1 = this.getDeltaMovement();
+            this.setDeltaMovement(vec3d1.x, vec3d1.y - this.getGravityVelocity(), vec3d1.z);
         }
 
-        this.move(MoverType.SELF, this.getMotion());
+        this.move(MoverType.SELF, this.getDeltaMovement());
 
     }
 
@@ -405,9 +405,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
     @Override
     public void tick()
     {
-        this.lastTickPosX = this.getPosX();
-        this.lastTickPosY = this.getPosY();
-        this.lastTickPosZ = this.getPosZ();
+        this.xOld = this.getX();
+        this.yOld = this.getY();
+        this.zOld = this.getZ();
 
         this.autoRelease--;
         if (this.autoRelease == 0) SendOutManager.sendOut(this, true);
@@ -415,17 +415,17 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final boolean releasing = this.isReleasing();
         if (capturing || releasing) this.seeking = false;
 
-        if (this.getPosY() < -64.0D) this.outOfWorld();
+        if (this.getY() < -64.0D) this.outOfWorld();
 
         if (this.checkCube)
         {
             this.checkCube = false;
             PokemobTracker.removePokecube(this);
-            this.containedMob = PokecubeManager.itemToPokemob(this.getItem(), this.getEntityWorld());
+            this.containedMob = PokecubeManager.itemToPokemob(this.getItem(), this.getCommandSenderWorld());
             if (this.containedMob != null && this.shooter == null)
             {
                 this.shootingEntity = this.containedMob.getOwner();
-                if (this.shootingEntity != null) this.shooter = this.shootingEntity.getUniqueID();
+                if (this.shootingEntity != null) this.shooter = this.shootingEntity.getUUID();
             }
             PokemobTracker.addPokecube(this);
         }
@@ -436,18 +436,18 @@ public abstract class EntityPokecubeBase extends LivingEntity
     }
 
     @Override
-    public void writeAdditional(final CompoundNBT compound)
+    public void addAdditionalSaveData(final CompoundNBT compound)
     {
-        super.writeAdditional(compound);
+        super.addAdditionalSaveData(compound);
         compound.putInt("tilt", this.tilt);
         compound.putInt("time", this.getTime());
         compound.putBoolean("releasing", this.isReleasing());
         if (this.shooter != null) compound.putString("shooter", this.shooter.toString());
-        if (this.getItem() != null) compound.put("Item", this.getItem().write(new CompoundNBT()));
+        if (this.getItem() != null) compound.put("Item", this.getItem().save(new CompoundNBT()));
         if (this.isCapturing) this.capturePos.writeToNBT(compound, "capt_");
         compound.putByte("inGround", (byte) (this.inGround ? 1 : 0));
         compound.putInt("autorelease", this.autoRelease);
-        if (this.shooter != null) compound.put("owner", NBTUtil.func_240626_a_(this.shooter));
+        if (this.shooter != null) compound.put("owner", NBTUtil.createUUID(this.shooter));
 
     }
 
@@ -456,58 +456,58 @@ public abstract class EntityPokecubeBase extends LivingEntity
      * NBT.
      */
     @Override
-    public void readAdditional(final CompoundNBT compound)
+    public void readAdditionalSaveData(final CompoundNBT compound)
     {
-        super.readAdditional(compound);
+        super.readAdditionalSaveData(compound);
         this.tilt = compound.getInt("tilt");
         this.setTime(compound.getInt("time"));
         this.setReleasing(compound.getBoolean("releasing"));
         final CompoundNBT CompoundNBT1 = compound.getCompound("Item");
-        this.setItem(ItemStack.read(CompoundNBT1));
+        this.setItem(ItemStack.of(CompoundNBT1));
         if (compound.contains("shooter")) this.shooter = UUID.fromString(compound.getString("shooter"));
         this.isCapturing = compound.contains("capt_x");
         if (this.isCapturing) this.capturePos = Vector3.readFromNBT(compound, "capt_");
         this.autoRelease = compound.getInt("autorelease");
         this.inGround = compound.getByte("inGround") == 1;
-        if (compound.contains("owner", 10)) this.shooter = NBTUtil.readUniqueId(compound.getCompound("owner"));
+        if (compound.contains("owner", 10)) this.shooter = NBTUtil.loadUUID(compound.getCompound("owner"));
 
     }
 
     @Override
-    protected void registerData()
+    protected void defineSynchedData()
     {
-        super.registerData();
-        this.getDataManager().register(EntityPokecubeBase.RELEASING, false);
-        this.getDataManager().register(EntityPokecubeBase.ENTITYID, -1);
-        this.getDataManager().register(EntityPokecubeBase.ITEM, ItemStack.EMPTY);
-        this.getDataManager().register(EntityPokecubeBase.TIME, 40);
+        super.defineSynchedData();
+        this.getEntityData().define(EntityPokecubeBase.RELEASING, false);
+        this.getEntityData().define(EntityPokecubeBase.ENTITYID, -1);
+        this.getEntityData().define(EntityPokecubeBase.ITEM, ItemStack.EMPTY);
+        this.getEntityData().define(EntityPokecubeBase.TIME, 40);
     }
 
     /** Sets the ItemStack for this entity */
     public void setItem(final ItemStack stack)
     {
         if (this.isAddedToWorld()) PokemobTracker.removePokecube(this);
-        this.getDataManager().set(EntityPokecubeBase.ITEM, stack);
+        this.getEntityData().set(EntityPokecubeBase.ITEM, stack);
         this.checkCube = true;
         if (this.isAddedToWorld()) PokemobTracker.addPokecube(this);
     }
 
     @Override
-    public void setItemStackToSlot(final EquipmentSlotType slotIn, final ItemStack stack)
+    public void setItemSlot(final EquipmentSlotType slotIn, final ItemStack stack)
     {
     }
 
     @Override
-    public void setMotion(final Vector3d velocity)
+    public void setDeltaMovement(final Vector3d velocity)
     {
-        super.setMotion(velocity);
+        super.setDeltaMovement(velocity);
         this.validateDirection(velocity);
     }
 
     public void setReleased(final Entity entity)
     {
-        this.getDataManager().set(EntityPokecubeBase.ENTITYID, entity.getEntityId());
-        this.setMotion(0, 0, 0);
+        this.getEntityData().set(EntityPokecubeBase.ENTITYID, entity.getId());
+        this.setDeltaMovement(0, 0, 0);
         this.setTime(20);
         this.setReleasing(true);
         this.canBePickedUp = false;
@@ -517,12 +517,12 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     public void setReleasing(final boolean tag)
     {
-        this.getDataManager().set(EntityPokecubeBase.RELEASING, tag);
+        this.getEntityData().set(EntityPokecubeBase.RELEASING, tag);
     }
 
     public void setTime(final int time)
     {
-        this.getDataManager().set(EntityPokecubeBase.TIME, time);
+        this.getEntityData().set(EntityPokecubeBase.TIME, time);
     }
 
     public void setNoCollisionRelease()
@@ -548,7 +548,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public void setCapturing(final LivingEntity mob)
     {
         mob.getPersistentData().putBoolean(TagNames.CAPTURING, true);
-        this.setMotion(0, 0, 0);
+        this.setDeltaMovement(0, 0, 0);
         this.capturePos.set(mob);
         this.seeking = false;
         this.isCapturing = true;
@@ -562,7 +562,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     }
 
     @Override
-    public Iterable<ItemStack> getArmorInventoryList()
+    public Iterable<ItemStack> getArmorSlots()
     {
         return this.stuff;
     }
@@ -583,37 +583,37 @@ public abstract class EntityPokecubeBase extends LivingEntity
      */
     public ItemStack getItem()
     {
-        final ItemStack itemstack = this.getDataManager().get(EntityPokecubeBase.ITEM);
+        final ItemStack itemstack = this.getEntityData().get(EntityPokecubeBase.ITEM);
         return itemstack.isEmpty() ? new ItemStack(Blocks.STONE) : itemstack;
     }
 
     @Override
-    public ItemStack getItemStackFromSlot(final EquipmentSlotType slotIn)
+    public ItemStack getItemBySlot(final EquipmentSlotType slotIn)
     {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public HandSide getPrimaryHand()
+    public HandSide getMainArm()
     {
         return HandSide.LEFT;
     }
 
     public Entity getReleased()
     {
-        final int id = this.getDataManager().get(EntityPokecubeBase.ENTITYID);
-        final Entity ret = this.getEntityWorld().getEntityByID(id);
+        final int id = this.getEntityData().get(EntityPokecubeBase.ENTITYID);
+        final Entity ret = this.getCommandSenderWorld().getEntity(id);
         return ret;
     }
 
     public int getTime()
     {
-        return this.getDataManager().get(EntityPokecubeBase.TIME);
+        return this.getEntityData().get(EntityPokecubeBase.TIME);
     }
 
     public boolean isReleasing()
     {
-        return this.getDataManager().get(EntityPokecubeBase.RELEASING);
+        return this.getEntityData().get(EntityPokecubeBase.RELEASING);
     }
 
     public static RayTraceResult rayTrace(final Entity projectile, final boolean checkEntityCollision,
@@ -622,9 +622,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
         return EntityPokecubeBase.rayTrace(projectile, checkEntityCollision, includeShooter, shooter, blockModeIn, true,
                 (p_221270_2_) ->
                 {
-                    return !p_221270_2_.isSpectator() && p_221270_2_.canBeCollidedWith() && (includeShooter
-                            || !p_221270_2_.isEntityEqual(shooter)) && !p_221270_2_.noClip;
-                }, projectile.getBoundingBox().expand(projectile.getMotion()).grow(1.0D));
+                    return !p_221270_2_.isSpectator() && p_221270_2_.isPickable() && (includeShooter
+                            || !p_221270_2_.is(shooter)) && !p_221270_2_.noPhysics;
+                }, projectile.getBoundingBox().expandTowards(projectile.getDeltaMovement()).inflate(1.0D));
     }
 
     public static RayTraceResult rayTrace(final Entity projectile, final AxisAlignedBB boundingBox,
@@ -651,21 +651,21 @@ public abstract class EntityPokecubeBase extends LivingEntity
             final boolean includeShooter, @Nullable final Entity shooter, final RayTraceContext.BlockMode blockModeIn,
             final boolean p_221268_5_, final Predicate<Entity> filter, final AxisAlignedBB boundingBox)
     {
-        final Vector3d vec3d = projectile.getMotion();
-        final World world = projectile.world;
-        final Vector3d vec3d1 = projectile.getPositionVec();
-        if (p_221268_5_ && !world.hasNoCollisions(projectile, projectile.getBoundingBox(), e -> (!includeShooter
+        final Vector3d vec3d = projectile.getDeltaMovement();
+        final World world = projectile.level;
+        final Vector3d vec3d1 = projectile.position();
+        if (p_221268_5_ && !world.noCollision(projectile, projectile.getBoundingBox(), e -> (!includeShooter
                 && shooter != null ? EntityPokecubeBase.getEntityAndMount(shooter) : ImmutableSet.of()).contains(e)))
-            return new BlockRayTraceResult(vec3d1, Direction.getFacingFromVector(vec3d.x, vec3d.y, vec3d.z),
-                    new BlockPos(projectile.getPositionVec()), false);
+            return new BlockRayTraceResult(vec3d1, Direction.getNearest(vec3d.x, vec3d.y, vec3d.z),
+                    new BlockPos(projectile.position()), false);
         else
         {
             Vector3d vec3d2 = vec3d1.add(vec3d);
-            RayTraceResult raytraceresult = world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d2, blockModeIn,
+            RayTraceResult raytraceresult = world.clip(new RayTraceContext(vec3d1, vec3d2, blockModeIn,
                     RayTraceContext.FluidMode.NONE, projectile));
             if (checkEntityCollision)
             {
-                if (raytraceresult.getType() != RayTraceResult.Type.MISS) vec3d2 = raytraceresult.getHitVec();
+                if (raytraceresult.getType() != RayTraceResult.Type.MISS) vec3d2 = raytraceresult.getLocation();
 
                 final RayTraceResult raytraceresult1 = EntityPokecubeBase.rayTraceEntities(world, projectile, vec3d1,
                         vec3d2, boundingBox, filter);
@@ -687,13 +687,13 @@ public abstract class EntityPokecubeBase extends LivingEntity
         double d0 = distance;
         Entity entity = null;
 
-        for (final Entity entity1 : worldIn.getEntitiesInAABBexcluding(projectile, boundingBox, filter))
+        for (final Entity entity1 : worldIn.getEntities(projectile, boundingBox, filter))
         {
-            final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
-            final Optional<Vector3d> optional = axisalignedbb.rayTrace(startVec, endVec);
+            final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate(0.3F);
+            final Optional<Vector3d> optional = axisalignedbb.clip(startVec, endVec);
             if (optional.isPresent())
             {
-                final double d1 = startVec.squareDistanceTo(optional.get());
+                final double d1 = startVec.distanceToSqr(optional.get());
                 if (d1 < d0)
                 {
                     entity = entity1;
@@ -707,7 +707,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     private static Set<Entity> getEntityAndMount(final Entity rider)
     {
-        final Entity entity = rider.getRidingEntity();
+        final Entity entity = rider.getVehicle();
         return entity != null ? ImmutableSet.of(rider, entity) : ImmutableSet.of(rider);
     }
 }

@@ -40,13 +40,13 @@ public class PacketCommander extends Packet
 
     public PacketCommander(final PacketBuffer buf)
     {
-        this.data = buf.readCompoundTag();
+        this.data = buf.readNbt();
     }
 
     @Override
     public void write(final PacketBuffer buffer)
     {
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 
     @OnlyIn(value = Dist.CLIENT)
@@ -56,17 +56,17 @@ public class PacketCommander extends Packet
         // Open the gui.
         final World world = PokecubeCore.proxy.getWorld();
         final BlockPos pos = new BlockPos(this.data.getInt("x"), this.data.getInt("y"), this.data.getInt("z"));
-        final TileEntity te = world.getTileEntity(pos);
+        final TileEntity te = world.getBlockEntity(pos);
         if (!(te instanceof CommanderTile)) return;
-        net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new Commander(pos));
+        net.minecraft.client.Minecraft.getInstance().setScreen(new Commander(pos));
     }
 
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final World world = player.getEntityWorld();
+        final World world = player.getCommandSenderWorld();
         final BlockPos pos = new BlockPos(this.data.getInt("x"), this.data.getInt("y"), this.data.getInt("z"));
-        final TileEntity te = world.getTileEntity(pos);
+        final TileEntity te = world.getBlockEntity(pos);
         if (!(te instanceof CommanderTile)) return;
         final CommanderTile tile = (CommanderTile) te;
         final String command = this.data.getString("C");
@@ -80,8 +80,8 @@ public class PacketCommander extends Packet
         catch (final Exception e)
         {
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.warn("Invalid Commander Block use at " + tile
-                    .getPos(), e);
-            tile.getWorld().playSound(null, tile.getPos(), SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS,
+                    .getBlockPos(), e);
+            tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS,
                     1, 1);
         }
         TileUpdate.sendUpdate(tile);

@@ -133,7 +133,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             ITextComponent message = null;
             message = new TranslationTextComponent("block.rfsiphon.info", this.energy.theoreticalOutput
                     - this.energy.currentOutput, this.energy.theoreticalOutput);
-            player.sendMessage(message, Util.DUMMY_UUID);
+            player.sendMessage(message, Util.NIL_UUID);
         }
         return super.onInteract(pos, player, hand, hit);
     }
@@ -141,11 +141,11 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (!this.world.isRemote) MinecraftForge.EVENT_BUS.post(new SiphonTickEvent(this));
+        if (!this.level.isClientSide) MinecraftForge.EVENT_BUS.post(new SiphonTickEvent(this));
     }
 
     @Override
-    public void read(final BlockState stateIn, final CompoundNBT compound)
+    public void load(final BlockState stateIn, final CompoundNBT compound)
     {
         this.wirelessLinks.clear();
         final CompoundNBT wireless = compound.getCompound("links");
@@ -155,11 +155,11 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             final INBT tag = wireless.get("" + i);
             this.wirelessLinks.add(GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, tag).result().get().getFirst());
         }
-        super.read(stateIn, compound);
+        super.load(stateIn, compound);
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         final CompoundNBT wireless = new CompoundNBT();
         wireless.putInt("n", this.wirelessLinks.size());
@@ -170,7 +170,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             wireless.put("" + n++, tag);
         }
         compound.put("links", wireless);
-        return super.write(compound);
+        return super.save(compound);
     }
 
     public boolean tryLink(final ILinkStorage link, final Entity user)
@@ -182,14 +182,14 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             if (this.wirelessLinks.remove(pos))
             {
                 if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
-                        "block.pokecube_adventures.siphon.unlink", pos.getPos().getX(), pos.getPos().getY(), pos
-                                .getPos().getZ(), pos.getDimension()), Util.DUMMY_UUID);
+                        "block.pokecube_adventures.siphon.unlink", pos.pos().getX(), pos.pos().getY(), pos
+                                .pos().getZ(), pos.dimension()), Util.NIL_UUID);
                 return true;
             }
             this.wirelessLinks.add(pos);
             if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
-                    "block.pokecube_adventures.siphon.link", pos.getPos().getX(), pos.getPos().getY(), pos.getPos()
-                            .getZ(), pos.getDimension()), Util.DUMMY_UUID);
+                    "block.pokecube_adventures.siphon.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
+                            .getZ(), pos.dimension()), Util.NIL_UUID);
             return true;
         }
         return false;

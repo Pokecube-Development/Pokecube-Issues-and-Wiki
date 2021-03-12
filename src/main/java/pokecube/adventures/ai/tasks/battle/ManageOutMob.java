@@ -108,7 +108,7 @@ public class ManageOutMob extends BaseBattleTask
             final List<PokedexEntry> formes = Database.getFormes(out.getPokedexEntry());
             if (!formes.isEmpty())
             {
-                final int start = this.entity.getRNG().nextInt(formes.size());
+                final int start = this.entity.getRandom().nextInt(formes.size());
                 for (int i = 0; i < formes.size(); i++)
                 {
                     final PokedexEntry mega = formes.get((i + start) % formes.size());
@@ -124,20 +124,20 @@ public class ManageOutMob extends BaseBattleTask
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         final boolean hasMob = this.trainer.getOutMob() != null;
 
-        BrainUtil.lookAt(this.entity, this.target);
+        BrainUtil.lookAtEntity(this.entity, this.target);
 
         if (hasMob) this.considerSwapPokemob();
         else this.doAggression();
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
-        return super.shouldExecute(worldIn, entityIn);
+        return super.checkExtraStartConditions(worldIn, entityIn);
     }
 }

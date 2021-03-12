@@ -21,7 +21,7 @@ public class WorldStructDatafixer
 //        if (!stale.isEmpty())
 //        {
 //            IChunk chunk = event.getChunk();
-//            if (chunk instanceof ChunkPrimerWrapper) chunk = ((ChunkPrimerWrapper) chunk).func_217336_u();
+//            if (chunk instanceof ChunkPrimerWrapper) chunk = ((ChunkPrimerWrapper) chunk).getWrapped();
 //            PokecubeCore.LOGGER.warn("Removing error structure starts: " + stale);
 //            final Map<String, LongSet> refs = Maps.newHashMap(chunk.getStructureReferences());
 //            final Map<String, StructureStart> starts = Maps.newHashMap(chunk.getStructureStarts());

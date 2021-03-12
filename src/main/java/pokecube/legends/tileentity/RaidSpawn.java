@@ -43,9 +43,9 @@ public class RaidSpawn extends MaxTile
     @OnlyIn(Dist.CLIENT)
     public List<BeamSegment> getBeamSegments()
     {
-        final BlockState blocks = this.world.getBlockState(this.getPos());
+        final BlockState blocks = this.level.getBlockState(this.getBlockPos());
         if (!blocks.hasProperty(RaidSpawnBlock.ACTIVE)) return RaidSpawn.empty;
-        final State state = blocks.get(RaidSpawnBlock.ACTIVE);
+        final State state = blocks.getValue(RaidSpawnBlock.ACTIVE);
         switch (state)
         {
         case EMPTY:
@@ -69,7 +69,7 @@ public class RaidSpawn extends MaxTile
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public double getMaxRenderDistanceSquared()
+    public double getViewDistance()
     {
         return 65536.0D;
     }

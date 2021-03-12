@@ -50,7 +50,7 @@ public class PokecubeManager
         if (!cube.hasTag()) cube.setTag(new CompoundNBT());
         cube.getTag().putString(TagNames.MOBID, id.toString());
         final CompoundNBT tag = new CompoundNBT();
-        mob.writeWithoutTypeId(tag);
+        mob.saveWithoutId(tag);
         cube.getTag().putFloat("CHP", mob.getHealth());
         cube.getTag().putFloat("MHP", mob.getMaxHealth());
         cube.getTag().put(TagNames.POKEMOB, tag);
@@ -82,7 +82,7 @@ public class PokecubeManager
             {
                 final byte slot = equipmentTags.getCompound(i).getByte("Slot");
                 if (slot != 1) continue;
-                final ItemStack held = ItemStack.read(equipmentTags.getCompound(i));
+                final ItemStack held = ItemStack.of(equipmentTags.getCompound(i));
                 return held;
             }
         }
@@ -115,7 +115,7 @@ public class PokecubeManager
 
         if (owner != null) try
         {
-            final UUID id = NBTUtil.readUniqueId(owner);
+            final UUID id = NBTUtil.loadUUID(owner);
             return id;
         }
         catch (final Exception e)
@@ -140,7 +140,7 @@ public class PokecubeManager
         final IPokemob poke = CapabilityPokemob.getPokemobFor(pokemob);
         ItemStack cube;
         if ((cube = poke.getPokecube()).isEmpty()) return null;
-        return cube.getChildTag(TagNames.POKESEAL);
+        return cube.getTagElement(TagNames.POKESEAL);
     }
 
     public static CompoundNBT getSealTag(final ItemStack stack)
@@ -176,7 +176,7 @@ public class PokecubeManager
         final CompoundNBT pokeTag = stack.getTag().getCompound(TagNames.POKEMOB);
         try
         {
-            return pokeTag.getUniqueId("UUID");
+            return pokeTag.getUUID("UUID");
         }
         catch (final Exception e)
         {
@@ -295,7 +295,7 @@ public class PokecubeManager
         else if (status == IMoveConstants.STATUS_SLP) name = new TranslationTextComponent("pokecube.filled.slp", name);
         else if (status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2)
             name = new TranslationTextComponent("pokecube.filled.psn", name);
-        itemStack.setDisplayName(name);
+        itemStack.setHoverName(name);
         return itemStack;
     }
 

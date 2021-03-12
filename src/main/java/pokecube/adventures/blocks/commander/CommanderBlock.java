@@ -34,8 +34,8 @@ public class CommanderBlock extends InteractableHorizontalBlock
     public void neighborChanged(final BlockState state, final World world, final BlockPos pos, final Block blockIn,
             final BlockPos neighbor, final boolean isMoving)
     {
-        final int power = world.getRedstonePowerFromNeighbors(pos);
-        final TileEntity tile = world.getTileEntity(pos);
+        final int power = world.getBestNeighborSignal(pos);
+        final TileEntity tile = world.getBlockEntity(pos);
         if (!(tile instanceof CommanderTile)) return;
         final CommanderTile commander = (CommanderTile) tile;
         // Trigger on rising signal

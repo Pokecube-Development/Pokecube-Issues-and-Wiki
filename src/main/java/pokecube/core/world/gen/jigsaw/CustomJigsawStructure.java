@@ -58,23 +58,23 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
     }
 
     @Override
-    public Decoration getDecorationStage()
+    public Decoration step()
     {
-        if (super.getDecorationStage() == null) return Decoration.SURFACE_STRUCTURES;
-        else return super.getDecorationStage();
+        if (super.step() == null) return Decoration.SURFACE_STRUCTURES;
+        else return super.step();
     }
 
     @Override
-    protected boolean func_230365_b_()
+    protected boolean linearSeparation()
     {
         // End structures return false here, we might need to see about
         // adjustments to account for that, will call super for now just as an
         // initial test.
-        return super.func_230365_b_();
+        return super.linearSeparation();
     }
 
     @Override
-    protected boolean func_230363_a_(final ChunkGenerator generator, final BiomeProvider biomes, final long seed,
+    protected boolean isFeatureChunk(final ChunkGenerator generator, final BiomeProvider biomes, final long seed,
             final SharedSeedRandom rand, final int x, final int z, final Biome biome, final ChunkPos pos,
             final JigsawConfig config)
     {
@@ -89,23 +89,23 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
 
         // Here we check if there are any conflicting structures around.
         final int ds0 = WorldgenHandler.getNeededSpace(this.getStructure());
-        final Decoration stage0 = Structure.STRUCTURE_DECORATION_STAGE_MAP.get(this.getStructure());
+        final Decoration stage0 = Structure.STEP.get(this.getStructure());
 
         final ServerWorld world = JigsawAssmbler.getForGen(generator);
-        final StructureManager manager = world.func_241112_a_();
-        final DimensionStructuresSettings settings = generator.func_235957_b_();
+        final StructureManager manager = world.structureFeatureManager();
+        final DimensionStructuresSettings settings = generator.getSettings();
         for (final Structure<?> s : WorldgenHandler.getSortedList())
         {
             if (s == this.getStructure()) break;
-            if (!biomes.hasStructure(s)) continue;
+            if (!biomes.canGenerateStructure(s)) continue;
             final int ds1 = WorldgenHandler.getNeededSpace(s);
             final int ds = Math.max(ds0, ds1);
 
-            final StructureSeparationSettings structureseparationsettings = settings.func_236197_a_(s);
+            final StructureSeparationSettings structureseparationsettings = settings.getConfig(s);
             // This means it doesn't spawn in this world, so we skip.
             if (structureseparationsettings == null) continue;
 
-            final Decoration stage1 = Structure.STRUCTURE_DECORATION_STAGE_MAP.get(s);
+            final Decoration stage1 = Structure.STEP.get(s);
             // Only care about things that are of same stage!
             if (stage1 != stage0) continue;
 
@@ -117,10 +117,10 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                     final IChunk ichunk = world.getChunk(i, j, ChunkStatus.EMPTY, false);
                     // We then only care about chunks which have already reached
                     // at least this stage of loading.
-                    if (ichunk == null || !ichunk.getStatus().isAtLeast(ChunkStatus.STRUCTURE_STARTS)) continue;
+                    if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
                     // This is the way to tell if an actual real structure would
                     // be at this location.
-                    final StructureStart<?> structurestart = manager.getStructureStart(SectionPos.from(ichunk.getPos(),
+                    final StructureStart<?> structurestart = manager.getStartForFeature(SectionPos.of(ichunk.getPos(),
                             0), s, ichunk);
                     // This means we do conflict, so no spawn here.
                     if (structurestart != null && structurestart.isValid()) return false;
@@ -129,17 +129,17 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
 
         // Super just returns true, but we will call it anyway incase it is
         // needed/mixined/etc
-        return super.func_230363_a_(generator, biomes, seed, rand, x, z, biome, pos, config);
+        return super.isFeatureChunk(generator, biomes, seed, rand, x, z, biome, pos, config);
     }
 
     private static int getMinY(final int chunkX, final int chunkZ, final ChunkGenerator generatorIn)
     {
         final int k = (chunkX << 4) + 7;
         final int l = (chunkZ << 4) + 7;
-        final int i1 = generatorIn.getNoiseHeightMinusOne(k + 5, l + 5, Heightmap.Type.WORLD_SURFACE_WG);
-        final int j1 = generatorIn.getNoiseHeightMinusOne(k + 5, l - 5, Heightmap.Type.WORLD_SURFACE_WG);
-        final int k1 = generatorIn.getNoiseHeightMinusOne(k - 5, l + 5, Heightmap.Type.WORLD_SURFACE_WG);
-        final int l1 = generatorIn.getNoiseHeightMinusOne(k - 5, l - 5, Heightmap.Type.WORLD_SURFACE_WG);
+        final int i1 = generatorIn.getFirstOccupiedHeight(k + 5, l + 5, Heightmap.Type.WORLD_SURFACE_WG);
+        final int j1 = generatorIn.getFirstOccupiedHeight(k + 5, l - 5, Heightmap.Type.WORLD_SURFACE_WG);
+        final int k1 = generatorIn.getFirstOccupiedHeight(k - 5, l + 5, Heightmap.Type.WORLD_SURFACE_WG);
+        final int l1 = generatorIn.getFirstOccupiedHeight(k - 5, l - 5, Heightmap.Type.WORLD_SURFACE_WG);
         return Math.min(Math.min(i1, j1), Math.min(k1, l1));
     }
 
@@ -156,7 +156,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
         }
 
         @Override
-        public void func_230364_a_(final DynamicRegistries dynamicRegistryManager, final ChunkGenerator chunkGenerator,
+        public void generatePieces(final DynamicRegistries dynamicRegistryManager, final ChunkGenerator chunkGenerator,
                 final TemplateManager templateManagerIn, final int chunkX, final int chunkZ, final Biome biomeIn,
                 final JigsawConfig config)
         {
@@ -167,57 +167,66 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             final BlockPos blockpos = new BlockPos(x, 0, z);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Trying to place {}", config.struct_config.name);
 
-            final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
-            boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
-                    config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn, blockpos,
-                    this.components, this.rand, biomeIn, c -> true);
-
-            int n = 0;
-            while (!built && n++ < 20)
+            try
             {
-                this.components.clear();
-                final Random newRand = new Random(this.rand.nextLong());
-                built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
+                final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
+                boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
                         config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
-                        blockpos, this.components, newRand, biomeIn, c -> true);
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.components.size());
+                        blockpos, this.pieces, this.random, biomeIn, c -> true);
+
+                int n = 0;
+                while (!built && n++ < 20)
+                {
+                    this.pieces.clear();
+                    final Random newRand = new Random(this.random.nextLong());
+                    built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
+                            config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
+                            blockpos, this.pieces, newRand, biomeIn, c -> true);
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.pieces.size());
+                }
+                if (!built)
+                {
+                    PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.pieces,
+                            config.struct_config.name, blockpos);
+                    return;
+                }
             }
-            if (!built)
+            catch (final Exception e)
             {
-                PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.components,
-                        config.struct_config.name, blockpos);
+                PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.pieces, config.struct_config.name,
+                        blockpos, e);
                 return;
             }
 
             // Check if any components are valid spawn spots, if so, set the
             // spawned flag
 
-            for (final StructurePiece part : this.components)
+            for (final StructurePiece part : this.pieces)
                 if (part instanceof AbstractVillagePiece)
                 {
                     final AbstractVillagePiece p = (AbstractVillagePiece) part;
-                    if (p.getJigsawPiece() instanceof CustomJigsawPiece)
+                    if (p.getElement() instanceof CustomJigsawPiece)
                     {
-                        final CustomJigsawPiece piece = (CustomJigsawPiece) p.getJigsawPiece();
+                        final CustomJigsawPiece piece = (CustomJigsawPiece) p.getElement();
                         final int dy = piece.opts.dy;
                         // Check if the part needs a shift.
-                        p.offset(0, -dy, 0);
-                        p.getBoundingBox().offset(0, dy, 0);
+                        p.move(0, -dy, 0);
+                        p.getBoundingBox().move(0, dy, 0);
 
                         // Check if we should place a professor.
                         if (!PokecubeSerializer.getInstance().hasPlacedSpawn() && PokecubeCore
                                 .getConfig().doSpawnBuilding)
                         {
                             final Template t = piece.getTemplate(templateManagerIn);
-                            if (piece.toUse == null) piece.func_230379_a_(part.getRotation(), part.getBoundingBox(),
+                            if (piece.toUse == null) piece.getSettings(part.getRotation(), part.getBoundingBox(),
                                     false);
                             components:
-                            for (final Palette list : t.blocks)
+                            for (final Palette list : t.palettes)
                             {
                                 boolean foundWorldspawn = false;
                                 String tradeString = "";
                                 BlockPos pos = null;
-                                for (final BlockInfo i : list.func_237157_a_())
+                                for (final BlockInfo i : list.blocks())
                                     if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
                                     {
                                         final StructureMode structuremode = StructureMode.valueOf(i.nbt.getString(
@@ -233,12 +242,12 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                                 if (!tradeString.isEmpty() && foundWorldspawn)
                                 {
                                     final ServerWorld sworld = JigsawAssmbler.getForGen(chunkGenerator);
-                                    final BlockPos spos = Template.transformedBlockPos(piece.toUse, pos).add(blockpos)
-                                            .add(0, part.getBoundingBox().minY, 0);
+                                    final BlockPos spos = Template.calculateRelativePosition(piece.toUse, pos).offset(
+                                            blockpos).offset(0, part.getBoundingBox().y0, 0);
                                     PokecubeCore.LOGGER.info("Setting spawn to {} {}", spos, pos);
                                     sworld.getServer().execute(() ->
                                     {
-                                        sworld.func_241124_a__(spos, 0);
+                                        sworld.setDefaultSpawnPos(spos, 0);
                                     });
                                     PokecubeSerializer.getInstance().setPlacedSpawn();
                                     piece.isSpawn = true;
@@ -251,13 +260,13 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                     }
                 }
             // Sets the bounds of the structure once you are finished.
-            this.recalculateStructureSize();
+            this.calculateBoundingBox();
 
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos.getX() + " "
-                    + this.getBoundingBox().func_215126_f().getY() + " " + blockpos.getZ() + " of size "
-                    + this.components.size() + " " + this.getBoundingBox().getLength());
+                    + this.getBoundingBox().getCenter().getY() + " " + blockpos.getZ() + " of size " + this.pieces
+                            .size() + " " + this.getBoundingBox().getLength());
         }
 
     }

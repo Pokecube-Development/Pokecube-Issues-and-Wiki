@@ -39,11 +39,11 @@ public class PackFinder implements IPackFinder
         File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
         folder.mkdirs();
         PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
-        this.folderFinder_old = new FolderPackFinder(folder, IPackNameDecorator.PLAIN);
+        this.folderFinder_old = new FolderPackFinder(folder, IPackNameDecorator.DEFAULT);
         folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
         folder.mkdirs();
         PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
-        this.folderFinder_new = new FolderPackFinder(folder, IPackNameDecorator.PLAIN);
+        this.folderFinder_new = new FolderPackFinder(folder, IPackNameDecorator.DEFAULT);
         this.init(packInfoFactoryIn);
     }
 
@@ -63,7 +63,7 @@ public class PackFinder implements IPackFinder
         final Map<String, ResourcePackInfo> map = Maps.newHashMap();
         try
         {
-            this.folderFinder_old.findPacks(a -> map.put(a.getName(), a), packInfoFactoryIn);
+            this.folderFinder_old.loadPacks(a -> map.put(a.getId(), a), packInfoFactoryIn);
         }
         catch (final Exception e)
         {
@@ -71,7 +71,7 @@ public class PackFinder implements IPackFinder
         }
         try
         {
-            this.folderFinder_new.findPacks(a -> map.put(a.getName(), a), packInfoFactoryIn);
+            this.folderFinder_new.loadPacks(a -> map.put(a.getId(), a), packInfoFactoryIn);
         }
         catch (final Exception e)
         {
@@ -80,7 +80,7 @@ public class PackFinder implements IPackFinder
 
         for (final ResourcePackInfo info : map.values())
         {
-            final IResourcePack pack = info.getResourcePack();
+            final IResourcePack pack = info.open();
             if (pack != null)
             {
                 this.allPacks.add(pack);
@@ -91,7 +91,7 @@ public class PackFinder implements IPackFinder
     }
 
     @Override
-    public void findPacks(final Consumer<ResourcePackInfo> infoConsumer, final IFactory infoFactory)
+    public void loadPacks(final Consumer<ResourcePackInfo> infoConsumer, final IFactory infoFactory)
     {
         throw new RuntimeException("Opps we, don't do this yet!");
     }

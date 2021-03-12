@@ -130,15 +130,15 @@ public class EventsHandler
         public ChooseFirst(final PlayerEntity player)
         {
             this.player = player;
-            this.start = player.getEntityWorld().getGameTime();
-            if (!SpawnHandler.canSpawnInWorld(player.getEntityWorld(), false)) return;
+            this.start = player.getCommandSenderWorld().getGameTime();
+            if (!SpawnHandler.canSpawnInWorld(player.getCommandSenderWorld(), false)) return;
             MinecraftForge.EVENT_BUS.register(this);
         }
 
         @SubscribeEvent
         public void onPlayerJoin(final TickEvent.PlayerTickEvent event)
         {
-            if (event.player.getEntityWorld().getGameTime() - this.start < 20) return;
+            if (event.player.getCommandSenderWorld().getGameTime() - this.start < 20) return;
             if (event.player == this.player)
             {
                 PacketChoose packet;
@@ -168,7 +168,7 @@ public class EventsHandler
         @Override
         public void onTickEnd(final ServerWorld world)
         {
-            final RegistryKey<World> dim = world.getDimensionKey();
+            final RegistryKey<World> dim = world.dimension();
             final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
             synchronized (tasks)
             {
@@ -258,7 +258,7 @@ public class EventsHandler
             swrld.getServer().execute(() -> task.run(swrld));
             return;
         }
-        final RegistryKey<World> dim = world.getDimensionKey();
+        final RegistryKey<World> dim = world.dimension();
         final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Lists.newArrayList());
         synchronized (tasks)
         {
@@ -379,7 +379,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getEntityWorld().getGameTime())
+        if (time == player.getCommandSenderWorld().getGameTime())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -390,8 +390,8 @@ public class EventsHandler
             MinecraftForge.EVENT_BUS.post(event);
             if (event.getResult() == Result.ALLOW)
             {
-                player.getPersistentData().putLong("__poke_int_c_", player.getEntityWorld().getGameTime());
-                player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
+                player.getPersistentData().putLong("__poke_int_c_", player.getCommandSenderWorld().getGameTime());
+                player.getPersistentData().putLong(ID, player.getCommandSenderWorld().getGameTime());
             }
         }
     }
@@ -402,7 +402,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getEntityWorld().getGameTime())
+        if (time == player.getCommandSenderWorld().getGameTime())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -413,8 +413,8 @@ public class EventsHandler
             MinecraftForge.EVENT_BUS.post(event);
             if (event.isCanceled())
             {
-                player.getPersistentData().putLong("__poke_int_c_", player.getEntityWorld().getGameTime());
-                player.getPersistentData().putLong(ID, player.getEntityWorld().getGameTime());
+                player.getPersistentData().putLong("__poke_int_c_", player.getCommandSenderWorld().getGameTime());
+                player.getPersistentData().putLong(ID, player.getCommandSenderWorld().getGameTime());
             }
         }
     }
@@ -425,7 +425,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getEntityWorld().getGameTime())
+        if (time == player.getCommandSenderWorld().getGameTime())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -438,7 +438,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getEntityWorld().getGameTime())
+        if (time == player.getCommandSenderWorld().getGameTime())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -447,7 +447,7 @@ public class EventsHandler
 
     private static void onBreakSpeedCheck(final PlayerEvent.BreakSpeed evt)
     {
-        final Entity ridden = evt.getEntity().getRidingEntity();
+        final Entity ridden = evt.getEntity().getVehicle();
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(ridden);
         if (pokemob != null)
         {
@@ -528,7 +528,7 @@ public class EventsHandler
 
     private static void onWorldCaps(final AttachCapabilitiesEvent<World> event)
     {
-        if (event.getObject() instanceof ServerWorld && World.OVERWORLD.equals(event.getObject().getDimensionKey()))
+        if (event.getObject() instanceof ServerWorld && World.OVERWORLD.equals(event.getObject().dimension()))
             PokecubeSerializer.newInstance((ServerWorld) event.getObject());
     }
 
@@ -583,10 +583,10 @@ public class EventsHandler
     private static void onPlayerWakeUp(final PlayerWakeUpEvent evt)
     {
         if (!PokecubeCore.getConfig().bedsHeal) return;
-        for (int i = 0; i < evt.getPlayer().inventory.getSizeInventory(); i++)
+        for (int i = 0; i < evt.getPlayer().inventory.getContainerSize(); i++)
         {
-            final ItemStack stack = evt.getPlayer().inventory.getStackInSlot(i);
-            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getEntityWorld());
+            final ItemStack stack = evt.getPlayer().inventory.getItem(i);
+            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getCommandSenderWorld());
         }
     }
 
@@ -595,10 +595,10 @@ public class EventsHandler
         final IPokemob poke = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (poke != null) poke.onTick();
 
-        if (evt.getEntity().getEntityWorld().isRemote || !evt.getEntity().isAlive()) return;
+        if (evt.getEntity().getCommandSenderWorld().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
-        if (evt.getEntity().ticksExisted % tick == 0)
+        if (evt.getEntity().tickCount % tick == 0)
         {
             final IOngoingAffected affected = CapabilityAffected.getAffected(evt.getEntity());
             if (affected != null) affected.tick();
@@ -608,7 +608,7 @@ public class EventsHandler
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)
     {
         final PlayerEntity player = evt.getPlayer();
-        if (!player.isServerWorld()) return;
+        if (!player.isEffectiveAi()) return;
         EventsHandler.sendInitInfo((ServerPlayerEntity) player);
     }
 
@@ -620,7 +620,7 @@ public class EventsHandler
         {
             final EntityPokecube pokecube = (EntityPokecube) event.getTarget();
             if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity())) PacketPokecube.sendMessage(
-                    (PlayerEntity) event.getEntity(), pokecube.getEntityId(), pokecube.world.getGameTime()
+                    (PlayerEntity) event.getEntity(), pokecube.getId(), pokecube.level.getGameTime()
                             + pokecube.resetTime);
         }
         if (event.getTarget() instanceof ServerPlayerEntity && event.getEntity() instanceof ServerPlayerEntity)
@@ -628,7 +628,7 @@ public class EventsHandler
             final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData((PlayerEntity) event
                     .getTarget());
             final PlayerData data = manager.getData("pokecube-stats");
-            PacketDataSync.syncData(data, event.getTarget().getUniqueID(), (ServerPlayerEntity) event.getEntity(),
+            PacketDataSync.syncData(data, event.getTarget().getUUID(), (ServerPlayerEntity) event.getEntity(),
                     false);
         }
     }
@@ -663,9 +663,9 @@ public class EventsHandler
     private static void onChangeDimension(final EntityTravelToDimensionEvent evt)
     {
         final Entity entity = evt.getEntity();
-        if (entity.getEntityWorld().isRemote) return;
+        if (entity.getCommandSenderWorld().isClientSide) return;
         // Recall the pokemobs if the player changes dimension.
-        final List<Entity> pokemobs = new ArrayList<>(((ServerWorld) entity.getEntityWorld()).getEntities(null,
+        final List<Entity> pokemobs = new ArrayList<>(((ServerWorld) entity.getCommandSenderWorld()).getEntities(null,
                 e -> EventsHandler.validFollowing(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
@@ -675,21 +675,21 @@ public class EventsHandler
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayerEntity)
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) event.player;
-            final IPokemob ridden = CapabilityPokemob.getPokemobFor(player.getRidingEntity());
+            final IPokemob ridden = CapabilityPokemob.getPokemobFor(player.getVehicle());
             if (ridden != null && ridden.canUseFly())
             {
-                player.connection.floatingTickCount = 0;
-                player.connection.vehicleFloatingTickCount = 0;
+                player.connection.aboveGroundTickCount = 0;
+                player.connection.aboveGroundVehicleTickCount = 0;
             }
         }
     }
 
     private static void onWorldSave(final WorldEvent.Save evt)
     {
-        if (evt.getWorld().isRemote()) return;
+        if (evt.getWorld().isClientSide()) return;
         if (!(evt.getWorld() instanceof ServerWorld)) return;
         // Save the pokecube data whenever the overworld saves.
-        if (((World) evt.getWorld()).getDimensionKey().equals(World.OVERWORLD))
+        if (((World) evt.getWorld()).dimension().equals(World.OVERWORLD))
         {
             final long time = System.nanoTime();
             PokecubeSerializer.getInstance().save();
@@ -715,12 +715,12 @@ public class EventsHandler
         PacketPokedex.sendLoginPacket(player);
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
         else if (!PokecubeSerializer.getInstance().hasStarter(player)) player.sendMessage(new TranslationTextComponent(
-                "pokecube.login.find_prof_or_config"), Util.DUMMY_UUID);
+                "pokecube.login.find_prof_or_config"), Util.NIL_UUID);
     }
 
     public static void recallAllPokemobs(final LivingEntity user)
     {
-        if (!user.isServerWorld()) return;
+        if (!user.isEffectiveAi()) return;
         final List<Entity> pokemobs = PokemobTracker.getMobs(user, e -> EventsHandler.validRecall(user, e, null,
                 false));
         PCEventsHandler.recallAll(pokemobs, true);
@@ -756,7 +756,7 @@ public class EventsHandler
                 if (!cube.getItem().isEmpty())
                 {
                     final String name = PokecubeManager.getOwner(cube.getItem());
-                    if (name != null && name.equals(owner.getCachedUniqueIdString())) return true;
+                    if (name != null && name.equals(owner.getStringUUID())) return true;
                 }
             }
             return false;
@@ -789,7 +789,7 @@ public class EventsHandler
             if (!mob.getItem().isEmpty())
             {
                 final String name = PokecubeManager.getOwner(mob.getItem());
-                if (name != null && name.equals(player.getCachedUniqueIdString())) return true;
+                if (name != null && name.equals(player.getStringUUID())) return true;
             }
         }
         return false;

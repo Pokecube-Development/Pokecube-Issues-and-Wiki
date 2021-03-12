@@ -24,15 +24,15 @@ public class PCWrapper implements ICapabilityProvider, IInventory
     }
 
     @Override
-    public int getSizeInventory()
+    public int getContainerSize()
     {
         return this.tile.inventory.boxCount() * 54;
     }
 
     @Override
-    public void clear()
+    public void clearContent()
     {
-        this.tile.inventory.clear();
+        this.tile.inventory.clearContent();
     }
 
     @Override
@@ -42,45 +42,45 @@ public class PCWrapper implements ICapabilityProvider, IInventory
     }
 
     @Override
-    public ItemStack getStackInSlot(final int index)
+    public ItemStack getItem(final int index)
     {
-        return this.tile.inventory.getStackInSlot(index);
+        return this.tile.inventory.getItem(index);
     }
 
     @Override
-    public ItemStack decrStackSize(final int index, final int count)
+    public ItemStack removeItem(final int index, final int count)
     {
-        return this.tile.inventory.decrStackSize(index, count);
+        return this.tile.inventory.removeItem(index, count);
     }
 
     @Override
-    public ItemStack removeStackFromSlot(final int index)
+    public ItemStack removeItemNoUpdate(final int index)
     {
-        return this.tile.inventory.removeStackFromSlot(index);
+        return this.tile.inventory.removeItemNoUpdate(index);
     }
 
     @Override
-    public void setInventorySlotContents(final int index, final ItemStack stack)
+    public void setItem(final int index, final ItemStack stack)
     {
-        this.tile.inventory.setInventorySlotContents(index, stack);
+        this.tile.inventory.setItem(index, stack);
     }
 
     @Override
-    public void markDirty()
+    public void setChanged()
     {
-        this.tile.inventory.markDirty();
+        this.tile.inventory.setChanged();
     }
 
     @Override
-    public boolean isUsableByPlayer(final PlayerEntity player)
+    public boolean stillValid(final PlayerEntity player)
     {
-        return this.tile.isBound() ? player.getUniqueID().equals(this.tile.boundId) : true;
+        return this.tile.isBound() ? player.getUUID().equals(this.tile.boundId) : true;
     }
 
     @Override
-    public boolean isItemValidForSlot(final int index, final ItemStack stack)
+    public boolean canPlaceItem(final int index, final ItemStack stack)
     {
-        return this.tile.inventory.isItemValidForSlot(index, stack);
+        return this.tile.inventory.canPlaceItem(index, stack);
     }
 
     @Override

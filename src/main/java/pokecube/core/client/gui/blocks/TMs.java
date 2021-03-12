@@ -49,20 +49,20 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(final MatrixStack matrixStack, final int x, final int y)
+    protected void renderLabels(final MatrixStack matrixStack, final int x, final int y)
     {
         // NOOP, this would draw name and title.
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX,
+    protected void renderBg(final MatrixStack mat, final float partialTicks, final int mouseX,
             final int mouseY)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(TMs.TEXTURE);
-        final int j2 = (this.width - this.xSize) / 2;
-        final int k2 = (this.height - this.ySize) / 2;
-        this.blit(mat, j2, k2, 0, 0, this.xSize, this.ySize);
+        this.minecraft.getTextureManager().bind(TMs.TEXTURE);
+        final int j2 = (this.width - this.imageWidth) / 2;
+        final int k2 = (this.height - this.imageHeight) / 2;
+        this.blit(mat, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
@@ -79,14 +79,14 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
         final ITextComponent next = new TranslationTextComponent(">");
         this.addButton(new Button(this.width / 2 + 68, this.height / 2 - 50, 10, 10, next, b ->
         {
-            final String[] moves = this.container.moves;
+            final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
         }));
         final ITextComponent prev = new TranslationTextComponent("<");
         this.addButton(new Button(this.width / 2 - 30, this.height / 2 - 50, 10, 10, prev, b ->
         {
-            final String[] moves = this.container.moves;
+            final String[] moves = this.menu.moves;
             this.index--;
             if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
             else if (this.index < 0) this.index = 0;
@@ -101,7 +101,7 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
     {
         this.renderBackground(mat);
         super.render(mat, mouseX, mouseY, partialTicks);
-        final String[] moves = this.container.moves;
+        final String[] moves = this.menu.moves;
         final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
         final Move_Base move = MovesUtils.getMoveFromName(s);
         if (move != null)
@@ -112,7 +112,7 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
                     move.getType(null).colour);
             AbstractGui.drawString(mat, this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
         }
-        this.renderHoveredTooltip(mat, mouseX, mouseY);
+        this.renderTooltip(mat, mouseX, mouseY);
     }
 
 }

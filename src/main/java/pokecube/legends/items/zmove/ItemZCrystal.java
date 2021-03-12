@@ -19,7 +19,7 @@ public class ItemZCrystal extends Item
 
     public ItemZCrystal(final PokeType type)
     {
-        super(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
+        super(new Item.Properties().tab(PokecubeItems.POKECUBEITEMS));
         final String name = type.name.equals("???") ? "unknown" : type.name;
         this.setRegistryName(Reference.ID, "z_" + name.toLowerCase(Locale.ROOT));
         this.type = type;

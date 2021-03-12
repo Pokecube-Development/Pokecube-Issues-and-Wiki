@@ -67,8 +67,8 @@ public class StatsHandler
         {
             evt.setCanceled(true);
             if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
-                    "pokecube.denied"), Util.DUMMY_UUID);
-            evt.pokecube.entityDropItem(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
+                    "pokecube.denied"), Util.NIL_UUID);
+            evt.pokecube.spawnAtLocation(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
             evt.pokecube.remove();
             return;
         }
@@ -88,8 +88,8 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
-                        "pokecube.denied"), Util.DUMMY_UUID);
-                evt.pokecube.entityDropItem(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
+                        "pokecube.denied"), Util.NIL_UUID);
+                evt.pokecube.spawnAtLocation(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
                 evt.pokecube.remove();
                 return;
             }
@@ -112,9 +112,9 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
-                        "pokecube.denied"), Util.DUMMY_UUID);
+                        "pokecube.denied"), Util.NIL_UUID);
                 condition.onCaptureFail(catcher, evt.caught);
-                evt.pokecube.entityDropItem(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
+                evt.pokecube.spawnAtLocation(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
                 evt.pokecube.remove();
                 return;
             }

@@ -53,13 +53,13 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     }
 
     @Override
-    public ITextComponent getDeathMessage(final LivingEntity par1PlayerEntity)
+    public ITextComponent getLocalizedDeathMessage(final LivingEntity par1PlayerEntity)
     {
-        final ItemStack localObject = this.damageSourceEntity != null ? this.damageSourceEntity.getHeldItemMainhand()
+        final ItemStack localObject = this.damageSourceEntity != null ? this.damageSourceEntity.getMainHandItem()
                 : ItemStack.EMPTY;
-        if (!localObject.isEmpty() && localObject.hasDisplayName()) return new TranslationTextComponent("death.attack."
-                + this.damageType, new Object[] { par1PlayerEntity.getDisplayName(), this.damageSourceEntity
-                        .getDisplayName(), localObject.getTextComponent() });
+        if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return new TranslationTextComponent("death.attack."
+                + this.msgId, new Object[] { par1PlayerEntity.getDisplayName(), this.damageSourceEntity
+                        .getDisplayName(), localObject.getDisplayName() });
         final IPokemob sourceMob = CapabilityPokemob.getPokemobFor(this.damageSourceEntity);
         if (sourceMob != null && sourceMob.getOwner() != null)
         {
@@ -74,7 +74,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
                     par1PlayerEntity.getDisplayName(), this.damageSourceEntity.getDisplayName());
             return message;
         }
-        return new TranslationTextComponent("death.attack." + this.damageType, new Object[] { par1PlayerEntity
+        return new TranslationTextComponent("death.attack." + this.msgId, new Object[] { par1PlayerEntity
                 .getDisplayName(), this.damageSourceEntity.getDisplayName() });
     }
 
@@ -85,13 +85,13 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
 
     @Nullable
     @Override
-    public Entity getImmediateSource()
+    public Entity getDirectEntity()
     {
         return this.damageSourceEntity;
     }
 
     @Override
-    public Entity getTrueSource()
+    public Entity getEntity()
     {
         final IPokemob sourceMob = CapabilityPokemob.getPokemobFor(this.damageSourceEntity);
         if (sourceMob != null && sourceMob.getOwner() != null) return sourceMob.getOwner();

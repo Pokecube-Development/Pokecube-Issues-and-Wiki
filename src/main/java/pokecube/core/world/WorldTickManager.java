@@ -136,10 +136,10 @@ public class WorldTickManager
 
     public static void onWorldLoad(final WorldEvent.Load event)
     {
-        if (event.getWorld().isRemote()) return;
+        if (event.getWorld().isClientSide()) return;
         if (!(event.getWorld() instanceof ServerWorld)) return;
         final ServerWorld world = (ServerWorld) event.getWorld();
-        final RegistryKey<World> key = world.getDimensionKey();
+        final RegistryKey<World> key = world.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.get(key).detach();
         final WorldData data = new WorldData(world);
         WorldTickManager.dataMap.put(key, data);
@@ -152,10 +152,10 @@ public class WorldTickManager
 
     public static void onWorldUnload(final WorldEvent.Unload event)
     {
-        if (event.getWorld().isRemote()) return;
+        if (event.getWorld().isClientSide()) return;
         if (!(event.getWorld() instanceof ServerWorld)) return;
         final ServerWorld world = (ServerWorld) event.getWorld();
-        final RegistryKey<World> key = world.getDimensionKey();
+        final RegistryKey<World> key = world.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.remove(key).detach();
         WorldTickManager.pathHelpers.remove(key);
     }
@@ -164,7 +164,7 @@ public class WorldTickManager
     {
         if (event.world instanceof ServerWorld)
         {
-            final RegistryKey<World> key = event.world.getDimensionKey();
+            final RegistryKey<World> key = event.world.dimension();
             final WorldData data = WorldTickManager.dataMap.get(key);
             if (data == null)
             {

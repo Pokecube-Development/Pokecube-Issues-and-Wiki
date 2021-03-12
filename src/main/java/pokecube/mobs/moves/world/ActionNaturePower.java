@@ -56,7 +56,7 @@ public class ActionNaturePower implements IMoveAction
             final Predicate<BlockPos> predicate = t ->
             {
                 final BlockState stateHere = world.getBlockState(t);
-                final BlockState stateUp = world.getBlockState(t.up());
+                final BlockState stateUp = world.getBlockState(t.above());
                 final Block blockHere = stateHere.getBlock();
                 final Block blockUp = stateUp.getBlock();
                 final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
@@ -66,7 +66,7 @@ public class ActionNaturePower implements IMoveAction
                 // Only valid surface blocks are sand
                 final boolean validHere = blockHere == Blocks.SAND;
                 // Only counts as desert if air or cactus on top
-                final boolean validUp = blockUp.isAir(stateUp, world, t.up()) || blockUp instanceof CactusBlock;
+                final boolean validUp = blockUp.isAir(stateUp, world, t.above()) || blockUp instanceof CactusBlock;
                 return validHere && validUp;
             };
             // Used on a sand block, will only apply and return true if there is
@@ -76,7 +76,7 @@ public class ActionNaturePower implements IMoveAction
             // Has to be used on sand
             if (state.getBlock() == Blocks.SAND)
             {
-                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.down()), predicate);
+                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.below()), predicate);
                 checker.checkPoints();
                 // Check if any cactus is found, will only allow this change if
                 // at least 1 is found.
@@ -110,7 +110,7 @@ public class ActionNaturePower implements IMoveAction
             final Predicate<BlockPos> predicate = t ->
             {
                 final BlockState stateHere = world.getBlockState(t);
-                final BlockState stateUp = world.getBlockState(t.up());
+                final BlockState stateUp = world.getBlockState(t.above());
                 final Block blockHere = stateHere.getBlock();
                 final Block blockUp = stateUp.getBlock();
 
@@ -121,19 +121,19 @@ public class ActionNaturePower implements IMoveAction
                 // If it is dirt, it must be under a tree,
                 // otherwise it can be under air or a plant.
                 final boolean validUp = blockHere == Blocks.DIRT ? PokecubeTerrainChecker.isWood(stateUp)
-                        : blockUp.isAir(stateUp, world, t.up()) || PokecubeTerrainChecker.isCutablePlant(stateUp);
+                        : blockUp.isAir(stateUp, world, t.above()) || PokecubeTerrainChecker.isCutablePlant(stateUp);
                 return validHere && validUp;
             };
             // Used on a tree, spreads outwards from tree along dirt and
             // grass
             // blocks, and converts the area to forest.
             final BlockState state = world.getBlockState(pos);
-            final BlockState below = world.getBlockState(pos.down());
+            final BlockState below = world.getBlockState(pos.below());
 
             // Has to be wood on dirt, ie at least originally a tree.
             if (below.getBlock() == Blocks.DIRT && PokecubeTerrainChecker.isWood(state))
             {
-                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.down()), predicate);
+                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.below()), predicate);
                 checker.checkPoints();
                 return ActionNaturePower.applyChecker(checker, world, ForestChanger.FOREST);
             }
@@ -153,7 +153,7 @@ public class ActionNaturePower implements IMoveAction
         public boolean apply(final BlockPos pos, final ServerWorld world)
         {// TODO biome changers
          // Ensure that this is actually a "high" spot.
-            if (pos.getY() < world.getHeight() / 2) return false;
+            if (pos.getY() < world.getMaxBuildHeight() / 2) return false;
 
             // This is the predicate we will use for checking whether
             // is a valid spot.
@@ -256,7 +256,7 @@ public class ActionNaturePower implements IMoveAction
             final Predicate<BlockPos> predicate = t ->
             {
                 final BlockState stateHere = world.getBlockState(t);
-                final BlockState stateUp = world.getBlockState(t.up());
+                final BlockState stateUp = world.getBlockState(t.above());
                 final Block blockHere = stateHere.getBlock();
 
                 final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
@@ -396,7 +396,7 @@ public class ActionNaturePower implements IMoveAction
                 {
                     vec.addTo(i, 0, j);
                     final Biome here = vec.getBiome(world);
-                    final Biome natural = world.getChunkProvider().getChunkGenerator().getBiomeProvider().getNoiseBiome(
+                    final Biome natural = world.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(
                             vec.intX(), vec.intY(), vec.intZ());
                     if (natural != here)
                     {
@@ -406,7 +406,7 @@ public class ActionNaturePower implements IMoveAction
                     }
                 }
             final ServerWorld sWorld = world;
-            sWorld.getChunkProvider().markBlockChanged(pos);
+            sWorld.getChunkSource().blockChanged(pos);
             return mod;
         }
 
@@ -443,7 +443,7 @@ public class ActionNaturePower implements IMoveAction
                 loc.setBiome(biome, world);
                 affected.add(world.getChunk(loc.getPos()));
                 // sWorld.getPlayerChunkMap().markBlockForUpdate(loc.getPos());
-                sWorld.getChunkProvider().markBlockChanged(loc.getPos());
+                sWorld.getChunkSource().blockChanged(loc.getPos());
                 minY = Math.min(minY, loc.intY() / 16);
                 maxY = Math.max(maxY, loc.intY() / 16);
             }
@@ -458,9 +458,9 @@ public class ActionNaturePower implements IMoveAction
             @Nullable final EntityType<?> p_208498_1_, final int p_208498_2_, final int p_208498_3_)
     {
         final BlockPos blockpos = new BlockPos(p_208498_2_, p_208498_0_.getHeight(EntitySpawnPlacementRegistry
-                .func_209342_b(p_208498_1_), p_208498_2_, p_208498_3_), p_208498_3_);
-        final BlockPos blockpos1 = blockpos.down();
-        return p_208498_0_.getBlockState(blockpos1).allowsMovement(p_208498_0_, blockpos1, PathType.LAND) ? blockpos1
+                .getHeightmapType(p_208498_1_), p_208498_2_, p_208498_3_), p_208498_3_);
+        final BlockPos blockpos1 = blockpos.below();
+        return p_208498_0_.getBlockState(blockpos1).isPathfindable(p_208498_0_, blockpos1, PathType.LAND) ? blockpos1
                 : blockpos;
     }
 
@@ -482,7 +482,7 @@ public class ActionNaturePower implements IMoveAction
         if (!(attacker.getOwner() instanceof ServerPlayerEntity)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
-        if (time + 20 * 3 > attacker.getEntity().getEntityWorld().getGameTime()) return false;
+        if (time + 20 * 3 > attacker.getEntity().getCommandSenderWorld().getGameTime()) return false;
 //        final BlockPos pos = location.getPos();
 //        final ServerWorld world = (ServerWorld) attacker.getEntity().getEntityWorld();
         if(this.changers.isEmpty()) this.init();

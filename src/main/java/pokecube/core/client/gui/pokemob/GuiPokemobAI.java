@@ -92,11 +92,11 @@ public class GuiPokemobAI extends GuiPokemobBase
         int xOffset = this.width / 2 - 10;
         int yOffset = this.height / 2 - 77;
         this.addButton(new Button(xOffset + 60, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.inventory"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getEntityId())));
+                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
         this.addButton(new Button(xOffset + 30, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.storage"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getEntityId())));
+                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getId())));
         this.addButton(new Button(xOffset + 00, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.routes"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getEntityId())));
+                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getId())));
         yOffset += 9;
         xOffset += 2;
         this.list = new ScrollGui<>(this, this.minecraft, 90, 50, 10, xOffset, yOffset);
@@ -127,6 +127,6 @@ public class GuiPokemobAI extends GuiPokemobBase
         for (int i = 3; i < this.buttons.size(); i++)
             this.buttons.get(i).visible = false;
         this.list.render(mat, x, y, f);
-        this.renderHoveredTooltip(mat, x, y);
+        this.renderTooltip(mat, x, y);
     }
 }

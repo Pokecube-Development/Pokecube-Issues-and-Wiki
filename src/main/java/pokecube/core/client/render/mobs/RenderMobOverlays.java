@@ -26,7 +26,7 @@ public class RenderMobOverlays
     {
         if (!RenderMobOverlays.enabled) return;
         final Minecraft mc = Minecraft.getInstance();
-        final Entity cameraEntity = mc.getRenderViewEntity();
+        final Entity cameraEntity = mc.getCameraEntity();
         final float partialTicks = event.getPartialRenderTick();
         if (cameraEntity == null || !event.getEntity().isAlive()) return;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
@@ -40,12 +40,12 @@ public class RenderMobOverlays
             if (PokecubeCore.getConfig().doHealthBars)
             {
                 int br = event.getLight();
-                if (PokecubeCore.getConfig().brightbars) br = OverlayTexture.getPackedUV(15, false);
-                if (PokecubeCore.getConfig().renderInF1 || Minecraft.isGuiEnabled()) Health.renderHealthBar(event
+                if (PokecubeCore.getConfig().brightbars) br = OverlayTexture.pack(15, false);
+                if (PokecubeCore.getConfig().renderInF1 || Minecraft.renderNames()) Health.renderHealthBar(event
                         .getEntity(), mat, buf, partialTicks, cameraEntity, br);
             }
 
-            if (pokemob != null) if (event.getRenderer().getEntityModel() instanceof ModelWrapper<?>) Status.render(
+            if (pokemob != null) if (event.getRenderer().getModel() instanceof ModelWrapper<?>) Status.render(
                     event.getRenderer(), mat, buf, pokemob, partialTicks, event.getLight());
         }
     }

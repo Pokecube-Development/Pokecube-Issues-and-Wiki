@@ -26,13 +26,13 @@ public class RecipeRevive extends SpecialRecipe
     }
 
     @Override
-    public boolean canFit(final int width, final int height)
+    public boolean canCraftInDimensions(final int width, final int height)
     {
         return width * height > 1;
     }
 
     @Override
-    public ItemStack getCraftingResult(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         ItemStack healed = ItemStack.EMPTY;
         boolean revive = false;
@@ -40,9 +40,9 @@ public class RecipeRevive extends SpecialRecipe
         ItemStack other = ItemStack.EMPTY;
         ItemStack seal = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack stack = inv.getStackInSlot(i);
+            final ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty())
             {
                 if (PokecubeManager.isFilled(stack)) other = stack;
@@ -92,9 +92,9 @@ public class RecipeRevive extends SpecialRecipe
         ItemStack seal = ItemStack.EMPTY;
 
         int n = 0;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack stack = inv.getStackInSlot(i);
+            final ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty())
             {
                 n++;
@@ -106,6 +106,6 @@ public class RecipeRevive extends SpecialRecipe
         revive = revive && !other.isEmpty();
         pokeseal = !seal.isEmpty() && !other.isEmpty();
         if (n != 2) return false;
-        return pokeseal || revive && other.getDamage() == 0;
+        return pokeseal || revive && other.getDamageValue() == 0;
     }
 }

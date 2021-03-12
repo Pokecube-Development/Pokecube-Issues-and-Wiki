@@ -86,7 +86,7 @@ public class UsableItemEffects
             if (health + 20 < maxHealth) pokemob.setHealth(health + 20);
             else pokemob.setHealth(maxHealth);
             boolean useStack = true;
-            if (user instanceof PlayerEntity && ((PlayerEntity) user).abilities.isCreativeMode) useStack = false;
+            if (user instanceof PlayerEntity && ((PlayerEntity) user).abilities.instabuild) useStack = false;
             if (useStack) stack.split(1);
             return new ActionResult<>(ActionResultType.SUCCESS, stack);
         }
@@ -207,11 +207,11 @@ public class UsableItemEffects
         {
             final MobEntity mob = pokemob.getEntity();
             boolean applied = false;
-            for (final EffectInstance potioneffect : PotionUtils.getEffectsFromStack(stack))
+            for (final EffectInstance potioneffect : PotionUtils.getMobEffects(stack))
             {
-                if (potioneffect.getPotion().isInstant()) potioneffect.getPotion().affectEntity(mob, mob, mob,
+                if (potioneffect.getEffect().isInstantenous()) potioneffect.getEffect().applyInstantenousEffect(mob, mob, mob,
                         potioneffect.getAmplifier(), 1.0D);
-                else mob.addPotionEffect(new EffectInstance(potioneffect));
+                else mob.addEffect(new EffectInstance(potioneffect));
                 applied = true;
             }
             if (applied)
@@ -280,7 +280,7 @@ public class UsableItemEffects
             final VitaminEffect effect = VitaminUsable.effects.get(vitamin.type);
             if (effect != null) result = effect.onUse(pokemob, stack, user);
             else return new ActionResult<>(ActionResultType.FAIL, stack);
-            if (result.getType() == ActionResultType.SUCCESS) stack.split(1);
+            if (result.getResult() == ActionResultType.SUCCESS) stack.split(1);
             return result;
         }
     }

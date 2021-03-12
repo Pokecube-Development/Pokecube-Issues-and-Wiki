@@ -68,9 +68,9 @@ public class CheckBurrow extends BaseIdleTask
         if (this.burrow == null)
         {
             // Ensure these are cleared.
-            this.entity.getBrain().removeMemory(BurrowTasks.BURROW);
-            this.entity.getBrain().removeMemory(BurrowTasks.GOING_HOME);
-            this.entity.getBrain().removeMemory(BurrowTasks.JOB_INFO);
+            this.entity.getBrain().eraseMemory(BurrowTasks.BURROW);
+            this.entity.getBrain().eraseMemory(BurrowTasks.GOING_HOME);
+            this.entity.getBrain().eraseMemory(BurrowTasks.JOB_INFO);
 
             // We need to do the following:
             //
@@ -81,8 +81,8 @@ public class CheckBurrow extends BaseIdleTask
             // Lets see if we can find any leaves to place a hive under
             final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
 
-            final PointOfInterestManager pois = this.world.getPointOfInterestManager();
-            final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), this.entity.getPosition(),
+            final PointOfInterestManager pois = this.world.getPoiManager();
+            final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), this.entity.blockPosition(),
                     CheckBurrow.BURROWSPACING, PointOfInterestManager.Status.ANY);
 
             if (blocks == null || num != 0) return;
@@ -111,8 +111,8 @@ public class CheckBurrow extends BaseIdleTask
                 {
                     storage = (StoreTask) run;
                     this.pokemob.setRoutineState(AIRoutine.STORE, true);
-                    storage.storageLoc = this.burrow.nest.getPos();
-                    storage.berryLoc = this.burrow.nest.getPos();
+                    storage.storageLoc = this.burrow.nest.getBlockPos();
+                    storage.berryLoc = this.burrow.nest.getBlockPos();
                     break;
                 }
         }
@@ -126,14 +126,14 @@ public class CheckBurrow extends BaseIdleTask
         if (hab == null) return false;
         pos = hab.burrow.getCenter();
         final Brain<?> brain = this.entity.getBrain();
-        this.world.setBlockState(pos, PokecubeItems.NESTBLOCK.get().getDefaultState());
-        final TileEntity tile = this.world.getTileEntity(pos);
+        this.world.setBlockAndUpdate(pos, PokecubeItems.NESTBLOCK.get().defaultBlockState());
+        final TileEntity tile = this.world.getBlockEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
         nest.setWrappedHab(hab);
         nest.addResident(this.pokemob);
-        brain.setMemory(BurrowTasks.BURROW, GlobalPos.getPosition(this.world.getDimensionKey(), pos));
-        brain.removeMemory(BurrowTasks.NO_HOME_TIMER);
+        brain.setMemory(BurrowTasks.BURROW, GlobalPos.of(this.world.dimension(), pos));
+        brain.eraseMemory(BurrowTasks.NO_HOME_TIMER);
         return true;
     }
 

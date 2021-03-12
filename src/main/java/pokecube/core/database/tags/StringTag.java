@@ -108,7 +108,7 @@ public class StringTag implements IResourceData
         try
         {
             final String path = new ResourceLocation(this.tagPath).getPath();
-            final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(path, s -> s
+            final Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, s -> s
                     .endsWith(".json"));
             this.validLoad = !resources.isEmpty();
             resources.forEach(l ->
@@ -196,7 +196,7 @@ public class StringTag implements IResourceData
         try
         {
             final TagHolder tagged = new TagHolder();
-            for (final IResource resource : Database.resourceManager.getAllResources(tagLoc))
+            for (final IResource resource : Database.resourceManager.getResources(tagLoc))
             {
                 final InputStream res = resource.getInputStream();
                 final Reader reader = new InputStreamReader(res);

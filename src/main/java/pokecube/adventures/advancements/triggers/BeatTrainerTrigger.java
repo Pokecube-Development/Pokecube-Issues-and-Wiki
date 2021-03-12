@@ -69,7 +69,7 @@ public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.
             List<ICriterionTrigger.Listener<BeatTrainerTrigger.Instance>> list = null;
 
             for (final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener : this.listeners)
-                if (listener.getCriterionInstance().test(player, defeated))
+                if (listener.getTriggerInstance().test(player, defeated))
                 {
                     if (list == null)
                         list = Lists.<ICriterionTrigger.Listener<BeatTrainerTrigger.Instance>> newArrayList();
@@ -77,7 +77,7 @@ public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.
                     list.add(listener);
                 }
             if (list != null) for (final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener1 : list)
-                listener1.grantCriterion(this.playerAdvancements);
+                listener1.run(this.playerAdvancements);
         }
     }
 
@@ -94,7 +94,7 @@ public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.
     }
 
     @Override
-    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+    public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
     {
         BeatTrainerTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -109,7 +109,7 @@ public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.
     }
 
     @Override
-    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+    public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
     {
         final BeatTrainerTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -123,15 +123,15 @@ public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.
     }
 
     @Override
-    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
+    public void removePlayerListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         return new BeatTrainerTrigger.Instance(pred);
     }
 

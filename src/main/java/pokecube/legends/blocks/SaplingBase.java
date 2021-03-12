@@ -19,60 +19,67 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.ForgeEventFactory;
 
-public class SaplingBase extends BushBlock implements IGrowable {
+public class SaplingBase extends BushBlock implements IGrowable
+{
 
-	public static final IntegerProperty STAGE = BlockStateProperties.STAGE_0_1;
-	protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
-	private final Supplier<Tree> tree;
-			
-	public SaplingBase(Supplier<Tree> treeIn, Properties properties) {
-		super(properties);
-		this.tree = treeIn;
-	}
+    public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
+    protected static final VoxelShape   SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
+    private final Supplier<Tree>        tree;
 
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPE;		
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-		super.tick(state, worldIn, pos, rand);
-		if(!worldIn.isAreaLoaded(pos, 1)) {
-			return;
-		}
-		if(worldIn.getLight(pos.up()) >= 9 && rand.nextInt(7) == 0) {
-			this.grow(worldIn, rand, pos, state);
-		}
-	}
-	
-	public void grow(ServerWorld serverWorld, BlockPos pos, BlockState state, Random rand) {
-		if(state.get(STAGE) == 0) {
-			serverWorld.setBlockState(pos, state.func_235896_a_(STAGE), 4);
-		}else {
-			if(!ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) return;
-			this.tree.get().attemptGrowTree(serverWorld, serverWorld.getChunkProvider().getChunkGenerator(), pos, state, rand);
-		}
-	}
-	
-	@Override
-	public void grow(ServerWorld serverWorld, Random rand, BlockPos pos, BlockState state) {
-		this.grow(serverWorld, pos, state, rand);
-	}
-	
-	@Override
-	public boolean canGrow(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
-		return true;
-	}
+    public SaplingBase(final Supplier<Tree> treeIn, final Properties properties)
+    {
+        super(properties.randomTicks());
+        this.tree = treeIn;
+    }
 
-	@Override
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
-		return (double)worldIn.rand.nextFloat() < 0.45D;
-	}
-	
-	@Override
-	protected void fillStateContainer(Builder<Block, BlockState> builder) {
-		builder.add(STAGE);
-	}
+    @Override
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
+    {
+        return SaplingBase.SHAPE;
+    }
+
+    @Override
+    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random rand)
+    {
+        if (!worldIn.isAreaLoaded(pos, 1)) return;
+        if (worldIn.getMaxLocalRawBrightness(pos.above()) >= 9 && rand.nextInt(7) == 0) this.performBonemeal(worldIn,
+                rand, pos, state);
+    }
+
+    public void grow(final ServerWorld serverWorld, final BlockPos pos, final BlockState state, final Random rand)
+    {
+        if (state.getValue(SaplingBase.STAGE) == 0) serverWorld.setBlock(pos, state.cycle(SaplingBase.STAGE), 4);
+        else
+        {
+            if (!ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) return;
+            this.tree.get().growTree(serverWorld, serverWorld.getChunkSource().getGenerator(), pos, state, rand);
+        }
+    }
+
+    @Override
+    public void performBonemeal(final ServerWorld serverWorld, final Random rand, final BlockPos pos,
+            final BlockState state)
+    {
+        this.grow(serverWorld, pos, state, rand);
+    }
+
+    @Override
+    public boolean isValidBonemealTarget(final IBlockReader worldIn, final BlockPos pos, final BlockState state,
+            final boolean isClient)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isBonemealSuccess(final World worldIn, final Random rand, final BlockPos pos, final BlockState state)
+    {
+        return worldIn.random.nextFloat() < 0.45D;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(final Builder<Block, BlockState> builder)
+    {
+        builder.add(SaplingBase.STAGE);
+    }
 }

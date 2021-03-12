@@ -40,7 +40,7 @@ public class GemRecipe extends SpecialRecipe
 
     public static boolean is(final ResourceLocation tag, final Item item)
     {
-        final boolean tagged = ItemTags.getCollection().getTagByID(tag).contains(item);
+        final boolean tagged = ItemTags.getAllTags().getTagOrEmpty(tag).contains(item);
         return tagged;
     }
 
@@ -55,9 +55,9 @@ public class GemRecipe extends SpecialRecipe
         ItemStack bling = ItemStack.EMPTY;
         ItemStack gem = ItemStack.EMPTY;
         int n = 0;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack stack = inv.getStackInSlot(i);
+            final ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty())
             {
                 n++;
@@ -75,14 +75,14 @@ public class GemRecipe extends SpecialRecipe
     }
 
     @Override
-    public ItemStack getCraftingResult(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         ItemStack bling = ItemStack.EMPTY;
         ItemStack gem = ItemStack.EMPTY;
         int n = 0;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack stack = inv.getStackInSlot(i);
+            final ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty())
             {
                 n++;
@@ -96,11 +96,11 @@ public class GemRecipe extends SpecialRecipe
         if (n == 1)
         {
             final CompoundNBT tag = newBling.getTag().getCompound("gemTag");
-            return ItemStack.read(tag);
+            return ItemStack.of(tag);
         }
         else
         {
-            final CompoundNBT tag = gem.write(new CompoundNBT());
+            final CompoundNBT tag = gem.save(new CompoundNBT());
             if (!newBling.hasTag()) newBling.setTag(new CompoundNBT());
             newBling.getTag().put("gemTag", tag);
         }
@@ -110,14 +110,14 @@ public class GemRecipe extends SpecialRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
     {
-        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
 
         ItemStack bling = ItemStack.EMPTY;
         ItemStack gem = ItemStack.EMPTY;
         int blingIndex = 0;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack stack = inv.getStackInSlot(i);
+            final ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty())
             {
                 if (GemRecipe.is(GemRecipe.BLINGTAG, stack.getItem()))
@@ -130,19 +130,19 @@ public class GemRecipe extends SpecialRecipe
         }
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            final ItemStack item = inv.getStackInSlot(i);
+            final ItemStack item = inv.getItem(i);
             if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
         if (gem.isEmpty())
         {
-            bling.removeChildTag("gemTag");
+            bling.removeTagKey("gemTag");
             nonnulllist.set(blingIndex, bling.copy());
         }
         return nonnulllist;
     }
 
     @Override
-    public boolean canFit(final int width, final int height)
+    public boolean canCraftInDimensions(final int width, final int height)
     {
         return width * height > 1;
     }

@@ -39,7 +39,7 @@ public class RecipeExtract extends PoweredRecipe
     }
 
     @Override
-    public boolean canFit(final int width, final int height)
+    public boolean canCraftInDimensions(final int width, final int height)
     {
         return width * height > 2;
     }
@@ -48,23 +48,23 @@ public class RecipeExtract extends PoweredRecipe
     public boolean complete(final IPoweredProgress tile)
     {
         final List<ItemStack> remaining = this.getRemainingItems(tile.getCraftMatrix());
-        tile.setInventorySlotContents(tile.getOutputSlot(), this.getCraftingResult(tile.getCraftMatrix()));
+        tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix()));
         for (int i = 0; i < remaining.size(); i++)
         {
-            final ItemStack old = tile.getStackInSlot(i);
+            final ItemStack old = tile.getItem(i);
             final ItemStack stack = remaining.get(i);
             if (!stack.isEmpty())
             {
                 if (PokecubeManager.isFilled(old)) PlayerPokemobCache.UpdateCache(old, false, true);
-                tile.setInventorySlotContents(i, stack);
+                tile.setItem(i, stack);
             }
             else
             {
                 if (PokecubeManager.isFilled(old)) PlayerPokemobCache.UpdateCache(old, false, true);
-                tile.decrStackSize(i, 1);
+                tile.removeItem(i, 1);
             }
         }
-        if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.detectAndSendChanges();
+        if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.broadcastChanges();
         return true;
     }
 
@@ -75,7 +75,7 @@ public class RecipeExtract extends PoweredRecipe
     }
 
     @Override
-    public ItemStack getCraftingResult(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
@@ -83,9 +83,9 @@ public class RecipeExtract extends PoweredRecipe
         final ExtractorTile tile = (ExtractorTile) inv_p.inventory;
 
         IMobGenetics genes;
-        final ItemStack destination = inv.getStackInSlot(0);
-        ItemStack source = inv.getStackInSlot(2);
-        ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
+        final ItemStack destination = inv.getItem(0);
+        ItemStack source = inv.getItem(2);
+        ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
         if (ClonerHelper.getGeneSelectors(selector).isEmpty()) selector = ItemStack.EMPTY;
         boolean forcedGenes = false;
         source:
@@ -129,12 +129,12 @@ public class RecipeExtract extends PoweredRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
     {
-        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
         if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
         if (!(inv_p.inventory instanceof ExtractorTile)) return nonnulllist;
         final ExtractorTile tile = (ExtractorTile) inv_p.inventory;
-        final ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
+        final ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
         boolean keepDNA = false;
         boolean keepSelector = false;
         final SelectorValue value = ClonerHelper.getSelectorValue(selector);
@@ -143,7 +143,7 @@ public class RecipeExtract extends PoweredRecipe
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            final ItemStack item = inv.getStackInSlot(i).copy();
+            final ItemStack item = inv.getItem(i).copy();
             if (i == 1 && keepSelector) nonnulllist.set(i, item);
             if (i == 2)
             {

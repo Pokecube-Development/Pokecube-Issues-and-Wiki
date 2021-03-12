@@ -26,35 +26,35 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
         super(type, worldIn);
         final DefaultPokemob cap = (DefaultPokemob) this.getCapability(PokemobCaps.POKEMOB_CAP, null).orElse(null);
         this.pokemobCap = cap == null ? new DefaultPokemob(this) : cap;
-        this.size = EntitySize.fixed(cap.getPokedexEntry().width, cap.getPokedexEntry().height);
-        this.enablePersistence();
+        this.dimensions = EntitySize.fixed(cap.getPokedexEntry().width, cap.getPokedexEntry().height);
+        this.setPersistenceRequired();
     }
 
     @Override
-    public float getRenderScale()
+    public float getScale()
     {
         float size = (float) (this.pokemobCap.getSize() * PokecubeCore.getConfig().scalefactor);
         if (this.pokemobCap.getGeneralState(GeneralStates.EXITINGCUBE))
         {
             float scale = 1;
-            scale = Math.min(1, (this.ticksExisted + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
+            scale = Math.min(1, (this.tickCount + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
             size = Math.max(0.01f, size * scale);
         }
         if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))
         {
             // Since we don't change hitbox, we need toset this here.
-            this.ignoreFrustumCheck = true;
+            this.noCulling = true;
             size = (float) (PokecubeCore.getConfig().dynamax_scale / this.pokemobCap.getMobSizes().y);
         }
         // Reset this if we set it from dynamaxing
-        else if (this.getParts().length == 0) this.ignoreFrustumCheck = false;
+        else if (this.getParts().length == 0) this.noCulling = false;
         return size;
     }
 
     @Override
-    public EntitySize getSize(final Pose poseIn)
+    public EntitySize getDimensions(final Pose poseIn)
     {
-        return this.size.scale(this.getRenderScale());
+        return this.dimensions.scale(this.getScale());
     }
 
     abstract boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount);

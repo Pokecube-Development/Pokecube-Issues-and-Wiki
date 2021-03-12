@@ -60,9 +60,9 @@ public class CommonProxy implements Proxy
     BiomeType getSubbiome(final ServerPlayerEntity player, final ItemStack held)
     {
         if (!PermissionAPI.hasPermission(player, CommonProxy.SET_SUBBIOME)) return null;
-        if (held.getDisplayName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
+        if (held.getHoverName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
         {
-            final String[] args = held.getDisplayName().getString().split("->");
+            final String[] args = held.getHoverName().getString().split("->");
             if (args.length != 2) return null;
             return BiomeType.getBiome(args[1].trim());
         }
@@ -78,29 +78,29 @@ public class CommonProxy implements Proxy
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
         if (evt.getHand() == Hand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayerEntity) || evt.getItemStack()
-                .isEmpty() || !evt.getPlayer().isSneaking() || !this.isSubbiomeEditor((ServerPlayerEntity) evt
+                .isEmpty() || !evt.getPlayer().isShiftKeyDown() || !this.isSubbiomeEditor((ServerPlayerEntity) evt
                         .getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
         final BlockPos pos = evt.getPos();
-        if (itemstack.hasTag() && playerIn.isSneaking() && itemstack.getTag().contains("min"))
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
             final BlockPos min = pos;
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
-            if (!worldIn.isRemote)
+            if (!worldIn.isClientSide)
             {
                 final BiomeType subbiome = this.getSubbiome((ServerPlayerEntity) evt.getPlayer(), itemstack);
                 final MutableBoundingBox box = new MutableBoundingBox(min, max);
-                final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
-                        box.maxZ);
+                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1,
+                        box.z1);
                 poses.forEach((p) ->
                 {
                     TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome.getType());
                 });
                 final String message = "msg.subbiome.set";
-                playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.DUMMY_UUID);
+                playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.NIL_UUID);
             }
             itemstack.getTag().remove("min");
             evt.setCanceled(true);
@@ -112,7 +112,7 @@ public class CommonProxy implements Proxy
             Vector3.getNewVector().set(pos).writeToNBT(min, "");
             itemstack.getTag().put("min", min);
             final String message = "msg.subbiome.setcorner";
-            if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.DUMMY_UUID);
+            if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.NIL_UUID);
             evt.setCanceled(true);
             itemstack.getTag().putLong("time", worldIn.getGameTime());
         }
@@ -122,32 +122,32 @@ public class CommonProxy implements Proxy
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
         if (evt.getHand() == Hand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayerEntity) || evt.getItemStack()
-                .isEmpty() || !evt.getPlayer().isSneaking() || !this.isSubbiomeEditor((ServerPlayerEntity) evt
+                .isEmpty() || !evt.getPlayer().isShiftKeyDown() || !this.isSubbiomeEditor((ServerPlayerEntity) evt
                         .getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
-        if (itemstack.hasTag() && playerIn.isSneaking() && itemstack.getTag().contains("min") && itemstack.getTag()
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
                 .getLong("time") != worldIn.getGameTime())
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
-            final Vector3d loc = playerIn.getPositionVec().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookVec()
+            final Vector3d loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle()
                     .scale(2));
             final BlockPos pos = new BlockPos(loc);
             final BlockPos min = pos;
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
-            if (!worldIn.isRemote)
+            if (!worldIn.isClientSide)
             {
                 final BiomeType subbiome = this.getSubbiome((ServerPlayerEntity) evt.getPlayer(), itemstack);
                 final MutableBoundingBox box = new MutableBoundingBox(min, max);
-                final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
-                        box.maxZ);
+                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1,
+                        box.z1);
                 poses.forEach((p) ->
                 {
                     TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome.getType());
                 });
                 final String message = "msg.subbiome.set";
-                playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.DUMMY_UUID);
+                playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.NIL_UUID);
             }
             itemstack.getTag().remove("min");
         }

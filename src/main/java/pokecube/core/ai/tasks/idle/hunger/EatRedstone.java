@@ -24,12 +24,12 @@ public class EatRedstone extends EatBlockBase
 
         final MobEntity entity = pokemob.getEntity();
         double diff = 3;
-        diff = Math.max(diff, entity.getWidth());
-        final double dist = block.getPos().manhattanDistance(entity.getPosition());
+        diff = Math.max(diff, entity.getBbWidth());
+        final double dist = block.getPos().distManhattan(entity.blockPosition());
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerWorld world = (ServerWorld) entity.getEntityWorld();
+        final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatRedstone.checker.test(current)) return EatResult.NOEAT;
 

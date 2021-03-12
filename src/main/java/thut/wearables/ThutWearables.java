@@ -93,7 +93,7 @@ public class ThutWearables
         {
             final ScreenManager.IScreenFactory<ContainerWearables, GuiWearables> factory = (c, i,
                     t) -> new GuiWearables(c, i);
-            ScreenManager.registerFactory(ContainerWearables.TYPE, factory);
+            ScreenManager.register(ContainerWearables.TYPE, factory);
         }
     }
 
@@ -177,7 +177,7 @@ public class ThutWearables
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
-            if (!event.getMap().getTextureLocation().toString().equals("minecraft:textures/atlas/blocks.png")) return;
+            if (!event.getMap().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             for (int i = 0; i < EnumWearable.BYINDEX.length; i++)
                 event.addSprite(new ResourceLocation(EnumWearable.getIcon(i)));
         }
@@ -252,10 +252,10 @@ public class ThutWearables
     public void dropLoot(final LivingDropsEvent event)
     {
         final LivingEntity mob = event.getEntityLiving();
-        final GameRules rules = this.overworldRules ? mob.getServer().getWorld(World.OVERWORLD).getGameRules()
-                : mob.getEntityWorld().getGameRules();
+        final GameRules rules = this.overworldRules ? mob.getServer().getLevel(World.OVERWORLD).getGameRules()
+                : mob.getCommandSenderWorld().getGameRules();
         final PlayerWearables cap = ThutWearables.getWearables(mob);
-        if (rules.getBoolean(GameRules.KEEP_INVENTORY) || cap == null) return;
+        if (rules.getBoolean(GameRules.RULE_KEEPINVENTORY) || cap == null) return;
 
         for (int i = 0; i < 13; i++)
         {
@@ -265,11 +265,11 @@ public class ThutWearables
                 EnumWearable.takeOff(mob, stack, i);
                 final WearableDroppedEvent dropEvent = new WearableDroppedEvent(mob, stack, i);
                 if (MinecraftForge.EVENT_BUS.post(dropEvent)) continue;
-                final double d0 = mob.getPosY() - 0.3D + mob.getEyeHeight();
-                final ItemEntity drop = new ItemEntity(mob.getEntityWorld(), mob.getPosX(), d0, mob.getPosZ(), stack);
-                final float f = mob.getRNG().nextFloat() * 0.5F;
-                final float f1 = mob.getRNG().nextFloat() * ((float) Math.PI * 2F);
-                drop.setMotion(-MathHelper.sin(f1) * f, MathHelper.cos(f1) * f, 0.2);
+                final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
+                final ItemEntity drop = new ItemEntity(mob.getCommandSenderWorld(), mob.getX(), d0, mob.getZ(), stack);
+                final float f = mob.getRandom().nextFloat() * 0.5F;
+                final float f1 = mob.getRandom().nextFloat() * ((float) Math.PI * 2F);
+                drop.setDeltaMovement(-MathHelper.sin(f1) * f, MathHelper.cos(f1) * f, 0.2);
                 event.getDrops().add(drop);
                 cap.setStackInSlot(i, ItemStack.EMPTY);
             }
@@ -286,7 +286,7 @@ public class ThutWearables
     @SubscribeEvent
     public void joinWorld(final EntityJoinWorldEvent event)
     {
-        if (event.getWorld().isRemote) return;
+        if (event.getWorld().isClientSide) return;
         if (event.getEntity() instanceof ServerPlayerEntity) ThutWearables.packets.sendTo(new PacketSyncWearables(
                 (LivingEntity) event.getEntity()), (ServerPlayerEntity) event.getEntity());
     }
@@ -312,20 +312,20 @@ public class ThutWearables
     @SubscribeEvent
     public void PlayerLoggedOutEvent(final PlayerLoggedOutEvent event)
     {
-        this.player_inventory_cache.remove(event.getPlayer().getUniqueID());
+        this.player_inventory_cache.remove(event.getPlayer().getUUID());
     }
 
     @SubscribeEvent
     public void playerTick(final LivingUpdateEvent event)
     {
-        if (event.getEntity().getEntityWorld().isRemote) return;
+        if (event.getEntity().getCommandSenderWorld().isClientSide) return;
         if (event.getEntity() instanceof PlayerEntity && event.getEntity().isAlive())
         {
             final PlayerEntity wearer = (PlayerEntity) event.getEntity();
             final PlayerWearables wearables = ThutWearables.getWearables(wearer);
             for (int i = 0; i < 13; i++)
                 EnumWearable.tick(wearer, wearables.getStackInSlot(i), i);
-            if (wearer instanceof ServerPlayerEntity) this.player_inventory_cache.put(wearer.getUniqueID(), wearables);
+            if (wearer instanceof ServerPlayerEntity) this.player_inventory_cache.put(wearer.getUUID(), wearables);
         }
     }
 
@@ -334,13 +334,13 @@ public class ThutWearables
     {
         if (!(event.getEntity() instanceof ServerPlayerEntity)) return;
         final PlayerEntity player = (PlayerEntity) event.getEntity();
-        final GameRules rules = this.overworldRules ? player.getServer().getWorld(World.OVERWORLD).getGameRules()
-                : player.getEntityWorld().getGameRules();
-        if (rules.getBoolean(GameRules.KEEP_INVENTORY))
+        final GameRules rules = this.overworldRules ? player.getServer().getLevel(World.OVERWORLD).getGameRules()
+                : player.getCommandSenderWorld().getGameRules();
+        if (rules.getBoolean(GameRules.RULE_KEEPINVENTORY))
         {
             final PlayerWearables cap = ThutWearables.getWearables(player);
-            this.player_inventory_cache.put(player.getUniqueID(), cap);
-            this.toKeep.add(player.getUniqueID());
+            this.player_inventory_cache.put(player.getUUID(), cap);
+            this.toKeep.add(player.getUUID());
             return;
         }
     }
@@ -349,13 +349,13 @@ public class ThutWearables
     public void respawn(final PlayerRespawnEvent event)
     {
         final PlayerEntity wearer = event.getPlayer();
-        if (wearer instanceof ServerPlayerEntity && (this.toKeep.contains(wearer.getUniqueID()) || event
-                .isEndConquered()) && this.player_inventory_cache.containsKey(wearer.getUniqueID()))
+        if (wearer instanceof ServerPlayerEntity && (this.toKeep.contains(wearer.getUUID()) || event
+                .isEndConquered()) && this.player_inventory_cache.containsKey(wearer.getUUID()))
         {
-            final CompoundNBT tag = this.player_inventory_cache.get(wearer.getUniqueID()).serializeNBT();
+            final CompoundNBT tag = this.player_inventory_cache.get(wearer.getUUID()).serializeNBT();
             final PlayerWearables wearables = ThutWearables.getWearables(wearer);
             wearables.deserializeNBT(tag);
-            this.toKeep.remove(wearer.getUniqueID());
+            this.toKeep.remove(wearer.getUUID());
             ThutWearables.syncWearables(wearer);
         }
     }
@@ -380,7 +380,7 @@ public class ThutWearables
     public void startTracking(final StartTracking event)
     {
         if (event.getTarget() instanceof LivingEntity && ThutWearables.getWearables((LivingEntity) event
-                .getTarget()) != null && event.getPlayer().isServerWorld()) ThutWearables.packets.sendTo(
+                .getTarget()) != null && event.getPlayer().isEffectiveAi()) ThutWearables.packets.sendTo(
                         new PacketSyncWearables((LivingEntity) event.getTarget()), (ServerPlayerEntity) event
                                 .getPlayer());
     }

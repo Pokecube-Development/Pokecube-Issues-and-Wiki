@@ -141,7 +141,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void setRotationAngles(final T entityIn, final float limbSwing, final float limbSwingAmount,
+    public void setupAnim(final T entityIn, final float limbSwing, final float limbSwingAmount,
             final float ageInTicks, final float netHeadYaw, final float headPitch)
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
@@ -153,7 +153,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             info.headPitch = headPitch;
             info.headYaw = netHeadYaw;
         }
-        if (info != null) info.currentTick = entityIn.ticksExisted;
+        if (info != null) info.currentTick = entityIn.tickCount;
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         final Set<String> excluded = Sets.newHashSet();
         if (animChanger != null) for (final String partName : this.imodel.getParts().keySet())
@@ -161,18 +161,18 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             if (animChanger.isPartHidden(partName, entityIn, false)) excluded.add(partName);
             if (this.renderer.getTexturer() != null) this.renderer.getTexturer().bindObject(entityIn);
         }
-        if (info != null) info.lastTick = entityIn.ticksExisted;
+        if (info != null) info.lastTick = entityIn.tickCount;
     }
 
     @Override
-    public void render(final MatrixStack mat, final IVertexBuilder buffer, final int packedLightIn,
+    public void renderToBuffer(final MatrixStack mat, final IVertexBuilder buffer, final int packedLightIn,
             final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
         if (!this.isLoaded()) return;
-        mat.push();
+        mat.pushPose();
         this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn, Minecraft
-                .getInstance().getRenderPartialTicks());
+                .getInstance().getFrameTime());
 
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         final Set<String> excluded = Sets.newHashSet();
@@ -193,10 +193,10 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
 
                 if (part.getParent() == null)
                 {
-                    mat.push();
+                    mat.pushPose();
                     this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
                     part.renderAllExcept(mat, buffer, this.renderer, excluded.toArray(new String[excluded.size()]));
-                    mat.pop();
+                    mat.popPose();
                 }
             }
             catch (final Exception e)
@@ -204,13 +204,13 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
                 e.printStackTrace();
             }
         }
-        mat.pop();
+        mat.popPose();
     }
 
     protected void rotate(final MatrixStack mat)
     {
         final Vector3f axis = new Vector3f(this.rotateAngleX, this.rotateAngleY, this.rotateAngleZ);
-        mat.rotate(new Quaternion(axis, this.rotateAngle, true));
+        mat.mulPose(new Quaternion(axis, this.rotateAngle, true));
     }
 
     /**
@@ -221,7 +221,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
      * setRotationAngles method.
      */
     @Override
-    public void setLivingAnimations(final T entityIn, final float limbSwing, final float limbSwingAmount,
+    public void prepareMobModel(final T entityIn, final float limbSwing, final float limbSwingAmount,
             final float partialTickTime)
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);

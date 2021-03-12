@@ -55,14 +55,14 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         eggItem.setTag(nbt);
         final Random rand = new Random();
         final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world);
-        egg.setPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1, pos.getZ() + 1.5 * (0.5 - rand
+        egg.setToPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1, pos.getZ() + 1.5 * (0.5 - rand
                 .nextDouble())).setStack(eggItem);
         final EggEvent.Lay event = new EggEvent.Lay(egg);
         MinecraftForge.EVENT_BUS.post(event);
-        if (spawnNow) egg.setGrowingAge(-100);// Make it spawn after 5s
+        if (spawnNow) egg.setAge(-100);// Make it spawn after 5s
         if (!event.isCanceled())
         {
-            world.addEntity(egg);
+            world.addFreshEntity(egg);
             return egg;
         }
         return null;
@@ -115,14 +115,14 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean addForbiddenSpawningCoord()
     {
-        if (!(this.world instanceof ServerWorld)) return false;
-        final BlockPos pos = this.getPos();
+        if (!(this.level instanceof ServerWorld)) return false;
+        final BlockPos pos = this.getBlockPos();
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null) return false;
         hab.setPos(pos);
-        final ForbidRegion region = hab.getRepelledRegion(this, (ServerWorld) this.world);
+        final ForbidRegion region = hab.getRepelledRegion(this, (ServerWorld) this.level);
         if (region == null) return false;
-        return SpawnHandler.addForbiddenSpawningCoord(this.world, region, ForbidReason.NEST);
+        return SpawnHandler.addForbiddenSpawningCoord(this.level, region, ForbidReason.NEST);
     }
 
     public void addResident(final IPokemob resident)
@@ -142,7 +142,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
                 final ServerPlayerEntity sendTo = (ServerPlayerEntity) player;
                 final IInventory wrapper = new InvWrapper((IItemHandlerModifiable) handler);
                 final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
-                        e) -> ChestContainer.createGeneric9X6(i, p, wrapper), new TranslationTextComponent(
+                        e) -> ChestContainer.sixRows(i, p, wrapper), new TranslationTextComponent(
                                 "block.pokecube.nest"));
                 NetworkHooks.openGui(sendTo, provider);
             }
@@ -153,9 +153,9 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void read(final BlockState state, final CompoundNBT nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
-        super.read(state, nbt);
+        super.load(state, nbt);
         this.time = nbt.getInt("time");
         this.tag = nbt.getCompound("_data_");
         // Ensure the repel range resets properly.
@@ -163,16 +163,16 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     }
 
     @Override
-    public void remove()
+    public void setRemoved()
     {
-        super.remove();
+        super.setRemoved();
         this.removeForbiddenSpawningCoord();
     }
 
     public boolean removeForbiddenSpawningCoord()
     {
-        if (this.world == null) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getPos(), this.world);
+        if (this.level == null) return false;
+        return SpawnHandler.removeForbiddenSpawningCoord(this.getBlockPos(), this.level);
     }
 
     public void removeResident(final IPokemob resident)
@@ -183,20 +183,20 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onTick((ServerWorld) this.world);
+        if (this.habitat != null && this.level instanceof ServerWorld) this.habitat.onTick((ServerWorld) this.level);
         this.time++;
     }
 
     @Override
     public void onBroken()
     {
-        if (this.habitat != null && this.world instanceof ServerWorld) this.habitat.onBroken((ServerWorld) this.world);
+        if (this.habitat != null && this.level instanceof ServerWorld) this.habitat.onBroken((ServerWorld) this.level);
     }
 
     @Override
-    public void validate()
+    public void clearRemoved()
     {
-        super.validate();
+        super.clearRemoved();
         this.addForbiddenSpawningCoord();
     }
 
@@ -206,9 +206,9 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
      * @return
      */
     @Override
-    public CompoundNBT write(final CompoundNBT nbt)
+    public CompoundNBT save(final CompoundNBT nbt)
     {
-        super.write(nbt);
+        super.save(nbt);
         nbt.putInt("time", this.time);
         nbt.put("_data_", this.tag);
         return nbt;

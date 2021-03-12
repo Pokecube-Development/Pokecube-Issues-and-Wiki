@@ -74,12 +74,12 @@ public class MaxRaidFunction
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             final LivingEntity poke = pokemob.getEntity();
 
-            final LootTable loottable = pokemob.getEntity().getEntityWorld().getServer().getLootTableManager()
-                    .getLootTableFromLocation(MaxRaidFunction.lootTable);
+            final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables()
+                    .get(MaxRaidFunction.lootTable);
             final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) pokemob.getEntity()
-                    .getEntityWorld()).withRandom(poke.getRNG());
+                    .getCommandSenderWorld()).withRandom(poke.getRandom());
             // Generate the loot list.
-            final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
+            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
 
             final List<AIRoutine> bannedAI = Lists.newArrayList();
 
@@ -91,7 +91,7 @@ public class MaxRaidFunction
 
             final int level = new Random().nextInt(100);
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
-            final Long time = entity.getServer().getWorld(World.OVERWORLD).getGameTime();
+            final Long time = entity.getServer().getLevel(World.OVERWORLD).getGameTime();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
             pokemob.setCombatState(CombatStates.DYNAMAX, true);
@@ -100,8 +100,8 @@ public class MaxRaidFunction
 
             pokemob.spawnInit();
             v.add(0, 1, 0).moveEntity(entity);
-            entity.setPosition(v.x, v.y + 3, v.z);
-            world.addEntity(entity);
+            entity.setPos(v.x, v.y + 3, v.z);
+            world.addFreshEntity(entity);
             if (!list.isEmpty()) Collections.shuffle(list);
             final int n = 1 + world.getRandom().nextInt(4);
             int i = 0;
@@ -111,7 +111,7 @@ public class MaxRaidFunction
                 else new InventoryChange(entity, 2, itemstack, true).run(world);
                 if (i++ >= n) break;
             }
-            world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1,
+            world.playLocalSound(v.x, v.y, v.z, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1,
                     false);
         }
 

@@ -27,7 +27,7 @@ public interface Proxy
         try
         {
             final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-            return server.func_244267_aX();
+            return server.registryAccess();
         }
         catch (final Exception e)
         {

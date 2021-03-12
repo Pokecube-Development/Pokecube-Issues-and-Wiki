@@ -261,7 +261,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             // Scaling factor for model.
             mat.scale(0.165f, 0.165f, 0.165f);
             // Makes model face correct way.
-            mat.rotate(Vector3f.YP.rotationDegrees(180));
+            mat.mulPose(Vector3f.YP.rotationDegrees(180));
 
             // only increment frame if a tick has passed.
             if (this.wrapped.body.currentAnim != null && this.wrapped.body.currentAnim.frameCount() > 0)

@@ -71,7 +71,7 @@ public class LeapTask extends TaskBase implements IAICombat
         this.pokemob.setCombatState(CombatStates.LEAPING, true);
 
         // Target loc could just be a position
-        this.leapTarget.set(this.pos.getPos());
+        this.leapTarget.set(this.pos.currentPosition());
 
         final Vector3 location = Vector3.getNewVector().set(this.entity);
         final Vector3 diff = this.leapTarget.subtract(location);
@@ -115,9 +115,9 @@ public class LeapTask extends TaskBase implements IAICombat
         if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Leap: " + this.entity + " " + diff + " " + dir);
 
         // Set the timer so we don't leap again rapidly
-        this.leapTick = this.entity.ticksExisted + PokecubeCore.getConfig().attackCooldown / 2;
+        this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
 
-        new PlaySound(this.entity.getEntityWorld().getDimensionKey(), Vector3.getNewVector().set(this.entity), this
+        new PlaySound(this.entity.getCommandSenderWorld().dimension(), Vector3.getNewVector().set(this.entity), this
                 .getLeapSound(), SoundCategory.HOSTILE, 1, 1).run(this.world);
         BrainUtils.setLeapTarget(this.entity, null);
     }
@@ -128,7 +128,7 @@ public class LeapTask extends TaskBase implements IAICombat
         // Can't move, no leap
         if (!TaskBase.canMove(this.pokemob)) return false;
         // On cooldown, no leap
-        if (this.leapTick > this.entity.ticksExisted) return false;
+        if (this.leapTick > this.entity.tickCount) return false;
         // Leap if we have a target pos
         return (this.pos = BrainUtils.getLeapTarget(this.entity)) != null;
     }
