@@ -74,8 +74,7 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
     private static final VoxelShape RAID_SPOT = VoxelShapes.or(
             Block.box(2, 0, 2, 14, 3, 14),
             Block.box(3, 3, 3, 13, 9, 13)).optimize();
-
-
+    
     public RaidSpawnBlock(final Material material, MaterialColor color)
     {
         super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
