@@ -388,6 +388,7 @@ public class SpawnBiomeMatcher
         for (final BiomeDictionary.Type type : this._invalidTypes)
             if (BiomeDictionary.hasType(key, type)) return false;
         if (this._blackListBiomes.contains(key)) return false;
+        if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         if (!this._validTypes.isEmpty())
         {
             boolean all = true;
