@@ -15,10 +15,13 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
@@ -121,6 +124,25 @@ public class ForgeEventHandlers
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final ServerWorld world = (ServerWorld) player.getCommandSenderWorld();
         if (this.protectTemple(player, world, null, evt.getPos()))
+        {
+            evt.setCanceled(true);
+            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void bucket(final FillBucketEvent evt)
+    {
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity) || !PokecubeLegends.config.protectTemples) return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final ServerWorld world = (ServerWorld) player.getCommandSenderWorld();
+        BlockPos pos = player.blockPosition();
+        if (evt.getTarget() instanceof BlockRayTraceResult && evt.getTarget().getType() != Type.MISS)
+        {
+            final BlockRayTraceResult trace = (BlockRayTraceResult) evt.getTarget();
+            pos = trace.getBlockPos().relative(trace.getDirection());
+        }
+        if (this.protectTemple(player, world, null, pos))
         {
             evt.setCanceled(true);
             player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
