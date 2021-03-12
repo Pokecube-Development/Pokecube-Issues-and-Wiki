@@ -201,6 +201,7 @@ public class ClientSetupHandler
         for (final Block door : ItemGenerator.doors.values())
             RenderTypeLookup.setRenderLayer(door, RenderType.cutoutMipped());
         RenderTypeLookup.setRenderLayer(PokecubeItems.NESTBLOCK.get(), RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(PokecubeItems.DYNABLOCK.get(), RenderType.cutoutMipped());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c -> c.registerExtensionPoint(
