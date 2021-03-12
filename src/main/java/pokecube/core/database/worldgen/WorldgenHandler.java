@@ -91,10 +91,6 @@ public class WorldgenHandler
                 out.value(value.toString());
             }
         }).create();
-
-        CustomJigsawPiece.TYPE = IJigsawDeserializer.register("pokecube:custom_pool_element",
-                CustomJigsawPiece.CODEC);
-
     }
 
     public static class Options
@@ -379,6 +375,9 @@ public class WorldgenHandler
         bus.register(this.reg);
         MinecraftForge.EVENT_BUS.register(this);
         WorldgenHandler.WORLDGEN.put(this.MODID, this);
+
+        if (CustomJigsawPiece.TYPE == null) CustomJigsawPiece.TYPE = IJigsawDeserializer.register(
+                "pokecube:custom_pool_element", CustomJigsawPiece.makeCodec());
     }
 
     public static void setupAll()
@@ -598,10 +597,10 @@ public class WorldgenHandler
 
             for (final String s : PokecubeCore.getConfig().worldgenWorldSettings)
             {
-                final RegistryKey<DimensionSettings> key = RegistryKey.create(Registry.NOISE_GENERATOR_SETTINGS_REGISTRY,
-                        new ResourceLocation(s));
-                WorldGenRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(structure,
-                        struct.toSettings());
+                final RegistryKey<DimensionSettings> key = RegistryKey.create(
+                        Registry.NOISE_GENERATOR_SETTINGS_REGISTRY, new ResourceLocation(s));
+                WorldGenRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(
+                        structure, struct.toSettings());
             }
         }
         PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);

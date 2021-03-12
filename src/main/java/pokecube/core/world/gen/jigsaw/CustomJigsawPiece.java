@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
@@ -58,12 +57,15 @@ public class CustomJigsawPiece extends SingleJigsawPiece
 {
     public static IJigsawDeserializer<CustomJigsawPiece> TYPE;
 
-    public static final Codec<CustomJigsawPiece> CODEC = RecordCodecBuilder.create((instance) ->
+    public static Codec<CustomJigsawPiece> makeCodec()
     {
-        return instance.group(SingleJigsawPiece.templateCodec(), SingleJigsawPiece.processorsCodec(), JigsawPiece
-                .projectionCodec(), CustomJigsawPiece.options(), CustomJigsawPiece.config()).apply(instance,
-                        CustomJigsawPiece::new);
-    });
+        return RecordCodecBuilder.create((instance) ->
+        {
+            return instance.group(SingleJigsawPiece.templateCodec(), SingleJigsawPiece.processorsCodec(), JigsawPiece
+                    .projectionCodec(), CustomJigsawPiece.options(), CustomJigsawPiece.config()).apply(instance,
+                            CustomJigsawPiece::new);
+        });
+    }
 
     protected static <E extends CustomJigsawPiece> RecordCodecBuilder<E, Options> options()
     {
@@ -198,12 +200,14 @@ public class CustomJigsawPiece extends SingleJigsawPiece
                             && StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA;
                     if (isDataMarker)
                     {
-                        final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos).offset(pos1);
+                        final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos)
+                                .offset(pos1);
                         this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
                     }
                     else if (info.state.hasProperty(BlockStateProperties.WATERLOGGED))
                     {
-                        final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos).offset(pos1);
+                        final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos)
+                                .offset(pos1);
                         final BlockState blockstate = info.state.mirror(placementsettings.getMirror()).rotate(
                                 seedReader, blockpos, placementsettings.getRotation());
                         seedReader.setBlock(blockpos, blockstate.setValue(BlockStateProperties.WATERLOGGED, false),
@@ -217,17 +221,13 @@ public class CustomJigsawPiece extends SingleJigsawPiece
                 final List<BlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
                 for (final BlockInfo info : data)
                 {
-                    final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos).offset(pos1);
+                    final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos).offset(
+                            pos1);
                     this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
                 }
             }
             return true;
         }
-    }
-
-    public Template getTemplate(final TemplateManager manager)
-    {
-        return this.template.map(manager::getOrCreate, Function.identity());
     }
 
     @Override
