@@ -3,7 +3,7 @@
 	"textures": {
 		"particle": "pokecube_legends:blocks/raid_spot_spawn_rare",
 		"raid_spot": "pokecube_legends:blocks/raid_spot_spawn_rare",
-		"base": "pokecube_legends:block/polished_diorite"
+		"base": "minecraft:block/polished_diorite"
 	},
 	"elements": [
 		{
