@@ -632,7 +632,7 @@ public class BlockInit
 
         // Dimensions
         SPECTRUM_GLASS = PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new SpectrumGlass("spectrum_glass",
-                DyeColor.ORANGE, AbstractBlock.Properties.of(Material.GLASS).noOcclusion(), MaterialColor.COLOR_ORANGE));
+                DyeColor.ORANGE, AbstractBlock.Properties.of(Material.GLASS).noOcclusion().sound(SoundType.GLASS), MaterialColor.COLOR_ORANGE));
         ULTRA_AGED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt3", () -> new BlockBase("ultradirt3",
                 Material.GRASS, MaterialColor.TERRACOTTA_YELLOW, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_CORRUPTED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",

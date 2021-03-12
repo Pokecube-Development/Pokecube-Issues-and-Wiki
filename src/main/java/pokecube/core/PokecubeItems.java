@@ -182,7 +182,7 @@ public class PokecubeItems extends ItemList
         HEALER = PokecubeItems.BLOCKS.register("pokecenter", () -> new HealerBlock(AbstractBlock.Properties.of(
                 Material.METAL, MaterialColor.WOOL).strength(2000)));
         NESTBLOCK = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(AbstractBlock.Properties.of(
-                Material.GRASS, MaterialColor.STONE)));
+                Material.GRASS, MaterialColor.COLOR_BROWN)));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(AbstractBlock.Properties.of(
                 Material.GRASS, MaterialColor.COLOR_GREEN)));
         DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(AbstractBlock.Properties.of(Material.STONE)
