@@ -18,7 +18,7 @@ public class NestBlock extends InteractableBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public float getAmbientOcclusionLightValue(BlockState state, IBlockReader world, BlockPos pos)
+    public float getShadeBrightness(BlockState state, IBlockReader world, BlockPos pos)
     {
         return 1.0F;
     }
