@@ -1,7 +1,24 @@
 {
   "variants": {
-    "state=empty":  { "model": "pokecube_legends:block/raidspawn_block_empty"},
-    "state=normal": { "model": "pokecube_legends:block/raidspawn_block_normal"},
-    "state=rare":  { "model": "pokecube_legends:block/raidspawn_block_rare"}
+    "state=empty,facing=up": { "model": "pokecube_legends:block/raidspawn_block_empty"},
+    "state=empty,facing=down": { "model": "pokecube_legends:block/raidspawn_block_empty", "x": 180 },
+    "state=empty,facing=north": { "model": "pokecube_legends:block/raidspawn_block_empty", "x": 90 },
+    "state=empty,facing=east":  { "model": "pokecube_legends:block/raidspawn_block_empty", "x": 90, "y": 90 },
+    "state=empty,facing=south": { "model": "pokecube_legends:block/raidspawn_block_empty", "x": 90, "y": 180 },
+    "state=empty,facing=west":  { "model": "pokecube_legends:block/raidspawn_block_empty", "x": 90, "y": 270 },
+
+    "state=normal,facing=up": { "model": "pokecube_legends:block/raidspawn_block_normal"},
+    "state=normal,facing=down": { "model": "pokecube_legends:block/raidspawn_block_normal", "x": 180 },
+    "state=normal,facing=north": { "model": "pokecube_legends:block/raidspawn_block_normal", "x": 90 },
+    "state=normal,facing=east":  { "model": "pokecube_legends:block/raidspawn_block_normal", "x": 90, "y": 90 },
+    "state=normal,facing=south": { "model": "pokecube_legends:block/raidspawn_block_normal", "x": 90, "y": 180 },
+    "state=normal,facing=west":  { "model": "pokecube_legends:block/raidspawn_block_normal", "x": 90, "y": 270 },
+
+    "state=rare,facing=up": { "model": "pokecube_legends:block/raidspawn_block_rare"},
+    "state=rare,facing=down": { "model": "pokecube_legends:block/raidspawn_block_rare", "x": 180 },
+    "state=rare,facing=north": { "model": "pokecube_legends:block/raidspawn_block_rare", "x": 90 },
+    "state=rare,facing=east":  { "model": "pokecube_legends:block/raidspawn_block_rare", "x": 90, "y": 90 },
+    "state=rare,facing=south": { "model": "pokecube_legends:block/raidspawn_block_rare", "x": 90, "y": 180 },
+    "state=rare,facing=west":  { "model": "pokecube_legends:block/raidspawn_block_rare", "x": 90, "y": 270 }
   }
 }
