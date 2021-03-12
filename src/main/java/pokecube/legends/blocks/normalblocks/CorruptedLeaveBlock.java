@@ -1,6 +1,7 @@
 package pokecube.legends.blocks.normalblocks;
 
 import java.util.Random;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
@@ -16,14 +17,14 @@ public class CorruptedLeaveBlock extends LeavesBlock
 {
     public CorruptedLeaveBlock()
     {
-        super(Properties.create(Material.LEAVES, MaterialColor.BLACK).sound(SoundType.SOUL_SAND).hardnessAndResistance(1, 2).notSolid());
+        super(Properties.of(Material.LEAVES, MaterialColor.COLOR_BROWN).sound(SoundType.SOUL_SAND).strength(1, 2).noOcclusion());
     }
 
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
     	if (rand.nextInt(3) == 0) {
-          BlockPos blockpos = pos.down();
-          if (worldIn.isAirBlock(blockpos)) {
+          BlockPos blockpos = pos.below();
+          if (worldIn.isEmptyBlock(blockpos)) {
              double d0 = (double)pos.getX() + rand.nextDouble();
              double d1 = (double)pos.getY() - 0.05D;
              double d2 = (double)pos.getZ() + rand.nextDouble();

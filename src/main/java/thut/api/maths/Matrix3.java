@@ -91,7 +91,7 @@ public class Matrix3
         final double maxY = entityBox.maxY;
         final double maxZ = entityBox.maxZ;
         final double factor = 0.75d;
-        final Vector3d motion = e.getMotion();
+        final Vector3d motion = e.getDeltaMovement();
         double dx = Math.max(maxX - minX, 0.5) / factor + motion.x, dz = Math.max(maxZ - minZ, 0.5) / factor + motion.z,
                 r;
 
@@ -100,7 +100,7 @@ public class Matrix3
 
         Matrix3.mergeAABBs(aabbs, maxX - minX, maxY - minY, maxZ - minZ);
 
-        final double yTop = Math.min(e.stepHeight + e.getPosY() + yShift, maxY);
+        final double yTop = Math.min(e.maxUpStep + e.getY() + yShift, maxY);
 
         boolean floor = false;
         boolean ceiling = false;
@@ -124,7 +124,7 @@ public class Matrix3
             collidesZ = collidesZ && (collidesX || collidesY);
             collidesX = collidesX && (collidesZ || collidesY);
 
-            if (collidesX && collidesZ && yTop >= aabb.maxY && boundingBox.minY - e.stepHeight - yShift <= aabb.maxY
+            if (collidesX && collidesZ && yTop >= aabb.maxY && boundingBox.minY - e.maxUpStep - yShift <= aabb.maxY
                     - diffs.y)
             {
                 if (!floor) temp1.y = Math.max(aabb.maxY - boundingBox.minY, temp1.y);
@@ -325,7 +325,7 @@ public class Matrix3
                 if (Math.abs(b2.maxY - b1.maxY) <= dy && Math.abs(b2.minY - b1.minY) <= dy && Math.abs(b2.maxX
                         - b1.maxX) <= dx && Math.abs(b2.minX - b1.minX) <= dx && Math.abs(b2.minZ - b1.maxZ) <= dz)
                 {
-                    b1 = b1.union(b2);
+                    b1 = b1.minmax(b2);
                     boxes[i] = b1;
                     boxes[j] = null;
                 }
@@ -342,7 +342,7 @@ public class Matrix3
                 if (Math.abs(b2.maxY - b1.maxY) <= dy && Math.abs(b2.minY - b1.minY) <= dy && Math.abs(b2.maxZ
                         - b1.maxZ) <= dz && Math.abs(b2.minZ - b1.minZ) <= dz && Math.abs(b2.minX - b1.maxX) <= dx)
                 {
-                    b1 = b1.union(b2);
+                    b1 = b1.minmax(b2);
                     boxes[i] = b1;
                     boxes[j] = null;
                 }
@@ -359,7 +359,7 @@ public class Matrix3
                 if (Math.abs(b2.maxX - b1.maxX) <= dx && Math.abs(b2.minX - b1.minX) <= dx && Math.abs(b2.maxZ
                         - b1.maxZ) <= dz && Math.abs(b2.minZ - b1.minZ) <= dz && Math.abs(b2.minY - b1.maxY) <= dy)
                 {
-                    b1 = b1.union(b2);
+                    b1 = b1.minmax(b2);
                     boxes[i] = b1;
                     boxes[j] = null;
                 }

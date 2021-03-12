@@ -44,7 +44,7 @@ public class Spawns extends ListPage<LineEntry>
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.FONT_HEIGHT * 7;
+        final int height = this.font.lineHeight * 7;
         final int width = 110;
 
         final int dx = 50;
@@ -52,8 +52,8 @@ public class Spawns extends ListPage<LineEntry>
         offsetX += dx;
         offsetY += dy;
 
-        this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.FONT_HEIGHT / 2,
-        		this.font.FONT_HEIGHT, offsetX, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
+        		this.font.lineHeight, offsetX, offsetY);
         for (final SpawnBiomeMatcher matcher : PacketPokedex.selectedMob)
         {
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, 100, height, offsetY);

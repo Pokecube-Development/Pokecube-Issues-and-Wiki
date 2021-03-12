@@ -82,13 +82,13 @@ public class SecretBaseRadarPage extends WatchPage
         float g = 1;
         final float b = 0;
         float a = 1;
-        GlStateManager.disableTexture();
+        GlStateManager._disableTexture();
         final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder vertexbuffer = tessellator.getBuffer();
+        final BufferBuilder vertexbuffer = tessellator.getBuilder();
         r = 1;
         g = SecretBaseRadarPage.meteorMode ? 1 : 0;
         final Vector3 here = Vector3.getNewVector().set(this.watch.player);
-        final float angle = -this.watch.player.rotationYaw % 360 + 180;
+        final float angle = -this.watch.player.yRot % 360 + 180;
         GL11.glRotated(angle, 0, 0, 1);
 
         final Set<BlockPos> coords = SecretBaseRadarPage.meteorMode ? SecretBaseRadarPage.meteors
@@ -118,11 +118,11 @@ public class SecretBaseRadarPage extends WatchPage
             yCoord = v.z;
 
             vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
-            vertexbuffer.pos(xCoord + minU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
-            vertexbuffer.pos(xCoord + maxU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
-            vertexbuffer.pos(xCoord + maxU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
-            vertexbuffer.pos(xCoord + minU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
-            tessellator.draw();
+            vertexbuffer.vertex(xCoord + minU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
+            vertexbuffer.vertex(xCoord + maxU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
+            vertexbuffer.vertex(xCoord + maxU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
+            vertexbuffer.vertex(xCoord + minU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
+            tessellator.end();
             GL11.glPopMatrix();
         }
         GL11.glPopMatrix();

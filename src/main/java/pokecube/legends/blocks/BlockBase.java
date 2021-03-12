@@ -2,6 +2,7 @@ package pokecube.legends.blocks;
 
 import java.util.List;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -37,12 +38,12 @@ public class BlockBase extends Block
     public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
             final SoundType sound, final ToolType tool, final int harvestLevel)
     {
-        super(Block.Properties.create(material, color).hardnessAndResistance(hardness, resistance).sound(sound).harvestLevel(harvestLevel));
+        super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestLevel(harvestLevel));
     }
 
     public BlockBase(final String name, final Material material, final MaterialColor color, final ToolType tool, final int level)
     {
-        super(Block.Properties.create(material, color).harvestTool(tool).harvestLevel(level));
+        super(AbstractBlock.Properties.of(material, color).harvestTool(tool).harvestLevel(level));
     }
 
     public BlockBase(final String name, final Properties props)
@@ -60,7 +61,7 @@ public class BlockBase extends Block
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        return this.customShape == null ? VoxelShapes.fullCube() : this.customShape;
+        return this.customShape == null ? VoxelShapes.block() : this.customShape;
     }
 
     public BlockBase setInfoBlockName(final String infoname)
@@ -77,13 +78,13 @@ public class BlockBase extends Block
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
+    public void appendHoverText(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
             final ITooltipFlag flagIn)
     {
         if (!this.hasTextInfo) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legendblock." + this.infoname + ".tooltip");
-        else message = I18n.format("pokecube.tooltip.advanced");
+        if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
+        else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
 

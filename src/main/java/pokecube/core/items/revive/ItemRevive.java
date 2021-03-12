@@ -17,7 +17,7 @@ public class ItemRevive extends Item
     }
 
     @Override
-    public ActionResultType itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
+    public ActionResultType interactLivingEntity(final ItemStack stack, final PlayerEntity playerIn,
             final LivingEntity target, final Hand hand)
     {
         if (target.deathTime > 0)
@@ -27,6 +27,6 @@ public class ItemRevive extends Item
             stack.grow(-1);
             return ActionResultType.CONSUME;
         }
-        return super.itemInteractionForEntity(stack, playerIn, target, hand);
+        return super.interactLivingEntity(stack, playerIn, target, hand);
     }
 }

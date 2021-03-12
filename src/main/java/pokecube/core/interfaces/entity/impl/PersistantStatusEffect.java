@@ -51,17 +51,17 @@ public class PersistantStatusEffect extends BaseEffect
             if (effect.getDuration() == 0) toRemove = true;
             final int duration = PokecubeCore.getConfig().attackCooldown * 5;
 
-            LivingEntity targetM = entity.getAttackingEntity();
-            if (targetM == null) targetM = entity.getRevengeTarget();
-            if (targetM == null) targetM = entity.getLastAttackedEntity();
+            LivingEntity targetM = entity.getKillCredit();
+            if (targetM == null) targetM = entity.getLastHurtByMob();
+            if (targetM == null) targetM = entity.getLastHurtMob();
             if (targetM == null) targetM = entity;
             float scale = 1;
             final IPokemob user = CapabilityPokemob.getPokemobFor(targetM);
             final DamageSource source = new StatusEffectDamageSource(targetM);
             if (pokemob != null)
             {
-                source.setDamageIsAbsolute();
-                source.setDamageBypassesArmor();
+                source.bypassMagic();
+                source.bypassArmor();
             }
             else if (entity instanceof PlayerEntity) scale = (float) (user != null && user.isPlayerOwned()
                     ? PokecubeCore.getConfig().ownedPlayerDamageRatio
@@ -75,7 +75,7 @@ public class PersistantStatusEffect extends BaseEffect
             case BADPOISON:
                 if (pokemob != null)
                 {
-                    entity.attackEntityFrom(source, scale * (pokemob.getMoveStats().TOXIC_COUNTER + 1) * entity
+                    entity.hurt(source, scale * (pokemob.getMoveStats().TOXIC_COUNTER + 1) * entity
                             .getMaxHealth() / 16f);
                     this.spawnPoisonParticle(entity);
                     this.spawnPoisonParticle(entity);
@@ -83,32 +83,32 @@ public class PersistantStatusEffect extends BaseEffect
                 }
                 else
                 {
-                    entity.attackEntityFrom(source, scale * entity.getMaxHealth() / 8f);
+                    entity.hurt(source, scale * entity.getMaxHealth() / 8f);
                     this.spawnPoisonParticle(entity);
                 }
                 break;
             case BURN:
-                if (scale > 0) entity.setFire(duration);
-                entity.attackEntityFrom(source, scale * entity.getMaxHealth() / 16f);
+                if (scale > 0) entity.setSecondsOnFire(duration);
+                entity.hurt(source, scale * entity.getMaxHealth() / 16f);
                 break;
             case FREEZE:
                 if (Math.random() > 0.9) toRemove = true;
-                entity.addPotionEffect(new EffectInstance(Effects.SLOWNESS, duration, 100));
-                entity.addPotionEffect(new EffectInstance(Effects.WEAKNESS, duration, 100));
+                entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, duration, 100));
+                entity.addEffect(new EffectInstance(Effects.WEAKNESS, duration, 100));
                 break;
             case PARALYSIS:
                 break;
             case POISON:
-                entity.attackEntityFrom(source, scale * entity.getMaxHealth() / 8f);
+                entity.hurt(source, scale * entity.getMaxHealth() / 8f);
                 this.spawnPoisonParticle(entity);
                 break;
             case SLEEP:
                 if (Math.random() > 0.9) toRemove = true;
                 else
                 {
-                    entity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, duration, 100));
-                    entity.addPotionEffect(new EffectInstance(Effects.SLOWNESS, duration, 100));
-                    entity.addPotionEffect(new EffectInstance(Effects.WEAKNESS, duration, 100));
+                    entity.addEffect(new EffectInstance(Effects.BLINDNESS, duration, 100));
+                    entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, duration, 100));
+                    entity.addEffect(new EffectInstance(Effects.WEAKNESS, duration, 100));
                     this.spawnSleepParticle(entity);
                 }
                 break;
@@ -140,11 +140,11 @@ public class PersistantStatusEffect extends BaseEffect
             // final Vector3 vel = Vector3.getNewVector().set(d0, d1, d2);
             for (int i = 0; i < 3; ++i)
             {
-                loc.set(entity.getPosX(), entity.getPosY() + 0.5D + rand.nextFloat() * entity.getHeight(), entity
-                        .getPosZ());
+                loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity
+                        .getZ());
                 // PokecubeCore.spawnParticle(entity.getEntityWorld(),
                 // "mobSpell", particleLoc, vel);TODO figure out colouring
-                entity.getEntityWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
+                entity.getCommandSenderWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
 
@@ -155,9 +155,9 @@ public class PersistantStatusEffect extends BaseEffect
             Vector3.getNewVector();
             for (int i = 0; i < 3; ++i)
             {
-                loc.set(entity.getPosX(), entity.getPosY() + 0.5D + rand.nextFloat() * entity.getHeight(), entity
-                        .getPosZ());
-                entity.getEntityWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
+                loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity
+                        .getZ());
+                entity.getCommandSenderWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
     }

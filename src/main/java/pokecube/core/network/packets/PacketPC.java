@@ -32,8 +32,8 @@ public class PacketPC extends Packet
 
     public static void sendInitialSyncMessage(final PlayerEntity sendTo)
     {
-        final PCInventory inv = PCInventory.getPC(sendTo.getUniqueID());
-        final PacketPC packet = new PacketPC(PacketPC.PCINIT, sendTo.getUniqueID());
+        final PCInventory inv = PCInventory.getPC(sendTo.getUUID());
+        final PacketPC packet = new PacketPC(PacketPC.PCINIT, sendTo.getUUID());
         packet.data.putInt("N", inv.boxes.length);
         packet.data.putBoolean("A", inv.autoToPC);
         packet.data.putBoolean("O", inv.seenOwner);
@@ -71,14 +71,14 @@ public class PacketPC extends Packet
     public PacketPC(final byte message, final UUID owner)
     {
         this(message);
-        this.data.putUniqueId(PacketPC.OWNER, owner);
+        this.data.putUUID(PacketPC.OWNER, owner);
     }
 
     public PacketPC(final PacketBuffer buf)
     {
         this.message = buf.readByte();
         final PacketBuffer buffer = new PacketBuffer(buf);
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
     }
 
     @Override
@@ -88,7 +88,7 @@ public class PacketPC extends Packet
         switch (this.message)
         {
         case PCINIT:
-            pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
+            pc = PCInventory.getPC(this.data.getUUID(PacketPC.OWNER));
             pc.seenOwner = this.data.getBoolean("O");
             pc.autoToPC = this.data.getBoolean("A");
             if (this.data.contains("C")) pc.setPage(this.data.getInt("C"));
@@ -103,7 +103,7 @@ public class PacketPC extends Packet
         case BIND:
             break;
         case PCOPEN:
-            pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
+            pc = PCInventory.getPC(this.data.getUUID(PacketPC.OWNER));
             pc.deserializeBox(this.data);
             break;
         default:
@@ -116,7 +116,7 @@ public class PacketPC extends Packet
     {
 
         PCContainer container = null;
-        if (player.openContainer instanceof PCContainer) container = (PCContainer) player.openContainer;
+        if (player.containerMenu instanceof PCContainer) container = (PCContainer) player.containerMenu;
         PCInventory pc = null;
         if (container != null) pc = container.inv;
         UUID id;
@@ -125,7 +125,7 @@ public class PacketPC extends Packet
         case BIND:
             if (container != null && container.pcPos != null)
             {
-                final TileEntity tile = player.getEntityWorld().getTileEntity(container.pcPos);
+                final TileEntity tile = player.getCommandSenderWorld().getBlockEntity(container.pcPos);
                 if (tile instanceof PCTile)
                 {
                     final PCTile pcTile = (PCTile) tile;
@@ -148,7 +148,7 @@ public class PacketPC extends Packet
             break;
         case RELEASE:
             final boolean toggle = this.data.getBoolean("T");
-            id = this.data.getUniqueId(PacketPC.OWNER);
+            id = this.data.getUUID(PacketPC.OWNER);
             if (toggle) container.setRelease(this.data.getBoolean("R"), id);
             else
             {
@@ -159,12 +159,12 @@ public class PacketPC extends Packet
                     if (this.data.getBoolean("val" + i))
                     {
                         final int j = i + page * 54;
-                        pc.setInventorySlotContents(j, ItemStack.EMPTY);
+                        pc.setItem(j, ItemStack.EMPTY);
                     }
             }
             break;
         case TOGGLEAUTO:
-            id = this.data.getUniqueId(PacketPC.OWNER);
+            id = this.data.getUUID(PacketPC.OWNER);
             pc = PCInventory.getPC(id);
             pc.autoToPC = this.data.getBoolean("A");
             break;
@@ -178,7 +178,7 @@ public class PacketPC extends Packet
     {
         buf.writeByte(this.message);
         final PacketBuffer buffer = new PacketBuffer(buf);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 
 }

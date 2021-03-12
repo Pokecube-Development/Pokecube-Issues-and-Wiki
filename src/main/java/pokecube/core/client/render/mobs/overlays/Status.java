@@ -4,13 +4,13 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3f;
 import pokecube.core.client.Resources;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
@@ -50,7 +50,7 @@ public class Status
         @Override
         public void bindObject(final Object thing)
         {
-            this.time += Minecraft.getInstance().getRenderPartialTicks() / 10000;
+            this.time += Minecraft.getInstance().getFrameTime() / 10000;
         }
 
         @Override
@@ -91,26 +91,26 @@ public class Status
         if (status == 0) return;
         final boolean frz = status == IMoveConstants.STATUS_FRZ;
 
-        final ModelWrapper<?> wrap = (ModelWrapper<?>) renderer.getEntityModel();
+        final ModelWrapper<?> wrap = (ModelWrapper<?>) renderer.getModel();
 
-        mat.push();
+        mat.pushPose();
 
-        final float f = MathHelper.interpolateAngle(partialTicks, mob.prevRenderYawOffset, mob.renderYawOffset);
-        final float f1 = MathHelper.interpolateAngle(partialTicks, mob.prevRotationYawHead, mob.rotationYawHead);
+        final float f = MathHelper.rotLerp(partialTicks, mob.yBodyRotO, mob.yBodyRot);
+        final float f1 = MathHelper.rotLerp(partialTicks, mob.yHeadRotO, mob.yHeadRot);
         final float f2 = f1 - f;
 
-        final float f6 = MathHelper.lerp(partialTicks, mob.prevRotationPitch, mob.rotationPitch);
+        final float f6 = MathHelper.lerp(partialTicks, mob.xRotO, mob.xRot);
 
-        final float f7 = mob.ticksExisted + partialTicks;
+        final float f7 = mob.tickCount + partialTicks;
         float f8 = 0.0F;
         float f5 = 0.0F;
         {
-            f8 = MathHelper.lerp(partialTicks, mob.prevLimbSwingAmount, mob.limbSwingAmount);
-            f5 = mob.limbSwing - mob.limbSwingAmount * (1.0F - partialTicks);
+            f8 = MathHelper.lerp(partialTicks, mob.animationSpeedOld, mob.animationSpeed);
+            f5 = mob.animationPosition - mob.animationSpeed * (1.0F - partialTicks);
 
             if (f8 > 1.0F) f8 = 1.0F;
         }
-        mat.rotate(Vector3f.YP.rotationDegrees(180.0F - f));
+        mat.mulPose(Vector3f.YP.rotationDegrees(180.0F - f));
 
         final float ds = frz ? 0.05f : 0.05f;
 
@@ -131,14 +131,14 @@ public class Status
                 p.applyTexture(buf, default_, statusTexturer);
             });
         }
-        renderer.getEntityModel().setLivingAnimations(mob, f5, f8, partialTicks);
-        renderer.getEntityModel().setRotationAngles(mob, f5, f8, f7, f2, f6);
-        renderer.getEntityModel().render(mat, buf.getBuffer(wrap.getRenderType(default_)), light,
+        renderer.getModel().prepareMobModel(mob, f5, f8, partialTicks);
+        renderer.getModel().setupAnim(mob, f5, f8, f7, f2, f6);
+        renderer.getModel().renderToBuffer(mat, buf.getBuffer(wrap.renderType(default_)), light,
                 OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.5f);
 
         if (texer != null)
         {
-            final ResourceLocation orig_ = renderer.getEntityTexture(mob);
+            final ResourceLocation orig_ = renderer.getTextureLocation(mob);
             texer.bindObject(mob);
             wrap.getParts().forEach((n, p) ->
             {
@@ -147,7 +147,7 @@ public class Status
         }
 
         wrap.renderer.setTexturer(texer);
-        mat.pop();
+        mat.popPose();
     }
 
 }

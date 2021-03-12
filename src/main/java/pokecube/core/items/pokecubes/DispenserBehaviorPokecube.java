@@ -28,38 +28,38 @@ public class DispenserBehaviorPokecube implements IDispenseItemBehavior
         for (final Property<?> prop : state.getProperties())
             if (prop.getValueClass() == Direction.class)
             {
-                dir = (Direction) state.get(prop);
+                dir = (Direction) state.getValue(prop);
                 break;
             }
         if (dir == null) return stack;
 
-        final FakePlayer player = PokecubeMod.getFakePlayer(source.getWorld());
-        player.setPosition(source.getX(), source.getY() - player.getEyeHeight(), source.getZ());
+        final FakePlayer player = PokecubeMod.getFakePlayer(source.getLevel());
+        player.setPos(source.x(), source.y() - player.getEyeHeight(), source.z());
 
         // Defaults are for south.
-        player.rotationPitch = 0;
-        player.rotationYaw = 0;
+        player.xRot = 0;
+        player.yRot = 0;
 
-        if (dir == Direction.EAST) player.rotationYaw = -90;
-        else if (dir == Direction.WEST) player.rotationYaw = 90;
-        else if (dir == Direction.NORTH) player.rotationYaw = 180;
-        else if (dir == Direction.UP) player.rotationPitch = -90;
-        else if (dir == Direction.DOWN) player.rotationPitch = 90;
+        if (dir == Direction.EAST) player.yRot = -90;
+        else if (dir == Direction.WEST) player.yRot = 90;
+        else if (dir == Direction.NORTH) player.yRot = 180;
+        else if (dir == Direction.UP) player.xRot = -90;
+        else if (dir == Direction.DOWN) player.xRot = 90;
 
         if (ItemList.is(PokecubeItems.POKEMOBEGG, stack))
         {
-            player.setHeldItem(Hand.MAIN_HAND, stack);
+            player.setItemInHand(Hand.MAIN_HAND, stack);
             final BlockRayTraceResult result = new BlockRayTraceResult(new Vector3d(0.5, 0.5, 0.5), Direction.UP, source
-                    .getBlockPos().offset(dir), false);
+                    .getPos().relative(dir), false);
             final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, result);
-            stack.onItemUse(context);
-            player.inventory.clear();
+            stack.useOn(context);
+            player.inventory.clearContent();
         }
         else if (stack.getItem() instanceof IPokecube)
         {
             final IPokecube cube = (IPokecube) stack.getItem();
             final Vector3 direction = Vector3.getNewVector().set(dir);
-            if (cube.throwPokecube(source.getWorld(), player, stack, direction, 0.25f) != null) stack.split(1);
+            if (cube.throwPokecube(source.getLevel(), player, stack, direction, 0.25f) != null) stack.split(1);
         }
         return stack;
     }

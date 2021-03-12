@@ -21,7 +21,7 @@ public class Move_Ongoing extends Move_Basic
     protected float damageTarget(final LivingEntity mob, final LivingEntity user, final float damage)
     {
         final DamageSource source = this.getOngoingDamage(user);
-        mob.attackEntityFrom(source, damage);
+        mob.hurt(source, damage);
         return damage;
     }
 
@@ -29,7 +29,7 @@ public class Move_Ongoing extends Move_Basic
     {
         final float thisMaxHP = mob.getEntity().getMaxHealth();
         final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-        mob.getEntity().attackEntityFrom(this.getOngoingDamage(user), damage);
+        mob.getEntity().hurt(this.getOngoingDamage(user), damage);
     }
 
     /**
@@ -51,8 +51,8 @@ public class Move_Ongoing extends Move_Basic
         final DamageSource source = GenericDamageSource.causeMobDamage(user);
         if (CapabilityPokemob.getPokemobFor(user) != null)
         {
-            source.setDamageIsAbsolute();
-            source.setDamageBypassesArmor();
+            source.bypassMagic();
+            source.bypassArmor();
         }
         return source;
     }

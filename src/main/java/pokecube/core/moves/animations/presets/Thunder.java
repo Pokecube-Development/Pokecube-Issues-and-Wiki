@@ -33,10 +33,10 @@ public class Thunder extends MoveAnimationBase
     public void spawnClientEntities(final MovePacketInfo info)
     {
         final net.minecraft.client.world.ClientWorld theRealWorld = (net.minecraft.client.world.ClientWorld) info.attacker
-                .getEntityWorld();
+                .getCommandSenderWorld();
         final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, theRealWorld);
         info.target.moveEntity(lightning);
-        lightning.setEffectOnly(false);
-        theRealWorld.addEntity(lightning);
+        lightning.setVisualOnly(false);
+        theRealWorld.addFreshEntity(lightning);
     }
 }

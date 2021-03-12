@@ -36,7 +36,7 @@ public class Pokerecall
 {
     private static SuggestionProvider<CommandSource> SUGGEST_NAMES = (ctx, sb) ->
     {
-        final ServerPlayerEntity player = ctx.getSource().asPlayer();
+        final ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
         final Set<String> opts = Sets.newHashSet();
         final List<Entity> mobs = PokemobTracker.getMobs(player, c -> EventsHandler.validRecall(player, c, null, true,
                 true));
@@ -47,7 +47,7 @@ public class Pokerecall
             else if (e instanceof EntityPokecubeBase)
             {
                 final EntityPokecubeBase cube = (EntityPokecubeBase) e;
-                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
+                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getCommandSenderWorld());
                 if (mob != null) opts.add(mob.getDisplayName().getString());
             }
         }
@@ -57,7 +57,7 @@ public class Pokerecall
     public static int execute(final CommandSource source, final String pokemob) throws CommandSyntaxException
     {
         int num = 0;
-        final ServerPlayerEntity player = source.asPlayer();
+        final ServerPlayerEntity player = source.getPlayerOrException();
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
             if (e.getDisplayName().getString().equals(pokemob))
             {
@@ -71,7 +71,7 @@ public class Pokerecall
             else if (e instanceof EntityPokecubeBase)
             {
                 final EntityPokecubeBase cube = (EntityPokecubeBase) e;
-                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
+                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getCommandSenderWorld());
                 if (mob != null && mob.getDisplayName().getString().equals(pokemob))
                 {
                     final LivingEntity sent = SendOutManager.sendOut(cube, true, false);
@@ -84,8 +84,8 @@ public class Pokerecall
                     }
                 }
             }
-        if (num == 0) source.sendFeedback(new TranslationTextComponent("pokecube.recall.fail"), false);
-        else source.sendFeedback(new TranslationTextComponent("pokecube.recall.success", num), false);
+        if (num == 0) source.sendSuccess(new TranslationTextComponent("pokecube.recall.fail"), false);
+        else source.sendSuccess(new TranslationTextComponent("pokecube.recall.success", num), false);
         return 0;
     }
 
@@ -113,8 +113,8 @@ public class Pokerecall
                 }
             }
         }
-        if (num == 0) source.sendFeedback(new TranslationTextComponent("pokecube.recall.fail"), false);
-        else source.sendFeedback(new TranslationTextComponent("pokecube.recall.success", num), false);
+        if (num == 0) source.sendSuccess(new TranslationTextComponent("pokecube.recall.fail"), false);
+        else source.sendSuccess(new TranslationTextComponent("pokecube.recall.success", num), false);
         return 0;
     }
 
@@ -136,11 +136,11 @@ public class Pokerecall
                 .executes(ctx -> Pokerecall.execute(ctx.getSource(), StringArgumentType.getString(ctx, "name"))));
         // Target argument version
         command = command.then(Commands.literal("all").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
-                .getSource().asPlayer(), true, true, true)));
+                .getSource().getPlayerOrException(), true, true, true)));
         command = command.then(Commands.literal("sitting").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
-                .getSource().asPlayer(), false, true, false)));
+                .getSource().getPlayerOrException(), false, true, false)));
         command = command.then(Commands.literal("staying").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
-                .getSource().asPlayer(), false, false, true)));
+                .getSource().getPlayerOrException(), false, false, true)));
 
         // Target with player
         command = command.then(Commands.literal("all").then(Commands.argument("owner", EntityArgument.player())

@@ -21,7 +21,7 @@ public class CaptureMob extends BaseBattleTask
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         final IPokemob targ = CapabilityPokemob.getPokemobFor(this.trainer.getTarget());
         if (targ != null && targ.getOwnerId() == null && gameTimeIn - this.lastTry > CaptureMob.COOLDOWN)
@@ -34,9 +34,9 @@ public class CaptureMob extends BaseBattleTask
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
-        if (!super.shouldExecute(worldIn, owner)) return false;
+        if (!super.checkExtraStartConditions(worldIn, owner)) return false;
         return this.trainer.countPokemon() < this.trainer.getMaxPokemobCount() / 2;
     }
 }

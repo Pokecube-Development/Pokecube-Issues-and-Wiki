@@ -74,7 +74,7 @@ public class TrainerSpawnHandler
     {
         SpawnEventsHandler.processors.add((npc, thing) ->
         {
-            final World world = npc.getEntityWorld();
+            final World world = npc.getCommandSenderWorld();
             // Then apply trainer specific stuff.
             int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(npc), Database.missingno);
             if (thing.has("level")) level = thing.get("level").getAsInt();
@@ -171,8 +171,8 @@ public class TrainerSpawnHandler
                 temp1.y = y_Test;
             temp1.y++;
 
-            if (temp1.getBlockMaterial(world).blocksMovement()) return null;
-            if (temp1.addTo(0, 1, 0).getBlockMaterial(world).blocksMovement()) return null;
+            if (temp1.getBlockMaterial(world).blocksMotion()) return null;
+            if (temp1.addTo(0, 1, 0).getBlockMaterial(world).blocksMotion()) return null;
             temp1.y--;
             return temp1;
         }
@@ -194,7 +194,7 @@ public class TrainerSpawnHandler
             {
                 final SpawnBiomeMatcher matcher = entry.getKey();
                 final Float value = entry.getValue();
-                if (w.rand.nextFloat() < value && matcher.matches(checker))
+                if (w.random.nextFloat() < value && matcher.matches(checker))
                 {
                     ttype = type;
                     break types;
@@ -212,7 +212,7 @@ public class TrainerSpawnHandler
     {
         final Vector3 loc = Vector3.getNewVector().set(trainer);
         // Set level based on what wild pokemobs have.
-        int level = SpawnHandler.getSpawnLevel(trainer.getEntityWorld(), loc, Pokedex.getInstance().getFirstEntry());
+        int level = SpawnHandler.getSpawnLevel(trainer.getCommandSenderWorld(), loc, Pokedex.getInstance().getFirstEntry());
 
         if (trainer instanceof LeaderNpc)
         {
@@ -228,7 +228,7 @@ public class TrainerSpawnHandler
                 final ItemStack badge = new ItemStack(item);
                 if (!rewardsCap.getRewards().isEmpty()) rewardsCap.getRewards().set(0, new Reward(badge));
                 else rewardsCap.getRewards().add(new Reward(badge));
-                ((LeaderNpc) trainer).setHeldItem(Hand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
+                ((LeaderNpc) trainer).setItemInHand(Hand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
             }
         }
         // Randomize team.
@@ -243,22 +243,22 @@ public class TrainerSpawnHandler
             if (mobs.getType() != null) t.setType(mobs.getType()).setLevel(level);
         }
         else if (mobs.getType() != null) TypeTrainer.getRandomTeam(mobs, (LivingEntity) trainer, level, trainer
-                .getEntityWorld());
+                .getCommandSenderWorld());
     }
 
     public static void tick(final ServerWorld w)
     {
-        if (w.isRemote) return;
+        if (w.isClientSide) return;
         if (!SpawnHandler.canSpawnInWorld(w)) return;
-        final List<ServerPlayerEntity> players = w.getPlayers();
+        final List<ServerPlayerEntity> players = w.players();
         if (players.size() < 1) return;
-        final PlayerEntity p = players.get(w.rand.nextInt(players.size()));
+        final PlayerEntity p = players.get(w.random.nextInt(players.size()));
         Vector3 v = TrainerSpawnHandler.getRandomSpawningPointNearEntity(w, p, Config.instance.trainerBox);
         if (v == null) return;
         if (v.y <= 0) v.y = v.getMaxY(w);
         final Vector3 temp = Vector3.getNextSurfacePoint(w, v, Vector3.secondAxisNeg, 20);
         v = temp != null ? temp.offset(Direction.UP) : v;
-        if (v.y <= 0 || v.y >= w.getHeight()) return;
+        if (v.y <= 0 || v.y >= w.getMaxBuildHeight()) return;
 
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
 
@@ -266,7 +266,7 @@ public class TrainerSpawnHandler
         if (count < Config.instance.trainerDensity)
         {
             final Vector3 u = v.add(0, -1, 0);
-            if (w.isAirBlock(v.getPos()) && w.isAirBlock(u.getPos())) return;
+            if (w.isEmptyBlock(v.getPos()) && w.isEmptyBlock(u.getPos())) return;
 
             final long time = System.nanoTime();
             final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
@@ -283,14 +283,14 @@ public class TrainerSpawnHandler
             v.offsetBy(Direction.UP).moveEntity(t);
 
             // Not valid spawning spot, so deny the spawn here.
-            if (!(WorldEntitySpawner.canCreatureTypeSpawnAtLocation(PlacementType.ON_GROUND, w, v.getPos(), t.getType())
-                    || WorldEntitySpawner.canCreatureTypeSpawnAtLocation(PlacementType.IN_WATER, w, v.getPos(), t
+            if (!(WorldEntitySpawner.isSpawnPositionOk(PlacementType.ON_GROUND, w, v.getPos(), t.getType())
+                    || WorldEntitySpawner.isSpawnPositionOk(PlacementType.IN_WATER, w, v.getPos(), t
                             .getType()))) return;
 
-            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getPosX(), (int) t
-                    .getPosY(), (int) t.getPosZ()))
+            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t
+                    .getY(), (int) t.getZ()))
             {
-                w.addEntity(t);
+                w.addFreshEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
                 PokecubeCore.LOGGER.debug("Spawned Trainer: " + t + " " + count);
             }
@@ -329,9 +329,9 @@ public class TrainerSpawnHandler
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
             final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.worldActual)
                     : TrainerNpc.TYPE.create(event.worldActual);
-            mob.enablePersistence();
-            mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
-            mob.onInitialSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getDifficultyForLocation(event.pos),
+            mob.setPersistenceRequired();
+            mob.moveTo(event.pos, 0.0F, 0.0F);
+            mob.finalizeSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
                     SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
             JsonObject thing = new JsonObject();
             if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
@@ -356,9 +356,9 @@ public class TrainerSpawnHandler
                 final JsonObject apply = thing;
                 EventsHandler.Schedule(event.worldActual, w ->
                 {
-                    w.getChunk(mob.getPosition());
+                    w.getChunk(mob.blockPosition());
                     SpawnEventsHandler.applyFunction(mob, apply);
-                    w.addEntity(mob);
+                    w.addFreshEntity(mob);
                     return true;
                 });
             }

@@ -101,20 +101,20 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (!(this.getWorld() instanceof ServerWorld)) return;
-        if (this.getWorld().getGameTime() % PokecubeAdv.config.dayCareTickRate != 0) return;
+        if (!(this.getLevel() instanceof ServerWorld)) return;
+        if (this.getLevel().getGameTime() % PokecubeAdv.config.dayCareTickRate != 0) return;
         this.checkPower(1);
         if (this.power == 0)
         {
             if (this.redstonePower != 0)
             {
                 this.redstonePower = 0;
-                this.getWorld().notifyNeighborsOfStateChange(this.getPos(), this.getBlockState().getBlock());
+                this.getLevel().updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
             }
             return;
         }
         final List<Entity> list = Lists.newArrayList();
-        EntityTools.getNearMobsFast(list, this.getWorld(), this.getPos(), 16, e -> true);
+        EntityTools.getNearMobsFast(list, this.getLevel(), this.getBlockPos(), 16, e -> true);
         for (final Entity mob : list)
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
@@ -150,21 +150,21 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
         if (power != this.redstonePower)
         {
             this.redstonePower = power;
-            this.getWorld().notifyNeighborsOfStateChange(this.getPos(), this.getBlockState().getBlock());
+            this.getLevel().updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
         }
     }
 
     @Override
-    public void read(final BlockState state, final CompoundNBT compound)
+    public void load(final BlockState state, final CompoundNBT compound)
     {
         this.power = compound.getInt("fuel_cache");
-        super.read(state, compound);
+        super.load(state, compound);
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         compound.putFloat("fuel_cache", this.power);
-        return super.write(compound);
+        return super.save(compound);
     }
 }

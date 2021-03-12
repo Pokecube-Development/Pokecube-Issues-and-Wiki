@@ -48,11 +48,11 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
         final Brain<?> brain = this.entity.getBrain();
-        if (!brain.hasMemory(MemoryTypes.BATTLETARGET)) return false;
+        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
         final LivingEntity targ = brain.getMemory(MemoryTypes.BATTLETARGET).get();
         if (targ != this.target)
         {
@@ -63,17 +63,17 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         this.timer++;
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         if (this.trainer.getCooldown() > gameTimeIn) return;
         if (worldIn.getRandom().nextDouble() > this.chance) return;
-        final List<LivingEntity> mobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        final List<LivingEntity> mobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
 
         // Count tame mobs as their owners, rather than seperately mobs
         final Predicate<LivingEntity> tameChecker = mob ->
@@ -87,7 +87,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         };
         final double s = this.trainer.getAgressDistance();
         final Vector3d start = entityIn.getEyePosition(1);
-        Vector3d line = entityIn.getLook(1).mul(s, s, s);
+        Vector3d line = entityIn.getViewVector(1).multiply(s, s, s);
         Vector3d end = start.add(line);
 
         final int rep_base = PokecubeAdv.config.trainer_min_rep;
@@ -105,14 +105,14 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
                     if (rep > rep_cap) s1 = 0;
                     else if (rep < rep_base) s1 *= 2;
                     else s1 *= (rep_cap - rep) / drep;
-                    line = entityIn.getLook(1).mul(s1, s1, s1);
+                    line = entityIn.getViewVector(1).multiply(s1, s1, s1);
                     end = start.add(line);
                 }
 
-                final boolean lookingAt = mob.getBoundingBox().rayTrace(start, end).isPresent();
+                final boolean lookingAt = mob.getBoundingBox().clip(start, end).isPresent();
                 if (!lookingAt)
                 {
-                    BrainUtil.lookAt(this.entity, mob);
+                    BrainUtil.lookAtEntity(this.entity, mob);
                     return;
                 }
                 final IOwnable owned = OwnableCaps.getOwnable(mob);
@@ -128,16 +128,16 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
         final Brain<?> brain = owner.getBrain();
-        if (brain.hasMemory(MemoryTypes.BATTLETARGET)) return false;
-        if (owner.ticksExisted % PokecubeAdv.config.trainerAgroRate != 0) return false;
-        return this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS);
+        if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
+        if (owner.tickCount % PokecubeAdv.config.trainerAgroRate != 0) return false;
+        return this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES);
     }
 
     @Override
-    protected void resetTask(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void stop(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         this.timer = 0;
         this.target = null;

@@ -23,19 +23,19 @@ public class Healer<T extends HealerContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX,
+    protected void renderBg(final MatrixStack mat, final float partialTicks, final int mouseX,
             final int mouseY)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         // bind texture
-        this.minecraft.getTextureManager().bindTexture(Resources.GUI_HEAL_TABLE);
-        final int j2 = (this.width - this.xSize) / 2;
-        final int k2 = (this.height - this.ySize) / 2;
-        this.blit(mat, j2, k2, 0, 0, this.xSize, this.ySize);
+        this.minecraft.getTextureManager().bind(Resources.GUI_HEAL_TABLE);
+        final int j2 = (this.width - this.imageWidth) / 2;
+        final int k2 = (this.height - this.imageHeight) / 2;
+        this.blit(mat, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(final MatrixStack matrixStack, final int x, final int y)
+    protected void renderLabels(final MatrixStack matrixStack, final int x, final int y)
     {
         // NOOP, vanilla here draws labels for inventory titles, we don't need
         // those.
@@ -50,7 +50,7 @@ public class Healer<T extends HealerContainer> extends ContainerScreen<T>
         {
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
-            if (HealerContainer.HEAL_SOUND != null) this.playerInventory.player.playSound(HealerContainer.HEAL_SOUND, 1,
+            if (HealerContainer.HEAL_SOUND != null) this.inventory.player.playSound(HealerContainer.HEAL_SOUND, 1,
                     1);
         }));
     }
@@ -61,6 +61,6 @@ public class Healer<T extends HealerContainer> extends ContainerScreen<T>
     {
         this.renderBackground(mat);
         super.render(mat, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(mat, mouseX, mouseY);
+        this.renderTooltip(mat, mouseX, mouseY);
     }
 }

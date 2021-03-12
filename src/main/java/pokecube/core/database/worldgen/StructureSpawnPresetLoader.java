@@ -27,7 +27,7 @@ public class StructureSpawnPresetLoader
 
     public static void loadDatabase()
     {
-        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
                 NpcType.DATALOC, s -> s.endsWith(".json"));
         for (final ResourceLocation file : resources)
         {

@@ -115,7 +115,7 @@ public class MoveAnimationHelper
     @SubscribeEvent
     public void chunkUnload(final ChunkEvent.Unload evt)
     {
-        if (!evt.getWorld().isRemote()) return;
+        if (!evt.getWorld().isClientSide()) return;
         for (int i = 0; i < 16; i++)
             this.terrainMap.remove(new BlockPos(evt.getChunk().getPos().x, i, evt.getChunk().getPos().z));
     }
@@ -134,7 +134,7 @@ public class MoveAnimationHelper
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onCapabilityAttach(final AttachCapabilitiesEvent<Chunk> event)
     {
-        if (!event.getObject().getWorld().isRemote) return;
+        if (!event.getObject().getLevel().isClientSide) return;
         if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP))
         {
             final ITerrainProvider provider = (ITerrainProvider) event.getCapabilities().get(TerrainManager.TERRAINCAP);
@@ -158,28 +158,28 @@ public class MoveAnimationHelper
             final int range = 4;
 
             final Minecraft mc = Minecraft.getInstance();
-            final Vector3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
+            final Vector3d projectedView = mc.gameRenderer.getMainCamera().getPosition();
             final MatrixStack mat = event.getMatrixStack();
-            mat.push();
+            mat.pushPose();
             mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
             final BlockPos.Mutable pos = new BlockPos.Mutable();
             for (int i = -range; i <= range; i++)
                 for (int j = -range; j <= range; j++)
                     for (int k = -range; k <= range; k++)
                     {
-                        pos.setPos(player.chunkCoordX + i, player.chunkCoordY + j, player.chunkCoordZ + k);
-                        final TerrainSegment segment = this.terrainMap.get(pos.toImmutable());
+                        pos.set(player.xChunk + i, player.yChunk + j, player.zChunk + k);
+                        final TerrainSegment segment = this.terrainMap.get(pos.immutable());
                         if (segment == null) continue;
                         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.effectArr[this.index];
                         if (teffect == null || !teffect.hasEffects()) continue;
                         this.target.set(segment.getCentre());
                         this.target.add(-8, -8, -8);
-                        mat.push();
+                        mat.pushPose();
                         teffect.renderTerrainEffects(event, this.target);
-                        mat.pop();
+                        mat.popPose();
                         num++;
                     }
-            mat.pop();
+            mat.popPose();
         }
         catch (final Throwable e)
         {
@@ -192,7 +192,7 @@ public class MoveAnimationHelper
     @SubscribeEvent
     public void worldLoad(final WorldEvent.Load evt)
     {
-        if (!evt.getWorld().isRemote()) return;
+        if (!evt.getWorld().isClientSide()) return;
         this.terrainMap.clear();
     }
 }

@@ -64,11 +64,11 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
             final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
             final float partialTicks)
     {
-        this.fontRender.drawString(mat, this.line.getString(), x + this.x0, y + this.y0, this.colour);
-        final int dx = this.fontRender.getStringWidth(this.line.getString());
+        this.fontRender.draw(mat, this.line.getString(), x + this.x0, y + this.y0, this.colour);
+        final int dx = this.fontRender.width(this.line.getString());
         final int relativeX = mouseX - x;
         final int relativeY = mouseY - y;
-        if (relativeY <= this.fontRender.FONT_HEIGHT && relativeX >= 0 && relativeX <= dx && relativeY > 0)
+        if (relativeY <= this.fontRender.lineHeight && relativeX >= 0 && relativeX <= dx && relativeY > 0)
             this.listener.handleHovor(mat, this.line.getStyle(), x, y);
     }
 

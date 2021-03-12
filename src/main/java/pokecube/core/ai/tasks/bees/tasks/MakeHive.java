@@ -45,14 +45,14 @@ public class MakeHive extends BaseIdleTask
 
     private boolean canPlaceHive(final NearBlock b, final Direction... dirs)
     {
-        final BlockState state = Blocks.BEE_NEST.getDefaultState();
+        final BlockState state = Blocks.BEE_NEST.defaultBlockState();
         // We can only place the hive if this would be a valid place to right
         // click with a hive item to place.
         for (final Direction dir : dirs)
         {
-            final BlockPos pos = b.getPos().offset(dir);
+            final BlockPos pos = b.getPos().relative(dir);
             final BlockState old = this.world.getBlockState(pos);
-            if (!state.isValidPosition(this.world, pos)) continue;
+            if (!state.canSurvive(this.world, pos)) continue;
             if (!old.getMaterial().isReplaceable()) continue;
             final FluidState fluid = this.world.getFluidState(pos);
             if (!fluid.isEmpty()) continue;
@@ -71,8 +71,8 @@ public class MakeHive extends BaseIdleTask
         if (!this.canPlaceHive(b, dir)) return false;
         final BlockPos pos = b.getPos();
         final Brain<?> brain = this.entity.getBrain();
-        this.world.setBlockState(pos.offset(dir), Blocks.BEE_NEST.getDefaultState());
-        brain.removeMemory(BeeTasks.NO_HIVE_TIMER);
+        this.world.setBlockAndUpdate(pos.relative(dir), Blocks.BEE_NEST.defaultBlockState());
+        brain.eraseMemory(BeeTasks.NO_HIVE_TIMER);
         return true;
     }
 
@@ -104,7 +104,7 @@ public class MakeHive extends BaseIdleTask
         {
             if (PokecubeTerrainChecker.isLeaves(b.getState()) && this.canPlaceHive(b, Direction.DOWN)) leaves.add(b);
             if (PokecubeTerrainChecker.isWood(b.getState()) && this.canPlaceHive(b, Direction.Plane.HORIZONTAL
-                    .getDirectionValues())) logs.add(b);
+                    .stream())) logs.add(b);
             if (PokecubeTerrainChecker.isTerrain(b.getState()) && this.canPlaceHive(b, Direction.values())) surfaces
                     .add(b);
         });
@@ -121,7 +121,7 @@ public class MakeHive extends BaseIdleTask
         if (!logs.isEmpty())
         {
             final NearBlock validLeaf = logs.get(0);
-            final Stream<Direction> dirs = Direction.Plane.HORIZONTAL.getDirectionValues();
+            final Stream<Direction> dirs = Direction.Plane.HORIZONTAL.stream();
             final List<Direction> tmp = Lists.newArrayList(dirs.iterator());
             Collections.shuffle(tmp);
             for (final Direction dir : tmp)
@@ -158,7 +158,7 @@ public class MakeHive extends BaseIdleTask
         if (!tameCheck) return false;
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
-        if (brain.hasMemory(BeeTasks.NO_HIVE_TIMER)) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER).get();
+        if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER)) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER).get();
         return timer > 600;
     }
 

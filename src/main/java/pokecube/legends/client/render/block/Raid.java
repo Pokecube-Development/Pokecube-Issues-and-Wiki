@@ -6,15 +6,15 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Matrix3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3f;
 import pokecube.legends.tileentity.RaidSpawn;
 
 public class Raid extends TileEntityRenderer<RaidSpawn>
@@ -30,7 +30,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
     public void render(final RaidSpawn tileEntityIn, final float partialTicks, final MatrixStack matrixStackIn,
             final IRenderTypeBuffer bufferIn, final int combinedLightIn, final int combinedOverlayIn)
     {
-        final long i = tileEntityIn.getWorld().getGameTime();
+        final long i = tileEntityIn.getLevel().getGameTime();
         final List<RaidSpawn.BeamSegment> list = tileEntityIn.getBeamSegments();
         int j = 0;
 
@@ -58,7 +58,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
             final float beamRadius, final float glowRadius)
     {
         final int i = yOffset + height;
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         matrixStackIn.translate(0.5D, 0.0D, 0.5D);
         final float f = Math.floorMod(totalWorldTime, 40L) + partialTicks;
         final float f1 = height < 0 ? f : -f;
@@ -66,27 +66,27 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
         final float f3 = colors[0];
         final float f4 = colors[1];
         final float f5 = colors[2];
-        matrixStackIn.push();
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(f * 2.25F - 45.0F));
+        matrixStackIn.pushPose();
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f * 2.25F - 45.0F));
         float f6 = 0.0F;
         float f8 = 0.0F;
         float f9 = -beamRadius;
         final float f12 = -beamRadius;
         float f15 = -1.0F + f2;
         float f16 = height * textureScale * (0.5F / beamRadius) + f15;
-        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.getBeaconBeam(textureLocation, false)), f3, f4, f5,
+        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, false)), f3, f4, f5,
                 1.0F, yOffset, i, 0.0F, beamRadius, beamRadius, 0.0F, f9, 0.0F, 0.0F, f12, 0.0F, 1.0F, f16, f15);
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
         f6 = -glowRadius;
         final float f7 = -glowRadius;
         f8 = -glowRadius;
         f9 = -glowRadius;
         f15 = -1.0F + f2;
         f16 = height * textureScale + f15;
-        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.getBeaconBeam(textureLocation, true)), f3, f4, f5,
+        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, true)), f3, f4, f5,
                 0.125F, yOffset, i, f6, f7, glowRadius, f8, f9, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, f16,
                 f15);
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
     }
 
     private static void renderPart(final MatrixStack matrixStackIn, final IVertexBuilder bufferIn, final float red,
@@ -95,9 +95,9 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
             final float p_228840_12_, final float p_228840_13_, final float p_228840_14_, final float p_228840_15_,
             final float u1, final float u2, final float v1, final float v2)
     {
-        final MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
-        final Matrix4f matrix4f = matrixstack$entry.getMatrix();
-        final Matrix3f matrix3f = matrixstack$entry.getNormal();
+        final MatrixStack.Entry matrixstack$entry = matrixStackIn.last();
+        final Matrix4f matrix4f = matrixstack$entry.pose();
+        final Matrix3f matrix3f = matrixstack$entry.normal();
         Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_8_, p_228840_9_,
                 p_228840_10_, p_228840_11_, u1, u2, v1, v2);
         Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_14_, p_228840_15_,
@@ -123,12 +123,12 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
             final float red, final float green, final float blue, final float alpha, final int y, final float x,
             final float z, final float texU, final float texV)
     {
-        bufferIn.pos(matrixPos, x, y, z).color(red, green, blue, alpha).tex(texU, texV).overlay(
-                OverlayTexture.NO_OVERLAY).lightmap(15728880).normal(matrixNormal, 0.0F, 1.0F, 0.0F).endVertex();
+        bufferIn.vertex(matrixPos, x, y, z).color(red, green, blue, alpha).uv(texU, texV).overlayCoords(
+                OverlayTexture.NO_OVERLAY).uv2(15728880).normal(matrixNormal, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     @Override
-    public boolean isGlobalRenderer(final RaidSpawn te)
+    public boolean shouldRenderOffScreen(final RaidSpawn te)
     {
         return true;
     }

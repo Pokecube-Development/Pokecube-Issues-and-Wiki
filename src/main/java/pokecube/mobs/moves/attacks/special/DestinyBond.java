@@ -37,18 +37,18 @@ public class DestinyBond extends Move_Basic
     @SubscribeEvent
     public void onKill(final KillEvent event)
     {
-        final UUID killed = event.killed.getEntity().getUniqueID();
+        final UUID killed = event.killed.getEntity().getUUID();
         final Set<UUID> targets = this.usedOn.remove(killed);
-        if (targets != null && event.killed.getEntity().getEntityWorld() instanceof ServerWorld)
+        if (targets != null && event.killed.getEntity().getCommandSenderWorld() instanceof ServerWorld)
         {
-            final ServerWorld world = (ServerWorld) event.killed.getEntity().getEntityWorld();
+            final ServerWorld world = (ServerWorld) event.killed.getEntity().getCommandSenderWorld();
             final DamageSource source = new PokemobDamageSource(event.killed.getEntity(), this);
-            source.setDamageIsAbsolute();
-            source.setDamageBypassesArmor();
+            source.bypassMagic();
+            source.bypassArmor();
             for (final UUID id : targets)
             {
-                final Entity mob = world.getEntityByUuid(id);
-                if (mob != null) mob.attackEntityFrom(source, Float.MAX_VALUE);
+                final Entity mob = world.getEntity(id);
+                if (mob != null) mob.hurt(source, Float.MAX_VALUE);
             }
         }
     }
@@ -56,7 +56,7 @@ public class DestinyBond extends Move_Basic
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRecall(final RecallEvent event)
     {
-        this.usedOn.remove(event.recalled.getEntity().getUniqueID());
+        this.usedOn.remove(event.recalled.getEntity().getUUID());
     }
 
     @Override
@@ -99,9 +99,9 @@ public class DestinyBond extends Move_Basic
         final byte statusChange = packet.statusChange;
         final byte changeAddition = packet.changeAddition;
 
-        final UUID userId = attackerMob.getUniqueID();
+        final UUID userId = attackerMob.getUUID();
         final Set<UUID> hits = this.usedOn.getOrDefault(userId, Sets.newHashSet());
-        final boolean added = hits.add(attacked.getUniqueID());
+        final boolean added = hits.add(attacked.getUUID());
         this.usedOn.put(userId, hits);
 
         if (!added) if (packet.failed)

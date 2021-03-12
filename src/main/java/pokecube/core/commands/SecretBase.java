@@ -54,49 +54,49 @@ public class SecretBase
 
     private static int execute_clean(final CommandSource source, final ServerPlayerEntity player)
     {
-        final BlockPos pos = player.getPosition();
-        final AxisAlignedBB box = new AxisAlignedBB(pos.add(-30, -pos.getY() + 1, -30), pos.add(30, 256 - pos.getY(),
+        final BlockPos pos = player.blockPosition();
+        final AxisAlignedBB box = new AxisAlignedBB(pos.offset(-30, -pos.getY() + 1, -30), pos.offset(30, 256 - pos.getY(),
                 30));
-        final World world = player.getEntityWorld();
-        BlockPos.getAllInBox(box).forEach(p ->
+        final World world = player.getCommandSenderWorld();
+        BlockPos.betweenClosedStream(box).forEach(p ->
         {
             if (p.getY() == 0) return;
-            if (world.getBlockState(p).getBlock() == Blocks.BARRIER) world.setBlockState(p, Blocks.AIR
-                    .getDefaultState());
+            if (world.getBlockState(p).getBlock() == Blocks.BARRIER) world.setBlockAndUpdate(p, Blocks.AIR
+                    .defaultBlockState());
         });
         return 0;
     }
 
     private static int execute_exit(final CommandSource source, final ServerPlayerEntity player)
     {
-        if (player.getEntityWorld().getDimensionKey() != SecretBaseDimension.WORLD_KEY)
+        if (player.getCommandSenderWorld().dimension() != SecretBaseDimension.WORLD_KEY)
         {
-            player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit.notinbase"), Util.DUMMY_UUID);
+            player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit.notinbase"), Util.NIL_UUID);
             return 1;
         }
-        final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUniqueID(), player.getServer(), false);
+        final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUUID(), player.getServer(), false);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.DUMMY_UUID);
+        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.NIL_UUID);
         return 0;
     }
 
     private static int execute_create(final CommandSource source, final ServerPlayerEntity player, final Vector3d input)
     {
-        if (SecretBase.pendingBaseLocations.containsKey(player.getUniqueID()))
+        if (SecretBase.pendingBaseLocations.containsKey(player.getUUID()))
         {
-            final GlobalPos loc = SecretBase.pendingBaseLocations.remove(player.getUniqueID());
-            final Vector3 pos = Vector3.getNewVector().set(loc.getPos());
-            final RegistryKey<World> type = loc.getDimension();
-            if (type == player.getEntityWorld().getDimensionKey() && pos.distTo(Vector3.getNewVector().set(input)) < 16)
+            final GlobalPos loc = SecretBase.pendingBaseLocations.remove(player.getUUID());
+            final Vector3 pos = Vector3.getNewVector().set(loc.pos());
+            final RegistryKey<World> type = loc.dimension();
+            if (type == player.getCommandSenderWorld().dimension() && pos.distTo(Vector3.getNewVector().set(input)) < 16)
             {
                 final BlockPos base_pos = new BlockPos(input);
-                final BlockState original = pos.getBlockState(player.getEntityWorld());
-                pos.setBlock(player.getEntityWorld(), PokecubeItems.SECRETBASE.get().getDefaultState());
-                final BaseTile tile = (BaseTile) player.getEntityWorld().getTileEntity(pos.getPos());
+                final BlockState original = pos.getBlockState(player.getCommandSenderWorld());
+                pos.setBlock(player.getCommandSenderWorld(), PokecubeItems.SECRETBASE.get().defaultBlockState());
+                final BaseTile tile = (BaseTile) player.getCommandSenderWorld().getBlockEntity(pos.getPos());
                 final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
                 ownable.setPlacer(player);
-                final GlobalPos gpos = GlobalPos.getPosition(loc.getDimension(), base_pos);
+                final GlobalPos gpos = GlobalPos.of(loc.dimension(), base_pos);
                 tile.last_base = gpos;
                 tile.original = original;
                 SecretBaseDimension.setSecretBasePoint(player, gpos, type == SecretBaseDimension.WORLD_KEY);
@@ -105,7 +105,7 @@ public class SecretBase
                 pos.z = pos.intZ();
                 final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirmed",
                         pos);
-                player.sendMessage(message, Util.DUMMY_UUID);
+                player.sendMessage(message, Util.NIL_UUID);
                 return 0;
             }
         }
@@ -129,13 +129,13 @@ public class SecretBase
 
         command = Commands.literal("pokebase").then(Commands.argument("exit", StringArgumentType.word()).requires(
                 cs -> CommandTools.hasPerm(cs, "command.pokebase.exit")).suggests(SecretBase.SUGGEST_EXIT).executes(
-                        ctx -> SecretBase.execute_exit(ctx.getSource(), ctx.getSource().asPlayer())));
+                        ctx -> SecretBase.execute_exit(ctx.getSource(), ctx.getSource().getPlayerOrException())));
         commandDispatcher.register(command);
 
         command = Commands.literal("pokebase").then(Commands.argument("confirm", StringArgumentType.word()).requires(
                 cs -> CommandTools.hasPerm(cs, "command.pokebase.create")).suggests(SecretBase.SUGGEST_CONFIRM).then(
                         Commands.argument("location", Vec3Argument.vec3()).executes(ctx -> SecretBase.execute_create(ctx
-                                .getSource(), ctx.getSource().asPlayer(), Vec3Argument.getVec3(ctx, "location")))));
+                                .getSource(), ctx.getSource().getPlayerOrException(), Vec3Argument.getVec3(ctx, "location")))));
         commandDispatcher.register(command);
 
         command = Commands.literal("pokebase").then(Commands.argument("target", EntityArgument.player()).requires(
@@ -150,7 +150,7 @@ public class SecretBase
 
         command = Commands.literal("pokebase").then(Commands.argument("clean", StringArgumentType.word()).requires(
                 cs -> CommandTools.hasPerm(cs, "command.pokebase.clean")).executes(ctx -> SecretBase.execute_clean(ctx
-                        .getSource(), ctx.getSource().asPlayer())));
+                        .getSource(), ctx.getSource().getPlayerOrException())));
         commandDispatcher.register(command);
     }
 }

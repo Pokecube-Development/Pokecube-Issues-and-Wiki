@@ -24,7 +24,7 @@ public class ManagePokemobTarget extends BaseBattleTask
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
         if (other != null) other.onSetTarget(this.entity, true);
@@ -38,7 +38,7 @@ public class ManagePokemobTarget extends BaseBattleTask
         if (target == null)
         {
             newTarget = this.target;
-            final List<Entity> alternates = PokemobTracker.getMobs(this.target, e -> e.getDistanceSq(this.entity) < 64
+            final List<Entity> alternates = PokemobTracker.getMobs(this.target, e -> e.distanceToSqr(this.entity) < 64
                     && CapabilityPokemob.getPokemobFor(e) != null);
             if (!alternates.isEmpty()) newTarget = (LivingEntity) alternates.get(0);
         }
@@ -58,16 +58,16 @@ public class ManagePokemobTarget extends BaseBattleTask
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
-        return super.shouldExecute(worldIn, entityIn);
+        return super.checkExtraStartConditions(worldIn, entityIn);
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
-        if (!super.shouldExecute(worldIn, owner)) return false;
+        if (!super.checkExtraStartConditions(worldIn, owner)) return false;
         return this.trainer.getOutMob() != null;
     }
 }

@@ -144,7 +144,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         final Container c = new Container(null, 0)
         {
             @Override
-            public boolean canInteractWith(final PlayerEntity playerIn)
+            public boolean stillValid(final PlayerEntity playerIn)
             {
                 return false;
             }
@@ -163,10 +163,10 @@ public class PokemobMoveRecipeParser implements IRecipeParser
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final ITag<Item> tag = ItemTags.getCollection().getTagByID(id);
-                    recipeItemsIn.add(Ingredient.fromTag(tag));
+                    final ITag<Item> tag = ItemTags.getAllTags().getTagOrEmpty(id);
+                    recipeItemsIn.add(Ingredient.of(tag));
                 }
-                else recipeItemsIn.add(Ingredient.fromStacks(Tools.getStack(value.getValues())));
+                else recipeItemsIn.add(Ingredient.of(Tools.getStack(value.getValues())));
             }
             this.recipe = new ShapelessRecipe(new ResourceLocation("pokecube:loaded_" + RecipeMove.uid++),
                     "pokecube_moves", recipeOutputIn, recipeItemsIn);
@@ -202,22 +202,22 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             if (!MoveEventsHandler.canAffectBlock(user, location, name, false, true)) return false;
             // This should look at the block hit, and attempt to craft that into
             // a shapeless recipe.
-            final World world = user.getEntity().getEntityWorld();
+            final World world = user.getEntity().getCommandSenderWorld();
             final BlockState block = location.getBlockState(world);
-            if (block == null || world.isAirBlock(location.getPos())) return false;
+            if (block == null || world.isEmptyBlock(location.getPos())) return false;
             final ItemStack item = new ItemStack(block.getBlock());
             final CraftingInventory inven = new CraftingInventory(this.c, 1, 1);
-            inven.setInventorySlotContents(0, item);
+            inven.setItem(0, item);
             if (!this.recipe.matches(inven, world)) return false;
-            final ItemStack stack = this.recipe.getCraftingResult(inven);
+            final ItemStack stack = this.recipe.assemble(inven);
             if (stack.isEmpty()) return false;
-            final Block toSet = Block.getBlockFromItem(stack.getItem());
+            final Block toSet = Block.byItem(stack.getItem());
             if (toSet == Blocks.AIR)
             {
                 final ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
-                world.addEntity(drop);
+                world.addFreshEntity(drop);
             }
-            location.setBlock(world, toSet.getDefaultState());
+            location.setBlock(world, toSet.defaultBlockState());
             return true;
         }
 
@@ -241,9 +241,9 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             if (!allMatch) return depth;
             final CraftingInventory inven = new CraftingInventory(this.c, 1, toUse.size());
             for (int i = 0; i < toUse.size(); i++)
-                inven.setInventorySlotContents(i, toUse.get(i));
+                inven.setItem(i, toUse.get(i));
             if (!this.recipe.matches(inven, world)) return depth;
-            final ItemStack stack = this.recipe.getCraftingResult(inven);
+            final ItemStack stack = this.recipe.assemble(inven);
             if (stack.isEmpty()) return depth;
             final List<ItemStack> remains = this.recipe.getRemainingItems(inven);
             toUse.forEach(e ->
@@ -252,13 +252,13 @@ public class PokemobMoveRecipeParser implements IRecipeParser
                 item.shrink(1);
             });
             ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
-            world.addEntity(drop);
+            world.addFreshEntity(drop);
             depth++;
             for (final ItemStack left : remains)
                 if (!left.isEmpty())
                 {
                     drop = new ItemEntity(world, location.x, location.y, location.z, left);
-                    world.addEntity(drop);
+                    world.addFreshEntity(drop);
                 }
             // Do this until we run out of craftable stuff.
             depth = this.tryCraft(toUse, location, world, depth);
@@ -269,8 +269,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         {
             // This should look for items near the location, and try to stuff
             // them into a shapeless recipe.
-            final World world = attacker.getEntity().getEntityWorld();
-            final List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, location.getAABB().grow(2));
+            final World world = attacker.getEntity().getCommandSenderWorld();
+            final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(2));
             final List<ItemStack> stacks = Lists.newArrayList();
             items.forEach(e -> stacks.add(e.getItem()));
             final int depth = this.tryCraft(stacks, location, world, 0);

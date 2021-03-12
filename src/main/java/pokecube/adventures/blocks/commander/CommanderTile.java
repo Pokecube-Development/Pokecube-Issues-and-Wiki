@@ -59,29 +59,29 @@ public class CommanderTile extends InteractableTile
     public CompoundNBT getUpdateTag()
     {
         final CompoundNBT tag = new CompoundNBT();
-        return this.write(tag);
+        return this.save(tag);
     }
 
     @Override
     public void handleUpdateTag(final BlockState stateIn, final CompoundNBT tag)
     {
-        this.read(stateIn, tag);
+        this.load(stateIn, tag);
     }
 
     @Override
-    public void read(final BlockState stateIn, final CompoundNBT nbt)
+    public void load(final BlockState stateIn, final CompoundNBT nbt)
     {
-        super.read(stateIn, nbt);
-        if (nbt.hasUniqueId("pokeID")) this.pokeID = nbt.getUniqueId("pokeID");
+        super.load(stateIn, nbt);
+        if (nbt.hasUUID("pokeID")) this.pokeID = nbt.getUUID("pokeID");
         if (nbt.contains("cmd")) this.command = Command.valueOf(nbt.getString("cmd"));
         this.args = nbt.getString("args");
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT nbt)
+    public CompoundNBT save(final CompoundNBT nbt)
     {
-        super.write(nbt);
-        if (this.getPokeID() != null) nbt.putUniqueId("pokeID", this.getPokeID());
+        super.save(nbt);
+        if (this.getPokeID() != null) nbt.putUUID("pokeID", this.getPokeID());
         nbt.putString("args", this.args);
         if (this.command != null) nbt.putString("cmd", this.command.name());
         return nbt;
@@ -188,13 +188,13 @@ public class CommanderTile extends InteractableTile
 
     public void sendCommand() throws Exception
     {
-        final World w = this.getWorld();
+        final World w = this.getLevel();
         if (!(w instanceof ServerWorld)) return;
         if (this.command != null && this.handler == null) this.initCommand();
         if (this.handler == null) throw new Exception("No CommandHandler has been set");
         if (this.pokeID == null) throw new Exception("No Pokemob Set, please set a UUID first.");
         final ServerWorld world = (ServerWorld) w;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(world.getEntityByUuid(this.pokeID));
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(world.getEntity(this.pokeID));
         if (pokemob == null) throw new Exception("Pokemob for given ID is not found.");
         try
         {
@@ -211,11 +211,11 @@ public class CommanderTile extends InteractableTile
     public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
-        final UUID id = PokecubeManager.getUUID(player.getHeldItem(hand));
+        final UUID id = PokecubeManager.getUUID(player.getItemInHand(hand));
         if (id != null)
         {
             this.setPokeID(id);
-            if (!player.getEntityWorld().isRemote) CommandTools.sendMessage(player, "UUID Set to: " + id);
+            if (!player.getCommandSenderWorld().isClientSide) CommandTools.sendMessage(player, "UUID Set to: " + id);
             return ActionResultType.SUCCESS;
         }
         else if (!player.isCrouching() && player instanceof ServerPlayerEntity) PacketCommander.sendOpenPacket(pos,

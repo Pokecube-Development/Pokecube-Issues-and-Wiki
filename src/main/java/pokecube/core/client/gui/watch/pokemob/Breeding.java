@@ -64,7 +64,7 @@ public class Breeding extends ListPage<LineEntry>
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
                 if (entry != null && entry != this.parent.pokemob.getPokedexEntry()) this.parent.initPages(
-                        EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld()));
+                        EventsHandlerClient.getRenderMob(entry, this.watch.player.getCommandSenderWorld()));
                 return true;
             }
         }
@@ -77,7 +77,7 @@ public class Breeding extends ListPage<LineEntry>
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.FONT_HEIGHT * 7;
+        final int height = this.font.lineHeight * 7;
         int width = 90; // 135
 
         final int colour = 0xFFFFFFFF;
@@ -104,8 +104,8 @@ public class Breeding extends ListPage<LineEntry>
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
-        this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.FONT_HEIGHT / 2,
-                this.font.FONT_HEIGHT, offsetX, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
+                this.font.lineHeight, offsetX, offsetY);
         IFormattableTextComponent main = new TranslationTextComponent(ourEntry.getUnlocalizedName());
         if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
                 .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))
@@ -113,7 +113,7 @@ public class Breeding extends ListPage<LineEntry>
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
             main = new TranslationTextComponent(entry.getUnlocalizedName());
-            main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
+            main.setStyle(main.getStyle().withColor(Color.fromLegacyFormat(TextFormatting.GREEN)).withClickEvent(
                     new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
         }

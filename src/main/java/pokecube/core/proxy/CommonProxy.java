@@ -17,7 +17,7 @@ public class CommonProxy
     public PlayerEntity getPlayer(final UUID uuid)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        return server.getPlayerList().getPlayerByUUID(uuid);
+        return server.getPlayerList().getPlayer(uuid);
     }
 
     public ResourceLocation getPlayerSkin(final String name)
@@ -33,7 +33,7 @@ public class CommonProxy
     public World getWorld()
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        return server.getWorld(World.OVERWORLD);
+        return server.getLevel(World.OVERWORLD);
     }
 
     public PlayerEntity getPlayer()

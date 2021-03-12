@@ -66,11 +66,11 @@ public class SecretBaseDimension
 
     public static void onConstruct(final IEventBus bus)
     {
-        Registry.register(Registry.CHUNK_GENERATOR_CODEC, "pokecube:secret_base", SecretChunkGenerator.CODEC);
+        Registry.register(Registry.CHUNK_GENERATOR, "pokecube:secret_base", SecretChunkGenerator.CODEC);
         MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
         SecretBaseDimension.SURFREG.register(bus);
         SecretBaseDimension.SURFREG.register("secret_base", () -> new NoopSurfaceBuilder(
-                SurfaceBuilderConfig.field_237203_a_));
+                SurfaceBuilderConfig.CODEC));
     }
 
     public static void sendToBase(final ServerPlayerEntity player, final UUID baseOwner)
@@ -78,7 +78,7 @@ public class SecretBaseDimension
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), true);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.enter"), Util.DUMMY_UUID);
+        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.enter"), Util.NIL_UUID);
     }
 
     public static void sendToExit(final ServerPlayerEntity player, final UUID baseOwner)
@@ -86,13 +86,13 @@ public class SecretBaseDimension
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), false);
         final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.DUMMY_UUID);
+        player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"), Util.NIL_UUID);
     }
 
     public static void setSecretBasePoint(final ServerPlayerEntity player, final GlobalPos gpos, final boolean inBase)
     {
         final CompoundNBT tag = PokecubePlayerDataHandler.getCustomDataTag(player);
-        final BlockPos pos = gpos.getPos();
+        final BlockPos pos = gpos.pos();
 
         if (inBase)
         {
@@ -115,12 +115,12 @@ public class SecretBaseDimension
                 }
                 catch (final Exception e)
                 {
-                    old = GlobalPos.getPosition(World.OVERWORLD, new BlockPos(exito.getInt("x"), exito.getInt("y"),
+                    old = GlobalPos.of(World.OVERWORLD, new BlockPos(exito.getInt("x"), exito.getInt("y"),
                             exito.getInt("z")));
                 }
                 final GlobalPos orig = old;
-                PokecubeSerializer.getInstance().bases.removeIf(c -> orig.getDimension().getLocation().equals(c
-                        .getDimension().getLocation()) && orig.getPos().equals(c.getPos()));
+                PokecubeSerializer.getInstance().bases.removeIf(c -> orig.dimension().location().equals(c
+                        .dimension().location()) && orig.pos().equals(c.pos()));
             }
             tag.put("secret_base_exit", exit);
             PokecubeSerializer.getInstance().bases.add(gpos);
@@ -169,7 +169,7 @@ public class SecretBaseDimension
             if (tag.contains("secret_base_internal"))
             {
                 final CompoundNBT exit = tag.getCompound("secret_base_internal");
-                return GlobalPos.getPosition(SecretBaseDimension.WORLD_KEY, new BlockPos(exit.getInt("x"), exit.getInt(
+                return GlobalPos.of(SecretBaseDimension.WORLD_KEY, new BlockPos(exit.getInt("x"), exit.getInt(
                         "y"), exit.getInt("z")));
             }
             int index;
@@ -181,11 +181,11 @@ public class SecretBaseDimension
             }
             else index = tag.getInt("secret_base_index");
             final ChunkPos chunk = SecretBaseDimension.getFromIndex(index);
-            return GlobalPos.getPosition(SecretBaseDimension.WORLD_KEY, new BlockPos((chunk.x << 4) + 8, 64,
+            return GlobalPos.of(SecretBaseDimension.WORLD_KEY, new BlockPos((chunk.x << 4) + 8, 64,
                     (chunk.z << 4) + 8));
         }
-        else if (!tag.contains("secret_base_exit")) return GlobalPos.getPosition(World.OVERWORLD, server.getWorld(
-                World.OVERWORLD).getSpawnPoint());
+        else if (!tag.contains("secret_base_exit")) return GlobalPos.of(World.OVERWORLD, server.getLevel(
+                World.OVERWORLD).getSharedSpawnPos());
         else
         {
             final CompoundNBT exit = tag.getCompound("secret_base_exit");
@@ -195,7 +195,7 @@ public class SecretBaseDimension
             }
             catch (final Exception e)
             {
-                return GlobalPos.getPosition(World.OVERWORLD, new BlockPos(exit.getInt("x"), exit.getInt("y"), exit
+                return GlobalPos.of(World.OVERWORLD, new BlockPos(exit.getInt("x"), exit.getInt("y"), exit
                         .getInt("z")));
             }
         }
@@ -203,7 +203,7 @@ public class SecretBaseDimension
 
     public static class SecretChunkGenerator extends ChunkGenerator
     {
-        public static final Codec<SecretChunkGenerator> CODEC = RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY)
+        public static final Codec<SecretChunkGenerator> CODEC = RegistryLookupCodec.create(Registry.BIOME_REGISTRY)
                 .xmap(SecretChunkGenerator::new, SecretChunkGenerator::getRegistry).stable().codec();
 
         private final Registry<Biome> registry;
@@ -215,7 +215,7 @@ public class SecretBaseDimension
             super(new SingleBiomeProvider(registry.getOrThrow(SecretBaseDimension.BIOME_KEY)),
                     new DimensionStructuresSettings(false));
             this.registry = registry;
-            Arrays.fill(this.states, Blocks.AIR.getDefaultState());
+            Arrays.fill(this.states, Blocks.AIR.defaultBlockState());
         }
 
         public Registry<Biome> getRegistry()
@@ -224,42 +224,42 @@ public class SecretBaseDimension
         }
 
         @Override
-        protected Codec<? extends ChunkGenerator> func_230347_a_()
+        protected Codec<? extends ChunkGenerator> codec()
         {
             return SecretChunkGenerator.CODEC;
         }
 
         @Override
-        public ChunkGenerator func_230349_a_(final long p_230349_1_)
+        public ChunkGenerator withSeed(final long p_230349_1_)
         {
             return this;
         }
 
         @Override
-        public void generateSurface(final WorldGenRegion p_225551_1_, final IChunk p_225551_2_)
+        public void buildSurfaceAndBedrock(final WorldGenRegion p_225551_1_, final IChunk p_225551_2_)
         {
 
         }
 
         @Override
-        public void func_230352_b_(final IWorld world, final StructureManager manager, final IChunk chunk)
+        public void fillFromNoise(final IWorld world, final StructureManager manager, final IChunk chunk)
         {
             final ChunkPos pos = chunk.getPos();
             final boolean stone = pos.x % 16 == 0 && pos.z % 16 == 0;
             final BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
-            BlockState state = Blocks.STONE.getDefaultState();
-            final Heightmap heightmap = chunk.getHeightmap(Heightmap.Type.OCEAN_FLOOR_WG);
-            final Heightmap heightmap1 = chunk.getHeightmap(Heightmap.Type.WORLD_SURFACE_WG);
+            BlockState state = Blocks.STONE.defaultBlockState();
+            final Heightmap heightmap = chunk.getOrCreateHeightmapUnprimed(Heightmap.Type.OCEAN_FLOOR_WG);
+            final Heightmap heightmap1 = chunk.getOrCreateHeightmapUnprimed(Heightmap.Type.WORLD_SURFACE_WG);
             for (int i = 0; i < 16; i++)
                 for (int k = 0; k < 16; k++)
                 {
-                    chunk.setBlockState(blockpos$mutableblockpos.setPos(i, 0, k), Blocks.BARRIER.getDefaultState(),
+                    chunk.setBlockState(blockpos$mutableblockpos.set(i, 0, k), Blocks.BARRIER.defaultBlockState(),
                             false);
                     if (stone) for (int j = 57; j < 64; j++)
                     {
-                        state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12 ? Blocks.STONE.getDefaultState()
-                                : Blocks.AIR.getDefaultState();
-                        chunk.setBlockState(blockpos$mutableblockpos.setPos(i, j, k), state, false);
+                        state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12 ? Blocks.STONE.defaultBlockState()
+                                : Blocks.AIR.defaultBlockState();
+                        chunk.setBlockState(blockpos$mutableblockpos.set(i, j, k), state, false);
                         if (j < 64)
                         {
                             heightmap.update(i, j, k, state);
@@ -270,13 +270,13 @@ public class SecretBaseDimension
         }
 
         @Override
-        public int getHeight(final int x, final int z, final Type heightmapType)
+        public int getBaseHeight(final int x, final int z, final Type heightmapType)
         {
             return 64;
         }
 
         @Override
-        public IBlockReader func_230348_a_(final int x, final int z)
+        public IBlockReader getBaseColumn(final int x, final int z)
         {
             return new Blockreader(this.states);
         }
@@ -287,9 +287,9 @@ public class SecretBaseDimension
 
     private static final ResourceLocation IDLOC = new ResourceLocation(SecretBaseDimension.ID);
 
-    public static final RegistryKey<World> WORLD_KEY = RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
+    public static final RegistryKey<World> WORLD_KEY = RegistryKey.create(Registry.DIMENSION_REGISTRY,
             SecretBaseDimension.IDLOC);
-    public static final RegistryKey<Biome> BIOME_KEY = RegistryKey.getOrCreateKey(Registry.BIOME_KEY,
+    public static final RegistryKey<Biome> BIOME_KEY = RegistryKey.create(Registry.BIOME_REGISTRY,
             SecretBaseDimension.IDLOC);
 
     @SubscribeEvent
@@ -298,32 +298,32 @@ public class SecretBaseDimension
     {
         final World world = PokecubeCore.proxy.getWorld();
         if (world == null) return;
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(
-                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984 && world.dimension().compareTo(
+                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setAbsoluteMaxSize(2999984);
     }
 
     @SubscribeEvent
     public static void onWorldTick(final WorldTickEvent event)
     {
         final World world = event.world;
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(
-                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984 && world.dimension().compareTo(
+                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setAbsoluteMaxSize(2999984);
     }
 
     @SubscribeEvent
     public static void onWorldLoad(final WorldEvent.Load event)
     {
         final World world = (World) event.getWorld();
-        if (world.getWorldBorder().getSize() != 2999984 && world.getDimensionKey().compareTo(
-                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setSize(2999984);
+        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984 && world.dimension().compareTo(
+                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setAbsoluteMaxSize(2999984);
     }
 
     @SubscribeEvent
     public static void onEnterChunk(final EnteringChunk event)
     {
-        final World world = event.getEntity().getEntityWorld();
+        final World world = event.getEntity().getCommandSenderWorld();
         // Only wrap in secret bases.
-        if (world.getDimensionKey() != SecretBaseDimension.WORLD_KEY) return;
+        if (world.dimension() != SecretBaseDimension.WORLD_KEY) return;
 
         int x = event.getNewChunkX() / 16;
         int z = event.getNewChunkZ() / 16;
@@ -332,7 +332,7 @@ public class SecretBaseDimension
         final int dz = event.getNewChunkZ() % 16;
 
         // Middle of base, don't care
-        if (dx == 0 && dz == 0 || event.getEntity().getEntityWorld().isRemote) return;
+        if (dx == 0 && dz == 0 || event.getEntity().getCommandSenderWorld().isClientSide) return;
 
         if (dx > 0) if (dx < 8) x += 1;
         if (dx < 0) if (dx < -7) x -= 1;
@@ -345,7 +345,7 @@ public class SecretBaseDimension
         // We need to shunt it back to nearest valid point.
         final AxisAlignedBB chunkBox = SecretBaseDimension.getBaseBox(nearestBase);
 
-        final BlockPos mob = event.getEntity().getPosition();
+        final BlockPos mob = event.getEntity().blockPosition();
 
         double nx = mob.getX();
         double nz = mob.getZ();
@@ -357,10 +357,10 @@ public class SecretBaseDimension
 
         final BlockPos newPos = new BlockPos(nx, mob.getY(), nz);
 
-        final TeleDest dest = new TeleDest().setPos(GlobalPos.getPosition(world.getDimensionKey(), newPos));
+        final TeleDest dest = new TeleDest().setPos(GlobalPos.of(world.dimension(), newPos));
         EventsHandler.Schedule(world, w ->
         {
-            event.getEntity().setMotion(0, 0, 0);
+            event.getEntity().setDeltaMovement(0, 0, 0);
             ThutTeleporter.transferTo(event.getEntity(), dest);
             return true;
         });
@@ -368,8 +368,8 @@ public class SecretBaseDimension
 
     private static AxisAlignedBB getBaseBox(final ChunkPos nearestBase)
     {
-        final BlockPos pos1 = nearestBase.asBlockPos();
-        final BlockPos pos2 = pos1.add(16, 255, 16);
+        final BlockPos pos1 = nearestBase.getWorldPosition();
+        final BlockPos pos2 = pos1.offset(16, 255, 16);
         final AxisAlignedBB chunkBox = new AxisAlignedBB(pos1, pos2);
 
         // int index = fromChunkPos(nearestBase);
@@ -383,7 +383,7 @@ public class SecretBaseDimension
     {
         final List<GlobalPos> bases = Lists.newArrayList();
         for (final GlobalPos v : PokecubeSerializer.getInstance().bases)
-            if (v.getPos().withinDistance(here.getPos(), baseRadarRange)) bases.add(v);
+            if (v.pos().closerThan(here.pos(), baseRadarRange)) bases.add(v);
         return bases;
     }
 

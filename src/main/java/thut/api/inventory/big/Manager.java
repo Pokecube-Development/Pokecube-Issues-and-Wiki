@@ -105,7 +105,7 @@ public abstract class Manager<T extends BigInventory>
                 fileoutputstream.close();
                 // Do not retain these if the owner is not actually a logged in
                 // player.
-                if (server.getPlayerList().getPlayerByUUID(uuid) == null) this._map.remove(uuid);
+                if (server.getPlayerList().getPlayer(uuid) == null) this._map.remove(uuid);
             }
         }
         catch (final FileNotFoundException e)
@@ -128,7 +128,7 @@ public abstract class Manager<T extends BigInventory>
 
     public T get(final Entity mob)
     {
-        return this.get(mob.getUniqueID());
+        return this.get(mob.getUUID());
     }
 
     public T get(final UUID id, final boolean create)

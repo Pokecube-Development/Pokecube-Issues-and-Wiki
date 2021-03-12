@@ -46,7 +46,7 @@ public class Node extends Part
     {
         final Vector3d x0 = this.mid;
         Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
-        x = x.mul(1, this.size / 2, 1);
+        x = x.multiply(1, this.size / 2, 1);
         final double r = x.length();
         if (this.type == AntRoom.ENTRANCE)
         {
@@ -77,7 +77,7 @@ public class Node extends Part
         if (this.isInside(pos)) return false;
         final Vector3d x0 = this.mid;
         Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
-        x = x.mul(1, this.size / 2, 1);
+        x = x.multiply(1, this.size / 2, 1);
         final double r = x.length();
         return r <= this.size + 2 && x.y > -2;
     }
@@ -164,8 +164,8 @@ public class Node extends Part
         this.mid = new Vector3d(center.getX() + 0.5, center.getY(), center.getZ() + 0.5);
 
         final AxisAlignedBB min = new AxisAlignedBB(this.mid.add(-size, 0, -size), this.mid.add(size, 2, size));
-        this.setInBounds(this.type == AntRoom.ENTRANCE ? min.grow(3, 0, 3) : min);
-        this.setOutBounds(min.grow(2));
+        this.setInBounds(this.type == AntRoom.ENTRANCE ? min.inflate(3, 0, 3) : min);
+        this.setOutBounds(min.inflate(2));
     }
 
     @Override

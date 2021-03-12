@@ -35,7 +35,7 @@ public class Impl
     {
         public IPeripheral getPeri(final World world, final BlockPos pos, final Direction side)
         {
-            final TileEntity tile = world.getTileEntity(pos);
+            final TileEntity tile = world.getBlockEntity(pos);
             if (tile instanceof CommanderTile) return new Commander((CommanderTile) tile);
             if (tile instanceof TMTile) return new TM((TMTile) tile);
             if (tile instanceof SplicerTile) return new Splicer((SplicerTile) tile);

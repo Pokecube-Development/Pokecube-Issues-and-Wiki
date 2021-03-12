@@ -32,15 +32,15 @@ public class PacketGui extends Packet
         private static BlockRayTraceResult fromNBT(final PlayerEntity player, final CompoundNBT nbt)
         {
             final Vector3d origin = player.getEyePosition(1);
-            final Vector3d dir = player.getLookVec();
+            final Vector3d dir = player.getLookAngle();
             final Vector3d end = origin.add(dir.scale(4));
             final RayTraceContext context = new RayTraceContext(origin, end, BlockMode.OUTLINE, FluidMode.NONE, player);
-            return player.world.rayTraceBlocks(context);
+            return player.level.clip(context);
         }
 
         protected WearableContext(final PlayerEntity player, final ItemStack heldItem, final CompoundNBT nbt)
         {
-            super(player.getEntityWorld(), player, Hand.MAIN_HAND, heldItem, WearableContext.fromNBT(player, nbt));
+            super(player.getCommandSenderWorld(), player, Hand.MAIN_HAND, heldItem, WearableContext.fromNBT(player, nbt));
         }
 
     }
@@ -54,14 +54,14 @@ public class PacketGui extends Packet
 
     public PacketGui(final PacketBuffer buffer)
     {
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
     }
 
     @Override
     @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        Minecraft.getInstance().displayGuiScreen(new InventoryScreen(Minecraft.getInstance().player));
+        Minecraft.getInstance().setScreen(new InventoryScreen(Minecraft.getInstance().player));
     }
 
     @Override
@@ -85,10 +85,10 @@ public class PacketGui extends Packet
             {
                 final LivingEntity t = player;
                 final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
-                buffer.writeInt(t.getEntityId());
+                buffer.writeInt(t.getId());
                 final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
                         e) -> new ContainerWearables(i, p, buffer), t.getName());
-                NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getEntityId()));
+                NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getId()));
             }
         }
         else
@@ -96,21 +96,21 @@ public class PacketGui extends Packet
             LivingEntity target = player;
             if (this.data.contains("w_open_target_"))
             {
-                final Entity mob = player.getEntityWorld().getEntityByID(this.data.getInt("w_open_target_"));
+                final Entity mob = player.getCommandSenderWorld().getEntity(this.data.getInt("w_open_target_"));
                 if (mob instanceof LivingEntity) target = (LivingEntity) mob;
             }
             final LivingEntity t = target;
             final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
-            buffer.writeInt(t.getEntityId());
+            buffer.writeInt(t.getId());
             final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
                     e) -> new ContainerWearables(i, p, buffer), t.getName());
-            NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getEntityId()));
+            NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getId()));
         }
     }
 
     @Override
     public void write(final PacketBuffer buffer)
     {
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 }

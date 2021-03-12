@@ -47,7 +47,7 @@ public class MutationHelper implements IResourceData
         this.mutations.clear();
         this.validLoad = false;
         final String path = new ResourceLocation(this.tagPath).getPath();
-        final Collection<ResourceLocation> resources = Database.resourceManager.getAllResourceLocations(path, s -> s
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, s -> s
                 .endsWith(".json"));
         this.validLoad = !resources.isEmpty();
         resources.forEach(l -> this.loadFile(l));
@@ -59,7 +59,7 @@ public class MutationHelper implements IResourceData
         try
         {
             final List<Mutations> loaded = Lists.newArrayList();
-            for (final IResource resource : Database.resourceManager.getAllResources(l))
+            for (final IResource resource : Database.resourceManager.getResources(l))
             {
                 final InputStream res = resource.getInputStream();
                 final Reader reader = new InputStreamReader(res);

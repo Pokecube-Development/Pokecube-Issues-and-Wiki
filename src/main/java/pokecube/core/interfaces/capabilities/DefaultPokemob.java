@@ -68,7 +68,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
     public float getHeading()
     {
         if (this.getGeneralState(GeneralStates.CONTROLLED)) return this.dataSync.get(this.params.HEADINGDW);
-        return this.getEntity().rotationYaw;
+        return this.getEntity().yRot;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
     {
         if (this.getGeneralState(GeneralStates.CONTROLLED))
         {
-            this.getEntity().rotationYaw = heading;
+            this.getEntity().yRot = heading;
             this.dataSync.set(this.params.HEADINGDW, heading);
         }
     }
@@ -101,7 +101,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
     public boolean isSheared()
     {
         boolean sheared = this.getGeneralState(GeneralStates.SHEARED);
-        if (sheared && this.getEntity().isServerWorld())
+        if (sheared && this.getEntity().isEffectiveAi())
         {
             final MinecraftServer server = this.getEntity().getServer();
             final long lastShear = this.getEntity().getPersistentData().getLong(TagNames.SHEARTIME);
@@ -110,7 +110,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
             {
                 final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
                 final int timer = action.cooldown + this.rand.nextInt(1 + action.variance);
-                if (lastShear < server.getWorld(World.OVERWORLD).getGameTime() - timer) sheared = false;
+                if (lastShear < server.getLevel(World.OVERWORLD).getGameTime() - timer) sheared = false;
             }
             // Cannot shear this!
             else sheared = false;
@@ -122,7 +122,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
     @Override
     public void shear(final ItemStack shears)
     {
-        if (this.isSheared() || !this.getEntity().isServerWorld()) return;
+        if (this.isSheared() || !this.getEntity().isEffectiveAi()) return;
         final ResourceLocation WOOL = new ResourceLocation("wool");
 
         final ItemStack key = shears;
@@ -131,7 +131,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
             final MinecraftServer server = this.getEntity().getServer();
             final ArrayList<ItemStack> ret = new ArrayList<>();
             this.setGeneralState(GeneralStates.SHEARED, true);
-            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, server.getWorld(World.OVERWORLD)
+            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, server.getLevel(World.OVERWORLD)
                     .getGameTime());
             final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
             final List<ItemStack> list = action.stacks;
@@ -142,15 +142,15 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
                 if (ItemList.is(WOOL, stack))
                 {
                     final DyeColor colour = DyeColor.byId(this.getDyeColour());
-                    final Item wool = SheepEntity.WOOL_BY_COLOR.get(colour).asItem();
+                    final Item wool = SheepEntity.ITEM_BY_DYE.get(colour).asItem();
                     toAdd = new ItemStack(wool, stack.getCount());
                     if (stack.hasTag()) toAdd.setTag(stack.getTag().copy());
                 }
                 ret.add(toAdd);
             }
             for (final ItemStack stack : ret)
-                this.getEntity().entityDropItem(stack);
-            this.getEntity().playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0F, 1.0F);
+                this.getEntity().spawnAtLocation(stack);
+            this.getEntity().playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
         }
 
     }

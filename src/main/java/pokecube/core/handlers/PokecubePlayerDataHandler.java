@@ -32,7 +32,7 @@ public class PokecubePlayerDataHandler extends PlayerDataHandler
 
     public static void saveCustomData(final PlayerEntity player)
     {
-        PokecubePlayerDataHandler.saveCustomData(player.getCachedUniqueIdString());
+        PokecubePlayerDataHandler.saveCustomData(player.getStringUUID());
     }
 
     public static void saveCustomData(final String cachedUniqueIdString)

@@ -21,19 +21,19 @@ public class TileUpdate extends NBTPacket
 
     public static void sendUpdate(final TileEntity tile)
     {
-        if (tile.getWorld().isRemote)
+        if (tile.getLevel().isClientSide)
         {
             ThutCore.LOGGER.error("Packet sent on wrong side!");
             return;
         }
         final CompoundNBT tag = new CompoundNBT();
-        final CompoundNBT pos = NBTUtil.writeBlockPos(tile.getPos());
+        final CompoundNBT pos = NBTUtil.writeBlockPos(tile.getBlockPos());
         tag.put("pos", pos);
         final CompoundNBT mobtag = tile.getUpdateTag();
         tag.put("tag", mobtag);
         final TileUpdate message = new TileUpdate(tag);
-        final IChunk chunk = tile.getWorld().getChunk(tile.getPos());
-        if (chunk instanceof Chunk && ((Chunk) chunk).getWorld().getChunkProvider() instanceof ServerChunkProvider)
+        final IChunk chunk = tile.getLevel().getChunk(tile.getBlockPos());
+        if (chunk instanceof Chunk && ((Chunk) chunk).getLevel().getChunkSource() instanceof ServerChunkProvider)
             TileUpdate.ASSEMBLER.sendTo(message, PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) chunk));
     }
 
@@ -57,9 +57,9 @@ public class TileUpdate extends NBTPacket
     @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
-        final World world = net.minecraft.client.Minecraft.getInstance().world;
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
         final BlockPos pos = NBTUtil.readBlockPos(this.tag.getCompound("pos"));
-        final TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getBlockEntity(pos);
         if (tile != null) tile.handleUpdateTag(world.getBlockState(pos), this.tag.getCompound("tag"));
     }
 }

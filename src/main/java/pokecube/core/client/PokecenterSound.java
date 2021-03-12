@@ -15,8 +15,8 @@ public class PokecenterSound extends TickableSound
     {
         super(HealerTile.MUSICLOOP, SoundCategory.BLOCKS);
         this.tile = tileIn;
-        this.repeat = true;
-        this.repeatDelay = 1;
+        this.looping = true;
+        this.delay = 1;
         this.volume = 3F;
         final Vector3 pos1 = Vector3.getNewVector();
         pos1.set(tileIn).addTo(0.5, 0.5, 0.5);
@@ -31,14 +31,14 @@ public class PokecenterSound extends TickableSound
         if (this.stopped)
         {
             this.volume = 0;
-            this.repeat = true;
+            this.looping = true;
             return;
         }
         if (!this.tile.play) this.volume = 0;
     }
 
     @Override
-    public boolean canBeSilent()
+    public boolean canStartSilent()
     {
         return true;
     }

@@ -18,7 +18,7 @@ public class PokemobType<T extends TameableEntity> extends EntityType<T>
 
     public PokemobType(final EntityType.IFactory<T> factory, final PokedexEntry entry)
     {
-        super(factory, EntityClassification.CREATURE, true, true, false, true, ImmutableSet.of(), EntitySize.flexible(entry.width, entry.height), 64, 3);
+        super(factory, EntityClassification.CREATURE, true, true, false, true, ImmutableSet.of(), EntitySize.scalable(entry.width, entry.height), 64, 3);
         this.entry = entry;
         entry.setEntityType(this);
     }
@@ -35,14 +35,14 @@ public class PokemobType<T extends TameableEntity> extends EntityType<T>
     }
 
     @Override
-    public ResourceLocation getLootTable()
+    public ResourceLocation getDefaultLootTable()
     {
         if (this.entry.lootTable != null) return this.entry.lootTable;
-        return super.getLootTable();
+        return super.getDefaultLootTable();
     }
 
     @Override
-    public boolean isImmuneToFire()
+    public boolean fireImmune()
     {
         return this.entry.isType(PokeType.getType("fire")) || this.entry.isHeatProof;
     }

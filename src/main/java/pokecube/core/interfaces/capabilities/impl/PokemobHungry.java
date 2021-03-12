@@ -38,8 +38,8 @@ public abstract class PokemobHungry extends PokemobMoves
             if (usable != null)
             {
                 final ActionResult<ItemStack> result = usable.onUse(this, item, this.getEntity());
-                if (e instanceof ItemEntity) ((ItemEntity) e).setItem(result.getResult());
-                else e = this.cast(result.getResult());
+                if (e instanceof ItemEntity) ((ItemEntity) e).setItem(result.getObject());
+                else e = this.cast(result.getObject());
             }
             if (ItemList.is(PokemobHungry.LEPPABERRY, item)) hungerValue *= 2;
             if (item.getItem() instanceof ItemBerry)
@@ -65,7 +65,7 @@ public abstract class PokemobHungry extends PokemobMoves
         // hatches
         if (!this.getGeneralState(GeneralStates.TAMED))
         {
-            final int exp = SpawnHandler.getSpawnXp(this.getEntity().getEntityWorld(), this.here.set(this.getEntity()),
+            final int exp = SpawnHandler.getSpawnXp(this.getEntity().getCommandSenderWorld(), this.here.set(this.getEntity()),
                     this.getPokedexEntry());
             if (this.getExp() < exp)
             {

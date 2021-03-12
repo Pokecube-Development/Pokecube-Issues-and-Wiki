@@ -56,7 +56,7 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
                 PokecubeCore.LOGGER.error("Duplicate Berry Index for " + index, new IllegalStateException());
                 return;
             }
-            this.group(PokecubeItems.POKECUBEBERRIES);
+            this.tab(PokecubeItems.POKECUBEBERRIES);
             final ItemBerry berry = new ItemBerry(this);
             BerryManager.berryItems.put(index, berry);
             if (index == 0) PokecubeItems.POKECUBE_BERRIES = new ItemStack(berry);
@@ -79,7 +79,7 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(final ItemStack stack, @Nullable final World playerIn,
+    public void appendHoverText(final ItemStack stack, @Nullable final World playerIn,
             final List<ITextComponent> tooltip, final ITooltipFlag advanced)
     {
         ITextComponent info = null;
@@ -94,9 +94,9 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
             tooltip.add(info);
         }
         if (PokecubeCore.proxy.getPlayer() == null) return;
-        if (PokecubeCore.proxy.getPlayer().openContainer instanceof ContainerPokemob)
+        if (PokecubeCore.proxy.getPlayer().containerMenu instanceof ContainerPokemob)
         {
-            final ContainerPokemob container = (ContainerPokemob) PokecubeCore.proxy.getPlayer().openContainer;
+            final ContainerPokemob container = (ContainerPokemob) PokecubeCore.proxy.getPlayer().containerMenu;
             final IPokemob pokemob = container.getPokemob();
             if (pokemob == null || pokemob.getEntity() == null) return;
             final Nature nature = pokemob.getNature();
@@ -130,7 +130,7 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
     @Override
     public BlockState getPlant(final IBlockReader world, final BlockPos pos)
     {
-        return BerryManager.getCrop(this).getDefaultState();
+        return BerryManager.getCrop(this).defaultBlockState();
     }
 
     @Override
@@ -140,20 +140,20 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
     }
 
     @Override
-    public ActionResultType onItemUse(final ItemUseContext context)
+    public ActionResultType useOn(final ItemUseContext context)
     {
         final PlayerEntity playerIn = context.getPlayer();
-        final World worldIn = context.getWorld();
-        final BlockPos pos = context.getPos();
+        final World worldIn = context.getLevel();
+        final BlockPos pos = context.getClickedPos();
         final Hand hand = context.getHand();
-        final Direction side = context.getFace();
+        final Direction side = context.getClickedFace();
 
-        final ItemStack stack = playerIn.getHeldItem(hand);
+        final ItemStack stack = playerIn.getItemInHand(hand);
         final BlockState state = worldIn.getBlockState(pos);
-        if (side == Direction.UP && playerIn.canPlayerEdit(pos.offset(side), side, stack) && state.getBlock()
-                .canSustainPlant(state, worldIn, pos, Direction.UP, this) && worldIn.isAirBlock(pos.up()))
+        if (side == Direction.UP && playerIn.mayUseItemAt(pos.relative(side), side, stack) && state.getBlock()
+                .canSustainPlant(state, worldIn, pos, Direction.UP, this) && worldIn.isEmptyBlock(pos.above()))
         {
-            worldIn.setBlockState(pos.up(), BerryManager.getCrop(this).getDefaultState());
+            worldIn.setBlockAndUpdate(pos.above(), BerryManager.getCrop(this).defaultBlockState());
             stack.split(1);
         }
         return ActionResultType.SUCCESS;

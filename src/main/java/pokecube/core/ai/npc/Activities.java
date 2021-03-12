@@ -10,9 +10,9 @@ public class Activities
 
     public static void register(final RegistryEvent.Register<Activity> event)
     {
-        Activities.STATIONARY.setRegistryName(Activities.STATIONARY.getKey());
+        Activities.STATIONARY.setRegistryName(Activities.STATIONARY.getName());
         event.getRegistry().register(Activities.STATIONARY);
-        Activities.BATTLE.setRegistryName(Activities.BATTLE.getKey());
+        Activities.BATTLE.setRegistryName(Activities.BATTLE.getName());
         event.getRegistry().register(Activities.BATTLE);
     }
 }

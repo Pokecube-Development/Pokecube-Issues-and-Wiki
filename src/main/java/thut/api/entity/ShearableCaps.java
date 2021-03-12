@@ -30,7 +30,7 @@ public class ShearableCaps
         @Override
         public boolean isSheared()
         {
-            return this.sheep.getSheared();
+            return this.sheep.isSheared();
         }
 
         @Override

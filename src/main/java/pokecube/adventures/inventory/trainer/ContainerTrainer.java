@@ -24,7 +24,7 @@ public class ContainerTrainer extends BaseContainer
         super(PokecubeAdv.TRAINER_CONT.get(), id);
         final LivingEntity entity = ivplay.player;
         final int num = data.readInt();
-        final Entity mob = entity.getEntityWorld().getEntityByID(num);
+        final Entity mob = entity.getCommandSenderWorld().getEntity(num);
         this.pokemobs = TrainerCaps.getHasPokemobs(mob);
         int index = 0;
         for (int i = 0; i < 3; ++i)
@@ -32,14 +32,14 @@ public class ContainerTrainer extends BaseContainer
                 this.addSlot(new Slot(this.pokemobs, index++, 26 + j * 18, 18 + i * 18)
                 {
                     @Override
-                    public boolean isItemValid(final ItemStack stack)
+                    public boolean mayPlace(final ItemStack stack)
                     {
                         return PokecubeManager.isFilled(stack);
                     }
                     @Override
                     public ItemStack onTake(final PlayerEntity thePlayer, final ItemStack stack)
                     {
-                        final IPokemob pokemob = PokecubeManager.itemToPokemob(stack, thePlayer.getEntityWorld());
+                        final IPokemob pokemob = PokecubeManager.itemToPokemob(stack, thePlayer.getCommandSenderWorld());
                         if (pokemob != null)
                         {
                             pokemob.setOwner(thePlayer);
@@ -53,9 +53,9 @@ public class ContainerTrainer extends BaseContainer
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
-        return this.pokemobs.isUsableByPlayer(playerIn);
+        return this.pokemobs.stillValid(playerIn);
     }
 
     @Override

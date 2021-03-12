@@ -59,7 +59,7 @@ public class PokecubeSerializer
 
     public static double distSq(final GlobalPos location, final GlobalPos meteor)
     {
-        return location.getPos().distanceSq(meteor.getPos());
+        return location.pos().distSqr(meteor.pos());
     }
 
     public static PokecubeSerializer getInstance()
@@ -75,7 +75,7 @@ public class PokecubeSerializer
 
     public static void newInstance(final ServerWorld world)
     {
-        if (world.isRemote()) return;
+        if (world.isClientSide()) return;
         PokecubeSerializer.clearInstance();
         PokecubeSerializer.instance = new PokecubeSerializer(world);
     }
@@ -112,18 +112,18 @@ public class PokecubeSerializer
     {
         final List<GlobalPos> locs = this.structs.get(struct);
         if (locs == null) return true;
-        final GlobalPos check = GlobalPos.getPosition(dim, pos);
+        final GlobalPos check = GlobalPos.of(dim, pos);
         for (final GlobalPos v : locs)
         {
-            if (v.getDimension() != dim) continue;
-            if (check.getPos().withinDistance(v.getPos(), seperation)) return false;
+            if (v.dimension() != dim) continue;
+            if (check.pos().closerThan(v.pos(), seperation)) return false;
         }
         return true;
     }
 
     public void place(final String struct, final BlockPos pos, final RegistryKey<World> dim)
     {
-        final GlobalPos check = GlobalPos.getPosition(dim, pos);
+        final GlobalPos check = GlobalPos.of(dim, pos);
         final List<GlobalPos> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
         locs.add(check);
         this.structs.put(struct, locs);
@@ -202,7 +202,7 @@ public class PokecubeSerializer
     public static File getSafeFile()
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = server.func_240776_a_(new FolderName(PokecubeSerializer.POKECUBE));
+        Path path = server.getWorldPath(new FolderName(PokecubeSerializer.POKECUBE));
         // The directory the file is in
         final File dir = path.toFile();
         path = path.resolve("global.dat");
@@ -346,22 +346,22 @@ public class PokecubeSerializer
         {
             PokecubeCore.LOGGER.error("Error setting has starter state for " + player, e);
         }
-        if (ThutCore.proxy.isServerSide()) PlayerDataHandler.getInstance().save(player.getCachedUniqueIdString());
+        if (ThutCore.proxy.isServerSide()) PlayerDataHandler.getInstance().save(player.getStringUUID());
     }
 
     public ItemStack starter(final PokedexEntry entry, final PlayerEntity owner)
     {
-        final World worldObj = owner.getEntityWorld();
+        final World worldObj = owner.getCommandSenderWorld();
         final IPokemob entity = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, worldObj));
 
         if (entity != null)
         {
             entity.setForSpawn(Tools.levelToXp(entity.getExperienceMode(), 5));
             entity.setHealth(entity.getMaxHealth());
-            entity.setOwner(owner.getUniqueID());
+            entity.setOwner(owner.getUUID());
             entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
-            PokecubeManager.heal(item, owner.getEntityWorld());
+            PokecubeManager.heal(item, owner.getCommandSenderWorld());
             entity.getEntity().remove();
             return item;
         }
@@ -370,7 +370,7 @@ public class PokecubeSerializer
 
     private boolean tooClose(final GlobalPos location, final GlobalPos meteor)
     {
-        if (location.getDimension() != meteor.getDimension()) return false;
+        if (location.dimension() != meteor.dimension()) return false;
         return PokecubeSerializer.distSq(location, meteor) < PokecubeSerializer.MeteorDistance;
     }
 

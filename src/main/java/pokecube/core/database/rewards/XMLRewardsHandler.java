@@ -72,10 +72,10 @@ public class XMLRewardsHandler
                     if (giveReward)
                     {
                         tag.putBoolean(this.tagString, true);
-                        entity.sendMessage(new TranslationTextComponent(this.message), Util.DUMMY_UUID);
+                        entity.sendMessage(new TranslationTextComponent(this.message), Util.NIL_UUID);
                         final PlayerEntity PlayerEntity = (PlayerEntity) entity;
                         Tools.giveItem(PlayerEntity, reward.copy());
-                        PokecubePlayerDataHandler.saveCustomData(entity.getCachedUniqueIdString());
+                        PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                     }
                     return true;
                 }
@@ -85,7 +85,7 @@ public class XMLRewardsHandler
             @Override
             public boolean inspect(final PokecubePlayerCustomData data, final Entity entity, final boolean giveReward)
             {
-                final int num = CaptureStats.getNumberUniqueCaughtBy(entity.getUniqueID());
+                final int num = CaptureStats.getNumberUniqueCaughtBy(entity.getUUID());
                 try
                 {
                     return this.check(entity, data.tag, this.reward, num, giveReward);
@@ -191,10 +191,10 @@ public class XMLRewardsHandler
                 {
                     final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
-                    entity.sendMessage(new TranslationTextComponent(this.message), Util.DUMMY_UUID);
+                    entity.sendMessage(new TranslationTextComponent(this.message), Util.NIL_UUID);
                     final PlayerEntity PlayerEntity = (PlayerEntity) entity;
                     Tools.giveItem(PlayerEntity, book);
-                    PokecubePlayerDataHandler.saveCustomData(entity.getCachedUniqueIdString());
+                    PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                 }
                 return true;
             }
@@ -226,7 +226,7 @@ public class XMLRewardsHandler
                         final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
                         try
                         {
-                            stack.setTag(JsonToNBT.getTagFromJson(json));
+                            stack.setTag(JsonToNBT.parseTag(json));
                             this.lang_stacks.put(key, stack);
                         }
                         catch (final Exception e)

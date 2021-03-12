@@ -59,7 +59,7 @@ public class SmallContainer extends ChestContainer
 
     protected void clearSlots()
     {
-        this.inventorySlots.clear();
+        this.slots.clear();
     }
 
     protected void bindInventories()
@@ -87,12 +87,12 @@ public class SmallContainer extends ChestContainer
                 this.addSlot(new BagSlot(this.inv, n + j + i * 9, 8 + j * 18 + LargeContainer.xOffset, 18 + i * 18
                         + LargeContainer.yOffset));
         // int k = 0;
-        for (final Object o : this.inventorySlots)
-            if (o instanceof Slot) ((Slot) o).onSlotChanged();
+        for (final Object o : this.slots)
+            if (o instanceof Slot) ((Slot) o).setChanged();
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity PlayerEntity)
+    public boolean stillValid(final PlayerEntity PlayerEntity)
     {
         return true;
     }

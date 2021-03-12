@@ -21,8 +21,8 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 public class SaplingBase extends BushBlock implements IGrowable {
 
-	public static final IntegerProperty STAGE = BlockStateProperties.STAGE_0_1;
-	protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
+	public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
+	protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
 	private final Supplier<Tree> tree;
 			
 	public SaplingBase(Supplier<Tree> treeIn, Properties properties) {
@@ -42,37 +42,37 @@ public class SaplingBase extends BushBlock implements IGrowable {
 		if(!worldIn.isAreaLoaded(pos, 1)) {
 			return;
 		}
-		if(worldIn.getLight(pos.up()) >= 9 && rand.nextInt(7) == 0) {
-			this.grow(worldIn, rand, pos, state);
+		if(worldIn.getMaxLocalRawBrightness(pos.above()) >= 9 && rand.nextInt(7) == 0) {
+			this.performBonemeal(worldIn, rand, pos, state);
 		}
 	}
 	
 	public void grow(ServerWorld serverWorld, BlockPos pos, BlockState state, Random rand) {
-		if(state.get(STAGE) == 0) {
-			serverWorld.setBlockState(pos, state.func_235896_a_(STAGE), 4);
+		if(state.getValue(STAGE) == 0) {
+			serverWorld.setBlock(pos, state.cycle(STAGE), 4);
 		}else {
 			if(!ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) return;
-			this.tree.get().attemptGrowTree(serverWorld, serverWorld.getChunkProvider().getChunkGenerator(), pos, state, rand);
+			this.tree.get().growTree(serverWorld, serverWorld.getChunkSource().getGenerator(), pos, state, rand);
 		}
 	}
 	
 	@Override
-	public void grow(ServerWorld serverWorld, Random rand, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerWorld serverWorld, Random rand, BlockPos pos, BlockState state) {
 		this.grow(serverWorld, pos, state, rand);
 	}
 	
 	@Override
-	public boolean canGrow(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
+	public boolean isValidBonemealTarget(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
 		return true;
 	}
 
 	@Override
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
-		return (double)worldIn.rand.nextFloat() < 0.45D;
+	public boolean isBonemealSuccess(World worldIn, Random rand, BlockPos pos, BlockState state) {
+		return (double)worldIn.random.nextFloat() < 0.45D;
 	}
 	
 	@Override
-	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
 		builder.add(STAGE);
 	}
 }

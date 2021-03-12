@@ -27,7 +27,7 @@ public class Arm
         }
         float[] offsetArr;
         final boolean sneak = wearer.isCrouching();
-        mat.push();
+        mat.pushPose();
 
         boolean render = false;
         // Right side
@@ -37,7 +37,7 @@ public class Arm
             if (ThutWearables.config.renderBlacklist.contains(0)) break;
             if (sneak && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(0)) != null)
                 mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-            theModel.translateHand(HandSide.RIGHT, mat);
+            theModel.translateToHand(HandSide.RIGHT, mat);
             mat.translate(-0.0625F, 0.59F, 0.0625F);
             if ((offsetArr = ThutWearables.config.renderOffsets.get(0)) != null)
                 mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
@@ -52,7 +52,7 @@ public class Arm
             if (ThutWearables.config.renderBlacklist.contains(2)) break;
             if (sneak && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(2)) != null)
                 mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-            theModel.translateHand(HandSide.RIGHT, mat);
+            theModel.translateToHand(HandSide.RIGHT, mat);
             mat.translate(-0.0625F, 0.4375F, 0.0625F);
             if ((offsetArr = ThutWearables.config.renderOffsets.get(2)) != null)
                 mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
@@ -75,7 +75,7 @@ public class Arm
                 if (ThutWearables.config.renderBlacklist.contains(1)) break;
                 if (sneak && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(1)) != null)
                     mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-                theModel.translateHand(HandSide.LEFT, mat);
+                theModel.translateToHand(HandSide.LEFT, mat);
                 mat.translate(0.0625F, 0.59F, 0.0625F);
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(1)) != null)
                     mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
@@ -90,7 +90,7 @@ public class Arm
                 if (ThutWearables.config.renderBlacklist.contains(3)) break;
                 if (sneak && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(3)) != null)
                     mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-                theModel.translateHand(HandSide.LEFT, mat);
+                theModel.translateToHand(HandSide.LEFT, mat);
                 mat.translate(0.0625F, 0.4375F, 0.0625F);
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(3)) != null)
                     mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
@@ -107,6 +107,6 @@ public class Arm
             Utils.mirror(1, 0, 0, mat);
         }
         if (render) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-        mat.pop();
+        mat.popPose();
     }
 }

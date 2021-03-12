@@ -15,15 +15,15 @@ public class SwimAndWalkNodeProcessor extends WalkNodeProcessor
     private float oldWaterBorderPriority;
 
     @Override
-    public void func_225578_a_(final Region p_225578_1_, final MobEntity p_225578_2_)
+    public void prepare(final Region p_225578_1_, final MobEntity p_225578_2_)
     {
-        super.func_225578_a_(p_225578_1_, p_225578_2_);
+        super.prepare(p_225578_1_, p_225578_2_);
         // Super called handled storing the water priority
-        p_225578_2_.setPathPriority(PathNodeType.WATER, 2.0F);
-        this.oldWalkPriority = p_225578_2_.getPathPriority(PathNodeType.WALKABLE);
-        p_225578_2_.setPathPriority(PathNodeType.WALKABLE, 6.0F);
-        this.oldWaterBorderPriority = p_225578_2_.getPathPriority(PathNodeType.WATER_BORDER);
-        p_225578_2_.setPathPriority(PathNodeType.WATER_BORDER, 4.0F);
+        p_225578_2_.setPathfindingMalus(PathNodeType.WATER, 2.0F);
+        this.oldWalkPriority = p_225578_2_.getPathfindingMalus(PathNodeType.WALKABLE);
+        p_225578_2_.setPathfindingMalus(PathNodeType.WALKABLE, 6.0F);
+        this.oldWaterBorderPriority = p_225578_2_.getPathfindingMalus(PathNodeType.WATER_BORDER);
+        p_225578_2_.setPathfindingMalus(PathNodeType.WATER_BORDER, 4.0F);
     }
 
     /**
@@ -34,11 +34,11 @@ public class SwimAndWalkNodeProcessor extends WalkNodeProcessor
      * net.minecraft.world.pathfinder.WalkNodeProcessor#avoidsWater avoidsWater}
      */
     @Override
-    public void postProcess()
+    public void done()
     {
-        this.entity.setPathPriority(PathNodeType.WALKABLE, this.oldWalkPriority);
-        this.entity.setPathPriority(PathNodeType.WATER_BORDER, this.oldWaterBorderPriority);
-        super.postProcess();
+        this.mob.setPathfindingMalus(PathNodeType.WALKABLE, this.oldWalkPriority);
+        this.mob.setPathfindingMalus(PathNodeType.WATER_BORDER, this.oldWaterBorderPriority);
+        super.done();
     }
 
 }

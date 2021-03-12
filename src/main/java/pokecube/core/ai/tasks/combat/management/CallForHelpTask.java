@@ -44,13 +44,13 @@ public class CallForHelpTask extends CombatTask
     protected boolean checkForHelp(final LivingEntity from)
     {
         // No need to get help against null
-        if (from == null || !this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS)) return false;
+        if (from == null || !this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return false;
 
         // Not social. doesn't do this.
         if (!this.pokemob.getPokedexEntry().isSocial) return false;
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
 
         // We check for whether it is the same species and, has the same owner
         // (including null) or is on the team.
@@ -78,7 +78,7 @@ public class CallForHelpTask extends CombatTask
         {
             if (!(mob instanceof MobEntity)) continue;
             // Only agress mobs that can see you are really under attack.
-            if (!mob.canEntityBeSeen(this.entity)) continue;
+            if (!mob.canSee(this.entity)) continue;
             // Only agress if not currently in combat.
             if (BrainUtils.hasAttackTarget(mob)) continue;
             // Make all valid ones agress the target.
@@ -100,7 +100,7 @@ public class CallForHelpTask extends CombatTask
     public boolean shouldRun()
     {
         this.target = BrainUtils.getAttackTarget(this.entity);
-        return this.target != null && this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS);
+        return this.target != null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES);
     }
 
 }

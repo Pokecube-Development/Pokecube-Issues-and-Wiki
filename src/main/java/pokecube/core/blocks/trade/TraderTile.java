@@ -25,7 +25,7 @@ public class TraderTile extends InteractableTile
     public final IIntArray syncValues = new IIntArray()
     {
         @Override
-        public int size()
+        public int getCount()
         {
             return 2;
         }
@@ -60,21 +60,21 @@ public class TraderTile extends InteractableTile
     public CompoundNBT getUpdateTag()
     {
         final CompoundNBT tag = new CompoundNBT();
-        return this.write(tag);
+        return this.save(tag);
     }
 
     @Override
     public void handleUpdateTag(final BlockState state, final CompoundNBT tag)
     {
-        this.read(state, tag);
+        this.load(state, tag);
     }
 
     @Override
     public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
-        if (this.users.size() < 2) player.openContainer(new SimpleNamedContainerProvider((id, playerInventory,
-                playerIn) -> new TradeContainer(id, playerInventory, IWorldPosCallable.of(this.getWorld(), pos)), player
+        if (this.users.size() < 2) player.openMenu(new SimpleNamedContainerProvider((id, playerInventory,
+                playerIn) -> new TradeContainer(id, playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), player
                         .getDisplayName()));
         return ActionResultType.SUCCESS;
     }

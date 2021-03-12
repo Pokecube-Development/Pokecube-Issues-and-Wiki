@@ -149,7 +149,7 @@ public class PlayerDataHandler
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = server.func_240776_a_(new FolderName("thutcore"));
+        Path path = server.getWorldPath(new FolderName("thutcore"));
         // This is to the uuid specific folder
         path = path.resolve(uuid);
         final File dir = path.toFile();
@@ -176,7 +176,7 @@ public class PlayerDataHandler
 
     public static void saveCustomData(final PlayerEntity player)
     {
-        PlayerDataHandler.saveCustomData(player.getCachedUniqueIdString());
+        PlayerDataHandler.saveCustomData(player.getStringUUID());
     }
 
     public static void saveCustomData(final String cachedUniqueIdString)
@@ -202,7 +202,7 @@ public class PlayerDataHandler
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         for (final String uuid : this.data.keySet())
         {
-            final ServerPlayerEntity player = server.getPlayerList().getPlayerByUUID(UUID.fromString(uuid));
+            final ServerPlayerEntity player = server.getPlayerList().getPlayer(UUID.fromString(uuid));
             if (player == null) toUnload.add(uuid);
         }
         for (final String s : toUnload)
@@ -214,7 +214,7 @@ public class PlayerDataHandler
 
     public PlayerDataManager getPlayerData(final PlayerEntity player)
     {
-        return this.getPlayerData(player.getCachedUniqueIdString());
+        return this.getPlayerData(player.getStringUUID());
     }
 
     public PlayerDataManager getPlayerData(final String uuid)

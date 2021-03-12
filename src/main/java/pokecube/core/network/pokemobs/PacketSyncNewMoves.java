@@ -25,7 +25,7 @@ public class PacketSyncNewMoves extends Packet
                 newMoves.add(StringNBT.valueOf(s));
             final PacketSyncNewMoves packet = new PacketSyncNewMoves();
             packet.data.put(TagNames.NEWMOVES, newMoves);
-            packet.entityId = pokemob.getEntity().getEntityId();
+            packet.entityId = pokemob.getEntity().getId();
             PokecubeCore.packets.sendTo(packet, player);
         }
     }
@@ -43,7 +43,7 @@ public class PacketSyncNewMoves extends Packet
     {
         super(buffer);
         this.entityId = buffer.readInt();
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class PacketSyncNewMoves extends Packet
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final CompoundNBT data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
         if (pokemob != null)
         {
@@ -68,6 +68,6 @@ public class PacketSyncNewMoves extends Packet
     public void write(final PacketBuffer buffer)
     {
         buffer.writeInt(this.entityId);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 }

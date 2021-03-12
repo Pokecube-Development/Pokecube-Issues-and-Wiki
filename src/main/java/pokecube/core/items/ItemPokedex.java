@@ -57,7 +57,7 @@ public class ItemPokedex extends Item
     }
 
     @Override
-    public ActionResultType itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
+    public ActionResultType interactLivingEntity(final ItemStack stack, final PlayerEntity playerIn,
             final LivingEntity target, final Hand hand)
     {
         interact:
@@ -75,14 +75,14 @@ public class ItemPokedex extends Item
             this.showGui(playerIn, target, pokemob);
             return ActionResultType.SUCCESS;
         }
-        return super.itemInteractionForEntity(stack, playerIn, target, hand);
+        return super.interactLivingEntity(stack, playerIn, target, hand);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(final World world, final PlayerEntity player, final Hand hand)
+    public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand)
     {
-        final ItemStack itemstack = player.getHeldItem(hand);
-        if (!world.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld(),
+        final ItemStack itemstack = player.getItemInHand(hand);
+        if (!world.isClientSide) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getCommandSenderWorld(),
                 true);
         if (!player.isCrouching())
         {
@@ -95,28 +95,28 @@ public class ItemPokedex extends Item
     }
 
     @Override
-    public ActionResultType onItemUse(final ItemUseContext context)
+    public ActionResultType useOn(final ItemUseContext context)
     {
-        final World worldIn = context.getWorld();
+        final World worldIn = context.getLevel();
         final PlayerEntity playerIn = context.getPlayer();
-        final BlockPos pos = context.getPos();
+        final BlockPos pos = context.getClickedPos();
         final Vector3 hit = Vector3.getNewVector().set(pos);
         final Block block = hit.getBlockState(worldIn).getBlock();
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
-            SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn.getEntityWorld(), true);
+            SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn.getCommandSenderWorld(), true);
             if (PokecubeMod.debug)
             {
-                final Set<StructureInfo> infos = StructureManager.getFor(worldIn.getDimensionKey(), pos);
+                final Set<StructureInfo> infos = StructureManager.getFor(worldIn.dimension(), pos);
                 for (final StructureInfo i : infos)
-                    playerIn.sendMessage(new StringTextComponent(i.name), Util.DUMMY_UUID);
+                    playerIn.sendMessage(new StringTextComponent(i.name), Util.NIL_UUID);
             }
         }
         if (block instanceof HealerBlock)
         {
-            final GlobalPos loc = GlobalPos.getPosition(worldIn.getDimensionKey(), playerIn.getPosition());
-            TeleportHandler.setTeleport(loc, playerIn.getCachedUniqueIdString());
-            if (!worldIn.isRemote)
+            final GlobalPos loc = GlobalPos.of(worldIn.dimension(), playerIn.blockPosition());
+            TeleportHandler.setTeleport(loc, playerIn.getStringUUID());
+            if (!worldIn.isClientSide)
             {
                 CommandTools.sendMessage(playerIn, "pokedex.setteleport");
                 PacketDataSync.syncData(playerIn, "pokecube-data");
@@ -124,17 +124,17 @@ public class ItemPokedex extends Item
             return ActionResultType.SUCCESS;
         }
 
-        if (playerIn.isCrouching() && !worldIn.isRemote)
+        if (playerIn.isCrouching() && !worldIn.isClientSide)
         {
             ITextComponent message = CommandTools.makeTranslatedMessage("pokedex.locationinfo1", "green",
                     Database.spawnables.size());
-            playerIn.sendMessage(message, Util.DUMMY_UUID);
+            playerIn.sendMessage(message, Util.NIL_UUID);
             message = CommandTools.makeTranslatedMessage("pokedex.locationinfo2", "green", Pokedex.getInstance()
                     .getEntries().size());
-            playerIn.sendMessage(message, Util.DUMMY_UUID);
+            playerIn.sendMessage(message, Util.NIL_UUID);
             message = CommandTools.makeTranslatedMessage("pokedex.locationinfo3", "green", Pokedex.getInstance()
                     .getRegisteredEntries().size());
-            playerIn.sendMessage(message, Util.DUMMY_UUID);
+            playerIn.sendMessage(message, Util.NIL_UUID);
         }
 
         if (!playerIn.isCrouching())
@@ -150,7 +150,7 @@ public class ItemPokedex extends Item
     {
         if (player instanceof ServerPlayerEntity)
         {
-            final IChunk chunk = player.getEntityWorld().getChunk(player.getPosition());
+            final IChunk chunk = player.getCommandSenderWorld().getChunk(player.blockPosition());
             TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z),
                     (ServerPlayerEntity) player);
             PacketDataSync.syncData(player, "pokecube-stats");

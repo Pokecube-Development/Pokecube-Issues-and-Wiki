@@ -43,7 +43,7 @@ public class Edge extends Part
         final Vector3d e3 = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
         Vector3d n = e2.subtract(e1).normalize();
         final Vector3d diff = e1.subtract(e3);
-        n = n.crossProduct(diff);
+        n = n.cross(diff);
         return n.length() < size;
     }
 

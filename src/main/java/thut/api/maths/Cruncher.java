@@ -95,7 +95,7 @@ public class Cruncher
 
     public static long getVectorLong(final Vector3 rHat)
     {
-        return rHat.getPos().toLong();
+        return rHat.getPos().asLong();
     }
 
     public static void indexToVals(final int radius, final int index, final int diffSq, final int diffCb,

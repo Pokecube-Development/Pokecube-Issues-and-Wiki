@@ -52,7 +52,7 @@ public class PacketChoose extends Packet
             pokecube.core.client.gui.GuiChooseFirstPokemob.special = this.special;
             pokecube.core.client.gui.GuiChooseFirstPokemob.pick = this.pick;
             pokecube.core.client.gui.GuiChooseFirstPokemob.starters = this.starters;
-            net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new GuiChooseFirstPokemob(this.starters));
+            net.minecraft.client.Minecraft.getInstance().setScreen(new GuiChooseFirstPokemob(this.starters));
             MinecraftForge.EVENT_BUS.unregister(this);
         }
     }
@@ -89,7 +89,7 @@ public class PacketChoose extends Packet
     {
         this.message = buf.readByte();
         final PacketBuffer buffer = new PacketBuffer(buf);
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
     }
 
     @Override
@@ -155,7 +155,7 @@ public class PacketChoose extends Packet
              */
             if (PokecubeManager.isFilled(e))
             {
-                final IPokemob pokemob = PokecubeManager.itemToPokemob(e, player.getEntityWorld());
+                final IPokemob pokemob = PokecubeManager.itemToPokemob(e, player.getCommandSenderWorld());
                 /** First pokemob advancement on getting starter. */
                 if (pokemob != null && pokemob.getPokedexEntry() == entry) StatsCollector.addCapture(pokemob);
             }
@@ -177,7 +177,7 @@ public class PacketChoose extends Packet
     {
         buf.writeByte(this.message);
         final PacketBuffer buffer = new PacketBuffer(buf);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 
 }

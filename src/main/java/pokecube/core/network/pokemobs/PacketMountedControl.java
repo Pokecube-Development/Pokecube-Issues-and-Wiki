@@ -23,7 +23,7 @@ public class PacketMountedControl extends Packet
     public static void sendControlPacket(final Entity pokemob, final LogicMountedControl controller)
     {
         final PacketMountedControl packet = new PacketMountedControl();
-        packet.entityId = pokemob.getEntityId();
+        packet.entityId = pokemob.getId();
         if (controller.backInputDown) packet.message += PacketMountedControl.BACK;
         if (controller.forwardInputDown) packet.message += PacketMountedControl.FORWARD;
         if (controller.leftInputDown) packet.message += PacketMountedControl.LEFT;
@@ -39,21 +39,21 @@ public class PacketMountedControl extends Packet
     public static void sendUpdatePacket(final Entity pokemob)
     {
         final PacketMountedControl packet = new PacketMountedControl();
-        packet.entityId = pokemob.getEntityId();
-        final Vector3d pos = pokemob.getPositionVec();
+        packet.entityId = pokemob.getId();
+        final Vector3d pos = pokemob.position();
         packet.message = 0;
         packet.x = (float) pos.x;
         packet.y = (float) pos.y;
         packet.z = (float) pos.z;
         PokecubeCore.packets.sendToTracking(packet, pokemob);
         packet.message = 1;
-        packet.x = (float) pokemob.prevPosX;
-        packet.y = (float) pokemob.prevPosY;
-        packet.z = (float) pokemob.prevPosZ;
+        packet.x = (float) pokemob.xo;
+        packet.y = (float) pokemob.yo;
+        packet.z = (float) pokemob.zo;
         PokecubeCore.packets.sendToTracking(packet, pokemob);
         packet.message = 2;
-        packet.x = pokemob.rotationYaw;
-        packet.y = pokemob.prevRotationYaw;
+        packet.x = pokemob.yRot;
+        packet.y = pokemob.yRotO;
         PokecubeCore.packets.sendToTracking(packet, pokemob);
     }
 
@@ -82,21 +82,21 @@ public class PacketMountedControl extends Packet
     @Override
     public void handleClient()
     {
-        final Entity mob = PokecubeCore.proxy.getWorld().getEntityByID(this.entityId);
+        final Entity mob = PokecubeCore.proxy.getWorld().getEntity(this.entityId);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (mob != null && mob.getControllingPassenger() != PokecubeCore.proxy.getPlayer()) switch (this.message)
         {
         case 0:
-            mob.setPosition(this.x, this.y, this.z);
+            mob.setPos(this.x, this.y, this.z);
             break;
         case 1:
-            mob.prevPosX = this.x;
-            mob.prevPosY = this.y;
-            mob.prevPosZ = this.z;
+            mob.xo = this.x;
+            mob.yo = this.y;
+            mob.zo = this.z;
             break;
         case 2:
-            mob.rotationYaw = this.x;
-            mob.prevRotationYaw = this.y;
+            mob.yRot = this.x;
+            mob.yRotO = this.y;
 
             if (pokemob != null) pokemob.setHeading(this.x);
 
@@ -107,12 +107,12 @@ public class PacketMountedControl extends Packet
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final Entity mob = player.getEntityWorld().getEntityByID(this.entityId);
+        final Entity mob = player.getCommandSenderWorld().getEntity(this.entityId);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob != null && pokemob.getController() != null)
         {
             final Entity entity = pokemob.getEntity().getControllingPassenger();
-            if (entity == null || !entity.getUniqueID().equals(player.getUniqueID())) return;
+            if (entity == null || !entity.getUUID().equals(player.getUUID())) return;
             final LogicMountedControl controller = pokemob.getController();
             controller.forwardInputDown = (this.message & PacketMountedControl.FORWARD) > 0;
             controller.backInputDown = (this.message & PacketMountedControl.BACK) > 0;

@@ -72,23 +72,23 @@ public class Moves extends ListPage<LineEntry>
             {
                 AbstractGui.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx, y
                         + dy + offset[1] + offset[4], move.getType(this.parent.pokemob).colour);
-                final int length = this.font.getStringWidth(MovesUtils.getMoveName(move.getName()).getString());
-                if (mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.FONT_HEIGHT)
+                final int length = this.font.width(MovesUtils.getMoveName(move.getName()).getString());
+                if (mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight)
                 {
                     String text;
                     final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
                     if (pwr > 0) text = pwr + "";
                     else text = "-";
-                    text = I18n.format("pokewatch.moves.pwr", text);
-                    GlStateManager.disableDepthTest();
-                    final int box = Math.max(10, this.font.getStringWidth(text) + 2);
+                    text = I18n.get("pokewatch.moves.pwr", text);
+                    GlStateManager._disableDepthTest();
+                    final int box = Math.max(10, this.font.width(text) + 2);
                     final int mx1 = 65 - box;
                     final int my1 = offset[1] + 30;
-                    final int dy1 = this.font.FONT_HEIGHT;
+                    final int dy1 = this.font.lineHeight;
                     AbstractGui.fill(mat, x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
                     AbstractGui.fill(mat, x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
-                    this.font.drawString(mat, text, x + mx1 + 1, y + my1, 0xFFFFFFFF);
-                    GlStateManager.enableDepthTest();
+                    this.font.draw(mat, text, x + mx1 + 1, y + my1, 0xFFFFFFFF);
+                    GlStateManager._enableDepthTest();
                 }
             }
         }
@@ -128,7 +128,7 @@ public class Moves extends ListPage<LineEntry>
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.FONT_HEIGHT * 6;
+        final int height = this.font.lineHeight * 6;
 
         final int dx = 46;
         final int dy = 25;
@@ -155,7 +155,7 @@ public class Moves extends ListPage<LineEntry>
             }
         };
 
-        this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.FONT_HEIGHT, offsetX, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY);
         final PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
         final Set<String> added = Sets.newHashSet();
         if (!this.watch.canEdit(this.parent.pokemob))
@@ -167,11 +167,11 @@ public class Moves extends ListPage<LineEntry>
                 {
                     added.add(s);
                     final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
-                    moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
+                    moveName.setStyle(moveName.getStyle().withColor(Color.fromLegacyFormat(TextFormatting.RED)));
                     final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.lvl", i,
                             moveName);
-                    main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN))
-                            .setClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(
+                    main.setStyle(main.getStyle().withColor(Color.fromLegacyFormat(TextFormatting.GREEN))
+                            .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).withHoverEvent(
                                     new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
                     this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(
                             listener));
@@ -181,10 +181,10 @@ public class Moves extends ListPage<LineEntry>
             {
                 added.add(s);
                 final IFormattableTextComponent moveName = (IFormattableTextComponent) MovesUtils.getMoveName(s);
-                moveName.setStyle(moveName.getStyle().setColor(Color.fromTextFormatting(TextFormatting.RED)));
+                moveName.setStyle(moveName.getStyle().withColor(Color.fromLegacyFormat(TextFormatting.RED)));
                 final IFormattableTextComponent main = new TranslationTextComponent("pokewatch.moves.tm", moveName);
-                main.setStyle(main.getStyle().setColor(Color.fromTextFormatting(TextFormatting.GREEN)).setClickEvent(
-                        new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).setHoverEvent(new HoverEvent(
+                main.setStyle(main.getStyle().withColor(Color.fromLegacyFormat(TextFormatting.GREEN)).withClickEvent(
+                        new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).withHoverEvent(new HoverEvent(
                                 HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s))));
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
             }
@@ -333,7 +333,7 @@ public class Moves extends ListPage<LineEntry>
         tooltip:
         if (component.getHoverEvent() != null)
         {
-            final Object var = component.getHoverEvent().getParameter(component.getHoverEvent().getAction());
+            final Object var = component.getHoverEvent().getValue(component.getHoverEvent().getAction());
             if (!(var instanceof ITextComponent)) break tooltip;
             String text = ((ITextComponent) var).getString();
             final Move_Base move = MovesUtils.getMoveFromName(text);
@@ -341,16 +341,16 @@ public class Moves extends ListPage<LineEntry>
             final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
             if (pwr > 0) text = pwr + "";
             else text = "-";
-            text = I18n.format("pokewatch.moves.pwr", text);
-            GlStateManager.disableDepthTest();
-            final int box = Math.max(10, this.font.getStringWidth(text) + 2);
+            text = I18n.get("pokewatch.moves.pwr", text);
+            GlStateManager._disableDepthTest();
+            final int box = Math.max(10, this.font.width(text) + 2);
             final int mx = 100 - box;
             final int my = -0;
-            final int dy = this.font.FONT_HEIGHT;
+            final int dy = this.font.lineHeight;
             AbstractGui.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
             AbstractGui.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-            this.font.drawString(mat, text, x + mx + 1, y + my, 0xFFFFFFFF);
-            GlStateManager.enableDepthTest();
+            this.font.draw(mat, text, x + mx + 1, y + my, 0xFFFFFFFF);
+            GlStateManager._enableDepthTest();
         }
         super.renderComponentHoverEffect(mat, component, x, y);
     }

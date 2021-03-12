@@ -40,7 +40,7 @@ public class PacketPartInteract extends Packet
 
     public PacketPartInteract(final String name, final Entity entityIn, final boolean sneak)
     {
-        this.entityId = entityIn.getEntityId();
+        this.entityId = entityIn.getId();
         this.action = CUseEntityPacket.Action.ATTACK;
         this.sneaking = sneak;
         this.id = name;
@@ -48,7 +48,7 @@ public class PacketPartInteract extends Packet
 
     public PacketPartInteract(final String name, final Entity entityIn, final Hand handIn, final boolean sneak)
     {
-        this.entityId = entityIn.getEntityId();
+        this.entityId = entityIn.getId();
         this.action = CUseEntityPacket.Action.INTERACT;
         this.hand = handIn;
         this.sneaking = sneak;
@@ -58,7 +58,7 @@ public class PacketPartInteract extends Packet
     public PacketPartInteract(final String name, final Entity entityIn, final Hand handIn, final Vector3d hitVecIn,
             final boolean sneak)
     {
-        this.entityId = entityIn.getEntityId();
+        this.entityId = entityIn.getId();
         this.action = CUseEntityPacket.Action.INTERACT_AT;
         this.hand = handIn;
         this.hitVec = hitVecIn;
@@ -69,20 +69,20 @@ public class PacketPartInteract extends Packet
     public PacketPartInteract(final PacketBuffer buf)
     {
         this.entityId = buf.readVarInt();
-        this.action = buf.readEnumValue(CUseEntityPacket.Action.class);
+        this.action = buf.readEnum(CUseEntityPacket.Action.class);
         if (this.action == CUseEntityPacket.Action.INTERACT_AT) this.hitVec = new Vector3d(buf.readFloat(), buf
                 .readFloat(), buf.readFloat());
         if (this.action == CUseEntityPacket.Action.INTERACT || this.action == CUseEntityPacket.Action.INTERACT_AT)
-            this.hand = buf.readEnumValue(Hand.class);
+            this.hand = buf.readEnum(Hand.class);
         this.sneaking = buf.readBoolean();
-        this.id = buf.readString(32767);
+        this.id = buf.readUtf(32767);
     }
 
     @Override
     public void write(final PacketBuffer buf)
     {
         buf.writeVarInt(this.entityId);
-        buf.writeEnumValue(this.action);
+        buf.writeEnum(this.action);
         if (this.action == CUseEntityPacket.Action.INTERACT_AT)
         {
             buf.writeFloat((float) this.hitVec.x);
@@ -90,15 +90,15 @@ public class PacketPartInteract extends Packet
             buf.writeFloat((float) this.hitVec.z);
         }
         if (this.action == CUseEntityPacket.Action.INTERACT || this.action == CUseEntityPacket.Action.INTERACT_AT) buf
-                .writeEnumValue(this.hand);
+                .writeEnum(this.hand);
         buf.writeBoolean(this.sneaking);
-        buf.writeString(this.id);
+        buf.writeUtf(this.id);
     }
 
     @Nullable
     public Entity getEntityFromWorld(final World worldIn)
     {
-        return worldIn.getEntityByID(this.entityId);
+        return worldIn.getEntity(this.entityId);
     }
 
     public CUseEntityPacket.Action getAction()
@@ -125,13 +125,13 @@ public class PacketPartInteract extends Packet
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final ServerWorld serverworld = player.getServerWorld();
+        final ServerWorld serverworld = player.getLevel();
         Entity entity = this.getEntityFromWorld(serverworld);
 
         // Most of the stuff from here is copied from CUseEntityPacket!
 
-        player.markPlayerActive();
-        player.setSneaking(this.isSneaking());
+        player.resetLastActionTime();
+        player.setShiftKeyDown(this.isSneaking());
 
         if (entity != null)
         {
@@ -146,10 +146,10 @@ public class PacketPartInteract extends Packet
             // sufficiently large that the distance check fails otherwise.
 
             final double d0 = 36.0D;
-            if (player.getDistanceSq(entity) < d0)
+            if (player.distanceToSqr(entity) < d0)
             {
                 final Hand hand = this.getHand();
-                final ItemStack itemstack = hand != null ? player.getHeldItem(hand).copy() : ItemStack.EMPTY;
+                final ItemStack itemstack = hand != null ? player.getItemInHand(hand).copy() : ItemStack.EMPTY;
                 Optional<ActionResultType> optional = Optional.empty();
 
                 if (this.getAction() == CUseEntityPacket.Action.INTERACT) optional = Optional.of(player.interactOn(
@@ -158,15 +158,15 @@ public class PacketPartInteract extends Packet
                 {
                     if (net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, entity, this.getHitVec(),
                             hand) != null) return;
-                    optional = Optional.of(entity.applyPlayerInteraction(player, this.getHitVec(), hand));
+                    optional = Optional.of(entity.interactAt(player, this.getHitVec(), hand));
                 }
-                else if (this.getAction() == CUseEntityPacket.Action.ATTACK) player.attackTargetEntityWithCurrentItem(
+                else if (this.getAction() == CUseEntityPacket.Action.ATTACK) player.attack(
                         entity);
 
-                if (optional.isPresent() && optional.get().isSuccessOrConsume())
+                if (optional.isPresent() && optional.get().consumesAction())
                 {
-                    CriteriaTriggers.PLAYER_ENTITY_INTERACTION.test(player, itemstack, entity);
-                    if (optional.get().isSuccess()) player.swing(hand, true);
+                    CriteriaTriggers.PLAYER_INTERACTED_WITH_ENTITY.trigger(player, itemstack, entity);
+                    if (optional.get().shouldSwing()) player.swing(hand, true);
                 }
             }
         }

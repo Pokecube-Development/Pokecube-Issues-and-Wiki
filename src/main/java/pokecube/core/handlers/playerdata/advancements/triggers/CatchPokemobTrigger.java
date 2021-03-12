@@ -54,8 +54,8 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
             if (this.number != -1)
             {
                 int num = -1;
-                if (entry == Database.missingno) num = CaptureStats.getNumberUniqueCaughtBy(player.getUniqueID());
-                else num = CaptureStats.getTotalNumberOfPokemobCaughtBy(player.getUniqueID(), entry);
+                if (entry == Database.missingno) num = CaptureStats.getNumberUniqueCaughtBy(player.getUUID());
+                else num = CaptureStats.getTotalNumberOfPokemobCaughtBy(player.getUUID(), entry);
                 if (num == -1) return false;
                 numCheck = num * this.sign > this.number;
             }
@@ -95,7 +95,7 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
             List<ICriterionTrigger.Listener<CatchPokemobTrigger.Instance>> list = null;
 
             for (final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener : this.listeners)
-                if (listener.getCriterionInstance().test(player, pokemob))
+                if (listener.getTriggerInstance().test(player, pokemob))
                 {
                     if (list == null)
                         list = Lists.<ICriterionTrigger.Listener<CatchPokemobTrigger.Instance>> newArrayList();
@@ -103,7 +103,7 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
                     list.add(listener);
                 }
             if (list != null) for (final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener1 : list)
-                listener1.grantCriterion(this.playerAdvancements);
+                listener1.run(this.playerAdvancements);
         }
     }
 
@@ -116,7 +116,7 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
     }
 
     @Override
-    public void addListener(final PlayerAdvancements playerAdvancementsIn,
+    public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
     {
         CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -137,13 +137,13 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
     }
 
     @Override
-    public void removeAllListeners(final PlayerAdvancements playerAdvancementsIn)
+    public void removePlayerListeners(final PlayerAdvancements playerAdvancementsIn)
     {
         this.listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public void removeListener(final PlayerAdvancements playerAdvancementsIn,
+    public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
             final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
     {
         final CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
@@ -163,9 +163,9 @@ public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigge
     }
 
     @Override
-    public Instance deserialize(final JsonObject json, final ConditionArrayParser conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.deserializeJSONObject(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         final String name = json.has("entry") ? json.get("entry").getAsString() : "";
         final int number = json.has("number") ? json.get("number").getAsInt() : -1;
         final int sign = json.has("sign") ? json.get("sign").getAsInt() : 0;

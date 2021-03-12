@@ -20,7 +20,7 @@ public interface IMultiplePassengerEntity
         public static void managePassenger(final Entity passenger, final IMultiplePassengerEntity multipassenger)
         {
             final Entity entity = (Entity) multipassenger;
-            if (!entity.isPassenger(passenger)) return;
+            if (!entity.hasPassenger(passenger)) return;
             Vector3f v = multipassenger.getSeat(passenger);
             final float yaw = -multipassenger.getYaw() * 0.017453292F;
             final float pitch = -multipassenger.getPitch() * 0.017453292F;
@@ -38,8 +38,8 @@ public interface IMultiplePassengerEntity
                 v = (Vector3f) v.clone();
                 transform.transform(v);
             }
-            passenger.setPosition(entity.getPosX() + v.x, entity.getPosY() + passenger.getYOffset() + v.y, entity
-                    .getPosZ() + v.z);
+            passenger.setPos(entity.getX() + v.x, entity.getY() + passenger.getMyRidingOffset() + v.y, entity
+                    .getZ() + v.z);
         }
     }
 
@@ -127,13 +127,13 @@ public interface IMultiplePassengerEntity
     public static final IDataSerializer<Seat> SEATSERIALIZER = new IDataSerializer<Seat>()
     {
         @Override
-        public Seat copyValue(final Seat value)
+        public Seat copy(final Seat value)
         {
             return new Seat((Vector3f) value.seat.clone(), value.getEntityId());
         }
 
         @Override
-        public DataParameter<Seat> createKey(final int id)
+        public DataParameter<Seat> createAccessor(final int id)
         {
             return new DataParameter<>(id, this);
         }

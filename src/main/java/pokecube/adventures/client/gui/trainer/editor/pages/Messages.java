@@ -59,21 +59,21 @@ public class Messages extends ListPage<MessageOption>
             this.action = new TextFieldWidget(parent.font, 0, 0, 170, 10, new StringTextComponent(""));
 
             final MessageState state = MessageState.values()[this.index];
-            this.message.setText(this.messages.getMessage(state));
+            this.message.setValue(this.messages.getMessage(state));
             final Action act = this.messages.getAction(state);
             if (act != null)
             {
                 String msg = act.getCommand();
                 if (act instanceof BattleAction) msg = "action:initiate_battle";
-                this.action.setText(msg);
+                this.action.setValue(msg);
             }
 
-            this.message.setMaxStringLength(1024);
-            this.action.setMaxStringLength(1024);
+            this.message.setMaxLength(1024);
+            this.action.setMaxLength(1024);
 
             this.apply = new Button(0, 0, 50, 10, new StringTextComponent("Apply"), b ->
             {
-                b.playDownSound(this.mc.getSoundHandler());
+                b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             });
 
@@ -81,8 +81,8 @@ public class Messages extends ListPage<MessageOption>
             parent.addButton(this.message);
             parent.addButton(this.action);
 
-            this.action.setCursorPosition(-this.action.getCursorPosition());
-            this.message.setCursorPosition(-this.message.getCursorPosition());
+            this.action.moveCursorTo(-this.action.getCursorPosition());
+            this.message.moveCursorTo(-this.message.getCursorPosition());
 
             this.apply.visible = false;
             this.message.visible = false;
@@ -116,7 +116,7 @@ public class Messages extends ListPage<MessageOption>
             this.action.x = x - 2;
             this.action.y = y - 4 + dy + 12;
 
-            this.parent.font.drawString(mat, MessageState.values()[this.index].name(), x, y - 5, 0xFFFFFF);
+            this.parent.font.draw(mat, MessageState.values()[this.index].name(), x, y - 5, 0xFFFFFF);
             this.message.render(mat, mouseX, mouseY, partialTicks);
             this.action.render(mat, mouseX, mouseY, partialTicks);
             this.apply.render(mat, mouseX, mouseY, partialTicks);
@@ -124,11 +124,11 @@ public class Messages extends ListPage<MessageOption>
 
         public void onUpdated()
         {
-            final String act = this.action.getText();
+            final String act = this.action.getValue();
             Action newAction = null;
             if (act.equals("action:initiate_battle")) newAction = new BattleAction();
             else if (!act.isEmpty()) newAction = new Action(act);
-            final String msg = this.message.getText();
+            final String msg = this.message.getValue();
             final MessageState state = MessageState.values()[this.index];
             this.messages.setAction(state, newAction);
             this.messages.setMessage(state, msg);
@@ -139,7 +139,7 @@ public class Messages extends ListPage<MessageOption>
                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
                 final CompoundNBT nbt = message.getTag();
                 nbt.put("__messages__", tag);
-                nbt.putInt("I", this.parent.parent.entity.getEntityId());
+                nbt.putInt("I", this.parent.parent.entity.getId());
                 PacketTrainer.ASSEMBLER.sendToServer(message);
             }
         }

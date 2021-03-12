@@ -34,7 +34,7 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         this.parent = parent;
         this.headerHeight = 0;
         // No default background thing
-        this.func_244606_c(false);
+        this.setRenderTopAndBottom(false);
     }
 
     @Override
@@ -96,8 +96,8 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         final int i = this.getScrollbarPosition();
         final int j = i + 6;
         final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder bufferbuilder = tessellator.getBuffer();
-        this.minecraft.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
+        final BufferBuilder bufferbuilder = tessellator.getBuilder();
+        this.minecraft.getTextureManager().bind(AbstractGui.BACKGROUND_LOCATION);
         final int k = this.getRowLeft();
         final int l = this.y0 + 4 - (int) this.getScrollAmount();
         if (this.renderHeader) this.renderHeader(mat, k, l, tessellator);
@@ -119,23 +119,23 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
             if (l1 < this.y0) l1 = this.y0;
 
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-            bufferbuilder.pos(i, this.y1, 0.0D).color(0, 0, 0, 255).tex(0.0F, 1.0F).endVertex();
-            bufferbuilder.pos(j, this.y1, 0.0D).color(0, 0, 0, 255).tex(1.0F, 1.0F).endVertex();
-            bufferbuilder.pos(j, this.y0, 0.0D).color(0, 0, 0, 255).tex(1.0F, 0.0F).endVertex();
-            bufferbuilder.pos(i, this.y0, 0.0D).color(0, 0, 0, 255).tex(0.0F, 0.0F).endVertex();
-            tessellator.draw();
+            bufferbuilder.vertex(i, this.y1, 0.0D).color(0, 0, 0, 255).uv(0.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(j, this.y1, 0.0D).color(0, 0, 0, 255).uv(1.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(j, this.y0, 0.0D).color(0, 0, 0, 255).uv(1.0F, 0.0F).endVertex();
+            bufferbuilder.vertex(i, this.y0, 0.0D).color(0, 0, 0, 255).uv(0.0F, 0.0F).endVertex();
+            tessellator.end();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-            bufferbuilder.pos(i, l1 + k1, 0.0D).color(128, 128, 128, 255).tex(0.0F, 1.0F).endVertex();
-            bufferbuilder.pos(j, l1 + k1, 0.0D).color(128, 128, 128, 255).tex(1.0F, 1.0F).endVertex();
-            bufferbuilder.pos(j, l1, 0.0D).color(128, 128, 128, 255).tex(1.0F, 0.0F).endVertex();
-            bufferbuilder.pos(i, l1, 0.0D).color(128, 128, 128, 255).tex(0.0F, 0.0F).endVertex();
-            tessellator.draw();
+            bufferbuilder.vertex(i, l1 + k1, 0.0D).color(128, 128, 128, 255).uv(0.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(j, l1 + k1, 0.0D).color(128, 128, 128, 255).uv(1.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(j, l1, 0.0D).color(128, 128, 128, 255).uv(1.0F, 0.0F).endVertex();
+            bufferbuilder.vertex(i, l1, 0.0D).color(128, 128, 128, 255).uv(0.0F, 0.0F).endVertex();
+            tessellator.end();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-            bufferbuilder.pos(i, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).tex(0.0F, 1.0F).endVertex();
-            bufferbuilder.pos(j - 1, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).tex(1.0F, 1.0F).endVertex();
-            bufferbuilder.pos(j - 1, l1, 0.0D).color(192, 192, 192, 255).tex(1.0F, 0.0F).endVertex();
-            bufferbuilder.pos(i, l1, 0.0D).color(192, 192, 192, 255).tex(0.0F, 0.0F).endVertex();
-            tessellator.draw();
+            bufferbuilder.vertex(i, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).uv(0.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(j - 1, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).uv(1.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(j - 1, l1, 0.0D).color(192, 192, 192, 255).uv(1.0F, 0.0F).endVertex();
+            bufferbuilder.vertex(i, l1, 0.0D).color(192, 192, 192, 255).uv(0.0F, 0.0F).endVertex();
+            tessellator.end();
         }
 
         this.renderDecorations(mat, mouseX, mouseY);
@@ -148,7 +148,7 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     {
         final int i = this.getItemCount();
         final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder bufferbuilder = tessellator.getBuffer();
+        final BufferBuilder bufferbuilder = tessellator.getBuilder();
 
         for (int j = 0; j < i; ++j)
         {
@@ -171,17 +171,17 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
                     RenderSystem.disableTexture();
                     final float f = this.isFocused() ? 1.0F : 0.5F;
                     bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                    bufferbuilder.pos(l1, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
-                    bufferbuilder.pos(i2, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
-                    bufferbuilder.pos(i2, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
-                    bufferbuilder.pos(l1, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
-                    tessellator.draw();
+                    bufferbuilder.vertex(l1, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
+                    bufferbuilder.vertex(i2, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
+                    bufferbuilder.vertex(i2, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
+                    bufferbuilder.vertex(l1, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
+                    tessellator.end();
                     bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                    bufferbuilder.pos(l1 + 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
-                    bufferbuilder.pos(i2 - 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
-                    bufferbuilder.pos(i2 - 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
-                    bufferbuilder.pos(l1 + 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
-                    tessellator.draw();
+                    bufferbuilder.vertex(l1 + 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
+                    bufferbuilder.vertex(i2 - 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
+                    bufferbuilder.vertex(i2 - 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
+                    bufferbuilder.vertex(l1 + 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
+                    tessellator.end();
                     RenderSystem.enableTexture();
                 }
                 e.render(mat, j, k, j2, k1, j1, mouseX, mouseY,
@@ -200,7 +200,7 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        for (final T value : this.getEventListeners())
+        for (final T value : this.children())
             if (value.keyPressed(keyCode, b, c)) return true;
         return super.keyPressed(keyCode, b, c);
     }

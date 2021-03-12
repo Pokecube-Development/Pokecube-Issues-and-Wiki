@@ -48,14 +48,14 @@ public class InvWrapper implements IInventory
     }
 
     @Override
-    public void clear()
+    public void clearContent()
     {
         for (int i = 0; i < this.wrapped.getSlots(); i++)
             this.wrapped.setStackInSlot(i, ItemStack.EMPTY);
     }
 
     @Override
-    public int getSizeInventory()
+    public int getContainerSize()
     {
         return this.wrapped.getSlots();
     }
@@ -67,41 +67,41 @@ public class InvWrapper implements IInventory
     }
 
     @Override
-    public ItemStack getStackInSlot(final int index)
+    public ItemStack getItem(final int index)
     {
         return this.wrapped.getStackInSlot(index);
     }
 
     @Override
-    public ItemStack decrStackSize(final int index, final int count)
+    public ItemStack removeItem(final int index, final int count)
     {
-        this.markDirty();
+        this.setChanged();
         return this.wrapped.extractItem(index, count, false);
     }
 
     @Override
-    public ItemStack removeStackFromSlot(final int index)
+    public ItemStack removeItemNoUpdate(final int index)
     {
-        this.markDirty();
+        this.setChanged();
         return this.wrapped.extractItem(index, this.wrapped.getStackInSlot(index).getCount(), false);
     }
 
     @Override
-    public void setInventorySlotContents(final int index, final ItemStack stack)
+    public void setItem(final int index, final ItemStack stack)
     {
-        this.markDirty();
+        this.setChanged();
         this.wrapped.setStackInSlot(index, stack);
     }
 
     @Override
-    public void markDirty()
+    public void setChanged()
     {
         if (this.listeners != null) for (final IInventoryChangedListener iinventorychangedlistener : this.listeners)
-            iinventorychangedlistener.onInventoryChanged(this);
+            iinventorychangedlistener.containerChanged(this);
     }
 
     @Override
-    public boolean isUsableByPlayer(final PlayerEntity player)
+    public boolean stillValid(final PlayerEntity player)
     {
         return this.usable.test(player);
     }

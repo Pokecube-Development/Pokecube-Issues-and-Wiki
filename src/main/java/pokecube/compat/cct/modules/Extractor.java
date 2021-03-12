@@ -96,9 +96,9 @@ public class Extractor extends BasePeripheral<ExtractorTile>
             for (final String s : values)
                 pages.add(StringNBT.valueOf(String.format("{\"text\":\"%s\"}", s)));
             newSelector.getTag().put("pages", pages);
-            value = RecipeSelector.getSelectorValue(this.tile.getStackInSlot(1));
+            value = RecipeSelector.getSelectorValue(this.tile.getItem(1));
             newSelector.getTag().put(ClonerHelper.SELECTORTAG, value.save());
-            newSelector.setDisplayName(new StringTextComponent("Selector"));
+            newSelector.setHoverName(new StringTextComponent("Selector"));
             this.tile.override_selector = newSelector;
             return true;
         }

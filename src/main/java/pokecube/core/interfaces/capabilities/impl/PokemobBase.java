@@ -250,18 +250,18 @@ public abstract class PokemobBase implements IPokemob
     @Override
     public void setEntity(final MobEntity entityIn)
     {
-        this.rand = entityIn.getRNG();
+        this.rand = entityIn.getRandom();
         this.entity = entityIn;
     }
 
     protected void setMaxHealth(final float maxHealth)
     {
         final ModifiableAttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
-        for (final AttributeModifier modifier : health.getModifierListCopy())
+        for (final AttributeModifier modifier : health.getModifiers())
             health.removeModifier(modifier);
         final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax", this
                 .getDynamaxFactor(), Operation.MULTIPLY_BASE);
-        if (this.getCombatState(CombatStates.DYNAMAX)) health.applyNonPersistentModifier(dynahealth);
+        if (this.getCombatState(CombatStates.DYNAMAX)) health.addTransientModifier(dynahealth);
         health.setBaseValue(maxHealth);
     }
 

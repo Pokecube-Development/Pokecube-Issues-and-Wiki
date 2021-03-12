@@ -49,7 +49,7 @@ public interface IBlockEntity
                 for (int j = yMin; j <= yMax; j++)
                     for (int k = zMin; k <= zMax; k++)
                     {
-                        temp = pos.add(i, j, k);
+                        temp = pos.offset(i, j, k);
                         final BlockState state = world.getBlockState(temp);
                         if (IBlockEntity.BLOCKBLACKLIST.contains(state.getBlock().getRegistryName())) return null;
                         valid = valid || !state.getBlock().isAir(state, world, temp);
@@ -72,13 +72,13 @@ public interface IBlockEntity
                 for (int j = yMin; j <= yMax; j++)
                     for (int k = zMin; k <= zMax; k++)
                     {
-                        final BlockPos temp = pos.add(i, j, k);
-                        final TileEntity old = world.getTileEntity(temp);
+                        final BlockPos temp = pos.offset(i, j, k);
+                        final TileEntity old = world.getBlockEntity(temp);
                         if (old != null)
                         {
                             CompoundNBT tag = new CompoundNBT();
-                            tag = old.write(tag);
-                            ret[i - xMin][j - yMin][k - zMin] = TileEntity.readTileEntity(world.getBlockState(temp),
+                            tag = old.save(tag);
+                            ret[i - xMin][j - yMin][k - zMin] = TileEntity.loadStatic(world.getBlockState(temp),
                                     tag);
                         }
                     }
@@ -94,7 +94,7 @@ public interface IBlockEntity
             min = new BlockPos(box.minX, box.minY, box.minZ);
             max = new BlockPos(box.maxX, box.maxY, box.maxZ);
             final IBlockEntity entity = (IBlockEntity) ret;
-            ret.setPosition(pos.getX(), pos.getY(), pos.getZ());
+            ret.setPos(pos.getX(), pos.getY(), pos.getZ());
             final BlockState[][][] blocks = BlockEntityFormer.checkBlocks(world, min, max, pos);
             if (blocks == null) return null;
             entity.setBlocks(blocks);
@@ -102,7 +102,7 @@ public interface IBlockEntity
             entity.setMin(min);
             entity.setMax(max);
             BlockEntityFormer.removeBlocks(world, min, max, pos);
-            world.addEntity(ret);
+            world.addFreshEntity(ret);
             return ret;
         }
 
@@ -116,17 +116,17 @@ public interface IBlockEntity
             final MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
             for (double i = 0; i < l; i += 0.1)
             {
-                final Vector3d spot = start.add(diff.mul(i, i, i));
+                final Vector3d spot = start.add(diff.multiply(i, i, i));
                 pos.set(MathHelper.floor(spot.x), MathHelper.floor(spot.y), MathHelper.floor(spot.z));
                 final BlockState state = world.getBlock(pos);
-                if (state != null && !world.isAirBlock(pos))
+                if (state != null && !world.isEmptyBlock(pos))
                 {
                     final VoxelShape shape = state.getCollisionShape(world, pos);
-                    final BlockRayTraceResult hit = shape.rayTrace(start, end, pos);
+                    final BlockRayTraceResult hit = shape.clip(start, end, pos);
                     if (hit != null) return hit;
                 }
             }
-            return BlockRayTraceResult.createMiss(end, Direction.DOWN, new BlockPos(end));
+            return BlockRayTraceResult.miss(end, Direction.DOWN, new BlockPos(end));
         }
 
         public static void removeBlocks(final World world, final BlockPos min, final BlockPos max, final BlockPos pos)
@@ -142,8 +142,8 @@ public interface IBlockEntity
                 for (int j = yMin; j <= yMax; j++)
                     for (int k = zMin; k <= zMax; k++)
                     {
-                        temp.setPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
-                        final TileEntity tile = world.getTileEntity(temp);
+                        temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
+                        final TileEntity tile = world.getBlockEntity(temp);
                         ITileRemover tileHandler = null;
                         if (tile != null)
                         {
@@ -155,19 +155,19 @@ public interface IBlockEntity
                 for (int j = yMin; j <= yMax; j++)
                     for (int k = zMin; k <= zMax; k++)
                     {
-                        temp.setPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
-                        final TileEntity tile = world.getTileEntity(temp);
+                        temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
+                        final TileEntity tile = world.getBlockEntity(temp);
                         ITileRemover tileHandler = null;
                         if (tile != null) tileHandler = IBlockEntity.getRemover(tile);
-                        world.setBlockState(temp, Blocks.AIR.getDefaultState(), 2 + 16 + 32 + 64);
+                        world.setBlock(temp, Blocks.AIR.defaultBlockState(), 2 + 16 + 32 + 64);
                         if (tileHandler != null) tileHandler.postBlockRemoval(tile);
                     }
             for (int i = xMin; i <= xMax; i++)
                 for (int j = yMin; j <= yMax; j++)
                     for (int k = zMin; k <= zMax; k++)
                     {
-                        temp.setPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
-                        world.setBlockState(temp, Blocks.AIR.getDefaultState(), 3);
+                        temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
+                        world.setBlock(temp, Blocks.AIR.defaultBlockState(), 3);
                     }
         }
 
@@ -189,26 +189,26 @@ public interface IBlockEntity
                         // whether the entity is rotated, and then also call the
                         // block's rotate method as well before placing the
                         // BlockState.
-                        final BlockPos pos = new BlockPos(i + xMin + entity.getPosX(), j + yMin + entity.getPosY(), k
-                                + zMin + entity.getPosZ());
+                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(), k
+                                + zMin + entity.getZ());
                         final BlockState state = toRevert.getFakeWorld().getBlock(pos);
                         final TileEntity tile = toRevert.getFakeWorld().getTile(pos);
                         if (state != null)
                         {
-                            if (!entity.getEntityWorld().isAirBlock(pos)) entity.getEntityWorld().destroyBlock(pos,
+                            if (!entity.getCommandSenderWorld().isEmptyBlock(pos)) entity.getCommandSenderWorld().destroyBlock(pos,
                                     true);
-                            entity.getEntityWorld().setBlockState(pos, state);
+                            entity.getCommandSenderWorld().setBlockAndUpdate(pos, state);
                             if (tile != null)
                             {
-                                final TileEntity newTile = entity.getEntityWorld().getTileEntity(pos);
-                                if (newTile != null) newTile.read(state, tile.write(new CompoundNBT()));
+                                final TileEntity newTile = entity.getCommandSenderWorld().getBlockEntity(pos);
+                                if (newTile != null) newTile.load(state, tile.save(new CompoundNBT()));
                             }
                         }
                     }
-            final List<Entity> possibleInside = entity.getEntityWorld().getEntitiesWithinAABBExcludingEntity(entity,
+            final List<Entity> possibleInside = entity.getCommandSenderWorld().getEntities(entity,
                     entity.getBoundingBox());
             for (final Entity e : possibleInside)
-                e.setPosition(e.getPosX(), e.getPosY() + 0.25, e.getPosZ());
+                e.setPos(e.getX(), e.getY() + 0.25, e.getZ());
         }
     }
 
@@ -242,7 +242,7 @@ public interface IBlockEntity
         @Override
         public void preBlockRemoval(final TileEntity tileIn)
         {
-            tileIn.remove();
+            tileIn.setRemoved();
         }
     };
 

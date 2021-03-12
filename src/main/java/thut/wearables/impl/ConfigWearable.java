@@ -5,13 +5,13 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -64,9 +64,9 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
         if (stack.hasTag() && stack.getTag().contains("wslot"))
         {
 
-            mat.push();
+            mat.pushPose();
 
-            mat.rotate(new Quaternion(0, 0, 180, true));
+            mat.mulPose(new Quaternion(0, 0, 180, true));
 
             if (stack.getTag().contains("winfo"))
             {
@@ -94,31 +94,31 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
                 if (info.contains("rotx"))
                 {
                     final float shift = info.getFloat("rotx");
-                    mat.rotate(new Quaternion(shift, 0, 0, true));
+                    mat.mulPose(new Quaternion(shift, 0, 0, true));
                 }
                 if (info.contains("roty"))
                 {
                     final float shift = info.getFloat("roty");
-                    mat.rotate(new Quaternion(0, shift, 0, true));
+                    mat.mulPose(new Quaternion(0, shift, 0, true));
                 }
                 if (info.contains("rotz"))
                 {
                     final float shift = info.getFloat("rotz");
-                    mat.rotate(new Quaternion(0, 0, shift, true));
+                    mat.mulPose(new Quaternion(0, 0, shift, true));
                 }
 
             }
 
             mat.translate(-0.25f, 0, 0);
-            Minecraft.getInstance().textureManager.bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
+            Minecraft.getInstance().textureManager.bind(PlayerContainer.BLOCK_ATLAS);
             final ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            final IBakedModel ibakedmodel = itemRenderer.getItemModelWithOverrides(stack, wearer.getEntityWorld(),
+            final IBakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.getCommandSenderWorld(),
                     null);
             // TODO check lighting/etc in this call!
-            itemRenderer.renderItem(stack, net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.FIXED,
+            itemRenderer.render(stack, net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.FIXED,
                     true, mat, buff, 0, 0,
                     ibakedmodel);
-            mat.pop();
+            mat.popPose();
         }
 
     }

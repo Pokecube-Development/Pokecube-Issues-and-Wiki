@@ -209,9 +209,9 @@ public class PokecubeMobs
         final IPokemob shuckle = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (shuckle != null && shuckle.getPokedexNb() == 213)
         {
-            if (evt.getEntity().getEntityWorld().isRemote) return;
+            if (evt.getEntity().getCommandSenderWorld().isClientSide) return;
 
-            final ItemStack item = shuckle.getEntity().getHeldItemMainhand();
+            final ItemStack item = shuckle.getEntity().getMainHandItem();
             if (item.isEmpty()) return;
             final Item itemId = item.getItem();
             boolean berry = itemId == BerryManager.getBerryItem("oran");
@@ -221,7 +221,7 @@ public class PokecubeMobs
                 if (shuckle.getOwner() != null)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
-                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
+                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.NIL_UUID);
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
@@ -236,7 +236,7 @@ public class PokecubeMobs
                 {
                     final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
+                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.NIL_UUID);
                 }
                 shuckle.setHeldItem(candy);
                 return;
@@ -261,9 +261,9 @@ public class PokecubeMobs
             boolean hasSpace = false;
             ItemStack cube = ItemStack.EMPTY;
             int m = -1;
-            for (int n = 0; n < inv.getSizeInventory(); n++)
+            for (int n = 0; n < inv.getContainerSize(); n++)
             {
-                final ItemStack item = inv.getStackInSlot(n);
+                final ItemStack item = inv.getItem(n);
                 if (item == ItemStack.EMPTY) hasSpace = true;
                 final ResourceLocation key = PokecubeItems.getCubeId(item);
                 if (!hasCube && key != null && IPokecube.BEHAVIORS.containsKey(key) && !PokecubeManager.isFilled(item))
@@ -278,7 +278,7 @@ public class PokecubeMobs
             if (hasCube && hasSpace)
             {
                 final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player
-                        .getEntityWorld());
+                        .getCommandSenderWorld());
                 if (pokemon != null)
                 {
                     final ItemStack mobCube = cube.copy();
@@ -291,8 +291,8 @@ public class PokecubeMobs
                     final ItemStack shedinja = PokecubeManager.pokemobToItem(poke);
                     StatsCollector.addCapture(poke);
                     cube.shrink(1);
-                    if (cube.isEmpty()) inv.setInventorySlotContents(m, ItemStack.EMPTY);
-                    inv.addItemStackToInventory(shedinja);
+                    if (cube.isEmpty()) inv.setItem(m, ItemStack.EMPTY);
+                    inv.add(shedinja);
                 }
             }
         }
@@ -308,74 +308,74 @@ public class PokecubeMobs
     public void registerItems(final RegisterMiscItems event)
     {
 
-        ItemGenerator.berryWoods.put("pecha", MaterialColor.MAGENTA);
-        ItemGenerator.berryWoods.put("oran", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryWoods.put("leppa", MaterialColor.RED);
-        ItemGenerator.berryWoods.put("sitrus", MaterialColor.YELLOW_TERRACOTTA);
-        ItemGenerator.berryWoods.put("enigma", MaterialColor.BLACK);
-        ItemGenerator.berryWoods.put("nanab", MaterialColor.BROWN_TERRACOTTA);
+        ItemGenerator.berryWoods.put("pecha", MaterialColor.COLOR_MAGENTA);
+        ItemGenerator.berryWoods.put("oran", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryWoods.put("leppa", MaterialColor.COLOR_RED);
+        ItemGenerator.berryWoods.put("sitrus", MaterialColor.TERRACOTTA_YELLOW);
+        ItemGenerator.berryWoods.put("enigma", MaterialColor.COLOR_BLACK);
+        ItemGenerator.berryWoods.put("nanab", MaterialColor.TERRACOTTA_BROWN);
 
-        ItemGenerator.berryLeaves.put("pecha", MaterialColor.FOLIAGE);
-        ItemGenerator.berryLeaves.put("oran", MaterialColor.PINK_TERRACOTTA);
-        ItemGenerator.berryLeaves.put("leppa", MaterialColor.YELLOW_TERRACOTTA);
-        ItemGenerator.berryLeaves.put("sitrus", MaterialColor.LIGHT_BLUE_TERRACOTTA);
-        ItemGenerator.berryLeaves.put("enigma", MaterialColor.WHITE_TERRACOTTA);
-        ItemGenerator.berryLeaves.put("nanab", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryLeaves.put("pecha", MaterialColor.PLANT);
+        ItemGenerator.berryLeaves.put("oran", MaterialColor.TERRACOTTA_PINK);
+        ItemGenerator.berryLeaves.put("leppa", MaterialColor.TERRACOTTA_YELLOW);
+        ItemGenerator.berryLeaves.put("sitrus", MaterialColor.TERRACOTTA_LIGHT_BLUE);
+        ItemGenerator.berryLeaves.put("enigma", MaterialColor.TERRACOTTA_WHITE);
+        ItemGenerator.berryLeaves.put("nanab", MaterialColor.COLOR_LIGHT_BLUE);
 
-        ItemGenerator.onlyBerryLeaves.put("pomeg", MaterialColor.RED);
-        ItemGenerator.onlyBerryLeaves.put("kelpsy", MaterialColor.PINK);
-        ItemGenerator.onlyBerryLeaves.put("qualot", MaterialColor.FOLIAGE);
-        ItemGenerator.onlyBerryLeaves.put("hondew", MaterialColor.PURPLE);
-        ItemGenerator.onlyBerryLeaves.put("grepa", MaterialColor.RED);
-        ItemGenerator.onlyBerryLeaves.put("tamato", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.onlyBerryLeaves.put("pomeg", MaterialColor.COLOR_RED);
+        ItemGenerator.onlyBerryLeaves.put("kelpsy", MaterialColor.COLOR_PINK);
+        ItemGenerator.onlyBerryLeaves.put("qualot", MaterialColor.PLANT);
+        ItemGenerator.onlyBerryLeaves.put("hondew", MaterialColor.COLOR_PURPLE);
+        ItemGenerator.onlyBerryLeaves.put("grepa", MaterialColor.COLOR_RED);
+        ItemGenerator.onlyBerryLeaves.put("tamato", MaterialColor.COLOR_LIGHT_BLUE);
 
-        ItemGenerator.berryCrops.put("aspear", MaterialColor.RED);
-        ItemGenerator.berryCrops.put("cheri", MaterialColor.FOLIAGE);
-        ItemGenerator.berryCrops.put("chesto", MaterialColor.PINK);
-        ItemGenerator.berryCrops.put("cornn", MaterialColor.PINK);
-        ItemGenerator.berryCrops.put("enigma", MaterialColor.WHITE_TERRACOTTA);
-        ItemGenerator.berryCrops.put("grepa", MaterialColor.RED);
-        ItemGenerator.berryCrops.put("hondew", MaterialColor.FOLIAGE);
-        ItemGenerator.berryCrops.put("jaboca", MaterialColor.PURPLE);
-        ItemGenerator.berryCrops.put("kelpsy", MaterialColor.PINK);
-        ItemGenerator.berryCrops.put("leppa", MaterialColor.YELLOW_TERRACOTTA);
-        ItemGenerator.berryCrops.put("lum", MaterialColor.PURPLE);
-        ItemGenerator.berryCrops.put("nanab", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryCrops.put("null", MaterialColor.FOLIAGE);
-        ItemGenerator.berryCrops.put("oran", MaterialColor.ADOBE);
-        ItemGenerator.berryCrops.put("pecha", MaterialColor.FOLIAGE);
-        ItemGenerator.berryCrops.put("persim", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryCrops.put("pinap", MaterialColor.FOLIAGE);
-        ItemGenerator.berryCrops.put("pomeg", MaterialColor.RED);
-        ItemGenerator.berryCrops.put("qualot", MaterialColor.FOLIAGE);
-        ItemGenerator.berryCrops.put("rawst", MaterialColor.FOLIAGE);
-        ItemGenerator.berryCrops.put("rowap", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryCrops.put("sitrus", MaterialColor.LIGHT_BLUE_TERRACOTTA);
-        ItemGenerator.berryCrops.put("tamato", MaterialColor.LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("aspear", MaterialColor.COLOR_RED);
+        ItemGenerator.berryCrops.put("cheri", MaterialColor.PLANT);
+        ItemGenerator.berryCrops.put("chesto", MaterialColor.COLOR_PINK);
+        ItemGenerator.berryCrops.put("cornn", MaterialColor.COLOR_PINK);
+        ItemGenerator.berryCrops.put("enigma", MaterialColor.TERRACOTTA_WHITE);
+        ItemGenerator.berryCrops.put("grepa", MaterialColor.COLOR_RED);
+        ItemGenerator.berryCrops.put("hondew", MaterialColor.PLANT);
+        ItemGenerator.berryCrops.put("jaboca", MaterialColor.COLOR_PURPLE);
+        ItemGenerator.berryCrops.put("kelpsy", MaterialColor.COLOR_PINK);
+        ItemGenerator.berryCrops.put("leppa", MaterialColor.TERRACOTTA_YELLOW);
+        ItemGenerator.berryCrops.put("lum", MaterialColor.COLOR_PURPLE);
+        ItemGenerator.berryCrops.put("nanab", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("null", MaterialColor.PLANT);
+        ItemGenerator.berryCrops.put("oran", MaterialColor.COLOR_ORANGE);
+        ItemGenerator.berryCrops.put("pecha", MaterialColor.PLANT);
+        ItemGenerator.berryCrops.put("persim", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("pinap", MaterialColor.PLANT);
+        ItemGenerator.berryCrops.put("pomeg", MaterialColor.COLOR_RED);
+        ItemGenerator.berryCrops.put("qualot", MaterialColor.PLANT);
+        ItemGenerator.berryCrops.put("rawst", MaterialColor.PLANT);
+        ItemGenerator.berryCrops.put("rowap", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("sitrus", MaterialColor.TERRACOTTA_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("tamato", MaterialColor.COLOR_LIGHT_BLUE);
 
-        ItemGenerator.berryFruits.put("aspear", MaterialColor.RED);
-        ItemGenerator.berryFruits.put("cheri", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("chesto", MaterialColor.PINK);
-        ItemGenerator.berryFruits.put("cornn", MaterialColor.PINK);
-        ItemGenerator.berryFruits.put("enigma", MaterialColor.BLACK);
-        ItemGenerator.berryFruits.put("grepa", MaterialColor.YELLOW);
-        ItemGenerator.berryFruits.put("hondew", MaterialColor.LIME);
-        ItemGenerator.berryFruits.put("jaboca", MaterialColor.PURPLE);
-        ItemGenerator.berryFruits.put("kelpsy", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("leppa", MaterialColor.RED);
-        ItemGenerator.berryFruits.put("lum", MaterialColor.PURPLE);
-        ItemGenerator.berryFruits.put("nanab", MaterialColor.PINK);
-        ItemGenerator.berryFruits.put("null", MaterialColor.FOLIAGE);
-        ItemGenerator.berryFruits.put("oran", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("pecha", MaterialColor.PINK);
-        ItemGenerator.berryFruits.put("persim", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("pinap", MaterialColor.YELLOW);
-        ItemGenerator.berryFruits.put("pomeg", MaterialColor.ORANGE_TERRACOTTA);
-        ItemGenerator.berryFruits.put("qualot", MaterialColor.YELLOW);
-        ItemGenerator.berryFruits.put("rawst", MaterialColor.FOLIAGE);
-        ItemGenerator.berryFruits.put("rowap", MaterialColor.LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("sitrus", MaterialColor.YELLOW);
-        ItemGenerator.berryFruits.put("tamato", MaterialColor.ORANGE_TERRACOTTA);
+        ItemGenerator.berryFruits.put("aspear", MaterialColor.COLOR_RED);
+        ItemGenerator.berryFruits.put("cheri", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("chesto", MaterialColor.COLOR_PINK);
+        ItemGenerator.berryFruits.put("cornn", MaterialColor.COLOR_PINK);
+        ItemGenerator.berryFruits.put("enigma", MaterialColor.COLOR_BLACK);
+        ItemGenerator.berryFruits.put("grepa", MaterialColor.COLOR_YELLOW);
+        ItemGenerator.berryFruits.put("hondew", MaterialColor.COLOR_LIGHT_GREEN);
+        ItemGenerator.berryFruits.put("jaboca", MaterialColor.COLOR_PURPLE);
+        ItemGenerator.berryFruits.put("kelpsy", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("leppa", MaterialColor.COLOR_RED);
+        ItemGenerator.berryFruits.put("lum", MaterialColor.COLOR_PURPLE);
+        ItemGenerator.berryFruits.put("nanab", MaterialColor.COLOR_PINK);
+        ItemGenerator.berryFruits.put("null", MaterialColor.PLANT);
+        ItemGenerator.berryFruits.put("oran", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("pecha", MaterialColor.COLOR_PINK);
+        ItemGenerator.berryFruits.put("persim", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("pinap", MaterialColor.COLOR_YELLOW);
+        ItemGenerator.berryFruits.put("pomeg", MaterialColor.TERRACOTTA_ORANGE);
+        ItemGenerator.berryFruits.put("qualot", MaterialColor.COLOR_YELLOW);
+        ItemGenerator.berryFruits.put("rawst", MaterialColor.PLANT);
+        ItemGenerator.berryFruits.put("rowap", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("sitrus", MaterialColor.COLOR_YELLOW);
+        ItemGenerator.berryFruits.put("tamato", MaterialColor.TERRACOTTA_ORANGE);
 
         ItemGenerator.variants.add("waterstone");
         ItemGenerator.variants.add("firestone");
@@ -642,7 +642,7 @@ public class PokecubeMobs
             public void onPostCapture(final Post evt)
             {
                 final IPokemob mob = evt.caught;
-                if (mob != null) evt.pokecube.entityDropItem(PokecubeManager.pokemobToItem(mob), 1.0F);
+                if (mob != null) evt.pokecube.spawnAtLocation(PokecubeManager.pokemobToItem(mob), 1.0F);
                 evt.setCanceled(true);
             }
 
@@ -658,7 +658,7 @@ public class PokecubeMobs
                 {
                     final EntityPokecube cube = (EntityPokecube) evt.pokecube;
                     final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.caught
-                            .getPokedexEntry(), cube.getEntityWorld()));
+                            .getPokedexEntry(), cube.getCommandSenderWorld()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
                     cube.setTime(cube.getTilt() * 20 + 5);
                     if (!tameSnag) evt.caught.setPokecube(evt.filledCube);
@@ -666,8 +666,8 @@ public class PokecubeMobs
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                     Vector3.getNewVector().set(evt.pokecube).moveEntity(cube);
                     evt.caught.getEntity().remove();
-                    cube.setMotion(0, 0.1, 0);
-                    cube.getEntityWorld().addEntity(cube.copy());
+                    cube.setDeltaMovement(0, 0.1, 0);
+                    cube.getCommandSenderWorld().addFreshEntity(cube.copy());
                     evt.pokecube.remove();
                 }
                 evt.setCanceled(true);
@@ -696,11 +696,11 @@ public class PokecubeMobs
                 final EntityPokecube cube = (EntityPokecube) evt.pokecube;
 
                 final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.caught
-                        .getPokedexEntry(), cube.getEntityWorld()));
+                        .getPokedexEntry(), cube.getCommandSenderWorld()));
                 final Vector3 v = Vector3.getNewVector();
                 final Entity thrower = cube.shootingEntity;
-                int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUniqueID(), mob.getPokedexEntry());
-                has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUniqueID(), mob.getPokedexEntry());
+                int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUUID(), mob.getPokedexEntry());
+                has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUUID(), mob.getPokedexEntry());
                 final double rate = has > 0 ? 3 : 1;
                 cube.setTilt(Tools.computeCatchRate(mob, rate));
                 cube.setTime(cube.getTilt() * 20 + 5);
@@ -710,8 +710,8 @@ public class PokecubeMobs
                 v.set(evt.pokecube).moveEntity(cube);
                 v.moveEntity(mob.getEntity());
                 evt.caught.getEntity().remove();
-                cube.setMotion(0, 0.1, 0);
-                cube.getEntityWorld().addEntity(cube.copy());
+                cube.setDeltaMovement(0, 0.1, 0);
+                cube.getCommandSenderWorld().addFreshEntity(cube.copy());
                 evt.setCanceled(true);
                 evt.pokecube.remove();
             }

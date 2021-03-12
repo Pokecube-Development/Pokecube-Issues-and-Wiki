@@ -31,7 +31,7 @@ public class ActionTeleport implements IMoveAction
             if (v != null) break;
         }
         if (v == null) return false;
-        v = Vector3.getNextSurfacePoint(toTeleport.getEntityWorld(), v, Vector3.secondAxisNeg, 20);
+        v = Vector3.getNextSurfacePoint(toTeleport.getCommandSenderWorld(), v, Vector3.secondAxisNeg, 20);
         if (v == null) return false;
         var1 = v.x;
         var3 = v.y + 1;
@@ -47,26 +47,26 @@ public class ActionTeleport implements IMoveAction
         final short var30 = 128;
         int num;
 
-        toTeleport.setPosition(par1, par3, par5);
+        toTeleport.setPos(par1, par3, par5);
 
         for (num = 0; num < var30; ++num)
         {
             final double var19 = num / (var30 - 1.0D);
-            final float var21 = (toTeleport.getRNG().nextFloat() - 0.5F) * 0.2F;
-            final float var22 = (toTeleport.getRNG().nextFloat() - 0.5F) * 0.2F;
-            final float var23 = (toTeleport.getRNG().nextFloat() - 0.5F) * 0.2F;
-            final double var24 = par1 + (toTeleport.getPosX() - par1) * var19 + (toTeleport.getRNG().nextDouble() - 0.5D)
-                    * toTeleport.getWidth() * 2.0D;
-            final double var26 = par3 + (toTeleport.getPosY() - par3) * var19 + toTeleport.getRNG().nextDouble() * toTeleport
-                    .getHeight();
-            final double var28 = par5 + (toTeleport.getPosZ() - par5) * var19 + (toTeleport.getRNG().nextDouble() - 0.5D)
-                    * toTeleport.getWidth() * 2.0D;
-            toTeleport.getEntityWorld().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
+            final float var21 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
+            final float var22 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
+            final float var23 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
+            final double var24 = par1 + (toTeleport.getX() - par1) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
+                    * toTeleport.getBbWidth() * 2.0D;
+            final double var26 = par3 + (toTeleport.getY() - par3) * var19 + toTeleport.getRandom().nextDouble() * toTeleport
+                    .getBbHeight();
+            final double var28 = par5 + (toTeleport.getZ() - par5) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
+                    * toTeleport.getBbWidth() * 2.0D;
+            toTeleport.getCommandSenderWorld().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
         }
 
-        toTeleport.getEntityWorld().playSound(par1, par3, par5, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+        toTeleport.getCommandSenderWorld().playLocalSound(par1, par3, par5, SoundEvents.ENDERMAN_TELEPORT,
                 SoundCategory.HOSTILE, 1.0F, 1.0F, false);
-        toTeleport.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
+        toTeleport.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
         return true;
 
     }

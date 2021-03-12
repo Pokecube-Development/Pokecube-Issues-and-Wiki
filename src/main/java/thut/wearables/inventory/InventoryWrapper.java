@@ -16,35 +16,35 @@ public class InventoryWrapper extends Inventory
     }
 
     @Override
-    public void clear()
+    public void clearContent()
     {
     }
 
     @Override
-    public void closeInventory(final PlayerEntity player)
+    public void stopOpen(final PlayerEntity player)
     {
     }
 
     @Override
-    public ItemStack decrStackSize(final int index, final int count)
+    public ItemStack removeItem(final int index, final int count)
     {
-        return this.removeStackFromSlot(index);
+        return this.removeItemNoUpdate(index);
     }
 
     @Override
-    public int getInventoryStackLimit()
+    public int getMaxStackSize()
     {
         return 1;
     }
 
     @Override
-    public int getSizeInventory()
+    public int getContainerSize()
     {
         return 13;
     }
 
     @Override
-    public ItemStack getStackInSlot(final int index)
+    public ItemStack getItem(final int index)
     {
         return this.wearable.getStackInSlot(index);
     }
@@ -56,35 +56,35 @@ public class InventoryWrapper extends Inventory
     }
 
     @Override
-    public boolean isItemValidForSlot(final int index, final ItemStack stack)
+    public boolean canPlaceItem(final int index, final ItemStack stack)
     {
         return EnumWearable.getSlot(stack) == EnumWearable.getWearable(index);
     }
 
     @Override
-    public boolean isUsableByPlayer(final PlayerEntity player)
+    public boolean stillValid(final PlayerEntity player)
     {
         return true;
     }
 
     @Override
-    public void markDirty()
+    public void setChanged()
     {
     }
 
     @Override
-    public void openInventory(final PlayerEntity player)
+    public void startOpen(final PlayerEntity player)
     {
     }
 
     @Override
-    public ItemStack removeStackFromSlot(final int index)
+    public ItemStack removeItemNoUpdate(final int index)
     {
         return this.wearable.extractItem(index, 1, false);
     }
 
     @Override
-    public void setInventorySlotContents(final int index, final ItemStack stack)
+    public void setItem(final int index, final ItemStack stack)
     {
         this.wearable.setStackInSlot(index, stack);
     }

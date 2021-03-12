@@ -49,23 +49,23 @@ public class StatEffect extends BaseEffect
             break;
         case ATTACK:
             final Effect atkD = Effects.WEAKNESS;
-            final Effect atkU = Effects.STRENGTH;
+            final Effect atkU = Effects.DAMAGE_BOOST;
             // TODO make this configurable, currently the weakness affect is a
             // bit too much
             if (up)
             {
-                if (entity.isPotionActive(atkD)) entity.removePotionEffect(atkD);
-                entity.addPotionEffect(new EffectInstance(atkU, duration, this.amount));
+                if (entity.hasEffect(atkD)) entity.removeEffect(atkD);
+                entity.addEffect(new EffectInstance(atkU, duration, this.amount));
             }
             else
             {
-                if (entity.isPotionActive(atkU)) entity.removePotionEffect(atkU);
-                entity.addPotionEffect(new EffectInstance(atkD, duration, this.amount));
+                if (entity.hasEffect(atkU)) entity.removeEffect(atkU);
+                entity.addEffect(new EffectInstance(atkD, duration, this.amount));
             }
             break;
         case DEFENSE:
-            final Effect defU = Effects.RESISTANCE;
-            if (up) entity.addPotionEffect(new EffectInstance(defU, duration, this.amount));
+            final Effect defU = Effects.DAMAGE_RESISTANCE;
+            if (up) entity.addEffect(new EffectInstance(defU, duration, this.amount));
             break;
         case EVASION:
             break;
@@ -76,17 +76,17 @@ public class StatEffect extends BaseEffect
         case SPDEFENSE:
             break;
         case VIT:
-            final Effect vitD = Effects.SLOWNESS;
-            final Effect vitU = Effects.SPEED;
+            final Effect vitD = Effects.MOVEMENT_SLOWDOWN;
+            final Effect vitU = Effects.MOVEMENT_SPEED;
             if (up)
             {
-                if (entity.isPotionActive(vitD)) entity.removePotionEffect(vitD);
-                entity.addPotionEffect(new EffectInstance(vitU, duration, this.amount));
+                if (entity.hasEffect(vitD)) entity.removeEffect(vitD);
+                entity.addEffect(new EffectInstance(vitU, duration, this.amount));
             }
             else
             {
-                if (entity.isPotionActive(vitU)) entity.removePotionEffect(vitU);
-                entity.addPotionEffect(new EffectInstance(vitD, duration, this.amount));
+                if (entity.hasEffect(vitU)) entity.removeEffect(vitU);
+                entity.addEffect(new EffectInstance(vitD, duration, this.amount));
             }
             break;
         default:

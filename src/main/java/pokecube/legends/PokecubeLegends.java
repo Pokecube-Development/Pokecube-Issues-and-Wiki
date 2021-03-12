@@ -96,14 +96,14 @@ public class PokecubeLegends
                                 "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN")
                         || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY");
                 WorldgenHandler.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Feature.ORE.withConfiguration(new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.RUBY_ORE.get()
-                                        .getDefaultState(), 5)).range(32).square().func_242731_b(2));
+                        Feature.ORE.configured(new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE.get()
+                                        .defaultBlockState(), 5)).range(32).squared().count(2));
 
                 WorldgenHandler.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Feature.ORE.withConfiguration(new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, BlockInit.SAPPHIRE_ORE.get()
-                                        .getDefaultState(), 5)).range(32).square().func_242731_b(2));
+                        Feature.ORE.configured(new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE.get()
+                                        .defaultBlockState(), 5)).range(32).squared().count(2));
             }
             Trees.register();
         }
@@ -111,8 +111,8 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
         {
-            RaidSpawn.TYPE = TileEntityType.Builder.create(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
-            RingTile.TYPE = TileEntityType.Builder.create(RingTile::new, BlockInit.BLOCK_PORTALWARP.get()).build(null);
+            RaidSpawn.TYPE = TileEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
+            RingTile.TYPE = TileEntityType.Builder.of(RingTile::new, BlockInit.BLOCK_PORTALWARP.get()).build(null);
             event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
             event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.BLOCK_PORTALWARP.get()
                     .getRegistryName()));
@@ -172,7 +172,7 @@ public class PokecubeLegends
     {
 
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
         }
@@ -182,7 +182,7 @@ public class PokecubeLegends
     {
 
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             return new ItemStack(BlockInit.SKY_BRICK.get());
         }
@@ -192,7 +192,7 @@ public class PokecubeLegends
     {
 
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             return new ItemStack(ItemInit.RAINBOW_ORB.get());
         }
@@ -263,21 +263,21 @@ public class PokecubeLegends
     @SubscribeEvent
     public void reactivate_raid(final RightClickBlock event)
     {
-        if (event.getWorld().isRemote) return;
+        if (event.getWorld().isClientSide) return;
         if (event.getItemStack().getItem() != ItemInit.WISHING_PIECE.get()) return;
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
         {
             if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(
-                    new TranslationTextComponent("msg.notaraidspot.info"), Util.DUMMY_UUID);
+                    new TranslationTextComponent("msg.notaraidspot.info"), Util.NIL_UUID);
             return;
         }
-        final boolean active = hit.get(RaidSpawnBlock.ACTIVE).active();
+        final boolean active = hit.getValue(RaidSpawnBlock.ACTIVE).active();
         if (active) return;
         else
         {
             final State state = new Random().nextInt(20) == 0 ? State.RARE : State.NORMAL;
-            event.getWorld().setBlockState(event.getPos(), hit.with(RaidSpawnBlock.ACTIVE, state));
+            event.getWorld().setBlockAndUpdate(event.getPos(), hit.setValue(RaidSpawnBlock.ACTIVE, state));
             event.setUseItem(Result.ALLOW);
             event.getItemStack().grow(-1);
         }

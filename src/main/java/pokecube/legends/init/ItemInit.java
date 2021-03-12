@@ -282,13 +282,13 @@ public class ItemInit
         COSMIC_DUST 	= PokecubeLegends.ITEMS.register("cosmic_dust", () -> new ItemBase("cosmic_dust", 30, PokecubeItems.POKECUBEITEMS).noTooltop());
         
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet", () -> new UltraHelmetEffect(
-                ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().group(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate", () -> new ArmorItem(
-                ItemInit.armormaterial, EquipmentSlotType.CHEST, new Item.Properties().group(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlotType.CHEST, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(
-                ItemInit.armormaterial, EquipmentSlotType.LEGS, new Item.Properties().group(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlotType.LEGS, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(
-                ItemInit.armormaterial, EquipmentSlotType.FEET, new Item.Properties().group(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlotType.FEET, new Item.Properties().tab(PokecubeLegends.TAB)));
 
         //Distortic World
         GIRATINA_MIRROR = PokecubeLegends.ITEMS.register("giratina_mirror", () -> new DistortedMirror("giratina_mirror", 1).setTooltipName("mirror"));
@@ -298,40 +298,40 @@ public class ItemInit
         
         // Torchs
         TORCH01 = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.ULTRA_TORCH1
-                .get(), BlockInit.ULTRA_TORCH1_WALL.get(), new Item.Properties().group(PokecubeLegends.TAB)));
+                .get(), BlockInit.ULTRA_TORCH1_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB)));
     
     }
 
     public static final IArmorMaterial armormaterial = new IArmorMaterial()
     {
         @Override
-        public int getDurability(final EquipmentSlotType slot)
+        public int getDurabilityForSlot(final EquipmentSlotType slot)
         {
             return new int[] { 13, 15, 16, 11 }[slot.getIndex()] * 25;
         }
 
         @Override
-        public int getDamageReductionAmount(final EquipmentSlotType slot)
+        public int getDefenseForSlot(final EquipmentSlotType slot)
         {
             return new int[] { 2, 5, 6, 2 }[slot.getIndex()];
         }
 
         @Override
-        public int getEnchantability()
+        public int getEnchantmentValue()
         {
             return 9;
         }
 
         @Override
-        public net.minecraft.util.SoundEvent getSoundEvent()
+        public net.minecraft.util.SoundEvent getEquipSound()
         {
-            return SoundEvents.ENTITY_ZOMBIE_ATTACK_IRON_DOOR;
+            return SoundEvents.ZOMBIE_ATTACK_IRON_DOOR;
         }
 
         @Override
-        public Ingredient getRepairMaterial()
+        public Ingredient getRepairIngredient()
         {
-            return Ingredient.fromItems(ItemInit.CRYSTAL_SHARD.get());
+            return Ingredient.of(ItemInit.CRYSTAL_SHARD.get());
         }
 
         @Override

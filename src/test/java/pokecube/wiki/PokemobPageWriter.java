@@ -83,7 +83,7 @@ public class PokemobPageWriter
             builder.append(PokemobPageWriter.formatPokemobImage(entry, true, false));
             builder.append(PokemobPageWriter.formatPokemobImage(entry, true, true));
             builder.append("\n\n");
-            final String header = I18n.format("pokemob.description.header");
+            final String header = I18n.get("pokemob.description.header");
             builder.append(header);
             builder.append("\n");
             for (int i = 0; i < header.length() + 1; i++)

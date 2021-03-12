@@ -23,22 +23,22 @@ public class CraftController
 
     public void doServerTick(final IBlockEntityWorld iBlockEntityWorld)
     {
-        if (!this.entity.isBeingRidden()) return;
+        if (!this.entity.isVehicle()) return;
 
-        if (this.leftRotateDown || this.rightRotateDown) this.entity.prevRotationYaw = this.entity.rotationYaw;
+        if (this.leftRotateDown || this.rightRotateDown) this.entity.yRotO = this.entity.yRot;
         // this.entity.prevRenderYawOffset = this.entity.renderYawOffset;
 
         if (this.leftRotateDown)
         {
             for (final Entity passenger : this.entity.getPassengers())
-                passenger.rotationYaw -= 5;
-            this.entity.rotationYaw -= 5;
+                passenger.yRot -= 5;
+            this.entity.yRot -= 5;
         }
         if (this.rightRotateDown)
         {
             for (final Entity passenger : this.entity.getPassengers())
-                passenger.rotationYaw += 5;
-            this.entity.rotationYaw += 5;
+                passenger.yRot += 5;
+            this.entity.yRot += 5;
         }
     }
 }

@@ -10,7 +10,7 @@ public class CharacterFilter
         final StringBuilder sb = new StringBuilder();
         final char[] arr = str.toCharArray();
         for (final char c : arr)
-            if (SharedConstants.isAllowedCharacter(c) || section && (c == NBTStringHelper.SECTION_SIGN || c == '\n')) sb
+            if (SharedConstants.isAllowedChatCharacter(c) || section && (c == NBTStringHelper.SECTION_SIGN || c == '\n')) sb
                     .append(c);
         return sb.toString();
     }

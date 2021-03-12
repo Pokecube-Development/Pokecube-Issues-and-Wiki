@@ -36,7 +36,7 @@ archivesBaseName = "${compile_name}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: "${version_mappings}"
+    mappings channel: "${channel_mappings}", version: "${version_mappings}"
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -158,10 +158,10 @@ dependencies {
     implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
     
     //Lost Cities
-    implementation "libs:lostcities-${version_lostcities}"
+    implementation fg.deobf("libs:lostcities-1.16-4.0.7-beta")
     
     //Thut Essentials
-    implementation "libs:thutessentials-1.16.4-4.1.0-deobf"
+    implementation "libs:thutessentials-1.16.5-4.1.5-deobf"
     
     //JEI
     // compile against the JEI API but do not include it at runtime

@@ -113,19 +113,19 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     {
         this.here.set(this.getEntity());
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this + " lay()");
-        if (this.getEntity().getEntityWorld().isRemote) return;
-        final int num = PokemobTracker.countPokemobs(this.getEntity().getEntityWorld(), this.here, PokecubeCore
+        if (this.getEntity().getCommandSenderWorld().isClientSide) return;
+        final int num = PokemobTracker.countPokemobs(this.getEntity().getCommandSenderWorld(), this.here, PokecubeCore
                 .getConfig().maxSpawnRadius);
         if (!(this.getOwner() instanceof PlayerEntity) && num > PokecubeCore.getConfig().mobSpawnNumber * 1.25) return;
         final Vector3 pos = this.here.set(this.getEntity()).addTo(0, Math.max(this.getPokedexEntry().height * this
                 .getSize() / 4, 0.5f), 0);
-        if (pos.isClearOfBlocks(this.getEntity().getEntityWorld()))
+        if (pos.isClearOfBlocks(this.getEntity().getCommandSenderWorld()))
         {
             Entity eggItem = null;
             try
             {
-                eggItem = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getEntity().getEntityWorld()).setPos(
-                        this.here).setStackByParents(this.getEntity(), male);
+                eggItem = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getEntity().getCommandSenderWorld())
+                        .setToPos(this.here).setStackByParents(this.getEntity(), male);
             }
             catch (final Exception e1)
             {
@@ -143,7 +143,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
                                     : male.getOwner() instanceof ServerPlayerEntity ? male.getOwner() : null);
                     if (player != null) Triggers.BREEDPOKEMOB.trigger(player, this, male);
                     this.egg = eggItem;
-                    this.getEntity().getEntityWorld().addEntity(this.egg);
+                    this.getEntity().getCommandSenderWorld().addFreshEntity(this.egg);
                 }
             }
             catch (final Exception e)
@@ -174,7 +174,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     {
         if (ThutCore.proxy.isClientSide()) return;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        server.enqueue(new TickDelayedTask(0, () -> this.mate(male)));
+        server.tell(new TickDelayedTask(0, () -> this.mate(male)));
     }
 
     @Override
@@ -203,7 +203,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         if (this.loveCause == null) return null;
         else
         {
-            final PlayerEntity playerentity = this.getEntity().getEntityWorld().getPlayerByUuid(this.loveCause);
+            final PlayerEntity playerentity = this.getEntity().getCommandSenderWorld().getPlayerByUUID(this.loveCause);
             return playerentity instanceof ServerPlayerEntity ? (ServerPlayerEntity) playerentity : null;
         }
     }

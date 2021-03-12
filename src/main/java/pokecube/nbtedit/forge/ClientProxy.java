@@ -35,19 +35,19 @@ public class ClientProxy extends CommonProxy
     @SubscribeEvent
     public void onKey(final InputEvent.KeyInputEvent event)
     {
-        if (ClientProxy.NBTEditKey.isPressed())
+        if (ClientProxy.NBTEditKey.consumeClick())
         {
-            final RayTraceResult pos = Minecraft.getInstance().objectMouseOver;
+            final RayTraceResult pos = Minecraft.getInstance().hitResult;
             if (pos != null)
             {
                 Packet ret = null;
                 switch (pos.getType())
                 {
                 case BLOCK:
-                    ret = new TileRequestPacket(((BlockRayTraceResult) pos).getPos());
+                    ret = new TileRequestPacket(((BlockRayTraceResult) pos).getBlockPos());
                     break;
                 case ENTITY:
-                    ret = new EntityRequestPacket(((EntityRayTraceResult) pos).getEntity().getEntityId());
+                    ret = new EntityRequestPacket(((EntityRayTraceResult) pos).getEntity().getId());
                     break;
                 case MISS:
                     NBTEdit.proxy.sendMessage(null, "Error - No tile or entity selected", TextFormatting.RED);
@@ -64,27 +64,27 @@ public class ClientProxy extends CommonProxy
     @Override
     public void openEditGUI(final BlockPos pos, final CompoundNBT tag)
     {
-        Minecraft.getInstance().displayGuiScreen(new GuiEditNBTTree(pos, tag));
+        Minecraft.getInstance().setScreen(new GuiEditNBTTree(pos, tag));
     }
 
     @Override
     public void openEditGUI(final int entityID, final CompoundNBT tag)
     {
-        Minecraft.getInstance().displayGuiScreen(new GuiEditNBTTree(entityID, tag));
+        Minecraft.getInstance().setScreen(new GuiEditNBTTree(entityID, tag));
     }
 
     @Override
     public void openEditGUI(final int entityID, final String customName, final CompoundNBT tag)
     {
-        Minecraft.getInstance().displayGuiScreen(new GuiEditNBTTree(entityID, customName, tag));
+        Minecraft.getInstance().setScreen(new GuiEditNBTTree(entityID, customName, tag));
     }
 
     @Override
     public void sendMessage(final PlayerEntity player, final String message, final TextFormatting color)
     {
         final ITextComponent component = new StringTextComponent(message);
-        component.getStyle().setColor(Color.fromTextFormatting(color));
-        Minecraft.getInstance().player.sendMessage(component, Util.DUMMY_UUID);
+        component.getStyle().withColor(Color.fromLegacyFormat(color));
+        Minecraft.getInstance().player.sendMessage(component, Util.NIL_UUID);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ClientProxy extends CommonProxy
         {
             PokecubeCore.LOGGER.catching(e);
         }
-        ClientProxy.NBTEditKey = new KeyBinding("NBTEdit Shortcut", InputMappings.INPUT_INVALID.getKeyCode(),
+        ClientProxy.NBTEditKey = new KeyBinding("NBTEdit Shortcut", InputMappings.UNKNOWN.getValue(),
                 "key.categories.misc");
         ClientRegistry.registerKeyBinding(ClientProxy.NBTEditKey);
     }

@@ -18,32 +18,32 @@ public class PCSlot extends Slot
 
     /** Return whether this slot's stack can be taken from this slot. */
     @Override
-    public boolean canTakeStack(final PlayerEntity par1PlayerEntity)
+    public boolean mayPickup(final PlayerEntity par1PlayerEntity)
     {
         return !this.release;
     }
 
     @Override
-    public boolean isItemValid(final ItemStack itemstack)
+    public boolean mayPlace(final ItemStack itemstack)
     {
-        return this.inventory.isItemValidForSlot(this.getSlotIndex(), itemstack);
+        return this.container.canPlaceItem(this.getSlotIndex(), itemstack);
     }
 
     /** Called when the stack in a Slot changes */
     @Override
-    public void onSlotChanged()
+    public void setChanged()
     {
-        if (this.getStack().isEmpty()) this.inventory.setInventorySlotContents(this.getSlotIndex(), ItemStack.EMPTY);
-        this.inventory.markDirty();
+        if (this.getItem().isEmpty()) this.container.setItem(this.getSlotIndex(), ItemStack.EMPTY);
+        this.container.setChanged();
     }
 
     /** Helper method to put a stack in the slot. */
     @Override
-    public void putStack(final ItemStack par1ItemStack)
+    public void set(final ItemStack par1ItemStack)
     {
-        this.inventory.setInventorySlotContents(this.getSlotIndex(), par1ItemStack);
+        this.container.setItem(this.getSlotIndex(), par1ItemStack);
         PlayerPokemobCache.UpdateCache(par1ItemStack, true, false);
-        this.onSlotChanged();
+        this.setChanged();
     }
 
     @Override

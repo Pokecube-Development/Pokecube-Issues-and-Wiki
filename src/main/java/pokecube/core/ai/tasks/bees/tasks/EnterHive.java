@@ -33,17 +33,17 @@ public class EnterHive extends AbstractBeeTask
         final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS);
         if (pos_opt.isPresent())
         {
-            final World world = this.entity.getEntityWorld();
+            final World world = this.entity.getCommandSenderWorld();
             final GlobalPos pos = pos_opt.get();
-            final boolean clearHive = pos.getDimension() != world.getDimensionKey();
+            final boolean clearHive = pos.dimension() != world.dimension();
             // This will be cleared by CheckHive, so lets just exit here.
             if (clearHive) return;
-            this.homePos.set(pos.getPos());
+            this.homePos.set(pos.pos());
             // If too far, lets path over.
             if (this.homePos.distToEntity(this.entity) > 2) this.setWalkTo(this.homePos, 1, 0);
             // If we can't get into the hive, forget it as a hive.
-            else if (!HiveSensor.tryAddToBeeHive(this.entity, pos.getPos()))
-                this.entity.getBrain().removeMemory(BeeTasks.HIVE_POS);
+            else if (!HiveSensor.tryAddToBeeHive(this.entity, pos.pos()))
+                this.entity.getBrain().eraseMemory(BeeTasks.HIVE_POS);
         }
     }
 
@@ -59,9 +59,9 @@ public class EnterHive extends AbstractBeeTask
         // the hive, if so, we don't return to hive.
         if (hiveTimer.isPresent() && hiveTimer.get() > 0) return false;
         // Return home if it is raining
-        if (this.entity.getEntityWorld().isRaining()) return true;
+        if (this.entity.getCommandSenderWorld().isRaining()) return true;
         // Return home if it is night time
-        if (this.entity.getEntityWorld().isNightTime()) return true;
+        if (this.entity.getCommandSenderWorld().isNight()) return true;
         // Otherwise don't return home
         return false;
     }

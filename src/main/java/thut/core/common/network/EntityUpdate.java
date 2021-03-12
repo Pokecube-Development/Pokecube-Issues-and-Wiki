@@ -47,15 +47,15 @@ public class EntityUpdate extends NBTPacket
 
     public static void sendEntityUpdate(final Entity entity)
     {
-        if (entity.getEntityWorld().isRemote)
+        if (entity.getCommandSenderWorld().isClientSide)
         {
             ThutCore.LOGGER.error("Packet sent on wrong side!", new IllegalArgumentException());
             return;
         }
         final CompoundNBT tag = new CompoundNBT();
-        tag.putInt("id", entity.getEntityId());
+        tag.putInt("id", entity.getId());
         final CompoundNBT mobtag = new CompoundNBT();
-        entity.writeWithoutTypeId(mobtag);
+        entity.saveWithoutId(mobtag);
         tag.put("tag", mobtag);
         final EntityUpdate message = new EntityUpdate(tag);
         EntityUpdate.ASSEMBLER.sendToTracking(message, entity);
@@ -63,11 +63,11 @@ public class EntityUpdate extends NBTPacket
 
     public static void readMob(final Entity mob, final CompoundNBT tag)
     {
-        if ((mob.getEntityWorld() instanceof ServerWorld || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
+        if ((mob.getCommandSenderWorld() instanceof ServerWorld || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
                 .contains(mob.getType())) try
         {
-            mob.read(tag);
-            mob.recalculateSize();
+            mob.load(tag);
+            mob.refreshDimensions();
             return;
         }
         catch (final Exception e)
@@ -85,7 +85,7 @@ public class EntityUpdate extends NBTPacket
 
             try
             {
-                mob.setCustomName(ITextComponent.Serializer.getComponentFromJson(s));
+                mob.setCustomName(ITextComponent.Serializer.fromJson(s));
             }
             catch (final Exception exception)
             {
@@ -103,7 +103,7 @@ public class EntityUpdate extends NBTPacket
             ThutCore.LOGGER.error("Error Loading Caps for: {}", mob.getType().getRegistryName());
             ThutCore.LOGGER.error(e);
         }
-        mob.recalculateSize();
+        mob.refreshDimensions();
 
     }
 
@@ -127,8 +127,8 @@ public class EntityUpdate extends NBTPacket
     protected void onCompleteClient()
     {
         final int id = this.getTag().getInt("id");
-        final World world = net.minecraft.client.Minecraft.getInstance().world;
-        final Entity mob = world.getEntityByID(id);
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
+        final Entity mob = world.getEntity(id);
         if (mob != null) EntityUpdate.readMob(mob, this.getTag().getCompound("tag"));
     }
 }

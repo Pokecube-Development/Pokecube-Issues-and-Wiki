@@ -63,7 +63,7 @@ public class Impl
 //                final BlockPos blockpos = entityIn.getPosition();
 //                final PointOfInterestManager pointofinterestmanager = ((ServerWorld) entityIn.world)
 //                        .getPointOfInterestManager();
-//                final Stream<PointOfInterest> stream = pointofinterestmanager.func_219146_b((type) ->
+//                final Stream<PointOfInterest> stream = pointofinterestmanager.getInRange((type) ->
 //                {
 //                    return type == POI;
 //                }, blockpos, 20, PointOfInterestManager.Status.ANY);

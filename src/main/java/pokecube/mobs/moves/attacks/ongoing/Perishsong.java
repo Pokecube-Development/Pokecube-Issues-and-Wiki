@@ -27,7 +27,7 @@ public class Perishsong extends Move_Ongoing
     @Override
     protected DamageSource getOngoingDamage(final LivingEntity user)
     {
-        return super.getOngoingDamage(user).setDamageIsAbsolute().setDamageBypassesArmor();
+        return super.getOngoingDamage(user).bypassMagic().bypassArmor();
     }
 
     @Override

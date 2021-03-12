@@ -42,7 +42,7 @@ public class Category implements IRecipeCategory<RecipeMove>
         this.guiHelper = guiHelper;
         this.background = guiHelper.createDrawable(Category.GUI, 29, 16, Category.width, Category.height);
         this.icon = guiHelper.createDrawable(Category.TABS, 0, 0, 16, 16);
-        this.localizedName = I18n.format("gui.jei.pokemobs.moves");
+        this.localizedName = I18n.get("gui.jei.pokemobs.moves");
     }
 
     @Override
@@ -100,7 +100,7 @@ public class Category implements IRecipeCategory<RecipeMove>
     @Override
     public void setIngredients(final RecipeMove recipe, final IIngredients ingredients)
     {
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.recipe.getRecipeOutput());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.recipe.getResultItem());
         ingredients.setInputIngredients(recipe.recipe.getIngredients());
     }
 

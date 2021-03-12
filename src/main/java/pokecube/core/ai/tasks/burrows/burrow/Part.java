@@ -85,9 +85,9 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
         this.outBounds = outBounds;
         this.buildBounds.clear();
         this.getBuildBlocks().clear();
-        BlockPos.getAllInBox(this.getOutBounds()).forEach(p ->
+        BlockPos.betweenClosedStream(this.getOutBounds()).forEach(p ->
         {
-            final BlockPos p2 = p.toImmutable();
+            final BlockPos p2 = p.immutable();
             this.buildBounds.add(p2);
             if (this.isOnShell(p2)) this.getBuildBlocks().put(p2, 0);
         });
@@ -133,9 +133,9 @@ public abstract class Part implements INBTSerializable<CompoundNBT>
         this.inBounds = inBounds;
         this.digBounds.clear();
         this.getDigBlocks().clear();
-        BlockPos.getAllInBox(this.getInBounds()).forEach(p ->
+        BlockPos.betweenClosedStream(this.getInBounds()).forEach(p ->
         {
-            final BlockPos p2 = p.toImmutable();
+            final BlockPos p2 = p.immutable();
             this.digBounds.add(p2);
             if (this.isInside(p2)) this.getDigBlocks().put(p2, 0);
         });

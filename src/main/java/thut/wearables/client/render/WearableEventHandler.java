@@ -35,7 +35,7 @@ public class WearableEventHandler
 
     public WearableEventHandler()
     {
-        this.toggleGui = new KeyBinding("Toggle Wearables Gui", InputMappings.INPUT_INVALID.getKeyCode(), "Wearables");
+        this.toggleGui = new KeyBinding("Toggle Wearables Gui", InputMappings.UNKNOWN.getValue(), "Wearables");
         ClientRegistry.registerKeyBinding(this.toggleGui);
 
         final Map<Integer, Integer> defaults = Maps.newHashMap();
@@ -54,9 +54,9 @@ public class WearableEventHandler
             else name = name + " " + slot + " " + subIndex;
 
             final boolean defaulted = defaults.containsKey(i);
-            final int key = defaulted ? defaults.get(i) : InputMappings.INPUT_INVALID.getKeyCode();
+            final int key = defaulted ? defaults.get(i) : InputMappings.UNKNOWN.getValue();
             if (defaulted) this.keys[i] = new KeyBinding(name, KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
-                    InputMappings.Type.KEYSYM.getOrMakeInput(key), "Wearables");
+                    InputMappings.Type.KEYSYM.getOrCreate(key), "Wearables");
             else this.keys[i] = new KeyBinding(name, key, "Wearables");
             ClientRegistry.registerKeyBinding(this.keys[i]);
         }
@@ -67,7 +67,7 @@ public class WearableEventHandler
     public void addWearableRenderLayer(final RenderLivingEvent.Post<?, ?> event)
     {
         // Only apply to model bipeds.
-        if (!(event.getRenderer().getEntityModel() instanceof BipedModel<?>)) return;
+        if (!(event.getRenderer().getModel() instanceof BipedModel<?>)) return;
         // Only one layer per renderer.
         if (this.addedLayers.contains(event.getRenderer())) return;
 
@@ -82,14 +82,14 @@ public class WearableEventHandler
         for (byte i = 0; i < 13; i++)
         {
             final KeyBinding key = this.keys[i];
-            if (key.isPressed())
+            if (key.consumeClick())
             {
                 final PacketGui packet = new PacketGui();
                 packet.data.putByte("S", i);
                 ThutWearables.packets.sendToServer(packet);
             }
         }
-        if (this.toggleGui.isPressed())
+        if (this.toggleGui.consumeClick())
         {
             final PacketGui packet = new PacketGui();
             ThutWearables.packets.sendToServer(packet);
@@ -105,19 +105,19 @@ public class WearableEventHandler
             IWearable wear = evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null) wear = (IWearable) evt.getItemStack().getItem();
             final EnumWearable slot = wear.getSlot(evt.getItemStack());
-            String key = this.keys[slot.index].func_238171_j_().getString();
+            String key = this.keys[slot.index].getTranslatedKeyMessage().getString();
             String message = "";
             switch (slot.slots)
             {
             case 2:
-                message = I18n.format("wearables.keyuse.left", key);
+                message = I18n.get("wearables.keyuse.left", key);
                 evt.getToolTip().add(new StringTextComponent(message));
-                key = this.keys[slot.index + 1].func_238171_j_().getString();
-                message = I18n.format("wearables.keyuse.right", key);
+                key = this.keys[slot.index + 1].getTranslatedKeyMessage().getString();
+                message = I18n.get("wearables.keyuse.right", key);
                 evt.getToolTip().add(new StringTextComponent(message));
                 break;
             default:
-                message = I18n.format("wearables.keyuse.single", key);
+                message = I18n.get("wearables.keyuse.single", key);
                 evt.getToolTip().add(new StringTextComponent(message));
                 break;
             }

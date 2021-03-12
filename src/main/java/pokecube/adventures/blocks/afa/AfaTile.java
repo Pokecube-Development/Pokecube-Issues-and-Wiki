@@ -107,7 +107,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
         }
 
         @Override
-        public int size()
+        public int getCount()
         {
             return 3;
         }
@@ -166,15 +166,15 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
         final ItemStack stack = this.itemstore.getStackInSlot(0);
         this.shiny = ItemList.is(AfaTile.SHINYTAG, stack);
         if (this.shiny) return;
-        this.pokemob = PokecubeManager.itemToPokemob(stack, this.getWorld());
+        this.pokemob = PokecubeManager.itemToPokemob(stack, this.getLevel());
         if (this.pokemob != null && this.pokemob.getAbility() != null)
         {
             this.ability = this.pokemob.getAbility();
             this.ability.destroy();
-            this.pokemob.getEntity().setPosition(this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos()
+            this.pokemob.getEntity().setPos(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos()
                     .getZ() + 0.5);
             this.ability.init(this.pokemob, this.distance);
-            if (this.getWorld() instanceof ServerWorld && update) TileUpdate.sendUpdate(this);
+            if (this.getLevel() instanceof ServerWorld && update) TileUpdate.sendUpdate(this);
         }
     }
 
@@ -188,7 +188,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     @Override
     public void tick()
     {
-        if (!(this.getWorld() instanceof ServerWorld)) return;
+        if (!(this.getLevel() instanceof ServerWorld)) return;
         if (this.tick++ % PokecubeAdv.config.afaTickRate != 0) return;
 
         int levelFactor = 0;
@@ -224,7 +224,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
             this.shiny = false;
             // Tick increase incase ability tracks this for update.
             // Renderer can also then render it animated.
-            this.pokemob.getEntity().ticksExisted++;
+            this.pokemob.getEntity().tickCount++;
             // Do not call ability update on client.
             this.ability.onUpdate(this.pokemob);
         }
@@ -232,24 +232,24 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     }
 
     @Override
-    public void remove()
+    public void setRemoved()
     {
-        super.remove();
+        super.setRemoved();
         if (this.ability != null) this.ability.destroy();
         PokecubeCore.POKEMOB_BUS.unregister(this);
     }
 
     @Override
-    public void validate()
+    public void clearRemoved()
     {
-        super.validate();
+        super.clearRemoved();
         PokecubeCore.POKEMOB_BUS.register(this);
     }
 
     @Override
-    public void read(final BlockState state, final CompoundNBT nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
-        super.read(state, nbt);
+        super.load(state, nbt);
         this.energy = nbt.getInt("energy");
         this.noEnergyNeed = nbt.getBoolean("noEnergyNeed");
         this.shift = nbt.getIntArray("shift");
@@ -267,7 +267,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     }
 
     @Override
-    public CompoundNBT write(final CompoundNBT nbt)
+    public CompoundNBT save(final CompoundNBT nbt)
     {
         final CompoundNBT tag = new CompoundNBT();
         nbt.put("dest", tag);
@@ -282,7 +282,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
         nbt.putBoolean("frozen", this.frozen);
         nbt.putFloat("animTime", this.animationTime);
         nbt.putString("animation", this.animation);
-        return super.write(nbt);
+        return super.save(nbt);
     }
 
     @Override
@@ -317,7 +317,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
             final int rate = Math.max(PokecubeAdv.config.afaShinyRate, 1);
             if (rand.nextInt(rate) == 0)
             {
-                if (!this.noEnergy && !this.world.isRemote)
+                if (!this.noEnergy && !this.level.isClientSide)
                 {
                     AfaTile.parserS.setVarValue("d", this.distance);
                     final double value = AfaTile.parserS.getValue();
@@ -325,17 +325,17 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
                     if (this.energy < needed)
                     {
                         this.energy = 0;
-                        this.world.playSound(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(),
-                                SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                        this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(),
+                                SoundEvents.NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                         return;
                     }
                     this.energy -= needed;
                 }
                 evt.pokemob.setShiny(true);
-                this.world.playSound(evt.entity.getPosX(), evt.entity.getPosY(), evt.entity.getPosZ(),
-                        SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-                this.world.playSound(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(),
-                        SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                this.level.playLocalSound(evt.entity.getX(), evt.entity.getY(), evt.entity.getZ(),
+                        SoundEvents.ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(),
+                        SoundEvents.ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
             }
         }
     }
@@ -373,7 +373,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     }
 
     @Override
-    public void onInventoryChanged(final IInventory invBasic)
+    public void containerChanged(final IInventory invBasic)
     {
         this.refreshAbility(true);
     }

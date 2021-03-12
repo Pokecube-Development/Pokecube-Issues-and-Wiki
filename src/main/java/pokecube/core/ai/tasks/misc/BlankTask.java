@@ -14,7 +14,7 @@ public class BlankTask extends RootTask<LivingEntity>
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
         return true;

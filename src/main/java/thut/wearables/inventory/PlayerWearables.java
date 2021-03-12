@@ -65,7 +65,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
                 if (temp instanceof CompoundNBT)
                 {
                     final CompoundNBT tag1 = (CompoundNBT) temp;
-                    this.setStack(n, ItemStack.read(tag1));
+                    this.setStack(n, ItemStack.of(tag1));
                 }
             }
         }
@@ -91,7 +91,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
                 if (!i.isEmpty())
                 {
                     final CompoundNBT tag1 = new CompoundNBT();
-                    i.write(tag1);
+                    i.save(tag1);
                     tag.put("slot" + n, tag1);
                 }
             }

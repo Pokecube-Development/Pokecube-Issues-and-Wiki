@@ -20,7 +20,7 @@ public class SandSpit extends Ability
     public void onMoveUse(IPokemob mob, MovePacket move)
     {
 		final IPokemob attacker = move.attacker;
-		final World world = mob.getEntity().getEntityWorld();
+		final World world = mob.getEntity().getCommandSenderWorld();
 		
 		
 		final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, Vector3.getNewVector());
@@ -33,7 +33,7 @@ public class SandSpit extends Ability
         	
         	teffect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.SAND, duration + world.getGameTime(), mob);
 
-            if (mob.getEntity().isServerWorld()) PacketSyncTerrain.sendTerrainEffects(mob.getEntity(),
+            if (mob.getEntity().isEffectiveAi()) PacketSyncTerrain.sendTerrainEffects(mob.getEntity(),
                     segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
         }       
     }

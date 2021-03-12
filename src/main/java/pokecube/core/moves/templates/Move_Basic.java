@@ -58,8 +58,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             final PlayerEntity player)
     {
         final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
-        pickaxe.addEnchantment(Enchantments.SILK_TOUCH, 1);
-        state.getBlock().harvestBlock(worldIn, player, pos, state, null, pickaxe);
+        pickaxe.enchant(Enchantments.SILK_TOUCH, 1);
+        state.getBlock().playerDestroy(worldIn, player, pos, state, null, pickaxe);
         worldIn.destroyBlock(pos, false);
     }
 
@@ -121,13 +121,13 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
         {
             final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, attacked
-                    .getEntityWorld());
-            attacked.func_241841_a((ServerWorld) attacked.getEntityWorld(), lightning);
+                    .getCommandSenderWorld());
+            attacked.thunderHit((ServerWorld) attacked.getCommandSenderWorld(), lightning);
         }
         if (attacked instanceof CreeperEntity)
         {
             final CreeperEntity creeper = (CreeperEntity) attacked;
-            if (this.move.type == PokeType.getType("psychic") && creeper.getHealth() > 0) creeper.explode();
+            if (this.move.type == PokeType.getType("psychic") && creeper.getHealth() > 0) creeper.explodeCreeper();
         }
         this.playSounds(attacker.getEntity(), attacked, null);
         byte statusChange = IMoveConstants.STATUS_NON;
@@ -381,8 +381,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                         .setType(type);
                 final DamageSource source2 = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
                         .setType(type);
-                source2.setDamageBypassesArmor();
-                source2.setMagicDamage();
+                source2.bypassArmor();
+                source2.setMagic();
                 float d1, d2;
                 if (wild)
                 {
@@ -394,8 +394,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                     d2 = (float) (finalAttackStrength * Math.min(1, PokecubeCore.getConfig().ownedPlayerDamageMagic));
                     d1 = finalAttackStrength - d2;
                 }
-                attacked.attackEntityFrom(source1, d1);
-                attacked.attackEntityFrom(source2, d2);
+                attacked.hurt(source1, d1);
+                attacked.hurt(source2, d2);
                 if (PokecubeMod.debug)
                 {
                     PokecubeCore.LOGGER.info("Attack Used: " + attack);
@@ -408,21 +408,21 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             {
                 final DamageSource source = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
                         .setType(type);
-                source.setDamageIsAbsolute();
-                source.setDamageBypassesArmor();
+                source.bypassMagic();
+                source.bypassArmor();
                 if (PokecubeMod.debug)
                 {
                     PokecubeCore.LOGGER.info("Attack Used: " + attack);
                     PokecubeCore.LOGGER.info("Attack Damage: " + finalAttackStrength);
                 }
-                attacked.attackEntityFrom(source, finalAttackStrength);
+                attacked.hurt(source, finalAttackStrength);
             }
             // Apply attack damage to another mob type.
             else
             {
                 final DamageSource source = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
                         .setType(type);
-                final boolean damaged = attacked.attackEntityFrom(source, finalAttackStrength);
+                final boolean damaged = attacked.hurt(source, finalAttackStrength);
                 if (PokecubeMod.debug)
                 {
                     PokecubeCore.LOGGER.info("Attack Used: {}, expected damage: {}, Did apply? {} ", attack,
@@ -469,18 +469,18 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             {
                 final float max = attackerMob.getMaxHealth();
                 final float diff = max * damageRatio;
-                attackerMob.attackEntityFrom(DamageSource.FALL, diff);
+                attackerMob.hurt(DamageSource.FALL, diff);
             }
             if (packet.getMove().move.selfDamageType == MoveEntry.DAMAGEDEALT)
             {
                 final float diff = damageDealt * damageRatio;
-                attackerMob.attackEntityFrom(DamageSource.FALL, diff);
+                attackerMob.hurt(DamageSource.FALL, diff);
             }
             if (packet.getMove().move.selfDamageType == MoveEntry.RELATIVEHP)
             {
                 final float current = attackerMob.getHealth();
                 final float diff = current * damageRatio;
-                attackerMob.attackEntityFrom(DamageSource.FALL, diff);
+                attackerMob.hurt(DamageSource.FALL, diff);
             }
         }
 

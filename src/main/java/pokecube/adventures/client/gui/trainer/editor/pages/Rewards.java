@@ -63,7 +63,7 @@ public class Rewards extends ListPage<RewardOption>
             this.reward = new TextFieldWidget(parent.font, 0, 0, 150, 10, new StringTextComponent(""));
             this.chance = new TextFieldWidget(parent.font, 0, 0, 25, 10, new StringTextComponent(""));
 
-            this.chance.setText("1.0");
+            this.chance.setValue("1.0");
 
             final Predicate<String> floatValid = input ->
             {
@@ -77,27 +77,27 @@ public class Rewards extends ListPage<RewardOption>
                     return input.isEmpty();
                 }
             };
-            this.chance.setValidator(floatValid);
+            this.chance.setFilter(floatValid);
 
-            this.reward.setMaxStringLength(1024);
+            this.reward.setMaxLength(1024);
 
             if (index < this.rewards.getRewards().size())
             {
                 final Reward r = this.rewards.getRewards().get(index);
                 final CompoundNBT tag = r.stack.serializeNBT();
-                this.reward.setText(tag + "");
-                this.chance.setText(r.chance + "");
+                this.reward.setValue(tag + "");
+                this.chance.setValue(r.chance + "");
             }
 
             this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b ->
             {
-                b.playDownSound(this.mc.getSoundHandler());
-                this.reward.setText("");
+                b.playDownSound(this.mc.getSoundManager());
+                this.reward.setValue("");
                 this.onUpdated();
             });
             this.delete = new Button(0, 0, 10, 10, new StringTextComponent("x"), b ->
             {
-                b.playDownSound(this.mc.getSoundHandler());
+                b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             });
             this.delete.setFGColor(0xFFFF0000);
@@ -106,7 +106,7 @@ public class Rewards extends ListPage<RewardOption>
 
             this.apply = new Button(0, 0, 45, 10, new StringTextComponent("Apply"), b ->
             {
-                b.playDownSound(this.mc.getSoundHandler());
+                b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             });
 
@@ -116,8 +116,8 @@ public class Rewards extends ListPage<RewardOption>
             parent.addButton(this.reward);
             parent.addButton(this.chance);
 
-            this.chance.setCursorPosition(-this.chance.getCursorPosition());
-            this.reward.setCursorPosition(-this.reward.getCursorPosition());
+            this.chance.moveCursorTo(-this.chance.getCursorPosition());
+            this.reward.moveCursorTo(-this.reward.getCursorPosition());
 
             this.delete.visible = false;
             this.confirm.visible = false;
@@ -169,7 +169,7 @@ public class Rewards extends ListPage<RewardOption>
         public void onUpdated()
         {
             // We are clearing it
-            if (this.reward.getText().isEmpty() && this.index < this.rewards.getRewards().size())
+            if (this.reward.getValue().isEmpty() && this.index < this.rewards.getRewards().size())
             {
                 this.rewards.getRewards().remove(this.index);
                 this.delete.visible = false;
@@ -182,11 +182,11 @@ public class Rewards extends ListPage<RewardOption>
             // We are editing or adding it
             else try
             {
-                final NBTTagArgument arg = NBTTagArgument.func_218085_a();
-                final CompoundNBT tag = (CompoundNBT) arg.parse(new StringReader(this.reward.getText()));
+                final NBTTagArgument arg = NBTTagArgument.nbtTag();
+                final CompoundNBT tag = (CompoundNBT) arg.parse(new StringReader(this.reward.getValue()));
                 System.out.println(tag);
-                final float chance = Float.parseFloat(this.chance.getText());
-                final Reward r = new Reward(ItemStack.read(tag), chance);
+                final float chance = Float.parseFloat(this.chance.getValue());
+                final Reward r = new Reward(ItemStack.of(tag), chance);
                 if (this.index == this.rewards.getRewards().size())
                 {
                     this.rewards.getRewards().add(r);
@@ -197,7 +197,7 @@ public class Rewards extends ListPage<RewardOption>
             }
             catch (final Exception e)
             {
-                Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Errored format for reward!"),
+                Minecraft.getInstance().player.displayClientMessage(new StringTextComponent("Errored format for reward!"),
                         true);
             }
             if (this.rewards instanceof ICapabilitySerializable)
@@ -207,7 +207,7 @@ public class Rewards extends ListPage<RewardOption>
                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
                 final CompoundNBT nbt = message.getTag();
                 nbt.put("__rewards__", tag);
-                nbt.putInt("I", this.parent.parent.entity.getEntityId());
+                nbt.putInt("I", this.parent.parent.entity.getId());
                 PacketTrainer.ASSEMBLER.sendToServer(message);
             }
         }

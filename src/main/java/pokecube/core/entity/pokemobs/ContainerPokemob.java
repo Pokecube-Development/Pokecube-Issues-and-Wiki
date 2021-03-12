@@ -35,14 +35,14 @@ public class ContainerPokemob extends BaseContainer
         super(ContainerPokemob.TYPE, id);
         LivingEntity entity = playerInv.player;
         final int num = data.readInt();
-        Entity mob = entity.getEntityWorld().getEntityByID(num);
+        Entity mob = entity.getCommandSenderWorld().getEntity(num);
         mob = EntityTools.getCoreEntity(mob);
         if (mob instanceof LivingEntity) entity = (LivingEntity) mob;
         this.pokemob = CapabilityPokemob.getPokemobFor(entity);
         this.pokemobInv = this.pokemob.getInventory();
         this.mode = data.readByte();
         this.data = data;
-        this.pokemobInv.openInventory(playerInv.player);
+        this.pokemobInv.startOpen(playerInv.player);
         this.playerInv = playerInv;
         this.setMode(this.mode);
     }
@@ -53,8 +53,8 @@ public class ContainerPokemob extends BaseContainer
         int j;
         int k;
 
-        this.inventorySlots.clear();
-        this.inventoryItemStacks.clear();
+        this.slots.clear();
+        this.lastSlots.clear();
 
         if (this.mode == 0)
         {
@@ -65,9 +65,9 @@ public class ContainerPokemob extends BaseContainer
                  * true beside for the armor slots.
                  */
                 @Override
-                public boolean isItemValid(final ItemStack stack)
+                public boolean mayPlace(final ItemStack stack)
                 {
-                    return super.isItemValid(stack) && stack.getItem() == Items.SADDLE;
+                    return super.mayPlace(stack) && stack.getItem() == Items.SADDLE;
                 }
             });
             this.addSlot(new Slot(this.pokemobInv, 1, 8, 36)
@@ -78,7 +78,7 @@ public class ContainerPokemob extends BaseContainer
                  * slots)
                  */
                 @Override
-                public int getSlotStackLimit()
+                public int getMaxStackSize()
                 {
                     return 1;
                 }
@@ -88,7 +88,7 @@ public class ContainerPokemob extends BaseContainer
                  * true beside for the armor slots.
                  */
                 @Override
-                public boolean isItemValid(final ItemStack stack)
+                public boolean mayPlace(final ItemStack stack)
                 {
                     return PokecubeItems.isValidHeldItem(stack);
                 }
@@ -96,7 +96,7 @@ public class ContainerPokemob extends BaseContainer
                 @Override
                 public ItemStack onTake(final PlayerEntity playerIn, final ItemStack stack)
                 {
-                    final ItemStack old = this.getStack();
+                    final ItemStack old = this.getItem();
                     if (ThutCore.proxy.isServerSide()) ContainerPokemob.this.pokemob.getPokedexEntry().onHeldItemChange(
                             stack, old, ContainerPokemob.this.pokemob);
                     return super.onTake(playerIn, stack);
@@ -104,10 +104,10 @@ public class ContainerPokemob extends BaseContainer
 
                 /** Helper method to put a stack in the slot. */
                 @Override
-                public void putStack(final ItemStack stack)
+                public void set(final ItemStack stack)
                 {
                     // ItemStack old = getStack();
-                    super.putStack(stack);
+                    super.set(stack);
                     if (ThutCore.proxy.isServerSide()) ContainerPokemob.this.pokemob.setHeldItem(stack);
                 }
             });
@@ -120,7 +120,7 @@ public class ContainerPokemob extends BaseContainer
                          * Always true beside for the armor slots.
                          */
                         @Override
-                        public boolean isItemValid(final ItemStack stack)
+                        public boolean mayPlace(final ItemStack stack)
                         {
                             return true;// ItemList.isValidHeldItem(stack);
                         }
@@ -130,10 +130,10 @@ public class ContainerPokemob extends BaseContainer
     }
 
     @Override
-    public boolean canInteractWith(final PlayerEntity p_75145_1_)
+    public boolean stillValid(final PlayerEntity p_75145_1_)
     {
-        return this.pokemobInv.isUsableByPlayer(p_75145_1_) && this.pokemob.getEntity().isAlive() && this.pokemob
-                .getEntity().getDistance(p_75145_1_) < 8.0F;
+        return this.pokemobInv.stillValid(p_75145_1_) && this.pokemob.getEntity().isAlive() && this.pokemob
+                .getEntity().distanceTo(p_75145_1_) < 8.0F;
     }
 
     @Override
@@ -145,7 +145,7 @@ public class ContainerPokemob extends BaseContainer
     @Override
     public int getInventorySlotCount()
     {
-        return this.mode == 0 ? this.getInv().getSizeInventory() : 0;
+        return this.mode == 0 ? this.getInv().getContainerSize() : 0;
     }
 
     public IPokemob getPokemob()
@@ -155,9 +155,9 @@ public class ContainerPokemob extends BaseContainer
 
     /** Called when the container is closed. */
     @Override
-    public void onContainerClosed(final PlayerEntity p_75134_1_)
+    public void removed(final PlayerEntity p_75134_1_)
     {
-        super.onContainerClosed(p_75134_1_);
-        this.pokemobInv.closeInventory(p_75134_1_);
+        super.removed(p_75134_1_);
+        this.pokemobInv.stopOpen(p_75134_1_);
     }
 }

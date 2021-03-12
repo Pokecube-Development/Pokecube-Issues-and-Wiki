@@ -21,7 +21,7 @@ public abstract class PokemobSided extends PokemobBase
             final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
             final boolean shiny = this.isShiny();
             final int effects = entry.textureDetails[index].length;
-            final int texIndex = this.getEntity().ticksExisted % effects * 3 / effects + (shiny ? effects : 0);
+            final int texIndex = this.getEntity().tickCount % effects * 3 / effects + (shiny ? effects : 0);
             final ResourceLocation texture = this.textures[texIndex];
             return texture;
         }
@@ -58,7 +58,7 @@ public abstract class PokemobSided extends PokemobBase
         {
             final int index = this.getSexe() == IPokemob.FEMALE && this.entry.textureDetails[1] != null ? 1 : 0;
             final int effects = this.entry.textureDetails[index].length;
-            final int texIndex = this.getEntity().ticksExisted % effects * 3 / effects;
+            final int texIndex = this.getEntity().tickCount % effects * 3 / effects;
             if (!this.texs.containsKey(texture))
             {
                 final int maxNum = this.entry.textureDetails.length * this.entry.textureDetails[0].length;

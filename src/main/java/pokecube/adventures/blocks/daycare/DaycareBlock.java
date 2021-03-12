@@ -29,26 +29,26 @@ public class DaycareBlock extends InteractableHorizontalBlock
     }
 
     @Override
-    public boolean canProvidePower(final BlockState state)
+    public boolean isSignalSource(final BlockState state)
     {
         return true;
     }
 
     @Override
-    public int getWeakPower(final BlockState blockState, final IBlockReader blockAccess, final BlockPos pos, final Direction side)
+    public int getSignal(final BlockState blockState, final IBlockReader blockAccess, final BlockPos pos, final Direction side)
     {
         if (side == Direction.UP || side == Direction.DOWN) return 0;
-        final TileEntity tile = blockAccess.getTileEntity(pos);
+        final TileEntity tile = blockAccess.getBlockEntity(pos);
         if (tile instanceof DaycareTile) return ((DaycareTile) tile).redstonePower;
         return 0;
     }
 
     @Override
-    public int getStrongPower(final BlockState blockState, final IBlockReader blockAccess, final BlockPos pos,
+    public int getDirectSignal(final BlockState blockState, final IBlockReader blockAccess, final BlockPos pos,
             final Direction side)
     {
         if (side == Direction.UP || side == Direction.DOWN) return 0;
-        final TileEntity tile = blockAccess.getTileEntity(pos);
+        final TileEntity tile = blockAccess.getBlockEntity(pos);
         if (tile instanceof DaycareTile) return ((DaycareTile) tile).redstonePower;
         return 0;
     }

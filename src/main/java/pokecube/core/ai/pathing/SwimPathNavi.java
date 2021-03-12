@@ -19,22 +19,22 @@ public class SwimPathNavi extends WalkPathNavi
     }
 
     @Override
-    protected PathFinder getPathFinder(final int range)
+    protected PathFinder createPathFinder(final int range)
     {
-        this.nodeProcessor = new SwimAndWalkNodeProcessor();
-        this.nodeProcessor.setCanEnterDoors(true);
-        return new PathFinder(this.nodeProcessor, range);
+        this.nodeEvaluator = new SwimAndWalkNodeProcessor();
+        this.nodeEvaluator.setCanPassDoors(true);
+        return new PathFinder(this.nodeEvaluator, range);
     }
 
     @Override
-    public boolean canEntityStandOnPos(final BlockPos pos)
+    public boolean isStableDestination(final BlockPos pos)
     {
-        final boolean superStand = super.canEntityStandOnPos(pos);
+        final boolean superStand = super.isStableDestination(pos);
         if (superStand) return true;
-        final BlockState block = this.world.getBlockState(pos);
-        final FluidState fluid = this.world.getFluidState(pos);
-        final boolean lavaImmune = this.entity.getPathPriority(PathNodeType.LAVA) > 0;
-        if (!lavaImmune && fluid.isTagged(FluidTags.LAVA)) return false;
-        return !block.isOpaqueCube(this.world, pos) && !fluid.isEmpty();
+        final BlockState block = this.level.getBlockState(pos);
+        final FluidState fluid = this.level.getFluidState(pos);
+        final boolean lavaImmune = this.mob.getPathfindingMalus(PathNodeType.LAVA) > 0;
+        if (!lavaImmune && fluid.is(FluidTags.LAVA)) return false;
+        return !block.isSolidRender(this.level, pos) && !fluid.isEmpty();
     }
 }

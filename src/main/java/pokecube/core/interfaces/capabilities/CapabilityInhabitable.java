@@ -53,28 +53,28 @@ public class CapabilityInhabitable
         @Override
         public void onExitHabitat(final MobEntity mob)
         {
-            if (this.tile.getPos() != null) this.wrapped.setPos(this.tile.getPos());
+            if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             this.getWrapped().onExitHabitat(mob);
         }
 
         @Override
         public boolean onEnterHabitat(final MobEntity mob)
         {
-            if (this.tile.getPos() != null) this.wrapped.setPos(this.tile.getPos());
+            if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             return this.getWrapped().onEnterHabitat(mob);
         }
 
         @Override
         public boolean canEnterHabitat(final MobEntity mob)
         {
-            if (this.tile.getPos() != null) this.wrapped.setPos(this.tile.getPos());
+            if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             return this.getWrapped().canEnterHabitat(mob);
         }
 
         @Override
         public void onTick(final ServerWorld world)
         {
-            if (this.tile.getPos() != null) this.wrapped.setPos(this.tile.getPos());
+            if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             this.getWrapped().onTick(world);
         }
 
@@ -135,7 +135,7 @@ public class CapabilityInhabitable
                 if (key == null || !nbt.contains(key))
                 {
                     ResourceLocation keyLoc = null;
-                    for (final String s : nbt.keySet())
+                    for (final String s : nbt.getAllKeys())
                         try
                         {
                             keyLoc = new ResourceLocation(s);

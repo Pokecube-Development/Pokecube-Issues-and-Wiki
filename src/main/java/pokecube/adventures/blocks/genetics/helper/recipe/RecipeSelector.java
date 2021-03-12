@@ -151,20 +151,20 @@ public class RecipeSelector extends SpecialRecipe
     }
 
     @Override
-    public boolean canFit(final int width, final int height)
+    public boolean canCraftInDimensions(final int width, final int height)
     {
         return width * height > 1;
     }
 
     @Override
-    public ItemStack getCraftingResult(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
 
         ItemStack book = ItemStack.EMPTY;
         ItemStack modifier = ItemStack.EMPTY;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack test = inv.getStackInSlot(i);
+            final ItemStack test = inv.getItem(i);
             final boolean isBook = !ClonerHelper.getGeneSelectors(test).isEmpty();
             if (isBook)
             {
@@ -201,9 +201,9 @@ public class RecipeSelector extends SpecialRecipe
     {
         ItemStack book = ItemStack.EMPTY;
         ItemStack modifier = ItemStack.EMPTY;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            final ItemStack test = inv.getStackInSlot(i);
+            final ItemStack test = inv.getItem(i);
             final boolean isBook = !ClonerHelper.getGeneSelectors(test).isEmpty();
             if (isBook)
             {

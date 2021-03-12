@@ -93,9 +93,9 @@ public abstract class Mesh
         final int lightmapUV = this.rgbabro[4];
         final int overlayUV = this.rgbabro[5];
         int n = 0;
-        final MatrixStack.Entry matrixstack$entry = mat.getLast();
-        final Matrix4f pos = matrixstack$entry.getMatrix();
-        final Matrix3f norms = matrixstack$entry.getNormal();
+        final MatrixStack.Entry matrixstack$entry = mat.last();
+        final Matrix4f pos = matrixstack$entry.pose();
+        final Matrix3f norms = matrixstack$entry.normal();
         final Vector4f dp = this.dummy4;
         final net.minecraft.util.math.vector.Vector3f dn = this.dummy3;
 
@@ -130,13 +130,13 @@ public abstract class Mesh
 
             // We use the default Item format, since that is what mobs use.
             // This means we need these in this order!
-            buffer.addVertex(
+            buffer.vertex(
             //@formatter:off
-                dp.getX(), dp.getY(), dp.getZ(),
+                dp.x(), dp.y(), dp.z(),
                 red, green, blue, alpha,
                 u, v,
                 overlayUV, lightmapUV,
-                dn.getX(), dn.getY(), dn.getZ());
+                dn.x(), dn.y(), dn.z());
             //@formatter:on
             n++;
         }

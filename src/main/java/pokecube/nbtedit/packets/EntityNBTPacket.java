@@ -54,11 +54,11 @@ public class EntityNBTPacket extends NBTPacket
     {
         this.entityID = this.getTag().getInt("_nbtedit_id");
         this.getTag().remove("_nbtedit_id");
-        final Entity entity = player.world.getEntityByID(this.entityID);
+        final Entity entity = player.level.getEntity(this.entityID);
         if (entity != null && NBTEdit.proxy.checkPermission(player)) try
         {
-            final GameType preGameType = player.interactionManager.getGameType();
-            entity.read(this.getTag());
+            final GameType preGameType = player.gameMode.getGameModeForPlayer();
+            entity.load(this.getTag());
             NBTEdit.log(Level.TRACE, player.getName().getString() + " edited a tag -- Entity ID #" + this.entityID);
             NBTEdit.logTag(this.getTag());
             if (entity == player)
@@ -69,14 +69,14 @@ public class EntityNBTPacket extends NBTPacket
               // receive entity edit events and provide
               // feedback/send packets as necessary.
 
-                player.sendContainerToPlayer(player.container);
-                final GameType type = player.interactionManager.getGameType();
-                if (preGameType != type) player.setGameType(type);
-                player.connection.sendPacket(new SUpdateHealthPacket(player.getHealth(), player.getFoodStats()
-                        .getFoodLevel(), player.getFoodStats().getSaturationLevel()));
-                player.connection.sendPacket(new SSetExperiencePacket(player.experience, player.experienceTotal,
+                player.refreshContainer(player.inventoryMenu);
+                final GameType type = player.gameMode.getGameModeForPlayer();
+                if (preGameType != type) player.setGameMode(type);
+                player.connection.send(new SUpdateHealthPacket(player.getHealth(), player.getFoodData()
+                        .getFoodLevel(), player.getFoodData().getSaturationLevel()));
+                player.connection.send(new SSetExperiencePacket(player.experienceProgress, player.totalExperience,
                         player.experienceLevel));
-                player.sendPlayerAbilities();
+                player.onUpdateAbilities();
             }
             EntityUpdate.sendEntityUpdate(entity);
             NBTEdit.proxy.sendMessage(player, "Your changes have been saved", TextFormatting.WHITE);

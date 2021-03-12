@@ -34,8 +34,8 @@ public class TempBlock extends AirBlock
 
     public static TempBlock make()
     {
-        return new TempBlock(AbstractBlock.Properties.create(Material.AIR).noDrops().setOpaque(TempBlock::solidCheck)
-                .variableOpacity().notSolid().setLightLevel(s -> s.get(TempBlock.LIGHTLEVEL)));
+        return new TempBlock(AbstractBlock.Properties.of(Material.AIR).noDrops().isRedstoneConductor(TempBlock::solidCheck)
+                .dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
     private static boolean solidCheck(final BlockState state, final IBlockReader reader, final BlockPos pos)
@@ -46,7 +46,7 @@ public class TempBlock extends AirBlock
     public TempBlock(final Properties properties)
     {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(TempBlock.LIGHTLEVEL, 0).with(
+        this.registerDefaultState(this.stateDefinition.any().setValue(TempBlock.LIGHTLEVEL, 0).setValue(
                 TempBlock.WATERLOGGED, false));
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onPlayerInteract);
     }
@@ -55,17 +55,17 @@ public class TempBlock extends AirBlock
     {
         final BlockRayTraceResult trace = event.getHitVec();
         if (trace == null) return;
-        final World world = event.getPlayer().getEntityWorld();
-        final TileEntity tile = world.getTileEntity(event.getPos());
+        final World world = event.getPlayer().getCommandSenderWorld();
+        final TileEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile)
         {
             final TempTile temp = (TempTile) tile;
             final PlayerEntity player = event.getPlayer();
             final Hand hand = event.getHand();
-            ActionResultType result = temp.blockEntity.processInitialInteract(player, hand);
+            ActionResultType result = temp.blockEntity.interact(player, hand);
             // Otherwise forward the interaction to the block entity;
-            if (result != ActionResultType.PASS && event.getPlayer().isSneaking()) result = temp.blockEntity
-                    .applyPlayerInteraction(player, trace.getHitVec(), hand);
+            if (result != ActionResultType.PASS && event.getPlayer().isShiftKeyDown()) result = temp.blockEntity
+                    .interactAt(player, trace.getLocation(), hand);
             if (result != ActionResultType.PASS)
             {
                 event.setCanceled(true);
@@ -97,42 +97,42 @@ public class TempBlock extends AirBlock
      */
     @Deprecated
     @Override
-    public BlockRenderType getRenderType(final BlockState state)
+    public BlockRenderType getRenderShape(final BlockState state)
     {
         return BlockRenderType.INVISIBLE;
     }
 
     @Override
-    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
-        final TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getBlockEntity(pos);
         if (tile instanceof TempTile)
         {
             final TempTile temp = (TempTile) tile;
             final BlockState eff = temp.getEffectiveState();
             if (eff != null)
             {
-                final ActionResultType res = eff.onBlockActivated(world, player, hand, hit);
+                final ActionResultType res = eff.use(world, player, hand, hit);
                 if (res != ActionResultType.PASS) return res;
             }
             // Otherwise forward the interaction to the block entity;
-            return temp.blockEntity.applyPlayerInteraction(player, hit.getHitVec(), hand);
+            return temp.blockEntity.interactAt(player, hit.getLocation(), hand);
         }
         return ActionResultType.PASS;
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(TempBlock.LIGHTLEVEL, TempBlock.WATERLOGGED);
     }
 
     @Override
-    public void onEntityCollision(final BlockState state, final World worldIn, final BlockPos pos,
+    public void entityInside(final BlockState state, final World worldIn, final BlockPos pos,
             final Entity entityIn)
     {
-        final TileEntity te = worldIn.getTileEntity(pos);
+        final TileEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof TempTile) ((TempTile) te).onEntityCollision(entityIn);
     }
 
@@ -140,7 +140,7 @@ public class TempBlock extends AirBlock
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        final TileEntity te = worldIn.getTileEntity(pos);
+        final TileEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof TempTile) return ((TempTile) te).getShape();
         return VoxelShapes.empty();
     }

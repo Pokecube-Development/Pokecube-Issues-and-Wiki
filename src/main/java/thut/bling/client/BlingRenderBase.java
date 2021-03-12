@@ -60,7 +60,7 @@ public abstract class BlingRenderBase
         final ResourceLocation[] textures = this.getTextures(slot, stack);
         if (stack.hasTag() && stack.getTag().contains("gemTag") && !stack.getTag().contains("gem"))
         {
-            final ItemStack gem = ItemStack.read(stack.getTag().getCompound("gemTag"));
+            final ItemStack gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
             final ResourceLocation id = gem.getItem().getRegistryName();
             // TODO better way to do this.
             final String tex = id.getNamespace() + ":textures/item/" + id.getPath() + ".png";

@@ -115,7 +115,7 @@ public class CommandGenStuff
                     System.out.println(entry);
                     continue;
                 }
-                ResourceLocation event = entry.getSoundEvent().getName();
+                ResourceLocation event = entry.getSoundEvent().getLocation();
                 if (added.contains(event)) continue;
                 added.add(event);
 
@@ -159,13 +159,13 @@ public class CommandGenStuff
 
     public static void execute(final ServerPlayerEntity sender, final String[] args)
     {
-        sender.sendMessage(new StringTextComponent("Starting File Output"), Util.DUMMY_UUID);
+        sender.sendMessage(new StringTextComponent("Starting File Output"), Util.NIL_UUID);
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (e == Database.missingno || e.dummy || e.isMega()) continue;
             CommandGenStuff.registerAchievements(e);
         }
-        sender.sendMessage(new StringTextComponent("Advancements Done"), Util.DUMMY_UUID);
+        sender.sendMessage(new StringTextComponent("Advancements Done"), Util.NIL_UUID);
         final File dir = new File("./mods/pokecube/assets/pokecube_mobs/");
         if (!dir.exists()) dir.mkdirs();
         File file = null;
@@ -186,11 +186,11 @@ public class CommandGenStuff
         {
             e.printStackTrace();
         }
-        sender.sendMessage(new StringTextComponent("Sounds Done"), Util.DUMMY_UUID);
+        sender.sendMessage(new StringTextComponent("Sounds Done"), Util.NIL_UUID);
         CommandGenStuff.generateBlockAndItemJsons();
         CommandGenStuff.generateMobsLang();
 
-        sender.sendMessage(new StringTextComponent("Finished File Output"), Util.DUMMY_UUID);
+        sender.sendMessage(new StringTextComponent("Finished File Output"), Util.NIL_UUID);
     }
 
     public static void generateMobsLang()

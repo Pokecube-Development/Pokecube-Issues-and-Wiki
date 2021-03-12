@@ -45,21 +45,21 @@ public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> 
             final float netHeadYaw, final float headPitch)
     {
         // No Render invisible.
-        if (wearer.getActivePotionEffect(Effects.INVISIBILITY) != null) return;
+        if (wearer.getEffect(Effects.INVISIBILITY) != null) return;
         // Only applies to bipeds, anyone else needs to write their own render
         // layer.
-        if (!(this.livingEntityRenderer.getEntityModel() instanceof BipedModel<?>)) return;
-        final BipedModel<?> theModel = (BipedModel<?>) this.livingEntityRenderer.getEntityModel();
+        if (!(this.livingEntityRenderer.getModel() instanceof BipedModel<?>)) return;
+        final BipedModel<?> theModel = (BipedModel<?>) this.livingEntityRenderer.getModel();
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
         if (worn == null) return;
         boolean thin = false;
 
-        final int overlay = LivingRenderer.getPackedOverlay(wearer, 0);
+        final int overlay = LivingRenderer.getOverlayCoords(wearer, 0);
 
         if (wearer instanceof AbstractClientPlayerEntity)
-            thin = ((AbstractClientPlayerEntity) wearer).getSkinType().equals("slim");
-        else if (theModel instanceof PlayerModel<?>) thin = ((PlayerModel<?>) theModel).smallArms;
+            thin = ((AbstractClientPlayerEntity) wearer).getModelName().equals("slim");
+        else if (theModel instanceof PlayerModel<?>) thin = ((PlayerModel<?>) theModel).slim;
 
         for (int i = 0; i < worn.getSlots(); i++)
         {

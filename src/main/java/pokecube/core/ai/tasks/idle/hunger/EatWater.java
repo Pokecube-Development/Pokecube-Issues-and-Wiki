@@ -15,7 +15,7 @@ public class EatWater extends EatBlockBase
 {
     public static final ResourceLocation FOODTAG = new ResourceLocation(PokecubeCore.MODID, "pokemob_redstone_food");
 
-    private static final Predicate<BlockState> checker = (b2) -> b2.getFluidState().getFluid() instanceof WaterFluid;
+    private static final Predicate<BlockState> checker = (b2) -> b2.getFluidState().getType() instanceof WaterFluid;
 
     @Override
     public EatResult eat(final IPokemob pokemob, final NearBlock block)
@@ -24,12 +24,12 @@ public class EatWater extends EatBlockBase
 
         final MobEntity entity = pokemob.getEntity();
         double diff = 1.5;
-        diff = Math.max(diff, entity.getWidth());
-        final double dist = block.getPos().manhattanDistance(entity.getPosition());
+        diff = Math.max(diff, entity.getBbWidth());
+        final double dist = block.getPos().distManhattan(entity.blockPosition());
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerWorld world = (ServerWorld) entity.getEntityWorld();
+        final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
         final BlockState current = world.getBlockState(block.getPos());
 
         if (!EatWater.checker.test(current)) return EatResult.NOEAT;

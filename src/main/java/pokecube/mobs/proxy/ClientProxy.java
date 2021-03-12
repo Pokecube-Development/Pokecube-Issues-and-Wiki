@@ -53,7 +53,7 @@ public class ClientProxy extends CommonProxy
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megatiara.x3d"));
                 if (!this.model.isLoaded() || !this.model.isValid()) return;
                 final float dx = -0.0f, dy = 0.25f, dz = -0.25f;
-                mat.rotate(Vector3f.XP.rotationDegrees(-90));
+                mat.mulPose(Vector3f.XP.rotationDegrees(-90));
                 mat.translate(dx, dy, dz);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "stone");
@@ -98,8 +98,8 @@ public class ClientProxy extends CommonProxy
                 dy = .06f;
                 dz = 0.f;
                 s = 1.f;
-                mat.rotate(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
-                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
@@ -144,8 +144,8 @@ public class ClientProxy extends CommonProxy
                 dx = 0;
                 dy = -.0f;
                 dz = 0.01f;
-                mat.rotate(Vector3f.XP.rotationDegrees(90));
-                mat.rotate(Vector3f.ZP.rotationDegrees(180));
+                mat.mulPose(Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");
@@ -191,12 +191,12 @@ public class ClientProxy extends CommonProxy
                 dx = 0.0f;
                 dy = index == 0 ? 0.01f : -0.01f;
                 dz = -0.25f;
-                mat.rotate(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");
 
-                minecraft.getTextureManager().bindTexture(this.loop);
+                minecraft.getTextureManager().bind(this.loop);
                 DyeColor ret = DyeColor.YELLOW;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
@@ -236,8 +236,8 @@ public class ClientProxy extends CommonProxy
                 if (!this.model.isLoaded() || !this.model.isValid()) return;
 
                 final float dx = -0.0f, dy = 0.0f, dz = -0.25f;
-                mat.rotate(Vector3f.XP.rotationDegrees(90));
-                mat.rotate(Vector3f.ZP.rotationDegrees(180));
+                mat.mulPose(Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "stone");

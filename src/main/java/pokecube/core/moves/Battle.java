@@ -50,13 +50,13 @@ public class Battle
         @Nullable
         public Battle getFor(final LivingEntity mob)
         {
-            return this.battlesById.get(mob.getUniqueID());
+            return this.battlesById.get(mob.getUUID());
         }
 
         @Override
         public void onAttach(final ServerWorld world)
         {
-            BattleManager.managers.put(world.getDimensionKey(), this);
+            BattleManager.managers.put(world.dimension(), this);
         }
 
         @Override
@@ -64,7 +64,7 @@ public class Battle
         {
             this.battlesById.clear();
             this.battles.clear();
-            BattleManager.managers.remove(world.getDimensionKey());
+            BattleManager.managers.remove(world.dimension());
         }
 
         @Override
@@ -87,21 +87,21 @@ public class Battle
 
     public static Battle getBattle(final LivingEntity mob)
     {
-        if (!(mob.getEntityWorld() instanceof ServerWorld))
+        if (!(mob.getCommandSenderWorld() instanceof ServerWorld))
         {
             PokecubeCore.LOGGER.error("Error checking for a battle on wrong side!");
             PokecubeCore.LOGGER.error(new IllegalAccessError());
             return null;
         }
-        final ServerWorld world = (ServerWorld) mob.getEntityWorld();
-        final BattleManager manager = BattleManager.managers.get(world.getDimensionKey());
+        final ServerWorld world = (ServerWorld) mob.getCommandSenderWorld();
+        final BattleManager manager = BattleManager.managers.get(world.dimension());
         return manager.getFor(mob);
     }
 
     public static boolean createOrAddToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         if (mobB == null || !AITools.validTargets.test(mobB)) return false;
-        if (mobA == null || !(mobA.getEntityWorld() instanceof ServerWorld)) return false;
+        if (mobA == null || !(mobA.getCommandSenderWorld() instanceof ServerWorld)) return false;
 
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
@@ -116,7 +116,7 @@ public class Battle
                 existingA.addToBattle(mobA, mobB);
                 return true;
             }
-            final ServerWorld world = (ServerWorld) mobA.getEntityWorld();
+            final ServerWorld world = (ServerWorld) mobA.getCommandSenderWorld();
             existingA.mergeFrom(mobA, mobB, existingB, world);
             return false;
         }
@@ -125,8 +125,8 @@ public class Battle
         else
         {
             final Battle battle = new Battle();
-            final ServerWorld world = (ServerWorld) mobA.getEntityWorld();
-            final BattleManager manager = BattleManager.managers.get(world.getDimensionKey());
+            final ServerWorld world = (ServerWorld) mobA.getCommandSenderWorld();
+            final BattleManager manager = BattleManager.managers.get(world.dimension());
             battle.addToBattle(mobA, mobB);
             manager.addBattle(battle);
             battle.start();
@@ -148,12 +148,12 @@ public class Battle
     private void addToSide(final Map<UUID, LivingEntity> side, final Set<String> teams, final LivingEntity mob,
             final String team, final LivingEntity target)
     {
-        side.put(mob.getUniqueID(), mob);
+        side.put(mob.getUUID(), mob);
         teams.add(team);
 
-        final ServerWorld world = (ServerWorld) mob.getEntityWorld();
-        final BattleManager manager = BattleManager.managers.get(world.getDimensionKey());
-        manager.battlesById.put(mob.getUniqueID(), this);
+        final ServerWorld world = (ServerWorld) mob.getCommandSenderWorld();
+        final BattleManager manager = BattleManager.managers.get(world.dimension());
+        manager.battlesById.put(mob.getUUID(), this);
 
         // This means we have already been started, and are actually adding to
         // an existing battle!
@@ -169,9 +169,9 @@ public class Battle
     private void mergeFrom(final LivingEntity mobA, final LivingEntity mobB, final Battle other,
             final ServerWorld world)
     {
-        final BattleManager manager = BattleManager.managers.get(world.getDimensionKey());
-        final boolean mobAisSide1 = this.side1.containsKey(mobA.getUniqueID());
-        final boolean mobBisSide1 = other.side1.containsKey(mobB.getUniqueID());
+        final BattleManager manager = BattleManager.managers.get(world.dimension());
+        final boolean mobAisSide1 = this.side1.containsKey(mobA.getUUID());
+        final boolean mobBisSide1 = other.side1.containsKey(mobB.getUUID());
 
         final Map<UUID, LivingEntity> sideAUs = mobAisSide1 ? this.side1 : this.side2;
         final Map<UUID, LivingEntity> sideBThem = mobBisSide1 ? other.side1 : other.side2;
@@ -199,11 +199,11 @@ public class Battle
         final String teamA = TeamManager.getTeam(mobA);
         final String teamB = TeamManager.getTeam(mobB);
 
-        boolean aIs1 = this.side1.containsKey(mobA.getUniqueID());
-        boolean aIs2 = this.side2.containsKey(mobA.getUniqueID());
+        boolean aIs1 = this.side1.containsKey(mobA.getUUID());
+        boolean aIs2 = this.side2.containsKey(mobA.getUUID());
 
-        final boolean bIs1 = this.side1.containsKey(mobB.getUniqueID());
-        final boolean bIs2 = this.side2.containsKey(mobB.getUniqueID());
+        final boolean bIs1 = this.side1.containsKey(mobB.getUUID());
+        final boolean bIs2 = this.side2.containsKey(mobB.getUUID());
 
         if (aIs1 || bIs2)
         {
@@ -234,7 +234,7 @@ public class Battle
 
     public void removeFromBattle(final LivingEntity mob)
     {
-        final UUID id = mob.getUniqueID();
+        final UUID id = mob.getUUID();
         if (this.side1.containsKey(id))
         {
             this.side1.remove(id);

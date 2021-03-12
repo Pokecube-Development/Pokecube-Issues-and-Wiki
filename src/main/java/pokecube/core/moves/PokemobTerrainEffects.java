@@ -191,7 +191,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public void doEffect(final LivingEntity entity)
     {
-        if (entity.getEntityWorld().getGameTime() % (2 * PokecubeCore.getConfig().attackCooldown) != 0) return;
+        if (entity.getCommandSenderWorld().getGameTime() % (2 * PokecubeCore.getConfig().attackCooldown) != 0) return;
         if (!AITools.validTargets.test(entity)) return;
 
         final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
@@ -201,7 +201,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             {
                 final float thisMaxHP = entity.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                entity.attackEntityFrom(PokemobTerrainEffects.createHailSource(this.effects.get(WeatherEffectType.HAIL
+                entity.hurt(PokemobTerrainEffects.createHailSource(this.effects.get(WeatherEffectType.HAIL
                         .getIndex()).getMob()), damage);
             }
 
@@ -210,7 +210,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             {
                 final float thisMaxHP = entity.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                entity.attackEntityFrom(PokemobTerrainEffects.createSandstormSource(this.effects.get(
+                entity.hurt(PokemobTerrainEffects.createSandstormSource(this.effects.get(
                         WeatherEffectType.SAND.getIndex()).getMob()), damage);
             }
 
@@ -234,7 +234,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             {
                 final float thisMaxHP = entity.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                entity.attackEntityFrom(PokemobTerrainEffects.createHailSource(this.effects.get(WeatherEffectType.HAIL
+                entity.hurt(PokemobTerrainEffects.createHailSource(this.effects.get(WeatherEffectType.HAIL
                         .getIndex()).getMob()), damage);
             }
 
@@ -242,7 +242,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             {
                 final float thisMaxHP = entity.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                entity.attackEntityFrom(PokemobTerrainEffects.createSandstormSource(this.effects.get(
+                entity.hurt(PokemobTerrainEffects.createSandstormSource(this.effects.get(
                         WeatherEffectType.SAND.getIndex()).getMob()), damage);
             }
 
@@ -294,7 +294,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
                 final double mult = PokeType.getAttackEfficiency(PokeType.getType("rock"), mob.getType1(), mob
                         .getType2());
-                entity.attackEntityFrom(DamageSource.GENERIC, (float) (damage * mult));
+                entity.hurt(DamageSource.GENERIC, (float) (damage * mult));
             }
             if (this.effects.containsKey(EntryEffectType.WEBS.getIndex()) && mob.isOnGround()) MovesUtils.handleStats2(
                     mob, null, IMoveConstants.VIT, IMoveConstants.FALL);
@@ -303,7 +303,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     private void dropDurations(final Entity e)
     {
-        final long time = e.getEntityWorld().getGameTime();
+        final long time = e.getCommandSenderWorld().getGameTime();
         boolean send = false;
 
         for (final int type : this.effects.keySet())
@@ -319,7 +319,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             }
         }
 
-        if (send) if (!e.getEntityWorld().isRemote) PacketSyncTerrain.sendTerrainEffects(e, this.chunkX, this.chunkY,
+        if (send) if (!e.getCommandSenderWorld().isClientSide) PacketSyncTerrain.sendTerrainEffects(e, this.chunkX, this.chunkY,
                 this.chunkZ, this);
     }
 
@@ -347,7 +347,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         final Vector3 temp2 = Vector3.getNewVector();
 
         assert Minecraft.getInstance().player != null;
-        final Random rand = new Random(Minecraft.getInstance().player.ticksExisted / 200);
+        final Random rand = new Random(Minecraft.getInstance().player.tickCount / 200);
 
         final double dx = direction.x * 1;
         final double dy = direction.y * 1;
@@ -369,43 +369,43 @@ public class PokemobTerrainEffects implements ITerrainEffect
             x = (float) (temp.x + dx);
             y = (float) (temp.y + dy);
             z = (float) (temp.z + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
             x = (float) (temp.x + dx);
             y = (float) (temp.y - size + dy);
             z = (float) (temp.z + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
             x = (float) (temp.x + dx);
             y = (float) (temp.y - size + dy);
             z = (float) (temp.z - size + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
             x = (float) (temp.x + dx);
             y = (float) (temp.y + dy);
             z = (float) (temp.z - size + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
             // Other face
             x = (float) (temp.x + dx);
             y = (float) (temp.y + dy);
             z = (float) (temp.z + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
             x = (float) (temp.x - size + dx);
             y = (float) (temp.y + dy);
             z = (float) (temp.z + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
             x = (float) (temp.x - size + dx);
             y = (float) (temp.y + dy);
             z = (float) (temp.z - size + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
             x = (float) (temp.x + dx);
             y = (float) (temp.y + dy);
             z = (float) (temp.z - size + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
         }
     }
@@ -417,23 +417,23 @@ public class PokemobTerrainEffects implements ITerrainEffect
         {
             final MatrixStack mat = event.getMatrixStack();
             assert Minecraft.getInstance().player != null;
-            final int time = Minecraft.getInstance().player.ticksExisted;
+            final int time = Minecraft.getInstance().player.tickCount;
 
             final Vector3 direction = Vector3.getNewVector().set(0, -1, 0);
-            final float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
+            final float partialTicks = Minecraft.getInstance().getFrameTime();
             final float tick = (time + partialTicks) / 10f;
 
-            final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+            final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
-            final RenderType effectType = RenderType.makeType("pokecube:terrain_effects",
-                    DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, RenderType.State.getBuilder()
-                            .diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(
-                                    new RenderState.AlphaState(0.003921569F)).build(false));
+            final RenderType effectType = RenderType.create("pokecube:terrain_effects",
+                    DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, RenderType.State.builder()
+                            .setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(
+                                    new RenderState.AlphaState(0.003921569F)).createCompositeState(false));
 
             final IVertexBuilder builder = buffer.getBuffer(effectType);
-            final Matrix4f pos = mat.getLast().getMatrix();
+            final Matrix4f pos = mat.last().pose();
 
-            mat.push();
+            mat.pushPose();
 
             if (this.effects.containsKey(WeatherEffectType.RAIN.getIndex())) this.renderEffect(builder, pos, origin,
                     direction, tick, 0, 0, 1, 1);
@@ -445,7 +445,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             if (this.effects.containsKey(WeatherEffectType.SAND.getIndex())) this.renderEffect(builder, pos, origin,
                     direction, tick, 0.86f, 0.82f, 0.75f, 1);
 
-            mat.pop();
+            mat.popPose();
         }
     }
 

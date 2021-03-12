@@ -42,18 +42,18 @@ public class Dig extends AbstractConstructTask
             }
             return false;
         });
-        final BlockPos pos = this.entity.getPosition();
+        final BlockPos pos = this.entity.blockPosition();
         // Stream -> filter gets us only the valid postions.
         // Min then gets us the one closest to the ant.
         final Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) ->
         {
-            final double d1 = p1.distanceSq(pos);
-            final double d2 = p2.distanceSq(pos);
+            final double d1 = p1.distSqr(pos);
+            final double d2 = p2.distSqr(pos);
             return Double.compare(d1, d2);
         });
         if (valid.isPresent())
         {
-            this.work_pos = valid.get().toImmutable();
+            this.work_pos = valid.get().immutable();
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Found Dig Site!");
             return true;
         }
@@ -175,6 +175,6 @@ public class Dig extends AbstractConstructTask
         final Part part = this.n == null ? this.e : this.n;
         // Mark it as done for the next few seconds or so
         part.markDug(this.work_pos, this.world.getGameTime() + 2400);
-        if (dug && this.n != null) this.n.dug.add(this.work_pos.toImmutable());
+        if (dug && this.n != null) this.n.dug.add(this.work_pos.immutable());
     }
 }

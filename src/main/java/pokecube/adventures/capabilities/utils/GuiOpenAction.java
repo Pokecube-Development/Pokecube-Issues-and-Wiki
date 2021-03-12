@@ -26,15 +26,15 @@ public class GuiOpenAction extends Action
         final Entity holder = action.holder;
         final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(holder);
         if (trainer == null) return false;
-        if (!trainer.isUsableByPlayer(target)) return false;
+        if (!trainer.stillValid(target)) return false;
         final ServerPlayerEntity player = target;
         final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
-        buffer.writeInt(holder.getEntityId());
+        buffer.writeInt(holder.getId());
         final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
                 e) -> new ContainerTrainer(i, p, buffer), holder.getDisplayName());
         NetworkHooks.openGui(player, provider, buf ->
         {
-            buf.writeInt(holder.getEntityId());
+            buf.writeInt(holder.getId());
         });
         return true;
     }

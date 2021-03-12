@@ -54,13 +54,13 @@ public class WalkToTask extends RootTask<MobEntity>
 
     private boolean tryPause(final MobEntity owner)
     {
-        final Random rng = new Random(owner.getUniqueID().hashCode());
+        final Random rng = new Random(owner.getUUID().hashCode());
         final int tick = rng.nextInt(RootTask.runRate);
-        return owner.ticksExisted % RootTask.runRate != tick;
+        return owner.tickCount % RootTask.runRate != tick;
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final MobEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final MobEntity owner)
     {
         final Brain<?> brain = owner.getBrain();
         final WalkTarget walktarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
@@ -81,53 +81,53 @@ public class WalkToTask extends RootTask<MobEntity>
 
         if (!this.hasReachedTarget(owner, walktarget) && this.isPathValid(owner, walktarget, worldIn.getGameTime()))
         {
-            this.current_target = walktarget.getTarget().getBlockPos();
+            this.current_target = walktarget.getTarget().currentBlockPosition();
             return true;
         }
         else
         {
-            brain.removeMemory(MemoryModuleType.WALK_TARGET);
+            brain.eraseMemory(MemoryModuleType.WALK_TARGET);
             return false;
         }
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
         if (this.currentPath != null && this.current_target != null)
         {
             final Optional<WalkTarget> optional = entityIn.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
-            final PathNavigator pathnavigator = entityIn.getNavigator();
-            return !pathnavigator.noPath() && optional.isPresent() && !this.hasReachedTarget(entityIn, optional.get());
+            final PathNavigator pathnavigator = entityIn.getNavigation();
+            return !pathnavigator.isDone() && optional.isPresent() && !this.hasReachedTarget(entityIn, optional.get());
         }
         else return false;
     }
 
     @Override
-    protected void resetTask(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
+    protected void stop(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
-        entityIn.getNavigator().clearPath();
-        entityIn.getBrain().removeMemory(MemoryModuleType.WALK_TARGET);
-        entityIn.getBrain().removeMemory(MemoryModuleType.PATH);
+        entityIn.getNavigation().stop();
+        entityIn.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+        entityIn.getBrain().eraseMemory(MemoryModuleType.PATH);
         this.currentPath = null;
     }
 
     @Override
-    protected void startExecuting(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
         entityIn.getBrain().setMemory(MemoryModuleType.PATH, this.currentPath);
-        entityIn.getNavigator().setPath(this.currentPath, this.speed);
+        entityIn.getNavigation().moveTo(this.currentPath, this.speed);
         this.time_till_next_check = worldIn.getRandom().nextInt(10);
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
         --this.time_till_next_check;
         if (this.time_till_next_check <= 0)
         {
-            final Path path = owner.getNavigator().getPath();
+            final Path path = owner.getNavigation().getPath();
             final Brain<?> brain = owner.getBrain();
             if (this.currentPath != path)
             {
@@ -138,11 +138,11 @@ public class WalkToTask extends RootTask<MobEntity>
             if (path != null && this.current_target != null)
             {
                 final WalkTarget walktarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
-                if (walktarget.getTarget().getBlockPos().distanceSq(this.current_target) > 4.0D && this.isPathValid(
+                if (walktarget.getTarget().currentBlockPosition().distSqr(this.current_target) > 4.0D && this.isPathValid(
                         owner, walktarget, worldIn.getGameTime()))
                 {
-                    this.current_target = walktarget.getTarget().getBlockPos();
-                    this.startExecuting(worldIn, owner, gameTime);
+                    this.current_target = walktarget.getTarget().currentBlockPosition();
+                    this.start(worldIn, owner, gameTime);
                 }
 
             }
@@ -151,26 +151,26 @@ public class WalkToTask extends RootTask<MobEntity>
 
     private boolean isPathValid(final MobEntity mob, final WalkTarget target, final long gametime)
     {
-        final BlockPos blockpos = target.getTarget().getBlockPos();
+        final BlockPos blockpos = target.getTarget().currentBlockPosition();
 
-        final World world = mob.getEntityWorld();
+        final World world = mob.getCommandSenderWorld();
 
         if (!world.isAreaLoaded(blockpos, 8)) return false;
-        if (!world.isAreaLoaded(mob.getPosition(), 8)) return false;
+        if (!world.isAreaLoaded(mob.blockPosition(), 8)) return false;
 
         final Brain<?> brain = mob.getBrain();
         pathing:
         if (this.currentPath == null)
         {
-            final PathNavigator navi = mob.getNavigator();
-            if (navi.hasPath())
+            final PathNavigator navi = mob.getNavigation();
+            if (navi.isInProgress())
             {
                 this.currentPath = navi.getPath();
                 brain.setMemory(MemoryModuleType.PATH, this.currentPath);
                 break pathing;
             }
 
-            final List<IPathHelper> pathers = WorldTickManager.pathHelpers.get(mob.getEntityWorld().getDimensionKey());
+            final List<IPathHelper> pathers = WorldTickManager.pathHelpers.get(mob.getCommandSenderWorld().dimension());
             for (final IPathHelper h : pathers)
             {
                 final boolean valid = h.shouldHelpPath(mob, target);
@@ -180,34 +180,34 @@ public class WalkToTask extends RootTask<MobEntity>
                     if (this.currentPath != null) break pathing;
                 }
             }
-            this.currentPath = mob.getNavigator().pathfind(ImmutableSet.of(blockpos), 16, false, 0);
-            final double dist = target.getTarget().getPos().distanceTo(mob.getPositionVec());
-            if (dist < 3 && (this.currentPath == null || !this.currentPath.reachesTarget()))
+            this.currentPath = mob.getNavigation().createPath(ImmutableSet.of(blockpos), 16, false, 0);
+            final double dist = target.getTarget().currentPosition().distanceTo(mob.position());
+            if (dist < 3 && (this.currentPath == null || !this.currentPath.canReach()))
             {
-                mob.getNavigator().clearPath();
-                mob.getBrain().removeMemory(MemoryModuleType.WALK_TARGET);
-                mob.getBrain().removeMemory(MemoryModuleType.PATH);
+                mob.getNavigation().stop();
+                mob.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+                mob.getBrain().eraseMemory(MemoryModuleType.PATH);
                 this.currentPath = null;
                 return false;
             }
         }
-        this.speed = target.getSpeed();
+        this.speed = target.getSpeedModifier();
         final boolean atTarget = this.hasReachedTarget(mob, target);
 
         if (!atTarget)
         {
 
-            if (this.currentPath != null && !this.currentPath.reachesTarget() && this.currentPath
-                    .getCurrentPathLength() == 1)
+            if (this.currentPath != null && !this.currentPath.canReach() && this.currentPath
+                    .getNodeCount() == 1)
             {
-                brain.removeMemory(MemoryModuleType.PATH);
-                mob.getNavigator().clearPath();
+                brain.eraseMemory(MemoryModuleType.PATH);
+                mob.getNavigation().stop();
                 this.currentPath = null;
             }
 
-            final boolean flag = this.currentPath != null && this.currentPath.reachesTarget();
+            final boolean flag = this.currentPath != null && this.currentPath.canReach();
             if (flag) brain.setMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, Optional.empty());
-            else if (!brain.hasMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)) brain.setMemory(
+            else if (!brain.hasMemoryValue(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)) brain.setMemory(
                     MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, gametime);
 
             if (this.currentPath != null) return true;
@@ -216,11 +216,11 @@ public class WalkToTask extends RootTask<MobEntity>
             final int y = 10;
             final double scale = 2 * Math.PI / 2F;
             final Vector3d pos = new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ());
-            final Vector3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled((CreatureEntity) mob, xz, y,
+            final Vector3d vec3d = RandomPositionGenerator.getPosTowards((CreatureEntity) mob, xz, y,
                     pos, scale);
             if (vec3d != null)
             {
-                this.currentPath = mob.getNavigator().getPathToPos(vec3d.x, vec3d.y, vec3d.z, 0);
+                this.currentPath = mob.getNavigation().createPath(vec3d.x, vec3d.y, vec3d.z, 0);
                 return this.currentPath != null;
             }
         }
@@ -229,6 +229,6 @@ public class WalkToTask extends RootTask<MobEntity>
 
     private boolean hasReachedTarget(final MobEntity mob, final WalkTarget target)
     {
-        return target.getTarget().getBlockPos().manhattanDistance(mob.getPosition()) <= target.getDistance();
+        return target.getTarget().currentBlockPosition().distManhattan(mob.blockPosition()) <= target.getCloseEnoughDist();
     }
 }

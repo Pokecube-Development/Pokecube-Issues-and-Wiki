@@ -37,12 +37,12 @@ public class EatPlant extends EatBlockBase
         final MobEntity entity = pokemob.getEntity();
 
         double diff = 1.5;
-        diff = Math.max(diff, entity.getWidth());
-        final double dist = block.getPos().manhattanDistance(entity.getPosition());
+        diff = Math.max(diff, entity.getBbWidth());
+        final double dist = block.getPos().distManhattan(entity.blockPosition());
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerWorld world = (ServerWorld) entity.getEntityWorld();
+        final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatPlant.checker.test(current)) return EatResult.NOEAT;
 
@@ -70,7 +70,7 @@ public class EatPlant extends EatBlockBase
             // If we are allowed to, we remove the eaten block
             final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, Vector3.getNewVector().set(block.getPos()),
                     "nom_nom_nom", false, false);
-            if (canEat) world.setBlockState(block.getPos(), Blocks.AIR.getDefaultState());
+            if (canEat) world.setBlockAndUpdate(block.getPos(), Blocks.AIR.defaultBlockState());
         }
         return EatResult.EATEN;
     }

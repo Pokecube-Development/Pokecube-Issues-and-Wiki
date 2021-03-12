@@ -74,18 +74,18 @@ public class TextureHelper implements IPartTexturer
                     return true;
                 }
 
-            if (this.running.containsKey(mob.getEntity().getEntityId()))
+            if (this.running.containsKey(mob.getEntity().getId()))
             {
-                final RandomState run = this.running.get(mob.getEntity().getEntityId());
+                final RandomState run = this.running.get(mob.getEntity().getId());
                 final double[] arr = run.arr;
                 dx = arr[0];
                 dy = arr[1];
                 toFill[0] = dx;
                 toFill[1] = dy;
-                if (mob.getEntity().ticksExisted > this.setTimes.get(mob.getEntity().getEntityId()) + run.duration)
+                if (mob.getEntity().tickCount > this.setTimes.get(mob.getEntity().getId()) + run.duration)
                 {
-                    this.running.remove(mob.getEntity().getEntityId());
-                    this.setTimes.remove(mob.getEntity().getEntityId());
+                    this.running.remove(mob.getEntity().getId());
+                    this.setTimes.remove(mob.getEntity().getId());
                 }
                 return true;
             }
@@ -98,14 +98,14 @@ public class TextureHelper implements IPartTexturer
                     dy = arr[1];
                     toFill[0] = dx;
                     toFill[1] = dy;
-                    this.running.put(mob.getEntity().getEntityId(), state);
-                    this.setTimes.put(mob.getEntity().getEntityId(), mob.getEntity().ticksExisted);
+                    this.running.put(mob.getEntity().getId(), state);
+                    this.setTimes.put(mob.getEntity().getId(), mob.getEntity().tickCount);
                     return true;
                 }
             }
             if (this.sequence != null && this.sequence.shift)
             {
-                final int tick = mob.getEntity().ticksExisted % (this.sequence.arr.length / 2);
+                final int tick = mob.getEntity().tickCount % (this.sequence.arr.length / 2);
                 dx = this.sequence.arr[tick * 2];
                 dy = this.sequence.arr[tick * 2 + 1];
                 toFill[0] = dx;
@@ -119,7 +119,7 @@ public class TextureHelper implements IPartTexturer
         {
             if (this.sequence != null && !this.sequence.shift)
             {
-                final int tick = mob.getEntity().ticksExisted % (this.sequence.arr.length / 2);
+                final int tick = mob.getEntity().tickCount % (this.sequence.arr.length / 2);
                 final int dx = (int) this.sequence.arr[tick * 2];
                 return "" + dx;
             }

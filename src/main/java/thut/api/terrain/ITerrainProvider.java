@@ -139,8 +139,8 @@ public interface ITerrainProvider
         int y = p.getY() >> 4;
         if (y < 0) y = 0;
         if (y > 15) y = 15;
-        final RegistryKey<World> dim = rworld.getDimensionKey();
-        final IChunk chunk = world.isRemote() ? world.getChunk(p)
+        final RegistryKey<World> dim = rworld.dimension();
+        final IChunk chunk = world.isClientSide() ? world.getChunk(p)
                 : ITerrainProvider.getChunk(dim, temp = new ChunkPos(p));
         final boolean real = chunk != null && chunk instanceof ICapabilityProvider;
         // This means it occurs during worldgen?

@@ -107,7 +107,7 @@ public class Tasks
                 Pair.of(0, new BeginRaidTask()),
                 Pair.of(1, new WalkToTargetTask()),
                 Pair.of(2, new TradeTask(speed)),
-                Pair.of(10, new GatherPOITask(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),
+                Pair.of(10, new GatherPOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),
                 Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte)14))),
                 Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte)14))),
                 Pair.of(10, new AssignProfessionTask()), Pair.of(10, new ChangeJobTask())
@@ -131,7 +131,7 @@ public class Tasks
                 Pair.of(2, new StayNearPointTask(MemoryModuleType.JOB_SITE, speed,9 , 100, 1200)),
                 Pair.of(3, new StayNearPointTask(MemoryModuleType.HOME, speed,9 , 100, 1200)),
                 Pair.of(3, new GiveHeroGiftsTask(100)),
-                Pair.of(3, new ExpirePOITask(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE)),
+                Pair.of(3, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE)),
                 Pair.of(99, new UpdateActivityTask())
         );
     }
@@ -145,8 +145,8 @@ public class Tasks
                 Pair.of(5, new ShuffledTask<>(
                     ImmutableMap.of(MemoryModuleType.VISIBLE_VILLAGER_BABIES, MemoryModuleStatus.VALUE_ABSENT),
                     ImmutableList.of(
-                    Pair.of(InteractWithEntityTask.func_220445_a(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, walkingSpeed, 2), 2),
-                    Pair.of(InteractWithEntityTask.func_220445_a(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, walkingSpeed, 2), 1),
+                    Pair.of(InteractWithEntityTask.of(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, walkingSpeed, 2), 2),
+                    Pair.of(InteractWithEntityTask.of(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, walkingSpeed, 2), 1),
                     Pair.of(new FindWalkTargetTask(walkingSpeed), 1),
                     Pair.of(new WalkTowardsLookTargetTask(walkingSpeed, 2),1),
                     Pair.of(new JumpOnBedTask(walkingSpeed), 2),
@@ -208,9 +208,9 @@ public class Tasks
         return ImmutableList.of(
                 Pair.of(2, new FirstShuffledTask<>(
                     ImmutableList.of(
-                    Pair.of(InteractWithEntityTask.func_220445_a(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, p_220641_1_, 2), 2),
+                    Pair.of(InteractWithEntityTask.of(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, p_220641_1_, 2), 2),
                     Pair.of(new InteractWithEntityTask<>(EntityType.VILLAGER, 8, AgeableEntity::canBreed, AgeableEntity::canBreed, MemoryModuleType.BREED_TARGET, p_220641_1_, 2), 1),
-                    Pair.of(InteractWithEntityTask.func_220445_a(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, p_220641_1_, 2), 1),
+                    Pair.of(InteractWithEntityTask.of(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, p_220641_1_, 2), 1),
                     Pair.of(new FindWalkTargetTask(p_220641_1_), 1),
                     Pair.of(new WalkTowardsLookTargetTask(p_220641_1_, 2), 1),
                     Pair.of(new JumpOnBedTask(p_220641_1_), 1),

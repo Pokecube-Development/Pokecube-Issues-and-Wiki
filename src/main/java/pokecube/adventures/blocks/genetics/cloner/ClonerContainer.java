@@ -14,16 +14,16 @@ public class ClonerContainer extends PoweredContainer<ClonerTile>
 {
     public ClonerContainer(final int id, final PlayerInventory invIn)
     {
-        this(id, invIn, IWorldPosCallable.DUMMY);
+        this(id, invIn, IWorldPosCallable.NULL);
     }
 
     public ClonerContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
     {
         super(PokecubeAdv.CLONER_CONT.get(), id, (c) ->
         {
-            pos.consume((w, p) ->
+            pos.execute((w, p) ->
             {
-                final TileEntity temp = w.getTileEntity(p);
+                final TileEntity temp = w.getBlockEntity(p);
                 // Server side
                 if (temp instanceof ClonerTile) c.tile = (ClonerTile) temp;
             });
@@ -37,7 +37,7 @@ public class ClonerContainer extends PoweredContainer<ClonerTile>
         this.addSlot(new Slot(this.tile, this.tile.getOutputSlot(), 124, 35)
         {
             @Override
-            public boolean isItemValid(final ItemStack stack)
+            public boolean mayPlace(final ItemStack stack)
             {
                 return false;
             }

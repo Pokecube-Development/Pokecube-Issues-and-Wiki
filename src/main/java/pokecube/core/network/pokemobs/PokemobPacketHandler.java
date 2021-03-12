@@ -42,7 +42,7 @@ public class PokemobPacketHandler
             this.buffer = new PacketBuffer(Unpooled.buffer(9));
             this.buffer.writeByte(channel);
             this.buffer.writeInt(id);
-            this.buffer.writeCompoundTag(nbt);
+            this.buffer.writeNbt(nbt);
         }
 
         public MessageServer(final byte[] data)
@@ -60,10 +60,10 @@ public class PokemobPacketHandler
         {
             final byte channel = this.buffer.readByte();
             final int id = this.buffer.readInt();
-            final ServerWorld world = player.getServerWorld();
+            final ServerWorld world = player.getLevel();
             final Entity entity = PokecubeCore.getEntityProvider().getEntity(world, id, true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-            if (pokemob == null || !player.getUniqueID().equals(pokemob.getOwnerId())) return;
+            if (pokemob == null || !player.getUUID().equals(pokemob.getOwnerId())) return;
             if (channel == MessageServer.RETURN) pokemob.onRecall();
             else if (channel == MessageServer.CANCELEVOLVE) pokemob.cancelEvolve();
         }

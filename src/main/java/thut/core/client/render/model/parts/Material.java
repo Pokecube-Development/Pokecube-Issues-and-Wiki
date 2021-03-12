@@ -82,7 +82,7 @@ public class Material extends RenderState
             boolean found = false;
             for (final RenderType type2 : keys)
             {
-                found = found || type2 == RenderType.getWaterMask();
+                found = found || type2 == RenderType.waterMask();
                 if (found) after.put(type2, fixed.remove(type2));
             }
             // Add a new bufferbuilder to the maps.
@@ -90,7 +90,7 @@ public class Material extends RenderState
             after.forEach((k, v) -> fixed.put(k, v));
 
             // This starts the buffer, and registers it to the Impl.
-            builder.begin(type.getDrawMode(), type.getVertexFormat());
+            builder.begin(type.mode(), type.format());
             impl.startedBuffers.add(builder);
             buff = builder;
         }
@@ -134,37 +134,37 @@ public class Material extends RenderState
     {
         this.tex = tex;
         if (this.types.containsKey(tex)) return this.types.get(tex);
-        final RenderType.State.Builder builder = RenderType.State.getBuilder();
+        final RenderType.State.Builder builder = RenderType.State.builder();
         // No blur, No MipMap
-        builder.texture(new RenderState.TextureState(tex, false, false));
+        builder.setTextureState(new RenderState.TextureState(tex, false, false));
 
-        builder.transparency(Material.DEFAULTTRANSP);
+        builder.setTransparencyState(Material.DEFAULTTRANSP);
 
         // Some materials are "emissive", so for those, we don't do this.
-        if (this.emissiveMagnitude == 0) builder.diffuseLighting(RenderState.DIFFUSE_LIGHTING_ENABLED);
+        if (this.emissiveMagnitude == 0) builder.setDiffuseLightingState(RenderState.DIFFUSE_LIGHTING);
         // Normal alpha
-        builder.alpha(RenderState.DEFAULT_ALPHA);
+        builder.setAlphaState(RenderState.DEFAULT_ALPHA);
 
         // These are needed in general for world lighting
-        builder.lightmap(RenderState.LIGHTMAP_ENABLED);
-        builder.overlay(RenderState.OVERLAY_ENABLED);
+        builder.setLightmapState(RenderState.LIGHTMAP);
+        builder.setOverlayState(RenderState.OVERLAY);
 
         final boolean transp = this.alpha < 1 || this.transluscent;
         if (transp)
         {
             // These act like masking
-            builder.writeMask(RenderState.COLOR_WRITE);
-            builder.depthTest(Material.LESSTHAN);
+            builder.setWriteMaskState(RenderState.COLOR_WRITE);
+            builder.setDepthTestState(Material.LESSTHAN);
         }
         // Otheerwise disable culling entirely
-        else builder.cull(RenderState.CULL_DISABLED);
+        else builder.setCullState(RenderState.NO_CULL);
 
         // Some models have extra bits that are not flat shaded, like coatings
-        if (!this.flat) builder.shadeModel(RenderState.SHADE_ENABLED);
-        final RenderType.State rendertype$state = builder.build(true);
+        if (!this.flat) builder.setShadeModelState(RenderState.SMOOTH_SHADE);
+        final RenderType.State rendertype$state = builder.createCompositeState(true);
 
         final String id = this.render_name + tex;
-        final RenderType type = RenderType.makeType(id, DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256, true,
+        final RenderType type = RenderType.create(id, DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256, true,
                 false, rendertype$state);
 
         this.types.put(tex, type);

@@ -23,16 +23,16 @@ public class PoweredCraftingInventory extends CraftingInventory
     }
 
     @Override
-    public void clear()
+    public void clearContent()
     {
-        this.inventory.clear();
+        this.inventory.clearContent();
     }
 
     @Override
-    public ItemStack decrStackSize(final int index, final int count)
+    public ItemStack removeItem(final int index, final int count)
     {
-        final ItemStack ret = this.inventory.decrStackSize(index, count);
-        if (this.eventHandler != null) this.eventHandler.onCraftMatrixChanged(this);
+        final ItemStack ret = this.inventory.removeItem(index, count);
+        if (this.eventHandler != null) this.eventHandler.slotsChanged(this);
         return ret;
     }
 
@@ -40,7 +40,7 @@ public class PoweredCraftingInventory extends CraftingInventory
     public void fillStackedContents(final RecipeItemHelper helper)
     {
         for (final ItemStack itemstack : this.inventory.getList())
-            helper.accountPlainStack(itemstack);
+            helper.accountSimpleStack(itemstack);
 
     }
 
@@ -53,9 +53,9 @@ public class PoweredCraftingInventory extends CraftingInventory
      * Returns the stack in the given slot.
      */
     @Override
-    public ItemStack getStackInSlot(final int index)
+    public ItemStack getItem(final int index)
     {
-        return index >= this.getSizeInventory() ? ItemStack.EMPTY : this.inventory.getList().get(index);
+        return index >= this.getContainerSize() ? ItemStack.EMPTY : this.inventory.getList().get(index);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PoweredCraftingInventory extends CraftingInventory
      * Container
      */
     @Override
-    public boolean isUsableByPlayer(final PlayerEntity player)
+    public boolean stillValid(final PlayerEntity player)
     {
         return true;
     }
@@ -83,7 +83,7 @@ public class PoweredCraftingInventory extends CraftingInventory
      * hasn't changed and skip it.
      */
     @Override
-    public void markDirty()
+    public void setChanged()
     {
     }
 
@@ -91,9 +91,9 @@ public class PoweredCraftingInventory extends CraftingInventory
      * Removes a stack from the given slot and returns it.
      */
     @Override
-    public ItemStack removeStackFromSlot(final int index)
+    public ItemStack removeItemNoUpdate(final int index)
     {
-        return ItemStackHelper.getAndRemove(this.inventory.getList(), index);
+        return ItemStackHelper.takeItem(this.inventory.getList(), index);
     }
 
     public void setEnergy(final int in)
@@ -106,9 +106,9 @@ public class PoweredCraftingInventory extends CraftingInventory
      * crafting or armor sections).
      */
     @Override
-    public void setInventorySlotContents(final int index, final ItemStack stack)
+    public void setItem(final int index, final ItemStack stack)
     {
         this.inventory.getList().set(index, stack);
-        if (this.eventHandler != null) this.eventHandler.onCraftMatrixChanged(this);
+        if (this.eventHandler != null) this.eventHandler.slotsChanged(this);
     }
 }

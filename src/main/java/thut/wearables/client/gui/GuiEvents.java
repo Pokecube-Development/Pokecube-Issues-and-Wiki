@@ -64,7 +64,7 @@ public class GuiEvents
                     new TranslationTextComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
                     b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
-            button.visible = button.active = gui.getSelectedTabIndex() == 11;
+            button.visible = button.active = gui.getSelectedTab() == 11;
         }
     }
 

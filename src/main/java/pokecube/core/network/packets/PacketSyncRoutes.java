@@ -49,7 +49,7 @@ public class PacketSyncRoutes extends Packet
     public static void sendServerPacket(final Entity mob, final INBT tag)
     {
         final PacketSyncRoutes packet = new PacketSyncRoutes();
-        packet.entityId = mob.getEntityId();
+        packet.entityId = mob.getId();
         if (tag instanceof CompoundNBT) packet.data = (CompoundNBT) tag;
         PokecubeCore.packets.sendToServer(packet);
     }
@@ -60,7 +60,7 @@ public class PacketSyncRoutes extends Packet
         final PacketSyncRoutes packet = new PacketSyncRoutes();
         packet.data.put("R", guard.serializeTasks());
         packet.data.putBoolean("O", gui);
-        packet.entityId = mob.getEntityId();
+        packet.entityId = mob.getId();
         PokecubeCore.packets.sendTo(packet, player);
     }
 
@@ -76,7 +76,7 @@ public class PacketSyncRoutes extends Packet
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
         this.entityId = buffer.readInt();
-        this.data = buffer.readCompoundTag();
+        this.data = buffer.readNbt();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class PacketSyncRoutes extends Packet
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final CompoundNBT data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         guard.loadTasks((ListNBT) data.get("R"));
@@ -97,20 +97,20 @@ public class PacketSyncRoutes extends Packet
     {
         final int id = this.entityId;
         final CompoundNBT data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
 
         if (guard != null) if (data.isEmpty())
         {
             final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
-            buffer.writeInt(e.getEntityId());
+            buffer.writeInt(e.getId());
             buffer.writeByte(PacketPokemobGui.ROUTES);
             final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
                     a) -> new ContainerPokemob(i, p, buffer), e.getDisplayName());
             NetworkHooks.openGui(player, provider, buf ->
             {
-                buf.writeInt(e.getEntityId());
+                buf.writeInt(e.getId());
                 buf.writeByte(PacketPokemobGui.ROUTES);
             });
         }
@@ -122,6 +122,6 @@ public class PacketSyncRoutes extends Packet
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeInt(this.entityId);
-        buffer.writeCompoundTag(this.data);
+        buffer.writeNbt(this.data);
     }
 }

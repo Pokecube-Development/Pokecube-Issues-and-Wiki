@@ -48,7 +48,7 @@ public class Move_Terrain extends Move_Basic
         attacker.getMoveStats().SPECIALCOUNTER = 20;
 
         this.duration = 300 + new Random().nextInt(600);
-        final World world = attacker.getEntity().getEntityWorld();
+        final World world = attacker.getEntity().getCommandSenderWorld();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, location);
 
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
@@ -56,7 +56,7 @@ public class Move_Terrain extends Move_Basic
         // Otherwise send the it starts to effect messaged
 
         teffect.setEffectDuration(this.effect, this.duration + world.getGameTime(), attacker);
-        if (attacker.getEntity().isServerWorld()) PacketSyncTerrain.sendTerrainEffects(attacker.getEntity(),
+        if (attacker.getEntity().isEffectiveAi()) PacketSyncTerrain.sendTerrainEffects(attacker.getEntity(),
                 segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
 
     }

@@ -35,7 +35,7 @@ import pokecube.core.inventory.healer.HealerContainer;
 public class HealerBlock extends HorizontalBlock implements IWaterLoggable
 {
 	private static final Map<Direction, VoxelShape> HEALER_MACHINE  = new HashMap<>();
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -43,61 +43,61 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     static
     {// @formatter:off
     	HealerBlock.HEALER_MACHINE.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 0, 0, 15, 13, 16),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 0, 13, 15, 1),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 13, 1, 9, 14, 15),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 15, 13, 15, 16),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 11, 13, 14, 14),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 11, 6, 14, 14),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 6.5, 13, 14, 9.5),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 6.5, 6, 14, 9.5),
-                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 2, 13, 14, 5),
-                              Block.makeCuboidShape(3, 13, 2, 6, 14, 5),
+          VoxelShapes.join(Block.box(1, 0, 0, 15, 13, 16),
+            VoxelShapes.join(Block.box(3, 13, 0, 13, 15, 1),
+              VoxelShapes.join(Block.box(7, 13, 1, 9, 14, 15),
+                VoxelShapes.join(Block.box(3, 13, 15, 13, 15, 16),
+                  VoxelShapes.join(Block.box(10, 13, 11, 13, 14, 14),
+                    VoxelShapes.join(Block.box(3, 13, 11, 6, 14, 14),
+                      VoxelShapes.join(Block.box(10, 13, 6.5, 13, 14, 9.5),
+                        VoxelShapes.join(Block.box(3, 13, 6.5, 6, 14, 9.5),
+                            VoxelShapes.join(Block.box(10, 13, 2, 13, 14, 5),
+                              Block.box(3, 13, 2, 6, 14, 5),
                                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	HealerBlock.HEALER_MACHINE.put(Direction.EAST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 1, 16, 13, 15),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(15, 13, 3, 16, 15, 13),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 13, 7, 15, 14, 9),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 13, 3, 1, 15, 13),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 13, 10, 5, 14, 13),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 13, 3, 5, 14, 6),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13, 10, 9.5, 14, 13),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13, 3, 9.5, 14, 6),
-                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11, 13, 10, 14, 14, 13),
-                              Block.makeCuboidShape(11, 13, 3, 14, 14, 6),
+          VoxelShapes.join(Block.box(0, 0, 1, 16, 13, 15),
+            VoxelShapes.join(Block.box(15, 13, 3, 16, 15, 13),
+              VoxelShapes.join(Block.box(1, 13, 7, 15, 14, 9),
+                VoxelShapes.join(Block.box(0, 13, 3, 1, 15, 13),
+                  VoxelShapes.join(Block.box(2, 13, 10, 5, 14, 13),
+                    VoxelShapes.join(Block.box(2, 13, 3, 5, 14, 6),
+                      VoxelShapes.join(Block.box(6.5, 13, 10, 9.5, 14, 13),
+                        VoxelShapes.join(Block.box(6.5, 13, 3, 9.5, 14, 6),
+                            VoxelShapes.join(Block.box(11, 13, 10, 14, 14, 13),
+                              Block.box(11, 13, 3, 14, 14, 6),
                                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	HealerBlock.HEALER_MACHINE.put(Direction.SOUTH,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 0, 0, 15, 13, 16),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 0, 13, 15, 1),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 13, 1, 9, 14, 15),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 15, 13, 15, 16),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 11, 13, 14, 14),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 11, 6, 14, 14),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 6.5, 13, 14, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 13, 6.5, 6, 14, 9.5),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 13, 2, 13, 14, 5),
-                        	Block.makeCuboidShape(3, 13, 2, 6, 14, 5),
+		VoxelShapes.join(Block.box(1, 0, 0, 15, 13, 16),
+        VoxelShapes.join(Block.box(3, 13, 0, 13, 15, 1),
+          VoxelShapes.join(Block.box(7, 13, 1, 9, 14, 15),
+            VoxelShapes.join(Block.box(3, 13, 15, 13, 15, 16),
+              VoxelShapes.join(Block.box(10, 13, 11, 13, 14, 14),
+                VoxelShapes.join(Block.box(3, 13, 11, 6, 14, 14),
+                  VoxelShapes.join(Block.box(10, 13, 6.5, 13, 14, 9.5),
+                    VoxelShapes.join(Block.box(3, 13, 6.5, 6, 14, 9.5),
+                        VoxelShapes.join(Block.box(10, 13, 2, 13, 14, 5),
+                        	Block.box(3, 13, 2, 6, 14, 5),
                             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                       IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
         );
     	HealerBlock.HEALER_MACHINE.put(Direction.WEST,
-		VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 1, 16, 13, 15),
-        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(15, 13, 3, 16, 15, 13),
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 13, 7, 15, 14, 9),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 13, 3, 1, 15, 13),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 13, 10, 5, 14, 13),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 13, 3, 5, 14, 6),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13, 10, 9.5, 14, 13),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13, 3, 9.5, 14, 6),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11, 13, 10, 14, 14, 13),
-                          Block.makeCuboidShape(11, 13, 3, 14, 14, 6),
+		VoxelShapes.join(Block.box(0, 0, 1, 16, 13, 15),
+        VoxelShapes.join(Block.box(15, 13, 3, 16, 15, 13),
+          VoxelShapes.join(Block.box(1, 13, 7, 15, 14, 9),
+            VoxelShapes.join(Block.box(0, 13, 3, 1, 15, 13),
+              VoxelShapes.join(Block.box(2, 13, 10, 5, 14, 13),
+                VoxelShapes.join(Block.box(2, 13, 3, 5, 14, 6),
+                  VoxelShapes.join(Block.box(6.5, 13, 10, 9.5, 14, 13),
+                    VoxelShapes.join(Block.box(6.5, 13, 3, 9.5, 14, 6),
+                        VoxelShapes.join(Block.box(11, 13, 10, 14, 14, 13),
+                          Block.box(11, 13, 3, 14, 14, 6),
                             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                       IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                 IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
@@ -109,14 +109,14 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        return HealerBlock.HEALER_MACHINE.get(state.get(HealerBlock.FACING));
+        return HealerBlock.HEALER_MACHINE.get(state.getValue(HealerBlock.FACING));
     }
 
     public HealerBlock(final Properties builder)
     {
         super(builder);
-        this.setDefaultState(this.stateContainer.getBaseState().with(HealerBlock.FACING, Direction.NORTH).with(
-                HealerBlock.FIXED, false).with(HealerBlock.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HealerBlock.FACING, Direction.NORTH).setValue(
+                HealerBlock.FIXED, false).setValue(HealerBlock.WATERLOGGED, false));
     }
 
     @Override
@@ -126,7 +126,7 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     }
 
     @Override
-    protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(HealerBlock.FACING);
         builder.add(HealerBlock.FIXED);
@@ -136,25 +136,25 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
-        return this.getDefaultState().with(HealerBlock.FACING, context.getPlacementHorizontalFacing().getOpposite())
-                .with(HealerBlock.FIXED, false).with(HealerBlock.WATERLOGGED, flag);
+        final boolean flag = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
+        return this.defaultBlockState().setValue(HealerBlock.FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(HealerBlock.FIXED, false).setValue(HealerBlock.WATERLOGGED, flag);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updatePostPlacement(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
             final BlockPos facingPos)
     {
-        if (state.get(HealerBlock.WATERLOGGED)) world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+        if (state.getValue(HealerBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public FluidState getFluidState(final BlockState state)
     {
-        return state.get(HealerBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.getValue(HealerBlock.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
@@ -164,11 +164,11 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     }
 
     @Override
-    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
-        player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new HealerContainer(id,
-                playerInventory, IWorldPosCallable.of(world, pos)), player.getDisplayName()));
+        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new HealerContainer(id,
+                playerInventory, IWorldPosCallable.create(world, pos)), player.getDisplayName()));
         return ActionResultType.SUCCESS;
     }
 

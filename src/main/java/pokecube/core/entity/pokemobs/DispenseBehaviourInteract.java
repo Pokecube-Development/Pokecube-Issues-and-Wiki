@@ -35,14 +35,14 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
     public static void registerBehavior(final ItemStack stack)
     {
         if (DispenseBehaviourInteract.DEFAULTS.containsKey(stack.getItem().getRegistryName())) return;
-        final IDispenseItemBehavior original = DispenserBlock.DISPENSE_BEHAVIOR_REGISTRY.get(stack.getItem());
+        final IDispenseItemBehavior original = DispenserBlock.DISPENSER_REGISTRY.get(stack.getItem());
         DispenseBehaviourInteract.DEFAULTS.put(stack.getItem().getRegistryName(), original);
-        DispenserBlock.registerDispenseBehavior(() -> stack.getItem(), new DispenseBehaviourInteract());
+        DispenserBlock.registerBehavior(() -> stack.getItem(), new DispenseBehaviourInteract());
     }
 
     public static void registerBehavior(final ResourceLocation tag)
     {
-        for (final Item item : ItemTags.getCollection().getTagByID(tag).getAllElements())
+        for (final Item item : ItemTags.getAllTags().getTagOrEmpty(tag).getValues())
             DispenseBehaviourInteract.registerBehavior(new ItemStack(item));
     }
 
@@ -54,34 +54,34 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
         for (final Property<?> prop : state.getProperties())
             if (prop.getValueClass() == Direction.class)
             {
-                dir = (Direction) state.get(prop);
+                dir = (Direction) state.getValue(prop);
                 break;
             }
         if (dir == null) return DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
                 DispenseBehaviourInteract.DEFAULT).dispense(source, stack);
 
-        final FakePlayer player = PokecubeMod.getFakePlayer(source.getWorld());
-        player.setPosition(source.getX(), source.getY() - player.getEyeHeight(), source.getZ());
+        final FakePlayer player = PokecubeMod.getFakePlayer(source.getLevel());
+        player.setPos(source.x(), source.y() - player.getEyeHeight(), source.z());
 
-        final Vector3 loc = Vector3.getNewVector().set(source.getBlockPos().offset(dir));
-        final AxisAlignedBB box = loc.getAABB().grow(2);
-        final List<MobEntity> mobs = source.getWorld().getEntitiesWithinAABB(MobEntity.class, box);
+        final Vector3 loc = Vector3.getNewVector().set(source.getPos().relative(dir));
+        final AxisAlignedBB box = loc.getAABB().inflate(2);
+        final List<MobEntity> mobs = source.getLevel().getEntitiesOfClass(MobEntity.class, box);
         Collections.shuffle(mobs);
         if (!mobs.isEmpty())
         {
-            player.inventory.clear();
-            player.setHeldItem(Hand.MAIN_HAND, stack);
+            player.inventory.clearContent();
+            player.setItemInHand(Hand.MAIN_HAND, stack);
 
             ActionResultType cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, mobs.get(0),
                     new Vector3d(0, 0, 0), Hand.MAIN_HAND);
             if (cancelResult == null) cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntity(player, mobs
                     .get(0), Hand.MAIN_HAND);
 
-            final boolean interacted = cancelResult != null || mobs.get(0).processInitialInteract(player,
+            final boolean interacted = cancelResult != null || mobs.get(0).interact(player,
                     Hand.MAIN_HAND) != ActionResultType.PASS;
             ActionResultType result = ActionResultType.PASS;
-            if (!interacted) result = stack.interactWithEntity(player, mobs.get(0), Hand.MAIN_HAND);
-            for (final ItemStack stack3 : player.inventory.mainInventory)
+            if (!interacted) result = stack.interactLivingEntity(player, mobs.get(0), Hand.MAIN_HAND);
+            for (final ItemStack stack3 : player.inventory.items)
                 if (!stack3.isEmpty()) if (stack3 != stack)
                 {
                     result = ActionResultType.SUCCESS;
@@ -90,7 +90,7 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
                     DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
                             DispenseBehaviourInteract.DEFAULT).dispense(source, stack3);
                 }
-            player.inventory.clear();
+            player.inventory.clearContent();
             if (result != ActionResultType.PASS) return stack;
         }
         return DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),

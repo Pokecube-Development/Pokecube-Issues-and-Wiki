@@ -49,7 +49,7 @@ public class LogicMovesUpdates extends LogicBase
         final int i = this.pokemob.getExplosionState();
 
         if (i > 0 && this.pokemob.getMoveStats().timeSinceIgnited == 0) this.entity.playSound(
-                SoundEvents.ENTITY_CREEPER_PRIMED, 1.0F, 0.5F);
+                SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
         this.pokemob.getMoveStats().timeSinceIgnited += i;
 
         if (this.pokemob.getMoveStats().timeSinceIgnited < 0) this.pokemob.getMoveStats().timeSinceIgnited = 0;
@@ -76,7 +76,7 @@ public class LogicMovesUpdates extends LogicBase
         this.v.set(this.entity);
 
         // Run tasks that only should go on server side.
-        if (!world.isRemote)
+        if (!world.isClientSide)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -127,7 +127,7 @@ public class LogicMovesUpdates extends LogicBase
                 && !BrainUtils.hasAttackTarget(this.entity)) this.pokemob.setTransformedTo(null);
 
         // Update abilities.
-        if (this.pokemob.getAbility() != null && this.entity.isServerWorld()) this.pokemob.getAbility().onUpdate(
+        if (this.pokemob.getAbility() != null && this.entity.isEffectiveAi()) this.pokemob.getAbility().onUpdate(
                 this.pokemob);
 
         // Tick held items.
@@ -136,7 +136,7 @@ public class LogicMovesUpdates extends LogicBase
         if (usable != null && this.entity.isAlive())
         {
             final ActionResult<ItemStack> result = usable.onTick(this.pokemob, held);
-            if (result.getType() == ActionResultType.SUCCESS) this.pokemob.setHeldItem(result.getResult());
+            if (result.getResult() == ActionResultType.SUCCESS) this.pokemob.setHeldItem(result.getObject());
             if (this.pokemob.getHeldItem().isEmpty()) this.pokemob.setHeldItem(ItemStack.EMPTY);
         }
     }
@@ -149,8 +149,8 @@ public class LogicMovesUpdates extends LogicBase
             if (this.pokemob.getLogicState(LogicStates.SLEEPING))
             {
                 final int duration = 10;
-                this.entity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, duration * 2, 100));
-                this.entity.addPotionEffect(new EffectInstance(Effects.WEAKNESS, duration * 2, 100));
+                this.entity.addEffect(new EffectInstance(Effects.BLINDNESS, duration * 2, 100));
+                this.entity.addEffect(new EffectInstance(Effects.WEAKNESS, duration * 2, 100));
             }
             return;
         }

@@ -25,37 +25,37 @@ public class AFA extends ContainerScreen<AfaContainer>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
+    protected void renderBg(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
-        this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/afa.png"));
-        final int x = (this.width - this.xSize) / 2;
-        final int y = (this.height - this.ySize) / 2;
-        this.blit(mat, x, y, 0, 0, this.xSize, this.ySize);
+        this.minecraft.getTextureManager().bind(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/afa.png"));
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
+        this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         GL11.glPopMatrix();
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(final MatrixStack mat, final int mouseX, final int mouseY)
+    protected void renderLabels(final MatrixStack mat, final int mouseX, final int mouseY)
     {
         String text = this.getTitle().getString();
-        this.font.drawString(mat, text, 172 - this.font.getStringWidth(text), 6, 4210752);
-        this.font.drawString(mat, this.playerInventory.getName().getString(), 8, this.ySize - 96 + 2, 4210752);
+        this.font.draw(mat, text, 172 - this.font.width(text), 6, 4210752);
+        this.font.draw(mat, this.inventory.getName().getString(), 8, this.imageHeight - 96 + 2, 4210752);
 
-        text = this.container.tile.ability != null ? I18n.format("block.afa.ability.info", I18n.format(
-                this.container.tile.ability.getName())) : I18n.format("block.afa.ability.none");
+        text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(
+                this.menu.tile.ability.getName())) : I18n.get("block.afa.ability.none");
 
-        this.font.drawString(mat, text, 172 - this.font.getStringWidth(text), 22, 4210752);
+        this.font.draw(mat, text, 172 - this.font.width(text), 22, 4210752);
 
-        text = I18n.format("block.afa.range.info", this.container.tile.distance);
+        text = I18n.get("block.afa.range.info", this.menu.tile.distance);
 
-        this.font.drawString(mat, text, 172 - this.font.getStringWidth(text), 42, 4210752);
+        this.font.draw(mat, text, 172 - this.font.width(text), 42, 4210752);
 
-        text = I18n.format("block.afa.power.info", this.container.tile.cost, this.container.tile.orig);
+        text = I18n.get("block.afa.power.info", this.menu.tile.cost, this.menu.tile.orig);
 
-        this.font.drawString(mat, text, 172 - this.font.getStringWidth(text), 62, 4210752);
+        this.font.draw(mat, text, 172 - this.font.width(text), 62, 4210752);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class AFA extends ContainerScreen<AfaContainer>
     {
         this.renderBackground(mat);
         super.render(mat, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(mat, mouseX, mouseY);
+        this.renderTooltip(mat, mouseX, mouseY);
     }
 
     @Override

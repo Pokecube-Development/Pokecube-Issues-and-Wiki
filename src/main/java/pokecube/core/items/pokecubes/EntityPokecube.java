@@ -64,7 +64,7 @@ public class EntityPokecube extends EntityPokecubeBase
     {
         static LootEntry createFromNBT(final CompoundNBT nbt)
         {
-            final ItemStack loot = ItemStack.read(nbt.getCompound("loot"));
+            final ItemStack loot = ItemStack.of(nbt.getCompound("loot"));
             return new LootEntry(loot, nbt.getInt("rolls"));
         }
 
@@ -81,7 +81,7 @@ public class EntityPokecube extends EntityPokecubeBase
         void writeToNBT(final CompoundNBT nbt)
         {
             final CompoundNBT loot = new CompoundNBT();
-            this.loot.write(loot);
+            this.loot.save(loot);
             nbt.put("loot", loot);
             nbt.putInt("rolls", this.rolls);
         }
@@ -92,9 +92,9 @@ public class EntityPokecube extends EntityPokecubeBase
 
     static
     {
-        TYPE = EntityType.Builder.create(EntityPokecube::new, EntityClassification.MISC)
-                .setShouldReceiveVelocityUpdates(true).setTrackingRange(32).setUpdateInterval(1).disableSummoning()
-                .immuneToFire().size(0.25f, 0.25f).build("pokecube");
+        TYPE = EntityType.Builder.of(EntityPokecube::new, EntityClassification.MISC)
+                .setShouldReceiveVelocityUpdates(true).setTrackingRange(32).setUpdateInterval(1).noSummon()
+                .fireImmune().sized(0.25f, 0.25f).build("pokecube");
     }
 
     public long reset     = 0;
@@ -119,13 +119,13 @@ public class EntityPokecube extends EntityPokecubeBase
     public boolean cannotCollect(final Entity e)
     {
         if (e == null) return false;
-        final String name = e.getCachedUniqueIdString();
+        final String name = e.getStringUUID();
         for (final CollectEntry s : this.players)
             if (s.player.equals(name))
             {
                 if (this.resetTime > 0)
                 {
-                    final long diff = this.getEntityWorld().getGameTime() - s.time;
+                    final long diff = this.getCommandSenderWorld().getGameTime() - s.time;
                     if (diff > this.resetTime)
                     {
                         this.players.remove(s);
@@ -139,19 +139,19 @@ public class EntityPokecube extends EntityPokecubeBase
 
     public EntityPokecube copy()
     {
-        final EntityPokecube copy = new EntityPokecube(EntityPokecube.TYPE, this.getEntityWorld());
-        copy.copyLocationAndAnglesFrom(this);
-        copy.copyDataFromOld(this);
+        final EntityPokecube copy = new EntityPokecube(EntityPokecube.TYPE, this.getCommandSenderWorld());
+        copy.copyPosition(this);
+        copy.restoreFrom(this);
         return copy;
     }
 
     @Override
-    public ActionResultType processInitialInteract(final PlayerEntity player, final Hand hand)
+    public ActionResultType interact(final PlayerEntity player, final Hand hand)
     {
-        final ItemStack stack = player.getHeldItem(hand);
+        final ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayerEntity && this.canBePickedUp)
         {
-            if (player.isCrouching() && PokecubeManager.isFilled(this.getItem()) && player.abilities.isCreativeMode)
+            if (player.isCrouching() && PokecubeManager.isFilled(this.getItem()) && player.abilities.instabuild)
                 if (!stack.isEmpty())
             {
                 this.isLoot = true;
@@ -172,7 +172,7 @@ public class EntityPokecube extends EntityPokecubeBase
                 if (this.isLoot)
                 {
                     if (this.cannotCollect(player)) return ActionResultType.FAIL;
-                    this.players.add(new CollectEntry(player.getCachedUniqueIdString(), this.getEntityWorld()
+                    this.players.add(new CollectEntry(player.getStringUUID(), this.getCommandSenderWorld()
                             .getGameTime()));
                     ItemStack loot = ItemStack.EMPTY;
                     if (!this.lootStacks.isEmpty())
@@ -180,21 +180,21 @@ public class EntityPokecube extends EntityPokecubeBase
                         loot = this.lootStacks.get(new Random().nextInt(this.lootStacks.size()));
                         if (!loot.isEmpty())
                         {
-                            PacketPokecube.sendMessage(player, this.getEntityId(), this.getEntityWorld().getGameTime()
+                            PacketPokecube.sendMessage(player, this.getId(), this.getCommandSenderWorld().getGameTime()
                                     + this.resetTime);
                             Tools.giveItem(player, loot.copy());
                         }
                     }
                     else if (this.lootTable != null)
                     {
-                        final LootTable loottable = this.getEntityWorld().getServer().getLootTableManager()
-                                .getLootTableFromLocation(this.lootTable);
+                        final LootTable loottable = this.getCommandSenderWorld().getServer().getLootTables()
+                                .get(this.lootTable);
                         final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) this
-                                .getEntityWorld()).withParameter(LootParameters.THIS_ENTITY, this);
-                        for (final ItemStack itemstack : loottable.generate(lootcontext$builder.build(loottable
-                                .getParameterSet())))
+                                .getCommandSenderWorld()).withParameter(LootParameters.THIS_ENTITY, this);
+                        for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
+                                .getParamSet())))
                             if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
-                        PacketPokecube.sendMessage(player, this.getEntityId(), this.getEntityWorld().getGameTime()
+                        PacketPokecube.sendMessage(player, this.getId(), this.getCommandSenderWorld().getGameTime()
                                 + this.resetTime);
                     }
                     return ActionResultType.SUCCESS;
@@ -207,9 +207,9 @@ public class EntityPokecube extends EntityPokecubeBase
     }
 
     @Override
-    public void readAdditional(final CompoundNBT nbt)
+    public void readAdditionalSaveData(final CompoundNBT nbt)
     {
-        super.readAdditional(nbt);
+        super.readAdditionalSaveData(nbt);
         this.isLoot = nbt.getBoolean("isLoot");
         this.setReleasing(nbt.getBoolean("releasing"));
         if (nbt.contains("resetTime")) this.resetTime = nbt.getLong("resetTime");
@@ -240,15 +240,15 @@ public class EntityPokecube extends EntityPokecubeBase
 //    @Override
     public void shoot(final double x, final double y, final double z, final float velocity, final float inaccuracy)
     {
-        final Vector3d vec3d = new Vector3d(x, y, z).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy,
-                this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy).scale(
+        final Vector3d vec3d = new Vector3d(x, y, z).normalize().add(this.random.nextGaussian() * 0.0075F * inaccuracy,
+                this.random.nextGaussian() * 0.0075F * inaccuracy, this.random.nextGaussian() * 0.0075F * inaccuracy).scale(
                         velocity);
-        this.setMotion(vec3d);
-        final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
-        this.rotationYaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
-        this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI));
-        this.prevRotationYaw = this.rotationYaw;
-        this.prevRotationPitch = this.rotationPitch;
+        this.setDeltaMovement(vec3d);
+        final float f = MathHelper.sqrt(Entity.getHorizontalDistanceSqr(vec3d));
+        this.yRot = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
+        this.xRot = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI));
+        this.yRotO = this.yRot;
+        this.xRotO = this.xRot;
     }
 
     @Override
@@ -260,7 +260,7 @@ public class EntityPokecube extends EntityPokecubeBase
             return;
         }
         capture:
-        if (this.getEntityWorld() instanceof ServerWorld)
+        if (this.getCommandSenderWorld() instanceof ServerWorld)
         {
             final boolean validTime = this.getTime() <= 0;
 
@@ -283,7 +283,7 @@ public class EntityPokecube extends EntityPokecubeBase
                         Tools.giveItem((PlayerEntity) this.shootingEntity, this.getItem());
                         gave = true;
                     }
-                    if (!gave) this.entityDropItem(this.getItem(), 0.5f);
+                    if (!gave) this.spawnAtLocation(this.getItem(), 0.5f);
                 }
                 this.remove();
                 return;
@@ -300,9 +300,9 @@ public class EntityPokecube extends EntityPokecubeBase
     }
 
     @Override
-    public void writeAdditional(final CompoundNBT nbt)
+    public void addAdditionalSaveData(final CompoundNBT nbt)
     {
-        super.writeAdditional(nbt);
+        super.addAdditionalSaveData(nbt);
         nbt.putLong("resetTime", this.resetTime);
         nbt.putBoolean("isLoot", this.isLoot);
         if (this.isReleasing()) nbt.putBoolean("releasing", true);

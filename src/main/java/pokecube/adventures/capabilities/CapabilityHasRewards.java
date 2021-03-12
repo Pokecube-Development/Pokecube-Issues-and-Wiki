@@ -64,17 +64,17 @@ public class CapabilityHasRewards
                 final ItemStack i = reward.stack;
                 if (i.isEmpty()) continue;
                 if (new Random().nextFloat() > reward.chance) continue;
-                if (!player.inventory.addItemStackToInventory(i.copy()))
+                if (!player.inventory.add(i.copy()))
                 {
-                    final ItemEntity item = player.entityDropItem(i.copy(), 0.5f);
+                    final ItemEntity item = player.spawnAtLocation(i.copy(), 0.5f);
                     if (item == null) continue;
-                    item.setPickupDelay(0);
+                    item.setPickUpDelay(0);
                 }
                 final IHasMessages messageSender = TrainerCaps.getMessages(rewarder);
                 if (messageSender != null)
                 {
                     messageSender.sendMessage(MessageState.GIVEITEM, player, rewarder.getDisplayName(), i
-                            .getDisplayName(), player.getDisplayName());
+                            .getHoverName(), player.getDisplayName());
                     messageSender.doAction(MessageState.GIVEITEM, new ActionContext(player, rewarder));
                 }
             }
@@ -111,7 +111,7 @@ public class CapabilityHasRewards
             for (int i = 0; i < ListNBT.size(); ++i)
             {
                 final CompoundNBT tag = ListNBT.getCompound(i);
-                final ItemStack stack = ItemStack.read(tag);
+                final ItemStack stack = ItemStack.of(tag);
                 final float chance = tag.contains("chance") ? tag.getFloat("chance") : 1;
                 instance.getRewards().add(new Reward(stack, chance));
             }
@@ -128,7 +128,7 @@ public class CapabilityHasRewards
                 if (!stack.isEmpty())
                 {
                     final CompoundNBT CompoundNBT = new CompoundNBT();
-                    stack.write(CompoundNBT);
+                    stack.save(CompoundNBT);
                     CompoundNBT.putFloat("chance", element.chance);
                     ListNBT.add(CompoundNBT);
                 }

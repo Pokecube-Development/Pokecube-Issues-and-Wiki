@@ -257,7 +257,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     // TODO also include effects from external float reasons here
     default boolean flys()
     {
-        return (this.getPokedexEntry().flys() || this.canUseFly() && this.getEntity().isBeingRidden()) && !this
+        return (this.getPokedexEntry().flys() || this.canUseFly() && this.getEntity().isVehicle()) && !this
                 .isGrounded();
     }
 
@@ -341,7 +341,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default ItemStack getHeldItem()
     {
         if (this.getEntity() == null) return ItemStack.EMPTY;
-        return this.getEntity().getHeldItemMainhand();
+        return this.getEntity().getMainHandItem();
     }
 
     BlockPos getHome();
@@ -356,16 +356,16 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     {
         final ModifiableAttributeInstance iattributeinstance = this.getEntity().getAttribute(Attributes.MOVEMENT_SPEED);
         final boolean swimming = this.getEntity().isInWater() || this.getEntity().isInLava() && this.getEntity()
-                .isImmuneToFire();
+                .fireImmune();
         final boolean flying = !swimming && !this.getEntity().isOnGround();
 
         final boolean hasFlyBoost = iattributeinstance.getModifier(IPokemob.FLYSPEEDFACTOR_ID) != null;
         final boolean hasSwimBoost = iattributeinstance.getModifier(IPokemob.SWIMSPEEDFACTOR_ID) != null;
 
-        if (flying && !hasFlyBoost) iattributeinstance.applyNonPersistentModifier(IPokemob.FLYSPEEDFACTOR);
+        if (flying && !hasFlyBoost) iattributeinstance.addTransientModifier(IPokemob.FLYSPEEDFACTOR);
         else if (hasFlyBoost && !flying) iattributeinstance.removeModifier(IPokemob.FLYSPEEDFACTOR_ID);
 
-        if (swimming && !hasSwimBoost) iattributeinstance.applyNonPersistentModifier(IPokemob.SWIMSPEEDFACTOR);
+        if (swimming && !hasSwimBoost) iattributeinstance.addTransientModifier(IPokemob.SWIMSPEEDFACTOR);
         else if (hasSwimBoost && !swimming) iattributeinstance.removeModifier(IPokemob.SWIMSPEEDFACTOR_ID);
 
         final double speed = iattributeinstance.getValue();
@@ -450,7 +450,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default boolean moveToShoulder(final PlayerEntity player)
     {
         if (this.getEntity() instanceof ShoulderRidingEntity) if (player instanceof ServerPlayerEntity)
-            return ((ShoulderRidingEntity) this.getEntity()).func_213439_d((ServerPlayerEntity) player);
+            return ((ShoulderRidingEntity) this.getEntity()).setEntityOnShoulder((ServerPlayerEntity) player);
         return false;
     }
 
@@ -516,7 +516,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default void setHeldItem(final ItemStack stack)
     {
-        this.getEntity().setHeldItem(Hand.MAIN_HAND, stack);
+        this.getEntity().setItemInHand(Hand.MAIN_HAND, stack);
     }
 
     /**

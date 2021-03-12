@@ -17,10 +17,10 @@ public class SyncHandler
     @SubscribeEvent
     public static void EntityUpdate(final LivingUpdateEvent event)
     {
-        if (event.getEntity().getEntityWorld().isRemote) return;
+        if (event.getEntity().getCommandSenderWorld().isClientSide) return;
         final DataSync data = SyncHandler.getData(event.getEntity());
         if (data == null) return;
-        PacketDataSync.sync(event.getEntity(), data, event.getEntity().getEntityId(), false);
+        PacketDataSync.sync(event.getEntity(), data, event.getEntity().getId(), false);
     }
 
     public static DataSync getData(final Entity mob)
@@ -31,9 +31,9 @@ public class SyncHandler
     @SubscribeEvent
     public static void startTracking(final StartTracking event)
     {
-        if (event.getTarget().getEntityWorld().isRemote) return;
+        if (event.getTarget().getCommandSenderWorld().isClientSide) return;
         final DataSync data = SyncHandler.getData(event.getTarget());
         if (data == null) return;
-        PacketDataSync.sync((ServerPlayerEntity) event.getEntity(), data, event.getTarget().getEntityId(), true);
+        PacketDataSync.sync((ServerPlayerEntity) event.getEntity(), data, event.getTarget().getId(), true);
     }
 }

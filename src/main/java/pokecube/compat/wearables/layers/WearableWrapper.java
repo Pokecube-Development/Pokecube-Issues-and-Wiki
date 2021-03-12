@@ -82,16 +82,16 @@ public class WearableWrapper
         @Override
         public void render(final MatrixStack mat, final IVertexBuilder buffer)
         {
-            final IRenderTypeBuffer buff = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+            final IRenderTypeBuffer buff = Minecraft.getInstance().renderBuffers().bufferSource();
             final float pt = 0;
             final int br = this.brightness;
             final int ol = this.overlay;
-            mat.push();
-            mat.rotate(Vector3f.XP.rotationDegrees(-90));
+            mat.pushPose();
+            mat.mulPose(Vector3f.XP.rotationDegrees(-90));
             this.angle.glRotate(mat);
             mat.translate(this.translate.x, this.translate.y, this.translate.z);
             this.wrapped.renderWearable(mat, buff, this.slot, this.subIndex, this.wearer, this.stack, pt, br, ol);
-            mat.pop();
+            mat.popPose();
         }
 
         @Override
@@ -135,7 +135,7 @@ public class WearableWrapper
     @SubscribeEvent
     public static void postRender(final RenderLivingEvent.Post<?, ?> event)
     {
-        final EntityModel<?> model = event.getRenderer().getEntityModel();
+        final EntityModel<?> model = event.getRenderer().getModel();
 
         if (model instanceof ModelWrapper)
         {
@@ -147,7 +147,7 @@ public class WearableWrapper
     @SubscribeEvent
     public static void preRender(final RenderLivingEvent.Pre<?, ?> event)
     {
-        final EntityModel<?> model = event.getRenderer().getEntityModel();
+        final EntityModel<?> model = event.getRenderer().getModel();
         if (model instanceof ModelWrapper)
         {
             final ModelWrapper<?> renderer = (ModelWrapper<?>) model;
@@ -158,7 +158,7 @@ public class WearableWrapper
     public static void applyWearables(final LivingEntity wearer, final IModelRenderer<?> renderer, final IModel imodel)
     {
         // No Render invisible.
-        if (wearer.getActivePotionEffect(Effects.INVISIBILITY) != null) return;
+        if (wearer.getEffect(Effects.INVISIBILITY) != null) return;
         WornOffsets offsets = null;
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);

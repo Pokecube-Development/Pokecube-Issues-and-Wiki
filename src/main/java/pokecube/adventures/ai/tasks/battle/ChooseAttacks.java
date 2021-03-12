@@ -71,7 +71,7 @@ public class ChooseAttacks extends BaseBattleTask
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         // If trainer has a living, real mob out, tell it to do stuff.
         // Check if pokemob has a valid Pokemob as a target.
@@ -83,16 +83,16 @@ public class ChooseAttacks extends BaseBattleTask
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
         return this.trainer.getOutMob() != null;
     }
 
     @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
-        if (!super.shouldExecute(worldIn, owner)) return false;
+        if (!super.checkExtraStartConditions(worldIn, owner)) return false;
         return this.trainer.getOutMob() != null;
     }
 }

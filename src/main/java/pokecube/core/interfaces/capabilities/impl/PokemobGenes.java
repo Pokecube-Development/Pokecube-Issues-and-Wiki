@@ -485,7 +485,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public void setMove(final int i, final String moveName)
     {
         // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().getEntityWorld() instanceof ServerWorld) || this.getTransformedTo() != null) return;
+        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld) || this.getTransformedTo() != null) return;
 
         final String[] moves = this.getMoves();
         moves[i] = moveName;
@@ -496,7 +496,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public void setMoves(final String[] moves)
     {
         // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().getEntityWorld() instanceof ServerWorld) || this.getTransformedTo() != null) return;
+        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld) || this.getTransformedTo() != null) return;
         if (moves != null && moves.length == 4)
         {
             if (this.genesMoves == null) this.getMoves();
@@ -549,9 +549,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.entry = newEntry;
         info.entry = newEntry;
 
-        if (this.getEntity().getEntityWorld() != null) ret.setSize((float) (ret.getSize() / PokecubeCore
+        if (this.getEntity().getCommandSenderWorld() != null) ret.setSize((float) (ret.getSize() / PokecubeCore
                 .getConfig().scalefactor));
-        if (this.getEntity().getEntityWorld() != null && this.getEntity().isServerWorld()) PacketChangeForme
+        if (this.getEntity().getCommandSenderWorld() != null && this.getEntity().isEffectiveAi()) PacketChangeForme
                 .sendPacketToTracking(ret.getEntity(), newEntry);
         return ret;
     }
@@ -611,7 +611,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 final float max = 20 / Math.max(a, Math.max(c, b));
                 size *= max;
             }
-            this.getEntity().getSize(this.getEntity().getPose()).scale(size);
+            this.getEntity().getDimensions(this.getEntity().getPose()).scale(size);
         }
         final SizeGene gene = this.genesSize.getExpressed();
         gene.setValue(size);

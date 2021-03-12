@@ -44,38 +44,38 @@ public class GuardAI extends Goal
     }
 
     @Override
-    public void resetTask()
+    public void stop()
     {
-        super.resetTask();
+        super.stop();
         this.capability.setState(GuardState.IDLE);
         if (this.capability.getActiveTask() != null) this.capability.getActiveTask().endTask(this.entity);
     }
 
     public void setPos(final BlockPos pos)
     {
-        if (this.capability.hasActiveTask(this.entity.getEntityWorld().getDayTime(), 24000)) this.capability
+        if (this.capability.hasActiveTask(this.entity.getCommandSenderWorld().getDayTime(), 24000)) this.capability
                 .getActiveTask().setPos(pos);
         else this.capability.getPrimaryTask().setPos(pos);
     }
 
     public void setTimePeriod(final TimePeriod time)
     {
-        if (this.capability.hasActiveTask(this.entity.getEntityWorld().getDayTime(), 24000)) this.capability
+        if (this.capability.hasActiveTask(this.entity.getCommandSenderWorld().getDayTime(), 24000)) this.capability
                 .getActiveTask().setActiveTime(time);
         else this.capability.getPrimaryTask().setActiveTime(time);
     }
 
     @Override
-    public boolean shouldContinueExecuting()
+    public boolean canContinueToUse()
     {
         if (!this.shouldRun.shouldRun()) return false;
-        if (!this.capability.hasActiveTask(this.entity.getEntityWorld().getDayTime(), 24000)) return false;
+        if (!this.capability.hasActiveTask(this.entity.getCommandSenderWorld().getDayTime(), 24000)) return false;
         this.capability.getActiveTask().continueTask(this.entity);
         switch (this.capability.getState())
         {
         case RUNNING:
-            if (this.capability.getActiveTask().getPos() == null || this.entity.getNavigator().noPath() && this.entity
-                    .getPosition().distanceSq(this.capability.getActiveTask().getPos()) < this.capability
+            if (this.capability.getActiveTask().getPos() == null || this.entity.getNavigation().isDone() && this.entity
+                    .blockPosition().distSqr(this.capability.getActiveTask().getPos()) < this.capability
                             .getActiveTask().getRoamDistance() * this.capability.getActiveTask().getRoamDistance() / 2)
                 this.capability.setState(GuardState.COOLDOWN);
         case COOLDOWN:
@@ -94,7 +94,7 @@ public class GuardAI extends Goal
     }
 
     @Override
-    public boolean shouldExecute()
+    public boolean canUse()
     {
         if (this.capability == null)
         {
@@ -103,16 +103,16 @@ public class GuardAI extends Goal
         }
         // TODO find some way to determine actual length of day
         // for things like AR support.
-        if (null == this.entity || !this.entity.isAlive() || !this.capability.hasActiveTask(this.entity.getEntityWorld()
+        if (null == this.entity || !this.entity.isAlive() || !this.capability.hasActiveTask(this.entity.getCommandSenderWorld()
                 .getDayTime(), 24000)) return false;
         final IGuardTask task = this.capability.getActiveTask();
         final BlockPos pos = task.getPos();
         if (pos == null || pos.equals(BlockPos.ZERO)) return false;
-        return !pos.withinDistance(this.entity.getPosition(), task.getRoamDistance());
+        return !pos.closerThan(this.entity.blockPosition(), task.getRoamDistance());
     }
 
     @Override
-    public void startExecuting()
+    public void start()
     {
         this.capability.setState(GuardState.RUNNING);
         this.capability.getActiveTask().startTask(this.entity);
@@ -127,9 +127,9 @@ public class GuardAI extends Goal
             double maxDist = this.capability.getActiveTask().getRoamDistance() * this.capability.getActiveTask()
                     .getRoamDistance();
             maxDist = Math.max(maxDist, 0.75);
-            maxDist = Math.max(maxDist, this.entity.getWidth());
+            maxDist = Math.max(maxDist, this.entity.getBbWidth());
             this.capability.getActiveTask().continueTask(this.entity);
-            if (this.entity.getPosition().distanceSq(this.capability.getActiveTask().getPos()) < maxDist)
+            if (this.entity.blockPosition().distSqr(this.capability.getActiveTask().getPos()) < maxDist)
                 this.capability.setState(GuardState.COOLDOWN);
         }
     }

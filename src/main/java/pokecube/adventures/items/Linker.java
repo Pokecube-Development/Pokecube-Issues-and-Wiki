@@ -63,22 +63,22 @@ public class Linker extends Item
             if (pos == null || user.isCrouching())
             {
                 this.linker.getOrCreateTag().remove("thutcore:pos");
-                if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
-                        "item.pokecube_adventures.linker.unset"), Util.DUMMY_UUID);
+                if (!user.getCommandSenderWorld().isClientSide) user.sendMessage(new TranslationTextComponent(
+                        "item.pokecube_adventures.linker.unset"), Util.NIL_UUID);
             }
             else
             {
                 this.linker.getOrCreateTag().put("thutcore:pos", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE,
                         pos).get().left().get());
-                if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
-                        "item.pokecube_adventures.linker.set"), Util.DUMMY_UUID);
-                if (user.getEntityWorld().isRemote) try
+                if (!user.getCommandSenderWorld().isClientSide) user.sendMessage(new TranslationTextComponent(
+                        "item.pokecube_adventures.linker.set"), Util.NIL_UUID);
+                if (user.getCommandSenderWorld().isClientSide) try
                 {
-                    final String loc = String.format("%d %d %d", pos.getPos().getX(), pos.getPos().getY(), pos.getPos()
+                    final String loc = String.format("%d %d %d", pos.pos().getX(), pos.pos().getY(), pos.pos()
                             .getZ());
-                    Minecraft.getInstance().keyboardListener.setClipboardString(loc);
+                    Minecraft.getInstance().keyboardHandler.setClipboard(loc);
                     user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.copied"),
-                            Util.DUMMY_UUID);
+                            Util.NIL_UUID);
                 }
                 catch (final Exception e)
                 {
@@ -105,24 +105,24 @@ public class Linker extends Item
         if (!test_stack.isPresent()) return false;
         final ILinkStorage storage = test_stack.orElse(null);
         final GlobalPos pos = storage.getLinkedPos(playerIn);
-        if (ai != null && pos != null && pos.getDimension() == target.getEntityWorld().getDimensionKey())
+        if (ai != null && pos != null && pos.dimension() == target.getCommandSenderWorld().dimension())
         {
             final IOwnable ownable = OwnableCaps.getOwnable(target);
             boolean valid = false;
-            if (ownable != null && ownable.getOwnerId() != null) valid = playerIn.getUniqueID().equals(ownable
+            if (ownable != null && ownable.getOwnerId() != null) valid = playerIn.getUUID().equals(ownable
                     .getOwnerId()) && PermissionAPI.hasPermission(playerIn, Linker.PERMLINKPET);
             else if (TrainerCaps.getHasPokemobs(target) != null) valid = PermissionAPI.hasPermission(playerIn,
                     Linker.PERMLINKTRAINER);
             if (valid)
             {
-                final BlockPos bpos = pos.getPos().up();
-                ai.getPrimaryTask().setPos(pos.getPos().up());
+                final BlockPos bpos = pos.pos().above();
+                ai.getPrimaryTask().setPos(pos.pos().above());
                 playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob", target
-                        .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), Util.DUMMY_UUID);
+                        .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), Util.NIL_UUID);
                 return true;
             }
             else playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob.fail"),
-                    Util.DUMMY_UUID);
+                    Util.NIL_UUID);
         }
         return false;
     }

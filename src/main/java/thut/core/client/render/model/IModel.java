@@ -8,8 +8,8 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.vector.Quaternion;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.animation.Animation;
@@ -85,7 +85,7 @@ public interface IModel
     default void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
-        mat.rotate(new Quaternion(90, 0, 180, true));
+        mat.mulPose(new Quaternion(90, 0, 180, true));
         mat.translate(0, 0, dy - 1.5f);
     }
 

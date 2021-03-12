@@ -23,15 +23,15 @@ public class Aftermath extends Ability
 
         if (mob.getEntity().getHealth() <= 0)
         {
-            final Explosion boom = new Explosion(move.attacked.getEntityWorld(), move.attacked, move.attacked.getPosX(),
-                    move.attacked.getPosY(), move.attacked.getPosZ(), 0, false, Mode.BREAK);
-            final ExplosionEvent evt = new ExplosionEvent.Start(move.attacked.getEntityWorld(), boom);
+            final Explosion boom = new Explosion(move.attacked.getCommandSenderWorld(), move.attacked, move.attacked.getX(),
+                    move.attacked.getY(), move.attacked.getZ(), 0, false, Mode.BREAK);
+            final ExplosionEvent evt = new ExplosionEvent.Start(move.attacked.getCommandSenderWorld(), boom);
             MinecraftForge.EVENT_BUS.post(evt);
             if (!evt.isCanceled())
             {
                 final LivingEntity attacker = move.attacker.getEntity();
                 final float hp = attacker.getHealth();
-                attacker.attackEntityFrom(DamageSource.MAGIC, hp / 4);
+                attacker.hurt(DamageSource.MAGIC, hp / 4);
             }
         }
     }

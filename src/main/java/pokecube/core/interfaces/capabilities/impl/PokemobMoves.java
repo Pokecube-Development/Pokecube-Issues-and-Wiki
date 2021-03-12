@@ -75,10 +75,10 @@ public abstract class PokemobMoves extends PokemobStats
                 final MobEntity t = (MobEntity) target;
                 if (BrainUtils.getAttackTarget(t) != this.getEntity()) BrainUtils.initiateCombat(t, this.getEntity());
             }
-            if (target instanceof LivingEntity) if (((LivingEntity) target).getRevengeTarget() != this.getEntity())
+            if (target instanceof LivingEntity) if (((LivingEntity) target).getLastHurtByMob() != this.getEntity())
             {
-                ((LivingEntity) target).setRevengeTarget(this.getEntity());
-                this.getEntity().setRevengeTarget((LivingEntity) target);
+                ((LivingEntity) target).setLastHurtByMob(this.getEntity());
+                this.getEntity().setLastHurtByMob((LivingEntity) target);
             }
         }
         final int statusChange = this.getChanges();
@@ -146,9 +146,9 @@ public abstract class PokemobMoves extends PokemobStats
     {
         final int id = this.dataSync().get(this.params.ACTIVEMOVEID);
         if (id == -1) return null;
-        if (this.activeMove == null || this.activeMove.getEntityId() != id)
+        if (this.activeMove == null || this.activeMove.getId() != id)
         {
-            final Entity move = this.getEntity().getEntityWorld().getEntityByID(id);
+            final Entity move = this.getEntity().getCommandSenderWorld().getEntity(id);
             if (move instanceof EntityMoveUse) this.activeMove = (EntityMoveUse) move;
         }
         return this.activeMove;
@@ -245,8 +245,8 @@ public abstract class PokemobMoves extends PokemobStats
         final int id = this.dataSync().get(this.params.TRANSFORMEDTODW);
         if (id == -1) return null;
         LivingEntity to = this.getMoveStats().transformedTo;
-        if (to != null && id == to.getEntityId()) return to;
-        final Entity mob = this.getEntity().getEntityWorld().getEntityByID(id);
+        if (to != null && id == to.getId()) return to;
+        final Entity mob = this.getEntity().getCommandSenderWorld().getEntity(id);
         if (!(mob instanceof LivingEntity)) return null;
         to = (LivingEntity) mob;
         this.setTransformedTo(to);
@@ -268,7 +268,7 @@ public abstract class PokemobMoves extends PokemobStats
     public void setActiveMove(final EntityMoveUse move)
     {
         this.activeMove = move;
-        final int id = move == null ? -1 : move.getEntityId();
+        final int id = move == null ? -1 : move.getId();
         this.dataSync().set(this.params.ACTIVEMOVEID, id);
     }
 
@@ -294,7 +294,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public void setMoveIndex(final int moveIndex)
     {
-        if (!this.getEntity().isServerWorld())
+        if (!this.getEntity().isEffectiveAi())
         {
             // Do nothing, packet should be handled by gui handler, not us.
         }
@@ -372,7 +372,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public void setTransformedTo(final LivingEntity to)
     {
-        final int id = to == null ? -1 : to.getEntityId();
+        final int id = to == null ? -1 : to.getId();
         PokedexEntry newEntry = this.getPokedexEntry();
         if (id != -1)
         {

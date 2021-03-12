@@ -119,13 +119,13 @@ public class ClientSetupHandler
                 "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove1 = new KeyBinding("key.pokemob.move.1",
-                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+                InputMappings.UNKNOWN.getValue(), "Pokecube"));
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove2 = new KeyBinding("key.pokemob.move.2",
-                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+                InputMappings.UNKNOWN.getValue(), "Pokecube"));
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove3 = new KeyBinding("key.pokemob.move.3",
-                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+                InputMappings.UNKNOWN.getValue(), "Pokecube"));
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove4 = new KeyBinding("key.pokemob.move.4",
-                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+                InputMappings.UNKNOWN.getValue(), "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobUp = new KeyBinding("key.pokemob.up",
                 GLFW.GLFW_KEY_SPACE, "Pokecube"));
@@ -138,13 +138,13 @@ public class ClientSetupHandler
                 GLFW.GLFW_KEY_RIGHT_BRACKET, "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientSetupHandler.arrangeGui = new KeyBinding("key.pokemob.arrangegui",
-                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+                InputMappings.UNKNOWN.getValue(), "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientSetupHandler.animateGui = new KeyBinding("key.pokemob.animategui",
-                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+                InputMappings.UNKNOWN.getValue(), "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientSetupHandler.gzmove = new KeyBinding("key.pokemob.gzmove",
-                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+                InputMappings.UNKNOWN.getValue(), "Pokecube"));
 
         // Forward this to PCEdit mod:
         NBTEdit.setupClient(event);
@@ -166,11 +166,11 @@ public class ClientSetupHandler
             return new GuiPokemob(c, i);
         };
 
-        ScreenManager.registerFactory(ContainerPokemob.TYPE, factory);
-        ScreenManager.registerFactory(HealerContainer.TYPE, Healer<HealerContainer>::new);
-        ScreenManager.registerFactory(PCContainer.TYPE, PC<PCContainer>::new);
-        ScreenManager.registerFactory(TradeContainer.TYPE, Trade<TradeContainer>::new);
-        ScreenManager.registerFactory(TMContainer.TYPE, TMs<TMContainer>::new);
+        ScreenManager.register(ContainerPokemob.TYPE, factory);
+        ScreenManager.register(HealerContainer.TYPE, Healer<HealerContainer>::new);
+        ScreenManager.register(PCContainer.TYPE, PC<PCContainer>::new);
+        ScreenManager.register(TradeContainer.TYPE, Trade<TradeContainer>::new);
+        ScreenManager.register(TMContainer.TYPE, TMs<TMContainer>::new);
 
         // Register mob rendering
         PokecubeCore.LOGGER.debug("Init Mob Renderers");
@@ -191,15 +191,15 @@ public class ClientSetupHandler
 
         // Register the render layers
         for (final Block crop : BerryManager.berryCrops.values())
-            RenderTypeLookup.setRenderLayer(crop, RenderType.getCutoutMipped());
+            RenderTypeLookup.setRenderLayer(crop, RenderType.cutoutMipped());
         for (final Block fruit : BerryManager.berryFruits.values())
-            RenderTypeLookup.setRenderLayer(fruit, RenderType.getCutoutMipped());
+            RenderTypeLookup.setRenderLayer(fruit, RenderType.cutoutMipped());
         for (final Block leaf : ItemGenerator.leaves.values())
-            RenderTypeLookup.setRenderLayer(leaf, RenderType.getCutoutMipped());
+            RenderTypeLookup.setRenderLayer(leaf, RenderType.cutoutMipped());
         for (final Block trapdoor : ItemGenerator.trapdoors.values())
-            RenderTypeLookup.setRenderLayer(trapdoor, RenderType.getCutoutMipped());
+            RenderTypeLookup.setRenderLayer(trapdoor, RenderType.cutoutMipped());
         for (final Block door : ItemGenerator.doors.values())
-            RenderTypeLookup.setRenderLayer(door, RenderType.getCutoutMipped());
+            RenderTypeLookup.setRenderLayer(door, RenderType.cutoutMipped());
         RenderTypeLookup.setRenderLayer(PokecubeItems.NESTBLOCK.get(), RenderType.getCutoutMipped());
 
         // Register config gui

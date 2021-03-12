@@ -26,7 +26,7 @@ public class Guard extends AbstractWorkTask
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
-        Guard.mems.put(MemoryModuleType.VISIBLE_MOBS, MemoryModuleStatus.VALUE_PRESENT);
+        Guard.mems.put(MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleStatus.VALUE_PRESENT);
         Guard.mems.put(AntTasks.GOING_HOME, MemoryModuleStatus.VALUE_ABSENT);
     }
 
@@ -44,7 +44,7 @@ public class Guard extends AbstractWorkTask
     {
         super(pokemob, Guard.mems, j -> j == AntJob.GUARD);
         Predicate<Entity> valid = input -> AITools.shouldBeAbleToAgro(this.entity, input);
-        valid = valid.and(e -> !this.nest.hab.ants.contains(e.getUniqueID()));
+        valid = valid.and(e -> !this.nest.hab.ants.contains(e.getUUID()));
         this.validGuardTarget = valid;
     }
 
@@ -73,7 +73,7 @@ public class Guard extends AbstractWorkTask
         if (!PokecubeCore.getConfig().guardModeEnabled) return false;
 
         // TODO find out why this happens, the needed memories should have dealt with it...
-        if (!this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS)) return false;
+        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return false;
 
         // Select either owner or home position as the centre of the check,
         // this results in it guarding either its home or its owner. Home is
@@ -82,11 +82,11 @@ public class Guard extends AbstractWorkTask
         centre.set(this.pokemob.getOwner());
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
         // Only allow valid guard targets.
         for (final LivingEntity o : pokemobs)
             if (this.validGuardTarget.test(o)) ret.add(o);
-        ret.removeIf(e -> e.getDistance(this.entity) > Guard.ANTGUARDDIST);
+        ret.removeIf(e -> e.distanceTo(this.entity) > Guard.ANTGUARDDIST);
         if (ret.isEmpty()) return false;
 
         // This is already sorted by distance!

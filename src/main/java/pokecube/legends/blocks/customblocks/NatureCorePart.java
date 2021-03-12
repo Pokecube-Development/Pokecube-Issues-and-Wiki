@@ -14,7 +14,7 @@ public enum NatureCorePart implements IStringSerializable
     }
 
     @Override
-    public String getString()
+    public String getSerializedName()
     {
         return this.name;
     }

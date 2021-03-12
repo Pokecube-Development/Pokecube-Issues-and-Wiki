@@ -40,8 +40,8 @@ public class NetworkTools
     public static ItemStack readItemStack(ByteBuf dataIn)
     {
         final PacketBuffer buf = new PacketBuffer(dataIn);
-        final CompoundNBT nbt = buf.readCompoundTag();
-        final ItemStack stack = ItemStack.read(nbt);
+        final CompoundNBT nbt = buf.readNbt();
+        final ItemStack stack = ItemStack.of(nbt);
         stack.setCount(buf.readInt());
         return stack;
     }
@@ -49,7 +49,7 @@ public class NetworkTools
     public static CompoundNBT readNBT(ByteBuf dataIn)
     {
         final PacketBuffer buf = new PacketBuffer(dataIn);
-        return buf.readCompoundTag();
+        return buf.readNbt();
     }
 
     public static BlockPos readPos(ByteBuf dataIn)
@@ -105,10 +105,10 @@ public class NetworkTools
     {
         final PacketBuffer buf = new PacketBuffer(dataOut);
         final CompoundNBT nbt = new CompoundNBT();
-        itemStack.write(nbt);
+        itemStack.save(nbt);
         try
         {
-            buf.writeCompoundTag(nbt);
+            buf.writeNbt(nbt);
             buf.writeInt(itemStack.getCount());
         }
         catch (final Exception e)
@@ -122,7 +122,7 @@ public class NetworkTools
         final PacketBuffer buf = new PacketBuffer(dataOut);
         try
         {
-            buf.writeCompoundTag(nbt);
+            buf.writeNbt(nbt);
         }
         catch (final Exception e)
         {

@@ -27,13 +27,13 @@ public class PacketPokemobGui extends Packet
     public static void sendOpenPacket(final Entity target, final ServerPlayerEntity player)
     {
         final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
-        buffer.writeInt(target.getEntityId());
+        buffer.writeInt(target.getId());
         buffer.writeByte(PacketPokemobGui.MAIN);
         final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
                 e) -> new ContainerPokemob(i, p, buffer), target.getDisplayName());
         NetworkHooks.openGui(player, provider, buf ->
         {
-            buf.writeInt(target.getEntityId());
+            buf.writeInt(target.getId());
             buf.writeByte(PacketPokemobGui.MAIN);
         });
     }
@@ -67,9 +67,9 @@ public class PacketPokemobGui extends Packet
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final Entity entity = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.id, true);
+        final Entity entity = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.id, true);
         final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
-        buffer.writeInt(entity.getEntityId());
+        buffer.writeInt(entity.getId());
         buffer.writeByte(this.message);
         final byte mode = this.message;
         SimpleNamedContainerProvider provider;
@@ -84,7 +84,7 @@ public class PacketPokemobGui extends Packet
             PacketSyncRoutes.sendUpdateClientPacket(entity, player, true);
             NetworkHooks.openGui(player, provider, buf ->
             {
-                buf.writeInt(entity.getEntityId());
+                buf.writeInt(entity.getId());
                 buf.writeByte(mode);
             });
             return;
@@ -93,14 +93,14 @@ public class PacketPokemobGui extends Packet
             for (final IAIRunnable run : pokemob.getTasks())
                 if (run instanceof StoreTask) ai = (StoreTask) run;
             final StoreTask toSend = ai;
-            buffer.writeCompoundTag(toSend.serializeNBT());
+            buffer.writeNbt(toSend.serializeNBT());
             provider = new SimpleNamedContainerProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
                     .getDisplayName());
             NetworkHooks.openGui(player, provider, buf ->
             {
-                buf.writeInt(entity.getEntityId());
+                buf.writeInt(entity.getId());
                 buf.writeByte(mode);
-                buf.writeCompoundTag(toSend.serializeNBT());
+                buf.writeNbt(toSend.serializeNBT());
             });
             return;
         }
@@ -108,7 +108,7 @@ public class PacketPokemobGui extends Packet
                 .getDisplayName());
         NetworkHooks.openGui(player, provider, buf ->
         {
-            buf.writeInt(entity.getEntityId());
+            buf.writeInt(entity.getId());
             buf.writeByte(mode);
         });
     }

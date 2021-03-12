@@ -26,22 +26,22 @@ public class ActionSecretPower implements IMoveAction
         if (!(attacker.getOwner() instanceof ServerPlayerEntity)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
-        if (time + 20 * 3 > attacker.getEntity().getEntityWorld().getGameTime()) return false;
+        if (time + 20 * 3 > attacker.getEntity().getCommandSenderWorld().getGameTime()) return false;
         final ServerPlayerEntity owner = (ServerPlayerEntity) attacker.getOwner();
-        final BlockState state = location.getBlockState(owner.getEntityWorld());
+        final BlockState state = location.getBlockState(owner.getCommandSenderWorld());
         if (!(PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isWood(state)))
         {
             final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.wrongloc");
-            owner.sendMessage(message, Util.DUMMY_UUID);
+            owner.sendMessage(message, Util.NIL_UUID);
             return false;
         }
-        SecretBase.pendingBaseLocations.put(owner.getUniqueID(), GlobalPos.getPosition(owner.getEntityWorld()
-                .getDimensionKey(), location.getPos()));
+        SecretBase.pendingBaseLocations.put(owner.getUUID(), GlobalPos.of(owner.getCommandSenderWorld()
+                .dimension(), location.getPos()));
         final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirm", location
                 .set(location.getPos()));
-        message.setStyle(message.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pokebase confirm " + owner
-                .getPosX() + " " + owner.getPosY() + " " + owner.getPosZ())));
-        owner.sendMessage(message, Util.DUMMY_UUID);
+        message.setStyle(message.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pokebase confirm " + owner
+                .getX() + " " + owner.getY() + " " + owner.getZ())));
+        owner.sendMessage(message, Util.NIL_UUID);
         return true;
     }
 

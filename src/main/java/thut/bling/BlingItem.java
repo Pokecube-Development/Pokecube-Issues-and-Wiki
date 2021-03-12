@@ -72,7 +72,7 @@ public class BlingItem extends Item implements IWearable
 
     public BlingItem(final String name, final EnumWearable slot)
     {
-        super(new Properties().group(ThutCore.THUTITEMS).maxStackSize(1));
+        super(new Properties().tab(ThutCore.THUTITEMS).stacksTo(1));
         this.name = name;
         this.slot = slot;
         BlingItem.defaults.put(this, slot);
@@ -82,21 +82,21 @@ public class BlingItem extends Item implements IWearable
      * description */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(final ItemStack stack, @Nullable final World playerIn, final List<ITextComponent> list,
+    public void appendHoverText(final ItemStack stack, @Nullable final World playerIn, final List<ITextComponent> list,
             final ITooltipFlag advanced)
     {
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
         {
             final int damage = stack.getTag().getInt("dyeColour");
             final DyeColor colour = DyeColor.byId(damage);
-            list.add(new TranslationTextComponent(colour.getTranslationKey()));
+            list.add(new TranslationTextComponent(colour.getName()));
         }
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
-            final ItemStack gem = ItemStack.read(stack.getTag().getCompound("gemTag"));
+            final ItemStack gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
             if (gem != null) try
             {
-                list.add(gem.getDisplayName());
+                list.add(gem.getHoverName());
             }
             catch (final Exception e)
             {
@@ -106,27 +106,27 @@ public class BlingItem extends Item implements IWearable
     }
 
     @Override
-    public ActionResultType onItemUse(final ItemUseContext context)
+    public ActionResultType useOn(final ItemUseContext context)
     {
         if (this.slot == EnumWearable.BACK)
         {
-            final World worldIn = context.getWorld();
+            final World worldIn = context.getLevel();
             final PlayerEntity playerIn = context.getPlayer();
-            if (!worldIn.isRemote) PacketBag.sendOpenPacket(playerIn, context.getItem());
+            if (!worldIn.isClientSide) PacketBag.sendOpenPacket(playerIn, context.getItemInHand());
             return ActionResultType.SUCCESS;
         }
-        return super.onItemUse(context);
+        return super.useOn(context);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(final World worldIn, final PlayerEntity playerIn, final Hand hand)
+    public ActionResult<ItemStack> use(final World worldIn, final PlayerEntity playerIn, final Hand hand)
     {
         if (this.slot == EnumWearable.BACK)
         {
-            if (!worldIn.isRemote) PacketBag.sendOpenPacket(playerIn, playerIn.getHeldItem(hand));
-            return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
+            if (!worldIn.isClientSide) PacketBag.sendOpenPacket(playerIn, playerIn.getItemInHand(hand));
+            return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getItemInHand(hand));
         }
-        return super.onItemRightClick(worldIn, playerIn, hand);
+        return super.use(worldIn, playerIn, hand);
     }
 
     @Override

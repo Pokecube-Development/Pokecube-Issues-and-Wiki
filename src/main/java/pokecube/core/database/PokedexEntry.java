@@ -153,12 +153,12 @@ public class PokedexEntry
             if (this.gender == 1) comps.add(new TranslationTextComponent("pokemob.description.evolve.male"));
             if (this.gender == 2) comps.add(new TranslationTextComponent("pokemob.description.evolve.female"));
             if (!this.item.isEmpty()) comps.add(new TranslationTextComponent("pokemob.description.evolve.item",
-                    this.item.getDisplayName().getString()));
+                    this.item.getHoverName().getString()));
             else if (this.preset != null)
             {
                 final ItemStack stack = PokecubeItems.getStack(this.preset);
                 if (!stack.isEmpty()) comps.add(new TranslationTextComponent("pokemob.description.evolve.item", stack
-                        .getDisplayName().getString()));
+                        .getHoverName().getString()));
             }
             if (this.happy) comps.add(new TranslationTextComponent("pokemob.description.evolve.happy"));
             if (this.dawnOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.dawn"));
@@ -182,29 +182,29 @@ public class PokedexEntry
                 this.matcher.parse();
                 final List<String> biomeNames = Lists.newArrayList();
                 for (final BiomeType t : this.matcher._validSubBiomes)
-                    biomeNames.add(I18n.format(t.readableName));
+                    biomeNames.add(I18n.get(t.readableName));
                 for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
                 {
                     final boolean valid = this.matcher.getValidBiomes().contains(test);
                     if (valid)
                     {
-                        final String key = String.format("biome.%s.%s", test.getLocation().getNamespace(), test
-                                .getLocation().getPath());
-                        biomeNames.add(I18n.format(key));
+                        final String key = String.format("biome.%s.%s", test.location().getNamespace(), test
+                                .location().getPath());
+                        biomeNames.add(I18n.get(key));
                     }
                 }
                 for (final SpawnBiomeMatcher matcher : this.matcher.children)
                 {
                     for (final BiomeType t : matcher._validSubBiomes)
-                        biomeNames.add(I18n.format(t.readableName));
+                        biomeNames.add(I18n.get(t.readableName));
                     for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
                     {
                         final boolean valid = matcher.getValidBiomes().contains(test);
                         if (valid)
                         {
-                            final String key = String.format("biome.%s.%s", test.getLocation().getNamespace(), test
-                                    .getLocation().getPath());
-                            biomeNames.add(I18n.format(key));
+                            final String key = String.format("biome.%s.%s", test.location().getNamespace(), test
+                                    .location().getPath());
+                            biomeNames.add(I18n.get(key));
                         }
                     }
                 }
@@ -236,7 +236,7 @@ public class PokedexEntry
                     .getTranslatedName(), nex.getTranslatedName());
             final List<IFormattableTextComponent> list = this.getEvoClauses();
             for (final IFormattableTextComponent item : list)
-                subEvo.appendString("\n").append(item);
+                subEvo.append("\n").append(item);
             return subEvo;
         }
 
@@ -246,14 +246,14 @@ public class PokedexEntry
             {
                 final LivingEntity entity = mob.getEntity();
                 final Vector3 loc = Vector3.getNewVector().set(entity);
-                final World world = entity.getEntityWorld();
+                final World world = entity.getCommandSenderWorld();
                 if (!world.isAreaLoaded(loc.getPos(), 0))
                 {
                     PokecubeCore.LOGGER.error("Error checking for evolution, this area is not loaded!");
                     PokecubeCore.LOGGER.error("For: {}, at: {},{},{}", entity, loc.x, loc.y, loc.z);
                     return false;
                 }
-                final SpawnCheck check = new SpawnCheck(loc, entity.getEntityWorld());
+                final SpawnCheck check = new SpawnCheck(loc, entity.getCommandSenderWorld());
                 return this.matcher.matches(check);
             }
             return true;
@@ -325,7 +325,7 @@ public class PokedexEntry
             }
             if (this.rainOnly)
             {
-                final World world = mob.getEntity().getEntityWorld();
+                final World world = mob.getEntity().getCommandSenderWorld();
                 final boolean rain = world.isRaining();
                 if (!rain)
                 {
@@ -368,7 +368,7 @@ public class PokedexEntry
             if (!rightTime)
             {
                 // TODO better way to choose current time.
-                final double time = mob.getEntity().getEntityWorld().getDayTime() % 24000 / 24000d;
+                final double time = mob.getEntity().getCommandSenderWorld().getDayTime() % 24000 / 24000d;
                 rightTime = this.dayOnly ? PokedexEntry.day.contains(time)
                         : this.nightOnly ? PokedexEntry.night.contains(time)
                                 : this.duskOnly ? PokedexEntry.dusk.contains(time) : PokedexEntry.dawn.contains(time);
@@ -544,18 +544,18 @@ public class PokedexEntry
         public boolean applyInteraction(final PlayerEntity player, final IPokemob pokemob, final boolean consumeInput)
         {
             final MobEntity entity = pokemob.getEntity();
-            final ItemStack held = player.getHeldItemMainhand();
+            final ItemStack held = player.getMainHandItem();
             final CompoundNBT data = entity.getPersistentData();
             final Interaction action = this.getFor(held);
             ItemStack result = null;
             if (action.lootTable != null)
             {
-                final LootTable loottable = pokemob.getEntity().getEntityWorld().getServer().getLootTableManager()
-                        .getLootTableFromLocation(action.lootTable);
+                final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables()
+                        .get(action.lootTable);
                 final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) pokemob
-                        .getEntity().getEntityWorld()).withParameter(LootParameters.THIS_ENTITY, pokemob.getEntity());
-                for (final ItemStack itemstack : loottable.generate(lootcontext$builder.build(loottable
-                        .getParameterSet())))
+                        .getEntity().getCommandSenderWorld()).withParameter(LootParameters.THIS_ENTITY, pokemob.getEntity());
+                for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
+                        .getParamSet())))
                     if (!itemstack.isEmpty())
                     {
                         result = itemstack;
@@ -566,18 +566,18 @@ public class PokedexEntry
             {
 
                 final List<ItemStack> results = action.stacks;
-                final int index = player.getRNG().nextInt(results.size());
+                final int index = player.getRandom().nextInt(results.size());
                 result = results.get(index).copy();
             }
             if (result.isEmpty()) return false;
             final long dt = (long) ((action.cooldown + new Random().nextInt(action.variance)) * PokecubeCore
                     .getConfig().interactDelayScale);
-            final long timer = dt + entity.getEntityWorld().getGameTime();
+            final long timer = dt + entity.getCommandSenderWorld().getGameTime();
             data.putLong("lastInteract", timer);
             pokemob.applyHunger((int) (action.hunger * PokecubeCore.getConfig().interactHungerScale));
             if (consumeInput) held.shrink(1);
-            if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem, result);
-            else if (!player.inventory.addItemStackToInventory(result)) player.dropItem(result, false);
+            if (held.isEmpty()) player.inventory.setItem(player.inventory.selected, result);
+            else if (!player.inventory.add(result)) player.drop(result, false);
             if (player != pokemob.getOwner()) BrainUtils.initiateCombat(entity, player);
             return true;
         }
@@ -585,7 +585,7 @@ public class PokedexEntry
         boolean interact(final PlayerEntity player, final IPokemob pokemob, final boolean doInteract)
         {
             final MobEntity entity = pokemob.getEntity();
-            final ItemStack held = player.getHeldItemMainhand();
+            final ItemStack held = player.getMainHandItem();
             final Interaction action = this.getFor(held);
             if (action == null || action.stacks.isEmpty())
             {
@@ -599,7 +599,7 @@ public class PokedexEntry
             if (data.contains("lastInteract"))
             {
                 final long time = data.getLong("lastInteract");
-                final long diff = entity.getEntityWorld().getGameTime() - time;
+                final long diff = entity.getCommandSenderWorld().getGameTime() - time;
                 if (diff < 0) return false;
             }
             if (!action.male && pokemob.getSexe() == IPokemob.MALE) return false;
@@ -1377,7 +1377,7 @@ public class PokedexEntry
         {
 
             boolean itemCheck = d.item == ItemStack.EMPTY;
-            if (!itemCheck && stack != ItemStack.EMPTY) itemCheck = stack.isItemEqual(d.item);
+            if (!itemCheck && stack != ItemStack.EMPTY) itemCheck = stack.sameItem(d.item);
             if (d.level >= 0 && level >= d.level && itemCheck) return true;
         }
         return false;
@@ -1545,7 +1545,7 @@ public class PokedexEntry
         {
             final PokedexEntry entry = this;
             final IFormattableTextComponent typeString = PokeType.getTranslatedName(entry.getType1());
-            if (entry.getType2() != PokeType.unknown) typeString.appendString("/").append(PokeType.getTranslatedName(
+            if (entry.getType2() != PokeType.unknown) typeString.append("/").append(PokeType.getTranslatedName(
                     entry.getType2()));
             final IFormattableTextComponent typeDesc = new TranslationTextComponent("pokemob.description.type", entry
                     .getTranslatedName(), typeString);
@@ -1554,12 +1554,12 @@ public class PokedexEntry
             {
                 if (d.evolution == null) continue;
                 if (evoString == null) evoString = d.getEvoString();
-                else evoString = evoString.appendString("\n").append(d.getEvoString());
-                evoString.appendString("\n");
+                else evoString = evoString.append("\n").append(d.getEvoString());
+                evoString.append("\n");
             }
             IFormattableTextComponent descString = typeDesc;
-            if (evoString != null) descString = descString.appendString("\n").append(evoString);
-            if (entry._evolvesFrom != null) descString = descString.appendString("\n").append(
+            if (evoString != null) descString = descString.append("\n").append(evoString);
+            if (entry._evolvesFrom != null) descString = descString.append("\n").append(
                     new TranslationTextComponent("pokemob.description.evolve.from", entry.getTranslatedName(),
                             entry._evolvesFrom.getTranslatedName()));
             this.description = descString;
@@ -1707,15 +1707,15 @@ public class PokedexEntry
 
     public ItemStack getRandomHeldItem(final MobEntity mob)
     {
-        if (mob.getEntityWorld().isRemote) return ItemStack.EMPTY;
+        if (mob.getCommandSenderWorld().isClientSide) return ItemStack.EMPTY;
         if (this.heldTable != null) try
         {
-            final LootTable loottable = mob.getEntityWorld().getServer().getLootTableManager().getLootTableFromLocation(
+            final LootTable loottable = mob.getCommandSenderWorld().getServer().getLootTables().get(
                     this.heldTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntityWorld())
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getCommandSenderWorld())
                     .withParameter(LootParameters.THIS_ENTITY, mob).withParameter(LootParameters.DAMAGE_SOURCE,
-                            DamageSource.GENERIC).withParameter(LootParameters.field_237457_g_, mob.getPositionVec());
-            for (final ItemStack itemstack : loottable.generate(lootcontext$builder.build(loottable.getParameterSet())))
+                            DamageSource.GENERIC).withParameter(LootParameters.ORIGIN, mob.position());
+            for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
                 if (!itemstack.isEmpty()) return itemstack;
         }
         catch (final Exception e)
@@ -1807,9 +1807,9 @@ public class PokedexEntry
         if (this.nameComp == null)
         {
             String key = this.getUnlocalizedName();
-            if (!(this.getEntityType() instanceof PokemobType<?>)) key = this.getEntityType().getTranslationKey();
+            if (!(this.getEntityType() instanceof PokemobType<?>)) key = this.getEntityType().getDescriptionId();
             this.nameComp = new TranslationTextComponent(key);
-            this.nameComp.setStyle(this.nameComp.getStyle().setClickEvent(new ClickEvent(
+            this.nameComp.setStyle(this.nameComp.getStyle().withClickEvent(new ClickEvent(
                     net.minecraft.util.text.event.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
         }
         return this.nameComp;

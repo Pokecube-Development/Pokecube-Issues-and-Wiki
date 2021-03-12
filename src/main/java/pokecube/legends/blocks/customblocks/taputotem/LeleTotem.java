@@ -22,7 +22,7 @@ public class LeleTotem extends TapuLeleCore{
 	}
 	
 	@Override
-	public ActionResultType onBlockActivated(BlockState stack, World world, BlockPos pos, PlayerEntity entity, Hand hand,
+	public ActionResultType use(BlockState stack, World world, BlockPos pos, PlayerEntity entity, Hand hand,
 			BlockRayTraceResult hit) {
 		{
 			addEffectTotem(entity);
@@ -32,12 +32,12 @@ public class LeleTotem extends TapuLeleCore{
 	
 	public static void addEffectTotem(PlayerEntity entity) 
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getHeldItemMainhand())) 
+		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem())) 
 		{
-			entity.addPotionEffect(new EffectInstance(Effects.HEALTH_BOOST, 400, 1));
-			ItemStack _stktoremove = ((entity instanceof LivingEntity) ? ((LivingEntity) entity).getHeldItemMainhand() : ItemStack.EMPTY);
-			entity.inventory.func_234564_a_(p -> _stktoremove.getItem() == p.getItem(), 1,
-					entity.container.func_234641_j_());
+			entity.addEffect(new EffectInstance(Effects.HEALTH_BOOST, 400, 1));
+			ItemStack _stktoremove = ((entity instanceof LivingEntity) ? ((LivingEntity) entity).getMainHandItem() : ItemStack.EMPTY);
+			entity.inventory.clearOrCountMatchingItems(p -> _stktoremove.getItem() == p.getItem(), 1,
+					entity.inventoryMenu.getCraftSlots());
 		}
 	}
 }

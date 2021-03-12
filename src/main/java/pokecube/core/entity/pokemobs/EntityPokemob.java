@@ -81,7 +81,7 @@ public class EntityPokemob extends PokemobRidable
 {
     static ResourceLocation WALL_CLIMBERS = new ResourceLocation(PokecubeMod.ID, "wall_climbing");
 
-    private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityPokemob.class,
+    private static final DataParameter<Byte> CLIMBING = EntityDataManager.defineId(EntityPokemob.class,
             DataSerializers.BYTE);
 
     public EntityPokemob(final EntityType<? extends ShoulderRidingEntity> type, final World world)
@@ -90,20 +90,20 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    protected void registerData()
+    protected void defineSynchedData()
     {
-        super.registerData();
-        this.dataManager.register(EntityPokemob.CLIMBING, (byte) 0);
+        super.defineSynchedData();
+        this.entityData.define(EntityPokemob.CLIMBING, (byte) 0);
     }
 
     @Override
-    public boolean func_213439_d(final ServerPlayerEntity p_213439_1_)
+    public boolean setEntityOnShoulder(final ServerPlayerEntity p_213439_1_)
     {
         final CompoundNBT compoundnbt = new CompoundNBT();
-        compoundnbt.putString("id", this.getEntityString());
+        compoundnbt.putString("id", this.getEncodeId());
         compoundnbt.putInt("pokemob:uid", this.pokemobCap.getPokemonUID());
-        this.writeWithoutTypeId(compoundnbt);
-        if (p_213439_1_.addShoulderEntity(compoundnbt))
+        this.saveWithoutId(compoundnbt);
+        if (p_213439_1_.setEntityOnShoulder(compoundnbt))
         {
             this.remove(true);
             return true;
@@ -112,17 +112,17 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public AgeableEntity func_241840_a(final ServerWorld p_241840_1_, final AgeableEntity ageable)
+    public AgeableEntity getBreedOffspring(final ServerWorld p_241840_1_, final AgeableEntity ageable)
     {
         final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
         if (other == null) return null;
-        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getEntityWorld());
+        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getCommandSenderWorld());
         egg.setStackByParents(this, other);
         return egg;
     }
 
     @Override
-    public boolean isEntityInsideOpaqueBlock()
+    public boolean isInWall()
     {
         return false;
     }
@@ -135,25 +135,25 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public IPacket<?> createSpawnPacket()
+    public IPacket<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    public boolean onLivingFall(final float distance, final float damageMultiplier)
+    public boolean causeFallDamage(final float distance, final float damageMultiplier)
     {
         // TODO maybe do something here?
         // Vanilla plays sound and does damage, but only plays the sound if
         // damage occurred, maybe we should just play the sound instead?
-        return super.onLivingFall(distance, damageMultiplier);
+        return super.causeFallDamage(distance, damageMultiplier);
     }
 
     @Override
-    protected void onDeathUpdate()
+    protected void tickDeath()
     {
         ++this.deathTime;
-        if (!(this.getEntityWorld() instanceof ServerWorld)) return;
+        if (!(this.getCommandSenderWorld() instanceof ServerWorld)) return;
         final boolean isTamed = this.pokemobCap.getOwnerId() != null;
         boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn : PokecubeCore.getConfig().wildDeadDespawn;
         this.setNoGravity(false);
@@ -166,12 +166,12 @@ public class EntityPokemob extends PokemobRidable
             if (despawn) this.pokemobCap.onRecall(true);
             for (int k = 0; k < 20; ++k)
             {
-                final double d2 = this.rand.nextGaussian() * 0.02D;
-                final double d0 = this.rand.nextGaussian() * 0.02D;
-                final double d1 = this.rand.nextGaussian() * 0.02D;
-                this.world.addParticle(ParticleTypes.POOF, this.getPosX() + this.rand.nextFloat() * this.getWidth()
-                        * 2.0F - this.getWidth(), this.getPosY() + this.rand.nextFloat() * this.getHeight(), this
-                                .getPosZ() + this.rand.nextFloat() * this.getWidth() * 2.0F - this.getWidth(), d2, d0,
+                final double d2 = this.random.nextGaussian() * 0.02D;
+                final double d0 = this.random.nextGaussian() * 0.02D;
+                final double d1 = this.random.nextGaussian() * 0.02D;
+                this.level.addParticle(ParticleTypes.POOF, this.getX() + this.random.nextFloat() * this.getBbWidth()
+                        * 2.0F - this.getBbWidth(), this.getY() + this.random.nextFloat() * this.getBbHeight(), this
+                                .getZ() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(), d2, d0,
                         d1);
             }
         }
@@ -185,9 +185,9 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void onDeath(final DamageSource cause)
+    public void die(final DamageSource cause)
     {
-        super.onDeath(cause);
+        super.die(cause);
         this.pokemobCap.setCombatState(CombatStates.FAINTED, true);
     }
 
@@ -196,30 +196,30 @@ public class EntityPokemob extends PokemobRidable
     {
 
         // If we are ridden on ground, do similar stuff to horses.
-        if (this.isBeingRidden())
+        if (this.isVehicle())
         {
             final LogicMountedControl controller = this.pokemobCap.getController();
             if (!controller.hasInput())
             {
-                this.setMoveForward(0);
-                this.setMoveStrafing(0);
-                this.setMoveVertical(0);
+                this.setZza(0);
+                this.setXxa(0);
+                this.setYya(0);
                 this.jumpPower = 0.0f;
                 this.setJumping(false);
                 super.travel(dr);
-                final Vector3d motion = this.getMotion();
-                this.setMotion(motion.x * 0.5, motion.y, motion.z * 0.5);
+                final Vector3d motion = this.getDeltaMovement();
+                this.setDeltaMovement(motion.x * 0.5, motion.y, motion.z * 0.5);
                 return;
             }
             final LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
-            this.pokemobCap.setHeading(livingentity.rotationYaw);
-            this.prevRotationYaw = this.rotationYaw;
-            this.rotationPitch = livingentity.rotationPitch * 0.5F;
-            this.setRotation(this.rotationYaw, this.rotationPitch);
-            this.renderYawOffset = this.rotationYaw;
-            this.rotationYawHead = this.renderYawOffset;
-            float strafe = livingentity.moveStrafing * 0.5F;
-            float forwards = livingentity.moveForward;
+            this.pokemobCap.setHeading(livingentity.yRot);
+            this.yRotO = this.yRot;
+            this.xRot = livingentity.xRot * 0.5F;
+            this.setRot(this.yRot, this.xRot);
+            this.yBodyRot = this.yRot;
+            this.yHeadRot = this.yBodyRot;
+            float strafe = livingentity.xxa * 0.5F;
+            float forwards = livingentity.zza;
             if (forwards <= 0.0F) forwards *= 0.25F;
 
             if (!this.onGround && this.jumpPower == 0.0F)
@@ -227,56 +227,56 @@ public class EntityPokemob extends PokemobRidable
                 strafe = 0.0F;
                 forwards = 0.0F;
             }
-            if (this.jumpPower > 0.0F && !this.isJumping && this.onGround)
+            if (this.jumpPower > 0.0F && !this.jumping && this.onGround)
             {
                 final double jumpStrength = 1.7;
-                final double preBoostJump = jumpStrength * this.jumpPower * this.getJumpFactor();
+                final double preBoostJump = jumpStrength * this.jumpPower * this.getBlockJumpFactor();
                 double jumpAmount;
-                if (this.isPotionActive(Effects.JUMP_BOOST)) jumpAmount = preBoostJump + (this.getActivePotionEffect(
-                        Effects.JUMP_BOOST).getAmplifier() + 1) * 0.1F;
+                if (this.hasEffect(Effects.JUMP)) jumpAmount = preBoostJump + (this.getEffect(
+                        Effects.JUMP).getAmplifier() + 1) * 0.1F;
                 else jumpAmount = preBoostJump;
 
-                final Vector3d vector3d = this.getMotion();
-                this.setMotion(vector3d.x, jumpAmount, vector3d.z);
+                final Vector3d vector3d = this.getDeltaMovement();
+                this.setDeltaMovement(vector3d.x, jumpAmount, vector3d.z);
                 this.setJumping(true);
-                this.isAirBorne = true;
+                this.hasImpulse = true;
                 net.minecraftforge.common.ForgeHooks.onLivingJump(this);
                 if (forwards > 0.0F)
                 {
-                    final float sinYaw = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
-                    final float cosYaw = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
-                    this.setMotion(this.getMotion().add(-0.4F * sinYaw * this.jumpPower, 0.0D, 0.4F * cosYaw
+                    final float sinYaw = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
+                    final float cosYaw = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
+                    this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * sinYaw * this.jumpPower, 0.0D, 0.4F * cosYaw
                             * this.jumpPower));
                 }
                 this.jumpPower = 0.0F;
             }
-            this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
-            if (this.canPassengerSteer())
+            this.flyingSpeed = this.getSpeed() * 0.1F;
+            if (this.isControlledByLocalInstance())
             {
                 final double speed = controller.throttle;
                 final float speedFactor = (float) (1 + Math.sqrt(this.pokemobCap.getPokedexEntry().getStatVIT()) / 10F);
                 final Config config = PokecubeCore.getConfig();
                 final float moveSpeed = (float) (config.groundSpeedFactor * speed * speedFactor);
-                this.setAIMoveSpeed(moveSpeed);
+                this.setSpeed(moveSpeed);
                 super.travel(new Vector3d(strafe, dr.y, forwards));
             }
-            else if (livingentity instanceof PlayerEntity) this.setMotion(Vector3d.ZERO);
+            else if (livingentity instanceof PlayerEntity) this.setDeltaMovement(Vector3d.ZERO);
 
             if (this.onGround)
             {
                 this.jumpPower = 0.0F;
                 this.setJumping(false);
             }
-            this.func_233629_a_(this, false);
+            this.calculateEntityAnimation(this, false);
             return;
         }
-        this.jumpMovementFactor = 0.02f;
+        this.flyingSpeed = 0.02f;
         // Swimming mobs get their own treatment while swimming
-        if (this.isServerWorld() && this.isInWater() && this.pokemobCap.swims())
+        if (this.isEffectiveAi() && this.isInWater() && this.pokemobCap.swims())
         {
-            this.moveRelative(this.getAIMoveSpeed(), dr);
-            this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale(0.8D));
+            this.moveRelative(this.getSpeed(), dr);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.8D));
         }
         // Otherwise just act like vanilla
         else super.travel(dr);
@@ -284,7 +284,7 @@ public class EntityPokemob extends PokemobRidable
 
     @Override
     @Nullable
-    protected ResourceLocation getLootTable()
+    protected ResourceLocation getDefaultLootTable()
     {
         if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return null;
         if (this.getPersistentData().getBoolean(TagNames.NODROP)) return null;
@@ -299,14 +299,14 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
+    public ILivingEntityData finalizeSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
             final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this);
-        if (pokemob == null) return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        if (pokemob == null) return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
         final SpawnData entry = pokeEntry.getSpawnData();
-        if (entry == null) return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        if (entry == null) return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         final Vector3 loc = Vector3.getNewVector().set(this);
         final SpawnBiomeMatcher matcher = entry.getMatcher(worldIn, loc);
 
@@ -320,11 +320,11 @@ public class EntityPokemob extends PokemobRidable
             final long time = System.nanoTime();
             int maxXP = 10;
             int level = 1;
-            if (orig_override == -1) level = SpawnHandler.getSpawnLevel(this.world, loc, pokemob.getPokedexEntry(),
+            if (orig_override == -1) level = SpawnHandler.getSpawnLevel(this.level, loc, pokemob.getPokedexEntry(),
                     variance, overrideLevel);
             else
             {
-                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), loc, this.world,
+                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), loc, this.level,
                         overrideLevel, variance);
                 PokecubeCore.POKEMOB_BUS.post(event);
                 level = event.getLevel();
@@ -338,7 +338,7 @@ public class EntityPokemob extends PokemobRidable
                 PokecubeCore.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
             }
         }
-        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override
@@ -369,13 +369,13 @@ public class EntityPokemob extends PokemobRidable
         final PacketBuffer buffer = new PacketBuffer(data);
         try
         {
-            CompoundNBT tag = buffer.readCompoundTag();
+            CompoundNBT tag = buffer.readNbt();
             final ListNBT list = (ListNBT) tag.get("g");
             final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
             GeneRegistry.GENETICS_CAP.readNBT(genes, null, list);
             this.pokemobCap.read(tag.getCompound("p"));
             this.pokemobCap.onGenesChanged();
-            tag = buffer.readCompoundTag();
+            tag = buffer.readNbt();
             if (!tag.isEmpty()) this.getPersistentData().put("url_model", tag);
         }
         catch (final Exception e)
@@ -385,19 +385,19 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    protected void updateFallState(final double y, final boolean onGroundIn, final BlockState state, final BlockPos pos)
+    protected void checkFallDamage(final double y, final boolean onGroundIn, final BlockState state, final BlockPos pos)
     {
     }
 
     @Override
-    protected void handleFluidJump(final ITag<Fluid> fluidTag)
+    protected void jumpInLiquid(final ITag<Fluid> fluidTag)
     {
-        this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(
+        this.setDeltaMovement(this.getDeltaMovement().add(0.0D, 0.04F * this.getAttribute(
                 net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
     }
 
     @Override
-    public void setPortal(final BlockPos pos)
+    public void handleInsidePortal(final BlockPos pos)
     {// Nope, no nether portal for us.
     }
 
@@ -414,13 +414,13 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public SoundCategory getSoundCategory()
+    public SoundCategory getSoundSource()
     {
         return SoundCategory.HOSTILE;
     }
 
     @Override
-    public int getTalkInterval()
+    public int getAmbientSoundInterval()
     {
         return PokecubeCore.getConfig().idleSoundRate;
     }
@@ -469,9 +469,9 @@ public class EntityPokemob extends PokemobRidable
         CompoundNBT nbt = new CompoundNBT();
         nbt.put("p", this.pokemobCap.write());
         nbt.put("g", list);
-        buffer.writeCompoundTag(nbt);
+        buffer.writeNbt(nbt);
         nbt = this.getPersistentData().getCompound("url_model");
-        buffer.writeCompoundTag(nbt);
+        buffer.writeNbt(nbt);
     }
 
     // Methods for IMobColourable
@@ -500,7 +500,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public boolean canSpawn(final IWorld worldIn, final SpawnReason spawnReasonIn)
+    public boolean checkSpawnRules(final IWorld worldIn, final SpawnReason spawnReasonIn)
     {
         return true;
     }
@@ -508,7 +508,7 @@ public class EntityPokemob extends PokemobRidable
     private int despawntimer = 0;
 
     @Override
-    public boolean preventDespawn()
+    public boolean requiresCustomPersistence()
     {
         final boolean despawns = PokecubeCore.getConfig().despawn;
         final boolean culls = PokecubeCore.getConfig().cull;
@@ -528,29 +528,29 @@ public class EntityPokemob extends PokemobRidable
             if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore.getConfig().despawnTimer;
             else if (this.despawntimer == 0) return true;
         }
-        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getEntityWorld().getHeight(),
+        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getCommandSenderWorld().getMaxBuildHeight(),
                 this);
         if (PokecubeCore.getConfig().cull && !player) return true;
         return false;
     }
 
     @Override
-    public boolean canDespawn(final double distanceToClosestPlayer)
+    public boolean removeWhenFarAway(final double distanceToClosestPlayer)
     {
         return this.cullCheck(distanceToClosestPlayer);
     }
 
     @Override
-    public void readAdditional(final CompoundNBT compound)
+    public void readAdditionalSaveData(final CompoundNBT compound)
     {
-        super.readAdditional(compound);
+        super.readAdditionalSaveData(compound);
         if (compound.contains("OwnerUUID")) try
         {
             final UUID id = UUID.fromString(compound.getString("OwnerUUID"));
             if (id != null)
             {
-                this.setOwnerId(id);
-                this.setTamed(true);
+                this.setOwnerUUID(id);
+                this.setTame(true);
             }
         }
         catch (final Exception e)
@@ -566,13 +566,13 @@ public class EntityPokemob extends PokemobRidable
     public void tick()
     {
         super.tick();
-        if (!this.world.isRemote)
+        if (!this.level.isClientSide)
         {
-            boolean climb = this.collidedHorizontally && this.getNavigator().hasPath();
+            boolean climb = this.horizontalCollision && this.getNavigation().isInProgress();
             if (climb)
             {
-                final Path p = this.getNavigator().getPath();
-                climb = p.func_242948_g().getY() >= this.getPosY();
+                final Path p = this.getNavigation().getPath();
+                climb = p.getNextNodePos().getY() >= this.getY();
             }
             this.setBesideClimbableBlock(climb);
         }
@@ -585,7 +585,7 @@ public class EntityPokemob extends PokemobRidable
      * for AI reasons)
      */
     @Override
-    public boolean isOnLadder()
+    public boolean onClimbable()
     {
         return this.isBesideClimbableBlock();
     }
@@ -597,7 +597,7 @@ public class EntityPokemob extends PokemobRidable
      */
     public boolean isBesideClimbableBlock()
     {
-        return (this.dataManager.get(EntityPokemob.CLIMBING) & 1) != 0;
+        return (this.entityData.get(EntityPokemob.CLIMBING) & 1) != 0;
     }
 
     /**
@@ -610,10 +610,10 @@ public class EntityPokemob extends PokemobRidable
         // Only do this if tagged accordingly
         if (!ItemList.is(EntityPokemob.WALL_CLIMBERS, this)) return;
 
-        byte b0 = this.dataManager.get(EntityPokemob.CLIMBING);
+        byte b0 = this.entityData.get(EntityPokemob.CLIMBING);
         if (climbing) b0 = (byte) (b0 | 1);
         else b0 = (byte) (b0 & -2);
 
-        this.dataManager.set(EntityPokemob.CLIMBING, b0);
+        this.entityData.set(EntityPokemob.CLIMBING, b0);
     }
 }

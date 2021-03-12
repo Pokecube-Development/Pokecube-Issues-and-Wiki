@@ -50,8 +50,8 @@ public class Health
 {
     static List<LivingEntity> renderedEntities = new ArrayList<>();
 
-    private static final RenderType TYPE       = RenderType.getText(Resources.GUI_BATTLE);
-    private static final RenderType BACKGROUND = RenderType.getTextSeeThrough(Resources.GUI_BATTLE);
+    private static final RenderType TYPE       = RenderType.text(Resources.GUI_BATTLE);
+    private static final RenderType BACKGROUND = RenderType.textSeeThrough(Resources.GUI_BATTLE);
 
     public static boolean fullNameColour(final IPokemob pokemob)
     {
@@ -106,10 +106,10 @@ public class Health
         final float u1 = 90f / 256f;
         final float v0 = 48f / 256f;
         final float v1 = 64f / 256f;
-        buffer.pos(pos, x1, y1, z).color(r, g, b, a).tex(u0, v1).lightmap(brightness).endVertex();
-        buffer.pos(pos, x1, y2, z).color(r, g, b, a).tex(u1, v1).lightmap(brightness).endVertex();
-        buffer.pos(pos, x2, y2, z).color(r, g, b, a).tex(u1, v0).lightmap(brightness).endVertex();
-        buffer.pos(pos, x2, y1, z).color(r, g, b, a).tex(u0, v0).lightmap(brightness).endVertex();
+        buffer.vertex(pos, x1, y1, z).color(r, g, b, a).uv(u0, v1).uv2(brightness).endVertex();
+        buffer.vertex(pos, x1, y2, z).color(r, g, b, a).uv(u1, v1).uv2(brightness).endVertex();
+        buffer.vertex(pos, x2, y2, z).color(r, g, b, a).uv(u1, v0).uv2(brightness).endVertex();
+        buffer.vertex(pos, x2, y1, z).color(r, g, b, a).uv(u0, v0).uv2(brightness).endVertex();
     }
 
     public static void renderHealthBar(final LivingEntity passedEntity, final MatrixStack mat,
@@ -120,33 +120,33 @@ public class Health
         LivingEntity entity = passedEntity;
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-        if (pokemob == null || !entity.addedToChunk || !pokemob.getPokedexEntry().stock) return;
-        if (entity.getDistance(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
+        if (pokemob == null || !entity.inChunk || !pokemob.getPokedexEntry().stock) return;
+        if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
         final Config config = PokecubeCore.getConfig();
         final Minecraft mc = Minecraft.getInstance();
-        final EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
-        if (renderManager == null || renderManager.info == null) return;
-        if (PokecubeCore.getConfig().showOnlyFocused && entity != renderManager.pointedEntity) return;
-        final ActiveRenderInfo viewer = renderManager.info;
+        final EntityRendererManager renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
+        if (renderManager == null || renderManager.camera == null) return;
+        if (PokecubeCore.getConfig().showOnlyFocused && entity != renderManager.crosshairPickEntity) return;
+        final ActiveRenderInfo viewer = renderManager.camera;
 
-        final boolean background = config.drawBackground && entity.canEntityBeSeen(viewer.getRenderViewEntity());
+        final boolean background = config.drawBackground && entity.canSee(viewer.getEntity());
 
-        if (entity.getPassengers().contains(viewer.getRenderViewEntity())) return;
+        if (entity.getPassengers().contains(viewer.getEntity())) return;
 
-        final UUID viewerID = viewer.getRenderViewEntity().getUniqueID();
+        final UUID viewerID = viewer.getEntity().getUUID();
 
         ridingStack.push(entity);
 
-        while (entity.getRidingEntity() != null && entity.getRidingEntity() instanceof LivingEntity)
+        while (entity.getVehicle() != null && entity.getVehicle() instanceof LivingEntity)
         {
-            entity = (LivingEntity) entity.getRidingEntity();
+            entity = (LivingEntity) entity.getVehicle();
             ridingStack.push(entity);
         }
 
         IVertexBuilder buffer;
         Matrix4f pos;
 
-        mat.push();
+        mat.pushPose();
         processing:
         {
 
@@ -156,19 +156,19 @@ public class Health
 
             if (maxHealth <= 0) break processing;
 
-            double dy = entity.getHeight();
+            double dy = entity.getBbHeight();
 
             if (entity.isMultipartEntity())
             {
                 dy = 0;
                 for (final PartEntity<?> part : entity.getParts())
-                    dy = Math.max(dy, part.getHeight() + part.getPosY() - entity.getPosY());
+                    dy = Math.max(dy, part.getBbHeight() + part.getY() - entity.getY());
             }
 
             mat.translate(0, dy + config.heightAbove, 0);
             Quaternion quaternion;
-            quaternion = viewer.getRotation();
-            mat.rotate(quaternion);
+            quaternion = viewer.rotation();
+            mat.mulPose(quaternion);
             mat.scale(scale, scale, scale);
 
             final float padding = config.backgroundPadding;
@@ -181,7 +181,7 @@ public class Health
             int g = 220;
             int b = 0;
             ItemStack stack = ItemStack.EMPTY;
-            if (pokemob.getOwner() == viewer.getRenderViewEntity()) stack = entity.getHeldItemMainhand();
+            if (pokemob.getOwner() == viewer.getEntity()) stack = entity.getMainHandItem();
             final float hue = Math.max(0F, health / maxHealth / 3F - 0.07F);
             final Color color = Color.getHSBColor(hue, 0.8F, 0.8F);
             r = color.getRed();
@@ -195,13 +195,13 @@ public class Health
 
             final float s = 0.5F;
             final String name = nameComp.getString();
-            final float namel = mc.fontRenderer.getStringWidth(name) * s;
+            final float namel = mc.font.width(name) * s;
             if (namel + 20 > size * 2) size = namel / 2F + 10F;
             float healthSize = size * (health / maxHealth);
-            mat.rotate(Vector3f.YP.rotationDegrees(180));
-            mat.rotate(Vector3f.XP.rotationDegrees(180));
+            mat.mulPose(Vector3f.YP.rotationDegrees(180));
+            mat.mulPose(Vector3f.XP.rotationDegrees(180));
 
-            pos = mat.getLast().getMatrix();
+            pos = mat.last().pose();
             // Background
             if (background)
             {
@@ -244,7 +244,7 @@ public class Health
             Health.blit(buffer, pos, -size, barHeight1, expSize, barHeight1 + 1, zlevel, r, g, b, 255, br);
             zlevel += 0.001f;
 
-            mat.push();
+            mat.pushPose();
             mat.translate(-size, -4.5F, 0F);
             mat.scale(s, s, s);
 
@@ -257,16 +257,16 @@ public class Health
             else if (isOwner) colour = config.ownedNameColour;
             else if (!obfuscated) colour = config.scannedNameColour;
 
-            mat.push();
+            mat.pushPose();
             float s1 = 0.75F;
             mat.scale(s1, s1, s1);
 
-            mat.push();
+            mat.pushPose();
             s1 = 1.5F;
             mat.scale(s1, s1, s1);
-            mc.fontRenderer.drawString(mat, nameComp.getString(), 0, 0, colour);
+            mc.font.draw(mat, nameComp.getString(), 0, 0, colour);
             s1 = 0.75F;
-            mat.pop();
+            mat.popPose();
 
             final int h = config.hpTextHeight;
             String maxHpStr = "" + (int) (Math.round(maxHealth * 100.0) / 100.0);
@@ -281,21 +281,21 @@ public class Health
             colour = 0xBBBBBB;
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
-            if (isOwner) mc.fontRenderer.drawString(mat, healthStr, (int) (size / (s * s1)) - mc.fontRenderer
-                    .getStringWidth(healthStr) / 2, h, 0xFFFFFFFF);
+            if (isOwner) mc.font.draw(mat, healthStr, (int) (size / (s * s1)) - mc.font
+                    .width(healthStr) / 2, h, 0xFFFFFFFF);
 
-            pos = mat.getLast().getMatrix();
-            mc.fontRenderer.renderString(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
-            mc.fontRenderer.renderString(gender, (int) (size / (s * s1) * 2) - 2 - mc.fontRenderer.getStringWidth(
+            pos = mat.last().pose();
+            mc.font.drawInBatch(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
+            mc.font.drawInBatch(gender, (int) (size / (s * s1) * 2) - 2 - mc.font.width(
                     gender), h - 1, colour, false, pos, buf, false, 0, br);
 
-            if (PokecubeCore.getConfig().enableDebugInfo && mc.gameSettings.showDebugInfo)
+            if (PokecubeCore.getConfig().enableDebugInfo && mc.options.renderDebug)
             {
-                final String entityID = entity.getEntityString().toString();
-                mc.fontRenderer.drawString(mat, "ID: \"" + entityID + "\"" + "(" + entity.getEntityId() + ")", 0, h
+                final String entityID = entity.getEncodeId().toString();
+                mc.font.draw(mat, "ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, h
                         + 16, 0xFFFFFFFF);
             }
-            mat.pop();
+            mat.popPose();
 
             int off = 0;
             s1 = 0.5F;
@@ -305,7 +305,7 @@ public class Health
             if (!stack.isEmpty() && config.showHeldItem) Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
             off -= 16;
 
-            final int armor = entity.getTotalArmorValue();
+            final int armor = entity.getArmorValue();
             if (armor > 0 && config.showArmor)
             {
                 final int ironArmor = armor % 5;
@@ -320,26 +320,26 @@ public class Health
                     Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
                 off -= 4;
             }
-            mat.pop();
+            mat.popPose();
         }
-        mat.pop();
+        mat.popPose();
     }
 
     public static void renderIcon(final LivingEntity mob, final MatrixStack mat, final IRenderTypeBuffer buf,
             final int vertexX, final int vertexY, final ItemStack stack, final int intU, final int intV, final int br)
     {
-        mat.push();
+        mat.pushPose();
         try
         {
             mat.translate(vertexX, vertexY + 7, 0);
             mat.scale(20, -20, -1);
-            Minecraft.getInstance().getItemRenderer().renderItem(mob, stack,
+            Minecraft.getInstance().getItemRenderer().renderStatic(mob, stack,
                     net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, mat, buf, mob
-                            .getEntityWorld(), br, OverlayTexture.NO_OVERLAY);
+                            .getCommandSenderWorld(), br, OverlayTexture.NO_OVERLAY);
         }
         catch (final Exception e)
         {
         }
-        mat.pop();
+        mat.popPose();
     }
 }

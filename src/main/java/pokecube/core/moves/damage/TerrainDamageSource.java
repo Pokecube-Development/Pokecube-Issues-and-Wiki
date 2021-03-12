@@ -27,21 +27,21 @@ public class TerrainDamageSource extends DamageSource implements IPokedamage
 
     @Override
     /** Gets the death message that is displayed when the player dies */
-    public ITextComponent getDeathMessage(final LivingEntity LivingEntityIn)
+    public ITextComponent getLocalizedDeathMessage(final LivingEntity LivingEntityIn)
     {
-        final String s = "death.attack." + this.damageType;
+        final String s = "death.attack." + this.msgId;
         return new TranslationTextComponent(s, LivingEntityIn.getDisplayName());
     }
 
     @Override
-    public Entity getImmediateSource()
+    public Entity getDirectEntity()
     {
         if (this.user != null) return this.user.getEntity();
-        return super.getImmediateSource();
+        return super.getDirectEntity();
     }
 
     @Override
-    public Entity getTrueSource()
+    public Entity getEntity()
     {
         if (this.user != null)
         {
@@ -49,6 +49,6 @@ public class TerrainDamageSource extends DamageSource implements IPokedamage
             if (this.user.getOwner() != null) source = this.user.getOwner();
             return source;
         }
-        return super.getTrueSource();
+        return super.getEntity();
     }
 }

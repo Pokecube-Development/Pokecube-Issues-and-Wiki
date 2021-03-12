@@ -38,7 +38,7 @@ public class PacketPokecube extends Packet
     @Override
     public void handleClient()
     {
-        final Entity e = PokecubeCore.proxy.getWorld().getEntityByID(this.id);
+        final Entity e = PokecubeCore.proxy.getWorld().getEntity(this.id);
         if (e instanceof EntityPokecube) ((EntityPokecube) e).reset = this.time;
     }
 

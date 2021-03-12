@@ -31,9 +31,9 @@ public class GuiNBTButton extends Button
     {
         if (!(this.hoverTime != -1 && System.currentTimeMillis() - this.hoverTime > 300)) return;
         final String s = NBTStringHelper.getButtonName(this.id);
-        final int width = this.mc.fontRenderer.getStringWidth(s);
+        final int width = this.mc.font.width(s);
         AbstractGui.fill(mat, mx + 4, my + 7, mx + 5 + width, my + 17, 0xff000000);
-        this.mc.fontRenderer.drawString(mat, s, mx + 5, my + 8, 0xffffff);
+        this.mc.font.draw(mat, s, mx + 5, my + 8, 0xffffff);
     }
 
     public byte getId()
@@ -57,7 +57,7 @@ public class GuiNBTButton extends Button
         // Draw the texture
         if (this.visible)
         {
-            this.mc.getTextureManager().bindTexture(GuiNBTNode.WIDGET_TEXTURE);
+            this.mc.getTextureManager().bind(GuiNBTNode.WIDGET_TEXTURE);
             this.blit(mat, this.x, this.y, (this.id - 1) * 9, 18, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT);
         }
     }
