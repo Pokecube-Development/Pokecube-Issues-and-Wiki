@@ -16,6 +16,7 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -74,6 +75,14 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
             Block.box(2, 0, 2, 14, 3, 14),
             Block.box(3, 3, 3, 13, 9, 13)).optimize();
 
+
+    public RaidSpawnBlock(final Material material, MaterialColor color)
+    {
+        super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
+        this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY)
+                .setValue(MaxBlock.FACING, Direction.UP).setValue(MaxBlock.WATERLOGGED, false));
+    }
+
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
@@ -82,10 +91,11 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
         return RAID_SPOT;
     }
 
-    public RaidSpawnBlock(final Material material, MaterialColor color)
+    @Override
+    public VoxelShape getCollisionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+                                        final ISelectionContext context)
     {
-        super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
-        this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
+        return RAID_SPOT;
     }
 
     @Override

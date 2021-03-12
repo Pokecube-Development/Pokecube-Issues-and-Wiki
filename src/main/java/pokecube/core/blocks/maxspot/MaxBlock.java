@@ -2,7 +2,7 @@ package pokecube.core.blocks.maxspot;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;
@@ -21,42 +21,88 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import pokecube.core.blocks.InteractableHorizontalBlock;
+import pokecube.core.blocks.InteractableDirectionalBlock;
 
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MaxBlock extends InteractableHorizontalBlock implements IWaterLoggable
+public class MaxBlock extends InteractableDirectionalBlock implements IWaterLoggable
 {
-    protected static final DirectionProperty        FACING      = HorizontalBlock.FACING;
+    private static final Map<Direction, VoxelShape> DYNAMAX  = new HashMap<>();
+    private static final Map<Direction, VoxelShape> DYNAMAX_COLLISION  = new HashMap<>();
+    protected static final DirectionProperty        FACING      = DirectionalBlock.FACING;
     protected static final BooleanProperty          WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    // Precise selection box
-    private static final VoxelShape DYNAMAX = VoxelShapes.or(
-            Block.box(2, 0, 2, 14, 3, 14),
-            Block.box(3, 3, 3, 13, 14, 13)).optimize();
-    private static final VoxelShape DYNAMAX_COLLISION = VoxelShapes.or(
-            Block.box(2, 0, 2, 14, 3, 14)).optimize();
+//    // Precise selection box
+//    private static final VoxelShape DYNAMAX = VoxelShapes.or(
+//            Block.box(2, 0, 2, 14, 3, 14),
+//            Block.box(3, 3, 3, 13, 14, 13)).optimize();
+//    private static final VoxelShape DYNAMAX_COLLISION = VoxelShapes.or(
+//            Block.box(2, 0, 2, 14, 3, 14)).optimize();
+//
+//    // Precise selection box
+//    @Override
+//    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+//                               final ISelectionContext context)
+//    {
+//        return DYNAMAX;
+//    }
+
+    static
+    {// @formatter:off
+        DYNAMAX.put(Direction.NORTH, VoxelShapes.or(
+                Block.box(2, 2, 13, 14, 14, 16),
+                Block.box(3, 3, 2, 13, 14, 13)).optimize());
+        DYNAMAX.put(Direction.EAST, VoxelShapes.or(
+                Block.box(0, 2, 2, 3, 14, 14),
+                Block.box(3, 3, 3, 14, 13, 13)).optimize());
+        DYNAMAX.put(Direction.SOUTH, VoxelShapes.or(
+                Block.box(2, 2, 0, 14, 14, 3),
+                Block.box(3, 3, 3, 13, 13, 14)).optimize());
+        DYNAMAX.put(Direction.WEST, VoxelShapes.or(
+                Block.box(13, 2, 2, 16, 14, 14),
+                Block.box(2, 3, 3, 13, 13, 13)).optimize());
+        DYNAMAX.put(Direction.UP, VoxelShapes.or(
+                Block.box(2, 0, 2, 14, 3, 14),
+                Block.box(3, 3, 3, 13, 14, 13)).optimize());
+        DYNAMAX.put(Direction.DOWN, VoxelShapes.or(
+                Block.box(2, 13, 2, 14, 16, 14),
+                Block.box(3, 2, 3, 13, 13, 13)).optimize());
+
+        DYNAMAX_COLLISION.put(Direction.NORTH, VoxelShapes.or(
+                Block.box(2, 2, 13, 14, 14, 16)).optimize());
+        DYNAMAX_COLLISION.put(Direction.EAST, VoxelShapes.or(
+                Block.box(0, 2, 2, 3, 14, 14)).optimize());
+        DYNAMAX_COLLISION.put(Direction.SOUTH, VoxelShapes.or(
+                Block.box(2, 2, 0, 14, 14, 3)).optimize());
+        DYNAMAX_COLLISION.put(Direction.WEST, VoxelShapes.or(
+                Block.box(13, 2, 2, 16, 14, 14)).optimize());
+        DYNAMAX_COLLISION.put(Direction.UP, VoxelShapes.or(
+                Block.box(2, 0, 2, 14, 3, 14)).optimize());
+        DYNAMAX_COLLISION.put(Direction.DOWN, VoxelShapes.or(
+                Block.box(2, 13, 2, 14, 16, 14)).optimize());
+    }// @formatter:on
+
+    public MaxBlock(final Properties properties, final MaterialColor color)
+    {
+        super(properties, color);
+        this.registerDefaultState(this.stateDefinition.any().setValue(MaxBlock.FACING, Direction.UP).setValue(
+                MaxBlock.WATERLOGGED, false));
+    }
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
                                final ISelectionContext context)
     {
-        return DYNAMAX;
+        return DYNAMAX.get(state.getValue(MaxBlock.FACING));
     }
 
     @Override
     public VoxelShape getCollisionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-                               final ISelectionContext context)
+                                        final ISelectionContext context)
     {
-        return DYNAMAX_COLLISION;
-    }
-
-    public MaxBlock(final Properties properties, final MaterialColor color)
-    {
-        super(properties, color);
-        this.registerDefaultState(this.stateDefinition.any().setValue(MaxBlock.FACING, Direction.NORTH).setValue(
-                MaxBlock.WATERLOGGED, false));
+        return DYNAMAX_COLLISION.get(state.getValue(MaxBlock.FACING));
     }
 
     @Override
@@ -70,9 +116,12 @@ public class MaxBlock extends InteractableHorizontalBlock implements IWaterLogga
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(MaxBlock.FACING, context
-                .getHorizontalDirection().getOpposite()).setValue(MaxBlock.WATERLOGGED, ifluidstate.is(
-                        FluidTags.WATER) && ifluidstate.getAmount() == 8);
+        final BlockState state = context.getLevel().getBlockState(context.getClickedPos().relative(context.getClickedFace().getOpposite()));
+        Direction direction = context.getClickedFace();
+        return state.is(this) && state.getValue(MaxBlock.FACING) == direction ? (BlockState)this.defaultBlockState()
+                .setValue(MaxBlock.FACING, direction.getOpposite()) : (BlockState)this.defaultBlockState()
+                .setValue(MaxBlock.FACING, direction)
+                .setValue(MaxBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }
 
     // Adds Waterlogging State
