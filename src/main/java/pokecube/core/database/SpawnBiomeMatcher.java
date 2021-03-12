@@ -54,7 +54,8 @@ public class SpawnBiomeMatcher
             final boolean globalRain = world.isRaining();
             final BlockPos position = location.getPos();
             boolean outside = world.canSeeSky(position);
-            outside = outside && world.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING, position).getY() > position.getY();
+            outside = outside && world.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING, position).getY() > position
+                    .getY();
             if (!outside) return NONE;
             if (globalRain)
             {
@@ -229,7 +230,8 @@ public class SpawnBiomeMatcher
         // Before loading in.
         if (REG == null) return SpawnBiomeMatcher.allBiomeKeys;
         SpawnBiomeMatcher.loadedIn = true;
-        final Collection<Entry<RegistryKey<Biome>, Biome>> biomes = REG.registryOrThrow(Registry.BIOME_REGISTRY).entrySet();
+        final Collection<Entry<RegistryKey<Biome>, Biome>> biomes = REG.registryOrThrow(Registry.BIOME_REGISTRY)
+                .entrySet();
         if (SpawnBiomeMatcher.lastBiomesSize != biomes.size())
         {
             SpawnBiomeMatcher.allBiomeKeys = Lists.newArrayList();
@@ -376,7 +378,26 @@ public class SpawnBiomeMatcher
 
     public boolean checkLoadEvent(final BiomeLoadingEvent event)
     {
-        return this.checkBiome(this.from(event)) && this.validCategory(event.getCategory());
+        // Parse this to initialize the lists at least.
+        this.parse();
+        // This checks if there is acategory at all.
+        if (!this.validCategory(event.getCategory())) return false;
+        final RegistryKey<Biome> key = this.from(event);
+        // Check types, etc manually here, as this can be run before biomes are
+        // actually valid.
+        for (final BiomeDictionary.Type type : this._invalidTypes)
+            if (BiomeDictionary.hasType(key, type)) return false;
+        if (this._blackListBiomes.contains(key)) return false;
+        if (!this._validTypes.isEmpty())
+        {
+            boolean all = true;
+
+            for (final BiomeDictionary.Type type : this._validTypes)
+                all = all && BiomeDictionary.hasType(key, type);
+            if (!all) return false;
+        }
+        if (!this._validBiomes.isEmpty()) return this._validBiomes.contains(key);
+        return true;
     }
 
     /**
@@ -659,8 +680,7 @@ public class SpawnBiomeMatcher
                 s = s.trim();
                 // Ensure we are a resourcelocation!
                 if (!s.contains(":")) s = "minecraft:" + s;
-                final RegistryKey<Biome> biome = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(
-                        s));
+                final RegistryKey<Biome> biome = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(s));
                 this._validBiomes.add(biome);
             }
         }
@@ -694,8 +714,7 @@ public class SpawnBiomeMatcher
                 s = s.trim();
                 // Ensure we are a resourcelocation!
                 if (!s.contains(":")) s = "minecraft:" + s;
-                final RegistryKey<Biome> biome = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(
-                        s));
+                final RegistryKey<Biome> biome = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(s));
                 this._blackListBiomes.add(biome);
             }
         }
