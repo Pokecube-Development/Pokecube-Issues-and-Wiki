@@ -23,11 +23,9 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
@@ -38,7 +36,6 @@ import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.StatsCollector;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterMiscItems;
 import pokecube.core.events.onload.RegisterPokecubes;
@@ -98,10 +95,6 @@ public class PokecubeMobs
         PokecubeCore.POKEMOB_BUS.register(this);
         // We override these so that they use ours instead of default ones.
         CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
-
-        final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        new WorldgenHandler(PokecubeMobs.MODID, bus);
 
         MoveRegister.init();
         AbilityRegister.init();

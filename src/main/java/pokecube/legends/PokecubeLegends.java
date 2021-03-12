@@ -63,16 +63,16 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<Block> BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,
+    public static final DeferredRegister<Block> BLOCKS         = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
-    public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
+    public static final DeferredRegister<Block> BLOCKS_TAB     = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
     public static final DeferredRegister<Block> DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
-    public static final DeferredRegister<Item>  ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,
+    public static final DeferredRegister<Item>  ITEMS          = DeferredRegister.create(ForgeRegistries.ITEMS,
             Reference.ID);
 
-    public static ResourceLocation FUELTAG       = new ResourceLocation(Reference.ID, "fuel");
+    public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
@@ -95,15 +95,13 @@ public class PokecubeLegends
                         .contains(k, "OCEAN") || BiomeDatabase.contains(k, "HILLS") || BiomeDatabase.contains(k,
                                 "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN")
                         || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY");
-                WorldgenHandler.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Feature.ORE.configured(new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE.get()
-                                        .defaultBlockState(), 5)).range(32).squared().count(2));
+                WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                        .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                BlockInit.RUBY_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2));
 
-                WorldgenHandler.get(Reference.ID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Feature.ORE.configured(new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE.get()
-                                        .defaultBlockState(), 5)).range(32).squared().count(2));
+                WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                        .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                BlockInit.SAPPHIRE_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2));
             }
             Trees.register();
         }
@@ -133,15 +131,12 @@ public class PokecubeLegends
 
         modEventBus.addListener(this::loadComplete);
 
-        new WorldgenHandler(Reference.ID, modEventBus);
-
         PokecubeLegends.BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
 
-
-        //Biomes Dictionary
+        // Biomes Dictionary
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB2, Type.JUNGLE, Type.FOREST, Type.DENSE);
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB3, Type.SANDY, Type.WASTELAND, Type.HOT);
