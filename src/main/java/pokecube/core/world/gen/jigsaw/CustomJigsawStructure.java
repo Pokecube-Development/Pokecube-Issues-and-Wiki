@@ -167,25 +167,34 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             final BlockPos blockpos = new BlockPos(x, 0, z);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Trying to place {}", config.struct_config.name);
 
-            final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
-            boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
-                    config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn, blockpos,
-                    this.pieces, this.random, biomeIn, c -> true);
-
-            int n = 0;
-            while (!built && n++ < 20)
+            try
             {
-                this.pieces.clear();
-                final Random newRand = new Random(this.random.nextLong());
-                built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
+                final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
+                boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
                         config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
-                        blockpos, this.pieces, newRand, biomeIn, c -> true);
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.pieces.size());
+                        blockpos, this.pieces, this.random, biomeIn, c -> true);
+
+                int n = 0;
+                while (!built && n++ < 20)
+                {
+                    this.pieces.clear();
+                    final Random newRand = new Random(this.random.nextLong());
+                    built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
+                            config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
+                            blockpos, this.pieces, newRand, biomeIn, c -> true);
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.pieces.size());
+                }
+                if (!built)
+                {
+                    PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.pieces,
+                            config.struct_config.name, blockpos);
+                    return;
+                }
             }
-            if (!built)
+            catch (final Exception e)
             {
-                PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.pieces,
-                        config.struct_config.name, blockpos);
+                PokecubeCore.LOGGER.warn("Failed to complete {} in {} at {}", this.pieces, config.struct_config.name,
+                        blockpos, e);
                 return;
             }
 
@@ -233,8 +242,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                                 if (!tradeString.isEmpty() && foundWorldspawn)
                                 {
                                     final ServerWorld sworld = JigsawAssmbler.getForGen(chunkGenerator);
-                                    final BlockPos spos = Template.calculateRelativePosition(piece.toUse, pos).offset(blockpos)
-                                            .offset(0, part.getBoundingBox().y0, 0);
+                                    final BlockPos spos = Template.calculateRelativePosition(piece.toUse, pos).offset(
+                                            blockpos).offset(0, part.getBoundingBox().y0, 0);
                                     PokecubeCore.LOGGER.info("Setting spawn to {} {}", spos, pos);
                                     sworld.getServer().execute(() ->
                                     {
@@ -256,8 +265,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos.getX() + " "
-                    + this.getBoundingBox().getCenter().getY() + " " + blockpos.getZ() + " of size "
-                    + this.pieces.size() + " " + this.getBoundingBox().getLength());
+                    + this.getBoundingBox().getCenter().getY() + " " + blockpos.getZ() + " of size " + this.pieces
+                            .size() + " " + this.getBoundingBox().getLength());
         }
 
     }
