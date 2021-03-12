@@ -296,6 +296,12 @@ public class HungerTask extends BaseIdleTask
     }
 
     @Override
+    public boolean loadThrottle()
+    {
+        return false;
+    }
+
+    @Override
     public void run()
     {
         this.v.set(this.entity);
