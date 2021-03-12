@@ -1,20 +1,10 @@
 package pokecube.legends.init;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.FallingBlock;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.MagmaBlock;
-import net.minecraft.block.PressurePlateBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
@@ -25,52 +15,14 @@ import pokecube.core.handlers.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.SaplingBase;
-import pokecube.legends.blocks.customblocks.HeatranBlock;
-import pokecube.legends.blocks.customblocks.KeldeoBlock;
-import pokecube.legends.blocks.customblocks.LegendaryBlock;
-import pokecube.legends.blocks.customblocks.NatureCoreBlock;
-import pokecube.legends.blocks.customblocks.PortalWarp;
-import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
-import pokecube.legends.blocks.customblocks.Regice_Core;
-import pokecube.legends.blocks.customblocks.Regidrago_Core;
-import pokecube.legends.blocks.customblocks.Regieleki_Core;
-import pokecube.legends.blocks.customblocks.Regigigas_Core;
-import pokecube.legends.blocks.customblocks.Regirock_Core;
-import pokecube.legends.blocks.customblocks.Registeel_Core;
-import pokecube.legends.blocks.customblocks.SpaceCoreBlock;
-import pokecube.legends.blocks.customblocks.TaoTrioBlock;
-import pokecube.legends.blocks.customblocks.TapuBuluCore;
-import pokecube.legends.blocks.customblocks.TapuFiniCore;
-import pokecube.legends.blocks.customblocks.TapuKokoCore;
-import pokecube.legends.blocks.customblocks.TapuLeleCore;
-import pokecube.legends.blocks.customblocks.TroughBlock;
-import pokecube.legends.blocks.customblocks.VictiniBlock;
-import pokecube.legends.blocks.customblocks.XerneasCore;
-import pokecube.legends.blocks.customblocks.YveltalEgg;
+import pokecube.legends.blocks.customblocks.*;
 import pokecube.legends.blocks.customblocks.taputotem.BuluTotem;
 import pokecube.legends.blocks.customblocks.taputotem.FiniTotem;
 import pokecube.legends.blocks.customblocks.taputotem.KokoTotem;
 import pokecube.legends.blocks.customblocks.taputotem.LeleTotem;
-import pokecube.legends.blocks.normalblocks.CorruptedLeaveBlock;
-import pokecube.legends.blocks.normalblocks.CrystallizedCactus;
-import pokecube.legends.blocks.normalblocks.DarkStoneBlock;
-import pokecube.legends.blocks.normalblocks.GrassAgedBlock;
-import pokecube.legends.blocks.normalblocks.GrassDistorticBlock;
-import pokecube.legends.blocks.normalblocks.GrassJungleBlock;
-import pokecube.legends.blocks.normalblocks.GrassMussBlock;
-import pokecube.legends.blocks.normalblocks.MagneticBlock;
-import pokecube.legends.blocks.normalblocks.MirageLeaveBlock;
-import pokecube.legends.blocks.normalblocks.SandDistorBlock;
-import pokecube.legends.blocks.normalblocks.SandUltraBlock;
-import pokecube.legends.blocks.normalblocks.UltraGlass;
-import pokecube.legends.blocks.normalblocks.UltraTorch1;
-import pokecube.legends.blocks.normalblocks.UltraTorch1Wall;
-import pokecube.legends.blocks.plants.Distortic_Tree;
-import pokecube.legends.blocks.plants.Ultra_Tree01;
-import pokecube.legends.blocks.plants.Ultra_Tree02;
-import pokecube.legends.blocks.plants.Ultra_Tree03;
-import pokecube.legends.blocks.plants.Ultra_Tree04;
-import pokecube.legends.blocks.plants.Ultra_Tree05;
+import pokecube.legends.blocks.normalblocks.SpectrumGlass;
+import pokecube.legends.blocks.normalblocks.*;
+import pokecube.legends.blocks.plants.*;
 
 public class BlockInit
 {
@@ -407,7 +359,7 @@ public class BlockInit
     {
         // Block Raid
         RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(Material.METAL,
-                MaterialColor.COLOR_BLACK).setInfoBlockName("raidspawn"));
+                MaterialColor.COLOR_RED).setInfoBlockName("raidspawn"));
 
         // Decorative_Blocks
         DYNA_LEAVES1 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_1", () -> new LeavesBlock(AbstractBlock.Properties.of(
@@ -679,8 +631,8 @@ public class BlockInit
         //
 
         // Dimensions
-        SPECTRUM_GLASS = PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new UltraGlass("spectrum_glass",
-                AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion()));
+        SPECTRUM_GLASS = PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new SpectrumGlass("spectrum_glass",
+                DyeColor.ORANGE, AbstractBlock.Properties.of(Material.GLASS).noOcclusion(), MaterialColor.COLOR_ORANGE));
         ULTRA_AGED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt3", () -> new BlockBase("ultradirt3",
                 Material.GRASS, MaterialColor.TERRACOTTA_YELLOW, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_CORRUPTED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",
@@ -1049,7 +1001,7 @@ public class BlockInit
         
         // MIRAGE Blocks
         MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new UltraGlass("mirage_glass",
-                AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion()));
+                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion(), MaterialColor.COLOR_LIGHT_BLUE));
         MIRAGE_LEAVES = PokecubeLegends.BLOCKS_TAB.register("mirage_leave", () -> new MirageLeaveBlock());
         MIRAGE_LOG = PokecubeLegends.BLOCKS_TAB.register("mirage_log", () -> Blocks.log(
                 MaterialColor.TERRACOTTA_YELLOW, MaterialColor.SNOW));

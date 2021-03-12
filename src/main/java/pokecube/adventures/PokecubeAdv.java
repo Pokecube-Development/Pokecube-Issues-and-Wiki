@@ -1,10 +1,6 @@
 package pokecube.adventures;
 
-import java.util.Locale;
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -18,6 +14,7 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -79,6 +76,9 @@ import pokecube.core.utils.PokeType;
 import pokecube.legends.PokecubeLegends;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
+
+import java.util.Locale;
+import java.util.Map;
 
 @Mod(value = PokecubeAdv.MODID)
 public class PokecubeAdv
@@ -217,8 +217,9 @@ public class PokecubeAdv
                 .dynamicShape(), MaterialColor.TERRACOTTA_GREEN));
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(AbstractBlock.Properties.of(Material.METAL),
                 MaterialColor.TERRACOTTA_WHITE));
-        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlass(AbstractBlock.Properties.of(
-                Material.GLASS).strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion(), MaterialColor.COLOR_LIGHT_BLUE));
+        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlass(
+                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS).strength(0.3f, 0.3f)
+                .sound(SoundType.GLASS).noOcclusion(), MaterialColor.COLOR_LIGHT_BLUE));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().tab(

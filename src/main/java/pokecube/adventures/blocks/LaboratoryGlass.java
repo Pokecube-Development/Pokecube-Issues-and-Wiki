@@ -1,18 +1,19 @@
 package pokecube.adventures.blocks;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.GlassBlock;
+import net.minecraft.block.StainedGlassBlock;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IWorldReader;
 
-public class LaboratoryGlass extends GlassBlock
+public class LaboratoryGlass extends StainedGlassBlock
 {
-    public LaboratoryGlass(final Properties properties, final MaterialColor color)
+    public LaboratoryGlass(DyeColor color, final Properties properties, final MaterialColor color2)
     {
-        super(properties);
+        super(color, properties);
     }
 
 	@Override

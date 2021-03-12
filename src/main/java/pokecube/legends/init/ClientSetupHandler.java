@@ -1,7 +1,5 @@
 package pokecube.legends.init;
 
-import java.util.function.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -24,6 +22,8 @@ import pokecube.legends.blocks.PlantBase;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.tileentity.RaidSpawn;
 import thut.core.client.gui.ConfigGui;
+
+import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -65,6 +65,7 @@ public class ClientSetupHandler
             if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
 
             RenderTypeLookup.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
         }
 
     	for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
