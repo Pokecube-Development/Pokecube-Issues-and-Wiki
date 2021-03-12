@@ -1,8 +1,5 @@
 package pokecube.legends.blocks.customblocks;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -23,6 +20,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
@@ -34,6 +34,9 @@ import pokecube.core.blocks.maxspot.MaxBlock;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
+
+import java.util.List;
+import java.util.Random;
 
 public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
 {
@@ -65,6 +68,19 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
 
     String  infoname;
     boolean hasTextInfo = true;
+
+    // Precise selection box
+    private static final VoxelShape RAID_SPOT = VoxelShapes.or(
+            Block.box(2, 0, 2, 14, 3, 14),
+            Block.box(3, 3, 3, 13, 9, 13)).optimize();
+
+    // Precise selection box
+    @Override
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+                               final ISelectionContext context)
+    {
+        return RAID_SPOT;
+    }
 
     public RaidSpawnBlock(final Material material, MaterialColor color)
     {
