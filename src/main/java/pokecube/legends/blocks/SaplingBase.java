@@ -28,7 +28,7 @@ public class SaplingBase extends BushBlock implements IGrowable
 
     public SaplingBase(final Supplier<Tree> treeIn, final Properties properties)
     {
-        super(properties);
+        super(properties.randomTicks());
         this.tree = treeIn;
     }
 
