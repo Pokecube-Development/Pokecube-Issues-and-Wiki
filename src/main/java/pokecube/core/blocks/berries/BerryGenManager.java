@@ -49,6 +49,7 @@ import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -93,7 +94,8 @@ public class BerryGenManager
     public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
 
     public static final RuleEntry REPLACEABLEONLY = new RuleEntry(AlwaysTrueRuleTest.INSTANCE, new TagMatchRuleTest(
-            BlockTags.getAllTags().getTagOrEmpty(BerryGenManager.REPLACETAG)), Blocks.STRUCTURE_VOID.defaultBlockState());
+            BlockTags.getAllTags().getTagOrEmpty(BerryGenManager.REPLACETAG)), Blocks.STRUCTURE_VOID
+                    .defaultBlockState());
 
     public static final NotRuleProcessor NOREPLACE = new NotRuleProcessor(ImmutableList.of(
             BerryGenManager.REPLACEABLEONLY));
@@ -253,8 +255,7 @@ public class BerryGenManager
                                 {
                                     final BlockState state = world.getBlockState(i.pos);
                                     if (state != null && state.getBlock() != Blocks.AIR)
-                                        valid = BerryGenManager.REPLACEABLEONLY.test(state, state, pos, pos,
-                                                pos, rand);
+                                        valid = BerryGenManager.REPLACEABLEONLY.test(state, state, pos, pos, pos, rand);
                                     if (!valid) break parts;
                                 }
                         }
@@ -300,8 +301,8 @@ public class BerryGenManager
                 final TemplateManager manager = world.getStructureManager();
                 final JigsawAssmbler assembler = new JigsawAssmbler(jigsaw);
                 final boolean built = assembler.build(world.registryAccess(), new ResourceLocation(jigsaw.root),
-                        jigsaw.size, AbstractVillagePiece::new, chunkGenerator, manager, pos, this.pieces,
-                        this.random, biome, this.isValid(jigsaw), pos.getY());
+                        jigsaw.size, AbstractVillagePiece::new, chunkGenerator, manager, pos, this.pieces, this.random,
+                        biome, this.isValid(jigsaw), pos.getY());
                 if (!built) return null;
                 this.calculateBoundingBox();
                 return this.random;
@@ -370,16 +371,16 @@ public class BerryGenManager
                 flag = true;
                 if (!flag) return;
                 temp = pos.below();
-                final Block soil = world.getBlockState(temp).getBlock();
-                final boolean isSoil = true;// (soil != null &&
-                // soil.canSustainPlant(par1World,
-                // par3,
-                // par4 - 1, par5, Direction.UP,
-                // (BlockSapling)Block.sapling));
+                BlockState state = world.getBlockState(temp);
+                // final Block soil = state.getBlock();
+                final boolean isSoil = true;
+                // TODO This used to check canSustainPlant, maybe we should?
 
                 if (isSoil && y < world.getMaxBuildHeight() - l - 1)
                 {
-                    soil.onPlantGrow(world.getBlockState(temp), world, temp, pos);
+                    // This is what onPlantGrow did.
+                    if (state.is(Tags.Blocks.DIRT)) world.setBlock(pos, Blocks.DIRT.defaultBlockState(), 2);
+
                     b0 = 3;
                     final byte b1 = 0;
                     int i2;
@@ -416,7 +417,7 @@ public class BerryGenManager
                     for (j1 = 0; j1 < l; ++j1)
                     {
                         temp = new BlockPos(x, y + j1, z);
-                        final BlockState state = world.getBlockState(temp);
+                        state = world.getBlockState(temp);
                         final Block block = state.getBlock();
 
                         if (block == null || block.isAir(world.getBlockState(temp), world, temp)

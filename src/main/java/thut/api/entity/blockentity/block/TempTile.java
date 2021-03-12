@@ -50,6 +50,7 @@ public class TempTile extends TileEntity implements ITickableTileEntity
             if (fake != null)
             {
                 final int lightR = real.getLightValue(this.getLevel(), this.getBlockPos());
+                @SuppressWarnings("deprecation")
                 final int lightF = fake.getLightEmission();
                 if (lightR != lightF) this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(TempBlock.LIGHTLEVEL,
                         lightF));
