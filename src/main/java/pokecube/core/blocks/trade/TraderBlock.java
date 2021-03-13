@@ -36,44 +36,44 @@ public class TraderBlock extends InteractableHorizontalBlock implements IWaterLo
     static
     {
         TRADER.put(Direction.NORTH, VoxelShapes.or(
-                Block.box(0, 0, 0, 16, 1, 13),
-                Block.box(1, 1, 1, 15, 10, 12),
-                Block.box(0, 10, 0, 16, 11, 13),
-                Block.box(1, 11, 4, 6, 12, 9),
-                Block.box(6, 11, 5, 10, 12, 8),
-                Block.box(10, 11, 4, 15, 12, 9),
-                Block.box(4, 11, 1, 12, 16, 2)).optimize());
+            Block.box(0, 0, 3, 16, 1, 16),
+            Block.box(1, 1, 4, 15, 10, 15),
+            Block.box(0, 10, 3, 16, 11, 16),
+            Block.box(10, 11, 7, 15, 12, 12),
+            Block.box(6, 11, 8, 10, 12, 11),
+            Block.box(1, 11, 7, 6, 12, 12),
+            Block.box(4, 11, 14, 12, 16, 15)).optimize());
         TRADER.put(Direction.EAST, VoxelShapes.or(
-                Block.box(3, 0, 0, 16, 1, 16),
-                Block.box(4, 1, 1, 15, 10, 15),
-                Block.box(3, 10, 0, 16, 11, 16),
-                Block.box(7, 11, 1, 12, 12, 6),
-                Block.box(8, 11, 6, 11, 12, 10),
-                Block.box(7, 11, 10, 12, 12, 15),
-                Block.box(14, 11, 4, 15, 16, 12)).optimize());
+            Block.box(0, 0, 0, 13, 1, 16),
+            Block.box(1, 1, 1, 12, 10, 15),
+            Block.box(0, 10, 0, 13, 11, 16),
+            Block.box(4, 11, 10, 9, 12, 15),
+            Block.box(5, 11, 6, 8, 12, 10),
+            Block.box(4, 11, 1, 9, 12, 6),
+            Block.box(1, 11, 4, 2, 16, 12)).optimize());
         TRADER.put(Direction.SOUTH, VoxelShapes.or(
-                Block.box(0, 0, 3, 16, 1, 16),
-                Block.box(1, 1, 4, 15, 10, 15),
-                Block.box(0, 10, 3, 16, 11, 16),
-                Block.box(10, 11, 7, 15, 12, 12),
-                Block.box(6, 11, 8, 10, 12, 11),
-                Block.box(1, 11, 7, 6, 12, 12),
-                Block.box(4, 11, 14, 12, 16, 15)).optimize());
+            Block.box(0, 0, 0, 16, 1, 13),
+            Block.box(1, 1, 1, 15, 10, 12),
+            Block.box(0, 10, 0, 16, 11, 13),
+            Block.box(1, 11, 4, 6, 12, 9),
+            Block.box(6, 11, 5, 10, 12, 8),
+            Block.box(10, 11, 4, 15, 12, 9),
+            Block.box(4, 11, 1, 12, 16, 2)).optimize());
         TRADER.put(Direction.WEST, VoxelShapes.or(
-                Block.box(0, 0, 0, 13, 1, 16),
-                Block.box(1, 1, 1, 12, 10, 15),
-                Block.box(0, 10, 0, 13, 11, 16),
-                Block.box(4, 11, 10, 9, 12, 15),
-                Block.box(5, 11, 6, 8, 12, 10),
-                Block.box(4, 11, 1, 9, 12, 6),
-                Block.box(1, 11, 4, 2, 16, 12)).optimize());
+            Block.box(3, 0, 0, 16, 1, 16),
+            Block.box(4, 1, 1, 15, 10, 15),
+            Block.box(3, 10, 0, 16, 11, 16),
+            Block.box(7, 11, 1, 12, 12, 6),
+            Block.box(8, 11, 6, 11, 12, 10),
+            Block.box(7, 11, 10, 12, 12, 15),
+            Block.box(14, 11, 4, 15, 16, 12)).optimize());
     }
 
     public TraderBlock(final Properties properties, final MaterialColor color)
     {
         super(properties, color);
         this.registerDefaultState(this.stateDefinition.any().setValue(TraderBlock.FACING, Direction.NORTH).setValue(
-                TraderBlock.WATERLOGGED, false));
+            TraderBlock.WATERLOGGED, false));
     }
 
     // Precise selection box
