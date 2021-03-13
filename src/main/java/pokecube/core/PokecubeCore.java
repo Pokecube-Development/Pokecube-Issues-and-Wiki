@@ -174,7 +174,7 @@ public class PokecubeCore
                 final Predicate<RegistryKey<Biome>> check = k -> BiomeDatabase.contains(k, "ocean") || BiomeDatabase
                         .contains(k, "sandy");
                 // Currently this uses same settings as gold ore.
-                WorldgenHandler.get(PokecubeCore.MODID).register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
+                WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
                         Feature.ORE.configured(new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE.get()
                                         .defaultBlockState(), 9)).range(32).squared().count(2));

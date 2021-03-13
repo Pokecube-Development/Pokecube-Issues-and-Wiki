@@ -154,6 +154,9 @@ public class EntityPokemob extends PokemobRidable
     {
         ++this.deathTime;
         if (!(this.getCommandSenderWorld() instanceof ServerWorld)) return;
+
+        if (this.isVehicle()) this.ejectPassengers();
+
         final boolean isTamed = this.pokemobCap.getOwnerId() != null;
         boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn : PokecubeCore.getConfig().wildDeadDespawn;
         this.setNoGravity(false);
@@ -171,8 +174,8 @@ public class EntityPokemob extends PokemobRidable
                 final double d1 = this.random.nextGaussian() * 0.02D;
                 this.level.addParticle(ParticleTypes.POOF, this.getX() + this.random.nextFloat() * this.getBbWidth()
                         * 2.0F - this.getBbWidth(), this.getY() + this.random.nextFloat() * this.getBbHeight(), this
-                                .getZ() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(), d2, d0,
-                        d1);
+                                .getZ() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(), d2,
+                        d0, d1);
             }
         }
         if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer)
@@ -232,8 +235,8 @@ public class EntityPokemob extends PokemobRidable
                 final double jumpStrength = 1.7;
                 final double preBoostJump = jumpStrength * this.jumpPower * this.getBlockJumpFactor();
                 double jumpAmount;
-                if (this.hasEffect(Effects.JUMP)) jumpAmount = preBoostJump + (this.getEffect(
-                        Effects.JUMP).getAmplifier() + 1) * 0.1F;
+                if (this.hasEffect(Effects.JUMP)) jumpAmount = preBoostJump + (this.getEffect(Effects.JUMP)
+                        .getAmplifier() + 1) * 0.1F;
                 else jumpAmount = preBoostJump;
 
                 final Vector3d vector3d = this.getDeltaMovement();
@@ -245,8 +248,8 @@ public class EntityPokemob extends PokemobRidable
                 {
                     final float sinYaw = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
                     final float cosYaw = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
-                    this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * sinYaw * this.jumpPower, 0.0D, 0.4F * cosYaw
-                            * this.jumpPower));
+                    this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * sinYaw * this.jumpPower, 0.0D, 0.4F
+                            * cosYaw * this.jumpPower));
                 }
                 this.jumpPower = 0.0F;
             }
@@ -528,8 +531,8 @@ public class EntityPokemob extends PokemobRidable
             if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore.getConfig().despawnTimer;
             else if (this.despawntimer == 0) return true;
         }
-        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getCommandSenderWorld().getMaxBuildHeight(),
-                this);
+        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getCommandSenderWorld()
+                .getMaxBuildHeight(), this);
         if (PokecubeCore.getConfig().cull && !player) return true;
         return false;
     }

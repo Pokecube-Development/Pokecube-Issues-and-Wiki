@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,10 +92,6 @@ public class WorldgenHandler
                 out.value(value.toString());
             }
         }).create();
-
-        CustomJigsawPiece.TYPE = IJigsawDeserializer.register("pokecube:custom_pool_element",
-                CustomJigsawPiece.CODEC);
-
     }
 
     public static class Options
@@ -244,8 +241,6 @@ public class WorldgenHandler
         public List<JigSawConfig> jigsaws = Lists.newArrayList();
     }
 
-    private static Map<String, WorldgenHandler> WORLDGEN = Maps.newConcurrentMap();
-
     public static Map<String, CustomJigsawStructure> structs = Maps.newConcurrentMap();
 
     private static List<Structure<?>> SORTED_PRIOR_LIST = Lists.newArrayList();
@@ -289,11 +284,6 @@ public class WorldgenHandler
     {
         WorldgenHandler.initSpaceMap();
         return WorldgenHandler.SPACENEEDS.get(s);
-    }
-
-    public static WorldgenHandler get(final String modid)
-    {
-        return WorldgenHandler.WORLDGEN.get(modid);
     }
 
     public final String           MODID;
@@ -354,6 +344,8 @@ public class WorldgenHandler
         }
     }
 
+    public static WorldgenHandler INSTANCE;
+
     private final FMLReger reg = new FMLReger();
 
     private final Map<BiomeFeature, Predicate<BiomeLoadingEvent>>   features   = Maps.newHashMap();
@@ -365,29 +357,28 @@ public class WorldgenHandler
 
     private final Map<CustomJigsawStructure, Set<JigSawConfig>> variants = Maps.newHashMap();
 
-    public Structures defaults;
+    private final Structures defaults = new Structures();
 
     public WorldgenHandler(final IEventBus bus)
     {
         this(PokecubeCore.MODID, bus);
     }
 
-    public WorldgenHandler(final String modid, final IEventBus bus)
+    private WorldgenHandler(final String modid, final IEventBus bus)
     {
         this.MODID = modid;
         this.ROOT = new ResourceLocation(this.MODID, "structures/");
         bus.register(this.reg);
         MinecraftForge.EVENT_BUS.register(this);
-        WorldgenHandler.WORLDGEN.put(this.MODID, this);
+        WorldgenHandler.INSTANCE = this;
+        if (CustomJigsawPiece.TYPE == null) CustomJigsawPiece.TYPE = IJigsawDeserializer.register(
+                "pokecube:custom_pool_element", CustomJigsawPiece.makeCodec());
     }
 
     public static void setupAll()
     {
-        for (final WorldgenHandler gen : WorldgenHandler.WORLDGEN.values())
-        {
-            gen.setup();
-            gen.registerConfigured();
-        }
+        WorldgenHandler.INSTANCE.setup();
+        WorldgenHandler.INSTANCE.registerConfigured();
     }
 
     protected void setup()
@@ -533,31 +524,22 @@ public class WorldgenHandler
 
     public void loadStructures() throws Exception
     {
-        ResourceLocation json = new ResourceLocation(this.ROOT.toString() + "worldgen.json");
-        InputStream res = Database.resourceManager.getResource(json).getInputStream();
-        Reader reader = new InputStreamReader(res);
-        this.defaults = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources("structures/", s -> s
+                .endsWith("worldgen.json"));
 
-        // Pokecube core will then also check the configurable worldgen
-        // databases
-        if (this.MODID.equals(PokecubeCore.MODID)) for (final String s : PokecubeCore
-                .getConfig().extraWorldgenDatabases)
+        this.defaults.jigsaws.clear();
+        this.defaults.pools.clear();
+
+        for (final ResourceLocation json : resources)
         {
-            json = new ResourceLocation(this.ROOT.toString() + s + ".json");
-            try
-            {
-                res = Database.resourceManager.getResource(json).getInputStream();
-                reader = new InputStreamReader(res);
-                final Structures extra = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
-                this.defaults.jigsaws.addAll(extra.jigsaws);
-                this.defaults.pools.addAll(extra.pools);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error loading a custom database: {}", s);
-                PokecubeCore.LOGGER.error(e);
-            }
+            final InputStream res = Database.resourceManager.getResource(json).getInputStream();
+            final Reader reader = new InputStreamReader(res);
+            final Structures extra = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
+
+            this.defaults.jigsaws.addAll(extra.jigsaws);
+            this.defaults.pools.addAll(extra.pools);
         }
+
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -598,10 +580,10 @@ public class WorldgenHandler
 
             for (final String s : PokecubeCore.getConfig().worldgenWorldSettings)
             {
-                final RegistryKey<DimensionSettings> key = RegistryKey.create(Registry.NOISE_GENERATOR_SETTINGS_REGISTRY,
-                        new ResourceLocation(s));
-                WorldGenRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(structure,
-                        struct.toSettings());
+                final RegistryKey<DimensionSettings> key = RegistryKey.create(
+                        Registry.NOISE_GENERATOR_SETTINGS_REGISTRY, new ResourceLocation(s));
+                WorldGenRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(
+                        structure, struct.toSettings());
             }
         }
         PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);

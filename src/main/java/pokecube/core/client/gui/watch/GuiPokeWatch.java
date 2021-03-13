@@ -157,7 +157,12 @@ public class GuiPokeWatch extends Screen
 
     private void handleError(final Exception e)
     {
-        PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+        if (this.current_page != null) PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+        else
+        {
+            PokecubeCore.LOGGER.warn("Error with null page", e);
+            return;
+        }
         try
         {
             this.current_page.onPageClosed();

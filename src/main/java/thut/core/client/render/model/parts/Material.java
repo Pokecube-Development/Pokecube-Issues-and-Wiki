@@ -16,12 +16,13 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.IRenderTypeBuffer.Impl;
 import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderState.DepthTestState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.vecmath.Vector3f;
 
-public class Material extends RenderState
+public class Material
 {
     protected static final RenderState.TransparencyState DEFAULTTRANSP = new RenderState.TransparencyState(
             "material_transparency", () ->
@@ -102,11 +103,6 @@ public class Material extends RenderState
 
     public Material(final String name)
     {
-        super(name, () ->
-        {
-        }, () ->
-        {
-        });
         this.name = name;
         this.render_name = "thutcore:mat_" + name + "_";
     }

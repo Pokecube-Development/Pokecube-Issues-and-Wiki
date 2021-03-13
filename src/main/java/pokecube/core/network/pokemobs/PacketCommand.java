@@ -121,10 +121,10 @@ public class PacketCommand extends Packet
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        final Entity user = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.entityId, true);
+        final Entity user = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.entityId,
+                true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
         if (pokemob == null) return;
-        PokecubeCore.LOGGER.debug("Handling command packet: " + this.command);
         pokemob.handleCommand(this.command, this.handler);
     }
 

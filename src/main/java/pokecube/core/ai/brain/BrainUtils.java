@@ -22,9 +22,11 @@ import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.IPosWrapper;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.events.SetAttackTargetEvent;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.utils.AITools;
@@ -296,6 +298,8 @@ public class BrainUtils
     {
         if (mob == null) return;
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
+        if (PokecubeMod.debug) if (mutual) PokecubeCore.LOGGER.error(mob + " " + mutual, new Exception());
+        else PokecubeCore.LOGGER.error(mob + " " + mutual);
         if (aggressor != null)
         {
             aggressor.getTargetFinder().clear();

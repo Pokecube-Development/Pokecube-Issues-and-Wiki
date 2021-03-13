@@ -2,21 +2,16 @@ package pokecube.adventures.entity.trainer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalInt;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.MerchantContainer;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
-import net.minecraft.item.MerchantOffers;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import pokecube.adventures.PokecubeAdv;
@@ -263,22 +258,9 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public void openTradingScreen(final PlayerEntity player, final ITextComponent tittle, final int level)
+    public boolean canRestock()
     {
-        // This is the player specific get recipes and open inventory thing
-        final OptionalInt optionalint = player.openMenu(new SimpleNamedContainerProvider((int_unk_2,
-                player_inventory, unk) ->
-        {
-            return new MerchantContainer(int_unk_2, player_inventory, this);
-        }, tittle));
-        if (optionalint.isPresent())
-        {
-            final MerchantOffers merchantoffers = this.getOffers();
-            // TODO here we add in a hook to see if we want to trade pokemobs.
-            if (!merchantoffers.isEmpty()) player.sendMerchantOffers(optionalint.getAsInt(), merchantoffers, level,
-                    this.getVillagerXp(), this.showProgressBar(), true);
-        }
-
+        return true;
     }
 
     /** @return the male */
