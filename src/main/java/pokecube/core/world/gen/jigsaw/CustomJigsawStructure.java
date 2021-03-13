@@ -236,7 +236,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                                             final String meta = i.nbt.getString("metadata");
                                             foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
                                             if (pos == null && foundWorldspawn) pos = i.pos;
-                                            if (meta.startsWith("pokecube:mob:trader")) tradeString = meta;
+                                            if (meta.startsWith("pokecube:mob:trader") || meta.startsWith(
+                                                    "pokecube:mob:pokemart_merchant")) tradeString = meta;
                                         }
                                     }
                                 if (!tradeString.isEmpty() && foundWorldspawn)

@@ -3,19 +3,22 @@ package pokecube.core.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -204,10 +207,9 @@ public class EventsHandlerClient
     {
         IPokemob mount;
 
-        if (evt.getInfo().getEntity() instanceof PlayerEntity && evt.getInfo().getEntity()
-                .getVehicle() != null && (mount = CapabilityPokemob.getPokemobFor(evt.getInfo()
-                        .getEntity().getVehicle())) != null) if (evt.getInfo().getEntity()
-                                .isInWater() && mount.canUseDive())
+        if (evt.getInfo().getEntity() instanceof PlayerEntity && evt.getInfo().getEntity().getVehicle() != null
+                && (mount = CapabilityPokemob.getPokemobFor(evt.getInfo().getEntity().getVehicle())) != null) if (evt
+                        .getInfo().getEntity().isInWater() && mount.canUseDive())
         {
             evt.setDensity(0.005f);
             evt.setCanceled(true);
@@ -221,14 +223,12 @@ public class EventsHandlerClient
         if (player == null) return;
         //
         if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT) if (Minecraft
-                .getInstance().hitResult == null || Minecraft.getInstance().hitResult
-                        .getType() == Type.MISS)
+                .getInstance().hitResult == null || Minecraft.getInstance().hitResult.getType() == Type.MISS)
         {
             final Entity entity = Tools.getPointedEntity(player, 6);
             if (entity != null) hands:
             for (final Hand hand : Hand.values())
-                if (Minecraft.getInstance().gameMode.interact(player, entity,
-                        hand) == ActionResultType.SUCCESS)
+                if (Minecraft.getInstance().gameMode.interact(player, entity, hand) == ActionResultType.SUCCESS)
                 {
                     evt.setCanceled(true);
                     break hands;
@@ -353,8 +353,8 @@ public class EventsHandlerClient
         {
             if (!Screen.hasAltDown()) return;
             final PlayerEntity player = Minecraft.getInstance().player;
-            final int w = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-            final int h = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+            final int w = event.getWindow().getGuiScaledWidth();
+            final int h = event.getWindow().getGuiScaledHeight();
             int i, j;
             i = -80;
             j = -9;
@@ -363,7 +363,8 @@ public class EventsHandlerClient
                 final ItemStack stack = player.inventory.items.get(l);
                 if (stack != null && PokecubeManager.isFilled(stack))
                 {
-                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player.getCommandSenderWorld());
+                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player
+                            .getCommandSenderWorld());
                     if (pokemob == null) continue;
                     int x = w / 2;
                     x = i + x + 20 * l - 8;
@@ -443,19 +444,36 @@ public class EventsHandlerClient
         }
         ResourceLocation icon = entry.getIcon(!female, shiny);
         if (holder != null) icon = holder.getIcon(!female, shiny, entry);
-        Minecraft.getInstance().getTextureManager().bind(icon);
-        final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder bufferbuilder = tessellator.getBuilder();
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
+        // Ensure this is ended first?
+        irendertypebuffer$impl.endBatch();
+        final RenderType type = EventsHandlerClient.getRenderTypeForIcon(icon);
+        final IVertexBuilder bufferbuilder = irendertypebuffer$impl.getBuffer(type);
+        System.out.println(icon + " " + bufferbuilder + " " + type);
         final int zLevel = 300;
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
         bufferbuilder.vertex(left, bottom, zLevel).uv(0, 0).endVertex();
         bufferbuilder.vertex(right, bottom, zLevel).uv(1, 0).endVertex();
         bufferbuilder.vertex(right, top, zLevel).uv(1, 1).endVertex();
         bufferbuilder.vertex(left, top, zLevel).uv(0, 1).endVertex();
-        tessellator.end();
-        RenderSystem.disableBlend();
+        irendertypebuffer$impl.endBatch();
+    }
+
+    private static Map<ResourceLocation, RenderType> cache = Maps.newHashMap();
+
+    private static RenderType getRenderTypeForIcon(final ResourceLocation icon)
+    {
+        if (EventsHandlerClient.cache.containsKey(icon)) return EventsHandlerClient.cache.get(icon);
+        else
+        {
+            final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
+                    new RenderState.TextureState(icon, false, false)).setAlphaState(RenderState.DEFAULT_ALPHA)
+                    .setLayeringState(RenderState.VIEW_OFFSET_Z_LAYERING).setTransparencyState(
+                            RenderState.TRANSLUCENT_TRANSPARENCY).setOutputState(RenderState.ITEM_ENTITY_TARGET)
+                    .setWriteMaskState(RenderState.COLOR_DEPTH_WRITE).createCompositeState(true);
+            EventsHandlerClient.cache.put(icon, RenderType.create("pokemob_icon_" + icon,
+                    DefaultVertexFormats.POSITION_TEX, 7, 256, rendertype$state));
+        }
+        return EventsHandlerClient.cache.get(icon);
     }
 
     public static void setFromNBT(final IPokemob pokemob, final CompoundNBT tag)

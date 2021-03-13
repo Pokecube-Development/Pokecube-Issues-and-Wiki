@@ -55,6 +55,7 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
+import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.handlers.events.EventsHandler;
@@ -72,20 +73,20 @@ public class TrainerSpawnHandler
 
     static
     {
-        SpawnEventsHandler.processors.add((npc, thing) ->
+        SpawnEventsHandler.processors.add((mob, thing) ->
         {
-            final World world = npc.getCommandSenderWorld();
+            final World world = mob.getCommandSenderWorld();
             // Then apply trainer specific stuff.
-            int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(npc), Database.missingno);
+            int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(mob), Database.missingno);
             if (thing.has("level")) level = thing.get("level").getAsInt();
             String typeName = "";
             if (thing.has("aiStates"))
             {
-                final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(npc);
+                final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(mob);
                 if (aiStates != null)
                 {
                     aiStates.setTotalState(thing.get("aiStates").getAsInt());
-                    npc.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
+                    mob.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
                 }
             }
 
@@ -127,13 +128,14 @@ public class TrainerSpawnHandler
                 }
                 if (!typeName.isEmpty())
                 {
-
                     final TypeTrainer type = TypeTrainer.typeMap.get(typeName);
-                    if (type != null) npc.setNpcType(type);
+                    // TODO some of these should handle from IHasPokemobs
+                    // instead!
+                    if (type != null && mob instanceof NpcMob) ((NpcMob) mob).setNpcType(type);
                     else PokecubeCore.LOGGER.error("No trainer type registerd for {}", typeName);
                 }
             }
-            if (npc instanceof TrainerBase) ((TrainerBase) npc).initTeam(level);
+            if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
         });
     }
 
@@ -212,7 +214,8 @@ public class TrainerSpawnHandler
     {
         final Vector3 loc = Vector3.getNewVector().set(trainer);
         // Set level based on what wild pokemobs have.
-        int level = SpawnHandler.getSpawnLevel(trainer.getCommandSenderWorld(), loc, Pokedex.getInstance().getFirstEntry());
+        int level = SpawnHandler.getSpawnLevel(trainer.getCommandSenderWorld(), loc, Pokedex.getInstance()
+                .getFirstEntry());
 
         if (trainer instanceof LeaderNpc)
         {
@@ -284,11 +287,11 @@ public class TrainerSpawnHandler
 
             // Not valid spawning spot, so deny the spawn here.
             if (!(WorldEntitySpawner.isSpawnPositionOk(PlacementType.ON_GROUND, w, v.getPos(), t.getType())
-                    || WorldEntitySpawner.isSpawnPositionOk(PlacementType.IN_WATER, w, v.getPos(), t
-                            .getType()))) return;
+                    || WorldEntitySpawner.isSpawnPositionOk(PlacementType.IN_WATER, w, v.getPos(), t.getType())))
+                return;
 
-            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t
-                    .getY(), (int) t.getZ()))
+            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t.getY(),
+                    (int) t.getZ()))
             {
                 w.addFreshEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
