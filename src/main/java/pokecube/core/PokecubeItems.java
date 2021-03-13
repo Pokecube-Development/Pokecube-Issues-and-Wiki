@@ -185,7 +185,7 @@ public class PokecubeItems extends ItemList
                 Material.GRASS, MaterialColor.COLOR_BROWN)));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(AbstractBlock.Properties.of(
                 Material.GRASS, MaterialColor.COLOR_GREEN)));
-        DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(AbstractBlock.Properties.of(Material.STONE)
+        DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(AbstractBlock.Properties.of(Material.GLASS)
                 .sound(SoundType.GLASS).strength(2000), MaterialColor.COLOR_MAGENTA));
         PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_RED)
                 .strength(2000), true));

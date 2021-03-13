@@ -1,153 +1,139 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"trade_machine": "pokecube:block/trade_machine",
-		"particle": "pokecube:block/trade_machine"
+		"particle": "pokecube:block/trade_machine_front",
+		"front": "pokecube:block/trade_machine_front",
+		"top": "pokecube:block/trade_machine_top",
+		"side": "pokecube:block/trade_machine_side",
+		"details": "pokecube:block/trade_machine_details"
 	},
 	"elements": [
 		{
-			"name": "center",
-			"from": [0, 0, 1.66],
-			"to": [16, 1, 14.34],
+			"name": "bottom",
+			"from": [0, 0, 0],
+			"to": [16, 1, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 8, 7]},
 			"faces": {
-				"north": {"uv": [2.64, 0.99, 3.73, 2.08], "rotation": 270, "texture": "#trade_machine"},
-				"east": {"uv": [2.64, 0.99, 3.73, 2.08], "rotation": 270, "texture": "#trade_machine", "cullface": "east"},
-				"south": {"uv": [2.64, 0.99, 3.73, 2.08], "rotation": 270, "texture": "#trade_machine"},
-				"west": {"uv": [2.64, 0.99, 3.73, 2.08], "rotation": 270, "texture": "#trade_machine", "cullface": "west"},
-				"up": {"uv": [2.64, 0.99, 3.73, 2.08], "rotation": 180, "texture": "#trade_machine"},
-				"down": {"uv": [2.64, 0.99, 3.73, 2.08], "texture": "#trade_machine", "cullface": "down"}
+				"north": {"uv": [0, 15, 16, 16], "texture": "#front"},
+				"east": {"uv": [0, 15, 13, 16], "texture": "#side", "cullface": "east"},
+				"south": {"uv": [0, 15, 16, 16], "texture": "#front"},
+				"west": {"uv": [0, 15, 13, 16], "texture": "#side", "cullface": "east"},
+				"up": {"uv": [0, 0, 16, 13], "rotation": 180, "texture": "#top"},
+				"down": {"uv": [0, 0, 16, 13], "rotation": 180, "texture": "#top"}
 			}
 		},
 		{
-			"name": "Cube",
-			"from": [0, 9, 1.66],
-			"to": [16, 10, 14.34],
+			"name": "main",
+			"from": [1, 1, 1],
+			"to": [15, 10, 12],
 			"faces": {
-				"north": {"uv": [2.55, 0.66, 3.61, 1.72], "rotation": 270, "texture": "#trade_machine"},
-				"east": {"uv": [2.55, 0.66, 3.61, 1.72], "rotation": 270, "texture": "#trade_machine", "cullface": "east"},
-				"south": {"uv": [2.55, 0.66, 3.61, 1.72], "rotation": 270, "texture": "#trade_machine"},
-				"west": {"uv": [2.55, 0.66, 3.61, 1.72], "rotation": 270, "texture": "#trade_machine", "cullface": "west"},
-				"up": {"uv": [0.74, 0.93, 1.8, 1.99], "rotation": 180, "texture": "#trade_machine"},
-				"down": {"uv": [2.55, 0.66, 3.61, 1.72], "texture": "#trade_machine"}
+				"north": {"uv": [1, 6, 15, 15], "texture": "#front"},
+				"east": {"uv": [1, 6, 12, 15], "texture": "#side"},
+				"south": {"uv": [1, 6, 15, 15], "texture": "#front"},
+				"west": {"uv": [1, 6, 12, 15], "texture": "#side"}
 			}
 		},
 		{
-			"name": "Cube",
-			"from": [2.64, 1, 2.02],
-			"to": [13.36, 9, 13.98],
+			"name": "counter",
+			"from": [0, 10, 0],
+			"to": [16, 11, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 9, 6]},
 			"faces": {
-				"north": {"uv": [0.58, 0.72, 1.98, 2.12], "rotation": 270, "texture": "#trade_machine"},
-				"east": {"uv": [0.58, 0.72, 1.98, 2.12], "rotation": 270, "texture": "#trade_machine"},
-				"south": {"uv": [0.25, 5.875, 4.575, 9.85], "texture": "#trade_machine"},
-				"west": {"uv": [0.58, 0.72, 1.98, 2.12], "rotation": 270, "texture": "#trade_machine"}
+				"north": {"uv": [0, 5, 16, 6], "texture": "#front"},
+				"east": {"uv": [0, 5, 13, 6], "texture": "#side", "cullface": "east"},
+				"south": {"uv": [0, 5, 16, 6], "texture": "#front"},
+				"west": {"uv": [0, 5, 13, 6], "texture": "#side", "cullface": "east"},
+				"up": {"uv": [0, 0, 16, 13], "rotation": 180, "texture": "#top"},
+				"down": {"uv": [0, 0, 16, 13], "rotation": 180, "texture": "#top"}
 			}
 		},
 		{
-			"name": "Cube",
-			"from": [0.21, 1, 2.67],
-			"to": [15.79, 9, 13.33],
+			"name": "slot",
+			"from": [1, 11, 4],
+			"to": [6, 12, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 9, 4]},
 			"faces": {
-				"north": {"uv": [1.44, 3.38, 2.76, 4.71], "rotation": 270, "texture": "#trade_machine"},
-				"east": {"uv": [1.44, 3.38, 2.76, 4.71], "rotation": 270, "texture": "#trade_machine"},
-				"south": {"uv": [1.44, 3.38, 2.76, 4.71], "rotation": 270, "texture": "#trade_machine"},
-				"west": {"uv": [1.44, 3.38, 2.76, 4.71], "rotation": 270, "texture": "#trade_machine"}
+				"north": {"uv": [0, 6, 5, 7], "texture": "#details"},
+				"east": {"uv": [0, 6, 5, 7], "texture": "#details"},
+				"south": {"uv": [0, 6, 5, 7], "texture": "#details"},
+				"west": {"uv": [0, 6, 5, 7], "texture": "#details"},
+				"up": {"uv": [0, 0, 5, 5], "rotation": 180, "texture": "#details"}
 			}
 		},
 		{
-			"name": "metal",
-			"from": [5.5, 10, 8.72],
-			"to": [10.5, 10.5, 11.72],
+			"name": "bar",
+			"from": [6, 11, 5],
+			"to": [10, 12, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 9, 4]},
 			"faces": {
-				"north": {"uv": [1.47, 3.23, 3.07, 4.84], "rotation": 270, "texture": "#trade_machine"},
-				"south": {"uv": [1.47, 3.23, 3.07, 4.84], "rotation": 270, "texture": "#trade_machine"},
-				"up": {"uv": [1.47, 3.23, 3.07, 4.84], "rotation": 180, "texture": "#trade_machine"}
+				"north": {"uv": [0, 12, 4, 13], "rotation": 180, "texture": "#details"},
+				"south": {"uv": [0, 12, 4, 13], "rotation": 180, "texture": "#details"},
+				"up": {"uv": [0, 8, 4, 11], "rotation": 180, "texture": "#details"}
 			}
 		},
 		{
-			"name": "Cube",
-			"from": [0.93, 10, 7.84],
-			"to": [5.93, 11, 12.84],
+			"name": "slot",
+			"from": [10, 11, 4],
+			"to": [15, 12, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 9, 4]},
 			"faces": {
-				"north": {"uv": [1.7, 3.72, 2.29, 4.31], "rotation": 270, "texture": "#trade_machine"},
-				"east": {"uv": [1.7, 3.72, 2.29, 4.31], "rotation": 270, "texture": "#trade_machine"},
-				"south": {"uv": [1.7, 3.72, 2.29, 4.31], "rotation": 270, "texture": "#trade_machine"},
-				"west": {"uv": [1.7, 3.72, 2.29, 4.31], "rotation": 270, "texture": "#trade_machine"},
-				"up": {"uv": [6.02, 1.29, 6.62, 1.88], "rotation": 180, "texture": "#trade_machine"}
+				"north": {"uv": [5, 6, 10, 7], "texture": "#details"},
+				"east": {"uv": [5, 6, 10, 7], "texture": "#details"},
+				"south": {"uv": [5, 6, 10, 7], "texture": "#details"},
+				"west": {"uv": [5, 6, 10, 7], "texture": "#details"},
+				"up": {"uv": [5, 0, 10, 5], "rotation": 180, "texture": "#details"}
 			}
 		},
 		{
-			"name": "Cube",
-			"from": [10.13, 10, 7.84],
-			"to": [14.88, 11, 12.84],
+			"name": "screen",
+			"from": [4, 11, 1],
+			"to": [12, 16, 2],
+			"rotation": {"angle": 0, "axis": "x", "origin": [7, 1, 0]},
 			"faces": {
-				"north": {"uv": [1.7, 3.72, 2.29, 4.31], "rotation": 270, "texture": "#trade_machine"},
-				"east": {"uv": [1.7, 3.72, 2.29, 4.31], "rotation": 270, "texture": "#trade_machine"},
-				"south": {"uv": [1.7, 3.72, 2.29, 4.31], "rotation": 270, "texture": "#trade_machine"},
-				"west": {"uv": [1.7, 3.72, 2.29, 4.31], "rotation": 270, "texture": "#trade_machine"},
-				"up": {"uv": [6.02, 1.29, 6.62, 1.88], "rotation": 180, "texture": "#trade_machine"}
-			}
-		},
-		{
-			"name": "Cube",
-			"from": [4.6, 10, 8.73],
-			"to": [11.6, 16, 9.73],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 0, 8]},
-			"faces": {
-				"north": {"uv": [0.5, 3.5, 1.85, 4.85], "texture": "#trade_machine"},
-				"east": {"uv": [0.5, 3.5, 1.85, 4.85], "texture": "#trade_machine"},
-				"south": {"uv": [8.375, 0.25, 14.933, 7.162], "texture": "#trade_machine"},
-				"west": {"uv": [0.5, 3.5, 1.85, 4.85], "texture": "#trade_machine"},
-				"up": {"uv": [0.5, 3.5, 1.85, 4.85], "texture": "#trade_machine"}
-			}
-		},
-		{
-			"name": "metal",
-			"from": [7.57, 10, 3],
-			"to": [8.57, 14, 4],
-			"faces": {
-				"north": {"uv": [1.47, 3.23, 3.07, 4.84], "rotation": 270, "texture": "#trade_machine"},
-				"east": {"uv": [1.47, 3.23, 3.07, 4.84], "rotation": 270, "texture": "#trade_machine"},
-				"south": {"uv": [1.47, 3.23, 3.07, 4.84], "rotation": 270, "texture": "#trade_machine"},
-				"west": {"uv": [1.47, 3.23, 3.07, 4.84], "rotation": 270, "texture": "#trade_machine"}
+				"north": {"uv": [0, 0, 8, 5], "texture": "#side"},
+				"east": {"uv": [8, 0, 9, 5], "texture": "#front"},
+				"south": {"uv": [0, 0, 8, 5], "texture": "#front"},
+				"west": {"uv": [8, 0, 9, 5], "texture": "#front"},
+				"up": {"uv": [8, 4, 16, 5], "texture": "#front"}
 			}
 		}
 	],
 	"display": {
 		"thirdperson_righthand": {
-			"rotation": [25, -45, 0],
+			"rotation": [75, 45, 0],
 			"translation": [0, 2.5, 0],
 			"scale": [0.375, 0.375, 0.375]
 		},
 		"thirdperson_lefthand": {
-			"rotation": [25, -45, 0],
+			"rotation": [75, 45, 0],
 			"translation": [0, 2.5, 0],
 			"scale": [0.375, 0.375, 0.375]
 		},
 		"firstperson_righthand": {
-			"rotation": [0, -55, 0],
-			"translation": [0, 3, 0],
+			"rotation": [0, -45, 0],
+			"translation": [0, 1, 0],
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, -55, 0],
-			"translation": [0, 3, 0],
+			"rotation": [0, -43, 0],
+			"translation": [0, 1, 0],
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
+			"translation": [0, 3, 0],
 			"scale": [0.25, 0.25, 0.25]
 		},
 		"gui": {
-			"rotation": [15, -45, 0],
-			"translation": [0, 1.25, 0],
-			"scale": [0.69, 0.75, 0.75]
+			"rotation": [30, -45, 0],
+			"scale": [0.625, 0.625, 0.625]
 		},
 		"head": {
 			"rotation": [0, 180, 0],
-			"translation": [0, 14.5, 0]
+			"translation": [0, 14.25, -1.5]
 		},
 		"fixed": {
-			"rotation": [0, 180, 0],
-			"translation": [0, 0, -2.75],
+			"rotation": [0, -180, 0],
+			"translation": [0, 0, -1],
 			"scale": [0.5, 0.5, 0.5]
 		}
 	}
