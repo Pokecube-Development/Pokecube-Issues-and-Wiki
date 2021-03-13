@@ -138,7 +138,7 @@ public class BerryGenManager
 
         PokecubeMod.LOGGER.debug("=========Adding Berry Trees=========");
 
-        final WorldgenHandler handler = WorldgenHandler.get(this.MODID);
+        final WorldgenHandler handler = WorldgenHandler.INSTANCE;
 
         // // Initialize the pools, applying our extra values
         for (final BerryPool pool : this.defaults.pools)

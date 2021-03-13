@@ -217,8 +217,8 @@ public class WikiPage extends ListPage<LineEntry>
                 {
                     for (String line : page.lines)
                     {
-                        final String refin = "�";
-                        final String linkin = "�";
+                        final String refin = "\u241F";
+                        final String linkin = "\u240F";
                         String ref_val = "";
                         String link_val = "";
                         Matcher match = link.matcher(line);

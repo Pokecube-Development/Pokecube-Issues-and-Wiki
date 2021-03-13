@@ -4,7 +4,6 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.worldgen.WorldgenHandler;
 
 @Mod.EventBusSubscriber
 public class Compat
@@ -14,10 +13,7 @@ public class Compat
     static
     {
         PokecubeCore.LOGGER.debug("Checking World Blender: " + ModList.get().isLoaded(Compat.MODID));
-        if (ModList.get().isLoaded(Compat.MODID))
-        {
-            FMLJavaModLoadingContext.get().getModEventBus().register(Compat.class);
-            new WorldgenHandler(Compat.MODID, FMLJavaModLoadingContext.get().getModEventBus());
-        }
+        if (ModList.get().isLoaded(Compat.MODID)) FMLJavaModLoadingContext.get().getModEventBus().register(
+                Compat.class);
     }
 }
