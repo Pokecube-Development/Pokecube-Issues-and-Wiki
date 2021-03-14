@@ -20,6 +20,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
 import java.util.HashMap;
@@ -98,6 +99,15 @@ public class TraderBlock extends InteractableHorizontalBlock implements IWaterLo
         return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(TraderBlock.FACING, context
                 .getHorizontalDirection().getOpposite()).setValue(TraderBlock.WATERLOGGED, ifluidstate.is(
                         FluidTags.WATER) && ifluidstate.getAmount() == 8);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+                                  final BlockPos facingPos)
+    {
+        if (state.getValue(TraderBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     // Adds Waterlogging State

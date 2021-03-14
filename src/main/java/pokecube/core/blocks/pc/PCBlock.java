@@ -1,9 +1,5 @@
 package pokecube.core.blocks.pc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -29,8 +25,13 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import pokecube.core.network.packets.PacketPC;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class PCBlock extends HorizontalBlock implements IWaterLoggable
 {
@@ -136,6 +137,15 @@ public class PCBlock extends HorizontalBlock implements IWaterLoggable
         return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(PCBlock.FACING, context
                 .getHorizontalDirection().getOpposite()).setValue(PCBlock.WATERLOGGED, ifluidstate.is(
                         FluidTags.WATER) && ifluidstate.getAmount() == 8);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+                                  final BlockPos facingPos)
+    {
+        if (state.getValue(PCBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
