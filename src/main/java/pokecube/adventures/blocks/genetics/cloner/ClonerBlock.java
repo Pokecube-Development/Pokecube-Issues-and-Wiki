@@ -1,10 +1,6 @@
 package pokecube.adventures.blocks.genetics.cloner;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.*;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,6 +20,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableHorizontalBlock;
@@ -34,13 +31,15 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     public static final BooleanProperty               WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
-    private static final VoxelShape CLONER_BOTTOM = VoxelShapes.or(Block.box(0, 0, 0, 16, 12, 16), Block
-            .box(0.5, 12, 0.5, 15.5, 13, 15.5), Block.box(1, 13, 1, 15, 16, 15))
-            .optimize();
+    private static final VoxelShape CLONER_BOTTOM = VoxelShapes.or(
+            Block.box(0, 0, 0, 16, 12, 16),
+            Block.box(0.5, 12, 0.5, 15.5, 13, 15.5),
+            Block.box(1, 13, 1, 15, 16, 15)).optimize();
 
-    private static final VoxelShape CLONER_TOP = VoxelShapes.or(Block.box(0, 12, 0, 16, 16, 16), Block
-            .box(0.5, 11, 0.5, 15.5, 12, 15.5), Block.box(1, 0, 1, 15, 11, 15))
-            .optimize();
+    private static final VoxelShape CLONER_TOP = VoxelShapes.or(
+            Block.box(0, 12, 0, 16, 16, 16),
+            Block.box(0.5, 11, 0.5, 15.5, 12, 15.5),
+            Block.box(1, 0, 1, 15, 11, 15)).optimize();
 
     // Precise selection box
     @Override
@@ -131,6 +130,15 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
                         .setValue(ClonerBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
                                 .getAmount() == 8);
         return null;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+                                  final BlockPos facingPos)
+    {
+        if (state.getValue(ClonerBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @SuppressWarnings("deprecation")
