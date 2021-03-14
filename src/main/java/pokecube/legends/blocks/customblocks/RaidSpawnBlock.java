@@ -13,7 +13,6 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -46,7 +45,6 @@ import java.util.Random;
 
 public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
-    protected static final DirectionProperty FACING      = HorizontalBlock.FACING;
     protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
 
@@ -86,7 +84,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
     {
         super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
         this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY)
-                .setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+                .setValue(HorizontalBlock.FACING, Direction.NORTH).setValue(RaidSpawnBlock.WATERLOGGED, false));
     }
 
     // Precise selection box
@@ -107,16 +105,16 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
     protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         super.createBlockStateDefinition(builder);
-        builder.add(RaidSpawnBlock.ACTIVE, RaidSpawnBlock.FACING, RaidSpawnBlock.WATERLOGGED);
+        builder.add(RaidSpawnBlock.ACTIVE, RaidSpawnBlock.WATERLOGGED);
     }
 
-    // Waterloggging on placement
+    // Waterlogging on placement
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(FACING, context
-                .getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, ifluidstate.is(
+        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(HorizontalBlock.FACING, context
+                .getHorizontalDirection().getOpposite()).setValue(RaidSpawnBlock.WATERLOGGED, ifluidstate.is(
                 FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }
 
@@ -125,7 +123,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
     @Override
     public FluidState getFluidState(final BlockState state)
     {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+        return state.getValue(RaidSpawnBlock.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
@@ -170,7 +168,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
                 worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
             }
         }
-        ;
+
         return ActionResultType.SUCCESS;
     }
 
