@@ -5,16 +5,21 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IServerWorld;
@@ -24,6 +29,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
@@ -131,61 +137,112 @@ public class SpawnEventsHandler
         event.setPick(dbe);
     }
 
+    private static boolean oldSpawns(final StructureEvent.ReadTag event, final String function)
+    {
+        final boolean nurse = function.startsWith("nurse");
+        final boolean professor = function.startsWith("professor");
+        final boolean trader = function.startsWith("trader");
+        final boolean npc = function.startsWith("npc");
+
+        if (!(nurse || professor || trader || npc)) return false;
+
+        final NpcMob mob = NpcMob.TYPE.create(event.worldActual);
+
+        mob.setPersistenceRequired();
+        mob.moveTo(event.pos, 0.0F, 0.0F);
+        mob.finalizeSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
+                SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
+
+        JsonObject thing = new JsonObject();
+        if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
+        {
+            final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
+            thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
+            // Check if we specify a preset instead, and if that exists,
+            // use that.
+            if (thing.has("preset") && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset")
+                    .getAsString())) thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset")
+                            .getAsString());
+        }
+        catch (final JsonSyntaxException e)
+        {
+            PokecubeCore.LOGGER.error("Error parsing " + function, e);
+        }
+        if (!(thing.has("trainerType") || thing.has("type"))) thing.add("type", new JsonPrimitive(nurse ? "healer"
+                : trader ? "trader" : "professor"));
+        if (nurse) mob.setMale(false);
+        SpawnEventsHandler.spawnNpc(event, mob, thing);
+        return true;
+    }
+
+    private static void spawnNpc(final StructureEvent.ReadTag event, final NpcMob mob, final JsonObject thing)
+    {
+        if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual, SpawnReason.STRUCTURE,
+                thing)))
+        {
+            event.setResult(Result.ALLOW);
+            SpawnEventsHandler.spawnMob(event, mob, thing);
+        }
+    }
+
+    private static void spawnMob(final StructureEvent.ReadTag event, final MobEntity mob, final JsonObject thing)
+    {
+        EventsHandler.Schedule(event.worldActual, w ->
+        {
+            w.getChunk(mob.blockPosition());
+            SpawnEventsHandler.applyFunction(mob, thing);
+            w.addFreshEntity(mob);
+            return true;
+        });
+    }
+
+    private static void newSpawns(final StructureEvent.ReadTag event, final String function)
+    {
+        final JsonObject thing = StructureSpawnPresetLoader.presetMap.get(function);
+        if (thing.has("options"))
+        {
+            final JsonArray options = thing.get("options").getAsJsonArray();
+            final int num = event.rand.nextInt(options.size());
+            SpawnEventsHandler.newSpawns(event, options.get(num).getAsString());
+            return;
+        }
+        else
+        {
+            final ResourceLocation mobId = new ResourceLocation(thing.get("mob").getAsString());
+            final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(mobId);
+
+            final Entity entity = type.create(event.worldActual);
+
+            if (entity instanceof MobEntity) ((MobEntity) entity).setPersistenceRequired();
+            entity.moveTo(event.pos, 0.0F, 0.0F);
+            if (entity instanceof MobEntity) ((MobEntity) entity).finalizeSpawn((IServerWorld) event.worldBlocks,
+                    event.worldBlocks.getCurrentDifficultyAt(event.pos), SpawnReason.STRUCTURE,
+                    (ILivingEntityData) null, (CompoundNBT) null);
+
+            if (entity instanceof NpcMob) SpawnEventsHandler.spawnNpc(event, (NpcMob) entity, thing);
+            else if (entity instanceof MobEntity) SpawnEventsHandler.spawnMob(event, (MobEntity) entity, thing);
+            else PokecubeCore.LOGGER.warn("Unsupported Entity for spawning! {}", function);
+        }
+    }
+
     private static void onReadStructTag(final StructureEvent.ReadTag event)
     {
         if (event.function.startsWith("pokecube:mob:"))
         {
             final String function = event.function.replaceFirst("pokecube:mob:", "");
-            final boolean nurse = function.startsWith("nurse");
-            final boolean professor = function.startsWith("professor");
-            final boolean trader = function.startsWith("trader");
-            final boolean npc = function.startsWith("npc");
-            if (nurse || professor || trader || npc)
+            if (SpawnEventsHandler.oldSpawns(event, function))
             {
-                final NpcMob mob = NpcMob.TYPE.create(event.worldActual);
-
-                mob.setPersistenceRequired();
-                mob.moveTo(event.pos, 0.0F, 0.0F);
-                mob.finalizeSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(
-                        event.pos), SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
-
-                JsonObject thing = new JsonObject();
-                if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
-                {
-                    final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
-                    thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
-                    // Check if we specify a preset instead, and if that exists,
-                    // use that.
-                    if (thing.has("preset") && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset")
-                            .getAsString())) thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset")
-                                    .getAsString());
-                }
-                catch (final JsonSyntaxException e)
-                {
-                    PokecubeCore.LOGGER.error("Error parsing " + function, e);
-                }
-                if (!(thing.has("trainerType") || thing.has("type"))) thing.add("type", new JsonPrimitive(nurse
-                        ? "healer" : trader ? "trader" : "professor"));
-                if (nurse) mob.setMale(false);
-
-                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual,
-                        SpawnReason.STRUCTURE, thing)))
-                {
-                    event.setResult(Result.ALLOW);
-                    final JsonObject apply = thing;
-                    EventsHandler.Schedule(event.worldActual, w ->
-                    {
-                        w.getChunk(mob.blockPosition());
-                        SpawnEventsHandler.applyFunction(mob, apply);
-                        w.addFreshEntity(mob);
-                        return true;
-                    });
-                }
+                // NOOP, We handled spawning in oldSpawns already
             }
-            else if (function.startsWith("pokemob"))
+            else if (StructureSpawnPresetLoader.presetMap.containsKey(function)) try
             {
-
+                SpawnEventsHandler.newSpawns(event, function);
             }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.warn("Error processing for {}", function, e);
+            }
+            else PokecubeCore.LOGGER.warn("Warning, no preset found for {}", function);
         }
     }
 
@@ -195,8 +252,7 @@ public class SpawnEventsHandler
         {
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final MutableBoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1,
-                    box.z1);
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1, box.z1);
             EventsHandler.Schedule((ServerWorld) event.getWorld(), world ->
             {
                 poses.forEach((p) ->
@@ -211,8 +267,7 @@ public class SpawnEventsHandler
             PokecubeCore.LOGGER.warn("Warning, world is not server world, things may break!");
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final MutableBoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1,
-                    box.z1);
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1, box.z1);
             final IWorld world = event.getWorld();
             poses.forEach((p) ->
             {
@@ -229,19 +284,31 @@ public class SpawnEventsHandler
 
     public static interface INpcProcessor
     {
-        void process(final NpcMob npc, final JsonObject thing);
+        void process(final MobEntity mob, final JsonObject thing);
     }
 
-    public static List<INpcProcessor> processors = Lists.newArrayList((npc, thing) ->
+    public static List<INpcProcessor> processors = Lists.newArrayList((mob, thing) ->
     {
-        if (thing.has("name")) npc.setNPCName(thing.get("name").getAsString());
-        if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
-        if (thing.has("type")) npc.setNpcType(NpcType.byType(thing.get("type").getAsString()));
-        if (thing.has("gender"))
+        if (mob instanceof NpcMob)
         {
-            final boolean male = thing.get("gender").getAsString().equalsIgnoreCase("male") ? true
-                    : thing.get("gender").getAsString().equalsIgnoreCase("female") ? false : npc.getRandom().nextBoolean();
-            npc.setMale(male);
+            // TODO some of these should handle from IHasPokemobs instead!
+            final NpcMob npc = (NpcMob) mob;
+            if (thing.has("name")) npc.setNPCName(thing.get("name").getAsString());
+            else if (thing.has("names"))
+            {
+                final JsonArray options = thing.get("names").getAsJsonArray();
+                final int num = npc.getRandom().nextInt(options.size());
+                npc.setNPCName(options.get(num).getAsString());
+            }
+            if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
+            if (thing.has("type")) npc.setNpcType(NpcType.byType(thing.get("type").getAsString()));
+            if (thing.has("gender"))
+            {
+                final boolean male = thing.get("gender").getAsString().equalsIgnoreCase("male") ? true
+                        : thing.get("gender").getAsString().equalsIgnoreCase("female") ? false
+                                : npc.getRandom().nextBoolean();
+                npc.setMale(male);
+            }
         }
         GuardInfo info = null;
         if (thing.has("guard")) try
@@ -256,20 +323,20 @@ public class SpawnEventsHandler
         }
         if (info == null) return;
         // Set us to sit at this location.
-        final IGuardAICapability guard = npc.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
-        npc.restrictTo(npc.blockPosition(), info.roam);
+        final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        mob.restrictTo(mob.blockPosition(), info.roam);
         if (guard != null)
         {
             TimePeriod duration = info.time.equals("allday") ? TimePeriod.fullDay : new TimePeriod(0.55, .95);
             duration = info.time.equals("day") ? new TimePeriod(0, 0.5) : duration;
             duration = info.time.equals("night") ? new TimePeriod(0.55, .95) : duration;
-            guard.getPrimaryTask().setPos(npc.blockPosition());
+            guard.getPrimaryTask().setPos(mob.blockPosition());
             guard.getPrimaryTask().setRoamDistance(info.roam);
             guard.getPrimaryTask().setActiveTime(duration);
         }
     });
 
-    public static void applyFunction(final NpcMob npc, final JsonObject thing)
+    public static void applyFunction(final MobEntity npc, final JsonObject thing)
     {
         SpawnEventsHandler.processors.forEach(i -> i.process(npc, thing));
     }
