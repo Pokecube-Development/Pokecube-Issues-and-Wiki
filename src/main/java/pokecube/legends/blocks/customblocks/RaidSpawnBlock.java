@@ -86,7 +86,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
     {
         super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
         this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY)
-                .setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
+                .setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 
     // Precise selection box
