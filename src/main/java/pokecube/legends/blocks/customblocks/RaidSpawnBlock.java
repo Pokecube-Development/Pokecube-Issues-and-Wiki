@@ -1,19 +1,23 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -31,16 +35,21 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.blocks.maxspot.MaxBlock;
+import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
-public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
+public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
+    protected static final DirectionProperty FACING      = HorizontalBlock.FACING;
+    protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
+
     public static enum State implements IStringSerializable
     {
         EMPTY("empty"), NORMAL("normal"), RARE("rare");
@@ -65,8 +74,6 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
 
     }
 
-    public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
-
     String  infoname;
     boolean hasTextInfo = true;
 
@@ -79,20 +86,13 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
     {
         super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
         this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY)
-                .setValue(MaxBlock.FACING, Direction.UP).setValue(MaxBlock.WATERLOGGED, false));
+                .setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
     }
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
                                final ISelectionContext context)
-    {
-        return RAID_SPOT;
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-                                        final ISelectionContext context)
     {
         return RAID_SPOT;
     }
@@ -107,13 +107,37 @@ public class RaidSpawnBlock extends MaxBlock implements IWaterLoggable
     protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         super.createBlockStateDefinition(builder);
-        builder.add(RaidSpawnBlock.ACTIVE);
+        builder.add(RaidSpawnBlock.ACTIVE, RaidSpawnBlock.FACING, RaidSpawnBlock.WATERLOGGED);
+    }
+
+    // Waterloggging on placement
+    @Override
+    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    {
+        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(FACING, context
+                .getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, ifluidstate.is(
+                FluidTags.WATER) && ifluidstate.getAmount() == 8);
+    }
+
+    // Adds Waterlogging State
+    @SuppressWarnings("deprecation")
+    @Override
+    public FluidState getFluidState(final BlockState state)
+    {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
         return new RaidSpawn();
+    }
+
+    @Override
+    public boolean hasTileEntity(final BlockState state)
+    {
+        return true;
     }
 
     public RaidSpawnBlock setInfoBlockName(final String infoname)
