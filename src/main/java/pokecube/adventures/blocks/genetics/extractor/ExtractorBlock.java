@@ -1,8 +1,5 @@
 package pokecube.adventures.blocks.genetics.extractor;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -18,13 +15,15 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import pokecube.core.blocks.InteractableHorizontalBlock;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExtractorBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
@@ -35,48 +34,36 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
     
  // Precise selection box
     static
-    {// @formatter:off
-    	ExtractorBlock.EXTRACTOR.put(Direction.NORTH,
-    			VoxelShapes.join(Block.box(0, 0, 3, 16, 16, 16),
-    					VoxelShapes.join(Block.box(3.5, 0, 0, 12.5, 3, 6),
-    							VoxelShapes.join(Block.box(1, 8, 2, 15, 16, 3),
-    									VoxelShapes.join(Block.box(4.5, 3, 1, 5.5, 7, 2),
-    											VoxelShapes.join(Block.box(10.5, 3, 1, 11.5, 7, 2),
-    			Block.box(7.5, 3, 1, 8.5, 7, 2),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	ExtractorBlock.EXTRACTOR.put(Direction.EAST,
-    			VoxelShapes.join(Block.box(0, 0, 0, 13, 16, 16),
-    					VoxelShapes.join(Block.box(10, 0, 3.5, 16, 3, 12.5),
-    							VoxelShapes.join(Block.box(13, 8, 1, 14, 16, 15),
-    									VoxelShapes.join(Block.box(14, 3, 4.5, 15, 7, 5.5),
-    											VoxelShapes.join(Block.box(14, 3, 10.5, 15, 7, 11.5),
-    			Block.box(14, 3, 7.5, 15, 7, 8.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	ExtractorBlock.EXTRACTOR.put(Direction.SOUTH,
-    			VoxelShapes.join(Block.box(0, 0, 0, 16, 16, 13),
-    					VoxelShapes.join(Block.box(3.5, 0, 10, 12.5, 3, 16),
-    							VoxelShapes.join(Block.box(1, 8, 13, 15, 16, 14),
-    									VoxelShapes.join(Block.box(10.5, 3, 14, 11.5, 7, 15),
-    											VoxelShapes.join(Block.box(4.5, 3, 14, 5.5, 7, 15),
-    			Block.box(7.5, 3, 14, 8.5, 7, 15),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	ExtractorBlock.EXTRACTOR.put(Direction.WEST,
-    			VoxelShapes.join(Block.box(3, 0, 0, 16, 16, 16),
-    					VoxelShapes.join(Block.box(0, 0, 3.5, 6, 3, 12.5),
-    							VoxelShapes.join(Block.box(2, 8, 1, 3, 16, 15),
-    									VoxelShapes.join(Block.box(1, 3, 10.5, 2, 7, 11.5),
-    											VoxelShapes.join(Block.box(1, 3, 4.5, 2, 7, 5.5),
-    			Block.box(1, 3, 7.5, 2, 7, 8.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    }// @formatter:on
+    {
+    	ExtractorBlock.EXTRACTOR.put(Direction.NORTH, VoxelShapes.or(
+    		Block.box(0, 0, 3, 16, 16, 16),
+    		Block.box(3.5, 0, 0, 12.5, 3, 6),
+    		Block.box(1, 8, 2, 15, 16, 3),
+    		Block.box(4.5, 3, 1, 5.5, 7, 2),
+    		Block.box(10.5, 3, 1, 11.5, 7, 2),
+    		Block.box(7.5, 3, 1, 8.5, 7, 2)).optimize());
+    	ExtractorBlock.EXTRACTOR.put(Direction.EAST, VoxelShapes.or(
+    		Block.box(0, 0, 0, 13, 16, 16),
+    		Block.box(10, 0, 3.5, 16, 3, 12.5),
+    		Block.box(13, 8, 1, 14, 16, 15),
+    		Block.box(14, 3, 4.5, 15, 7, 5.5),
+    		Block.box(14, 3, 10.5, 15, 7, 11.5),
+    		Block.box(14, 3, 7.5, 15, 7, 8.5)).optimize());
+    	ExtractorBlock.EXTRACTOR.put(Direction.SOUTH, VoxelShapes.or(
+    		Block.box(0, 0, 0, 16, 16, 13),
+    		Block.box(3.5, 0, 10, 12.5, 3, 16),
+    		Block.box(1, 8, 13, 15, 16, 14),
+    		Block.box(10.5, 3, 14, 11.5, 7, 15),
+    		Block.box(4.5, 3, 14, 5.5, 7, 15),
+    		Block.box(7.5, 3, 14, 8.5, 7, 15)).optimize());
+    	ExtractorBlock.EXTRACTOR.put(Direction.WEST, VoxelShapes.or(
+    		Block.box(3, 0, 0, 16, 16, 16),
+    		Block.box(0, 0, 3.5, 6, 3, 12.5),
+    		Block.box(2, 8, 1, 3, 16, 15),
+    		Block.box(1, 3, 10.5, 2, 7, 11.5),
+    		Block.box(1, 3, 4.5, 2, 7, 5.5),
+    		Block.box(1, 3, 7.5, 2, 7, 8.5)).optimize());
+    }
 
     // Precise selection box
     @Override
