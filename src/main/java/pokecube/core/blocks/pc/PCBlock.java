@@ -47,13 +47,13 @@ public class PCBlock extends HorizontalBlock implements IWaterLoggable
     static
     {
         PC_TOP.put(Direction.NORTH,
-                Block.box(0, 0, 8, 16, 16, 16)).optimize();
+                Block.box(0, 0, 8, 16, 16, 16));
         PC_TOP.put(Direction.EAST,
-                Block.box(0, 0, 0, 8, 16, 16)).optimize();
+                Block.box(0, 0, 0, 8, 16, 16));
         PC_TOP.put(Direction.SOUTH,
-                Block.box(0, 0, 0, 16, 16, 8)).optimize();
+                Block.box(0, 0, 0, 16, 16, 8));
         PC_TOP.put(Direction.WEST,
-                Block.box(8, 0, 0, 16, 16, 16)).optimize();
+                Block.box(8, 0, 0, 16, 16, 16));
         PCBlock.PC_BASE.put(Direction.NORTH, VoxelShapes.or(
                 Block.box(0, 0, 8, 16, 16, 16),
                 Block.box(1, 0, 4, 15, 16, 8)).optimize());

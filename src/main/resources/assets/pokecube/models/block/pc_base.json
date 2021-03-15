@@ -36,9 +36,9 @@
 		},
 		{
 			"name": "keyboard",
-			"from": [2, 14, 7],
-			"to": [14, 19, 12],
-			"rotation": {"angle": 45, "axis": "x", "origin": [8, 14.5, 8]},
+			"from": [2, 14.2, 7.05],
+			"to": [14, 19.2, 12.05],
+			"rotation": {"angle": 45, "axis": "x", "origin": [8, 14.7, 8.05]},
 			"faces": {
 				"north": {"uv": [0, 5, 12, 10], "texture": "#2"},
 				"east": {"uv": [0, 10, 5, 15], "texture": "#2"},
