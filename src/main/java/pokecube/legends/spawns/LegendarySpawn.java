@@ -87,7 +87,7 @@ public class LegendarySpawn
                     return SpawnResult.NOCAPTURE;
                 }
                 PokecubePlayerDataHandler.getCustomDataTag(playerIn).putBoolean("spwn:" + entry.getTrimmedName(), true);
-                entity.getPersistentData().putUUID("spwnedby:", playerIn.getUUID());
+                entity.getPersistentData().putUUID("spwnedby", playerIn.getUUID());
                 entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
                 entity.getPersistentData().putBoolean(TagNames.NODROP, true);
                 entity.setHealth(entity.getMaxHealth());
@@ -114,11 +114,11 @@ public class LegendarySpawn
 
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (attacked != null && attacked.getOwnerId() == null && evt.getEntity().getPersistentData().hasUUID(
-                "spwnedby:"))
+                "spwnedby"))
         {
             ServerWorld world = (ServerWorld) evt.getEntity().getCommandSenderWorld();
             world = world.getServer().getLevel(World.OVERWORLD);
-            final UUID id = evt.getEntity().getPersistentData().getUUID("spwnedby:");
+            final UUID id = evt.getEntity().getPersistentData().getUUID("spwnedby");
             PokecubePlayerDataHandler.getCustomDataTag(id).putLong("spwn_ded:" + attacked.getPokedexEntry()
                     .getTrimmedName(), world.getGameTime());
             PokecubePlayerDataHandler.saveCustomData(id.toString());

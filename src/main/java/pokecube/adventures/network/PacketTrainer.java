@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.text.StringTextComponent;
@@ -251,7 +252,8 @@ public class PacketTrainer extends NBTPacket
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getCommandSenderWorld(),
-                    (ServerWorld) player.getCommandSenderWorld(), player.getRandom(), MutableBoundingBox.getUnknownBox());
+                    (ServerWorld) player.getCommandSenderWorld(), player.getRandom(), MutableBoundingBox
+                            .getUnknownBox());
             MinecraftForge.EVENT_BUS.post(event);
             break;
         case UPDATETRAINER:
@@ -330,6 +332,9 @@ public class PacketTrainer extends NBTPacket
                     npc.urlSkin = this.getTag().getString("uS");
                     npc.playerName = this.getTag().getString("pS");
                     npc.customTex = this.getTag().getString("cS");
+                    final String res = this.getTag().getString("fM");
+                    if (!res.isEmpty()) npc.copyMob = new ResourceLocation(res);
+                    else npc.copyMob = null;
                     final String prev = npc.customTrades;
                     npc.customTrades = this.getTag().getString("cT");
                     if (!prev.equals(npc.customTrades)) npc.resetTrades();

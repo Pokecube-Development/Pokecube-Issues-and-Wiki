@@ -3,22 +3,21 @@ package pokecube.core.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderState;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -119,9 +118,9 @@ public class EventsHandlerClient
 
         // This renders the pokemob's icons over the pokecubes when alt is held
         // in an inventory.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onRenderGUIScreenPre);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onRenderGUIScreenPre);
         // And this does it for the hotbar.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onRenderHotbar);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onRenderHotbar);
 
         // Now for some additional client side handlers
 
@@ -423,6 +422,7 @@ public class EventsHandlerClient
                 top, width, height, realMob.isShiny());
     }
 
+    @SuppressWarnings("deprecation")
     public static void renderIcon(final PokedexEntry entry, final FormeHolder holder, final boolean female, int left,
             int top, final int width, final int height, final boolean shiny)
     {
@@ -444,37 +444,56 @@ public class EventsHandlerClient
         }
         ResourceLocation icon = entry.getIcon(!female, shiny);
         if (holder != null) icon = holder.getIcon(!female, shiny, entry);
-        final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
-        // Ensure this is ended first?
-        irendertypebuffer$impl.endBatch();
-        final RenderType type = EventsHandlerClient.getRenderTypeForIcon(icon);
-        final IVertexBuilder bufferbuilder = irendertypebuffer$impl.getBuffer(type);
-        System.out.println(icon + " " + bufferbuilder + " " + type);
+
+        RenderSystem.pushMatrix();
+
+
+        Minecraft.getInstance().getTextureManager().bind(icon);
+        Minecraft.getInstance().getTextureManager().getTexture(icon).setFilter(false, false);
+
+        RenderSystem.enableRescaleNormal();
+        RenderSystem.enableAlphaTest();
+        RenderSystem.defaultAlphaFunc();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        RenderHelper.setupForFlatItems();
+
+        final Tessellator tessellator = Tessellator.getInstance();
+        final BufferBuilder bufferbuilder = tessellator.getBuilder();
+
         final int zLevel = 300;
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
         bufferbuilder.vertex(left, bottom, zLevel).uv(0, 0).endVertex();
         bufferbuilder.vertex(right, bottom, zLevel).uv(1, 0).endVertex();
         bufferbuilder.vertex(right, top, zLevel).uv(1, 1).endVertex();
         bufferbuilder.vertex(left, top, zLevel).uv(0, 1).endVertex();
-        irendertypebuffer$impl.endBatch();
+        tessellator.end();
+
+        RenderSystem.enableDepthTest();
+        RenderHelper.setupFor3DItems();
+
+        RenderSystem.disableAlphaTest();
+        RenderSystem.disableRescaleNormal();
+        RenderSystem.popMatrix();
     }
 
-    private static Map<ResourceLocation, RenderType> cache = Maps.newHashMap();
-
-    private static RenderType getRenderTypeForIcon(final ResourceLocation icon)
-    {
-        if (EventsHandlerClient.cache.containsKey(icon)) return EventsHandlerClient.cache.get(icon);
-        else
-        {
-            final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
-                    new RenderState.TextureState(icon, false, false)).setAlphaState(RenderState.DEFAULT_ALPHA)
-                    .setLayeringState(RenderState.VIEW_OFFSET_Z_LAYERING).setTransparencyState(
-                            RenderState.TRANSLUCENT_TRANSPARENCY).setOutputState(RenderState.ITEM_ENTITY_TARGET)
-                    .setWriteMaskState(RenderState.COLOR_DEPTH_WRITE).createCompositeState(true);
-            EventsHandlerClient.cache.put(icon, RenderType.create("pokemob_icon_" + icon,
-                    DefaultVertexFormats.POSITION_TEX, 7, 256, rendertype$state));
-        }
-        return EventsHandlerClient.cache.get(icon);
-    }
+//    private static Map<ResourceLocation, RenderType> cache = Maps.newHashMap();
+//
+//    private static RenderType getRenderTypeForIcon(final ResourceLocation icon)
+//    {
+//        if (EventsHandlerClient.cache.containsKey(icon)) return EventsHandlerClient.cache.get(icon);
+//        else
+//        {
+//            final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
+//                    new RenderState.TextureState(icon, false, false)).setAlphaState(RenderState.DEFAULT_ALPHA)
+//                    .setLayeringState(RenderState.VIEW_OFFSET_Z_LAYERING).setTransparencyState(
+//                            RenderState.TRANSLUCENT_TRANSPARENCY).setOutputState(RenderState.ITEM_ENTITY_TARGET)
+//                    .setWriteMaskState(RenderState.COLOR_DEPTH_WRITE).createCompositeState(true);
+//            EventsHandlerClient.cache.put(icon, RenderType.create("_icon_" + icon, DefaultVertexFormats.POSITION_TEX, 7,
+//                    256, rendertype$state));
+//        }
+//        return EventsHandlerClient.cache.get(icon);
+//    }
 
     public static void setFromNBT(final IPokemob pokemob, final CompoundNBT tag)
     {
