@@ -404,9 +404,9 @@ public class PokemobEventsHandler
         final DamageSource damageSource = evt.getSource();
         // Handle transferring the kill info over, This is in place for mod
         // support.
-        if (damageSource instanceof PokemobDamageSource && evt.getEntity().getCommandSenderWorld() instanceof ServerWorld)
-            damageSource.getDirectEntity().killed((ServerWorld) evt.getEntity().getCommandSenderWorld(),
-                    (LivingEntity) evt.getEntity());
+        if (damageSource instanceof PokemobDamageSource && evt.getEntity()
+                .getCommandSenderWorld() instanceof ServerWorld) damageSource.getDirectEntity().killed((ServerWorld) evt
+                        .getEntity().getCommandSenderWorld(), (LivingEntity) evt.getEntity());
 
         // Handle exp gain for the mob.
         final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getDirectEntity());
@@ -424,7 +424,8 @@ public class PokemobEventsHandler
         if (modified != pokemob)
         {
             pokemob.markRemoved();
-            if (mob.getCommandSenderWorld() instanceof ServerWorld) mob.getCommandSenderWorld().addFreshEntity(modified.getEntity());
+            if (mob.getCommandSenderWorld() instanceof ServerWorld) mob.getCommandSenderWorld().addFreshEntity(modified
+                    .getEntity());
         }
         // This initializes logics on the client side.
         if (!(mob.getCommandSenderWorld() instanceof ServerWorld)) pokemob.initAI();
@@ -480,12 +481,12 @@ public class PokemobEventsHandler
         if (event.phase != Phase.END || !PokecubeCore.getConfig().doLoadBalancing) return;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         final double meanTickTime = PokemobEventsHandler.mean(server.tickTimes) * 1.0E-6D;
-        final double maxTick = 2;
+        final double maxTick = PokecubeCore.getConfig().loadBalanceThreshold;
         if (meanTickTime > maxTick)
         {
             final double factor = meanTickTime / maxTick;
             RootTask.doLoadThrottling = true;
-            RootTask.runRate = (int) factor;
+            RootTask.runRate = (int) (factor * PokecubeCore.getConfig().loadBalanceScale);
         }
         else RootTask.doLoadThrottling = false;
     }
@@ -495,8 +496,8 @@ public class PokemobEventsHandler
         final LivingEntity living = evt.getEntityLiving();
         final World dim = living.getCommandSenderWorld();
         // Prevent moving if it is liable to take us out of a loaded area
-        double dist = Math.sqrt(living.getDeltaMovement().x * living.getDeltaMovement().x + living.getDeltaMovement().z * living
-                .getDeltaMovement().z);
+        double dist = Math.sqrt(living.getDeltaMovement().x * living.getDeltaMovement().x + living.getDeltaMovement().z
+                * living.getDeltaMovement().z);
         final boolean ridden = living.isVehicle();
         final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, living.blockPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold + dist);
@@ -665,8 +666,8 @@ public class PokemobEventsHandler
         }
         final float scale = pokemob.getSize();
         final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-        return dims.y * scale + dims.x * scale > rider.getBbWidth() && Math.max(dims.x, dims.z) * scale > rider.getBbWidth()
-                * 1.4;
+        return dims.y * scale + dims.x * scale > rider.getBbWidth() && Math.max(dims.x, dims.z) * scale > rider
+                .getBbWidth() * 1.4;
     }
 
     private static void processInteract(final PlayerInteractEvent evt, final Entity target)
@@ -808,8 +809,7 @@ public class PokemobEventsHandler
                 if (!player.abilities.instabuild)
                 {
                     held.shrink(1);
-                    if (held.isEmpty()) player.inventory.setItem(player.inventory.selected,
-                            ItemStack.EMPTY);
+                    if (held.isEmpty()) player.inventory.setItem(player.inventory.selected, ItemStack.EMPTY);
                 }
                 pokemob.setReadyToMate(player);
                 BrainUtils.clearAttackTarget(entity);
@@ -847,8 +847,7 @@ public class PokemobEventsHandler
                     if (evolution != null) if (!player.abilities.instabuild)
                     {
                         held.shrink(1);
-                        if (held.isEmpty()) player.inventory.setItem(player.inventory.selected,
-                                ItemStack.EMPTY);
+                        if (held.isEmpty()) player.inventory.setItem(player.inventory.selected, ItemStack.EMPTY);
                     }
                     evt.setCanceled(true);
                     evt.setCancellationResult(ActionResultType.SUCCESS);
