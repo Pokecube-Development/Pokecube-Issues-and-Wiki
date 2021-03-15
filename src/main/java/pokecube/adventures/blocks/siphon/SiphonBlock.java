@@ -30,9 +30,12 @@ public class SiphonBlock extends InteractableHorizontalBlock implements IWaterLo
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
-    private static final VoxelShape SIPHON = VoxelShapes.or(Block.box(0, 0, 0, 16, 1, 16), 
-    		Block.box(1, 1, 1, 15, 7, 15), Block.box(2, 7, 2, 14, 12, 14), 
-            Block.box(1, 12, 1, 15, 16, 15), Block.box(6, 1, 0, 10, 5, 16), 
+    private static final VoxelShape SIPHON = VoxelShapes.or(
+            Block.box(0, 0, 0, 16, 1, 16),
+            Block.box(1, 1, 1, 15, 7, 15),
+            Block.box(2, 7, 2, 14, 12, 14),
+            Block.box(1, 12, 1, 15, 16, 15),
+            Block.box(6, 1, 0, 10, 5, 16),
             Block.box(0, 1, 6, 16, 5, 10)).optimize();
 
     // Precise selection box
