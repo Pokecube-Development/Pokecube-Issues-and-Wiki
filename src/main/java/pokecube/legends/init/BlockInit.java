@@ -411,9 +411,9 @@ public class BlockInit
                 		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
         
         // Meteor Blocks
-        METEOR_BLOCK = PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new FallingBlock(AbstractBlock.Properties
-                .of(Material.VEGETABLE, MaterialColor.TERRACOTTA_BLUE).strength(2.5f).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)
-                .harvestLevel(2)));
+        METEOR_BLOCK = PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new MeteorBlock(6842513,
+                AbstractBlock.Properties.of(Material.VEGETABLE, MaterialColor.TERRACOTTA_BLUE).strength(2.5f)
+                .sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
         METEOR_SLAB = PokecubeLegends.BLOCKS_TAB.register("meteor_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE)));
         METEOR_STAIRS = PokecubeLegends.BLOCKS_TAB.register("meteor_stairs",
@@ -1150,9 +1150,9 @@ public class BlockInit
                                 ToolType.PICKAXE)));
 
         // Meteor Ore
-        OVERWORLD_COSMIC_DUST_ORE = PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new FallingBlock(AbstractBlock.Properties
-                .of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.STONE).strength(5, 15).harvestTool(ToolType.PICKAXE)
-                .harvestLevel(2)));
+        OVERWORLD_COSMIC_DUST_ORE = PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new MeteorBlock(6842513,
+                AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.STONE)
+                .strength(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
 
     }
 
