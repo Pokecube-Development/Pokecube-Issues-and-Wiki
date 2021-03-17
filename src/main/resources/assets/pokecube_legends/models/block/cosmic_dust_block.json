@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:blocks/cosmic_dust_block",
+    "up": "pokecube_legends:blocks/cosmic_dust_block",
+    "north": "pokecube_legends:blocks/cosmic_dust_block",
+    "east": "pokecube_legends:blocks/cosmic_dust_block",
+    "south": "pokecube_legends:blocks/cosmic_dust_block",
+    "west": "pokecube_legends:blocks/cosmic_dust_block",
+    "particle": "pokecube_legends:blocks/cosmic_dust_block"
+   }
+}

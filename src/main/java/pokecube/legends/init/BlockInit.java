@@ -355,6 +355,8 @@ public class BlockInit
     public static final RegistryObject<Block> SPECTRUM_SLAB;
     public static final RegistryObject<Block> SPECTRUM_STAIRS;
 
+    public static final RegistryObject<Block> COSMIC_DUST_BLOCK;
+
     static
     {
         // Block Raid
@@ -1061,7 +1063,7 @@ public class BlockInit
         REGISTEEL_CORE = PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
                 Material.METAL, MaterialColor.TERRACOTTA_WHITE, 15, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());
         REGICE_CORE = PokecubeLegends.BLOCKS.register("regice_spawn", () -> new Regice_Core("regice_spawn",
-                Material.ICE_SOLID, MaterialColor.TERRACOTTA_WHITE, 15, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
+                Material.ICE_SOLID, MaterialColor.TERRACOTTA_WHITE, 15, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         REGIROCK_CORE = PokecubeLegends.BLOCKS.register("regirock_spawn", () -> new Regirock_Core("regirock_spawn",
                 Material.STONE, MaterialColor.TERRACOTTA_WHITE, 15, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         REGIELEKI_CORE = PokecubeLegends.BLOCKS.register("regieleki_spawn", () -> new Regieleki_Core("regieleki_spawn",
@@ -1153,7 +1155,9 @@ public class BlockInit
         OVERWORLD_COSMIC_DUST_ORE = PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new MeteorBlock(6842513,
                 AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.STONE)
                 .strength(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
-
+        COSMIC_DUST_BLOCK = PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_block", () -> new SandBlock(2730984,
+                AbstractBlock.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.SAND)
+                .strength(2, 10).harvestTool(ToolType.SHOVEL).harvestLevel(2)));
     }
 
     public static void init()
