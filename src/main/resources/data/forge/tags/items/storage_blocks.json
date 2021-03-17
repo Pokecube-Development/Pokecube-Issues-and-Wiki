@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "#forge:storage_blocks/cosmic_dust",
+    "#forge:storage_blocks/crystal",
     "#forge:storage_blocks/ruby",
     "#forge:storage_blocks/sapphire",
     "#forge:storage_blocks/spectrum"
