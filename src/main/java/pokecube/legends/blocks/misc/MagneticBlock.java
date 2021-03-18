@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.blockstates;
+package pokecube.legends.blocks.misc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;

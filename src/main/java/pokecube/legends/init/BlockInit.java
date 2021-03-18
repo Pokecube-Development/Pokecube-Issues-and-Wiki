@@ -2,14 +2,8 @@ package pokecube.legends.init;
 
 import com.google.common.collect.Maps;
 
-import java.util.Map;
-
-import com.google.common.collect.ImmutableMap.Builder;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
@@ -18,9 +12,6 @@ import net.minecraft.block.LogBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.TrapDoorBlock;
-import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.AxeItem;
@@ -29,22 +20,11 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.SaplingBase;
-import pokecube.legends.blocks.blockstates.DarkStoneBlock;
-import pokecube.legends.blocks.blockstates.GrassAgedBlock;
-import pokecube.legends.blocks.blockstates.GrassDistorticBlock;
-import pokecube.legends.blocks.blockstates.GrassJungleBlock;
-import pokecube.legends.blocks.blockstates.GrassMussBlock;
-import pokecube.legends.blocks.blockstates.MagneticBlock;
-import pokecube.legends.blocks.blockstates.SandDistorBlock;
-import pokecube.legends.blocks.blockstates.SandUltraBlock;
-import pokecube.legends.blocks.blockstates.UltraTorch1;
-import pokecube.legends.blocks.blockstates.UltraTorch1Wall;
 import pokecube.legends.blocks.customblocks.HeatranBlock;
 import pokecube.legends.blocks.customblocks.KeldeoBlock;
 import pokecube.legends.blocks.customblocks.LegendaryBlock;
@@ -63,6 +43,16 @@ import pokecube.legends.blocks.customblocks.TroughBlock;
 import pokecube.legends.blocks.customblocks.VictiniBlock;
 import pokecube.legends.blocks.customblocks.XerneasCore;
 import pokecube.legends.blocks.customblocks.YveltalEgg;
+import pokecube.legends.blocks.misc.DarkStoneBlock;
+import pokecube.legends.blocks.misc.GrassAgedBlock;
+import pokecube.legends.blocks.misc.GrassDistorticBlock;
+import pokecube.legends.blocks.misc.GrassJungleBlock;
+import pokecube.legends.blocks.misc.GrassMussBlock;
+import pokecube.legends.blocks.misc.MagneticBlock;
+import pokecube.legends.blocks.misc.SandDistorBlock;
+import pokecube.legends.blocks.misc.SandUltraBlock;
+import pokecube.legends.blocks.misc.UltraTorch1;
+import pokecube.legends.blocks.misc.UltraTorch1Wall;
 import pokecube.legends.blocks.plants.Ultra_Tree01;
 import pokecube.legends.blocks.plants.Ultra_Tree02;
 import pokecube.legends.blocks.plants.Ultra_Tree03;
@@ -281,11 +271,11 @@ public class BlockInit
         //Woods (LOG/LEAVES/PLANKS)
         ULTRA_LEAVEUB01 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(
         		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD, 
+        ULTRA_LOGUB01 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
-        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new LogBlock(MaterialColor.WOOD, 
+        INVERTED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.WOOD, 
+        STRIP_INVERTED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_log", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
@@ -296,7 +286,7 @@ public class BlockInit
         INVERTED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("inverted_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         INVERTED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("inverted_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
-        		PressurePlateBlock.Sensitivity.EVERYTHING, 
+        		PressurePlateBlock.Sensitivity.EVERYTHING,
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
         INVERTED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("inverted_button", () -> new ItemGenerator.GenericWoodButton(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
@@ -307,11 +297,11 @@ public class BlockInit
 
         ULTRA_LEAVEUB02 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(
         		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD, 
+        ULTRA_LOGUB02 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
-        TEMPORAL_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("temporal_wood", () -> new LogBlock(MaterialColor.WOOD, 
+        TEMPORAL_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("temporal_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_TEMPORAL_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_log", () -> new LogBlock(MaterialColor.WOOD, 
+        STRIP_TEMPORAL_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_log", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         STRIP_TEMPORAL_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
@@ -322,7 +312,7 @@ public class BlockInit
         TEMPORAL_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("temporal_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         TEMPORAL_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         TEMPORAL_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("temporal_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
-        		PressurePlateBlock.Sensitivity.EVERYTHING, 
+        		PressurePlateBlock.Sensitivity.EVERYTHING,
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
         TEMPORAL_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("temporal_button", () -> new ItemGenerator.GenericWoodButton(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
@@ -333,22 +323,22 @@ public class BlockInit
 
         ULTRA_LEAVEUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(
         		Block.Properties.from(Blocks.OAK_LEAVES).lightValue(6).notSolid()));
-        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD, 
+        ULTRA_LOGUB03 		= PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_LOG).lightValue(6)));
-        AGED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("aged_wood", () -> new LogBlock(MaterialColor.WOOD, 
+        AGED_WOOD 		= PokecubeLegends.BLOCKS_TAB.register("aged_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD).lightValue(6)));
-        STRIP_AGED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_aged_log", () -> new LogBlock(MaterialColor.WOOD, 
+        STRIP_AGED_LOG 	= PokecubeLegends.BLOCKS_TAB.register("stripped_aged_log", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         STRIP_AGED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_aged_wood", () -> new LogBlock(MaterialColor.WOOD,
         		Block.Properties.from(Blocks.OAK_WOOD)));
         ULTRA_PLANKUB03 	= PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
-        AGED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("aged_stairs", () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(), 
+        AGED_STAIRS 	= PokecubeLegends.BLOCKS_TAB.register("aged_stairs", () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_PLANKS.getDefaultState(),
         		Block.Properties.from(Blocks.OAK_PLANKS).sound(SoundType.WOOD).hardnessAndResistance(2.0f, 3.0f)));
         AGED_SLAB 		= PokecubeLegends.BLOCKS_TAB.register("aged_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_FENCE 		= PokecubeLegends.BLOCKS_TAB.register("aged_fence", () -> new FenceBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_FENCE_GATE	= PokecubeLegends.BLOCKS_TAB.register("aged_fence_gate", () -> new FenceGateBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
         AGED_PR_PLATE	= PokecubeLegends.BLOCKS_TAB.register("aged_pressure_plate", () -> new ItemGenerator.GenericPressurePlate(
-        		PressurePlateBlock.Sensitivity.EVERYTHING, 
+        		PressurePlateBlock.Sensitivity.EVERYTHING,
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
         AGED_BUTTON		= PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new ItemGenerator.GenericWoodButton(
         		Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(0.5F)));
@@ -450,20 +440,20 @@ public class BlockInit
                     .group(PokecubeLegends.TAB)));
         }
     }
-    
-	public static void addStrippable(RegistryObject<Block> log, RegistryObject<Block> strippedLog) 
+
+	public static void addStrippable(final RegistryObject<Block> log, final RegistryObject<Block> strippedLog)
 	{
 		AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
 		AxeItem.BLOCK_STRIPPING_MAP.put(log.get(), strippedLog.get());
 	}
-	
-	public static void strippableBlocks() 
+
+	public static void strippableBlocks()
 	{
-		addStrippable(ULTRA_LOGUB03, STRIP_AGED_LOG);
-		addStrippable(AGED_WOOD, 	 STRIP_AGED_WOOD);
-		addStrippable(ULTRA_LOGUB01, STRIP_INVERTED_LOG);
-		addStrippable(INVERTED_WOOD, STRIP_INVERTED_WOOD);
-		addStrippable(ULTRA_LOGUB02, STRIP_TEMPORAL_LOG);
-		addStrippable(TEMPORAL_WOOD, STRIP_TEMPORAL_WOOD);
+		BlockInit.addStrippable(BlockInit.ULTRA_LOGUB03, BlockInit.STRIP_AGED_LOG);
+		BlockInit.addStrippable(BlockInit.AGED_WOOD, 	 BlockInit.STRIP_AGED_WOOD);
+		BlockInit.addStrippable(BlockInit.ULTRA_LOGUB01, BlockInit.STRIP_INVERTED_LOG);
+		BlockInit.addStrippable(BlockInit.INVERTED_WOOD, BlockInit.STRIP_INVERTED_WOOD);
+		BlockInit.addStrippable(BlockInit.ULTRA_LOGUB02, BlockInit.STRIP_TEMPORAL_LOG);
+		BlockInit.addStrippable(BlockInit.TEMPORAL_WOOD, BlockInit.STRIP_TEMPORAL_WOOD);
 	}
 }

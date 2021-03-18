@@ -42,7 +42,6 @@ import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
-import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
@@ -72,7 +71,7 @@ public class PokecubeLegends
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
     public static final DeferredRegister<Block> BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
     public static final DeferredRegister<Item>  ITEMS  = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
-    
+
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
     {
@@ -145,7 +144,7 @@ public class PokecubeLegends
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        
+
         DBLoader.trainerDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trainers.json"));
         DBLoader.tradeDatabases.add(new ResourceLocation(Reference.ID, "database/trainer/trades.json"));
 
@@ -167,7 +166,7 @@ public class PokecubeLegends
         ItemInit.init();
     }
 
-    private void loadComplete(FMLLoadCompleteEvent event) {
+    private void loadComplete(final FMLLoadCompleteEvent event) {
         BlockInit.strippableBlocks();
     }
 

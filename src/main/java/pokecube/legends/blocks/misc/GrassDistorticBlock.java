@@ -1,31 +1,54 @@
-package pokecube.legends.blocks.blockstates;
+package pokecube.legends.blocks.misc;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.DirectionalBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.ToolType;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.ItemInit;
 
-public class GrassAgedBlock extends BlockBase
+public class GrassDistorticBlock extends DirectionalBlock
 {
-    public GrassAgedBlock(final String name, final Material material)
+    public GrassDistorticBlock(final BlockBase.Properties properties)
     {
-        super(name, Properties.create(material).sound(SoundType.PLANT).hardnessAndResistance(1, 2).harvestTool(
-                ToolType.SHOVEL).harvestLevel(1));
+        super(properties);
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.UP));
     }
+    
+    @Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
+	}
+
+	public BlockState rotate(BlockState state, Rotation rot) {
+		return state.with(FACING, rot.rotate(state.get(FACING)));
+	}
+
+	public BlockState mirror(BlockState state, Mirror mirrorIn) {
+		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(FACING, context.getNearestLookingDirection().getOpposite());
+	}
+
+
 
     @Override
     public boolean canSustainPlant(final BlockState state, final IBlockReader world, final BlockPos pos,
@@ -41,7 +64,7 @@ public class GrassAgedBlock extends BlockBase
         {
             final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
             $_dependencies.put("entity", entity);
-            GrassAgedBlock.executeProcedure($_dependencies);
+            executeProcedure($_dependencies);
         }
     }
 
@@ -49,7 +72,7 @@ public class GrassAgedBlock extends BlockBase
     {
         if (dependencies.get("entity") == null)
         {
-            System.err.println("Failed to WalkGrassEffect!");
+            System.err.println("Failed to WalkBlockEffect!");
             return;
         }
         final Entity entity = (Entity) dependencies.get("entity");
@@ -59,7 +82,7 @@ public class GrassAgedBlock extends BlockBase
                     (((PlayerEntity) entity).inventory.armorInventory.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()) || 
                     (((PlayerEntity) entity).inventory.armorInventory.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())) 
                 {
-        	((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.WITHER, 120, 1));
+        	((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SPEED, 120, 2));
                 }
         }
     }

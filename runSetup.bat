@@ -1,1 +1,1 @@
-cmd /k gradlew genEclipseRuns eclipse
+cmd /k gradlew genEclipseRuns

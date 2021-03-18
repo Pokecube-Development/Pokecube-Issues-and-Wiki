@@ -56,6 +56,7 @@ import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.utils.PokeType;
@@ -284,7 +285,11 @@ public class TrainerSpawnHandler
             PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
             {
-                event.world.addEntity(mob);
+                EventsHandler.Schedule(event.world.getWorld(), w ->
+                {
+                    event.world.addEntity(mob);
+                    return true;
+                });
                 event.setResult(Result.ALLOW);
             }
         }

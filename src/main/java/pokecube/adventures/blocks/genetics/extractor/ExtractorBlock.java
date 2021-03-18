@@ -24,7 +24,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-import pokecube.core.blocks.healer.HealerBlock;
 
 public class ExtractorBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
@@ -32,7 +31,7 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    
+
  // Precise selection box
     static
     {// @formatter:off
@@ -85,12 +84,12 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
     {
         return ExtractorBlock.EXTRACTOR.get(state.get(ExtractorBlock.FACING));
     }
-    
+
     public ExtractorBlock(final Properties properties)
     {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(ExtractorBlock.FACING, Direction.NORTH).with(
-        		ExtractorBlock.FIXED, false).with(WATERLOGGED, false));
+        		ExtractorBlock.FIXED, false).with(ExtractorBlock.WATERLOGGED, false));
     }
 
     @Override
@@ -104,29 +103,27 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
+        final boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
         return this.getDefaultState().with(ExtractorBlock.FACING, context.getPlacementHorizontalFacing().getOpposite())
-                .with(ExtractorBlock.FIXED, false).with(WATERLOGGED, flag);
+                .with(ExtractorBlock.FIXED, false).with(ExtractorBlock.WATERLOGGED, flag);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos,
-            BlockPos facingPos) 
+    public BlockState updatePostPlacement(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+            final BlockPos facingPos)
     {
-        if (state.get(WATERLOGGED)) {
-            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-        }
+        if (state.get(ExtractorBlock.WATERLOGGED)) world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public IFluidState getFluidState(BlockState state) 
+    public IFluidState getFluidState(final BlockState state)
     {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.get(ExtractorBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
-    
+
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {

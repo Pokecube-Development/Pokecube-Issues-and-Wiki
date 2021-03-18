@@ -24,7 +24,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import pokecube.adventures.blocks.genetics.extractor.ExtractorBlock;
 import pokecube.core.blocks.InteractableBlock;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
@@ -124,7 +123,7 @@ public class SplicerBlock extends InteractableHorizontalBlock implements IWaterL
     {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(SplicerBlock.FACING, Direction.NORTH).with(
-                SplicerBlock.FIXED, false).with(WATERLOGGED, false));
+                SplicerBlock.FIXED, false).with(SplicerBlock.WATERLOGGED, false));
     }
 
     @Override
@@ -144,27 +143,25 @@ public class SplicerBlock extends InteractableHorizontalBlock implements IWaterL
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
+        final boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
         return this.getDefaultState().with(SplicerBlock.FACING, context.getPlacementHorizontalFacing().getOpposite())
-                .with(SplicerBlock.FIXED, false).with(WATERLOGGED, flag);
+                .with(SplicerBlock.FIXED, false).with(SplicerBlock.WATERLOGGED, flag);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos,
-            BlockPos facingPos) 
+    public BlockState updatePostPlacement(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+            final BlockPos facingPos)
     {
-        if (state.get(WATERLOGGED)) {
-            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-        }
+        if (state.get(SplicerBlock.WATERLOGGED)) world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public IFluidState getFluidState(BlockState state) 
+    public IFluidState getFluidState(final BlockState state)
     {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.get(SplicerBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
     @Override

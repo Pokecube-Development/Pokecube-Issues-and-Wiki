@@ -23,7 +23,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import pokecube.adventures.blocks.genetics.extractor.ExtractorBlock;
 import pokecube.core.blocks.InteractableBlock;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
@@ -86,14 +85,14 @@ public class SiphonBlock extends InteractableHorizontalBlock implements IWaterLo
     {
         return SiphonBlock.SIPHON.get(state.get(SiphonBlock.FACING));
     }
-    
+
     public SiphonBlock(final Properties properties)
     {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(SiphonBlock.FACING, Direction.NORTH).with(
-        		SiphonBlock.FIXED, false).with(WATERLOGGED, false));
+        		SiphonBlock.FIXED, false).with(SiphonBlock.WATERLOGGED, false));
     }
-    
+
     @Override
     protected void fillStateContainer(final StateContainer.Builder<Block, BlockState> builder)
     {
@@ -105,27 +104,25 @@ public class SiphonBlock extends InteractableHorizontalBlock implements IWaterLo
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
+        final boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
         return this.getDefaultState().with(SiphonBlock.FACING, context.getPlacementHorizontalFacing().getOpposite())
-                .with(SiphonBlock.FIXED, false).with(WATERLOGGED, flag);
+                .with(SiphonBlock.FIXED, false).with(SiphonBlock.WATERLOGGED, flag);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos,
-            BlockPos facingPos) 
+    public BlockState updatePostPlacement(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+            final BlockPos facingPos)
     {
-        if (state.get(WATERLOGGED)) {
-            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-        }
+        if (state.get(SiphonBlock.WATERLOGGED)) world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public IFluidState getFluidState(BlockState state) 
+    public IFluidState getFluidState(final BlockState state)
     {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.get(SiphonBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
     @Override

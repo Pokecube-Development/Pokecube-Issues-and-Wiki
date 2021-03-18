@@ -146,7 +146,11 @@ public class SpawnEventsHandler
 
                 if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
                 {
-                    event.world.addEntity(mob);
+                    EventsHandler.Schedule(event.world.getWorld(), w ->
+                    {
+                        event.world.addEntity(mob);
+                        return true;
+                    });
                     event.setResult(Result.ALLOW);
                 }
             }
@@ -220,9 +224,13 @@ public class SpawnEventsHandler
             final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
                     box.maxZ);
             final IWorld world = event.getWorld();
-            poses.forEach((p) ->
+            EventsHandler.Schedule(world.getWorld(), w ->
             {
-                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
+                poses.forEach((p) ->
+                {
+                    TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
+                });
+                return true;
             });
         }
     }

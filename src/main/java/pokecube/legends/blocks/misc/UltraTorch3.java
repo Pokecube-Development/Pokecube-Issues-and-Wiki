@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.blockstates;
+package pokecube.legends.blocks.misc;
 
 import java.util.Random;
 
