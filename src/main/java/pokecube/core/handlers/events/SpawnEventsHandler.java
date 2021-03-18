@@ -300,6 +300,7 @@ public class SpawnEventsHandler
                 final int num = npc.getRandom().nextInt(options.size());
                 npc.setNPCName(options.get(num).getAsString());
             }
+            if (thing.has("copyMob")) npc.copyMob = new ResourceLocation(thing.get("copyMob").getAsString());
             if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
             if (thing.has("type")) npc.setNpcType(NpcType.byType(thing.get("type").getAsString()));
             if (thing.has("gender"))

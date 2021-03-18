@@ -29,14 +29,73 @@
       "gender": "Both"
     },
     {
+      "type": "plasma",
+      "pokemon": "patrat,purrloin,sandile,scraggy,watchog,trubbish,liepard,krokorok,garbodor,krookodile,golbat,grimer,koffing,raticate,muk,seviper,weezing,drapion,pawniard,whirlipede,deino,sneasel,scrafty,scolipede,foongus,zangoose,amoonguss",
+      "spawns": [
+        {
+          "values": {
+            "rate": "0.7",
+            "types": "all",
+            "typesBlacklist": "cave"
+          }
+        }
+      ],
+      "gender": "Both"
+    },
+    {
       "type": "space",
       "pokemon": "poipole,naganadel,nihilego,buzzwole,kartana,pheromosa,gardevoir,scolipede,cofagrigus,zoroark,klinklang,elgyem,beheeyem,golurk,inkay,malamar,trevenant,vikavolt,araquanid,oranguru,xurkitree,hatterene,grimmsnarl",
+      "gender": "Both"
+    },
+    {
+      "type": "aqua",
+      "pokemon": "poochyena,carvanha,zubat,wailmer,grimer,psyduck,krabby,seaking,corphish,buizel,basculin,arrokuda",
+      "gender": "Both"
+    },
+    {
+      "type": "magma",
+      "pokemon": "poochyena,numel,zubat,baltoy,koffing,houndoom,magcargo,sandslash,bagon,shuppet",
+      "gender": "Both"
+    },
+    {
+      "type": "miner",
+      "pokemon": "geodude,diglett,phanpy,trapinch,hippopotas,drilbur,mudbray,silicobra,baltoy,gliscor,sandile,yamask_galar,nincada,numel,palpitoad,sandygast",
       "gender": "Both"
     },
     {
       "type": "zinnia",
       "pokemon": "whismur,goodra,tyrantrum,altaria,noivern,salamence,rayquaza",
       "gender": "Female"
+    },
+    {
+      "type": "jessie",
+      "pokemon": "wobbuffet,morpeko,seviper,yanmega,pumpkaboo,gourgeist,arbok,dustox,mimikyu,lickitung,frillish",
+      "gender": "Female"
+    },
+    {
+      "type": "james",
+      "pokemon": "mime_jr,carnivine,inkay,cacnea,growlithe,chimecho,weezing,gyarados,victreebel,mareanie,yamask,amoonguss",
+      "gender": "Male"
+    },
+    {
+      "type": "shelly",
+      "pokemon": "carvanha,mightyena,sharpedo,sharpedo_mega,grimer,crawdaunt,walrein,lombre,ludicolo,vibrava,nincada",
+      "gender": "Female"
+    },
+    {
+      "type": "archie",
+      "pokemon": "mightyena,golbat,sharpedo,crobat,muk,kyogre,sharpedo_mega,walrein,tentacruel",
+      "gender": "Male"
+    },
+    {
+      "type": "courtney",
+      "pokemon": "numel,mightyena,camerupt,camerupt_mega,swellow,vulpix,ninetales",
+      "gender": "Female"
+    },
+    {
+      "type": "maxie",
+      "pokemon": "mightyena,golbat,camerupt,crobat,weezing,groudon,camerupt_mega,swellow,houndoom",
+      "gender": "Male"
     },
     {
       "type": "giovanni",
@@ -57,20 +116,6 @@
       "type": "n",
       "pokemon": "reshiram,zekrom,purrloin,pidove,timburr,tympole,sandile,scraggy,sigilyph,boldore,ferroseed,joltik,klinklang,carracosta,vanilluxe,archeops,zoroark,politoed,lanturn,tentacruel,omastar,kabutops,starmie,ninetales,arcanine,rapidash,shiftry,ninjask,leafeon,hippowdon,gastrodon,cradily,armaldo,scizor,rhyperior,abomasnow,cloyster,mamoswine,froslass,glaceon,darmanitan",
       "gender": "Male"
-    },
-    {
-      "type": "plasma",
-      "pokemon": "patrat,purrloin,sandile,scraggy,watchog,trubbish,liepard,krokorok,garbodor,krookodile,golbat,grimer,koffing,raticate,muk,seviper,weezing,drapion,pawniard,whirlipede,deino,sneasel,scrafty,scolipede,foongus,zangoose,amoonguss",
-      "spawns": [
-        {
-          "values": {
-            "rate": "0.7",
-            "types": "all",
-            "typesBlacklist": "cave"
-          }
-        }
-      ],
-      "gender": "Both"
     },
     {
       "type": "lorelei",

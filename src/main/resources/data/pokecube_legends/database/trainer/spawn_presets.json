@@ -3,13 +3,37 @@
     {
       "preset_name": "rocket",
       "trainerType":"rocket",
-      "level":25,
+	  "aiStates": 128
+    },
+    {
+      "preset_name": "magma",
+      "trainerType":"magma",
+	  "aiStates": 128
+    },
+    {
+      "preset_name": "aqua",
+      "trainerType":"aqua",
 	  "aiStates": 128
     },
     {
       "preset_name": "aether",
       "trainerType":"aether",
-      "level":32,
+	  "aiStates": 128
+    },
+    {
+      "preset_name": "miner",
+      "trainerType":"miner",
+      "customTrades":"miner",
+	  "aiStates": 128
+    },
+    {
+      "preset_name": "courtney",
+      "trainerType":"courtney",
+	  "aiStates": 128
+    },
+    {
+      "preset_name": "shelly",
+      "trainerType":"shelly",
 	  "aiStates": 128
     },
     {
@@ -26,10 +50,54 @@
 	  "aiStates": 128
     },
     {
+      "preset_name": "jessie",
+      "trainerType":"jessie",
+      "customTrades":"rocket",
+      "level":50,
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "james",
+      "trainerType":"james",
+      "customTrades":"rocket",
+      "level":50,
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
       "preset_name": "giovanni",
       "trainerType":"giovanni",
       "level":70,
       "customTrades":"giovanni",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "archie",
+      "trainerType":"archie",
+      "level":70,
+      "customTrades":"archie",
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+    {
+      "preset_name": "maxie",
+      "trainerType":"maxie",
+      "level":70,
+      "customTrades":"maxie",
 	  "aiStates": 128,
       "guard":{
         "time":"day",

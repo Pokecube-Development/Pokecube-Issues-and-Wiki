@@ -3,8 +3,26 @@
   	// Aether Foundation
   	{
       "name":"pokecube_legends:village/ocean/town_centers",
+      "rigid":true,
+      "ignoreAir":false,
       "options":[
-        "pokecube_legends:village/ocean/town_centers/center_1"
+        "pokecube_legends:village/ocean/town_centers/center_1;{\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/town_centers/bottom_1",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:village/ocean/town_centers/bottom_1;{\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/town_centers/bottom_2",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:village/ocean/town_centers/bottom_2;{\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -16,12 +34,12 @@
     },
     {
       "name":"pokecube_legends:village/ocean/streets",
-      "target":"pokecube_legends:village/ocean/terminators",
       "rigid":true,
+      "ignoreAir":false,
       "options":[
-        "pokecube_legends:village/ocean/streets/road_01;{\"weight\":8}",
-        "pokecube_legends:village/ocean/streets/road_plus_01;{\"weight\":1}",
-        "pokecube_legends:village/ocean/streets/road_t_01;{\"weight\":3}"
+        "pokecube_legends:village/ocean/streets/road_1;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:village/ocean/streets/road_2;{\"weight\":5,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:village/ocean/streets/road_close;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -40,12 +58,14 @@
     },
     {
       "name":"pokecube_legends:village/ocean/houses",
-      "target":"pokecube_legends:village/ocean/terminators",
       "ignoreAir":false,
+      "rigid":true,
       "options":[
-        "pokecube_legends:village/ocean/houses/house_1;{\"weight\":8}",
-        "pokecube_legends:village/ocean/houses/house_2;{\"weight\":8}",
-        "pokecube_legends:village/ocean/houses/house_3;{\"weight\":8}",
+        "pokecube_legends:village/ocean/houses/house_close;{\"weight\":5,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:village/ocean/houses/house_1;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:village/ocean/houses/house_2;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:village/ocean/houses/house_3;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:village/ocean/houses/house_4;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:village/ocean/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube_legends:village/ocean/gym/aether_base;{\"flag\":\"gym\"}",
         "pokecube_legends:village/ocean/gym/aether_base1;{\"flag\":\"gym\"}"
@@ -141,8 +161,8 @@
       "ignoreAir":false,
       "options":[
         "pokecube_legends:temples/surface/rocket_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_2;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_3;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/magma_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/aqua_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:temples/surface/rocket_top_4;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
@@ -152,6 +172,22 @@
       "ignoreAir":false,
       "options":[
         "pokecube_legends:temples/surface/team_rocket;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/magma_top",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/team_magma;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/aqua_top",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/team_aqua;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
 	
@@ -608,7 +644,6 @@
   "jigsaws":[
   	//
     {
-      "type":"pokecube_legends:village",
       "name":"pokecube_legends:village/ocean",
       "root":"pokecube_legends:village/ocean/town_centers",
       "chance":1,
@@ -616,7 +651,7 @@
       "separation":12,
       "size":6,
       "priority":10,
-      "biomeType":"village",
+      "biomeType":"beach",
       "base_under":false,
       "needed_once":[
         "pokecenter",
@@ -719,6 +754,10 @@
       "biomeType":"none",
       "distance":25,
       "separation":5,
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
       "spawn":{
         "values":{
           "types":"all",

@@ -1,0 +1,271 @@
+{
+  "pokemon": [
+    {
+      "name": "zubat",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomesBlacklist": "pokecube_legends:ultra_dark_valley"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "duskull",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "rattata_alola",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "ekans",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "gastly",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "spinarak",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "murkrow",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "misdreavus",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "seviper",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "baltoy",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "banette",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "skorupi",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "snover",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "darumaka_galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "gothita",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "vanillite",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "pawniard",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "pumpkaboo",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_dark_valley",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

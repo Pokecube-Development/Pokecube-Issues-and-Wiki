@@ -26,7 +26,7 @@ public class Trainer extends Page
 
     TextFieldWidget name;
     TextFieldWidget type;
-    TextFieldWidget urlSkin;
+    TextFieldWidget copyMob;
     TextFieldWidget customTex;
     TextFieldWidget playerName;
 
@@ -64,9 +64,9 @@ public class Trainer extends Page
                 ""));
         this.customTex = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(
                 ""));
-        this.urlSkin = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(""));
+        this.copyMob = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(""));
 
-        this.urlSkin.maxLength = 255;
+        this.copyMob.maxLength = 255;
 
         this.index = this.index % NpcType.typeMap.size();
         final List<String> types = Lists.newArrayList(NpcType.typeMap.keySet());
@@ -100,13 +100,14 @@ public class Trainer extends Page
                 }
             this.playerName.setValue(mob.playerName);
             this.customTex.setValue(mob.customTex);
-            this.urlSkin.setValue(mob.urlSkin);
+            if (mob.copyMob != null) this.copyMob.setValue(mob.copyMob.toString());
         }
         this.addButton(this.name);
         this.addButton(this.tradeList);
         this.addButton(this.type);
         this.addButton(this.playerName);
         this.addButton(this.customTex);
+        this.addButton(this.copyMob);
 
         if (this.parent.entity instanceof NpcMob) this.tradeList.setValue(((NpcMob) this.parent.entity).customTrades);
         else this.tradeList.setEditable(false);
@@ -260,7 +261,8 @@ public class Trainer extends Page
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == Rewards.class) break;
         final int rewardIndex = index;
-        this.addButton(new Button(x - 123, y + 00, 60, 20, new StringTextComponent("rewards"), b ->
+        final int yOff = 15;
+        this.addButton(new Button(x - 123, y + yOff, 60, 20, new StringTextComponent("rewards"), b ->
         {
             // Change to a rewards page
             this.parent.changePage(rewardIndex);
@@ -275,7 +277,7 @@ public class Trainer extends Page
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == Messages.class) break;
         final int messIndex = index;
-        this.addButton(new Button(x - 123, y - 20, 60, 20, new StringTextComponent("messages"), b ->
+        this.addButton(new Button(x - 123, y + yOff - 20, 60, 20, new StringTextComponent("messages"), b ->
         {
             // Change to a messages page
             // Change to a ai page
@@ -291,7 +293,7 @@ public class Trainer extends Page
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == AI.class) break;
         final int aiIndex = index;
-        this.addButton(new Button(x - 123, y + 20, 60, 20, new StringTextComponent("ai"), b ->
+        this.addButton(new Button(x - 123, y + yOff + 20, 60, 20, new StringTextComponent("ai"), b ->
         {
             // Change to a ai page
             this.parent.changePage(aiIndex);
@@ -312,7 +314,7 @@ public class Trainer extends Page
         message.getTag().putString("__type__", this.type.getValue());
         message.getTag().putString("N", this.name.getValue());
         message.getTag().putString("pS", this.playerName.getValue());
-        message.getTag().putString("uS", this.urlSkin.getValue());
+        message.getTag().putString("fM", this.copyMob.getValue());
         message.getTag().putString("cS", this.customTex.getValue());
         message.getTag().putString("cT", this.tradeList.getValue());
         message.getTag().putBoolean("rawName", !this.typename);
@@ -334,7 +336,7 @@ public class Trainer extends Page
         {
             mob = (LivingEntity) this.parent.entity;
             final float yaw = Util.getMillis() / 40;
-            GuiPokemobBase.renderMob(mob, x - 60, y + 70, 0, yaw, 0, yaw, 1f);
+            GuiPokemobBase.renderMob(mob, x - 60, y + 80, 0, yaw, 0, yaw, 1f);
         }
 
         this.font.draw(matrixStack, I18n.get("Trainer Type"), x + 20, y + dy * i++, 0xFFFFFFFF);
@@ -342,5 +344,6 @@ public class Trainer extends Page
         this.font.draw(matrixStack, I18n.get("Trades List"), x, y + dy * i++, 0xFFFFFFFF);
         this.font.draw(matrixStack, I18n.get("Player Texture"), x, y + dy * i++, 0xFFFFFFFF);
         this.font.draw(matrixStack, I18n.get("Custom Texture"), x, y + dy * i++, 0xFFFFFFFF);
+        this.font.draw(matrixStack, I18n.get("Copied Mob"), x, y + dy * i++, 0xFFFFFFFF);
     }
 }

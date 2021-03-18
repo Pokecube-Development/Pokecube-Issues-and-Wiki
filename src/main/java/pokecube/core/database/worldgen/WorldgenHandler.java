@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -286,8 +287,7 @@ public class WorldgenHandler
         return WorldgenHandler.SPACENEEDS.get(s);
     }
 
-    public final String           MODID;
-    public final ResourceLocation ROOT;
+    public final String MODID;
 
     private static class BiomeFeature
     {
@@ -326,7 +326,7 @@ public class WorldgenHandler
             {
                 if (e instanceof FileNotFoundException) PokecubeMod.LOGGER.debug("No worldgen database found for "
                         + WorldgenHandler.this.MODID);
-                else PokecubeMod.LOGGER.catching(e);
+                else PokecubeMod.LOGGER.error(e);
                 return;
             }
 
@@ -367,7 +367,6 @@ public class WorldgenHandler
     private WorldgenHandler(final String modid, final IEventBus bus)
     {
         this.MODID = modid;
-        this.ROOT = new ResourceLocation(this.MODID, "structures/");
         bus.register(this.reg);
         MinecraftForge.EVENT_BUS.register(this);
         WorldgenHandler.INSTANCE = this;
@@ -525,21 +524,29 @@ public class WorldgenHandler
     public void loadStructures() throws Exception
     {
         final Collection<ResourceLocation> resources = Database.resourceManager.listResources("structures/", s -> s
-                .endsWith("worldgen.json"));
+                .endsWith("gen.json"));
 
         this.defaults.jigsaws.clear();
         this.defaults.pools.clear();
 
+        PokecubeCore.LOGGER.info("Found Worldgen Databases: {}", resources);
+
         for (final ResourceLocation json : resources)
-        {
-            final InputStream res = Database.resourceManager.getResource(json).getInputStream();
-            final Reader reader = new InputStreamReader(res);
-            final Structures extra = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
+            try
+            {
+                final InputStream res = Database.resourceManager.getResource(json).getInputStream();
+                final Reader reader = new InputStreamReader(res);
+                final Structures extra = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
 
-            this.defaults.jigsaws.addAll(extra.jigsaws);
-            this.defaults.pools.addAll(extra.pools);
-        }
-
+                PokecubeCore.LOGGER.info("Found {} jigsaws and {} pools in {}", extra.jigsaws.size(), extra.pools
+                        .size(), json);
+                this.defaults.jigsaws.addAll(extra.jigsaws);
+                this.defaults.pools.addAll(extra.pools);
+            }
+            catch (JsonSyntaxException | JsonIOException | IOException e)
+            {
+                PokecubeCore.LOGGER.error("Error with pools for {}", json, e);
+            }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

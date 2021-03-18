@@ -45,8 +45,8 @@ public class RenderMobOverlays
                         .getEntity(), mat, buf, partialTicks, cameraEntity, br);
             }
 
-            if (pokemob != null) if (event.getRenderer().getModel() instanceof ModelWrapper<?>) Status.render(
-                    event.getRenderer(), mat, buf, pokemob, partialTicks, event.getLight());
+            if (pokemob != null) if (event.getRenderer().getModel() instanceof ModelWrapper<?>) Status.render(event
+                    .getRenderer(), mat, buf, pokemob, partialTicks, event.getLight());
         }
     }
 

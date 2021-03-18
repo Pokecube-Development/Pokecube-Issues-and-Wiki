@@ -1,0 +1,226 @@
+{
+  "pokemon": [
+    {
+      "name": "zubat",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomesBlacklist": "pokecube_legends:ultra_jungle"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "carnivine",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "pansage",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "skiddo",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "bellsprout",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "exeggcute",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "budew",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "sewaddle",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "dhelmise",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "cottonee",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "hoppip",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "bounsweet",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "roggenrola",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "cherubi",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "tangela",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_jungle",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

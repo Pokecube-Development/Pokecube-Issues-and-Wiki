@@ -1,0 +1,271 @@
+{
+  "pokemon": [
+    {
+      "name": "zubat",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomesBlacklist": "pokecube_legends:ultra_deep_hills"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "meowth_galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "paras",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "magnemite",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "muk",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "corsola_galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "nincada",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "mawile",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "spoink",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "glameow",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "spiritomb",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "croagunk",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "venipede",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "sigilyph",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "solosis",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "elgyem",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "litwick",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "salandit",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_hills",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -260,6 +260,12 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, comment = "If true, idle AI for pokemobs will slow down as server load increases")
     public boolean doLoadBalancing = true;
 
+    @Configure(category = Config.mobAI, comment = "Number of ms in a tick to start computing load balanding")
+    public double loadBalanceThreshold = 2;
+
+    @Configure(category = Config.mobAI, comment = "Scaling rate for load balancing")
+    public double loadBalanceScale = 1;
+
     @Configure(category = Config.mobAI, comment = "A random sound from here is played when a pokemob dodges in combat")
     public List<String> dodgeSounds        = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI, comment = "A random sound from here is played when a pokemob leaps in combat")

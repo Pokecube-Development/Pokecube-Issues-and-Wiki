@@ -107,6 +107,193 @@
       ]
     },
     {
+      "template": "miner",
+      "trades": [
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:ultracube",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "6"
+              }
+            }
+          ],
+          "values": {
+            "chance": "1"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "minecraft:stone_pickaxe",
+              "n": "1"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "2"
+              }
+            }
+          ],
+          "values": {
+            "chance": "1"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:duskcube",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "15"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.8"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:revive",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "6"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.8"
+          }
+        },
+        {
+          "custom": "allVitamins",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "12"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.9"
+          }
+        },
+        {
+          "type": "tag_sell",
+          "custom": "pokecube:pokemob_evo",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "16"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.5"
+          }
+        },
+        {
+          "type": "tag_sell",
+          "custom": "pokecube_legends:sells_for_64",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "64"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.05"
+          }
+        }
+      ]
+    },
+    {
+      "template": "rocket",
+      "trades": [
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:rocketcube",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "17"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.9"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:revive",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "12"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.8"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "minecraft:emerald",
+              "n": "1"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:diamond",
+                "n": "2"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.8"
+          }
+        }
+      ]
+    },
+    {
       "template": "zinnia",
       "trades": [
         {
@@ -240,7 +427,131 @@
             }
           ],
           "values": {
-            "chance": "0.2"
+            "chance": "0.1"
+          }
+        }
+      ]
+    },
+    {
+      "template": "maxie",
+      "trades": [
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:ultracube",
+              "n": "4"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "17"
+              }
+            }
+          ],
+          "values": {
+            "chance": "1"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:teammagmacube",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "17"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.9"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:revive",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "12"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.8"
+          }
+        }
+      ]
+    },
+    {
+      "template": "archie",
+      "trades": [
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:ultracube",
+              "n": "4"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "17"
+              }
+            }
+          ],
+          "values": {
+            "chance": "1"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:teamaquacube",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "17"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.9"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:revive",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "12"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.8"
           }
         }
       ]

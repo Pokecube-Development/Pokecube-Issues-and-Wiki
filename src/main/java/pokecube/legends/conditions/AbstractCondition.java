@@ -141,6 +141,12 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         return true;
     }
 
+    private boolean alreadyHas(final Entity trainer)
+    {
+        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), this.getEntry()) > 0) return true;
+        return false;
+    }
+
     protected void onCapureFail(final IPokemob pokemob)
     {
     }
@@ -149,9 +155,6 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public final boolean canCapture(final Entity trainer)
     {
         if (trainer == null) return false;
-        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), this.getEntry()) > 0) return false;
-        if (trainer instanceof ServerPlayerEntity && PokecubePlayerDataHandler.getCustomDataTag(
-                (ServerPlayerEntity) trainer).getBoolean("capt:" + this.getEntry().getTrimmedName())) return false;
         return this.hasRequirements(trainer);
     }
 
@@ -165,12 +168,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         if (trainer == null) return CanSpawn.NO;
         // Already have one, cannot spawn again.
-        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), this.getEntry()) > 0)
-            return CanSpawn.ALREADYHAVE;
-        // Also check if can capture, if not, no point in being able to spawn.
-        if (trainer instanceof ServerPlayerEntity && PokecubePlayerDataHandler.getCustomDataTag(
-                (ServerPlayerEntity) trainer).getBoolean("capt:" + this.getEntry().getTrimmedName()))
-            return CanSpawn.ALREADYHAVE;
+        if (this.alreadyHas(trainer)) return CanSpawn.ALREADYHAVE;
+
         if (trainer instanceof ServerPlayerEntity)
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) trainer;

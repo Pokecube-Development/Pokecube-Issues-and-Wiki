@@ -1,0 +1,271 @@
+{
+  "pokemon": [
+    {
+      "name": "zubat",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomesBlacklist": "pokecube_legends:ultra_deep_cave"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "oddish",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "paras",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "onix",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "hoothoot",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "pineco",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "gligar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "larvitar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "zigzagoon_galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "nosepass",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "kecleon",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "buneary",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "pidove",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "deerling",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "bunnelby",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "espurr",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "morelull",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "hatenna",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "pokecube_legends:ultra_deep_cave",
+              "min": "1",
+              "rate": "0.5",
+              "max": "2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
