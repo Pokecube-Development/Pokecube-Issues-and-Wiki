@@ -1,15 +1,6 @@
 package pokecube.legends.blocks.customblocks;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
@@ -36,6 +27,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
+import javax.annotation.Nullable;
+import java.util.Random;
+
 public class NatureCoreBlock extends Rotates implements IWaterLoggable
 {
     private static final EnumProperty<NatureCorePart> HALF        = EnumProperty.create("half", NatureCorePart.class);
@@ -43,19 +37,32 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     private static final DirectionProperty            FACING      = HorizontalBlock.FACING;
 
     // Precise selection box
-    private static final VoxelShape NATURE_CORE_TOP_NORTH = Block.box(2.33, 0.21, 6.75, 12.96, 12.25, 9.5);
-    private static final VoxelShape NATURE_CORE_TOP_EAST  = Block.box(6.5, 0.21, 2.33, 9.25, 12.25, 12.96);
-    private static final VoxelShape NATURE_CORE_TOP_SOUTH = Block.box(3.04, 0.21, 6.5, 13.67, 12.25, 9.25);
-    private static final VoxelShape NATURE_CORE_TOP_WEST  = Block.box(6.75, 0.21, 3.04, 9.5, 12.25, 13.67);
+    private static final VoxelShape NATURE_CORE_TOP_NORTH =
+            Block.box(2, 1, 6, 14, 14, 10);
+    private static final VoxelShape NATURE_CORE_TOP_EAST  =
+            Block.box(6, 1, 2, 10, 14, 14);
+    private static final VoxelShape NATURE_CORE_TOP_SOUTH =
+            Block.box(2, 1, 6, 14, 14, 10);
+    private static final VoxelShape NATURE_CORE_TOP_WEST  =
+            Block.box(6, 1, 2, 10, 14, 14);
 
-    private static final VoxelShape NATURE_CORE_BOTTOM = VoxelShapes.or(Block.box(0, 0, 4, 2, 2, 12), Block
-            .box(0, 14, 4, 2, 16, 12), Block.box(2, 0, 4, 4, 4, 12), Block.box(2,
-                    12, 4, 4, 16, 12), Block.box(4, 0, 0, 12, 2, 2), Block.box(4, 0, 12, 12, 4,
-                            14), Block.box(4, 0, 14, 12, 2, 16), Block.box(4, 0, 2, 12, 4, 4),
-            Block.box(4, 0, 4, 12, 16, 12), Block.box(4, 12, 2, 12, 16, 4), Block
-                    .box(4, 12, 12, 12, 16, 14), Block.box(4, 14, 0, 12, 16, 2), Block
-                            .box(4, 14, 14, 12, 16, 16), Block.box(12, 0, 4, 14, 4, 12), Block
-                                    .box(14, 0, 4, 16, 2, 12), Block.box(12, 12, 4, 14, 16, 12),
+    private static final VoxelShape NATURE_CORE_BOTTOM = VoxelShapes.or(
+            Block.box(0, 0, 4, 2, 2, 12),
+            Block.box(0, 14, 4, 2, 16, 12),
+            Block.box(2, 0, 4, 4, 4, 12),
+            Block.box(2, 12, 4, 4, 16, 12),
+            Block.box(4, 0, 0, 12, 2, 2),
+            Block.box(4, 0, 12, 12, 4, 14),
+            Block.box(4, 0, 14, 12, 2, 16),
+            Block.box(4, 0, 2, 12, 4, 4),
+            Block.box(4, 0, 4, 12, 16, 12),
+            Block.box(4, 12, 2, 12, 16, 4),
+            Block.box(4, 12, 12, 12, 16, 14),
+            Block.box(4, 14, 0, 12, 16, 2),
+            Block.box(4, 14, 14, 12, 16, 16),
+            Block.box(12, 0, 4, 14, 4, 12),
+            Block.box(14, 0, 4, 16, 2, 12),
+            Block.box(12, 12, 4, 14, 16, 12),
             Block.box(14, 14, 4, 16, 16, 12)).optimize();
 
     // Precise selection box

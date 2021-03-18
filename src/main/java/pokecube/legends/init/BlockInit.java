@@ -1089,7 +1089,7 @@ public class BlockInit
         		.sound(SoundType.BASALT).dynamicShape()).noInfoBlock());
         //
         
-        TIMESPACE_CORE = PokecubeLegends.BLOCKS.register("timerspawn", () -> new SpaceCoreBlock("timerspawn",
+        TIMESPACE_CORE = PokecubeLegends.BLOCKS.register("timerspawn", () -> new TimeSpaceCoreBlock("timerspawn",
                 AbstractBlock.Properties.of(Material.GRASS, MaterialColor.STONE).strength(2000, 2000).sound(SoundType.STONE)
                         .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         NATURE_CORE = PokecubeLegends.BLOCKS.register("naturespawn", () -> new NatureCoreBlock("naturespawn",
