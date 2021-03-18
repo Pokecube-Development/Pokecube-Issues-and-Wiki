@@ -6,7 +6,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomesBlacklist": "pokecube_legends:ultra_deep_cave",
+              "biomesBlacklist": "pokecube_legends:ultra_deep_cave"
             }
           }
         ]
