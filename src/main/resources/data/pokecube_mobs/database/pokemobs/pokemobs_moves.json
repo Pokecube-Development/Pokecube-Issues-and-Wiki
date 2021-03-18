@@ -3631,7 +3631,7 @@
       "name": "jynx",
       "moves": {
         "lvlupMoves": {
-          "1": "pound,lick,lovelykiss,powder,perishsong,drainingkiss",
+          "1": "pound,lick,lovelykiss,powdersnow,perishsong,drainingkiss",
           "5": "lick",
           "8": "lovelykiss",
           "11": "powder",
@@ -6184,7 +6184,7 @@
       "name": "piloswine",
       "moves": {
         "lvlupMoves": {
-          "1": "furyattack,peck,powder,ancientpower,mudsport,odorsleuth",
+          "1": "furyattack,peck,powdersnow,ancientpower,mudsport,odorsleuth",
           "5": "mudsport",
           "8": "powder",
           "11": "mudslap",
@@ -9954,7 +9954,7 @@
       "name": "glalie",
       "moves": {
         "lvlupMoves": {
-          "1": "leer,doubleteam,powder,sheercold,iceshard,freezedry",
+          "1": "leer,doubleteam,powdersnow,sheercold,iceshard,freezedry",
           "5": "doubleteam",
           "10": "iceshard",
           "14": "icywind",
@@ -9977,7 +9977,7 @@
       "name": "glalie_mega",
       "moves": {
         "lvlupMoves": {
-          "1": "leer,doubleteam,powder,sheercold,iceshard,freezedry",
+          "1": "leer,doubleteam,powdersnow,sheercold,iceshard,freezedry",
           "5": "doubleteam",
           "10": "iceshard",
           "14": "icywind",
@@ -10021,7 +10021,7 @@
       "name": "sealeo",
       "moves": {
         "lvlupMoves": {
-          "1": "growl,watergun,defensecurl,powder,swagger",
+          "1": "growl,watergun,defensecurl,powdersnow,swagger",
           "5": "rollout",
           "9": "encore",
           "13": "iceball",
@@ -10042,7 +10042,7 @@
       "name": "walrein",
       "moves": {
         "lvlupMoves": {
-          "1": "growl,watergun,defensecurl,powder,swagger,crunch,icefang",
+          "1": "growl,watergun,defensecurl,powdersnow,swagger,crunch,icefang",
           "7": "rollout,encore",
           "13": "iceball",
           "19": "aurorabeam,brine",
@@ -12455,7 +12455,7 @@
       "name": "abomasnow",
       "moves": {
         "lvlupMoves": {
-          "1": "icepunch,leer,razorleaf,powder,icywind",
+          "1": "icepunch,leer,razorleaf,powdersnow,icywind",
           "5": "razorleaf",
           "9": "icywind",
           "13": "grasswhistle",
@@ -12476,7 +12476,7 @@
       "name": "abomasnow_mega",
       "moves": {
         "lvlupMoves": {
-          "1": "icepunch,leer,razorleaf,powder,icywind",
+          "1": "icepunch,leer,razorleaf,powdersnow,icywind",
           "5": "razorleaf",
           "9": "icywind",
           "13": "grasswhistle",
@@ -12782,7 +12782,7 @@
       "name": "mamoswine",
       "moves": {
         "lvlupMoves": {
-          "1": "furyattack,peck,powder,scaryface,ancientpower,mudsport,odorsleuth",
+          "1": "furyattack,peck,powdersnow,scaryface,ancientpower,mudsport,odorsleuth",
           "5": "mudsport",
           "8": "powder",
           "11": "mudslap",
@@ -12933,7 +12933,7 @@
       "name": "froslass",
       "moves": {
         "lvlupMoves": {
-          "1": "leer,doubleteam,powder,destinybond,iceshard,ominouswind",
+          "1": "leer,doubleteam,powdersnow,destinybond,iceshard,ominouswind",
           "5": "doubleteam",
           "10": "iceshard",
           "14": "icywind",
@@ -16385,7 +16385,7 @@
       "name": "beartic",
       "moves": {
         "lvlupMoves": {
-          "1": "thrash,growl,bide,powder,icywind,superpower,sheercold,aquajet,iciclecrash",
+          "1": "thrash,growl,bide,powdersnow,icywind,superpower,sheercold,aquajet,iciclecrash",
           "5": "powder",
           "9": "bide",
           "13": "icywind",
@@ -18605,7 +18605,7 @@
       "name": "aurorus",
       "moves": {
         "lvlupMoves": {
-          "1": "growl,thunderwave,rockthrow,powder,freezedry",
+          "1": "growl,thunderwave,rockthrow,powdersnow,freezedry",
           "5": "thunderwave",
           "10": "rockthrow",
           "13": "icywind",
@@ -19081,7 +19081,7 @@
       "name": "avalugg",
       "moves": {
         "lvlupMoves": {
-          "1": "tackle,bodyslam,bite,harden,skullbash,powder,crunch,irondefense,wideguard",
+          "1": "tackle,bodyslam,bite,harden,skullbash,powdersnow,crunch,irondefense,wideguard",
           "5": "powder",
           "10": "icywind",
           "15": "takedown",
