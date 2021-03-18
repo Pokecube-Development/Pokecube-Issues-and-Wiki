@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_legends:blocks/orb",
+		"1": "pokecube_legends:blocks/black_white_orb",
 		"2": "block/gold_block",
 		"3": "block/quartz_pillar",
 		"4": "block/chiseled_quartz_block",
-		"particle": "pokecube_legends:blocks/orb"
+		"particle": "pokecube_legends:blocks/black_white_orb"
 	},
 	"elements": [
 		{
