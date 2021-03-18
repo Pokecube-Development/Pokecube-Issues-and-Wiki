@@ -1,0 +1,22 @@
+{
+  "presets":[
+    {
+      "preset_name": "spawn_trainer_piglin",
+      "mob": "pokecube_adventures:trainer",
+      "type": "trainer",
+      "copyMob": "minecraft:piglin"
+    },
+    {
+      "preset_name": "spawn_trainer_witch",
+      "mob": "pokecube_adventures:trainer",
+      "type": "trainer",
+      "copyMob": "minecraft:witch"
+    },
+    {
+      "preset_name": "spawn_meowth",
+      "mob": "pokecube:npc",
+      "type": "trader",
+      "copyMob": "pokecube:meowth"
+    }
+  ]
+}
