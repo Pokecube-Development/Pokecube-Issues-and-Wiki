@@ -20,10 +20,9 @@ import pokecube.legends.blocks.BlockBase;
 
 public class MagneticBlock extends BlockBase
 {
-    public MagneticBlock(final String name, final Material material, MaterialColor color)
+    public MagneticBlock(final String name, Properties properties, MaterialColor color)
     {
-        super(name, Properties.of(material).sound(SoundType.STONE).strength(3, 8).harvestTool(
-                ToolType.PICKAXE).harvestLevel(1));
+        super(name, properties);
     }
 
     @SuppressWarnings("deprecation")

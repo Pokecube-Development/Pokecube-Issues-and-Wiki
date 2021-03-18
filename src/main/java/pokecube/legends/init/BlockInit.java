@@ -640,7 +640,8 @@ public class BlockInit
         ULTRA_CORRUPTED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",
                 Material.STONE, MaterialColor.TERRACOTTA_PURPLE, 0.9f, SoundType.METAL, ToolType.PICKAXE, 1).noInfoBlock());
         ULTRA_MAGNETIC = PokecubeLegends.BLOCKS_TAB.register("ultramagnetic", () -> new MagneticBlock("ultramagnetic",
-                Material.STONE, MaterialColor.COLOR_BLUE).noInfoBlock());
+                AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).strength(3, 8).harvestTool(
+                ToolType.PICKAXE).harvestLevel(1), MaterialColor.COLOR_BLUE).noInfoBlock());
         ULTRA_MUSHROOM_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass1", () -> new GrassMussBlock("ultragrass1",
                 Material.GRASS, MaterialColor.COLOR_RED).noInfoBlock());
         ULTRA_MUSHROOM_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt1", () -> new BlockBase("ultradirt1",
@@ -753,7 +754,7 @@ public class BlockInit
 
         // Ultra Stones
         ULTRA_STONE = PokecubeLegends.BLOCKS_TAB.register("ultrastone", () -> new BlockBase("ultrastone", Material.STONE, 
-        		MaterialColor.TERRACOTTA_CYAN, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+        		MaterialColor.COLOR_CYAN, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_STONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
         ULTRA_STONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_stairs",

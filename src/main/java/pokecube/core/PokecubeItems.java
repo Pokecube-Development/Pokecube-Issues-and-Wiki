@@ -194,7 +194,7 @@ public class PokecubeItems extends ItemList
         TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(AbstractBlock.Properties.of(Material.METAL)
                 .strength(2000), MaterialColor.COLOR_LIGHT_BLUE));
         TRADER = PokecubeItems.BLOCKS.register("trade_machine", () -> new TraderBlock(AbstractBlock.Properties.of(
-                Material.METAL).strength(2000), MaterialColor.TERRACOTTA_GRAY));
+                Material.METAL).strength(2000), MaterialColor.COLOR_GREEN));
         SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(AbstractBlock.Properties.of(
                 Material.STONE, MaterialColor.STONE).strength(2000)));
         FOSSILSTONE = PokecubeItems.BLOCKS.register("fossilstone", () -> new Block(AbstractBlock.Properties.of(

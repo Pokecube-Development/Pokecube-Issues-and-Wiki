@@ -216,7 +216,7 @@ public class PokecubeAdv
         SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(AbstractBlock.Properties.of(Material.METAL)
                 .dynamicShape(), MaterialColor.TERRACOTTA_GREEN));
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(AbstractBlock.Properties.of(Material.METAL),
-                MaterialColor.TERRACOTTA_WHITE));
+                MaterialColor.SNOW));
         LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlass(
                 DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS).strength(0.3f, 0.3f)
                 .sound(SoundType.GLASS).noOcclusion(), MaterialColor.COLOR_LIGHT_BLUE));
