@@ -634,7 +634,8 @@ public class BlockInit
 
         // Dimensions
         SPECTRUM_GLASS = PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new SpectrumGlass("spectrum_glass",
-                DyeColor.ORANGE, AbstractBlock.Properties.of(Material.GLASS).noOcclusion().sound(SoundType.GLASS), MaterialColor.COLOR_ORANGE));
+                DyeColor.ORANGE, AbstractBlock.Properties.of(Material.GLASS).noOcclusion().sound(SoundType.GLASS)
+                .strength(0.3f), MaterialColor.COLOR_ORANGE));
         ULTRA_AGED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt3", () -> new BlockBase("ultradirt3",
                 Material.GRASS, MaterialColor.TERRACOTTA_YELLOW, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_CORRUPTED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",
@@ -659,17 +660,17 @@ public class BlockInit
         CRYSTAL = PokecubeLegends.BLOCKS_TAB.register("temporal_crystal", () -> new BlockBase(
                 "temporal_crystal", Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE, 1.5f, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
         CRYSTAL_BRICK = PokecubeLegends.BLOCKS_TAB.register("crystalbrick", () -> new BlockBase("crystalbrick",
-                Material.ICE_SOLID, MaterialColor.COLOR_LIGHT_BLUE, 0.5F, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
+                Material.ICE_SOLID, MaterialColor.COLOR_LIGHT_BLUE, 0.4F, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
         CRYSTAL_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystal_stairs",
                 () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.GLASS)));
+                		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.4F, 0.3f).sound(SoundType.GLASS)));
         CRYSTAL_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystal_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.GLASS)));
+        		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.4F, 0.3f).sound(SoundType.GLASS)));
         CRYSTAL_BRICKS_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystal_bricks_stairs",
                 () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.GLASS)));
+                		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.4F, 0.3f).sound(SoundType.GLASS)));
         CRYSTAL_BRICKS_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystal_bricks_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.GLASS)));
+        		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.4F, 0.3f).sound(SoundType.GLASS)));
         CRYSTAL_BUTTON = PokecubeLegends.BLOCKS_TAB.register("crystal_button",
                 () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW).sound(SoundType.GLASS)
                         .noCollission().strength(0.5F)));

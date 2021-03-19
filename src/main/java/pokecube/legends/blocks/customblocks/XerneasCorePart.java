@@ -4,7 +4,8 @@ import net.minecraft.util.IStringSerializable;
 
 public enum XerneasCorePart implements IStringSerializable
 {
-    TOP("top"), TOP_LEFT("top_left"), TOP_RIGHT("top_right"), BOTTOM("bottom");
+    TOP("top"), TOP_LEFT("top_left"), TOP_RIGHT("top_right"),
+    MIDDLE_LEFT("middle_left"), MIDDLE_RIGHT("middle_right"), BOTTOM("bottom");
 
     private final String name;
 
