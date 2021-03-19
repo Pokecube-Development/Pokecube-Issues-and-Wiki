@@ -195,11 +195,11 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
         final BlockPos victiniPos = this.getVictiniPos(pos, state.getValue(VictiniBlock.HALF), facing);
         BlockState VictiniBlockState = world.getBlockState(victiniPos);
         if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPos) && this.getBlock() == BlockInit.VICTINI_CORE
-                .get()) this.removeHalf(world, victiniPos, VictiniBlockState);
+                .get()) this.removeHalf(world, victiniPos, VictiniBlockState, player);
         final BlockPos victiniPartPos = this.getVictiniTopPos(victiniPos, facing);
         VictiniBlockState = world.getBlockState(victiniPartPos);
         if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPartPos) && this
-                .getBlock() == BlockInit.VICTINI_CORE.get()) this.removeHalf(world, victiniPartPos, VictiniBlockState);
+                .getBlock() == BlockInit.VICTINI_CORE.get()) this.removeHalf(world, victiniPartPos, VictiniBlockState, player);
         super.playerWillDestroy(world, pos, state, player);
     }
 
@@ -223,11 +223,16 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     }
 
     // Breaking the Victini Spawner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state)
+    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
     {
+        BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
-        else world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+        else
+        {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+            world.levelEvent(player, 2001, pos, Block.getId(blockstate));
+        }
     }
 
     // Prevents the Victini Spawner from replacing blocks above it and checks
