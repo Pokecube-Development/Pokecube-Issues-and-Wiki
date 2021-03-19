@@ -28,7 +28,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
 
     public InteractableDirectionalBlock(final Properties properties, final MaterialColor color)
     {
-        super(Properties.of(Material.METAL, color).strength(3.0f, 5.0f).harvestTool(ToolType.PICKAXE));
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(DirectionalBlock.FACING,
                 Direction.UP));
     }

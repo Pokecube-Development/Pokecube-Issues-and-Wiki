@@ -704,7 +704,7 @@ public class BlockInit
                         .of(Material.STONE, MaterialColor.COLOR_BLACK).sound(SoundType.NETHER_BRICKS).noCollission().strength(
                                 0.7F)));
         CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus("crystallized_cactus",
-                AbstractBlock.Properties.copy(Blocks.CACTUS)));
+                AbstractBlock.Properties.copy(Blocks.CACTUS).sound(SoundType.GLASS)));
         
         // Ultra Desert
         ULTRA_SAND = PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new SandUltraBlock("ultrasand",
