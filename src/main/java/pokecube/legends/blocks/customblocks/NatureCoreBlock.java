@@ -119,11 +119,11 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
         final BlockPos natureCorePos = this.getNatureCorePos(pos, state.getValue(NatureCoreBlock.HALF), facing);
         BlockState NatureCoreBlockState = world.getBlockState(natureCorePos);
         if (NatureCoreBlockState.getBlock() == this && !pos.equals(natureCorePos)) this.removeHalf(world, natureCorePos,
-                NatureCoreBlockState);
+                NatureCoreBlockState, player);
         final BlockPos natureCorePartPos = this.getNatureCoreTopPos(natureCorePos, facing);
         NatureCoreBlockState = world.getBlockState(natureCorePartPos);
         if (NatureCoreBlockState.getBlock() == this && !pos.equals(natureCorePartPos)) this.removeHalf(world,
-                natureCorePartPos, NatureCoreBlockState);
+                natureCorePartPos, NatureCoreBlockState, player);
         super.playerWillDestroy(world, pos, state, player);
     }
 
@@ -147,11 +147,16 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     }
 
     // Breaking the Nature Core Spawner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state)
+    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
     {
+        BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
-        else world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+        else
+        {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+            world.levelEvent(player, 2001, pos, Block.getId(blockstate));
+        }
     }
 
     // Prevents the Nature Core Spawner from replacing blocks above it and

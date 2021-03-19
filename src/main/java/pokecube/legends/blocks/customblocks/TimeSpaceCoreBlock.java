@@ -137,11 +137,11 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
         final BlockPos timeSpacePos = this.getTimeSpacePos(pos, state.getValue(TimeSpaceCoreBlock.HALF), facing);
         BlockState TimeSpaceBlockState = world.getBlockState(timeSpacePos);
         if (TimeSpaceBlockState.getBlock() == this && !pos.equals(timeSpacePos)) this.removeHalf(world, timeSpacePos,
-                TimeSpaceBlockState);
+                TimeSpaceBlockState, player);
         final BlockPos timeSpacePartPos = this.getTimeSpaceTopPos(timeSpacePos, facing);
         TimeSpaceBlockState = world.getBlockState(timeSpacePartPos);
         if (TimeSpaceBlockState.getBlock() == this && !pos.equals(timeSpacePartPos)) this.removeHalf(world,
-                timeSpacePartPos, TimeSpaceBlockState);
+                timeSpacePartPos, TimeSpaceBlockState, player);
         super.playerWillDestroy(world, pos, state, player);
     }
 
@@ -165,11 +165,16 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
     }
 
     // Breaking the Time & Space Spawner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state)
+    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
     {
+        BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
-        else world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+        else
+        {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+            world.levelEvent(player, 2001, pos, Block.getId(blockstate));
+        }
     }
 
     // Prevents the Time & Space Spawner from replacing blocks above it and

@@ -81,12 +81,25 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
         final BlockPos clonerPos = this.getClonerPos(pos, state.getValue(ClonerBlock.HALF), facing);
         BlockState clonerBlockState = world.getBlockState(clonerPos);
         if (clonerBlockState.getBlock() == this && !pos.equals(clonerPos)) this.removeHalf(world, clonerPos,
-                clonerBlockState);
+                clonerBlockState, player);
         final BlockPos clonerPartPos = this.getClonerTopPos(clonerPos, facing);
         clonerBlockState = world.getBlockState(clonerPartPos);
         if (clonerBlockState.getBlock() == this && !pos.equals(clonerPartPos)) this.removeHalf(world, clonerPartPos,
-                clonerBlockState);
+                clonerBlockState, player);
         super.playerWillDestroy(world, pos, state, player);
+    }
+
+    // Breaking the Cloner leaves water if underwater
+    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
+    {
+        BlockState blockstate = world.getBlockState(pos);
+        final FluidState fluidState = world.getFluidState(pos);
+        if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
+        else
+        {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+            world.levelEvent(player, 2001, pos, Block.getId(blockstate));
+        }
     }
 
     private BlockPos getClonerTopPos(final BlockPos base, final Direction facing)
@@ -106,14 +119,6 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
         default:
             return pos.below();
         }
-    }
-
-    // Breaking the Cloner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state)
-    {
-        final FluidState fluidState = world.getFluidState(pos);
-        if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
-        else world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
     }
 
     // Prevents the Cloner from replacing blocks above it and checks for water
