@@ -714,30 +714,30 @@ public class PortalWarp extends Rotates implements IWaterLoggable
                     .getDirection());
 
             final FluidState topFluidState = world.getFluidState(pos.above(2));
-            final FluidState topWestFluidState = world.getFluidState(pos.above(2).west());
-            final FluidState topEastFluidState = world.getFluidState(pos.above(2).east());
+            final FluidState topLeftFluidState = world.getFluidState(portalWarpTopLeftPos);
+            final FluidState topRightFluidState = world.getFluidState(portalWarpTopRightPos);
             final FluidState middleFluidState = world.getFluidState(pos.above());
-            final FluidState middleWestFluidState = world.getFluidState(pos.above().west());
-            final FluidState middleEastFluidState = world.getFluidState(pos.above().east());
-            final FluidState bottomWestFluidState = world.getFluidState(pos.west());
-            final FluidState bottomEastFluidState = world.getFluidState(pos.east());
+            final FluidState middleLeftFluidState = world.getFluidState(portalWarpMiddleLeftPos);
+            final FluidState middleRightFluidState = world.getFluidState(portalWarpMiddleRightPos);
+            final FluidState bottomLeftFluidState = world.getFluidState(portalWarpBottomLeftPos);
+            final FluidState bottomRightFluidState = world.getFluidState(portalWarpBottomRightPos);
 
             world.setBlock(portalWarpBottomLeftPos, state.setValue(PortalWarp.PART, PortalWarpPart.BOTTOM_LEFT).setValue(
-                    PortalWarp.WATERLOGGED, bottomWestFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, bottomLeftFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpBottomRightPos, state.setValue(PortalWarp.PART, PortalWarpPart.BOTTOM_RIGHT).setValue(
-                    PortalWarp.WATERLOGGED, bottomEastFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, bottomRightFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(pos.above(), state.setValue(PortalWarp.PART, PortalWarpPart.MIDDLE).setValue(
                     PortalWarp.WATERLOGGED, middleFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpMiddleLeftPos, state.setValue(PortalWarp.PART, PortalWarpPart.MIDDLE_LEFT).setValue(
-                    PortalWarp.WATERLOGGED, middleWestFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, middleLeftFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpMiddleRightPos, state.setValue(PortalWarp.PART, PortalWarpPart.MIDDLE_RIGHT).setValue(
-                    PortalWarp.WATERLOGGED, middleEastFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, middleRightFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(pos.above(2), state.setValue(PortalWarp.PART, PortalWarpPart.TOP).setValue(PortalWarp.WATERLOGGED,
                     topFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpTopLeftPos, state.setValue(PortalWarp.PART, PortalWarpPart.TOP_LEFT).setValue(
-                    PortalWarp.WATERLOGGED, topWestFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, topLeftFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpTopRightPos, state.setValue(PortalWarp.PART, PortalWarpPart.TOP_RIGHT).setValue(
-                    PortalWarp.WATERLOGGED, topEastFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, topRightFluidState.getType() == Fluids.WATER), 3);
         }
     }
 
