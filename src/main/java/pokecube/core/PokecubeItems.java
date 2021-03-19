@@ -185,16 +185,16 @@ public class PokecubeItems extends ItemList
                 Material.GRASS, MaterialColor.COLOR_BROWN).sound(SoundType.GRASS)));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(AbstractBlock.Properties.of(
                 Material.GRASS, MaterialColor.COLOR_GREEN)));
-        DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(AbstractBlock.Properties.of(Material.GLASS)
-                .sound(SoundType.GLASS).strength(2000), MaterialColor.COLOR_MAGENTA));
-        PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_RED)
-                .strength(2000), true));
-        PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_RED)
-                .strength(2000), false));
-        TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(AbstractBlock.Properties.of(Material.METAL)
-                .strength(2000), MaterialColor.COLOR_LIGHT_BLUE));
+        DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(AbstractBlock.Properties.of(Material.STONE,
+                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).strength(2000)));
+        PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_RED).strength(2000), true));
+        PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_RED).strength(2000), false));
+        TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_LIGHT_BLUE).strength(2000)));
         TRADER = PokecubeItems.BLOCKS.register("trade_machine", () -> new TraderBlock(AbstractBlock.Properties.of(
-                Material.METAL).strength(2000), MaterialColor.COLOR_GREEN));
+                Material.METAL, MaterialColor.COLOR_GREEN).strength(2000)));
         SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(AbstractBlock.Properties.of(
                 Material.STONE, MaterialColor.STONE).strength(2000)));
         FOSSILSTONE = PokecubeItems.BLOCKS.register("fossilstone", () -> new Block(AbstractBlock.Properties.of(

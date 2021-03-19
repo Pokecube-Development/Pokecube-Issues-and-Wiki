@@ -81,9 +81,9 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
             Block.box(2, 0, 2, 14, 3, 14),
             Block.box(3, 3, 3, 13, 9, 13)).optimize();
     
-    public RaidSpawnBlock(final Material material, MaterialColor color)
+    public RaidSpawnBlock(final Properties properties)
     {
-        super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY)
                 .setValue(HorizontalBlock.FACING, Direction.NORTH).setValue(RaidSpawnBlock.WATERLOGGED, false));
     }

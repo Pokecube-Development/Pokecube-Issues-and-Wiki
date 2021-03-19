@@ -52,9 +52,9 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     }
 
     // Default States
-    public ClonerBlock(final Properties properties, final MaterialColor color)
+    public ClonerBlock(final Properties properties)
     {
-        super(properties, color);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ClonerBlock.HALF, ClonerBlockPart.BOTTOM).setValue(
                 HorizontalBlock.FACING, Direction.NORTH).setValue(ClonerBlock.WATERLOGGED, false));
     }

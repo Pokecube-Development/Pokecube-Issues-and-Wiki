@@ -74,9 +74,9 @@ public class TMBlock extends InteractableHorizontalBlock implements IWaterLoggab
         return TMBlock.TM_MACHINE.get(state.getValue(TMBlock.FACING));
     }
 
-    public TMBlock(final Properties properties, final MaterialColor color)
+    public TMBlock(final Properties properties)
     {
-        super(properties, color);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(TMBlock.FACING, Direction.NORTH).setValue(
                 TMBlock.WATERLOGGED, false));
     }

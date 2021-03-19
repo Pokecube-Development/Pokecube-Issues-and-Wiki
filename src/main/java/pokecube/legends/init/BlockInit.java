@@ -360,8 +360,8 @@ public class BlockInit
     static
     {
         // Block Raid
-        RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(Material.METAL,
-                MaterialColor.COLOR_RED).setInfoBlockName("raidspawn"));
+        RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(AbstractBlock.Properties.of(
+                Material.STONE, MaterialColor.COLOR_RED).randomTicks().strength(2000, 2000)).setInfoBlockName("raidspawn"));
 
         // Decorative_Blocks
         DYNA_LEAVES1 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_1", () -> new LeavesBlock(AbstractBlock.Properties.of(
@@ -640,8 +640,8 @@ public class BlockInit
         ULTRA_CORRUPTED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",
                 Material.STONE, MaterialColor.TERRACOTTA_PURPLE, 0.9f, SoundType.METAL, ToolType.PICKAXE, 1).noInfoBlock());
         ULTRA_MAGNETIC = PokecubeLegends.BLOCKS_TAB.register("ultramagnetic", () -> new MagneticBlock("ultramagnetic",
-                AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).strength(3, 8).harvestTool(
-                ToolType.PICKAXE).harvestLevel(1), MaterialColor.COLOR_BLUE).noInfoBlock());
+                AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.STONE).strength(3, 8).harvestTool(
+                ToolType.PICKAXE).harvestLevel(1)).noInfoBlock());
         ULTRA_MUSHROOM_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass1", () -> new GrassMussBlock("ultragrass1",
                 Material.GRASS, MaterialColor.COLOR_RED).noInfoBlock());
         ULTRA_MUSHROOM_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt1", () -> new BlockBase("ultradirt1",
@@ -704,7 +704,7 @@ public class BlockInit
                         .of(Material.STONE, MaterialColor.COLOR_BLACK).sound(SoundType.NETHER_BRICKS).noCollission().strength(
                                 0.7F)));
         CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus("crystallized_cactus",
-                AbstractBlock.Properties.copy(Blocks.CACTUS).sound(SoundType.GLASS)));
+                AbstractBlock.Properties.of(Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS)));
         
         // Ultra Desert
         ULTRA_SAND = PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new SandUltraBlock("ultrasand",

@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -69,9 +68,9 @@ public class MaxBlock extends InteractableDirectionalBlock implements IWaterLogg
                 Block.box(2, 13, 2, 14, 16, 14)).optimize());
     }// @formatter:on
 
-    public MaxBlock(final Properties properties, final MaterialColor color)
+    public MaxBlock(final Properties properties)
     {
-        super(properties, color);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(MaxBlock.FACING, Direction.UP).setValue(
                 MaxBlock.WATERLOGGED, false));
     }

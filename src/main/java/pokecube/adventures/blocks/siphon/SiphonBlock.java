@@ -46,9 +46,9 @@ public class SiphonBlock extends InteractableHorizontalBlock implements IWaterLo
         return SIPHON;
     }
     
-    public SiphonBlock(final Properties properties, final MaterialColor color)
+    public SiphonBlock(final Properties properties)
     {
-        super(properties, color);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(SiphonBlock.FACING, Direction.NORTH).setValue(
         		SiphonBlock.FIXED, false).setValue(WATERLOGGED, false));
     }

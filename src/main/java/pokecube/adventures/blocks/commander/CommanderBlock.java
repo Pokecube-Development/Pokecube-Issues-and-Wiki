@@ -2,7 +2,6 @@ package pokecube.adventures.blocks.commander;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -13,9 +12,9 @@ import pokecube.core.interfaces.PokecubeMod;
 public class CommanderBlock extends InteractableHorizontalBlock
 {
 
-    public CommanderBlock(final Properties properties, final MaterialColor color)
+    public CommanderBlock(final Properties properties)
     {
-        super(properties, color);
+        super(properties);
     }
 
     @Override

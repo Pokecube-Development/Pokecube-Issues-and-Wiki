@@ -73,9 +73,9 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements IWate
         return ExtractorBlock.EXTRACTOR.get(state.getValue(ExtractorBlock.FACING));
     }
     
-    public ExtractorBlock(final Properties properties, final MaterialColor color)
+    public ExtractorBlock(final Properties properties)
     {
-        super(properties, color);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ExtractorBlock.FACING, Direction.NORTH).setValue(
         		ExtractorBlock.FIXED, false).setValue(WATERLOGGED, false));
     }

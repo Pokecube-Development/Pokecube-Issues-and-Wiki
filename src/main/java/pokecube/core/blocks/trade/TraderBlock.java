@@ -70,9 +70,9 @@ public class TraderBlock extends InteractableHorizontalBlock implements IWaterLo
             Block.box(14, 11, 4, 15, 16, 12)).optimize());
     }
 
-    public TraderBlock(final Properties properties, final MaterialColor color)
+    public TraderBlock(final Properties properties)
     {
-        super(properties, color);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(TraderBlock.FACING, Direction.NORTH).setValue(
             TraderBlock.WATERLOGGED, false));
     }
