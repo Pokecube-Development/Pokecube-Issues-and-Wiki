@@ -186,7 +186,7 @@ public class PokecubeItems extends ItemList
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(AbstractBlock.Properties.of(
                 Material.GRASS, MaterialColor.COLOR_GREEN).strength(0.2F).requiresCorrectToolForDrops()));
         DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(AbstractBlock.Properties.of(Material.STONE,
-                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).strength(2000).requiresCorrectToolForDrops()));
+                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).strength(0.8F).requiresCorrectToolForDrops()));
         PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL,
                 MaterialColor.COLOR_RED).strength(2000).requiresCorrectToolForDrops(), true));
         PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL,
