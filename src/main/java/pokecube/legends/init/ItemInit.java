@@ -273,13 +273,13 @@ public class ItemInit
         // Ores
         SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase("sapphire", 64,PokecubeItems.POKECUBEITEMS).noTooltop());
         RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase("ruby", 64,PokecubeItems.POKECUBEITEMS).noTooltop());
-        SPECTRUM_SHARD = PokecubeLegends.ITEMS.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 32, PokecubeItems.POKECUBEITEMS).noTooltop());
+        SPECTRUM_SHARD = PokecubeLegends.ITEMS.register("spectrum_shard", () -> new ItemBase("spectrum_shard", 64, PokecubeItems.POKECUBEITEMS).noTooltop());
         
         
         // Dimensions
         // UltraSpace
         ULTRAKEY 		= PokecubeLegends.ITEMS.register("ultrakey", () -> new UltraKey("ultrakey",1).setTooltipName("ultrakey"));
-        COSMIC_DUST 	= PokecubeLegends.ITEMS.register("cosmic_dust", () -> new ItemBase("cosmic_dust", 30, PokecubeItems.POKECUBEITEMS).noTooltop());
+        COSMIC_DUST 	= PokecubeLegends.ITEMS.register("cosmic_dust", () -> new ItemBase("cosmic_dust", 32, PokecubeItems.POKECUBEITEMS).noTooltop());
         
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet", () -> new UltraHelmetEffect(
                 ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().tab(PokecubeLegends.TAB)));
