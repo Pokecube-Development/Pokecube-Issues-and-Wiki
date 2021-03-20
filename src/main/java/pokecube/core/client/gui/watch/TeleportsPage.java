@@ -203,8 +203,8 @@ public class TeleportsPage extends ListPage<TeleOption>
         super.initList();
         this.locations = TeleportHandler.getTeleports(this.watch.player.getStringUUID());
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 55;
-        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 27;
-        final int height = 120;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+        final int height = 90;
         final int width = 146;
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)

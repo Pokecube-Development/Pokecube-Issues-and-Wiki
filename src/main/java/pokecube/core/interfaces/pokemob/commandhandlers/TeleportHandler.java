@@ -101,12 +101,16 @@ public class TeleportHandler extends DefaultHandler
         }
         for (int i = 0; i < list.size(); i++)
             list.get(i).index = i;
+
+        PlayerDataHandler.getInstance().save(uuid, "pokecube-data");
     }
 
-    public static void setTeleport(final GlobalPos pos, final String uuid)
+    public static TeleDest setTeleport(final GlobalPos pos, final String uuid)
     {
         final TeleDest d = new TeleDest().setPos(pos);
+        d.setName(pos.pos().getX() + " " + pos.pos().getY() + " " + pos.pos().getZ());
         TeleportHandler.setTeleport(uuid, d);
+        return d;
     }
 
     public static void swapTeleports(final String uuid, final int index1, final int index2)
