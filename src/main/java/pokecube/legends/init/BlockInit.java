@@ -1007,7 +1007,8 @@ public class BlockInit
         
         // MIRAGE Blocks
         MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new UltraGlass("mirage_glass",
-                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(0.3F).noOcclusion()));
+                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.GLASS)
+                .strength(0.3F).noOcclusion()));
         MIRAGE_LEAVES = PokecubeLegends.BLOCKS_TAB.register("mirage_leave", () -> new MirageLeaveBlock());
         MIRAGE_LOG = PokecubeLegends.BLOCKS_TAB.register("mirage_log", () -> Blocks.log(
                 MaterialColor.TERRACOTTA_YELLOW, MaterialColor.SNOW));
