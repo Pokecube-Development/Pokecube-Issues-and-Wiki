@@ -305,7 +305,10 @@ public class BlockInit
     public static final RegistryObject<Block> MIRAGE_DOOR;
     public static final RegistryObject<Block> MIRAGE_BUTTON;
     public static final RegistryObject<Block> MIRAGE_PR_PLATE;
+
     public static final RegistryObject<Block> CRYSTALLIZED_CACTUS;
+    public static final RegistryObject<Block> CRYSTALLIZED_BUSH;
+//    public static final RegistryObject<Block> TALL_CRYSTALLIZED_BUSH;
 
     // Portal
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
@@ -674,6 +677,10 @@ public class BlockInit
         CRYSTAL_BUTTON = PokecubeLegends.BLOCKS_TAB.register("crystal_button",
                 () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW).sound(SoundType.GLASS)
                         .noCollission().strength(0.5F)));
+        CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus("crystallized_cactus",
+            AbstractBlock.Properties.of(Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS).strength(0.4F)));
+        CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS_TAB.register("crystallized_bush", () -> new CrystallizedBush("crystallized_bush",
+            AbstractBlock.Properties.of(Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission().instabreak()));
         
         // Dark Stone
         ULTRA_DARKSTONE = PokecubeLegends.BLOCKS_TAB.register("ultracobbles", () -> new DarkStoneBlock("ultracobbles",
@@ -704,8 +711,6 @@ public class BlockInit
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties
                         .of(Material.STONE, MaterialColor.COLOR_BLACK).sound(SoundType.NETHER_BRICKS).noCollission().strength(
                                 0.7F).requiresCorrectToolForDrops()));
-        CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus("crystallized_cactus",
-                AbstractBlock.Properties.of(Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS).strength(0.4F)));
         
         // Ultra Desert
         ULTRA_SAND = PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new SandUltraBlock("ultrasand",
