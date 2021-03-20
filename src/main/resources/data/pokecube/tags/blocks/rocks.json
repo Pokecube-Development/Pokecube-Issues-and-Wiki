@@ -3,7 +3,9 @@
   "values": [
     "#forge:stone",
     "#forge:ores",
-    "#forge:sandstone"
+    "#forge:sandstone",
+    "#minecraft:base_stone_overworld",
+    "#minecraft:base_stone_nether"
   ],
   "optional": [
     "pokecube_legends:meteor_block"
