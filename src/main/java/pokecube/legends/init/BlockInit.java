@@ -308,7 +308,7 @@ public class BlockInit
 
     public static final RegistryObject<Block> CRYSTALLIZED_CACTUS;
     public static final RegistryObject<Block> CRYSTALLIZED_BUSH;
-//    public static final RegistryObject<Block> TALL_CRYSTALLIZED_BUSH;
+    public static final RegistryObject<Block> TALL_CRYSTALLIZED_BUSH;
 
     // Portal
     public static final RegistryObject<Block> BLOCK_PORTALWARP;
@@ -680,6 +680,8 @@ public class BlockInit
         CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus("crystallized_cactus",
             AbstractBlock.Properties.of(Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS).strength(0.4F)));
         CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS_TAB.register("crystallized_bush", () -> new CrystallizedBush("crystallized_bush",
+            AbstractBlock.Properties.of(Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission().instabreak()));
+        TALL_CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS_TAB.register("tall_crystallized_bush", () -> new TallCrystallizedBush("tall_crystallized_bush",
             AbstractBlock.Properties.of(Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission().instabreak()));
         
         // Dark Stone

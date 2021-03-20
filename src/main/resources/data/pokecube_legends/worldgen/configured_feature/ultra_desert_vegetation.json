@@ -7,7 +7,7 @@
 	        "features": [
 	          {
 	            "feature": "pokecube_legends:crystallized_bushes",
-	            "chance": 0.1
+	            "chance": 0.7
 	          }
 	        ],
 	        "default": "pokecube_legends:corrupted_tree"

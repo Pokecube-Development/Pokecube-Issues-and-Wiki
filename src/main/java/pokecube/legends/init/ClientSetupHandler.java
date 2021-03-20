@@ -29,7 +29,7 @@ import java.util.function.Predicate;
 public class ClientSetupHandler
 {
     static final Predicate<Material> notSolid = m -> m == Material.GLASS || m == Material.ICE ||
-    		m == Material.ICE_SOLID || m == Material.LEAVES || m == Material.HEAVY_METAL;
+    		m == Material.ICE_SOLID || m == Material.LEAVES || m == Material.PLANT || m == Material.HEAVY_METAL;
 
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
