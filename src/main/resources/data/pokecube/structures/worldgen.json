@@ -277,7 +277,8 @@
       "name":"pokecube:village/swamp/terminators",
       "rigid":true,
       "options":[
-        "pokecube:village/swamp/terminators/terminator_01;{\"dy\":3}"
+        "pokecube:village/swamp/terminators/terminator_01;{\"weight\":3,\"dy\":3}",
+		"pokecube:village/swamp/terminators/terminator_02;{\"weight\":8,\"dy\":3}"
       ]
     },
     {
