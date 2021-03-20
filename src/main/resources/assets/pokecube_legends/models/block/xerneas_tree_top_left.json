@@ -1,8 +1,102 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
+		"3": "pokecube_legends:blocks/xerneas_tree_top",
 		"particle": "pokecube_legends:blocks/xerneas_tree_side"
 	},
+	"elements": [
+		{
+			"name": "branch",
+			"from": [2, 1, 6],
+			"to": [6, 10, 10],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [18, 1.2, 8]},
+			"faces": {
+				"north": {"uv": [10, 7, 6, 16], "texture": "#particle", "cullface": "west"},
+				"east": {"uv": [10, 7, 6, 16], "texture": "#particle", "cullface": "west"},
+				"south": {"uv": [10, 7, 6, 16], "texture": "#particle", "cullface": "west"},
+				"west": {"uv": [10, 7, 6, 16], "texture": "#particle", "cullface": "west"},
+				"up": {"uv": [10, 6, 6, 10], "texture": "#3", "cullface": "west"}
+			}
+		},
+		{
+			"name": "branch",
+			"from": [12, 3, 6],
+			"to": [16, 14, 10],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [20.25, 2.2, 8]},
+			"faces": {
+				"north": {"uv": [10, 5, 6, 16], "texture": "#particle", "cullface": "west"},
+				"east": {"uv": [10, 5, 6, 16], "texture": "#particle", "cullface": "west"},
+				"south": {"uv": [10, 5, 6, 16], "texture": "#particle", "cullface": "west"},
+				"west": {"uv": [10, 5, 6, 16], "texture": "#particle", "cullface": "west"},
+				"up": {"uv": [10, 6, 6, 10], "texture": "#3", "cullface": "west"}
+			}
+		},
+		{
+			"name": "branch",
+			"from": [13, 7, 7],
+			"to": [15, 14, 9],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [14, 12, 8]},
+			"faces": {
+				"north": {"uv": [7, 10, 9, 16], "texture": "#particle"},
+				"east": {"uv": [7, 10, 9, 16], "texture": "#particle"},
+				"south": {"uv": [7, 10, 9, 16], "texture": "#particle"},
+				"west": {"uv": [7, 10, 9, 16], "texture": "#particle"},
+				"up": {"uv": [6, 11, 8, 9], "rotation": 270, "texture": "#particle"}
+			}
+		},
+		{
+			"name": "branch",
+			"from": [9.35, -0.25, 7],
+			"to": [11.35, 6.75, 9],
+			"rotation": {"angle": 45, "axis": "z", "origin": [10.35, 3.75, 8]},
+			"faces": {
+				"north": {"uv": [7, 9, 9, 16], "texture": "#particle"},
+				"east": {"uv": [7, 9, 9, 16], "texture": "#particle"},
+				"south": {"uv": [7, 9, 9, 16], "texture": "#particle"},
+				"west": {"uv": [7, 9, 9, 16], "texture": "#particle"},
+				"up": {"uv": [6, 11, 8, 9], "rotation": 270, "texture": "#particle"}
+			}
+		},
+		{
+			"name": "branch",
+			"from": [0.75, 2.25, 7],
+			"to": [2.75, 9.25, 9],
+			"rotation": {"angle": 0, "axis": "z", "origin": [1.75, 6.25, 8]},
+			"faces": {
+				"north": {"uv": [7, 9, 9, 16], "texture": "#particle"},
+				"east": {"uv": [7, 9, 9, 16], "texture": "#particle"},
+				"south": {"uv": [7, 9, 9, 16], "texture": "#particle"},
+				"west": {"uv": [7, 9, 9, 16], "texture": "#particle"},
+				"up": {"uv": [6, 11, 8, 9], "rotation": 270, "texture": "#particle"}
+			}
+		},
+		{
+			"name": "branch",
+			"from": [9, 10, 7],
+			"to": [11, 15, 9],
+			"rotation": {"angle": 0, "axis": "z", "origin": [10.35, 13.5, 8]},
+			"faces": {
+				"north": {"uv": [7, 11, 9, 16], "texture": "#particle"},
+				"east": {"uv": [7, 11, 9, 16], "texture": "#particle"},
+				"south": {"uv": [7, 11, 9, 16], "texture": "#particle"},
+				"west": {"uv": [7, 11, 9, 16], "texture": "#particle"},
+				"up": {"uv": [6, 11, 8, 9], "rotation": 270, "texture": "#particle"}
+			}
+		},
+		{
+			"name": "branch",
+			"from": [4, 0.5, 7],
+			"to": [6, 8.5, 9],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [5, 4.5, 8]},
+			"faces": {
+				"north": {"uv": [7, 17, 9, 9], "texture": "#particle"},
+				"east": {"uv": [7, 17, 9, 9], "texture": "#particle"},
+				"south": {"uv": [7, 17, 9, 9], "texture": "#particle"},
+				"west": {"uv": [7, 17, 9, 9], "texture": "#particle"},
+				"up": {"uv": [6, 11, 8, 9], "rotation": 270, "texture": "#particle"}
+			}
+		}
+	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [75, 45, 0],
@@ -16,13 +110,13 @@
 		},
 		"firstperson_righthand": {
 			"rotation": [0, 90, 0],
-			"translation": [0, 7.5, 0],
-			"scale": [0.4, 0.4, 0.4]
+			"translation": [0, 4.75, 0],
+			"scale": [0.26, 0.26, 0.26]
 		},
 		"firstperson_lefthand": {
 			"rotation": [0, 90, 0],
-			"translation": [0, 7.5, 0],
-			"scale": [0.4, 0.4, 0.4]
+			"translation": [0, 4.75, 0],
+			"scale": [0.25, 0.25, 0.25]
 		},
 		"ground": {
 			"translation": [0, 3, 0],
@@ -40,5 +134,12 @@
 			"translation": [0, 0.25, 0],
 			"scale": [0.42, 0.42, 0.42]
 		}
-	}
+	},
+	"groups": [
+		{
+			"name": "xerneas_tree",
+			"origin": [8, 8, 8],
+			"children": [0, 1, 2, 3, 4, 5, 6]
+		}
+	]
 }
