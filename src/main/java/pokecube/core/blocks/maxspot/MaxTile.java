@@ -23,8 +23,6 @@ public class MaxTile extends InteractableTile
 {
     public static final ForbidReason MAXSPOT = new ForbidReason("pokecube:maxspot");
 
-    public static int NESTSPAWNTYPES = 1;
-
     public int     range   = PokecubeCore.getConfig().repelRadius;
     public boolean enabled = true;
 

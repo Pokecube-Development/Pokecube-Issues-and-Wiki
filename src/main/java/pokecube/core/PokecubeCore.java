@@ -169,16 +169,13 @@ public class PokecubeCore
             PokecubeCore.LOGGER.debug("Registering Pokecube Features");
 
             // Register the fossil stone spawning.
-            if (PokecubeCore.config.generateFossils)
-            {
-                final Predicate<RegistryKey<Biome>> check = k -> BiomeDatabase.contains(k, "ocean") || BiomeDatabase
-                        .contains(k, "sandy");
-                // Currently this uses same settings as gold ore.
-                WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Feature.ORE.configured(new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE.get()
-                                        .defaultBlockState(), 9)).range(32).squared().count(2));
-            }
+
+            final Predicate<RegistryKey<Biome>> check = k -> PokecubeCore.config.generateFossils && (BiomeDatabase
+                    .contains(k, "ocean") || BiomeDatabase.contains(k, "sandy"));
+            // Currently this uses same settings as gold ore.
+            WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                    .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                            PokecubeItems.FOSSILSTONE.get().defaultBlockState(), 9)).range(32).squared().count(2));
 
             // Register the general structure piece we use
             // Registry.register(Registry.STRUCTURE_PIECE,
@@ -262,9 +259,8 @@ public class PokecubeCore
             // register a new mob here
             PokecubeCore.LOGGER.debug("Registering Pokecube Attributes");
 
-            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.createLivingAttributes()
-                    .add(Attributes.FOLLOW_RANGE, 16.0D).add(
-                            Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
+            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.createLivingAttributes().add(
+                    Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
             event.put(EntityPokecube.TYPE, attribs.build());
             event.put(EntityPokemobEgg.TYPE, attribs.build());
             event.put(NpcMob.TYPE, attribs.build());

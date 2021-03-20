@@ -88,21 +88,20 @@ public class PokecubeLegends
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
 
-            // Register the fossil stone spawning.
-            if (PokecubeLegends.config.generateOres)
-            {
-                final Predicate<RegistryKey<Biome>> check = k -> BiomeDatabase.contains(k, "FOREST") || BiomeDatabase
-                        .contains(k, "OCEAN") || BiomeDatabase.contains(k, "HILLS") || BiomeDatabase.contains(k,
-                                "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN")
-                        || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY");
-                WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
-                        .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                                BlockInit.RUBY_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2));
+            // Register the ruby and sapphire ores
+            final Predicate<RegistryKey<Biome>> check = k -> PokecubeLegends.config.generateOres && (BiomeDatabase
+                    .contains(k, "FOREST") || BiomeDatabase.contains(k, "OCEAN") || BiomeDatabase.contains(k, "HILLS")
+                    || BiomeDatabase.contains(k, "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase
+                            .contains(k, "MOUNTAIN") || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k,
+                                    "SPOOKY"));
 
-                WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
-                        .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                                BlockInit.SAPPHIRE_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2));
-            }
+            WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                    .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE
+                            .get().defaultBlockState(), 5)).range(32).squared().count(2));
+            WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                    .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                            BlockInit.SAPPHIRE_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2));
+
             Trees.register();
         }
 
