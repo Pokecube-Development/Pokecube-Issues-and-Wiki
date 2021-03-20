@@ -4,6 +4,10 @@
     "#forge:dirt",
     "#forge:gravel",
     "#forge:sand",
-    "#forge:cobblestone"
+    "#forge:cobblestone",
+    "#forge:stone",
+    "#forge:sandstone",
+    "#minecraft:base_stone_overworld",
+    "#minecraft:base_stone_nether"
   ]
 }
