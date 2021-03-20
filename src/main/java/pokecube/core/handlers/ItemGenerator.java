@@ -1,30 +1,9 @@
 package pokecube.core.handlers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.PressurePlateBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
-import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.TrapDoorBlock;
-import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.AxeItem;
@@ -51,6 +30,12 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 
 public class ItemGenerator
 {
@@ -178,7 +163,7 @@ public class ItemGenerator
             registry.register(block);
 
             // Stairs
-            block = new GenericWoodStairs(Blocks.OAK_PLANKS.defaultBlockState(), AbstractBlock.Properties.of(
+            block = new GenericStairs(Blocks.OAK_PLANKS.defaultBlockState(), AbstractBlock.Properties.of(
             		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_stairs");
             ItemGenerator.stairs.put(name, block);
@@ -213,7 +198,7 @@ public class ItemGenerator
             registry.register(block);
 
             // Buttons
-            block = new GenericWoodButton(AbstractBlock.Properties.of(
+            block = new GenericButton(AbstractBlock.Properties.of(
             		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_button");
             ItemGenerator.buttons.put(name, block);
@@ -349,10 +334,10 @@ public class ItemGenerator
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
     }
 
-    public static class GenericWoodStairs extends StairsBlock
+    public static class GenericStairs extends StairsBlock
     {
         @SuppressWarnings("deprecation")
-        public GenericWoodStairs(final BlockState state, final Properties properties)
+        public GenericStairs(final BlockState state, final Properties properties)
         {
             super(state, properties);
         }
@@ -374,9 +359,9 @@ public class ItemGenerator
         }
     }
 
-    public static class GenericWoodButton extends WoodButtonBlock
+    public static class GenericButton extends WoodButtonBlock
     {
-        public GenericWoodButton(final Properties properties)
+        public GenericButton(final Properties properties)
         {
             super(properties);
         }

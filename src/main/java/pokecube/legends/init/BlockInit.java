@@ -370,60 +370,60 @@ public class BlockInit
                 Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
 
         OCEAN_BRICK = PokecubeLegends.DECORATION_TAB.register("oceanbrick", () -> new Block(AbstractBlock.Properties.of(
-                Material.STONE, MaterialColor.COLOR_CYAN).strength(1.5f, 10).sound(SoundType.STONE)));
+                Material.STONE, MaterialColor.COLOR_CYAN).strength(1.5f, 10).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         OCEAN_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("ocean_brick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_CYAN).strength(2.0F, 10f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.COLOR_CYAN).strength(2.0F, 10f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         OCEAN_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("ocean_brick_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_CYAN).strength(2.0F, 10f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.COLOR_CYAN).strength(2.0F, 10f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         
         SKY_BRICK   = PokecubeLegends.DECORATION_TAB.register("skybrick", () -> new Block(AbstractBlock.Properties.of(Material.STONE,
-                MaterialColor.COLOR_BLUE).strength(1.5f, 10).sound(SoundType.STONE)));
+                MaterialColor.COLOR_BLUE).strength(1.5f, 10).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         SKY_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("sky_brick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0F, 10f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0F, 10f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         SKY_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("sky_brick_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0F, 10f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0F, 10f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         
         SPATIAN_BRICK = PokecubeLegends.DECORATION_TAB.register("spatianbrick", () -> new Block(AbstractBlock.Properties.of(
-                Material.STONE, MaterialColor.COLOR_MAGENTA).strength(1.5f, 10).sound(SoundType.STONE)));
+                Material.STONE, MaterialColor.COLOR_MAGENTA).strength(1.5f, 10).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         SPATIAN_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("spatian_brick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_MAGENTA).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.COLOR_MAGENTA).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         SPATIAN_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("spatian_brick_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_MAGENTA).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.COLOR_MAGENTA).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         
         MAGMA_BRICK   = PokecubeLegends.DECORATION_TAB.register("magmabrick", () -> new MagmaBlock(AbstractBlock.Properties.of(
                 Material.STONE, MaterialColor.NETHER).strength(1.5f, 10).sound(SoundType.NETHER_BRICKS).lightLevel(b -> 3)
-        			.emissiveRendering((s, r, p) -> true)));
+        			.emissiveRendering((s, r, p) -> true).requiresCorrectToolForDrops()));
         MAGMA_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("magma_brick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.NETHER).strength(2.0F, 3.0f).sound(SoundType.NETHER_BRICKS).lightLevel(b -> 3)
-    			.emissiveRendering((s, r, p) -> true)));
+    			.emissiveRendering((s, r, p) -> true).requiresCorrectToolForDrops()));
         MAGMA_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("magma_brick_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.STONE, MaterialColor.NETHER).strength(2.0F, 3.0f).sound(SoundType.NETHER_BRICKS).lightLevel(b -> 3)
-            			.emissiveRendering((s, r, p) -> true)));
+            			.emissiveRendering((s, r, p) -> true).requiresCorrectToolForDrops()));
         
         DARKSKY_BRICK = PokecubeLegends.DECORATION_TAB.register("darkskybrick", () -> new Block(AbstractBlock.Properties.of(
-                Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(1.5f, 10).sound(SoundType.STONE)));
+                Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(1.5f, 10).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         DARKSKY_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("darksky_brick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         DARKSKY_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("darksky_brick_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         
         // Meteor Blocks
         METEOR_BLOCK = PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new MeteorBlock(6842513,
                 AbstractBlock.Properties.of(Material.VEGETABLE, MaterialColor.TERRACOTTA_BLUE).strength(2.5f)
-                .sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
+                .sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops()));
         METEOR_SLAB = PokecubeLegends.BLOCKS_TAB.register("meteor_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         METEOR_STAIRS = PokecubeLegends.BLOCKS_TAB.register("meteor_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         TOTEM_BLOCK = PokecubeLegends.DECORATION_TAB.register("totem_block", () -> new Block(AbstractBlock.Properties.of(
-                Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(1.5f, 10).sound(SoundType.STONE)));
+                Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(1.5f, 10).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         
         //Tapus Totems
@@ -634,8 +634,8 @@ public class BlockInit
 
         // Dimensions
         SPECTRUM_GLASS = PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new SpectrumGlass("spectrum_glass",
-                DyeColor.ORANGE, AbstractBlock.Properties.of(Material.GLASS).noOcclusion().sound(SoundType.GLASS)
-                .strength(0.3f), MaterialColor.COLOR_ORANGE));
+                DyeColor.ORANGE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.COLOR_ORANGE).noOcclusion().sound(SoundType.GLASS)
+                .strength(0.3f)));
         ULTRA_AGED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt3", () -> new BlockBase("ultradirt3",
                 Material.GRASS, MaterialColor.TERRACOTTA_YELLOW, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_CORRUPTED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",
@@ -662,50 +662,50 @@ public class BlockInit
         CRYSTAL_BRICK = PokecubeLegends.BLOCKS_TAB.register("crystalbrick", () -> new BlockBase("crystalbrick",
                 Material.ICE_SOLID, MaterialColor.COLOR_LIGHT_BLUE, 0.4F, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
         CRYSTAL_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystal_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.4F, 0.3f).sound(SoundType.GLASS)));
         CRYSTAL_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystal_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.4F, 0.3f).sound(SoundType.GLASS)));
         CRYSTAL_BRICKS_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystal_bricks_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.4F, 0.3f).sound(SoundType.GLASS)));
         CRYSTAL_BRICKS_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystal_bricks_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.4F, 0.3f).sound(SoundType.GLASS)));
         CRYSTAL_BUTTON = PokecubeLegends.BLOCKS_TAB.register("crystal_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW).sound(SoundType.GLASS)
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW).sound(SoundType.GLASS)
                         .noCollission().strength(0.5F)));
         
         // Dark Stone
         ULTRA_DARKSTONE = PokecubeLegends.BLOCKS_TAB.register("ultracobbles", () -> new DarkStoneBlock("ultracobbles",
                 Material.STONE, MaterialColor.COLOR_BLACK).noInfoBlock());
         ULTRA_DARKSTONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE)));
+        		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
         ULTRA_DARKSTONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
         ULTRA_DARK_COBBLESTONE = PokecubeLegends.BLOCKS_TAB.register("ultrarock", () -> new BlockBase("ultrarock",
                 Material.STONE, MaterialColor.COLOR_BLACK, 0.8f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_DARK_COBBLESTONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_dark_cobblestone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE)));
+        		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
         ULTRA_DARK_COBBLESTONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_dark_cobblestone_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
         ULTRA_DARKSTONE_BRICKS = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_bricks", () -> new DarkStoneBlock("ultra_darkstone_bricks",
                 Material.STONE, MaterialColor.COLOR_BLACK).noInfoBlock());
         ULTRA_DARKSTONE_BRICKS_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_bricks_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE)));
+        		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
         ULTRA_DARKSTONE_BRICKS_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_bricks_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
         ULTRA_DARKSTONE_BUTTON = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).sound(SoundType.NETHER_BRICKS)
-                        .noCollission().strength(0.5F)));
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).sound(SoundType.NETHER_BRICKS)
+                        .noCollission().strength(0.5F).requiresCorrectToolForDrops()));
         ULTRA_DARKSTONE_PR_PLATE = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_pressure_plate",
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties
                         .of(Material.STONE, MaterialColor.COLOR_BLACK).sound(SoundType.NETHER_BRICKS).noCollission().strength(
-                                0.7F)));
+                                0.7F).requiresCorrectToolForDrops()));
         CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus("crystallized_cactus",
-                AbstractBlock.Properties.of(Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS)));
+                AbstractBlock.Properties.of(Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS).strength(0.4F)));
         
         // Ultra Desert
         ULTRA_SAND = PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new SandUltraBlock("ultrasand",
@@ -713,91 +713,93 @@ public class BlockInit
         ULTRA_SANDSTONE = PokecubeLegends.BLOCKS_TAB.register("ultrasandstone", () -> new BlockBase("ultrasandstone",
                 Material.STONE, MaterialColor.SNOW, 1f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_SANDSTONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.SAND)));
+        		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_SANDSTONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.SAND)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_SANDBRICK = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick", () -> new BlockBase("ultra_sandbrick",
                 Material.STONE, MaterialColor.SNOW, 1.4f, SoundType.STONE, ToolType.PICKAXE, 1).noInfoBlock());
         ULTRA_SANDBRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_SANDBRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_SANDSTONE_SMOOTH = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth", () -> new BlockBase("ultra_sandstone_smooth",
                 Material.STONE, MaterialColor.SNOW, 1.5f, SoundType.STONE, ToolType.PICKAXE, 1).noInfoBlock());
         ULTRA_SANDSTONE_SMOOTH_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_SANDSTONE_SMOOTH_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_SANDSTONE_BUTTON = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.SAND).sound(SoundType.STONE)
-                        .noCollission().strength(0.5F)));
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.SAND).sound(SoundType.STONE)
+                        .noCollission().strength(0.5F).requiresCorrectToolForDrops()));
         ULTRA_SANDSTONE_PR_PLATE = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_pressure_plate",
-                () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties
-                        .of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE).noCollission().strength(
-                                0.7F)));
+                () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties
+                .of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE).noCollission().strength(0.7F).requiresCorrectToolForDrops()));
         
         // Distortic World
         DISTORTIC_GRASS = PokecubeLegends.BLOCKS_TAB.register("distortic_grass", () -> new GrassDistorticBlock(
                 AbstractBlock.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_PINK).sound(SoundType.NETHER_WART).strength(1, 2)
-                        .harvestTool(ToolType.SHOVEL).harvestLevel(1)));
+                .harvestTool(ToolType.SHOVEL).harvestLevel(1)));
         DISTORTIC_STONE = PokecubeLegends.BLOCKS_TAB.register("distortic_stone", () -> new BlockBase("distortic_stone",
                 Material.STONE, MaterialColor.TERRACOTTA_BLACK, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         DISTORTIC_STONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("distortic_stone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                .requiresCorrectToolForDrops()));
         DISTORTIC_STONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("distortic_stone_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)));
-        DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase(
-                "distortic_mirror", Material.GLASS, MaterialColor.CLAY, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+        DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase("distortic_mirror",
+                Material.GLASS, MaterialColor.CLAY, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
 
         // Ultra Stones
         ULTRA_STONE = PokecubeLegends.BLOCKS_TAB.register("ultrastone", () -> new BlockBase("ultrastone", Material.STONE, 
         		MaterialColor.COLOR_CYAN, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_STONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_STONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_COBBLESTONE = PokecubeLegends.BLOCKS_TAB.register("ultra_cobblestone", () -> new BlockBase("ultra_cobblestone", Material.STONE, 
         		MaterialColor.TERRACOTTA_CYAN, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_COBBLESTONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_cobblestone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_COBBLESTONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_cobblestone_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_STONEBRICK = PokecubeLegends.BLOCKS_TAB.register("ultra_stonebricks", () -> new BlockBase("ultra_stonebricks", Material.STONE, 
         		MaterialColor.TERRACOTTA_CYAN, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
-        ULTRA_STONEBRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_stonebricks_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        ULTRA_STONEBRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_stonebricks_slab", () -> new SlabBlock(
+                AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f)
+                .sound(SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_STONEBRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_stonebricks_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                .requiresCorrectToolForDrops()));
         ULTRA_STONE_BUTTON = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.BAMBOO)
-                        .noCollission().strength(0.5F)));
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE)
+                .sound(SoundType.BAMBOO).noCollission().strength(0.5F).requiresCorrectToolForDrops()));
         ULTRA_STONE_PR_PLATE = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_pressure_plate",
-                () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties
-                        .of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.BAMBOO).noCollission().strength(
-                                0.7F)));
+                () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties
+                .of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.BAMBOO).noCollission().strength(0.7F).requiresCorrectToolForDrops()));
         
         //
         ULTRA_METAL = PokecubeLegends.BLOCKS_TAB.register("ultrablock", () -> new BlockBase("ultrablock", Material.METAL, 
         		MaterialColor.COLOR_LIGHT_GREEN, 5.0f, 10f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         ULTRA_METAL_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_metal_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        		Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                .requiresCorrectToolForDrops()));
         ULTRA_METAL_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_metal_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.STONE, MaterialColor.COLOR_LIGHT_GREEN).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                Material.STONE, MaterialColor.COLOR_LIGHT_GREEN).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                .requiresCorrectToolForDrops()));
         ULTRA_METAL_BUTTON = PokecubeLegends.BLOCKS_TAB.register("ultra_metal_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.METAL)
-                        .noCollission().strength(0.5F)));
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_LIGHT_GREEN)
+                .sound(SoundType.METAL).noCollission().strength(0.5F).requiresCorrectToolForDrops()));
         ULTRA_METAL_PR_PLATE = PokecubeLegends.BLOCKS_TAB.register("ultra_metal_pressure_plate",
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties
-                        .of(Material.METAL, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.METAL).noCollission().strength(
-                                0.7F)));
+                .of(Material.METAL, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.METAL).noCollission().strength(0.7F).requiresCorrectToolForDrops()));
         
         // Torches
         ULTRA_TORCH1 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1", () -> new UltraTorch1());
@@ -838,7 +840,7 @@ public class BlockInit
         INVERTED_PLANK = PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.WOOD)));
         INVERTED_STAIRS = PokecubeLegends.BLOCKS_TAB.register("inverted_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.WOOD)));
         INVERTED_SLAB = PokecubeLegends.BLOCKS_TAB.register("inverted_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.WOOD)));
@@ -851,7 +853,7 @@ public class BlockInit
                         .of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).sound(SoundType.WOOD).noCollission().strength(
                                 0.5F)));
         INVERTED_BUTTON = PokecubeLegends.BLOCKS_TAB.register("inverted_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).sound(SoundType.WOOD)
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).sound(SoundType.WOOD)
                         .noCollission().strength(0.5F)));
         INVERTED_TRAPDOOR = PokecubeLegends.BLOCKS_TAB.register("inverted_trapdoor",
                 () -> new ItemGenerator.GenericTrapDoor(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE)
@@ -874,7 +876,7 @@ public class BlockInit
         TEMPORAL_PLANK = PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).strength(2.0F).sound(SoundType.WOOD)));
         TEMPORAL_STAIRS = PokecubeLegends.BLOCKS_TAB.register("temporal_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).strength(2.0F).sound(SoundType.WOOD)));
         TEMPORAL_SLAB = PokecubeLegends.BLOCKS_TAB.register("temporal_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).strength(2.0F).sound(SoundType.WOOD)));
@@ -887,7 +889,7 @@ public class BlockInit
                         .of(Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.WOOD).noCollission().strength(
                                 0.5F)));
         TEMPORAL_BUTTON = PokecubeLegends.BLOCKS_TAB.register("temporal_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.WOOD)
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.WOOD)
                         .noCollission().strength(0.5F)));
         TEMPORAL_TRAPDOOR = PokecubeLegends.BLOCKS_TAB.register("temporal_trapdoor",
                 () -> new ItemGenerator.GenericTrapDoor(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN)
@@ -909,7 +911,7 @@ public class BlockInit
                 MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
         AGED_PLANK = PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0F).sound(SoundType.WOOD)));
-        AGED_STAIRS = PokecubeLegends.BLOCKS_TAB.register("aged_stairs", () -> new ItemGenerator.GenericWoodStairs(
+        AGED_STAIRS = PokecubeLegends.BLOCKS_TAB.register("aged_stairs", () -> new ItemGenerator.GenericStairs(
                 Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0F).sound(SoundType.WOOD)));
         AGED_SLAB = PokecubeLegends.BLOCKS_TAB.register("aged_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
@@ -922,7 +924,7 @@ public class BlockInit
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties
                         .of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD).noCollission().strength(
                                 0.5F)));
-        AGED_BUTTON = PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new ItemGenerator.GenericWoodButton(
+        AGED_BUTTON = PokecubeLegends.BLOCKS_TAB.register("aged_button", () -> new ItemGenerator.GenericButton(
                 AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD).noCollission()
                         .strength(0.5F)));
         AGED_TRAPDOOR = PokecubeLegends.BLOCKS_TAB.register("aged_trapdoor", () -> new ItemGenerator.GenericTrapDoor(
@@ -946,7 +948,7 @@ public class BlockInit
         DISTORTIC_PLANK = PokecubeLegends.BLOCKS_TAB.register("distortic_plank", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
         DISTORTIC_STAIRS = PokecubeLegends.BLOCKS_TAB.register("distortic_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
         DISTORTIC_SLAB = PokecubeLegends.BLOCKS_TAB.register("distortic_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
@@ -959,7 +961,7 @@ public class BlockInit
                         .of(Material.WOOD, MaterialColor.COLOR_BLUE).sound(SoundType.WOOD).noCollission().strength(
                                 0.5F)));
         DISTORTIC_BUTTON = PokecubeLegends.BLOCKS_TAB.register("distortic_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).sound(SoundType.WOOD)
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).sound(SoundType.WOOD)
                         .noCollission().strength(0.5F)));
         DISTORTIC_TRAPDOOR = PokecubeLegends.BLOCKS_TAB.register("distortic_trapdoor",
                 () -> new ItemGenerator.GenericTrapDoor(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE)
@@ -981,7 +983,7 @@ public class BlockInit
         CORRUPTED_PLANK = PokecubeLegends.BLOCKS_TAB.register("corrupted_plank", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0F).sound(SoundType.WOOD)));
         CORRUPTED_STAIRS = PokecubeLegends.BLOCKS_TAB.register("corrupted_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0F).sound(SoundType.WOOD)));
         CORRUPTED_SLAB = PokecubeLegends.BLOCKS_TAB.register("corrupted_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0F).sound(SoundType.WOOD)));
@@ -994,7 +996,7 @@ public class BlockInit
                         .of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD).noCollission().strength(
                                 0.5F)));
         CORRUPTED_BUTTON = PokecubeLegends.BLOCKS_TAB.register("corrupted_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD)
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD)
                         .noCollission().strength(0.5F)));
         CORRUPTED_TRAPDOOR = PokecubeLegends.BLOCKS_TAB.register("corrupted_trapdoor",
                 () -> new ItemGenerator.GenericTrapDoor(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
@@ -1005,7 +1007,7 @@ public class BlockInit
         
         // MIRAGE Blocks
         MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new UltraGlass("mirage_glass",
-                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion(), MaterialColor.COLOR_LIGHT_BLUE));
+                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(0.3F).noOcclusion()));
         MIRAGE_LEAVES = PokecubeLegends.BLOCKS_TAB.register("mirage_leave", () -> new MirageLeaveBlock());
         MIRAGE_LOG = PokecubeLegends.BLOCKS_TAB.register("mirage_log", () -> Blocks.log(
                 MaterialColor.TERRACOTTA_YELLOW, MaterialColor.SNOW));
@@ -1018,7 +1020,7 @@ public class BlockInit
         MIRAGE_PLANK = PokecubeLegends.BLOCKS_TAB.register("mirage_plank", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.TERRACOTTA_WHITE).strength(2.0F).sound(SoundType.WOOD)));
         MIRAGE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("mirage_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.WOOD, MaterialColor.TERRACOTTA_WHITE).strength(2.0F).sound(SoundType.WOOD)));
         MIRAGE_SLAB = PokecubeLegends.BLOCKS_TAB.register("mirage_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.TERRACOTTA_WHITE).strength(2.0F).sound(SoundType.WOOD)));
@@ -1031,7 +1033,7 @@ public class BlockInit
                         .of(Material.WOOD, MaterialColor.TERRACOTTA_WHITE).sound(SoundType.WOOD).noCollission().strength(
                                 0.5F)));
         MIRAGE_BUTTON = PokecubeLegends.BLOCKS_TAB.register("mirage_button",
-                () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_WHITE)
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_WHITE)
                         .sound(SoundType.WOOD).noCollission().strength(0.5F)));
         MIRAGE_TRAPDOOR = PokecubeLegends.BLOCKS_TAB.register("mirage_trapdoor",
                 () -> new ItemGenerator.GenericTrapDoor(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_WHITE)
@@ -1047,19 +1049,19 @@ public class BlockInit
 
         // Legendary Spawns
         GOLEM_STONE = PokecubeLegends.BLOCKS.register("golem_stone", () -> new BlockBase("golem_stone", Material.STONE, 
-        		MaterialColor.TERRACOTTA_WHITE, 5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+        		MaterialColor.TERRACOTTA_WHITE, 3f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
 
         LEGENDARY_SPAWN = PokecubeLegends.BLOCKS.register("legendaryspawn", () -> new LegendaryBlock("legendaryspawn",
                 Material.METAL, MaterialColor.GOLD).noInfoBlock());
         TROUGH_BLOCK = PokecubeLegends.BLOCKS.register("trough_block", () -> new TroughBlock("trough_block",
                 AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_BROWN).strength(5, 15).harvestTool(ToolType.PICKAXE)
-                        .harvestLevel(2).sound(SoundType.ANVIL).lightLevel(b -> 4).dynamicShape()).noInfoBlock());
+                .harvestLevel(2).sound(SoundType.ANVIL).lightLevel(b -> 4).dynamicShape()).noInfoBlock());
         HEATRAN_BLOCK 	= PokecubeLegends.BLOCKS.register("heatran_block", () -> new HeatranBlock("heatran_block",
         		AbstractBlock.Properties.of(Material.STONE, MaterialColor.NETHER).strength(5, 15).harvestTool(ToolType.PICKAXE)
                 .harvestLevel(2).sound(SoundType.NETHER_BRICKS).lightLevel(b -> 4).dynamicShape().emissiveRendering((s, r, p) -> true)).noInfoBlock());
         TAO_BLOCK 	= PokecubeLegends.BLOCKS.register("blackwhite_block", () -> new TaoTrioBlock("blackwhite_block",
         		AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.SNOW).strength(5, 15).sound(SoundType.FUNGUS)
-        				.dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
+        		.dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
         
         // Regi Cores
         REGISTEEL_CORE = PokecubeLegends.BLOCKS.register("registeel_spawn", () -> new Registeel_Core("registeel_spawn",
@@ -1093,73 +1095,78 @@ public class BlockInit
         
         TIMESPACE_CORE = PokecubeLegends.BLOCKS.register("timerspawn", () -> new TimeSpaceCoreBlock("timerspawn",
                 AbstractBlock.Properties.of(Material.GRASS, MaterialColor.STONE).strength(2000, 2000).sound(SoundType.STONE)
-                        .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         NATURE_CORE = PokecubeLegends.BLOCKS.register("naturespawn", () -> new NatureCoreBlock("naturespawn",
                 AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_WHITE).strength(2000, 2000).sound(SoundType.STONE)
-                        .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         KELDEO_CORE = PokecubeLegends.BLOCKS.register("keldeoblock", () -> new KeldeoBlock("keldeoblock",
                 AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2000, 2000).sound(SoundType.STONE)
-                        .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
+                .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock());
         VICTINI_CORE = PokecubeLegends.BLOCKS.register("victiniblock", () -> new VictiniBlock("victiniblock",
                 AbstractBlock.Properties.of(Material.METAL, MaterialColor.GOLD).strength(5, 15).harvestTool(ToolType.PICKAXE)
-                        .harvestLevel(2).sound(SoundType.ANVIL).dynamicShape()).setShape(VoxelShapes.box(0.05, 0,
-                                0.05, 1, 1, 1)).noInfoBlock());
+                .harvestLevel(2).sound(SoundType.ANVIL).dynamicShape())
+                .setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 1, 1))
+                .noInfoBlock());
         YVELTAL_CORE = PokecubeLegends.BLOCKS.register("yveltal_egg", () -> new YveltalEgg("yveltal_egg",
                 AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).strength(2000, 2000).sound(SoundType.WOOD)
-                        .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
         XERNEAS_CORE = PokecubeLegends.BLOCKS.register("xerneas_tree", () -> new XerneasCore("xerneas_tree",
                 AbstractBlock.Properties.of(Material.METAL, MaterialColor.SNOW).strength(2000, 2000).sound(SoundType.WOOD)
-                        .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
+                .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock());
 
         // Ores
         RUBY_ORE = PokecubeLegends.DECORATION_TAB.register("ruby_ore", () -> new BlockBase("ruby_ore", AbstractBlock.Properties.of(
-                Material.STONE, MaterialColor.STONE).sound(SoundType.STONE).strength(5, 15).harvestTool(ToolType.PICKAXE)
-                .harvestLevel(2)).noInfoBlock());
+                Material.STONE, MaterialColor.STONE).sound(SoundType.STONE).strength(5, 15)
+                .harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops()).noInfoBlock());
         SAPPHIRE_ORE = PokecubeLegends.DECORATION_TAB.register("sapphire_ore", () -> new BlockBase("sapphire_ore",
-                AbstractBlock.Properties.of(Material.STONE, MaterialColor.STONE).sound(SoundType.STONE).strength(5, 15).harvestTool(
-                        ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
+                AbstractBlock.Properties.of(Material.STONE, MaterialColor.STONE).sound(SoundType.STONE)
+                .strength(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops())
+                .noInfoBlock());
         SPECTRUM_ORE = PokecubeLegends.BLOCKS_TAB.register("spectrum_ore", () -> new BlockBase("spectrum_ore",
-                AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE).strength(5, 15).harvestTool(
-                        ToolType.PICKAXE).harvestLevel(2)).noInfoBlock());
+                AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
+                .strength(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops())
+                .noInfoBlock());
         
         RUBY_BLOCK = PokecubeLegends.DECORATION_TAB.register("ruby_block", () -> new Block(AbstractBlock.Properties.of(
-                Material.METAL, MaterialColor.COLOR_RED).strength(1.5f, 10).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)));
+                Material.METAL, MaterialColor.COLOR_RED).strength(5.0F, 6.0F).sound(SoundType.METAL)
+                .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         RUBY_SLAB = PokecubeLegends.DECORATION_TAB.register("ruby_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.METAL, MaterialColor.COLOR_RED).strength(2.0F, 3.0f).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
-                        ToolType.PICKAXE)));
+        		Material.METAL, MaterialColor.COLOR_RED).strength(5.0F, 6.0F).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
+                ToolType.PICKAXE).requiresCorrectToolForDrops()));
         RUBY_STAIRS = PokecubeLegends.DECORATION_TAB.register("ruby_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.METAL, MaterialColor.COLOR_RED).strength(2.0F, 3.0f).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
-                                ToolType.PICKAXE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                Material.METAL, MaterialColor.COLOR_RED).strength(5.0F, 6.0F).sound(SoundType.METAL)
+                .lightLevel(b -> 4).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         
         SAPPHIRE_BLOCK = PokecubeLegends.DECORATION_TAB.register("sapphire_block", () -> new Block(AbstractBlock.Properties.of(
-                Material.METAL, MaterialColor.COLOR_BLUE).strength(1.5f, 10).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)));
+                Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).sound(SoundType.METAL)
+                .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         SAPPHIRE_SLAB = PokecubeLegends.DECORATION_TAB.register("sapphire_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.METAL, MaterialColor.COLOR_BLUE).strength(2.0F, 3.0f).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
-                        ToolType.PICKAXE)));
+        		Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).sound(SoundType.METAL)
+                .lightLevel(b -> 4).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         SAPPHIRE_STAIRS = PokecubeLegends.DECORATION_TAB.register("sapphire_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.METAL, MaterialColor.COLOR_BLUE).strength(2.0F, 3.0f).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
-                                ToolType.PICKAXE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).sound(SoundType.METAL)
+                .lightLevel(b -> 4).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         
         SPECTRUM_BLOCK = PokecubeLegends.BLOCKS_TAB.register("spectrum_block", () -> new Block(AbstractBlock.Properties.of(
-                Material.METAL, MaterialColor.COLOR_ORANGE).strength(5.0f, 7).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
-                        ToolType.PICKAXE)));
+                Material.METAL, MaterialColor.COLOR_ORANGE).strength(5.0F, 6.0F).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
+                ToolType.PICKAXE).requiresCorrectToolForDrops()));
         SPECTRUM_SLAB = PokecubeLegends.BLOCKS_TAB.register("spectrum_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-        		Material.METAL, MaterialColor.COLOR_ORANGE).strength(2.0F, 3.0f).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
-                        ToolType.PICKAXE)));
+        		Material.METAL, MaterialColor.COLOR_ORANGE).strength(5.0F, 6.0F).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
+                ToolType.PICKAXE).requiresCorrectToolForDrops()));
         SPECTRUM_STAIRS = PokecubeLegends.BLOCKS_TAB.register("spectrum_stairs",
-                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
-                		Material.METAL, MaterialColor.COLOR_ORANGE).strength(2.0F, 3.0f).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
-                                ToolType.PICKAXE)));
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                Material.METAL, MaterialColor.COLOR_ORANGE).strength(5.0F, 6.0F).sound(SoundType.METAL).lightLevel(b -> 4).harvestTool(
+                ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
         // Meteor Ore
         OVERWORLD_COSMIC_DUST_ORE = PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_ore", () -> new MeteorBlock(6842513,
                 AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.STONE)
-                .strength(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
+                .strength(5, 15).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().harvestLevel(2)));
         COSMIC_DUST_BLOCK = PokecubeLegends.BLOCKS_TAB.register("cosmic_dust_block", () -> new SandBlock(2730984,
                 AbstractBlock.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.SAND)
-                .strength(2, 10).harvestTool(ToolType.SHOVEL).harvestLevel(2)));
+                .strength(0.5F).harvestTool(ToolType.SHOVEL).harvestLevel(1)));
     }
 
     public static void init()

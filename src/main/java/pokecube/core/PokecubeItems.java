@@ -180,25 +180,25 @@ public class PokecubeItems extends ItemList
 
         // Blocks
         HEALER = PokecubeItems.BLOCKS.register("pokecenter", () -> new HealerBlock(AbstractBlock.Properties.of(
-                Material.METAL, MaterialColor.WOOL).strength(2000)));
+                Material.METAL, MaterialColor.WOOL).strength(2000).requiresCorrectToolForDrops()));
         NESTBLOCK = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(AbstractBlock.Properties.of(
-                Material.GRASS, MaterialColor.COLOR_BROWN).sound(SoundType.GRASS)));
+                Material.GRASS, MaterialColor.COLOR_BROWN).sound(SoundType.GRASS).strength(0.2F)));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(AbstractBlock.Properties.of(
-                Material.GRASS, MaterialColor.COLOR_GREEN)));
+                Material.GRASS, MaterialColor.COLOR_GREEN).strength(0.2F).requiresCorrectToolForDrops()));
         DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(AbstractBlock.Properties.of(Material.STONE,
-                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).strength(2000)));
+                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).strength(2000).requiresCorrectToolForDrops()));
         PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL,
-                MaterialColor.COLOR_RED).strength(2000), true));
+                MaterialColor.COLOR_RED).strength(2000).requiresCorrectToolForDrops(), true));
         PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(AbstractBlock.Properties.of(Material.METAL,
-                MaterialColor.COLOR_RED).strength(2000), false));
+                MaterialColor.COLOR_RED).strength(2000).requiresCorrectToolForDrops(), false));
         TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(AbstractBlock.Properties.of(Material.METAL,
-                MaterialColor.COLOR_LIGHT_BLUE).strength(2000)));
+                MaterialColor.COLOR_LIGHT_BLUE).strength(2000).requiresCorrectToolForDrops()));
         TRADER = PokecubeItems.BLOCKS.register("trade_machine", () -> new TraderBlock(AbstractBlock.Properties.of(
-                Material.METAL, MaterialColor.COLOR_GREEN).strength(2000)));
+                Material.METAL, MaterialColor.COLOR_GREEN).strength(2000).requiresCorrectToolForDrops()));
         SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(AbstractBlock.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(2000)));
+                Material.STONE, MaterialColor.STONE).strength(2000).requiresCorrectToolForDrops()));
         FOSSILSTONE = PokecubeItems.BLOCKS.register("fossilstone", () -> new Block(AbstractBlock.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(1.5f, 10).harvestTool(ToolType.PICKAXE)));
+                Material.STONE, MaterialColor.STONE).strength(1.5f, 10).requiresCorrectToolForDrops().harvestTool(ToolType.PICKAXE)));
 
         // Tile Entity Types
         NEST_TYPE = PokecubeItems.TILES.register("nest", () -> TileEntityType.Builder.of(NestTile::new,

@@ -202,24 +202,24 @@ public class PokecubeAdv
 
         // Blocks
         AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(AbstractBlock.Properties.of(Material.METAL,
-                MaterialColor.COLOR_LIGHT_GREEN).dynamicShape()));
+                MaterialColor.COLOR_LIGHT_GREEN).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
         COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(AbstractBlock.Properties.of(
-                Material.METAL, MaterialColor.COLOR_RED).dynamicShape()));
+                Material.METAL, MaterialColor.COLOR_RED).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
         DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(AbstractBlock.Properties.of(Material.METAL,
-                MaterialColor.COLOR_BLACK).dynamicShape()));
-        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_PURPLE)
-                .dynamicShape()));
+                MaterialColor.COLOR_BLACK).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
+        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_PURPLE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
         EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor", () -> new ExtractorBlock(AbstractBlock.Properties.of(
-                Material.METAL, MaterialColor.COLOR_CYAN).dynamicShape()));
-        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_CYAN)
-                .dynamicShape()));
-        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(AbstractBlock.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_GREEN)
-                .dynamicShape()));
+                Material.METAL, MaterialColor.COLOR_CYAN).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
+        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_CYAN).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
+        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F).dynamicShape()));
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(AbstractBlock.Properties.of(Material.METAL,
-                MaterialColor.SNOW)));
+                MaterialColor.SNOW).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlass(
-                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS).strength(0.3f, 0.3f)
-                .sound(SoundType.GLASS).noOcclusion(), MaterialColor.COLOR_LIGHT_BLUE));
+                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE)
+                .strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion()));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().tab(

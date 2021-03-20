@@ -1,9 +1,7 @@
 package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.GlassBlock;
 import net.minecraft.block.StainedGlassBlock;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.math.BlockPos;
@@ -12,7 +10,7 @@ import net.minecraft.world.IWorldReader;
 
 public class UltraGlass extends StainedGlassBlock
 {
-    public UltraGlass(final String name, DyeColor color, final Properties props, final MaterialColor color2)
+    public UltraGlass(final String name, DyeColor color, final Properties props)
     {
         super(color, props);
     }

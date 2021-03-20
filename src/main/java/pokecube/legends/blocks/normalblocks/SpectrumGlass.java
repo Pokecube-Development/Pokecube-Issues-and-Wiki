@@ -11,7 +11,7 @@ import net.minecraft.world.IWorldReader;
 
 public class SpectrumGlass extends StainedGlassBlock
 {
-    public SpectrumGlass(final String name, DyeColor color, final Properties props, final MaterialColor color2)
+    public SpectrumGlass(final String name, DyeColor color, final Properties props)
     {
         super(color, props);
     }
