@@ -20,7 +20,7 @@ public class SandUltraBlock extends BlockBase
 {
     public SandUltraBlock(final String name, final Material material, MaterialColor color)
     {
-        super(name, Properties.of(material, color).sound(SoundType.SAND).strength(2, 6).harvestTool(
+        super(name, Properties.of(material, color).sound(SoundType.SAND).strength(0.8F).harvestTool(
                 ToolType.SHOVEL).harvestLevel(1));
     }
 
