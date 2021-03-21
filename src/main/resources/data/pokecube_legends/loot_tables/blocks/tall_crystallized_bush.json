@@ -61,9 +61,14 @@
                 },
                 {
                   "condition": "minecraft:table_bonus",
+                  "condition": "minecraft:block_state_property",
+                  "block": "pokecube_legends:tall_crystallized_bush",
+                  "properties": {
+                    "half": "lower"
+                  },
                   "enchantment": "minecraft:fortune",
                   "chances": [
-                    0.9,
+                    0.5,
                     0.5,
                     0.05,
                     0.002
