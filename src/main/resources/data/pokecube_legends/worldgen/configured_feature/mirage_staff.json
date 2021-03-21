@@ -13,7 +13,8 @@
     "trunk_provider": {
       "state": {
         "Properties": {
-          "axis": "y"
+          "axis": "y",
+          "waterlogged": "false"
         },
         "Name": "pokecube_legends:crystallized_cactus"
       },

@@ -14,11 +14,12 @@
                 "zspread": 7,
                 "whitelist": [],
                 "blacklist": [],
-                "tries": 32,
+                "tries": 4,
                 "state_provider": {
                   "state": {
                     "Properties": {
-                      "half": "lower"
+                      "half": "lower",
+                      "waterlogged": "false"
                     },
                     "Name": "pokecube_legends:tall_crystallized_bush"
                   },

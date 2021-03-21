@@ -10,9 +10,12 @@
         "zspread": 7,
         "whitelist": [],
         "blacklist": [],
-        "tries": 4,
+        "tries": 8,
         "state_provider": {
           "state": {
+            "Properties": {
+              "waterlogged": "false"
+            },
             "Name": "pokecube_legends:crystallized_bush"
           },
           "type": "minecraft:simple_state_provider"
