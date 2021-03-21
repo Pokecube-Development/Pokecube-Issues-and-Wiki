@@ -98,7 +98,7 @@ public class PokecubePlayerData extends PlayerData
         tag.putInt("teleIndex", this.teleIndex);
         final ListNBT list = new ListNBT();
         for (final TeleDest d : this.telelocs)
-            if (d != null)
+            if (d != null && d.loc != null)
             {
                 final CompoundNBT loc = new CompoundNBT();
                 d.writeToNBT(loc);
