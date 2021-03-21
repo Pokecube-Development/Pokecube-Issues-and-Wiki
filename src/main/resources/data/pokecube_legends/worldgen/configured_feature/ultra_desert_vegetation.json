@@ -8,7 +8,11 @@
 	          {
 	            "feature": "pokecube_legends:crystallized_bushes",
 	            "chance": 0.7
-	          }
+	          },
+              {
+                "feature": "pokecube_legends:tall_crystallized_bushes",
+                "chance": 0.2
+              }
 	        ],
 	        "default": "pokecube_legends:corrupted_tree"
 	      },

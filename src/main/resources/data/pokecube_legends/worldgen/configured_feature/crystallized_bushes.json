@@ -20,12 +20,6 @@
                   "data": {
                     "Name": "pokecube_legends:crystallized_bush"
                   }
-                },
-                {
-                  "weight": 1,
-                  "data": {
-                    "Name": "pokecube_legends:tall_crystallized_bush"
-                  }
                 }
               ],
               "type": "minecraft:weighted_state_provider"
