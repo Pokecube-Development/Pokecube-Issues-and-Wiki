@@ -216,7 +216,7 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_SAPLING;
 
     public static final RegistryObject<Block> INVERTED_LOG;
-    public static final RegistryObject<Block> INVERTED_PLANK;
+    public static final RegistryObject<Block> INVERTED_PLANKS;
     public static final RegistryObject<Block> INVERTED_LEAVES;
     public static final RegistryObject<Block> INVERTED_WOOD;
     public static final RegistryObject<Block> STRIP_INVERTED_LOG;
@@ -231,7 +231,7 @@ public class BlockInit
     public static final RegistryObject<Block> INVERTED_PR_PLATE;
 
     public static final RegistryObject<Block> TEMPORAL_LOG;
-    public static final RegistryObject<Block> TEMPORAL_PLANK;
+    public static final RegistryObject<Block> TEMPORAL_PLANKS;
     public static final RegistryObject<Block> TEMPORAL_LEAVES;
     public static final RegistryObject<Block> TEMPORAL_WOOD;
     public static final RegistryObject<Block> STRIP_TEMPORAL_LOG;
@@ -246,7 +246,7 @@ public class BlockInit
     public static final RegistryObject<Block> TEMPORAL_PR_PLATE;
 
     public static final RegistryObject<Block> AGED_LOG;
-    public static final RegistryObject<Block> AGED_PLANK;
+    public static final RegistryObject<Block> AGED_PLANKS;
     public static final RegistryObject<Block> AGED_LEAVES;
     public static final RegistryObject<Block> AGED_WOOD;
     public static final RegistryObject<Block> STRIP_AGED_LOG;
@@ -261,7 +261,7 @@ public class BlockInit
     public static final RegistryObject<Block> AGED_PR_PLATE;
 
     public static final RegistryObject<Block> DISTORTIC_LOG;
-    public static final RegistryObject<Block> DISTORTIC_PLANK;
+    public static final RegistryObject<Block> DISTORTIC_PLANKS;
     public static final RegistryObject<Block> DISTORTIC_LEAVES;
     public static final RegistryObject<Block> DISTORTIC_WOOD;
     public static final RegistryObject<Block> STRIP_DISTORTIC_LOG;
@@ -276,7 +276,7 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_PR_PLATE;
     
     public static final RegistryObject<Block> CORRUPTED_LOG;
-    public static final RegistryObject<Block> CORRUPTED_PLANK;
+    public static final RegistryObject<Block> CORRUPTED_PLANKS;
     public static final RegistryObject<Block> CORRUPTED_LEAVES;
     public static final RegistryObject<Block> CORRUPTED_WOOD;
     public static final RegistryObject<Block> STRIP_CORRUPTED_LOG;
@@ -292,7 +292,7 @@ public class BlockInit
     
     public static final RegistryObject<Block> MIRAGE_GLASS;
     public static final RegistryObject<Block> MIRAGE_LOG;
-    public static final RegistryObject<Block> MIRAGE_PLANK;
+    public static final RegistryObject<Block> MIRAGE_PLANKS;
     public static final RegistryObject<Block> MIRAGE_LEAVES;
     public static final RegistryObject<Block> MIRAGE_WOOD;
     public static final RegistryObject<Block> STRIP_MIRAGE_LOG;
@@ -844,7 +844,7 @@ public class BlockInit
                 MaterialColor.TERRACOTTA_LIGHT_BLUE, MaterialColor.TERRACOTTA_LIGHT_BLUE));
         STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_inverted_wood", () -> Blocks.log(
                 MaterialColor.TERRACOTTA_LIGHT_BLUE, MaterialColor.TERRACOTTA_LIGHT_BLUE));
-        INVERTED_PLANK = PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(AbstractBlock.Properties.of(
+        INVERTED_PLANKS = PokecubeLegends.BLOCKS_TAB.register("ultra_plank01", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.WOOD)));
         INVERTED_STAIRS = PokecubeLegends.BLOCKS_TAB.register("inverted_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
@@ -880,7 +880,7 @@ public class BlockInit
                 MaterialColor.COLOR_LIGHT_GREEN, MaterialColor.COLOR_LIGHT_GREEN));
         STRIP_TEMPORAL_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_temporal_wood", () -> Blocks.log(
                 MaterialColor.COLOR_LIGHT_GREEN, MaterialColor.COLOR_LIGHT_GREEN));
-        TEMPORAL_PLANK = PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(AbstractBlock.Properties.of(
+        TEMPORAL_PLANKS = PokecubeLegends.BLOCKS_TAB.register("ultra_plank02", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).strength(2.0F).sound(SoundType.WOOD)));
         TEMPORAL_STAIRS = PokecubeLegends.BLOCKS_TAB.register("temporal_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
@@ -916,7 +916,7 @@ public class BlockInit
                 MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
         STRIP_AGED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_aged_wood", () -> Blocks.log(
                 MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
-        AGED_PLANK = PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(AbstractBlock.Properties.of(
+        AGED_PLANKS = PokecubeLegends.BLOCKS_TAB.register("ultra_plank03", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0F).sound(SoundType.WOOD)));
         AGED_STAIRS = PokecubeLegends.BLOCKS_TAB.register("aged_stairs", () -> new ItemGenerator.GenericStairs(
                 Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
@@ -952,7 +952,7 @@ public class BlockInit
                 MaterialColor.COLOR_BLUE, MaterialColor.COLOR_BLUE));
         STRIP_DISTORTIC_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_distortic_wood", () -> Blocks
                 .log(MaterialColor.COLOR_BLUE, MaterialColor.COLOR_BLUE));
-        DISTORTIC_PLANK = PokecubeLegends.BLOCKS_TAB.register("distortic_plank", () -> new Block(AbstractBlock.Properties.of(
+        DISTORTIC_PLANKS = PokecubeLegends.BLOCKS_TAB.register("distortic_plank", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
         DISTORTIC_STAIRS = PokecubeLegends.BLOCKS_TAB.register("distortic_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
@@ -987,7 +987,7 @@ public class BlockInit
                 MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
         STRIP_CORRUPTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_corrupted_wood", () -> Blocks
                 .log(MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
-        CORRUPTED_PLANK = PokecubeLegends.BLOCKS_TAB.register("corrupted_plank", () -> new Block(AbstractBlock.Properties.of(
+        CORRUPTED_PLANKS = PokecubeLegends.BLOCKS_TAB.register("corrupted_plank", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0F).sound(SoundType.WOOD)));
         CORRUPTED_STAIRS = PokecubeLegends.BLOCKS_TAB.register("corrupted_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
@@ -1025,7 +1025,7 @@ public class BlockInit
                 MaterialColor.TERRACOTTA_YELLOW, MaterialColor.COLOR_PURPLE));
         STRIP_MIRAGE_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_mirage_wood", () -> Blocks
                 .log(MaterialColor.COLOR_PURPLE, MaterialColor.COLOR_PURPLE));
-        MIRAGE_PLANK = PokecubeLegends.BLOCKS_TAB.register("mirage_plank", () -> new Block(AbstractBlock.Properties.of(
+        MIRAGE_PLANKS = PokecubeLegends.BLOCKS_TAB.register("mirage_plank", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.TERRACOTTA_WHITE).strength(2.0F).sound(SoundType.WOOD)));
         MIRAGE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("mirage_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
@@ -1206,16 +1206,16 @@ public class BlockInit
         {
             ItemGenerator.addStrippable(BlockInit.AGED_LOG.get(), BlockInit.STRIP_AGED_LOG.get());
             ItemGenerator.addStrippable(BlockInit.AGED_WOOD.get(), BlockInit.STRIP_AGED_WOOD.get());
+            ItemGenerator.addStrippable(BlockInit.CORRUPTED_LOG.get(), BlockInit.STRIP_CORRUPTED_LOG.get());
+            ItemGenerator.addStrippable(BlockInit.CORRUPTED_WOOD.get(), BlockInit.STRIP_CORRUPTED_WOOD.get());
             ItemGenerator.addStrippable(BlockInit.DISTORTIC_LOG.get(), BlockInit.STRIP_DISTORTIC_LOG.get());
             ItemGenerator.addStrippable(BlockInit.DISTORTIC_WOOD.get(), BlockInit.STRIP_DISTORTIC_WOOD.get());
             ItemGenerator.addStrippable(BlockInit.INVERTED_LOG.get(), BlockInit.STRIP_INVERTED_LOG.get());
             ItemGenerator.addStrippable(BlockInit.INVERTED_WOOD.get(), BlockInit.STRIP_INVERTED_WOOD.get());
-            ItemGenerator.addStrippable(BlockInit.TEMPORAL_LOG.get(), BlockInit.STRIP_TEMPORAL_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.TEMPORAL_WOOD.get(), BlockInit.STRIP_TEMPORAL_WOOD.get());
-            ItemGenerator.addStrippable(BlockInit.CORRUPTED_LOG.get(), BlockInit.STRIP_CORRUPTED_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.CORRUPTED_WOOD.get(), BlockInit.STRIP_CORRUPTED_WOOD.get());
             ItemGenerator.addStrippable(BlockInit.MIRAGE_LOG.get(), BlockInit.STRIP_MIRAGE_LOG.get());
             ItemGenerator.addStrippable(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());
+            ItemGenerator.addStrippable(BlockInit.TEMPORAL_LOG.get(), BlockInit.STRIP_TEMPORAL_LOG.get());
+            ItemGenerator.addStrippable(BlockInit.TEMPORAL_WOOD.get(), BlockInit.STRIP_TEMPORAL_WOOD.get());
             
         });
     }
@@ -1245,5 +1245,96 @@ public class BlockInit
         compostableBlocks(0.65f, PlantsInit.MUSH_PLANT2);
         compostableBlocks(0.65f, PlantsInit.AGED_FLOWER);
         compostableBlocks(0.65f, PlantsInit.DIRST_FLOWER);
+    }
+
+    public static void flammableBlocks(Block block, int speed, int flammability) {
+        FireBlock fire = (FireBlock) Blocks.FIRE;
+        fire.setFlammable(block, speed, flammability);
+    }
+
+    public static void flammables() {
+        //Logs
+        flammableBlocks(BlockInit.AGED_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.AGED_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.CORRUPTED_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.CORRUPTED_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.DISTORTIC_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.DISTORTIC_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.INVERTED_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.INVERTED_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.MIRAGE_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.MIRAGE_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.TEMPORAL_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.TEMPORAL_WOOD.get(), 5, 5);
+
+        //Stripped Logs
+        flammableBlocks(BlockInit.STRIP_AGED_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_AGED_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_CORRUPTED_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_CORRUPTED_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_DISTORTIC_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_DISTORTIC_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_INVERTED_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_INVERTED_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_MIRAGE_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_MIRAGE_WOOD.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_TEMPORAL_LOG.get(), 5, 5);
+        flammableBlocks(BlockInit.STRIP_TEMPORAL_WOOD.get(), 5, 5);
+
+        //Leaves
+        flammableBlocks(BlockInit.AGED_LEAVES.get(), 30, 60);
+        flammableBlocks(BlockInit.CORRUPTED_LEAVES.get(), 30, 60);
+        flammableBlocks(BlockInit.DISTORTIC_LEAVES.get(), 30, 60);
+        flammableBlocks(BlockInit.INVERTED_LEAVES.get(), 30, 60);
+        flammableBlocks(BlockInit.MIRAGE_LEAVES.get(), 30, 60);
+        flammableBlocks(BlockInit.TEMPORAL_LEAVES.get(), 30, 60);
+        flammableBlocks(BlockInit.DYNA_LEAVES1.get(), 30, 60);
+        flammableBlocks(BlockInit.DYNA_LEAVES2.get(), 30, 60);
+
+        //Planks
+        flammableBlocks(BlockInit.AGED_PLANKS.get(), 5, 20);
+        flammableBlocks(BlockInit.CORRUPTED_PLANKS.get(), 5, 20);
+        flammableBlocks(BlockInit.DISTORTIC_PLANKS.get(), 5, 20);
+        flammableBlocks(BlockInit.INVERTED_PLANKS.get(), 5, 20);
+        flammableBlocks(BlockInit.MIRAGE_PLANKS.get(), 5, 20);
+        flammableBlocks(BlockInit.TEMPORAL_PLANKS.get(), 5, 20);
+
+        //Slabs
+        flammableBlocks(BlockInit.AGED_SLAB.get(), 5, 20);
+        flammableBlocks(BlockInit.CORRUPTED_SLAB.get(), 5, 20);
+        flammableBlocks(BlockInit.DISTORTIC_SLAB.get(), 5, 20);
+        flammableBlocks(BlockInit.INVERTED_SLAB.get(), 5, 20);
+        flammableBlocks(BlockInit.MIRAGE_SLAB.get(), 5, 20);
+        flammableBlocks(BlockInit.TEMPORAL_SLAB.get(), 5, 20);
+
+        //Stairs
+        flammableBlocks(BlockInit.AGED_STAIRS.get(), 5, 20);
+        flammableBlocks(BlockInit.CORRUPTED_STAIRS.get(), 5, 20);
+        flammableBlocks(BlockInit.DISTORTIC_STAIRS.get(), 5, 20);
+        flammableBlocks(BlockInit.INVERTED_STAIRS.get(), 5, 20);
+        flammableBlocks(BlockInit.MIRAGE_STAIRS.get(), 5, 20);
+        flammableBlocks(BlockInit.TEMPORAL_STAIRS.get(), 5, 20);
+
+        //Fences
+        flammableBlocks(BlockInit.AGED_FENCE.get(), 5, 20);
+        flammableBlocks(BlockInit.CORRUPTED_FENCE.get(), 5, 20);
+        flammableBlocks(BlockInit.DISTORTIC_FENCE.get(), 5, 20);
+        flammableBlocks(BlockInit.INVERTED_FENCE.get(), 5, 20);
+        flammableBlocks(BlockInit.MIRAGE_FENCE.get(), 5, 20);
+        flammableBlocks(BlockInit.TEMPORAL_FENCE.get(), 5, 20);
+
+        //Fence Gates
+        flammableBlocks(BlockInit.AGED_FENCE_GATE.get(), 5, 20);
+        flammableBlocks(BlockInit.CORRUPTED_FENCE_GATE.get(), 5, 20);
+        flammableBlocks(BlockInit.DISTORTIC_FENCE_GATE.get(), 5, 20);
+        flammableBlocks(BlockInit.INVERTED_FENCE_GATE.get(), 5, 20);
+        flammableBlocks(BlockInit.MIRAGE_FENCE_GATE.get(), 5, 20);
+        flammableBlocks(BlockInit.TEMPORAL_FENCE_GATE.get(), 5, 20);
+
+        //Plants
+        flammableBlocks(PlantsInit.AGED_FLOWER.get(), 60, 100);
+        flammableBlocks(PlantsInit.DIRST_FLOWER.get(), 60, 100);
+        flammableBlocks(PlantsInit.MUSH_PLANT1.get(), 60, 100);
+        flammableBlocks(PlantsInit.MUSH_PLANT2.get(), 60, 100);
     }
 }

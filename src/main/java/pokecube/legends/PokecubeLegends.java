@@ -1,11 +1,5 @@
 package pokecube.legends;
 
-import java.util.Random;
-import java.util.function.Predicate;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -35,6 +29,8 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -44,12 +40,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.handlers.ForgeEventHandlers;
-import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.Config;
-import pokecube.legends.init.FeaturesInit;
-import pokecube.legends.init.ItemInit;
-import pokecube.legends.init.MoveRegister;
-import pokecube.legends.init.PokecubeDim;
+import pokecube.legends.init.*;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
@@ -57,6 +48,9 @@ import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
+
+import java.util.Random;
+import java.util.function.Predicate;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
@@ -152,6 +146,7 @@ public class PokecubeLegends
     {
         BlockInit.strippableBlocks(event);
         BlockInit.compostables();
+        BlockInit.flammables();
     }
 
     @SubscribeEvent

@@ -1,15 +1,6 @@
 package pokecube.core;
 
-import java.util.Map;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.EntityType;
@@ -52,6 +43,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
@@ -104,6 +97,10 @@ import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeDatabase;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
+
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.function.Predicate;
 
 @Mod(value = PokecubeCore.MODID)
 public class PokecubeCore
@@ -466,6 +463,7 @@ public class PokecubeCore
     {
         ItemGenerator.strippableBlocks(event);
         ItemGenerator.compostables(event);
+        ItemGenerator.flammables(event);
         PointsOfInterest.postInit();
     }
 }

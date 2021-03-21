@@ -6,7 +6,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,12 +29,15 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
+import pokecube.legends.init.BlockInit;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+
+import static net.minecraft.item.AxeItem.STRIPABLES;
 
 public class ItemGenerator
 {
@@ -377,8 +379,8 @@ public class ItemGenerator
 
     public static void addStrippable(final Block logs, final Block strippedLogs)
     {
-        AxeItem.STRIPABLES = Maps.newHashMap(AxeItem.STRIPABLES);
-        AxeItem.STRIPABLES.put(logs, strippedLogs);
+        STRIPABLES = Maps.newHashMap(STRIPABLES);
+        STRIPABLES.put(logs, strippedLogs);
     }
 
     public static void strippableBlocks(final FMLLoadCompleteEvent event)
@@ -424,6 +426,36 @@ public class ItemGenerator
             {
                 final int index = id;
                 compostableBlocks(0.65f, BerryManager.berryItems.get(index));
+            }
+        });
+    }
+
+    public static void flammableBlocks(Block block, int speed, int flammability) {
+        FireBlock fire = (FireBlock) Blocks.FIRE;
+        fire.setFlammable(block, speed, flammability);
+    }
+
+    public static void flammables(final FMLLoadCompleteEvent event) {
+        final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
+        Collections.sort(names);
+        event.enqueueWork(() ->
+        {
+            for (final String name : names) {
+                //Logs
+                flammableBlocks(ItemGenerator.logs.get(name), 5, 5);
+                flammableBlocks(ItemGenerator.woods.get(name), 5, 5);
+                flammableBlocks(ItemGenerator.stripped_logs.get(name), 5, 5);
+                flammableBlocks(ItemGenerator.stripped_woods.get(name), 5, 5);
+
+                //Leaves
+                flammableBlocks(ItemGenerator.leaves.get(name), 30, 60);
+
+                //Woods
+                flammableBlocks(ItemGenerator.planks.get(name), 5, 20);
+                flammableBlocks(ItemGenerator.slabs.get(name), 5, 20);
+                flammableBlocks(ItemGenerator.stairs.get(name), 5, 20);
+                flammableBlocks(ItemGenerator.fences.get(name), 5, 20);
+                flammableBlocks(ItemGenerator.fence_gates.get(name), 5, 20);
             }
         });
     }
