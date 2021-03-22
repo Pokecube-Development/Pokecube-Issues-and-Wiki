@@ -1,8 +1,11 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DeadBushBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -35,12 +38,20 @@ public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 		Vector3d vector = state.getOffset(block, pos);
 		return SHAPE.move(vector.x, vector.y, vector.z);
 	}
-	
-	public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-		if ((entityIn instanceof PlayerEntity)) {
-			entityIn.hurt(DamageSource.CACTUS, 1.0F);
+
+	@Override
+	public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+		if (entity instanceof LivingEntity) {
+			entity.makeStuckInBlock(state, new Vector3d(0.9D, 0.75D, 0.9D));
+			if (!world.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
+				double d0 = Math.abs(entity.getX() - entity.xOld);
+				double d1 = Math.abs(entity.getZ() - entity.zOld);
+				if (d0 >= 0.003000000026077032D || d1 >= 0.003000000026077032D) {
+					entity.hurt(DamageSource.CACTUS, 1.0F);
+				}
+			}
 		}
-    }
+	}
 
 	@Override
 	protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
