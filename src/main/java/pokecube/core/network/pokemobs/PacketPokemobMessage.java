@@ -11,29 +11,26 @@ import thut.core.common.network.Packet;
 
 public class PacketPokemobMessage extends Packet
 {
-    public static void sendMessage(final PlayerEntity sendTo, final int senderId, final ITextComponent message)
+    public static void sendMessage(final PlayerEntity sendTo, final ITextComponent message)
     {
-        final PacketPokemobMessage toSend = new PacketPokemobMessage(message, senderId);
+        final PacketPokemobMessage toSend = new PacketPokemobMessage(message);
         PokecubeCore.packets.sendTo(toSend, (ServerPlayerEntity) sendTo);
     }
 
     ITextComponent message;
-    int            senderId;
 
     public PacketPokemobMessage()
     {
     }
 
-    public PacketPokemobMessage(final ITextComponent message, final int senderId)
+    public PacketPokemobMessage(final ITextComponent message)
     {
         this.message = message;
-        this.senderId = senderId;
     }
 
     public PacketPokemobMessage(final PacketBuffer buf)
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
-        this.senderId = buffer.readInt();
         this.message = buffer.readComponent();
     }
 
@@ -49,7 +46,6 @@ public class PacketPokemobMessage extends Packet
     public void write(final PacketBuffer buf)
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
-        buffer.writeInt(this.senderId);
         buffer.writeComponent(this.message);
     }
 }
