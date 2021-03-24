@@ -547,6 +547,11 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, comment = "If true, lakes will be removed from pokecube structure spawns, disable this if that interferes with other mod's worldgen!")
     public boolean lakeFeatureMixin = true;
 
+    @Configure(category = Config.advanced)
+    public double maxMobSize = 20.0;
+    @Configure(category = Config.advanced)
+    public double minMobSize = 0.01;
+
     @Configure(category = Config.genetics)
     public String       epigeneticEVFunction = GeneticsManager.epigeneticFunction;
     @Configure(category = Config.genetics)

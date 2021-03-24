@@ -485,7 +485,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public void setMove(final int i, final String moveName)
     {
         // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld) || this.getTransformedTo() != null) return;
+        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld) || this.getTransformedTo() != null)
+            return;
 
         final String[] moves = this.getMoves();
         moves[i] = moveName;
@@ -496,7 +497,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public void setMoves(final String[] moves)
     {
         // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld) || this.getTransformedTo() != null) return;
+        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld) || this.getTransformedTo() != null)
+            return;
         if (moves != null && moves.length == 4)
         {
             if (this.genesMoves == null) this.getMoves();
@@ -599,16 +601,20 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             a = entry.width * size;
             b = entry.height * size;
             c = entry.length * size;
-            // Do not allow them to be smaller than 1/100 of a block.
-            if (a < 0.01 || b < 0.01 || c < 0.01)
+
+            final double minS = PokecubeCore.getConfig().minMobSize;
+            final double maxS = PokecubeCore.getConfig().maxMobSize;
+
+            // Do not allow them to be smaller than the configured min size.
+            if (a < minS || b < minS || c < minS)
             {
-                final float min = 0.01f / Math.min(a, Math.min(c, b));
+                final float min = (float) (minS / Math.min(a, Math.min(c, b)));
                 size *= min;
             }
-            // Do not allow them to be larger than 20 blocks.
-            if (a > 20 || b > 20 || c > 20)
+            // Do not allow them to be larger than the configured max size
+            if (a > maxS || b > maxS || c > maxS)
             {
-                final float max = 20 / Math.max(a, Math.max(c, b));
+                final float max = (float) (maxS / Math.max(a, Math.max(c, b)));
                 size *= max;
             }
             this.getEntity().getDimensions(this.getEntity().getPose()).scale(size);
