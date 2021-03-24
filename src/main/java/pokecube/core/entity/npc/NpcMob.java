@@ -47,6 +47,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -92,6 +94,9 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public ResourceLocation copyMob = null;
     public MobEntity        copied  = null;
     public CompoundNBT      copyNbt = new CompoundNBT();
+
+    @OnlyIn(Dist.CLIENT)
+    public net.minecraft.client.renderer.entity.EntityRenderer<? super MobEntity> customRender = null;
 
     private Consumer<MerchantOffers> init_offers = t ->
     {
