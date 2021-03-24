@@ -547,9 +547,9 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, comment = "If true, lakes will be removed from pokecube structure spawns, disable this if that interferes with other mod's worldgen!")
     public boolean lakeFeatureMixin = true;
 
-    @Configure(category = Config.advanced)
+    @Configure(category = Config.advanced, comment = "Maximum size of a pokemob, in blocks")
     public double maxMobSize = 20.0;
-    @Configure(category = Config.advanced)
+    @Configure(category = Config.advanced, comment = "Minimum size of a pokemob, in blocks")
     public double minMobSize = 0.01;
 
     @Configure(category = Config.genetics)
