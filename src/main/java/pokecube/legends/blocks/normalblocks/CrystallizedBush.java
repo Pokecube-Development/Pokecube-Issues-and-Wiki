@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -51,6 +52,10 @@ public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 				}
 			}
 		}
+	}
+
+	public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType path) {
+		return false;
 	}
 
 	@Override
