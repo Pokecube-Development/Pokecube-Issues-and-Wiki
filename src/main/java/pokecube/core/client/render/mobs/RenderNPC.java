@@ -49,6 +49,12 @@ public class RenderNPC<T extends NpcMob> extends LivingRenderer<T, PlayerModel<T
                     matrixStackIn, bufferIn, packedLightIn);
             return;
         }
+        else if (entityIn.customRender != null)
+        {
+            entityIn.customRender.render(entityIn.copied, entityYaw, partialTicks, matrixStackIn, bufferIn,
+                    packedLightIn);
+            return;
+        }
         final IMobTexturable mob = entityIn.getCapability(TextureableCaps.CAPABILITY).orElse(null);
         if (mob instanceof NPCCap<?>) this.model = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim : this.normal;
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

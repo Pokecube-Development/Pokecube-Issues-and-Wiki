@@ -43,6 +43,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.interfaces.pokemob.stats.DefaultModifiers;
 import pokecube.core.interfaces.pokemob.stats.StatModifiers;
+import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokeType;
 import thut.api.boom.ExplosionCustom;
@@ -99,6 +100,7 @@ public class MovesUtils implements IMoveConstants
         {
             final ITextComponent message = new TranslationTextComponent(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
+            else if (target instanceof PlayerEntity) PacketPokemobMessage.sendMessage((PlayerEntity) target, message);
             else target.sendMessage(message, Util.NIL_UUID);
         }
     }
@@ -284,6 +286,8 @@ public class MovesUtils implements IMoveConstants
             {
                 final ITextComponent message = new TranslationTextComponent(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
+                else if (target instanceof PlayerEntity) PacketPokemobMessage.sendMessage((PlayerEntity) target,
+                        message);
                 else target.sendMessage(message, Util.NIL_UUID);
             }
         }
@@ -548,8 +552,8 @@ public class MovesUtils implements IMoveConstants
     public static ExplosionCustom newExplosion(final Entity entity, final double x, final double y, final double z,
             final float power)
     {
-        final ExplosionCustom var11 = new ExplosionCustom(entity.getCommandSenderWorld(), entity, x, y, z, power).setMaxRadius(
-                PokecubeCore.getConfig().blastRadius);
+        final ExplosionCustom var11 = new ExplosionCustom(entity.getCommandSenderWorld(), entity, x, y, z, power)
+                .setMaxRadius(PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = CapabilityPokemob.getPokemobFor(entity);
         if (poke != null) if (poke.getOwner() instanceof PlayerEntity) var11.owner = (PlayerEntity) poke.getOwner();
         else var11.owner = null;
@@ -611,8 +615,7 @@ public class MovesUtils implements IMoveConstants
             if (attacker.is(e.getVehicle())) return false;
             if (attacker.is(e)) return false;
             if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof PlayerEntity) return false;
-            if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId()))
-                return false;
+            if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId())) return false;
             if (PokecubeCore.getEntityProvider().getEntity(attacker.getCommandSenderWorld(), e.getId(),
                     true) == attacker) return false;
             return true;
@@ -659,8 +662,8 @@ public class MovesUtils implements IMoveConstants
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final double area)
     {
         final Vector3 source = Vector3.getNewVector().set(attacker);
-        final List<Entity> targets = attacker.getCommandSenderWorld().getEntities(attacker, source
-                .getAABB().inflate(area));
+        final List<Entity> targets = attacker.getCommandSenderWorld().getEntities(attacker, source.getAABB().inflate(
+                area));
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets)
             if (e instanceof LivingEntity) ret.add((LivingEntity) e);

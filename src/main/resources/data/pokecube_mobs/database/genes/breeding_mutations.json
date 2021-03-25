@@ -71,6 +71,14 @@
       "options": [
         { "result": "phione" }
       ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "carbink",
+      "options": [
+        { "result": "carbink", "weight": 99 },
+        { "result": "diancie", "weight": 1 }
+      ]
     }
   ]
 }

@@ -3,6 +3,7 @@ package pokecube.core.moves.animations.presets;
 import java.util.Random;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -49,6 +50,7 @@ public class ThrowParticle extends MoveAnimationBase
         final BufferBuilder tez = tessellator.getBuilder();
 
         mat.pushPose();
+        GlStateManager._enableDepthTest();
 
         this.initColour(info.currentTick * 300, partialTick, info.move);
         final float alpha = (this.rgba >> 24 & 255) / 255f;
@@ -84,6 +86,7 @@ public class ThrowParticle extends MoveAnimationBase
         }
         tessellator.end();
 
+        GlStateManager._disableDepthTest();
         mat.popPose();
     }
 
