@@ -23,11 +23,14 @@ public class FiniTotem extends TapuFiniCore{
 	
 	@Override
 	public ActionResultType use(BlockState stack, World world, BlockPos pos, PlayerEntity entity, Hand hand,
-			BlockRayTraceResult hit) {
+			BlockRayTraceResult hit)
+	{
+		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem()))
 		{
 			addEffectTotem(entity);
+			return ActionResultType.SUCCESS;
 		}
-		return ActionResultType.SUCCESS;
+		return ActionResultType.PASS;
 	}
 	
 	public static void addEffectTotem(PlayerEntity entity) 
