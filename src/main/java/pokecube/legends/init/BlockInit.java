@@ -1084,7 +1084,6 @@ public class BlockInit
                 Material.STONE, MaterialColor.TERRACOTTA_WHITE, 15, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
         REGIGIGA_CORE = PokecubeLegends.BLOCKS.register("regigiga_spawn", () -> new Regigigas_Core("regigiga_spawn",
                 Material.METAL, MaterialColor.TERRACOTTA_WHITE, 15, SoundType.METAL, ToolType.PICKAXE, 2).noInfoBlock());
-        //
         
         // Tapus
         TAPU_KOKO_CORE 	= PokecubeLegends.BLOCKS.register("koko_core", () -> new TapuKokoCore("koko_core",
@@ -1099,7 +1098,6 @@ public class BlockInit
         TAPU_FINI_CORE 	= PokecubeLegends.BLOCKS.register("fini_core", () -> new TapuFiniCore("fini_core",
         		AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PINK).strength(5, 15)
         		.sound(SoundType.BASALT).dynamicShape()).noInfoBlock());
-        //
         
         TIMESPACE_CORE = PokecubeLegends.BLOCKS.register("timerspawn", () -> new TimeSpaceCoreBlock("timerspawn",
                 AbstractBlock.Properties.of(Material.GRASS, MaterialColor.STONE).strength(2000, 2000).sound(SoundType.STONE)
