@@ -645,7 +645,8 @@ public class BlockInit
                 AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.STONE).strength(3, 8).harvestTool(
                 ToolType.PICKAXE).harvestLevel(1)).noInfoBlock());
         ULTRA_MUSHROOM_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass1", () -> new GrassMussBlock("ultragrass1",
-                Material.GRASS, MaterialColor.COLOR_RED).noInfoBlock());
+            AbstractBlock.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS)
+                .strength(1f, 2f).harvestTool(ToolType.SHOVEL).harvestLevel(1).randomTicks()));
         ULTRA_MUSHROOM_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt1", () -> new BlockBase("ultradirt1",
                 Material.CLAY, MaterialColor.COLOR_PURPLE, 0.5f, SoundType.GRAVEL, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_JUNGLE_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass2", () -> new GrassJungleBlock("ultragrass2",
