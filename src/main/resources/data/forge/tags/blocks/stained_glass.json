@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_adventures:laboratory_glass"
+    "pokecube_adventures:laboratory_glass",
+    "pokecube_legends:mirage_glass",
+    "pokecube_legends:spectrum_glass"
   ]
 }

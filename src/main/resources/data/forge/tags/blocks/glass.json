@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "#forge:stained_glass",
-    "pokecube_adventures:laboratory_glass",
-    "pokecube_legends:mirage_glass",
-    "pokecube_legends:spectrum_glass"
+    "#forge:glass/colorless",
+    "#forge:glass/light_blue",
+    "#forge:glass/orange",
+    "#forge:stained_glass"
   ]
 }

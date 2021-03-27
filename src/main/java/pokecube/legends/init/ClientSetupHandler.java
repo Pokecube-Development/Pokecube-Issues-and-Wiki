@@ -66,6 +66,7 @@ public class ClientSetupHandler
 
             RenderTypeLookup.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(BlockInit.OW_DISTORTIC_GLASS.get(), RenderType.cutoutMipped());
         }
 
     	for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())

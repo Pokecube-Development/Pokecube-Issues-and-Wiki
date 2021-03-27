@@ -21,6 +21,7 @@ import pokecube.legends.blocks.customblocks.taputotem.FiniTotem;
 import pokecube.legends.blocks.customblocks.taputotem.KokoTotem;
 import pokecube.legends.blocks.customblocks.taputotem.LeleTotem;
 import pokecube.legends.blocks.normalblocks.SpectrumGlass;
+import pokecube.legends.blocks.normalblocks.OneWayDistorticGlass;
 import pokecube.legends.blocks.normalblocks.*;
 import pokecube.legends.blocks.plants.*;
 
@@ -137,6 +138,7 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_STONE_SLAB;
     public static final RegistryObject<Block> DISTORTIC_STONE_STAIRS;
     public static final RegistryObject<Block> DISTORTIC_MIRROR;
+    public static final RegistryObject<Block> OW_DISTORTIC_GLASS;
 
     public static final RegistryObject<Block> ULTRA_TORCH1;
     public static final RegistryObject<Block> ULTRA_TORCH1_WALL;
@@ -754,7 +756,10 @@ public class BlockInit
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase("distortic_mirror",
-                Material.GLASS, MaterialColor.CLAY, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
+                Material.GLASS, MaterialColor.CLAY, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
+        OW_DISTORTIC_GLASS = PokecubeLegends.BLOCKS_TAB.register("one_way_distortic_glass", () -> new OneWayDistorticGlass("one_way_distortic_glass",
+        DyeColor.LIGHT_GRAY, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.CLAY).noOcclusion().sound(SoundType.GLASS)
+            .strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
         // Ultra Stones
         ULTRA_STONE = PokecubeLegends.BLOCKS_TAB.register("ultrastone", () -> new BlockBase("ultrastone", Material.STONE, 

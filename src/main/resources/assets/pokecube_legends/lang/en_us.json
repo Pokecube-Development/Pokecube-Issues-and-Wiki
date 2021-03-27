@@ -365,6 +365,7 @@
     "block.pokecube_legends.distortic_stone_slab": 		"Distortic Stone Slab",
     "block.pokecube_legends.distortic_stone_stairs": 	"Distortic Stone Stairs",
     "block.pokecube_legends.distortic_mirror": 			"Distortic Mirror",
+    "block.pokecube_legends.one_way_distortic_glass": 	"One-Way Distortic Glass",
     
     "_comment": "Items",
     "item.pokecube_legends.fire_wing": "Fire Wing",
