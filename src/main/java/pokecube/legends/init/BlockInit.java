@@ -655,7 +655,8 @@ public class BlockInit
         ULTRA_CORRUPTED_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultrasand1", () -> new SandDistorBlock("ultrasand1",
                 Material.GRASS, MaterialColor.COLOR_PURPLE).noInfoBlock());
         ULTRA_AGED_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass3", () -> new GrassAgedBlock("ultragrass3",
-                Material.GRASS, MaterialColor.COLOR_YELLOW).noInfoBlock());
+            AbstractBlock.Properties.of(Material.GRASS, MaterialColor.COLOR_YELLOW).sound(SoundType.GRASS)
+                .strength(1f, 2f).harvestTool(ToolType.SHOVEL).harvestLevel(1).randomTicks()));
 
         // Crystal Blocks
         CRYSTAL = PokecubeLegends.BLOCKS_TAB.register("temporal_crystal", () -> new BlockBase(
