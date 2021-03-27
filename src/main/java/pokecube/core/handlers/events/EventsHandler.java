@@ -628,8 +628,7 @@ public class EventsHandler
             final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData((PlayerEntity) event
                     .getTarget());
             final PlayerData data = manager.getData("pokecube-stats");
-            PacketDataSync.syncData(data, event.getTarget().getUUID(), (ServerPlayerEntity) event.getEntity(),
-                    false);
+            PacketDataSync.syncData(data, event.getTarget().getUUID(), (ServerPlayerEntity) event.getEntity(), false);
         }
     }
 
@@ -663,10 +662,14 @@ public class EventsHandler
     private static void onChangeDimension(final EntityTravelToDimensionEvent evt)
     {
         final Entity entity = evt.getEntity();
-        if (entity.getCommandSenderWorld().isClientSide) return;
+        final World tworld = entity.getCommandSenderWorld();
+        if (tworld.isClientSide || !(tworld instanceof ServerWorld)) return;
         // Recall the pokemobs if the player changes dimension.
-        final List<Entity> pokemobs = new ArrayList<>(((ServerWorld) entity.getCommandSenderWorld()).getEntities(null,
-                e -> EventsHandler.validFollowing(entity, e)));
+        final ServerWorld world = (ServerWorld) tworld;
+        final RegistryKey<World> newDim = evt.getDimension();
+        if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
+        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(null, e -> EventsHandler.validFollowing(entity,
+                e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 
