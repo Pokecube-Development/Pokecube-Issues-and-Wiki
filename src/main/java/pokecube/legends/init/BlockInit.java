@@ -650,7 +650,8 @@ public class BlockInit
         ULTRA_MUSHROOM_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt1", () -> new BlockBase("ultradirt1",
                 Material.CLAY, MaterialColor.COLOR_PURPLE, 0.5f, SoundType.GRAVEL, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_JUNGLE_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass2", () -> new GrassJungleBlock("ultragrass2",
-                Material.GRASS, MaterialColor.COLOR_CYAN).noInfoBlock());
+            AbstractBlock.Properties.of(Material.GRASS, MaterialColor.COLOR_CYAN).sound(SoundType.GRASS)
+                .strength(1f, 2f).harvestTool(ToolType.SHOVEL).harvestLevel(1).randomTicks()));
         ULTRA_JUNGLE_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt2", () -> new BlockBase("ultradirt2",
                 Material.VEGETABLE, MaterialColor.TERRACOTTA_YELLOW, 0.5f, SoundType.GRAVEL, ToolType.SHOVEL, 1).noInfoBlock());
         ULTRA_CORRUPTED_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultrasand1", () -> new SandDistorBlock("ultrasand1",
