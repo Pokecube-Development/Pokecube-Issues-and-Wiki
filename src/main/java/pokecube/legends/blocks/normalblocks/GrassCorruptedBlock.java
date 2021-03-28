@@ -89,9 +89,12 @@ public class GrassCorruptedBlock extends NyliumBlock implements IGrowable
         if (blockstate.is(BlockInit.ULTRA_CORRUPTED_GRASS.get()))
         {
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
+            NetherVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
+            NetherVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
         } else if (blockstate.is(BlockInit.DISTORTIC_GRASS.get()))
         {
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
+            NetherVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
             if (random.nextInt(8) == 0)
             {
