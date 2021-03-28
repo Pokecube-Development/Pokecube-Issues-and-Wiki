@@ -170,13 +170,13 @@ public class EventsHandler
         {
             final RegistryKey<World> dim = world.dimension();
             final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
+            if (!world.getServer().isSameThread()) throw new IllegalStateException("World ticking off thread!");
             synchronized (tasks)
             {
                 tasks.removeIf(r ->
                 {
                     // This ensures it is executed on the main thread.
-                    world.getServer().execute(() -> r.run(world));
-                    return true;
+                    return r.run(world);
                 });
             }
             // Call spawner tick at end of world tick.

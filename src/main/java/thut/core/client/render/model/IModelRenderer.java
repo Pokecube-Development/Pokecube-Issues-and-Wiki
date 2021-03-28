@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import thut.api.ModelHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -18,7 +17,7 @@ import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.texturing.IPartTexturer;
 
-public interface IModelRenderer<T extends MobEntity>
+public interface IModelRenderer<T extends Entity>
 {
     public static class Vector5
     {
