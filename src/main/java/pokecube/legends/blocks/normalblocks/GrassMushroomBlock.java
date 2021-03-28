@@ -1,9 +1,6 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.GrassBlock;
-import net.minecraft.block.SnowBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,9 +22,9 @@ import pokecube.legends.init.ItemInit;
 
 import java.util.Random;
 
-public class GrassMussBlock extends GrassBlock
+public class GrassMushroomBlock extends GrassBlock implements IGrowable
 {
-    public GrassMussBlock(final String name, final Properties properties)
+    public GrassMushroomBlock(final String name, final Properties properties)
     {
         super(properties);
         this.registerDefaultState((BlockState)((BlockState)this.stateDefinition.any()).setValue(SNOWY, false));
@@ -41,21 +38,27 @@ public class GrassMussBlock extends GrassBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (!canBeGrass(state, world, pos)) {
-            if (!world.isAreaLoaded(pos, 3)) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
+    {
+        if (!canBeGrass(state, world, pos))
+        {
+            if (!world.isAreaLoaded(pos, 3))
+            {
                 return;
             }
 
             world.setBlockAndUpdate(pos, BlockInit.ULTRA_MUSHROOM_DIRT.get().defaultBlockState());
-        } else if (world.getMaxLocalRawBrightness(pos.above()) >= 9) {
+        } else if (world.getMaxLocalRawBrightness(pos.above()) >= 9)
+        {
             BlockState blockstate = this.defaultBlockState();
 
-            for(int i = 0; i < 4; ++i) {
+            for(int i = 0; i < 4; ++i)
+            {
                 BlockPos blockpos = pos.offset(random.nextInt(3) - 1,
                     random.nextInt(5) - 3, random.nextInt(3) - 1);
                 if (world.getBlockState(blockpos).is(BlockInit.ULTRA_MUSHROOM_DIRT.get()) &&
-                    canPropagate(blockstate, world, blockpos)) {
+                    canPropagate(blockstate, world, blockpos))
+                {
                     world.setBlockAndUpdate(blockpos, (BlockState)blockstate
                         .setValue(SNOWY, world.getBlockState(blockpos.above()).is(Blocks.SNOW)));
                 }
@@ -63,17 +66,21 @@ public class GrassMussBlock extends GrassBlock
         }
     }
 
-    public static boolean canPropagate(BlockState state, IWorldReader world, BlockPos pos) {
+    public static boolean canPropagate(BlockState state, IWorldReader world, BlockPos pos)
+    {
         BlockPos blockpos = pos.above();
         return canBeGrass(state, world, pos) && !world.getFluidState(blockpos).is(FluidTags.WATER);
     }
 
-    public static boolean canBeGrass(BlockState state, IWorldReader world, BlockPos pos) {
+    public static boolean canBeGrass(BlockState state, IWorldReader world, BlockPos pos)
+    {
         BlockPos blockpos = pos.above();
         BlockState blockstate = world.getBlockState(blockpos);
-        if (blockstate.is(Blocks.SNOW) && (Integer)blockstate.getValue(SnowBlock.LAYERS) == 1) {
+        if (blockstate.is(Blocks.SNOW) && (Integer)blockstate.getValue(SnowBlock.LAYERS) >= 1)
+        {
             return true;
-        } else if (blockstate.getFluidState().getAmount() == 8) {
+        } else if (blockstate.getFluidState().getAmount() == 8)
+        {
             return false;
         } else {
             int i = LightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
@@ -89,7 +96,7 @@ public class GrassMussBlock extends GrassBlock
         {
             final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
             $_dependencies.put("entity", entity);
-            GrassMussBlock.executeProcedure($_dependencies);
+            GrassMushroomBlock.executeProcedure($_dependencies);
         }
     }
 

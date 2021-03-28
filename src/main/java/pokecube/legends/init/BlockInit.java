@@ -639,12 +639,13 @@ public class BlockInit
                 .strength(0.3f)));
         ULTRA_AGED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt3", () -> new BlockBase("ultradirt3",
                 Material.GRASS, MaterialColor.TERRACOTTA_YELLOW, 0.5f, SoundType.WET_GRASS, ToolType.SHOVEL, 1).noInfoBlock());
-        ULTRA_CORRUPTED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new BlockBase("ultradirt4",
-                Material.STONE, MaterialColor.TERRACOTTA_PURPLE, 0.9f, SoundType.METAL, ToolType.PICKAXE, 1).noInfoBlock());
+        ULTRA_CORRUPTED_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt4", () -> new DirtCorruptedBlock("ultradirt4",
+            AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE).sound(SoundType.METAL)
+                .strength(0.9f).harvestTool(ToolType.PICKAXE).harvestLevel(1).requiresCorrectToolForDrops()));
         ULTRA_MAGNETIC = PokecubeLegends.BLOCKS_TAB.register("ultramagnetic", () -> new MagneticBlock("ultramagnetic",
                 AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.STONE).strength(3, 8).harvestTool(
                 ToolType.PICKAXE).harvestLevel(1)).noInfoBlock());
-        ULTRA_MUSHROOM_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass1", () -> new GrassMussBlock("ultragrass1",
+        ULTRA_MUSHROOM_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass1", () -> new GrassMushroomBlock("ultragrass1",
             AbstractBlock.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS)
                 .strength(1f, 2f).harvestTool(ToolType.SHOVEL).harvestLevel(1).randomTicks()));
         ULTRA_MUSHROOM_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt1", () -> new BlockBase("ultradirt1",
@@ -654,8 +655,9 @@ public class BlockInit
                 .strength(1f, 2f).harvestTool(ToolType.SHOVEL).harvestLevel(1).randomTicks()));
         ULTRA_JUNGLE_DIRT = PokecubeLegends.BLOCKS_TAB.register("ultradirt2", () -> new BlockBase("ultradirt2",
                 Material.VEGETABLE, MaterialColor.TERRACOTTA_YELLOW, 0.5f, SoundType.GRAVEL, ToolType.SHOVEL, 1).noInfoBlock());
-        ULTRA_CORRUPTED_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultrasand1", () -> new SandDistorBlock("ultrasand1",
-                Material.GRASS, MaterialColor.COLOR_PURPLE).noInfoBlock());
+        ULTRA_CORRUPTED_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultrasand1", () -> new GrassCorruptedBlock("ultrasand1",
+            AbstractBlock.Properties.of(Material.GRASS, MaterialColor.COLOR_PURPLE).sound(SoundType.SCAFFOLDING)
+                .strength(4f, 5f).harvestTool(ToolType.PICKAXE).harvestLevel(1).randomTicks().requiresCorrectToolForDrops()));
         ULTRA_AGED_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass3", () -> new GrassAgedBlock("ultragrass3",
             AbstractBlock.Properties.of(Material.GRASS, MaterialColor.COLOR_YELLOW).sound(SoundType.GRASS)
                 .strength(1f, 2f).harvestTool(ToolType.SHOVEL).harvestLevel(1).randomTicks()));
