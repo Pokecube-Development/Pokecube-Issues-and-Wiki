@@ -424,6 +424,13 @@
       ]
     },
     {
+      "name":"pokecube_legends:temples/surface/nature_place_top",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:temples/surface/nature_place_top"
+      ]
+    },
+    {
       "name":"pokecube_legends:lugia_tower",
       "rigid":true,
       "ignoreAir":false,
