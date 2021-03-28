@@ -9,7 +9,14 @@
       "upper_size": 1,
       "type": "minecraft:two_layers_feature_size"
     },
-    "decorators": [],
+    "decorators": [
+      {
+        "type": "minecraft:trunk_vine"
+      },
+      {
+        "type": "minecraft:leave_vine"
+      }
+    ],
     "trunk_provider": {
       "state": {
         "Properties": {

@@ -46,8 +46,9 @@
     ],
     [],
     [
-    "pokecube_legends:aged_vegetation",
-    "pokecube_legends:aged_flower"
+     "pokecube_legends:aged_vegetation",
+     "pokecube_legends:aged_flower",
+     "minecraft:patch_grass_plain"
     ],
     []
   ],
