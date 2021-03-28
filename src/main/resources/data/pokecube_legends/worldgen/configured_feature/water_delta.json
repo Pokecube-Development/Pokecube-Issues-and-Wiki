@@ -9,7 +9,7 @@
           "Name": "minecraft:water"
         },
         "rim": {
-          "Name": "minecraft:packed_ice"
+          "Name": "minecraft:blackstone"
         },
         "size": {
           "base": 3,
