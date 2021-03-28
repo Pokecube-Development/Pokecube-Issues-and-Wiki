@@ -49,6 +49,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
+import thut.api.Tracker;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IMobTexturable;
@@ -69,6 +70,7 @@ import thut.core.common.handlers.ConfigHandler;
 import thut.core.common.mobs.DefaultColourable;
 import thut.core.common.mobs.DefaultColourableStorage;
 import thut.core.common.network.EntityUpdate;
+import thut.core.common.network.GeneralUpdate;
 import thut.core.common.network.PacketHandler;
 import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
@@ -122,8 +124,8 @@ public class ThutCore
                 {
                     final Vector3d vector3d1 = optional.get();
                     final double d1 = startVec.distanceToSqr(vector3d1);
-                    if (d1 < d0 || d0 == 0.0D) if (entity1.getRootVehicle() == shooter.getRootVehicle()
-                            && !entity1.canRiderInteract())
+                    if (d1 < d0 || d0 == 0.0D) if (entity1.getRootVehicle() == shooter.getRootVehicle() && !entity1
+                            .canRiderInteract())
                     {
                         if (d0 == 0.0D)
                         {
@@ -260,6 +262,8 @@ public class ThutCore
         // in
         MinecraftForge.EVENT_BUS.register(this);
 
+        Tracker.init();
+
         // Register Config stuff
         Config.setupConfigs(ThutCore.conf, ThutCore.MODID, ThutCore.MODID);
     }
@@ -307,6 +311,7 @@ public class ThutCore
         ThutCore.packets.registerMessage(TileUpdate.class, TileUpdate::new);
         ThutCore.packets.registerMessage(TerrainUpdate.class, TerrainUpdate::new);
         ThutCore.packets.registerMessage(PacketDataSync.class, PacketDataSync::new);
+        ThutCore.packets.registerMessage(GeneralUpdate.class, GeneralUpdate::new);
 
         // Register capabilities.
 

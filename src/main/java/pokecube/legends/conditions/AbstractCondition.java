@@ -1,5 +1,6 @@
 package pokecube.legends.conditions;
 
+import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +13,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -176,14 +176,13 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
             final String tag0 = "spwn:" + this.getEntry().getTrimmedName();
             final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag(player).getBoolean(tag0);
             if (!prevSpawn) return CanSpawn.YES;
-            final MinecraftServer server = trainer.getServer();
             final String tag1 = "spwn_ded:" + this.getEntry().getTrimmedName();
             final long spwnDied = PokecubePlayerDataHandler.getCustomDataTag(player).getLong(tag1);
             final boolean prevDied = spwnDied > 0;
             if (prevDied)
             {
-                final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < server.getLevel(
-                        World.OVERWORLD).getGameTime();
+                final long now = Tracker.instance().getTick();
+                final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < now;
                 if (doneCooldown)
                 {
                     PokecubePlayerDataHandler.getCustomDataTag(player).remove(tag0);

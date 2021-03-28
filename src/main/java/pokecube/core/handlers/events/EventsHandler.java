@@ -1,5 +1,6 @@
 package pokecube.core.handlers.events;
 
+import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -170,13 +171,13 @@ public class EventsHandler
         {
             final RegistryKey<World> dim = world.dimension();
             final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
+            if (!world.getServer().isSameThread()) throw new IllegalStateException("World ticking off thread!");
             synchronized (tasks)
             {
                 tasks.removeIf(r ->
                 {
                     // This ensures it is executed on the main thread.
-                    world.getServer().execute(() -> r.run(world));
-                    return true;
+                    return r.run(world);
                 });
             }
             // Call spawner tick at end of world tick.
@@ -379,7 +380,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getCommandSenderWorld().getGameTime())
+        if (time == Tracker.instance().getTick())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -390,8 +391,8 @@ public class EventsHandler
             MinecraftForge.EVENT_BUS.post(event);
             if (event.getResult() == Result.ALLOW)
             {
-                player.getPersistentData().putLong("__poke_int_c_", player.getCommandSenderWorld().getGameTime());
-                player.getPersistentData().putLong(ID, player.getCommandSenderWorld().getGameTime());
+                player.getPersistentData().putLong("__poke_int_c_", Tracker.instance().getTick());
+                player.getPersistentData().putLong(ID, Tracker.instance().getTick());
             }
         }
     }
@@ -402,7 +403,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getCommandSenderWorld().getGameTime())
+        if (time == Tracker.instance().getTick())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -413,8 +414,8 @@ public class EventsHandler
             MinecraftForge.EVENT_BUS.post(event);
             if (event.isCanceled())
             {
-                player.getPersistentData().putLong("__poke_int_c_", player.getCommandSenderWorld().getGameTime());
-                player.getPersistentData().putLong(ID, player.getCommandSenderWorld().getGameTime());
+                player.getPersistentData().putLong("__poke_int_c_", Tracker.instance().getTick());
+                player.getPersistentData().putLong(ID, Tracker.instance().getTick());
             }
         }
     }
@@ -425,7 +426,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getCommandSenderWorld().getGameTime())
+        if (time == Tracker.instance().getTick())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -438,7 +439,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getCommandSenderWorld().getGameTime())
+        if (time == Tracker.instance().getTick())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -620,7 +621,7 @@ public class EventsHandler
         {
             final EntityPokecube pokecube = (EntityPokecube) event.getTarget();
             if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity())) PacketPokecube.sendMessage(
-                    (PlayerEntity) event.getEntity(), pokecube.getId(), pokecube.level.getGameTime()
+                    (PlayerEntity) event.getEntity(), pokecube.getId(), Tracker.instance().getTick()
                             + pokecube.resetTime);
         }
         if (event.getTarget() instanceof ServerPlayerEntity && event.getEntity() instanceof ServerPlayerEntity)
@@ -628,8 +629,7 @@ public class EventsHandler
             final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData((PlayerEntity) event
                     .getTarget());
             final PlayerData data = manager.getData("pokecube-stats");
-            PacketDataSync.syncData(data, event.getTarget().getUUID(), (ServerPlayerEntity) event.getEntity(),
-                    false);
+            PacketDataSync.syncData(data, event.getTarget().getUUID(), (ServerPlayerEntity) event.getEntity(), false);
         }
     }
 
@@ -663,10 +663,14 @@ public class EventsHandler
     private static void onChangeDimension(final EntityTravelToDimensionEvent evt)
     {
         final Entity entity = evt.getEntity();
-        if (entity.getCommandSenderWorld().isClientSide) return;
+        final World tworld = entity.getCommandSenderWorld();
+        if (tworld.isClientSide || !(tworld instanceof ServerWorld)) return;
         // Recall the pokemobs if the player changes dimension.
-        final List<Entity> pokemobs = new ArrayList<>(((ServerWorld) entity.getCommandSenderWorld()).getEntities(null,
-                e -> EventsHandler.validFollowing(entity, e)));
+        final ServerWorld world = (ServerWorld) tworld;
+        final RegistryKey<World> newDim = evt.getDimension();
+        if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
+        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(null, e -> EventsHandler.validFollowing(entity,
+                e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 

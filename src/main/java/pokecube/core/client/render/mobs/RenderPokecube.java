@@ -1,5 +1,6 @@
 package pokecube.core.client.render.mobs;
 
+import thut.api.Tracker;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -108,7 +109,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final long time = entity.reset;
-        final long world = entity.getCommandSenderWorld().getGameTime();
+        final long world = Tracker.instance().getTick();
         if (time > world) return;
 
         final ResourceLocation num = PokecubeItems.getCubeId(entity.getItem());

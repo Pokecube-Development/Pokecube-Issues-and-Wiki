@@ -33,7 +33,7 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
     @Override
     public float getScale()
     {
-        float size = (float) (this.pokemobCap.getSize() * PokecubeCore.getConfig().scalefactor);
+        float size = this.pokemobCap.getSize();
         if (this.pokemobCap.getGeneralState(GeneralStates.EXITINGCUBE))
         {
             float scale = 1;

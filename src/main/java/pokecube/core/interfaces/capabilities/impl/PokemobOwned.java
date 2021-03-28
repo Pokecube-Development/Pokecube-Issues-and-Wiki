@@ -68,7 +68,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getString());
             final MoveMessageEvent event = new MoveMessageEvent(this, message);
             PokecubeCore.MOVE_BUS.post(event);
-            PacketPokemobMessage.sendMessage((PlayerEntity) owner, this.getEntity().getId(), event.message);
+            PacketPokemobMessage.sendMessage((PlayerEntity) owner, event.message);
         }
     }
 
@@ -513,7 +513,8 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             }
             this.getEntity().getPersistentData().remove("initSpawn");
             final Vector3 spawnPoint = Vector3.getNewVector().set(this.getEntity());
-            maxXP = SpawnHandler.getSpawnXp(this.getEntity().getCommandSenderWorld(), spawnPoint, pokemob.getPokedexEntry());
+            maxXP = SpawnHandler.getSpawnXp(this.getEntity().getCommandSenderWorld(), spawnPoint, pokemob
+                    .getPokedexEntry());
             final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), spawnPoint, this.getEntity()
                     .getCommandSenderWorld(), Tools.xpToLevel(pokemob.getPokedexEntry().getEvolutionMode(), -1),
                     SpawnHandler.DEFAULT_VARIANCE);

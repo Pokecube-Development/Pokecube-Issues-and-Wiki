@@ -1,5 +1,6 @@
 package pokecube.core.items.pokecubes;
 
+import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -92,9 +93,9 @@ public class EntityPokecube extends EntityPokecubeBase
 
     static
     {
-        TYPE = EntityType.Builder.of(EntityPokecube::new, EntityClassification.MISC)
-                .setShouldReceiveVelocityUpdates(true).setTrackingRange(32).setUpdateInterval(1).noSummon()
-                .fireImmune().sized(0.25f, 0.25f).build("pokecube");
+        TYPE = EntityType.Builder.of(EntityPokecube::new, EntityClassification.MISC).setShouldReceiveVelocityUpdates(
+                true).setTrackingRange(32).setUpdateInterval(1).noSummon().fireImmune().sized(0.25f, 0.25f).build(
+                        "pokecube");
     }
 
     public long reset     = 0;
@@ -125,7 +126,7 @@ public class EntityPokecube extends EntityPokecubeBase
             {
                 if (this.resetTime > 0)
                 {
-                    final long diff = this.getCommandSenderWorld().getGameTime() - s.time;
+                    final long diff = Tracker.instance().getTick() - s.time;
                     if (diff > this.resetTime)
                     {
                         this.players.remove(s);
@@ -172,30 +173,28 @@ public class EntityPokecube extends EntityPokecubeBase
                 if (this.isLoot)
                 {
                     if (this.cannotCollect(player)) return ActionResultType.FAIL;
-                    this.players.add(new CollectEntry(player.getStringUUID(), this.getCommandSenderWorld()
-                            .getGameTime()));
+                    this.players.add(new CollectEntry(player.getStringUUID(), Tracker.instance().getTick()));
                     ItemStack loot = ItemStack.EMPTY;
                     if (!this.lootStacks.isEmpty())
                     {
                         loot = this.lootStacks.get(new Random().nextInt(this.lootStacks.size()));
                         if (!loot.isEmpty())
                         {
-                            PacketPokecube.sendMessage(player, this.getId(), this.getCommandSenderWorld().getGameTime()
+                            PacketPokecube.sendMessage(player, this.getId(), Tracker.instance().getTick()
                                     + this.resetTime);
                             Tools.giveItem(player, loot.copy());
                         }
                     }
                     else if (this.lootTable != null)
                     {
-                        final LootTable loottable = this.getCommandSenderWorld().getServer().getLootTables()
-                                .get(this.lootTable);
+                        final LootTable loottable = this.getCommandSenderWorld().getServer().getLootTables().get(
+                                this.lootTable);
                         final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) this
                                 .getCommandSenderWorld()).withParameter(LootParameters.THIS_ENTITY, this);
                         for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
                                 .getParamSet())))
                             if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
-                        PacketPokecube.sendMessage(player, this.getId(), this.getCommandSenderWorld().getGameTime()
-                                + this.resetTime);
+                        PacketPokecube.sendMessage(player, this.getId(), Tracker.instance().getTick() + this.resetTime);
                     }
                     return ActionResultType.SUCCESS;
                 }
@@ -237,12 +236,12 @@ public class EntityPokecube extends EntityPokecubeBase
         this.shoot(direction.x, direction.y, direction.z, velocity, 0);
     }
 
-//    @Override
+    // @Override
     public void shoot(final double x, final double y, final double z, final float velocity, final float inaccuracy)
     {
         final Vector3d vec3d = new Vector3d(x, y, z).normalize().add(this.random.nextGaussian() * 0.0075F * inaccuracy,
-                this.random.nextGaussian() * 0.0075F * inaccuracy, this.random.nextGaussian() * 0.0075F * inaccuracy).scale(
-                        velocity);
+                this.random.nextGaussian() * 0.0075F * inaccuracy, this.random.nextGaussian() * 0.0075F * inaccuracy)
+                .scale(velocity);
         this.setDeltaMovement(vec3d);
         final float f = MathHelper.sqrt(Entity.getHorizontalDistanceSqr(vec3d));
         this.yRot = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));

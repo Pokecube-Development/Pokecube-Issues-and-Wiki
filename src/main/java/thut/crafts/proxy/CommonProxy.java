@@ -1,5 +1,7 @@
 package thut.crafts.proxy;
 
+import thut.api.Tracker;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -73,7 +75,7 @@ public class CommonProxy implements Proxy
             final String message = "msg.craft.setcorner";
             if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.NIL_UUID);
             evt.setCanceled(true);
-            itemstack.getTag().putLong("time", worldIn.getGameTime());
+            itemstack.getTag().putLong("time", Tracker.instance().getTick());
         }
     }
 
@@ -85,12 +87,13 @@ public class CommonProxy implements Proxy
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
+        final long now = Tracker.instance().getTick();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
-                .getLong("time") != worldIn.getGameTime())
+                .getLong("time") != now)
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
-            final Vector3d loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn
-                    .getLookAngle().scale(2));
+            final Vector3d loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle()
+                    .scale(2));
             final BlockPos pos = new BlockPos(loc);
             BlockPos min = pos;
             BlockPos max = Vector3.readFromNBT(minTag, "").getPos();

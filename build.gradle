@@ -180,8 +180,8 @@ dependencies {
     //implementation "blusunrize:ImmersiveEngineering:0.15-+"
     
     // Advanced Rocketry
-    implementation fg.deobf("libs:AdvancedRocketry-1.16.3-1.7.1-api")
-    implementation fg.deobf("libs:LibVulpes-1.16.3-1.0.1-api")
+    implementation fg.deobf("libs:AdvancedRocketry-1.16.5-1.7.1-4-api")
+    implementation fg.deobf("libs:LibVulpes-1.16.5-1.0.1-6-api")
 
     // Curios - Wearables Support
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")

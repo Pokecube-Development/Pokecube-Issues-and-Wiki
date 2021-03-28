@@ -1,5 +1,6 @@
 package pokecube.adventures.blocks.warppad;
 
+import thut.api.Tracker;
 import java.util.List;
 
 import org.nfunk.jep.JEP;
@@ -86,7 +87,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
         final TeleDest dest = this.getDest();
         final BlockPos link = dest.loc.pos();
-        final long time = this.level.getGameTime();
+        final long time = Tracker.instance().getTick();
         final long lastStepped = entityIn.getPersistentData().getLong("lastWarpPadUse");
         // No step now, too soon.
         if (lastStepped - WarppadTile.COOLDOWN > time) return;

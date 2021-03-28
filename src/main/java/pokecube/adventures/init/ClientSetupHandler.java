@@ -148,8 +148,8 @@ public class ClientSetupHandler
     {
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
 
-        RenderingRegistry.registerEntityRenderingHandler(TrainerNpc.TYPE, (manager) -> new RenderNPC<>(manager));
-        RenderingRegistry.registerEntityRenderingHandler(LeaderNpc.TYPE, (manager) -> new RenderNPC<>(manager));
+        RenderingRegistry.registerEntityRenderingHandler(TrainerNpc.TYPE, RenderNPC::new);
+        RenderingRegistry.registerEntityRenderingHandler(LeaderNpc.TYPE, RenderNPC::new);
 
         // Register container guis.
         ScreenManager.register(PokecubeAdv.CLONER_CONT.get(), Cloner::new);
@@ -168,8 +168,7 @@ public class ClientSetupHandler
         ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeAdv.config, parent)));
 
-        ClientSetupHandler.trainerEditKey = new KeyBinding("EditTrainer", InputMappings.UNKNOWN.getValue(),
-                "Pokecube");
+        ClientSetupHandler.trainerEditKey = new KeyBinding("EditTrainer", InputMappings.UNKNOWN.getValue(), "Pokecube");
         ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
     }
 

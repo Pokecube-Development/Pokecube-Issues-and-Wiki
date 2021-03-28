@@ -1,5 +1,6 @@
 package thut.core.proxy;
 
+import thut.api.Tracker;
 import java.util.Locale;
 import java.util.stream.Stream;
 
@@ -114,7 +115,7 @@ public class CommonProxy implements Proxy
             final String message = "msg.subbiome.setcorner";
             if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.NIL_UUID);
             evt.setCanceled(true);
-            itemstack.getTag().putLong("time", worldIn.getGameTime());
+            itemstack.getTag().putLong("time", Tracker.instance().getTick());
         }
     }
 
@@ -127,8 +128,9 @@ public class CommonProxy implements Proxy
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
+        final long now = Tracker.instance().getTick();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
-                .getLong("time") != worldIn.getGameTime())
+                .getLong("time") != now)
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
             final Vector3d loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle()
