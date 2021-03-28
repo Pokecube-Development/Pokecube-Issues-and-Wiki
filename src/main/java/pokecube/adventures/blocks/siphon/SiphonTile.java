@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -106,7 +105,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
 
     public AxisAlignedBB box;
 
-    public List<MobEntity> mobs = Lists.newArrayList();
+    public List<Entity> mobs = Lists.newArrayList();
 
     public long updateTime = -1;
 
@@ -182,14 +181,14 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             if (this.wirelessLinks.remove(pos))
             {
                 if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
-                        "block.pokecube_adventures.siphon.unlink", pos.pos().getX(), pos.pos().getY(), pos
-                                .pos().getZ(), pos.dimension()), Util.NIL_UUID);
+                        "block.pokecube_adventures.siphon.unlink", pos.pos().getX(), pos.pos().getY(), pos.pos().getZ(),
+                        pos.dimension()), Util.NIL_UUID);
                 return true;
             }
             this.wirelessLinks.add(pos);
             if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
-                    "block.pokecube_adventures.siphon.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
-                            .getZ(), pos.dimension()), Util.NIL_UUID);
+                    "block.pokecube_adventures.siphon.link", pos.pos().getX(), pos.pos().getY(), pos.pos().getZ(), pos
+                            .dimension()), Util.NIL_UUID);
             return true;
         }
         return false;

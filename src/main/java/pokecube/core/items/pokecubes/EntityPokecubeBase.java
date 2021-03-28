@@ -1,5 +1,6 @@
 package pokecube.core.items.pokecubes;
 
+import thut.api.Tracker;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -84,7 +85,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
     {
         if (PokecubeCore.getConfig().captureDelayTillAttack) return !pokemob.getCombatState(CombatStates.NOITEMUSE);
         final long lastAttempt = pokemob.getEntity().getPersistentData().getLong(EntityPokecubeBase.CUBETIMETAG);
-        final boolean capture = lastAttempt <= pokemob.getEntity().getCommandSenderWorld().getGameTime();
+        final long now = Tracker.instance().getTick();
+        final boolean capture = lastAttempt <= now;
         if (capture) pokemob.getEntity().getPersistentData().remove(EntityPokecubeBase.CUBETIMETAG);
         return capture;
     }
@@ -92,8 +94,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public static void setNoCaptureBasedOnConfigs(final IPokemob pokemob)
     {
         if (PokecubeCore.getConfig().captureDelayTillAttack) pokemob.setCombatState(CombatStates.NOITEMUSE, true);
-        else pokemob.getEntity().getPersistentData().putLong(EntityPokecubeBase.CUBETIMETAG, pokemob.getEntity()
-                .getCommandSenderWorld().getGameTime() + PokecubeCore.getConfig().captureDelayTicks);
+        else pokemob.getEntity().getPersistentData().putLong(EntityPokecubeBase.CUBETIMETAG, Tracker.instance().getTick()
+                + PokecubeCore.getConfig().captureDelayTicks);
     }
 
     public boolean canBePickedUp = true;
@@ -270,8 +272,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
                     && e instanceof LivingEntity && e != this.ignoreEntity && e != this;
         };
 
-        if (!this.isReleasing()) for (final Entity entity : this.level.getEntities(this, axisalignedbb,
-                valid))
+        if (!this.isReleasing()) for (final Entity entity : this.level.getEntities(this, axisalignedbb, valid))
         {
             if (entity == this.ignoreEntity)
             {
@@ -297,8 +298,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
         if (raytraceresult.getType() != RayTraceResult.Type.MISS)
         {
             if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.level.getBlockState(
-                    ((BlockRayTraceResult) raytraceresult).getBlockPos()).getBlock() == Blocks.NETHER_PORTAL) this.handleInsidePortal(
-                            ((BlockRayTraceResult) raytraceresult).getBlockPos());
+                    ((BlockRayTraceResult) raytraceresult).getBlockPos()).getBlock() == Blocks.NETHER_PORTAL) this
+                            .handleInsidePortal(((BlockRayTraceResult) raytraceresult).getBlockPos());
             if (raytraceresult instanceof BlockRayTraceResult)
             {
                 final BlockRayTraceResult result = (BlockRayTraceResult) raytraceresult;
@@ -356,9 +357,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
         if (f > 0.5)
         {
             this.yRot = (float) (-MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
-            for (this.xRot = (float) (MathHelper.atan2(vec3d.y, f) * (180F
-                    / (float) Math.PI)); this.xRot
-                            - this.xRotO < -180.0F; this.xRotO -= 360.0F)
+            for (this.xRot = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI)); this.xRot
+                    - this.xRotO < -180.0F; this.xRotO -= 360.0F)
                 ;
         }
         else this.xRot = 0;
@@ -622,8 +622,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
         return EntityPokecubeBase.rayTrace(projectile, checkEntityCollision, includeShooter, shooter, blockModeIn, true,
                 (p_221270_2_) ->
                 {
-                    return !p_221270_2_.isSpectator() && p_221270_2_.isPickable() && (includeShooter
-                            || !p_221270_2_.is(shooter)) && !p_221270_2_.noPhysics;
+                    return !p_221270_2_.isSpectator() && p_221270_2_.isPickable() && (includeShooter || !p_221270_2_.is(
+                            shooter)) && !p_221270_2_.noPhysics;
                 }, projectile.getBoundingBox().expandTowards(projectile.getDeltaMovement()).inflate(1.0D));
     }
 
@@ -656,8 +656,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final Vector3d vec3d1 = projectile.position();
         if (p_221268_5_ && !world.noCollision(projectile, projectile.getBoundingBox(), e -> (!includeShooter
                 && shooter != null ? EntityPokecubeBase.getEntityAndMount(shooter) : ImmutableSet.of()).contains(e)))
-            return new BlockRayTraceResult(vec3d1, Direction.getNearest(vec3d.x, vec3d.y, vec3d.z),
-                    new BlockPos(projectile.position()), false);
+            return new BlockRayTraceResult(vec3d1, Direction.getNearest(vec3d.x, vec3d.y, vec3d.z), new BlockPos(
+                    projectile.position()), false);
         else
         {
             Vector3d vec3d2 = vec3d1.add(vec3d);

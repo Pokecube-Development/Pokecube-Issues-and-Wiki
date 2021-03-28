@@ -1,5 +1,7 @@
 package pokecube.mobs.moves.world;
 
+import thut.api.Tracker;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Util;
@@ -26,7 +28,8 @@ public class ActionSecretPower implements IMoveAction
         if (!(attacker.getOwner() instanceof ServerPlayerEntity)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
-        if (time + 20 * 3 > attacker.getEntity().getCommandSenderWorld().getGameTime()) return false;
+        final long now = Tracker.instance().getTick();
+        if (time + 20 * 3 > now) return false;
         final ServerPlayerEntity owner = (ServerPlayerEntity) attacker.getOwner();
         final BlockState state = location.getBlockState(owner.getCommandSenderWorld());
         if (!(PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isWood(state)))
@@ -35,12 +38,12 @@ public class ActionSecretPower implements IMoveAction
             owner.sendMessage(message, Util.NIL_UUID);
             return false;
         }
-        SecretBase.pendingBaseLocations.put(owner.getUUID(), GlobalPos.of(owner.getCommandSenderWorld()
-                .dimension(), location.getPos()));
+        SecretBase.pendingBaseLocations.put(owner.getUUID(), GlobalPos.of(owner.getCommandSenderWorld().dimension(),
+                location.getPos()));
         final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirm", location
                 .set(location.getPos()));
-        message.setStyle(message.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pokebase confirm " + owner
-                .getX() + " " + owner.getY() + " " + owner.getZ())));
+        message.setStyle(message.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+                "/pokebase confirm " + owner.getX() + " " + owner.getY() + " " + owner.getZ())));
         owner.sendMessage(message, Util.NIL_UUID);
         return true;
     }

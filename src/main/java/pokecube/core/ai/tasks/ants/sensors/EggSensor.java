@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.ants.sensors;
 
+import thut.api.Tracker;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -53,7 +54,7 @@ public class EggSensor extends Sensor<MobEntity>
             if (!eggs.isEmpty())
             {
                 final EntityPokemobEgg egg = eggs.get(0);
-                egg.getPersistentData().putLong("__carried__", egg.level.getGameTime() + 100);
+                egg.getPersistentData().putLong("__carried__", Tracker.instance().getTick() + 100);
                 brain.setMemory(AntTasks.EGG, egg);
                 brain.setMemory(AntTasks.WORK_POS, GlobalPos.of(worldIn.dimension(), eggRoom.get()));
             }
@@ -66,7 +67,7 @@ public class EggSensor extends Sensor<MobEntity>
         for (final Node p : eggRooms)
             if (p.getCenter().closerThan(egg.position(), 3)) return true;
         final long carryTick = egg.getPersistentData().getLong("__carried__");
-        if (carryTick > egg.level.getGameTime()) return true;
+        if (carryTick > Tracker.instance().getTick()) return true;
         return false;
     }
 

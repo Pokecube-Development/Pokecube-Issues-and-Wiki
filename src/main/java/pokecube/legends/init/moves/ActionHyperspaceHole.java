@@ -1,5 +1,7 @@
 package pokecube.legends.init.moves;
 
+import thut.api.Tracker;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -48,9 +50,10 @@ public class ActionHyperspaceHole implements IMoveAction
         {
             final World world = user.getEntity().getCommandSenderWorld();
             final long lastUse = user.getEntity().getPersistentData().getLong("pokecube_legends:last_portal_make");
+            final long now = Tracker.instance().getTick();
             if (lastUse != 0)
             {
-                final long diff = world.getGameTime() - lastUse;
+                final long diff = now - lastUse;
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
                     message = new TranslationTextComponent("msg.hoopaportal.deny.too_soon");
@@ -72,7 +75,7 @@ public class ActionHyperspaceHole implements IMoveAction
             }
             else
             {
-                user.getEntity().getPersistentData().putLong("pokecube_legends:last_portal_make", world.getGameTime());
+                user.getEntity().getPersistentData().putLong("pokecube_legends:last_portal_make", now);
                 block.place(world, prevPos, context.getHorizontalDirection());
                 final TileEntity tile = world.getBlockEntity(prevPos.above());
                 if (tile instanceof RingTile) ((RingTile) tile).despawns = true;

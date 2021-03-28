@@ -1,5 +1,6 @@
 package pokecube.mobs.moves.world;
 
+import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -482,7 +483,8 @@ public class ActionNaturePower implements IMoveAction
         if (!(attacker.getOwner() instanceof ServerPlayerEntity)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
-        if (time + 20 * 3 > attacker.getEntity().getCommandSenderWorld().getGameTime()) return false;
+        final long now = Tracker.instance().getTick();
+        if (time + 20 * 3 > now) return false;
 //        final BlockPos pos = location.getPos();
 //        final ServerWorld world = (ServerWorld) attacker.getEntity().getEntityWorld();
         if(this.changers.isEmpty()) this.init();

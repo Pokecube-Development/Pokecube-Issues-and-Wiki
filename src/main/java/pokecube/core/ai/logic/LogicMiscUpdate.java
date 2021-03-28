@@ -1,5 +1,6 @@
 package pokecube.core.ai.logic;
 
+import thut.api.Tracker;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +134,7 @@ public class LogicMiscUpdate extends LogicBase
         // check dynamax timer for cooldown.
         if (this.pokemob.getCombatState(CombatStates.DYNAMAX))
         {
-            final Long time = this.pokemob.getEntity().getServer().getLevel(World.OVERWORLD).getGameTime();
+            final long time = Tracker.instance().getTick();
             if (this.dynatime == -1) this.dynatime = this.pokemob.getEntity().getPersistentData().getLong(
                     "pokecube:dynatime");
             if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)

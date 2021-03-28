@@ -3,6 +3,7 @@ package pokecube.core.database;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
+import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -188,8 +189,8 @@ public class PokedexEntry
                     final boolean valid = this.matcher.getValidBiomes().contains(test);
                     if (valid)
                     {
-                        final String key = String.format("biome.%s.%s", test.location().getNamespace(), test
-                                .location().getPath());
+                        final String key = String.format("biome.%s.%s", test.location().getNamespace(), test.location()
+                                .getPath());
                         biomeNames.add(I18n.get(key));
                     }
                 }
@@ -550,10 +551,11 @@ public class PokedexEntry
             ItemStack result = null;
             if (action.lootTable != null)
             {
-                final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables()
-                        .get(action.lootTable);
+                final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables().get(
+                        action.lootTable);
                 final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) pokemob
-                        .getEntity().getCommandSenderWorld()).withParameter(LootParameters.THIS_ENTITY, pokemob.getEntity());
+                        .getEntity().getCommandSenderWorld()).withParameter(LootParameters.THIS_ENTITY, pokemob
+                                .getEntity());
                 for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
                         .getParamSet())))
                     if (!itemstack.isEmpty())
@@ -572,7 +574,8 @@ public class PokedexEntry
             if (result.isEmpty()) return false;
             final long dt = (long) ((action.cooldown + new Random().nextInt(action.variance)) * PokecubeCore
                     .getConfig().interactDelayScale);
-            final long timer = dt + entity.getCommandSenderWorld().getGameTime();
+            final long now = Tracker.instance().getTick();
+            final long timer = dt + now;
             data.putLong("lastInteract", timer);
             pokemob.applyHunger((int) (action.hunger * PokecubeCore.getConfig().interactHungerScale));
             if (consumeInput) held.shrink(1);
@@ -598,8 +601,9 @@ public class PokedexEntry
             final CompoundNBT data = entity.getPersistentData();
             if (data.contains("lastInteract"))
             {
+                final long now = Tracker.instance().getTick();
                 final long time = data.getLong("lastInteract");
-                final long diff = entity.getCommandSenderWorld().getGameTime() - time;
+                final long diff = now - time;
                 if (diff < 0) return false;
             }
             if (!action.male && pokemob.getSexe() == IPokemob.MALE) return false;
@@ -1545,8 +1549,8 @@ public class PokedexEntry
         {
             final PokedexEntry entry = this;
             final IFormattableTextComponent typeString = PokeType.getTranslatedName(entry.getType1());
-            if (entry.getType2() != PokeType.unknown) typeString.append("/").append(PokeType.getTranslatedName(
-                    entry.getType2()));
+            if (entry.getType2() != PokeType.unknown) typeString.append("/").append(PokeType.getTranslatedName(entry
+                    .getType2()));
             final IFormattableTextComponent typeDesc = new TranslationTextComponent("pokemob.description.type", entry
                     .getTranslatedName(), typeString);
             IFormattableTextComponent evoString = null;
@@ -1559,9 +1563,9 @@ public class PokedexEntry
             }
             IFormattableTextComponent descString = typeDesc;
             if (evoString != null) descString = descString.append("\n").append(evoString);
-            if (entry._evolvesFrom != null) descString = descString.append("\n").append(
-                    new TranslationTextComponent("pokemob.description.evolve.from", entry.getTranslatedName(),
-                            entry._evolvesFrom.getTranslatedName()));
+            if (entry._evolvesFrom != null) descString = descString.append("\n").append(new TranslationTextComponent(
+                    "pokemob.description.evolve.from", entry.getTranslatedName(), entry._evolvesFrom
+                            .getTranslatedName()));
             this.description = descString;
         }
         return this.description;
@@ -1710,12 +1714,13 @@ public class PokedexEntry
         if (mob.getCommandSenderWorld().isClientSide) return ItemStack.EMPTY;
         if (this.heldTable != null) try
         {
-            final LootTable loottable = mob.getCommandSenderWorld().getServer().getLootTables().get(
-                    this.heldTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getCommandSenderWorld())
-                    .withParameter(LootParameters.THIS_ENTITY, mob).withParameter(LootParameters.DAMAGE_SOURCE,
-                            DamageSource.GENERIC).withParameter(LootParameters.ORIGIN, mob.position());
-            for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
+            final LootTable loottable = mob.getCommandSenderWorld().getServer().getLootTables().get(this.heldTable);
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob
+                    .getCommandSenderWorld()).withParameter(LootParameters.THIS_ENTITY, mob).withParameter(
+                            LootParameters.DAMAGE_SOURCE, DamageSource.GENERIC).withParameter(LootParameters.ORIGIN, mob
+                                    .position());
+            for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
+                    .getParamSet())))
                 if (!itemstack.isEmpty()) return itemstack;
         }
         catch (final Exception e)

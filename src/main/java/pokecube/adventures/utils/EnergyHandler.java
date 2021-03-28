@@ -45,7 +45,7 @@ import thut.api.maths.Vector3;
 
 public class EnergyHandler
 {
-    private static final ResourceLocation ENERGYCAP = new ResourceLocation("pokecube:energy");
+    public static final ResourceLocation ENERGYCAP = new ResourceLocation("pokecube:energy");
 
     public static JEP parser;
 
@@ -149,23 +149,23 @@ public class EnergyHandler
         if (tile.getLevel() == null || power == 0) return 0;
         final Vector3 v = Vector3.getNewVector().set(tile);
         final AxisAlignedBB box = tile.box != null ? tile.box : (tile.box = v.getAABB().inflate(10, 10, 10));
-        List<MobEntity> l = tile.mobs;
+        List<Entity> l = tile.mobs;
         if (tile.updateTime == -1 || tile.updateTime < tile.getLevel().getGameTime())
         {
             l.clear();
-            l = tile.mobs = tile.getLevel().getEntitiesOfClass(MobEntity.class, box);
+            l = tile.mobs = tile.getLevel().getEntitiesOfClass(Entity.class, box);
             tile.updateTime = tile.getLevel().getGameTime() + PokecubeAdv.config.siphonUpdateRate;
         }
         int ret = 0;
         power = Math.min(power, PokecubeAdv.config.maxOutput);
-        for (final MobEntity living : l)
-            if (living != null && living.inChunk && living.isAlive())
+        for (final Entity entity : l)
+            if (entity != null && entity.inChunk && entity.isAlive())
             {
-                final IEnergyStorage producer = living.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+                final IEnergyStorage producer = entity.getCapability(CapabilityEnergy.ENERGY).orElse(null);
                 if (producer != null)
                 {
-                    final double dSq = Math.max(1, living.distanceToSqr(tile.getBlockPos().getX() + 0.5, tile.getBlockPos().getY()
-                            + 0.5, tile.getBlockPos().getZ() + 0.5));
+                    final double dSq = Math.max(1, entity.distanceToSqr(tile.getBlockPos().getX() + 0.5, tile
+                            .getBlockPos().getY() + 0.5, tile.getBlockPos().getZ() + 0.5));
                     final int input = producer.extractEnergy((int) (PokecubeAdv.config.maxOutput / dSq), simulated);
                     ret += input;
                     if (ret >= power)

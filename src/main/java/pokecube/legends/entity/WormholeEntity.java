@@ -1,6 +1,6 @@
 package pokecube.legends.entity;
 
-import java.time.Clock;
+import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -17,13 +17,23 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
@@ -33,11 +43,45 @@ import thut.api.entity.ThutTeleporter.TeleDest;
 
 public class WormholeEntity extends LivingEntity
 {
+    public static class EnergyStore extends EnergyStorage implements ICapabilitySerializable<CompoundNBT>
+    {
+        private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
+
+        public EnergyStore()
+        {
+            super(1000000);
+        }
+
+        @Override
+        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
+        {
+            return CapabilityEnergy.ENERGY.orEmpty(cap, this.holder);
+        }
+
+        @Override
+        public CompoundNBT serializeNBT()
+        {
+            final CompoundNBT tag = new CompoundNBT();
+            tag.putInt("E", this.energy);
+            return tag;
+        }
+
+        @Override
+        public void deserializeNBT(final CompoundNBT nbt)
+        {
+            this.energy = nbt.getInt("E");
+        }
+    }
+
+    private static final DataParameter<Byte> ACTIVE_STATE = EntityDataManager.defineId(WormholeEntity.class,
+            DataSerializers.BYTE);
 
     private TeleDest dest = null;
     private TeleDest pos  = null;
 
-    public int energy = 0;
+    public EnergyStore energy;
+
+    int timer = 0;
 
     public WormholeEntity(final EntityType<? extends LivingEntity> type, final World level)
     {
@@ -48,6 +92,22 @@ public class WormholeEntity extends LivingEntity
     protected void defineSynchedData()
     {
         super.defineSynchedData();
+        this.entityData.define(WormholeEntity.ACTIVE_STATE, (byte) 0);
+    }
+
+    public boolean isOpening()
+    {
+        return (this.entityData.get(WormholeEntity.ACTIVE_STATE) & 1) != 0;
+    }
+
+    public boolean isIdle()
+    {
+        return (this.entityData.get(WormholeEntity.ACTIVE_STATE) & 2) != 0;
+    }
+
+    public boolean isClosing()
+    {
+        return (this.entityData.get(WormholeEntity.ACTIVE_STATE) & 4) != 0;
     }
 
     @Override
@@ -63,7 +123,6 @@ public class WormholeEntity extends LivingEntity
             final CompoundNBT tag = nbt.getCompound("anchor_pos");
             this.pos = TeleDest.readFromNBT(tag);
         }
-        this.energy = nbt.getInt("energy");
     }
 
     public TeleDest getDest()
@@ -94,6 +153,23 @@ public class WormholeEntity extends LivingEntity
         this.getDest();
         this.setNoGravity(true);
 
+        if (!this.isIdle() && !this.isClosing() && !this.isOpening()) this.entityData.set(WormholeEntity.ACTIVE_STATE,
+                (byte) 1);
+
+        if (this.isOpening())
+        {
+            if (this.timer++ > 30) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
+            this.timer = 0;
+        }
+
+        if (this.isClosing() && this.timer++ > 30)
+        {
+            this.remove();
+            return;
+        }
+
+        this.energy.receiveEnergy(100, false);
+
         final BlockPos anchor = this.getPos().getPos().pos();
         final Vector3d origin = new Vector3d(anchor.getX(), anchor.getY(), anchor.getZ());
         final Vector3d here = this.position();
@@ -101,6 +177,9 @@ public class WormholeEntity extends LivingEntity
         final Vector3d v = this.getDeltaMovement();
         final double s = 0.01;
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
+
+        if (this.energy.getEnergyStored() > 1000000) // we collapse now.
+            this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
 
     }
 
@@ -114,7 +193,7 @@ public class WormholeEntity extends LivingEntity
         {
             entity = EntityTools.getCoreEntity(entity);
             final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use") + 1000;
-            final long now = Clock.systemUTC().millis();
+            final long now = Tracker.instance().getTick();
             final UUID uuid = entity.getUUID();
             if (now < lastTp || tpd.contains(uuid)) continue;
             PokecubeCore.LOGGER.debug("Transfering {} through a wormhole!", entity);
@@ -129,11 +208,15 @@ public class WormholeEntity extends LivingEntity
                 // mob if it has riders.
                 entity.ejectPassengers();
                 for (final Entity e : passengers)
+                {
                     e.setDeltaMovement(0, 0, 0);
+                    this.energy.receiveEnergy(10000, false);
+                }
 
             }
             ThutTeleporter.transferTo(entity, this.getDest());
             entity.setDeltaMovement(0, 0, 0);
+            this.energy.receiveEnergy(10000, false);
 
             final Entity root = entity;
             final AtomicInteger counter = new AtomicInteger();
@@ -160,7 +243,6 @@ public class WormholeEntity extends LivingEntity
         tag = new CompoundNBT();
         this.getPos().writeToNBT(tag);
         nbt.put("anchor_pos", tag);
-        nbt.putInt("energy", this.energy);
     }
 
     @Override

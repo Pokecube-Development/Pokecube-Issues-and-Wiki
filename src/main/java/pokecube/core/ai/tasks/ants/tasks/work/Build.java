@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
+import thut.api.Tracker;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -201,7 +202,7 @@ public class Build extends AbstractConstructTask
 
     private boolean buildPart(final Part part)
     {
-        final long time = this.world.getGameTime();
+        final long time = Tracker.instance().getTick();
         if (!part.shouldBuild(time)) return false;
         this.valids.set(0);
         final AntRoom type = AntRoom.NODE;
@@ -238,7 +239,7 @@ public class Build extends AbstractConstructTask
 
     private boolean divert(final Part old)
     {
-        final long time = this.world.getGameTime();
+        final long time = Tracker.instance().getTick();
         this.n = null;
         this.e = null;
         if (old instanceof Edge)
@@ -336,8 +337,7 @@ public class Build extends AbstractConstructTask
                             if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
                             this.to_place = inv.extractItem(i, Math.min(stack.getCount(), 5), false);
                             this.storeInd = this.storage.firstEmpty;
-                            this.pokemob.getInventory().setItem(this.storage.firstEmpty,
-                                    this.to_place);
+                            this.pokemob.getInventory().setItem(this.storage.firstEmpty, this.to_place);
                             return false;
                         }
                     }
@@ -364,7 +364,7 @@ public class Build extends AbstractConstructTask
         {
             final boolean edge = this.e != null;
             final Part part = edge ? this.e : this.n;
-            final long time = this.world.getGameTime();
+            final long time = Tracker.instance().getTick();
             if (this.buildPart(part)) break select;
             if (!part.shouldBuild(time))
             {
@@ -398,7 +398,7 @@ public class Build extends AbstractConstructTask
                 handler.place(tree, this.world, this.work_pos, state, this);
                 if (!this.world.isEmptyBlock(pos)) this.to_place.shrink(1);
             }
-            part.markBuilt(this.work_pos, this.world.getGameTime() + 1200);
+            part.markBuilt(this.work_pos, Tracker.instance().getTick() + 1200);
             this.pokemob.getInventory().setItem(this.storeInd, this.to_place);
         }
     }

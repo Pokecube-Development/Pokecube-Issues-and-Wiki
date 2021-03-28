@@ -1,5 +1,6 @@
 package pokecube.core.handlers.events;
 
+import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -379,7 +380,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getCommandSenderWorld().getGameTime())
+        if (time == Tracker.instance().getTick())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -390,8 +391,8 @@ public class EventsHandler
             MinecraftForge.EVENT_BUS.post(event);
             if (event.getResult() == Result.ALLOW)
             {
-                player.getPersistentData().putLong("__poke_int_c_", player.getCommandSenderWorld().getGameTime());
-                player.getPersistentData().putLong(ID, player.getCommandSenderWorld().getGameTime());
+                player.getPersistentData().putLong("__poke_int_c_", Tracker.instance().getTick());
+                player.getPersistentData().putLong(ID, Tracker.instance().getTick());
             }
         }
     }
@@ -402,7 +403,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getCommandSenderWorld().getGameTime())
+        if (time == Tracker.instance().getTick())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -413,8 +414,8 @@ public class EventsHandler
             MinecraftForge.EVENT_BUS.post(event);
             if (event.isCanceled())
             {
-                player.getPersistentData().putLong("__poke_int_c_", player.getCommandSenderWorld().getGameTime());
-                player.getPersistentData().putLong(ID, player.getCommandSenderWorld().getGameTime());
+                player.getPersistentData().putLong("__poke_int_c_", Tracker.instance().getTick());
+                player.getPersistentData().putLong(ID, Tracker.instance().getTick());
             }
         }
     }
@@ -425,7 +426,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getCommandSenderWorld().getGameTime())
+        if (time == Tracker.instance().getTick())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -438,7 +439,7 @@ public class EventsHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
-        if (time == player.getCommandSenderWorld().getGameTime())
+        if (time == Tracker.instance().getTick())
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
@@ -620,7 +621,7 @@ public class EventsHandler
         {
             final EntityPokecube pokecube = (EntityPokecube) event.getTarget();
             if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity())) PacketPokecube.sendMessage(
-                    (PlayerEntity) event.getEntity(), pokecube.getId(), pokecube.level.getGameTime()
+                    (PlayerEntity) event.getEntity(), pokecube.getId(), Tracker.instance().getTick()
                             + pokecube.resetTime);
         }
         if (event.getTarget() instanceof ServerPlayerEntity && event.getEntity() instanceof ServerPlayerEntity)

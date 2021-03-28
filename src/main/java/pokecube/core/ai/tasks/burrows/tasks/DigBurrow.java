@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.burrows.tasks;
 
+import thut.api.Tracker;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -55,8 +56,8 @@ public class DigBurrow extends AbstractBurrowTask
         this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).canOcclude() && this.world.getBlockState(p
                 .above()).isPathfindable(this.world, p, PathType.LAND);
 
-        this.canStandNear = pos -> PokecubeMod.debug || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))
-                .anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
+        this.canStandNear = pos -> PokecubeMod.debug || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(
+                2, 2, 2)).anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
 
         this.hasEmptySpace = pos ->
         {
@@ -82,7 +83,7 @@ public class DigBurrow extends AbstractBurrowTask
     private boolean checkDigSite()
     {
         if (this.work_pos != null) return true;
-        final long time = this.world.getGameTime();
+        final long time = Tracker.instance().getTick();
 
         final AtomicInteger valids = new AtomicInteger();
         valids.set(0);
@@ -115,7 +116,7 @@ public class DigBurrow extends AbstractBurrowTask
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Found Dig Site!");
             return true;
         }
-        if (valids.get() == 0) part.setDigDone(this.world.getGameTime() + 12000);
+        if (valids.get() == 0) part.setDigDone(Tracker.instance().getTick() + 12000);
         return this.work_pos != null;
     }
 
@@ -139,14 +140,14 @@ public class DigBurrow extends AbstractBurrowTask
                 this.tryHarvest(this.work_pos, true);
                 BrainUtils.setLeapTarget(this.entity, new BlockPosWrapper(this.work_pos));
                 // Mark it as done for the next few seconds or so
-                part.markDug(this.work_pos, this.world.getGameTime() + 2400);
+                part.markDug(this.work_pos, Tracker.instance().getTick() + 2400);
                 this.progressTimer = -10;
                 this.work_pos = null;
             }
             else if (this.progressTimer > 300)
             {
                 this.progressTimer = -10;
-                part.markDug(this.work_pos, this.world.getGameTime() + 120);
+                part.markDug(this.work_pos, Tracker.instance().getTick() + 120);
                 this.work_pos = null;
             }
         }
@@ -160,8 +161,9 @@ public class DigBurrow extends AbstractBurrowTask
     protected boolean doTask()
     {
         if (!TaskBase.canMove(this.pokemob)) return false;
-        this.dig = this.burrow.hab.burrow.shouldDig(this.world.getGameTime());
-        this.build = this.burrow.hab.burrow.shouldBuild(this.world.getGameTime());
+        final long now = Tracker.instance().getTick();
+        this.dig = this.burrow.hab.burrow.shouldDig(now);
+        this.build = this.burrow.hab.burrow.shouldBuild(now);
         return this.dig || this.build;
     }
 
