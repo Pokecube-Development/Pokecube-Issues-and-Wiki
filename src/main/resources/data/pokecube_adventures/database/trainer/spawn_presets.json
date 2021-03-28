@@ -17,6 +17,12 @@
       "mob": "pokecube:npc",
       "type": "trader",
       "copyMob": "pokecube:meowth"
+    },
+    {
+      "preset_name": "spawn_enderman",
+      "mob": "pokecube_adventures:trainer",
+      "type": "trainer",
+      "copyMob": "minecraft:enderman"
     }
   ]
 }

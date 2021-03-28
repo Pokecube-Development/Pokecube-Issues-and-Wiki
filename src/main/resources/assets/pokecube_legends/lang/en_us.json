@@ -186,6 +186,34 @@
     
     "_comment": "Blocks",
     
+    "block.pokecube_legends.distortic_cracked_stone": "Distortic Cracked Stone",
+    "block.pokecube_legends.distortic_glowstone": "Distortic Glowstone",
+    "block.pokecube_legends.distortic_chiseled_mirror": "Chiseled Distortic Mirror",
+    "block.pokecube_legends.distortic_oak_planks": "Distortic Oak Planks",
+    "block.pokecube_legends.distortic_dark_oak_planks": "Distortic Dark Oak Planks",
+    "block.pokecube_legends.distortic_spruce_planks": "Distortic Spruce Planks",
+    "block.pokecube_legends.distortic_birch_planks": "Distortic Birch Planks",
+    "block.pokecube_legends.distortic_acacia_planks": "Distortic Acacia Planks",
+    "block.pokecube_legends.distortic_jungle_planks": "Distortic Jungle Planks",
+    "block.pokecube_legends.distortic_oak_slab": "Distortic Oak Slab",
+    "block.pokecube_legends.distortic_dark_oak_slab": "Distortic Dark Oak Slab",
+    "block.pokecube_legends.distortic_spruce_slab": "Distortic Spruce Slab",
+    "block.pokecube_legends.distortic_birch_slab": "Distortic Birch Slab",
+    "block.pokecube_legends.distortic_acacia_slab": "Distortic Acacia Slab",
+    "block.pokecube_legends.distortic_jungle_slab": "Distortic Jungle Slab",
+    "block.pokecube_legends.distortic_oak_stairs": "Distortic Oak Stairs",
+    "block.pokecube_legends.distortic_dark_oak_stairs": "Distortic Dark Oak Stairs",
+    "block.pokecube_legends.distortic_spruce_stairs": "Distortic Spruce Stairs",
+    "block.pokecube_legends.distortic_birch_stairs": "Distortic Birch Stairs",
+    "block.pokecube_legends.distortic_acacia_stairs": "Distortic Acacia Stairs",
+    "block.pokecube_legends.distortic_jungle_stairs": "Distortic Jungle Stairs",
+    "block.pokecube_legends.distortic_terracotta": "Distortic Terracotta",
+    "block.pokecube_legends.distortic_terracotta_stairs": "Distortic Terracotta Stairs",
+    "block.pokecube_legends.distortic_terracotta_slab": "Distortic Terracotta Slab",
+    
+    "block.pokecube_legends.distortic_water": "Distortic Water",
+    "item.pokecube_legends.distortic_water_bucket": "Distortic Water Bucket",
+    
     "block.pokecube_legends.cosmic_dust_ore": "Cosmic Ore",
     "block.pokecube_legends.meteor_block": 		"Meteor Block",
     "block.pokecube_legends.meteor_slab":  		"Meteor Block Slab",
@@ -382,6 +410,10 @@
     
     "item.pokecube_legends.wooden_crown": "Wooden Crown",
     "item.pokecube_legends.cosmic_orb": "Cosmic Orb",
+    
+    "item.pokecube_legends.cobalion_sword": "Cobalion Sword",
+    "item.pokecube_legends.virizion_sword": "Virizion Sword",
+    "item.pokecube_legends.terrakion_sword": "Terrakion Sword",
     
     "item.pokecube_legends.lightstone": "Light Stone",
     "item.pokecube_legends.darkstone": "Dark Stone",
@@ -649,6 +681,10 @@
     "legends.cosmic_orb.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Time and Space Spawn- to spawn Cosmog",
     "legends.lighting_crystal.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Legendary Spawn- to spawn Necrozma",
     "legends.wooden_crown.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Trough Block Spawn- to spawn Calyrex",
+    
+    "legends.cobalionsword.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Keldeo Spawn- to spawn Cobalion",
+    "legends.virizionsword.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Keldeo Spawn- to spawn Virizion",
+    "legends.terrakionsword.tooltip": "%1$s%2$s[Buyable]%3$s %1$sItem that can only be purchased!%3$s\nUse this item on a -Keldeo Spawn- to spawn Terrakion",
     
     "legends.adamantorb.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Time and Space Spawn- to spawn Dialga.",
     "legends.azureflute.tooltip": "%1$s%2$s[Reward]%3$s %1$sItem won in Quest or buying!%3$s\nUse this item on a -Time and Space Spawn- to spawn Arceus",

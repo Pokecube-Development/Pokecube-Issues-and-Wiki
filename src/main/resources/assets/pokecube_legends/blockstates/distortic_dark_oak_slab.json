@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube_legends:block/distortic_dark_oak_slab"
+    },
+    "type=double": {
+      "model": "pokecube_legends:block/distortic_dark_oak_planks"
+    },
+    "type=top": {
+      "model": "pokecube_legends:block/distortic_dark_oak_slab_top"
+    }
+  }
+}
