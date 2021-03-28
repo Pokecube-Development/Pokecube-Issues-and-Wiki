@@ -3,7 +3,7 @@
     "top_material": {
       "Name": "pokecube_legends:ultrasand1",
       "Properties": {
-        "snowy" : false
+        "snowy" : "false"
       }
     },
     "under_material": {
