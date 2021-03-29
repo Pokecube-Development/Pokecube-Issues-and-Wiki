@@ -102,6 +102,7 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.blockentity.BlockEntityUpdater;
+import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -157,6 +158,8 @@ public class PokemobEventsHandler
         // ensures their UUID is correct after evolution, and then ticks the
         // "logic" section of their AI.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobTick);
+        // Similar as the above, except only for "logic" on the copied state
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onCopyTick);
         // Called by MixinMobEntity before the first brain tick, to ensure the
         // brain has AI setup, etc.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBrainInit);
@@ -489,6 +492,24 @@ public class PokemobEventsHandler
             RootTask.runRate = (int) (factor * PokecubeCore.getConfig().loadBalanceScale);
         }
         else RootTask.doLoadThrottling = false;
+    }
+
+    private static void onCopyTick(final CopyUpdateEvent evt)
+    {
+        final LivingEntity living = evt.getEntityLiving();
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
+        if (pokemob != null)
+        {
+            // Reset death time if we are not dead.
+            if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
+
+            // Initialize this for client side here
+            if (living.level.isClientSide() && pokemob.getTickLogic().isEmpty()) pokemob.initAI();
+
+            // Tick the logic stuff for this mob.
+            for (final Logic l : pokemob.getTickLogic())
+                if (l.shouldRun()) l.tick(living.getCommandSenderWorld());
+        }
     }
 
     private static void onMobTick(final LivingUpdateEvent evt)

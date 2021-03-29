@@ -19,6 +19,8 @@ import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.entity.CopyCaps;
+import thut.api.entity.ICopyMob;
 
 public class Trainer extends Page
 {
@@ -100,8 +102,11 @@ public class Trainer extends Page
                 }
             this.playerName.setValue(mob.playerName);
             this.customTex.setValue(mob.customTex);
-            if (mob.copyMob != null) this.copyMob.setValue(mob.copyMob.toString());
         }
+
+        final ICopyMob copied = CopyCaps.get(this.parent.entity);
+        if (copied != null && copied.getCopiedID() != null) this.copyMob.setValue(copied.getCopiedID().toString());
+
         this.addButton(this.name);
         this.addButton(this.tradeList);
         this.addButton(this.type);

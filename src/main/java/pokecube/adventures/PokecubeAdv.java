@@ -77,6 +77,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.utils.PokeType;
 import pokecube.legends.PokecubeLegends;
+import thut.api.entity.CopyCaps;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
 
@@ -96,6 +97,9 @@ public class PokecubeAdv
             // register a new mob here
             event.getRegistry().register(TrainerNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "trainer"));
             event.getRegistry().register(LeaderNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "leader"));
+
+            CopyCaps.register(TrainerNpc.TYPE);
+            CopyCaps.register(LeaderNpc.TYPE);
         }
 
         @SubscribeEvent
@@ -265,7 +269,7 @@ public class PokecubeAdv
         for (final RegistryObject<Block> reg : PokecubeAdv.BLOCKS.getEntries())
             PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .tab(PokecubeItems.POKECUBEBLOCKS)));
-        
+
         for (final RegistryObject<Block> reg : PokecubeAdv.DECORATIONS.getEntries())
             PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .tab(PokecubeLegends.DECO_TAB)));

@@ -373,6 +373,13 @@ public class Config extends ConfigData
             );
     //@formatter:on
 
+    @Configure(category = Config.world, comment = "structures to remove from worldgen")
+    public List<String> removedStructures = Lists.newArrayList(
+    //@formatter:off
+            "minecraft:village"
+            );
+    //@formatter:on
+
     // @Configure(category = Config.world, comment = "")
     // public String baseSizeFunction = "8 + c/10 + h/10 + k/20";
     // @Configure(category = Config.world, comment = "")

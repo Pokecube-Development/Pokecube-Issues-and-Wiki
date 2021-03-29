@@ -58,14 +58,4 @@ public class BiomeDatabase
         return BiomeDictionary.hasType(b, t);
     }
 
-    public static String getBiomeName(final Biome biome)
-    {
-        return biome.getRegistryName().getNamespace();
-    }
-
-    public static String getUnlocalizedNameFromType(final int type)
-    {
-        return BiomeType.getType(type).readableName;
-    }
-
 }

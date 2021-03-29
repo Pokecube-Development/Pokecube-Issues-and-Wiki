@@ -1,6 +1,5 @@
 package pokecube.core.ai.logic;
 
-import thut.api.Tracker;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +49,7 @@ import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.AnimatedCaps;
+import thut.api.Tracker;
 import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;

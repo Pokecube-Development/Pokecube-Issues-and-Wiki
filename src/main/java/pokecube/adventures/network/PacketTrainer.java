@@ -49,6 +49,8 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.Tools;
+import thut.api.entity.CopyCaps;
+import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.NBTPacket;
@@ -320,7 +322,13 @@ public class PacketTrainer extends NBTPacket
             // Here we edit the mob itself
             if (!type.isEmpty())
             {
+                final ICopyMob copied = CopyCaps.get(mob);
                 mobHolder = TrainerCaps.getHasPokemobs(mob);
+                if (copied != null)
+                {
+                    final String res = this.getTag().getString("fM");
+                    copied.setCopiedID(res.isEmpty() ? null : new ResourceLocation(res));
+                }
                 if (mob instanceof NpcMob)
                 {
                     final NpcMob npc = (NpcMob) mob;
@@ -332,9 +340,6 @@ public class PacketTrainer extends NBTPacket
                     npc.urlSkin = this.getTag().getString("uS");
                     npc.playerName = this.getTag().getString("pS");
                     npc.customTex = this.getTag().getString("cS");
-                    final String res = this.getTag().getString("fM");
-                    if (!res.isEmpty()) npc.copyMob = new ResourceLocation(res);
-                    else npc.copyMob = null;
                     final String prev = npc.customTrades;
                     npc.customTrades = this.getTag().getString("cT");
                     if (!prev.equals(npc.customTrades)) npc.resetTrades();

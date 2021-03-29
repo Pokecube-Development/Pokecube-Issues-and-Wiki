@@ -51,6 +51,7 @@ import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
 import thut.api.Tracker;
 import thut.api.entity.BreedableCaps;
+import thut.api.entity.CopyCaps;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IMobTexturable;
 import thut.api.entity.IMultiplePassengerEntity;
@@ -69,6 +70,7 @@ import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.handlers.ConfigHandler;
 import thut.core.common.mobs.DefaultColourable;
 import thut.core.common.mobs.DefaultColourableStorage;
+import thut.core.common.network.CapabilitySync;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.GeneralUpdate;
 import thut.core.common.network.PacketHandler;
@@ -312,6 +314,10 @@ public class ThutCore
         ThutCore.packets.registerMessage(TerrainUpdate.class, TerrainUpdate::new);
         ThutCore.packets.registerMessage(PacketDataSync.class, PacketDataSync::new);
         ThutCore.packets.registerMessage(GeneralUpdate.class, GeneralUpdate::new);
+        ThutCore.packets.registerMessage(CapabilitySync.class, CapabilitySync::new);
+
+        GeneralUpdate.init();
+        CapabilitySync.init();
 
         // Register capabilities.
 
@@ -329,6 +335,7 @@ public class ThutCore
         ShearableCaps.setup();
         BreedableCaps.setup();
         AnimatedCaps.setup();
+        CopyCaps.setup();
 
         // Register terrain capabilies
         CapabilityManager.INSTANCE.register(CapabilityTerrain.ITerrainProvider.class, new CapabilityTerrain.Storage(),

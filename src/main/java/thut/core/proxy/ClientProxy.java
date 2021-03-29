@@ -14,6 +14,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.RegistryKey;
@@ -26,19 +27,22 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent.Load;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import thut.api.entity.CopyCaps;
+import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeDatabase;
@@ -64,8 +68,8 @@ public class ClientProxy extends CommonProxy
     public static void line(final IVertexBuilder builder, final Matrix4f positionMatrix, final Vector3f start,
             final Vector3f end, final float r, final float g, final float b, final float a)
     {
-        ClientProxy.line(builder, positionMatrix, start.x(), start.y(), start.z(), end.x(), end.y(), end
-                .z(), r, g, b, a);
+        ClientProxy.line(builder, positionMatrix, start.x(), start.y(), start.z(), end.x(), end.y(), end.z(), r, g, b,
+                a);
     }
 
     private boolean initParticles = false;
@@ -122,8 +126,7 @@ public class ClientProxy extends CommonProxy
         if (!debug) return;
         final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(Minecraft.getInstance().player);
         final Vector3 v = Vector3.getNewVector().set(Minecraft.getInstance().player);
-        final int num = t.getBiome(v);
-        final BiomeType type = BiomeType.getType(num);
+        final BiomeType type = t.getBiome(v);
         final String msg = "Sub-Biome: " + I18n.get(type.readableName) + " (" + type.name + ")";
         event.getLeft().add("");
         event.getLeft().add(msg);
@@ -148,7 +151,31 @@ public class ClientProxy extends CommonProxy
         return null;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void renderMob(final RenderLivingEvent.Pre<?, ?> event)
+    {
+        final LivingEntity living = event.getEntity();
+        final ICopyMob copied = CopyCaps.get(living);
+        if (copied != null && copied.getCopiedMob() != null)
+        {
+            final LivingEntity entity = copied.getCopiedMob();
+            final boolean backup = event.getRenderer().getDispatcher().camera.isInitialized();
+            event.getRenderer().getDispatcher().setRenderShadow(false);
+            event.getRenderer().getDispatcher().render(entity, 0, 0, 0, 0, event.getPartialRenderTick(), event
+                    .getMatrixStack(), event.getBuffers(), event.getLight());
+            event.getRenderer().getDispatcher().setRenderShadow(backup);
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void renderHand(final RenderHandEvent event)
+    {
+        final PlayerEntity player = Minecraft.getInstance().player;
+        final ICopyMob copied = CopyCaps.get(player);
+        if (copied != null && copied.getCopiedMob() != null) event.setCanceled(true);
+    }
+
     @SubscribeEvent
     public void RenderBounds(final RenderWorldLastEvent event)
     {
@@ -166,7 +193,8 @@ public class ClientProxy extends CommonProxy
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
                     final BlockRayTraceResult result = (BlockRayTraceResult) mc.hitResult;
-                    pointed = new Vector3d(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos().getZ());
+                    pointed = new Vector3d(result.getBlockPos().getX(), result.getBlockPos().getY(), result
+                            .getBlockPos().getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");

@@ -87,8 +87,8 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     {
         if (this.getCommandSenderWorld().isClientSide && source.getDirectEntity() instanceof PlayerEntity)
         {
-            final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), source
-                    .getDirectEntity().isShiftKeyDown());
+            final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), source.getDirectEntity()
+                    .isShiftKeyDown());
             PokecubeCore.packets.sendToServer(packet);
         }
         return this.base.isInvulnerableTo(source) ? false : this.base.attackFromPart(this, source, amount);
@@ -169,8 +169,8 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
         if (entitysize1.width < entitysize.width)
         {
             final double d0 = entitysize1.width / 2.0D;
-            this.setBoundingBox(new AxisAlignedBB(this.getX() - d0, this.getY(), this.getZ() - d0, this
-                    .getX() + d0, this.getY() + entitysize1.height, this.getZ() + d0));
+            this.setBoundingBox(new AxisAlignedBB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
+                    this.getY() + entitysize1.height, this.getZ() + d0));
         }
         else
         {
@@ -189,12 +189,16 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
     {
+        // This can be null if this is called early enough
+        if (this.getParent() == null) return super.getCapability(cap, side);
         return this.getParent().getCapability(cap, side);
     }
 
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> cap)
     {
+        // This can be null if this is called early enough
+        if (this.getParent() == null) return super.getCapability(cap);
         return this.getParent().getCapability(cap);
     }
 }

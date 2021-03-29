@@ -118,9 +118,7 @@ public class SpawnBiomeMatcher
             this.material = location.getBlockMaterial(world);
             this.chunk = ITerrainProvider.getChunk(((World) world).dimension(), new ChunkPos(location.getPos()));
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
-            final int subBiomeId = t.getBiome(location);
-            if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
-            else this.type = BiomeType.NONE;
+            this.type = t.getBiome(location);
             // TODO better way to choose current time.
             final double time = ((ServerWorld) world).getDayTime() / 24000.0;
             final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
@@ -435,11 +433,10 @@ public class SpawnBiomeMatcher
         this.parse();
         if (!this.valid) return false;
         // This takes priority, regardless of the other options.
-        BiomeType type = checker.type;
-        if (checker.type == null) type = BiomeType.ALL;
+        final BiomeType type = checker.type;
 
         // Check the blacklist first, if this does match, we leave early.
-        final boolean blackListed = this._blackListSubBiomes.contains(type);
+        final boolean blackListed = type.anyMatch(this._blackListSubBiomes);
 
         if (blackListed) return false;
 
@@ -478,7 +475,7 @@ public class SpawnBiomeMatcher
         if (allValid) return true;
 
         // If there is no subbiome, then the checker's type is null or none
-        final boolean noSubbiome = checker.type == null || checker.type == BiomeType.NONE;
+        final boolean noSubbiome = type == BiomeType.NONE;
 
         final boolean needsSubbiome = !this._validSubBiomes.isEmpty();
 
@@ -487,7 +484,7 @@ public class SpawnBiomeMatcher
 
         // We are the correct subbiome if we either don't need one, or the valid
         // subbiomes has out current one.
-        final boolean rightSubBiome = noSubbiome || this._validSubBiomes.contains(checker.type);
+        final boolean rightSubBiome = noSubbiome || type.anyMatch(this._validSubBiomes);
 
         // Return true if both correct biome and subbiome.
         return rightSubBiome;
