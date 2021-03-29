@@ -71,10 +71,10 @@ public class Impl
         }
 
         @Override
-        public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+        public BiomeType getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
                 final boolean caveAdjusted)
         {
-            if (!(world instanceof World)) return -1;
+            if (!(world instanceof World)) return BiomeType.NONE;
             final World rworld = (World) world;
             check:
             if (caveAdjusted) if (world.getChunkSource() instanceof ServerChunkProvider)
@@ -94,7 +94,7 @@ public class Impl
                         type = PokecubeTerrainChecker.structureSubbiomeMap.get(type);
                     else continue;
                     final AxisAlignedBB box = b.getTargetableArea(colony.getWorld());
-                    if (box.contains(vec)) return BiomeType.getBiome(type, true).getType();
+                    if (box.contains(vec)) return BiomeType.getBiome(type, true);
                 }
             }
             return this.parent.getSubBiome(world, v, segment, caveAdjusted);

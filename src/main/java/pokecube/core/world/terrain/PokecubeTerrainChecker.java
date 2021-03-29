@@ -32,7 +32,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         public String subbiome;
     }
 
-    public static BiomeType INSIDE = BiomeType.getBiome("inside", true);
+    public static BiomeType INSIDE = BiomeType.getBiome("inside", true).setNoSave();
 
     public static ResourceLocation CAVETAG       = new ResourceLocation(PokecubeCore.MODID, "cave");
     public static ResourceLocation FRUITTAG      = new ResourceLocation(PokecubeCore.MODID, "fruit");
@@ -137,10 +137,10 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     }
 
     @Override
-    public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+    public BiomeType getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
             final boolean caveAdjusted)
     {
-        if (!(world instanceof World)) return -1;
+        if (!(world instanceof World)) return BiomeType.NONE;
         final World rworld = (World) world;
         if (caveAdjusted)
         {
@@ -154,11 +154,11 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
                 if (subbiome != null)
                 {
                     final BiomeType biom = BiomeType.getBiome(subbiome, true);
-                    return biom.getType();
+                    return biom;
                 }
             }
             if (rworld.dimensionType().hasCeiling() || v.canSeeSky(world) || !PokecubeCore
-                    .getConfig().autoDetectSubbiomes) return -1;
+                    .getConfig().autoDetectSubbiomes) return BiomeType.NONE;
             boolean sky = false;
             final Vector3 temp1 = Vector3.getNewVector();
             final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
@@ -181,17 +181,17 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
                         }
                         BlockState state;
                         if (PokecubeTerrainChecker.isIndustrial(state = temp1.getBlockState(world))) industrial++;
-                        if (industrial > 2) return BiomeType.INDUSTRIAL.getType();
+                        if (industrial > 2) return BiomeType.INDUSTRIAL;
                         if (state.getMaterial() == Material.WATER) water++;
                         if (sky) break outer;
                     }
-            if (sky) return -1;
-            if (water > 4) return BiomeType.CAVE_WATER.getType();
-            else if (this.isCave(v, world)) return BiomeType.CAVE.getType();
+            if (sky) return BiomeType.NONE;
+            if (water > 4) return BiomeType.CAVE_WATER;
+            else if (this.isCave(v, world)) return BiomeType.CAVE;
 
-            return PokecubeTerrainChecker.INSIDE.getType();
+            return PokecubeTerrainChecker.INSIDE;
         }
-        int biome = -1;
+        BiomeType biome = BiomeType.NONE;
         final Biome b = v.getBiome(world);
         if (!PokecubeCore.getConfig().autoDetectSubbiomes) return biome;
         final boolean notLake = this.isWatery(b);
@@ -212,27 +212,27 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
                     if (PokecubeTerrainChecker.isIndustrial(state = temp1.set(i, j, k).getBlockState(world)))
                         industrial++;
                     if (PokecubeTerrainChecker.isFlower(state)) flower++;
-                    if (industrial > 2) return BiomeType.INDUSTRIAL.getType();
-                    if (flower > 3) return BiomeType.FLOWER.getType();
+                    if (industrial > 2) return BiomeType.INDUSTRIAL;
+                    if (flower > 3) return BiomeType.FLOWER;
                     if (state.getMaterial() == Material.WATER) water++;
                 }
         if (water > 4)
         {
-            if (!notLake) biome = BiomeType.LAKE.getType();
+            if (!notLake) biome = BiomeType.LAKE;
             return biome;
         }
         boolean sky = v.canSeeSky(world);
         if (sky)
         {
             sky = v.findNextSolidBlock(world, Vector3.secondAxisNeg, 16) == null;
-            if (sky) return BiomeType.SKY.getType();
+            if (sky) return BiomeType.SKY;
         }
         // Check nearby villages, and if in one, define as village type.
         if (world instanceof ServerWorld)
         {
             final BlockPos pos = v.getPos();
             final ServerWorld server = (ServerWorld) world;
-            if (server.isVillage(pos)) biome = BiomeType.VILLAGE.getType();
+            if (server.isVillage(pos)) biome = BiomeType.VILLAGE;
         }
         return biome;
     }

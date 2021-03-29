@@ -1,6 +1,5 @@
 package thut.core.proxy;
 
-import thut.api.Tracker;
 import java.util.Locale;
 import java.util.stream.Stream;
 
@@ -23,6 +22,7 @@ import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.LinkableCaps;
 import thut.api.TickHandler;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
@@ -98,7 +98,7 @@ public class CommonProxy implements Proxy
                         box.z1);
                 poses.forEach((p) ->
                 {
-                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome.getType());
+                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
                 });
                 final String message = "msg.subbiome.set";
                 playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.NIL_UUID);
@@ -146,7 +146,7 @@ public class CommonProxy implements Proxy
                         box.z1);
                 poses.forEach((p) ->
                 {
-                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome.getType());
+                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
                 });
                 final String message = "msg.subbiome.set";
                 playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.NIL_UUID);

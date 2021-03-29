@@ -122,8 +122,7 @@ public class ClientProxy extends CommonProxy
         if (!debug) return;
         final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(Minecraft.getInstance().player);
         final Vector3 v = Vector3.getNewVector().set(Minecraft.getInstance().player);
-        final int num = t.getBiome(v);
-        final BiomeType type = BiomeType.getType(num);
+        final BiomeType type = t.getBiome(v);
         final String msg = "Sub-Biome: " + I18n.get(type.readableName) + " (" + type.name + ")";
         event.getLeft().add("");
         event.getLeft().add(msg);

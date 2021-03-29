@@ -257,7 +257,7 @@ public class SpawnEventsHandler
             {
                 poses.forEach((p) ->
                 {
-                    TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
+                    TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
                 });
                 return true;
             });
@@ -271,7 +271,7 @@ public class SpawnEventsHandler
             final IWorld world = event.getWorld();
             poses.forEach((p) ->
             {
-                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
+                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
             });
         }
     }
