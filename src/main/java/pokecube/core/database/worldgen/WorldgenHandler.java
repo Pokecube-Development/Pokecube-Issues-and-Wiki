@@ -378,6 +378,25 @@ public class WorldgenHandler
     {
         WorldgenHandler.INSTANCE.setup();
         WorldgenHandler.INSTANCE.registerConfigured();
+
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, WorldgenHandler::removeStructures);
+    }
+
+    private static void removeStructures(final WorldEvent.Load event)
+    {
+        if (event.getWorld().isClientSide()) return;
+
+        if (!(event.getWorld() instanceof ServerWorld)) return;
+
+        final ServerWorld serverWorld = (ServerWorld) event.getWorld();
+
+        final Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld
+                .getChunkSource().generator.getSettings().structureConfig());
+        final List<String> removedStructures = PokecubeCore.getConfig().removedStructures;
+        for (final Structure<?> s : Sets.newHashSet(tempMap.keySet()))
+            if (removedStructures.contains(s.getFeatureName()) || removedStructures.contains(s.getRegistryName()
+                    .toString())) tempMap.remove(s);
+        serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
     }
 
     protected void setup()
