@@ -10,6 +10,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -18,6 +20,7 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -44,6 +47,8 @@ import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
+import thut.api.entity.CopyCaps;
+import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
@@ -300,7 +305,6 @@ public class SpawnEventsHandler
                 final int num = npc.getRandom().nextInt(options.size());
                 npc.setNPCName(options.get(num).getAsString());
             }
-            if (thing.has("copyMob")) npc.copyMob = new ResourceLocation(thing.get("copyMob").getAsString());
             if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
             if (thing.has("type")) npc.setNpcType(NpcType.byType(thing.get("type").getAsString()));
             if (thing.has("gender"))
@@ -311,6 +315,30 @@ public class SpawnEventsHandler
                 npc.setMale(male);
             }
         }
+
+        if (thing.has("copyMob"))
+        {
+            final ICopyMob copyMob = CopyCaps.get(mob);
+            final ResourceLocation copyID = new ResourceLocation(thing.get("copyMob").getAsString());
+            if (copyMob != null)
+            {
+                copyMob.setCopiedID(copyID);
+                if (thing.has("copyTag"))
+                {
+                    final String tagStr = thing.get("copyTag").getAsString();
+                    try
+                    {
+                        final CompoundNBT tag = new JsonToNBT(new StringReader(tagStr)).readStruct();
+                        copyMob.setCopiedNBT(tag);
+                    }
+                    catch (final CommandSyntaxException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
         GuardInfo info = null;
         if (thing.has("guard")) try
         {

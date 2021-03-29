@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -47,11 +46,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
@@ -60,7 +56,6 @@ import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
-import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
 
 public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
@@ -88,15 +83,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
 
     public String  customTrades = "";
     public boolean fixedTrades  = false;
-
-    // Things relevant to fake mob rendering
-
-    public ResourceLocation copyMob = null;
-    public MobEntity        copied  = null;
-    public CompoundNBT      copyNbt = new CompoundNBT();
-
-    @OnlyIn(Dist.CLIENT)
-    public net.minecraft.client.renderer.entity.EntityRenderer<? super MobEntity> customRender = null;
 
     private Consumer<MerchantOffers> init_offers = t ->
     {
@@ -258,40 +244,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void baseTick()
-    {
-        super.baseTick();
-        if (this.getLevel().isClientSide() && this.copyMob != null)
-        {
-            if (this.copied == null)
-            {
-                final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(this.copyMob);
-                final Entity entity = type.create(this.getLevel());
-                if (entity instanceof MobEntity)
-                {
-                    this.copied = (MobEntity) entity;
-                    try
-                    {
-                        this.copied.readAdditionalSaveData(this.copyNbt);
-                    }
-                    catch (final Exception e)
-                    {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-                else
-                {
-                    this.copyMob = null;
-                    return;
-                }
-            }
-            EntityTools.copyEntityTransforms(this.copied, this);
-        }
-        else this.copyMob = null;
-    }
-
-    @Override
     public void readAdditionalSaveData(final CompoundNBT nbt)
     {
         if (this.level instanceof ServerWorld) super.readAdditionalSaveData(nbt);
@@ -303,12 +255,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         this.customTex = nbt.getString("customTex");
         this.fixedTrades = nbt.getBoolean("fixedTrades");
         this.customTrades = nbt.getString("customTrades");
-        this.copied = null;
-        if (nbt.contains("copyMob"))
-        {
-            this.copyMob = new ResourceLocation(nbt.getString("copyMob"));
-            this.copyNbt = nbt.getCompound("copyNbt");
-        }
         try
         {
             if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
@@ -353,12 +299,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         this.playerName = nbt.getString("playerName");
         this.urlSkin = nbt.getString("urlSkin");
         this.customTex = nbt.getString("customTex");
-        this.copied = null;
-        if (nbt.contains("copyMob"))
-        {
-            this.copyMob = new ResourceLocation(nbt.getString("copyMob"));
-            this.copyNbt = nbt.getCompound("copyNbt");
-        }
         try
         {
             if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
@@ -384,11 +324,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         nbt.putBoolean("fixedTrades", this.fixedTrades);
         nbt.putString("customTrades", this.customTrades);
         nbt.putString("type", this.getNpcType().getName());
-        if (this.copyMob != null)
-        {
-            nbt.putString("copyMob", this.copyMob.toString());
-            nbt.put("copyNbt", this.copyNbt);
-        }
     }
 
     @Override
@@ -402,11 +337,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         nbt.putString("urlSkin", this.urlSkin);
         nbt.putString("customTex", this.customTex);
         nbt.putString("type", this.getNpcType().getName());
-        if (this.copyMob != null)
-        {
-            nbt.putString("copyMob", this.copyMob.toString());
-            nbt.put("copyNbt", this.copyNbt);
-        }
         buffer.writeNbt(nbt);
     }
 

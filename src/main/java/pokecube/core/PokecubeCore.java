@@ -99,6 +99,7 @@ import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.PokecubeStructureProcessors;
+import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeDatabase;
@@ -251,6 +252,8 @@ public class PokecubeCore
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
             Database.postInit();
             PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
+
+            CopyCaps.register(NpcMob.TYPE);
         }
 
         @SubscribeEvent
