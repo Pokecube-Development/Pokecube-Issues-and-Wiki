@@ -9,7 +9,8 @@
   "noise": {
     "density_factor": 0.0,
     "density_offset": 0.0,
-    "simplex_surface_noise": true,
+    "simplex_surface_noise": false,
+    "random_density_offset": true,
     "bottom_slide": {
       "target": -30,
       "size": 7,
@@ -17,7 +18,7 @@
     },
     "size_horizontal": 2,
     "size_vertical": 1,
-    "height": 128,
+    "height": 158,
     "sampling": {
       "xz_scale": 2.0,
       "y_scale": 1.0,
@@ -34,6 +35,10 @@
     "Name": "pokecube_legends:distortic_stone"
   },
   "default_fluid": {
-    "Name": "pokecube_legends:distortic_mirror"
+    "Name": "pokecube_legends:distortic_water",
+    "Properties":
+    {
+      "level": "0"
+    }
   }
 }

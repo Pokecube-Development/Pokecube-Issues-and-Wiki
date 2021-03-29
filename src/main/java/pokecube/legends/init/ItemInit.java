@@ -21,7 +21,7 @@ import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
 import pokecube.legends.items.GiganticShard;
 import pokecube.legends.items.ItemBase;
-import pokecube.legends.items.KeldeoSword;
+import pokecube.legends.items.LegendsSword;
 import pokecube.legends.items.LegendaryOrb;
 import pokecube.legends.items.RainbowSword;
 import pokecube.legends.items.UltraKey;
@@ -36,9 +36,7 @@ public class ItemInit
     public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
     public static final IItemTier MATERIAL_JUSTISE = ItemTier.DIAMOND;
 
-    // Moltres,Zapdos, Articuno, Entei, Suicune, Raikou,
-    // Volcanor, kyurem, Zygarde, Cosmog, Necrozma
-    // Jirachi, Deoxys
+    // Volcanor, kyurem
     
     // Keys   
     // Orbs
@@ -136,6 +134,9 @@ public class ItemInit
     // Tools
     public static final RegistryObject<Item> RAINBOW_SWORD;
     public static final RegistryObject<Item> KELDEO_SWORD;
+    public static final RegistryObject<Item> VIRIZION_SWORD;
+    public static final RegistryObject<Item> COBALION_SWORD;
+    public static final RegistryObject<Item> TERRAKION_SWORD;
     
     // Dimensions
     public static final RegistryObject<Item> SPECTRUM_SHARD;
@@ -262,12 +263,20 @@ public class ItemInit
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(5, 1,
-                ItemInit.MATERIAL_RAINBOW));
-        KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword", () -> new KeldeoSword(6, 1,
-                ItemInit.MATERIAL_JUSTISE, "keldeo_sword", PokecubeLegends.LEGEND_TAB).setTooltipName("keldeosword"));
+                ItemInit.MATERIAL_RAINBOW, PokecubeItems.POKECUBEITEMS));
         ICE_CARROT   = PokecubeLegends.ITEMS.register("ice_carrot", () -> new ItemBase("ice_carrot", 1,PokecubeLegends.LEGEND_TAB).setTooltipName("ice_c"));
         SHADOW_CARROT   = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot", 1,PokecubeLegends.LEGEND_TAB).setTooltipName("shadow_c"));
         IMPRISIONMENT_HELMET   = PokecubeLegends.ITEMS.register("imprisonment_helmet", () -> new ItemBase("imprisonment_helmet", 1,PokecubeLegends.LEGEND_TAB).setTooltipName("helmet"));
+        
+        // Swords
+        KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword", () -> new LegendsSword(6, 1,
+                ItemInit.MATERIAL_JUSTISE, PokecubeLegends.LEGEND_TAB).setTooltipName("keldeosword").setShiny());
+        TERRAKION_SWORD = PokecubeLegends.ITEMS.register("terrakion_sword", () -> new LegendsSword(7, 3,
+                ItemInit.MATERIAL_JUSTISE, PokecubeLegends.LEGEND_TAB).setTooltipName("terrakionsword"));
+        VIRIZION_SWORD = PokecubeLegends.ITEMS.register("virizion_sword", () -> new LegendsSword(4, 1,
+                ItemInit.MATERIAL_JUSTISE, PokecubeLegends.LEGEND_TAB).setTooltipName("virizionsword"));
+        COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword", () -> new LegendsSword(6, 3,
+                ItemInit.MATERIAL_JUSTISE, PokecubeLegends.LEGEND_TAB).setTooltipName("cobalionsword"));
         
         
         // Ores

@@ -54,6 +54,7 @@ import pokecube.legends.blocks.customblocks.taputotem.LeleTotem;
 import pokecube.legends.blocks.normalblocks.CorruptedLeaveBlock;
 import pokecube.legends.blocks.normalblocks.CrystallizedCactus;
 import pokecube.legends.blocks.normalblocks.DarkStoneBlock;
+import pokecube.legends.blocks.normalblocks.DistorticCrackedStone;
 import pokecube.legends.blocks.normalblocks.GrassAgedBlock;
 import pokecube.legends.blocks.normalblocks.GrassDistorticBlock;
 import pokecube.legends.blocks.normalblocks.GrassJungleBlock;
@@ -180,12 +181,45 @@ public class BlockInit
     public static final RegistryObject<Block> FINI_ORANGE;
 
     // Dimensions
+    // Distortic World
     public static final RegistryObject<Block> DISTORTIC_GRASS;
     public static final RegistryObject<Block> DISTORTIC_STONE;
     public static final RegistryObject<Block> DISTORTIC_STONE_SLAB;
     public static final RegistryObject<Block> DISTORTIC_STONE_STAIRS;
     public static final RegistryObject<Block> DISTORTIC_MIRROR;
-
+    public static final RegistryObject<Block> DISTORTIC_CRACKED_STONE;
+    public static final RegistryObject<Block> DISTORTIC_GLOWSTONE;
+    public static final RegistryObject<Block> DISTORTIC_CHISELED_MIRROR;
+    
+    public static final RegistryObject<Block> DISTORTIC_TERRACOTTA;
+    public static final RegistryObject<Block> DISTORTIC_TERRACOTTA_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_TERRACOTTA_STAIRS;
+    
+    public static final RegistryObject<Block> DISTORTIC_OAK_PLANKS;
+    public static final RegistryObject<Block> DISTORTIC_OAK_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_OAK_STAIRS;
+    
+    public static final RegistryObject<Block> DISTORTIC_DARK_OAK_PLANKS;
+    public static final RegistryObject<Block> DISTORTIC_DARK_OAK_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_DARK_OAK_STAIRS;
+    
+    public static final RegistryObject<Block> DISTORTIC_SPRUCE_PLANKS;
+    public static final RegistryObject<Block> DISTORTIC_SPRUCE_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_SPRUCE_STAIRS;
+    
+    public static final RegistryObject<Block> DISTORTIC_BIRCH_PLANKS;
+    public static final RegistryObject<Block> DISTORTIC_BIRCH_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_BIRCH_STAIRS;
+    
+    public static final RegistryObject<Block> DISTORTIC_ACACIA_PLANKS;
+    public static final RegistryObject<Block> DISTORTIC_ACACIA_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_ACACIA_STAIRS;
+    
+    public static final RegistryObject<Block> DISTORTIC_JUNGLE_PLANKS;
+    public static final RegistryObject<Block> DISTORTIC_JUNGLE_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_JUNGLE_STAIRS;
+    
+    //
     public static final RegistryObject<Block> ULTRA_TORCH1;
     public static final RegistryObject<Block> ULTRA_TORCH1_WALL;
     
@@ -796,7 +830,22 @@ public class BlockInit
                 		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)));
         DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase(
                 "distortic_mirror", Material.GLASS, MaterialColor.CLAY, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
-
+        
+        DISTORTIC_CHISELED_MIRROR = PokecubeLegends.DECORATION_TAB.register("distortic_chiseled_mirror", () -> new UltraGlass("distortic_chiseled_mirror",
+                AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion()));
+        DISTORTIC_CRACKED_STONE = PokecubeLegends.BLOCKS_TAB.register("distortic_cracked_stone", () -> new DistorticCrackedStone(
+        		AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLACK).sound(SoundType.STONE).strength(1, 2)
+                .harvestTool(ToolType.PICKAXE).harvestLevel(2)));
+        DISTORTIC_GLOWSTONE = PokecubeLegends.DECORATION_TAB.register("distortic_glowstone", () -> new BlockBase("distortic_glowstone",
+                Material.STONE, MaterialColor.COLOR_ORANGE, 2.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+        DISTORTIC_TERRACOTTA = PokecubeLegends.DECORATION_TAB.register("distortic_terracotta", () -> new BlockBase("distortic_terracotta",
+                Material.STONE, MaterialColor.COLOR_ORANGE, 2.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+        DISTORTIC_TERRACOTTA_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_terracotta_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        DISTORTIC_TERRACOTTA_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_terracotta_stairs",
+                () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)));
+        
         // Ultra Stones
         ULTRA_STONE = PokecubeLegends.BLOCKS_TAB.register("ultrastone", () -> new BlockBase("ultrastone", Material.STONE, 
         		MaterialColor.TERRACOTTA_CYAN, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
@@ -1011,6 +1060,54 @@ public class BlockInit
         DISTORTIC_DOOR = PokecubeLegends.BLOCKS_TAB.register("distortic_door", () -> new ItemGenerator.GenericDoor(
                 AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).sound(SoundType.WOOD).strength(
                         2.0f, 3.0f).noOcclusion()));
+        
+        DISTORTIC_OAK_PLANKS = PokecubeLegends.DECORATION_TAB.register("distortic_oak_planks", () -> new Block(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_OAK_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_oak_stairs",
+                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_OAK_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_oak_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        
+        DISTORTIC_DARK_OAK_PLANKS = PokecubeLegends.DECORATION_TAB.register("distortic_dark_oak_planks", () -> new Block(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_DARK_OAK_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_dark_oak_stairs",
+                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_DARK_OAK_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_dark_oak_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        
+        DISTORTIC_SPRUCE_PLANKS = PokecubeLegends.DECORATION_TAB.register("distortic_spruce_planks", () -> new Block(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_SPRUCE_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_spruce_stairs",
+                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_SPRUCE_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_spruce_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        
+        DISTORTIC_BIRCH_PLANKS = PokecubeLegends.DECORATION_TAB.register("distortic_birch_planks", () -> new Block(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_BIRCH_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_birch_stairs",
+                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_BIRCH_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_birch_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        
+        DISTORTIC_ACACIA_PLANKS = PokecubeLegends.DECORATION_TAB.register("distortic_acacia_planks", () -> new Block(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_ACACIA_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_acacia_stairs",
+                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_ACACIA_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_acacia_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        
+        DISTORTIC_JUNGLE_PLANKS = PokecubeLegends.DECORATION_TAB.register("distortic_jungle_planks", () -> new Block(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_JUNGLE_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_jungle_stairs",
+                () -> new ItemGenerator.GenericWoodStairs(Blocks.OAK_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
+                		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
+        DISTORTIC_JUNGLE_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_jungle_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        		Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.0F).sound(SoundType.WOOD)));
         
         // Corrupted Blocks
         CORRUPTED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("corrupted_leave", () -> new CorruptedLeaveBlock());

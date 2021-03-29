@@ -456,6 +456,45 @@
       }
     },
     {
+      "name": "Cobalion",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Terrakion",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Virizion",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Xerneas",
       "stats": {
         "spawnRules": [

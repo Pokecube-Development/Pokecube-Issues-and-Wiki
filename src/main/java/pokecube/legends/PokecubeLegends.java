@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -75,6 +76,8 @@ public class PokecubeLegends
     public static final DeferredRegister<Block>         DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
     public static final DeferredRegister<Item>          ITEMS          = DeferredRegister.create(ForgeRegistries.ITEMS,
+            Reference.ID);
+	public static final DeferredRegister<Fluid>  		FLUIDS         = DeferredRegister.create(ForgeRegistries.FLUIDS,
             Reference.ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES       = DeferredRegister.create(
             ForgeRegistries.ENTITIES, Reference.ID);
@@ -148,6 +151,7 @@ public class PokecubeLegends
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
+		PokecubeLegends.FLUIDS.register(modEventBus);
         PokecubeLegends.ENTITIES.register(modEventBus);
 
         // Biomes Dictionary
