@@ -207,9 +207,10 @@ public class WorldgenHandler
                 // Seed must be positive apparently.
                 if (this.seed < 0) this.seed *= -1;
                 final Random rand = new Random(this.seed);
-                // Ensure the seed is "large"
-                while (this.seed < 1e6)
+                // Ensure the seed is more random
+                for (int i = 0; i < 100; i++)
                     this.seed = rand.nextInt();
+                if (this.seed < 0) this.seed *= -1;
             }
             return new StructureSeparationSettings(this.distance, this.separation, this.seed);
         }
@@ -267,7 +268,7 @@ public class WorldgenHandler
                 });
                 WorldgenHandler.SORTED_PRIOR_LIST.forEach(s ->
                 {
-                    int space = 4;
+                    int space = 6;
                     if (s instanceof CustomJigsawStructure) space = ((CustomJigsawStructure) s).spacing;
                     WorldgenHandler.SPACENEEDS.put(s, space);
                 });

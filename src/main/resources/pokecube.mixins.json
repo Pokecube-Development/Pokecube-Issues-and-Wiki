@@ -6,6 +6,7 @@
   "refmap": "pokecube.refmap.json",
   "mixins": [
     "MixinLakesFeature",
+    "MixinStructure",
     "MixinMobEntity"
   ],
   "client": [
