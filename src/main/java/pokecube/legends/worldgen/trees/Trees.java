@@ -29,7 +29,7 @@ public class Trees
     {
         return new BaseTreeFeatureConfig.Builder(
         //@formatter:off
-                // This line specifies what is the base log, differnt block state providers
+                // This line specifies what is the base log, different block state providers
                 // can allow for randomization in the log
                 new SimpleBlockStateProvider(BlockInit.INVERTED_LOG.get().defaultBlockState()),
 
@@ -43,13 +43,13 @@ public class Trees
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
                 new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
 
-                // This is how the tree trunk work, there are also DarkOak, Fancy,
+                // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
                 new StraightTrunkPlacer(4, 2, 0),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
-                // Different trees use a variety of the three valies below, usually ranging from
+                // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 1))
                 .ignoreVines()
@@ -61,7 +61,7 @@ public class Trees
     {
         return new BaseTreeFeatureConfig.Builder(
         //@formatter:off
-                // This line specifies what is the base log, differnt block state providers
+                // This line specifies what is the base log, different block state providers
                 // can allow for randomization in the log
                 new SimpleBlockStateProvider(BlockInit.TEMPORAL_LOG.get().defaultBlockState()),
 
@@ -75,13 +75,13 @@ public class Trees
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
                 new JungleFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
 
-                // This is how the tree trunk work, there are also DarkOak, Fancy,
+                // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
                 new StraightTrunkPlacer(6, 4, 0),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
-                // Different trees use a variety of the three valies below, usually ranging from
+                // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(2, 0, 2))
                 .ignoreVines()
@@ -93,7 +93,7 @@ public class Trees
     {
         return new BaseTreeFeatureConfig.Builder(
         //@formatter:off
-                // This line specifies what is the base log, differnt block state providers
+                // This line specifies what is the base log, different block state providers
                 // can allow for randomization in the log
                 new SimpleBlockStateProvider(BlockInit.AGED_LOG.get().defaultBlockState()),
 
@@ -107,13 +107,13 @@ public class Trees
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
                 new SpruceFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), FeatureSpread.fixed(3)),
 
-                // This is how the tree trunk work, there are also DarkOak, Fancy,
+                // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
                 new StraightTrunkPlacer(6, 3, 0),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
-                // Different trees use a variety of the three valies below, usually ranging from
+                // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 1))
                 .ignoreVines()
@@ -125,7 +125,7 @@ public class Trees
     {
         return new BaseTreeFeatureConfig.Builder(
         //@formatter:off
-                // This line specifies what is the base log, differnt block state providers
+                // This line specifies what is the base log, different block state providers
                 // can allow for randomization in the log
                 new SimpleBlockStateProvider(BlockInit.CORRUPTED_LOG.get().defaultBlockState()),
 
@@ -141,13 +141,13 @@ public class Trees
                 
                 //new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
                 
-                // This is how the tree trunk work, there are also DarkOak, Fancy,
+                // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
                 new FancyTrunkPlacer(10, 6, 0),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
-                // Different trees use a variety of the three valies below, usually ranging from
+                // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 2))
                 .ignoreVines()
@@ -159,7 +159,7 @@ public class Trees
     {
         return new BaseTreeFeatureConfig.Builder(
         //@formatter:off
-                // This line specifies what is the base log, differnt block state providers
+                // This line specifies what is the base log, different block state providers
                 // can allow for randomization in the log
                 new SimpleBlockStateProvider(BlockInit.MIRAGE_LOG.get().defaultBlockState()),
 
@@ -171,17 +171,17 @@ public class Trees
                 // more can also probably be coded if needed
                 // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 2),
+                new JungleFoliagePlacer(FeatureSpread.fixed(3), FeatureSpread.fixed(0), 3),
 
-                // This is how the tree trunk work, there are also DarkOak, Fancy,
+                // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
-                new StraightTrunkPlacer(13, 3, 0),
+                new StraightTrunkPlacer(15, 7, 10),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
-                // Different trees use a variety of the three valies below, usually ranging from
+                // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
-                new TwoLayerFeature(1, 0, 1))
+                new TwoLayerFeature(1, 1, 2))
                 .ignoreVines()
                 .build();
         //@formatter:on
@@ -191,7 +191,7 @@ public class Trees
     {
         return new BaseTreeFeatureConfig.Builder(
         //@formatter:off
-                // This line specifies what is the base log, differnt block state providers
+                // This line specifies what is the base log, different block state providers
                 // can allow for randomization in the log
                 new SimpleBlockStateProvider(BlockInit.DISTORTIC_LOG.get().defaultBlockState()),
 
@@ -205,13 +205,13 @@ public class Trees
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
                 new BlobFoliagePlacer(FeatureSpread.fixed(3), FeatureSpread.fixed(0), 2),
 
-                // This is how the tree trunk work, there are also DarkOak, Fancy,
+                // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
                 new StraightTrunkPlacer(7, 6, 0),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
-                // Different trees use a variety of the three valies below, usually ranging from
+                // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(1, 0, 1))
                 .ignoreVines()
