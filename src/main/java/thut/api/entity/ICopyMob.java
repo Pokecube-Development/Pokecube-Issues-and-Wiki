@@ -93,8 +93,14 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
 
             living.noPhysics = true;
             EntityTools.copyEntityTransforms(living, holder);
+            EntityTools.copyPositions(living, holder);
 
-            MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living));
+            if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living)))
+            {
+                living.setHealth(holder.getHealth());
+                living.setAirSupply(holder.getAirSupply());
+                living.setLevel(holder.level);
+            }
         }
     }
 }
