@@ -12,12 +12,14 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityDispatcher;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import thut.core.common.ThutCore;
 
@@ -82,10 +84,21 @@ public class CapabilitySync extends NBTPacket
     public static void sendUpdate(final Entity entity)
     {
         final CapabilitySync message = CapabilitySync.makePacket(entity);
-        if (message != null) CapabilitySync.ASSEMBLER.sendToTracking(message, entity);
+        if (message != null)
+        {
+            CapabilitySync.ASSEMBLER.sendToTracking(message, entity);
+            if (entity instanceof ServerPlayerEntity) CapabilitySync.ASSEMBLER.sendTo(message,
+                    (ServerPlayerEntity) entity);
+        }
     }
 
-    private static void startTracking(final StartTracking event)
+    private static void onJoinWorld(final EntityJoinWorldEvent event)
+    {
+        if (event.getWorld().isClientSide()) return;
+        if (event.getWorld() instanceof ServerWorld) CapabilitySync.sendUpdate(event.getEntity());
+    }
+
+    private static void onStartTracking(final StartTracking event)
     {
         if (event.getPlayer() instanceof ServerPlayerEntity)
         {
@@ -96,7 +109,8 @@ public class CapabilitySync extends NBTPacket
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(CapabilitySync::startTracking);
+        MinecraftForge.EVENT_BUS.addListener(CapabilitySync::onStartTracking);
+        MinecraftForge.EVENT_BUS.addListener(CapabilitySync::onJoinWorld);
     }
 
     private static void readMob(final Entity mob, final CompoundNBT tag)

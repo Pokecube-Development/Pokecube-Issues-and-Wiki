@@ -7,8 +7,11 @@ import net.minecraftforge.eventbus.api.Cancelable;
 @Cancelable
 public class CopyUpdateEvent extends LivingEvent
 {
-    public CopyUpdateEvent(final LivingEntity e)
+    public final LivingEntity realEntity;
+
+    public CopyUpdateEvent(final LivingEntity e, final LivingEntity base)
     {
         super(e);
+        this.realEntity = base;
     }
 }

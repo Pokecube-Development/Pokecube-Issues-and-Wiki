@@ -34,6 +34,7 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
     default void deserializeNBT(final CompoundNBT nbt)
     {
         if (nbt.contains("id")) this.setCopiedID(new ResourceLocation(nbt.getString("id")));
+        else this.setCopiedID(null);
         this.setCopiedNBT(nbt.getCompound("tag"));
     }
 
@@ -83,7 +84,10 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
         if (living != null && holder != null)
         {
             living.setId(-(holder.getId() + 100));
+
+            living.inChunk = true;
             living.baseTick();
+            living.inChunk = false;
 
             final float eye = living.getEyeHeight(holder.getPose());
             if (eye != holder.getEyeHeight(holder.getPose())) holder.refreshDimensions();
@@ -94,12 +98,12 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
             living.noPhysics = true;
             EntityTools.copyEntityTransforms(living, holder);
             EntityTools.copyPositions(living, holder);
+            living.setLevel(holder.level);
 
-            if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living)))
+            if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, holder)))
             {
                 living.setHealth(holder.getHealth());
                 living.setAirSupply(holder.getAirSupply());
-                living.setLevel(holder.level);
             }
         }
     }
