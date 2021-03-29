@@ -6,3 +6,5 @@ license="All rights reserved"
     modId="testmod"
 [[mods]]
     modId="pokecube_wiki"
+[[mods]]
+    modId="pokecube_pokeplayer"
