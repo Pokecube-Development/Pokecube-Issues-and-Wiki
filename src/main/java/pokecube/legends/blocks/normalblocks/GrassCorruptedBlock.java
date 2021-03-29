@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
@@ -40,24 +39,27 @@ public class GrassCorruptedBlock extends NyliumBlock implements IGrowable
         this.registerDefaultState((BlockState)((BlockState)this.stateDefinition.any()).setValue(SNOWY, false));
     }
 
+    @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, IWorld world, BlockPos pos, BlockPos pos1)
     {
         return direction != Direction.UP ? super.updateShape(state, direction, state1, world, pos, pos1) :
             (BlockState)state.setValue(SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(Blocks.SNOW));
     }
 
+    @Override
     public BlockState getStateForPlacement(BlockItemUseContext context)
     {
         BlockState state = context.getLevel().getBlockState(context.getClickedPos().above());
         return (BlockState)this.defaultBlockState().setValue(SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(Blocks.SNOW));
     }
 
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> p_206840_1_)
+    @Override
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
-        p_206840_1_.add(new Property[]{SNOWY});
+        builder.add(SNOWY);
     }
 
-    private static boolean canBeNylium(BlockState state, IWorldReader world, BlockPos pos)
+    private static boolean canBeGrass(BlockState state, IWorldReader world, BlockPos pos)
     {
         BlockPos blockpos = pos.above();
         BlockState blockstate = world.getBlockState(blockpos);
@@ -76,7 +78,7 @@ public class GrassCorruptedBlock extends NyliumBlock implements IGrowable
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
     {
-        if (!canBeNylium(state, world, pos)) {
+        if (!canBeGrass(state, world, pos)) {
             world.setBlockAndUpdate(pos, BlockInit.ULTRA_CORRUPTED_DIRT.get().defaultBlockState());
         }
     }
@@ -101,7 +103,6 @@ public class GrassCorruptedBlock extends NyliumBlock implements IGrowable
                 TwistingVineFeature.place(world, random, blockpos, 3, 1, 2);
             }
         }
-
     }
     
     @Override

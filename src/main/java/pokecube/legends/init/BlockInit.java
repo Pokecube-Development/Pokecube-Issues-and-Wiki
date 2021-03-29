@@ -751,9 +751,10 @@ public class BlockInit
         // Distortic World
         DISTORTIC_GRASS = PokecubeLegends.BLOCKS_TAB.register("distortic_grass", () -> new GrassDistorticBlock(
                 AbstractBlock.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_PINK).sound(SoundType.NETHER_WART).strength(1, 2)
-                .harvestTool(ToolType.SHOVEL).harvestLevel(1)));
-        DISTORTIC_STONE = PokecubeLegends.BLOCKS_TAB.register("distortic_stone", () -> new BlockBase("distortic_stone",
-                Material.STONE, MaterialColor.TERRACOTTA_BLACK, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
+                .harvestTool(ToolType.PICKAXE).harvestLevel(1).requiresCorrectToolForDrops().randomTicks()));
+        DISTORTIC_STONE = PokecubeLegends.BLOCKS_TAB.register("distortic_stone", () -> new DistorticStoneBlock("distortic_stone",
+            AbstractBlock.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLACK).sound(SoundType.STONE)
+                .strength(1.5f).harvestTool(ToolType.PICKAXE).harvestLevel(1).requiresCorrectToolForDrops()));
         DISTORTIC_STONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("distortic_stone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
                 .requiresCorrectToolForDrops()));
