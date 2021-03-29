@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -86,6 +87,9 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
 
             final float eye = living.getEyeHeight(holder.getPose());
             if (eye != holder.getEyeHeight(holder.getPose())) holder.refreshDimensions();
+
+            living.setItemInHand(Hand.MAIN_HAND, holder.getItemInHand(Hand.MAIN_HAND));
+            living.setItemInHand(Hand.OFF_HAND, holder.getItemInHand(Hand.OFF_HAND));
 
             living.noPhysics = true;
             EntityTools.copyEntityTransforms(living, holder);

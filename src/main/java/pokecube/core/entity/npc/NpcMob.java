@@ -130,7 +130,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             final VillagerProfession profession = this.getVillagerData().getProfession();
             if (this.getNpcType() != null && this.getNpcType().getProfession() != profession) this.setVillagerData(this
                     .getVillagerData().setLevel(3).setProfession(this.getNpcType().getProfession()));
-            final float f = (float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
+            final float f = 0.5f;
             if (this.isBaby())
             {
                 brain.setSchedule(Schedules.CHILD);
