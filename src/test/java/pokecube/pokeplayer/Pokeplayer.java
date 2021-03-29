@@ -27,6 +27,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
+import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.core.common.network.CapabilitySync;
 
@@ -43,6 +44,8 @@ public class Pokeplayer
         MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onCommandRegister);
         // We want to sync from copy to us, not other way, so handle that here.
         MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onCopyTick);
+        // Handles resetting flight permissions when un-setting mob
+        MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onCopySet);
         // This syncs step height for the mob over
         MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onPlayerTick);
 
@@ -89,6 +92,19 @@ public class Pokeplayer
             final float prev = event.player.getPersistentData().getFloat("prevStepUp");
             event.player.getPersistentData().remove("prevStepUp");
             event.player.maxUpStep = prev;
+        }
+    }
+
+    private static void onCopySet(final CopySetEvent event)
+    {
+        if (event.newCopy == null && event.getEntity() instanceof PlayerEntity)
+        {
+            final PlayerEntity player = (PlayerEntity) event.getEntity();
+            if (!player.abilities.instabuild)
+            {
+                player.abilities.mayfly = false;
+                player.onUpdateAbilities();
+            }
         }
     }
 
