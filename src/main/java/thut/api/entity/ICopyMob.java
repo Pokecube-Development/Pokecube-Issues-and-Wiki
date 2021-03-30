@@ -14,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.utils.EntityTools;
+import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 
 public interface ICopyMob extends INBTSerializable<CompoundNBT>
@@ -53,6 +54,16 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
         {
             if (this.getCopiedMob() != null)
             {
+                if (holder != null)
+                {
+                    final LivingEntity mob = this.getCopiedMob();
+                    if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, mob, null)))
+                    {
+                        this.setCopiedID(this.getCopiedMob().getType().getRegistryName());
+                        this.setCopiedMob(mob);
+                        return;
+                    }
+                }
                 this.setCopiedMob(null);
                 this.setCopiedNBT(new CompoundNBT());
             }
@@ -64,10 +75,16 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
             final Entity entity = type.create(level);
             if (entity instanceof LivingEntity)
             {
-                this.setCopiedMob((LivingEntity) entity);
+                final LivingEntity mob = (LivingEntity) entity;
+                if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, null, mob)))
+                {
+                    this.setCopiedID(null);
+                    return;
+                }
+                this.setCopiedMob(mob);
                 try
                 {
-                    ((LivingEntity) entity).readAdditionalSaveData(this.getCopiedNBT());
+                    mob.readAdditionalSaveData(this.getCopiedNBT());
                 }
                 catch (final Exception e)
                 {
