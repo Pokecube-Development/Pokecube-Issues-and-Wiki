@@ -133,10 +133,9 @@ public class PCBlock extends HorizontalBlock implements IWaterLoggable
     public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
-        if (this.top)
+        if (this.top && (!this.needsBase || world.getBlockState(pos.below()).getBlock() instanceof PCBlock))
         {
-            if (!this.needsBase || world.getBlockState(pos.below()).getBlock() instanceof PCBlock)
-                if (player instanceof ServerPlayerEntity) PacketPC.sendOpenPacket(player, player.getUUID(), pos);
+            if (player instanceof ServerPlayerEntity) PacketPC.sendOpenPacket(player, player.getUUID(), pos);
             return ActionResultType.SUCCESS;
         }
         else return ActionResultType.PASS;
