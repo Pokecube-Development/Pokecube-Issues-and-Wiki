@@ -40,9 +40,4 @@ public class OneWayDistorticGlass extends StainedGlassBlock
 	public boolean shouldDisplayFluidOverlay(final BlockState state, final IBlockDisplayReader world, final BlockPos pos, final FluidState fluidstate) {
 		return true;
 	}
-
-    @Override
-    public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
-        return new float[]{0.97f, 0.45f, 0.24f};
-    }
 }
