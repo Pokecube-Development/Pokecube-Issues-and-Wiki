@@ -763,7 +763,7 @@ public class BlockInit
                 Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase("distortic_mirror",
                 Material.GLASS, MaterialColor.CLAY, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
-        OW_DISTORTIC_GLASS = PokecubeLegends.BLOCKS_TAB.register("one_way_distortic_glass", () -> new OneWayDistorticGlass("one_way_distortic_glass",
+        OW_DISTORTIC_GLASS = PokecubeLegends.DECORATION_TAB.register("one_way_distortic_glass", () -> new OneWayDistorticGlass("one_way_distortic_glass",
         DyeColor.LIGHT_GRAY, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.CLAY).noOcclusion().sound(SoundType.GLASS)
             .strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
