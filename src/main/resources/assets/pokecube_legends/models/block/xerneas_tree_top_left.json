@@ -73,14 +73,14 @@
 		{
 			"name": "branch",
 			"from": [9, 10, 7],
-			"to": [11, 15, 9],
+			"to": [11, 16, 9],
 			"rotation": {"angle": 0, "axis": "z", "origin": [10.35, 13.5, 8]},
 			"faces": {
-				"north": {"uv": [7, 11, 9, 16], "texture": "#particle"},
-				"east": {"uv": [7, 11, 9, 16], "texture": "#particle"},
-				"south": {"uv": [7, 11, 9, 16], "texture": "#particle"},
-				"west": {"uv": [7, 11, 9, 16], "texture": "#particle"},
-				"up": {"uv": [6, 11, 8, 9], "rotation": 270, "texture": "#particle"}
+				"north": {"uv": [9, 9, 11, 15], "texture": "#particle"},
+				"east": {"uv": [9, 9, 11, 15], "texture": "#particle"},
+				"south": {"uv": [9, 9, 11, 15], "texture": "#particle"},
+				"west": {"uv": [9, 9, 11, 15], "texture": "#particle"},
+				"up": {"uv": [6, 9, 8, 11], "rotation": 270, "texture": "#particle"}
 			}
 		},
 		{
