@@ -3,9 +3,9 @@ package pokecube.core.database.recipes;
 import java.util.List;
 import java.util.function.Predicate;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,18 +14,16 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.item.crafting.ShapelessRecipe;
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
-import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipeInput;
+import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipeOutput;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IMoveConstants;
@@ -38,12 +36,6 @@ import thut.api.maths.Vector3;
 
 public class PokemobMoveRecipeParser implements IRecipeParser
 {
-
-    private static final QName MOVENAME   = new QName("move");
-    private static final QName MOVELIST   = new QName("moves");
-    private static final QName MATCHNAME  = new QName("match");
-    private static final QName HUNGERCOST = new QName("cost");
-
     private static class MoveMatcher implements Predicate<String>
     {
         String type;
@@ -131,6 +123,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     public static class RecipeMove
     {
+
         public static final List<RecipeMove> ALLRECIPES = Lists.newArrayList();
 
         public static int uid = 0;
@@ -150,45 +143,84 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             }
         };
 
-        public RecipeMove(final XMLRecipe recipe)
+        public RecipeMove(final JsonObject json)
         {
-            this.hungerCost = Integer.parseInt(recipe.values.get(PokemobMoveRecipeParser.HUNGERCOST));
-            final ItemStack recipeOutputIn = Tools.getStack(recipe.output.getValues());
-            final NonNullList<Ingredient> recipeItemsIn = NonNullList.create();
-
-            for (final XMLRecipeInput value : recipe.inputs)
-            {
-                if (value.id == null) value.id = value.getValues().get(new QName("id"));
-                // Tag
-                if (value.id.startsWith("#"))
-                {
-                    final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final ITag<Item> tag = ItemTags.getAllTags().getTagOrEmpty(id);
-                    recipeItemsIn.add(Ingredient.of(tag));
-                }
-                else recipeItemsIn.add(Ingredient.of(Tools.getStack(value.getValues())));
-            }
+            this.hungerCost = this.costFromJson(json);
+            final ItemStack recipeOutputIn = this.outputFromJson(json);
+            final NonNullList<Ingredient> recipeItemsIn = XMLRecipeHandler.getInputItems(json);
             this.recipe = new ShapelessRecipe(new ResourceLocation("pokecube:loaded_" + RecipeMove.uid++),
                     "pokecube_moves", recipeOutputIn, recipeItemsIn);
             RecipeMove.ALLRECIPES.add(this);
             final List<String> names = Lists.newArrayList();
-            if (recipe.values.containsKey(PokemobMoveRecipeParser.MOVELIST))
+            this.namesFromJson(json, names);
+            for (final String name : names)
+                this.actions.add(new RecipeAction(name, this));
+        }
+
+        private ItemStack outputFromJson(final JsonObject json)
+        {
+            ItemStack ret = ItemStack.EMPTY;
+            final JsonObject output = json.get("output").getAsJsonObject();
+            // New way, try vanilla parsing
+            try
             {
-                final String[] args = recipe.values.get(PokemobMoveRecipeParser.MOVELIST).split(",");
+                ret = ShapedRecipe.itemFromJson(output);
+            }
+            catch (final Exception e)
+            {
+                ret = ItemStack.EMPTY;
+            }
+            if (ret.isEmpty())
+            {
+                PokecubeCore.LOGGER.warn("Warning, Recipe {} using old output way!", json);
+                final XMLRecipeOutput oldRes = PokedexEntryLoader.gson.fromJson(output, XMLRecipeOutput.class);
+                ret = Tools.getStack(oldRes.getValues());
+            }
+            if (ret.isEmpty()) PokecubeCore.LOGGER.warn("Warning, Recipe {} has no output!", json);
+            return ret;
+        }
+
+        private int costFromJson(final JsonObject json)
+        {
+            // New way
+            if (json.has("hungerCost")) return json.get("hungerCost").getAsInt();
+            // Old way
+            if (json.has("values") && json.get("values").getAsJsonObject().has("cost")) return Integer.parseInt(json
+                    .get("values").getAsJsonObject().get("cost").getAsString());
+            return 50;
+        }
+
+        private void namesFromJson(final JsonObject json, final List<String> names)
+        {
+            // New way
+            if (json.has("move")) names.add(json.get("move").getAsString());
+            if (json.has("moves"))
+            {
+                final String[] args = json.get("moves").getAsString().split(",");
                 for (final String s : args)
                     names.add(s);
             }
-            if (recipe.values.containsKey(PokemobMoveRecipeParser.MOVENAME)) names.add(recipe.values.get(
-                    PokemobMoveRecipeParser.MOVENAME));
-            if (recipe.values.containsKey(PokemobMoveRecipeParser.MATCHNAME))
+            if (json.has("match"))
             {
-                final String matchstring = recipe.values.get(PokemobMoveRecipeParser.MATCHNAME);
-                final MoveMatcher match = PokedexEntryLoader.gson.fromJson(matchstring, MoveMatcher.class);
+                MoveMatcher match;
+                final JsonElement matchElement = json.get("match");
+                if (matchElement.isJsonObject()) match = PokedexEntryLoader.gson.fromJson(matchElement,
+                        MoveMatcher.class);
+                else
+                {
+                    final String matchstring = json.get("match").getAsString();
+                    match = PokedexEntryLoader.gson.fromJson(matchstring, MoveMatcher.class);
+                }
                 for (final String s : MovesUtils.getKnownMoveNames())
                     if (match.test(s)) names.add(s);
             }
-            for (final String name : names)
-                this.actions.add(new RecipeAction(name, this));
+
+            // Old way
+            if (json.has("values"))
+            {
+                final JsonObject values = json.get("values").getAsJsonObject();
+                this.namesFromJson(values, names);
+            }
         }
 
         public boolean applyEffect(final IPokemob user, final Vector3 location, final String name)
@@ -285,9 +317,9 @@ public class PokemobMoveRecipeParser implements IRecipeParser
     }
 
     @Override
-    public void manageRecipe(final XMLRecipe recipe) throws NullPointerException
+    public void manageRecipe(final JsonObject json) throws NullPointerException
     {
-        final RecipeMove loaded = new RecipeMove(recipe);
+        final RecipeMove loaded = new RecipeMove(json);
         for (IMoveAction action : loaded.actions)
         {
             if (MoveEventsHandler.customActions.containsKey(action.getMoveName()))

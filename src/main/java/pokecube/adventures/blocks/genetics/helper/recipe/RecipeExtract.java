@@ -10,6 +10,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -22,7 +23,6 @@ import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.Selector
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -91,10 +91,10 @@ public class RecipeExtract extends PoweredRecipe
         source:
         if ((genes = ClonerHelper.getGenes(source)) == null)
         {
-            final List<ItemStack> stacks = Lists.newArrayList(ClonerHelper.DNAITEMS.keySet());
+            final List<Ingredient> stacks = Lists.newArrayList(ClonerHelper.DNAITEMS.keySet());
             Collections.shuffle(stacks);
-            if (!source.isEmpty()) for (final ItemStack stack : stacks)
-                if (Tools.isSameStack(stack, source))
+            if (!source.isEmpty()) for (final Ingredient stack : stacks)
+                if (stack.test(source))
                 {
                     final DNAPack pack = ClonerHelper.DNAITEMS.get(stack);
                     final Alleles<?, ?> alleles = pack.alleles;

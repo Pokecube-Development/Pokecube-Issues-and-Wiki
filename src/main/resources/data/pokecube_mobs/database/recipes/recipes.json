@@ -1,151 +1,117 @@
 {
-  "recipes": [
+  "recipes":[
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:gravel"
-        }
+      "shapeless":false,
+      "type":"move_effect",
+      "map":"",
+      "output":{
+        "item":"minecraft:gravel"
       },
-      "inputs": [
+      "inputs":[
         {
-          "values": {
-            "id": "minecraft:cobblestone"
-          }
+          "item":"minecraft:cobblestone"
         }
       ],
-      "values": {
-        "moves": "rocksmash,brickbreak",
-        "cost": "50"
-      }
+      "moves":"rocksmash,brickbreak",
+      "hungerCost":"50"
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:sand"
-        }
+      "shapeless":false,
+      "type":"move_effect",
+      "map":"",
+      "output":{
+        "item":"minecraft:sand"
       },
-      "inputs": [
+      "inputs":[
         {
-          "values": {
-            "id": "minecraft:gravel"
-          }
+          "item":"minecraft:gravel"
         }
       ],
-      "values": {
-        "moves": "rocksmash,brickbreak",
-        "cost": "50"
-      }
+      "moves":"rocksmash,brickbreak",
+      "hungerCost":"50"
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:sand"
-        }
+      "shapeless":false,
+      "type":"move_effect",
+      "map":"",
+      "output":{
+        "item":"minecraft:sand"
       },
-      "inputs": [
+      "inputs":[
         {
-          "values": {
-            "id": "minecraft:dirt"
-          }
+          "item":"minecraft:dirt"
         }
       ],
-      "values": {
-        "move": "rototiller",
-        "cost": "50"
-      }
+      "move":"rototiller",
+      "hungerCost":"50"
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:dirt"
-        }
+      "shapeless":false,
+      "type":"move_effect",
+      "map":"",
+      "output":{
+        "item":"minecraft:dirt"
       },
-      "inputs": [
+      "inputs":[
         {
-          "values": {
-            "id": "minecraft:farmland"
-          }
+          "item":"minecraft:farmland"
         }
       ],
-      "values": {
-        "move": "rototiller",
-        "cost": "50"
-      }
+      "move":"rototiller",
+      "hungerCost":"50"
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:farmland"
-        }
+      "shapeless":false,
+      "type":"move_effect",
+      "map":"",
+      "output":{
+        "item":"minecraft:farmland"
       },
-      "inputs": [
+      "inputs":[
         {
-          "values": {
-            "id": "minecraft:grass_block"
-          }
+          "item":"minecraft:grass_block"
         }
       ],
-      "values": {
-        "move": "rototiller",
-        "cost": "50"
-      }
+      "move":"rototiller",
+      "hungerCost":"50"
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:torch"
-        }
+      "shapeless":false,
+      "type":"move_effect",
+      "map":"",
+      "output":{
+        "item":"minecraft:torch"
       },
-      "inputs": [
+      "inputs":[
         {
-          "values": {
-            "id": "minecraft:stick"
-          }
+          "item":"minecraft:stick"
         }
       ],
-      "values": {
-        "match": "{\"type\":\"fire\",\"minPower\":10,\"contact\":false}",
-        "cost": "5"
-      }
+      "match":{
+        "type":"fire",
+        "minPower":10,
+        "contact":false
+      },
+      "hungerCost":"5"
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:water_bucket"
-        }
+      "shapeless":false,
+      "type":"move_effect",
+      "map":"",
+      "output":{
+        "item":"minecraft:water_bucket"
       },
-      "inputs": [
+      "inputs":[
         {
-          "values": {
-            "id": "minecraft:bucket"
-          }
+          "item":"minecraft:bucket"
         }
       ],
-      "values": {
-        "match": "{\"type\":\"water\",\"minPower\":10,\"contact\":false}",
-        "cost": "50"
-      }
+      "match":{
+        "type":"water",
+        "minPower":10,
+        "contact":false
+      },
+      "hungerCost":"50"
     }
   ]
 }

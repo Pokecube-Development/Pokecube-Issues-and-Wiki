@@ -63,7 +63,6 @@ public class CopyCaps
         public void setCopiedID(final ResourceLocation id)
         {
             this.copiedID = id;
-            this.copiedMob = null;
         }
 
         @Override
