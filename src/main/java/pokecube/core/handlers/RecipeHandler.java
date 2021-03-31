@@ -16,6 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.items.berries.RecipeBrewBerries;
 import pokecube.core.items.pokecubes.RecipePokeseals;
 import pokecube.core.items.revive.RecipeRevive;
+import pokecube.core.recipes.MoveRecipes;
 
 public class RecipeHandler
 {
@@ -37,5 +38,6 @@ public class RecipeHandler
     {
         RecipeHandler.RECIPE_SERIALIZERS.register(bus);
         BrewingRecipeRegistry.addRecipe(new RecipeBrewBerries());
+        MoveRecipes.init();
     }
 }

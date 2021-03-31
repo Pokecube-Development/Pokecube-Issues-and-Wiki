@@ -87,7 +87,7 @@ public class XMLRecipeHandler
 
     static
     {
-        XMLRecipeHandler.recipeParsers.put("move_effect", new PokemobMoveRecipeParser());
+        XMLRecipeHandler.recipeParsers.put("pokecube:move_recipe", new PokemobMoveRecipeParser());
     }
 
     private static NonNullList<Ingredient> itemsFromJson(final JsonArray array)

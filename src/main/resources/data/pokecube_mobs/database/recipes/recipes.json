@@ -1,117 +1,119 @@
 {
   "recipes":[
     {
-      "shapeless":false,
-      "type":"move_effect",
-      "map":"",
-      "output":{
+      "type":"pokecube:move_recipe",
+      "result":{
         "item":"minecraft:gravel"
       },
-      "inputs":[
+      "ingredients":[
         {
           "item":"minecraft:cobblestone"
         }
       ],
-      "moves":"rocksmash,brickbreak",
-      "hungerCost":"50"
+      "move":{
+        "moves":[
+          "rocksmash",
+          "brickbreak"
+        ]
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless":false,
-      "type":"move_effect",
-      "map":"",
-      "output":{
+      "type":"pokecube:move_recipe",
+      "result":{
         "item":"minecraft:sand"
       },
-      "inputs":[
+      "ingredients":[
         {
           "item":"minecraft:gravel"
         }
       ],
-      "moves":"rocksmash,brickbreak",
-      "hungerCost":"50"
+      "move":{
+        "moves":[
+          "rocksmash",
+          "brickbreak"
+        ]
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless":false,
-      "type":"move_effect",
-      "map":"",
-      "output":{
+      "type":"pokecube:move_recipe",
+      "result":{
         "item":"minecraft:sand"
       },
-      "inputs":[
+      "ingredients":[
         {
           "item":"minecraft:dirt"
         }
       ],
-      "move":"rototiller",
-      "hungerCost":"50"
+      "move":{
+        "move":"rototiller"
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless":false,
-      "type":"move_effect",
-      "map":"",
-      "output":{
+      "type":"pokecube:move_recipe",
+      "result":{
         "item":"minecraft:dirt"
       },
-      "inputs":[
+      "ingredients":[
         {
           "item":"minecraft:farmland"
         }
       ],
-      "move":"rototiller",
-      "hungerCost":"50"
+      "move":{
+        "move":"rototiller"
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless":false,
-      "type":"move_effect",
-      "map":"",
-      "output":{
+      "type":"pokecube:move_recipe",
+      "result":{
         "item":"minecraft:farmland"
       },
-      "inputs":[
+      "ingredients":[
         {
           "item":"minecraft:grass_block"
         }
       ],
-      "move":"rototiller",
-      "hungerCost":"50"
+      "move":{
+        "move":"rototiller"
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless":false,
-      "type":"move_effect",
-      "map":"",
-      "output":{
+      "type":"pokecube:move_recipe",
+      "result":{
         "item":"minecraft:torch"
       },
-      "inputs":[
+      "ingredients":[
         {
           "item":"minecraft:stick"
         }
       ],
-      "match":{
+      "move":{
         "type":"fire",
         "minPower":10,
         "contact":false
       },
-      "hungerCost":"5"
+      "hungerCost": 5
     },
     {
-      "shapeless":false,
-      "type":"move_effect",
-      "map":"",
-      "output":{
+      "type":"pokecube:move_recipe",
+      "result":{
         "item":"minecraft:water_bucket"
       },
-      "inputs":[
+      "ingredients":[
         {
           "item":"minecraft:bucket"
         }
       ],
-      "match":{
+      "move":{
         "type":"water",
         "minPower":10,
         "contact":false
       },
-      "hungerCost":"50"
+      "hungerCost": 50
     }
   ]
 }
