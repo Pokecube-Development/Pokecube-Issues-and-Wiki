@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:one_way_distortic_glass"
+          "name": "pokecube_legends:distortic_one_way_glass"
         }
       ],
       "conditions": [

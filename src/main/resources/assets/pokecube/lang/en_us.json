@@ -475,7 +475,7 @@
     "pokecube.tooltip.evs": "EVs: %s",
     "pokecube.tooltip.nature": "N: %s",
     "pokecube.tooltip.ability": "A: %s",
-    "pokecube.tooltip.advanced": "<Shift for more info>",
+    "pokecube.tooltip.advanced": "%o$s<Shift for more info>",
 
     "item.pokecube.bubbles": "Droplets",
     "item.pokecube.flames": "Flames",

@@ -28,7 +28,7 @@ import java.util.function.Predicate;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler
 {
-    static final Predicate<Material> notSolid = m -> m == Material.GLASS || m == Material.ICE ||
+    static final Predicate<Material> notSolid = m -> m == Material.ICE ||
     		m == Material.ICE_SOLID || m == Material.LEAVES || m == Material.PLANT || m == Material.HEAVY_METAL;
 
     @SubscribeEvent
@@ -66,7 +66,6 @@ public class ClientSetupHandler
 
             RenderTypeLookup.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
-            RenderTypeLookup.setRenderLayer(BlockInit.DISTORTIC_OW_GLASS.get(), RenderType.cutoutMipped());
         }
 
     	for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
@@ -96,8 +95,11 @@ public class ClientSetupHandler
                         fullCube = false;
                         break;
                     }
+                    if (m == Material.GLASS) RenderTypeLookup.setRenderLayer(b, RenderType.translucent());
                 }
             if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(BlockInit.DISTORTIC_OW_GLASS.get(), RenderType.cutoutMipped());
+//            RenderTypeLookup.setRenderLayer(BlockInit.DISTORTIC_OW_GLASS_WHITE.get(), RenderType.translucent());
         }
 
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())

@@ -3,24 +3,22 @@ package pokecube.legends.blocks.normalblocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
-import net.minecraft.block.StainedGlassBlock;
+import net.minecraft.block.GlassBlock;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.DyeColor;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockDisplayReader;
-import net.minecraft.world.IWorldReader;
 
-public class DistorticOneWayGlass extends StainedGlassBlock
+public class DistorticOneWayGlass extends GlassBlock
 {
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
 
-    public DistorticOneWayGlass(final String name, DyeColor color, final Properties props)
+    public DistorticOneWayGlass(final String name, final Properties properties)
     {
-        super(color, props);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

@@ -8,9 +8,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IWorldReader;
 
-public class UltraGlass extends StainedGlassBlock
+public class MirageGlass extends StainedGlassBlock
 {
-    public UltraGlass(final String name, DyeColor color, final Properties props)
+    public MirageGlass(final String name, DyeColor color, final Properties props)
     {
         super(color, props);
     }
