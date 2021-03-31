@@ -21,7 +21,7 @@ import pokecube.legends.blocks.customblocks.taputotem.FiniTotem;
 import pokecube.legends.blocks.customblocks.taputotem.KokoTotem;
 import pokecube.legends.blocks.customblocks.taputotem.LeleTotem;
 import pokecube.legends.blocks.normalblocks.SpectrumGlass;
-import pokecube.legends.blocks.normalblocks.OneWayDistorticGlass;
+import pokecube.legends.blocks.normalblocks.DistorticOneWayGlass;
 import pokecube.legends.blocks.normalblocks.*;
 import pokecube.legends.blocks.plants.*;
 
@@ -62,75 +62,75 @@ public class BlockInit
     //Tapus Totens
     //Koko Totem
     public static final RegistryObject<Block> KOKO_WHITE;
-    public static final RegistryObject<Block> KOKO_RED;
-    public static final RegistryObject<Block> KOKO_BLUE;
-    public static final RegistryObject<Block> KOKO_GREEN;
-    public static final RegistryObject<Block> KOKO_YELLOW;
-    public static final RegistryObject<Block> KOKO_PURPLE;
-    public static final RegistryObject<Block> KOKO_PINK;
-    public static final RegistryObject<Block> KOKO_BLACK;
-    public static final RegistryObject<Block> KOKO_BROWN;
-    public static final RegistryObject<Block> KOKO_LIME;
-    public static final RegistryObject<Block> KOKO_CYAN;
-    public static final RegistryObject<Block> KOKO_LIGHT_GRAY;
-    public static final RegistryObject<Block> KOKO_GRAY;
+    public static final RegistryObject<Block> KOKO_ORANGE;
     public static final RegistryObject<Block> KOKO_MAGENTA;
     public static final RegistryObject<Block> KOKO_LIGHT_BLUE;
-    public static final RegistryObject<Block> KOKO_ORANGE;
+    public static final RegistryObject<Block> KOKO_YELLOW;
+    public static final RegistryObject<Block> KOKO_LIME;
+    public static final RegistryObject<Block> KOKO_PINK;
+    public static final RegistryObject<Block> KOKO_GRAY;
+    public static final RegistryObject<Block> KOKO_LIGHT_GRAY;
+    public static final RegistryObject<Block> KOKO_CYAN;
+    public static final RegistryObject<Block> KOKO_PURPLE;
+    public static final RegistryObject<Block> KOKO_BLUE;
+    public static final RegistryObject<Block> KOKO_BROWN;
+    public static final RegistryObject<Block> KOKO_GREEN;
+    public static final RegistryObject<Block> KOKO_RED;
+    public static final RegistryObject<Block> KOKO_BLACK;
     
     //Bulu Totem
     public static final RegistryObject<Block> BULU_WHITE;
-    public static final RegistryObject<Block> BULU_RED;
-    public static final RegistryObject<Block> BULU_BLUE;
-    public static final RegistryObject<Block> BULU_GREEN;
-    public static final RegistryObject<Block> BULU_YELLOW;
-    public static final RegistryObject<Block> BULU_PURPLE;
-    public static final RegistryObject<Block> BULU_PINK;
-    public static final RegistryObject<Block> BULU_BLACK;
-    public static final RegistryObject<Block> BULU_BROWN;
-    public static final RegistryObject<Block> BULU_LIME;
-    public static final RegistryObject<Block> BULU_CYAN;
-    public static final RegistryObject<Block> BULU_LIGHT_GRAY;
-    public static final RegistryObject<Block> BULU_GRAY;
+    public static final RegistryObject<Block> BULU_ORANGE;
     public static final RegistryObject<Block> BULU_MAGENTA;
     public static final RegistryObject<Block> BULU_LIGHT_BLUE;
-    public static final RegistryObject<Block> BULU_ORANGE;
+    public static final RegistryObject<Block> BULU_YELLOW;
+    public static final RegistryObject<Block> BULU_LIME;
+    public static final RegistryObject<Block> BULU_PINK;
+    public static final RegistryObject<Block> BULU_GRAY;
+    public static final RegistryObject<Block> BULU_LIGHT_GRAY;
+    public static final RegistryObject<Block> BULU_CYAN;
+    public static final RegistryObject<Block> BULU_PURPLE;
+    public static final RegistryObject<Block> BULU_BLUE;
+    public static final RegistryObject<Block> BULU_BROWN;
+    public static final RegistryObject<Block> BULU_GREEN;
+    public static final RegistryObject<Block> BULU_RED;
+    public static final RegistryObject<Block> BULU_BLACK;
     
     //Lele Totem
     public static final RegistryObject<Block> LELE_WHITE;
-    public static final RegistryObject<Block> LELE_RED;
-    public static final RegistryObject<Block> LELE_BLUE;
-    public static final RegistryObject<Block> LELE_GREEN;
-    public static final RegistryObject<Block> LELE_YELLOW;
-    public static final RegistryObject<Block> LELE_PURPLE;
-    public static final RegistryObject<Block> LELE_PINK;
-    public static final RegistryObject<Block> LELE_BLACK;
-    public static final RegistryObject<Block> LELE_BROWN;
-    public static final RegistryObject<Block> LELE_LIME;
-    public static final RegistryObject<Block> LELE_CYAN;
-    public static final RegistryObject<Block> LELE_LIGHT_GRAY;
-    public static final RegistryObject<Block> LELE_GRAY;
+    public static final RegistryObject<Block> LELE_ORANGE;
     public static final RegistryObject<Block> LELE_MAGENTA;
     public static final RegistryObject<Block> LELE_LIGHT_BLUE;
-    public static final RegistryObject<Block> LELE_ORANGE;
+    public static final RegistryObject<Block> LELE_YELLOW;
+    public static final RegistryObject<Block> LELE_LIME;
+    public static final RegistryObject<Block> LELE_PINK;
+    public static final RegistryObject<Block> LELE_GRAY;
+    public static final RegistryObject<Block> LELE_LIGHT_GRAY;
+    public static final RegistryObject<Block> LELE_CYAN;
+    public static final RegistryObject<Block> LELE_PURPLE;
+    public static final RegistryObject<Block> LELE_BLUE;
+    public static final RegistryObject<Block> LELE_BROWN;
+    public static final RegistryObject<Block> LELE_GREEN;
+    public static final RegistryObject<Block> LELE_RED;
+    public static final RegistryObject<Block> LELE_BLACK;
     
     //Fini Totem
     public static final RegistryObject<Block> FINI_WHITE;
-    public static final RegistryObject<Block> FINI_RED;
-    public static final RegistryObject<Block> FINI_BLUE;
-    public static final RegistryObject<Block> FINI_GREEN;
-    public static final RegistryObject<Block> FINI_YELLOW;
-    public static final RegistryObject<Block> FINI_PURPLE;
-    public static final RegistryObject<Block> FINI_PINK;
-    public static final RegistryObject<Block> FINI_BLACK;
-    public static final RegistryObject<Block> FINI_BROWN;
-    public static final RegistryObject<Block> FINI_LIME;
-    public static final RegistryObject<Block> FINI_CYAN;
-    public static final RegistryObject<Block> FINI_LIGHT_GRAY;
-    public static final RegistryObject<Block> FINI_GRAY;
+    public static final RegistryObject<Block> FINI_ORANGE;
     public static final RegistryObject<Block> FINI_MAGENTA;
     public static final RegistryObject<Block> FINI_LIGHT_BLUE;
-    public static final RegistryObject<Block> FINI_ORANGE;
+    public static final RegistryObject<Block> FINI_YELLOW;
+    public static final RegistryObject<Block> FINI_LIME;
+    public static final RegistryObject<Block> FINI_PINK;
+    public static final RegistryObject<Block> FINI_GRAY;
+    public static final RegistryObject<Block> FINI_LIGHT_GRAY;
+    public static final RegistryObject<Block> FINI_CYAN;
+    public static final RegistryObject<Block> FINI_PURPLE;
+    public static final RegistryObject<Block> FINI_BLUE;
+    public static final RegistryObject<Block> FINI_BROWN;
+    public static final RegistryObject<Block> FINI_GREEN;
+    public static final RegistryObject<Block> FINI_RED;
+    public static final RegistryObject<Block> FINI_BLACK;
 
     // Dimensions
     public static final RegistryObject<Block> DISTORTIC_GRASS;
@@ -138,7 +138,7 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_STONE_SLAB;
     public static final RegistryObject<Block> DISTORTIC_STONE_STAIRS;
     public static final RegistryObject<Block> DISTORTIC_MIRROR;
-    public static final RegistryObject<Block> OW_DISTORTIC_GLASS;
+    public static final RegistryObject<Block> DISTORTIC_OW_GLASS;
 
     public static final RegistryObject<Block> ULTRA_TORCH1;
     public static final RegistryObject<Block> ULTRA_TORCH1_WALL;
@@ -763,9 +763,14 @@ public class BlockInit
                 Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase("distortic_mirror",
                 Material.GLASS, MaterialColor.CLAY, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 1).noInfoBlock());
-        OW_DISTORTIC_GLASS = PokecubeLegends.DECORATION_TAB.register("one_way_distortic_glass", () -> new OneWayDistorticGlass("one_way_distortic_glass",
-        DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.CLAY).noOcclusion().sound(SoundType.GLASS)
-            .strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+        DISTORTIC_OW_GLASS = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_glass", () ->
+            new DistorticOneWayGlass("distortic_one_way_glass",
+                DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.CLAY).noOcclusion().sound(SoundType.GLASS)
+                .strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+        DISTORTIC_OW_GLASS_WHITE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_white_stained_glass", () ->
+            new DistorticOneWayGlass("distortic_one_way_white_stained_glass",
+                DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.CLAY).noOcclusion().sound(SoundType.GLASS)
+                .strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
         // Ultra Stones
         ULTRA_STONE = PokecubeLegends.BLOCKS_TAB.register("ultrastone", () -> new BlockBase("ultrastone", Material.STONE, 
