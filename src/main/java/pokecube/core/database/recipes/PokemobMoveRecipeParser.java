@@ -1,9 +1,11 @@
 package pokecube.core.database.recipes;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
 import net.minecraft.util.ResourceLocation;
@@ -114,7 +116,9 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     public static class RecipeMove
     {
-        public static final List<RecipeMove> ALLRECIPES = Lists.newArrayList();
+        public static final List<MoveRecipe> ALLRECIPES = Lists.newArrayList();
+
+        public static final Map<ResourceLocation, MoveRecipe> CUSTOM = Maps.newHashMap();
 
         public static int uid = 0;
 
@@ -127,9 +131,14 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         public RecipeMove(final MoveRecipe recipe)
         {
             this.recipe = recipe;
-            RecipeMove.ALLRECIPES.add(this);
+            RecipeMove.ALLRECIPES.add(recipe);
+
             for (final String s : MovesUtils.getKnownMoveNames())
-                if (this.recipe.match.test(s)) this.actions.add(new RecipeAction(s, this.recipe));
+                if (this.recipe.match.test(s))
+                {
+                    recipe.matchedMoves.add(s);
+                    this.actions.add(new RecipeAction(s, this.recipe));
+                }
         }
     }
 

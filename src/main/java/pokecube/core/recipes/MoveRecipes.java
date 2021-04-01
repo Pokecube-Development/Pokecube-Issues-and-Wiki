@@ -78,6 +78,8 @@ public class MoveRecipes
             }
         };
 
+        public List<String> matchedMoves = Lists.newArrayList();
+
         public MoveRecipe(final ShapelessRecipe wrap, final int hunger, final MoveMatcher match, final boolean external)
         {
             this.wrapped = wrap;
@@ -240,6 +242,7 @@ public class MoveRecipes
             if (!isCustom)
             {
                 final RecipeMove loaded = new RecipeMove(recipe);
+                if (!loaded.actions.isEmpty()) RecipeMove.CUSTOM.put(id, recipe);
                 for (final IMoveAction action : loaded.actions)
                     PokemobMoveRecipeParser.addOrMergeActions(action);
             }
@@ -253,7 +256,15 @@ public class MoveRecipes
             final int cost = buffer.readInt();
             final boolean isCustom = buffer.readBoolean();
             final MoveMatcher matcher = PokedexEntryLoader.gson.fromJson(buffer.readUtf(), MoveMatcher.class);
-            return new MoveRecipe(wrap, cost, matcher, isCustom);
+            final MoveRecipe recipe = new MoveRecipe(wrap, cost, matcher, isCustom);
+            if (!isCustom)
+            {
+                final RecipeMove loaded = new RecipeMove(recipe);
+                if (!loaded.actions.isEmpty()) RecipeMove.CUSTOM.put(id, recipe);
+                for (final IMoveAction action : loaded.actions)
+                    PokemobMoveRecipeParser.addOrMergeActions(action);
+            }
+            return recipe;
         }
 
         @Override
