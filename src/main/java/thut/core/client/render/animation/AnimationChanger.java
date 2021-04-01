@@ -106,9 +106,10 @@ public class AnimationChanger implements IAnimationChanger
     public int getColourForPart(final String partIdentifier, final Entity entity)
     {
         this.checkWildCard(partIdentifier);
-        int rgba = 0xFF000000;
+        int rgba = 0xFFFFFFFF;
         final IMobColourable pokemob = entity.getCapability(ThutCaps.COLOURABLE).orElse(null);
         if (pokemob == null) return rgba;
+        rgba = 0xFF000000;
         if (this.dyeables.contains(partIdentifier))
         {
             final Function<Integer, Integer> offset = this.colourOffsets.get(partIdentifier);
