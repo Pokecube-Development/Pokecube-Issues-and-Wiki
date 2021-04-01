@@ -15,6 +15,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -59,6 +60,7 @@ import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
+import pokecube.legends.recipes.DistorticRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.trees.Trees;
@@ -79,8 +81,12 @@ public class PokecubeLegends
             Reference.ID);
 	public static final DeferredRegister<Fluid>  		FLUIDS         = DeferredRegister.create(ForgeRegistries.FLUIDS,
             Reference.ID);
-    public static final DeferredRegister<EntityType<?>> ENTITIES       = DeferredRegister.create(
-            ForgeRegistries.ENTITIES, Reference.ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES       = DeferredRegister.create(ForgeRegistries.ENTITIES,
+    		Reference.ID);
+    
+    //Recipes
+    public static final DeferredRegister<IRecipeSerializer<?>> DISTORTIC_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, 
+    		Reference.ID);
 
     public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
 
@@ -153,6 +159,7 @@ public class PokecubeLegends
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
 		PokecubeLegends.FLUIDS.register(modEventBus);
         PokecubeLegends.ENTITIES.register(modEventBus);
+        PokecubeLegends.DISTORTIC_SERIALIZERS.register(modEventBus);
 
         // Biomes Dictionary
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
@@ -166,6 +173,8 @@ public class PokecubeLegends
         ItemInit.init();
         MoveRegister.init();
         EntityInit.init();
+        
+        DistorticRecipeManager.init();
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)

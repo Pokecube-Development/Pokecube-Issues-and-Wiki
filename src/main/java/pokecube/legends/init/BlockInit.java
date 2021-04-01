@@ -55,6 +55,7 @@ import pokecube.legends.blocks.normalblocks.CorruptedLeaveBlock;
 import pokecube.legends.blocks.normalblocks.CrystallizedCactus;
 import pokecube.legends.blocks.normalblocks.DarkStoneBlock;
 import pokecube.legends.blocks.normalblocks.DistorticCrackedStone;
+import pokecube.legends.blocks.normalblocks.DistorticMirror;
 import pokecube.legends.blocks.normalblocks.GrassAgedBlock;
 import pokecube.legends.blocks.normalblocks.GrassDistorticBlock;
 import pokecube.legends.blocks.normalblocks.GrassJungleBlock;
@@ -828,8 +829,8 @@ public class BlockInit
         DISTORTIC_STONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("distortic_stone_stairs",
                 () -> new ItemGenerator.GenericWoodStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)));
-        DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase(
-                "distortic_mirror", Material.GLASS, MaterialColor.CLAY, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 2).noInfoBlock());
+        DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new DistorticMirror("distortic_mirror",
+        		Material.GLASS, MaterialColor.CLAY).noInfoBlock());
         
         DISTORTIC_CHISELED_MIRROR = PokecubeLegends.DECORATION_TAB.register("distortic_chiseled_mirror", () -> new UltraGlass("distortic_chiseled_mirror",
                 AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion()));
