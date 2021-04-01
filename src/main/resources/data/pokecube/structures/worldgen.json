@@ -153,8 +153,8 @@
       "options":[
         "pokecube:village/the_end/streets/crossroad_01;{\"weight\":2}",
         "pokecube:village/the_end/streets/crossroad_02;{\"weight\":2}",
-        "pokecube:village/the_end/streets/crossroad_03;{\"weight\":2}",
-        "pokecube:village/the_end/streets/straight_1;{\"weight\":3}"
+        "pokecube:village/the_end/streets/crossroad_03;{\"weight\":3}",
+        "pokecube:village/the_end/streets/straight_1;{\"weight\":5}"
       ]
     },
     {
@@ -490,7 +490,9 @@
       	"pokecube:village/cave/streets/crossroad_01;{\"weight\":3}",
       	"pokecube:village/cave/streets/crossroad_02;{\"weight\":3}",
         "pokecube:village/cave/streets/straight_1;{\"weight\":8}",
-        "pokecube:village/cave/streets/straight_2;{\"weight\":8}"
+        "pokecube:village/cave/streets/straight_2;{\"weight\":8}",
+        "pokecube:village/cave/streets/straight_3;{\"weight\":8}",
+        "pokecube:village/cave/streets/straight_4;{\"weight\":8}"
       ]
     },
     {
