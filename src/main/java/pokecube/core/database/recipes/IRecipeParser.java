@@ -1,11 +1,13 @@
 package pokecube.core.database.recipes;
 
+import com.google.gson.JsonObject;
+
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
 
 public interface IRecipeParser
 {
-    default XMLRecipe deserialize(final String recipe)
+    default XMLRecipe fromJson(final JsonObject recipe)
     {
         return PokedexEntryLoader.gson.fromJson(recipe, XMLRecipe.class);
     }
@@ -21,10 +23,5 @@ public interface IRecipeParser
      */
     void init();
 
-    void manageRecipe(XMLRecipe recipe) throws NullPointerException;
-
-    default String serialize(final XMLRecipe recipe)
-    {
-        return PokedexEntryLoader.gson.toJson(recipe);
-    }
+    void manageRecipe(JsonObject recipe) throws NullPointerException;
 }

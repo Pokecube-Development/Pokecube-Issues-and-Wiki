@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -68,7 +69,7 @@ public class ClonerHelper
 
     public static final String SELECTORTAG = "DNASelector";
 
-    public static Map<ItemStack, DNAPack> DNAITEMS = Maps.newHashMap();
+    public static Map<Ingredient, DNAPack> DNAITEMS = Maps.newHashMap();
 
     public static PokedexEntry getFromGenes(final ItemStack stack)
     {
@@ -217,7 +218,7 @@ public class ClonerHelper
         ClonerHelper.setGenes(destination, eggs, force ? EditType.OTHER : EditType.EXTRACT);
     }
 
-    public static void registerDNA(final DNAPack entry, final ItemStack stack)
+    public static void registerDNA(final DNAPack entry, final Ingredient stack)
     {
         ClonerHelper.DNAITEMS.put(stack, entry);
     }

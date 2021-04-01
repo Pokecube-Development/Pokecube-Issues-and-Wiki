@@ -9,6 +9,7 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -295,11 +296,40 @@ public class TextureHelper implements IPartTexturer
     public void bindObject(final Object thing)
     {
         this.mob = ((ICapabilityProvider) thing).getCapability(TextureHelper.CAPABILITY).orElse(null);
-        if (this.mob != null)
+        if (this.mob == null && thing instanceof LivingEntity) this.mob = new IMobTexturable()
         {
-            final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
-            this.default_tex = this.getResource(defaults);
-        }
+            LivingEntity entity = (LivingEntity) thing;
+            String       modid  = this.entity.getType().getRegistryName().getNamespace();
+
+            Map<ResourceLocation, ResourceLocation> remapped = Maps.newHashMap();
+
+            @Override
+            public LivingEntity getEntity()
+            {
+                return this.entity;
+            }
+
+            @Override
+            public String getModId()
+            {
+                return this.modid;
+            }
+
+            @Override
+            public ResourceLocation preApply(final ResourceLocation in)
+            {
+                if (this.remapped.containsKey(in)) return this.remapped.get(in);
+                if (!in.getPath().contains(".png"))
+                {
+                    final ResourceLocation updated = new ResourceLocation(in.getNamespace(), "entity/textures/" + in
+                            .getPath() + ".png");
+                    this.remapped.put(in, updated);
+                }
+                return this.remapped.getOrDefault(in, IMobTexturable.super.preApply(in));
+            }
+        };
+        final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
+        this.default_tex = this.getResource(defaults);
     }
 
     private ResourceLocation bindPerState(final String part)

@@ -503,8 +503,8 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
             final IPokemob other = CapabilityPokemob.getPokemobFor(to);
             // No transform loops!
             if (other != null && other.getTransformedTo() != null) break transform;
-            this.entityRenderDispatcher.getRenderer(pokemob.getTransformedTo()).render(pokemob.getTransformedTo(), entityYaw,
-                    partialTicks, matrixStackIn, bufferIn, packedLightIn);
+            this.entityRenderDispatcher.getRenderer(pokemob.getTransformedTo()).render(pokemob.getTransformedTo(),
+                    entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             return;
         }
 
@@ -545,17 +545,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         this.shadowRadius = entity.getBbWidth();
         try
         {
-            final IPartTexturer texer = holder.wrapper.renderer.getTexturer();
-            final ResourceLocation default_ = this.getTextureLocation(entity);
-            if (texer != null)
-            {
-                texer.bindObject(entity);
-                holder.wrapper.getParts().forEach((n, p) ->
-                {
-                    p.applyTexture(bufferIn, default_, texer);
-                });
-            }
-            holder.wrapper.SetEntity(entity);
+            this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         }
         catch (final Exception e)
@@ -569,9 +559,9 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
     protected RenderType getRenderType(final MobEntity entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(new RenderState.TextureState(
-                this.getTextureLocation(entity), false, false)).setTransparencyState(new RenderState.TransparencyState(
-                        "translucent_transparency", () ->
+        final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
+                new RenderState.TextureState(this.getTextureLocation(entity), false, false)).setTransparencyState(
+                        new RenderState.TransparencyState("translucent_transparency", () ->
                         {
                             RenderSystem.enableBlend();
                             RenderSystem.defaultBlendFunc();
@@ -580,7 +570,8 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
                             RenderSystem.disableBlend();
                         })).setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(
                                 new RenderState.AlphaState(0.003921569F)).setCullState(new RenderState.CullState(false))
-                .setLightmapState(new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(true)).createCompositeState(false);
+                .setLightmapState(new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(
+                        true)).createCompositeState(false);
         return RenderType.create("pokecube:pokemob", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256, bool_a,
                 bool_b, rendertype$state);
     }

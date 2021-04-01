@@ -6,16 +6,14 @@ import java.util.Map.Entry;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
 
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.BookCloningRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
@@ -38,7 +36,6 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.recipes.IRecipeParser;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
-import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipeInput;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
@@ -118,8 +115,8 @@ public class RecipeHandlers
                     entity = (pokemob = pokemob.setForSpawn(exp)).getEntity();
                     if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
                     final Direction dir = world.getBlockState(pos).getValue(HorizontalBlock.FACING);
-                    entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5
-                            + dir.getStepZ(), world.random.nextFloat() * 360F, 0.0F);
+                    entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir.getStepZ(),
+                            world.random.nextFloat() * 360F, 0.0F);
                     entity.getPersistentData().putBoolean("cloned", true);
 
                     final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
@@ -199,22 +196,11 @@ public class RecipeHandlers
         }
 
         @Override
-        public void manageRecipe(final XMLRecipe recipe) throws NullPointerException
+        public void manageRecipe(final JsonObject json) throws NullPointerException
         {
-            final NonNullList<Ingredient> recipeItemsIn = NonNullList.create();
+            final XMLRecipe recipe = this.fromJson(json);
+            final NonNullList<Ingredient> recipeItemsIn = XMLRecipeHandler.getInputItems(json);
 
-            for (final XMLRecipeInput value : recipe.inputs)
-            {
-                if (value.id == null) value.id = value.getValues().get(new QName("id"));
-                // Tag
-                if (value.id.startsWith("#"))
-                {
-                    final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final ITag<Item> tag = ItemTags.getAllTags().getTagOrEmpty(id);
-                    recipeItemsIn.add(Ingredient.of(tag));
-                }
-                else recipeItemsIn.add(Ingredient.of(Tools.getStack(value.getValues())));
-            }
             final PokedexEntry entry = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOB));
             if (entry == null) throw new NullPointerException("No Entry for " + recipe.values.get(
                     RecipeHandlers.POKEMOB));
@@ -253,14 +239,12 @@ public class RecipeHandlers
     public static class SelectorRecipeParser implements IRecipeParser
     {
         @Override
-        public void manageRecipe(final XMLRecipe recipe) throws NullPointerException
+        public void manageRecipe(final JsonObject json) throws NullPointerException
         {
-            // TODO convert this to supporting tags later.
-            final List<ItemStack> inputs = Lists.newArrayList();
-            for (final XMLRecipeInput xml : recipe.inputs)
-                inputs.add(Tools.getStack(xml.getValues()));
+            final XMLRecipe recipe = this.fromJson(json);
+            final List<Ingredient> inputs = XMLRecipeHandler.getInputItems(json);
             if (inputs.size() != 1) throw new NullPointerException("Wrong number of stacks for " + recipe);
-            final ItemStack stack = inputs.get(0);
+            final Ingredient stack = inputs.get(0);
             if (stack.isEmpty()) throw new NullPointerException("Invalid stack for " + recipe);
             final float dna = Float.parseFloat(recipe.values.get(RecipeHandlers.DNADESTRUCT));
             final float select = Float.parseFloat(recipe.values.get(RecipeHandlers.SELECTORDESTRUCT));
@@ -278,14 +262,13 @@ public class RecipeHandlers
     public static class DNARecipeParser implements IRecipeParser
     {
         @Override
-        public void manageRecipe(final XMLRecipe recipe) throws NullPointerException
+        public void manageRecipe(final JsonObject json) throws NullPointerException
         {
-            // TODO convert this to supporting tags later.
-            final List<ItemStack> inputs = Lists.newArrayList();
-            for (final XMLRecipeInput xml : recipe.inputs)
-                inputs.add(Tools.getStack(xml.getValues()));
+            final XMLRecipe recipe = this.fromJson(json);
+
+            final List<Ingredient> inputs = XMLRecipeHandler.getInputItems(json);
             if (inputs.size() != 1) throw new NullPointerException("Wrong number of stacks for " + recipe);
-            final ItemStack stack = inputs.get(0);
+            final Ingredient stack = inputs.get(0);
             if (stack.isEmpty()) throw new NullPointerException("Invalid stack for " + recipe);
             PokedexEntry entry = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOB));
             PokedexEntry entryA = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOBA));
@@ -315,7 +298,7 @@ public class RecipeHandlers
             float chance = 1;
             if (recipe.values.containsKey(RecipeHandlers.CHANCE)) chance = Float.parseFloat(recipe.values.get(
                     RecipeHandlers.CHANCE));
-            final String key = stack.getItem().getRegistryName().toString();
+            final String key = stack.toJson().toString();
             final DNAPack pack = new DNAPack(key, alleles, chance);
             ClonerHelper.registerDNA(pack, stack);
         }
@@ -329,7 +312,7 @@ public class RecipeHandlers
                     .entrySet())
             {
                 final String name = fossil.getKey();
-                final ItemStack stack = new ItemStack(fossil.getValue());
+                final Ingredient stack = Ingredient.of(fossil.getValue());
                 final SpeciesGene gene = new SpeciesGene();
                 final SpeciesInfo info = gene.getValue();
                 info.entry = Database.getEntry(name);

@@ -1,151 +1,119 @@
 {
-  "recipes": [
+  "recipes":[
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:gravel"
-        }
+      "type":"pokecube:move_recipe",
+      "result":{
+        "item":"minecraft:gravel"
       },
-      "inputs": [
+      "ingredients":[
         {
-          "values": {
-            "id": "minecraft:cobblestone"
-          }
+          "item":"minecraft:cobblestone"
         }
       ],
-      "values": {
-        "moves": "rocksmash,brickbreak",
-        "cost": "50"
-      }
+      "move":{
+        "moves":[
+          "rocksmash",
+          "brickbreak"
+        ]
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:sand"
-        }
+      "type":"pokecube:move_recipe",
+      "result":{
+        "item":"minecraft:sand"
       },
-      "inputs": [
+      "ingredients":[
         {
-          "values": {
-            "id": "minecraft:gravel"
-          }
+          "item":"minecraft:gravel"
         }
       ],
-      "values": {
-        "moves": "rocksmash,brickbreak",
-        "cost": "50"
-      }
+      "move":{
+        "moves":[
+          "rocksmash",
+          "brickbreak"
+        ]
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:sand"
-        }
+      "type":"pokecube:move_recipe",
+      "result":{
+        "item":"minecraft:sand"
       },
-      "inputs": [
+      "ingredients":[
         {
-          "values": {
-            "id": "minecraft:dirt"
-          }
+          "item":"minecraft:dirt"
         }
       ],
-      "values": {
-        "move": "rototiller",
-        "cost": "50"
-      }
+      "move":{
+        "move":"rototiller"
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:dirt"
-        }
+      "type":"pokecube:move_recipe",
+      "result":{
+        "item":"minecraft:dirt"
       },
-      "inputs": [
+      "ingredients":[
         {
-          "values": {
-            "id": "minecraft:farmland"
-          }
+          "item":"minecraft:farmland"
         }
       ],
-      "values": {
-        "move": "rototiller",
-        "cost": "50"
-      }
+      "move":{
+        "move":"rototiller"
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:farmland"
-        }
+      "type":"pokecube:move_recipe",
+      "result":{
+        "item":"minecraft:farmland"
       },
-      "inputs": [
+      "ingredients":[
         {
-          "values": {
-            "id": "minecraft:grass_block"
-          }
+          "item":"minecraft:grass_block"
         }
       ],
-      "values": {
-        "move": "rototiller",
-        "cost": "50"
-      }
+      "move":{
+        "move":"rototiller"
+      },
+      "hungerCost": 50
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:torch"
-        }
+      "type":"pokecube:move_recipe",
+      "result":{
+        "item":"minecraft:torch"
       },
-      "inputs": [
+      "ingredients":[
         {
-          "values": {
-            "id": "minecraft:stick"
-          }
+          "item":"minecraft:stick"
         }
       ],
-      "values": {
-        "match": "{\"type\":\"fire\",\"minPower\":10,\"contact\":false}",
-        "cost": "5"
-      }
+      "move":{
+        "type":"fire",
+        "minPower":10,
+        "contact":false
+      },
+      "hungerCost": 5
     },
     {
-      "shapeless": false,
-      "handler": "move_effect",
-      "map": "",
-      "output": {
-        "values": {
-          "id": "minecraft:water_bucket"
-        }
+      "type":"pokecube:move_recipe",
+      "result":{
+        "item":"minecraft:water_bucket"
       },
-      "inputs": [
+      "ingredients":[
         {
-          "values": {
-            "id": "minecraft:bucket"
-          }
+          "item":"minecraft:bucket"
         }
       ],
-      "values": {
-        "match": "{\"type\":\"water\",\"minPower\":10,\"contact\":false}",
-        "cost": "50"
-      }
+      "move":{
+        "type":"water",
+        "minPower":10,
+        "contact":false
+      },
+      "hungerCost": 50
     }
   ]
 }

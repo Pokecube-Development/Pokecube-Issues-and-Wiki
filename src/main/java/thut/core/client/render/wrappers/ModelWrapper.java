@@ -1,5 +1,6 @@
 package thut.core.client.render.wrappers;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -11,8 +12,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import thut.api.ModelHolder;
@@ -29,6 +32,7 @@ import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.IModelRenderer.Vector5;
 import thut.core.client.render.model.ModelFactory;
+import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.mobs.DefaultColourable;
 
@@ -51,6 +55,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         this.model = model;
         this.renderer = renderer;
+        Arrays.fill(this.tmp, 255);
     }
 
     public void SetEntity(final T entity)
@@ -141,8 +146,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void setupAnim(final T entityIn, final float limbSwing, final float limbSwingAmount,
-            final float ageInTicks, final float netHeadYaw, final float headPitch)
+    public void setupAnim(final T entityIn, final float limbSwing, final float limbSwingAmount, final float ageInTicks,
+            final float netHeadYaw, final float headPitch)
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
         if (!this.isLoaded()) return;
@@ -211,6 +216,20 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         final Vector3f axis = new Vector3f(this.rotateAngleX, this.rotateAngleY, this.rotateAngleZ);
         mat.mulPose(new Quaternion(axis, this.rotateAngle, true));
+    }
+
+    public void setMob(final T entity, final IRenderTypeBuffer bufferIn, final ResourceLocation default_)
+    {
+        final IPartTexturer texer = this.renderer.getTexturer();
+        if (texer != null)
+        {
+            texer.bindObject(entity);
+            this.getParts().forEach((n, p) ->
+            {
+                p.applyTexture(bufferIn, default_, texer);
+            });
+        }
+        this.SetEntity(entity);
     }
 
     /**

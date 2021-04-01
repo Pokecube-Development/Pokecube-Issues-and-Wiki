@@ -24,7 +24,6 @@ import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.RegistryKey;
@@ -292,14 +291,6 @@ public class PokecubeCore
         }
 
         @SubscribeEvent
-        public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
-        {
-            // register a new mob here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Recipes");
-            RecipeHandler.initRecipes(event);
-        }
-
-        @SubscribeEvent
         public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
         {
             // register a new mob here
@@ -440,7 +431,7 @@ public class PokecubeCore
 
         bus.addListener(this::loadComplete);
 
-        RecipeHandler.RECIPE_SERIALIZERS.register(bus);
+        RecipeHandler.init(bus);
         SecretBaseDimension.onConstruct(bus);
         PokecubeStructureProcessors.init(bus);
         WorldgenFeatures.init(bus);

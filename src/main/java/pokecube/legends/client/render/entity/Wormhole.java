@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -42,12 +43,13 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
 
     private IAnimationChanger changer = null;
     private IPartTexturer     texer   = null;
+    private IAnimationHolder  holder  = null;
 
     private final Vector3 scale = Vector3.getNewVector();
 
     public Wormhole(final EntityRendererManager manager)
     {
-        super(manager, null, 0f);
+        super(manager, null, 0.1f);
         this.model = this.makeModel();
     }
 
@@ -58,6 +60,15 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
         model.imodel = ModelFactory.create(holder);
         AnimationLoader.parse(model.model, model, this);
         return model;
+    }
+
+    @Override
+    public void render(final WormholeEntity entity, final float p_225623_2_, final float p_225623_3_,
+            final MatrixStack p_225623_4_, final IRenderTypeBuffer bufferIn, final int p_225623_6_)
+    {
+//         this.model = this.makeModel();
+        this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
+        super.render(entity, p_225623_2_, p_225623_3_, p_225623_4_, bufferIn, p_225623_6_);
     }
 
     @Override
@@ -126,17 +137,29 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     @Override
     public void scaleEntity(final MatrixStack mat, final Entity entity, final IModel model, final float partialTick)
     {
+        final float s = 1;
+        float sx = (float) this.getScale().x;
+        float sy = (float) this.getScale().y;
+        float sz = (float) this.getScale().z;
+        sx *= s;
+        sy *= s;
+        sz *= s;
+        if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
+        else mat.scale(s, s, s);
     }
 
     @Override
     public void setAnimationHolder(final IAnimationHolder holder)
     {
+        this.holder = holder;
+        if (this.changer != null) this.changer.setAnimationHolder(holder);
+        this.model.imodel.setAnimationHolder(holder);
     }
 
     @Override
     public IAnimationHolder getAnimationHolder()
     {
-        return null;
+        return this.holder;
     }
 
     @Override
@@ -158,6 +181,7 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     @Override
     public void setScale(final Vector3 scale)
     {
+        this.scale.set(scale);
     }
 
     @Override

@@ -23,6 +23,8 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
@@ -54,8 +56,6 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.pokedex.PokemobsDatabases;
 import pokecube.core.database.recipes.IRecipeParser;
 import pokecube.core.database.recipes.XMLRecipeHandler;
-import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
-import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipes;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.resources.PackListener;
 import pokecube.core.database.rewards.XMLRewardsHandler;
@@ -652,17 +652,24 @@ public class Database
     {
         for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values())
             parser.init();
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
-                "database/recipes", s -> s.endsWith(".json"));
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources("database/recipes", s -> s
+                .endsWith(".json"));
         for (final ResourceLocation name : resources)
             try
             {
                 final IReloadableResourceManager manager = Database.resourceManager;
                 final Reader reader = new InputStreamReader(manager.getResource(name).getInputStream());
-                final XMLRecipes database = PokedexEntryLoader.gson.fromJson(reader, XMLRecipes.class);
+                final JsonObject database = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
                 reader.close();
-                for (final XMLRecipe drop : database.recipes)
-                    XMLRecipeHandler.addRecipe(drop);
+
+                // Handle lists of recipes in the json
+                if (database.has("recipes") && database.get("recipes").isJsonArray())
+                    for (final JsonElement drop : database.get("recipes").getAsJsonArray())
+                    if (drop.isJsonObject()) XMLRecipeHandler.addRecipe(drop.getAsJsonObject());
+
+                // Handle single json as a recipe
+                if (database.has("type") || database.has("handler")) XMLRecipeHandler.addRecipe(database);
+
             }
             catch (final FileNotFoundException e)
             {
@@ -688,8 +695,8 @@ public class Database
 
     private static void loadRewards()
     {
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
-                "database/rewards", s -> s.endsWith(".json"));
+        final Collection<ResourceLocation> resources = Database.resourceManager.listResources("database/rewards", s -> s
+                .endsWith(".json"));
         for (final ResourceLocation name : resources)
             try
             {
