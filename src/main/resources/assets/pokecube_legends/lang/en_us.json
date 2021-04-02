@@ -85,6 +85,7 @@
     "msg.wrongitem.info": "§c[§a%1$s§c] does not like your offering.",
     "msg.alreadyspawned.info": "§c You have already spawned [§a%1$s§c]!",   
     "msg.reginotlookright.info": "§cYou built the [%1$s§c] the wrong way.",
+    "msg.pokecube_legends.ultrakey.no_dust": "§cNot enough Cosmic Dust",
 	"pokecube_legends.mew.badges": "§cYou do not have enough badges to control [§a%1$s§c]!",
     
     "_comment": "Messages related to temples",    

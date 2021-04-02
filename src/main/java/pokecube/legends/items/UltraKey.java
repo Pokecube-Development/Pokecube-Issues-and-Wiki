@@ -82,9 +82,16 @@ public class UltraKey extends ItemBase
 
                 if (entity instanceof PlayerEntity) ((PlayerEntity) entity).getCooldowns().addCooldown(
                         ItemInit.ULTRAKEY.get(), 200);
-            }
-            else world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+            } else
+            {
+                world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                     "block.shulker_box.close")), SoundCategory.NEUTRAL, 1, 1, false);
+                if (entity instanceof PlayerEntity && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
+                    .get()) < 5) {
+                    final PlayerEntity player = (PlayerEntity) entity;
+                    player.displayClientMessage(new TranslationTextComponent("msg.pokecube_legends.ultrakey.no_dust"), true);
+                }
+            }
         }
         else if (dim == FeaturesInit.ULTRASPACE_KEY) if ((entity instanceof ServerPlayerEntity
                 ? ((PlayerEntity) entity).inventory.contains(new ItemStack(ItemInit.COSMIC_DUST.get(), 1))
@@ -104,8 +111,16 @@ public class UltraKey extends ItemBase
             if (entity instanceof PlayerEntity) ((PlayerEntity) entity).getCooldowns().addCooldown(
                     ItemInit.ULTRAKEY.get(), 200);
         }
-        else world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+        else
+        {
+            world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                 "block.shulker_box.close")), SoundCategory.NEUTRAL, 1, 1, false);
+            if (entity instanceof PlayerEntity && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
+                .get()) < 5) {
+                final PlayerEntity player = (PlayerEntity) entity;
+                player.displayClientMessage(new TranslationTextComponent("msg.pokecube_legends.ultrakey.no_dust"), true);
+            }
+        }
 
         // Comsume Item Disable
         if (PokecubeLegends.config.enabledkeyusecombustible == false) if (dim == World.OVERWORLD)
