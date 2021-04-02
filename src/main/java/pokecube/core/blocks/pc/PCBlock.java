@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -138,7 +139,17 @@ public class PCBlock extends HorizontalBlock implements IWaterLoggable
             if (player instanceof ServerPlayerEntity) PacketPC.sendOpenPacket(player, player.getUUID(), pos);
             return ActionResultType.SUCCESS;
         }
-        else return ActionResultType.PASS;
+        else if (this.top && (this.needsBase || !(world.getBlockState(pos.below()).getBlock() instanceof PCBlock)))
+        {
+            player.displayClientMessage(new TranslationTextComponent("msg.pokecube.pc_top.fail"), true);
+            return ActionResultType.PASS;
+        }
+        else if (!this.top && !(world.getBlockState(pos.above()).getBlock() instanceof PCBlock))
+        {
+            player.displayClientMessage(new TranslationTextComponent("msg.pokecube.pc_base.fail"), true);
+            return ActionResultType.PASS;
+        }
+        return ActionResultType.PASS;
     }
 
     // Adds Waterlogging

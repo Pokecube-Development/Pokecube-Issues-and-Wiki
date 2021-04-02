@@ -350,6 +350,8 @@
     "block.pc.option.bind": "Bind",
     "block.pc.option.release": "Release",
     "block.pc.option.confirm": "Confirm",
+    "msg.pokecube.pc_top.fail": "§4PC Base required below",
+    "msg.pokecube.pc_base.fail": "§4PC Top required above",
 
     "block.pokecube.enigma_wood": "Enigma Wood",
     "block.pokecube.leppa_wood": "Leppa Wood",
