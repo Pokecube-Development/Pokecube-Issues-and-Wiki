@@ -112,7 +112,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, evt.getPlacedBlock(), evt.getPos()))
         {
             evt.setCanceled(true);
-            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
+            player.displayClientMessage(new TranslationTextComponent("msg.cannot_defile_temple"), true);
         }
     }
 
@@ -126,7 +126,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, null, evt.getPos()))
         {
             evt.setCanceled(true);
-            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
+            player.displayClientMessage(new TranslationTextComponent("msg.cannot_defile_temple"), true);
         }
     }
 
@@ -145,7 +145,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, null, pos))
         {
             evt.setCanceled(true);
-            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
+            player.displayClientMessage(new TranslationTextComponent("msg.cannot_defile_temple"), true);
         }
     }
 

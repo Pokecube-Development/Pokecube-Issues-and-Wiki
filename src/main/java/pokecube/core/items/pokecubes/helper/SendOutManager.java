@@ -120,8 +120,8 @@ public class SendOutManager
             if (isPlayers && cube.shootingEntity.isAlive())
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"),
-                        Util.NIL_UUID);
+                user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"),
+                        true);
                 cube.remove();
             }
             return null;
@@ -149,7 +149,7 @@ public class SendOutManager
             if (v == null && isPlayers)
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.sendMessage(new TranslationTextComponent("pokecube.noroom"), Util.NIL_UUID);
+                user.displayClientMessage(new TranslationTextComponent("pokecube.noroom"), true);
                 cube.remove();
                 return null;
             }
@@ -170,8 +170,8 @@ public class SendOutManager
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.specific", pokemob
-                            .getDisplayName()), Util.NIL_UUID);
+                    user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.specific", pokemob
+                            .getDisplayName()), true);
                     cube.remove();
                     return null;
                 }
@@ -183,8 +183,8 @@ public class SendOutManager
                 if (isPlayers)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.cancelled", pokemob
-                            .getDisplayName()), Util.NIL_UUID);
+                    user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.cancelled", pokemob
+                            .getDisplayName()), true);
                     cube.remove();
                 }
                 return null;

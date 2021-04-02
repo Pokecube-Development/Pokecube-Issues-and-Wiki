@@ -133,7 +133,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             ITextComponent message = null;
             message = new TranslationTextComponent("block.rfsiphon.info", this.energy.theoreticalOutput
                     - this.energy.currentOutput, this.energy.theoreticalOutput);
-            player.sendMessage(message, Util.NIL_UUID);
+            player.displayClientMessage(message, true);
         }
         return super.onInteract(pos, player, hand, hit);
     }
@@ -181,15 +181,23 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
         {
             if (this.wirelessLinks.remove(pos))
             {
-                if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
+                if (user != null && user instanceof ServerPlayerEntity)
+                {
+                    final PlayerEntity player = (PlayerEntity) user;
+                    player.displayClientMessage(new TranslationTextComponent(
                         "block.pokecube_adventures.siphon.unlink", pos.pos().getX(), pos.pos().getY(), pos
-                                .pos().getZ(), pos.dimension()), Util.NIL_UUID);
+                        .pos().getZ(), pos.dimension()), true);
+                }
                 return true;
             }
             this.wirelessLinks.add(pos);
-            if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
+            if (user != null && user instanceof ServerPlayerEntity)
+            {
+                final PlayerEntity player = (PlayerEntity) user;
+                player.displayClientMessage(new TranslationTextComponent(
                     "block.pokecube_adventures.siphon.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
-                            .getZ(), pos.dimension()), Util.NIL_UUID);
+                    .getZ(), pos.dimension()), true);
+            }
             return true;
         }
         return false;

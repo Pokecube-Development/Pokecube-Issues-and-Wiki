@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -61,9 +62,21 @@ public class BlockEventHandler
             pos = GlobalPos.of(pos.dimension(), pos.pos().above());
             this.tile.getDest().setPos(pos);
             this.tile.getDest().shift(0.5, 0, 0.5);
-            if (!user.getCommandSenderWorld().isClientSide) user.sendMessage(new TranslationTextComponent(
-                    "block.pokecube_adventures.warppad.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
-                            .getZ(), pos.dimension()), Util.NIL_UUID);
+            if (!user.getCommandSenderWorld().isClientSide)
+            {
+                if (user instanceof PlayerEntity)
+                {
+                    final PlayerEntity player = (PlayerEntity) user;
+                    player.displayClientMessage(new TranslationTextComponent(
+                        "block.pokecube_adventures.warppad.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
+                        .getZ(), pos.dimension()), true);
+                } else
+                {
+                    user.sendMessage(new TranslationTextComponent(
+                        "block.pokecube_adventures.warppad.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
+                        .getZ(), pos.dimension()), Util.NIL_UUID);
+                }
+            }
             // Centre us properly.
             return true;
         }
