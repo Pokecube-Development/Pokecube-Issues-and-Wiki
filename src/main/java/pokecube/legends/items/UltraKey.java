@@ -89,8 +89,9 @@ public class UltraKey extends ItemBase
                 if (entity instanceof PlayerEntity && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
                     .get()) < PokecubeLegends.config.ultraKeyConsumeAmount) {
                     final PlayerEntity player = (PlayerEntity) entity;
-                    player.displayClientMessage(new TranslationTextComponent("msg.pokecube_legends.ultrakey.no_dust",
-                        TextFormatting.RED, PokecubeLegends.config.ultraKeyConsumeAmount), true);
+                    String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust",
+                        TextFormatting.RED, PokecubeLegends.config.ultraKeyConsumeAmount);
+                    player.displayClientMessage(new TranslationTextComponent(message), true);
                 }
             }
         }
@@ -120,8 +121,9 @@ public class UltraKey extends ItemBase
             if (entity instanceof PlayerEntity && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
                 .get()) < PokecubeLegends.config.ultraKeyConsumeAmount) {
                 final PlayerEntity player = (PlayerEntity) entity;
-                player.displayClientMessage(new TranslationTextComponent("msg.pokecube_legends.ultrakey.no_dust",
-                    TextFormatting.RED, PokecubeLegends.config.ultraKeyConsumeAmount), true);
+                String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust",
+                    TextFormatting.RED, PokecubeLegends.config.ultraKeyConsumeAmount);
+                player.displayClientMessage(new TranslationTextComponent(message), true);
             }
         }
 

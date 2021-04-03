@@ -678,6 +678,7 @@
     "block.pokecube_legends.fini_black_totem": "Black Fini Totem",
     "block.pokecube_legends.fini_white_totem": "White Fini Totem",
     "block.pokecube_legends.fini_brown_totem": "Brown Fini Totem",
+    "fluid.pokecube_legends.distortic_water": "Distortic Water",
 
     "_comment": "Tooltips for blocks",
     "legendblock.portalwarp.tooltip": "§6Summons a random pokémob.",
@@ -689,7 +690,7 @@
     "_comment": "Dimension",
     "legends.mirror.tooltip": "§6Used to teleport to the Distorted World.",
     "legends.ultrakey.tooltip": "§6Used to teleport to Ultra Space.\n%1$s[Requires %2$s Cosmic Dust]",
-    "msg.pokecube_legends.ultrakey.no_dust": "§cRequires %1$s+§c%2$s §cCosmic Dust",
+    "msg.pokecube_legends.ultrakey.no_dust": "§cRequires %1$s%2$s Cosmic Dust",
 
     "_comment": "Tooltips for mobs",
     "legends.fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Moltres",
