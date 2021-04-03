@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+    "down": "pokecube_legends:blocks/distortic_acacia_planks",
+    "up": "pokecube_legends:blocks/distortic_acacia_planks",
+    "north": "pokecube_legends:blocks/distortic_acacia_planks",
+    "east": "pokecube_legends:blocks/distortic_acacia_planks",
+    "south": "pokecube_legends:blocks/distortic_acacia_planks",
+    "west": "pokecube_legends:blocks/distortic_acacia_planks",
+    "particle": "pokecube_legends:blocks/distortic_acacia_planks"
+  }
+}

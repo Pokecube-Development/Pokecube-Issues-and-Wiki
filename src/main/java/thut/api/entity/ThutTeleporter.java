@@ -11,6 +11,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
@@ -19,6 +21,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
@@ -72,7 +75,7 @@ public class ThutTeleporter
         {
             this.loc = loc;
             this.subLoc = subLoc;
-            this.name = loc.pos().toString() + " " + loc.dimension().getRegistryName();
+            this.name = "";
             return this;
         }
 
@@ -83,7 +86,7 @@ public class ThutTeleporter
                 this.loc = pos;
                 this.subLoc = Vector3.getNewVector().set(this.loc.pos().getX(), this.loc.pos().getY(), this.loc.pos()
                         .getZ());
-                this.name = this.loc.pos().toString() + " " + this.loc.dimension().getRegistryName();
+                this.name = "";
             }
             return this;
         }
@@ -136,6 +139,12 @@ public class ThutTeleporter
             this.subLoc.x += dx;
             this.subLoc.y += dy;
             this.subLoc.z += dz;
+        }
+
+        public ITextComponent getInfoName()
+        {
+            return new TranslationTextComponent("teledest.location", this.loc.pos().getX(), this.loc.pos().getY(),
+                    this.loc.pos().getZ(), this.loc.dimension().location());
         }
 
         public boolean withinDist(final TeleDest other, final double dist)
@@ -332,8 +341,7 @@ public class ThutTeleporter
 
     private static void addMob(final ServerWorld world, final Entity entity)
     {
-        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
-                new net.minecraftforge.event.entity.EntityJoinWorldEvent(entity, world))) return;
+        if (MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(entity, world))) return;
         final IChunk ichunk = world.getChunk(MathHelper.floor(entity.getX() / 16.0D), MathHelper.floor(entity.getZ()
                 / 16.0D), ChunkStatus.FULL, true);
         if (ichunk instanceof Chunk) ichunk.addEntity(entity);

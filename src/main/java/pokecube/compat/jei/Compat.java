@@ -151,5 +151,6 @@ public class Compat implements IModPlugin
         registration.addRecipes(evos, pokecube.compat.jei.categories.evolution.Category.GUID);
         registration.addRecipes(interactions, pokecube.compat.jei.categories.interaction.Category.GUID);
         registration.addRecipes(RecipeMove.ALLRECIPES, pokecube.compat.jei.categories.move.Category.GUID);
+        registration.addRecipes(RecipeMove.CUSTOM.values(), pokecube.compat.jei.categories.move.Category.GUID);
     }
 }

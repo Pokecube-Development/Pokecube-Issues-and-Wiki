@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.burrows.burrow;
 
+import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -196,7 +197,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     @Override
     public void onTick(final ServerWorld world)
     {
-        final long time = world.getGameTime();
+        final long time = Tracker.instance().getTick();
 
         int x, y, z;
         x = this.burrow.getCenter().getX();

@@ -44,7 +44,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
 {
     public int priority = 100;
 
-    public int spacing = 4;
+    public int spacing = 6;
 
     public CustomJigsawStructure(final Codec<JigsawConfig> config)
     {

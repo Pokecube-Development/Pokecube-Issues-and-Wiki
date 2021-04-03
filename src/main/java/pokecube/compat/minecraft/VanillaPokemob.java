@@ -1,5 +1,6 @@
 package pokecube.compat.minecraft;
 
+import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -101,14 +100,13 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
         boolean sheared = this.getGeneralState(GeneralStates.SHEARED);
         if (sheared && this.getEntity().isEffectiveAi())
         {
-            final MinecraftServer server = this.getEntity().getServer();
             final long lastShear = this.getEntity().getPersistentData().getLong(TagNames.SHEARTIME);
             final ItemStack key = new ItemStack(Items.SHEARS);
             if (this.getPokedexEntry().interact(key))
             {
                 final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
                 final int timer = action.cooldown + this.rand.nextInt(1 + action.variance);
-                if (lastShear < server.getLevel(World.OVERWORLD).getGameTime() - timer) sheared = false;
+                if (lastShear < Tracker.instance().getTick() - timer) sheared = false;
             }
             // Cannot shear this!
             else sheared = false;
@@ -126,11 +124,9 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
         final ItemStack key = shears;
         if (this.getPokedexEntry().interact(key))
         {
-            final MinecraftServer server = this.getEntity().getServer();
             final ArrayList<ItemStack> ret = new ArrayList<>();
             this.setGeneralState(GeneralStates.SHEARED, true);
-            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, server.getLevel(World.OVERWORLD)
-                    .getGameTime());
+            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, Tracker.instance().getTick());
             final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
             final List<ItemStack> list = action.stacks;
             this.applyHunger(action.hunger);

@@ -14,7 +14,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ShearableCaps
 {
@@ -120,8 +119,7 @@ public class ShearableCaps
         return in.getCapability(ShearableCaps.CAPABILITY).orElse(null);
     }
 
-    @SubscribeEvent
-    public static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
+    private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getCapabilities().containsKey(ShearableCaps.LOC)) return;
         if (event.getObject() instanceof SheepEntity) event.addCapability(ShearableCaps.LOC, new Sheep(
@@ -131,6 +129,6 @@ public class ShearableCaps
     public static void setup()
     {
         CapabilityManager.INSTANCE.register(IShearable.class, new Storage(), Impl::new);
-        MinecraftForge.EVENT_BUS.register(ShearableCaps.class);
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, ShearableCaps::attachMobs);
     }
 }

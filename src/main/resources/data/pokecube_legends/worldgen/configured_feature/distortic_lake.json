@@ -1,0 +1,22 @@
+{
+  "config": {
+    "feature": {
+      "config": {
+        "state": {
+          "Properties": {
+            "level": "0"
+          },
+          "Name": "pokecube_legends:distortic_water"
+        }
+      },
+      "type": "minecraft:lake"
+    },
+    "decorator": {
+      "config": {
+        "chance": 6
+      },
+      "type": "minecraft:water_lake"
+    }
+  },
+  "type": "minecraft:decorated"
+}

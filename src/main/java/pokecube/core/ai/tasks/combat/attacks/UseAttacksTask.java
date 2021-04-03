@@ -1,5 +1,7 @@
 package pokecube.core.ai.tasks.combat.attacks;
 
+import thut.api.Tracker;
+
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.LivingEntity;
@@ -107,8 +109,8 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (!this.waitingToStart)
         {
             if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0) && !this.pokemob
-                    .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.position(),
-                            this.speed, 0);
+                    .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.position(), this.speed,
+                            0);
             this.targetLoc.set(this.entityTarget);
             this.waitingToStart = true;
             /**
@@ -271,6 +273,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     @Override
     public void tick()
     {
-        this.entity.getPersistentData().putLong("lastAttackTick", this.entity.getCommandSenderWorld().getGameTime());
+        this.entity.getPersistentData().putLong("lastAttackTick", Tracker.instance().getTick());
     }
 }

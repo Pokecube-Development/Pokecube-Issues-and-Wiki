@@ -15,7 +15,6 @@ import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.RegistryKey;
@@ -92,6 +91,7 @@ import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.PokecubeStructureProcessors;
+import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeDatabase;
@@ -248,6 +248,8 @@ public class PokecubeCore
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
             Database.postInit();
             PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
+
+            CopyCaps.register(NpcMob.TYPE);
         }
 
         @SubscribeEvent
@@ -283,14 +285,6 @@ public class PokecubeCore
             // register a new item here
             PokecubeCore.LOGGER.debug("Registering Pokecube Items");
             ItemHandler.registerItems(event.getRegistry());
-        }
-
-        @SubscribeEvent
-        public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
-        {
-            // register a new mob here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Recipes");
-            RecipeHandler.initRecipes(event);
         }
 
         @SubscribeEvent
@@ -434,7 +428,7 @@ public class PokecubeCore
 
         bus.addListener(this::loadComplete);
 
-        RecipeHandler.RECIPE_SERIALIZERS.register(bus);
+        RecipeHandler.init(bus);
         SecretBaseDimension.onConstruct(bus);
         PokecubeStructureProcessors.init(bus);
         WorldgenFeatures.init(bus);

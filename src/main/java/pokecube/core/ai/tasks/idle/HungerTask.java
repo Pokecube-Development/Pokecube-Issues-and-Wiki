@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.idle;
 
+import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -170,9 +171,11 @@ public class HungerTask extends BaseIdleTask
         for (final IBlockEatTask task : HungerTask.EATTASKS)
             if (task.tryEat(this.pokemob, this.blocks).test()) return true;
         // If none of these, then lets actually try to hunt.
-        if (this.pokemob.getPokedexEntry().hasPrey() && this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES))
+        if (this.pokemob.getPokedexEntry().hasPrey() && this.entity.getBrain().hasMemoryValue(
+                MemoryModuleType.VISIBLE_LIVING_ENTITIES))
         {
-            final List<LivingEntity> targets = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
+            final List<LivingEntity> targets = this.entity.getBrain().getMemory(
+                    MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
             for (final LivingEntity mob : targets)
             {
                 final IPokemob other = CapabilityPokemob.getPokemobFor(mob);
@@ -284,8 +287,7 @@ public class HungerTask extends BaseIdleTask
             this.v1.set(this.entity);
             this.pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
         }
-        if (this.pokemob.hasHomeArea() && this.entity.blockPosition().distSqr(this.pokemob.getHome()) > 9)
-            return false;
+        if (this.pokemob.hasHomeArea() && this.entity.blockPosition().distSqr(this.pokemob.getHome()) > 9) return false;
         // TODO search for possible better place to sleep
         return true;
     }
@@ -406,7 +408,7 @@ public class HungerTask extends BaseIdleTask
             if (this.entity.getPersistentData().contains("lastInteract"))
             {
                 final long time = this.entity.getPersistentData().getLong("lastInteract");
-                final long diff = this.entity.getCommandSenderWorld().getGameTime() - time;
+                final long diff = Tracker.instance().getTick() - time;
                 if (diff < PokecubeCore.getConfig().pokemobLifeSpan) tameCheck = false;
             }
             // If they are allowed to, find the berries.
@@ -451,8 +453,8 @@ public class HungerTask extends BaseIdleTask
 
         // Regenerate health if out of battle.
         if (!BrainUtils.hasAttackTarget(this.entity) && this.pokemob.getHealth() > 0 && !this.entity
-                .getCommandSenderWorld().isClientSide && this.pokemob.getHungerCooldown() < 0 && this.pokemob.getHungerTime() < 0
-                && cur % 10 == tick)
+                .getCommandSenderWorld().isClientSide && this.pokemob.getHungerCooldown() < 0 && this.pokemob
+                        .getHungerTime() < 0 && cur % 10 == tick)
         {
             final float dh = Math.max(1, this.pokemob.getMaxHealth() * 0.05f);
             final float toHeal = this.pokemob.getHealth() + dh;

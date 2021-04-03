@@ -1,5 +1,6 @@
 package pokecube.legends.init.function;
 
+import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -16,7 +17,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
@@ -91,7 +91,7 @@ public class MaxRaidFunction
 
             final int level = new Random().nextInt(100);
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
-            final Long time = entity.getServer().getLevel(World.OVERWORLD).getGameTime();
+            final Long time = Tracker.instance().getTick();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
             pokemob.setCombatState(CombatStates.DYNAMAX, true);

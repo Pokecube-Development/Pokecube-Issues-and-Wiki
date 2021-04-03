@@ -32,7 +32,7 @@ public class ConfigTerrainChecker implements ISubBiomeChecker
     }
 
     @Override
-    public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+    public BiomeType getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
             final boolean caveAdjusted)
     {
         if (caveAdjusted)
@@ -48,10 +48,10 @@ public class ConfigTerrainChecker implements ISubBiomeChecker
                     for (int k = z1; k < z1 + TerrainSegment.GRIDSIZE; k++)
                     {
                         temp1.set(i, j, k);
-                        if (this.apply(temp1.getBlockState(world))) return this.subbiome.getType();
+                        if (this.apply(temp1.getBlockState(world))) return this.subbiome;
                     }
         }
-        return -1;
+        return BiomeType.NONE;
     }
 
 }

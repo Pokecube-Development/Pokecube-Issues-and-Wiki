@@ -16,11 +16,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
-import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.recipes.MoveRecipes.MoveRecipe;
 
-public class Category implements IRecipeCategory<RecipeMove>
+public class Category implements IRecipeCategory<MoveRecipe>
 {
     public static final ResourceLocation GUI  = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png");
     public static final ResourceLocation TABS = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/jeitabs.png");
@@ -70,42 +69,41 @@ public class Category implements IRecipeCategory<RecipeMove>
     }
 
     @Override
-    public Class<? extends RecipeMove> getRecipeClass()
+    public Class<? extends MoveRecipe> getRecipeClass()
     {
-        return RecipeMove.class;
+        return MoveRecipe.class;
     }
 
     @Override
-    public List<ITextComponent> getTooltipStrings(final RecipeMove recipe, final double mouseX, final double mouseY)
+    public List<ITextComponent> getTooltipStrings(final MoveRecipe recipe, final double mouseX, final double mouseY)
     {
         final List<ITextComponent> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return tooltips;
 
-        if (recipe.actions.size() > 4)
+        if (recipe.matchedMoves.size() > 4)
         {
             final long time = System.currentTimeMillis() / 500;
             for (int i = 0; i < 4; i++)
             {
-                final IMoveAction action = recipe.actions.get((int) ((time - i) % recipe.actions.size()));
-                tooltips.add(MovesUtils.getMoveName(action.getMoveName()));
+                final String name = recipe.matchedMoves.get((int) ((time - i) % recipe.matchedMoves.size()));
+                tooltips.add(MovesUtils.getMoveName(name));
             }
-
         }
-        else for (final IMoveAction action : recipe.actions)
-            tooltips.add(MovesUtils.getMoveName(action.getMoveName()));
+        else for (final String name : recipe.matchedMoves)
+            tooltips.add(MovesUtils.getMoveName(name));
         return tooltips;
     }
 
     @Override
-    public void setIngredients(final RecipeMove recipe, final IIngredients ingredients)
+    public void setIngredients(final MoveRecipe recipe, final IIngredients ingredients)
     {
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.recipe.getResultItem());
-        ingredients.setInputIngredients(recipe.recipe.getIngredients());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
+        ingredients.setInputIngredients(recipe.getIngredients());
     }
 
     @Override
-    public void setRecipe(final IRecipeLayout recipeLayout, final RecipeMove recipe, final IIngredients ingredients)
+    public void setRecipe(final IRecipeLayout recipeLayout, final MoveRecipe recipe, final IIngredients ingredients)
     {
         final IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         recipeLayout.getIngredientsGroup(VanillaTypes.ITEM).init(Category.craftOutputSlot, false, 94, 18);

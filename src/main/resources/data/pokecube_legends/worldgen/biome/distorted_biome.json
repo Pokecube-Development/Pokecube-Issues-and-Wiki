@@ -1,18 +1,32 @@
 {
-  "scale": 0.25,
-  "effects": {
-    "mood_sound": {
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 6000,
-      "block_search_extent": 8,
-      "offset": 2.0
+  "effects":
+  {
+    "sky_color": 8501625,
+    "fog_color": 926014,
+    "water_color": 65505,
+    "water_fog_color": 228462,
+    "particle":
+    {
+      "options":
+      {
+        "type": "minecraft:falling_dust",
+        "Name": "minecraft:packed_ice"
+      },
+      "probability": 0.2
     },
     "sky_color": 4766,
     "fog_color": 4766,
     "water_color": 12245481,
     "water_fog_color": 5796478,
     "grass_color": 16147822,
-    "foliage_color": 13187908
+    "foliage_color": 13187908,
+    "mood_sound":
+    {
+      "tick_delay": 3000,
+      "block_search_extent": 10,
+      "offset": 2,
+      "sound": "minecraft:ambient.cave"
+    }
   },
   "surface_builder": "pokecube_legends:distorted_place",
   "carvers": {
@@ -23,7 +37,9 @@
   },
   "features": [
     [],
-    [],
+    [
+     "pokecube_legends:distortic_water"
+    ],
     [],
     [],
     [],
@@ -42,8 +58,9 @@
   "spawn_costs": {},
   "player_spawn_friendly": false,
   "precipitation": "none",
+  "scale": 0.05,
   "temperature": 2.0,
   "downfall": 0.0,
-  "category": "plains",
+  "category": "the_end",
   "depth": 0.225
 }

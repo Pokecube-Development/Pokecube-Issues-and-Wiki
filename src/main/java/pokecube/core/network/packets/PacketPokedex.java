@@ -56,7 +56,6 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -281,8 +280,8 @@ public class PacketPokedex extends Packet
         switch (this.message)
         {
         case OPEN:
-            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.data.getInt(
-                    "M"), true);
+            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.data
+                    .getInt("M"), true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             final boolean watch = this.data.getBoolean("W");
             if (watch) net.minecraft.client.Minecraft.getInstance().setScreen(new GuiPokeWatch(player,
@@ -405,7 +404,8 @@ public class PacketPokedex extends Packet
         switch (this.message)
         {
         case INSPECTMOB:
-            mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.data.getInt("V"), true);
+            mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.data.getInt("V"),
+                    true);
             pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player).getData(
                     PokecubePlayerStats.class).inspect(player, pokemob);
@@ -516,9 +516,9 @@ public class PacketPokedex extends Packet
                     final float val = rates.get(e) * 100 / total;
                     rates.put(e, val);
                 }
-                final int biome = TerrainManager.getInstance().getTerrainForEntity(player).getBiome(pos);
-                packet.data.putString("0", "" + biome);
-                packet.data.putString("1", BiomeDatabase.getUnlocalizedNameFromType(biome));
+                final BiomeType biome = TerrainManager.getInstance().getTerrainForEntity(player).getBiome(pos);
+                packet.data.putString("0", "" + biome.getType());
+                packet.data.putString("1", biome.readableName);
                 for (int i = 0; i < names.size(); i++)
                 {
                     final PokedexEntry e = names.get(i);

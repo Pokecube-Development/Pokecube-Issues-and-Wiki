@@ -76,7 +76,7 @@ public class Impl
         }
 
         @Override
-        public int getSubBiome(final IWorld world_in, final Vector3 v, final TerrainSegment segment,
+        public BiomeType getSubBiome(final IWorld world_in, final Vector3 v, final TerrainSegment segment,
                 final boolean caveAdjusted)
         {
             check:
@@ -113,7 +113,7 @@ public class Impl
                 if (Impl.logged.add(type)) PokecubeCore.LOGGER.info("Lost Cities Structure: " + type);
                 if (PokecubeTerrainChecker.structureSubbiomeMap.containsKey(type))
                     type = PokecubeTerrainChecker.structureSubbiomeMap.get(type);
-                return BiomeType.getBiome(type, true).getType();
+                return BiomeType.getBiome(type, true);
             }
             return this.parent.getSubBiome(world_in, v, segment, caveAdjusted);
         }

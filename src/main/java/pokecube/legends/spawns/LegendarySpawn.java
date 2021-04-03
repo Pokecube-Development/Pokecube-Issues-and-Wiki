@@ -1,5 +1,6 @@
 package pokecube.legends.spawns;
 
+import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -120,7 +121,7 @@ public class LegendarySpawn
             world = world.getServer().getLevel(World.OVERWORLD);
             final UUID id = evt.getEntity().getPersistentData().getUUID("spwnedby");
             PokecubePlayerDataHandler.getCustomDataTag(id).putLong("spwn_ded:" + attacked.getPokedexEntry()
-                    .getTrimmedName(), world.getGameTime());
+                    .getTrimmedName(), Tracker.instance().getTick());
             PokecubePlayerDataHandler.saveCustomData(id.toString());
         }
     }
@@ -138,10 +139,10 @@ public class LegendarySpawn
         final BlockState state = evt.getWorld().getBlockState(evt.getPos());
         final List<LegendarySpawn> matches = LegendarySpawn.getForBlock(state);
         if (matches.isEmpty()) return;
-        final boolean repeated = evt.getPlayer().getPersistentData().getLong("pokecube_legends:msgtick") != evt
-                .getWorld().getGameTime();
+        final long now = Tracker.instance().getTick();
+        final boolean repeated = evt.getPlayer().getPersistentData().getLong("pokecube_legends:msgtick") != now;
         if (!repeated || evt.getPlayer().isCrouching()) return;
-        evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", evt.getWorld().getGameTime());
+        evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", now);
 
         ItemStack stack = evt.getItemStack();
         // Try both hands just incase.
@@ -164,7 +165,7 @@ public class LegendarySpawn
             }
             evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.noitem.info", new TranslationTextComponent(
                     match.entry.getUnlocalizedName())), true);
-            evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", evt.getWorld().getGameTime());
+            evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", Tracker.instance().getTick());
             return;
         }
 

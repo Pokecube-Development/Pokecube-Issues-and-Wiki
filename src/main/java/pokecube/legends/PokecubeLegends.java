@@ -2,9 +2,14 @@ package pokecube.legends;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -19,6 +24,7 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -44,6 +50,7 @@ import pokecube.legends.init.*;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
+import pokecube.legends.recipes.DistorticRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.trees.Trees;
@@ -57,14 +64,22 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<Block> BLOCKS         = DeferredRegister.create(ForgeRegistries.BLOCKS,
+    public static final DeferredRegister<Block>         BLOCKS         = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
-    public static final DeferredRegister<Block> BLOCKS_TAB     = DeferredRegister.create(ForgeRegistries.BLOCKS,
+    public static final DeferredRegister<Block>         BLOCKS_TAB     = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
-    public static final DeferredRegister<Block> DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
+    public static final DeferredRegister<Block>         DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
-    public static final DeferredRegister<Item>  ITEMS          = DeferredRegister.create(ForgeRegistries.ITEMS,
+    public static final DeferredRegister<Item>          ITEMS          = DeferredRegister.create(ForgeRegistries.ITEMS,
             Reference.ID);
+	public static final DeferredRegister<Fluid>  		FLUIDS         = DeferredRegister.create(ForgeRegistries.FLUIDS,
+            Reference.ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES       = DeferredRegister.create(ForgeRegistries.ENTITIES,
+    		Reference.ID);
+    
+    //Recipes
+    public static final DeferredRegister<IRecipeSerializer<?>> DISTORTIC_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, 
+    		Reference.ID);
 
     public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
 
@@ -108,6 +123,13 @@ public class PokecubeLegends
             event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.BLOCK_PORTALWARP.get()
                     .getRegistryName()));
         }
+
+        @SubscribeEvent
+        public static void onEntityAttributes(final EntityAttributeCreationEvent event)
+        {
+            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.createLivingAttributes();
+            event.put(EntityInit.WORMHOLE.get(), attribs.build());
+        }
     }
 
     public static final Config config = new Config();
@@ -128,6 +150,9 @@ public class PokecubeLegends
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
+		PokecubeLegends.FLUIDS.register(modEventBus);
+        PokecubeLegends.ENTITIES.register(modEventBus);
+        PokecubeLegends.DISTORTIC_SERIALIZERS.register(modEventBus);
 
         // Biomes Dictionary
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
@@ -140,6 +165,9 @@ public class PokecubeLegends
         BlockInit.init();
         ItemInit.init();
         MoveRegister.init();
+        EntityInit.init();
+        
+        DistorticRecipeManager.init();
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)

@@ -22,6 +22,7 @@ import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.LinkableCaps;
 import thut.api.TickHandler;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
@@ -97,7 +98,7 @@ public class CommonProxy implements Proxy
                         box.z1);
                 poses.forEach((p) ->
                 {
-                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome.getType());
+                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
                 });
                 final String message = "msg.subbiome.set";
                 playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.NIL_UUID);
@@ -114,7 +115,7 @@ public class CommonProxy implements Proxy
             final String message = "msg.subbiome.setcorner";
             if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.NIL_UUID);
             evt.setCanceled(true);
-            itemstack.getTag().putLong("time", worldIn.getGameTime());
+            itemstack.getTag().putLong("time", Tracker.instance().getTick());
         }
     }
 
@@ -127,8 +128,9 @@ public class CommonProxy implements Proxy
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
+        final long now = Tracker.instance().getTick();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
-                .getLong("time") != worldIn.getGameTime())
+                .getLong("time") != now)
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
             final Vector3d loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle()
@@ -144,7 +146,7 @@ public class CommonProxy implements Proxy
                         box.z1);
                 poses.forEach((p) ->
                 {
-                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome.getType());
+                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
                 });
                 final String message = "msg.subbiome.set";
                 playerIn.sendMessage(new TranslationTextComponent(message, subbiome.name), Util.NIL_UUID);

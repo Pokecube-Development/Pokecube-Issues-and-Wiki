@@ -65,7 +65,6 @@ import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.boom.ExplosionCustom;
 import thut.api.boom.ExplosionCustom.BlastResult;
 import thut.api.boom.ExplosionCustom.BlockBreaker;
@@ -206,12 +205,10 @@ public final class SpawnHandler
     public static HashSet<RegistryKey<World>> dimensionBlacklist = Sets.newHashSet();
     public static HashSet<RegistryKey<World>> dimensionWhitelist = Sets.newHashSet();
 
-    public static Predicate<Integer> biomeToRefresh = input ->
+    public static Predicate<BiomeType> biomeToRefresh = input ->
     {
-        if (input == -1 || SpawnHandler.refreshSubbiomes) return true;
-        return input == BiomeType.SKY.getType() || input == BiomeType.CAVE.getType() || input == BiomeType.CAVE_WATER
-                .getType() || input == BiomeType.ALL.getType() || input == PokecubeTerrainChecker.INSIDE.getType()
-                || input == BiomeType.NONE.getType();
+        if (SpawnHandler.refreshSubbiomes) return true;
+        return !input.shouldSave();
     };
 
     public static double  MAX_DENSITY = 1;
@@ -270,8 +267,8 @@ public final class SpawnHandler
         if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return false;
         if (!SpawnHandler.doSpawns) return false;
         if (SpawnHandler.dimensionBlacklist.contains(world.dimension())) return false;
-        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world
-                .dimension())) return false;
+        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world.dimension()))
+            return false;
         return true;
     }
 
@@ -419,8 +416,7 @@ public final class SpawnHandler
         int spawnLevel = baseLevel;
 
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
-        final int b = t.getBiome(location);
-        final BiomeType type = BiomeType.getType(b);
+        final BiomeType type = t.getBiome(location);
         if (variance == null) if (SpawnHandler.subBiomeLevels.containsKey(type)) variance = SpawnHandler.subBiomeLevels
                 .get(type);
         else variance = SpawnHandler.DEFAULT_VARIANCE;
@@ -526,12 +522,13 @@ public final class SpawnHandler
                         if (power < 36)
                         {
                             if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
-                            if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT) to = Blocks.FIRE.defaultBlockState();
+                            if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT) to = Blocks.FIRE
+                                    .defaultBlockState();
                         }
                         final MeteorEvent event = new MeteorEvent(destroyed, to, pos, power, boom);
                         MinecraftForge.EVENT_BUS.post(event);
                         final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
-                        seg.setBiome(pos, BiomeType.METEOR.getType());
+                        seg.setBiome(pos, BiomeType.METEOR);
                         boom.world.setBlock(pos, to, 3);
                     }
                 }
@@ -541,8 +538,7 @@ public final class SpawnHandler
             PokecubeCore.LOGGER.debug(message);
             boom.doExplosion();
         }
-        PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.dimension(), location
-                .getPos()));
+        PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.dimension(), location.getPos()));
     }
 
     private static int parse(final World world, final Vector3 location)
@@ -628,12 +624,12 @@ public final class SpawnHandler
             final int i = location.intX();
             final int j = location.intY();
             final int k = location.intZ();
-            int biome = t.getBiome(i, j, k);
+            BiomeType biome = t.getBiome(i, j, k);
             if (SpawnHandler.biomeToRefresh.apply(biome))
             {
                 temp1.set(i, j, k);
                 biome = t.adjustedCaveBiome(world, temp1);
-                if (biome == -1) biome = t.adjustedNonCaveBiome(world, temp1);
+                if (biome.isNone()) biome = t.adjustedNonCaveBiome(world, temp1);
                 t.setBiome(i, j, k, biome);
             }
         }
@@ -642,11 +638,11 @@ public final class SpawnHandler
                 for (int k = z1; k < z1 + 16; k += TerrainSegment.GRIDSIZE)
                 {
                     temp1.set(i, j, k);
-                    int biome = t.getBiome(i, j, k);
+                    BiomeType biome = t.getBiome(i, j, k);
                     if (SpawnHandler.biomeToRefresh.apply(biome))
                     {
                         biome = t.adjustedCaveBiome(world, temp1);
-                        if (biome == -1) biome = t.adjustedNonCaveBiome(world, temp1);
+                        if (biome.isNone()) biome = t.adjustedNonCaveBiome(world, temp1);
                         t.setBiome(i, j, k, biome);
                     }
                 }
@@ -714,7 +710,7 @@ public final class SpawnHandler
         if (v.y <= 0 || v.y >= world.dimensionType().logicalHeight()) return ret;
         SpawnHandler.refreshTerrain(v, world, true);
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, v);
-        if (SpawnHandler.onlySubbiomes && t.getBiome(v) < 0) return ret;
+        if (SpawnHandler.onlySubbiomes && t.getBiome(v).isNone()) return ret;
         long time = System.nanoTime();
         final PokedexEntry dbe = SpawnHandler.getSpawnForLoc(world, v);
         if (dbe == null) return ret;
@@ -848,8 +844,8 @@ public final class SpawnHandler
                             }
                             final SpawnEvent.Post evt = new SpawnEvent.Post(dbe, v3, world, pokemob);
                             PokecubeCore.POKEMOB_BUS.post(evt);
-                            entity.finalizeSpawn(world, world.getCurrentDifficultyAt(v.getPos()),
-                                    SpawnReason.NATURAL, null, null);
+                            entity.finalizeSpawn(world, world.getCurrentDifficultyAt(v.getPos()), SpawnReason.NATURAL,
+                                    null, null);
                             world.addFreshEntity(entity);
                             totalSpawnCount++;
                         }

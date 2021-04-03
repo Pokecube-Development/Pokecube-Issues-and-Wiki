@@ -125,6 +125,42 @@
       ]
     },
     
+    //The_End
+    {
+      "name":"pokecube:village/the_end/town_centers",
+      "rigid":true,
+      "options":[
+        "pokecube:village/the_end/town_centers/center_1"
+      ]
+    },
+    {
+      "name":"pokecube:village/the_end/streets",
+      "rigid":true,
+      "options":[
+        "pokecube:village/the_end/streets/crossroad_01;{\"weight\":2}",
+        "pokecube:village/the_end/streets/crossroad_02;{\"weight\":2}",
+        "pokecube:village/the_end/streets/crossroad_03;{\"weight\":3}",
+        "pokecube:village/the_end/streets/straight_1;{\"weight\":5}"
+      ]
+    },
+    {
+      "name":"pokecube:village/the_end/houses",
+      "ignoreAir":false,
+      "rigid":true,
+      "options":[
+        "empty;{\"weight\":4}",
+        "pokecube:village/the_end/houses/house_1;{\"weight\":4}",
+        "pokecube:village/the_end/houses/house_2;{\"weight\":4}",
+        "pokecube:village/the_end/houses/house_3;{\"weight\":2}",
+        "pokecube:village/the_end/houses/house_4;{\"weight\":2}",
+        "pokecube:village/the_end/houses/house_5;{\"weight\":2}",
+        "pokecube:village/the_end/houses/house_6;{\"weight\":5}",
+        "pokecube:village/the_end/houses/house_7;{\"weight\":6}",
+        "pokecube:village/the_end/houses/house_8;{\"weight\":3}"
+      ]
+    },
+    //
+    
     //Dark Forest
     {
       "name":"pokecube:village/dark_forest/town_centers",
@@ -263,7 +299,8 @@
       "name":"pokecube:village/swamp/terminators",
       "rigid":true,
       "options":[
-        "pokecube:village/swamp/terminators/terminator_01;{\"dy\":3}"
+        "pokecube:village/swamp/terminators/terminator_01;{\"weight\":4,\"dy\":3}",
+        "pokecube:village/swamp/terminators/terminator_02;{\"weight\":7,\"dy\":3}"
       ]
     },
     {
@@ -439,7 +476,9 @@
       	"pokecube:village/cave/streets/crossroad_01;{\"weight\":3}",
       	"pokecube:village/cave/streets/crossroad_02;{\"weight\":3}",
         "pokecube:village/cave/streets/straight_1;{\"weight\":8}",
-        "pokecube:village/cave/streets/straight_2;{\"weight\":8}"
+        "pokecube:village/cave/streets/straight_2;{\"weight\":8}",
+        "pokecube:village/cave/streets/straight_3;{\"weight\":8}",
+        "pokecube:village/cave/streets/straight_4;{\"weight\":8}"
       ]
     },
     {
@@ -545,7 +584,7 @@
       "rigid":true,
       "options":[
         "empty;{\"weight\":2}",
-        "pokecube:village/sky/houses/house_1;{\"weight\":7",
+        "pokecube:village/sky/houses/house_1;{\"weight\":7}",
         "pokecube:village/sky/houses/house_2;{\"weight\":7}",
         "pokecube:village/sky/houses/house_3;{\"weight\":7}",
         "pokecube:village/sky/houses/house_4;{\"weight\":7}",
@@ -1069,6 +1108,7 @@
       "separation":12,
       "size":6,
       "priority":10,
+      "base_under":false,
       "biomeType":"village",
 	  "needed_once":[
         "pokecenter"
@@ -1080,8 +1120,31 @@
       "spawn":{
         "values":{
           "category": "forest",
-          "typesBlacklist":"snowy,spooky",
+          "typesBlacklist":"snowy",
           "categoryBlacklist":"desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    },
+    //
+    
+    {
+      "name":"pokecube:village/the_end",
+      "root":"pokecube:village/the_end/town_centers",
+      "chance":1,
+      "distance":32,
+      "separation":12,
+      "size":6,
+      "priority":10,
+      "air": true,
+      "height": 15,
+      "base_under":false,
+      "biomeType":"village",
+      "dimWhitelist":[
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category": "the_end"
         }
       }
     },

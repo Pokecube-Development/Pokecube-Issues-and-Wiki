@@ -153,7 +153,6 @@ public class CapabilityTerrain
             {
                 final TerrainSegment t = this.getTerrainSegment(i);
                 if (t == null) continue;
-                t.checkToSave();
                 if (!t.toSave) continue;
                 for (final int id : t.biomes)
                     ids.add(id);

@@ -3,6 +3,7 @@ package pokecube.core.ai.brain;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -228,6 +229,11 @@ public class BrainUtils
                         .empty());
         });
 
+    }
+
+    public static void removeMatchingTasks(final Brain<?> brain, final Predicate<Task<?>> match)
+    {
+        brain.availableBehaviorsByPriority.forEach((i, map) -> map.values().forEach(s -> s.removeIf(match)));
     }
 
     public static void addToActivity(final Brain<?> brain, final Activity act,

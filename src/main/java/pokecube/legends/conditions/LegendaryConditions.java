@@ -86,6 +86,10 @@ public class LegendaryConditions
         new LegendarySpawn("entei", ItemInit.FLAME_GEM, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("raikou", ItemInit.THUNDER_GEM, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("suicune", ItemInit.WATER_GEM, BlockInit.LEGENDARY_SPAWN);
+        
+        new LegendarySpawn("cobalion", ItemInit.COBALION_SWORD, BlockInit.KELDEO_CORE);
+        new LegendarySpawn("terrakion", ItemInit.TERRAKION_SWORD, BlockInit.KELDEO_CORE);
+        new LegendarySpawn("virizion", ItemInit.VIRIZION_SWORD, BlockInit.KELDEO_CORE);
 
         new LegendarySpawn("deoxys", ItemInit.METEOR_SHARD, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("jirachi", ItemInit.STAR_CORE, BlockInit.LEGENDARY_SPAWN);

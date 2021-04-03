@@ -15,6 +15,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import org.nfunk.jep.JEP;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
+import thut.api.Tracker;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
@@ -84,7 +85,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
         final TeleDest dest = this.getDest();
         final BlockPos link = dest.loc.pos();
-        final long time = this.level.getGameTime();
+        final long time = Tracker.instance().getTick();
         final long lastStepped = entityIn.getPersistentData().getLong("lastWarpPadUse");
         // No step now, too soon.
         if (lastStepped - WarppadTile.COOLDOWN > time) return;

@@ -3,6 +3,7 @@ package pokecube.adventures.blocks.genetics.extractor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -16,7 +17,6 @@ import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeExtract;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
-import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.IMobGenetics;
 
 public class ExtractorTile extends BaseGeneticsTile
@@ -47,8 +47,8 @@ public class ExtractorTile extends BaseGeneticsTile
             return hasGenes || selector;
         case 2:// DNA Source
             final IMobGenetics genes = ClonerHelper.getGenes(stack);
-            if (genes == null && !stack.isEmpty()) for (final ItemStack stack1 : ClonerHelper.DNAITEMS.keySet())
-                if (Tools.isSameStack(stack1, stack)) return true;
+            if (genes == null && !stack.isEmpty()) for (final Ingredient stack1 : ClonerHelper.DNAITEMS.keySet())
+                if (stack1.test(stack)) return true;
             return genes != null;
         }
         return false;
@@ -65,8 +65,8 @@ public class ExtractorTile extends BaseGeneticsTile
             final BlockRayTraceResult hit)
     {
         final TranslationTextComponent name = new TranslationTextComponent("block.pokecube_adventures.extractor");
-        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new ExtractorContainer(
-                id, playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), name));
+        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new ExtractorContainer(id,
+                playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), name));
         return ActionResultType.SUCCESS;
     }
 

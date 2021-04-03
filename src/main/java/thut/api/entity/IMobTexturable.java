@@ -1,5 +1,6 @@
 package thut.api.entity;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -16,7 +17,11 @@ public interface IMobTexturable
 
     public static class Defaults implements IMobTexturable
     {
-
+        @Override
+        public LivingEntity getEntity()
+        {
+            return null;
+        }
     }
 
     public static class Storage implements Capability.IStorage<IMobTexturable>
@@ -37,14 +42,11 @@ public interface IMobTexturable
 
     }
 
-    default LivingEntity getEntity()
-    {
-        return null;
-    }
+    LivingEntity getEntity();
 
     default String getModId()
     {
-        return null;
+        return "minecraft";
     }
 
     default String getForm()
@@ -59,12 +61,13 @@ public interface IMobTexturable
 
     default ResourceLocation getTexture(@Nullable final String part)
     {
+        if (part == null) return new ResourceLocation("");
         return new ResourceLocation(this.getModId(), part);
     }
 
     default List<String> getTextureStates()
     {
-        return null;
+        return Collections.emptyList();
     }
 
     default ResourceLocation preApply(final ResourceLocation in)

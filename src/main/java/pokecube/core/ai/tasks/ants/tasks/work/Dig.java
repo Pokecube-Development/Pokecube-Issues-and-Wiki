@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
+import thut.api.Tracker;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -25,7 +26,7 @@ public class Dig extends AbstractConstructTask
 
     private boolean digPart(final Part part)
     {
-        final long time = this.world.getGameTime();
+        final long time = Tracker.instance().getTick();
         if (!part.shouldDig(time)) return false;
         this.valids.set(0);
 
@@ -66,7 +67,7 @@ public class Dig extends AbstractConstructTask
 
     private boolean divert(final Part old)
     {
-        final long time = this.world.getGameTime();
+        final long time = Tracker.instance().getTick();
         this.n = null;
         this.e = null;
         if (old instanceof Edge)
@@ -156,7 +157,7 @@ public class Dig extends AbstractConstructTask
         // Mark the block as on cooldown for a few seconds, and the room as
         // well. This gives them some time to look for a different spot to dig,
         // before trying again here.
-        part.markDug(this.work_pos, this.world.getGameTime() + 240);
+        part.markDug(this.work_pos, Tracker.instance().getTick() + 240);
         part.setDigDone(this.world.getGameTime() + 120);
         super.onTimeout(part);
     }
@@ -174,7 +175,7 @@ public class Dig extends AbstractConstructTask
         BrainUtils.setLeapTarget(this.entity, new BlockPosWrapper(this.work_pos));
         final Part part = this.n == null ? this.e : this.n;
         // Mark it as done for the next few seconds or so
-        part.markDug(this.work_pos, this.world.getGameTime() + 2400);
+        part.markDug(this.work_pos, Tracker.instance().getTick() + 2400);
         if (dug && this.n != null) this.n.dug.add(this.work_pos.immutable());
     }
 }

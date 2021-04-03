@@ -1,5 +1,7 @@
 package pokecube.mobs.moves.attacks.special;
 
+import thut.api.Tracker;
+
 import net.minecraft.entity.LivingEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -22,12 +24,12 @@ public class Mirrorcoat extends Move_Basic
         final LivingEntity attacker = packet.attacker.getEntity();
         if (!packet.attacker.getMoveStats().biding)
         {
-            attacker.getPersistentData().putLong("bideTime", attacker.getCommandSenderWorld().getGameTime() + PokecubeCore
+            attacker.getPersistentData().putLong("bideTime", Tracker.instance().getTick() + PokecubeCore
                     .getConfig().attackCooldown);
             packet.attacker.getMoveStats().biding = true;
             packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
         }
-        else if (attacker.getPersistentData().getLong("bideTime") < attacker.getCommandSenderWorld().getGameTime())
+        else if (attacker.getPersistentData().getLong("bideTime") < Tracker.instance().getTick())
         {
             attacker.getPersistentData().remove("bideTime");
             final int damage = 2 * packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER;

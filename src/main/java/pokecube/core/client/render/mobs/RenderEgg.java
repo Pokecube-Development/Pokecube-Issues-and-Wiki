@@ -106,10 +106,12 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
 
     }
 
-    HashMap<String, List<Animation>> anims   = Maps.newHashMap();
-    IAnimationChanger                changer = null;
-    IPartTexturer                    texer   = null;
-    Vector3                          scale   = Vector3.getNewVector();
+    private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
+
+    private IAnimationChanger changer = null;
+    private IPartTexturer     texer   = null;
+
+    private final Vector3 scale = Vector3.getNewVector();
 
     public RenderEgg(final EntityRendererManager manager)
     {
@@ -128,11 +130,12 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
     }
 
     @Override
-    protected RenderType getRenderType(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b, final boolean bool_c)
+    protected RenderType getRenderType(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b,
+            final boolean bool_c)
     {
-        final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(new RenderState.TextureState(
-                this.getTextureLocation(entity), false, false)).setTransparencyState(new RenderState.TransparencyState(
-                        "translucent_transparency", () ->
+        final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
+                new RenderState.TextureState(this.getTextureLocation(entity), false, false)).setTransparencyState(
+                        new RenderState.TransparencyState("translucent_transparency", () ->
                         {
                             RenderSystem.enableBlend();
                             RenderSystem.defaultBlendFunc();
@@ -141,9 +144,10 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
                             RenderSystem.disableBlend();
                         })).setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(
                                 new RenderState.AlphaState(0.003921569F)).setCullState(new RenderState.CullState(false))
-                .setLightmapState(new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(true)).createCompositeState(false);
-        return RenderType.create("pokecube:pokemob_egg", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256, bool_a,
-                bool_b, rendertype$state);
+                .setLightmapState(new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(
+                        true)).createCompositeState(false);
+        return RenderType.create("pokecube:pokemob_egg", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256,
+                bool_a, bool_b, rendertype$state);
     }
 
     @Override

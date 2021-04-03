@@ -1,5 +1,7 @@
 package pokecube.core.interfaces.pokemob.commandhandlers;
 
+import thut.api.Tracker;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -81,7 +83,7 @@ public class ChangeFormHandler extends DefaultHandler
             {
                 final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(player.getUUID()).getLong(
                         "pokecube:dynatime");
-                final long time = server.getLevel(World.OVERWORLD).getGameTime();
+                final long time = Tracker.instance().getTick();
                 final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
                 if (dynatime != 0 && time < dynaagain)
                 {

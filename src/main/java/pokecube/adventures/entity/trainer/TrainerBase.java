@@ -1,5 +1,6 @@
 package pokecube.adventures.entity.trainer;
 
+import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -167,7 +168,7 @@ public abstract class TrainerBase extends NpcMob
         ItemStack cube = this.pokemobsCap.getNextPokemob();
         ItemStack reward = this.rewardsCap.getRewards().isEmpty() ? ItemStack.EMPTY
                 : this.rewardsCap.getRewards().get(0).stack;
-        if (this.pokemobsCap.getCooldown() > this.level.getGameTime())
+        if (this.pokemobsCap.getCooldown() > Tracker.instance().getTick())
         {
             cube = ItemStack.EMPTY;
             reward = ItemStack.EMPTY;
@@ -181,8 +182,8 @@ public abstract class TrainerBase extends NpcMob
             if (type != null && !type.pokemon.isEmpty() && !this.checkedMobs)
             {
                 this.checkedMobs = true;
-                final int level = SpawnHandler.getSpawnLevel(this.getCommandSenderWorld(), Vector3.getNewVector().set(this),
-                        type.pokemon.get(0));
+                final int level = SpawnHandler.getSpawnLevel(this.getCommandSenderWorld(), Vector3.getNewVector().set(
+                        this), type.pokemon.get(0));
                 this.initTeam(level);
                 type.initTrainerItems(this);
             }

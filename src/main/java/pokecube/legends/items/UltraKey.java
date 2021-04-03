@@ -66,8 +66,8 @@ public class UltraKey extends ItemBase
         if (PokecubeLegends.config.enableUltraKeyConsume == true) if (dim == World.OVERWORLD)
         {
             if ((entity instanceof ServerPlayerEntity ? ((PlayerEntity) entity).inventory.contains(new ItemStack(
-                    ItemInit.COSMIC_DUST.get())) : true) && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
-                            .get()) >= PokecubeLegends.config.ultraKeyConsumeAmount)
+                ItemInit.COSMIC_DUST.get())) : true) && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
+                .get()) >= PokecubeLegends.config.ultraKeyConsumeAmount || ((PlayerEntity) entity).isCreative() == true)
             {
 
                 world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
@@ -97,7 +97,7 @@ public class UltraKey extends ItemBase
         else if (dim == FeaturesInit.ULTRASPACE_KEY) if ((entity instanceof ServerPlayerEntity
             ? ((PlayerEntity) entity).inventory.contains(new ItemStack(ItemInit.COSMIC_DUST.get(), 1))
             : true) && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST.get()) >=
-            PokecubeLegends.config.ultraKeyConsumeAmount)
+            PokecubeLegends.config.ultraKeyConsumeAmount || ((PlayerEntity) entity).isCreative() == true)
         {
 
             world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(

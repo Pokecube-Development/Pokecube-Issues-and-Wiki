@@ -33,13 +33,13 @@ public class TerrainSegment
     public static class DefaultChecker implements ISubBiomeChecker
     {
         @Override
-        public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+        public BiomeType getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
                 final boolean caveAdjusted)
         {
             if (caveAdjusted)
             {
                 // Do not return this for cave worlds
-                if (world.dimensionType().hasCeiling()) return -1;
+                if (world.dimensionType().hasCeiling()) return BiomeType.NONE;
                 boolean sky = false;
                 final Vector3 temp1 = Vector3.getNewVector();
                 final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
@@ -62,16 +62,16 @@ public class TerrainSegment
                             }
                             if (sky) break outer;
                         }
-                if (sky) return -1;
+                if (sky) return BiomeType.NONE;
 
                 // If not can see sky, if there is water, it is cave_water,
                 // otherwise it is cave.
-                if (!sky && TerrainSegment.count(world, Blocks.WATER, v, 1) > 2) return BiomeType.CAVE_WATER.getType();
-                else if (!sky) return BiomeType.CAVE.getType();
+                if (!sky && TerrainSegment.count(world, Blocks.WATER, v, 1) > 2) return BiomeType.CAVE_WATER;
+                else if (!sky) return BiomeType.CAVE;
             }
             else
             {
-                int biome = -1;
+                BiomeType biome = BiomeType.NONE;
 
                 final Biome b = v.getBiome(world);
 
@@ -84,7 +84,7 @@ public class TerrainSegment
                     final int water = TerrainSegment.count(world, Blocks.WATER, v, 3);
                     if (water > 4)
                     {
-                        biome = BiomeType.LAKE.getType();
+                        biome = BiomeType.LAKE;
                         return biome;
                     }
                 }
@@ -93,12 +93,12 @@ public class TerrainSegment
                 {
                     final BlockPos pos = v.getPos();
                     final ServerWorld server = (ServerWorld) world;
-                    if (server.isVillage(pos)) biome = BiomeType.VILLAGE.getType();
+                    if (server.isVillage(pos)) biome = BiomeType.VILLAGE;
                 }
 
                 return biome;
             }
-            return -1;
+            return BiomeType.NONE;
         }
     }
 
@@ -115,7 +115,7 @@ public class TerrainSegment
          * @param caveAdjusted
          * @return
          */
-        int getSubBiome(IWorld world, Vector3 v, TerrainSegment segment, boolean caveAdjusted);
+        BiomeType getSubBiome(IWorld world, Vector3 v, TerrainSegment segment, boolean caveAdjusted);
 
         default boolean isWatery(final Biome b)
         {
@@ -168,12 +168,7 @@ public class TerrainSegment
     public static boolean noLoad = false;
 
     //@formatter:off
-    public static Predicate<Integer> saveChecker = (i) -> !(i == -1
-                                                         || i == BiomeType.CAVE.getType()
-                                                         || i == BiomeType.CAVE_WATER.getType()
-                                                         || i == BiomeType.SKY.getType()
-                                                         || i == BiomeType.FLOWER.getType()
-                                                         || i == BiomeType.NONE.getType());
+    public static Predicate<BiomeType> saveChecker = (i) -> i.shouldSave();
     //@formatter:on
 
     public static int count(final IWorld world, final Block b, final Vector3 v, final int range)
@@ -250,7 +245,7 @@ public class TerrainSegment
             }
         if (replacements) ThutCore.LOGGER.info("Replacement subbiomes found for " + t.chunkX + " " + t.chunkY + " "
                 + t.chunkZ);
-        t.setBiome(biomes);
+        t.setBiomes(biomes);
     }
 
     public Int2IntMap idReplacements;
@@ -324,12 +319,12 @@ public class TerrainSegment
         this.effects.put(name, effect);
     }
 
-    public int adjustedCaveBiome(final IWorld world, final Vector3 v)
+    public BiomeType adjustedCaveBiome(final IWorld world, final Vector3 v)
     {
         return this.getBiome(world, v, true);
     }
 
-    public int adjustedNonCaveBiome(final IWorld world, final Vector3 v)
+    public BiomeType adjustedNonCaveBiome(final IWorld world, final Vector3 v)
     {
         return this.getBiome(world, v, false);
     }
@@ -337,7 +332,7 @@ public class TerrainSegment
     void checkToSave()
     {
         for (final int i : this.biomes)
-            if (TerrainSegment.saveChecker.test(i))
+            if (TerrainSegment.saveChecker.test(BiomeType.getType(i)))
             {
                 this.toSave = true;
                 return;
@@ -351,7 +346,6 @@ public class TerrainSegment
         boolean ret = false;
         if (o instanceof TerrainSegment) ret = ((TerrainSegment) o).chunkX == this.chunkX
                 && ((TerrainSegment) o).chunkY == this.chunkY && ((TerrainSegment) o).chunkZ == this.chunkZ;
-
         return ret;
     }
 
@@ -384,32 +378,31 @@ public class TerrainSegment
         return slope / count;
     }
 
-    public int getBiome(final int x, final int y, final int z)
+    public BiomeType getBiome(final int x, final int y, final int z)
     {
         int ret = 0;
         final int index = TerrainSegment.globalToIndex(x, y, z);
         if (index < TerrainSegment.TOTAL) ret = this.biomes[index];
-        if (TerrainSegment.saveChecker.test(ret)) this.toSave = true;
-        return ret;
+        return BiomeType.getType(ret);
     }
 
-    public int getBiome(final Vector3 v)
+    public BiomeType getBiome(final Vector3 v)
     {
         return this.getBiome(v.intX(), v.intY(), v.intZ());
     }
 
-    private int getBiome(final IWorld world, final Vector3 v, final boolean caveAdjust)
+    private BiomeType getBiome(final IWorld world, final Vector3 v, final boolean caveAdjust)
     {
-        if (!this.real) return -1;
+        if (!this.real) return BiomeType.NONE;
         if (this.chunk == null)
         {
             Thread.dumpStack();
-            return -1;
+            return BiomeType.NONE;
         }
         if (!TerrainSegment.biomeCheckers.isEmpty()) for (final ISubBiomeChecker checker : TerrainSegment.biomeCheckers)
         {
-            final int biome = checker.getSubBiome(world, v, this, caveAdjust);
-            if (biome != -1) return biome;
+            final BiomeType biome = checker.getSubBiome(world, v, this, caveAdjust);
+            if (!biome.isNone()) return biome;
         }
         return TerrainSegment.defaultChecker.getSubBiome(world, v, this, caveAdjust);
     }
@@ -476,7 +469,8 @@ public class TerrainSegment
                     // Check if this segment is already a custom choice, if so,
                     // then we don't want to overwrite it, unless we are not
                     // allowed to load saved subbiomes.
-                    if (TerrainSegment.saveChecker.test(this.biomes[index]) && !TerrainSegment.noLoad) continue;
+                    if (TerrainSegment.saveChecker.test(BiomeType.getType(this.biomes[index]))
+                            && !TerrainSegment.noLoad) continue;
 
                     // Conver to block coordinates.
                     this.temp.set(TerrainSegment.toGlobal(x, this.chunkX), TerrainSegment.toGlobal(y, this.chunkY),
@@ -484,15 +478,15 @@ public class TerrainSegment
 
                     // Check to see what our various detectors pick for this
                     // location.
-                    int biome = this.adjustedCaveBiome(world, this.temp);
+                    BiomeType biome = this.adjustedCaveBiome(world, this.temp);
                     // Only check non-adjusted if adjusted fails.
-                    if (biome == -1) biome = this.adjustedNonCaveBiome(world, this.temp);
+                    if (biome.isNone()) biome = this.adjustedNonCaveBiome(world, this.temp);
                     // Both failed, skip.
-                    if (biome == -1) continue;
+                    if (biome.isNone()) continue;
                     // Flag if we are a not-trivial biome.
                     if (TerrainSegment.saveChecker.test(biome)) this.toSave = true;
                     // Put it in the array.
-                    this.biomes[index] = biome;
+                    this.biomes[index] = biome.getType();
                 }
         final double dt = (System.nanoTime() - time) / 10e9;
         // Don't let us take too long!
@@ -509,19 +503,19 @@ public class TerrainSegment
         nbt.putBoolean("toSave", this.toSave);
     }
 
-    public void setBiome(final BlockPos p, final int type)
+    public void setBiome(final BlockPos p, final BiomeType type)
     {
         this.setBiome(p.getX(), p.getY(), p.getZ(), type);
     }
 
-    public void setBiome(final int x, final int y, final int z, final int biome)
+    public void setBiome(final int x, final int y, final int z, final BiomeType biome)
     {
         final int index = TerrainSegment.globalToIndex(x, y, z);
-        this.biomes[index] = biome;
+        this.biomes[index] = biome.getType();
         if (TerrainSegment.saveChecker.test(biome)) this.toSave = true;
     }
 
-    public void setBiome(final int[] biomes)
+    public void setBiomes(final int[] biomes)
     {
         if (biomes.length == this.biomes.length) this.biomes = biomes;
         else for (int i = 0; i < biomes.length; i++)
@@ -531,12 +525,7 @@ public class TerrainSegment
         }
     }
 
-    public void setBiome(final Vector3 v, final BiomeType type)
-    {
-        this.setBiome(v, type.getType());
-    }
-
-    public void setBiome(final Vector3 v, final int i)
+    public void setBiome(final Vector3 v, final BiomeType i)
     {
         this.setBiome(v.intX(), v.intY(), v.intZ(), i);
     }

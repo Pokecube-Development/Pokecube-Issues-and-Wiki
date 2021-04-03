@@ -49,6 +49,7 @@ import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.AnimatedCaps;
+import thut.api.Tracker;
 import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -133,7 +134,7 @@ public class LogicMiscUpdate extends LogicBase
         // check dynamax timer for cooldown.
         if (this.pokemob.getCombatState(CombatStates.DYNAMAX))
         {
-            final Long time = this.pokemob.getEntity().getServer().getLevel(World.OVERWORLD).getGameTime();
+            final long time = Tracker.instance().getTick();
             if (this.dynatime == -1) this.dynatime = this.pokemob.getEntity().getPersistentData().getLong(
                     "pokecube:dynatime");
             if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)

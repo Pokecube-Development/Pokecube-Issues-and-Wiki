@@ -57,6 +57,39 @@
       ]
     },
     {
+      "name":"pokecube_legends:village/ocean/gym/aether_path",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:village/ocean/gym/aether_path"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/room",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:village/ocean/room/room_1;{\"weight\":5}",
+        "pokecube_legends:village/ocean/room/room_2;{\"weight\":5}",
+        "pokecube_legends:village/ocean/room/room_3;{\"weight\":5}",
+        "pokecube_legends:village/ocean/room/room_4;{\"weight\":5}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/room_base",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:village/ocean/room_base/room_1;{\"weight\":5}",
+        "pokecube_legends:village/ocean/room_base/room_2;{\"weight\":3}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:village/ocean/top",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:village/ocean/top/aether_top_1",
+        "pokecube_legends:village/ocean/top/aether_top_2"
+      ]
+    },
+    {
       "name":"pokecube_legends:village/ocean/houses",
       "ignoreAir":false,
       "rigid":true,
@@ -66,9 +99,9 @@
         "pokecube_legends:village/ocean/houses/house_2;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:village/ocean/houses/house_3;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:village/ocean/houses/house_4;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:village/ocean/houses/house_5;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:village/ocean/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
-        "pokecube_legends:village/ocean/gym/aether_base;{\"flag\":\"gym\"}",
-        "pokecube_legends:village/ocean/gym/aether_base1;{\"flag\":\"gym\"}"
+        "pokecube_legends:village/ocean/gym/aether_base;{\"flag\":\"gym\"}"
       ]
     },
     //
@@ -353,7 +386,25 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/castle_n"
+        "pokecube_legends:temples/surface/castle/castle_n"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/castle/tower_left",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/castle/tower_left/tower_1",
+        "pokecube_legends:temples/surface/castle/tower_left/tower_end"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/castle/tower_right",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/castle/tower_right/tower_1",
+        "pokecube_legends:temples/surface/castle/tower_right/tower_end"
       ]
     },
     {
@@ -370,6 +421,13 @@
       "ignoreAir":false,
       "options":[
         "pokecube_legends:temples/surface/nature_place"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/nature_place_top",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:temples/surface/nature_place_top"
       ]
     },
     {
@@ -409,7 +467,14 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/sky_pillar"
+        "pokecube_legends:temples/surface/sky_pillar_base"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/sky_pillar_top",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:temples/surface/sky_pillar_top"
       ]
     },
     {
@@ -537,7 +602,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/underwater/kyogre_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/underwater/kyogre_temple"
       ]
     },
     {
@@ -585,6 +650,31 @@
         "pokecube_legends:ultraspace/ub03_max;{\"weight\":130}"
       ]
     },
+    
+    //Distortic Houses
+    {
+      "name":"pokecube_legends:distortic_houses",
+      "rigid":true,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:distorted/base_1;{\"weight\":6}",
+        "pokecube_legends:distorted/base_2;{\"weight\":6}",
+        "pokecube_legends:distorted/base_3;{\"weight\":6}",
+        "pokecube_legends:distorted/base_4;{\"weight\":6}",
+        "pokecube_legends:distorted/base_5;{\"weight\":6}",
+        "pokecube_legends:distorted/base_6;{\"weight\":6}",
+        "pokecube_legends:distorted/base_7;{\"weight\":6}",
+        "pokecube_legends:distorted/top_1;{\"weight\":5}",
+        "pokecube_legends:distorted/top_2;{\"weight\":5}",
+        "pokecube_legends:distorted/top_3;{\"weight\":5}",
+        "pokecube_legends:distorted/top_4;{\"weight\":5}",
+        "pokecube_legends:distorted/top_5;{\"weight\":5}",
+        "pokecube_legends:distorted/top_6;{\"weight\":5}",
+        "pokecube_legends:distorted/top_7;{\"weight\":5}"
+      ]
+    },
+    //
+    
     {
       "name":"pokecube_legends:ultra_pyramid",
       "rigid":true,
@@ -944,6 +1034,7 @@
       "biomeType":"ruin",
       "distance":84,
       "separation":32,
+      "base_under":false,
       "spawn":{
         "values":{
           "category":"ocean"
@@ -1080,6 +1171,23 @@
       "biomeType":"none",
       "distance":10,
       "separation":2,
+      "base_under":true,
+      "dimWhitelist":[
+        "pokecube_legends:distorted_world"
+      ],
+      "spawn": {
+      	"values":{
+          "biomes":"pokecube_legends:distorted_biome"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:distortic_houses",
+      "root":"pokecube_legends:distortic_houses",
+      "biomeType":"none",
+      "distance":5,
+      "separation":2,
+      "size":10,
       "base_under":true,
       "dimWhitelist":[
         "pokecube_legends:distorted_world"

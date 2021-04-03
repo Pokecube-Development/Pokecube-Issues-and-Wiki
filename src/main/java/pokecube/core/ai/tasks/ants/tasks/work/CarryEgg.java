@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
+import thut.api.Tracker;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -46,7 +47,7 @@ public class CarryEgg extends AbstractWorkTask
     @Override
     public void run()
     {
-        this.egg.getPersistentData().putLong("__carried__", this.world.getGameTime() + 100);
+        this.egg.getPersistentData().putLong("__carried__", Tracker.instance().getTick() + 100);
         AntTasks.setJob(this.entity, AntJob.NONE);
         final Brain<?> brain = this.entity.getBrain();
         final GlobalPos dropOff = brain.getMemory(AntTasks.WORK_POS).get();

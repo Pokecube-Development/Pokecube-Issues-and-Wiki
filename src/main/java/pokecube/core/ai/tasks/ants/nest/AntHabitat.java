@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.ants.nest;
 
+import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -426,7 +427,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         final int timer = mob.getBrain().getMemory(AntTasks.NO_WORK_TIME).orElse(0);
         mob.getBrain().setMemory(AntTasks.NO_WORK_TIME, timer + 1);
         if (timer < 0) return;
-        final long time = this.world.getGameTime();
+        final long time = Tracker.instance().getTick();
         // Only assign the job if no work pos, the job should remove this
         // task if done or undoable
         if (mob.getBrain().hasMemoryValue(AntTasks.WORK_POS)) return;
