@@ -456,7 +456,7 @@
     "_comment": "Item Tooltips",
 
     "item.berry.istree.desc": "§2§l[Tree]",
-    "item.berry.favourite.desc": "§6%1$s§6%3$s%2$s§6's Favourite.",
+    "item.berry.favourite.desc": "§6%1$s§6%3$s%2$s§6's Favorite.",
     "item.berry.nomind.desc": "§e%1$s§e%3$s%2$s §edoesn't mind this.",
     "item.berry.like1.desc": "§a%1$s§a%3$s%2$s §asomewhat likes this.",
     "item.berry.like2.desc": "§2%1$s§2%3$s%2$s §2likes this a lot.",
@@ -545,6 +545,7 @@
 
     "pokecube.command.reloading_packs.start": "Starting reloading Pokecube Datapacks!",
     "pokecube.command.reloading_packs.end": "Reload Complete",
+    "pokecube.meteor.spawned": "Spawned meteor with power of %2$s.",
 
     "_comment": "Misc",
     
