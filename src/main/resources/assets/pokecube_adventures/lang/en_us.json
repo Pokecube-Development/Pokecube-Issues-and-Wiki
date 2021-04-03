@@ -43,10 +43,10 @@
     "igwtab.entry.Stones": "Evolution Stones",
 
     "block.pokecube_adventures.warppad": "Warp Pad",
-    "block.pokecube_adventures.warppad.link": "Warp Pad linked to (%1$s)",
+    "block.pokecube_adventures.warppad.link": "Warp Pad linked to %1$s",
     
-    "block.pokecube_adventures.siphon.link": "Energy Siphon linked to (%1$s)",
-    "block.pokecube_adventures.siphon.unlink": "Energy Siphon unlinked from (%1$s)",
+    "block.pokecube_adventures.siphon.link": "Energy Siphon linked to %1$s",
+    "block.pokecube_adventures.siphon.unlink": "Energy Siphon unlinked from %1$s",
 
     "block.pokecube_adventures.splicer": "Gene Splicer",
     "block.pokecube_adventures.extractor": "Gene Extractor",
