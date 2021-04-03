@@ -58,10 +58,10 @@ public class Config extends ConfigData
     public int ticksPortalDespawn  = 1200;
 
     // Ultra Space
-    @Configure(category = "ultraspace")
-    public boolean enabledkeyusecombustible = true;
-    @Configure(category = "ultraspace")
-    public int     itemCombustiveStack      = 5;
+    @Configure(category = "ultraspace", comment = "Allows the Ultra key to consume fuel. [Default: true]")
+    public boolean enableUltraKeyConsume = true;
+    @Configure(category = "ultraspace", comment = "Amount of fuel for the Ultra Key to consume. [Default: 5]")
+    public int ultraKeyConsumeAmount = 5;
 
     // Distortic World
     @Configure(category = "distortic")
@@ -157,8 +157,8 @@ public class Config extends ConfigData
             }
         });
 
-        if (this.enabledkeyusecombustible == true) if (this.itemCombustiveStack <= 1 || this.itemCombustiveStack >= 30)
-            this.itemCombustiveStack = 5;
+        if (this.enableUltraKeyConsume == true) if (this.ultraKeyConsumeAmount <= 1 || this.ultraKeyConsumeAmount >= 30)
+            this.ultraKeyConsumeAmount = 5;
 
         if (this.mirrorCooldown <= 300) this.mirrorCooldown = 800;
 
