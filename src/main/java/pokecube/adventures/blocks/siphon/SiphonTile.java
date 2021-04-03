@@ -184,8 +184,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
                 {
                     final PlayerEntity player = (PlayerEntity) user;
                     player.displayClientMessage(new TranslationTextComponent(
-                        "block.pokecube_adventures.siphon.unlink", pos.pos().getX(), pos.pos().getY(), pos
-                        .pos().getZ(), pos.dimension()), true);
+                        "block.pokecube_adventures.siphon.unlink",  this.getDest().getInfoName()), true);
                 }
                 return true;
             }
@@ -194,8 +193,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             {
                 final PlayerEntity player = (PlayerEntity) user;
                 player.displayClientMessage(new TranslationTextComponent(
-                    "block.pokecube_adventures.siphon.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
-                    .getZ(), pos.dimension()), true);
+                    "block.pokecube_adventures.siphon.link",  tile.getDest().getInfoName()), true);
             }
             return true;
         }
