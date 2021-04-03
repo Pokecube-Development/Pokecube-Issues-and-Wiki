@@ -68,13 +68,11 @@ public class BlockEventHandler
                 {
                     final PlayerEntity player = (PlayerEntity) user;
                     player.displayClientMessage(new TranslationTextComponent(
-                        "block.pokecube_adventures.warppad.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
-                        .getZ(), pos.dimension()), true);
+                        "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), true);
                 } else
                 {
                     user.sendMessage(new TranslationTextComponent(
-                        "block.pokecube_adventures.warppad.link", pos.pos().getX(), pos.pos().getY(), pos.pos()
-                        .getZ(), pos.dimension()), Util.NIL_UUID);
+                        "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
                 }
             }
             // Centre us properly.

@@ -350,8 +350,8 @@
     "block.pc.option.bind": "Bind",
     "block.pc.option.release": "Release",
     "block.pc.option.confirm": "Confirm",
-    "msg.pokecube.pc_top.fail": "§4PC Base required below",
-    "msg.pokecube.pc_base.fail": "§4PC Top required above",
+    "msg.pokecube.pc_top.fail": "§cPC Base required below",
+    "msg.pokecube.pc_base.fail": "§cPC Top required above",
 
     "block.pokecube.enigma_wood": "Enigma Wood",
     "block.pokecube.leppa_wood": "Leppa Wood",
@@ -455,17 +455,17 @@
     
     "_comment": "Item Tooltips",
 
-    "item.berry.istree.desc": "This grows into a tree.",
-    "item.berry.favourite.desc": "%1$s's Favourite.",
-    "item.berry.nomind.desc": "%1$s doesn't mind this.",
-    "item.berry.like1.desc": "%1$s somewhat likes this.",
-    "item.berry.like2.desc": "%1$s likes this a lot.",
-    "item.berry.like3.desc": "%1$s likes this very much.",
-    "item.berry.hate1.desc": "%1$s somewhat hates this.",
-    "item.berry.hate2.desc": "%1$s hates this a lot.",
-    "item.berry.hate3.desc": "%1$s hates this very much.",
+    "item.berry.istree.desc": "§2§l[Tree]",
+    "item.berry.favourite.desc": "§6%1$s§6%3$s%2$s§6's Favourite.",
+    "item.berry.nomind.desc": "§e%1$s§e%3$s%2$s §edoesn't mind this.",
+    "item.berry.like1.desc": "§a%1$s§a%3$s%2$s §asomewhat likes this.",
+    "item.berry.like2.desc": "§2%1$s§2%3$s%2$s §2likes this a lot.",
+    "item.berry.like3.desc": "§2%1$s§2%3$s%2$s §2loves this very much.",
+    "item.berry.hate1.desc": "§c%1$s§c%3$s%2$s §cdoesn't like this.",
+    "item.berry.hate2.desc": "§c%1$s§c%3$s%2$s §chates this.",
+    "item.berry.hate3.desc": "§4%1$s§4%3$s%2$s §4despises this.",
 
-    "item.pokecube.berry_null.desc": "Just a Berry, Pokémobs might eat it.",
+    "item.pokecube.berry_null.desc": "§oJust a Berry, Pokémobs might eat it.",
 
     "_comment": "Pokecube Tooltips",
     

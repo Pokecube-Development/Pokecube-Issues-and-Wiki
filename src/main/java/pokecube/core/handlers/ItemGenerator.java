@@ -29,7 +29,6 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
-import pokecube.legends.init.BlockInit;
 
 import java.util.ArrayList;
 import java.util.Collections;
