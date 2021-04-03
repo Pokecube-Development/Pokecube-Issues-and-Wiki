@@ -90,7 +90,8 @@ public class GuiTeleport extends AbstractGui
         final TeleDest location = TeleportHandler.getTeleport(this.minecraft.player.getStringUUID());
         if (location != null)
         {
-            final String name = location.getName();
+            String name = location.getName();
+            if(name.isEmpty()) name = location.getInfoName().getString();
             int shift = 13 + 12 * i + yOffset + h;
             if (dir == -1) shift -= 25;
             // bind texture
