@@ -345,7 +345,7 @@
   "item.pokecube.mooncube":"Mooncube",
   "item.pokecube.mooncube.desc":"§7Best for moonstone powered pokémobs.",
   "item.pokecube.lovecube":"Lovecube",
-  "item.pokecube.lovecube.desc":"§7The love between your pokémob and a \n§7wild breeding pokémob will increase the chance of capture.",
+  "item.pokecube.lovecube.desc":"§7The love between your pokémob and a \n§7wild breeding pokémob will increase \n§7the chance of capture.",
   "item.pokecube.friendcube":"Friendcube",
   "item.pokecube.friendcube.desc":"§7Makes pokémobs happy.",
   "item.pokecube.healcube":"Healcube",

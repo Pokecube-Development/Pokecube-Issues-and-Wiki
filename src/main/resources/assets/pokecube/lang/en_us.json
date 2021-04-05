@@ -167,7 +167,7 @@
     
     "_comment": "Pokedex Messages/Info",
     
-    "pokedex.setteleport": "Pokécenter set as a Teleport Location",
+    "pokedex.setteleport": "Pokécenter set as a teleport location.",
     "pokedex.locationinfo1": "There are %1$s Registered Spawns.",
     "pokedex.locationinfo2": "There are %1$s Registered Pokémobs.",
     "pokedex.locationinfo3": "There are %1$s Registerd Forms of Pokémobs.",

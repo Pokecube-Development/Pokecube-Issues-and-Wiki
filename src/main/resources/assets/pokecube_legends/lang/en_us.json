@@ -57,10 +57,10 @@
 	
     "_comment": "Pokecubes",
     "item.pokecube.beastcube": "Beastcube",
-    "item.pokecube.beastcube.desc": "§7A modified pokécube that increases chance in other dimensions.",
+    "item.pokecube.beastcube.desc": "§7A modified pokécube that increases the \n§7chance of capture in other dimensions.",
     
     "item.pokecube.clonecube": "Clonecube",
-    "item.pokecube.clonecube.desc": "§7A modified pokécube by a mysterious pokémob .\n§7Increases the chance of capture of Ghost and Psychic types",
+    "item.pokecube.clonecube.desc": "§7A modified pokécube by a mysterious pokémob. \n§7Increases the chance of capture of \n§7Ghost and Psychic types",
     
     "item.pokecube.teammagmacube": "Magmacube",
     "item.pokecube.teammagmacube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Fire types.",
