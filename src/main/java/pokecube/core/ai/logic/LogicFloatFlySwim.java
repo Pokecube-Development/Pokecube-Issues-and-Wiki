@@ -17,6 +17,7 @@ import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
 import pokecube.core.ai.pathing.SwimPathNavi;
 import pokecube.core.ai.pathing.WalkPathNavi;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.maths.Vector3;
@@ -204,6 +205,12 @@ public class LogicFloatFlySwim extends LogicBase
         }
     }
 
+    /**
+     * This class will swap out the PathNavigator stored in the ServerWorld for
+     * treating door use properly when multiple mobs may be pathing through a
+     * single spot. If this is not done, you get random cmod exceptions when
+     * pathing.
+     */
     private static class NaviUpdate implements IWorker
     {
         private final ServerWorld   world;
@@ -220,6 +227,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public boolean hasWork()
         {
+            // We do not do things multiple times, so return false here.
             return false;
         }
 
@@ -228,9 +236,11 @@ public class LogicFloatFlySwim extends LogicBase
         {
             synchronized (this.world.navigations)
             {
+                // Switch out the navigators
                 this.world.navigations.remove(this.oldNavi);
                 this.world.navigations.add(this.newNavi);
             }
+            // We do not do things multiple times, so return false here as well
             return false;
         }
 
@@ -248,9 +258,9 @@ public class LogicFloatFlySwim extends LogicBase
     // Navigators
     private final FlyingPathNavigator flyPather;
 
-    private final PathNavigator walkPather;
-    private final PathNavigator climbPather;
-    private final PathNavigator swimPather;
+    private final WalkPathNavi  walkPather;
+    private final ClimbPathNavi climbPather;
+    private final SwimPathNavi  swimPather;
 
     // Movement controllers
     private final MovementController flyController;
@@ -273,9 +283,11 @@ public class LogicFloatFlySwim extends LogicBase
         this.flyPather.setCanFloat(true);
         this.flyPather.setCanPassDoors(true);
 
-        this.walkPather.setCanFloat(true);
-        this.climbPather.setCanFloat(true);
+        this.swimPather.setCanOpenDoors(false);
         this.swimPather.setCanFloat(true);
+
+        this.walkPather.setCanOpenDoors(false);
+        this.walkPather.setCanFloat(true);
 
         this.flyController = new FlyController(entity);
         this.walkController = new WalkController(entity);
@@ -334,6 +346,7 @@ public class LogicFloatFlySwim extends LogicBase
                 this.entity.setNoGravity(!this.pokemob.isGrounded());
                 this.pokemob.getEntity().navigation = this.flyPather;
                 this.pokemob.getEntity().moveControl = this.flyController;
+                this.flyPather.setCanOpenDoors(this.pokemob.isRoutineEnabled(AIRoutine.USEDOORS));
             }
             this.state = NaviState.FLY;
         }
@@ -343,6 +356,7 @@ public class LogicFloatFlySwim extends LogicBase
             {
                 this.pokemob.getEntity().navigation = this.swimPather;
                 this.pokemob.getEntity().moveControl = this.swimController;
+                this.swimPather.setCanOpenDoors(this.pokemob.isRoutineEnabled(AIRoutine.USEDOORS));
             }
             this.state = NaviState.SWIM;
         }
@@ -353,10 +367,13 @@ public class LogicFloatFlySwim extends LogicBase
                 this.entity.setNoGravity(false);
                 this.pokemob.getEntity().navigation = this.climbPather;
                 this.pokemob.getEntity().moveControl = this.walkController;
+                this.climbPather.setCanOpenDoors(this.pokemob.isRoutineEnabled(AIRoutine.USEDOORS));
             }
             this.state = NaviState.WALK;
         }
         final PathNavigator newNavi = this.entity.getNavigation();
+        // If the navigator has switched, schedule the switching world side as
+        // well, if this is not done, you get major memory leaks.
         if (world instanceof ServerWorld && newNavi != oldNavi) WorldWorkerManager.addWorker(new NaviUpdate(
                 (ServerWorld) world, oldNavi, newNavi));
     }

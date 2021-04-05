@@ -15,6 +15,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.brain.task.InteractWithDoorTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -49,6 +50,7 @@ import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UseMoveTask;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.pokemob.InitAIEvent.Init;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.CapHolders;
@@ -60,7 +62,7 @@ public class Tasks
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
             MemoryModules.HUNTTARGET, MemoryModules.HUNTED_BY, MemoryModules.MOVE_TARGET, MemoryModules.LEAP_TARGET,
             MemoryModules.PATH, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
-            MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH);
+            MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH, MemoryModuleType.DOORS_TO_CLOSE);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
             SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
@@ -113,8 +115,8 @@ public class Tasks
         }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
-            aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getBbWidth() + pokemob.getPokedexEntry().length, 8 + entity
-                    .getBbWidth() + pokemob.getPokedexEntry().length));
+            aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getBbWidth() + pokemob.getPokedexEntry().length, 8
+                    + entity.getBbWidth() + pokemob.getPokedexEntry().length));
 
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
 
@@ -142,6 +144,7 @@ public class Tasks
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoorTask()));
 
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
@@ -200,6 +203,7 @@ public class Tasks
             task = new SwimTask(pokemob, 0.8F);
             list.add(Pair.of(0, (Task<? super LivingEntity>) task));
         }
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoorTask()));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
 
@@ -257,6 +261,7 @@ public class Tasks
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoorTask()));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 
