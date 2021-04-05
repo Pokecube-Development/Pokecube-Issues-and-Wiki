@@ -277,8 +277,8 @@ public class LogicMiscUpdate extends LogicBase
         for (int i = 0; i < this.pokemob.getInventory().getContainerSize(); i++)
         {
             ItemStack stack;
-            if (!(stack = this.pokemob.getInventory().getItem(i)).isEmpty()) stack.getItem().inventoryTick(stack,
-                    world, this.entity, i, false);
+            if (!(stack = this.pokemob.getInventory().getItem(i)).isEmpty()) stack.getItem().inventoryTick(stack, world,
+                    this.entity, i, false);
         }
     }
 
@@ -301,6 +301,8 @@ public class LogicMiscUpdate extends LogicBase
         shouldUpdate = shouldUpdate || this.prevOwner != null && !this.prevOwner.equals(ownerID);
         shouldUpdate = shouldUpdate || entry.pokemob != this.pokemob;
         shouldUpdate = shouldUpdate || !uuid.equals(this.prevID);
+
+        shouldUpdate = shouldUpdate && this.pokemob.getEntity().isAddedToWorld();
 
         if (shouldUpdate)
         {
@@ -396,8 +398,8 @@ public class LogicMiscUpdate extends LogicBase
 
         // Everything below here is client side only!
 
-        if (id >= 0 && targ == null) this.entity.setTarget((LivingEntity) PokecubeCore.getEntityProvider()
-                .getEntity(world, id, false));
+        if (id >= 0 && targ == null) this.entity.setTarget((LivingEntity) PokecubeCore.getEntityProvider().getEntity(
+                world, id, false));
         if (id < 0 && targ != null) this.entity.setTarget(null);
         if (targ != null && !targ.isAlive()) this.entity.setTarget(null);
 
@@ -470,7 +472,8 @@ public class LogicMiscUpdate extends LogicBase
                         .getBbWidth(), this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(),
                         this.entity.getZ() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity
                                 .getBbWidth());
-                this.entity.getCommandSenderWorld().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
+                this.entity.getCommandSenderWorld().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0,
+                        0);
             }
         }
         int[] args = {};
@@ -490,7 +493,8 @@ public class LogicMiscUpdate extends LogicBase
                         .nextDouble() - 0.5);
                 particleVelo.scalarMultBy(0.25);
             }
-            PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc, particleVelo, args);
+            PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc, particleVelo,
+                    args);
         }
         for (int i = 0; i < this.flavourAmounts.length; i++)
         {
@@ -514,8 +518,8 @@ public class LogicMiscUpdate extends LogicBase
                 }
                 args = new int[] { LogicMiscUpdate.FLAVCOLOURS[i] };
                 this.particle = "powder";
-                PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc, particleVelo,
-                        args);
+                PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc,
+                        particleVelo, args);
             }
         }
         this.particle = null;

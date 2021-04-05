@@ -42,6 +42,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.Battle;
 import pokecube.core.utils.PokeType;
 import thut.api.ModelHolder;
+import thut.api.entity.ICopyMob;
 import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
@@ -51,7 +52,7 @@ import thut.api.world.mobs.data.DataSync;
 
 /** @author Manchou */
 public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob,
-        IHasCommands, IMobColourable, IShearable
+        IHasCommands, IMobColourable, IShearable, ICopyMob
 {
     public static class FormeHolder extends ModelHolder
     {
@@ -615,4 +616,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     public Battle getBattle();
 
     public void setBattle(Battle battle);
+
+    /**
+     * @return the wrapped ICopyMob for registering as the capability, This is
+     *         used for transform, etc.
+     */
+    ICopyMob getCopy();
 }

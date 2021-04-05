@@ -8,10 +8,10 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -49,6 +49,7 @@ import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
+import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
@@ -83,9 +84,9 @@ public class PokecubeLegends
             Reference.ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES       = DeferredRegister.create(ForgeRegistries.ENTITIES,
     		Reference.ID);
-    
+
     //Recipes
-    public static final DeferredRegister<IRecipeSerializer<?>> DISTORTIC_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, 
+    public static final DeferredRegister<IRecipeSerializer<?>> DISTORTIC_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS,
     		Reference.ID);
 
     public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
@@ -173,7 +174,7 @@ public class PokecubeLegends
         ItemInit.init();
         MoveRegister.init();
         EntityInit.init();
-        
+
         DistorticRecipeManager.init();
     }
 
@@ -280,6 +281,7 @@ public class PokecubeLegends
     public void serverStarting(final FMLServerStartingEvent event)
     {
         PokecubeLegends.config.loaded = true;
+        WormholeEntity.clear();
         PokecubeLegends.config.onUpdated();
     }
 

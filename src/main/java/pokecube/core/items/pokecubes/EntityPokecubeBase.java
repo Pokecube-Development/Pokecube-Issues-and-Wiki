@@ -1,6 +1,5 @@
 package pokecube.core.items.pokecubes;
 
-import thut.api.Tracker;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -54,9 +53,11 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
+import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
@@ -94,8 +95,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public static void setNoCaptureBasedOnConfigs(final IPokemob pokemob)
     {
         if (PokecubeCore.getConfig().captureDelayTillAttack) pokemob.setCombatState(CombatStates.NOITEMUSE, true);
-        else pokemob.getEntity().getPersistentData().putLong(EntityPokecubeBase.CUBETIMETAG, Tracker.instance().getTick()
-                + PokecubeCore.getConfig().captureDelayTicks);
+        else pokemob.getEntity().getPersistentData().putLong(EntityPokecubeBase.CUBETIMETAG, Tracker.instance()
+                .getTick() + PokecubeCore.getConfig().captureDelayTicks);
     }
 
     public boolean canBePickedUp = true;
@@ -268,6 +269,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final Predicate<Entity> valid = (mob) ->
         {
             final Entity e = EntityTools.getCoreEntity(mob);
+            if (this.ignoreEntity != null && (e.isPassengerOfSameVehicle(this.ignoreEntity) || e.hasPassenger(
+                    this.ignoreEntity))) return false;
+            if (!AITools.shouldBeAbleToAgro(this.shootingEntity, e)) return false;
             return !e.isSpectator() && mob.isPickable() && !(e instanceof EntityPokecubeBase)
                     && e instanceof LivingEntity && e != this.ignoreEntity && e != this;
         };

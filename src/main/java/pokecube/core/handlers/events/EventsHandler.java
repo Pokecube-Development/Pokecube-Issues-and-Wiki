@@ -1,6 +1,5 @@
 package pokecube.core.handlers.events;
 
-import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +35,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -112,6 +112,8 @@ import pokecube.core.world.IWorldTickListener;
 import pokecube.core.world.WorldTickManager;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.nbtedit.NBTEdit;
+import thut.api.Tracker;
+import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
 import thut.api.item.ItemList;
 import thut.core.common.commands.CommandConfigs;
@@ -483,6 +485,7 @@ public class EventsHandler
             event.addCapability(EventsHandler.DATACAP, data);
             event.addCapability(EventsHandler.TEXTURECAP, tex);
             event.addCapability(ShearableCaps.LOC, new ShearableCaps.Wrapper(pokemob));
+            event.addCapability(CopyCaps.LOC, (ICapabilityProvider) pokemob.getCopy());
             IGuardAICapability.addCapability(event);
 
             // If it is a bee, we will add this to it.

@@ -45,11 +45,14 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     private IPartTexturer     texer   = null;
     private IAnimationHolder  holder  = null;
 
-    private final Vector3 scale = Vector3.getNewVector();
+    final Vector3   rotPoint  = Vector3.getNewVector();
+    private Vector3 offset    = Vector3.getNewVector();
+    private Vector3 scale     = Vector3.getNewVector();
+    private Vector5 rotations = new Vector5();
 
     public Wormhole(final EntityRendererManager manager)
     {
-        super(manager, null, 0.1f);
+        super(manager, null, 0.0f);
         this.model = this.makeModel();
     }
 
@@ -66,7 +69,7 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     public void render(final WormholeEntity entity, final float p_225623_2_, final float p_225623_3_,
             final MatrixStack p_225623_4_, final IRenderTypeBuffer bufferIn, final int p_225623_6_)
     {
-//         this.model = this.makeModel();
+//        this.model = this.makeModel();
         this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
         super.render(entity, p_225623_2_, p_225623_3_, p_225623_4_, bufferIn, p_225623_6_);
     }
@@ -125,7 +128,39 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     @Override
     public boolean hasAnimation(final String phase, final Entity entity)
     {
-        return false;
+        return this.getAnimations().containsKey(phase);
+    }
+
+    @Override
+    public String getAnimation(final Entity entityIn)
+    {
+        if (entityIn instanceof WormholeEntity)
+        {
+            final WormholeEntity wormhole = (WormholeEntity) entityIn;
+            return wormhole.isIdle() ? "stable"
+                    : wormhole.isClosing() ? "closing" : wormhole.isOpening() ? "opening" : "idle";
+        }
+
+        final IAnimationHolder holder = this.getAnimationHolder();
+        if (holder != null)
+        {
+            String result = holder.getAnimation(entityIn);
+            if (result.isEmpty()) result = IModelRenderer.DEFAULTPHASE;
+            return result;
+        }
+        return IModelRenderer.DEFAULTPHASE;
+    }
+
+    @Override
+    public Vector3 getRotationOffset()
+    {
+        return this.offset;
+    }
+
+    @Override
+    public Vector5 getRotations()
+    {
+        return this.rotations;
     }
 
     @Override
@@ -144,6 +179,8 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
         sx *= s;
         sy *= s;
         sz *= s;
+        this.rotPoint.set(this.getRotationOffset()).scalarMultBy(s);
+        model.setOffset(this.rotPoint);
         if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
         else mat.scale(s, s, s);
     }
@@ -171,17 +208,19 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     @Override
     public void setRotationOffset(final Vector3 offset)
     {
+        this.offset = offset;
     }
 
     @Override
     public void setRotations(final Vector5 rotations)
     {
+        this.rotations = rotations;
     }
 
     @Override
     public void setScale(final Vector3 scale)
     {
-        this.scale.set(scale);
+        this.scale = scale;
     }
 
     @Override

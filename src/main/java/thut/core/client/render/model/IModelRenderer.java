@@ -45,9 +45,10 @@ public interface IModelRenderer<T extends Entity>
 
     public static final String DEFAULTPHASE = "idle";
 
-    static final Vector3       DEFAULTSCALE = Vector3.getNewVector().set(1);
+    static final Vector3 DEFAULTSCALE = Vector3.getNewVector().set(1);
 
-    default void doRender(final T entity, final double d, final double d1, final double d2, final float f, final float partialTick)
+    default void doRender(final T entity, final double d, final double d1, final double d2, final float f,
+            final float partialTick)
     {
 
     }
@@ -90,18 +91,12 @@ public interface IModelRenderer<T extends Entity>
         final IAnimationHolder holder = this.getAnimationHolder();
         final String phase = this.getAnimation(entity);
         final List<Animation> anim = this.getAnimations(entity, phase);
-        if (holder != null && anim != null && !anim.isEmpty())
-        {
-            phase.toString();
-            // System.out.println(anim + " " + holder.getPendingAnimations() + "
-            // " + holder.getPlaying().size());
-            // System.out.println(holder.getPlaying());
-            holder.setPendingAnimations(anim, phase);
-        }
+        if (holder != null && anim != null && !anim.isEmpty()) holder.setPendingAnimations(anim, phase);
     }
 
     default List<Animation> getAnimations(final Entity entity, final String phase)
     {
+        if (this.getAnimations() != null) return this.getAnimations().get(phase);
         return null;
     }
 

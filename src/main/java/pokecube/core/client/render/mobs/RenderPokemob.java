@@ -148,8 +148,8 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         public HashMap<String, List<Animation>> animations = Maps.newHashMap();
         private final List<String>              toRunNames = Lists.newArrayList();
         private final List<Animation>           toRun      = Lists.newArrayList();
-        public Vector3                          offset     = Vector3.getNewVector();;
-        public Vector3                          scale      = Vector3.getNewVector();
+        private Vector3                         offset     = Vector3.getNewVector();;
+        private Vector3                         scale      = Vector3.getNewVector();
         ResourceLocation                        texture;
         PokedexEntry                            entry;
 
@@ -157,7 +157,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         public boolean overrideAnim = false;
         public String  anim         = "";
 
-        public Vector5 rotations = new Vector5();
+        private Vector5 rotations = new Vector5();
 
         // This will decrement if above 0, and if so, we don't render, this
         // gives some time to actually load the model.
@@ -496,20 +496,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return;
-        transform:
-        if (pokemob.getTransformedTo() != null)
-        {
-            final Entity to = pokemob.getTransformedTo();
-            final IPokemob other = CapabilityPokemob.getPokemobFor(to);
-            // No transform loops!
-            if (other != null && other.getTransformedTo() != null) break transform;
-            this.entityRenderDispatcher.getRenderer(pokemob.getTransformedTo()).render(pokemob.getTransformedTo(),
-                    entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-            return;
-        }
-
         Holder holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
-
         if (pokemob.getCustomHolder() != null)
         {
             final FormeHolder forme = pokemob.getCustomHolder();
@@ -526,7 +513,6 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
             }
             holder = temp;
         }
-
         if (holder.wrapper == null)
         {
             holder.init();

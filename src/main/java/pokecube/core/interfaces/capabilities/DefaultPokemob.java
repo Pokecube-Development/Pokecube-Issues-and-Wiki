@@ -1,6 +1,5 @@
 package pokecube.core.interfaces.capabilities;
 
-import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,7 @@ import pokecube.core.interfaces.capabilities.impl.PokemobSexed;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.TagNames;
 import thut.api.ThutCaps;
+import thut.api.Tracker;
 import thut.api.item.ItemList;
 
 public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializable<CompoundNBT>, IPokemob
