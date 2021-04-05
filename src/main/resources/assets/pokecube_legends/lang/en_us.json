@@ -1,5 +1,5 @@
 {
-    "_comment": "Pokecube Legends translation",
+    "_comment": "Pokécube Legends translation",
 
 	"_comment": "Trainers",
 	"pokecube.aether.named": "Aether F. Employee %s",
@@ -57,22 +57,22 @@
 	
     "_comment": "Pokecubes",
     "item.pokecube.beastcube": "Beastcube",
-    "item.pokecube.beastcube.desc": "A modified pokécube that increases chance in other dimensions.",
+    "item.pokecube.beastcube.desc": "§7A modified pokécube that increases chance in other dimensions.",
     
     "item.pokecube.clonecube": "Clonecube",
-    "item.pokecube.clonecube.desc": "A modified pokécube by a mysterious pokemon. Increase capture of Ghost/Psychic types",
+    "item.pokecube.clonecube.desc": "§7A modified pokécube by a mysterious pokémob .\n§7Increases the chance of capture of Ghost and Psychic types",
     
     "item.pokecube.teammagmacube": "Magmacube",
-    "item.pokecube.teammagmacube.desc": "A modified pokécube that increases the capture of Fire types.",
+    "item.pokecube.teammagmacube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Fire types.",
     
     "item.pokecube.teamaquacube": "Aquacube",
-    "item.pokecube.teamaquacube.desc": "A modified pokécube that increases the capture of Ice types.",
+    "item.pokecube.teamaquacube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Ice types.",
     
     "item.pokecube.typingcube": "Typingcube",
-    "item.pokecube.typingcube.desc": "A modified pokécube that increases the capture of Ground types.",
+    "item.pokecube.typingcube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Ground types.",
     
     "item.pokecube.rocketcube": "Rocketcube",
-    "item.pokecube.rocketcube.desc": "A modified pokécube used by Team Rocket.",
+    "item.pokecube.rocketcube.desc": "§7A modified pokécube used by Team Rocket.",
 
 
     "_comment": "Alert Pokemon Legendary Capture",

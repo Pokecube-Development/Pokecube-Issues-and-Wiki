@@ -485,12 +485,12 @@
 
     "_comment": "Vitamin Tooltips",
     
-    "pokecube.tooltip.hpup": "Increases HP of a Pokémob",
-    "pokecube.tooltip.protein": "Increases ATT of a Pokémob",
-    "pokecube.tooltip.iron": "Increases DEF of a Pokémob",
-    "pokecube.tooltip.calcium": "Increases ATTSP of a Pokémob",
-    "pokecube.tooltip.zinc": "Increases DEFSP of a Pokémob",
-    "pokecube.tooltip.carbos": "Increases VIT of a Pokémob",
+    "pokecube.tooltip.hpup": "§7Increases HP of a Pokémob",
+    "pokecube.tooltip.protein": "§7Increases ATT of a Pokémob",
+    "pokecube.tooltip.iron": "§7Increases DEF of a Pokémob",
+    "pokecube.tooltip.calcium": "§7Increases ATTSP of a Pokémob",
+    "pokecube.tooltip.zinc": "§7Increases DEFSP of a Pokémob",
+    "pokecube.tooltip.carbos": "§7Increases VIT of a Pokémob",
     
     "_comment": "Mob Internal Names",
 
