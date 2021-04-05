@@ -69,7 +69,7 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
             }
             return;
         }
-        if (this.getCopiedMob() == null)
+        if (this.getCopiedMob() == null || !this.getCopiedID().equals(this.getCopiedMob().getType().getRegistryName()))
         {
             final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(this.getCopiedID());
             final Entity entity = type.create(level);

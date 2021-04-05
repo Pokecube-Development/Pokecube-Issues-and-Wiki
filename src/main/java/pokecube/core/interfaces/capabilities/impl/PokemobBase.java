@@ -31,7 +31,9 @@ import pokecube.core.interfaces.pokemob.stats.StatModifiers;
 import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.IOwnable;
 import thut.api.ThutCaps;
+import thut.api.entity.CopyCaps;
 import thut.api.entity.IBreedingMob;
+import thut.api.entity.ICopyMob;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
@@ -58,7 +60,6 @@ public abstract class PokemobBase implements IPokemob
         public int ZMOVECD;
         public int DIRECTIONPITCHDW;
         public int HEADINGDW;
-        public int TRANSFORMEDTODW;
         public int GENERALSTATESDW;
         public int LOGICSTATESDW;
         public int COMBATSTATESDW;
@@ -110,7 +111,6 @@ public abstract class PokemobBase implements IPokemob
             this.ATTACKCOOLDOWN = sync.register(new Data_Int(), Integer.valueOf(0));
 
             this.DYECOLOUR = sync.register(new Data_Int(), Integer.valueOf(-1));
-            this.TRANSFORMEDTODW = sync.register(new Data_Int(), Integer.valueOf(-1));
 
             this.ZMOVECD = sync.register(new Data_Int(), Integer.valueOf(-1));
 
@@ -206,6 +206,9 @@ public abstract class PokemobBase implements IPokemob
     public IMobGenetics          genes;
     /** The IMobGenetics used to store our genes. */
     private IOwnable             ownerHolder;
+
+    protected ICopyMob transformed = new CopyCaps.Impl();
+
     /**
      * Used to cache current texture for quicker lookups, array to include any
      * animated textures

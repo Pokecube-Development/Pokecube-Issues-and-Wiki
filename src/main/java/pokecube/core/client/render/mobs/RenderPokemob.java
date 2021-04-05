@@ -496,20 +496,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return;
-        transform:
-        if (pokemob.getTransformedTo() != null)
-        {
-            final Entity to = pokemob.getTransformedTo();
-            final IPokemob other = CapabilityPokemob.getPokemobFor(to);
-            // No transform loops!
-            if (other != null && other.getTransformedTo() != null) break transform;
-            this.entityRenderDispatcher.getRenderer(pokemob.getTransformedTo()).render(pokemob.getTransformedTo(),
-                    entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-            return;
-        }
-
         Holder holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
-
         if (pokemob.getCustomHolder() != null)
         {
             final FormeHolder forme = pokemob.getCustomHolder();
@@ -526,7 +513,6 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
             }
             holder = temp;
         }
-
         if (holder.wrapper == null)
         {
             holder.init();
