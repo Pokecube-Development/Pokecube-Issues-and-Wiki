@@ -148,8 +148,8 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         public HashMap<String, List<Animation>> animations = Maps.newHashMap();
         private final List<String>              toRunNames = Lists.newArrayList();
         private final List<Animation>           toRun      = Lists.newArrayList();
-        public Vector3                          offset     = Vector3.getNewVector();;
-        public Vector3                          scale      = Vector3.getNewVector();
+        private Vector3                         offset     = Vector3.getNewVector();;
+        private Vector3                         scale      = Vector3.getNewVector();
         ResourceLocation                        texture;
         PokedexEntry                            entry;
 
@@ -157,7 +157,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         public boolean overrideAnim = false;
         public String  anim         = "";
 
-        public Vector5 rotations = new Vector5();
+        private Vector5 rotations = new Vector5();
 
         // This will decrement if above 0, and if so, we don't render, this
         // gives some time to actually load the model.

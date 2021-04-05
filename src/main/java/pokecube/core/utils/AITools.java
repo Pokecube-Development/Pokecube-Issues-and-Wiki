@@ -158,6 +158,8 @@ public class AITools
             // Pokemobs fighting over mates don't care if they are wild
             if (pokemob.getCombatState(CombatStates.MATEFIGHT)) return true;
         }
+        // We were checking in general, from a null mob, so valid at this point.
+        if (entity == null) return true;
         // Otherwise, prevent combat on same team
         if (TeamManager.sameTeam(entity, target)) return false;
         // If we got to here, it was a valid target

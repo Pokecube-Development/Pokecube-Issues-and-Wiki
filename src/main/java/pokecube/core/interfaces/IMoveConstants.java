@@ -61,7 +61,7 @@ public interface IMoveConstants extends IMoveNames
     static final Predicate<IPokemob> canOpenDoors = pokemob ->
     {
         // Only tame pokemobs can do this.
-        return pokemob.getOwnerId() != null;
+        return pokemob.isPlayerOwned();
     };
 
     public static enum AIRoutine

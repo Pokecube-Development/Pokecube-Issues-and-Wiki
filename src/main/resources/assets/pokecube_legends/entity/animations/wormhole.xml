@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
 	<model>
-		<phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.15" />
+		<phase name="global" offset="0,-0.75,0" rotation="1,0,0,0" scale="0.25" />
 		<customTex>
 			<part name="wormhole" tex="wormhole"/>
 			<part name="back" tex="blackhole"/>
@@ -10,5 +10,52 @@
 			<part name="anel_1" tex="white_base"/>
 			<part name="anel_2" tex="yellow_base"/>
 		</customTex>
+        <material name="wormhole" light="1" transluscent="false"/>
+        <material name="anel_1" light="1" transluscent="false"/>
+        <material name="anel_2" light="1" transluscent="false"/>
+        <phase type="idle">
+            <part name="wormhole_back">
+                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+            <part name="wormhole_center">
+                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+            <part name="plane_006">
+                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+        </phase>
+        <phase type="stable">
+            <part name="wormhole_back">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+            <part name="wormhole_center">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+            <part name="plane_006">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+        </phase>
+        <phase type="opening">
+            <part name="wormhole_back">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+            <part name="wormhole_center">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,-360,0" startKey="0"/>
+            </part>
+            <part name="plane_006">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+        </phase>
+        <phase type="closing">
+            <part name="wormhole_back">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,-360,0" startKey="0"/>
+            </part>
+            <part name="wormhole_center">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+            <part name="plane_006">
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            </part>
+        </phase>
 	</model>
 </ModelAnimator>

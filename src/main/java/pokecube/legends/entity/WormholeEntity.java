@@ -1,8 +1,8 @@
 package pokecube.legends.entity;
 
-import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,6 +38,9 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.EntityTools;
+import pokecube.legends.spawns.WormholeSpawns;
+import pokecube.legends.spawns.WormholeSpawns.IWormholeWorld;
+import thut.api.Tracker;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 
@@ -78,6 +81,7 @@ public class WormholeEntity extends LivingEntity
 
     private TeleDest dest = null;
     private TeleDest pos  = null;
+    private Vector3d dir  = null;
 
     public EnergyStore energy;
 
@@ -86,6 +90,8 @@ public class WormholeEntity extends LivingEntity
     public WormholeEntity(final EntityType<? extends LivingEntity> type, final World level)
     {
         super(type, level);
+        this.setInvulnerable(true);
+        this.noPhysics = true;
     }
 
     @Override
@@ -123,6 +129,11 @@ public class WormholeEntity extends LivingEntity
             final CompoundNBT tag = nbt.getCompound("anchor_pos");
             this.pos = TeleDest.readFromNBT(tag);
         }
+        if (nbt.contains("face_dir"))
+        {
+            final CompoundNBT tag = nbt.getCompound("face_dir");
+            this.setDir(new Vector3d(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z")));
+        }
     }
 
     public TeleDest getDest()
@@ -149,8 +160,18 @@ public class WormholeEntity extends LivingEntity
     public void tick()
     {
         super.tick();
+
         this.getPos();
         this.getDest();
+        this.getDir();
+
+        this.yRot = new Random(this.getUUID().getLeastSignificantBits()).nextFloat() * 360;
+
+        this.yHeadRot = this.yRot;
+        this.yHeadRotO = this.yRotO;
+        this.yBodyRot = this.yRot;
+        this.yBodyRotO = this.yRotO;
+
         this.setNoGravity(true);
 
         if (!this.isIdle() && !this.isClosing() && !this.isOpening()) this.entityData.set(WormholeEntity.ACTIVE_STATE,
@@ -164,6 +185,8 @@ public class WormholeEntity extends LivingEntity
 
         if (this.isClosing() && this.timer++ > 30)
         {
+            final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+            if (holes != null) holes.removeWormhole(this.getPos().getPos().pos());
             this.remove();
             return;
         }
@@ -178,8 +201,9 @@ public class WormholeEntity extends LivingEntity
         final double s = 0.01;
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
-        if (this.energy.getEnergyStored() > 1000000) // we collapse now.
-            this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
+        // Collapse at full energy
+        if (this.energy.getEnergyStored() == this.energy.getMaxEnergyStored()) this.entityData.set(
+                WormholeEntity.ACTIVE_STATE, (byte) 4);
 
     }
 
@@ -192,7 +216,7 @@ public class WormholeEntity extends LivingEntity
         if (!list.isEmpty()) for (Entity entity : list)
         {
             entity = EntityTools.getCoreEntity(entity);
-            final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use") + 1000;
+            final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use") + 100;
             final long now = Tracker.instance().getTick();
             final UUID uuid = entity.getUUID();
             if (now < lastTp || tpd.contains(uuid)) continue;
@@ -214,7 +238,7 @@ public class WormholeEntity extends LivingEntity
                 }
 
             }
-            ThutTeleporter.transferTo(entity, this.getDest());
+            ThutTeleporter.transferTo(entity, this.getDest(), true);
             entity.setDeltaMovement(0, 0, 0);
             this.energy.receiveEnergy(10000, false);
 
@@ -243,6 +267,11 @@ public class WormholeEntity extends LivingEntity
         tag = new CompoundNBT();
         this.getPos().writeToNBT(tag);
         nbt.put("anchor_pos", tag);
+        tag = new CompoundNBT();
+        tag.putDouble("x", this.getDir().x);
+        tag.putDouble("y", this.getDir().y);
+        tag.putDouble("z", this.getDir().z);
+        nbt.put("face_dir", tag);
     }
 
     @Override
@@ -272,6 +301,17 @@ public class WormholeEntity extends LivingEntity
     public HandSide getMainArm()
     {
         return HandSide.LEFT;
+    }
+
+    public Vector3d getDir()
+    {
+        if (this.dir == null) this.dir = this.getLookAngle();
+        return this.dir;
+    }
+
+    public void setDir(final Vector3d dir)
+    {
+        this.dir = dir;
     }
 
 }
