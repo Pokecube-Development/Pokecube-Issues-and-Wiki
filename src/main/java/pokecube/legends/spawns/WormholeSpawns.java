@@ -27,6 +27,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.world.IWorldTickListener;
 import pokecube.core.world.WorldTickManager;
 import pokecube.legends.Reference;
@@ -138,7 +139,7 @@ public class WormholeSpawns implements IWorldTickListener
     @Override
     public void onTickEnd(final ServerWorld world)
     {
-        // if (!SpawnHandler.canSpawnInWorld(world)) return;
+        if (!SpawnHandler.canSpawnInWorld(world)) return;
 
         final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
         if (holes == null) return;
@@ -161,7 +162,7 @@ public class WormholeSpawns implements IWorldTickListener
         // Only spawn this if the nearby area is actually loaded.
         if (!TerrainManager.isAreaLoaded(world, v, 8)) return;
 
-        v.y = world.getHeight(Type.WORLD_SURFACE, (int) v.x, (int) v.z) + rand.nextInt(10);
+        v.y = world.getHeight(Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 2 + rand.nextInt(10);
         if (v.y > world.getHeight()) return;
 
         final Vector3 pos = v.copy();
