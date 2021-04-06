@@ -122,9 +122,9 @@ public class AnimationGui extends Screen
                         e.printStackTrace();
                     }
                 }
-
             }
         }
+        if (ret != null) ret.setCopiedMob(realMob.getCopiedMob());
         return ret;
     }
 

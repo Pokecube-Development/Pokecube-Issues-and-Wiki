@@ -58,6 +58,12 @@ public interface IMoveConstants extends IMoveNames
         return entry.shouldFly || entry.floats() || entry.flys();
     };
 
+    static final Predicate<IPokemob> canOpenDoors = pokemob ->
+    {
+        // Only tame pokemobs can do this.
+        return pokemob.isPlayerOwned();
+    };
+
     public static enum AIRoutine
     {
         //@formatter:off
@@ -80,7 +86,9 @@ public interface IMoveConstants extends IMoveNames
         //Does the pokemob find targets to attack.
         AGRESSIVE,
         //Does the pokemob fly around, or can it only walk.
-        AIRBORNE(true, IMoveConstants.canFly);
+        AIRBORNE(true, IMoveConstants.canFly),
+        //Can the pokemob open and close doors
+        USEDOORS(true, IMoveConstants.canOpenDoors);
         //@formatter:on
 
         private final boolean default_;

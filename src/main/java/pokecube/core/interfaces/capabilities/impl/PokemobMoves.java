@@ -2,13 +2,17 @@ package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -29,11 +33,14 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.utils.PokeType;
+import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
+import thut.core.common.network.CapabilitySync;
 
 public abstract class PokemobMoves extends PokemobStats
 {
+    private static final Set<String> TO_SYNC = Sets.newHashSet("thutcore:copymob");
 
     @Override
     public void executeMove(final Entity target, Vector3 targetLocation, final float f)
@@ -56,8 +63,8 @@ public abstract class PokemobMoves extends PokemobStats
         // If the move is somehow null, report it and return early.
         if (move == null || move.move == null)
         {
-            PokecubeCore.LOGGER.error(this.getDisplayName().getString() + " Has Used Unregistered Move: "
-                    + attack + " " + index);
+            PokecubeCore.LOGGER.error(this.getDisplayName().getString() + " Has Used Unregistered Move: " + attack + " "
+                    + index);
             return;
         }
 
@@ -242,15 +249,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public LivingEntity getTransformedTo()
     {
-        final int id = this.dataSync().get(this.params.TRANSFORMEDTODW);
-        if (id == -1) return null;
-        LivingEntity to = this.getMoveStats().transformedTo;
-        if (to != null && id == to.getId()) return to;
-        final Entity mob = this.getEntity().getCommandSenderWorld().getEntity(id);
-        if (!(mob instanceof LivingEntity)) return null;
-        to = (LivingEntity) mob;
-        this.setTransformedTo(to);
-        return to;
+        return this.getCopiedMob();
     }
 
     @Override
@@ -382,7 +381,17 @@ public abstract class PokemobMoves extends PokemobStats
         this.getMoveStats().transformedTo = to;
         this.setType1(newEntry.getType1());
         this.setType2(newEntry.getType2());
-        this.dataSync().set(this.params.TRANSFORMEDTODW, id);
+        if (!this.getEntity().level.isClientSide())
+        {
+            final CompoundNBT tag = new CompoundNBT();
+            if (to != null) to.addAdditionalSaveData(tag);
+            this.setCopiedNBT(tag);
+        }
+        final LivingEntity old = this.getCopiedMob();
+        this.setCopiedID(id == -1 ? null : to.getType().getRegistryName());
+        this.getCopy().onBaseTick(this.getEntity().level, this.getEntity());
+        if (to != old && !this.getEntity().level.isClientSide()) CapabilitySync.sendUpdate(this.getEntity(),
+                PokemobMoves.TO_SYNC);
     }
 
     @Override
@@ -394,7 +403,9 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public ITargetFinder getTargetFinder()
     {
-        if (this.targetFinder == null) return () -> {};
+        if (this.targetFinder == null) return () ->
+        {
+        };
         return this.targetFinder;
     }
 
@@ -417,6 +428,48 @@ public abstract class PokemobMoves extends PokemobStats
         if (angry && this.timeSinceCombat() < 0 || !angry && this.timeSinceCombat() > 0) this.resetCombatTime();
         if (angry) this.timeSinceCombat++;
         else this.timeSinceCombat--;
+    }
+
+    @Override
+    public ResourceLocation getCopiedID()
+    {
+        return this.getCopy().getCopiedID();
+    }
+
+    @Override
+    public LivingEntity getCopiedMob()
+    {
+        return this.getCopy().getCopiedMob();
+    }
+
+    @Override
+    public CompoundNBT getCopiedNBT()
+    {
+        return this.getCopy().getCopiedNBT();
+    }
+
+    @Override
+    public void setCopiedID(final ResourceLocation id)
+    {
+        this.getCopy().setCopiedID(id);
+    }
+
+    @Override
+    public void setCopiedMob(final LivingEntity mob)
+    {
+        this.getCopy().setCopiedMob(mob);
+    }
+
+    @Override
+    public void setCopiedNBT(final CompoundNBT tag)
+    {
+        this.getCopy().setCopiedNBT(tag);
+    }
+
+    @Override
+    public ICopyMob getCopy()
+    {
+        return this.transformed;
     }
 
 }

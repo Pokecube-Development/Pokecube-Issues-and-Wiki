@@ -53,7 +53,7 @@ public class CapabilitySync extends NBTPacket
     public static final PacketAssembly<CapabilitySync> ASSEMBLER = PacketAssembly.registerAssembler(
             CapabilitySync.class, CapabilitySync::new, ThutCore.packets);
 
-    private static CapabilitySync makePacket(final Entity entity)
+    private static CapabilitySync makePacket(final Entity entity, final Set<String> toSync)
     {
         if (entity.getCommandSenderWorld().isClientSide)
         {
@@ -70,7 +70,7 @@ public class CapabilitySync extends NBTPacket
             final INBTSerializable<INBT>[] writers = (INBTSerializable<INBT>[]) CapabilitySync.CAPWRITERS.get(disp);
             final String[] names = (String[]) CapabilitySync.CAPNAMES.get(disp);
             for (int x = 0; x < writers.length; x++)
-                if (CapabilitySync.TO_SYNC.contains(names[x])) nbt.put(names[x], writers[x].serializeNBT());
+                if (toSync.contains(names[x])) nbt.put(names[x], writers[x].serializeNBT());
         }
         catch (final Exception e)
         {
@@ -83,7 +83,12 @@ public class CapabilitySync extends NBTPacket
 
     public static void sendUpdate(final Entity entity)
     {
-        final CapabilitySync message = CapabilitySync.makePacket(entity);
+        CapabilitySync.sendUpdate(entity, CapabilitySync.TO_SYNC);
+    }
+
+    public static void sendUpdate(final Entity entity, final Set<String> toSync)
+    {
+        final CapabilitySync message = CapabilitySync.makePacket(entity, toSync);
         if (message != null)
         {
             CapabilitySync.ASSEMBLER.sendToTracking(message, entity);
@@ -102,7 +107,7 @@ public class CapabilitySync extends NBTPacket
     {
         if (event.getPlayer() instanceof ServerPlayerEntity)
         {
-            final CapabilitySync message = CapabilitySync.makePacket(event.getTarget());
+            final CapabilitySync message = CapabilitySync.makePacket(event.getTarget(), CapabilitySync.TO_SYNC);
             if (message != null) CapabilitySync.ASSEMBLER.sendTo(message, (ServerPlayerEntity) event.getPlayer());
         }
     }
