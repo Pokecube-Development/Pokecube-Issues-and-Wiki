@@ -16,7 +16,7 @@ public class DistorticOneWayGlass extends GlassBlock
 {
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
 
-    public DistorticOneWayGlass(final String name, final Properties properties)
+    public DistorticOneWayGlass(final Properties properties)
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));

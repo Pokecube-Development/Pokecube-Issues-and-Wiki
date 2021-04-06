@@ -17,7 +17,7 @@ public class DistorticOneWayStainedGlass extends StainedGlassBlock
 {
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
 
-    public DistorticOneWayStainedGlass(final String name, DyeColor color, final Properties properties)
+    public DistorticOneWayStainedGlass(DyeColor color, final Properties properties)
     {
         super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));

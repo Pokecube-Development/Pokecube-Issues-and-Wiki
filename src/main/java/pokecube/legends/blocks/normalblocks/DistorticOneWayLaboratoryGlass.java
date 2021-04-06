@@ -12,9 +12,9 @@ public class DistorticOneWayLaboratoryGlass extends DistorticOneWayStainedGlass
 {
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
 
-    public DistorticOneWayLaboratoryGlass(final String name, DyeColor color, final Properties properties)
+    public DistorticOneWayLaboratoryGlass(DyeColor color, final Properties properties)
     {
-        super(name, color, properties);
+        super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
