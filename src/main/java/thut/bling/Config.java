@@ -8,7 +8,7 @@ public class Config extends ConfigData
 {
     private static final String BAG = "bag";
 
-    @Configure(category = Config.BAG, type = Type.SERVER)
+    @Configure(category = Config.BAG, type = Type.SERVER, comment = "The number of pages the Ender Bag has. [Default: 2]")
     public int enderBagPages = 2;
 
     public Config()

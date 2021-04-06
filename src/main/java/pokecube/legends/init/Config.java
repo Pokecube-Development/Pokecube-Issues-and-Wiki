@@ -17,44 +17,44 @@ import thut.core.common.config.Configure;
 
 public class Config extends ConfigData
 {
-    // Enabla Condition Legendary
+    // Enable Condition Legendary
     @Configure(category = "general")
     public boolean enabledcondition = true;
 
-    @Configure(category = "general", comment = "If true, temples cannot be defiled by players.")
+    @Configure(category = "general", comment = "Temples cannot be defiled by players. [Default: true]")
     public boolean protectTemples = true;
 
-    @Configure(category = "general")
+    @Configure(category = "general", comment = "If legends can only spawn once. [Default: false]")
     public boolean singleUseLegendSpawns = false;
-    @Configure(category = "general")
+    @Configure(category = "general", comment = "Delay in ticks for legends to respawn. [Default: 36000]")
     public int     respawnLegendDelay    = 36000;
-    @Configure(category = "general")
+    @Configure(category = "general", comment = "Should ores generate. [Default: true]")
     public boolean generateOres          = true;
 
     // Meteor adjustments
-    @Configure(category = "meteors")
+    @Configure(category = "meteors", comment = "Size and power of meteors. Anything above 100 is not recommended. [Default: 20]")
     public double meteorPowerThreshold = 20;
-    @Configure(category = "meteors")
-    public double meteorChanceForAny   = 0.01;
-    @Configure(category = "meteors")
+    @Configure(category = "meteors", comment = "Chance for meteors to spawn. [Default: 0.15]")
+    public double meteorChanceForAny   = 0.15;
+    @Configure(category = "meteors", comment = "Chance for meteors to spawn with Cosmic Dust Ores. [Default: 0.25]")
     public double meteorChanceForDust  = 0.25;
 
     // Raids
-    @Configure(category = "raids")
+    @Configure(category = "raids", comment = "Duration of raids in ticks. [Default: 3000]")
     public int    raidDuration    = 3000;
-    @Configure(category = "raids")
+    @Configure(category = "raids", comment = "Chance for a raid to reset. [Default: 0.1]")
     public double raidResetChance = 0.1;
-    @Configure(category = "raids")
+    @Configure(category = "raids", comment = "Chance for a reset raid to be rare. [Default: 0.1]")
     public double rareRaidChance  = 0.1;
 
     // Mirage Spot(Hoopa Ring)
-    @Configure(category = "mirage", comment = "Portals will reset randomly based on this value, higher values result in longer times between use. Default: 24000")
+    @Configure(category = "mirage", comment = "Portals will reset randomly based on this value, higher values result in longer times between use. [Default: 24000]")
     public int ticksPerPortalReset = 24000;
-    @Configure(category = "mirage", comment = "Minimum level for Hoopa to generate the portal. Min: 40. Max: 100. Numbers below the minimum will be reset to the default value: 50")
+    @Configure(category = "mirage", comment = "Minimum level for Hoopa to generate the portal. Numbers below the minimum will be reset to the default. [Min: 40, Max: 100] [Default: 50]")
     public int levelCreatePortal   = 50;
-    @Configure(category = "mirage", comment = "the time you need to wait for Hoopa to generate a new portal")
+    @Configure(category = "mirage", comment = "The time you need to wait for Hoopa to generate a new portal. [Default: 8400]")
     public int ticksPerPortalSpawn = 8400;
-    @Configure(category = "mirage", comment = "time for the portal to disappear in ticks. 1 Tick = 20 seconds")
+    @Configure(category = "mirage", comment = "The time for the portal to disappear in ticks. 1 Tick = 20 seconds. [Default: 1200]")
     public int ticksPortalDespawn  = 1200;
 
     // Ultra Space
@@ -64,7 +64,7 @@ public class Config extends ConfigData
     public int ultraKeyConsumeAmount = 5;
 
     // Distortic World
-    @Configure(category = "distortic")
+    @Configure(category = "distortic", comment = "Cooldown for the mirror in ticks. [Default: 800]")
     public int mirrorCooldown = 800;
 
     private final LegendaryConditions conditions = new LegendaryConditions();
