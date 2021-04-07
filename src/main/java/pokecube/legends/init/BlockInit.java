@@ -247,18 +247,18 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_DARKSTONE_PR_PLATE;
     
     // Ultra Desert
-    public static final RegistryObject<Block> ULTRA_SAND;
-    public static final RegistryObject<Block> ULTRA_SANDSTONE;
-    public static final RegistryObject<Block> ULTRA_SANDSTONE_SLAB;
-    public static final RegistryObject<Block> ULTRA_SANDSTONE_STAIRS;
-    public static final RegistryObject<Block> ULTRA_SANDBRICK;
-    public static final RegistryObject<Block> ULTRA_SANDBRICK_SLAB;
-    public static final RegistryObject<Block> ULTRA_SANDBRICK_STAIRS;
-    public static final RegistryObject<Block> ULTRA_SANDSTONE_SMOOTH;
-    public static final RegistryObject<Block> ULTRA_SANDSTONE_SMOOTH_SLAB;
-    public static final RegistryObject<Block> ULTRA_SANDSTONE_SMOOTH_STAIRS;
-    public static final RegistryObject<Block> ULTRA_SANDSTONE_BUTTON;
-    public static final RegistryObject<Block> ULTRA_SANDSTONE_PR_PLATE;
+    public static final RegistryObject<Block> CRYSTALLIZED_SAND;
+    public static final RegistryObject<Block> CRYSTALLIZED_SANDSTONE;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_SLAB;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_STAIRS;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_BRICKS;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_BRICK_SLAB;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_BRICK_STAIRS;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_SMOOTH;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_SMOOTH_SLAB;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_SMOOTH_STAIRS;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_BUTTON;
+    public static final RegistryObject<Block> CRYS_SANDSTONE_PR_PLATE;
 
     // Plants(LOG/Planks/Leaves)
     public static final RegistryObject<Block> INVERTED_SAPLING;
@@ -504,33 +504,34 @@ public class BlockInit
                                 0.7f).requiresCorrectToolForDrops()));
         
         // Ultra Desert
-        ULTRA_SAND = PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new SandUltraBlock("ultrasand",
-                Material.SAND, MaterialColor.SNOW).noInfoBlock());
-        ULTRA_SANDSTONE = PokecubeLegends.BLOCKS_TAB.register("ultrasandstone", () -> new BlockBase("ultrasandstone",
+        CRYSTALLIZED_SAND = PokecubeLegends.BLOCKS_TAB.register("ultrasand", () -> new CrystallizedSand(14737366,
+            AbstractBlock.Properties.of(Material.SAND, MaterialColor.SNOW).sound(SoundType.SAND).strength(0.8F)
+                .harvestTool(ToolType.SHOVEL).harvestLevel(1)));
+        CRYSTALLIZED_SANDSTONE = PokecubeLegends.BLOCKS_TAB.register("ultrasandstone", () -> new BlockBase("ultrasandstone",
                 Material.STONE, MaterialColor.SNOW, 1f, SoundType.STONE, ToolType.PICKAXE, 2).noInfoBlock());
-        ULTRA_SANDSTONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        CRYS_SANDSTONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.SNOW).strength(2.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        ULTRA_SANDSTONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_stairs",
+        CRYS_SANDSTONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.STONE, MaterialColor.SNOW).strength(2.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        ULTRA_SANDBRICK = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick", () -> new BlockBase("ultra_sandbrick",
+        CRYS_SANDSTONE_BRICKS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick", () -> new BlockBase("ultra_sandbrick",
                 Material.STONE, MaterialColor.SNOW, 1.4f, SoundType.STONE, ToolType.PICKAXE, 1).noInfoBlock());
-        ULTRA_SANDBRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        CRYS_SANDSTONE_BRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.SNOW).strength(2.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        ULTRA_SANDBRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick_stairs",
+        CRYS_SANDSTONE_BRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandbrick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.STONE, MaterialColor.SNOW).strength(2.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        ULTRA_SANDSTONE_SMOOTH = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth", () -> new BlockBase("ultra_sandstone_smooth",
+        CRYS_SANDSTONE_SMOOTH = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth", () -> new BlockBase("ultra_sandstone_smooth",
                 Material.STONE, MaterialColor.SNOW, 1.5f, SoundType.STONE, ToolType.PICKAXE, 1).noInfoBlock());
-        ULTRA_SANDSTONE_SMOOTH_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        CRYS_SANDSTONE_SMOOTH_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.SNOW).strength(2.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        ULTRA_SANDSTONE_SMOOTH_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth_stairs",
+        CRYS_SANDSTONE_SMOOTH_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_smooth_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 		Material.STONE, MaterialColor.SNOW).strength(2.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        ULTRA_SANDSTONE_BUTTON = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_button",
+        CRYS_SANDSTONE_BUTTON = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_button",
                 () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.SAND).sound(SoundType.STONE)
                         .noCollission().strength(0.5f).requiresCorrectToolForDrops()));
-        ULTRA_SANDSTONE_PR_PLATE = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_pressure_plate",
+        CRYS_SANDSTONE_PR_PLATE = PokecubeLegends.BLOCKS_TAB.register("ultra_sandstone_pressure_plate",
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties
                 .of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE).noCollission().strength(0.7f).requiresCorrectToolForDrops()));
         
@@ -607,7 +608,7 @@ public class BlockInit
 
         // Plants
         INVERTED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling01", () -> new SaplingBase(
-                () -> new Ultra_Tree01(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE)
+                () -> new InvertedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
         ULTRA_JUNGLE_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling02", () -> new SaplingBase(
                 () -> new Ultra_Tree02(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.PLANT)
@@ -622,7 +623,7 @@ public class BlockInit
                 () -> new Ultra_Tree04(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
         MIRAGE_SAPLING = PokecubeLegends.BLOCKS_TAB.register("mirage_sapling", () -> new SaplingBase(
-                () -> new Ultra_Tree05(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.SAND)
+                () -> new Ultra_Tree05(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_LIGHT_BLUE)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         // Woods (LOGS/LEAVES/PLANKS)

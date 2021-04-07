@@ -1,8 +1,6 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.SandBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,16 +10,13 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
-import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.ItemInit;
 
-public class SandUltraBlock extends BlockBase
+public class CrystallizedSand extends SandBlock
 {
-    public SandUltraBlock(final String name, final Material material, MaterialColor color)
+    public CrystallizedSand(int color, final Properties properties)
     {
-        super(name, Properties.of(material, color).sound(SoundType.SAND).strength(0.8F).harvestTool(
-                ToolType.SHOVEL).harvestLevel(1));
+        super(color, properties);
     }
 
     @Override
@@ -31,7 +26,7 @@ public class SandUltraBlock extends BlockBase
         {
             final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
             $_dependencies.put("entity", entity);
-            SandUltraBlock.executeProcedure($_dependencies);
+            CrystallizedSand.executeProcedure($_dependencies);
         }
     }
 

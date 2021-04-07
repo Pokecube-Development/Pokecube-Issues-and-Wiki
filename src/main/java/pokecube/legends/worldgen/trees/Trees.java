@@ -1,23 +1,21 @@
 package pokecube.legends.worldgen.trees;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureSpread;
-import net.minecraft.world.gen.feature.TwoLayerFeature;
-import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
-import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
-import net.minecraft.world.gen.foliageplacer.JungleFoliagePlacer;
-import net.minecraft.world.gen.foliageplacer.SpruceFoliagePlacer;
+import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.foliageplacer.*;
 import net.minecraft.world.gen.trunkplacer.FancyTrunkPlacer;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import pokecube.legends.init.BlockInit;
 
+import java.util.OptionalInt;
+
 public class Trees
 {
-    public static ConfiguredFeature<BaseTreeFeatureConfig, ?> ULTRA_TREE01;
+    public static ConfiguredFeature<BaseTreeFeatureConfig, ?> INVERTED_TREE;
+    public static ConfiguredFeature<BaseTreeFeatureConfig, ?> INVERTED_TREE_FANCY;
+
     public static ConfiguredFeature<BaseTreeFeatureConfig, ?> ULTRA_TREE02;
     public static ConfiguredFeature<BaseTreeFeatureConfig, ?> ULTRA_TREE03;
     public static ConfiguredFeature<BaseTreeFeatureConfig, ?> ULTRA_TREE04;
@@ -25,7 +23,7 @@ public class Trees
     
     public static ConfiguredFeature<BaseTreeFeatureConfig, ?> DISTORTIC_TREE;
 
-    public static BaseTreeFeatureConfig getUltra01()
+    public static BaseTreeFeatureConfig getInvertedTree()
     {
         return new BaseTreeFeatureConfig.Builder(
         //@formatter:off
@@ -45,7 +43,7 @@ public class Trees
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
-                new StraightTrunkPlacer(4, 2, 0),
+                new StraightTrunkPlacer(6, 4, 0),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
@@ -54,6 +52,38 @@ public class Trees
                 new TwoLayerFeature(1, 0, 1))
                 .ignoreVines()
                 .build();
+        //@formatter:on
+    }
+
+    public static BaseTreeFeatureConfig getInvertedTreeFancy()
+    {
+        return new BaseTreeFeatureConfig.Builder(
+            //@formatter:off
+            // This line specifies what is the base log, different block state providers
+            // can allow for randomization in the log
+            new SimpleBlockStateProvider(BlockInit.INVERTED_LOG.get().defaultBlockState()),
+
+            // This one is similar, but for the leaves
+            new SimpleBlockStateProvider(BlockInit.INVERTED_LEAVES.get().defaultBlockState()),
+
+            // This is how the leaves are arranged, this is the default for oak, there
+            // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
+            // more can also probably be coded if needed
+            // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
+            // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
+            new FancyFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(4), 4),
+
+            // This is how the tree trunk works, there are also DarkOak, Fancy,
+            // Forky, Giant, MegaJungle available
+            new FancyTrunkPlacer(3, 11, 0),
+
+            // I am not certain exactly how this works, but there is also a threeLayer feature
+            // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
+            // Different trees use a variety of the three values below, usually ranging from
+            // 0 to 2, this example is from basic oak trees, but it can vary for different ones
+            new TwoLayerFeature(0, 0, 0, OptionalInt.of(4)))
+            .ignoreVines()
+            .build();
         //@formatter:on
     }
     
@@ -221,9 +251,13 @@ public class Trees
     
     public static void register()
     {
-        Trees.ULTRA_TREE01 = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree01", Trees.ULTRA_TREE01 = Feature.TREE.configured(Trees
-                        .getUltra01()));
+        Trees.INVERTED_TREE = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
+                "pokecube_legends:ultra_tree01", Trees.INVERTED_TREE = Feature.TREE.configured(Trees
+                        .getInvertedTree().withDecorators(ImmutableList.of(Features.Placements.BEEHIVE_0002))));
+        Trees.INVERTED_TREE_FANCY = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
+            "pokecube_legends:ultra_tree01", Trees.INVERTED_TREE_FANCY = Feature.TREE.configured(Trees
+                .getInvertedTreeFancy().withDecorators(ImmutableList.of(Features.Placements.BEEHIVE_0002))));
+
         Trees.ULTRA_TREE02 = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_FEATURE,
                 "pokecube_legends:ultra_tree02", Trees.ULTRA_TREE02 = Feature.TREE.configured(Trees
                         .getUltra02()));
