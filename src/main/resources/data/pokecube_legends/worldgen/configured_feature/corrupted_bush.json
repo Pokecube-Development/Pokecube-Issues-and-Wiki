@@ -22,15 +22,15 @@
     "leaves_provider": {
       "state": {
         "Properties": {
-          "persistent": "true",
-          "distance": "3"
+          "persistent": "false",
+          "distance": "1"
         },
         "Name": "pokecube_legends:corrupted_leave"
       },
       "type": "minecraft:simple_state_provider"
     },
     "foliage_placer": {
-      "radius": 1,
+      "radius": 2,
       "offset": 1,
       "height": 2,
       "type": "minecraft:bush_foliage_placer"
