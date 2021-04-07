@@ -4,9 +4,9 @@
     "ignore_vines": true,
     "heightmap": "OCEAN_FLOOR",
     "minimum_size": {
-      "limit": 1,
+      "limit": 2,
       "lower_size": 0,
-      "upper_size": 1,
+      "upper_size": 2,
       "type": "minecraft:two_layers_feature_size"
     },
     "decorators": [
@@ -40,10 +40,10 @@
       "radius": 2,
       "offset": 0,
       "height": 3,
-      "type": "minecraft:blob_foliage_placer"
+      "type": "minecraft:jungle_foliage_placer"
     },
     "trunk_placer": {
-      "base_height": 4,
+      "base_height": 8,
       "height_rand_a": 8,
       "height_rand_b": 0,
       "type": "minecraft:straight_trunk_placer"

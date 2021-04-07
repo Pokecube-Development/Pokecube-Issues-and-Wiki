@@ -8,6 +8,10 @@
               {
                 "feature": "pokecube_legends:temporal_bush",
                 "chance": 0.5
+              },
+              {
+                "feature": "pokecube_legends:mega_temporal_tree",
+                "chance": 0.33333334
               }
             ],
             "default": "pokecube_legends:temporal_tree"

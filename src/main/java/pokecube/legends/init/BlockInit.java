@@ -262,7 +262,7 @@ public class BlockInit
 
     // Plants(LOG/Planks/Leaves)
     public static final RegistryObject<Block> INVERTED_SAPLING;
-    public static final RegistryObject<Block> ULTRA_JUNGLE_SAPLING;
+    public static final RegistryObject<Block> TEMPORAL_SAPLING;
     public static final RegistryObject<Block> AGED_SAPLING;
     public static final RegistryObject<Block> CORRUPTED_SAPLING;
     public static final RegistryObject<Block> MIRAGE_SAPLING;
@@ -610,20 +610,20 @@ public class BlockInit
         INVERTED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling01", () -> new SaplingBase(
                 () -> new InvertedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
-        ULTRA_JUNGLE_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling02", () -> new SaplingBase(
-                () -> new Ultra_Tree02(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.PLANT)
+        TEMPORAL_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling02", () -> new SaplingBase(
+                () -> new TemporalTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.PLANT)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
         AGED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling03", () -> new SaplingBase(
-                () -> new Ultra_Tree03(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_YELLOW)
+                () -> new AgedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_YELLOW)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
         DISTORTIC_SAPLING = PokecubeLegends.BLOCKS_TAB.register("distortic_sapling", () -> new SaplingBase(
-                () -> new Distortic_Tree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE)
+                () -> new DistorticTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
         CORRUPTED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("corrupted_sapling", () -> new SaplingBase(
-                () -> new Ultra_Tree04(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
+                () -> new CorruptedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
         MIRAGE_SAPLING = PokecubeLegends.BLOCKS_TAB.register("mirage_sapling", () -> new SaplingBase(
-                () -> new Ultra_Tree05(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_LIGHT_BLUE)
+                () -> new MirageTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_LIGHT_BLUE)
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         // Woods (LOGS/LEAVES/PLANKS)
@@ -1421,7 +1421,7 @@ public class BlockInit
         compostableBlocks(0.3f, BlockInit.DYNA_LEAVES1);
         compostableBlocks(0.3f, BlockInit.DYNA_LEAVES2);
         compostableBlocks(0.3f, BlockInit.INVERTED_SAPLING);
-        compostableBlocks(0.3f, BlockInit.ULTRA_JUNGLE_SAPLING);
+        compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
         compostableBlocks(0.3f, BlockInit.AGED_SAPLING);
         compostableBlocks(0.3f, BlockInit.CORRUPTED_SAPLING);
         compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);

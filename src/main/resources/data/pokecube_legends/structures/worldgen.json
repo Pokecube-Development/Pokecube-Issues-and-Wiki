@@ -649,7 +649,7 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-        "pokecube_legends:ultraspace/giant_berry_tree;{\"weight\":45}"
+        "pokecube_legends:ultraspace/giant_berry_tree_island;{\"weight\":45}"
       ]
     },
     {
