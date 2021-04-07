@@ -18,12 +18,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import thut.api.ModelHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationHelper;
+import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -34,11 +39,21 @@ import thut.core.client.render.model.IModelRenderer.Vector5;
 import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
+import thut.core.common.ThutCore;
 import thut.core.common.mobs.DefaultColourable;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID, value = Dist.CLIENT)
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
 {
     private static final HeadInfo DUMMY = new HeadInfo();
+
+    private static final Set<ModelWrapper<?>> WRAPPERS = Sets.newHashSet();
+
+    @SubscribeEvent
+    public static void onTextureReload(final TextureStitchEvent.Post event)
+    {
+        ModelWrapper.WRAPPERS.clear();
+    }
 
     public final ModelHolder       model;
     public final IModelRenderer<?> renderer;
@@ -149,7 +164,14 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public void setupAnim(final T entityIn, final float limbSwing, final float limbSwingAmount, final float ageInTicks,
             final float netHeadYaw, final float headPitch)
     {
-        if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
+        if (ModelWrapper.WRAPPERS.add(this)) this.imodel = null;
+        if (this.imodel == null)
+        {
+            this.imodel = ModelFactory.create(this.model);
+            if (this.imodel != null) AnimationLoader.parse(this.model, this, this.renderer);
+            final IAnimationHolder holder = this.renderer.getAnimationHolder();
+            if (holder != null) holder.clean();
+        }
         if (!this.isLoaded()) return;
         this.entityIn = entityIn;
         final HeadInfo info = this.imodel.getHeadInfo();
