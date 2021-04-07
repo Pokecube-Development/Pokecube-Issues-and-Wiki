@@ -610,13 +610,20 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-      	"pokecube_legends:ultraspace/all_02;{\"weight\":20}",
-      	"pokecube_legends:ultraspace/all_03;{\"weight\":20}",
-        "pokecube_legends:ultraspace/ub01_1;{\"weight\":40}",
-        "pokecube_legends:ultraspace/ub01_2;{\"weight\":40}",
-        "pokecube_legends:ultraspace/ub01_3;{\"weight\":40}",
-        "pokecube_legends:ultraspace/ub01_4;{\"weight\":50}",
-        "pokecube_legends:ultraspace/ub01_max;{\"weight\":150}"
+        "pokecube_legends:ultraspace/orange_pitcher_mushroom;{\"weight\":40}",
+        "pokecube_legends:ultraspace/giant_red_mushroom;{\"weight\":40}",
+        "pokecube_legends:ultraspace/giant_white_mushroom;{\"weight\":40}",
+        "pokecube_legends:ultraspace/giant_brown_mushroom;{\"weight\":50}",
+        "pokecube_legends:ultraspace/giant_tree_stump;{\"weight\":150}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ub001/loose",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
       ]
     },
     {
@@ -624,10 +631,17 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-      	"pokecube_legends:ultraspace/all_01;{\"weight\":15}",
-      	"pokecube_legends:ultraspace/all_02;{\"weight\":15}",
-        "pokecube_legends:ultraspace/ub02_1;{\"weight\":30}",
-        "pokecube_legends:ultraspace/ub02_2;{\"weight\":30}"
+        "pokecube_legends:ultraspace/crystal_spike;{\"weight\":15}",
+        "pokecube_legends:ultraspace/giant_jungle_tree;{\"weight\":30}",
+        "pokecube_legends:ultraspace/giant_chimney;{\"weight\":30}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ub002/loose",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":15}"
       ]
     },
     {
@@ -635,7 +649,7 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-        "pokecube_legends:ultraspace/ub02_max;{\"weight\":45}"
+        "pokecube_legends:ultraspace/giant_berry_tree;{\"weight\":45}"
       ]
     },
     {
@@ -643,11 +657,18 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-        "pokecube_legends:ultraspace/all_01;{\"weight\":20}",
-      	"pokecube_legends:ultraspace/all_03;{\"weight\":20}",
-        "pokecube_legends:ultraspace/ub03_1;{\"weight\":25}",
-        "pokecube_legends:ultraspace/ub03_2;{\"weight\":40}",
-        "pokecube_legends:ultraspace/ub03_max;{\"weight\":130}"
+        "pokecube_legends:ultraspace/crystal_spike;{\"weight\":20}",
+        "pokecube_legends:ultraspace/crystal_statue;{\"weight\":25}",
+        "pokecube_legends:ultraspace/palm_berry_tree;{\"weight\":40}",
+        "pokecube_legends:ultraspace/giant_crystal_statue;{\"weight\":130}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ub003/loose",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
       ]
     },
     
@@ -697,13 +718,20 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-      	"pokecube_legends:ultraspace/all_02;{\"weight\":20}",
-      	"pokecube_legends:ultraspace/all_03;{\"weight\":20}",
-        "pokecube_legends:ultraspace/ub04_1;{\"weight\":30}",
-        "pokecube_legends:ultraspace/ub04_2;{\"weight\":30}",
-        "pokecube_legends:ultraspace/ub04_3;{\"weight\":30}",
-        "pokecube_legends:ultraspace/ub04_4;{\"weight\":55}",
-        "pokecube_legends:ultraspace/ub04_max;{\"weight\":100}"
+        "pokecube_legends:ultraspace/ruined_building;{\"weight\":55}",
+        "pokecube_legends:ultraspace/tower;{\"weight\":100}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ub004/loose",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ruined_bridge1;{\"weight\":30}",
+        "pokecube_legends:ultraspace/ruined_bridge2;{\"weight\":30}",
+        "pokecube_legends:ultraspace/ruined_road;{\"weight\":30}"
       ]
     },
     {
@@ -711,11 +739,18 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-      	"pokecube_legends:ultraspace/all_01;{\"weight\":20}",
-      	"pokecube_legends:ultraspace/all_02;{\"weight\":20}",
-      	"pokecube_legends:ultraspace/all_03;{\"weight\":20}",
-        "pokecube_legends:ultraspace/ub05_1;{\"weight\":30}",
-        "pokecube_legends:ultraspace/ub05_2;{\"weight\":30}"
+        "pokecube_legends:ultraspace/crystal_spike;{\"weight\":20}",
+        "pokecube_legends:ultraspace/giant_crystal_flower;{\"weight\":30}",
+        "pokecube_legends:ultraspace/crystal_tendril;{\"weight\":30}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ub005/loose",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
       ]
     },
     {
@@ -723,11 +758,18 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-      	"pokecube_legends:ultraspace/all_01;{\"weight\":20}",
-      	"pokecube_legends:ultraspace/all_02;{\"weight\":20}",
-      	"pokecube_legends:ultraspace/all_03;{\"weight\":20}",
-        "pokecube_legends:ultraspace/ub06_1;{\"weight\":40}",
-        "pokecube_legends:ultraspace/ub06_2;{\"weight\":40}"
+        "pokecube_legends:ultraspace/crystal_spike;{\"weight\":20}",
+        "pokecube_legends:ultraspace/acacia_berry_tree;{\"weight\":40}",
+        "pokecube_legends:ultraspace/red_plane;{\"weight\":40}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:ub006/loose",
+      "rigid":false,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
       ]
     }
   ],
@@ -1218,6 +1260,7 @@
       }
     },
     {
+      "type":"pokecube_legends:ub001",
       "name":"pokecube_legends:ub001",
       "root":"pokecube_legends:ub001",
       "biomeType":"none",
@@ -1233,6 +1276,23 @@
       }
     },
     {
+      "type":"pokecube_legends:ub001",
+      "name":"pokecube_legends:ub001/loose",
+      "root":"pokecube_legends:ub001/loose",
+      "biomeType":"none",
+      "distance":5,
+      "separation":1,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_deep_cave"
+        }
+      }
+    },
+    {
+      "type":"pokecube_legends:ub002",
       "name":"pokecube_legends:ub002",
       "root":"pokecube_legends:ub002",
       "biomeType":"none",
@@ -1248,8 +1308,41 @@
       }
     },
     {
+      "type":"pokecube_legends:ub002",
+      "name":"pokecube_legends:ub002/loose",
+      "root":"pokecube_legends:ub002/loose",
+      "biomeType":"none",
+      "distance":5,
+      "separation":1,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_junglee"
+        }
+      }
+    },
+    {
+      "type":"pokecube_legends:ub003",
       "name":"pokecube_legends:ub003",
       "root":"pokecube_legends:ub003",
+      "biomeType":"none",
+      "distance":5,
+      "separation":1,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_desert"
+        }
+      }
+    },
+    {
+      "type":"pokecube_legends:ub003",
+      "name":"pokecube_legends:ub003/loose",
+      "root":"pokecube_legends:ub003/loose",
       "biomeType":"none",
       "distance":5,
       "separation":1,
@@ -1309,6 +1402,7 @@
       }
     },
     {
+      "type":"pokecube_legends:ub004",
       "name":"pokecube_legends:ub004",
       "root":"pokecube_legends:ub004",
       "biomeType":"none",
@@ -1324,6 +1418,23 @@
       }
     },
     {
+      "type":"pokecube_legends:ub004",
+      "name":"pokecube_legends:ub004/loose",
+      "root":"pokecube_legends:ub004/loose",
+      "biomeType":"none",
+      "distance":5,
+      "separation":1,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_dark_valley"
+        }
+      }
+    },
+    {
+      "type":"pokecube_legends:ub005",
       "name":"pokecube_legends:ub005",
       "root":"pokecube_legends:ub005",
       "biomeType":"none",
@@ -1339,8 +1450,41 @@
       }
     },
     {
+      "type":"pokecube_legends:ub005",
+      "name":"pokecube_legends:ub005/loose",
+      "root":"pokecube_legends:ub005/loose",
+      "biomeType":"none",
+      "distance":5,
+      "separation":1,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_deep_hills"
+        }
+      }
+    },
+    {
+      "type":"pokecube_legends:ub006",
       "name":"pokecube_legends:ub006",
       "root":"pokecube_legends:ub006",
+      "biomeType":"none",
+      "distance":5,
+      "separation":1,
+      "dimWhitelist":[
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:ultra_forgotten_plains"
+        }
+      }
+    },
+    {
+      "type":"pokecube_legends:ub006",
+      "name":"pokecube_legends:ub006/loose",
+      "root":"pokecube_legends:ub006/loose",
       "biomeType":"none",
       "distance":5,
       "separation":1,
