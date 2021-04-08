@@ -280,11 +280,11 @@ public class Trees
                 // more can also probably be coded if needed
                 // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new BlobFoliagePlacer(FeatureSpread.fixed(3), FeatureSpread.fixed(0), 2),
+                new FancyFoliagePlacer(FeatureSpread.fixed(4), FeatureSpread.fixed(0), 6),
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forky, Giant, MegaJungle available
-                new StraightTrunkPlacer(7, 6, 0),
+                new StraightTrunkPlacer(13, 10, 0),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.

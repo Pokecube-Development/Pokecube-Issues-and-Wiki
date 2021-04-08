@@ -306,8 +306,8 @@ public class ItemInit
         GLASS_MIRROR = PokecubeLegends.ITEMS.register("glass_mirror", () -> new ItemBase("glass_mirror", 1, PokecubeItems.POKECUBEITEMS).noTooltop());
         
         // Torchs
-        TORCH01 = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.ULTRA_TORCH1
-                .get(), BlockInit.ULTRA_TORCH1_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB)));
+        TORCH01 = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.INFECTED_TORCH
+                .get(), BlockInit.INFECTED_TORCH_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB)));
     
     }
 

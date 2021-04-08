@@ -191,8 +191,8 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_JUNGLE_SLAB;
     public static final RegistryObject<Block> DISTORTIC_JUNGLE_STAIRS;
 
-    public static final RegistryObject<Block> ULTRA_TORCH1;
-    public static final RegistryObject<Block> ULTRA_TORCH1_WALL;
+    public static final RegistryObject<Block> INFECTED_TORCH;
+    public static final RegistryObject<Block> INFECTED_TORCH_WALL;
     
     public static final RegistryObject<Block> ULTRA_MAGNETIC;
     public static final RegistryObject<Block> ULTRA_MUSHROOM_GRASS;
@@ -603,8 +603,8 @@ public class BlockInit
                 .of(Material.METAL, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.METAL).noCollission().strength(0.7f).requiresCorrectToolForDrops()));
         
         // Torches
-        ULTRA_TORCH1 = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1", () -> new UltraTorch1());
-        ULTRA_TORCH1_WALL = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1_wall", () -> new UltraTorch1Wall());
+        INFECTED_TORCH = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1", () -> new UltraTorch1());
+        INFECTED_TORCH_WALL = PokecubeLegends.BLOCKS_TAB.register("ultra_torch1_wall", () -> new UltraTorch1Wall());
 
         // Plants
         INVERTED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling01", () -> new SaplingBase(
@@ -1379,7 +1379,7 @@ public class BlockInit
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries())
         {
             // These are registered separately, so skip them.
-            if (reg == BlockInit.ULTRA_TORCH1 || reg == BlockInit.ULTRA_TORCH1_WALL) continue;
+            if (reg == BlockInit.INFECTED_TORCH || reg == BlockInit.INFECTED_TORCH_WALL) continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .tab(PokecubeLegends.TAB)));
         }
