@@ -680,6 +680,9 @@
     "block.pokecube_legends.fini_black_totem": "Black Fini Totem",
     "block.pokecube_legends.fini_white_totem": "White Fini Totem",
     "block.pokecube_legends.fini_brown_totem": "Brown Fini Totem",
+
+    "entity.pokecube_legends.wormhole": "Wormhole",
+
     "fluid.pokecube_legends.distortic_water": "Distortic Water",
 
     "_comment": "Tooltips for blocks",

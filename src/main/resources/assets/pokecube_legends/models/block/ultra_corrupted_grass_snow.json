@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "bottom": "pokecube_legends:blocks/ultra_corrupted_dirt",
-    "top": "pokecube_legends:blocks/ultra_corrupted_grass_top",
+    "top": "minecraft:block/snow",
     "side": "pokecube_legends:blocks/ultra_corrupted_grass_snow",
     "particle": "pokecube_legends:blocks/ultra_corrupted_grass_snow"
   }

@@ -627,9 +627,9 @@ public class BlockInit
                 .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         // Woods (LOGS/LEAVES/PLANKS)
-        DYNA_LEAVES1 = PokecubeLegends.BLOCKS_TAB.register("dyna_leave_1", () -> new LeavesBlock(AbstractBlock.Properties.of(
+        DYNA_LEAVES1 = PokecubeLegends.BLOCKS_TAB.register("dyna_leave_1", () -> new DynaLeavesBlock(AbstractBlock.Properties.of(
             Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
-        DYNA_LEAVES2 = PokecubeLegends.BLOCKS_TAB.register("dyna_leave_2", () -> new LeavesBlock(AbstractBlock.Properties.of(
+        DYNA_LEAVES2 = PokecubeLegends.BLOCKS_TAB.register("dyna_leave_2", () -> new DynaLeavesBlock(AbstractBlock.Properties.of(
             Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
 
         // Inverted Blocks
