@@ -186,7 +186,7 @@ public class LogicMountedControl extends LogicBase
 
         float pitch = controller.xRot;
 
-        if (Math.abs(pitch) > 25)
+        if (Math.abs(pitch) > 25 && this.followOwnerLook)
         {
             pitch *= -0.017453292F;
             if (this.backInputDown) pitch *= -1;
@@ -246,12 +246,7 @@ public class LogicMountedControl extends LogicBase
             if (fraction > threshold) vy += 0.05;
         }
 
-        if (!this.followOwnerLook)
-        {// TODO some way to make this change based on how long button is held?
-            if (this.leftInputDown) this.pokemob.setHeading(this.pokemob.getHeading() - 5);
-            if (this.rightInputDown) this.pokemob.setHeading(this.pokemob.getHeading() + 5);
-        }
-        else if (!this.entity.getPassengers().isEmpty())
+        if (!this.entity.getPassengers().isEmpty())
         {
             this.pokemob.setHeading(controller.yRot);
             float f = moveFwd / 2;
