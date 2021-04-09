@@ -264,15 +264,16 @@ public class Tools
         final Vector3d vec31 = entity.getViewVector(0);
         Predicate<Entity> predicate = EntityPredicates.NO_SPECTATORS.and(c -> entity.isPickable());
         if (selector != null) predicate = predicate.and(selector);
-        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools
-                .isRidingOrRider(entity, c));
-        return pos.firstEntityExcluding(distance, vec31, entity.getCommandSenderWorld(), entity, predicate);
+        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools.isRidingOrRider(
+                entity, c));
+        Entity hit = pos.firstEntityExcluding(distance, vec31, entity.getCommandSenderWorld(), entity, predicate);
+        if (hit != null) hit = EntityTools.getCoreEntity(hit);
+        return hit;
     }
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
     {
-        final Vector3d vec3 = new Vector3d(entity.getX(), entity.getY() + entity.getEyeHeight(), entity
-                .getZ());
+        final Vector3d vec3 = new Vector3d(entity.getX(), entity.getY() + entity.getEyeHeight(), entity.getZ());
         final double d0 = distance;
         final Vector3d vec31 = entity.getViewVector(0);
         final Vector3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
@@ -347,8 +348,7 @@ public class Tools
 
         if (isTable && world != null)
         {
-            final LootTable loottable = world.getServer().getLootTables().get(
-                    new ResourceLocation(table));
+            final LootTable loottable = world.getServer().getLootTables().get(new ResourceLocation(table));
             final LootContext.Builder lootcontext$builder = new LootContext.Builder(world).withRandom(world
                     .getRandom());
             // Generate the loot list.
@@ -428,7 +428,7 @@ public class Tools
          * 4 - medium-slow - 3
          * 5 - slow-then-very-fast - 0
          * 6 - fast-then-very-slow - 5
-         *   5   3   2   4   1   6
+         * 5 3 2 4 1 6
          * { 52, 21, 27, 57, 33, 13, 3 },
          */
         PokecubeCore.LOGGER.error(new IllegalArgumentException("Error parsing EXP Type for " + name));
@@ -440,8 +440,8 @@ public class Tools
         final boolean flag = PlayerEntity.inventory.add(itemstack);
         if (flag)
         {
-            PlayerEntity.getCommandSenderWorld().playSound((PlayerEntity) null, PlayerEntity.getX(), PlayerEntity.getY(),
-                    PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((PlayerEntity
+            PlayerEntity.getCommandSenderWorld().playSound((PlayerEntity) null, PlayerEntity.getX(), PlayerEntity
+                    .getY(), PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((PlayerEntity
                             .getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
             PlayerEntity.inventoryMenu.broadcastChanges();
         }
@@ -466,8 +466,8 @@ public class Tools
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
             final Entity entity)
     {
-        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getCommandSenderWorld(), Vector3.getNewVector()
-                .set(entity));
+        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getCommandSenderWorld(), Vector3
+                .getNewVector().set(entity));
     }
 
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,

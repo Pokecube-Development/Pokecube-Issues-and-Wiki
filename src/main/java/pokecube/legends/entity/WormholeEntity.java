@@ -276,9 +276,9 @@ public class WormholeEntity extends LivingEntity
         if (!this.isIdle() && !this.isClosing() && !this.isOpening()) this.entityData.set(WormholeEntity.ACTIVE_STATE,
                 (byte) 1);
 
-        if (this.isOpening())
+        if (this.isOpening()) if (this.timer++ > 300)
         {
-            if (this.timer++ > 300) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
+            this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
             this.timer = 0;
         }
 
@@ -322,7 +322,7 @@ public class WormholeEntity extends LivingEntity
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
         // Collapse at full energy
-        if (this.energy.getEnergyStored() > 100000 && !this.isClosing())
+        if (this.energy.getEnergyStored() > 1000000 && !this.isClosing())
         {
             this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
             this.timer = 0;
@@ -333,6 +333,8 @@ public class WormholeEntity extends LivingEntity
     @Override
     protected void pushEntities()
     {
+        if (!this.isIdle()) return;
+
         final List<Entity> list = this.level.getEntities(this, this.getBoundingBox(), e -> (e.getVehicle() == null
                 && !e.level.isClientSide()));
         final Set<UUID> tpd = Sets.newHashSet();

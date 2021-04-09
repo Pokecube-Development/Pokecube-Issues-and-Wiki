@@ -23,12 +23,10 @@ import pokecube.legends.entity.WormholeEntity;
 import thut.api.ModelHolder;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
-import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
-import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
@@ -60,8 +58,6 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     {
         final ModelHolder holder = new ModelHolder(Wormhole.MODEL, Wormhole.TEXTURE, Wormhole.ANIM, "ultra_wormhole");
         final ModelWrapper<WormholeEntity> model = new ModelWrapper<>(holder, this);
-        model.imodel = ModelFactory.create(holder);
-        AnimationLoader.parse(model.model, model, this);
         return model;
     }
 
@@ -69,7 +65,6 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     public void render(final WormholeEntity entity, final float p_225623_2_, final float p_225623_3_,
             final MatrixStack p_225623_4_, final IRenderTypeBuffer bufferIn, final int p_225623_6_)
     {
-//        this.model = this.makeModel();
         this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
         super.render(entity, p_225623_2_, p_225623_3_, p_225623_4_, bufferIn, p_225623_6_);
     }
@@ -137,8 +132,9 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
         if (entityIn instanceof WormholeEntity)
         {
             final WormholeEntity wormhole = (WormholeEntity) entityIn;
-            return wormhole.isIdle() ? "stable"
+            final String state = wormhole.isIdle() ? "stable"
                     : wormhole.isClosing() ? "closing" : wormhole.isOpening() ? "opening" : "idle";
+            return state;
         }
 
         final IAnimationHolder holder = this.getAnimationHolder();
