@@ -24,6 +24,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
@@ -35,7 +36,6 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Explosion.Mode;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -219,12 +219,8 @@ public class WormholeEntity extends LivingEntity
                 final int x = (int) ((border.getMaxX() - border.getMinX()) * rng.nextDouble() + border.getMinX());
                 final int z = (int) ((border.getMaxZ() - border.getMinZ()) * rng.nextDouble() + border.getMinZ());
 
-                // Ensure the chunk exists before the height check below occurs.
-                dest.getChunk(new BlockPos(x, 0, z));
-
-                final int y = dest.getHeight(Type.WORLD_SURFACE, x, z) + 2 + rng.nextInt(10);
-
-                this.dest = new TeleDest().setPos(GlobalPos.of(key, new BlockPos(x, y, z)));
+                this.dest = new TeleDest().setPos(GlobalPos.of(key, WormholeSpawns.getWormholePos(dest, new BlockPos(x,
+                        0, z))));
 
                 final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(dest);
                 wormhole.moveTo(this.dest.getPos().pos(), 0, 0);
@@ -322,7 +318,7 @@ public class WormholeEntity extends LivingEntity
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
         // Collapse at full energy
-        if (this.energy.getEnergyStored() > 1000000 && !this.isClosing())
+        if (this.energy.getEnergyStored() >= this.energy.getMaxEnergyStored() && !this.isClosing())
         {
             this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
             this.timer = 0;
@@ -401,6 +397,42 @@ public class WormholeEntity extends LivingEntity
         nbt.putInt("timer", this.timer);
         nbt.putInt("uses", this.uses);
         nbt.putByte("state", this.entityData.get(WormholeEntity.ACTIVE_STATE));
+    }
+
+    @Override
+    public float getHealth()
+    {
+        return Float.MAX_VALUE;
+    }
+
+    @Override
+    public boolean isAffectedByPotions()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean attackable()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isDeadOrDying()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hurt(final DamageSource source, final float amount)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isInvulnerableTo(final DamageSource source)
+    {
+        return true;
     }
 
     @Override
