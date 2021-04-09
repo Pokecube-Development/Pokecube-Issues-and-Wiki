@@ -268,7 +268,7 @@ public class Tools
                 entity, c));
         Entity hit = pos.firstEntityExcluding(distance, vec31, entity.getCommandSenderWorld(), entity, predicate);
         if (hit != null) hit = EntityTools.getCoreEntity(hit);
-        return entity;
+        return hit;
     }
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
