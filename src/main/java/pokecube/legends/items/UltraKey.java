@@ -41,7 +41,7 @@ public class UltraKey extends ItemBase
     {
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip",
-                TextFormatting.LIGHT_PURPLE, PokecubeLegends.config.itemCombustiveStack);
+                TextFormatting.LIGHT_PURPLE, PokecubeLegends.config.ultraKeyConsumeAmount);
         else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
@@ -63,11 +63,11 @@ public class UltraKey extends ItemBase
         final RegistryKey<World> dim = world.dimension();
 
         // Comsume Item Enabled
-        if (PokecubeLegends.config.enabledkeyusecombustible == true) if (dim == World.OVERWORLD)
+        if (PokecubeLegends.config.enableUltraKeyConsume == true) if (dim == World.OVERWORLD)
         {
             if ((entity instanceof ServerPlayerEntity ? ((PlayerEntity) entity).inventory.contains(new ItemStack(
-                    ItemInit.COSMIC_DUST.get())) : true) && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
-                            .get()) >= 5 || ((PlayerEntity) entity).isCreative() == true)
+                ItemInit.COSMIC_DUST.get())) : true) && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
+                .get()) >= PokecubeLegends.config.ultraKeyConsumeAmount || ((PlayerEntity) entity).isCreative() == true)
             {
 
                 world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
@@ -75,28 +75,37 @@ public class UltraKey extends ItemBase
 
                 if (entity instanceof PlayerEntity) ((PlayerEntity) entity).inventory.clearOrCountMatchingItems(p -> new ItemStack(
                         ItemInit.COSMIC_DUST.get(), 1).getItem() == p.getItem(),
-                        PokecubeLegends.config.itemCombustiveStack, ((PlayerEntity) entity).inventoryMenu.getCraftSlots());
+                        PokecubeLegends.config.ultraKeyConsumeAmount, ((PlayerEntity) entity).inventoryMenu.getCraftSlots());
 
                 if (entity instanceof ServerPlayerEntity) DimensionTranserHelper.sentToUltraspace(
                         (ServerPlayerEntity) entity);
 
                 if (entity instanceof PlayerEntity) ((PlayerEntity) entity).getCooldowns().addCooldown(
                         ItemInit.ULTRAKEY.get(), 200);
-            }
-            else world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+            } else
+            {
+                world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                     "block.shulker_box.close")), SoundCategory.NEUTRAL, 1, 1, false);
+                if (entity instanceof PlayerEntity && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
+                    .get()) < PokecubeLegends.config.ultraKeyConsumeAmount) {
+                    final PlayerEntity player = (PlayerEntity) entity;
+                    String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust",
+                        TextFormatting.RED, PokecubeLegends.config.ultraKeyConsumeAmount);
+                    player.displayClientMessage(new TranslationTextComponent(message), true);
+                }
+            }
         }
         else if (dim == FeaturesInit.ULTRASPACE_KEY) if ((entity instanceof ServerPlayerEntity
-                ? ((PlayerEntity) entity).inventory.contains(new ItemStack(ItemInit.COSMIC_DUST.get(), 1))
-                : true) && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST.get()) >= 5
-                || ((PlayerEntity) entity).isCreative() == true)
+            ? ((PlayerEntity) entity).inventory.contains(new ItemStack(ItemInit.COSMIC_DUST.get(), 1))
+            : true) && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST.get()) >=
+            PokecubeLegends.config.ultraKeyConsumeAmount || ((PlayerEntity) entity).isCreative() == true)
         {
 
             world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                     "block.end_portal_frame.fill")), SoundCategory.NEUTRAL, 1, 1, false);
 
             if (entity instanceof PlayerEntity) ((PlayerEntity) entity).inventory.clearOrCountMatchingItems(p -> new ItemStack(
-                    ItemInit.COSMIC_DUST.get(), 1).getItem() == p.getItem(), PokecubeLegends.config.itemCombustiveStack,
+                    ItemInit.COSMIC_DUST.get(), 1).getItem() == p.getItem(), PokecubeLegends.config.ultraKeyConsumeAmount,
                     ((PlayerEntity) entity).inventoryMenu.getCraftSlots());
 
             if (entity instanceof ServerPlayerEntity) DimensionTranserHelper.sendToOverworld(
@@ -105,11 +114,21 @@ public class UltraKey extends ItemBase
             if (entity instanceof PlayerEntity) ((PlayerEntity) entity).getCooldowns().addCooldown(
                     ItemInit.ULTRAKEY.get(), 200);
         }
-        else world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+        else
+        {
+            world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                 "block.shulker_box.close")), SoundCategory.NEUTRAL, 1, 1, false);
+            if (entity instanceof PlayerEntity && ((PlayerEntity) entity).inventory.countItem(ItemInit.COSMIC_DUST
+                .get()) < PokecubeLegends.config.ultraKeyConsumeAmount) {
+                final PlayerEntity player = (PlayerEntity) entity;
+                String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust",
+                    TextFormatting.RED, PokecubeLegends.config.ultraKeyConsumeAmount);
+                player.displayClientMessage(new TranslationTextComponent(message), true);
+            }
+        }
 
         // Comsume Item Disable
-        if (PokecubeLegends.config.enabledkeyusecombustible == false) if (dim == World.OVERWORLD)
+        if (PokecubeLegends.config.enableUltraKeyConsume == false) if (dim == World.OVERWORLD)
         {
             world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                     "block.end_portal_frame.fill")), SoundCategory.NEUTRAL, 1, 1, false);
