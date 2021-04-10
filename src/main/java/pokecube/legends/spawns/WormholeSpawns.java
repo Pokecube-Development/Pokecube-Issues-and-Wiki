@@ -136,6 +136,25 @@ public class WormholeSpawns implements IWorldTickListener
         event.addCapability(new ResourceLocation(Reference.ID, "wormholes"), new Wormholes());
     }
 
+    public static BlockPos getWormholePos(final ServerWorld world, final BlockPos base)
+    {
+        final Random rng = new Random();
+
+        // Ensusre the chunk is loaded.
+        world.getChunk(base);
+
+        final int x = base.getX();
+        final int z = base.getZ();
+        final int h = world.getHeight(Type.WORLD_SURFACE, x, z);
+
+        // If h<10 or so we need to find a new spot.
+
+        int y = h + 10 + rng.nextInt(30);
+        y = Math.min(y, world.getHeight() - 5);
+
+        return new BlockPos(x, y, z);
+    }
+
     @Override
     public void onTickEnd(final ServerWorld world)
     {
@@ -162,10 +181,8 @@ public class WormholeSpawns implements IWorldTickListener
         // Only spawn this if the nearby area is actually loaded.
         if (!TerrainManager.isAreaLoaded(world, v, 8)) return;
 
-        v.y = world.getHeight(Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 2 + rand.nextInt(10);
-        if (v.y > world.getHeight()) return;
-
-        final Vector3 pos = v.copy();
+        final BlockPos p = WormholeSpawns.getWormholePos(world, v.getPos());
+        final Vector3 pos = Vector3.getNewVector().set(p);
 
         for (final BlockPos p2 : holes.getWormholes())
             if (p2.closerThan(pos.getPos(), wormholeSpacing)) return;
@@ -174,6 +191,5 @@ public class WormholeSpawns implements IWorldTickListener
         pos.moveEntity(wormhole);
         holes.addWormhole(wormhole.getPos().getPos().pos());
         world.addFreshEntity(wormhole);
-
     }
 }
