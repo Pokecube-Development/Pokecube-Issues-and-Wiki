@@ -33,7 +33,7 @@ public class ThutCrafts
     // This is our config storing object.
     public static class CraftsConfig extends ConfigData
     {
-        @Configure(category = "rotates", type = Type.SERVER)
+        @Configure(category = "rotates", type = Type.SERVER, comment = "Enables rotation for crafts. [Default: false]")
         public boolean canRotate = false;
 
         public CraftsConfig()
