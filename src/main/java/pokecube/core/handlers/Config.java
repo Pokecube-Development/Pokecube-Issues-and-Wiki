@@ -62,33 +62,33 @@ public class Config extends ConfigData
         else return soundevent;
     }
 
-    @Configure(category = Config.misc, comment = "Scaling factor for EXP yield from fighting another player's pokemobs")
+    @Configure(category = Config.misc, comment = "Scaling factor for EXP yield from fighting another player's pokemobs. [Default: 0.5]")
     public double pvpExpMultiplier = 0.5;
-    @Configure(category = Config.misc, comment = "Scales EXP yield from fighting non-player owned pokemobs")
+    @Configure(category = Config.misc, comment = "Scales EXP yield from fighting non-player owned pokemobs. [Default: 1.0]")
     public double expScaleFactor   = 1;
 
     @Configure(category = Config.misc, comment = "Mob IDs which are blacklisted from going into snag cubes")
     public List<String> snag_cube_blacklist = Lists.newArrayList("ender_dragon", "wither");
 
-    @Configure(category = Config.misc, comment = "If true, will automatically add interactions such as water from water types, and lighting torches on fire types.")
+    @Configure(category = Config.misc, comment = "Automatically adds interactions such as water from water types, and lighting torches for fire types. [Default: true]")
     public boolean defaultInteractions  = true;
-    @Configure(category = Config.misc, comment = "If true, the mob's favourite berry can be used to speed up breeding.")
+    @Configure(category = Config.misc, comment = "The mob's favourite berry can be used to speed up breeding. [Default: true]")
     public boolean berryBreeding        = true;
-    @Configure(category = Config.misc, comment = "If true, legendary pokemobs can breed.")
+    @Configure(category = Config.misc, comment = "Legendary pokemobs can breed. [Default: false]")
     public boolean legendsBreed         = false;
-    @Configure(category = Config.misc, comment = "If true, using a bed will heal your pokemobs")
+    @Configure(category = Config.misc, comment = "Using a bed will heal your pokemobs. [Default: true]")
     public boolean bedsHeal             = true;
-    @Configure(category = Config.misc, comment = "If true, defeating an NPC's pokemobs gives exp")
+    @Configure(category = Config.misc, comment = "Defeating an NPC's pokemobs gives exp. [Default: true]")
     public boolean trainerExp           = true;
-    @Configure(category = Config.misc, comment = "If true, your items which fit in PC will be sent there when you die")
+    @Configure(category = Config.misc, comment = "Your items which fit in the PC will be sent there when you die. [Default: true]")
     public boolean pcOnDrop             = true;
-    @Configure(category = Config.misc, comment = "If false, the PC can hold any item")
+    @Configure(category = Config.misc, comment = "If false, the PC can hold any item. [Default: true]")
     public boolean pcHoldsOnlyPokecubes = true;
-    @Configure(category = Config.misc, comment = "If true, you will be prompted to choose a pokemob when creating a world, without having to look for a professor")
+    @Configure(category = Config.misc, comment = "You will be prompted to choose a pokemob when creating a world, without having to look for a professor. [Default: false]")
     public boolean guiOnLogin           = false;
-    @Configure(category = Config.misc, comment = "If true, defeating a player's pokemobs gives exp")
+    @Configure(category = Config.misc, comment = "Defeating a player's pokemobs gives exp. [Default: false]")
     public boolean pvpExp               = false;
-    @Configure(category = Config.misc, comment = "If true, mobs marked as \"cloned\" will drop items on death.")
+    @Configure(category = Config.misc, comment = "Mobs marked as \"cloned\" will drop items on death. [Default: false]")
     public boolean clonesDrop           = false;
 
     @Configure(category = Config.misc, comment = "A list of custom sounds to register")
