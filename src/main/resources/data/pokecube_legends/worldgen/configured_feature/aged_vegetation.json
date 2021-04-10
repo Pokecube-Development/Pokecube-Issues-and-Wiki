@@ -2,7 +2,22 @@
   "config": {
     "feature": {
       "config": {
-        "feature": "pokecube_legends:aged_tree",
+        "feature": {
+          "config": {
+            "features": [
+              {
+                "feature": "pokecube_legends:mega_aged_pine_tree",
+                "chance": 0.1
+              },
+              {
+                "feature": "pokecube_legends:mega_aged_spruce_tree",
+                "chance": 0.1
+              }
+            ],
+            "default": "pokecube_legends:aged_tree"
+          },
+          "type": "minecraft:random_selector"
+        },
         "decorator": {
           "config": {
             "outer": {

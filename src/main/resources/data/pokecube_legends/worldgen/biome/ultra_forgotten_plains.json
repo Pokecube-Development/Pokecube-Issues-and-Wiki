@@ -41,14 +41,15 @@
     [],
     [],
     [
-     "pokecube_legends:ore_spectrum",
-     "pokecube_legends:ore_cosmic"
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_cosmic"
     ],
     [],
     [
-     "pokecube_legends:aged_vegetation",
-     "pokecube_legends:aged_flower",
-     "minecraft:patch_grass_plain"
+      "pokecube_legends:aged_vegetation",
+      "pokecube_legends:aged_flower",
+      "minecraft:patch_grass_taiga",
+      "minecraft:patch_large_fern"
     ],
     []
   ],
