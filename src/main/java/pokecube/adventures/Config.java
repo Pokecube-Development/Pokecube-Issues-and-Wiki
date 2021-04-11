@@ -97,8 +97,8 @@ public class Config extends ConfigData
 
     @Configure(category = Config.TRAINER, comment = "if true, trainers will not aggro a player within pokecenter_radius of a Pokecenter. [Default: true]")
     public boolean no_battle_near_pokecenter = true;
-    @Configure(category = Config.TRAINER, comment = "See no_battle_near_pokecenter. [Default: 16]")
-    public int     pokecenter_radius         = 16;
+    @Configure(category = Config.TRAINER, comment = "See no_battle_near_pokecenter. [Default: 10]")
+    public int     pokecenter_radius         = 10;
 
     @Configure(category = Config.TRAINER, comment = "Default reward for trainers. [Default: \"minecraft:emerald\",\"n\":\"1\"]")
     public String trainer_defeat_reward = "{\"values\":{\"id\":\"minecraft:emerald\",\"n\":\"1\"}}";
