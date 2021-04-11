@@ -17,7 +17,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class LinkableCaps
 {
@@ -203,17 +202,15 @@ public class LinkableCaps
     {
         CapabilityManager.INSTANCE.register(ILinkable.class, new LinkStore(), Linkable::new);
         CapabilityManager.INSTANCE.register(ILinkStorage.class, new StoreStore(), LinkStorage::new);
-        MinecraftForge.EVENT_BUS.register(OwnableCaps.class);
+        MinecraftForge.EVENT_BUS.addListener(LinkableCaps::linkBlock);
     }
 
-    @SubscribeEvent
-    public static void linkBlock(final RightClickBlock event)
+    private static void linkBlock(final RightClickBlock event)
     {
         // Only run for items
         if (event.getItemStack().isEmpty()) return;
         // Check if stack is a linkstore
-        final LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(ThutCaps.STORE, event
-                .getFace());
+        final LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(ThutCaps.STORE);
         if (!test_stack.isPresent()) return;
         final ILinkStorage storage = test_stack.orElse(null);
         final TileEntity tile = event.getWorld().getBlockEntity(event.getPos());
@@ -230,8 +227,7 @@ public class LinkableCaps
         // Otherwise try to save the location instead
         else
         {
-            final GlobalPos pos = GlobalPos.of(event.getPlayer().getCommandSenderWorld().dimension(), event
-                    .getPos());
+            final GlobalPos pos = GlobalPos.of(event.getPlayer().getCommandSenderWorld().dimension(), event.getPos());
             storage.setLinkedPos(pos, event.getPlayer());
             event.setCanceled(true);
             event.setUseBlock(Result.DENY);
