@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -43,6 +42,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.event.entity.living.EntityTeleportEvent;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
@@ -53,6 +53,8 @@ import pokecube.legends.spawns.WormholeSpawns.IWormholeWorld;
 import thut.api.Tracker;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.item.ItemList;
+import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
 public class WormholeEntity extends LivingEntity
@@ -69,6 +71,11 @@ public class WormholeEntity extends LivingEntity
 
     private static int lastCheck = 0;
 
+    public static int maxWormholeEnergy     = 1000000;
+    public static int wormholeEnergyPerTick = 1000;
+    public static int wormholeEntityPerTP   = 100000;
+    public static int wormholeReUseDelay    = 100;
+
     public static void clear()
     {
         WormholeEntity._sorted.clear();
@@ -82,16 +89,24 @@ public class WormholeEntity extends LivingEntity
             WormholeEntity._sorted.clear();
             WormholeEntity._mapped.clear();
             float total = 0;
-            for (final RegistryKey<World> world : worlds)
+            for (final RegistryKey<World> world : WormholeEntity.WEIGHTED_DIM_MAP.keySet())
             {
-                if (WormholeEntity.NO_HOLES.contains(world)) continue;
                 total += WormholeEntity.WEIGHTED_DIM_MAP.getOrDefault(world, WormholeEntity.DEFAULT_WEIGHT);
                 WormholeEntity._mapped.put(world, total);
             }
             for (final RegistryKey<World> world : worlds)
             {
+                if (WormholeEntity.NO_HOLES.contains(world) || WormholeEntity._mapped.containsKey(world)) continue;
+                total += WormholeEntity.WEIGHTED_DIM_MAP.getOrDefault(world, WormholeEntity.DEFAULT_WEIGHT);
+                WormholeEntity._mapped.put(world, total);
+            }
+            float current = 0;
+            for (final RegistryKey<World> world : Sets.newHashSet(WormholeEntity._mapped.keySet()))
+            {
                 if (WormholeEntity.NO_HOLES.contains(world)) continue;
-                WormholeEntity._mapped.put(world, WormholeEntity._mapped.get(world) / total);
+                current += WormholeEntity._mapped.get(world) / total;
+                WormholeEntity._mapped.put(world, current);
+                WormholeEntity._sorted.add(world);
             }
         }
         if (WormholeEntity._sorted.isEmpty()) return source.dimension();
@@ -101,9 +116,13 @@ public class WormholeEntity extends LivingEntity
             dim = WormholeEntity._sorted.get(i - 1);
             final float prev = WormholeEntity._mapped.get(dim);
             final float here = WormholeEntity._mapped.get(WormholeEntity._sorted.get(i));
-            if (prev < rng && here >= rng) return WormholeEntity._sorted.get(i);
+            if (prev < rng && here >= rng)
+            {
+                dim = WormholeEntity._sorted.get(i);
+                break;
+            }
         }
-        return source.dimension();
+        return dim;
     }
 
     public static class EnergyStore extends EnergyStorage implements ICapabilitySerializable<CompoundNBT>
@@ -112,7 +131,7 @@ public class WormholeEntity extends LivingEntity
 
         public EnergyStore()
         {
-            super(1000000);
+            super(Integer.MAX_VALUE);
         }
 
         @Override
@@ -134,6 +153,30 @@ public class WormholeEntity extends LivingEntity
         {
             this.energy = nbt.getInt("E");
         }
+    }
+
+    public static void onTeleport(final EntityTeleportEvent event)
+    {
+        final World world = event.getEntity().level;
+        if (world.isClientSide()) return;
+        if (!(world instanceof ServerWorld)) return;
+
+        final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+        if (holes == null) return;
+
+        final double chance = ItemList.is(WormholeSpawns.SPACE_WORMS, event.getEntity())
+                ? WormholeSpawns.teleWormholeChanceWorms
+                : WormholeSpawns.teleWormholeChanceNormal;
+
+        final Random rand = world.getRandom();
+        if (rand.nextDouble() > chance) return;
+
+        final Vector3 pos = Vector3.getNewVector().set(event.getPrevX(), event.getPrevY() + 2, event.getPrevZ());
+
+        final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(world);
+        pos.moveEntity(wormhole);
+        holes.addWormhole(wormhole.getPos().getPos().pos());
+        world.addFreshEntity(wormhole);
     }
 
     private static final DataParameter<Byte> ACTIVE_STATE = EntityDataManager.defineId(WormholeEntity.class,
@@ -307,7 +350,7 @@ public class WormholeEntity extends LivingEntity
             return;
         }
 
-        this.energy.receiveEnergy(100, false);
+        this.energy.receiveEnergy(WormholeEntity.wormholeEnergyPerTick, false);
 
         final BlockPos anchor = this.getPos().getPos().pos();
         final Vector3d origin = new Vector3d(anchor.getX(), anchor.getY(), anchor.getZ());
@@ -318,7 +361,7 @@ public class WormholeEntity extends LivingEntity
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
         // Collapse at full energy
-        if (this.energy.getEnergyStored() >= this.energy.getMaxEnergyStored() && !this.isClosing())
+        if (this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
         {
             this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
             this.timer = 0;
@@ -337,7 +380,8 @@ public class WormholeEntity extends LivingEntity
         if (!list.isEmpty()) for (Entity entity : list)
         {
             entity = EntityTools.getCoreEntity(entity);
-            final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use") + 100;
+            final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use")
+                    + WormholeEntity.wormholeReUseDelay;
             final long now = Tracker.instance().getTick();
             final UUID uuid = entity.getUUID();
             if (now < lastTp || tpd.contains(uuid)) continue;
@@ -345,38 +389,12 @@ public class WormholeEntity extends LivingEntity
             tpd.add(uuid);
             entity.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 
-            final boolean sameDim = this.getDest().getPos().dimension().equals(this.getPos().getPos().dimension());
             final List<Entity> passengers = entity.getPassengers();
-            if (sameDim)
-            {
-                // Extra shenanigans needed for this to properly transfer the
-                // mob if it has riders.
-                entity.ejectPassengers();
-                for (final Entity e : passengers)
-                {
-                    e.setDeltaMovement(0, 0, 0);
-                    this.energy.receiveEnergy(10000, false);
-                }
-
-            }
+            this.energy.receiveEnergy(WormholeEntity.wormholeEntityPerTP * passengers.size(), false);
             ThutTeleporter.transferTo(entity, this.getDest(), true);
             entity.setDeltaMovement(0, 0, 0);
             this.uses++;
-            this.energy.receiveEnergy(10000, false);
-
-            final Entity root = entity;
-            final AtomicInteger counter = new AtomicInteger();
-            if (sameDim) EventsHandler.Schedule(this.level, w ->
-            {
-                if (counter.getAndIncrement() < 5) return false;
-                for (final Entity e : passengers)
-                {
-                    ThutTeleporter.transferTo(e, this.getDest());
-                    e.startRiding(root, true);
-                }
-                return true;
-            });
-
+            this.energy.receiveEnergy(WormholeEntity.wormholeEntityPerTP, false);
         }
     }
 

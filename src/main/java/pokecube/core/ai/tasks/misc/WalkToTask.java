@@ -27,8 +27,8 @@ import pokecube.core.ai.pathing.PosWrapWrap;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.world.IPathHelper;
-import pokecube.core.world.WorldTickManager;
+import thut.api.world.IPathHelper;
+import thut.api.world.WorldTickManager;
 
 public class WalkToTask extends RootTask<MobEntity>
 {

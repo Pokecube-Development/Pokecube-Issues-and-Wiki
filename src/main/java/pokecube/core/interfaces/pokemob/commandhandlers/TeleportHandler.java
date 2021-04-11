@@ -17,6 +17,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
+import pokecube.core.events.TeleportEvent;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.interfaces.IMoveNames;
@@ -203,7 +204,19 @@ public class TeleportHandler extends DefaultHandler
         final ITextComponent text = new TranslationTextComponent("pokemob.move.used.user", pokemob.getDisplayName(),
                 attackName);
         if (this.fromOwner()) pokemob.displayMessageToOwner(text);
-        EventsHandler.recallAllPokemobsExcluding(player, null, false);
-        ThutTeleporter.transferTo(player, d, true);
+
+        // Send a teleport event for the using mob, if that fails, do not
+        // actually run the teleport.
+
+        final double targetX = d.getLoc().x;
+        final double targetY = d.getLoc().y;
+        final double targetZ = d.getLoc().z;
+        final TeleportEvent event = TeleportEvent.onUseTeleport(pokemob.getEntity(), targetX, targetY, targetZ);
+
+        if (!event.isCanceled())
+        {
+            EventsHandler.recallAllPokemobsExcluding(player, null, false);
+            ThutTeleporter.transferTo(player, d, true);
+        }
     }
 }

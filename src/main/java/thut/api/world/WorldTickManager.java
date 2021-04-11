@@ -1,4 +1,4 @@
-package pokecube.core.world;
+package thut.api.world;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import pokecube.core.PokecubeCore;
+import thut.core.common.ThutCore;
 
 public class WorldTickManager
 {
@@ -117,7 +117,7 @@ public class WorldTickManager
         final WorldData holder = WorldTickManager.dataMap.get(key);
         if (holder == null)
         {
-            PokecubeCore.LOGGER.error("Adding Data before load???");
+            ThutCore.LOGGER.error("Adding Data before load???");
             return;
         }
         holder.addData(data);
@@ -128,7 +128,7 @@ public class WorldTickManager
         final WorldData holder = WorldTickManager.dataMap.get(key);
         if (holder == null)
         {
-            PokecubeCore.LOGGER.error("Removing Data before load???");
+            ThutCore.LOGGER.error("Removing Data before load???");
             return;
         }
         holder.removeData(data);
@@ -168,7 +168,7 @@ public class WorldTickManager
             final WorldData data = WorldTickManager.dataMap.get(key);
             if (data == null)
             {
-                PokecubeCore.LOGGER.error("Ticking world before load???");
+                ThutCore.LOGGER.error("Ticking world before load???");
                 return;
             }
             if (event.phase == Phase.END) data.onWorldTickEnd();

@@ -20,8 +20,8 @@ import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.AITools;
-import pokecube.core.world.IWorldTickListener;
-import pokecube.core.world.WorldTickManager;
+import thut.api.world.IWorldTickListener;
+import thut.api.world.WorldTickManager;
 
 public class Battle
 {

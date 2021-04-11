@@ -27,14 +27,15 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.world.IWorldTickListener;
-import pokecube.core.world.WorldTickManager;
 import pokecube.legends.Reference;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.init.EntityInit;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
+import thut.api.world.IWorldTickListener;
+import thut.api.world.WorldTickManager;
 
 public class WormholeSpawns implements IWorldTickListener
 {
@@ -123,12 +124,22 @@ public class WormholeSpawns implements IWorldTickListener
 
     static WormholeSpawns INSTANCE = new WormholeSpawns();
 
+    public static double randomWormholeChance   = 0.00001;
+    public static double randomWormholeDistance = 64;
+    public static double randomWormholeSpacing  = 128;
+
+    public static double teleWormholeChanceNormal = 0.01;
+    public static double teleWormholeChanceWorms  = 0.75;
+
+    public static final ResourceLocation SPACE_WORMS = new ResourceLocation(Reference.ID, "space_worm");
+
     public static void init()
     {
         CapabilityManager.INSTANCE.register(IWormholeWorld.class, new Storage(), Wormholes::new);
 
         WorldTickManager.registerStaticData(() -> WormholeSpawns.INSTANCE, p -> true);
         MinecraftForge.EVENT_BUS.addGenericListener(World.class, WormholeSpawns::onWorldCaps);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
     }
 
     private static void onWorldCaps(final AttachCapabilitiesEvent<World> event)
@@ -163,19 +174,19 @@ public class WormholeSpawns implements IWorldTickListener
         final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
         if (holes == null) return;
 
-        final double rate = 0.01;
-        final int distance = 64;
+        final double rate = WormholeSpawns.randomWormholeChance;
+        final double distance = WormholeSpawns.randomWormholeDistance;
         final Random rand = world.getRandom();
         if (rand.nextDouble() > rate) return;
 
-        final int wormholeSpacing = 128;
+        final double wormholeSpacing = WormholeSpawns.randomWormholeSpacing;
 
         final List<ServerPlayerEntity> players = world.players();
         if (players.isEmpty()) return;
         Collections.shuffle(players);
 
-        final int dx = rand.nextInt(distance) - distance / 2;
-        final int dz = rand.nextInt(distance) - distance / 2;
+        final double dx = rand.nextFloat() * distance - distance / 2;
+        final double dz = rand.nextFloat() * distance - distance / 2;
         final Vector3 v = Vector3.getNewVector().set(players.get(0)).add(dx, 0, dz);
 
         // Only spawn this if the nearby area is actually loaded.

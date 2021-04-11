@@ -1,4 +1,4 @@
-package pokecube.core.world;
+package thut.api.world;
 
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
