@@ -1,6 +1,10 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;

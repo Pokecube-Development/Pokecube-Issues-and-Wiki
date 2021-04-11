@@ -1,6 +1,5 @@
 package pokecube.legends.conditions;
 
-import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,6 +33,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.legends.PokecubeLegends;
+import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 

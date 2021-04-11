@@ -1,5 +1,8 @@
 package pokecube.core.blocks.healer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -27,9 +30,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import pokecube.core.inventory.healer.HealerContainer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class HealerBlock extends HorizontalBlock implements IWaterLoggable
 {

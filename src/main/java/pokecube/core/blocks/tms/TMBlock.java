@@ -1,10 +1,13 @@
 package pokecube.core.blocks.tms;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -22,10 +25,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class TMBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {

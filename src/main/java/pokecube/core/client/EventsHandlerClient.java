@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.client.util.InputMappings;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Sets;
@@ -21,6 +20,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

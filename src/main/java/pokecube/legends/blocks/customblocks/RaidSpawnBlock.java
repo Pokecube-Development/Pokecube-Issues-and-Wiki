@@ -1,8 +1,13 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -39,10 +44,6 @@ import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
 
 public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {

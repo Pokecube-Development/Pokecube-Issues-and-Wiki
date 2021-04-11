@@ -1,6 +1,17 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.block.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
@@ -26,11 +37,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
 {

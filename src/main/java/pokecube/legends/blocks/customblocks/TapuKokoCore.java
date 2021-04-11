@@ -1,5 +1,8 @@
 package pokecube.legends.blocks.customblocks;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -13,9 +16,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TapuKokoCore extends Rotates implements IWaterLoggable
 {

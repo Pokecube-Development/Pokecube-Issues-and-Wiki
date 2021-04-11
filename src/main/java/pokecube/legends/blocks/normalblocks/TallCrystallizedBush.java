@@ -1,6 +1,10 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.DoublePlantBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,32 +35,31 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	public TallCrystallizedBush(final String name, final Properties props)
     {
         super(props);
-		this.registerDefaultState((BlockState)((BlockState)this.stateDefinition.any()).setValue(WATERLOGGED, false)
-			.setValue(HALF, DoubleBlockHalf.LOWER));
+		this.registerDefaultState(this.stateDefinition.any().setValue(TallCrystallizedBush.WATERLOGGED, false)
+			.setValue(TallCrystallizedBush.HALF, DoubleBlockHalf.LOWER));
     }
 
 	@Override
-	public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+	public void entityInside(final BlockState state, final World world, final BlockPos pos, final Entity entity) {
 		if (entity instanceof LivingEntity) {
 			entity.makeStuckInBlock(state, new Vector3d(0.9D, 0.75D, 0.9D));
 			if (!world.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
-				double d0 = Math.abs(entity.getX() - entity.xOld);
-				double d1 = Math.abs(entity.getZ() - entity.zOld);
-				if (d0 >= 0.003000000026077032D || d1 >= 0.003000000026077032D) {
-					entity.hurt(DamageSource.CACTUS, 1.0F);
-				}
+				final double d0 = Math.abs(entity.getX() - entity.xOld);
+				final double d1 = Math.abs(entity.getZ() - entity.zOld);
+				if (d0 >= 0.003000000026077032D || d1 >= 0.003000000026077032D) entity.hurt(DamageSource.CACTUS, 1.0F);
 			}
 		}
 	}
 
-	public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType path) {
+	@Override
+    public boolean isPathfindable(final BlockState state, final IBlockReader worldIn, final BlockPos pos, final PathType path) {
 		return false;
 	}
 
 	@Override
 	protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
 	{
-		builder.add(HALF, WATERLOGGED);
+		builder.add(TallCrystallizedBush.HALF, TallCrystallizedBush.WATERLOGGED);
 	}
 
 	@Override
@@ -66,8 +69,8 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 		if (placer != null)
 		{
 			final FluidState fluidState = world.getFluidState(pos.above());
-			world.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER)
-				.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
+			world.setBlock(pos.above(), state.setValue(TallCrystallizedBush.HALF, DoubleBlockHalf.UPPER)
+				.setValue(TallCrystallizedBush.WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
 		}
 	}
 
@@ -79,16 +82,16 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 
 		final BlockPos tallBushPos = this.getTallBushTopPos(pos);
 		if (pos.getY() < 255 && tallBushPos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
-			return this.defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER)
-			.setValue(WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
+			return this.defaultBlockState().setValue(TallCrystallizedBush.HALF, DoubleBlockHalf.LOWER)
+			.setValue(TallCrystallizedBush.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
 
 		return null;
 	}
 
 	// Breaking leaves water if underwater
-	private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
+	private void removeHalf(final World world, final BlockPos pos, final BlockState state, final PlayerEntity player)
 	{
-		BlockState blockstate = world.getBlockState(pos);
+		final BlockState blockstate = world.getBlockState(pos);
 		final FluidState fluidState = world.getFluidState(pos);
 		if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
 		else
@@ -101,7 +104,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
 								  final PlayerEntity player)
 	{
-		final BlockPos tallBushPos = this.getTallBushPos(pos, state.getValue(HALF));
+		final BlockPos tallBushPos = this.getTallBushPos(pos, state.getValue(TallCrystallizedBush.HALF));
 		BlockState tallBushBlockState = world.getBlockState(tallBushPos);
 		if (tallBushBlockState.getBlock() == this && !pos.equals(tallBushPos)) this.removeHalf(world, tallBushPos,
 			tallBushBlockState, player);
@@ -124,16 +127,15 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	}
 
 	@Override
-	public boolean mayPlaceOn(BlockState state, IBlockReader worldIn, BlockPos pos) {
+	public boolean mayPlaceOn(final BlockState state, final IBlockReader worldIn, final BlockPos pos) {
 		return state.isFaceSturdy(worldIn, pos, Direction.UP);
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
 								  final BlockPos facingPos)
 	{
-		if (state.getValue(WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+		if (state.getValue(TallCrystallizedBush.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 		return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
 	}
 
@@ -142,6 +144,6 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	@Override
 	public FluidState getFluidState(final BlockState state)
 	{
-		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+		return state.getValue(TallCrystallizedBush.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 }

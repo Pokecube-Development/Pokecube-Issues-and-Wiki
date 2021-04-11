@@ -1,7 +1,5 @@
 package thut.crafts.proxy;
 
-import thut.api.Tracker;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,6 +17,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import thut.api.Tracker;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.maths.Vector3;

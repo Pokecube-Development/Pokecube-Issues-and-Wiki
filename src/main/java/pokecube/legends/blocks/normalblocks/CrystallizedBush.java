@@ -32,43 +32,43 @@ public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 	public CrystallizedBush(final String name, final Properties props)
     {
         super(props);
-		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(CrystallizedBush.WATERLOGGED, false));
     }
 
-	public VoxelShape getShape(BlockState state, IBlockReader block, BlockPos pos, ISelectionContext context) {
-		Vector3d vector = state.getOffset(block, pos);
-		return SHAPE.move(vector.x, vector.y, vector.z);
+	@Override
+    public VoxelShape getShape(final BlockState state, final IBlockReader block, final BlockPos pos, final ISelectionContext context) {
+		final Vector3d vector = state.getOffset(block, pos);
+		return CrystallizedBush.SHAPE.move(vector.x, vector.y, vector.z);
 	}
 
 	@Override
-	public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+	public void entityInside(final BlockState state, final World world, final BlockPos pos, final Entity entity) {
 		if (entity instanceof LivingEntity) {
 			entity.makeStuckInBlock(state, new Vector3d(0.9D, 0.75D, 0.9D));
 			if (!world.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
-				double d0 = Math.abs(entity.getX() - entity.xOld);
-				double d1 = Math.abs(entity.getZ() - entity.zOld);
-				if (d0 >= 0.003000000026077032D || d1 >= 0.003000000026077032D) {
-					entity.hurt(DamageSource.CACTUS, 1.0F);
-				}
+				final double d0 = Math.abs(entity.getX() - entity.xOld);
+				final double d1 = Math.abs(entity.getZ() - entity.zOld);
+				if (d0 >= 0.003000000026077032D || d1 >= 0.003000000026077032D) entity.hurt(DamageSource.CACTUS, 1.0F);
 			}
 		}
 	}
 
-	public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType path) {
+	@Override
+    public boolean isPathfindable(final BlockState state, final IBlockReader worldIn, final BlockPos pos, final PathType path) {
 		return false;
 	}
 
 	@Override
 	protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
 	{
-		builder.add(WATERLOGGED);
+		builder.add(CrystallizedBush.WATERLOGGED);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(final BlockItemUseContext context)
 	{
 		final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(WATERLOGGED, ifluidstate.is(FluidTags.WATER)
+		return this.defaultBlockState().setValue(CrystallizedBush.WATERLOGGED, ifluidstate.is(FluidTags.WATER)
 			&& ifluidstate.getAmount() == 8);
 	}
 
@@ -78,16 +78,15 @@ public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 	}
 
 	@Override
-	public boolean mayPlaceOn(BlockState state, IBlockReader worldIn, BlockPos pos) {
+	public boolean mayPlaceOn(final BlockState state, final IBlockReader worldIn, final BlockPos pos) {
 		return state.isFaceSturdy(worldIn, pos, Direction.UP);
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
 								  final BlockPos facingPos)
 	{
-		if (state.getValue(WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+		if (state.getValue(CrystallizedBush.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 		return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
 	}
 
@@ -96,6 +95,6 @@ public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 	@Override
 	public FluidState getFluidState(final BlockState state)
 	{
-		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+		return state.getValue(CrystallizedBush.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 }

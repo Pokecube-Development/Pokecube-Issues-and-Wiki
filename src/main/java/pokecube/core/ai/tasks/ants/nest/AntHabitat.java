@@ -1,7 +1,5 @@
 package pokecube.core.ai.tasks.ants.nest;
 
-import thut.api.Tracker;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +49,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;

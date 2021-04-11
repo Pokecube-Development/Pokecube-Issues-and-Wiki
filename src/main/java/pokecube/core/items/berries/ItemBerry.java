@@ -33,7 +33,6 @@ import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
-import pokecube.legends.PokecubeLegends;
 
 /**
  * @author Oracion

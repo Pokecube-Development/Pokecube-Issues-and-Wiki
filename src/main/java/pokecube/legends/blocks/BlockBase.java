@@ -1,5 +1,7 @@
 package pokecube.legends.blocks;
 
+import java.util.List;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -20,8 +22,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
-
-import java.util.List;
 
 public class BlockBase extends Block
 {

@@ -1,7 +1,10 @@
 package pokecube.legends.tileentity;
 
+import java.util.List;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -11,8 +14,6 @@ import net.minecraftforge.common.extensions.IForgeTileEntity;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
-
-import java.util.List;
 
 public class RaidSpawn extends MaxTile
 {

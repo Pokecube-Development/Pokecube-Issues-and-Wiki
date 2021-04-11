@@ -1,5 +1,8 @@
 package pokecube.core.blocks.maxspot;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
@@ -22,9 +25,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableDirectionalBlock;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MaxBlock extends InteractableDirectionalBlock implements IWaterLoggable
 {

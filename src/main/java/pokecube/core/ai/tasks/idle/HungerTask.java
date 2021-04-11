@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.idle;
 
-import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -34,6 +33,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.TimePeriod;
+import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;

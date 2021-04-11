@@ -1,9 +1,9 @@
 package pokecube.legends.blocks.normalblocks;
 
-import pokecube.legends.blocks.BlockBase;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.SoundType;
+import pokecube.legends.blocks.BlockBase;
 
 public class DistorticMirror extends BlockBase
 {		

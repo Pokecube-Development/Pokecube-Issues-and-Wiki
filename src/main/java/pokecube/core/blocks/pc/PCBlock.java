@@ -1,5 +1,9 @@
 package pokecube.core.blocks.pc;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -28,10 +32,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import pokecube.core.network.packets.PacketPC;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class PCBlock extends HorizontalBlock implements IWaterLoggable
 {

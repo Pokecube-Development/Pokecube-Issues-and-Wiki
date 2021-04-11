@@ -1,7 +1,5 @@
 package pokecube.core.interfaces.pokemob.commandhandlers;
 
-import thut.api.Tracker;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -25,6 +23,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
+import thut.api.Tracker;
 
 public class ChangeFormHandler extends DefaultHandler
 {

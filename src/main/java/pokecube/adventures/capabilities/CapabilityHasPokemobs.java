@@ -1,6 +1,5 @@
 package pokecube.adventures.capabilities;
 
-import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +58,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 

@@ -1,7 +1,5 @@
 package pokecube.legends.init.moves;
 
-import thut.api.Tracker;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,6 +18,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.tileentity.RingTile;
+import thut.api.Tracker;
 import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
 

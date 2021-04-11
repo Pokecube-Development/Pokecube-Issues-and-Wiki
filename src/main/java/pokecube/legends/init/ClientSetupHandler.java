@@ -1,5 +1,7 @@
 package pokecube.legends.init;
 
+import java.util.function.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -24,8 +26,6 @@ import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
 import pokecube.legends.tileentity.RaidSpawn;
 import thut.core.client.gui.ConfigGui;
-
-import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler

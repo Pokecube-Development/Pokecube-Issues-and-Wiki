@@ -1,11 +1,24 @@
 package pokecube.legends.worldgen.trees;
 
+import java.util.OptionalInt;
+
 import com.google.common.collect.ImmutableList;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.foliageplacer.*;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.FeatureSpread;
+import net.minecraft.world.gen.feature.Features;
+import net.minecraft.world.gen.feature.TwoLayerFeature;
+import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.FancyFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.JungleFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.MegaPineFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.SpruceFoliagePlacer;
 import net.minecraft.world.gen.treedecorator.AlterGroundTreeDecorator;
 import net.minecraft.world.gen.treedecorator.LeaveVineTreeDecorator;
 import net.minecraft.world.gen.treedecorator.TrunkVineTreeDecorator;
@@ -14,8 +27,6 @@ import net.minecraft.world.gen.trunkplacer.GiantTrunkPlacer;
 import net.minecraft.world.gen.trunkplacer.MegaJungleTrunkPlacer;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import pokecube.legends.init.BlockInit;
-
-import java.util.OptionalInt;
 
 public class Trees
 {

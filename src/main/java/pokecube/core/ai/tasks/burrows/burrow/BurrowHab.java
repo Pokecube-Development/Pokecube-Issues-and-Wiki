@@ -1,8 +1,5 @@
 package pokecube.core.ai.tasks.burrows.burrow;
 
-import thut.api.Tracker;
-import thut.api.world.IWorldTickListener;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -44,6 +41,8 @@ import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.Tracker;
+import thut.api.world.IWorldTickListener;
 
 public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, IWorldTickListener
 {

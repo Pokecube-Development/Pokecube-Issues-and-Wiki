@@ -1,5 +1,9 @@
 package pokecube.legends.blocks.customblocks;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -14,10 +18,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Stream;
 
 public class KeldeoBlock extends Rotates implements IWaterLoggable
 {

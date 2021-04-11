@@ -1,6 +1,5 @@
 package pokecube.legends.spawns;
 
-import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +14,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -38,6 +36,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.conditions.AbstractCondition;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 
 public class LegendarySpawn

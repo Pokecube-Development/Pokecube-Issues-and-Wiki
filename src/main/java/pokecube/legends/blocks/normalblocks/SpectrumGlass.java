@@ -2,7 +2,6 @@ package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StainedGlassBlock;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.math.BlockPos;

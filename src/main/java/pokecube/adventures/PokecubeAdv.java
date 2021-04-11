@@ -1,6 +1,10 @@
 package pokecube.adventures;
 
+import java.util.Locale;
+import java.util.Map;
+
 import com.google.common.collect.Maps;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -77,9 +81,6 @@ import pokecube.legends.PokecubeLegends;
 import thut.api.entity.CopyCaps;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
-
-import java.util.Locale;
-import java.util.Map;
 
 @Mod(value = PokecubeAdv.MODID)
 public class PokecubeAdv

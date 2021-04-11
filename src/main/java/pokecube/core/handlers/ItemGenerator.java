@@ -1,9 +1,33 @@
 package pokecube.core.handlers;
 
+import static net.minecraft.item.AxeItem.STRIPABLES;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.block.*;
+
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.FenceBlock;
+import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.FireBlock;
+import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
+import net.minecraft.block.RotatedPillarBlock;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.TrapDoorBlock;
+import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
@@ -29,14 +53,6 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-
-import static net.minecraft.item.AxeItem.STRIPABLES;
 
 public class ItemGenerator
 {

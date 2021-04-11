@@ -1,6 +1,11 @@
 package pokecube.adventures.blocks.warppad;
 
+import java.util.List;
+
+import org.nfunk.jep.JEP;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
@@ -12,15 +17,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.IEnergyStorage;
-import org.nfunk.jep.JEP;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.Tracker;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
-
-import java.util.List;
 
 public class WarppadTile extends InteractableTile implements IEnergyStorage
 {

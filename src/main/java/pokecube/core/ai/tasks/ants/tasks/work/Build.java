@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
-import thut.api.Tracker;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -29,6 +28,7 @@ import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.Tracker;
 
 public class Build extends AbstractConstructTask
 {

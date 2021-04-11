@@ -1,6 +1,15 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.block.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -21,10 +30,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import pokecube.legends.init.BlockInit;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class VictiniBlock extends Rotates implements IWaterLoggable
 {

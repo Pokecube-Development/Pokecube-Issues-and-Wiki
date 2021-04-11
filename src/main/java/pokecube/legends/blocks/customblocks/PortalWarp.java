@@ -1,6 +1,17 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.block.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -37,12 +48,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.function.PortalActiveFunction;
 import pokecube.legends.tileentity.RingTile;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class PortalWarp extends Rotates implements IWaterLoggable
 {
