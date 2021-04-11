@@ -7,6 +7,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.events.TeleportEvent;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IMoveAction;
@@ -20,9 +21,9 @@ public class ActionTeleport implements IMoveAction
     /** Teleport the entity to a random nearby position */
     public static boolean teleportRandomly(final LivingEntity toTeleport)
     {
-        double var1;
-        double var3;
-        double var5;
+        double destX;
+        double destY;
+        double destZ;
         Vector3 v = SpawnHandler.getRandomPointNear(toTeleport, 32);
         if (v == null) // Try a few more times to get a point.
             for (int i = 0; i < 32; i++)
@@ -33,42 +34,46 @@ public class ActionTeleport implements IMoveAction
         if (v == null) return false;
         v = Vector3.getNextSurfacePoint(toTeleport.getCommandSenderWorld(), v, Vector3.secondAxisNeg, 20);
         if (v == null) return false;
-        var1 = v.x;
-        var3 = v.y + 1;
-        var5 = v.z;
-        return ActionTeleport.teleportTo(toTeleport, var1, var3, var5);
+        destX = v.x;
+        destY = v.y + 1;
+        destZ = v.z;
+        return ActionTeleport.teleportTo(toTeleport, destX, destY, destZ);
     }
 
     /** Teleport the entity */
-    protected static boolean teleportTo(final LivingEntity toTeleport, final double par1, final double par3,
-            final double par5)
+    protected static boolean teleportTo(final LivingEntity toTeleport,  double posX,  double posY,
+             double posZ)
     {
+        final TeleportEvent event = TeleportEvent.onUseTeleport(toTeleport, posX, posY, posZ);
+        if(event.isCanceled()) return false;
 
-        final short var30 = 128;
+        posX = event.getTargetX();
+        posY = event.getTargetY();
+        posZ = event.getTargetZ();
+
+        final short particleCount = 128;
         int num;
 
-        toTeleport.setPos(par1, par3, par5);
+        toTeleport.teleportTo(posX, posY, posZ);
 
-        for (num = 0; num < var30; ++num)
+        for (num = 0; num < particleCount; ++num)
         {
-            final double var19 = num / (var30 - 1.0D);
+            final double var19 = num / (particleCount - 1.0D);
             final float var21 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
             final float var22 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
             final float var23 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
-            final double var24 = par1 + (toTeleport.getX() - par1) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
+            final double var24 = posX + (toTeleport.getX() - posX) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
                     * toTeleport.getBbWidth() * 2.0D;
-            final double var26 = par3 + (toTeleport.getY() - par3) * var19 + toTeleport.getRandom().nextDouble() * toTeleport
+            final double var26 = posY + (toTeleport.getY() - posY) * var19 + toTeleport.getRandom().nextDouble() * toTeleport
                     .getBbHeight();
-            final double var28 = par5 + (toTeleport.getZ() - par5) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
+            final double var28 = posZ + (toTeleport.getZ() - posZ) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
                     * toTeleport.getBbWidth() * 2.0D;
             toTeleport.getCommandSenderWorld().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
         }
-
-        toTeleport.getCommandSenderWorld().playLocalSound(par1, par3, par5, SoundEvents.ENDERMAN_TELEPORT,
+        toTeleport.getCommandSenderWorld().playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT,
                 SoundCategory.HOSTILE, 1.0F, 1.0F, false);
         toTeleport.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
         return true;
-
     }
 
     public ActionTeleport()

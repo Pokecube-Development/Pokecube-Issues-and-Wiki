@@ -38,7 +38,8 @@ public class BlockBase extends Block
     public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
             final SoundType sound, final ToolType tool, final int harvestLevel)
     {
-        super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestLevel(harvestLevel));
+        super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound)
+            .harvestTool(tool).harvestLevel(harvestLevel).requiresCorrectToolForDrops());
     }
 
     public BlockBase(final String name, final Material material, final MaterialColor color, final ToolType tool, final int level)

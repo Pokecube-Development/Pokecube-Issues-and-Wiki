@@ -460,6 +460,7 @@ public class PokecubeCore
     {
         ItemGenerator.strippableBlocks(event);
         ItemGenerator.compostables(event);
+        ItemGenerator.flammables(event);
         PointsOfInterest.postInit();
     }
 }

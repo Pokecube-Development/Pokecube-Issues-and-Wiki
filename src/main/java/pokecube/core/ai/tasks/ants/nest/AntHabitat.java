@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.ants.nest;
 
-import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +49,10 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import pokecube.core.world.IWorldTickListener;
-import pokecube.core.world.WorldTickManager;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
+import thut.api.world.IWorldTickListener;
+import thut.api.world.WorldTickManager;
 import thut.lib.ItemStackTools;
 
 public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, IWorldTickListener

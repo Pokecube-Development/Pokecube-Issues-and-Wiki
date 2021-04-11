@@ -1,6 +1,5 @@
 package pokecube.core.items.pokecubes;
 
-import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,6 +30,7 @@ import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.utils.Tools;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 
 public class EntityPokecube extends EntityPokecubeBase

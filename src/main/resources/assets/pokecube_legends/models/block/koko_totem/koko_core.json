@@ -1,0 +1,128 @@
+{
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"textures": {
+		"1": "pokecube_legends:blocks/koko_totem/tapu_koko_side",
+		"2": "pokecube_legends:blocks/koko_totem/tapu_koko_front",
+		"3": "pokecube_legends:blocks/koko_totem/tapu_koko_top",
+		"4": "pokecube_legends:blocks/koko_totem/tapu_koko_back",
+		"particle": "pokecube_legends:blocks/koko_totem/tapu_koko_front"
+	},
+	"elements": [
+		{
+			"name": "main",
+			"from": [3, 0, 3],
+			"to": [13, 9, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [3, 7, 13, 16], "texture": "#2"},
+				"east": {"uv": [3, 7, 13, 16], "texture": "#1"},
+				"south": {"uv": [3, 7, 13, 16], "texture": "#4"},
+				"west": {"uv": [13, 7, 3, 16], "texture": "#1"},
+				"up": {"uv": [3, 3, 13, 13], "texture": "#3"},
+				"down": {"uv": [3, 4, 13, 14], "texture": "#3"}
+			}
+		},
+		{
+			"name": "top",
+			"from": [4, 9, 4],
+			"to": [12, 16, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [4, 0, 12, 7], "texture": "#2"},
+				"east": {"uv": [4, 0, 12, 7], "texture": "#1"},
+				"south": {"uv": [4, 0, 12, 7], "texture": "#4"},
+				"west": {"uv": [12, 0, 4, 7], "texture": "#1"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#3"}
+			}
+		},
+		{
+			"name": "claw",
+			"from": [6, 0, 1],
+			"to": [10, 3, 3],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [6, 13, 10, 16], "texture": "#2"},
+				"east": {"uv": [13, 13, 15, 16], "texture": "#1"},
+				"west": {"uv": [15, 13, 13, 16], "texture": "#1"},
+				"up": {"uv": [6, 1, 10, 3], "texture": "#3"},
+				"down": {"uv": [6, 14, 10, 16], "texture": "#3"}
+			}
+		},
+		{
+			"name": "claw",
+			"from": [7, 0, 0],
+			"to": [9, 2, 1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [7, 14, 9, 16], "texture": "#2"},
+				"east": {"uv": [15, 14, 16, 16], "texture": "#1"},
+				"west": {"uv": [15, 14, 16, 16], "texture": "#1"},
+				"up": {"uv": [7, 0, 9, 1], "texture": "#3"},
+				"down": {"uv": [7, 0, 9, 1], "texture": "#3"}
+			}
+		},
+		{
+			"name": "wing",
+			"from": [12, 7, 6],
+			"to": [16, 12, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 4, 4, 9], "texture": "#2"},
+				"east": {"uv": [3, 4, 2, 9], "texture": "#1"},
+				"south": {"uv": [12, 4, 16, 9], "texture": "#4"},
+				"up": {"uv": [12, 6, 16, 7], "texture": "#3"},
+				"down": {"uv": [12, 6, 16, 7], "texture": "#3"}
+			}
+		},
+		{
+			"name": "wing",
+			"from": [0, 7, 6],
+			"to": [4, 12, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [12, 4, 16, 9], "texture": "#2"},
+				"south": {"uv": [0, 4, 4, 9], "texture": "#4"},
+				"west": {"uv": [3, 4, 2, 9], "texture": "#1"},
+				"up": {"uv": [0, 6, 4, 7], "texture": "#3"},
+				"down": {"uv": [0, 6, 4, 7], "texture": "#3"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 135, 0],
+			"translation": [0, 1, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 135, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, 0.25, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"head": {
+			"translation": [0, 14.5, 0]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}

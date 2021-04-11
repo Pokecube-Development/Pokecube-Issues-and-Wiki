@@ -1,6 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import thut.api.Tracker;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -29,6 +28,7 @@ import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.Tracker;
 
 public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube>
 {

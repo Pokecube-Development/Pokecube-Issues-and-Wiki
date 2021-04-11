@@ -43,19 +43,32 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     private static final DirectionProperty            FACING      = HorizontalBlock.FACING;
 
     // Precise selection box
-    private static final VoxelShape NATURE_CORE_TOP_NORTH = Block.box(2.33, 0.21, 6.75, 12.96, 12.25, 9.5);
-    private static final VoxelShape NATURE_CORE_TOP_EAST  = Block.box(6.5, 0.21, 2.33, 9.25, 12.25, 12.96);
-    private static final VoxelShape NATURE_CORE_TOP_SOUTH = Block.box(3.04, 0.21, 6.5, 13.67, 12.25, 9.25);
-    private static final VoxelShape NATURE_CORE_TOP_WEST  = Block.box(6.75, 0.21, 3.04, 9.5, 12.25, 13.67);
+    private static final VoxelShape NATURE_CORE_TOP_NORTH =
+            Block.box(2, 1, 6, 14, 14, 10);
+    private static final VoxelShape NATURE_CORE_TOP_EAST  =
+            Block.box(6, 1, 2, 10, 14, 14);
+    private static final VoxelShape NATURE_CORE_TOP_SOUTH =
+            Block.box(2, 1, 6, 14, 14, 10);
+    private static final VoxelShape NATURE_CORE_TOP_WEST  =
+            Block.box(6, 1, 2, 10, 14, 14);
 
-    private static final VoxelShape NATURE_CORE_BOTTOM = VoxelShapes.or(Block.box(0, 0, 4, 2, 2, 12), Block
-            .box(0, 14, 4, 2, 16, 12), Block.box(2, 0, 4, 4, 4, 12), Block.box(2,
-                    12, 4, 4, 16, 12), Block.box(4, 0, 0, 12, 2, 2), Block.box(4, 0, 12, 12, 4,
-                            14), Block.box(4, 0, 14, 12, 2, 16), Block.box(4, 0, 2, 12, 4, 4),
-            Block.box(4, 0, 4, 12, 16, 12), Block.box(4, 12, 2, 12, 16, 4), Block
-                    .box(4, 12, 12, 12, 16, 14), Block.box(4, 14, 0, 12, 16, 2), Block
-                            .box(4, 14, 14, 12, 16, 16), Block.box(12, 0, 4, 14, 4, 12), Block
-                                    .box(14, 0, 4, 16, 2, 12), Block.box(12, 12, 4, 14, 16, 12),
+    private static final VoxelShape NATURE_CORE_BOTTOM = VoxelShapes.or(
+            Block.box(0, 0, 4, 2, 2, 12),
+            Block.box(0, 14, 4, 2, 16, 12),
+            Block.box(2, 0, 4, 4, 4, 12),
+            Block.box(2, 12, 4, 4, 16, 12),
+            Block.box(4, 0, 0, 12, 2, 2),
+            Block.box(4, 0, 12, 12, 4, 14),
+            Block.box(4, 0, 14, 12, 2, 16),
+            Block.box(4, 0, 2, 12, 4, 4),
+            Block.box(4, 0, 4, 12, 16, 12),
+            Block.box(4, 12, 2, 12, 16, 4),
+            Block.box(4, 12, 12, 12, 16, 14),
+            Block.box(4, 14, 0, 12, 16, 2),
+            Block.box(4, 14, 14, 12, 16, 16),
+            Block.box(12, 0, 4, 14, 4, 12),
+            Block.box(14, 0, 4, 16, 2, 12),
+            Block.box(12, 12, 4, 14, 16, 12),
             Block.box(14, 14, 4, 16, 16, 12)).optimize();
 
     // Precise selection box
@@ -112,11 +125,11 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
         final BlockPos natureCorePos = this.getNatureCorePos(pos, state.getValue(NatureCoreBlock.HALF), facing);
         BlockState NatureCoreBlockState = world.getBlockState(natureCorePos);
         if (NatureCoreBlockState.getBlock() == this && !pos.equals(natureCorePos)) this.removeHalf(world, natureCorePos,
-                NatureCoreBlockState);
+                NatureCoreBlockState, player);
         final BlockPos natureCorePartPos = this.getNatureCoreTopPos(natureCorePos, facing);
         NatureCoreBlockState = world.getBlockState(natureCorePartPos);
         if (NatureCoreBlockState.getBlock() == this && !pos.equals(natureCorePartPos)) this.removeHalf(world,
-                natureCorePartPos, NatureCoreBlockState);
+                natureCorePartPos, NatureCoreBlockState, player);
         super.playerWillDestroy(world, pos, state, player);
     }
 
@@ -140,11 +153,16 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     }
 
     // Breaking the Nature Core Spawner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state)
+    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
     {
+        BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
-        else world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+        else
+        {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+            world.levelEvent(player, 2001, pos, Block.getId(blockstate));
+        }
     }
 
     // Prevents the Nature Core Spawner from replacing blocks above it and

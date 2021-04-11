@@ -182,6 +182,7 @@ public class PokecubeLegends
     {
         BlockInit.strippableBlocks(event);
         BlockInit.compostables();
+        BlockInit.flammables();
     }
 
     @SubscribeEvent
@@ -304,7 +305,10 @@ public class PokecubeLegends
             final State state = new Random().nextInt(20) == 0 ? State.RARE : State.NORMAL;
             event.getWorld().setBlockAndUpdate(event.getPos(), hit.setValue(RaidSpawnBlock.ACTIVE, state));
             event.setUseItem(Result.ALLOW);
-            event.getItemStack().grow(-1);
+            if (!event.getPlayer().isCreative())
+            {
+                event.getItemStack().grow(-1);
+            }
         }
     }
 }

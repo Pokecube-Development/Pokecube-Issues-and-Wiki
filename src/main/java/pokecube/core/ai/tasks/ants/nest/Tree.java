@@ -24,7 +24,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.ai.pathing.processors.SwimAndWalkNodeProcessor;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
-import pokecube.core.world.IPathHelper;
+import thut.api.world.IPathHelper;
 
 public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
 {

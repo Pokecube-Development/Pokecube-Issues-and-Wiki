@@ -1,0 +1,11 @@
+{
+  "type": "pokecube_legends:distortic_recipe",
+  "blockId": "pokecube_legends:distortic_mirror",
+  "dimId": "pokecube_legends:distorted_world",
+  "input": {
+    "item": "minecraft:water_bucket"
+  },
+  "output": {
+    "item": "pokecube_legends:distortic_water_bucket"
+  }
+}

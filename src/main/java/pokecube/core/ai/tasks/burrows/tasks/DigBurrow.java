@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.burrows.tasks;
 
-import thut.api.Tracker;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,6 +25,7 @@ import pokecube.core.ai.tasks.burrows.burrow.Part;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
+import thut.api.Tracker;
 
 public class DigBurrow extends AbstractBurrowTask
 {

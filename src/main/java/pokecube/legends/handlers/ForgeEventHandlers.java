@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -112,7 +111,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, evt.getPlacedBlock(), evt.getPos()))
         {
             evt.setCanceled(true);
-            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
+            player.displayClientMessage(new TranslationTextComponent("msg.cannot_defile_temple"), true);
         }
     }
 
@@ -126,7 +125,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, null, evt.getPos()))
         {
             evt.setCanceled(true);
-            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
+            player.displayClientMessage(new TranslationTextComponent("msg.cannot_defile_temple"), true);
         }
     }
 
@@ -145,7 +144,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, null, pos))
         {
             evt.setCanceled(true);
-            player.sendMessage(new TranslationTextComponent("msg.cannot_defile_temple"), Util.NIL_UUID);
+            player.displayClientMessage(new TranslationTextComponent("msg.cannot_defile_temple"), true);
         }
     }
 

@@ -1,5 +1,7 @@
 package pokecube.core.handlers;
 
+import static net.minecraft.item.AxeItem.STRIPABLES;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +19,7 @@ import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.FireBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
 import net.minecraft.block.RotatedPillarBlock;
@@ -27,7 +30,6 @@ import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -178,7 +180,7 @@ public class ItemGenerator
             registry.register(block);
 
             // Stairs
-            block = new GenericWoodStairs(Blocks.OAK_PLANKS.defaultBlockState(), AbstractBlock.Properties.of(
+            block = new GenericStairs(Blocks.OAK_PLANKS.defaultBlockState(), AbstractBlock.Properties.of(
             		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_stairs");
             ItemGenerator.stairs.put(name, block);
@@ -213,7 +215,7 @@ public class ItemGenerator
             registry.register(block);
 
             // Buttons
-            block = new GenericWoodButton(AbstractBlock.Properties.of(
+            block = new GenericButton(AbstractBlock.Properties.of(
             		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_button");
             ItemGenerator.buttons.put(name, block);
@@ -349,10 +351,10 @@ public class ItemGenerator
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
     }
 
-    public static class GenericWoodStairs extends StairsBlock
+    public static class GenericStairs extends StairsBlock
     {
         @SuppressWarnings("deprecation")
-        public GenericWoodStairs(final BlockState state, final Properties properties)
+        public GenericStairs(final BlockState state, final Properties properties)
         {
             super(state, properties);
         }
@@ -374,9 +376,9 @@ public class ItemGenerator
         }
     }
 
-    public static class GenericWoodButton extends WoodButtonBlock
+    public static class GenericButton extends WoodButtonBlock
     {
-        public GenericWoodButton(final Properties properties)
+        public GenericButton(final Properties properties)
         {
             super(properties);
         }
@@ -392,8 +394,8 @@ public class ItemGenerator
 
     public static void addStrippable(final Block logs, final Block strippedLogs)
     {
-        AxeItem.STRIPABLES = Maps.newHashMap(AxeItem.STRIPABLES);
-        AxeItem.STRIPABLES.put(logs, strippedLogs);
+        STRIPABLES = Maps.newHashMap(STRIPABLES);
+        STRIPABLES.put(logs, strippedLogs);
     }
 
     public static void strippableBlocks(final FMLLoadCompleteEvent event)
@@ -439,6 +441,36 @@ public class ItemGenerator
             {
                 final int index = id;
                 compostableBlocks(0.65f, BerryManager.berryItems.get(index));
+            }
+        });
+    }
+
+    public static void flammableBlocks(Block block, int speed, int flammability) {
+        FireBlock fire = (FireBlock) Blocks.FIRE;
+        fire.setFlammable(block, speed, flammability);
+    }
+
+    public static void flammables(final FMLLoadCompleteEvent event) {
+        final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
+        Collections.sort(names);
+        event.enqueueWork(() ->
+        {
+            for (final String name : names) {
+                //Logs
+                flammableBlocks(ItemGenerator.logs.get(name), 5, 5);
+                flammableBlocks(ItemGenerator.woods.get(name), 5, 5);
+                flammableBlocks(ItemGenerator.stripped_logs.get(name), 5, 5);
+                flammableBlocks(ItemGenerator.stripped_woods.get(name), 5, 5);
+
+                //Leaves
+                flammableBlocks(ItemGenerator.leaves.get(name), 30, 60);
+
+                //Woods
+                flammableBlocks(ItemGenerator.planks.get(name), 5, 20);
+                flammableBlocks(ItemGenerator.slabs.get(name), 5, 20);
+                flammableBlocks(ItemGenerator.stairs.get(name), 5, 20);
+                flammableBlocks(ItemGenerator.fences.get(name), 5, 20);
+                flammableBlocks(ItemGenerator.fence_gates.get(name), 5, 20);
             }
         });
     }

@@ -12,7 +12,6 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -26,52 +25,40 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
 
     // Precise selection box
     static
-    {// @formatter:off
-    	HeatranBlock.HEATRAN.put(Direction.NORTH,
-		VoxelShapes.join(Block.box(3, 6, 3, 13, 10, 13),
-		VoxelShapes.join(Block.box(2, 10, 2, 14, 12, 14),
-		VoxelShapes.join(Block.box(2, 4, 2, 14, 6, 14),
-		VoxelShapes.join(Block.box(1, 12, 1, 15, 14, 15),
-		VoxelShapes.join(Block.box(1, 2, 1, 15, 4, 15),
-		VoxelShapes.join(Block.box(0, 14, 0, 16, 16, 16),
-				Block.box(0, 0, 0, 16, 2, 16),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	HeatranBlock.HEATRAN.put(Direction.EAST,
-		VoxelShapes.join(Block.box(3, 6, 3, 13, 10, 13),
-		VoxelShapes.join(Block.box(2, 10, 2, 14, 12, 14),
-		VoxelShapes.join(Block.box(2, 4, 2, 14, 6, 14),
-		VoxelShapes.join(Block.box(1, 12, 1, 15, 14, 15),
-		VoxelShapes.join(Block.box(1, 2, 1, 15, 4, 15),
-		VoxelShapes.join(Block.box(0, 14, 0, 16, 16, 16),
-				Block.box(0, 0, 0, 16, 2, 16),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	HeatranBlock.HEATRAN.put(Direction.SOUTH,
-		VoxelShapes.join(Block.box(3, 6, 3, 13, 10, 13),
-		VoxelShapes.join(Block.box(2, 10, 2, 14, 12, 14),
-		VoxelShapes.join(Block.box(2, 4, 2, 14, 6, 14),
-		VoxelShapes.join(Block.box(1, 12, 1, 15, 14, 15),
-		VoxelShapes.join(Block.box(1, 2, 1, 15, 4, 15),
-		VoxelShapes.join(Block.box(0, 14, 0, 16, 16, 16),
-				Block.box(0, 0, 0, 16, 2, 16),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	HeatranBlock.HEATRAN.put(Direction.WEST,
-		VoxelShapes.join(Block.box(3, 6, 3, 13, 10, 13),
-		VoxelShapes.join(Block.box(2, 10, 2, 14, 12, 14),
-		VoxelShapes.join(Block.box(2, 4, 2, 14, 6, 14),
-		VoxelShapes.join(Block.box(1, 12, 1, 15, 14, 15),
-		VoxelShapes.join(Block.box(1, 2, 1, 15, 4, 15),
-		VoxelShapes.join(Block.box(0, 14, 0, 16, 16, 16),
-				Block.box(0, 0, 0, 16, 2, 16),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    }// @formatter:on
+    {
+    	HeatranBlock.HEATRAN.put(Direction.NORTH, VoxelShapes.or(
+			Block.box(3, 6, 3, 13, 10, 13),
+			Block.box(2, 10, 2, 14, 12, 14),
+			Block.box(2, 4, 2, 14, 6, 14),
+			Block.box(1, 12, 1, 15, 14, 15),
+			Block.box(1, 2, 1, 15, 4, 15),
+			Block.box(0, 14, 0, 16, 16, 16),
+			Block.box(0, 0, 0, 16, 2, 16)).optimize());
+    	HeatranBlock.HEATRAN.put(Direction.EAST, VoxelShapes.or(
+			Block.box(3, 6, 3, 13, 10, 13),
+			Block.box(2, 10, 2, 14, 12, 14),
+			Block.box(2, 4, 2, 14, 6, 14),
+			Block.box(1, 12, 1, 15, 14, 15),
+			Block.box(1, 2, 1, 15, 4, 15),
+			Block.box(0, 14, 0, 16, 16, 16),
+			Block.box(0, 0, 0, 16, 2, 16)).optimize());
+    	HeatranBlock.HEATRAN.put(Direction.SOUTH, VoxelShapes.or(
+			Block.box(3, 6, 3, 13, 10, 13),
+			Block.box(2, 10, 2, 14, 12, 14),
+			Block.box(2, 4, 2, 14, 6, 14),
+			Block.box(1, 12, 1, 15, 14, 15),
+			Block.box(1, 2, 1, 15, 4, 15),
+			Block.box(0, 14, 0, 16, 16, 16),
+			Block.box(0, 0, 0, 16, 2, 16)).optimize());
+    	HeatranBlock.HEATRAN.put(Direction.WEST, VoxelShapes.or(
+			Block.box(3, 6, 3, 13, 10, 13),
+			Block.box(2, 10, 2, 14, 12, 14),
+			Block.box(2, 4, 2, 14, 6, 14),
+			Block.box(1, 12, 1, 15, 14, 15),
+			Block.box(1, 2, 1, 15, 4, 15),
+			Block.box(0, 14, 0, 16, 16, 16),
+			Block.box(0, 0, 0, 16, 2, 16)).optimize());
+    }
 
     // Precise selection box
     @Override

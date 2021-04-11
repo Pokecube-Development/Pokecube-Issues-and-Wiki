@@ -1,0 +1,21 @@
+{
+    "group": "pokecube_legends",
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "DDD",
+        "DID",
+        "DDD"
+    ],
+    "key": {
+        "D": {
+            "tag": "pokecube_legends:glass/one_way"
+        },
+        "I": {
+            "tag": "forge:dyes/gray"
+        }
+    },
+    "result": {
+        "item": "pokecube_legends:distortic_one_way_gray_stained_glass",
+        "count": 8
+    }
+}

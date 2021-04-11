@@ -9,7 +9,12 @@
       "upper_size": 1,
       "type": "minecraft:two_layers_feature_size"
     },
-    "decorators": [],
+    "decorators": [
+      {
+        "probability": 0.01,
+        "type": "minecraft:beehive"
+      }
+    ],
     "trunk_provider": {
       "state": {
         "Properties": {
@@ -36,7 +41,7 @@
       "type": "minecraft:blob_foliage_placer"
     },
     "trunk_placer": {
-      "base_height": 4,
+      "base_height": 6,
       "height_rand_a": 2,
       "height_rand_b": 0,
       "type": "minecraft:straight_trunk_placer"

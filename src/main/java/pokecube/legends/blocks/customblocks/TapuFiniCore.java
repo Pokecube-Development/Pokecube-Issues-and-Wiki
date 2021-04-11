@@ -2,7 +2,6 @@ package pokecube.legends.blocks.customblocks;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,7 +12,6 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -21,57 +19,49 @@ import net.minecraft.world.IBlockReader;
 
 public class TapuFiniCore extends Rotates implements IWaterLoggable
 {
-    private static final Map<Direction, VoxelShape> TROUGH  = new HashMap<>();
+    private static final Map<Direction, VoxelShape> FINI  = new HashMap<>();
     private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
-    {// @formatter:off
-    	TapuFiniCore.TROUGH.put(Direction.NORTH,
-    	Stream.of(
-    			Block.box(4, 0, 5, 12, 4, 15),
-    			Block.box(3, 4, 4, 13, 11, 16),
-    			Block.box(7, 4, 0, 9, 6, 4),
-    			Block.box(0, 3, 10, 4, 4, 13),
-    			Block.box(12, 3, 10, 16, 4, 13),
-    			Block.box(5, 11, 5, 11, 16, 14)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	TapuFiniCore.TROUGH.put(Direction.EAST,
-		Stream.of(
-				Block.box(1, 0, 4, 11, 4, 12),
-				Block.box(0, 4, 3, 12, 11, 13),
-				Block.box(12, 4, 7, 16, 6, 9),
-				Block.box(3, 3, 0, 6, 4, 4),
-				Block.box(3, 3, 12, 6, 4, 16),
-				Block.box(2, 11, 5, 11, 16, 11)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	TapuFiniCore.TROUGH.put(Direction.SOUTH,
-		Stream.of(
-				Block.box(4, 0, 1, 12, 4, 11),
-				Block.box(3, 4, 0, 13, 11, 12),
-				Block.box(7, 4, 12, 9, 6, 16),
-				Block.box(12, 3, 3, 16, 4, 6),
-				Block.box(0, 3, 3, 4, 4, 6),
-				Block.box(5, 11, 2, 11, 16, 11)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	TapuFiniCore.TROUGH.put(Direction.WEST,
-		Stream.of(
-				Block.box(5, 0, 4, 15, 4, 12),
-				Block.box(4, 4, 3, 16, 11, 13),
-				Block.box(0, 4, 7, 4, 6, 9),
-				Block.box(10, 3, 12, 13, 4, 16),
-				Block.box(10, 3, 0, 13, 4, 4),
-				Block.box(5, 11, 5, 14, 16, 11)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    }// @formatter:on
+    {
+    	TapuFiniCore.FINI.put(Direction.NORTH, VoxelShapes.or(
+			Block.box(4, 0, 4, 12, 3, 12),
+			Block.box(3, 3, 3, 13, 13, 13),
+			Block.box(4, 13, 4, 12, 16, 12),
+			Block.box(7, 7, 0, 9, 9, 3),
+			Block.box(13, 5, 6, 16, 6, 10),
+			Block.box(0, 5, 6, 3, 6, 10)).optimize());
+    	TapuFiniCore.FINI.put(Direction.EAST, VoxelShapes.or(
+			Block.box(4, 0, 4, 12, 3, 12),
+			Block.box(3, 3, 3, 13, 13, 13),
+			Block.box(4, 13, 4, 12, 16, 12),
+			Block.box(13, 7, 7, 16, 9, 9),
+			Block.box(6, 5, 13, 10, 6, 16),
+			Block.box(6, 5, 0, 10, 6, 3)).optimize());
+    	TapuFiniCore.FINI.put(Direction.SOUTH, VoxelShapes.or(
+			Block.box(4, 0, 4, 12, 3, 12),
+			Block.box(3, 3, 3, 13, 13, 13),
+			Block.box(4, 13, 4, 12, 16, 12),
+			Block.box(7, 7, 13, 9, 9, 16),
+			Block.box(13, 5, 6, 16, 6, 10),
+			Block.box(0, 5, 6, 3, 6, 10)).optimize());
+    	TapuFiniCore.FINI.put(Direction.WEST, VoxelShapes.or(
+			Block.box(4, 0, 4, 12, 3, 12),
+			Block.box(3, 3, 3, 13, 13, 13),
+			Block.box(4, 13, 4, 12, 16, 12),
+			Block.box(0, 7, 7, 3, 9, 9),
+			Block.box(6, 5, 13, 10, 6, 16),
+			Block.box(6, 5, 0, 10, 6, 3)).optimize());
+    }
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        return TapuFiniCore.TROUGH.get(state.getValue(TapuFiniCore.FACING));
+        return TapuFiniCore.FINI.get(state.getValue(TapuFiniCore.FACING));
     }
     
     public TapuFiniCore(final String name, final Properties props)

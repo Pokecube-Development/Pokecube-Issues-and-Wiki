@@ -18,6 +18,7 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -205,24 +206,25 @@ public class PokecubeAdv
         TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, PokecubeAdv.MODID);
 
         // Blocks
-        AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(AbstractBlock.Properties.of(Material.METAL)
-                .dynamicShape(), MaterialColor.COLOR_LIGHT_GREEN));
+        AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_LIGHT_GREEN).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
         COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(AbstractBlock.Properties.of(
-                Material.METAL).dynamicShape(), MaterialColor.COLOR_RED));
-        DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(AbstractBlock.Properties.of(Material.METAL)
-                .dynamicShape(), MaterialColor.COLOR_BLACK));
-        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(AbstractBlock.Properties.of(Material.METAL)
-                .dynamicShape(), MaterialColor.COLOR_PURPLE));
+                Material.METAL, MaterialColor.COLOR_RED).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
+        DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_BLACK).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
+        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_PURPLE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
         EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor", () -> new ExtractorBlock(AbstractBlock.Properties.of(
-                Material.METAL).dynamicShape(), MaterialColor.COLOR_CYAN));
-        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(AbstractBlock.Properties.of(Material.METAL)
-                .dynamicShape(), MaterialColor.COLOR_CYAN));
-        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(AbstractBlock.Properties.of(Material.METAL)
-                .dynamicShape(), MaterialColor.TERRACOTTA_GREEN));
-        WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(AbstractBlock.Properties.of(Material.METAL),
-                MaterialColor.TERRACOTTA_WHITE));
-        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlass(AbstractBlock.Properties.of(
-                Material.GLASS).strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion(), MaterialColor.COLOR_LIGHT_BLUE));
+                Material.METAL, MaterialColor.COLOR_CYAN).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
+        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.COLOR_CYAN).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
+        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F).dynamicShape()));
+        WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(AbstractBlock.Properties.of(Material.METAL,
+                MaterialColor.SNOW).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlass(
+                DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE)
+                .strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion()));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().tab(

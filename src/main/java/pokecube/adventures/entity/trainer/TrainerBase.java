@@ -1,6 +1,5 @@
 package pokecube.adventures.entity.trainer;
 
-import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +30,7 @@ import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.Tools;
+import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 

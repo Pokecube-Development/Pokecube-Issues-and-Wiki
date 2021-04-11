@@ -1,41 +1,55 @@
 package pokecube.legends.blocks.customblocks;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.blocks.maxspot.MaxBlock;
+import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
 
-public class RaidSpawnBlock extends MaxBlock
+public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
+    protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
+
     public static enum State implements IStringSerializable
     {
         EMPTY("empty"), NORMAL("normal"), RARE("rare");
@@ -60,15 +74,27 @@ public class RaidSpawnBlock extends MaxBlock
 
     }
 
-    public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
-
     String  infoname;
     boolean hasTextInfo = true;
 
-    public RaidSpawnBlock(final Material material, MaterialColor color)
+    // Precise selection box
+    private static final VoxelShape RAID_SPOT = VoxelShapes.or(
+            Block.box(2, 0, 2, 14, 3, 14),
+            Block.box(3, 3, 3, 13, 9, 13)).optimize();
+    
+    public RaidSpawnBlock(final Properties properties)
     {
-        super(Properties.of(material).sound(SoundType.METAL).randomTicks().strength(2000, 2000), color);
-        this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY)
+                .setValue(HorizontalBlock.FACING, Direction.NORTH).setValue(RaidSpawnBlock.WATERLOGGED, false));
+    }
+
+    // Precise selection box
+    @Override
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+                               final ISelectionContext context)
+    {
+        return RAID_SPOT;
     }
 
     @Override
@@ -81,13 +107,46 @@ public class RaidSpawnBlock extends MaxBlock
     protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         super.createBlockStateDefinition(builder);
-        builder.add(RaidSpawnBlock.ACTIVE);
+        builder.add(RaidSpawnBlock.ACTIVE, RaidSpawnBlock.WATERLOGGED);
+    }
+
+    // Waterlogging on placement
+    @Override
+    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    {
+        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(HorizontalBlock.FACING, context
+                .getHorizontalDirection().getOpposite()).setValue(RaidSpawnBlock.WATERLOGGED, ifluidstate.is(
+                FluidTags.WATER) && ifluidstate.getAmount() == 8);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+                                  final BlockPos facingPos)
+    {
+        if (state.getValue(RaidSpawnBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+    }
+
+    // Adds Waterlogging State
+    @SuppressWarnings("deprecation")
+    @Override
+    public FluidState getFluidState(final BlockState state)
+    {
+        return state.getValue(RaidSpawnBlock.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
         return new RaidSpawn();
+    }
+
+    @Override
+    public boolean hasTileEntity(final BlockState state)
+    {
+        return true;
     }
 
     public RaidSpawnBlock setInfoBlockName(final String infoname)
@@ -120,7 +179,7 @@ public class RaidSpawnBlock extends MaxBlock
                 worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
             }
         }
-        ;
+
         return ActionResultType.SUCCESS;
     }
 

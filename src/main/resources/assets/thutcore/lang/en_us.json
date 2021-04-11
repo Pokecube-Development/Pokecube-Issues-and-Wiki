@@ -5,7 +5,7 @@
     "_comment": "Misc",
     "itemGroup.thut": "Thut's Mods",
     
-    "teledest.location": "[%1$s,%2$s,%3$s;%4$s]",
+    "teledest.location": "[%1$s, %2$s, %3$s: %4$s]",
 
     "_comment": "Commands",
     "thutcore.command.settings.check": "%1$s §ais currently set to:§6 %2$s",

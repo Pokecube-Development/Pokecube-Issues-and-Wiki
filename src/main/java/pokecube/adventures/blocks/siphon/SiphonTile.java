@@ -16,7 +16,6 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -32,6 +31,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.LinkableCaps.ILinkStorage;
+import thut.api.entity.ThutTeleporter;
 
 public class SiphonTile extends InteractableTile implements ITickableTileEntity
 {
@@ -132,7 +132,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
             ITextComponent message = null;
             message = new TranslationTextComponent("block.rfsiphon.info", this.energy.theoreticalOutput
                     - this.energy.currentOutput, this.energy.theoreticalOutput);
-            player.sendMessage(message, Util.NIL_UUID);
+            player.displayClientMessage(message, true);
         }
         return super.onInteract(pos, player, hand, hit);
     }
@@ -180,15 +180,21 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
         {
             if (this.wirelessLinks.remove(pos))
             {
-                if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
-                        "block.pokecube_adventures.siphon.unlink", pos.pos().getX(), pos.pos().getY(), pos.pos().getZ(),
-                        pos.dimension()), Util.NIL_UUID);
+                if (user != null && user instanceof ServerPlayerEntity)
+                {
+                    final PlayerEntity player = (PlayerEntity) user;
+                    player.displayClientMessage(new TranslationTextComponent(
+                        "block.pokecube_adventures.siphon.unlink",  new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
+                }
                 return true;
             }
             this.wirelessLinks.add(pos);
-            if (user != null && user instanceof ServerPlayerEntity) user.sendMessage(new TranslationTextComponent(
-                    "block.pokecube_adventures.siphon.link", pos.pos().getX(), pos.pos().getY(), pos.pos().getZ(), pos
-                            .dimension()), Util.NIL_UUID);
+            if (user != null && user instanceof ServerPlayerEntity)
+            {
+                final PlayerEntity player = (PlayerEntity) user;
+                player.displayClientMessage(new TranslationTextComponent(
+                    "block.pokecube_adventures.siphon.link",  new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
+            }
             return true;
         }
         return false;

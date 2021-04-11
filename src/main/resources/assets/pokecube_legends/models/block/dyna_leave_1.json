@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:blocks/dyna_leave_1",
-    "up": "pokecube_legends:blocks/dyna_leave_1",
-    "north": "pokecube_legends:blocks/dyna_leave_1",
-    "east": "pokecube_legends:blocks/dyna_leave_1",
-    "south": "pokecube_legends:blocks/dyna_leave_1",
-    "west": "pokecube_legends:blocks/dyna_leave_1",
-    "particle": "pokecube_legends:blocks/dyna_leave_1"
+	"down": "pokecube_legends:blocks/dyna_leaves_1",
+    "up": "pokecube_legends:blocks/dyna_leaves_1",
+    "north": "pokecube_legends:blocks/dyna_leaves_1",
+    "east": "pokecube_legends:blocks/dyna_leaves_1",
+    "south": "pokecube_legends:blocks/dyna_leaves_1",
+    "west": "pokecube_legends:blocks/dyna_leaves_1",
+    "particle": "pokecube_legends:blocks/dyna_leaves_1"
    }
 }

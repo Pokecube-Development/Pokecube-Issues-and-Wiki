@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.ants.sensors;
 
-import thut.api.Tracker;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,6 +23,7 @@ import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.Tracker;
 
 public class EggSensor extends Sensor<MobEntity>
 {

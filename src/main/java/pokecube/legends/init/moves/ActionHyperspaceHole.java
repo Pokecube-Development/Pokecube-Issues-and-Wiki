@@ -1,9 +1,8 @@
 package pokecube.legends.init.moves;
 
-import thut.api.Tracker;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Util;
@@ -19,6 +18,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.tileentity.RingTile;
+import thut.api.Tracker;
 import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
 
@@ -43,7 +43,14 @@ public class ActionHyperspaceHole implements IMoveAction
         if (level < PokecubeLegends.config.levelCreatePortal)
         {
             message = new TranslationTextComponent("msg.hoopaportal.deny.too_weak");
-            owner.sendMessage(message, Util.NIL_UUID);
+            if (owner instanceof PlayerEntity)
+            {
+                final PlayerEntity player = (PlayerEntity) owner;
+                player.displayClientMessage(message, true);
+            } else
+            {
+                owner.sendMessage(message, Util.NIL_UUID);
+            }
             return false;
         }
         else
@@ -57,7 +64,15 @@ public class ActionHyperspaceHole implements IMoveAction
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
                     message = new TranslationTextComponent("msg.hoopaportal.deny.too_soon");
-                    owner.sendMessage(message, Util.NIL_UUID);
+
+                    if (owner instanceof PlayerEntity)
+                    {
+                        final PlayerEntity player = (PlayerEntity) owner;
+                        player.displayClientMessage(message, true);
+                    } else
+                    {
+                        owner.sendMessage(message, Util.NIL_UUID);
+                    }
                     return false;
                 }
             }
@@ -82,7 +97,14 @@ public class ActionHyperspaceHole implements IMoveAction
                 message = new TranslationTextComponent("msg.hoopaportal.accept.info");
                 mob.applyHunger(count);
             }
-            owner.sendMessage(message, Util.NIL_UUID);
+            if (owner instanceof PlayerEntity)
+            {
+                final PlayerEntity player = (PlayerEntity) owner;
+                player.displayClientMessage(message, true);
+            } else
+            {
+                owner.sendMessage(message, Util.NIL_UUID);
+            }
             return true;
         }
     }

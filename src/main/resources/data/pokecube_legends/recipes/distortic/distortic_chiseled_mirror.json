@@ -2,20 +2,16 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "0A0",
-    "0A0",
-    "0A0"
+    "MM",
+    "MM"
   ],
   "key": {
-    "0": {
-      "item": "pokecube_legends:distortic_log"
-    },
-    "A": {
+    "M": {
       "item": "pokecube_legends:distortic_mirror"
     }
   },
   "result": {
     "item": "pokecube_legends:distortic_chiseled_mirror",
-    "count": 3
+    "count": 4
   }
 }

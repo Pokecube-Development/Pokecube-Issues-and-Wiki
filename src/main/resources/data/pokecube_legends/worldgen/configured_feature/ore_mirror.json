@@ -13,7 +13,7 @@
                 "state": {
                   "Name": "pokecube_legends:distortic_mirror"
                 },
-                "size": 14
+                "size": 64
               },
               "type": "minecraft:ore"
             },
@@ -37,7 +37,7 @@
     },
     "decorator": {
       "config": {
-        "count": 40
+        "count": 1
       },
       "type": "minecraft:count"
     }

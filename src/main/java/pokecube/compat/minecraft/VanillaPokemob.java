@@ -1,6 +1,5 @@
 package pokecube.compat.minecraft;
 
-import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,7 @@ import pokecube.core.interfaces.capabilities.PokemobCaps;
 import pokecube.core.interfaces.capabilities.impl.PokemobSaves;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.TagNames;
+import thut.api.Tracker;
 import thut.api.item.ItemList;
 
 public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializable<CompoundNBT>

@@ -10,7 +10,6 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
@@ -163,7 +162,7 @@ public class CaptureManager
             if (cube.shootingEntity instanceof PlayerEntity && !(cube.shootingEntity instanceof FakePlayer))
             {
                 final ITextComponent mess = new TranslationTextComponent("pokecube.missed", pokemob.getDisplayName());
-                ((PlayerEntity) cube.shootingEntity).sendMessage(mess, Util.NIL_UUID);
+                ((PlayerEntity) cube.shootingEntity).displayClientMessage(mess, true);
             }
         }
         if (mob instanceof MobEntity && cube.shootingEntity != null) BrainUtils.initiateCombat((MobEntity) mob,
@@ -192,8 +191,8 @@ public class CaptureManager
         if (pokemob == null)
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
-            if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).sendMessage(mess,
-                    Util.NIL_UUID);
+            if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).displayClientMessage(mess,
+                    true);
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return true;
         }
@@ -212,7 +211,7 @@ public class CaptureManager
         if (cube.shootingEntity instanceof PlayerEntity && !(cube.shootingEntity instanceof FakePlayer))
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", pokemob.getDisplayName());
-            ((PlayerEntity) cube.shootingEntity).sendMessage(mess, Util.NIL_UUID);
+            ((PlayerEntity) cube.shootingEntity).displayClientMessage(mess, true);
             cube.setPos(cube.shootingEntity.getX(), cube.shootingEntity.getY(), cube.shootingEntity
                     .getZ());
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);

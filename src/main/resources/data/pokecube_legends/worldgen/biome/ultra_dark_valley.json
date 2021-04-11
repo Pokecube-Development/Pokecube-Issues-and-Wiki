@@ -29,23 +29,23 @@
   },
   "features": [
     [],
+    [],
     [
+      "pokecube_legends:water_delta",
+      "minecraft:small_basalt_columns"
+    ],
+    [],
+    [],
+    [],
+    [
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_cosmic"
     ],
     [],
     [
+	  "minecraft:ice_spike"
     ],
-    [],
-    [],
-    [
-     "pokecube_legends:ore_spectrum",
-     "pokecube_legends:ore_cosmic"
-    ],
-    [],
-    [
-	 "minecraft:ice_spike"
-    ],
-    [
-    ]
+    []
   ],
   "starts": [],
   "spawners": {},

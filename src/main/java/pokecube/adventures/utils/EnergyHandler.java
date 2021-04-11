@@ -166,7 +166,8 @@ public class EnergyHandler
                 {
                     final double dSq = Math.max(1, entity.distanceToSqr(tile.getBlockPos().getX() + 0.5, tile
                             .getBlockPos().getY() + 0.5, tile.getBlockPos().getZ() + 0.5));
-                    final int input = producer.extractEnergy((int) (PokecubeAdv.config.maxOutput / dSq), simulated);
+                    final int extract = producer.extractEnergy(PokecubeAdv.config.maxOutput, simulated);
+                    final int input = (int) (extract / dSq);
                     ret += input;
                     if (ret >= power)
                     {
@@ -176,7 +177,6 @@ public class EnergyHandler
                 }
             }
         ret = Math.min(ret, PokecubeAdv.config.maxOutput);
-        if (!simulated) tile.energy.currentOutput = ret;
         return ret;
     }
 
@@ -239,6 +239,7 @@ public class EnergyHandler
             h.receiveEnergy(request, false);
         }
         producer.extractEnergy(start - output, false);
+        EnergyHandler.getOutput(event.getTile(), start - output, false);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)

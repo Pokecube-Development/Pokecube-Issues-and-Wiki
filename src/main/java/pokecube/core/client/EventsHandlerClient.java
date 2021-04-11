@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -240,6 +241,10 @@ public class EventsHandlerClient
         final ClientPlayerEntity player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
+        if (InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3) && evt.getKey() == GLFW.GLFW_KEY_D)
+        {
+            GuiInfoMessages.clear();
+        }
 
         if (evt.getKey() == GLFW.GLFW_KEY_F5) if (AnimationGui.entry != null && Minecraft
                 .getInstance().screen instanceof AnimationGui)

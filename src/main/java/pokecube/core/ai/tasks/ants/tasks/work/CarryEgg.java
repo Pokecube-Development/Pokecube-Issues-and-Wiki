@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
-import thut.api.Tracker;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -16,6 +15,7 @@ import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.Tracker;
 
 public class CarryEgg extends AbstractWorkTask
 {

@@ -1,9 +1,6 @@
 package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -15,15 +12,13 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ToolType;
 import pokecube.legends.blocks.BlockBase;
 
 public class MagneticBlock extends BlockBase
 {
-    public MagneticBlock(final String name, final Material material, MaterialColor color)
+    public MagneticBlock(final String name, Properties properties)
     {
-        super(name, Properties.of(material).sound(SoundType.STONE).strength(3, 8).harvestTool(
-                ToolType.PICKAXE).harvestLevel(1));
+        super(name, properties);
     }
 
     @SuppressWarnings("deprecation")

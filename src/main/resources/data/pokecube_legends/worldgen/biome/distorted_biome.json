@@ -14,8 +14,12 @@
       },
       "probability": 0.2
     },
-    "foliage_color": 1063954,
-    "grass_color": 1740049,
+    "sky_color": 4766,
+    "fog_color": 4766,
+    "water_color": 12245481,
+    "water_fog_color": 5796478,
+    "grass_color": 16147822,
+    "foliage_color": 13187908,
     "mood_sound":
     {
       "tick_delay": 3000,

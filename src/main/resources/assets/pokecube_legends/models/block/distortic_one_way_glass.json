@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+     "down": "pokecube_legends:blocks/distortic_mirror",
+     "up": "pokecube_legends:blocks/distortic_mirror",
+     "north": "block/glass",
+     "east": "pokecube_legends:blocks/distortic_mirror",
+     "south": "pokecube_legends:blocks/distortic_mirror",
+     "west": "pokecube_legends:blocks/distortic_mirror",
+     "particle": "pokecube_legends:blocks/distortic_mirror"
+   }
+}

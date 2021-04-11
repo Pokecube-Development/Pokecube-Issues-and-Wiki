@@ -33,12 +33,14 @@
     [],
     [],
     [
-     "pokecube_legends:ore_spectrum",
-     "pokecube_legends:ore_cosmic"
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_cosmic"
     ],
     [],
     [
-     "pokecube_legends:jungle_vegetation"
+      "pokecube_legends:jungle_vegetation",
+      "minecraft:patch_grass_jungle",
+      "minecraft:patch_large_fern"
     ],
     [
     ]

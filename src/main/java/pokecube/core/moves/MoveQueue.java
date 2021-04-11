@@ -17,8 +17,8 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.animations.EntityMoveUse;
-import pokecube.core.world.IWorldTickListener;
-import pokecube.core.world.WorldTickManager;
+import thut.api.world.IWorldTickListener;
+import thut.api.world.WorldTickManager;
 
 public class MoveQueue
 {

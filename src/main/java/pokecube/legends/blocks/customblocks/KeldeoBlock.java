@@ -29,72 +29,64 @@ public class KeldeoBlock extends Rotates implements IWaterLoggable
     static
     {// @formatter:off
     	KeldeoBlock.KELDEO.put(Direction.NORTH,
-		Stream.of(
-		Block.box(13, 13, 1, 15, 15, 3),
-		Block.box(1, 13, 13, 3, 15, 15),
-		Block.box(0, 11, 1, 16, 13, 15),
-		Block.box(0, 0, 0, 16, 2, 16),
-		Block.box(1, 13, 1, 3, 15, 3),
-		Block.box(13, 13, 13, 15, 15, 15),
-		Block.box(1, 2, 1, 3, 11, 3),
-		Block.box(1, 2, 13, 3, 11, 15),
-		Block.box(13, 2, 13, 15, 11, 15),
-		Block.box(13, 2, 1, 15, 11, 3),
-		Block.box(3, 2, 2, 13, 11, 14),
-		Block.box(3, 2, 1, 13, 11, 2),
-		Block.box(3, 2, 14, 13, 11, 15)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
+			Stream.of(
+			Block.box(13, 13, 1, 15, 15, 3),
+			Block.box(1, 13, 13, 3, 15, 15),
+			Block.box(0, 11, 1, 16, 13, 15),
+			Block.box(0, 0, 0, 16, 2, 16),
+			Block.box(1, 13, 1, 3, 15, 3),
+			Block.box(13, 13, 13, 15, 15, 15),
+			Block.box(1, 2, 1, 3, 11, 3),
+			Block.box(1, 2, 13, 3, 11, 15),
+			Block.box(13, 2, 13, 15, 11, 15),
+			Block.box(13, 2, 1, 15, 11, 3),
+			Block.box(3, 2, 2, 13, 11, 14))
+			.reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
     	
     	KeldeoBlock.KELDEO.put(Direction.EAST,
-		Stream.of(
-		Block.box(1, 13, 1, 3, 15, 3),
-		Block.box(13, 13, 13, 15, 15, 15),
-		Block.box(1, 11, 0, 15, 13, 16),
-		Block.box(0, 0, 0, 16, 2, 16),
-		Block.box(1, 13, 13, 3, 15, 15),
-		Block.box(13, 13, 1, 15, 15, 3),
-		Block.box(1, 2, 13, 3, 11, 15),
-		Block.box(13, 2, 13, 15, 11, 15),
-		Block.box(13, 2, 1, 15, 11, 3),
-		Block.box(1, 2, 1, 3, 11, 3),
-		Block.box(2, 2, 3, 14, 11, 13),
-		Block.box(1, 2, 3, 2, 11, 13),
-		Block.box(14, 2, 3, 15, 11, 13)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
+			Stream.of(
+			Block.box(1, 13, 1, 3, 15, 3),
+			Block.box(13, 13, 13, 15, 15, 15),
+			Block.box(1, 11, 0, 15, 13, 16),
+			Block.box(0, 0, 0, 16, 2, 16),
+			Block.box(1, 13, 13, 3, 15, 15),
+			Block.box(13, 13, 1, 15, 15, 3),
+			Block.box(1, 2, 13, 3, 11, 15),
+			Block.box(13, 2, 13, 15, 11, 15),
+			Block.box(13, 2, 1, 15, 11, 3),
+			Block.box(1, 2, 1, 3, 11, 3),
+			Block.box(2, 2, 3, 14, 11, 13))
+			.reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
     	
     	KeldeoBlock.KELDEO.put(Direction.SOUTH,
-		Stream.of(
-		Block.box(13, 13, 1, 15, 15, 3),
-		Block.box(1, 13, 13, 3, 15, 15),
-		Block.box(0, 11, 1, 16, 13, 15),
-		Block.box(0, 0, 0, 16, 2, 16),
-		Block.box(1, 13, 1, 3, 15, 3),
-		Block.box(13, 13, 13, 15, 15, 15),
-		Block.box(1, 2, 1, 3, 11, 3),
-		Block.box(1, 2, 13, 3, 11, 15),
-		Block.box(13, 2, 13, 15, 11, 15),
-		Block.box(13, 2, 1, 15, 11, 3),
-		Block.box(3, 2, 2, 13, 11, 14),
-		Block.box(3, 2, 1, 13, 11, 2),
-		Block.box(3, 2, 14, 13, 11, 15)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
+			Stream.of(
+			Block.box(13, 13, 1, 15, 15, 3),
+			Block.box(1, 13, 13, 3, 15, 15),
+			Block.box(0, 11, 1, 16, 13, 15),
+			Block.box(0, 0, 0, 16, 2, 16),
+			Block.box(1, 13, 1, 3, 15, 3),
+			Block.box(13, 13, 13, 15, 15, 15),
+			Block.box(1, 2, 1, 3, 11, 3),
+			Block.box(1, 2, 13, 3, 11, 15),
+			Block.box(13, 2, 13, 15, 11, 15),
+			Block.box(13, 2, 1, 15, 11, 3),
+			Block.box(3, 2, 2, 13, 11, 14))
+			.reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
     	
     	KeldeoBlock.KELDEO.put(Direction.WEST,
-		Stream.of(
-		Block.box(1, 13, 1, 3, 15, 3),
-		Block.box(13, 13, 13, 15, 15, 15),
-		Block.box(1, 11, 0, 15, 13, 16),
-		Block.box(0, 0, 0, 16, 2, 16),
-		Block.box(1, 13, 13, 3, 15, 15),
-		Block.box(13, 13, 1, 15, 15, 3),
-		Block.box(1, 2, 13, 3, 11, 15),
-		Block.box(13, 2, 13, 15, 11, 15),
-		Block.box(13, 2, 1, 15, 11, 3),
-		Block.box(1, 2, 1, 3, 11, 3),
-		Block.box(2, 2, 3, 14, 11, 13),
-		Block.box(1, 2, 3, 2, 11, 13),
-		Block.box(14, 2, 3, 15, 11, 13)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
+			Stream.of(
+			Block.box(1, 13, 1, 3, 15, 3),
+			Block.box(13, 13, 13, 15, 15, 15),
+			Block.box(1, 11, 0, 15, 13, 16),
+			Block.box(0, 0, 0, 16, 2, 16),
+			Block.box(1, 13, 13, 3, 15, 15),
+			Block.box(13, 13, 1, 15, 15, 3),
+			Block.box(1, 2, 13, 3, 11, 15),
+			Block.box(13, 2, 13, 15, 11, 15),
+			Block.box(13, 2, 1, 15, 11, 3),
+			Block.box(1, 2, 1, 3, 11, 3),
+			Block.box(2, 2, 3, 14, 11, 13))
+			.reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
     }// @formatter:on
 
     // Precise selection box

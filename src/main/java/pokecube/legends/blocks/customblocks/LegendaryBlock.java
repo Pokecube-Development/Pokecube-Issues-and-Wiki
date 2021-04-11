@@ -9,6 +9,7 @@ public class LegendaryBlock extends BlockBase
 {
     public LegendaryBlock(final String name, final Material material, MaterialColor color)
     {
-        super(name, Properties.of(material, color).sound(SoundType.METAL).strength(2000, 2000));
+        super(name, Properties.of(material, color).sound(SoundType.METAL)
+                .strength(2000, 2000).lightLevel(b -> 15));
     }
 }

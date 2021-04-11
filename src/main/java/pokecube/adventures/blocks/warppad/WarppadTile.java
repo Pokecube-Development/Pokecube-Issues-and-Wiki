@@ -1,6 +1,5 @@
 package pokecube.adventures.blocks.warppad;
 
-import thut.api.Tracker;
 import java.util.List;
 
 import org.nfunk.jep.JEP;
@@ -20,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
+import thut.api.Tracker;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
@@ -97,9 +97,9 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
             double cost = 0;
             final Vector3 here = Vector3.getNewVector().set(this);
-            WarppadTile.parser.setVarValue("dx", link.getX() - here.x + 0.5);
+            WarppadTile.parser.setVarValue("dx", link.getX() - here.x);
             WarppadTile.parser.setVarValue("dy", link.getY() - here.y + 0.5);
-            WarppadTile.parser.setVarValue("dz", link.getZ() - here.z + 0.5);
+            WarppadTile.parser.setVarValue("dz", link.getZ() - here.z);
             WarppadTile.parser.setVarValue("dw", 0);// TODO Decide on distance
                                                     // between dimensions
             cost = WarppadTile.parser.getValue();

@@ -1,7 +1,7 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "particle": "pokecube:block/berryseed",
+        "particle": "#cross",
         "cross": "pokecube:block/berryseed"
     },
     "elements": [

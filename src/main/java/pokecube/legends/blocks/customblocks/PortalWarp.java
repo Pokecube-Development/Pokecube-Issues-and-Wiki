@@ -34,7 +34,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -81,577 +80,464 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     // Precise selection box
     static
     {
-        PortalWarp.PORTAL_TOP.put(Direction.NORTH, Block.box(0, 0, 6.5, 16, 16, 9.5));
-        PortalWarp.PORTAL_TOP.put(Direction.EAST, Block.box(6.5, 0, 0, 9.5, 16, 16));
-        PortalWarp.PORTAL_TOP.put(Direction.SOUTH, Block.box(0, 0, 6.5, 16, 16, 9.5));
-        PortalWarp.PORTAL_TOP.put(Direction.WEST, Block.box(6.5, 0, 0, 9.5, 16, 16));
+        PortalWarp.PORTAL_TOP.put(Direction.NORTH,
+            Block.box(0, 0, 6.5, 16, 16, 9.5));
+        PortalWarp.PORTAL_TOP.put(Direction.EAST,
+            Block.box(6.5, 0, 0, 9.5, 16, 16));
+        PortalWarp.PORTAL_TOP.put(Direction.SOUTH,
+            Block.box(0, 0, 6.5, 16, 16, 9.5));
+        PortalWarp.PORTAL_TOP.put(Direction.WEST,
+            Block.box(6.5, 0, 0, 9.5, 16, 16));
 
         //@formatter:off
-        PortalWarp.PORTAL_TOP_OFF.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(0, 7.5, 6.5, 3, 9, 9.5),
-            VoxelShapes.join(Block.box(13, 7.5, 6.5, 16, 9, 9.5),
-              Block.box(0, 9, 6.5, 16, 16, 9.5),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_OFF.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 3),
-            VoxelShapes.join(Block.box(6.5, 7.5, 13, 9.5, 9, 16),
-              Block.box(6.5, 9, 0, 9.5, 16, 16),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_OFF.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(0, 7.5, 6.5, 3, 9, 9.5),
-            VoxelShapes.join(Block.box(13, 7.5, 6.5, 16, 9, 9.5),
-              Block.box(0, 9, 6.5, 16, 16, 9.5),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_OFF.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 3),
-            VoxelShapes.join(Block.box(6.5, 7.5, 13, 9.5, 9, 16),
-              Block.box(6.5, 9, 0, 9.5, 16, 16),
-              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_OFF.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(0, 7.5, 6.5, 3, 9, 9.5),
+            Block.box(13, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(0, 9, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_OFF.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 7.5, 0, 9.5, 9, 3),
+            Block.box(6.5, 7.5, 13, 9.5, 9, 16),
+            Block.box(6.5, 9, 0, 9.5, 16, 16)).optimize());
+        PortalWarp.PORTAL_TOP_OFF.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(0, 7.5, 6.5, 3, 9, 9.5),
+            Block.box(13, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(0, 9, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_OFF.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 7.5, 0, 9.5, 9, 3),
+            Block.box(6.5, 7.5, 13, 9.5, 9, 16),
+            Block.box(6.5, 9, 0, 9.5, 16, 16)).optimize());
 
-        PortalWarp.PORTAL_TOP_LEFT.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(0, 0, 6.5, 13.5, 4.5, 9.5),
-            VoxelShapes.join(Block.box(0, 4.5, 6.5, 12, 7.5, 9.5),
-              VoxelShapes.join(Block.box(0, 7.5, 6.5, 10.5, 9, 9.5),
-                VoxelShapes.join(Block.box(0, 9, 6.5, 9, 10.5, 9.5),
-                  VoxelShapes.join(Block.box(0, 10.5, 6.5, 7.5, 12, 9.5),
-                    VoxelShapes.join(Block.box(0, 12, 6.5, 6, 13.5, 9.5),
-                      VoxelShapes.join(Block.box(0, 13.5, 6.5, 4.5, 14.75, 9.5),
-                        Block.box(0, 14.75, 6.5, 1.5, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_LEFT.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 0, 0, 9.5, 4.5, 13.5),
-            VoxelShapes.join(Block.box(6.5, 4.5, 0, 9.5, 7.5, 12),
-              VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 10.5),
-                VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 9),
-                  VoxelShapes.join(Block.box(6.5, 10.5, 0, 9.5, 12, 7.5),
-                    VoxelShapes.join(Block.box(6.5, 12, 0, 9.5, 13.5, 6),
-                      VoxelShapes.join(Block.box(6.5, 13.5, 0, 9.5, 14.75, 4.5),
-                        Block.box(6.5, 14.75, 0, 9.5, 16, 1.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_LEFT.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(2.5, 0, 6.5, 16, 4.5, 9.5),
-            VoxelShapes.join(Block.box(4, 4.5, 6.5, 16, 7.5, 9.5),
-              VoxelShapes.join(Block.box(5.5, 7.5, 6.5, 16, 9, 9.5),
-                VoxelShapes.join(Block.box(7, 9, 6.5, 16, 10.5, 9.5),
-                  VoxelShapes.join(Block.box(8.5, 10.5, 6.5, 16, 12, 9.5),
-                    VoxelShapes.join(Block.box(10, 12, 6.5, 16, 13.5, 9.5),
-                      VoxelShapes.join(Block.box(11.5, 13.5, 6.5, 16, 14.75, 9.5),
-                        Block.box(14.5, 14.75, 6.5, 16, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_LEFT.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 0, 2.5, 9.5, 4.5, 16),
-            VoxelShapes.join(Block.box(6.5, 4.5, 4, 9.5, 7.5, 16),
-              VoxelShapes.join(Block.box(6.5, 7.5, 5.5, 9.5, 9, 16),
-                VoxelShapes.join(Block.box(6.5, 9, 7, 9.5, 10.5, 16),
-                  VoxelShapes.join(Block.box(6.5, 10.5, 8.5, 9.5, 12, 16),
-                    VoxelShapes.join(Block.box(6.5, 12, 10, 9.5, 13.5, 16),
-                      VoxelShapes.join(Block.box(6.5, 13.5, 11.5, 9.5, 14.75, 16),
-                        Block.box(6.5, 14.75, 14.5, 9.5, 16, 16),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_LEFT.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(0, 0, 6.5, 13.5, 4.5, 9.5),
+            Block.box(0, 4.5, 6.5, 12, 7.5, 9.5),
+            Block.box(0, 7.5, 6.5, 10.5, 9, 9.5),
+            Block.box(0, 9, 6.5, 9, 10.5, 9.5),
+            Block.box(0, 10.5, 6.5, 7.5, 12, 9.5),
+            Block.box(0, 12, 6.5, 6, 13.5, 9.5),
+            Block.box(0, 13.5, 6.5, 4.5, 14.75, 9.5),
+            Block.box(0, 14.75, 6.5, 1.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_LEFT.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 0, 0, 9.5, 4.5, 13.5),
+            Block.box(6.5, 4.5, 0, 9.5, 7.5, 12),
+            Block.box(6.5, 7.5, 0, 9.5, 9, 10.5),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 9),
+            Block.box(6.5, 10.5, 0, 9.5, 12, 7.5),
+            Block.box(6.5, 12, 0, 9.5, 13.5, 6),
+            Block.box(6.5, 13.5, 0, 9.5, 14.75, 4.5),
+            Block.box(6.5, 14.75, 0, 9.5, 16, 1.5)).optimize());
+        PortalWarp.PORTAL_TOP_LEFT.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(2.5, 0, 6.5, 16, 4.5, 9.5),
+            Block.box(4, 4.5, 6.5, 16, 7.5, 9.5),
+            Block.box(5.5, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(7, 9, 6.5, 16, 10.5, 9.5),
+            Block.box(8.5, 10.5, 6.5, 16, 12, 9.5),
+            Block.box(10, 12, 6.5, 16, 13.5, 9.5),
+            Block.box(11.5, 13.5, 6.5, 16, 14.75, 9.5),
+            Block.box(14.5, 14.75, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_LEFT.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 0, 2.5, 9.5, 4.5, 16),
+            Block.box(6.5, 4.5, 4, 9.5, 7.5, 16),
+            Block.box(6.5, 7.5, 5.5, 9.5, 9, 16),
+            Block.box(6.5, 9, 7, 9.5, 10.5, 16),
+            Block.box(6.5, 10.5, 8.5, 9.5, 12, 16),
+            Block.box(6.5, 12, 10, 9.5, 13.5, 16),
+            Block.box(6.5, 13.5, 11.5, 9.5, 14.75, 16),
+            Block.box(6.5, 14.75, 14.5, 9.5, 16, 16)).optimize());
 
-        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(4.5, 1.5, 6.5, 13.5, 4.5, 9.5),
-            VoxelShapes.join(Block.box(6, 0, 6.5, 13.5, 1.5, 9.5),
-              VoxelShapes.join(Block.box(0, 6, 6.5, 12, 7.5, 9.5),
-                VoxelShapes.join(Block.box(3, 4.5, 6.5, 12, 6, 9.5),
-                  VoxelShapes.join(Block.box(0, 7.5, 6.5, 10.5, 9, 9.5),
-                    VoxelShapes.join(Block.box(0, 9, 6.5, 9, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(0, 10.5, 6.5, 7.5, 12, 9.5),
-                        VoxelShapes.join(Block.box(0, 12, 6.5, 6, 13.5, 9.5),
-                          VoxelShapes.join(Block.box(0, 13.5, 6.5, 4.5, 14.75, 9.5),
-                            Block.box(0, 14.75, 6.5, 1.5, 16, 9.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 4.5, 9.5, 4.5, 13.5),
-            VoxelShapes.join(Block.box(6.5, 0, 6, 9.5, 1.5, 13.5),
-              VoxelShapes.join(Block.box(6.5, 6, 0, 9.5, 7.5, 12),
-                VoxelShapes.join(Block.box(6.5, 4.5, 3, 9.5, 6, 12),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 10.5),
-                    VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 9),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 0, 9.5, 12, 7.5),
-                        VoxelShapes.join(Block.box(6.5, 12, 0, 9.5, 13.5, 6),
-                          VoxelShapes.join(Block.box(6.5, 13.5, 0, 9.5, 14.75, 4.5),
-                            Block.box(6.5, 14.75, 0, 9.5, 16, 1.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(2.5, 1.5, 6.5, 11.5, 4.5, 9.5),
-            VoxelShapes.join(Block.box(2.5, 0, 6.5, 10, 1.5, 9.5),
-              VoxelShapes.join(Block.box(4, 6, 6.5, 16, 7.5, 9.5),
-                VoxelShapes.join(Block.box(4, 4.5, 6.5, 13, 6, 9.5),
-                  VoxelShapes.join(Block.box(5.5, 7.5, 6.5, 16, 9, 9.5),
-                    VoxelShapes.join(Block.box(7, 9, 6.5, 16, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(8.5, 10.5, 6.5, 16, 12, 9.5),
-                        VoxelShapes.join(Block.box(10, 12, 6.5, 16, 13.5, 9.5),
-                          VoxelShapes.join(Block.box(11.5, 13.5, 6.5, 16, 14.75, 9.5),
-                            Block.box(14.5, 14.75, 6.5, 16, 16, 9.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 2.5, 9.5, 4.5, 11.5),
-            VoxelShapes.join(Block.box(6.5, 0, 2.5, 9.5, 1.5, 10),
-              VoxelShapes.join(Block.box(6.5, 6, 4, 9.5, 7.5, 16),
-                VoxelShapes.join(Block.box(6.5, 4.5, 4, 9.5, 6, 13),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 5.5, 9.5, 9, 16),
-                    VoxelShapes.join(Block.box(6.5, 9, 7, 9.5, 10.5, 16),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 8.5, 9.5, 12, 16),
-                        VoxelShapes.join(Block.box(6.5, 12, 10, 9.5, 13.5, 16),
-                          VoxelShapes.join(Block.box(6.5, 13.5, 11.5, 9.5, 14.75, 16),
-                            Block.box(6.5, 14.75, 14.5, 9.5, 16, 16),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(4.5, 1.5, 6.5, 13.5, 4.5, 9.5),
+            Block.box(6, 0, 6.5, 13.5, 1.5, 9.5),
+            Block.box(0, 6, 6.5, 12, 7.5, 9.5),
+            Block.box(3, 4.5, 6.5, 12, 6, 9.5),
+            Block.box(0, 7.5, 6.5, 10.5, 9, 9.5),
+            Block.box(0, 9, 6.5, 9, 10.5, 9.5),
+            Block.box(0, 10.5, 6.5, 7.5, 12, 9.5),
+            Block.box(0, 12, 6.5, 6, 13.5, 9.5),
+            Block.box(0, 13.5, 6.5, 4.5, 14.75, 9.5),
+            Block.box(0, 14.75, 6.5, 1.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 4.5, 9.5, 4.5, 13.5),
+            Block.box(6.5, 0, 6, 9.5, 1.5, 13.5),
+            Block.box(6.5, 6, 0, 9.5, 7.5, 12),
+            Block.box(6.5, 4.5, 3, 9.5, 6, 12),
+            Block.box(6.5, 7.5, 0, 9.5, 9, 10.5),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 9),
+            Block.box(6.5, 10.5, 0, 9.5, 12, 7.5),
+            Block.box(6.5, 12, 0, 9.5, 13.5, 6),
+            Block.box(6.5, 13.5, 0, 9.5, 14.75, 4.5),
+            Block.box(6.5, 14.75, 0, 9.5, 16, 1.5)).optimize());
+        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(2.5, 1.5, 6.5, 11.5, 4.5, 9.5),
+            Block.box(2.5, 0, 6.5, 10, 1.5, 9.5),
+            Block.box(4, 6, 6.5, 16, 7.5, 9.5),
+            Block.box(4, 4.5, 6.5, 13, 6, 9.5),
+            Block.box(5.5, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(7, 9, 6.5, 16, 10.5, 9.5),
+            Block.box(8.5, 10.5, 6.5, 16, 12, 9.5),
+            Block.box(10, 12, 6.5, 16, 13.5, 9.5),
+            Block.box(11.5, 13.5, 6.5, 16, 14.75, 9.5),
+            Block.box(14.5, 14.75, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 2.5, 9.5, 4.5, 11.5),
+            Block.box(6.5, 0, 2.5, 9.5, 1.5, 10),
+            Block.box(6.5, 6, 4, 9.5, 7.5, 16),
+            Block.box(6.5, 4.5, 4, 9.5, 6, 13),
+            Block.box(6.5, 7.5, 5.5, 9.5, 9, 16),
+            Block.box(6.5, 9, 7, 9.5, 10.5, 16),
+            Block.box(6.5, 10.5, 8.5, 9.5, 12, 16),
+            Block.box(6.5, 12, 10, 9.5, 13.5, 16),
+            Block.box(6.5, 13.5, 11.5, 9.5, 14.75, 16),
+            Block.box(6.5, 14.75, 14.5, 9.5, 16, 16)).optimize());
 
-        PortalWarp.PORTAL_TOP_RIGHT.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(1.5, 0, 6.5, 16, 4.5, 9.5),
-            VoxelShapes.join(Block.box(3, 4.5, 6.5, 16, 7.5, 9.5),
-              VoxelShapes.join(Block.box(4.5, 7.5, 6.5, 16, 9, 9.5),
-                VoxelShapes.join(Block.box(6, 9, 6.5, 16, 10.5, 9.5),
-                  VoxelShapes.join(Block.box(7.5, 10.5, 6.5, 16, 12, 9.5),
-                    VoxelShapes.join(Block.box(9, 12, 6.5, 16, 13.5, 9.5),
-                      VoxelShapes.join(Block.box(11.75, 13.5, 6.5, 16, 14.75, 9.5),
-                        Block.box(14.5, 14.75, 6.5, 16, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_RIGHT.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 0, 1.5, 9.5, 4.5, 16),
-            VoxelShapes.join(Block.box(6.5, 4.5, 3, 9.5, 7.5, 16),
-              VoxelShapes.join(Block.box(6.5, 7.5, 4.5, 9.5, 9, 16),
-                VoxelShapes.join(Block.box(6.5, 9, 6, 9.5, 10.5, 16),
-                  VoxelShapes.join(Block.box(6.5, 10.5, 7.5, 9.5, 12, 16),
-                    VoxelShapes.join(Block.box(6.5, 12, 9, 9.5, 13.5, 16),
-                      VoxelShapes.join(Block.box(6.5, 13.5, 11.75, 9.5, 14.75, 16),
-                        Block.box(6.5, 14.75, 14.5, 9.5, 16, 16),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_RIGHT.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(0, 0, 6.5, 14.5, 4.5, 9.5),
-            VoxelShapes.join(Block.box(0, 4.5, 6.5, 13, 7.5, 9.5),
-              VoxelShapes.join(Block.box(0, 7.5, 6.5, 11.5, 9, 9.5),
-                VoxelShapes.join(Block.box(0, 9, 6.5, 10, 10.5, 9.5),
-                  VoxelShapes.join(Block.box(0, 10.5, 6.5, 8.5, 12, 9.5),
-                    VoxelShapes.join(Block.box(0, 12, 6.5, 7, 13.5, 9.5),
-                      VoxelShapes.join(Block.box(0, 13.5, 6.5, 4.25, 14.75, 9.5),
-                        Block.box(0, 14.75, 6.5, 1.5, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_RIGHT.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 0, 0, 9.5, 4.5, 14.5),
-            VoxelShapes.join(Block.box(6.5, 4.5, 0, 9.5, 7.5, 13),
-              VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 11.5),
-                VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 10),
-                  VoxelShapes.join(Block.box(6.5, 10.5, 0, 9.5, 12, 8.5),
-                    VoxelShapes.join(Block.box(6.5, 12, 0, 9.5, 13.5, 7),
-                      VoxelShapes.join(Block.box(6.5, 13.5, 0, 9.5, 14.75, 4.25),
-                        Block.box(6.5, 14.75, 0, 9.5, 16, 1.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_RIGHT.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(1.5, 0, 6.5, 16, 4.5, 9.5),
+            Block.box(3, 4.5, 6.5, 16, 7.5, 9.5),
+            Block.box(4.5, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(6, 9, 6.5, 16, 10.5, 9.5),
+            Block.box(7.5, 10.5, 6.5, 16, 12, 9.5),
+            Block.box(9, 12, 6.5, 16, 13.5, 9.5),
+            Block.box(11.75, 13.5, 6.5, 16, 14.75, 9.5),
+            Block.box(14.5, 14.75, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_RIGHT.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 0, 1.5, 9.5, 4.5, 16),
+            Block.box(6.5, 4.5, 3, 9.5, 7.5, 16),
+            Block.box(6.5, 7.5, 4.5, 9.5, 9, 16),
+            Block.box(6.5, 9, 6, 9.5, 10.5, 16),
+            Block.box(6.5, 10.5, 7.5, 9.5, 12, 16),
+            Block.box(6.5, 12, 9, 9.5, 13.5, 16),
+            Block.box(6.5, 13.5, 11.75, 9.5, 14.75, 16),
+            Block.box(6.5, 14.75, 14.5, 9.5, 16, 16)).optimize());
+        PortalWarp.PORTAL_TOP_RIGHT.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(0, 0, 6.5, 14.5, 4.5, 9.5),
+            Block.box(0, 4.5, 6.5, 13, 7.5, 9.5),
+            Block.box(0, 7.5, 6.5, 11.5, 9, 9.5),
+            Block.box(0, 9, 6.5, 10, 10.5, 9.5),
+            Block.box(0, 10.5, 6.5, 8.5, 12, 9.5),
+            Block.box(0, 12, 6.5, 7, 13.5, 9.5),
+            Block.box(0, 13.5, 6.5, 4.25, 14.75, 9.5),
+            Block.box(0, 14.75, 6.5, 1.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_RIGHT.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 0, 0, 9.5, 4.5, 14.5),
+            Block.box(6.5, 4.5, 0, 9.5, 7.5, 13),
+            Block.box(6.5, 7.5, 0, 9.5, 9, 11.5),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 10),
+            Block.box(6.5, 10.5, 0, 9.5, 12, 8.5),
+            Block.box(6.5, 12, 0, 9.5, 13.5, 7),
+            Block.box(6.5, 13.5, 0, 9.5, 14.75, 4.25),
+            Block.box(6.5, 14.75, 0, 9.5, 16, 1.5)).optimize());
 
-        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(1.5, 1.5, 6.5, 11.5, 4.5, 9.5),
-            VoxelShapes.join(Block.box(1.5, 0, 6.5, 10, 1.5, 9.5),
-              VoxelShapes.join(Block.box(3, 6, 6.5, 16, 7.5, 9.5),
-                VoxelShapes.join(Block.box(3, 4.5, 6.5, 13, 6, 9.5),
-                  VoxelShapes.join(Block.box(4.5, 7.5, 6.5, 16, 9, 9.5),
-                    VoxelShapes.join(Block.box(6, 9, 6.5, 16, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(7.5, 10.5, 6.5, 16, 12, 9.5),
-                        VoxelShapes.join(Block.box(9, 12, 6.5, 16, 13.5, 9.5),
-                          VoxelShapes.join(Block.box(11.75, 13.5, 6.5, 16, 14.75, 9.5),
-                            Block.box(14.5, 14.75, 6.5, 16, 16, 9.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 1.5, 9.5, 4.5, 11.5),
-            VoxelShapes.join(Block.box(6.5, 0, 1.5, 9.5, 1.5, 10),
-              VoxelShapes.join(Block.box(6.5, 6, 3, 9.5, 7.5, 16),
-                VoxelShapes.join(Block.box(6.5, 4.5, 3, 9.5, 6, 13),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 4.5, 9.5, 9, 16),
-                    VoxelShapes.join(Block.box(6.5, 9, 6, 9.5, 10.5, 16),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 7.5, 9.5, 12, 16),
-                        VoxelShapes.join(Block.box(6.5, 12, 9, 9.5, 13.5, 16),
-                          VoxelShapes.join(Block.box(6.5, 13.5, 11.75, 9.5, 14.75, 16),
-                            Block.box(6.5, 14.75, 14.5, 9.5, 16, 16),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(4.5, 1.5, 6.5, 14.5, 4.5, 9.5),
-            VoxelShapes.join(Block.box(6, 0, 6.5, 14.5, 1.5, 9.5),
-              VoxelShapes.join(Block.box(0, 6, 6.5, 13, 7.5, 9.5),
-                VoxelShapes.join(Block.box(3, 4.5, 6.5, 13, 6, 9.5),
-                  VoxelShapes.join(Block.box(0, 7.5, 6.5, 11.5, 9, 9.5),
-                    VoxelShapes.join(Block.box(0, 9, 6.5, 10, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(0, 10.5, 6.5, 8.5, 12, 9.5),
-                        VoxelShapes.join(Block.box(0, 12, 6.5, 7, 13.5, 9.5),
-                          VoxelShapes.join(Block.box(0, 13.5, 6.5, 4.25, 14.75, 9.5),
-                            Block.box(0, 14.75, 6.5, 1.5, 16, 9.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 4.5, 9.5, 4.5, 14.5),
-            VoxelShapes.join(Block.box(6.5, 0, 6, 9.5, 1.5, 14.5),
-              VoxelShapes.join(Block.box(6.5, 6, 0, 9.5, 7.5, 13),
-                VoxelShapes.join(Block.box(6.5, 4.5, 3, 9.5, 6, 13),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 11.5),
-                    VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 10),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 0, 9.5, 12, 8.5),
-                        VoxelShapes.join(Block.box(6.5, 12, 0, 9.5, 13.5, 7),
-                          VoxelShapes.join(Block.box(6.5, 13.5, 0, 9.5, 14.75, 4.25),
-                            Block.box(6.5, 14.75, 0, 9.5, 16, 1.5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(1.5, 1.5, 6.5, 11.5, 4.5, 9.5),
+            Block.box(1.5, 0, 6.5, 10, 1.5, 9.5),
+            Block.box(3, 6, 6.5, 16, 7.5, 9.5),
+            Block.box(3, 4.5, 6.5, 13, 6, 9.5),
+            Block.box(4.5, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(6, 9, 6.5, 16, 10.5, 9.5),
+            Block.box(7.5, 10.5, 6.5, 16, 12, 9.5),
+            Block.box(9, 12, 6.5, 16, 13.5, 9.5),
+            Block.box(11.75, 13.5, 6.5, 16, 14.75, 9.5),
+            Block.box(14.5, 14.75, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 1.5, 9.5, 4.5, 11.5),
+            Block.box(6.5, 0, 1.5, 9.5, 1.5, 10),
+            Block.box(6.5, 6, 3, 9.5, 7.5, 16),
+            Block.box(6.5, 4.5, 3, 9.5, 6, 13),
+            Block.box(6.5, 7.5, 4.5, 9.5, 9, 16),
+            Block.box(6.5, 9, 6, 9.5, 10.5, 16),
+            Block.box(6.5, 10.5, 7.5, 9.5, 12, 16),
+            Block.box(6.5, 12, 9, 9.5, 13.5, 16),
+            Block.box(6.5, 13.5, 11.75, 9.5, 14.75, 16),
+            Block.box(6.5, 14.75, 14.5, 9.5, 16, 16)).optimize());
+        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(4.5, 1.5, 6.5, 14.5, 4.5, 9.5),
+            Block.box(6, 0, 6.5, 14.5, 1.5, 9.5),
+            Block.box(0, 6, 6.5, 13, 7.5, 9.5),
+            Block.box(3, 4.5, 6.5, 13, 6, 9.5),
+            Block.box(0, 7.5, 6.5, 11.5, 9, 9.5),
+            Block.box(0, 9, 6.5, 10, 10.5, 9.5),
+            Block.box(0, 10.5, 6.5, 8.5, 12, 9.5),
+            Block.box(0, 12, 6.5, 7, 13.5, 9.5),
+            Block.box(0, 13.5, 6.5, 4.25, 14.75, 9.5),
+            Block.box(0, 14.75, 6.5, 1.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 4.5, 9.5, 4.5, 14.5),
+            Block.box(6.5, 0, 6, 9.5, 1.5, 14.5),
+            Block.box(6.5, 6, 0, 9.5, 7.5, 13),
+            Block.box(6.5, 4.5, 3, 9.5, 6, 13),
+            Block.box(6.5, 7.5, 0, 9.5, 9, 11.5),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 10),
+            Block.box(6.5, 10.5, 0, 9.5, 12, 8.5),
+            Block.box(6.5, 12, 0, 9.5, 13.5, 7),
+            Block.box(6.5, 13.5, 0, 9.5, 14.75, 4.25),
+            Block.box(6.5, 14.75, 0, 9.5, 16, 1.5)).optimize());
 
         PortalWarp.PORTAL_MIDDLE.put(Direction.NORTH,
-          Block.box(0, 0, 6.5, 16, 16, 9.5));
+            Block.box(0, 0, 6.5, 16, 16, 9.5));
         PortalWarp.PORTAL_MIDDLE.put(Direction.EAST,
-          Block.box(6.5, 0, 0, 9.5, 16, 16));
+            Block.box(6.5, 0, 0, 9.5, 16, 16));
         PortalWarp.PORTAL_MIDDLE.put(Direction.SOUTH,
-          Block.box(0, 0, 6.5, 16, 16, 9.5));
+            Block.box(0, 0, 6.5, 16, 16, 9.5));
         PortalWarp.PORTAL_MIDDLE.put(Direction.WEST,
-          Block.box(6.5, 0, 0, 9.5, 16, 16));
+            Block.box(6.5, 0, 0, 9.5, 16, 16));
 
         PortalWarp.PORTAL_MIDDLE_OFF.put(Direction.NORTH,
-          Block.box(0, 0, 0, 0, 0, 0));
+            Block.box(0, 0, 0, 0, 0, 0));
         PortalWarp.PORTAL_MIDDLE_OFF.put(Direction.EAST,
-          Block.box(0, 0, 0, 0, 0, 0));
+            Block.box(0, 0, 0, 0, 0, 0));
         PortalWarp.PORTAL_MIDDLE_OFF.put(Direction.SOUTH,
-          Block.box(0, 0, 0, 0, 0, 0));
+            Block.box(0, 0, 0, 0, 0, 0));
         PortalWarp.PORTAL_MIDDLE_OFF.put(Direction.WEST,
-          Block.box(0, 0, 0, 0, 0, 0));
+            Block.box(0, 0, 0, 0, 0, 0));
 
-        PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(0, 1.5, 6.5, 15, 16, 9.5),
-            Block.box(0, 0, 6.5, 13.5, 1.5, 9.5),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 0, 9.5, 16, 15),
-            Block.box(6.5, 0, 0, 9.5, 1.5, 13.5),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(1, 1.5, 6.5, 16, 16, 9.5),
-            Block.box(2.5, 0, 6.5, 16, 1.5, 9.5),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 1, 9.5, 16, 16),
-            Block.box(6.5, 0, 2.5, 9.5, 1.5, 16),
-            IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(0, 1.5, 6.5, 15, 16, 9.5),
+            Block.box(0, 0, 6.5, 13.5, 1.5, 9.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 0, 9.5, 16, 15),
+            Block.box(6.5, 0, 0, 9.5, 1.5, 13.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(1, 1.5, 6.5, 16, 16, 9.5),
+            Block.box(2.5, 0, 6.5, 16, 1.5, 9.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 1, 9.5, 16, 16),
+            Block.box(6.5, 0, 2.5, 9.5, 1.5, 16)).optimize());
 
-        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(7.5, 3, 6.5, 15, 14.5, 9.5),
-            VoxelShapes.join(Block.box(6, 0, 6.5, 13.5, 1.5, 9.5),
-              VoxelShapes.join(Block.box(6, 1.5, 6.5, 15, 3, 9.5),
-                Block.box(6, 14.5, 6.5, 15, 16, 9.5),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 3, 7.5, 9.5, 14.5, 15),
-            VoxelShapes.join(Block.box(6.5, 0, 6, 9.5, 1.5, 13.5),
-              VoxelShapes.join(Block.box(6.5, 1.5, 6, 9.5, 3, 15),
-                Block.box(6.5, 14.5, 6, 9.5, 16, 15),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(1, 3, 6.5, 8.5, 14.5, 9.5),
-            VoxelShapes.join(Block.box(2.5, 0, 6.5, 10, 1.5, 9.5),
-              VoxelShapes.join(Block.box(1, 1.5, 6.5, 10, 3, 9.5),
-                Block.box(1, 14.5, 6.5, 10, 16, 9.5),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 3, 1, 9.5, 14.5, 8.5),
-            VoxelShapes.join(Block.box(6.5, 0, 2.5, 9.5, 1.5, 10),
-              VoxelShapes.join(Block.box(6.5, 1.5, 1, 9.5, 3, 10),
-                Block.box(6.5, 14.5, 1, 9.5, 16, 10),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(7.5, 3, 6.5, 15, 14.5, 9.5),
+            Block.box(6, 0, 6.5, 13.5, 1.5, 9.5),
+            Block.box(6, 1.5, 6.5, 15, 3, 9.5),
+            Block.box(6, 14.5, 6.5, 15, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 3, 7.5, 9.5, 14.5, 15),
+            Block.box(6.5, 0, 6, 9.5, 1.5, 13.5),
+            Block.box(6.5, 1.5, 6, 9.5, 3, 15),
+            Block.box(6.5, 14.5, 6, 9.5, 16, 15)).optimize());
+        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(1, 3, 6.5, 8.5, 14.5, 9.5),
+            Block.box(2.5, 0, 6.5, 10, 1.5, 9.5),
+            Block.box(1, 1.5, 6.5, 10, 3, 9.5),
+            Block.box(1, 14.5, 6.5, 10, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 3, 1, 9.5, 14.5, 8.5),
+            Block.box(6.5, 0, 2.5, 9.5, 1.5, 10),
+            Block.box(6.5, 1.5, 1, 9.5, 3, 10),
+            Block.box(6.5, 14.5, 1, 9.5, 16, 10)).optimize());
 
-        PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(0, 1.5, 6.5, 16, 16, 9.5),
-            Block.box(1.5, 0, 6.5, 16, 1.5, 9.5),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 0, 9.5, 16, 16),
-            Block.box(6.5, 0, 1.5, 9.5, 1.5, 16),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(0, 1.5, 6.5, 16, 16, 9.5),
-            Block.box(0, 0, 6.5, 14.5, 1.5, 9.5),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 0, 9.5, 16, 16),
-            Block.box(6.5, 0, 0, 9.5, 1.5, 14.5),
-            IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(0, 1.5, 6.5, 16, 16, 9.5),
+            Block.box(1.5, 0, 6.5, 16, 1.5, 9.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 0, 9.5, 16, 16),
+            Block.box(6.5, 0, 1.5, 9.5, 1.5, 16)).optimize());
+        PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(0, 1.5, 6.5, 16, 16, 9.5),
+            Block.box(0, 0, 6.5, 14.5, 1.5, 9.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 0, 9.5, 16, 16),
+            Block.box(6.5, 0, 0, 9.5, 1.5, 14.5)).optimize());
 
-        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(0, 3, 6.5, 8.6, 14.5, 9.5),
-            VoxelShapes.join(Block.box(1.5, 0, 6.5, 10, 1.5, 9.5),
-              VoxelShapes.join(Block.box(0, 1.5, 6.5, 10, 3, 9.5),
-                Block.box(0, 14.5, 6.5, 10, 16, 9.5),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 3, 0, 9.5, 14.5, 8.6),
-            VoxelShapes.join(Block.box(6.5, 0, 1.5, 9.5, 1.5, 10),
-              VoxelShapes.join(Block.box(6.5, 1.5, 0, 9.5, 3, 10),
-                Block.box(6.5, 14.5, 0, 9.5, 16, 10),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(7.4, 3, 6.5, 16, 14.5, 9.5),
-            VoxelShapes.join(Block.box(6, 0, 6.5, 14.5, 1.5, 9.5),
-              VoxelShapes.join(Block.box(6, 1.5, 6.5, 16, 3, 9.5),
-                Block.box(6, 14.5, 6.5, 16, 16, 9.5),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 3, 7.4, 9.5, 14.5, 16),
-            VoxelShapes.join(Block.box(6.5, 0, 6, 9.5, 1.5, 14.5),
-              VoxelShapes.join(Block.box(6.5, 1.5, 6, 9.5, 3, 16),
-                Block.box(6.5, 14.5, 6, 9.5, 16, 16),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(0, 3, 6.5, 8.6, 14.5, 9.5),
+            Block.box(1.5, 0, 6.5, 10, 1.5, 9.5),
+            Block.box(0, 1.5, 6.5, 10, 3, 9.5),
+            Block.box(0, 14.5, 6.5, 10, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 3, 0, 9.5, 14.5, 8.6),
+            Block.box(6.5, 0, 1.5, 9.5, 1.5, 10),
+            Block.box(6.5, 1.5, 0, 9.5, 3, 10),
+            Block.box(6.5, 14.5, 0, 9.5, 16, 10)).optimize());
+        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(7.4, 3, 6.5, 16, 14.5, 9.5),
+            Block.box(6, 0, 6.5, 14.5, 1.5, 9.5),
+            Block.box(6, 1.5, 6.5, 16, 3, 9.5),
+            Block.box(6, 14.5, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 3, 7.4, 9.5, 14.5, 16),
+            Block.box(6.5, 0, 6, 9.5, 1.5, 14.5),
+            Block.box(6.5, 1.5, 6, 9.5, 3, 16),
+            Block.box(6.5, 14.5, 6, 9.5, 16, 16)).optimize());
 
-        PortalWarp.PORTAL_BOTTOM.put(Direction.NORTH, Block.box(0, 0, 6.5, 16, 16, 9.5));
-        PortalWarp.PORTAL_BOTTOM.put(Direction.EAST, Block.box(6.5, 0, 0, 9.5, 16, 16));
-        PortalWarp.PORTAL_BOTTOM.put(Direction.SOUTH, Block.box(0, 0, 6.5, 16, 16, 9.5));
-        PortalWarp.PORTAL_BOTTOM.put(Direction.WEST, Block.box(6.5, 0, 0, 9.5, 16, 16));
+        PortalWarp.PORTAL_BOTTOM.put(Direction.NORTH,
+            Block.box(0, 0, 6.5, 16, 16, 9.5));
+        PortalWarp.PORTAL_BOTTOM.put(Direction.EAST,
+            Block.box(6.5, 0, 0, 9.5, 16, 16));
+        PortalWarp.PORTAL_BOTTOM.put(Direction.SOUTH,
+            Block.box(0, 0, 6.5, 16, 16, 9.5));
+        PortalWarp.PORTAL_BOTTOM.put(Direction.WEST,
+            Block.box(6.5, 0, 0, 9.5, 16, 16));
 
-        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(0, 0, 6.5, 16, 9, 9.5),
-            VoxelShapes.join(Block.box(0, 9, 6.5, 3, 10.5, 9.5),
-              Block.box(13, 9, 6.5, 16, 10.5, 9.5),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 0, 0, 9.5, 9, 16),
-            VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 3),
-              Block.box(6.5, 9, 13, 9.5, 10.5, 16),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(0, 0, 6.5, 16, 9, 9.5),
-            VoxelShapes.join(Block.box(0, 9, 6.5, 3, 10.5, 9.5),
-              Block.box(13, 9, 6.5, 16, 10.5, 9.5),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 0, 0, 9.5, 9, 16),
-            VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 3),
-              Block.box(6.5, 9, 13, 9.5, 10.5, 16),
-              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(0, 0, 6.5, 16, 9, 9.5),
+            Block.box(0, 9, 6.5, 3, 10.5, 9.5),
+            Block.box(13, 9, 6.5, 16, 10.5, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 0, 0, 9.5, 9, 16),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 3),
+            Block.box(6.5, 9, 13, 9.5, 10.5, 16)).optimize());
+        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(0, 0, 6.5, 16, 9, 9.5),
+            Block.box(0, 9, 6.5, 3, 10.5, 9.5),
+            Block.box(13, 9, 6.5, 16, 10.5, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 0, 0, 9.5, 9, 16),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 3),
+            Block.box(6.5, 9, 13, 9.5, 10.5, 16)).optimize());
 
-        PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(0, 1.5, 6.5, 3, 3, 9.5),
-            VoxelShapes.join(Block.box(0, 3, 6.5, 4.5, 4.5, 9.5),
-              VoxelShapes.join(Block.box(0, 4.5, 6.5, 6, 6, 9.5),
-                VoxelShapes.join(Block.box(0, 6, 6.5, 7.5, 7.5, 9.5),
-                  VoxelShapes.join(Block.box(0, 7.5, 6.5, 9, 9, 9.5),
-                    VoxelShapes.join(Block.box(0, 9, 6.5, 10.5, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(0, 10.5, 6.5, 12, 13.5, 9.5),
-                        Block.box(0, 13.5, 6.5, 13.5, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 0, 9.5, 3, 3),
-            VoxelShapes.join(Block.box(6.5, 3, 0, 9.5, 4.5, 4.5),
-              VoxelShapes.join(Block.box(6.5, 4.5, 0, 9.5, 6, 6),
-                VoxelShapes.join(Block.box(6.5, 6, 0, 9.5, 7.5, 7.5),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 9),
-                    VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 10.5),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 0, 9.5, 13.5, 12),
-                        Block.box(6.5, 13.5, 0, 9.5, 16, 13.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(13, 1.5, 6.5, 16, 3, 9.5),
-            VoxelShapes.join(Block.box(11.5, 3, 6.5, 16, 4.5, 9.5),
-              VoxelShapes.join(Block.box(10, 4.5, 6.5, 16, 6, 9.5),
-                VoxelShapes.join(Block.box(8.5, 6, 6.5, 16, 7.5, 9.5),
-                  VoxelShapes.join(Block.box(7, 7.5, 6.5, 16, 9, 9.5),
-                    VoxelShapes.join(Block.box(5.5, 9, 6.5, 16, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(4, 10.5, 6.5, 16, 13.5, 9.5),
-                        Block.box(2.5, 13.5, 6.5, 16, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 13, 9.5, 3, 16),
-            VoxelShapes.join(Block.box(6.5, 3, 11.5, 9.5, 4.5, 16),
-              VoxelShapes.join(Block.box(6.5, 4.5, 10, 9.5, 6, 16),
-                VoxelShapes.join(Block.box(6.5, 6, 8.5, 9.5, 7.5, 16),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 7, 9.5, 9, 16),
-                    VoxelShapes.join(Block.box(6.5, 9, 5.5, 9.5, 10.5, 16),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 4, 9.5, 13.5, 16),
-                        Block.box(6.5, 13.5, 2.5, 9.5, 16, 16),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(0, 1.5, 6.5, 3, 3, 9.5),
+            Block.box(0, 3, 6.5, 4.5, 4.5, 9.5),
+            Block.box(0, 4.5, 6.5, 6, 6, 9.5),
+            Block.box(0, 6, 6.5, 7.5, 7.5, 9.5),
+            Block.box(0, 7.5, 6.5, 9, 9, 9.5),
+            Block.box(0, 9, 6.5, 10.5, 10.5, 9.5),
+            Block.box(0, 10.5, 6.5, 12, 13.5, 9.5),
+            Block.box(0, 13.5, 6.5, 13.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 0, 9.5, 3, 3),
+            Block.box(6.5, 3, 0, 9.5, 4.5, 4.5),
+            Block.box(6.5, 4.5, 0, 9.5, 6, 6),
+            Block.box(6.5, 6, 0, 9.5, 7.5, 7.5),
+            Block.box(6.5, 7.5, 0, 9.5, 9, 9),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 10.5),
+            Block.box(6.5, 10.5, 0, 9.5, 13.5, 12),
+            Block.box(6.5, 13.5, 0, 9.5, 16, 13.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(13, 1.5, 6.5, 16, 3, 9.5),
+            Block.box(11.5, 3, 6.5, 16, 4.5, 9.5),
+            Block.box(10, 4.5, 6.5, 16, 6, 9.5),
+            Block.box(8.5, 6, 6.5, 16, 7.5, 9.5),
+            Block.box(7, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(5.5, 9, 6.5, 16, 10.5, 9.5),
+            Block.box(4, 10.5, 6.5, 16, 13.5, 9.5),
+            Block.box(2.5, 13.5, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 13, 9.5, 3, 16),
+            Block.box(6.5, 3, 11.5, 9.5, 4.5, 16),
+            Block.box(6.5, 4.5, 10, 9.5, 6, 16),
+            Block.box(6.5, 6, 8.5, 9.5, 7.5, 16),
+            Block.box(6.5, 7.5, 7, 9.5, 9, 16),
+            Block.box(6.5, 9, 5.5, 9.5, 10.5, 16),
+            Block.box(6.5, 10.5, 4, 9.5, 13.5, 16),
+            Block.box(6.5, 13.5, 2.5, 9.5, 16, 16)).optimize());
 
-        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(0, 1.5, 6.5, 3, 3, 9.5),
-            VoxelShapes.join(Block.box(0, 3, 6.5, 4.5, 4.5, 9.5),
-              VoxelShapes.join(Block.box(0, 4.5, 6.5, 6, 6, 9.5),
-                VoxelShapes.join(Block.box(0, 6, 6.5, 7.5, 7.5, 9.5),
-                  VoxelShapes.join(Block.box(0, 7.5, 6.5, 9, 9, 9.5),
-                    VoxelShapes.join(Block.box(0, 9, 6.5, 10.5, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(0, 10.5, 6.5, 12, 12, 9.5),
-                        VoxelShapes.join(Block.box(3, 12, 6.5, 12, 13.5, 9.5),
-                        Block.box(4.5, 13.5, 6.5, 13.5, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 0, 9.5, 3, 3),
-            VoxelShapes.join(Block.box(6.5, 3, 0, 9.5, 4.5, 4.5),
-              VoxelShapes.join(Block.box(6.5, 4.5, 0, 9.5, 6, 6),
-                VoxelShapes.join(Block.box(6.5, 6, 0, 9.5, 7.5, 7.5),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 9),
-                    VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 10.5),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 0, 9.5, 12, 12),
-                        VoxelShapes.join(Block.box(6.5, 12, 3, 9.5, 13.5, 12),
-                          Block.box(6.5, 13.5, 4.5, 9.5, 16, 13.5),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(13, 1.5, 6.5, 16, 3, 9.5),
-            VoxelShapes.join(Block.box(11.5, 3, 6.5, 16, 4.5, 9.5),
-              VoxelShapes.join(Block.box(10, 4.5, 6.5, 16, 6, 9.5),
-                VoxelShapes.join(Block.box(8.5, 6, 6.5, 16, 7.5, 9.5),
-                  VoxelShapes.join(Block.box(7, 7.5, 6.5, 16, 9, 9.5),
-                    VoxelShapes.join(Block.box(5.5, 9, 6.5, 16, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(4, 10.5, 6.5, 16, 12, 9.5),
-                        VoxelShapes.join(Block.box(4, 12, 6.5, 13, 13.5, 9.5),
-                          Block.box(2.5, 13.5, 6.5, 11.5, 16, 9.5),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 13, 9.5, 3, 16),
-            VoxelShapes.join(Block.box(6.5, 3, 11.5, 9.5, 4.5, 16),
-              VoxelShapes.join(Block.box(6.5, 4.5, 10, 9.5, 6, 16),
-                VoxelShapes.join(Block.box(6.5, 6, 8.5, 9.5, 7.5, 16),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 7, 9.5, 9, 16),
-                    VoxelShapes.join(Block.box(6.5, 9, 5.5, 9.5, 10.5, 16),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 4, 9.5, 12, 16),
-                        VoxelShapes.join(Block.box(6.5, 12, 4, 9.5, 13.5, 13),
-                          Block.box(6.5, 13.5, 2.5, 9.5, 16, 11.5),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(0, 1.5, 6.5, 3, 3, 9.5),
+            Block.box(0, 3, 6.5, 4.5, 4.5, 9.5),
+            Block.box(0, 4.5, 6.5, 6, 6, 9.5),
+            Block.box(0, 6, 6.5, 7.5, 7.5, 9.5),
+            Block.box(0, 7.5, 6.5, 9, 9, 9.5),
+            Block.box(0, 9, 6.5, 10.5, 10.5, 9.5),
+            Block.box(0, 10.5, 6.5, 12, 12, 9.5),
+            Block.box(3, 12, 6.5, 12, 13.5, 9.5),
+            Block.box(4.5, 13.5, 6.5, 13.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 0, 9.5, 3, 3),
+            Block.box(6.5, 3, 0, 9.5, 4.5, 4.5),
+            Block.box(6.5, 4.5, 0, 9.5, 6, 6),
+            Block.box(6.5, 6, 0, 9.5, 7.5, 7.5),
+            Block.box(6.5, 7.5, 0, 9.5, 9, 9),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 10.5),
+            Block.box(6.5, 10.5, 0, 9.5, 12, 12),
+            Block.box(6.5, 12, 3, 9.5, 13.5, 12),
+            Block.box(6.5, 13.5, 4.5, 9.5, 16, 13.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(13, 1.5, 6.5, 16, 3, 9.5),
+            Block.box(11.5, 3, 6.5, 16, 4.5, 9.5),
+            Block.box(10, 4.5, 6.5, 16, 6, 9.5),
+            Block.box(8.5, 6, 6.5, 16, 7.5, 9.5),
+            Block.box(7, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(5.5, 9, 6.5, 16, 10.5, 9.5),
+            Block.box(4, 10.5, 6.5, 16, 12, 9.5),
+            Block.box(4, 12, 6.5, 13, 13.5, 9.5),
+            Block.box(2.5, 13.5, 6.5, 11.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 13, 9.5, 3, 16),
+            Block.box(6.5, 3, 11.5, 9.5, 4.5, 16),
+            Block.box(6.5, 4.5, 10, 9.5, 6, 16),
+            Block.box(6.5, 6, 8.5, 9.5, 7.5, 16),
+            Block.box(6.5, 7.5, 7, 9.5, 9, 16),
+            Block.box(6.5, 9, 5.5, 9.5, 10.5, 16),
+            Block.box(6.5, 10.5, 4, 9.5, 12, 16),
+            Block.box(6.5, 12, 4, 9.5, 13.5, 13),
+            Block.box(6.5, 13.5, 2.5, 9.5, 16, 11.5)).optimize());
 
-        PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(13.25, 1.5, 6.5, 16, 3, 9.5),
-            VoxelShapes.join(Block.box(10.5, 3, 6.5, 16, 4.5, 9.5),
-              VoxelShapes.join(Block.box(9, 4.5, 6.5, 16, 6, 9.5),
-                VoxelShapes.join(Block.box(7.5, 6, 6.5, 16, 7.5, 9.5),
-                  VoxelShapes.join(Block.box(6, 7.5, 6.5, 16, 9, 9.5),
-                    VoxelShapes.join(Block.box(4.5, 9, 6.5, 16, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(3, 10.5, 6.5, 16, 13.5, 9.5),
-                        Block.box(1.5, 13.5, 6.5, 16, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 13.25, 9.5, 3, 16),
-            VoxelShapes.join(Block.box(6.5, 3, 10.5, 9.5, 4.5, 16),
-              VoxelShapes.join(Block.box(6.5, 4.5, 9, 9.5, 6, 16),
-                VoxelShapes.join(Block.box(6.5, 6, 7.5, 9.5, 7.5, 16),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 6, 9.5, 9, 16),
-                    VoxelShapes.join(Block.box(6.5, 9, 4.5, 9.5, 10.5, 16),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 3, 9.5, 13.5, 16),
-                        Block.box(6.5, 13.5, 1.5, 9.5, 16, 16),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(0, 1.5, 6.5, 2.75, 3, 9.5),
-            VoxelShapes.join(Block.box(0, 3, 6.5, 5.5, 4.5, 9.5),
-              VoxelShapes.join(Block.box(0, 4.5, 6.5, 7, 6, 9.5),
-                VoxelShapes.join(Block.box(0, 6, 6.5, 8.5, 7.5, 9.5),
-                  VoxelShapes.join(Block.box(0, 7.5, 6.5, 10, 9, 9.5),
-                    VoxelShapes.join(Block.box(0, 9, 6.5, 11.5, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(0, 10.5, 6.5, 13, 13.5, 9.5),
-                        Block.box(0, 13.5, 6.5, 14.5, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 0, 9.5, 3, 2.75),
-            VoxelShapes.join(Block.box(6.5, 3, 0, 9.5, 4.5, 5.5),
-              VoxelShapes.join(Block.box(6.5, 4.5, 0, 9.5, 6, 7),
-                VoxelShapes.join(Block.box(6.5, 6, 0, 9.5, 7.5, 8.5),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 10),
-                    VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 11.5),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 0, 9.5, 13.5, 13),
-                        Block.box(6.5, 13.5, 0, 9.5, 16, 14.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(13.25, 1.5, 6.5, 16, 3, 9.5),
+            Block.box(10.5, 3, 6.5, 16, 4.5, 9.5),
+            Block.box(9, 4.5, 6.5, 16, 6, 9.5),
+            Block.box(7.5, 6, 6.5, 16, 7.5, 9.5),
+            Block.box(6, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(4.5, 9, 6.5, 16, 10.5, 9.5),
+            Block.box(3, 10.5, 6.5, 16, 13.5, 9.5),
+            Block.box(1.5, 13.5, 6.5, 16, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 13.25, 9.5, 3, 16),
+            Block.box(6.5, 3, 10.5, 9.5, 4.5, 16),
+            Block.box(6.5, 4.5, 9, 9.5, 6, 16),
+            Block.box(6.5, 6, 7.5, 9.5, 7.5, 16),
+            Block.box(6.5, 7.5, 6, 9.5, 9, 16),
+            Block.box(6.5, 9, 4.5, 9.5, 10.5, 16),
+            Block.box(6.5, 10.5, 3, 9.5, 13.5, 16),
+            Block.box(6.5, 13.5, 1.5, 9.5, 16, 16)).optimize());
+        PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(0, 1.5, 6.5, 2.75, 3, 9.5),
+            Block.box(0, 3, 6.5, 5.5, 4.5, 9.5),
+            Block.box(0, 4.5, 6.5, 7, 6, 9.5),
+            Block.box(0, 6, 6.5, 8.5, 7.5, 9.5),
+            Block.box(0, 7.5, 6.5, 10, 9, 9.5),
+            Block.box(0, 9, 6.5, 11.5, 10.5, 9.5),
+            Block.box(0, 10.5, 6.5, 13, 13.5, 9.5),
+            Block.box(0, 13.5, 6.5, 14.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 0, 9.5, 3, 2.75),
+            Block.box(6.5, 3, 0, 9.5, 4.5, 5.5),
+            Block.box(6.5, 4.5, 0, 9.5, 6, 7),
+            Block.box(6.5, 6, 0, 9.5, 7.5, 8.5),
+            Block.box(6.5, 7.5, 0, 9.5, 9, 10),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 11.5),
+            Block.box(6.5, 10.5, 0, 9.5, 13.5, 13),
+            Block.box(6.5, 13.5, 0, 9.5, 16, 14.5)).optimize());
 
-        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(13.25, 1.5, 6.5, 16, 3, 9.5),
-            VoxelShapes.join(Block.box(10.5, 3, 6.5, 16, 4.5, 9.5),
-              VoxelShapes.join(Block.box(9, 4.5, 6.5, 16, 6, 9.5),
-                VoxelShapes.join(Block.box(7.5, 6, 6.5, 16, 7.5, 9.5),
-                  VoxelShapes.join(Block.box(6, 7.5, 6.5, 16, 9, 9.5),
-                    VoxelShapes.join(Block.box(4.5, 9, 6.5, 16, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(3, 10.5, 6.5, 16, 12, 9.5),
-                        VoxelShapes.join(Block.box(3, 12, 6.5, 13, 13.5, 9.5),
-                        Block.box(1.5, 13.5, 6.5, 11.5, 16, 9.5),
-                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-            IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.EAST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 13.25, 9.5, 3, 16),
-            VoxelShapes.join(Block.box(6.5, 3, 10.5, 9.5, 4.5, 16),
-              VoxelShapes.join(Block.box(6.5, 4.5, 9, 9.5, 6, 16),
-                VoxelShapes.join(Block.box(6.5, 6, 7.5, 9.5, 7.5, 16),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 6, 9.5, 9, 16),
-                    VoxelShapes.join(Block.box(6.5, 9, 4.5, 9.5, 10.5, 16),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 3, 9.5, 12, 16),
-                        VoxelShapes.join(Block.box(6.5, 12, 3, 9.5, 13.5, 13),
-                          Block.box(6.5, 13.5, 1.5, 9.5, 16, 11.5),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.SOUTH,
-          VoxelShapes.join(Block.box(0, 1.5, 6.5, 2.75, 3, 9.5),
-            VoxelShapes.join(Block.box(0, 3, 6.5, 5.5, 4.5, 9.5),
-              VoxelShapes.join(Block.box(0, 4.5, 6.5, 7, 6, 9.5),
-                VoxelShapes.join(Block.box(0, 6, 6.5, 8.5, 7.5, 9.5),
-                  VoxelShapes.join(Block.box(0, 7.5, 6.5, 10, 9, 9.5),
-                    VoxelShapes.join(Block.box(0, 9, 6.5, 11.5, 10.5, 9.5),
-                      VoxelShapes.join(Block.box(0, 10.5, 6.5, 13, 12, 9.5),
-                        VoxelShapes.join(Block.box(3, 12, 6.5, 13, 13.5, 9.5),
-                          Block.box(4.5, 13.5, 6.5, 14.5, 16, 9.5),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.WEST,
-          VoxelShapes.join(Block.box(6.5, 1.5, 0, 9.5, 3, 2.75),
-            VoxelShapes.join(Block.box(6.5, 3, 0, 9.5, 4.5, 5.5),
-              VoxelShapes.join(Block.box(6.5, 4.5, 0, 9.5, 6, 7),
-                VoxelShapes.join(Block.box(6.5, 6, 0, 9.5, 7.5, 8.5),
-                  VoxelShapes.join(Block.box(6.5, 7.5, 0, 9.5, 9, 10),
-                    VoxelShapes.join(Block.box(6.5, 9, 0, 9.5, 10.5, 11.5),
-                      VoxelShapes.join(Block.box(6.5, 10.5, 0, 9.5, 12, 13),
-                        VoxelShapes.join(Block.box(6.5, 12, 3, 9.5, 13.5, 13),
-                          Block.box(6.5, 13.5, 4.5, 9.5, 16, 14.5),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-              IBooleanFunction.OR), IBooleanFunction.OR));
-        //@formatter:on
+        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(13.25, 1.5, 6.5, 16, 3, 9.5),
+            Block.box(10.5, 3, 6.5, 16, 4.5, 9.5),
+            Block.box(9, 4.5, 6.5, 16, 6, 9.5),
+            Block.box(7.5, 6, 6.5, 16, 7.5, 9.5),
+            Block.box(6, 7.5, 6.5, 16, 9, 9.5),
+            Block.box(4.5, 9, 6.5, 16, 10.5, 9.5),
+            Block.box(3, 10.5, 6.5, 16, 12, 9.5),
+            Block.box(3, 12, 6.5, 13, 13.5, 9.5),
+            Block.box(1.5, 13.5, 6.5, 11.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.EAST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 13.25, 9.5, 3, 16),
+            Block.box(6.5, 3, 10.5, 9.5, 4.5, 16),
+            Block.box(6.5, 4.5, 9, 9.5, 6, 16),
+            Block.box(6.5, 6, 7.5, 9.5, 7.5, 16),
+            Block.box(6.5, 7.5, 6, 9.5, 9, 16),
+            Block.box(6.5, 9, 4.5, 9.5, 10.5, 16),
+            Block.box(6.5, 10.5, 3, 9.5, 12, 16),
+            Block.box(6.5, 12, 3, 9.5, 13.5, 13),
+            Block.box(6.5, 13.5, 1.5, 9.5, 16, 11.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.SOUTH, VoxelShapes.or(
+            Block.box(0, 1.5, 6.5, 2.75, 3, 9.5),
+            Block.box(0, 3, 6.5, 5.5, 4.5, 9.5),
+            Block.box(0, 4.5, 6.5, 7, 6, 9.5),
+            Block.box(0, 6, 6.5, 8.5, 7.5, 9.5),
+            Block.box(0, 7.5, 6.5, 10, 9, 9.5),
+            Block.box(0, 9, 6.5, 11.5, 10.5, 9.5),
+            Block.box(0, 10.5, 6.5, 13, 12, 9.5),
+            Block.box(3, 12, 6.5, 13, 13.5, 9.5),
+            Block.box(4.5, 13.5, 6.5, 14.5, 16, 9.5)).optimize());
+        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.WEST, VoxelShapes.or(
+            Block.box(6.5, 1.5, 0, 9.5, 3, 2.75),
+            Block.box(6.5, 3, 0, 9.5, 4.5, 5.5),
+            Block.box(6.5, 4.5, 0, 9.5, 6, 7),
+            Block.box(6.5, 6, 0, 9.5, 7.5, 8.5),
+            Block.box(6.5, 7.5, 0, 9.5, 9, 10),
+            Block.box(6.5, 9, 0, 9.5, 10.5, 11.5),
+            Block.box(6.5, 10.5, 0, 9.5, 12, 13),
+            Block.box(6.5, 12, 3, 9.5, 13.5, 13),
+            Block.box(6.5, 13.5, 4.5, 9.5, 16, 14.5)).optimize());
     }
 
     private VoxelShape getShape(final PortalWarpPart part, final Direction dir, final boolean active)
@@ -833,30 +719,30 @@ public class PortalWarp extends Rotates implements IWaterLoggable
                     .getDirection());
 
             final FluidState topFluidState = world.getFluidState(pos.above(2));
-            final FluidState topWestFluidState = world.getFluidState(pos.above(2).west());
-            final FluidState topEastFluidState = world.getFluidState(pos.above(2).east());
+            final FluidState topLeftFluidState = world.getFluidState(portalWarpTopLeftPos);
+            final FluidState topRightFluidState = world.getFluidState(portalWarpTopRightPos);
             final FluidState middleFluidState = world.getFluidState(pos.above());
-            final FluidState middleWestFluidState = world.getFluidState(pos.above().west());
-            final FluidState middleEastFluidState = world.getFluidState(pos.above().east());
-            final FluidState bottomWestFluidState = world.getFluidState(pos.west());
-            final FluidState bottomEastFluidState = world.getFluidState(pos.east());
+            final FluidState middleLeftFluidState = world.getFluidState(portalWarpMiddleLeftPos);
+            final FluidState middleRightFluidState = world.getFluidState(portalWarpMiddleRightPos);
+            final FluidState bottomLeftFluidState = world.getFluidState(portalWarpBottomLeftPos);
+            final FluidState bottomRightFluidState = world.getFluidState(portalWarpBottomRightPos);
 
             world.setBlock(portalWarpBottomLeftPos, state.setValue(PortalWarp.PART, PortalWarpPart.BOTTOM_LEFT).setValue(
-                    PortalWarp.WATERLOGGED, bottomWestFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, bottomLeftFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpBottomRightPos, state.setValue(PortalWarp.PART, PortalWarpPart.BOTTOM_RIGHT).setValue(
-                    PortalWarp.WATERLOGGED, bottomEastFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, bottomRightFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(pos.above(), state.setValue(PortalWarp.PART, PortalWarpPart.MIDDLE).setValue(
                     PortalWarp.WATERLOGGED, middleFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpMiddleLeftPos, state.setValue(PortalWarp.PART, PortalWarpPart.MIDDLE_LEFT).setValue(
-                    PortalWarp.WATERLOGGED, middleWestFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, middleLeftFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpMiddleRightPos, state.setValue(PortalWarp.PART, PortalWarpPart.MIDDLE_RIGHT).setValue(
-                    PortalWarp.WATERLOGGED, middleEastFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, middleRightFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(pos.above(2), state.setValue(PortalWarp.PART, PortalWarpPart.TOP).setValue(PortalWarp.WATERLOGGED,
                     topFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpTopLeftPos, state.setValue(PortalWarp.PART, PortalWarpPart.TOP_LEFT).setValue(
-                    PortalWarp.WATERLOGGED, topWestFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, topLeftFluidState.getType() == Fluids.WATER), 3);
             world.setBlock(portalWarpTopRightPos, state.setValue(PortalWarp.PART, PortalWarpPart.TOP_RIGHT).setValue(
-                    PortalWarp.WATERLOGGED, topEastFluidState.getType() == Fluids.WATER), 3);
+                    PortalWarp.WATERLOGGED, topRightFluidState.getType() == Fluids.WATER), 3);
         }
     }
 

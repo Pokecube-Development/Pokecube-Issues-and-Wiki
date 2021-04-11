@@ -1,6 +1,5 @@
 package pokecube.mobs.moves.world;
 
-import thut.api.Tracker;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +35,7 @@ import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 

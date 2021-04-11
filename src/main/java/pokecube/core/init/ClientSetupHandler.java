@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
@@ -204,6 +205,8 @@ public class ClientSetupHandler
             RenderTypeLookup.setRenderLayer(trapdoor, RenderType.cutoutMipped());
         for (final Block door : ItemGenerator.doors.values())
             RenderTypeLookup.setRenderLayer(door, RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(PokecubeItems.NESTBLOCK.get(), RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(PokecubeItems.DYNABLOCK.get(), RenderType.cutoutMipped());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c -> c.registerExtensionPoint(

@@ -1,6 +1,5 @@
 package pokecube.legends.spawns;
 
-import thut.api.Tracker;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +14,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -38,6 +36,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.conditions.AbstractCondition;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 
 public class LegendarySpawn
@@ -163,8 +162,8 @@ public class LegendarySpawn
                 final Vector3 location = Vector3.getNewVector().set(evt.getPos());
                 if (spawnCondition.canSpawn(evt.getPlayer(), location, false).test()) break;
             }
-            evt.getPlayer().sendMessage(new TranslationTextComponent("msg.noitem.info", new TranslationTextComponent(
-                    match.entry.getUnlocalizedName())), Util.NIL_UUID);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.noitem.info", new TranslationTextComponent(
+                    match.entry.getUnlocalizedName())), true);
             evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", Tracker.instance().getTick());
             return;
         }
@@ -207,23 +206,23 @@ public class LegendarySpawn
         if (already_spawned.size() > 0)
         {
             Collections.shuffle(already_spawned);
-            evt.getPlayer().sendMessage(new TranslationTextComponent("msg.alreadyspawned.info",
-                    new TranslationTextComponent(already_spawned.get(0).getUnlocalizedName())), Util.NIL_UUID);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.alreadyspawned.info",
+                    new TranslationTextComponent(already_spawned.get(0).getUnlocalizedName())), true);
             return;
         }
 
         if (wrong_items.size() > 0)
         {
             Collections.shuffle(wrong_items);
-            evt.getPlayer().sendMessage(new TranslationTextComponent("msg.wrongitem.info", new TranslationTextComponent(
-                    wrong_items.get(0).getUnlocalizedName())), Util.NIL_UUID);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.wrongitem.info", new TranslationTextComponent(
+                    wrong_items.get(0).getUnlocalizedName())), true);
             return;
         }
         if (wrong_biomes.size() > 0)
         {
             Collections.shuffle(wrong_biomes);
-            evt.getPlayer().sendMessage(new TranslationTextComponent("msg.nohere.info", new TranslationTextComponent(
-                    matches.get(0).entry.getUnlocalizedName())), Util.NIL_UUID);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.nohere.info", new TranslationTextComponent(
+                    matches.get(0).entry.getUnlocalizedName())), true);
             return;
         }
 

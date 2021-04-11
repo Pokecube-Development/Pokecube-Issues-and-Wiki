@@ -1,7 +1,6 @@
 package pokecube.adventures.blocks.warppad;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 import pokecube.core.blocks.InteractableHorizontalBlock;
@@ -9,9 +8,9 @@ import pokecube.core.blocks.InteractableHorizontalBlock;
 public class WarppadBlock extends InteractableHorizontalBlock
 {
 
-    public WarppadBlock(final Properties properties, final MaterialColor color)
+    public WarppadBlock(final Properties properties)
     {
-        super(properties, color);
+        super(properties);
     }
 
     @Override

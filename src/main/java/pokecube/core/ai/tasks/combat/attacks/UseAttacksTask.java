@@ -1,7 +1,5 @@
 package pokecube.core.ai.tasks.combat.attacks;
 
-import thut.api.Tracker;
-
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.LivingEntity;
@@ -25,6 +23,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
+import thut.api.Tracker;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Matrix3;
 import thut.api.maths.Vector3;

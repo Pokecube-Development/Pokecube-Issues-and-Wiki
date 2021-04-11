@@ -23,7 +23,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -34,82 +33,66 @@ import pokecube.core.inventory.healer.HealerContainer;
 
 public class HealerBlock extends HorizontalBlock implements IWaterLoggable
 {
-	private static final Map<Direction, VoxelShape> HEALER_MACHINE  = new HashMap<>();
+	private static final Map<Direction, VoxelShape> POKECENTER  = new HashMap<>();
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
-    {// @formatter:off
-    	HealerBlock.HEALER_MACHINE.put(Direction.NORTH,
-          VoxelShapes.join(Block.box(1, 0, 0, 15, 13, 16),
-            VoxelShapes.join(Block.box(3, 13, 0, 13, 15, 1),
-              VoxelShapes.join(Block.box(7, 13, 1, 9, 14, 15),
-                VoxelShapes.join(Block.box(3, 13, 15, 13, 15, 16),
-                  VoxelShapes.join(Block.box(10, 13, 11, 13, 14, 14),
-                    VoxelShapes.join(Block.box(3, 13, 11, 6, 14, 14),
-                      VoxelShapes.join(Block.box(10, 13, 6.5, 13, 14, 9.5),
-                        VoxelShapes.join(Block.box(3, 13, 6.5, 6, 14, 9.5),
-                            VoxelShapes.join(Block.box(10, 13, 2, 13, 14, 5),
-                              Block.box(3, 13, 2, 6, 14, 5),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	HealerBlock.HEALER_MACHINE.put(Direction.EAST,
-          VoxelShapes.join(Block.box(0, 0, 1, 16, 13, 15),
-            VoxelShapes.join(Block.box(15, 13, 3, 16, 15, 13),
-              VoxelShapes.join(Block.box(1, 13, 7, 15, 14, 9),
-                VoxelShapes.join(Block.box(0, 13, 3, 1, 15, 13),
-                  VoxelShapes.join(Block.box(2, 13, 10, 5, 14, 13),
-                    VoxelShapes.join(Block.box(2, 13, 3, 5, 14, 6),
-                      VoxelShapes.join(Block.box(6.5, 13, 10, 9.5, 14, 13),
-                        VoxelShapes.join(Block.box(6.5, 13, 3, 9.5, 14, 6),
-                            VoxelShapes.join(Block.box(11, 13, 10, 14, 14, 13),
-                              Block.box(11, 13, 3, 14, 14, 6),
-                                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	HealerBlock.HEALER_MACHINE.put(Direction.SOUTH,
-		VoxelShapes.join(Block.box(1, 0, 0, 15, 13, 16),
-        VoxelShapes.join(Block.box(3, 13, 0, 13, 15, 1),
-          VoxelShapes.join(Block.box(7, 13, 1, 9, 14, 15),
-            VoxelShapes.join(Block.box(3, 13, 15, 13, 15, 16),
-              VoxelShapes.join(Block.box(10, 13, 11, 13, 14, 14),
-                VoxelShapes.join(Block.box(3, 13, 11, 6, 14, 14),
-                  VoxelShapes.join(Block.box(10, 13, 6.5, 13, 14, 9.5),
-                    VoxelShapes.join(Block.box(3, 13, 6.5, 6, 14, 9.5),
-                        VoxelShapes.join(Block.box(10, 13, 2, 13, 14, 5),
-                        	Block.box(3, 13, 2, 6, 14, 5),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    	HealerBlock.HEALER_MACHINE.put(Direction.WEST,
-		VoxelShapes.join(Block.box(0, 0, 1, 16, 13, 15),
-        VoxelShapes.join(Block.box(15, 13, 3, 16, 15, 13),
-          VoxelShapes.join(Block.box(1, 13, 7, 15, 14, 9),
-            VoxelShapes.join(Block.box(0, 13, 3, 1, 15, 13),
-              VoxelShapes.join(Block.box(2, 13, 10, 5, 14, 13),
-                VoxelShapes.join(Block.box(2, 13, 3, 5, 14, 6),
-                  VoxelShapes.join(Block.box(6.5, 13, 10, 9.5, 14, 13),
-                    VoxelShapes.join(Block.box(6.5, 13, 3, 9.5, 14, 6),
-                        VoxelShapes.join(Block.box(11, 13, 10, 14, 14, 13),
-                          Block.box(11, 13, 3, 14, 14, 6),
-                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
-                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR)
-        );
-    }// @formatter:on
+    {
+    	HealerBlock.POKECENTER.put(Direction.NORTH, VoxelShapes.or(
+            Block.box(1, 0, 0, 15, 13, 16),
+            Block.box(2, 13, 0, 14, 15, 1),
+            Block.box(7, 13, 1, 9, 14, 15),
+            Block.box(2, 13, 15, 14, 15, 16),
+            Block.box(10, 13, 11, 13, 14, 14),
+            Block.box(3, 13, 11, 6, 14, 14),
+            Block.box(10, 13, 6.5, 13, 14, 9.5),
+            Block.box(3, 13, 6.5, 6, 14, 9.5),
+            Block.box(10, 13, 2, 13, 14, 5),
+            Block.box(3, 13, 2, 6, 14, 5)).optimize());
+    	HealerBlock.POKECENTER.put(Direction.EAST, VoxelShapes.or(
+            Block.box(0, 0, 1, 16, 13, 15),
+            Block.box(15, 13, 2, 16, 15, 14),
+            Block.box(1, 13, 7, 15, 14, 9),
+            Block.box(0, 13, 2, 1, 15, 14),
+            Block.box(2, 13, 10, 5, 14, 13),
+            Block.box(2, 13, 3, 5, 14, 6),
+            Block.box(6.5, 13, 10, 9.5, 14, 13),
+            Block.box(6.5, 13, 3, 9.5, 14, 6),
+            Block.box(11, 13, 10, 14, 14, 13),
+            Block.box(11, 13, 3, 14, 14, 6)).optimize());
+    	HealerBlock.POKECENTER.put(Direction.SOUTH, VoxelShapes.or(
+		    Block.box(1, 0, 0, 15, 13, 16),
+            Block.box(2, 13, 0, 14, 15, 1),
+            Block.box(7, 13, 1, 9, 14, 15),
+            Block.box(2, 13, 15, 14, 15, 16),
+            Block.box(10, 13, 11, 13, 14, 14),
+            Block.box(3, 13, 11, 6, 14, 14),
+            Block.box(10, 13, 6.5, 13, 14, 9.5),
+            Block.box(3, 13, 6.5, 6, 14, 9.5),
+            Block.box(10, 13, 2, 13, 14, 5),
+            Block.box(3, 13, 2, 6, 14, 5)).optimize());
+    	HealerBlock.POKECENTER.put(Direction.WEST, VoxelShapes.or(
+		    Block.box(0, 0, 1, 16, 13, 15),
+            Block.box(15, 13, 2, 16, 15, 14),
+            Block.box(1, 13, 7, 15, 14, 9),
+            Block.box(0, 13, 2, 1, 15, 14),
+            Block.box(2, 13, 10, 5, 14, 13),
+            Block.box(2, 13, 3, 5, 14, 6),
+            Block.box(6.5, 13, 10, 9.5, 14, 13),
+            Block.box(6.5, 13, 3, 9.5, 14, 6),
+            Block.box(11, 13, 10, 14, 14, 13),
+            Block.box(11, 13, 3, 14, 14, 6)).optimize());
+    }
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-            final ISelectionContext context)
+           final ISelectionContext context)
     {
-        return HealerBlock.HEALER_MACHINE.get(state.getValue(HealerBlock.FACING));
+        return HealerBlock.POKECENTER.get(state.getValue(HealerBlock.FACING));
     }
 
     public HealerBlock(final Properties builder)

@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
-import thut.api.Tracker;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -16,6 +15,7 @@ import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
+import thut.api.Tracker;
 
 public class Dig extends AbstractConstructTask
 {
