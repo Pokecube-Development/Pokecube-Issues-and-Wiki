@@ -1,9 +1,6 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,21 +8,26 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.lighting.LightEngine;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.ToolType;
-import pokecube.legends.blocks.BlockBase;
+import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.ItemInit;
 
-public class GrassJungleBlock extends BlockBase
+import java.util.Random;
+
+public class GrassJungleBlock extends GrassBlock implements IGrowable
 {
-    public GrassJungleBlock(final String name, final Material material, MaterialColor color)
+    public GrassJungleBlock(final String name, final Properties properties)
     {
-        super(name, Properties.of(material).sound(SoundType.GRASS).strength(1, 2).harvestTool(
-                ToolType.SHOVEL).harvestLevel(1));
+        super(properties);
+        this.registerDefaultState((BlockState)((BlockState)this.stateDefinition.any()).setValue(SNOWY, false));
     }
 
     @Override
@@ -33,6 +35,58 @@ public class GrassJungleBlock extends BlockBase
             final Direction direction, final IPlantable plantable)
     {
         return true;
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
+    {
+        if (!canBeGrass(state, world, pos))
+        {
+            if (!world.isAreaLoaded(pos, 3))
+            {
+                return;
+            }
+
+            world.setBlockAndUpdate(pos, BlockInit.ULTRA_JUNGLE_DIRT.get().defaultBlockState());
+        } else if (world.getMaxLocalRawBrightness(pos.above()) >= 9)
+        {
+            BlockState blockstate = this.defaultBlockState();
+
+            for(int i = 0; i < 4; ++i)
+            {
+                BlockPos blockpos = pos.offset(random.nextInt(3) - 1,
+                    random.nextInt(5) - 3, random.nextInt(3) - 1);
+                if (world.getBlockState(blockpos).is(BlockInit.ULTRA_JUNGLE_DIRT.get()) &&
+                    canPropagate(blockstate, world, blockpos))
+                {
+                    world.setBlockAndUpdate(blockpos, (BlockState)blockstate
+                        .setValue(SNOWY, world.getBlockState(blockpos.above()).is(Blocks.SNOW)));
+                }
+            }
+        }
+    }
+
+    public static boolean canPropagate(BlockState state, IWorldReader world, BlockPos pos)
+    {
+        BlockPos blockpos = pos.above();
+        return canBeGrass(state, world, pos) && !world.getFluidState(blockpos).is(FluidTags.WATER);
+    }
+
+    public static boolean canBeGrass(BlockState state, IWorldReader world, BlockPos pos)
+    {
+        BlockPos blockpos = pos.above();
+        BlockState blockstate = world.getBlockState(blockpos);
+        if (blockstate.is(Blocks.SNOW) && (Integer)blockstate.getValue(SnowBlock.LAYERS) >= 1)
+        {
+            return true;
+        } else if (blockstate.getFluidState().getAmount() == 8)
+        {
+            return false;
+        } else {
+            int i = LightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
+                blockstate.getLightBlock(world, blockpos));
+            return i < world.getMaxLightLevel();
+        }
     }
 
     @Override

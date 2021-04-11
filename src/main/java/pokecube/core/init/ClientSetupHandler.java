@@ -1,7 +1,5 @@
 package pokecube.core.init;
 
-import org.lwjgl.glfw.GLFW;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
@@ -20,17 +18,15 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import org.lwjgl.glfw.GLFW;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
 import pokecube.core.client.gui.blocks.TMs;
 import pokecube.core.client.gui.blocks.Trade;
-import pokecube.core.client.gui.pokemob.GuiPokemob;
-import pokecube.core.client.gui.pokemob.GuiPokemobAI;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
-import pokecube.core.client.gui.pokemob.GuiPokemobRoutes;
-import pokecube.core.client.gui.pokemob.GuiPokemobStorage;
+import pokecube.core.client.gui.pokemob.*;
 import pokecube.core.client.render.RenderMoves;
 import pokecube.core.client.render.mobs.RenderEgg;
 import pokecube.core.client.render.mobs.RenderNPC;
@@ -204,6 +200,8 @@ public class ClientSetupHandler
             RenderTypeLookup.setRenderLayer(trapdoor, RenderType.cutoutMipped());
         for (final Block door : ItemGenerator.doors.values())
             RenderTypeLookup.setRenderLayer(door, RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(PokecubeItems.NESTBLOCK.get(), RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(PokecubeItems.DYNABLOCK.get(), RenderType.cutoutMipped());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c -> c.registerExtensionPoint(

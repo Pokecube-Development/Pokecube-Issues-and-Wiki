@@ -5,6 +5,16 @@
     "facing=north,part=bottom": { "model": "pokecube_legends:block/xerneas_tree_bottom", "y":180},
     "facing=south,part=bottom": { "model": "pokecube_legends:block/xerneas_tree_bottom", "y":0 },
 
+    "facing=east,part=middle_left":  { "model": "pokecube_legends:block/xerneas_tree_middle_left", "y":270 },
+    "facing=west,part=middle_left":  { "model": "pokecube_legends:block/xerneas_tree_middle_left", "y":90 },
+    "facing=north,part=middle_left": { "model": "pokecube_legends:block/xerneas_tree_middle_left", "y":180},
+    "facing=south,part=middle_left": { "model": "pokecube_legends:block/xerneas_tree_middle_left", "y":0 },
+
+    "facing=east,part=middle_right":  { "model": "pokecube_legends:block/xerneas_tree_middle_right", "y":270 },
+    "facing=west,part=middle_right":  { "model": "pokecube_legends:block/xerneas_tree_middle_right", "y":90 },
+    "facing=north,part=middle_right": { "model": "pokecube_legends:block/xerneas_tree_middle_right", "y":180},
+    "facing=south,part=middle_right": { "model": "pokecube_legends:block/xerneas_tree_middle_right", "y":0 },
+
     "facing=east,part=top":  { "model": "pokecube_legends:block/xerneas_tree_top", "y":270 },
     "facing=west,part=top":  { "model": "pokecube_legends:block/xerneas_tree_top", "y":90 },
     "facing=north,part=top": { "model": "pokecube_legends:block/xerneas_tree_top", "y":180},

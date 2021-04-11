@@ -1,0 +1,20 @@
+{
+    "group": "pokecube_legends",
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "DM",
+        "DM"
+    ],
+    "key": {
+        "D": {
+            "item": "pokecube_legends:distortic_mirror"
+        },
+        "M": {
+            "item": "pokecube_legends:distortic_framed_mirror"
+        }
+    },
+    "result": {
+        "item": "pokecube_legends:distortic_one_way_framed_mirror",
+        "count": 4
+    }
+}

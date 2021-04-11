@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "minecraft:diamond"
+    "#forge:gems/diamond"
   ]
 }

@@ -30,10 +30,10 @@
       "type": "minecraft:simple_state_provider"
     },
     "foliage_placer": {
-      "radius": 2,
+      "radius": 1,
       "offset": 1,
       "height": 2,
-      "type": "minecraft:bush_foliage_placer"
+      "type": "minecraft:jungle_foliage_placer"
     },
     "trunk_placer": {
       "base_height": 1,

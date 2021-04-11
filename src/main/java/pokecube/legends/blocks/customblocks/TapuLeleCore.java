@@ -1,9 +1,5 @@
 package pokecube.legends.blocks.customblocks;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Stream;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -13,89 +9,87 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TapuLeleCore extends Rotates implements IWaterLoggable
 {
-    private static final Map<Direction, VoxelShape> TROUGH  = new HashMap<>();
+    private static final Map<Direction, VoxelShape> LELE  = new HashMap<>();
     private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
-    {// @formatter:off
-    	TapuLeleCore.TROUGH.put(Direction.NORTH,
-    	Stream.of(
-    			Block.box(3, 0, 4, 13, 10, 13),
-    			Block.box(4, 10, 5, 12, 16, 12),
-    			Block.box(4.5, 10, 3, 5.5, 11, 5),
-    			Block.box(10.5, 10, 3, 11.5, 11, 5),
-    			Block.box(4.2, 6.19, 2.8, 5.7, 10.2, 4.3),
-    			Block.box(10.2, 6.19, 2.8, 11.7, 10.2, 4.3),
-    			Block.box(4.2, 3.2, 1, 5.7, 6.2, 4),
-    			Block.box(10.2, 3.2, 1, 11.7, 6.2, 4),
-    			Block.box(4.6, 4, 13, 5.6, 9, 16),
-    			Block.box(10.5, 4, 13, 11.5, 9, 16),
-    			Block.box(4.5, 1, 13, 5.5, 4, 15),
-    			Block.box(10.5, 1, 13, 11.5, 4, 15)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	TapuLeleCore.TROUGH.put(Direction.EAST,
-		Stream.of(
-				Block.box(3, 0, 3, 12, 10, 13),
-				Block.box(4, 10, 4, 11, 16, 12),
-				Block.box(11, 10, 4.5, 13, 11, 5.5),
-				Block.box(11, 10, 10.5, 13, 11, 11.5),
-				Block.box(11.7, 6.19, 4.2, 13.2, 10.2, 5.7),
-				Block.box(11.7, 6.19, 10.2, 13.2, 10.2, 11.7),
-				Block.box(12, 3.2, 4.2, 15, 6.2, 5.7),
-				Block.box(12, 3.2, 10.2, 15, 6.2, 11.7),
-				Block.box(0, 4, 4.6, 3, 9, 5.6),
-				Block.box(0, 4, 10.5, 3, 9, 11.5),
-				Block.box(1, 1, 4.5, 3, 4, 5.5),
-				Block.box(1, 1, 10.5, 3, 4, 11.5)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	TapuLeleCore.TROUGH.put(Direction.SOUTH,
-		Stream.of(
-				Block.box(3, 0, 3, 13, 10, 12),
-				Block.box(4, 10, 4, 12, 16, 11),
-				Block.box(10.5, 10, 11, 11.5, 11, 13),
-				Block.box(4.5, 10, 11, 5.5, 11, 13),
-				Block.box(10.3, 6.199, 11.7, 11.8, 10.2, 13.2),
-				Block.box(4.31, 6.19, 11.7, 5.81, 10.2, 13.2),
-				Block.box(10.3, 3.2, 12, 11.8, 6.2, 15),
-				Block.box(4.31, 3.2, 12, 5.81, 6.2, 15),
-				Block.box(10.4, 4, 0, 11.4, 9, 3),
-				Block.box(4.5, 4, 0, 5.5, 9, 3),
-				Block.box(10.5, 1, 1, 11.5, 4, 3),
-				Block.box(4.5, 1, 1, 5.5, 4, 3)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	TapuLeleCore.TROUGH.put(Direction.WEST,
-		Stream.of(
-				Block.box(4, 0, 3, 13, 10, 13),
-				Block.box(5, 10, 4, 12, 16, 12),
-				Block.box(3, 10, 10.5, 5, 11, 11.5),
-				Block.box(3, 10, 4.5, 5, 11, 5.5),
-				Block.box(2.87, 6.19, 10.3, 4.31, 10.2, 11.8),
-				Block.box(2.87, 6.19, 4.31, 4.31, 10.2, 5.81),
-				Block.box(1, 3.2, 10.3, 4, 6.2, 11.8),
-				Block.box(1, 3.2, 4.31, 4, 6.2, 5.81),
-				Block.box(13, 4, 10.4, 16, 9, 11.4),
-				Block.box(13, 4, 4.5, 16, 9, 5.5),
-				Block.box(13, 1, 10.5, 15, 4, 11.5),
-				Block.box(13, 1, 4.5, 15, 4, 5.5)
-		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    }// @formatter:on
+    {
+    	TapuLeleCore.LELE.put(Direction.NORTH, VoxelShapes.or(
+    		Block.box(4, 0, 4, 12, 1, 12),
+			Block.box(3, 1, 3, 13, 11, 13),
+			Block.box(4, 11, 4, 12, 16, 12),
+			Block.box(4, 11, 2, 6, 12, 4),
+			Block.box(10, 11, 2, 12, 12, 4),
+			Block.box(4, 6, 2, 6, 11, 3),
+			Block.box(10, 6, 2, 12, 11, 3),
+			Block.box(4, 3, 0, 6, 6, 3),
+			Block.box(10, 3, 0, 12, 6, 3),
+			Block.box(4, 5, 13, 5, 10, 16),
+			Block.box(11, 5, 13, 12, 10, 16),
+			Block.box(4, 2, 13, 5, 5, 15),
+			Block.box(11, 2, 13, 12, 5, 15)).optimize());
+    	TapuLeleCore.LELE.put(Direction.EAST, VoxelShapes.or(
+			Block.box(4, 0, 4, 12, 1, 12),
+			Block.box(3, 1, 3, 13, 11, 13),
+			Block.box(4, 11, 4, 12, 16, 12),
+			Block.box(12, 11, 4, 14, 12, 6),
+			Block.box(12, 11, 10, 14, 12, 12),
+			Block.box(13, 6, 4, 14, 11, 6),
+			Block.box(13, 6, 10, 14, 11, 12),
+			Block.box(13, 3, 4, 16, 6, 6),
+			Block.box(13, 3, 10, 16, 6, 12),
+			Block.box(0, 5, 4, 3, 10, 5),
+			Block.box(0, 5, 11, 3, 10, 12),
+			Block.box(1, 2, 4, 3, 5, 5),
+			Block.box(1, 2, 11, 3, 5, 12)).optimize());
+    	TapuLeleCore.LELE.put(Direction.SOUTH, VoxelShapes.or(
+			Block.box(4, 0, 4, 12, 1, 12),
+			Block.box(3, 1, 3, 13, 11, 13),
+			Block.box(4, 11, 4, 12, 16, 12),
+			Block.box(10, 11, 12, 12, 12, 14),
+			Block.box(4, 11, 12, 6, 12, 14),
+			Block.box(10, 6, 13, 12, 11, 14),
+			Block.box(4, 6, 13, 6, 11, 14),
+			Block.box(10, 3, 13, 12, 6, 16),
+			Block.box(4, 3, 13, 6, 6, 16),
+			Block.box(11, 5, 0, 12, 10, 3),
+			Block.box(4, 5, 0, 5, 10, 3),
+			Block.box(11, 2, 1, 12, 5, 3),
+			Block.box(4, 2, 1, 5, 5, 3)).optimize());
+    	TapuLeleCore.LELE.put(Direction.WEST, VoxelShapes.or(
+			Block.box(4, 0, 4, 12, 1, 12),
+			Block.box(3, 1, 3, 13, 11, 13),
+			Block.box(4, 11, 4, 12, 16, 12),
+			Block.box(2, 11, 10, 4, 12, 12),
+			Block.box(2, 11, 4, 4, 12, 6),
+			Block.box(2, 6, 10, 3, 11, 12),
+			Block.box(2, 6, 4, 3, 11, 6),
+			Block.box(0, 3, 10, 3, 6, 12),
+			Block.box(0, 3, 4, 3, 6, 6),
+			Block.box(13, 5, 11, 16, 10, 12),
+			Block.box(13, 5, 4, 16, 10, 5),
+			Block.box(13, 2, 11, 15, 5, 12),
+			Block.box(13, 2, 4, 15, 5, 5)).optimize());
+    }
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        return TapuLeleCore.TROUGH.get(state.getValue(TapuLeleCore.FACING));
+        return TapuLeleCore.LELE.get(state.getValue(TapuLeleCore.FACING));
     }
     
     public TapuLeleCore(final String name, final Properties props)

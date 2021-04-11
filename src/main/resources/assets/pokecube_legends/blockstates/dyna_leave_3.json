@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": [
+      { "model": "pokecube_legends:block/dyna_leave_3" }
+    ],
+    "snowy=true": {
+      "model": "pokecube_legends:block/dyna_leave_3_snow"
+    }
+  }
+}

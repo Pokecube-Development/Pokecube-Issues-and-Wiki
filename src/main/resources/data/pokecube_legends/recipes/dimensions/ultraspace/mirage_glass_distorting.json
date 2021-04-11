@@ -1,0 +1,11 @@
+{
+  "type": "pokecube_legends:distortic_recipe",
+  "blockId": "pokecube_legends:distortic_mirror",
+  "dimId": "pokecube_legends:ultraspace",
+  "input": {
+    "item": "pokecube_adventures:laboratory_glass"
+  },
+  "output": {
+    "item": "pokecube_legends:mirage_glass"
+  }
+}
