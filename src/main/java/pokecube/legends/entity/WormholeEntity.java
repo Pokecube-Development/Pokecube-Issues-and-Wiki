@@ -46,10 +46,14 @@ import net.minecraftforge.event.entity.living.EntityTeleportEvent;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.spawns.WormholeSpawns;
 import pokecube.legends.spawns.WormholeSpawns.IWormholeWorld;
+import thut.api.LinkableCaps.ILinkStorage;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
@@ -172,10 +176,32 @@ public class WormholeEntity extends LivingEntity
         if (rand.nextDouble() > chance) return;
 
         final Vector3 pos = Vector3.getNewVector().set(event.getPrevX(), event.getPrevY() + 2, event.getPrevZ());
-
         final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(world);
         pos.moveEntity(wormhole);
         holes.addWormhole(wormhole.getPos().getPos().pos());
+
+        // If it is a pokemob, check if holding a location linker, if so, use
+        // that for destination of the wormhole!
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
+        if (pokemob != null)
+        {
+            ILinkStorage link = null;
+            for (int i = 0; i < pokemob.getInventory().getContainerSize(); i++)
+            {
+                final ItemStack test = pokemob.getInventory().getItem(i);
+                final LazyOptional<ILinkStorage> test_stack = test.getCapability(ThutCaps.STORE);
+                if (test_stack.isPresent()) link = test_stack.orElse(null);
+            }
+            if (link != null)
+            {
+                GlobalPos linked_pos = link.getLinkedPos(event.getEntity());
+                if (linked_pos != null)
+                {
+                    linked_pos = GlobalPos.of(linked_pos.dimension(), linked_pos.pos().above(2));
+                    wormhole.setDest(new TeleDest().setPos(linked_pos));
+                }
+            }
+        }
         world.addFreshEntity(wormhole);
     }
 
@@ -244,6 +270,26 @@ public class WormholeEntity extends LivingEntity
     }
 
     private boolean makingDest = false;
+
+    public void setDest(final TeleDest d)
+    {
+        final RegistryKey<World> key = d.getPos().dimension();
+        final ServerWorld dest = this.getServer().getLevel(key);
+        final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+        this.makingDest = true;
+        EventsHandler.Schedule(dest, w ->
+        {
+            this.dest = d;
+            final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(dest);
+            wormhole.moveTo(this.dest.getPos().pos(), 0, 0);
+            wormhole.dest = this.getPos();
+            wormhole.pos = this.dest;
+            holes.addWormhole(this.dest.getPos().pos());
+            dest.addFreshEntity(wormhole);
+            EntityUpdate.sendEntityUpdate(this);
+            return true;
+        });
+    }
 
     public TeleDest getDest()
     {
