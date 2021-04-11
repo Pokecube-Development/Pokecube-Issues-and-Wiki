@@ -130,7 +130,8 @@ public class Trees
                 // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayerFeature(2, 0, 2))
-                .decorators(ImmutableList.of(TrunkVineTreeDecorator.INSTANCE, LeaveVineTreeDecorator.INSTANCE))
+                .decorators(ImmutableList.of(TrunkVineTreeDecorator.INSTANCE, LeaveVineTreeDecorator.INSTANCE,
+                    Features.Placements.BEEHIVE_0002))
                 .ignoreVines()
                 .build();
         //@formatter:on
@@ -164,7 +165,7 @@ public class Trees
             // 0 to 2, this example is from basic oak trees, but it can vary for different ones
             new TwoLayerFeature(1, 1, 2))
             .decorators(ImmutableList.of(TrunkVineTreeDecorator.INSTANCE, LeaveVineTreeDecorator.INSTANCE,
-                new AlterGroundTreeDecorator(new SimpleBlockStateProvider(States.ULTRA_JUNGLE_GRASS))))
+                Features.Placements.BEEHIVE_0002, new AlterGroundTreeDecorator(new SimpleBlockStateProvider(States.ULTRA_JUNGLE_GRASS))))
             .build();
         //@formatter:on
     }
