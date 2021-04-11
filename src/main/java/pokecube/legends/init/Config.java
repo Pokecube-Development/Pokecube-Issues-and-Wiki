@@ -80,7 +80,7 @@ public class Config extends ConfigData
     @Configure(category = "wormholes", comment = "Wormholes gain this much energy every tick. [Default: 1000]")
     public int          wormholeEnergyPerTick          = 1000;
     @Configure(category = "wormholes", comment = "Wormholes gain this much energy for each mob that passed through. [Default: 100000]")
-    public int          wormholeEntityPerTP            = 100000;
+    public int          wormholeEntityPerTP            = 10000;
     @Configure(category = "wormholes", comment = "Minimum number of ticks before you can use a wormhole after using one. [Default: 100]")
     public int          wormholeReUseDelay             = 100;
     @Configure(category = "wormholes", comment = "Chance per tick of a wormhole spawning randomly near a player. [Default: 0.00001]")
