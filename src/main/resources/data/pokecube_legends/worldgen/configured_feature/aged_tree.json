@@ -9,7 +9,12 @@
       "upper_size": 2,
       "type": "minecraft:two_layers_feature_size"
     },
-    "decorators": [],
+    "decorators": [
+      {
+        "probability": 0.01,
+        "type": "minecraft:beehive"
+      }
+    ],
     "trunk_provider": {
       "state": {
         "Properties": {
@@ -32,22 +37,22 @@
     "foliage_placer": {
       "radius": {
         "base": 2,
-        "spread": 1
+        "spread": 2
       },
       "offset": {
         "base": 0,
         "spread": 2
       },
       "trunk_height": {
-        "base": 1,
+        "base": 3,
         "spread": 1
       },
       "type": "minecraft:spruce_foliage_placer"
     },
     "trunk_placer": {
-      "base_height": 5,
-      "height_rand_a": 2,
-      "height_rand_b": 1,
+      "base_height": 8,
+      "height_rand_a": 6,
+      "height_rand_b": 0,
       "type": "minecraft:straight_trunk_placer"
     }
   },

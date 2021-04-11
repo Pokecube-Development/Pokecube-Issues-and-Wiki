@@ -1,0 +1,11 @@
+{
+  "type": "pokecube_legends:distortic_recipe",
+  "blockId": "pokecube_legends:distortic_mirror",
+  "dimId": "pokecube_legends:distorted_world",
+  "input": {
+    "item": "minecraft:glowstone"
+  },
+  "output": {
+    "item": "pokecube_legends:distortic_glowstone"
+  }
+}

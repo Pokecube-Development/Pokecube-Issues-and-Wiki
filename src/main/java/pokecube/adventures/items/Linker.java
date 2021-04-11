@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -63,22 +64,50 @@ public class Linker extends Item
             if (pos == null || user.isCrouching())
             {
                 this.linker.getOrCreateTag().remove("thutcore:pos");
-                if (!user.getCommandSenderWorld().isClientSide) user.sendMessage(new TranslationTextComponent(
-                        "item.pokecube_adventures.linker.unset"), Util.NIL_UUID);
+                if (!user.getCommandSenderWorld().isClientSide)
+                {
+                    if (user instanceof PlayerEntity)
+                    {
+                        final PlayerEntity player = (PlayerEntity) user;
+                        player.displayClientMessage(new TranslationTextComponent(
+                            "item.pokecube_adventures.linker.unset"), true);
+                    } else
+                    {
+                        user.sendMessage(new TranslationTextComponent(
+                            "item.pokecube_adventures.linker.unset"), Util.NIL_UUID);
+                    }
+                }
             }
             else
             {
                 this.linker.getOrCreateTag().put("thutcore:pos", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE,
                         pos).get().left().get());
-                if (!user.getCommandSenderWorld().isClientSide) user.sendMessage(new TranslationTextComponent(
-                        "item.pokecube_adventures.linker.set"), Util.NIL_UUID);
+                if (!user.getCommandSenderWorld().isClientSide)
+                {
+                    if (user instanceof PlayerEntity)
+                    {
+                        final PlayerEntity player = (PlayerEntity) user;
+                        player.displayClientMessage(new TranslationTextComponent(
+                            "item.pokecube_adventures.linker.set"), true);
+                    } else {
+                        user.sendMessage(new TranslationTextComponent(
+                            "item.pokecube_adventures.linker.set"), Util.NIL_UUID);
+                    }
+                }
                 if (user.getCommandSenderWorld().isClientSide) try
                 {
                     final String loc = String.format("%d %d %d", pos.pos().getX(), pos.pos().getY(), pos.pos()
                             .getZ());
                     Minecraft.getInstance().keyboardHandler.setClipboard(loc);
-                    user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.copied"),
+                    if (user instanceof PlayerEntity)
+                    {
+                        final PlayerEntity player = (PlayerEntity) user;
+                        player.displayClientMessage(new TranslationTextComponent("item.pokecube_adventures.linker.set"), true);
+                    } else
+                    {
+                        user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.set"),
                             Util.NIL_UUID);
+                    }
                 }
                 catch (final Exception e)
                 {
@@ -117,12 +146,12 @@ public class Linker extends Item
             {
                 final BlockPos bpos = pos.pos().above();
                 ai.getPrimaryTask().setPos(pos.pos().above());
-                playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob", target
-                        .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), Util.NIL_UUID);
+                playerIn.displayClientMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob", target
+                        .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), true);
                 return true;
             }
-            else playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob.fail"),
-                    Util.NIL_UUID);
+            else playerIn.displayClientMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob.fail"),
+                    true);
         }
         return false;
     }

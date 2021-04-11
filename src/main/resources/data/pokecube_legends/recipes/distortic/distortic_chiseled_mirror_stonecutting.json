@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:distortic_mirror"
+  },
+  "result": "pokecube_legends:distortic_chiseled_mirror",
+  "count": 1
+}

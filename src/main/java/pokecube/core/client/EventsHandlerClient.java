@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.client.util.InputMappings;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Sets;
@@ -240,6 +241,10 @@ public class EventsHandlerClient
         final ClientPlayerEntity player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
+        if (InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3) && evt.getKey() == GLFW.GLFW_KEY_D)
+        {
+            GuiInfoMessages.clear();
+        }
 
         if (evt.getKey() == GLFW.GLFW_KEY_F5) if (AnimationGui.entry != null && Minecraft
                 .getInstance().screen instanceof AnimationGui)

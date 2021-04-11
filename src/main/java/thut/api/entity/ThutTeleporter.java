@@ -105,8 +105,8 @@ public class ThutTeleporter
             if (pos != null)
             {
                 this.loc = pos;
-                this.subLoc = Vector3.getNewVector().set(this.loc.pos().getX(), this.loc.pos().getY(), this.loc.pos()
-                        .getZ());
+                this.subLoc = Vector3.getNewVector().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc.pos()
+                        .getZ() + 0.5);
                 this.name = "";
             }
             return this;

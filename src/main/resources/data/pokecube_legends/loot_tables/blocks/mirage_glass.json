@@ -33,7 +33,7 @@
                   "condition": "minecraft:survives_explosion"
                 }
               ],
-              "name": "minecraft:glass"
+              "name": "minecraft:air"
             }
           ]
         }

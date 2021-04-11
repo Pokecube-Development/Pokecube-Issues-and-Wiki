@@ -12,7 +12,11 @@
 	          {
 	            "feature": "pokecube_legends:huge_brown_mushroom",
 	            "chance": 0.05
-	          }
+	          },
+              {
+                "feature": "pokecube_legends:fancy_inverted_tree",
+                "chance": 0.33333334
+              }
 	        ],
 	        "default": "pokecube_legends:inverted_tree"
 	      },

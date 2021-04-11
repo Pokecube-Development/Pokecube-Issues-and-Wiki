@@ -1,12 +1,22 @@
 {
-   "parent": "block/cube",
-   "textures": {
-	"down": "pokecube_legends:blocks/mirage_plank",
-    "up": "pokecube_legends:blocks/mirage_plank",
-    "north": "pokecube_legends:blocks/mirage_plank",
-    "east": "pokecube_legends:blocks/mirage_plank",
-    "south": "pokecube_legends:blocks/mirage_plank",
-    "west": "pokecube_legends:blocks/mirage_plank",
-    "particle": "pokecube_legends:blocks/mirage_plank"
-   }
+	"credit": "Made with Blockbench",
+	"parent": "block/cube",
+	"textures": {
+		"particle": "pokecube_legends:blocks/mirage_plank",
+		"down": "pokecube_legends:blocks/mirage_plank"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [16, 0, 0, 16], "texture": "#down"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#down"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#down"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#down"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#down"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#down"}
+			}
+		}
+	]
 }

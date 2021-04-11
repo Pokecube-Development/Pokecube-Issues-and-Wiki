@@ -1,8 +1,24 @@
 {
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "pokecube_legends:blocks/mirage_plank",
-    "top": "pokecube_legends:blocks/mirage_plank",
-    "side": "pokecube_legends:blocks/mirage_plank"
-  }
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/slab_top",
+	"textures": {
+		"bottom": "pokecube_legends:blocks/mirage_plank",
+		"top": "pokecube_legends:blocks/mirage_plank",
+		"side": "pokecube_legends:blocks/mirage_plank"
+	},
+	"elements": [
+		{
+			"from": [0, 8, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [16, 0, 0, 8], "texture": "#side"},
+				"east": {"uv": [0, 0, 16, 8], "texture": "#side"},
+				"south": {"uv": [0, 0, 16, 8], "texture": "#side"},
+				"west": {"uv": [0, 0, 16, 8], "texture": "#side"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom"}
+			}
+		}
+	]
 }

@@ -1,5 +1,10 @@
 {
     "variants": {
-        "": { "model": "pokecube_legends:block/ultrasand1" }
+        "snowy=false": {
+            "model": "pokecube_legends:block/ultra_corrupted_grass"
+        },
+        "snowy=true": {
+            "model": "pokecube_legends:block/ultra_corrupted_grass_snow"
+        }
     }
 }

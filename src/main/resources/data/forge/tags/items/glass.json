@@ -1,9 +1,23 @@
 {
   "replace": false,
   "values": [
-    "#forge:stained_glass",
-    "pokecube_adventures:laboratory_glass",
-    "pokecube_legends:mirage_glass",
-    "pokecube_legends:spectrum_glass"
+    "#forge:glass/black",
+    "#forge:glass/blue",
+    "#forge:glass/brown",
+    "#forge:glass/colorless",
+    "#forge:glass/cyan",
+    "#forge:glass/gray",
+    "#forge:glass/green",
+    "#forge:glass/light_blue",
+    "#forge:glass/light_gray",
+    "#forge:glass/lime",
+    "#forge:glass/magenta",
+    "#forge:glass/orange",
+    "#forge:glass/pink",
+    "#forge:glass/purple",
+    "#forge:glass/red",
+    "#forge:glass/white",
+    "#forge:glass/yellow",
+    "#forge:stained_glass"
   ]
 }

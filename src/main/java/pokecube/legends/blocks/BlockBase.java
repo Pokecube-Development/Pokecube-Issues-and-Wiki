@@ -1,7 +1,5 @@
 package pokecube.legends.blocks;
 
-import java.util.List;
-
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -23,6 +21,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 
+import java.util.List;
+
 public class BlockBase extends Block
 {
     VoxelShape customShape = null;
@@ -38,7 +38,8 @@ public class BlockBase extends Block
     public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
             final SoundType sound, final ToolType tool, final int harvestLevel)
     {
-        super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestLevel(harvestLevel));
+        super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound)
+            .harvestTool(tool).harvestLevel(harvestLevel).requiresCorrectToolForDrops());
     }
 
     public BlockBase(final String name, final Material material, final MaterialColor color, final ToolType tool, final int level)

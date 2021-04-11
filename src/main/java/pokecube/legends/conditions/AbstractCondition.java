@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -297,7 +298,14 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         final String message = "msg.reginotlookright.info";
         final TranslationTextComponent component = new TranslationTextComponent(message, name);
-        trainer.sendMessage(component, Util.NIL_UUID);
+        if (trainer instanceof PlayerEntity)
+        {
+            final PlayerEntity player = (PlayerEntity) trainer;
+            player.displayClientMessage(component, true);
+        } else
+        {
+            trainer.sendMessage(component, Util.NIL_UUID);
+        }
         return component;
     }
 

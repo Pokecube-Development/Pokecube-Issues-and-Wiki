@@ -1,13 +1,13 @@
 {
   "variants": {
-    "facing=east,half=bottom":  { "model": "pokecube_legends:block/spaceblock_bottom", "y":270 },
-    "facing=west,half=bottom":  { "model": "pokecube_legends:block/spaceblock_bottom", "y":90 },
-    "facing=north,half=bottom": { "model": "pokecube_legends:block/spaceblock_bottom", "y":180},
-    "facing=south,half=bottom": { "model": "pokecube_legends:block/spaceblock_bottom", "y":0 },
+    "facing=east,half=bottom":  { "model": "pokecube_legends:block/timerspawn_bottom", "y":270 },
+    "facing=west,half=bottom":  { "model": "pokecube_legends:block/timerspawn_bottom", "y":90 },
+    "facing=north,half=bottom": { "model": "pokecube_legends:block/timerspawn_bottom", "y":180},
+    "facing=south,half=bottom": { "model": "pokecube_legends:block/timerspawn_bottom", "y":0 },
 
-    "facing=east,half=top":  { "model": "pokecube_legends:block/spaceblock_top", "y":270 },
-    "facing=west,half=top":  { "model": "pokecube_legends:block/spaceblock_top", "y":90 },
-    "facing=north,half=top": { "model": "pokecube_legends:block/spaceblock_top", "y":180},
-    "facing=south,half=top": { "model": "pokecube_legends:block/spaceblock_top", "y":0 }
+    "facing=east,half=top":  { "model": "pokecube_legends:block/timerspawn_top", "y":270 },
+    "facing=west,half=top":  { "model": "pokecube_legends:block/timerspawn_top", "y":90 },
+    "facing=north,half=top": { "model": "pokecube_legends:block/timerspawn_top", "y":180},
+    "facing=south,half=top": { "model": "pokecube_legends:block/timerspawn_top", "y":0 }
   }
 }

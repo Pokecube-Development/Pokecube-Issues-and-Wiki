@@ -1,0 +1,20 @@
+{
+    "group": "pokecube_legends",
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "DG",
+        "DG"
+    ],
+    "key": {
+        "D": {
+            "item": "pokecube_legends:distortic_mirror"
+        },
+        "G": {
+            "item": "pokecube_legends:spectrum_glass"
+        }
+    },
+    "result": {
+        "item": "pokecube_legends:distortic_one_way_spectrum_glass",
+        "count": 4
+    }
+}

@@ -18,15 +18,21 @@
                 "state_provider": {
                   "entries": [
                     {
-                      "weight": 2,
+                      "weight": 3,
                       "data": {
                         "Name": "pokecube_legends:mush_plant1"
                       }
                     },
                     {
-                      "weight": 1,
+                      "weight": 2,
                       "data": {
                         "Name": "pokecube_legends:mush_plant2"
+                      }
+                    },
+                    {
+                      "weight": 1,
+                      "data": {
+                        "Name": "pokecube_legends:b1_flower"
                       }
                     }
                   ],

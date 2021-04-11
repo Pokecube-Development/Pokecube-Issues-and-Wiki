@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -56,14 +55,14 @@ public class RepelTile extends InteractableTile
             this.range = Math.max(1, berry.type.index);
             this.addForbiddenSpawningCoord();
             if (!player.isCreative() && old != this.range) stack.split(1);
-            if (!this.getLevel().isClientSide) player.sendMessage(new TranslationTextComponent("repel.info.setrange",
-                    this.range, this.enabled), Util.NIL_UUID);
+            if (!this.getLevel().isClientSide) player.displayClientMessage(new TranslationTextComponent("repel.info.setrange",
+                    this.range, this.enabled), true);
             return ActionResultType.SUCCESS;
         }
         else if (stack.getItem() instanceof ItemPokedex)
         {
-            if (!this.getLevel().isClientSide) player.sendMessage(new TranslationTextComponent("repel.info.getrange",
-                    this.range, this.enabled), Util.NIL_UUID);
+            if (!this.getLevel().isClientSide) player.displayClientMessage(new TranslationTextComponent("repel.info.getrange",
+                    this.range, this.enabled), true);
             return ActionResultType.SUCCESS;
         }
         return ActionResultType.PASS;

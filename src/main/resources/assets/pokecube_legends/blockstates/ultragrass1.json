@@ -1,5 +1,13 @@
 {
     "variants": {
-        "": { "model": "pokecube_legends:block/ultragrass1" }
+        "snowy=false": [
+            { "model": "pokecube_legends:block/ultra_mushroom_grass" },
+            { "model": "pokecube_legends:block/ultra_mushroom_grass", "y": 90 },
+            { "model": "pokecube_legends:block/ultra_mushroom_grass", "y": 180 },
+            { "model": "pokecube_legends:block/ultra_mushroom_grass", "y": 270 }
+        ],
+        "snowy=true": {
+            "model": "pokecube_legends:block/ultra_mushroom_grass_snow"
+        }
     }
 }

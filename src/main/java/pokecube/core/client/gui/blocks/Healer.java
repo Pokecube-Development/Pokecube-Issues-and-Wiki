@@ -46,7 +46,7 @@ public class Healer<T extends HealerContainer> extends ContainerScreen<T>
     {
         super.init();
         final ITextComponent heal = new TranslationTextComponent("block.pokecenter.heal");
-        this.addButton(new Button(this.width / 2 + 20, this.height / 2 - 50, 60, 20, heal, b ->
+        this.addButton(new Button(this.width / 2 + 21, this.height / 2 - 50, 60, 20, heal, b ->
         {
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
