@@ -45,7 +45,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:lugia_tower",
+              "structures": "pokecube_legends:legendy_tree",
               "rate": "0.0"
             }
           }
@@ -58,7 +58,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:lugia_tower",
+              "structures": "pokecube_legends:legendy_tree",
               "rate": "0.0"
             }
           }
@@ -71,7 +71,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:lugia_tower",
+              "structures": "pokecube_legends:legendy_tree",
               "rate": "0.0"
             }
           }
@@ -392,6 +392,19 @@
     },
     {
       "name": "Victini",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "village",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "Magearna",
       "stats": {
         "spawnRules": [
           {

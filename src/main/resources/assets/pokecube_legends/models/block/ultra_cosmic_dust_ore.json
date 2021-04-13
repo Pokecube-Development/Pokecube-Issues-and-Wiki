@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:blocks/ultracosmicdustore",
+    "up": "pokecube_legends:blocks/ultracosmicdustore",
+    "north": "pokecube_legends:blocks/ultracosmicdustore",
+    "east": "pokecube_legends:blocks/ultracosmicdustore",
+    "south": "pokecube_legends:blocks/ultracosmicdustore",
+    "west": "pokecube_legends:blocks/ultracosmicdustore",
+    "particle": "pokecube_legends:blocks/ultracosmicdustore"
+   }
+}

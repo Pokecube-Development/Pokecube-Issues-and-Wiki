@@ -68,9 +68,9 @@ public class TapuBuluCore extends Rotates implements IWaterLoggable
         return TapuBuluCore.BULU.get(state.getValue(TapuBuluCore.FACING));
     }
     
-    public TapuBuluCore(final String name, final Properties props)
+    public TapuBuluCore(final Properties props)
     {
-    	super(name, props);
+    	super(props);
     	this.registerDefaultState(this.stateDefinition.any().setValue(TapuBuluCore.FACING, Direction.NORTH).setValue(
     			TapuBuluCore.WATERLOGGED, false));
     }

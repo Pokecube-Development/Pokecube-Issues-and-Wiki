@@ -94,6 +94,7 @@ public class LegendaryConditions
         new LegendarySpawn("deoxys", ItemInit.METEOR_SHARD, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("jirachi", ItemInit.STAR_CORE, BlockInit.LEGENDARY_SPAWN);
 
+        new LegendarySpawn("magearna", ItemInit.SOUL_HEART, BlockInit.MAGEARNA_BLOCK);
         new LegendarySpawn("zygarde10", ItemInit.ZYGARDE_CUBE, BlockInit.XERNEAS_CORE);
         new LegendarySpawn("zygarde10", ItemInit.ZYGARDE_CUBE, BlockInit.YVELTAL_CORE);
 

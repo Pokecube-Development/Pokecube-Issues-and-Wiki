@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube_legends:block/distortic_chiseled_slab"
+    },
+    "type=double": {
+      "model": "pokecube_legends:block/distortic_chiseled_stone"
+    },
+    "type=top": {
+      "model": "pokecube_legends:block/distortic_chiseled_slab_top"
+    }
+  }
+}

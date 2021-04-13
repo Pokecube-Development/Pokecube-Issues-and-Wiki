@@ -148,9 +148,9 @@ public class XerneasCore extends Rotates implements IWaterLoggable
         else return XerneasCore.XERNEAS_TOP.get(state.getValue(XerneasCore.FACING));
     }
 
-    public XerneasCore(final String name, final Properties props)
+    public XerneasCore(final Properties props)
     {
-        super(name, props);
+        super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(XerneasCore.FACING, Direction.NORTH).setValue(
                 XerneasCore.WATERLOGGED, false).setValue(XerneasCore.PART, XerneasCorePart.BOTTOM));
     }

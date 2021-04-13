@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
 	<model>
-		<phase name="global" offset="0,-0.75,0" rotation="1,0,0,0" scale="0.25" />
+		<phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.17" />
 		<customTex>
 			<part name="wormhole" tex="wormhole"/>
 			<part name="back" tex="blackhole"/>
@@ -9,41 +9,63 @@
 			<part name="stars" tex="stars"/>
 			<part name="anel_1" tex="white_base"/>
 			<part name="anel_2" tex="yellow_base"/>
+			<part name="end" tex="wormhole_off"/>
 		</customTex>
+        <material name="end" alpha="1"  light="1" smooth="false" transluscent="false"/>
         <material name="wormhole" light="1" transluscent="false"/>
         <material name="anel_1" light="1" transluscent="false"/>
         <material name="anel_2" light="1" transluscent="false"/>
         <phase type="stable">
             <part name="wormhole_back">
-                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,0,360" startKey="0"/>
             </part>
             <part name="wormhole_center">
-                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,0,360" startKey="0"/>
             </part>
-            <part name="plane_006">
-                <component length="150" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+            <part name="wormhole_end">
+                <component length="1" name="1" hidden="true" startKey="0"/>
+            </part>
+            <part name="anel_1">
+                <component length="30" name="1" posChange="0,0,0.1" startKey="0"/>
+                <component length="30" name="2" posChange="0,0,-0.2" startKey="15"/>
+                <component length="30" name="3" posChange="0,0,0.1" startKey="30"/>
+            </part>
+            <part name="anel_2">
+                <component length="30" name="1" posChange="0,0,0.1" startKey="0"/>
+                <component length="30" name="2" posChange="0,0,-0.2" startKey="15"/>
+                <component length="30" name="3" posChange="0,0,0.1" startKey="30"/>
+            </part>
+            <part name="stars">
+                <component length="60" name="1" posChange="0,0,0.3" rotChange="0,0,360" startKey="0"/>
+                <component length="60" name="2" posChange="0,0,-0.6" rotChange="0,0,360" startKey="30"/>
+                <component length="60" name="3" posChange="0,0,0.3" rotChange="0,0,360" startKey="60"/>
             </part>
         </phase>
         <phase type="opening">
             <part name="wormhole_back">
-                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
-            </part>
-            <part name="wormhole_center">
-                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,-360,0" startKey="0"/>
-            </part>
-            <part name="plane_006">
-                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+                <component length="1" name="1" hidden="true" startKey="0"/>
             </part>
         </phase>
         <phase type="closing">
             <part name="wormhole_back">
-                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,-360,0" startKey="0"/>
+                <component length="30" name="1" rotChange="0,0,360" startKey="0"/>
+            </part>
+            <part name="wormhole_end">
+                <component length="1" name="1" hidden="true" startKey="0"/>
             </part>
             <part name="wormhole_center">
-                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,360,0" startKey="0"/>
+                <component length="1" name="1" hidden="true" startKey="0"/>
             </part>
-            <part name="plane_006">
-                <component length="50" name="1" rotOffset="0,0,0" rotChange="0,-360,0" startKey="0"/>
+            <part name="stars">
+                <component length="60" name="1" posChange="0,0,0.1" 	rotChange="0,0,360" startKey="0"/>
+                <component length="60" name="2" posChange="0,0,-0.2" 	rotChange="0,0,360" startKey="30"/>
+                <component length="60" name="3" posChange="0,0,0.1" 	rotChange="0,0,360" startKey="60"/>
+            </part>
+            <part name="anel_1">
+                <component length="1" name="1" hidden="true" startKey="0"/>
+            </part>
+            <part name="anel_2">
+                <component length="1" name="1" hidden="true" startKey="0"/>
             </part>
         </phase>
 	</model>

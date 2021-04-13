@@ -15,7 +15,7 @@ import pokecube.legends.init.BlockInit;
 
 public class DistorticStoneBlock extends Block implements IGrowable
 {
-    public DistorticStoneBlock(final String name, final Properties properties)
+    public DistorticStoneBlock(final Properties properties)
     {
         super(properties);
     }

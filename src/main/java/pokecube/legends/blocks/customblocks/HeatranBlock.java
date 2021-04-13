@@ -25,7 +25,7 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
 
     // Precise selection box
     static
-    {
+    {// @formatter:off
     	HeatranBlock.HEATRAN.put(Direction.NORTH, VoxelShapes.or(
 			Block.box(3, 6, 3, 13, 10, 13),
 			Block.box(2, 10, 2, 14, 12, 14),
@@ -58,7 +58,7 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
 			Block.box(1, 2, 1, 15, 4, 15),
 			Block.box(0, 14, 0, 16, 16, 16),
 			Block.box(0, 0, 0, 16, 2, 16)).optimize());
-    }
+    }// @formatter:on
 
     // Precise selection box
     @Override
@@ -68,9 +68,9 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
         return HeatranBlock.HEATRAN.get(state.getValue(HeatranBlock.FACING));
     }
 
-    public HeatranBlock(final String name, final Properties props)
+    public HeatranBlock(final Properties props)
     {
-        super(name, props);
+        super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(HeatranBlock.FACING, Direction.NORTH).setValue(
         		HeatranBlock.WATERLOGGED, false));
     }

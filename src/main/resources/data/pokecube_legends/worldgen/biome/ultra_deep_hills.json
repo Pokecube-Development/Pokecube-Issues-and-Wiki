@@ -40,7 +40,11 @@
     [],
     [
      "pokecube_legends:ore_spectrum",
-     "pokecube_legends:ore_cosmic"
+     "pokecube_legends:ore_cosmic",
+     "pokecube_legends:ore_ultra_iron",
+     "pokecube_legends:ore_ultra_gold",
+     "pokecube_legends:ore_ultra_lazuli",
+     "pokecube_legends:ore_ultra_diamond"
     ],
     [],
     [

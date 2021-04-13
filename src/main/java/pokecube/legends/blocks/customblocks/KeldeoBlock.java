@@ -97,9 +97,9 @@ public class KeldeoBlock extends Rotates implements IWaterLoggable
         return KeldeoBlock.KELDEO.get(state.getValue(KeldeoBlock.FACING));
     }
 
-    public KeldeoBlock(final String name, final Properties props)
+    public KeldeoBlock(Properties props)
     {
-        super(name, props);
+        super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(KeldeoBlock.FACING, Direction.NORTH).setValue(
         		KeldeoBlock.WATERLOGGED, false));
     }

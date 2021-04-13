@@ -1144,7 +1144,7 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     }
 
     @Override
-    public BlockBase setInfoBlockName(final String infoname)
+    public BlockBase setToolTip(final String infoname)
     {
         this.infoname = infoname;
         return this;

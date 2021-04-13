@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -27,32 +28,60 @@ public class BlockBase extends Block
 {
     VoxelShape customShape = null;
     String     infoname;
-    boolean    hasTextInfo = true;
+    boolean    hasTextInfo = false;
+    boolean	   hasDropRequired = false;
 
-    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardnessresistance, final SoundType sound, final ToolType tool, final int harvest)
-    {
-        this(name, material, color, hardnessresistance, hardnessresistance, sound, tool, harvest);
-        this.setInfoBlockName(name);
-    }
-
+    //ToolTip
     public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
-            final SoundType sound, final ToolType tool, final int harvestLevel)
+    		final SoundType sound, final ToolType tool, final int harvestLevel, final boolean dropRequired)
     {
-        super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound)
-            .harvestTool(tool).harvestLevel(harvestLevel).requiresCorrectToolForDrops());
+    	super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestTool(tool).harvestLevel(harvestLevel));
+        this.infoname = name;
+        this.hasTextInfo = true;
+        this.hasDropRequired(dropRequired);
+    }
+    
+    // No Tooltip
+    public BlockBase(final Material material, final MaterialColor color, final float hardness, final float resistance,
+    		final SoundType sound, final ToolType tool, final int harvestLevel, final boolean dropRequired)
+    {
+    	super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestTool(tool).harvestLevel(harvestLevel));
+        this.hasDropRequired(dropRequired);
     }
 
-    public BlockBase(final String name, final Material material, final MaterialColor color, final ToolType tool, final int level)
-    {
-        super(AbstractBlock.Properties.of(material, color).harvestTool(tool).harvestLevel(level));
-    }
+    //Vertex
+    public BlockBase(String name, Properties props) {
+		super(props);
+		this.infoname = name;
+    	this.hasTextInfo = true;
+	}
+    
+    //Vertex -No ToolTip-
+    public BlockBase(Properties props) {
+		super(props);
+	}
 
-    public BlockBase(final String name, final Properties props)
-    {
-        super(props);
-    }
+    //Effects -ToolTip-
+	public BlockBase(String name, Material material, MaterialColor color, float hardness, float resistance,
+			SoundType sound, ToolType tool, int harvestLevel, boolean hadDrop, Effect effects) {
+		super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestTool(tool).harvestLevel(harvestLevel));
+		this.infoname = name;
+    	this.hasTextInfo = true;
+	}
+	
+	//Effects -No ToolTip-
+	public BlockBase(Material material, MaterialColor color, float hardness, float resistance,
+			SoundType sound, ToolType tool, int harvestLevel, boolean hadDrop, Effect effects) {
+		super(AbstractBlock.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestTool(tool).harvestLevel(harvestLevel));
+	}
 
-    public BlockBase setShape(final VoxelShape shape)
+	public BlockBase setToolTip(String infoname) {
+		this.infoname = infoname;
+    	this.hasTextInfo = true;
+		return this;
+	}
+	
+	public BlockBase setShape(final VoxelShape shape)
     {
         this.customShape = shape;
         return this;
@@ -64,16 +93,14 @@ public class BlockBase extends Block
     {
         return this.customShape == null ? VoxelShapes.block() : this.customShape;
     }
-
-    public BlockBase setInfoBlockName(final String infoname)
+    
+    //Drop Required
+    public BlockBase hasDropRequired(boolean hasDrop)
     {
-        this.infoname = infoname;
-        return this;
-    }
-
-    public BlockBase noInfoBlock()
-    {
-        this.hasTextInfo = false;
+        this.hasDropRequired = hasDrop;
+        if(hasDropRequired == true) {
+        	this.properties.requiresCorrectToolForDrops();
+        }
         return this;
     }
 

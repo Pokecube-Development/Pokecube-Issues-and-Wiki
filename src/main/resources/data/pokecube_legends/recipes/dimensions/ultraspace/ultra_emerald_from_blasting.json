@@ -1,0 +1,12 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:blasting",
+  "experience": 1,
+  "cookingtime": 100,
+  "ingredient": {
+    "item": "pokecube_legends:ultra_emerald_ore"
+  },
+  "result": {
+    "item": "minecraft:emerald"
+  }
+}

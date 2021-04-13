@@ -17,8 +17,8 @@ import thut.api.item.ItemList;
 
 public class KokoTotem extends TapuKokoCore{
 
-	public KokoTotem(String name, Properties props) {
-		super(name, props);
+	public KokoTotem(Properties props) {
+		super(props);
 	}
 	
 	@Override

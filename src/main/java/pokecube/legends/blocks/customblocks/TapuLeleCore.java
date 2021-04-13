@@ -92,9 +92,9 @@ public class TapuLeleCore extends Rotates implements IWaterLoggable
         return TapuLeleCore.LELE.get(state.getValue(TapuLeleCore.FACING));
     }
     
-    public TapuLeleCore(final String name, final Properties props)
+    public TapuLeleCore(final Properties props)
     {
-    	super(name, props);
+    	super(props);
     	this.registerDefaultState(this.stateDefinition.any().setValue(TapuLeleCore.FACING, Direction.NORTH).setValue(
     			TapuLeleCore.WATERLOGGED, false));
     }

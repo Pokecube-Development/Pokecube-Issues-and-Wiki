@@ -34,9 +34,9 @@ public class TaoTrioBlock extends Rotates implements IWaterLoggable
         return TaoTrioBlock.TAO;
     }
 
-    public TaoTrioBlock(final String name, final Properties props)
+    public TaoTrioBlock(final Properties props)
     {
-        super(name, props);
+        super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(TaoTrioBlock.FACING, Direction.NORTH).setValue(
         		TaoTrioBlock.WATERLOGGED, false));
     }

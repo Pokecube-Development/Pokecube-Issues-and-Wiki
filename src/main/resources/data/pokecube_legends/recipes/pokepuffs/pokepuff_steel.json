@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BBB",
+    "PCP",
+    "SOS"
+  ],
+  "key": {
+  	"C": {
+      "item": "minecraft:milk_bucket"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "P": {
+      "item": "minecraft:wheat"
+    },
+    "O": {
+      "item": "minecraft:bowl"
+    },
+    "B": {
+      "item": "pokecube:berry_pecha"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:pokepuff_steel",
+    "count": 3
+  }
+}

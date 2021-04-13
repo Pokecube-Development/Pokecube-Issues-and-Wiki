@@ -1,0 +1,7 @@
+{
+  "variants": {    
+	"": { 
+		"model": "pokecube_legends:block/unown_blocks/unown_stone_o"
+	}
+  }
+}

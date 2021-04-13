@@ -76,9 +76,9 @@ public class TroughBlock extends Rotates implements IWaterLoggable
         return TroughBlock.TROUGH.get(state.getValue(TroughBlock.FACING));
     }
     
-    public TroughBlock(final String name, final Properties props)
+    public TroughBlock(final Properties props)
     {
-    	super(name, props);
+    	super(props);
     	this.registerDefaultState(this.stateDefinition.any().setValue(TroughBlock.FACING, Direction.NORTH).setValue(
     			TroughBlock.WATERLOGGED, false));
     }

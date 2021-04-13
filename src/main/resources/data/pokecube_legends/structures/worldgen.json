@@ -447,6 +447,22 @@
       ]
     },
     {
+      "name":"pokecube_legends:temples/surface/legendy_tree_center",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/legendy_tree_center"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/legendy_tree_top",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/legendy_tree_top"
+      ]
+    },
+    {
       "name":"pokecube_legends:yveltal_place",
       "rigid":true,
       "ignoreAir":false,

@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_column",
+    "textures": {
+        "end": "pokecube_legends:blocks/unown_stone_side",
+        "side": "pokecube_legends:blocks/unown_stone_in"
+    }
+}

@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -18,24 +19,38 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ItemBase extends Item
 {
     String  tooltipname;
-    boolean hasTooltip = true;
+    boolean hasTooltip = false;
+    boolean hasShiny = false;
 
+    //Info
     public ItemBase(final String name, final int num, final ItemGroup group)
     {
         super(new Properties().tab(group).stacksTo(num));
-        this.setTooltipName(name);
+        this.hasTooltip = true;
+        this.tooltipname = name;
     }
-
-    public ItemBase setTooltipName(final String tooltipname)
+    
+    //No Info
+    public ItemBase(final int num, final ItemGroup group)
     {
-        this.tooltipname = tooltipname;
-        return this;
+        super(new Properties().tab(group).stacksTo(num));
     }
-
-    public ItemBase noTooltop()
+    
+    public ItemBase(final String name, final int num, final ItemGroup group, final Food food)
     {
-        this.hasTooltip = false;
-        return this;
+        super(new Properties().tab(group).stacksTo(num).food(food));
+        this.tooltipname = name;
+        this.hasTooltip = true;
+    }
+    
+    public ItemBase(final int num, final ItemGroup group, final Food food)
+    {
+        super(new Properties().tab(group).stacksTo(num).food(food));
+    }
+    
+    public ItemBase setShiny() {
+    	this.hasShiny = true;
+    	return this;
     }
 
     @Override

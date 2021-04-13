@@ -28,7 +28,7 @@ public class CrystallizedCactus extends Block implements IWaterLoggable
 	protected static final VoxelShape OUTLINE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 	private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-	public CrystallizedCactus(final String name, final Properties props)
+	public CrystallizedCactus(final Properties props)
     {
         super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));

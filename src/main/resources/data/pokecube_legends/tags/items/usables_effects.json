@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube_legends:poffin/poffin_fire",
+    "#pokecube_legends:poffin/poffin_ground",
+    "#pokecube_legends:poffin/poffin_water",
+    "#pokecube_legends:poffin/poffin_steel",
+    "#pokecube_legends:poffin/poffin_grass",
+    "#pokecube_legends:poffin/poffin_electric",
+    "#pokecube_legends:poffin/poffin_dragon",
+    "#pokecube_legends:poffin/poffin_bug",
+    "#pokecube_legends:poffin/poffin_rock",
+    "#pokecube_legends:poffin/poffin_fairy",
+    "#pokecube_legends:poffin/poffin_poison",
+    "#pokecube_legends:poffin/poffin_psychic",
+    "#pokecube_legends:poffin/poffin_ghost",
+    "#pokecube_legends:poffin/poffin_dark",
+    "#pokecube_legends:poffin/poffin_fighting",
+    "#pokecube_legends:poffin/poffin_flying",
+    "#pokecube_legends:poffin/poffin_normal",
+    "#pokecube_legends:poffin/poffin_ice"
+  ]
+}

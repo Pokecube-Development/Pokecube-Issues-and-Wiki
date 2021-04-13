@@ -1,0 +1,301 @@
+{
+  "type": "minecraft:empty",
+  "pools": [
+    {
+      "name": "pool_0",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:sand",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:glass",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:bookshelf",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:smooth_stone",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:cactus",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:glowstone",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:red_mushroom_block",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:brown_mushroom_block",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:redstone_lamp",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:hopper",
+          "weight": 90
+        },
+        {
+          "type": "item",
+          "name": "minecraft:hay_block",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "minecraft:terracotta",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "pokecube:greatcube",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "minecraft:slime_block",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "minecraft:bone_block",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "minecraft:coal",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "pokecube:pokecube",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "minecraft:iron_ingot",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "minecraft:ender_pearl",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "minecraft:string",
+          "weight": 60
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_grass",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_ice",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_fire",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_water",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_rock",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_ground",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_steel",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_psychic",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_dark",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_ghost",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_poison",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_normal",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_fighting",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_flying",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_bug",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_electric",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_dragon",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:pokepuff_fairy",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "minecraft:gold_ingot",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:cooked_porkchop",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:redstone",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:cake",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:cookie",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:ender_pearl",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:nether_wart",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:fermented_spider_eye",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:blaze_powder",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:magma_cream",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:gold_ingot",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:ender_eye",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:diamond",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:emerald",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:diamond_pickaxe",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:ghast_tear",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "pokecube:ultracube",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:iron_block",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:gold_block",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:packed_ice",
+          "weight": 10
+        }
+      ]
+    }
+  ]
+}

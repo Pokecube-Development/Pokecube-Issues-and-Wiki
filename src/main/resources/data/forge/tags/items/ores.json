@@ -4,7 +4,8 @@
         "#forge:ores/sapphire",
         "#forge:ores/ruby",
         "#forge:ores/spectrum",
-        "#forge:ores/cosmic"
+        "#forge:ores/cosmic",
+		"#forge:ores/fractal"
     ],
     "optional": [
         "pokecube:fossilstone"

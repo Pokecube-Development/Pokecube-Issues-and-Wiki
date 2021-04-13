@@ -17,8 +17,8 @@ import thut.api.item.ItemList;
 
 public class BuluTotem extends TapuBuluCore{
 
-	public BuluTotem(String name, Properties props) {
-		super(name, props);
+	public BuluTotem(Properties props) {
+		super(props);
 	}
 	
 	@Override

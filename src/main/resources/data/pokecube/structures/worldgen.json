@@ -531,6 +531,13 @@
         "pokecube:village/sky/town_centers/center_1"
       ]
     },
+     {
+      "name":"pokecube:village/sky/town_centers/base",
+      "rigid":true,
+      "options":[
+        "pokecube:village/sky/town_centers/base"
+      ]
+    },
     {
       "name":"pokecube:village/sky/tower/tower_1",
       "ignoreAir":false,

@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:blocks/ultra_emerald_ore",
+    "up": "pokecube_legends:blocks/ultra_emerald_ore",
+    "north": "pokecube_legends:blocks/ultra_emerald_ore",
+    "east": "pokecube_legends:blocks/ultra_emerald_ore",
+    "south": "pokecube_legends:blocks/ultra_emerald_ore",
+    "west": "pokecube_legends:blocks/ultra_emerald_ore",
+    "particle": "pokecube_legends:blocks/ultra_emerald_ore"
+   }
+}
