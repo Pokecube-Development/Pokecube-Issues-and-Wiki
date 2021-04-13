@@ -6,12 +6,12 @@
           "config": {
             "feature": {
               "config": {
-                "target": {
+               "target": {
                   "tag": "minecraft:base_stone_overworld",
                   "predicate_type": "minecraft:tag_match"
                 },
                 "state": {
-                  "Name": "pokecube_legends:ultra_cosmic_dust_ore"
+                  "Name": "pokecube_legends:ultra_iron_ore"
                 },
                 "size": 6
               },
@@ -21,7 +21,7 @@
               "config": {
                 "bottom_offset": 0,
                 "top_offset": 0,
-                "maximum": 64
+                "maximum": 50
               },
               "type": "minecraft:range"
             }
@@ -37,7 +37,7 @@
     },
     "decorator": {
       "config": {
-        "count": 32
+        "count": 12
       },
       "type": "minecraft:count"
     }

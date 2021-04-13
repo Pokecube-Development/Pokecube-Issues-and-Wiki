@@ -11,9 +11,9 @@
                   "predicate_type": "minecraft:tag_match"
                 },
                 "state": {
-                  "Name": "pokecube_legends:ultra_cosmic_dust_ore"
+                  "Name": "pokecube_legends:fractal_ore"
                 },
-                "size": 6
+                "size": 5
               },
               "type": "minecraft:ore"
             },
@@ -37,7 +37,7 @@
     },
     "decorator": {
       "config": {
-        "count": 32
+        "count": 10
       },
       "type": "minecraft:count"
     }

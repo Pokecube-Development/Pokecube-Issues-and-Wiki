@@ -6,14 +6,14 @@
           "config": {
             "feature": {
               "config": {
-                "target": {
+               "target": {
                   "tag": "minecraft:base_stone_overworld",
                   "predicate_type": "minecraft:tag_match"
                 },
                 "state": {
-                  "Name": "pokecube_legends:ultra_cosmic_dust_ore"
+                  "Name": "pokecube_legends:ultra_emerald_ore"
                 },
-                "size": 6
+                "size": 2
               },
               "type": "minecraft:ore"
             },
@@ -21,7 +21,7 @@
               "config": {
                 "bottom_offset": 0,
                 "top_offset": 0,
-                "maximum": 64
+                "maximum": 20
               },
               "type": "minecraft:range"
             }
@@ -37,7 +37,7 @@
     },
     "decorator": {
       "config": {
-        "count": 32
+        "count": 4
       },
       "type": "minecraft:count"
     }
