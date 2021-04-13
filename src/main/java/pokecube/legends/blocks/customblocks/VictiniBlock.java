@@ -171,9 +171,9 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
         else return VictiniBlock.VICTINI_TOP.get(state.getValue(VictiniBlock.FACING));
     }
 
-    public VictiniBlock(final String name, final Properties props)
+    public VictiniBlock(final Properties props)
     {
-        super(name, props);
+        super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(VictiniBlock.FACING, Direction.NORTH).setValue(
                 VictiniBlock.WATERLOGGED, false).setValue(VictiniBlock.HALF, VictiniBlockPart.BOTTOM));
     }

@@ -32,7 +32,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
-	public TallCrystallizedBush(final String name, final Properties props)
+	public TallCrystallizedBush(final Properties props)
     {
         super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(TallCrystallizedBush.WATERLOGGED, false)

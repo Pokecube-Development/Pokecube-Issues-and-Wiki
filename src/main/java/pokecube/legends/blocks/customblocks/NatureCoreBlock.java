@@ -9,9 +9,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -34,7 +31,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ToolType;
 
 public class NatureCoreBlock extends Rotates implements IWaterLoggable
 {
@@ -95,10 +91,9 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     }
 
     // Default States
-    public NatureCoreBlock(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
-            final SoundType sound, final ToolType tool, final int harvest)
+    public NatureCoreBlock(final Properties properties)
     {
-        super(name, material, color, hardness, resistance, sound, tool, harvest);
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(NatureCoreBlock.HALF, NatureCorePart.BOTTOM).setValue(
                 NatureCoreBlock.FACING, Direction.NORTH).setValue(NatureCoreBlock.WATERLOGGED, false));
     }

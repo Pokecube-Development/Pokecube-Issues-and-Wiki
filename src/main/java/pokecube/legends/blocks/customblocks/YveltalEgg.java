@@ -57,9 +57,9 @@ public class YveltalEgg extends Rotates implements IWaterLoggable
         }
     }
 
-    public YveltalEgg(final String name, final Properties props)
+    public YveltalEgg(final Properties props)
     {
-        super(name, props);
+        super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(YveltalEgg.FACING, Direction.NORTH).setValue(
                 YveltalEgg.WATERLOGGED, false).setValue(YveltalEgg.HALF, YveltalEggPart.BOTTOM));
     }

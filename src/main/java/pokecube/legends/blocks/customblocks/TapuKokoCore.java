@@ -64,9 +64,9 @@ public class TapuKokoCore extends Rotates implements IWaterLoggable
         return TapuKokoCore.KOKO.get(state.getValue(TapuKokoCore.FACING));
     }
     
-    public TapuKokoCore(final String name, final Properties props)
+    public TapuKokoCore(final Properties props)
     {
-    	super(name, props);
+    	super(props);
     	this.registerDefaultState(this.stateDefinition.any().setValue(TapuKokoCore.FACING, Direction.NORTH).setValue(
     			TapuKokoCore.WATERLOGGED, false));
     }

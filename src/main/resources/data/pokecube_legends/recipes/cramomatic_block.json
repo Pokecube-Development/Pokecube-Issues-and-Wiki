@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "TWT",
+    "TAT"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:redstone_block"
+    },
+    "C": {
+      "item": "minecraft:blue_terracotta"
+    },
+    "W": {
+      "item": "pokecube_legends:fractal_shard"
+    },
+    "T": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:cramomatic_block",
+    "count": 1
+  }
+}

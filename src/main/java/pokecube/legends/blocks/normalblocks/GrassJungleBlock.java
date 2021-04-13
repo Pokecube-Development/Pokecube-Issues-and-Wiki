@@ -28,7 +28,7 @@ import pokecube.legends.init.ItemInit;
 
 public class GrassJungleBlock extends GrassBlock implements IGrowable
 {
-    public GrassJungleBlock(final String name, final Properties properties)
+    public GrassJungleBlock(final Properties properties)
     {
         super(properties);
         this.registerDefaultState((BlockState)((BlockState)this.stateDefinition.any()).setValue(SNOWY, false));

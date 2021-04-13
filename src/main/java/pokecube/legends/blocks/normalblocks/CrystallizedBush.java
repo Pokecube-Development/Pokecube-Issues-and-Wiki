@@ -29,7 +29,7 @@ public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 	private static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 	private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-	public CrystallizedBush(final String name, final Properties props)
+	public CrystallizedBush(final Properties props)
     {
         super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(CrystallizedBush.WATERLOGGED, false));

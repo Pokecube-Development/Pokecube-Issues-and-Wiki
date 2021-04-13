@@ -64,9 +64,9 @@ public class TapuFiniCore extends Rotates implements IWaterLoggable
         return TapuFiniCore.FINI.get(state.getValue(TapuFiniCore.FACING));
     }
     
-    public TapuFiniCore(final String name, final Properties props)
+    public TapuFiniCore(final Properties props)
     {
-    	super(name, props);
+    	super(props);
     	this.registerDefaultState(this.stateDefinition.any().setValue(TapuFiniCore.FACING, Direction.NORTH).setValue(
     			TapuFiniCore.WATERLOGGED, false));
     }

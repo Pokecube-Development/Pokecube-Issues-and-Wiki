@@ -114,9 +114,9 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
 
     // Default States
     public TimeSpaceCoreBlock(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
-                              final SoundType sound, final ToolType tool, final int harvest)
+                              final SoundType sound, final ToolType tool, final int harvest, boolean isDrop)
     {
-        super(name, material, color, hardness, resistance, sound, tool, harvest);
+        super(name, material, color, hardness, resistance, sound, tool, harvest, isDrop);
         this.registerDefaultState(this.stateDefinition.any().setValue(TimeSpaceCoreBlock.HALF, TimeSpaceCorePart.BOTTOM)
                 .setValue(TimeSpaceCoreBlock.FACING, Direction.NORTH).setValue(TimeSpaceCoreBlock.WATERLOGGED, false));
     }
@@ -207,9 +207,9 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
         builder.add(TimeSpaceCoreBlock.HALF, HorizontalBlock.FACING, TimeSpaceCoreBlock.WATERLOGGED);
     }
 
-    public TimeSpaceCoreBlock(final String name, final Properties props)
+    public TimeSpaceCoreBlock(final Properties props)
     {
-        super(name, props.randomTicks());
+        super(props.randomTicks());
     }
 
     @Override

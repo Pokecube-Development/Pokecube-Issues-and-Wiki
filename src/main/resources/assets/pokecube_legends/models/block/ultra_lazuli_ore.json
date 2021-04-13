@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:blocks/ultra_lazuli_ore",
+    "up": "pokecube_legends:blocks/ultra_lazuli_ore",
+    "north": "pokecube_legends:blocks/ultra_lazuli_ore",
+    "east": "pokecube_legends:blocks/ultra_lazuli_ore",
+    "south": "pokecube_legends:blocks/ultra_lazuli_ore",
+    "west": "pokecube_legends:blocks/ultra_lazuli_ore",
+    "particle": "pokecube_legends:blocks/ultra_lazuli_ore"
+   }
+}

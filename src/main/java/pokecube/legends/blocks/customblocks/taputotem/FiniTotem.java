@@ -17,8 +17,8 @@ import thut.api.item.ItemList;
 
 public class FiniTotem extends TapuFiniCore{
 
-	public FiniTotem(String name, Properties props) {
-		super(name, props);
+	public FiniTotem(Properties props) {
+		super(props);
 	}
 	
 	@Override

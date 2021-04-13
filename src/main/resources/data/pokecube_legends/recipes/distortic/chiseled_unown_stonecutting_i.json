@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:distortic_chiseled_stone"
+  },
+  "result": "pokecube_legends:unown_stone_i",
+  "count": 1
+}

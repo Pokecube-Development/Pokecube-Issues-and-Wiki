@@ -1,37 +1,36 @@
 package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.ToolType;
 import pokecube.legends.blocks.BlockBase;
 
 public class MagneticBlock extends BlockBase
 {
-    public MagneticBlock(final String name, Properties properties)
-    {
-        super(name, properties);
-    }
 
-    @SuppressWarnings("deprecation")
+	public MagneticBlock(Material material, MaterialColor color, float hardness, float resistance,
+			SoundType sound, ToolType tool, int harvestLevel, boolean hasDrop) {
+		super(material, color, hardness, resistance, sound, tool, harvestLevel, hasDrop);
+	}
+
 	@Override
 	public ActionResultType use(final BlockState state, final World world, final BlockPos pos, final PlayerEntity entity, final Hand hand,
 			final BlockRayTraceResult hit) {
-		super.use(state, world, pos, entity, hand, hit);
 		final int x = pos.getX();
 		final int y = pos.getY();
 		final int z = pos.getZ();
-		@SuppressWarnings("unused")
-        final
-		Direction direction = hit.getDirection();
 		{
 			final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
 			$_dependencies.put("entity", entity);

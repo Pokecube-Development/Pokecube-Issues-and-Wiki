@@ -38,7 +38,7 @@ public class GrassCorruptedBlock extends NyliumBlock implements IGrowable
 {
     public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
 
-    public GrassCorruptedBlock(final String name, final Properties properties)
+    public GrassCorruptedBlock(final Properties properties)
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(GrassCorruptedBlock.SNOWY, false));

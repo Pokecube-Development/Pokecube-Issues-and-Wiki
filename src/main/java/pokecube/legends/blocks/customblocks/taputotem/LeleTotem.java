@@ -17,8 +17,8 @@ import thut.api.item.ItemList;
 
 public class LeleTotem extends TapuLeleCore{
 
-	public LeleTotem(String name, Properties props) {
-		super(name, props);
+	public LeleTotem(Properties props) {
+		super(props);
 	}
 	
 	@Override

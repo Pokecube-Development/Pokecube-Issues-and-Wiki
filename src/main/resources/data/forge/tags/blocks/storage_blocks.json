@@ -5,6 +5,7 @@
     "#forge:storage_blocks/crystal",
     "#forge:storage_blocks/ruby",
     "#forge:storage_blocks/sapphire",
-    "#forge:storage_blocks/spectrum"
+    "#forge:storage_blocks/spectrum",
+	"#forge:storage_blocks/fractal"
   ]
 }

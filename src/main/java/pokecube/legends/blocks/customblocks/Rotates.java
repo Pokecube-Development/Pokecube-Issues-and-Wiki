@@ -29,28 +29,34 @@ public class Rotates extends BlockBase implements IWaterLoggable
     private static final DirectionProperty FACING      = HorizontalBlock.FACING;
 
     public Rotates(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
-            final SoundType sound, final ToolType tool, final int harvest)
+            final SoundType sound, final ToolType tool, final int harvest, final boolean hasDrop)
     {
-    	super(name, material, color, hardness, resistance, sound, tool, harvest);
+    	super(name, material, color, hardness, resistance, sound, tool, harvest, hasDrop);
+        this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
+                Rotates.WATERLOGGED, false));
+    }
+    
+    public Rotates(final Material material, final MaterialColor color, final float hardness, final float resistance,
+            final SoundType sound, final ToolType tool, final int harvest, final boolean hasDrop)
+    {
+    	super(material, color, hardness, resistance, sound, tool, harvest, hasDrop);
         this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
     }
 
-    public Rotates(final String name, final Material material, final MaterialColor color, final ToolType tool, final int level)
-    {
-        super(name, material, color, tool, level);
-        this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
+    public Rotates(String name, Properties props) {
+    	super(name, props);
+    	this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
-    }
-
-    public Rotates(final String name, final Properties props)
-    {
-        super(name, props);
-        this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
+	}
+    
+    public Rotates( Properties props) {
+    	super(props);
+    	this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
-    }
+	}
 
-    @Override
+	@Override
     protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(Rotates.FACING, Rotates.WATERLOGGED);
@@ -62,15 +68,6 @@ public class Rotates extends BlockBase implements IWaterLoggable
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         return this.defaultBlockState().setValue(Rotates.FACING, context.getHorizontalDirection().getOpposite()).setValue(
                 Rotates.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
-                                  final BlockPos facingPos)
-    {
-        if (state.getValue(Rotates.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     // Adds Waterlogging
@@ -110,5 +107,14 @@ public class Rotates extends BlockBase implements IWaterLoggable
     public BlockState mirror(final BlockState state, final Mirror mirrorIn)
     {
         return state.rotate(mirrorIn.getRotation(state.getValue(Rotates.FACING)));
+    }
+    
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+                                  final BlockPos facingPos)
+    {
+        if (state.getValue(Rotates.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 }

@@ -15,7 +15,7 @@ import pokecube.legends.init.BlockInit;
 
 public class DirtCorruptedBlock extends Block implements IGrowable
 {
-    public DirtCorruptedBlock(final String name, final Properties properties)
+    public DirtCorruptedBlock(final Properties properties)
     {
         super(properties);
     }
