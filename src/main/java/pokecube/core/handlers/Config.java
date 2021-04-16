@@ -342,6 +342,8 @@ public class Config extends ConfigData
     public boolean refreshSubbiomes    = false;
     @Configure(category = Config.world, comment = "Allows the generic berry item to be added to pokemob drop pools if no other berries are added. [Default: false]")
     public boolean autoAddNullBerries  = false;
+    @Configure(category = Config.world, comment = "Auto-generated berries by hungry pokemobs will contain up to this many berries. [Default: 15]")
+    public int     berryStackScale     = 15;
     @Configure(category = Config.world, comment = "Can be used to adjust rate of berries on trees growing, lower values result in faster berry growth. [Default: 75]")
     public int     leafBerryTicks      = 75;
     @Configure(category = Config.world, comment = "If false, subbiomes will not auto-detect, meaning they need to be placed manually, useful for adventure maps, etc. [Default: true]")
@@ -693,6 +695,8 @@ public class Config extends ConfigData
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
+
+        this.berryStackScale = Math.max(1, this.berryStackScale);
 
         // TODO Init secret bases resizing
         // DimensionSecretBase.init(baseSizeFunction);
