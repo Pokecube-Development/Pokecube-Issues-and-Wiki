@@ -406,16 +406,18 @@ public class Config extends ConfigData
     public String       professor_override     = "pokecube:mob:spawn_professor";
 
     // Mob Spawning settings
+    @Configure(category = Config.spawning, comment = "the configs for deactivating/disabling monsters and animals will also affect these worlds, not only vanilla worlds.")
+    public List<String> deactivateWhitelist    = Lists.newArrayList("pokecube_world:overworld");
     @Configure(category = Config.spawning, comment = "Vanilla monsters will not spawn via normal spawning, this does not prevent mob spawners or special spawns. [Default: false]")
-    public boolean deactivateMonsters     = false;
+    public boolean      deactivateMonsters     = false;
     @Configure(category = Config.spawning, comment = "If true, vanilla monsters are removed entirely, similar to in peaceful mode. [Default: false]")
-    public boolean disableVanillaMonsters = false;
+    public boolean      disableVanillaMonsters = false;
     @Configure(category = Config.spawning, comment = "Similar to disableVanillaMonsters, but for vanilla animals. [Default: false]")
-    public boolean disableVanillaAnimals  = false;
+    public boolean      disableVanillaAnimals  = false;
     @Configure(category = Config.spawning, comment = "Similar to deactivateMonsters, but for vanilla animals. [Default: true]")
-    public boolean deactivateAnimals      = true;
+    public boolean      deactivateAnimals      = true;
     @Configure(category = Config.spawning, comment = "If false, pokemobs will not spawn naturally. [Default: true]")
-    public boolean pokemonSpawn           = true;
+    public boolean      pokemonSpawn           = true;
 
     @Configure(category = Config.spawning, comment = "Legendary pokemobs will not spawn naturally below this level. [Default: 1]")
     public int    minLegendLevel       = 1;
