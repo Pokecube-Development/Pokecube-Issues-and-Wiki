@@ -359,7 +359,8 @@ public class Config extends ConfigData
             "pokecube:secret_base",
             "pokecube_legends:distorted_world",
             "pokecube_legends:ultraspace",
-            "compactmachines:compact_world"
+            "compactmachines:compact_world",
+            "the_bumblezone:the_bumblezone"
             );
     //@formatter:on
 
