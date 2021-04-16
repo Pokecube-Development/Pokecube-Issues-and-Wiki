@@ -21,18 +21,18 @@ public class LegendsSword extends ToolSword
 	String  tooltipname;
 	boolean hasTooltip = true;
 	boolean hasShiny = false;
-	    
+
     public LegendsSword(final IItemTier material, final int attackSpeed, final int bonusDamage, final ItemGroup group)
     {
-        super(material, bonusDamage, attackSpeed, group);     
+        super(attackSpeed, bonusDamage, material, group);
     }
-    
+
     public LegendsSword setTooltipName(final String tooltipname)
     {
         this.tooltipname = tooltipname;
         return this;
     }
-    
+
     public LegendsSword setShiny(){
     	this.hasShiny = true;
     	return this;
@@ -43,7 +43,7 @@ public class LegendsSword extends ToolSword
         this.hasTooltip = false;
         return this;
     }
-    
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
@@ -60,6 +60,6 @@ public class LegendsSword extends ToolSword
     @OnlyIn(Dist.CLIENT)
     public boolean isFoil(final ItemStack itemstack)
     {
-        return hasShiny;
+        return this.hasShiny;
     }
 }
