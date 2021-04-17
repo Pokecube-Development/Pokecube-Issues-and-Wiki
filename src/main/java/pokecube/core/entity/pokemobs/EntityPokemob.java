@@ -306,7 +306,8 @@ public class EntityPokemob extends PokemobRidable
             final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this);
-        if (pokemob == null) return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        if (pokemob == null || !(worldIn instanceof World)) return super.finalizeSpawn(worldIn, difficultyIn, reason,
+                spawnDataIn, dataTag);
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
         final SpawnData entry = pokeEntry.getSpawnData();
         if (entry == null) return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);

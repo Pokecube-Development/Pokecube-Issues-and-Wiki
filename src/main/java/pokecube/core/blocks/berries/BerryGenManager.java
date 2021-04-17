@@ -588,7 +588,7 @@ public class BerryGenManager
         final List<ItemStack> options = BerryGenManager.berryLocations.get(toMatch);
         if (options == null || options.isEmpty()) return ItemStack.EMPTY;
         final ItemStack ret = options.get(world.random.nextInt(options.size())).copy();
-        final int size = 1 + world.random.nextInt(ret.getCount() + 15);
+        final int size = 1 + world.random.nextInt(PokecubeCore.getConfig().berryStackScale);
         ret.setCount(size);
         return ret;
     }

@@ -228,7 +228,14 @@ public class EventsHandler
             // We don't want to block something if we have made it a pokemob
             final boolean isPokemob = pokemob != null;
             // Simple check for vanillaness, via the entity type registry name
-            final boolean isVanilla = e.getType().getRegistryName().getNamespace().equals("minecraft");
+            boolean isVanilla = e.getType().getRegistryName().getNamespace().equals("minecraft");
+
+            // Now also check that the world is also a vanilla world, or one
+            // specifically allowed to have spawns revoked.
+            final String worldRegName = e.level.dimension().location().getPath();
+            isVanilla = isVanilla && (worldRegName.startsWith("minecraft:") || PokecubeCore
+                    .getConfig().deactivateWhitelist.contains(worldRegName));
+
             // Lets not block villagers/merchants/pillagers
             final boolean isNpc = e instanceof INPC || e instanceof IMerchant || e instanceof WitherEntity;
             // Lets also not block the ender dragon/parts

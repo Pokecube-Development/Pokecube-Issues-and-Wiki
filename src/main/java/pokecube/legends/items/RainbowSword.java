@@ -11,7 +11,7 @@ public class RainbowSword extends ToolSword
 {
     public RainbowSword(final IItemTier material, final int bonusDamage, final int attackSpeed, final ItemGroup group)
     {
-        super(material, bonusDamage, attackSpeed, group);
+        super(attackSpeed, bonusDamage, material, group);
     }
 
     @Override

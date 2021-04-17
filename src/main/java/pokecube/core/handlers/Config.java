@@ -342,6 +342,8 @@ public class Config extends ConfigData
     public boolean refreshSubbiomes    = false;
     @Configure(category = Config.world, comment = "Allows the generic berry item to be added to pokemob drop pools if no other berries are added. [Default: false]")
     public boolean autoAddNullBerries  = false;
+    @Configure(category = Config.world, comment = "Auto-generated berries by hungry pokemobs will contain up to this many berries. [Default: 15]")
+    public int     berryStackScale     = 15;
     @Configure(category = Config.world, comment = "Can be used to adjust rate of berries on trees growing, lower values result in faster berry growth. [Default: 75]")
     public int     leafBerryTicks      = 75;
     @Configure(category = Config.world, comment = "If false, subbiomes will not auto-detect, meaning they need to be placed manually, useful for adventure maps, etc. [Default: true]")
@@ -357,7 +359,8 @@ public class Config extends ConfigData
             "pokecube:secret_base",
             "pokecube_legends:distorted_world",
             "pokecube_legends:ultraspace",
-            "compactmachines:compact_world"
+            "compactmachines:compact_world",
+            "the_bumblezone:the_bumblezone"
             );
     //@formatter:on
 
@@ -403,16 +406,18 @@ public class Config extends ConfigData
     public String       professor_override     = "pokecube:mob:spawn_professor";
 
     // Mob Spawning settings
+    @Configure(category = Config.spawning, comment = "the configs for deactivating/disabling monsters and animals will also affect these worlds, not only vanilla worlds.")
+    public List<String> deactivateWhitelist    = Lists.newArrayList("pokecube_world:overworld");
     @Configure(category = Config.spawning, comment = "Vanilla monsters will not spawn via normal spawning, this does not prevent mob spawners or special spawns. [Default: false]")
-    public boolean deactivateMonsters     = false;
+    public boolean      deactivateMonsters     = false;
     @Configure(category = Config.spawning, comment = "If true, vanilla monsters are removed entirely, similar to in peaceful mode. [Default: false]")
-    public boolean disableVanillaMonsters = false;
+    public boolean      disableVanillaMonsters = false;
     @Configure(category = Config.spawning, comment = "Similar to disableVanillaMonsters, but for vanilla animals. [Default: false]")
-    public boolean disableVanillaAnimals  = false;
+    public boolean      disableVanillaAnimals  = false;
     @Configure(category = Config.spawning, comment = "Similar to deactivateMonsters, but for vanilla animals. [Default: true]")
-    public boolean deactivateAnimals      = true;
+    public boolean      deactivateAnimals      = true;
     @Configure(category = Config.spawning, comment = "If false, pokemobs will not spawn naturally. [Default: true]")
-    public boolean pokemonSpawn           = true;
+    public boolean      pokemonSpawn           = true;
 
     @Configure(category = Config.spawning, comment = "Legendary pokemobs will not spawn naturally below this level. [Default: 1]")
     public int    minLegendLevel       = 1;
@@ -693,6 +698,8 @@ public class Config extends ConfigData
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
+
+        this.berryStackScale = Math.max(1, this.berryStackScale);
 
         // TODO Init secret bases resizing
         // DimensionSecretBase.init(baseSizeFunction);
