@@ -57,45 +57,49 @@
 	
     // "Pokecubes"
     "item.pokecube.beastcube": "Beastcube",
-    "item.pokecube.beastcube.desc": "§7A modified pokécube that increases the \n§7chance of capture in other dimensions.",
+    "item.pokecube.beastcube.desc": "A modified pokÃƒÂ©cube that increases the \nchance of capture in other dimensions.",
     
     "item.pokecube.clonecube": "Clonecube",
-    "item.pokecube.clonecube.desc": "§7A modified pokécube by a mysterious pokémob. \n§7Increases the chance of capture of \n§7Ghost and Psychic types",
+    "item.pokecube.clonecube.desc": "A modified pokÃƒÂ©cube by a mysterious pokÃƒÂ©mob. \nIncreases the chance of capture of \nGhost and Psychic types",
     
     "item.pokecube.teammagmacube": "Magmacube",
-    "item.pokecube.teammagmacube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Fire types.",
+    "item.pokecube.teammagmacube.desc": "A modified pokÃƒÂ©cube that increases the \nchance of capture of Fire types.",
     
     "item.pokecube.teamaquacube": "Aquacube",
-    "item.pokecube.teamaquacube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Ice types.",
+    "item.pokecube.teamaquacube.desc": "A modified pokÃƒÂ©cube that increases the \nchance of capture of Ice types.",
     
     "item.pokecube.typingcube": "Typingcube",
-    "item.pokecube.typingcube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Ground types.",
+    "item.pokecube.typingcube.desc": "A modified pokÃƒÂ©cube that increases the \nchance of capture of Ground types.",
     
     "item.pokecube.rocketcube": "Rocketcube",
-    "item.pokecube.rocketcube.desc": "§7A modified pokécube used by Team Rocket.",
+    "item.pokecube.rocketcube.desc": "A modified pokÃƒÂ©cube used by Team Rocket.",
 
 
     // Alert Pokemon Legendary Capture"
-    "msg.infolegendextra.info": "§aGet [%1$s§a] to Catch this Pokémob.",
-    "msg.nohere.info": "§c[§a%1$s§c] does not seem to spawn in this location",
-    "msg.notrust.info": "§c[§a%1$s§c] does not trust you enough for that",
-    "msg.noitem.info": "§cThis requires an offering",
-    "msg.wrongitem.info": "§c[§a%1$s§c] does not like your offering",
-    "msg.alreadyspawned.info": "§cYou have already spawned [§a%1$s§c]!",
-    "msg.reginotlookright.info": "§cYou built the [%1$s§c] the wrong way",
-	"pokecube_legends.mew.badges": "Â§cYou do not have enough badges to control [Â§a%1$sÂ§c]!",
+    "msg.infolegend.info": "Ã‚Â§aCapture [%1$sÃ‚Â§a] Type PokÃƒÂ©mobs so he can Trust You.\nÃ‚Â§2Needs: %2$s, Ã‚Â§eOwn: %3$s.",
+    "msg.infolegendduo.info": "Ã‚Â§aCapture [%1$sÃ‚Â§a] Type PokÃƒÂ©mobs, and Kill [%2$sÃ‚Â§a] Type PokÃƒÂ©mobs.\nÃ‚Â§2Needs: %3$s, Ã‚Â§eOwn: %4$s.\nÃ‚Â§2Needs Kill: %5$s, Ã‚Â§eKilled: %6$s.",
+    "msg.infolegendextra.info": "Ã‚Â§aGet [%1$sÃ‚Â§a] to Catch this PokÃƒÂ©mob.",
+    
+    "msg.nohere.info": "[%1$s] Ã‚Â§cdoes not seem to spawn in this location",
+    
+    "msg.notrust.info": "Ã‚Â§a[%1$sÃ‚Â§a] does not trust you enough for that",
+    "msg.noitem.info": "Ã‚Â§cThis requires an offering",
+    "msg.wrongitem.info": "Ã‚Â§a[%1$s] Ã‚Â§cdoes not like your offering",
+    "msg.alreadyspawned.info": "You have already spawned [Ã‚Â§a%1$s]!",
+    "msg.reginotlookright.info": "You built the [Ã‚Â§a%1$s] the wrong way",
+	"pokecube_legends.mew.badges": "Ã‚Â§6You do not have enough badges to control [Ã‚Â§c%1$s]!",
     
     // Messages related to temples
-    "msg.cannot_defile_temple": "Â§cArceus will not allow you to do that!",
+    "msg.cannot_defile_temple": "Ã‚Â§cArceus will not allow you to do that!",
     
     // Raid related messages
-    "msg.notaraidspot.info": "Â§cThis den does not seem to be able to be activated.",
+    "msg.notaraidspot.info": "Ã‚Â§cThis den does not seem to be able to be activated.",
     
     // Hoopa Portal
-    "msg.hoopaportal.deny.too_weak": "§cYour pokémob does not have enough levels.",
-    "msg.hoopaportal.deny.too_soon": "§cYou cannot create another portal yet.",
-    "msg.hoopaportal.deny.invalid": "§cThe portal failed to create.",
-    "msg.hoopaportal.accept.info": "§aHoopa Ring created!",
+    "msg.hoopaportal.deny.too_weak": "Ã‚Â§8Your pokÃƒÂ©mob does not have enough levels.",
+    "msg.hoopaportal.deny.too_soon": "Ã‚Â§cYou cannot create another portal yet.",
+    "msg.hoopaportal.deny.invalid": "Ã‚Â§cThe portal failed to create.",
+    "msg.hoopaportal.accept.info": "Ã‚Â§2Hoopa Ring created!",
     
     // Buried Treasure Maps
     "filled_map.pokecube_legends:sky_pillar": "Buried Treasure Map: Sky Pillar",
@@ -181,9 +185,9 @@
     "block.pokecube_legends.dyna_leave_2": "Dyna Leaves",
     "block.pokecube_legends.dyna_leave_3": "Dyna Leaves",
         
-    "itemGroup.ultratab": "Pokécube Dimensions",
-    "itemGroup.legendtab":  "Pokécube Legends",
-    "itemGroup.decotab": "Pokécube Decoration",
+    "itemGroup.ultratab": "PokÃƒÂ©cube Dimensions",
+    "itemGroup.legendtab":  "PokÃƒÂ©cube Legends",
+    "itemGroup.decotab": "PokÃƒÂ©cube Decoration",
     
     // Blocks Dimension   
     "block.pokecube_legends.ultra_coal_ore": "Ultra Coal Ore",
@@ -754,19 +758,19 @@
     "block.pokecube_legends.fini_brown_totem": "Brown Fini Totem",
 
     // Tooltips for blocks
-    "legendblock.portalwarp.tooltip": "§6Summons a random pokémob.",
-    "legendblock.raidspawn.tooltip": "§6Creates a raid battle.",
-	"legends.gigantic_shard.tooltip": "§6Used to Gigantamax your pokémob.",
-    "legends.wishing_piece.tooltip": "§6Used to activate an inactive raid spot.",
+    "legendblock.portalwarp.tooltip": "Summons a random pokÃƒÂ©mob.",
+    "legendblock.raidspawn.tooltip": "Creates a raid battle.",
+	"legends.gigantic_shard.tooltip": "Used to Gigantamax your pokÃƒÂ©mob.",
+    "legends.wishing_piece.tooltip": "Used to activate an inactive raid spot.",
 
 	// Entitys
 	"entity.pokecube_legends.wormhole": "Wormhole",
 		
     // Tooltips for items
     // Dimension
-    "legends.giratina_mirror.tooltip": "§6Used to teleport to the Distorted World.",
-    "legends.ultrakey.tooltip": "§6Used to teleport to Ultra Space.\n%1$s[Requires %2$s Cosmic Dust]",
-    "msg.pokecube_legends.ultrakey.no_dust": "§cRequires %1$s%2$s Cosmic Dust",
+    "legends.giratina_mirror.tooltip": "Used to teleport to the Distorted World.",
+    "legends.ultrakey.tooltip": "Used to teleport to Ultra Space.\n%1$s[Requires %2$s Cosmic Dust]",
+    "msg.pokecube_legends.ultrakey.no_dust": "Requires %1$s%2$s Cosmic Dust",
     
     // Food ToolTip
     "legends.pokepuff_grass.tooltip": "Increases damage from move: %1$s[Grass type]",
@@ -790,7 +794,7 @@
     
     
     // Mobs
-    "legends.soul_heart.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Moltres",
+    "legends.soul_heart.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Magearna",
     "legends.fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Moltres",
     "legends.dark_fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Moltres Galar",
     "legends.ice_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Articuno",
@@ -807,7 +811,7 @@
     "legends.wooden_crown.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Trough Block Spawner- to spawn Calyrex",
 
     "legends.adamantorb.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on a -Time and Space Spawner- to spawn Dialga.",
-    "legends.azureflute.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on a -Time and Space Spawner- to spawn Arceus",
+    "legends.azure_flute.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on a -Time and Space Spawner- to spawn Arceus",
     "legends.blueorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Legendary Spawner- to spawn Kyogre",
     "legends.blue_rune.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Nature Spawner- to spawn Thundurus",
     "legends.darkstone.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on a -Tao Legendary Block- to spawn Zekrom",
@@ -835,16 +839,16 @@
     "legends.oceanorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Legendary Spawner- to spawn Lugia",
     "legends.orange_rune.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Nature Spawner- to spawn Landorus",
     "legends.prisonbottle.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on -Hoopa- to change it.",
-    "legends.keldeosword.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Keldeo.",
+    "legends.keldeo_sword.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Keldeo.",
     "legends.redorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Legendary Spawner- to spawn Groudon",
     "legends.regisorb.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests!%3$s\nUse on a -Regigigas Core- to spawn Regigigas",
     "legends.revealglass.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on -Thundurus, Tornadus, or Landorus- to change it.",
     "legends.rustedshield.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zamazenta.\nUse on -Zamazenta- to change it.",
     "legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zacian.\nUse on -Zacian- to change it.",
 
-    "legends.cobalionsword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Cobalion",
-    "legends.virizionsword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Virizion",
-    "legends.terrakionsword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Terrakion",
+    "legends.cobalion_sword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Cobalion",
+    "legends.virizion_sword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Virizion",
+    "legends.terrakion_sword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Terrakion",
 
     "legends.zygardecube.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on an -Aura Tree or Cocoon of Destruction- to spawn Zygarde.\nUse on -Zygarde- to change it.",
 	"legends.pdark.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUsed to evolve Kubfu into Single Strike Style",

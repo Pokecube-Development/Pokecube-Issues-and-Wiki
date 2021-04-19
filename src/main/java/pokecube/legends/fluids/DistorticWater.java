@@ -20,7 +20,7 @@ public class DistorticWater
 				.viscosity(20)
 				.gaseous()
 				.luminosity(10)
-				.sound(SoundEvents.BLAZE_SHOOT, SoundEvents.CHEST_LOCKED))
+				.sound(SoundEvents.LAVA_POP, SoundEvents.BLAZE_SHOOT))
 				.bucket(FluidInit.DISTORTED_WATER_BUCKET)
 				.block(FluidInit.DISTORTED_WATER_BLOCK);
 	}

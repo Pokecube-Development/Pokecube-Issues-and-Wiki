@@ -57,7 +57,6 @@ import pokecube.legends.blocks.normalblocks.CrystallizedBush;
 import pokecube.legends.blocks.normalblocks.CrystallizedCactus;
 import pokecube.legends.blocks.normalblocks.DirtCorruptedBlock;
 import pokecube.legends.blocks.normalblocks.DistorticCrackedStone;
-import pokecube.legends.blocks.normalblocks.DistorticGrassBlock;
 import pokecube.legends.blocks.normalblocks.DistorticOneWayGlass;
 import pokecube.legends.blocks.normalblocks.DistorticOneWayLaboratoryGlass;
 import pokecube.legends.blocks.normalblocks.DistorticOneWayMirageGlass;
@@ -72,6 +71,7 @@ import pokecube.legends.blocks.normalblocks.TallCrystallizedBush;
 import pokecube.legends.blocks.normalblocks.GlassBlockBase;
 import pokecube.legends.blocks.normalblocks.GrassAgedBlock;
 import pokecube.legends.blocks.normalblocks.GrassCorruptedBlock;
+import pokecube.legends.blocks.normalblocks.GrassDistorticBlock;
 import pokecube.legends.blocks.normalblocks.GrassJungleBlock;
 import pokecube.legends.blocks.normalblocks.GrassMushroomBlock;
 import pokecube.legends.blocks.normalblocks.InfectedTorch;
@@ -897,7 +897,7 @@ public class BlockInit
                 		Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission().instabreak()));
         
         // Distortic World
-        DISTORTIC_GRASS = PokecubeLegends.BLOCKS_TAB.register("distortic_grass", () -> new DistorticGrassBlock(
+        DISTORTIC_GRASS = PokecubeLegends.BLOCKS_TAB.register("distortic_grass", () -> new GrassDistorticBlock(
                 AbstractBlock.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_PINK).sound(SoundType.NETHER_WART).strength(1, 2)
                         .harvestTool(ToolType.SHOVEL).harvestLevel(1).requiresCorrectToolForDrops().randomTicks()));
         DISTORTIC_STONE = PokecubeLegends.BLOCKS_TAB.register("distortic_stone", () -> new DistorticStoneBlock(AbstractBlock.Properties.of(
