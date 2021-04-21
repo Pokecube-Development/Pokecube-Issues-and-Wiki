@@ -232,7 +232,7 @@ public class EventsHandler
 
             // Now also check that the world is also a vanilla world, or one
             // specifically allowed to have spawns revoked.
-            final String worldRegName = e.level.dimension().location().getPath();
+            final String worldRegName = e.level.dimension().location().toString();
             isVanilla = isVanilla && (worldRegName.startsWith("minecraft:") || PokecubeCore
                     .getConfig().deactivateWhitelist.contains(worldRegName));
 

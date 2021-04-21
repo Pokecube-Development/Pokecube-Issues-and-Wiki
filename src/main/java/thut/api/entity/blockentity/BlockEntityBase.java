@@ -168,6 +168,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     /** Applies the given player interaction to this Entity. */
     public ActionResultType interactAt(final PlayerEntity player, final Vector3d vec, final Hand hand)
     {
+        return super.interactAt(player, vec, hand);
+    }
+
+    /** Applies the given player interaction to this Entity. */
+    public ActionResultType interactAtFromTile(final PlayerEntity player, final Vector3d vec, final Hand hand)
+    {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         try
         {
@@ -194,7 +200,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public boolean isPickable()
     {
-        return this.isAlive();
+        return false;
     }
 
     public boolean isServerWorld()
@@ -246,20 +252,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 tile.getShape();
             }
         });
-        // final List<?> list =
-        // this.world.getEntitiesWithinAABBExcludingEntity(this,
-        // this.getBoundingBox().grow(2));
-        // if (list != null && !list.isEmpty())
-        // {
-        // if (list.size() == 1 && this.getRecursivePassengers() != null &&
-        // !this.getRecursivePassengers().isEmpty())
-        // return;
-        // for (int i = 0; i < list.size(); ++i)
-        // {
-        // final Entity entity = (Entity) list.get(i);
-        // this.applyEntityCollision(entity);
-        // }
-        // }
     }
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
@@ -487,8 +479,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void remove()
     {
-        if (!this.getCommandSenderWorld().isClientSide && this.isAlive() && this.shouldRevert) IBlockEntity.BlockEntityFormer
-                .RevertEntity(this);
+        if (!this.getCommandSenderWorld().isClientSide && this.isAlive() && this.shouldRevert)
+            IBlockEntity.BlockEntityFormer.RevertEntity(this);
         super.remove();
     }
 
