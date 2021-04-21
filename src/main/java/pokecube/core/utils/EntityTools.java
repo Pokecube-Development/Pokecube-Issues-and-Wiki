@@ -14,6 +14,7 @@ import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.core.interfaces.IPokemob;
+import thut.api.entity.ICopyMob;
 
 public class EntityTools
 {
@@ -26,45 +27,17 @@ public class EntityTools
 
     public static void copyRotations(final Entity to, final Entity from)
     {
-        to.xRot = from.xRot;
-        to.tickCount = from.tickCount;
-        to.yRot = from.yRot;
-        to.setYHeadRot(from.getYHeadRot());
-        to.xRotO = from.xRotO;
-        to.yRotO = from.yRotO;
+        ICopyMob.copyRotations(to, from);
     }
 
     public static void copyPositions(final Entity to, final Entity from)
     {
-        to.xOld = from.xOld;
-        to.yOld = from.yOld;
-        to.zOld = from.zOld;
-
-        to.xo = from.xo;
-        to.yo = from.yo;
-        to.zo = from.zo;
-
-        to.xChunk = from.xChunk;
-        to.yChunk = from.yChunk;
-        to.zChunk = from.zChunk;
-
-        to.setPos(from.getX(), from.getY(), from.getZ());
-        to.setDeltaMovement(from.getDeltaMovement());
+        ICopyMob.copyPositions(to, from);
     }
 
     public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
     {
-        EntityTools.copyRotations(to, from);
-
-        to.yHeadRotO = from.yHeadRotO;
-        to.yBodyRotO = from.yBodyRotO;
-        to.yBodyRot = from.yBodyRot;
-
-        to.animationSpeedOld = from.animationSpeedOld;
-        to.animationPosition = from.animationPosition;
-        to.animationSpeed = from.animationSpeed;
-
-        to.setOnGround(from.isOnGround());
+        ICopyMob.copyEntityTransforms(to, from);
     }
 
     public static void copyPokemobData(final IPokemob from, final IPokemob to)
