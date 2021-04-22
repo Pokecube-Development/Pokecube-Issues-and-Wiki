@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "minecraft:diamond",
-    "minecraft:emerald",
-    "minecraft:ender_pearl"
+    "#forge:gems/diamond",
+    "#forge:gems/emerald",
+    "#forge:ender_pearls"
   ]
 }
