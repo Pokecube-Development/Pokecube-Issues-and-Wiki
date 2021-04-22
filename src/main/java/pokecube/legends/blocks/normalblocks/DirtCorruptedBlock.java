@@ -37,7 +37,7 @@ public class DirtCorruptedBlock extends Block implements IGrowable
 
                 blockpos = var5.next();
             }
-            while (!block.getBlockState(blockpos).is(BlockInit.ULTRA_CORRUPTED_GRASS.get()));
+            while (!block.getBlockState(blockpos).is(BlockInit.CORRUPTED_GRASS.get()));
 
             return true;
         }
@@ -60,12 +60,12 @@ public class DirtCorruptedBlock extends Block implements IGrowable
         {
             final BlockPos blockpos = var7.next();
             final BlockState state1 = world.getBlockState(blockpos);
-            if (state1.is(BlockInit.ULTRA_CORRUPTED_GRASS.get())) valid = true;
+            if (state1.is(BlockInit.CORRUPTED_GRASS.get())) valid = true;
 
             if (valid) break;
         }
 
-        if (valid) world.setBlock(pos, BlockInit.ULTRA_CORRUPTED_GRASS.get().defaultBlockState().setValue(
+        if (valid) world.setBlock(pos, BlockInit.CORRUPTED_GRASS.get().defaultBlockState().setValue(
                 GrassCorruptedBlock.SNOWY, world.getBlockState(pos.above()).is(Blocks.SNOW)), 3);
     }
 }

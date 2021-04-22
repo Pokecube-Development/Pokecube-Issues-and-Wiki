@@ -152,7 +152,7 @@ public class GrassDistorticBlock extends DirectionalBlock implements IGrowable
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
-        } else if (blockstate.is(BlockInit.ULTRA_CORRUPTED_GRASS.get()))
+        } else if (blockstate.is(BlockInit.CORRUPTED_GRASS.get()))
         {
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
