@@ -80,7 +80,7 @@ public class GrassCorruptedBlock extends NyliumBlock implements IGrowable
     @Override
     public void randomTick(final BlockState state, final ServerWorld world, final BlockPos pos, final Random random)
     {
-        if (!GrassCorruptedBlock.canBeGrass(state, world, pos)) world.setBlockAndUpdate(pos, BlockInit.ULTRA_CORRUPTED_DIRT.get().defaultBlockState());
+        if (!GrassCorruptedBlock.canBeGrass(state, world, pos)) world.setBlockAndUpdate(pos, BlockInit.CORRUPTED_DIRT.get().defaultBlockState());
     }
 
     @Override
