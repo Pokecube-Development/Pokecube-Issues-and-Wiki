@@ -1,24 +1,13 @@
 package pokecube.legends.init;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.FireBlock;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.MagmaBlock;
-import net.minecraft.block.PressurePlateBlock;
-import net.minecraft.block.SandBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effects;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
@@ -84,6 +73,8 @@ import pokecube.legends.blocks.plants.DistorticTree;
 import pokecube.legends.blocks.plants.InvertedTree;
 import pokecube.legends.blocks.plants.MirageTree;
 import pokecube.legends.blocks.plants.TemporalTree;
+
+import java.util.function.ToIntFunction;
 
 public class BlockInit
 {
@@ -605,26 +596,26 @@ public class BlockInit
 
         // Ultra Stones
         ULTRA_STONE = PokecubeLegends.BLOCKS_TAB.register("ultrastone", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
-            1.5f, 10f, SoundType.STONE, ToolType.PICKAXE, 1, true));
+            1.5f, 6.0f, SoundType.STONE, ToolType.PICKAXE, 1, true));
 
         ULTRASPACE_COAL_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_coal_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
-            6, 6, SoundType.STONE, ToolType.PICKAXE, 1, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 1, true));
         ULTRASPACE_IRON_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_iron_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
-            6, 6, SoundType.STONE, ToolType.PICKAXE, 1, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 1, true));
         ULTRASPACE_GOLD_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_gold_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
-            6, 8, SoundType.STONE, ToolType.PICKAXE, 2, true));
-        ULTRASPACE_REDSTONE_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_redstone_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
-            6, 7, SoundType.STONE, ToolType.PICKAXE, 2, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 2, true));
+        ULTRASPACE_REDSTONE_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_redstone_ore", () -> new RedstoneOreBlock(AbstractBlock.Properties.of(
+            Material.STONE, MaterialColor.TERRACOTTA_CYAN).strength(3.0F, 3.0f).randomTicks().lightLevel(litBlockEmission(9)));
         ULTRASPACE_LAZULI_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_lazuli_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
-            6, 7, SoundType.STONE, ToolType.PICKAXE, 1, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 1, true));
         ULTRASPACE_EMERALD_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_emerald_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
-            6, 10, SoundType.STONE, ToolType.PICKAXE, 2, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 2, true));
         ULTRASPACE_DIAMOND_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_diamond_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
-            7, 10, SoundType.STONE, ToolType.PICKAXE, 2, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 2, true));
         ULTRASPACE_COSMIC_DUST_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_cosmic_dust_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_BLACK,
-            5, 15, SoundType.STONE, ToolType.PICKAXE, 1, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 1, true));
         SPECTRUM_ORE = PokecubeLegends.BLOCKS_TAB.register("spectrum_ore", () -> new BlockBase( Material.STONE, MaterialColor.COLOR_ORANGE,
-            5, 15, SoundType.STONE, ToolType.PICKAXE, 2, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 2, true));
 
         ULTRA_STONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
             Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)
@@ -732,33 +723,6 @@ public class BlockInit
                         .of(Material.STONE, MaterialColor.SNOW).sound(SoundType.SOUL_SAND).noCollission().strength(
                                 0.7F).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         
-        // Plants
-        INVERTED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling01", () -> new SaplingBase(
-            () -> new InvertedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE)
-            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
-        TEMPORAL_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling02", () -> new SaplingBase(
-            () -> new TemporalTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.PLANT)
-            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
-        AGED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling03", () -> new SaplingBase(
-            () -> new AgedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_YELLOW)
-            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
-        DISTORTIC_SAPLING = PokecubeLegends.BLOCKS_TAB.register("distortic_sapling", () -> new SaplingBase(
-            () -> new DistorticTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE)
-            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
-        CORRUPTED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("corrupted_sapling", () -> new SaplingBase(
-            () -> new CorruptedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
-            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
-        MIRAGE_SAPLING = PokecubeLegends.BLOCKS_TAB.register("mirage_sapling", () -> new SaplingBase(
-            () -> new MirageTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.SAND)
-            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
-        
-        CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus(AbstractBlock.Properties.of(
-        				Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS).strength(0.4f)));
-        CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS_TAB.register("crystallized_bush", () -> new CrystallizedBush(AbstractBlock.Properties.of(
-                		Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission().instabreak()));
-        TALL_CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS_TAB.register("tall_crystallized_bush", () -> new TallCrystallizedBush(AbstractBlock.Properties.of(
-                		Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission().instabreak()));
-        
         // Distortic World
         DISTORTIC_GRASS = PokecubeLegends.BLOCKS_TAB.register("distortic_grass", () -> new GrassDistorticBlock(
                 AbstractBlock.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_PINK).sound(SoundType.NETHER_WART).strength(1, 2)
@@ -770,7 +734,7 @@ public class BlockInit
         		Material.STONE, MaterialColor.TERRACOTTA_BLACK).sound(SoundType.STONE)
                 .strength(1.5f).harvestTool(ToolType.PICKAXE).harvestLevel(1).requiresCorrectToolForDrops()));
         FRACTAL_ORE = PokecubeLegends.BLOCKS_TAB.register("fractal_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_LIGHT_BLUE,
-            7, 15, SoundType.SAND, ToolType.PICKAXE, 3, true));
+            3.0f, 3.0f, SoundType.SAND, ToolType.PICKAXE, 3, true));
         DISTORTIC_STONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("distortic_stone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
         		.harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
@@ -779,7 +743,7 @@ public class BlockInit
                 		Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
                 		.harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_MIRROR = PokecubeLegends.BLOCKS_TAB.register("distortic_mirror", () -> new BlockBase(Material.GLASS, MaterialColor.SNOW,
-        		5f, 8f, SoundType.GLASS, ToolType.PICKAXE, 3, true));
+        		0.3f, 0.3f, SoundType.GLASS, ToolType.PICKAXE, 3, true));
 
         // Woods (LOGS/LEAVES/PLANKS)
         // Inverted Blocks
@@ -1014,6 +978,33 @@ public class BlockInit
                 Material.METAL, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.METAL)
                 .noCollission().strength(0.7F).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
+        // Plants
+        INVERTED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling01", () -> new SaplingBase(
+            () -> new InvertedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE)
+            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
+        TEMPORAL_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling02", () -> new SaplingBase(
+            () -> new TemporalTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.PLANT)
+            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
+        AGED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("ultra_sapling03", () -> new SaplingBase(
+            () -> new AgedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_YELLOW)
+            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
+        DISTORTIC_SAPLING = PokecubeLegends.BLOCKS_TAB.register("distortic_sapling", () -> new SaplingBase(
+            () -> new DistorticTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE)
+            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
+        CORRUPTED_SAPLING = PokecubeLegends.BLOCKS_TAB.register("corrupted_sapling", () -> new SaplingBase(
+            () -> new CorruptedTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
+            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
+        MIRAGE_SAPLING = PokecubeLegends.BLOCKS_TAB.register("mirage_sapling", () -> new SaplingBase(
+            () -> new MirageTree(), AbstractBlock.Properties.of(Material.PLANT, MaterialColor.SAND)
+            .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
+
+        CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus(AbstractBlock.Properties.of(
+            Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS).strength(0.4f)));
+        CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS_TAB.register("crystallized_bush", () -> new CrystallizedBush(AbstractBlock.Properties.of(
+            Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission().instabreak()));
+        TALL_CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS_TAB.register("tall_crystallized_bush", () -> new TallCrystallizedBush(AbstractBlock.Properties.of(
+            Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission().instabreak()));
+
         // Dimensions
         SPECTRUM_GLASS = PokecubeLegends.BLOCKS_TAB.register("spectrum_glass", () -> new GlassBlockBase(AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion()));
         ULTRA_MAGNETIC = PokecubeLegends.BLOCKS_TAB.register("ultramagnetic", () -> new MagneticBlock(Material.STONE, MaterialColor.COLOR_BLUE,
@@ -1108,33 +1099,33 @@ public class BlockInit
             1.5f, 10, SoundType.METAL, ToolType.PICKAXE, 1, true));
         RUBY_SLAB = PokecubeLegends.DECORATION_TAB.register("ruby_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
             Material.METAL, MaterialColor.COLOR_RED).strength(2.0F, 3.0f).sound(SoundType.METAL).harvestTool(
-            ToolType.PICKAXE).requiresCorrectToolForDrops()));
+            ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops()));
         RUBY_STAIRS = PokecubeLegends.DECORATION_TAB.register("ruby_stairs",
             () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 Material.METAL, MaterialColor.COLOR_RED).strength(2.0F, 3.0f).sound(SoundType.METAL).harvestTool(
-                ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops()));
 
         SAPPHIRE_ORE = PokecubeLegends.DECORATION_TAB.register("sapphire_ore", () -> new BlockBase(Material.STONE, MaterialColor.COLOR_BLUE,
-            5, 15, SoundType.STONE, ToolType.PICKAXE, 2, true));
+            3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 2, true));
         SAPPHIRE_BLOCK = PokecubeLegends.DECORATION_TAB.register("sapphire_block", () -> new BlockBase(Material.METAL, MaterialColor.COLOR_BLUE,
-            1.5f, 10, SoundType.METAL, ToolType.PICKAXE, 1, true));
+            1.5f, 10, SoundType.METAL, ToolType.PICKAXE, 2, true));
         SAPPHIRE_SLAB = PokecubeLegends.DECORATION_TAB.register("sapphire_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
             Material.METAL, MaterialColor.COLOR_BLUE).strength(2.0F, 3.0f).sound(SoundType.METAL).harvestTool(
-            ToolType.PICKAXE).requiresCorrectToolForDrops()));
+            ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops()));
         SAPPHIRE_STAIRS = PokecubeLegends.DECORATION_TAB.register("sapphire_stairs",
             () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 Material.METAL, MaterialColor.COLOR_BLUE).strength(2.0F, 3.0f).sound(SoundType.METAL).harvestTool(
-                ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops()));
 
         SPECTRUM_BLOCK = PokecubeLegends.DECORATION_TAB.register("spectrum_block", () -> new BlockBase(Material.METAL, MaterialColor.COLOR_ORANGE,
-            5.0f, 7, SoundType.METAL, ToolType.PICKAXE, 1, true));
+            5.0f, 7, SoundType.METAL, ToolType.PICKAXE, 2, true));
         SPECTRUM_SLAB = PokecubeLegends.DECORATION_TAB.register("spectrum_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
             Material.METAL, MaterialColor.COLOR_ORANGE).strength(2.0F, 3.0f).sound(SoundType.METAL).harvestTool(
-            ToolType.PICKAXE).requiresCorrectToolForDrops()));
+            ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops()));
         SPECTRUM_STAIRS = PokecubeLegends.DECORATION_TAB.register("spectrum_stairs",
             () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 Material.METAL, MaterialColor.COLOR_ORANGE).strength(2.0F, 3.0f).sound(SoundType.METAL).harvestTool(
-                ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops()));
 
         // Meteor Ore
         OVERWORLD_COSMIC_DUST_ORE = PokecubeLegends.DECORATION_TAB.register("cosmic_dust_ore", () -> new MeteorBlock(6842513,
@@ -1148,13 +1139,13 @@ public class BlockInit
             3f, 12, SoundType.GLASS, ToolType.PICKAXE, 2, true));
 
         DISTORTIC_CHISELED_MIRROR = PokecubeLegends.DECORATION_TAB.register("distortic_chiseled_mirror", () -> new BlockBase(Material.GLASS, MaterialColor.SNOW,
-            2f, 2.5f, SoundType.GLASS, ToolType.PICKAXE, 1, true));
+            1.5f, 1.5f, SoundType.GLASS, ToolType.PICKAXE, 1, true));
 
         DISTORTIC_GLOWSTONE = PokecubeLegends.DECORATION_TAB.register("distortic_glowstone", () -> new BlockBase(Material.STONE, MaterialColor.COLOR_ORANGE,
-            2.5f, 10f, SoundType.STONE, ToolType.PICKAXE, 2, true));
+            1.5f, 1.5f, SoundType.STONE, ToolType.PICKAXE, 2, true));
 
         DISTORTIC_TERRACOTTA = PokecubeLegends.DECORATION_TAB.register("distortic_terracotta", () -> new BlockBase(Material.STONE, MaterialColor.COLOR_ORANGE,
-            2.5f, 10f, SoundType.STONE, ToolType.PICKAXE, 2, true));
+            2.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 2, true));
         DISTORTIC_TERRACOTTA_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_terracotta_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
             Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
             .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
@@ -1343,72 +1334,72 @@ public class BlockInit
         //Glass
         DISTORTIC_FRAMED_MIRROR = PokecubeLegends.DECORATION_TAB.register("distortic_framed_mirror", () ->
             new DistorticOneWayStainedGlass(DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
         DISTORTIC_OW_GLASS = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_glass", () ->
             new DistorticOneWayGlass(AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE)
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE)
                 .requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_WHITE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_white_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_ORANGE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_orange_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.ORANGE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_MAGENTA = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_magenta_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.MAGENTA, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_LIGHT_BLUE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_light_blue_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_YELLOW = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_yellow_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.YELLOW, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_LIME = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_lime_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.LIME, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_PINK = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_pink_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.PINK, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_GRAY = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_gray_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.GRAY, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_LIGHT_GRAY = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_light_gray_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.LIGHT_GRAY, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_CYAN = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_cyan_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.CYAN, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_PURPLE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_purple_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.PURPLE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_BLUE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_blue_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.BLUE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_BROWN = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_brown_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.BROWN, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_GREEN = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_green_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.GREEN, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_RED = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_red_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.RED, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_BLACK = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_black_stained_glass", () ->
             new DistorticOneWayStainedGlass(DyeColor.BLACK, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_LAB = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_laboratory_glass", () ->
             new DistorticOneWayLaboratoryGlass(DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_MIRAGE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_mirage_glass", () ->
             new DistorticOneWayMirageGlass(DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_GLASS_SPECTRUM = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_spectrum_glass", () ->
             new DistorticOneWaySpectrumGlass(DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         DISTORTIC_OW_FRAMED_MIRROR = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_framed_mirror", () ->
             new DistorticOneWayStainedGlass(DyeColor.WHITE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                .noOcclusion().sound(SoundType.GLASS).strength(2.5f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+                .noOcclusion().sound(SoundType.GLASS).strength(0.3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
         // Decorative_Blocks
         DYNA_LEAVES1 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_1", () -> new DynaLeavesBlock(AbstractBlock.Properties.of(
@@ -1561,6 +1552,12 @@ public class BlockInit
             .sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(2).dynamicShape()));
     }
 
+    private static ToIntFunction<BlockState> litBlockEmission(int i) {
+        return (state) -> {
+            return (Boolean)state.getValue(BlockStateProperties.LIT) ? i : 0;
+        };
+    }
+
     public static void init()
     {
         PlantsInit.registry();
@@ -1572,16 +1569,17 @@ public class BlockInit
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries())
         {
             // These are registered separately, so skip them.
-            if (reg == BlockInit.INFECTED_TORCH || reg == BlockInit.INFECTED_TORCH_WALL) continue;
             if (reg == BlockInit.DISTORTIC_VINES || reg == BlockInit.DISTORTIC_VINES_PLANT) continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .tab(PokecubeLegends.TAB)));
         }
         
         for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
-            
-        	PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
-                    .tab(PokecubeLegends.DECO_TAB)));
+        {
+            if (reg == BlockInit.INFECTED_TORCH || reg == BlockInit.INFECTED_TORCH_WALL) continue;
+            PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
+                .tab(PokecubeLegends.DECO_TAB)));
+        }
     }
 
     public static void strippableBlocks(final FMLLoadCompleteEvent event)
