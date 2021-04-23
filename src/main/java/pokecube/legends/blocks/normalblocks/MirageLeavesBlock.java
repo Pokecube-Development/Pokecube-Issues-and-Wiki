@@ -16,9 +16,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MirageLeavesBlock extends LeavesBlock
 {
-    public MirageLeavesBlock(int color)
+    public MirageLeavesBlock(int color, Properties properties)
     {
-        super(Properties.of(Material.LEAVES, MaterialColor.SNOW).sound(SoundType.NYLIUM).strength(1, 2).noOcclusion());
+        super(properties);
     }
 
     @OnlyIn(Dist.CLIENT)
