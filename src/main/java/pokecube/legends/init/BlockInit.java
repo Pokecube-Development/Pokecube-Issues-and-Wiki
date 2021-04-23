@@ -605,7 +605,7 @@ public class BlockInit
         ULTRASPACE_GOLD_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_gold_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
             3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 2, true));
         ULTRASPACE_REDSTONE_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_redstone_ore", () -> new RedstoneOreBlock(AbstractBlock.Properties.of(
-            Material.STONE, MaterialColor.TERRACOTTA_CYAN).strength(3.0F, 3.0f).randomTicks().lightLevel(litBlockEmission(9)));
+            Material.STONE, MaterialColor.TERRACOTTA_CYAN).strength(3.0F, 3.0f).randomTicks().lightLevel(litBlockEmission(9))));
         ULTRASPACE_LAZULI_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_lazuli_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
             3.0f, 3.0f, SoundType.STONE, ToolType.PICKAXE, 1, true));
         ULTRASPACE_EMERALD_ORE = PokecubeLegends.BLOCKS_TAB.register("ultra_emerald_ore", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN,
