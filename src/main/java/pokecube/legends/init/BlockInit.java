@@ -933,9 +933,9 @@ public class BlockInit
         MIRAGE_WOOD = PokecubeLegends.BLOCKS_TAB.register("mirage_wood", () -> Blocks.log(
                 MaterialColor.COLOR_LIGHT_BLUE, MaterialColor.COLOR_LIGHT_BLUE));
         STRIP_MIRAGE_LOG = PokecubeLegends.BLOCKS_TAB.register("stripped_mirage_log", () -> Blocks.log(
-                MaterialColor.SAND, MaterialColor.COLOR_MAGENTA));
+                MaterialColor.SAND, MaterialColor.SNOW));
         STRIP_MIRAGE_WOOD = PokecubeLegends.BLOCKS_TAB.register("stripped_mirage_wood", () -> Blocks
-                .log(MaterialColor.COLOR_MAGENTA, MaterialColor.COLOR_MAGENTA));
+                .log(MaterialColor.SNOW, MaterialColor.SNOW));
         MIRAGE_PLANKS = PokecubeLegends.BLOCKS_TAB.register("mirage_plank", () -> new Block(AbstractBlock.Properties.of(
         		Material.WOOD, MaterialColor.SAND).strength(2.0f).sound(SoundType.WOOD)));
         MIRAGE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("mirage_stairs",
@@ -1079,7 +1079,7 @@ public class BlockInit
         		Material.METAL, MaterialColor.SNOW).strength(2000, 2000).sound(SoundType.WOOD)
                         .dynamicShape()).setShape(VoxelShapes.box(0.05, 0, 0.05, 1, 2, 1)));
         MAGEARNA_BLOCK = PokecubeLegends.BLOCKS.register("magearna_block", () -> new MagearnaBlock(AbstractBlock.Properties.of(
-        		Material.STONE, MaterialColor.COLOR_BLUE).strength(300, 300).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE)
+        		Material.STONE, MaterialColor.SAND).strength(300, 300).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE)
         		.requiresCorrectToolForDrops().dynamicShape()));
         
         // Plants
