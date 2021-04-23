@@ -1,8 +1,20 @@
 {
   "variants": {
-	"facing=east":  { "model": "pokecube_legends:block/cramomatic_block", "y":90 },
-    "facing=west":  { "model": "pokecube_legends:block/cramomatic_block", "y":270 },
-    "facing=north": { "model": "pokecube_legends:block/cramomatic_block", "y":0},
-    "facing=south": { "model": "pokecube_legends:block/cramomatic_block", "y":180 }
+	"facing=east": [
+      { "model": "pokecube_legends:block/cramomatic_block_helmet", "y": 90 },
+      { "model": "pokecube_legends:block/cramomatic_block_feather", "y": 90 }
+    ],
+    "facing=west": [
+      { "model": "pokecube_legends:block/cramomatic_block_helmet", "y": 270 },
+      { "model": "pokecube_legends:block/cramomatic_block_feather", "y": 270 }
+    ],
+    "facing=north": [
+      { "model": "pokecube_legends:block/cramomatic_block_helmet" },
+      { "model": "pokecube_legends:block/cramomatic_block_feather" }
+    ],
+    "facing=south": [
+      { "model": "pokecube_legends:block/cramomatic_block_helmet", "y": 180 },
+      { "model": "pokecube_legends:block/cramomatic_block_feather", "y": 180 }
+    ]
   }
 }

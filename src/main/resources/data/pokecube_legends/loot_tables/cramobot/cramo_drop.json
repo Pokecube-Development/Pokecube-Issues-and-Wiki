@@ -197,6 +197,11 @@
         },
         {
           "type": "item",
+          "name": "pokecube_legends:cosmic_dust",
+          "weight": 30
+        },
+        {
+          "type": "item",
           "name": "minecraft:gold_ingot",
           "weight": 30
         },
@@ -263,6 +268,26 @@
         {
           "type": "item",
           "name": "minecraft:emerald",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:ruby",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:sapphire",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:spectrum_shard",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:fractal_shard",
           "weight": 10
         },
         {
