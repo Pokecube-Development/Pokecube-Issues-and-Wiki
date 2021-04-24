@@ -156,7 +156,7 @@ public class ItemInit
     public static final RegistryObject<ArmorItem> ULTRA_BOOTS;
 
     // Torch
-    public static final RegistryObject<Item> INFECTED_TORCh;
+    public static final RegistryObject<Item> INFECTED_TORCH;
     
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
@@ -319,7 +319,7 @@ public class ItemInit
         GLASS_MIRROR = PokecubeLegends.ITEMS.register("glass_mirror", () -> new ItemBase(1, PokecubeItems.POKECUBEITEMS));
         
         // Torch
-        INFECTED_TORCh = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.INFECTED_TORCH
+        INFECTED_TORCH = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.INFECTED_TORCH
                 .get(), BlockInit.INFECTED_TORCH_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB)));
         
         // Plants

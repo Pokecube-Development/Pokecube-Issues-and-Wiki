@@ -65,7 +65,7 @@ public class TempBlock extends AirBlock
             ActionResultType result = temp.blockEntity.interact(player, hand);
             // Otherwise forward the interaction to the block entity;
             if (result != ActionResultType.PASS && event.getPlayer().isShiftKeyDown()) result = temp.blockEntity
-                    .interactAt(player, trace.getLocation(), hand);
+                    .interactAtFromTile(player, trace.getLocation(), hand);
             if (result != ActionResultType.PASS)
             {
                 event.setCanceled(true);

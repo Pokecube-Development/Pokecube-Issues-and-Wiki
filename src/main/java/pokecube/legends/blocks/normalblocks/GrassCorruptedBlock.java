@@ -80,7 +80,7 @@ public class GrassCorruptedBlock extends NyliumBlock implements IGrowable
     @Override
     public void randomTick(final BlockState state, final ServerWorld world, final BlockPos pos, final Random random)
     {
-        if (!GrassCorruptedBlock.canBeGrass(state, world, pos)) world.setBlockAndUpdate(pos, BlockInit.ULTRA_CORRUPTED_DIRT.get().defaultBlockState());
+        if (!GrassCorruptedBlock.canBeGrass(state, world, pos)) world.setBlockAndUpdate(pos, BlockInit.CORRUPTED_DIRT.get().defaultBlockState());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class GrassCorruptedBlock extends NyliumBlock implements IGrowable
     {
         final BlockState blockstate = world.getBlockState(pos);
         final BlockPos blockpos = pos.above();
-        if (blockstate.is(BlockInit.ULTRA_CORRUPTED_GRASS.get()))
+        if (blockstate.is(BlockInit.CORRUPTED_GRASS.get()))
         {
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
             NetherVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);

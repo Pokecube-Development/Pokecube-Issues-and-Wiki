@@ -17,7 +17,7 @@ public class CorruptedLeavesBlock extends LeavesBlock
 {
     public CorruptedLeavesBlock()
     {
-        super(Properties.of(Material.LEAVES, MaterialColor.COLOR_BLACK).sound(SoundType.SOUL_SAND).strength(0.5f).noOcclusion());
+        super(Properties.of(Material.LEAVES, MaterialColor.COLOR_GRAY).sound(SoundType.SOUL_SAND).strength(0.5f).noOcclusion());
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
-import pokecube.core.utils.EntityTools;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 
@@ -113,8 +112,8 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
             living.setItemInHand(Hand.OFF_HAND, holder.getItemInHand(Hand.OFF_HAND));
 
             living.noPhysics = true;
-            EntityTools.copyEntityTransforms(living, holder);
-            EntityTools.copyPositions(living, holder);
+            ICopyMob.copyEntityTransforms(living, holder);
+            ICopyMob.copyPositions(living, holder);
             living.setLevel(holder.level);
 
             if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, holder)))
@@ -123,5 +122,48 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
                 living.setAirSupply(holder.getAirSupply());
             }
         }
+    }
+
+    public static void copyPositions(final Entity to, final Entity from)
+    {
+        to.xOld = from.xOld;
+        to.yOld = from.yOld;
+        to.zOld = from.zOld;
+
+        to.xo = from.xo;
+        to.yo = from.yo;
+        to.zo = from.zo;
+
+        to.xChunk = from.xChunk;
+        to.yChunk = from.yChunk;
+        to.zChunk = from.zChunk;
+
+        to.setPos(from.getX(), from.getY(), from.getZ());
+        to.setDeltaMovement(from.getDeltaMovement());
+    }
+
+    public static void copyRotations(final Entity to, final Entity from)
+    {
+        to.xRot = from.xRot;
+        to.tickCount = from.tickCount;
+        to.yRot = from.yRot;
+        to.setYHeadRot(from.getYHeadRot());
+        to.xRotO = from.xRotO;
+        to.yRotO = from.yRotO;
+    }
+
+    public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
+    {
+        ICopyMob.copyRotations(to, from);
+
+        to.yHeadRotO = from.yHeadRotO;
+        to.yBodyRotO = from.yBodyRotO;
+        to.yBodyRot = from.yBodyRot;
+
+        to.animationSpeedOld = from.animationSpeedOld;
+        to.animationPosition = from.animationPosition;
+        to.animationSpeed = from.animationSpeed;
+
+        to.setOnGround(from.isOnGround());
     }
 }

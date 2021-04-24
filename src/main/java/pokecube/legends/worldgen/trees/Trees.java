@@ -42,8 +42,8 @@ public class Trees
     public static ConfiguredFeature<BaseTreeFeatureConfig, ?> DISTORTIC_TREE;
 
     public static final class States {
-        public static final BlockState ULTRA_JUNGLE_GRASS = BlockInit.ULTRA_JUNGLE_GRASS.get().defaultBlockState();
-        public static final BlockState ULTRA_AGED_GRASS = BlockInit.ULTRA_AGED_GRASS.get().defaultBlockState();
+        public static final BlockState ULTRA_JUNGLE_GRASS = BlockInit.JUNGLE_GRASS.get().defaultBlockState();
+        public static final BlockState ULTRA_AGED_GRASS = BlockInit.AGED_GRASS.get().defaultBlockState();
 //        static {
 //            ULTRA_JUNGLE_GRASS = BlockInit.ULTRA_JUNGLE_GRASS.get().defaultBlockState();
 //            ULTRA_AGED_GRASS = BlockInit.ULTRA_AGED_GRASS.get().defaultBlockState();
