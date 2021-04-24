@@ -27,35 +27,24 @@ public class MagearnaBlock extends Rotates implements IWaterLoggable
 
     // Precise selection box
     static
-    {// @formatter:off
-    	MagearnaBlock.MAGEARNA.put(Direction.NORTH,
-			Stream.of(
-			Block.box(2, 1, 1, 14, 14, 15),
-			Block.box(0, 2, 2, 16, 13, 14),
-			Block.box(1, 0, 3, 15, 6, 13))
-			.reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	
-    	MagearnaBlock.MAGEARNA.put(Direction.EAST,
-			Stream.of(
-			Block.box(1, 1, 2, 15, 14, 14),
-			Block.box(2, 2, 0, 14, 13, 16),
-			Block.box(3, 0, 1, 13, 6, 15))
-			.reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	
-    	MagearnaBlock.MAGEARNA.put(Direction.SOUTH,
-			Stream.of(
-			Block.box(2, 1, 1, 14, 14, 15),
-			Block.box(0, 2, 2, 16, 13, 14),
-			Block.box(1, 0, 3, 15, 6, 13))
-			.reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    	
-    	MagearnaBlock.MAGEARNA.put(Direction.WEST,
-			Stream.of(
-			Block.box(1, 1, 2, 15, 14, 14),
-			Block.box(2, 2, 0, 14, 13, 16),
-			Block.box(3, 0, 1, 13, 6, 15))
-			.reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get());
-    }// @formatter:on
+    {
+    	MagearnaBlock.MAGEARNA.put(Direction.NORTH, VoxelShapes.or(
+			Block.box(2, 1, 0, 14, 15, 16),
+			Block.box(0, 2, 1, 16, 14, 15),
+			Block.box(1, 0, 2, 15, 16, 14)).optimize());
+		MagearnaBlock.MAGEARNA.put(Direction.EAST, VoxelShapes.or(
+			Block.box(0, 1, 2, 16, 15, 14),
+			Block.box(1, 2, 0, 15, 14, 16),
+			Block.box(2, 0, 1, 14, 16, 15)).optimize());
+		MagearnaBlock.MAGEARNA.put(Direction.SOUTH, VoxelShapes.or(
+			Block.box(2, 1, 0, 14, 15, 16),
+			Block.box(0, 2, 1, 16, 14, 15),
+			Block.box(1, 0, 2, 15, 16, 14)).optimize());
+		MagearnaBlock.MAGEARNA.put(Direction.WEST, VoxelShapes.or(
+			Block.box(0, 1, 2, 16, 15, 14),
+			Block.box(1, 2, 0, 15, 14, 16),
+			Block.box(2, 0, 1, 14, 16, 15)).optimize());
+    }
 
     // Precise selection box
     @Override

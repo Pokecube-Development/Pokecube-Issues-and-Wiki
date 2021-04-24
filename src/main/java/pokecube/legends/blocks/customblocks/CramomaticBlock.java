@@ -27,7 +27,7 @@ public class CramomaticBlock extends Rotates implements IWaterLoggable {
 
     // Precise selection box
     static
-    {// @formatter:off
+    {
     	CramomaticBlock.CRAMOBOT.put(Direction.NORTH, VoxelShapes.or(
 			Block.box(5, 0, 3, 11, 6, 9),
 			Block.box(4, 5, 4, 5, 6, 8),
