@@ -51,7 +51,7 @@ public class GrassAgedBlock extends GrassBlock implements IGrowable
                 return;
             }
 
-            world.setBlockAndUpdate(pos, BlockInit.ULTRA_AGED_DIRT.get().defaultBlockState());
+            world.setBlockAndUpdate(pos, BlockInit.AGED_DIRT.get().defaultBlockState());
         } else if (world.getMaxLocalRawBrightness(pos.above()) >= 9)
         {
             BlockState blockstate = this.defaultBlockState();
@@ -60,7 +60,7 @@ public class GrassAgedBlock extends GrassBlock implements IGrowable
             {
                 BlockPos blockpos = pos.offset(random.nextInt(3) - 1,
                     random.nextInt(5) - 3, random.nextInt(3) - 1);
-                if (world.getBlockState(blockpos).is(BlockInit.ULTRA_AGED_DIRT.get()) &&
+                if (world.getBlockState(blockpos).is(BlockInit.AGED_DIRT.get()) &&
                     canPropagate(blockstate, world, blockpos))
                 {
                     world.setBlockAndUpdate(blockpos, (BlockState)blockstate
