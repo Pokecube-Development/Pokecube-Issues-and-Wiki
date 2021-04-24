@@ -48315,7 +48315,7 @@
         "baseExp": 166,
         "captureRate": 30,
         "baseFriendship": 140,
-        "genderRatio": 127,
+        "genderRatio": 0,
         "expMode": "fast"
       }
     },
@@ -48358,7 +48358,8 @@
           }
         },
         "mass": 2.8,
-        "baseExp": 166
+        "baseExp": 166,
+		"genderRatio": 254
       }
     },
     {

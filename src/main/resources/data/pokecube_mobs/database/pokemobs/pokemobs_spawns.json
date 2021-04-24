@@ -8105,6 +8105,25 @@
         ]
       }
     },
+	{
+      "name": "indeedee_female",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "category": "nether",
+              "rate": "0.16"
+            }
+          },
+          {
+            "values": {
+              "types": "village",
+              "rate": "0.18"
+            }
+          }
+        ]
+      }
+    },
     {
       "name": "morpeko",
       "stats": {
