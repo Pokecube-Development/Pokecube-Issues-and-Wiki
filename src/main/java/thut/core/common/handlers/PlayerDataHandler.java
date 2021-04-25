@@ -3,7 +3,6 @@ package thut.core.common.handlers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
@@ -251,8 +250,9 @@ public class PlayerDataHandler
                 fileinputstream.close();
                 data.readFromNBT(CompoundNBT.getCompound("Data"));
             }
-            catch (final IOException e)
+            catch (final Exception e)
             {
+                ThutCore.LOGGER.error("Warning, Data for {} [} was corrupted while trying to load!", uuid, fileName, e);
                 e.printStackTrace();
             }
         }
@@ -280,8 +280,9 @@ public class PlayerDataHandler
                     CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
                     fileoutputstream.close();
                 }
-                catch (final IOException e)
+                catch (final Exception e)
                 {
+                    ThutCore.LOGGER.error("Warning, Data for {} [} was corrupted while trying to save!", uuid, fileName, e);
                     e.printStackTrace();
                 }
             }
@@ -309,8 +310,9 @@ public class PlayerDataHandler
                     CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
                     fileoutputstream.close();
                 }
-                catch (final IOException e)
+                catch (final Exception e)
                 {
+                    ThutCore.LOGGER.error("Warning, Data for {} [} was corrupted while trying to save!", uuid, fileName, e);
                     e.printStackTrace();
                 }
             }
