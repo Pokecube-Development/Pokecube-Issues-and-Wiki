@@ -15,10 +15,10 @@ import com.google.common.collect.Maps;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
 
@@ -47,8 +47,7 @@ public class MutationHelper implements IResourceData
         this.mutations.clear();
         this.validLoad = false;
         final String path = new ResourceLocation(this.tagPath).getPath();
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, s -> s
-                .endsWith(".json"));
+        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad) valid.set(true);
@@ -59,7 +58,7 @@ public class MutationHelper implements IResourceData
         try
         {
             final List<Mutations> loaded = Lists.newArrayList();
-            for (final IResource resource : Database.resourceManager.getResources(l))
+            for (final IResource resource : PackFinder.getResources(l))
             {
                 final InputStream res = resource.getInputStream();
                 final Reader reader = new InputStreamReader(res);

@@ -89,14 +89,14 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     @Override
     public HeadInfo getHeadInfo()
     {
-        if (!this.isLoaded()) return ModelWrapper.DUMMY;
+        if (this.imodel == null) return ModelWrapper.DUMMY;
         return this.imodel.getHeadInfo();
     }
 
     @Override
     public Set<String> getHeadParts()
     {
-        if (!this.isLoaded()) return Collections.emptySet();
+        if (this.imodel == null) return Collections.emptySet();
         return this.imodel.getHeadParts();
     }
 

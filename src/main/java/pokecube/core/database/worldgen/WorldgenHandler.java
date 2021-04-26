@@ -60,10 +60,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.WorldgenFeatures;
@@ -543,29 +543,28 @@ public class WorldgenHandler
 
     public void loadStructures() throws Exception
     {
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources("structures/", s -> s
-                .endsWith("gen.json"));
+        final Collection<ResourceLocation> resources = PackFinder.getJsonResources("structures/");
 
         this.defaults.jigsaws.clear();
         this.defaults.pools.clear();
 
         PokecubeCore.LOGGER.info("Found Worldgen Databases: {}", resources);
 
-        for (final ResourceLocation json : resources)
+        for (final ResourceLocation file : resources)
             try
             {
-                final InputStream res = Database.resourceManager.getResource(json).getInputStream();
+                final InputStream res = PackFinder.getStream(file);
                 final Reader reader = new InputStreamReader(res);
                 final Structures extra = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
 
                 PokecubeCore.LOGGER.info("Found {} jigsaws and {} pools in {}", extra.jigsaws.size(), extra.pools
-                        .size(), json);
+                        .size(), file);
                 this.defaults.jigsaws.addAll(extra.jigsaws);
                 this.defaults.pools.addAll(extra.pools);
             }
             catch (JsonSyntaxException | JsonIOException | IOException e)
             {
-                PokecubeCore.LOGGER.error("Error with pools for {}", json, e);
+                PokecubeCore.LOGGER.error("Error with pools for {}", file, e);
             }
     }
 

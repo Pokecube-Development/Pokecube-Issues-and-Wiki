@@ -14,6 +14,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
+import pokecube.core.database.resources.PackFinder;
 import thut.core.common.ThutCore;
 
 public class PokemobsDatabases
@@ -31,15 +32,12 @@ public class PokemobsDatabases
 
         for (final String path : PokemobsDatabases.DATABASES)
         {
-            final Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, s -> s
-                    .endsWith(".json"));
-
+            final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
             resources.forEach(l ->
             {
                 try
                 {
-                    final PokemobsJson database = PokemobsDatabases.loadDatabase(Database.resourceManager.getResource(l)
-                            .getInputStream());
+                    final PokemobsJson database = PokemobsDatabases.loadDatabase(PackFinder.getStream(l));
                     if (database != null)
                     {
                         database.pokemon.forEach(e -> e.name = ThutCore.trim(e.name));

@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
+import pokecube.core.database.resources.PackFinder;
 
 public class DBLoader
 {
@@ -20,7 +20,7 @@ public class DBLoader
 
     private static ArrayList<ArrayList<String>> getRows(final ResourceLocation location) throws IOException
     {
-        final InputStream res = Database.resourceManager.getResource(location).getInputStream();
+        final InputStream res = PackFinder.getStream(location);
 
         final ArrayList<ArrayList<String>> rows = new ArrayList<>();
         BufferedReader br = null;

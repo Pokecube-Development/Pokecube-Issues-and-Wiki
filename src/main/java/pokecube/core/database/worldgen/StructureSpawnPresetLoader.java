@@ -12,8 +12,8 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
 
 public class StructureSpawnPresetLoader
@@ -27,15 +27,13 @@ public class StructureSpawnPresetLoader
 
     public static void loadDatabase()
     {
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
-                NpcType.DATALOC, s -> s.endsWith(".json"));
+        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(NpcType.DATALOC);
         for (final ResourceLocation file : resources)
         {
             JsonObject loaded;
             try
             {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
-                        .getResource(file).getInputStream()));
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
                 loaded = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
                 reader.close();
                 if (loaded.has("presets"))
