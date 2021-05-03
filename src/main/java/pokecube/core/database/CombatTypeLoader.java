@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.utils.PokeType;
 
 public class CombatTypeLoader
@@ -76,7 +77,7 @@ public class CombatTypeLoader
     {
         try
         {
-            final InputStream res = Database.resourceManager.getResource(CombatTypeLoader.TYPES).getInputStream();
+            final InputStream res = PackFinder.getStream(CombatTypeLoader.TYPES);
             final Reader reader = new InputStreamReader(res);
             final CombatTypes types = CombatTypeLoader.gson.fromJson(reader, CombatTypes.class);
             types.init();

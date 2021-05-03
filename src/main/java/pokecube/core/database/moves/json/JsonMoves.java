@@ -16,8 +16,8 @@ import com.google.gson.Gson;
 
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import pokecube.core.database.moves.MovesParser;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
@@ -222,7 +222,7 @@ public class JsonMoves
     {
         try
         {
-            final InputStream res = Database.resourceManager.getResource(file).getInputStream();
+            final InputStream res = PackFinder.getStream(file);
             final Reader reader = new InputStreamReader(res);
             JsonMoves.moves = JsonMoves.gson.fromJson(reader, MovesJson.class);
             JsonMoves.moves.init();
@@ -243,7 +243,7 @@ public class JsonMoves
         JsonMoves.loadMoves(movesFile);
         try
         {
-            final InputStream res = Database.resourceManager.getResource(animationFile).getInputStream();
+            final InputStream res = PackFinder.getStream(animationFile);
             final Reader reader = new InputStreamReader(res);
             final AnimsJson animations = JsonMoves.gson.fromJson(reader, AnimsJson.class);
             reader.close();

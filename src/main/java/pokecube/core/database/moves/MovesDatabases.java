@@ -4,8 +4,8 @@ import java.util.Collection;
 
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import pokecube.core.database.moves.json.JsonMoves;
+import pokecube.core.database.resources.PackFinder;
 
 public class MovesDatabases
 {
@@ -13,11 +13,12 @@ public class MovesDatabases
 
     public static void preInitLoad()
     {
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
-                MovesDatabases.DATABASES, s -> s.endsWith(".json") && !s.endsWith("_anims.json"));
-        for (final ResourceLocation s : resources)
+        final Collection<ResourceLocation> resources = PackFinder.getResources(MovesDatabases.DATABASES, s -> s
+                .endsWith(".json") && !s.endsWith("_anims.json"));
+        for (ResourceLocation s : resources)
             try
             {
+                if (s.toString().contains("//")) s = new ResourceLocation(s.toString().replace("//", "/"));
                 JsonMoves.merge(new ResourceLocation(s.getNamespace(), s.getPath().replace(".json", "_anims.json")), s);
             }
             catch (final Exception e1)

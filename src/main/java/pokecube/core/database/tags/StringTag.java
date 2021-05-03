@@ -24,8 +24,8 @@ import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
 import thut.core.common.ThutCore;
@@ -108,11 +108,11 @@ public class StringTag implements IResourceData
         try
         {
             final String path = new ResourceLocation(this.tagPath).getPath();
-            final Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, s -> s
-                    .endsWith(".json"));
+            final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
             this.validLoad = !resources.isEmpty();
             resources.forEach(l ->
             {
+                if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
                 final String tag = l.toString().replace(path, "").replace(".json", "");
                 this.loadTag(l, tag, "");
             });
@@ -196,7 +196,7 @@ public class StringTag implements IResourceData
         try
         {
             final TagHolder tagged = new TagHolder();
-            for (final IResource resource : Database.resourceManager.getResources(tagLoc))
+            for (final IResource resource : PackFinder.getResources(tagLoc))
             {
                 final InputStream res = resource.getInputStream();
                 final Reader reader = new InputStreamReader(res);

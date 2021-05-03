@@ -652,13 +652,11 @@ public class Database
     {
         for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values())
             parser.init();
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources("database/recipes", s -> s
-                .endsWith(".json"));
-        for (final ResourceLocation name : resources)
+        final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/recipes");
+        for (final ResourceLocation file : resources)
             try
             {
-                final IReloadableResourceManager manager = Database.resourceManager;
-                final Reader reader = new InputStreamReader(manager.getResource(name).getInputStream());
+                final Reader reader = new InputStreamReader(PackFinder.getStream(file));
                 final JsonObject database = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
                 reader.close();
 
@@ -673,11 +671,11 @@ public class Database
             }
             catch (final FileNotFoundException e)
             {
-                PokecubeCore.LOGGER.info("No Custom Recipes of name {}", name);
+                PokecubeCore.LOGGER.info("No Custom Recipes of name {}", file);
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error with " + name, e);
+                PokecubeCore.LOGGER.error("Error with " + file, e);
             }
     }
 
@@ -695,13 +693,11 @@ public class Database
 
     private static void loadRewards()
     {
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources("database/rewards", s -> s
-                .endsWith(".json"));
-        for (final ResourceLocation name : resources)
+        final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/rewards");
+        for (final ResourceLocation file : resources)
             try
             {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
-                        .getResource(name).getInputStream()));
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
                 final StringBuffer sb = new StringBuffer();
                 String str;
                 while ((str = reader.readLine()) != null)
@@ -711,11 +707,11 @@ public class Database
             }
             catch (final FileNotFoundException e)
             {
-                PokecubeCore.LOGGER.info("No Custom Rewards of name {}", name);
+                PokecubeCore.LOGGER.info("No Custom Rewards of name {}", file);
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error with " + name, e);
+                PokecubeCore.LOGGER.error("Error with " + file, e);
             }
     }
 
@@ -723,14 +719,12 @@ public class Database
     {
         try
         {
-            final Collection<ResourceLocation> resources = Database.resourceManager.listResources(
-                    "database/starterpack", s -> s.endsWith(".json"));
+            final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/starterpack");
             boolean valid = false;
             final List<ItemStack> kit = Lists.newArrayList();
-            for (final ResourceLocation pack : resources)
+            for (final ResourceLocation file : resources)
             {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
-                        .getResource(pack).getInputStream()));
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
                 final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
                 reader.close();
                 valid = true;

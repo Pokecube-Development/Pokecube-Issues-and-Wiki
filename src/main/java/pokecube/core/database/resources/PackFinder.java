@@ -1,11 +1,15 @@
 package pokecube.core.database.resources;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
@@ -15,17 +19,44 @@ import com.google.common.collect.Sets;
 import net.minecraft.resources.FolderPackFinder;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.IPackNameDecorator;
+import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackInfo.IFactory;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.fml.packs.ModFileResourcePack;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
 
 public class PackFinder implements IPackFinder
 {
+    static final IPackNameDecorator DECORATOR = IPackNameDecorator.decorating("pack.source.pokecube.data");
+
+    public static Collection<ResourceLocation> getJsonResources(final String path)
+    {
+        return PackFinder.getResources(path, s -> s.endsWith(".json"));
+    }
+
+    public static Collection<ResourceLocation> getResources(String path, final Predicate<String> match)
+    {
+        if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
+        return Database.resourceManager.listResources(path, match);
+    }
+
+    public static InputStream getStream(ResourceLocation l) throws IOException
+    {
+        if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
+        return Database.resourceManager.getResource(l).getInputStream();
+    }
+
+    public static List<IResource> getResources(ResourceLocation l) throws IOException
+    {
+        if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
+        return Database.resourceManager.getResources(l);
+    }
 
     private Map<ModFile, IResourcePack> modResourcePacks = Maps.newHashMap();
     public final List<IResourcePack>    allPacks         = Lists.newArrayList();
@@ -39,11 +70,11 @@ public class PackFinder implements IPackFinder
         File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
         folder.mkdirs();
         PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
-        this.folderFinder_old = new FolderPackFinder(folder, IPackNameDecorator.DEFAULT);
+        this.folderFinder_old = new FolderPackFinder(folder, PackFinder.DECORATOR);
         folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
         folder.mkdirs();
         PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
-        this.folderFinder_new = new FolderPackFinder(folder, IPackNameDecorator.DEFAULT);
+        this.folderFinder_new = new FolderPackFinder(folder, PackFinder.DECORATOR);
         this.init(packInfoFactoryIn);
     }
 

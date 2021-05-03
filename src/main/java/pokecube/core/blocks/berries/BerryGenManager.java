@@ -52,11 +52,11 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
@@ -117,7 +117,7 @@ public class BerryGenManager
     public void loadStructures() throws Exception
     {
         final ResourceLocation json = new ResourceLocation(this.ROOT.toString() + "berry_trees.json");
-        final InputStream res = Database.resourceManager.getResource(json).getInputStream();
+        final InputStream res = PackFinder.getStream(json);
         final Reader reader = new InputStreamReader(res);
         this.defaults = PokedexEntryLoader.gson.fromJson(reader, Berries.class);
     }
@@ -596,13 +596,12 @@ public class BerryGenManager
     private static void loadConfig()
     {
         BerryGenManager.list = new BerryGenList();
-        final Collection<ResourceLocation> resources = Database.resourceManager.listResources(BerryGenManager.DATABASES,
-                s -> s.endsWith(".json"));
+        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(BerryGenManager.DATABASES);
         for (final ResourceLocation s : resources)
             try
             {
                 BerryGenList loaded;
-                final Reader reader = new InputStreamReader(Database.resourceManager.getResource(s).getInputStream());
+                final Reader reader = new InputStreamReader(PackFinder.getStream(s));
                 loaded = PokedexEntryLoader.gson.fromJson(reader, BerryGenList.class);
                 reader.close();
                 BerryGenManager.list.locations.addAll(loaded.locations);

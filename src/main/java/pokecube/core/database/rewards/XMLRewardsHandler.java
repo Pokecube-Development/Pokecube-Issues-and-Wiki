@@ -30,6 +30,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
@@ -211,7 +212,7 @@ public class XMLRewardsHandler
                     lang = lang.toLowerCase(Locale.ROOT);
                     final ResourceLocation langloc = PokecubeItems.toPokecubeResource(String.format(this.langFile,
                             lang));
-                    final InputStream stream = Database.resourceManager.getResource(langloc).getInputStream();
+                    final InputStream stream = PackFinder.getStream(langloc);
                     if (this.page_file)
                     {
                         final PagesFile book = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
