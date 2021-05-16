@@ -430,6 +430,93 @@
 			  ]
 		   }
 		}
+	 },
+	 {
+	  "name": "necrozma",
+	  "poseShapes": {
+		   "idle": {
+			  "parts": [
+			   {
+				  "name": "body",
+				  "offset": "-0.5,0,-0.5",
+				  "size": "1,3.0,1"
+				},
+				{
+				  "name": "arm1",
+				  "offset": "-2,0.3,-0.4",
+				  "size": "1.4,2.0,1.4"
+				},
+				{
+				  "name": "arm2",
+				  "offset": "0.5,0.3,-0.4",
+				  "size": "1.4,2.0,1.4"
+				}
+			  ]
+			},
+		   "walking": {
+			 "parts": [
+				{
+				  "name": "body",
+				  "offset": "-0.5,0,-0.5",
+				  "size": "1,3.0,1"
+				},
+				{
+				  "name": "arm1",
+				  "offset": "-2,0.3,-0.8",
+				  "size": "1.4,2.0,1.4"
+				},
+				{
+				  "name": "arm2",
+				  "offset": "0.5,0.3,-0.8",
+				  "size": "1.4,2.0,1.4"
+				}
+			  ]
+		   },
+		   "flying": {
+			 "parts": [
+				{
+				  "name": "body",
+				  "offset": "-0.5,0,-0.5",
+				  "size": "1,3.0,1"
+				},
+				{
+				  "name": "arm1",
+				  "offset": "-2,0.3,0.6",
+				  "size": "1.4,2.0,1.4"
+				},
+				{
+				  "name": "arm2",
+				  "offset": "0.5,0.3,0.6",
+				  "size": "1.4,2.0,1.4"
+				}
+			  ]
+		   }
+		}
+	 },
+	 {
+	  "name": "drednaw_gigantamax",
+	  "poseShapes": {
+		   "idle": {
+			  "parts": [
+			   {
+				  "name": "body",
+				  "offset": "-3.5,0,-3.5",
+				  "size": "7.0,11.0,7.0",
+				  "ride": "3.5,10,3.5"
+				}
+			  ]
+			},
+		   "swimming": {
+			 "parts": [
+				{
+				  "name": "body",
+				  "offset": "-3.5,0,-4.5",
+				  "size": "7,7.5,9",
+				  "ride": "3.5,7,4.5"
+				}
+			  ]
+		   }
+		}
 	 }
   ]
 }
