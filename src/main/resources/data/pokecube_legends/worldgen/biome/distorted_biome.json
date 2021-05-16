@@ -14,10 +14,6 @@
       },
       "probability": 0.2
     },
-    "sky_color": 4766,
-    "fog_color": 4766,
-    "water_color": 12245481,
-    "water_fog_color": 5796478,
     "grass_color": 16147822,
     "foliage_color": 13187908,
     "mood_sound":
@@ -38,7 +34,7 @@
   "features": [
     [],
     [
-     "pokecube_legends:distortic_water"
+     "pokecube_legends:distortic_lake"
     ],
     [],
     [],

@@ -143,6 +143,16 @@ public class BlockInit
     public static final RegistryObject<Block> DYNA_LEAVES3;
     public static final RegistryObject<Block> TOTEM_BLOCK;
     
+    public static final RegistryObject<Block> CONCRETE_LOG;
+    public static final RegistryObject<Block> CONCRETE_PLANKS;
+    public static final RegistryObject<Block> CONCRETE_DENSE_PLANKS;   
+    public static final RegistryObject<Block> CONCRETE_WOOD;
+    public static final RegistryObject<Block> STRIP_CONCRETE_LOG;
+    public static final RegistryObject<Block> STRIP_CONCRETE_WOOD;
+    public static final RegistryObject<Block> CONCRETE_STAIRS;
+    public static final RegistryObject<Block> CONCRETE_SLAB;
+    public static final RegistryObject<Block> CONCRETE_BUTTON;
+    
     //Tapus Totens
     //Koko Totem
     public static final RegistryObject<Block> KOKO_WHITE;
@@ -532,7 +542,7 @@ public class BlockInit
                 Material.STONE, MaterialColor.COLOR_RED).randomTicks().strength(2000, 2000)).setInfoBlockName("raidspawn"));
         CRAMOMATIC_BLOCK = PokecubeLegends.BLOCKS.register("cramomatic_block", () -> new CramomaticBlock(AbstractBlock.Properties.of(
             Material.METAL, MaterialColor.TERRACOTTA_RED).strength(6, 15).sound(SoundType.ANVIL).harvestTool(ToolType.PICKAXE)
-            .harvestLevel(2).dynamicShape().requiresCorrectToolForDrops()));
+            .harvestLevel(2).dynamicShape().requiresCorrectToolForDrops()).setToolTip("cramobot"));
         
         // Meteor Blocks
         METEOR_BLOCK = PokecubeLegends.BLOCKS_TAB.register("meteor_block", () -> new MeteorBlock(6842513,
@@ -545,6 +555,27 @@ public class BlockInit
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
         		Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE)
             		.harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+        
+        //Concrete Blocks
+        CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("concrete_log", () -> Blocks.log(
+                MaterialColor.TERRACOTTA_GRAY, MaterialColor.COLOR_BROWN));
+        CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("concrete_wood", () -> Blocks.log(
+                MaterialColor.COLOR_BLACK, MaterialColor.COLOR_BROWN));
+        STRIP_CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_log", () -> Blocks.log(
+                MaterialColor.COLOR_BROWN, MaterialColor.WARPED_NYLIUM));
+        STRIP_CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_wood", () -> Blocks.log(
+                MaterialColor.COLOR_BLACK, MaterialColor.WARPED_NYLIUM));
+        CONCRETE_PLANKS = PokecubeLegends.DECORATION_TAB.register("concrete_plank", () -> new Block(AbstractBlock.Properties.of(
+        		Material.STONE, MaterialColor.COLOR_CYAN).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+        CONCRETE_DENSE_PLANKS = PokecubeLegends.DECORATION_TAB.register("concrete_dense_plank", () -> new Block(AbstractBlock.Properties.of(
+        		Material.STONE, MaterialColor.COLOR_CYAN).strength(2.7f).sound(SoundType.STONE).requiresCorrectToolForDrops()));        
+        CONCRETE_STAIRS = PokecubeLegends.DECORATION_TAB.register("concrete_stairs",() -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(),
+        		AbstractBlock.Properties.of(Material.STONE, MaterialColor.WARPED_NYLIUM).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+        CONCRETE_SLAB = PokecubeLegends.DECORATION_TAB.register("concrete_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        		Material.STONE, MaterialColor.WARPED_NYLIUM).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+        CONCRETE_BUTTON = PokecubeLegends.DECORATION_TAB.register("concrete_button",
+                () -> new ItemGenerator.GenericButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.WARPED_NYLIUM)
+                		.sound(SoundType.STONE).noCollission().strength(0.8f).requiresCorrectToolForDrops()));
         
         //Grass
         MUSHROOM_GRASS = PokecubeLegends.BLOCKS_TAB.register("ultragrass1", () -> new GrassMushroomBlock(AbstractBlock.Properties.of(
@@ -1600,8 +1631,7 @@ public class BlockInit
             ItemGenerator.addStrippable(BlockInit.CORRUPTED_LOG.get(), BlockInit.STRIP_CORRUPTED_LOG.get());
             ItemGenerator.addStrippable(BlockInit.CORRUPTED_WOOD.get(), BlockInit.STRIP_CORRUPTED_WOOD.get());
             ItemGenerator.addStrippable(BlockInit.MIRAGE_LOG.get(), BlockInit.STRIP_MIRAGE_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());
-            
+            ItemGenerator.addStrippable(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());         
         });
     }
     

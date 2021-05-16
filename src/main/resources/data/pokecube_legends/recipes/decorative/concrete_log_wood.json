@@ -1,0 +1,16 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:concrete_log"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:concrete_wood",
+    "count": 1
+  }
+}

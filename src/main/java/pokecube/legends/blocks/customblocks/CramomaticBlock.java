@@ -1,30 +1,72 @@
 package pokecube.legends.blocks.customblocks;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.legends.Reference;
+import pokecube.legends.blocks.BlockBase;
+import thut.api.item.ItemList;
 
 public class CramomaticBlock extends Rotates implements IWaterLoggable {
 
 	private static final Map<Direction, VoxelShape> CRAMOBOT  = new HashMap<>();
     private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    
+    //Tags
+    public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "crambot_fuel");
+    String infoName;
+    
+    @Override
+    public BlockBase setToolTip(final String infoName)
+    {
+        this.infoName = infoName;
+        return this;
+    }
 
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void appendHoverText(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
+            final ITooltipFlag flagIn)
+    {
+        String message;
+        if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoName +".tooltip", TextFormatting.GOLD, TextFormatting.RESET);
+        else message = I18n.get("pokecube.tooltip.advanced");
+        tooltip.add(new TranslationTextComponent(message));
+    }
+    
     // Precise selection box
     static
     {
@@ -111,4 +153,25 @@ public class CramomaticBlock extends Rotates implements IWaterLoggable {
         this.registerDefaultState(this.stateDefinition.any().setValue(CramomaticBlock.FACING, Direction.NORTH).setValue(
         		CramomaticBlock.WATERLOGGED, false));
     }
+	
+	@Override
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity entity, Hand hand,
+			BlockRayTraceResult hit) {
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		
+		if (ItemList.is(CramomaticBlock.FUELTAG, entity.getMainHandItem()))
+		{
+			addParticles(entity,world,x,y,z);
+			return ActionResultType.SUCCESS;
+		}
+		return ActionResultType.PASS;
+	}
+	
+	public static void addParticles(PlayerEntity entity, World world, int x, int y, int z) {
+			world.addParticle(ParticleTypes.BUBBLE, x, y, z, 0, 1, 0);
+			world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+                "entity.villager.yes")), SoundCategory.NEUTRAL, 1, 1, false);
+	}
 }
