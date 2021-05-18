@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:blocks/concrete_plank",
+    "up": "pokecube_legends:blocks/concrete_plank",
+    "north": "pokecube_legends:blocks/concrete_plank",
+    "east": "pokecube_legends:blocks/concrete_plank",
+    "south": "pokecube_legends:blocks/concrete_plank",
+    "west": "pokecube_legends:blocks/concrete_plank",
+    "particle": "pokecube_legends:blocks/concrete_plank"
+   }
+}

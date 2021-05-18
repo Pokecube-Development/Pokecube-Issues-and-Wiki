@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:concrete_log"
+  },
+  "result": "pokecube_legends:stripped_concrete_wood",
+  "count": 1
+}
