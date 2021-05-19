@@ -13,7 +13,7 @@ import pokecube.legends.init.BlockInit;
 
 public class DistortedVinesTopBlock extends AbstractTopPlantBlock 
 {
-   public static final VoxelShape SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 15.0D, 12.0D);
+   public static final VoxelShape SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 6.0D, 12.0D);
 
    public DistortedVinesTopBlock(AbstractBlock.Properties props) {
       super(props, Direction.UP, SHAPE, false, 0.1D);
