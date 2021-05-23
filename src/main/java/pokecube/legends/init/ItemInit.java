@@ -93,6 +93,7 @@ public class ItemInit
     public static final RegistryObject<Item> COSMIC_ORB;
     public static final RegistryObject<Item> LIGHTING_CRYSTAL;
     
+    public static final RegistryObject<Item> GRAY_SCARF;
     public static final RegistryObject<Item> WOODEN_CROWN;
     
     // Gens_ores
@@ -246,6 +247,7 @@ public class ItemInit
         
         // Misc
         WOODEN_CROWN = PokecubeLegends.ITEMS.register("wooden_crown", () -> new ItemBase("wooden_crown", 1,PokecubeLegends.LEGEND_TAB));
+        GRAY_SCARF = PokecubeLegends.ITEMS.register("kubfu_spawn", () -> new ItemBase("kubfu_spawn", 1,PokecubeLegends.LEGEND_TAB));
         METEOR_SHARD   = PokecubeLegends.ITEMS.register("meteor_shard", () -> new ItemBase("meteor_shard", 1,PokecubeLegends.LEGEND_TAB));
         LIGHTING_CRYSTAL   = PokecubeLegends.ITEMS.register("lighting_crystal", () -> new ItemBase("lighting_crystal", 1,PokecubeLegends.LEGEND_TAB));
         

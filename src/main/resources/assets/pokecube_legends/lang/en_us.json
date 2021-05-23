@@ -9,6 +9,7 @@
 	"pokecube.magma.named": "Magma Employee %s",
 	"pokecube.aqua.named":  "Aqua Employee %s",
 	"pokecube.miner.named": "Miner %s",
+	"pokecube.dojo.named": "Dojo Student %s",
 	
 	"pokecube.giovanni.named": "Giovanni",
 	"pokecube.jessie.named": "Jessie",
@@ -122,6 +123,7 @@
     "filled_map.pokecube_legends:tapus_temple": "Buried Treasure Map: Tapus Temple",
     "filled_map.pokecube_legends:kubfu_water": "Buried Treasure Map: Kubfu Water Tower",
     "filled_map.pokecube_legends:kubfu_dark": "Buried Treasure Map: Kubfu Dark Tower",
+	"filled_map.pokecube_legends:kubfu_dojo": "Buried Treasure Map: Kubfu Dojo",
     
 	// Dimensions Part  
 	
@@ -564,6 +566,7 @@
     "item.pokecube_legends.ancient_stone": "Ancient Stone",
     "item.pokecube_legends.imprisonment_helmet":"Imprisonment Helmet",
     "item.pokecube_legends.keldeo_sword": "Keldeo Sword",
+	"item.pokecube_legends.kubfu_spawn": "Gray Scarf",
 
     // Mint Nature
     "item.pokecube_legends.mint_adamant": "Mint Adamant",
@@ -805,6 +808,7 @@
     
     
     // Mobs
+	"legends.kubfu_spawn.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Kubfu",
     "legends.soul_heart.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Magearna",
     "legends.fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Moltres",
     "legends.dark_fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Moltres Galar",

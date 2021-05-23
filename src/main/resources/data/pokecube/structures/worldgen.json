@@ -451,7 +451,8 @@
       "ignoreAir":false,
       "options":[
         "pokecube:village/cave/town_centers/center_1",
-        "pokecube:village/cave/town_centers/center_2"
+        "pokecube:village/cave/town_centers/center_2",
+        "pokecube:village/cave/town_centers/center_3"
       ]
     },
     {
@@ -500,7 +501,7 @@
       "ignoreAir":false,
       "rigid":true,
       "options":[
-        "pokecube:village/cave/streets/end_01;{\"weight\":1}",
+        "pokecube:village/cave/streets/end_01;{\"weight\":2}",
       	"pokecube:village/cave/streets/crossroad_01;{\"weight\":4}",
       	"pokecube:village/cave/streets/crossroad_02;{\"weight\":5}",
         "pokecube:village/cave/streets/straight_1;{\"weight\":8}",

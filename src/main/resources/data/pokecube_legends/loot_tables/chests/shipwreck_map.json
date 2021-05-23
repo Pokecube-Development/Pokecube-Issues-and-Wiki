@@ -175,6 +175,20 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 22,
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "pokecube_legends:kubfu_dojo",
+              "decoration": "blue_marker",
+              "zoom": 1,
+              "skip_existing_chunks": true
+            }
+          ],
+          "name": "minecraft:map"
+        },
+        {
+          "type": "minecraft:item",
           "weight": 17,
           "functions": [
             {

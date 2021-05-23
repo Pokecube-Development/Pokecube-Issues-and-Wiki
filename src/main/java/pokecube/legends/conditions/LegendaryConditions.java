@@ -101,6 +101,7 @@ public class LegendaryConditions
         new LegendarySpawn("cosmog", ItemInit.COSMIC_ORB, BlockInit.TIMESPACE_CORE);
         new LegendarySpawn("necrozma", ItemInit.LIGHTING_CRYSTAL, BlockInit.LEGENDARY_SPAWN);
 
+        new LegendarySpawn("kubfu", ItemInit.GRAY_SCARF, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("calyrex", ItemInit.WOODEN_CROWN, BlockInit.TROUGH_BLOCK);
 
 

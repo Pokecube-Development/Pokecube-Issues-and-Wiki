@@ -644,6 +644,19 @@
       }
     },
     {
+      "name": "kubfu",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:kubfu_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Glastrier",
       "stats": {
         "spawnRules": [
