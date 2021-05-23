@@ -649,7 +649,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:kubfu_temple",
+              "structures": "pokecube_legends:kubfu_dojo",
               "rate": "0.0"
             }
           }
