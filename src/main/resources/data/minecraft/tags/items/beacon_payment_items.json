@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:fractal_shard",
     "pokecube_legends:ruby",
     "pokecube_legends:sapphire",
     "pokecube_legends:spectrum_shard"
