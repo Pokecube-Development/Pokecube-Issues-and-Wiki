@@ -504,9 +504,10 @@
       	"pokecube:village/cave/streets/crossroad_01;{\"weight\":4}",
       	"pokecube:village/cave/streets/crossroad_02;{\"weight\":5}",
         "pokecube:village/cave/streets/straight_1;{\"weight\":8}",
-        "pokecube:village/cave/streets/straight_2;{\"weight\":8}",
-        "pokecube:village/cave/streets/straight_3;{\"weight\":8}",
-        "pokecube:village/cave/streets/straight_4;{\"weight\":8}"
+        "pokecube:village/cave/streets/straight_2;{\"weight\":6}",
+        "pokecube:village/cave/streets/straight_3;{\"weight\":6}",
+        "pokecube:village/cave/streets/straight_4;{\"weight\":6}",
+        "pokecube:village/cave/streets/straight_chest;{\"weight\":3}"
       ]
     },
     {
@@ -550,8 +551,8 @@
         "pokecube:village/cave/houses/storage_4;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/cave/houses/storage_5;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/cave/houses/storage_6;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube:village/cave/houses/temple_house;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube:village/cave/houses/library_house;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/cave/houses/temple_house;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/cave/houses/library_house;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/cave/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}"
       ]
     },
