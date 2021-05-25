@@ -1,0 +1,21 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+	"XX",
+	"XX"
+  ],
+  "key": {
+	"X": {
+      "item": [
+        "pokecube_legends:concrete_plank",
+        "pokecube_legends:concrete_dense_plank"
+      ]
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:concrete_door",
+    "count": 3
+  }
+}

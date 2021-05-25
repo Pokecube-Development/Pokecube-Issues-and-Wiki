@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:true"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "group": "pokecube_legends",
+        "ingredients": [
+          {
+            "tag": "pokecube_legends:concrete_logs"
+          }
+        ],
+        "result": {
+          "item": "pokecube_legends:concrete_plank",
+          "count": 4
+        }
+      }
+    }
+  ]
+}

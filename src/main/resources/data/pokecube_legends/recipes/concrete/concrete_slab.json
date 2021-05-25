@@ -1,0 +1,16 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+	"X": {
+      "item": "pokecube_legends:concrete_plank"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:concrete_slab",
+    "count": 6
+  }
+}

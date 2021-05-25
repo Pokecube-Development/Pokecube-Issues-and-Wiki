@@ -444,8 +444,8 @@
 	
 	"block.pokecube_legends.concrete_log": "Concrete Lined Log",
 	"block.pokecube_legends.concrete_wood": "Concrete Lined Wood",
-	"block.pokecube_legends.stripped_concrete_log": "Stripped Concrete Lined Log",
-	"block.pokecube_legends.stripped_concrete_wood": "Stripped Concrete Lined Wood",
+	"block.pokecube_legends.stripped_concrete_log": "Concrete Lined Stripped Log",
+	"block.pokecube_legends.stripped_concrete_wood": "Concrete Lined Stripped Wood",
 	"block.pokecube_legends.concrete_plank": "Concrete Lined Planks",
 	"block.pokecube_legends.concrete_dense_plank": "Dense Concrete Lined Planks",
 	"block.pokecube_legends.concrete_dense_wall": "Dense Concrete Lined Wall",

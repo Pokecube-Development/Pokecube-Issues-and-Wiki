@@ -2,7 +2,8 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "0"
+    "00",
+    "00"
   ],
   "key": {
     "0": {
@@ -11,6 +12,6 @@
   },
   "result": {
     "item": "pokecube_legends:concrete_wood",
-    "count": 1
+    "count": 3
   }
 }

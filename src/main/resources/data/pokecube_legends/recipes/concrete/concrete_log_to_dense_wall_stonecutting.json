@@ -3,6 +3,6 @@
   "ingredient": {
     "tag": "pokecube_legends:concrete_logs"
   },
-  "result": "pokecube_legends:concrete_fence_gate",
-  "count": 1
+  "result": "pokecube_legends:concrete_dense_wall",
+  "count": 4
 }

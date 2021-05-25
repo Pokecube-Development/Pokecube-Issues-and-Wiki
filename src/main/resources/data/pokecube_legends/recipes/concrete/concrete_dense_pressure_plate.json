@@ -1,0 +1,16 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX"
+  ],
+  "key": {
+	"X": {
+      "item": "pokecube_legends:concrete_dense_plank"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:concrete_dense_pressure_plate",
+    "count": 1
+  }
+}
