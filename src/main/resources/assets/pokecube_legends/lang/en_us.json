@@ -444,13 +444,13 @@
 	
 	"block.pokecube_legends.concrete_log": "Concrete Lined Log",
 	"block.pokecube_legends.concrete_wood": "Concrete Lined Wood",
-	"block.pokecube_legends.stripped_concrete_log": "Stripped Concrete Log",
-	"block.pokecube_legends.stripped_concrete_wood": "Stripped Concrete Wood",
-	"block.pokecube_legends.concrete_plank": "Concrete Planks",
-	"block.pokecube_legends.concrete_dense_plank": "Concrete Dense Planks",
-	"block.pokecube_legends.concrete_stairs": "Concrete Planks Stairs",
-	"block.pokecube_legends.concrete_slab": "Concrete Planks Slab",
-	"block.pokecube_legends.concrete_button": "Concrete Planks Button",
+	"block.pokecube_legends.stripped_concrete_log": "Stripped Concrete Lined Log",
+	"block.pokecube_legends.stripped_concrete_wood": "Stripped Concrete Lined Wood",
+	"block.pokecube_legends.concrete_plank": "Concrete Lined Planks",
+	"block.pokecube_legends.concrete_dense_plank": " Dense Concrete Lined Planks",
+	"block.pokecube_legends.concrete_stairs": "Concrete Lined Stairs",
+	"block.pokecube_legends.concrete_slab": "Concrete Lined Slab",
+	"block.pokecube_legends.concrete_button": "Concrete Lined Button",
     
     // Glass
     "block.pokecube_legends.distortic_one_way_glass": "Distortic One-Way Glass",
