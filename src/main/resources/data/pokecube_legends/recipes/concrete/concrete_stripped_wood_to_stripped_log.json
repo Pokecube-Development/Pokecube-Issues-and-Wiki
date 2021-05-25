@@ -12,11 +12,11 @@
         "group": "pokecube_legends",
         "ingredients": [
           {
-            "item": "pokecube_legends:concrete_wood"
+            "item": "pokecube_legends:stripped_concrete_wood"
           }
         ],
         "result": {
-          "item": "pokecube_legends:concrete_log",
+          "item": "pokecube_legends:stripped_concrete_log",
           "count": 1
         }
       }

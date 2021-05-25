@@ -3,15 +3,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "XXX",
-	"XXX"
+    "XXX"
   ],
   "key": {
 	"X": {
-      "tag": "pokecube_legends:concrete_planks"
+      "item": "pokecube_legends:concrete_dense_plank"
     }
   },
   "result": {
-    "item": "pokecube_legends:concrete_trapdoor",
-    "count": 2
+    "item": "pokecube_legends:concrete_dense_slab",
+    "count": 6
   }
 }

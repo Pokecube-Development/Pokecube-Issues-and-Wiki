@@ -2,17 +2,16 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "XX",
-	"XX",
-	"XX"
+    "00",
+    "00"
   ],
   "key": {
-	"X": {
-      "tag": "pokecube_legends:concrete_planks"
+    "0": {
+      "item": "pokecube_legends:stripped_concrete_log"
     }
   },
   "result": {
-    "item": "pokecube_legends:concrete_door",
+    "item": "pokecube_legends:stripped_concrete_wood",
     "count": 3
   }
 }
