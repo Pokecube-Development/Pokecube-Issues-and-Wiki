@@ -11,23 +11,8 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.FireBlock;
-import net.minecraft.block.PressurePlateBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
-import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.TrapDoorBlock;
-import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
@@ -215,7 +200,7 @@ public class ItemGenerator
             registry.register(block);
 
             // Buttons
-            block = new GenericButton(AbstractBlock.Properties.of(
+            block = new GenericWoodButton(AbstractBlock.Properties.of(
             		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_button");
             ItemGenerator.buttons.put(name, block);
@@ -376,9 +361,17 @@ public class ItemGenerator
         }
     }
 
-    public static class GenericButton extends WoodButtonBlock
+    public static class GenericWoodButton extends WoodButtonBlock
     {
-        public GenericButton(final Properties properties)
+        public GenericWoodButton(final Properties properties)
+        {
+            super(properties);
+        }
+    }
+
+    public static class GenericStoneButton extends StoneButtonBlock
+    {
+        public GenericStoneButton(final Properties properties)
         {
             super(properties);
         }
