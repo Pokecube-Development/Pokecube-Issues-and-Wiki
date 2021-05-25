@@ -3,7 +3,11 @@
   "values": [
     "#pokecube_legends:concrete_logs",
     "pokecube_legends:concrete_button",
+    "pokecube_legends:concrete_dense_button",
     "pokecube_legends:concrete_dense_plank",
+    "pokecube_legends:concrete_dense_pressure_plate",
+    "pokecube_legends:concrete_dense_slab",
+    "pokecube_legends:concrete_dense_stairs",
     "pokecube_legends:concrete_dense_wall",
     "pokecube_legends:concrete_door",
     "pokecube_legends:concrete_fence",

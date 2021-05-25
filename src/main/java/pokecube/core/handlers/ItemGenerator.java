@@ -18,6 +18,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -343,6 +344,12 @@ public class ItemGenerator
         {
             super(state, properties);
         }
+    }
+
+    public static RotatedPillarBlock stoneLog(MaterialColor color1, MaterialColor color2) {
+        return new RotatedPillarBlock(AbstractBlock.Properties.of(Material.STONE, (state) -> {
+            return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
+        }).strength(2.4F).sound(SoundType.STONE));
     }
 
     public static class GenericTrapDoor extends TrapDoorBlock
