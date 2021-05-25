@@ -440,6 +440,7 @@ public class BlockInit
     public static final RegistryObject<Block> STRIP_CONCRETE_WOOD;
     public static final RegistryObject<Block> CONCRETE_STAIRS;
     public static final RegistryObject<Block> CONCRETE_SLAB;
+    public static final RegistryObject<Block> CONCRETE_DENSE_WALL;
     public static final RegistryObject<Block> CONCRETE_FENCE;
     public static final RegistryObject<Block> CONCRETE_FENCE_GATE;
     public static final RegistryObject<Block> CONCRETE_TRAPDOOR;
@@ -1212,9 +1213,11 @@ public class BlockInit
             AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_SLAB = PokecubeLegends.DECORATION_TAB.register("concrete_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
             Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+        CONCRETE_DENSE_WALL = PokecubeLegends.DECORATION_TAB.register("concrete_dense_wall", () -> new WallBlock(AbstractBlock.Properties.of(
+            Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_FENCE = PokecubeLegends.DECORATION_TAB.register("concrete_fence", () -> new FenceBlock(AbstractBlock.Properties.of(
             Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        CONCRETE_FENCE_GATE = PokecubeLegends.DECORATION_TAB.register("concrete_fence", () -> new FenceGateBlock(AbstractBlock.Properties.of(
+        CONCRETE_FENCE_GATE = PokecubeLegends.DECORATION_TAB.register("concrete_fence_gate", () -> new FenceGateBlock(AbstractBlock.Properties.of(
             Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_PR_PLATE = PokecubeLegends.DECORATION_TAB.register("concrete_pressure_plate",
             () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties

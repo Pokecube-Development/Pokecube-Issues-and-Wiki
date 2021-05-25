@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "pokecube_legends:block/concrete_pressure_plate"
+    },
+    "powered=true": {
+      "model": "pokecube_legends:block/concrete_pressure_plate_down"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:concrete_log",
+    "pokecube_legends:concrete_wood",
+    "pokecube_legends:stripped_concrete_log",
+    "pokecube_legends:stripped_concrete_wood"
+  ]
+}

@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "#pokecube:berry_planks",
-    "#pokecube_legends:legends_planks"
+    "#pokecube_legends:legends_planks",
+    "pokecube_legends:concrete_plank",
+    "pokecube_legends:concrete_dense_plank"
   ]
 }
