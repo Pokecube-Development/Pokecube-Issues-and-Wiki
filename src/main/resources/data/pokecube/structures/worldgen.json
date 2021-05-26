@@ -148,7 +148,7 @@
       "ignoreAir":false,
       "rigid":true,
       "options":[
-        "empty;{\"weight\":4}",
+        "empty;{\"weight\":2}",
         "pokecube:village/the_end/houses/house_1;{\"weight\":3}",
         "pokecube:village/the_end/houses/house_2;{\"weight\":3}",
         "pokecube:village/the_end/houses/house_3;{\"weight\":2}",
@@ -625,7 +625,7 @@
       "ignoreAir":false,
       "rigid":true,
       "options":[
-        "empty;{\"weight\":2}",
+        "empty;{\"weight\":1}",
         "pokecube:village/sky/houses/house_1;{\"weight\":3}",
         "pokecube:village/sky/houses/house_2;{\"weight\":3}",
         "pokecube:village/sky/houses/house_3;{\"weight\":3}",
