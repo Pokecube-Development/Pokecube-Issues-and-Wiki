@@ -7,40 +7,34 @@
 	<component name="1" startKey="0" length="20" rotChange="0,0,360,"/>
 	</part>
 	<part name="body1">
-	<component name="1" startKey="0" length="10" posChange="0,-50,0," rotChange="0,0,180,"/>
-	<component name="2" startKey="10" length="10" posChange="-80,0,0," rotChange="0,0,180," />
-	<component name="3" startKey="20" length="10" posChange="0,80,0," rotChange="0,0,180,"/>
-	<component name="4" startKey="30" length="10" posChange="80,0,0," rotChange="0,0,180,"/>
+	<component name="1" startKey="0" length="20" posChange="0,-50,0," rotChange="0,0,360,"/>
+	<component name="2" startKey="10" length="20" posChange="-80,0,0," rotChange="0,0,360,"/>
+	<component name="3" startKey="20" length="20" posChange="0,80,0," rotChange="0,0,360,"/>
+	<component name="4" startKey="30" length="20" posChange="80,0,0," rotChange="0,0,360,"/>
 	</part>
    </phase>
-   <phase type="idle">
+  <phase type="idle">
 	<part name="body">
-	<component name="1" startKey="0" length="10" rotChange="0,0,180,"/>
-	<component name="2" startKey="10" length="10" rotChange="0,0,180," />
-	<component name="3" startKey="20" length="10" rotChange="0,0,180,"/>
-	<component name="4" startKey="30" length="10" rotChange="0,0,180,"/>
+	  <component name="1" startKey="0" length="80" rotChange="0,0,360,"/>
 	</part>
 	<part name="body1">
-	<component name="1" startKey="0" length="10" rotChange="0,0,180,"/>
-	<component name="2" startKey="14" length="10" rotChange="0,0,180," />
-	<component name="3" startKey="24" length="10" rotChange="0,0,180,"/>
-	<component name="4" startKey="34" length="10" rotChange="0,0,180,"/>
+	  <component name="1" startKey="0" length="80" rotChange="0,0,-360,"/>
 	</part>
    </phase>
   <phase type="walking">
 	<part name="body">
-	<component name="1" startKey="0" length="30" rotChange="0,0,-360,"/>
+	<component name="1" startKey="0" length="50" rotChange="0,0,-360,"/>
 	</part>
 	<part name="body1">
-	<component name="1" startKey="0" length="30" rotChange="0,0,360,"/>
+	<component name="1" startKey="0" length="50" rotChange="0,0,360,"/>
 	</part>
    </phase>
   <phase type="flying">
 	<part name="body">
-	<component name="1" startKey="0" length="30" rotChange="0,0,-360,"/>
+	<component name="1" startKey="0" length="50" rotChange="0,0,-360,"/>
 	</part>
 	<part name="body1">
-	<component name="1" startKey="0" length="30" rotChange="0,0,360,"/>
+	<component name="1" startKey="0" length="50" rotChange="0,0,360,"/>
 	</part>
    </phase>
   </model>

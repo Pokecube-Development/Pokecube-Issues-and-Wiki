@@ -13,8 +13,8 @@
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7"/>
   <phase axis="0" name="snakeWalk" parts="wing1_3:wing1_4:wing1_5:wing1_6:wing1_7:wing1_8:wing1_9"/>
   <phase axis="0" name="snakeWalk" parts="wing2_3:wing2_4:wing2_5:wing2_6:wing2_7:wing2_8:wing2_9"/>
-  <material name="Glow" light="1" transluscent="false"/>
-  <material name="Head" light="1" transluscent="true"/>
+  <material name="Glow" light="1" smooth="true" transluscent="false"/>
+  <material name="Head" light="1" alpha="0.1" smooth="true" transluscent="true"/>
   <phase type="idle">
    <part name="neck">
     <component length="10" name="1" rotOffset="10,0,0" startKey="0"/>
@@ -98,9 +98,9 @@
     <component length="10" name="1" rotOffset="-30,0,0" startKey="0"/>
    </part>
    <part name="leg1">
-    <component length="10" name="1" rotOffset="0,0,-70" rotChange="3,0,0" startKey="0"/>
+    <component length="10" name="1" rotOffset="0,0,-70" rotChange="-3,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="6,0,0" startKey="5"/>
-	<component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
+	<component length="10" name="3" rotChange="-3,0,0" startKey="10"/>
    </part>
    <part name="leg1_1">
     <component length="10" name="1" rotOffset="0,70,0" startKey="0"/>
@@ -111,7 +111,7 @@
    <part name="leg2">
     <component length="10" name="1" rotOffset="0,0,70" rotChange="3,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="-6,0,0" startKey="5"/>
-	<component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+	<component length="10" name="3" rotChange="3,0,0" startKey="10"/>
    </part>
    <part name="leg2_1">
     <component length="10" name="1" rotOffset="0,-70,0" startKey="0"/>
@@ -183,7 +183,7 @@
     <component length="10" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
    <part name="leg1">
-    <component length="10" name="1" rotOffset="0,0,-70" rotChange="3,0,0" startKey="0"/>
+    <component length="10" name="1" rotOffset="0,0,-70" rotChange="-3,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="6,0,0" startKey="5"/>
 	<component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
    </part>
@@ -268,7 +268,7 @@
     <component length="10" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
    <part name="leg1">
-    <component length="10" name="1" rotOffset="0,0,-70" rotChange="3,0,0" startKey="0"/>
+    <component length="10" name="1" rotOffset="0,0,-70" rotChange="-3,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="6,0,0" startKey="5"/>
 	<component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
    </part>

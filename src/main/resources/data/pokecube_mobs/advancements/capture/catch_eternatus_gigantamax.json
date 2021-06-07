@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.eternatus_eternamax"
+          "translate": "entity.pokecube.eternatus_gigantamax"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.eternatus_eternamax"
+          "translate": "entity.pokecube.eternatus_gigantamax"
         }
       ]
     },
