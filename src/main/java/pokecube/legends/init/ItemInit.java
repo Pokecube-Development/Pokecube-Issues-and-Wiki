@@ -6,9 +6,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemTier;
 import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,6 +30,7 @@ import pokecube.legends.items.UltraKey;
 import pokecube.legends.items.armor.UltraBootsEffect;
 import pokecube.legends.items.armor.UltraHelmetEffect;
 import pokecube.legends.items.natureedit.ItemNature;
+import pokecube.legends.items.tools.ZamazentaShieldItem;
 import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class ItemInit
@@ -137,6 +140,8 @@ public class ItemInit
     public static final RegistryObject<Item> VIRIZION_SWORD;
     public static final RegistryObject<Item> COBALION_SWORD;
     public static final RegistryObject<Item> TERRAKION_SWORD;
+    public static final RegistryObject<Item> ZAMAZENTA_SHIELD;
+    public static final RegistryObject<Item> ZACIAN_SWORD;
     
     // Dimensions
     public static final RegistryObject<Item> SPECTRUM_SHARD;
@@ -290,6 +295,12 @@ public class ItemInit
         		1, 3, PokecubeLegends.LEGEND_TAB).setTooltipName("virizion_sword"));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
         		2, 2, PokecubeLegends.LEGEND_TAB).setTooltipName("cobalion_sword"));
+        ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
+        		2, 2, PokecubeLegends.LEGEND_TAB).setTooltipName("zacian_sword"));
+        
+        //Shields
+        ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield", () -> new ZamazentaShieldItem("zamazenta_shield",
+        		new Item.Properties().durability(200).tab(PokecubeLegends.LEGEND_TAB)));
         
         
         // Ores
@@ -401,11 +412,15 @@ public class ItemInit
 		}
     };
 
-    public static void init()
-    {
-
+    public static void init() {}
+    
+    //Properties
+    @OnlyIn(Dist.CLIENT)
+    public static void addItemModelProperties() {
+    	ItemModelsProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), new ResourceLocation("blocking"), (stack, world, entity) ->
+    	entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
-
+    
     // Nature Item
     public static void addMint(final RegistryEvent.Register<Item> event)
     {

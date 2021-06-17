@@ -1,0 +1,19 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:rustedsword"
+    },
+    {
+      "item": "minecraft:shield"
+    },
+    {
+      "tag": "forge:ingots/netherite"
+    }
+  ],
+  "result": {
+    "item": "pokecube_legends:zamazenta_shield",
+    "count": 1
+  }
+}

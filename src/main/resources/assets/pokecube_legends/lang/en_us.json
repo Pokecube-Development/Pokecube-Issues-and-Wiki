@@ -525,6 +525,9 @@
     "item.pokecube_legends.cobalion_sword": "Cobalion Sword",
     "item.pokecube_legends.virizion_sword": "Virizion Sword",
     "item.pokecube_legends.terrakion_sword": "Terrakion Sword",
+	"item.pokecube_legends.zacian_sword": "Zacian Sword",
+	
+	"item.pokecube_legends.zamazenta_shield": "Zamazenta Shield",
     
     "item.pokecube_legends.lightstone": "Light Stone",
     "item.pokecube_legends.darkstone": "Dark Stone",
@@ -859,12 +862,14 @@
     "legends.redorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Legendary Spawner- to spawn Groudon",
     "legends.regisorb.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests!%3$s\nUse on a -Regigigas Core- to spawn Regigigas",
     "legends.revealglass.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on -Thundurus, Tornadus, or Landorus- to change it.",
-    "legends.rustedshield.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zamazenta.\nUse on -Zamazenta- to change it.",
-    "legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zacian.\nUse on -Zacian- to change it.",
-
+    "legends.rustedshield.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zamazenta.",
+    "legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zacian.",
+	"legends.zamazenta_shield.tooltip": "%1$s%2$sUse on -Zamazenta- to change it.",
+	
     "legends.cobalion_sword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Cobalion",
     "legends.virizion_sword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Virizion",
     "legends.terrakion_sword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Terrakion",
+	"legends.zacian_sword.tooltip": "%1$s%2$sUse on -Zacian- to change it.",
 
     "legends.zygardecube.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on an -Aura Tree or Cocoon of Destruction- to spawn Zygarde.\nUse on -Zygarde- to change it.",
 	"legends.pdark.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUsed to evolve Kubfu into Single Strike Style",
