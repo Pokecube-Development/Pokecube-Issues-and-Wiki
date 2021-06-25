@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.6"/>
-  <metadata head="neck:neck1:head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
+  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap1="-20,20" headCap="-20,20" headDir="-1"/>
   <customTex default="rapidashgalar">
    <part name="Head" tex="rapidashgalarianhead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:2"/>
@@ -111,17 +111,17 @@
     <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
    </part>
    <part name="tail">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="5,0,0" startKey="0"/>
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="25,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,-10,0" startKey="5"/>
     <component length="10" name="3" rotChange="0,5,0" startKey="10"/>
    </part>
    <part name="tail2">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="5,0,0" startKey="0"/>
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="25,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,-10,0" startKey="5"/>
     <component length="10" name="3" rotChange="0,5,0" startKey="10"/>
    </part>
    <part name="tail3">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="5,0,0" startKey="0"/>
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="25,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,-10,0" startKey="5"/>
     <component length="10" name="3" rotChange="0,5,0" startKey="10"/>
    </part>
@@ -175,9 +175,4 @@
    </part>
   </phase>
  </model>
- <details>
-  <RIDDENOFFSET>
-   0.4
-  </RIDDENOFFSET>
- </details>
 </ModelAnimator>

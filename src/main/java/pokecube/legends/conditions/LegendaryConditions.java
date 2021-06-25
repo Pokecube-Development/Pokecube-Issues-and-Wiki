@@ -104,6 +104,25 @@ public class LegendaryConditions
         new LegendarySpawn("kubfu", ItemInit.GRAY_SCARF, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("calyrex", ItemInit.WOODEN_CROWN, BlockInit.TROUGH_BLOCK);
 
+        new LegendarySpawn("latios", ItemInit.SOUL_DEW, BlockInit.LEGENDARY_SPAWN);
+        new LegendarySpawn("latias", ItemInit.SOUL_DEW, BlockInit.LEGENDARY_SPAWN);
+        
+        new LegendarySpawn("darkrai", ItemInit.NIGHTMARE_BOOK, BlockInit.YVELTAL_CORE);
+        new LegendarySpawn("cresselia", ItemInit.LUNAR_WING, BlockInit.LEGENDARY_SPAWN);
+        
+        new LegendarySpawn("azelf", ItemInit.AZELF_GEM, BlockInit.LEGENDARY_SPAWN);
+        new LegendarySpawn("mesprit", ItemInit.MESPRIT_GEM, BlockInit.LEGENDARY_SPAWN);
+        new LegendarySpawn("uxie", ItemInit.UXIE_GEM, BlockInit.LEGENDARY_SPAWN);
+        
+        new LegendarySpawn("diancie", ItemInit.DIAMOND_GEM, BlockInit.LEGENDARY_SPAWN);
+        new LegendarySpawn("manaphy", ItemInit.MANAPHY_NECKLACE, BlockInit.LEGENDARY_SPAWN);
+        
+        new LegendarySpawn("kyurem", ItemInit.KYUREM_CORE, BlockInit.LEGENDARY_SPAWN);
+        new LegendarySpawn("hoopaconfined", ItemInit.PRISION_BOTTLE, BlockInit.LEGENDARY_SPAWN);
+        
+        new LegendarySpawn("volcanion", ItemInit.STEAM_CORE, BlockInit.MAGEARNA_BLOCK);
+        new LegendarySpawn("meloettaaria", ItemInit.MELOETTA_OCARINA, BlockInit.NATURE_CORE);
+        
 
         // Register the thng that prevents genetic modification of protected
         // mobs

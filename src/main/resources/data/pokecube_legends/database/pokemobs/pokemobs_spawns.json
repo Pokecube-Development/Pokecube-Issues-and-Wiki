@@ -157,6 +157,32 @@
       }
     },
     {
+      "name": "Latios",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "stone_shore",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Latias",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "biomes": "beach",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Regirock",
       "stats": {
         "spawnRules": [
@@ -228,6 +254,19 @@
           {
             "values": {
               "structures": "pokecube_legends:regigigas_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Manaphy",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:kyogre_temple",
               "rate": "0.0"
             }
           }
@@ -417,6 +456,19 @@
       }
     },
     {
+      "name": "Volcanion",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "village",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Tornadus Incarnate",
       "stats": {
         "spawnRules": [
@@ -449,6 +501,84 @@
           {
             "values": {
               "structures": "pokecube_legends:nature_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Meloetta Aria",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:nature_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Kyurem",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "snowy",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Hoopa_Confined",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "ruin",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "diancie",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "category": "extreme_hills",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Darkrai",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:yveltal_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Cresselia",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:sky_pillar",
               "rate": "0.0"
             }
           }
@@ -611,6 +741,45 @@
           {
             "values": {
               "structures": "pokecube_legends:necrozma_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Azelf",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Uxie",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Mesprit",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
               "rate": "0.0"
             }
           }

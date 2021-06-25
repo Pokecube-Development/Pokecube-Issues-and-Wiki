@@ -7,7 +7,16 @@
   <customTex default="moltresgalar">
    <part name="Head" tex="moltresgalareye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
+   <part name="Glow1" tex="flame_moltres_a"/>
+   <animation diffs="0,0, 0,0, 0,0.5, 0,0.5, 0,0.125, 0,0.125, 0,0.25, 0,0.25" part="Glow1" trigger="sequence"/>
+   <part name="Glow2" tex="flame_moltres_c"/>
+   <animation diffs="0,0, 0,0, 0,0.5, 0,0.5, 0,0.125, 0,0.125, 0,0.25, 0,0.25" part="Glow2" trigger="sequence"/>
+   <part name="Glow3" tex="flame_moltres_b"/>
+   <animation diffs="0,0, 0,0, 0,0.5, 0,0.5, 0,0.125, 0,0.125, 0,0.25, 0,0.25" part="Glow3" trigger="sequence"/>
   </customTex>
+  <material name="Glow1" light="1" transluscent="false"/>
+  <material name="Glow2" light="1" transluscent="false"/>
+  <material name="Glow3" light="1" transluscent="false"/>
   <phase axis="0" name="snakeWalk" parts="tail:tail1"/>
   <phase axis="0" length="75" name="snakeWalk" parts="tail1_2:tail1_3:tail1_4:tail1_5:tail1_6:tail1_7:tail1_8"/>
   <phase axis="0" length="50" name="snakeWalk" parts="tail2_2:tail2_3:tail2_4:tail2_5:tail2_6:tail2_7:tail2_8"/>
@@ -22,7 +31,6 @@
   <phase axis="0" length="75" name="snakeIdle" parts="tail1_2:tail1_3:tail1_4:tail1_5:tail1_6:tail1_7:tail1_8"/>
   <phase axis="0" length="50" name="snakeIdle" parts="tail2_2:tail2_3:tail2_4:tail2_5:tail2_6:tail2_7:tail2_8"/>
   <phase axis="0" name="snakeIdle" parts="hair1:hair2:hair3:hair4"/>
-  <material name="Glow" light="1" transluscent="false"/>
   <phase type="idle">
    <part name="wing1">
     <component length="10" name="1" posOffset="-3,0,-8" rotOffset="0,25,-75" startKey="0"/>
