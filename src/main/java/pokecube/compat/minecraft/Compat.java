@@ -23,6 +23,7 @@ import pokecube.adventures.events.CompatEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.bees.BeeTasks.BeeHabitat;
+import pokecube.core.commands.Kill.KillCommandEvent;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -89,6 +90,13 @@ public class Compat
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
         // Here will will register the vanilla bee hives as habitable
         MinecraftForge.EVENT_BUS.addGenericListener(TileEntity.class, Compat::onTileEntityCaps);
+        // Here we disable the pokecube kill command for vanilla mobs for #753
+        PokecubeCore.POKEMOB_BUS.addListener(Compat::onKillCommand);
+    }
+
+    private static void onKillCommand(final KillCommandEvent event)
+    {
+        if (Compat.makePokemob.test(event.getEntity().getType())) event.setCanceled(true);
     }
 
     private static void onTileEntityCaps(final AttachCapabilitiesEvent<TileEntity> event)

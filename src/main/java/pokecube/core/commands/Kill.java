@@ -8,9 +8,12 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
@@ -20,6 +23,18 @@ import pokecube.core.utils.Tools;
 
 public class Kill
 {
+    @Cancelable
+    /**
+     * This is fired on the PokecubeCore.POKEMOB_BUS. If cancelled, the kill
+     * command will not apply to the requested pokemob!
+     */
+    public static class KillCommandEvent extends LivingEvent
+    {
+        public KillCommandEvent(final LivingEntity entity)
+        {
+            super(entity);
+        }
+    }
 
     public static int execute(final CommandSource source, final boolean tame, final boolean cull)
             throws CommandSyntaxException
@@ -35,6 +50,8 @@ public class Kill
                 if (cull && world.getNearestPlayer(e.getEntity(), PokecubeCore.getConfig().cullDistance) != null)
                     continue;
                 if (!tame && e.getOwnerId() != null) continue;
+                final KillCommandEvent event = new KillCommandEvent(e.getEntity());
+                if (PokecubeCore.POKEMOB_BUS.post(event)) continue;
                 e.onRecall();
                 count1++;
             }
