@@ -1,5 +1,6 @@
 package thut.core.client.render.animation;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -103,7 +104,7 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     @Override
-    public void init(final Set<Animation> existingAnimations)
+    public void init(final Collection<Animation> existingAnimations)
     {
         final Set<String> animations = Sets.newHashSet(this.loadedSets.keySet());
         for (final Animation existing : existingAnimations)

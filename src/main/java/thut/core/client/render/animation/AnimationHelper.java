@@ -48,6 +48,7 @@ public class AnimationHelper
         {
             final float time = component.limbBased ? time2 : time1;
             if (component.limbBased) aniTick = (int) time2;
+//            if (partName.equals("body")) System.out.println(Arrays.toString(component.posChange));
             if (time >= component.startKey)
             {
                 animated = true;
@@ -102,8 +103,7 @@ public class AnimationHelper
     {
         final IAnimationHolder cap = mob.getCapability(CapabilityAnimation.CAPABILITY).orElse(null);
         if (cap != null) return cap;
-        if (AnimationHelper.holderMap.containsKey(mob.getUUID())) return AnimationHelper.holderMap.get(mob
-                .getUUID());
+        if (AnimationHelper.holderMap.containsKey(mob.getUUID())) return AnimationHelper.holderMap.get(mob.getUUID());
         else
         {
             final CapabilityAnimation.DefaultImpl holder = new CapabilityAnimation.DefaultImpl();

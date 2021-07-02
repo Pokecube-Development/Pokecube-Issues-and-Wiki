@@ -1,5 +1,6 @@
 package thut.core.client.render.animation;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -130,7 +131,7 @@ public class AnimationChanger implements IAnimationChanger
     }
 
     @Override
-    public void init(final Set<Animation> existingAnimations)
+    public void init(final Collection<Animation> existingAnimations)
     {
         for (final IAnimationChanger child : this.children)
             child.init(existingAnimations);

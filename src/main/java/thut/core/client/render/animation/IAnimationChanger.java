@@ -1,5 +1,6 @@
 package thut.core.client.render.animation;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,7 +49,7 @@ public interface IAnimationChanger
     @Nullable
     WornOffsets getOffsets(String part);
 
-    void init(Set<Animation> anims);
+    void init(Collection<Animation> anims);
 
     default boolean isPartHidden(final String part, final Entity entity, final boolean default_)
     {

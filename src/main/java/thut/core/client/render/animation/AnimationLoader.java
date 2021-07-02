@@ -27,6 +27,7 @@ import thut.core.client.render.animation.AnimationXML.Metadata;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.AnimationXML.Worn;
 import thut.core.client.render.animation.AnimationXML.XMLFile;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger.WornOffsets;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -109,6 +110,9 @@ public class AnimationLoader
             else texturer.reset();
             if (animator == null) renderer.setAnimationChanger(animator = new AnimationChanger());
             else animator.reset();
+
+            final IAnimationHolder animHolder = renderer.getAnimationHolder();
+            if (animHolder != null) animHolder.clean();
 
             // Custom tagged parts.
             final Set<String> headNames = Sets.newHashSet();
@@ -244,7 +248,7 @@ public class AnimationLoader
             }
 
             // Finalize animation initialization
-            final Set<Animation> allAnims = Sets.newHashSet();
+            final List<Animation> allAnims = Lists.newArrayList();
             // Process the animations
             for (final List<Animation> anims : loaded.getAnimations().values())
             {
@@ -284,7 +288,7 @@ public class AnimationLoader
             }
 
             // Pre-process the animations via the model
-            model.preProcessAnimations(loaded.getAnimations().values());
+            model.preProcessAnimations(allAnims);
 
             stream.close();
         }

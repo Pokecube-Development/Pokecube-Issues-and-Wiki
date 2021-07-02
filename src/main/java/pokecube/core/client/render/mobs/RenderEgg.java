@@ -2,6 +2,7 @@ package pokecube.core.client.render.mobs;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
         }
 
         @Override
-        public void init(final Set<Animation> anims)
+        public void init(final Collection<Animation> anims)
         {
         }
 

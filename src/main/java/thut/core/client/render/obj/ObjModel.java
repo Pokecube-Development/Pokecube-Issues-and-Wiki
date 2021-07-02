@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +24,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
-import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -215,36 +213,31 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void preProcessAnimations(final Collection<List<Animation>> animations)
+    public void preProcessAnimations(final Collection<Animation> animations)
     {
-        double d0, d1, d2;
-        for (final List<Animation> list : animations)
-            for (final Animation animation : list)
-                for (final String s : animation.sets.keySet())
-                {
-                    final ArrayList<AnimationComponent> components = animation.sets.get(s);
-                    for (final AnimationComponent comp : components)
-                    {
-                        // These get adjusted so the coordinate system is
-                        // consistant with the older versions.
+        // a: animation, comps: component lists
+        animations.forEach(a -> a.sets.forEach((s, comps) -> comps.forEach(comp ->
+        {
+            double d0, d1, d2;
+            // These get adjusted so the coordinate system is
+            // consistant with the older versions.
+            d0 = comp.posOffset[0] / 16;
+            d1 = comp.posOffset[1] / 16;
+            d2 = comp.posOffset[2] / 16;
+            //
+            comp.posOffset[0] = -d0;
+            comp.posOffset[1] = d2;
+            comp.posOffset[2] = -d1;
+            //
+            d0 = comp.posChange[0] / 16;
+            d1 = comp.posChange[1] / 16;
+            d2 = comp.posChange[2] / 16;
+            //
+            comp.posChange[0] = -d0;
+            comp.posChange[1] = d2;
+            comp.posChange[2] = -d1;
 
-                        d0 = comp.posOffset[0] / 16;
-                        d1 = comp.posOffset[1] / 16;
-                        d2 = comp.posOffset[2] / 16;
-
-                        comp.posOffset[0] = -d0;
-                        comp.posOffset[1] = d2;
-                        comp.posOffset[2] = -d1;
-
-                        d0 = comp.posChange[0] / 16;
-                        d1 = comp.posChange[1] / 16;
-                        d2 = comp.posChange[2] / 16;
-
-                        comp.posChange[0] = -d0;
-                        comp.posChange[1] = d2;
-                        comp.posChange[2] = -d1;
-                    }
-                }
+        })));
     }
 
     @Override

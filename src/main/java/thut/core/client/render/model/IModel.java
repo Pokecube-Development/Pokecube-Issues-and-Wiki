@@ -1,7 +1,6 @@
 package thut.core.client.render.model;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -106,7 +105,7 @@ public interface IModel
         return true;
     }
 
-    void preProcessAnimations(Collection<List<Animation>> collection);
+    void preProcessAnimations(Collection<Animation> collection);
 
     default void setHeadInfo(final HeadInfo in)
     {
