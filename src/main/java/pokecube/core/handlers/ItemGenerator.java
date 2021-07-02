@@ -11,28 +11,14 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.FireBlock;
-import net.minecraft.block.PressurePlateBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
-import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.TrapDoorBlock;
-import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -215,7 +201,7 @@ public class ItemGenerator
             registry.register(block);
 
             // Buttons
-            block = new GenericButton(AbstractBlock.Properties.of(
+            block = new GenericWoodButton(AbstractBlock.Properties.of(
             		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_button");
             ItemGenerator.buttons.put(name, block);
@@ -360,6 +346,12 @@ public class ItemGenerator
         }
     }
 
+    public static RotatedPillarBlock stoneLog(MaterialColor color1, MaterialColor color2) {
+        return new RotatedPillarBlock(AbstractBlock.Properties.of(Material.STONE, (state) -> {
+            return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
+        }).strength(2.4F).sound(SoundType.STONE));
+    }
+
     public static class GenericTrapDoor extends TrapDoorBlock
     {
         public GenericTrapDoor(final Properties properties)
@@ -376,9 +368,17 @@ public class ItemGenerator
         }
     }
 
-    public static class GenericButton extends WoodButtonBlock
+    public static class GenericWoodButton extends WoodButtonBlock
     {
-        public GenericButton(final Properties properties)
+        public GenericWoodButton(final Properties properties)
+        {
+            super(properties);
+        }
+    }
+
+    public static class GenericStoneButton extends StoneButtonBlock
+    {
+        public GenericStoneButton(final Properties properties)
         {
             super(properties);
         }

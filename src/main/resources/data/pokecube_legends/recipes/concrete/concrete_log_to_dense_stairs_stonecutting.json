@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "pokecube_legends:concrete_logs"
+  },
+  "result": "pokecube_legends:concrete_dense_stairs",
+  "count": 3
+}

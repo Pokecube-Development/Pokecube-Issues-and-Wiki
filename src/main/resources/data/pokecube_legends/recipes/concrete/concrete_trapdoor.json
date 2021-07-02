@@ -1,0 +1,17 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+	"XXX"
+  ],
+  "key": {
+	"X": {
+      "tag": "pokecube_legends:concrete_planks"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:concrete_trapdoor",
+    "count": 2
+  }
+}

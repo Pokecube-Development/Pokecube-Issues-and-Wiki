@@ -2,15 +2,15 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "0"
+    "XXX"
   ],
   "key": {
-    "0": {
-      "item": "pokecube_legends:concrete_wood"
+	"X": {
+      "item": "pokecube_legends:concrete_plank"
     }
   },
   "result": {
-    "item": "pokecube_legends:concrete_log",
-    "count": 1
+    "item": "pokecube_legends:concrete_slab",
+    "count": 6
   }
 }

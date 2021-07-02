@@ -94,7 +94,7 @@
       "ignoreAir":false,
       "rigid":true,
       "options":[
-        "pokecube_legends:village/ocean/houses/house_close;{\"weight\":5,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:village/ocean/houses/house_close;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:village/ocean/houses/house_1;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:village/ocean/houses/house_2;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:village/ocean/houses/house_3;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",

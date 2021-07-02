@@ -8,10 +8,11 @@
     "pokecube:pecha_trapdoor",
     "pokecube:sitrus_trapdoor",
     "pokecube_legends:aged_trapdoor",
+    "pokecube_legends:concrete_trapdoor",
+    "pokecube_legends:corrupted_trapdoor",
     "pokecube_legends:distortic_trapdoor",
     "pokecube_legends:inverted_trapdoor",
-    "pokecube_legends:temporal_trapdoor",
-	"pokecube_legends:mirage_trapdoor",
-	"pokecube_legends:corrupted_trapdoor"
+    "pokecube_legends:mirage_trapdoor",
+    "pokecube_legends:temporal_trapdoor"
   ]
 }

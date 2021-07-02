@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:true"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "group": "pokecube_legends",
+        "ingredients": [
+          {
+            "item": "pokecube_legends:concrete_dense_plank"
+          }
+        ],
+        "result": {
+          "item": "pokecube_legends:concrete_dense_button",
+          "count": 1
+        }
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:concrete_log"
+    "tag": "pokecube_legends:concrete_logs"
   },
   "result": "pokecube_legends:concrete_plank",
   "count": 4
