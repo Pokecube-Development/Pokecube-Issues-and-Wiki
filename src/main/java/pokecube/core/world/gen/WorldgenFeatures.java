@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.carver.WorldCarver;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
+import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
@@ -46,8 +47,7 @@ public class WorldgenFeatures
             () -> new CanyonCarver(ProbabilityConfig.CODEC));
 
     public static final List<StructureProcessor> BERRYRULES   = ImmutableList.of(BerryGenManager.NOREPLACE);
-    public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS
-            .list());
+    public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS.list());
 
     public static final StructureProcessorList BERRYLIST;
     public static final StructureProcessorList GENERICLIST;
@@ -73,8 +73,8 @@ public class WorldgenFeatures
     {
         StructureProcessorList listToUse = null;
         final ResourceLocation key = new ResourceLocation(value);
-        if (WorldGenRegistries.PROCESSOR_LIST.keySet().contains(key))
-            listToUse = WorldGenRegistries.PROCESSOR_LIST.get(key);
+        if (WorldGenRegistries.PROCESSOR_LIST.keySet().contains(key)) listToUse = WorldGenRegistries.PROCESSOR_LIST.get(
+                key);
         else listToUse = WorldgenFeatures.procLists.getOrDefault(key, null);
         return listToUse;
     }
@@ -140,16 +140,20 @@ public class WorldgenFeatures
     {
         final ResourceLocation resourcelocation = new ResourceLocation("pokecube", name);
         final StructureProcessorList structureprocessorlist = new StructureProcessorList(list);
-        return WorldGenRegistries.register(WorldGenRegistries.PROCESSOR_LIST, resourcelocation,
-                structureprocessorlist);
+        return WorldGenRegistries.register(WorldGenRegistries.PROCESSOR_LIST, resourcelocation, structureprocessorlist);
     }
 
-    public static Function<JigsawPattern.PlacementBehaviour, CustomJigsawPiece> makePiece(final String name,
+    public static Function<JigsawPattern.PlacementBehaviour, JigsawPiece> makePiece(final String name,
             final StructureProcessorList list, final Options opts)
     {
+        final ResourceLocation resource = new ResourceLocation(name);
+        if (resource.getPath().equals("empty")) return (placement) ->
+        {
+            return EmptyJigsawPiece.INSTANCE;
+        };
         return (placement) ->
         {
-            return new CustomJigsawPiece(Either.left(new ResourceLocation(name)), () ->
+            return new CustomJigsawPiece(Either.left(resource), () ->
             {
                 return list;
             }, placement, opts, new JigSawConfig());
