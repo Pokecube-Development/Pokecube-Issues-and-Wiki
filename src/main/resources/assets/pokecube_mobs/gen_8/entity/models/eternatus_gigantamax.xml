@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,13" scale="1.5"/>
-  <material name="Glow" light="1" transluscent="false"/>
+  <phase name="global" scale="1.1"/>
+  <material name="Glow" light="1" smooth="true" transluscent="false"/>
   <phase type="idle">
    <part name="part1">
     <component length="15" name="1" rotChange="0,1,0" startKey="0"/>
@@ -10,7 +10,7 @@
 	<component length="15" name="3" rotChange="0,1,0" startKey="10"/>
    </part>
    <part name="center">
-    <component length="15" name="1" posChange="0,1,0" startKey="0"/>
+    <component length="15" name="1" posOffset="-35,-130,-150" posChange="0,1,0" startKey="0"/>
     <component length="15" name="2" posChange="0,-1,0" startKey="10"/>
    </part>
    <part name="part2">

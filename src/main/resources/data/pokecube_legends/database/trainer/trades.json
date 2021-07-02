@@ -293,6 +293,83 @@
         }
       ]
     },
+	{
+      "template": "mustard",
+      "trades": [
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:ultracube",
+              "n": "8"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "8"
+              }
+            }
+          ],
+          "values": {
+            "chance": "1"
+          }
+        },
+        {
+          "sell": {
+            "values": {
+              "id": "pokecube:revive",
+              "n": "2"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "5"
+              }
+            }
+          ],
+          "values": {
+            "chance": "1"
+          }
+        },
+        {
+          "type": "tag_sell",
+          "custom": "pokecube_adventures:mega_sales",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "20"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.5"
+          }
+        },
+		{
+          "sell": {
+            "values": {
+              "id": "pokecube_legends:kubfu_spawn",
+              "n": "1"
+            }
+          },
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "64"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.2"
+          }
+        }
+      ]
+    },
     {
       "template": "zinnia",
       "trades": [

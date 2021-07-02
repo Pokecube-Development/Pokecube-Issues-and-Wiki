@@ -753,6 +753,21 @@
       "mega": true,
       "baseForm": "audino"
     },
+	{
+      "name": "unfezant",
+      "male_model": {
+        "key": "unfezant_male",
+        "tex": "unfezant",
+        "model": "unfezant_male",
+        "anim": "unfezant_male"
+      },
+      "female_model": {
+        "key": "unfezant_female",
+        "tex": "unfezant",
+        "model": "unfezant_female",
+        "anim": "unfezant_female"
+      }
+    },
     {
       "name": "basculin",
       "model": {

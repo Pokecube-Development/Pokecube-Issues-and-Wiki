@@ -9,8 +9,8 @@
   <customTex default="infernape">
    <part name="Head" tex="infernapeeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
-   <part name="Fire" tex="infernape"/>
-   <animation diffs="0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0.2, 0,0.2, 0,0.2, 0,0.2, 0,0.2, 0,0.2, 0,0.2, 0,0.5, 0,0.5, 0,0.5, 0,0.5, 0,0.5, 0,0.5, 0,0.5" part="Fire" trigger="sequence"/>
+   <part name="Fire" tex="flame_infernape"/>
+   <animation diffs="0,0, 0,0, 0,0.5, 0,0.5, 0,0.125, 0,0.125, 0,0.25, 0,0.25" part="Fire" trigger="sequence"/>
   </customTex>
   <material name="Fire" light="1" transluscent="false"/>
   <phase type="sitting">

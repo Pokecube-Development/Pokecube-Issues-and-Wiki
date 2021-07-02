@@ -6,9 +6,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemTier;
 import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,10 +30,11 @@ import pokecube.legends.items.UltraKey;
 import pokecube.legends.items.armor.UltraBootsEffect;
 import pokecube.legends.items.armor.UltraHelmetEffect;
 import pokecube.legends.items.natureedit.ItemNature;
+import pokecube.legends.items.tools.ZamazentaShieldItem;
 import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class ItemInit
-{
+{	
     // Materials
     public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
     public static final IItemTier MATERIAL_JUSTISE = ItemTier.DIAMOND;
@@ -54,6 +57,7 @@ public class ItemInit
     public static final RegistryObject<Item> LELE_ORB;
     public static final RegistryObject<Item> FINI_ORB;
     public static final RegistryObject<Item> SOUL_HEART;
+    public static final RegistryObject<Item> SOUL_DEW;
     
     // Cores
     public static final RegistryObject<Item> ROCK_CORE;
@@ -62,6 +66,8 @@ public class ItemInit
     public static final RegistryObject<Item> THUNDER_CORE;
     public static final RegistryObject<Item> DRAGO_CORE;
     public static final RegistryObject<Item> MAGMA_CORE;
+    public static final RegistryObject<Item> KYUREM_CORE;
+    public static final RegistryObject<Item> STEAM_CORE;
     
     // Misc
     public static final RegistryObject<Item> LIGHT_STONE;
@@ -85,6 +91,17 @@ public class ItemInit
     public static final RegistryObject<Item> FLAME_GEM;
     public static final RegistryObject<Item> WATER_GEM;
     public static final RegistryObject<Item> THUNDER_GEM;
+    public static final RegistryObject<Item> DIAMOND_GEM;
+    public static final RegistryObject<Item> AZELF_GEM;
+    public static final RegistryObject<Item> MESPRIT_GEM;
+    public static final RegistryObject<Item> UXIE_GEM;
+    
+    public static final RegistryObject<Item> NIGHTMARE_BOOK;
+    public static final RegistryObject<Item> LUNAR_WING;
+    
+    public static final RegistryObject<Item> MANAPHY_NECKLACE;
+    
+    public static final RegistryObject<Item> MELOETTA_OCARINA;
     
     public static final RegistryObject<Item> METEOR_SHARD;
     
@@ -93,6 +110,7 @@ public class ItemInit
     public static final RegistryObject<Item> COSMIC_ORB;
     public static final RegistryObject<Item> LIGHTING_CRYSTAL;
     
+    public static final RegistryObject<Item> GRAY_SCARF;
     public static final RegistryObject<Item> WOODEN_CROWN;
     
     // Gens_ores
@@ -136,6 +154,8 @@ public class ItemInit
     public static final RegistryObject<Item> VIRIZION_SWORD;
     public static final RegistryObject<Item> COBALION_SWORD;
     public static final RegistryObject<Item> TERRAKION_SWORD;
+    public static final RegistryObject<Item> ZAMAZENTA_SHIELD;
+    public static final RegistryObject<Item> ZACIAN_SWORD;
     
     // Dimensions
     public static final RegistryObject<Item> SPECTRUM_SHARD;
@@ -204,11 +224,16 @@ public class ItemInit
         GRISEOUS_ORB = PokecubeLegends.ITEMS.register("griseousorb", () -> new ItemBase("griseousorb", 1,PokecubeLegends.LEGEND_TAB));
         COSMIC_ORB = PokecubeLegends.ITEMS.register("cosmic_orb", () -> new ItemBase("cosmic_orb", 1,PokecubeLegends.LEGEND_TAB));
         SOUL_HEART = PokecubeLegends.ITEMS.register("soul_heart", () -> new ItemBase("soul_heart", 1,PokecubeLegends.LEGEND_TAB));
+        SOUL_DEW = PokecubeLegends.ITEMS.register("soul_dew", () -> new ItemBase("soul_dew", 1,PokecubeLegends.LEGEND_TAB));
         
         // Gem
         FLAME_GEM = PokecubeLegends.ITEMS.register("flame_gem", () -> new ItemBase("flame_gem", 1,PokecubeLegends.LEGEND_TAB));
         THUNDER_GEM = PokecubeLegends.ITEMS.register("thunder_gem", () -> new ItemBase("thunder_gem", 1,PokecubeLegends.LEGEND_TAB));
         WATER_GEM = PokecubeLegends.ITEMS.register("water_gem", () -> new ItemBase("water_gem", 1,PokecubeLegends.LEGEND_TAB));
+        AZELF_GEM = PokecubeLegends.ITEMS.register("azelf_gem", () -> new ItemBase("azelf_gem", 1,PokecubeLegends.LEGEND_TAB));
+        MESPRIT_GEM = PokecubeLegends.ITEMS.register("mesprit_gem", () -> new ItemBase("mesprit_gem", 1,PokecubeLegends.LEGEND_TAB));
+        UXIE_GEM = PokecubeLegends.ITEMS.register("uxie_gem", () -> new ItemBase("uxie_gem", 1,PokecubeLegends.LEGEND_TAB));
+        DIAMOND_GEM = PokecubeLegends.ITEMS.register("diamond_gem", () -> new ItemBase("diamond_gem", 1,PokecubeLegends.LEGEND_TAB));
         
         
         // Stones
@@ -226,6 +251,8 @@ public class ItemInit
         THUNDER_CORE = PokecubeLegends.ITEMS.register("thundercore", () -> new ItemBase("thundercore", 1,PokecubeLegends.LEGEND_TAB) );
         DRAGO_CORE   = PokecubeLegends.ITEMS.register("dragocore", () -> new ItemBase("dragocore", 1,PokecubeLegends.LEGEND_TAB) );
         STAR_CORE   = PokecubeLegends.ITEMS.register("star_core", () -> new ItemBase("star_core", 1,PokecubeLegends.LEGEND_TAB) );
+        STEAM_CORE = PokecubeLegends.ITEMS.register("steam_core", () -> new ItemBase("steam_core", 1,PokecubeLegends.LEGEND_TAB));
+        KYUREM_CORE = PokecubeLegends.ITEMS.register("kyurem_core", () -> new ItemBase("kyurem_core", 1,PokecubeLegends.LEGEND_TAB));
 
         // Runes
         ORANGE_RUNE = PokecubeLegends.ITEMS.register("orange_rune", () -> new ItemBase("orange_rune", 1, PokecubeLegends.LEGEND_TAB) );
@@ -242,12 +269,16 @@ public class ItemInit
         STATIC_WING = PokecubeLegends.ITEMS.register("static_wing", () -> new ItemBase("static_wing", 1, PokecubeLegends.LEGEND_TAB) );
         ICE_WING = PokecubeLegends.ITEMS.register("ice_wing", () -> new ItemBase("ice_wing", 1, PokecubeLegends.LEGEND_TAB) );
         ICE_DARK_WING = PokecubeLegends.ITEMS.register("ice_dark_wing", () -> new ItemBase("ice_dark_wing", 1, PokecubeLegends.LEGEND_TAB) );
-        
+        LUNAR_WING = PokecubeLegends.ITEMS.register("lunar_wing", () -> new ItemBase("lunar_wing", 1,PokecubeLegends.LEGEND_TAB));
         
         // Misc
         WOODEN_CROWN = PokecubeLegends.ITEMS.register("wooden_crown", () -> new ItemBase("wooden_crown", 1,PokecubeLegends.LEGEND_TAB));
+        GRAY_SCARF = PokecubeLegends.ITEMS.register("kubfu_spawn", () -> new ItemBase("kubfu_spawn", 1,PokecubeLegends.LEGEND_TAB));
         METEOR_SHARD   = PokecubeLegends.ITEMS.register("meteor_shard", () -> new ItemBase("meteor_shard", 1,PokecubeLegends.LEGEND_TAB));
         LIGHTING_CRYSTAL   = PokecubeLegends.ITEMS.register("lighting_crystal", () -> new ItemBase("lighting_crystal", 1,PokecubeLegends.LEGEND_TAB));
+        MANAPHY_NECKLACE = PokecubeLegends.ITEMS.register("manaphy_necklace", () -> new ItemBase("manaphy_necklace", 1,PokecubeLegends.LEGEND_TAB));
+        NIGHTMARE_BOOK = PokecubeLegends.ITEMS.register("nightmare_book", () -> new ItemBase("nightmare_book", 1,PokecubeLegends.LEGEND_TAB));
+        MELOETTA_OCARINA = PokecubeLegends.ITEMS.register("meloetta_ocarina", () -> new ItemBase("meloetta_ocarina", 1,PokecubeLegends.LEGEND_TAB));
         
         ZYGARDE_CUBE = PokecubeLegends.ITEMS.register("zygardecube", () -> new ItemBase("zygardecube", 1,PokecubeLegends.LEGEND_TAB));
         PRISION_BOTTLE = PokecubeLegends.ITEMS.register("prisonbottle", () -> new ItemBase("prisonbottle", 1,PokecubeItems.POKECUBEITEMS));
@@ -288,6 +319,12 @@ public class ItemInit
         		1, 3, PokecubeLegends.LEGEND_TAB).setTooltipName("virizion_sword"));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
         		2, 2, PokecubeLegends.LEGEND_TAB).setTooltipName("cobalion_sword"));
+        ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
+        		2, 2, PokecubeLegends.LEGEND_TAB).setTooltipName("zacian_sword"));
+        
+        //Shields
+        ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield", () -> new ZamazentaShieldItem("zamazenta_shield",
+        		new Item.Properties().durability(200).tab(PokecubeLegends.LEGEND_TAB)));
         
         
         // Ores
@@ -399,11 +436,15 @@ public class ItemInit
 		}
     };
 
-    public static void init()
-    {
-
+    public static void init() {}
+    
+    //Properties
+    @OnlyIn(Dist.CLIENT)
+    public static void addItemModelProperties() {
+    	ItemModelsProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), new ResourceLocation("blocking"), (stack, world, entity) ->
+    	entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
-
+    
     // Nature Item
     public static void addMint(final RegistryEvent.Register<Item> event)
     {

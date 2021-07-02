@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.9"/>
+  <phase name="global" scale="0.95"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2"/>
   <phase axis="0" name="snakeIdle" parts="f1_1:f1_2:f1_3:f1_4:f1_5:f1_6:f1_7"/>
@@ -274,10 +274,10 @@
     <component length="1" name="1" rotOffset="0,0,40," startKey="0"/>
    </part>
    <part name="leg1_1">
-    <component length="1" name="1" rotOffset="-20,0,0," startKey="0"/>
+    <component length="1" name="1" rotOffset="20,0,0," startKey="0"/>
    </part>
    <part name="leg2_1">
-    <component length="1" name="1" rotOffset="-20,0,0," startKey="0"/>
+    <component length="1" name="1" rotOffset="20,0,0," startKey="0"/>
    </part>
    <part name="l1">
     <component length="10" name="1" rotChange="3,0,0" rotOffset="-20,0,0" startKey="0"/>

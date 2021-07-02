@@ -145,5 +145,8 @@ public class ClientSetupHandler
 
         // Register entity renderer for the wormhole
         RenderingRegistry.registerEntityRenderingHandler(EntityInit.WORMHOLE.get(), Wormhole::new);
+        
+        //Shields
+        ItemInit.addItemModelProperties();
     }
 }

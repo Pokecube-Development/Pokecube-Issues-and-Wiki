@@ -151,14 +151,17 @@
       "ignoreAir":false,
       "options":[
         "empty;{\"weight\":2}",
-        "pokecube_legends:village/ultraspace/houses/house_1;{\"weight\":5}",
-        "pokecube_legends:village/ultraspace/houses/house_2;{\"weight\":5}",
-        "pokecube_legends:village/ultraspace/houses/house_3;{\"weight\":5}",
-        "pokecube_legends:village/ultraspace/houses/house_4;{\"weight\":5}",
-        "pokecube_legends:village/ultraspace/houses/house_5;{\"weight\":5}",
-        "pokecube_legends:village/ultraspace/houses/house_6;{\"weight\":5}",
-        "pokecube_legends:village/ultraspace/houses/house_7;{\"weight\":5}",
-        "pokecube_legends:village/ultraspace/houses/house_8;{\"weight\":3}",
+        "pokecube_legends:village/ultraspace/houses/house_1;{\"weight\":8}",
+        "pokecube_legends:village/ultraspace/houses/house_2;{\"weight\":8}",
+        "pokecube_legends:village/ultraspace/houses/house_3;{\"weight\":8}",
+        "pokecube_legends:village/ultraspace/houses/house_4;{\"weight\":8}",
+        "pokecube_legends:village/ultraspace/houses/house_5;{\"weight\":8}",
+        "pokecube_legends:village/ultraspace/houses/house_6;{\"weight\":8}",
+        "pokecube_legends:village/ultraspace/houses/house_7;{\"weight\":8}",
+        "pokecube_legends:village/ultraspace/houses/house_8;{\"weight\":5}",
+        "pokecube_legends:village/ultraspace/houses/capsule_a;{\"weight\":3}",
+        "pokecube_legends:village/ultraspace/houses/capsule_b;{\"weight\":2}",
+        "pokecube_legends:village/ultraspace/houses/capsule_c;{\"weight\":3}",
         "pokecube_legends:village/ultraspace/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube_legends:village/ultraspace/gym/gym_01;{\"flag\":\"gym\"}"
       ]
@@ -390,20 +393,34 @@
       ]
     },
     {
-      "name":"pokecube_legends:temples/surface/castle/tower_left",
+      "name":"pokecube_legends:temples/surface/castle/tower_left/tower_1",
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/castle/tower_left/tower_1",
+        "pokecube_legends:temples/surface/castle/tower_left/tower_1"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/castle/tower_left/tower_end",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
         "pokecube_legends:temples/surface/castle/tower_left/tower_end"
       ]
     },
     {
-      "name":"pokecube_legends:temples/surface/castle/tower_right",
+      "name":"pokecube_legends:temples/surface/castle/tower_right/tower_1",
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/castle/tower_right/tower_1",
+        "pokecube_legends:temples/surface/castle/tower_right/tower_1"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/castle/tower_right/tower_end",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
         "pokecube_legends:temples/surface/castle/tower_right/tower_end"
       ]
     },
@@ -506,7 +523,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regigigas_temple"
+        "pokecube_legends:temples/surface/regigigas_temple;{\"dy\":5,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -514,7 +531,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regice_temple"
+        "pokecube_legends:temples/surface/regice_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -522,7 +539,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regieleki_temple"
+        "pokecube_legends:temples/surface/regieleki_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -530,7 +547,7 @@
       "rigid":true,
       "ignoreAir":true,
       "options":[
-        "pokecube_legends:temples/surface/regidrago_temple"
+        "pokecube_legends:temples/surface/regidrago_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -538,7 +555,7 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/regirock_temple"
+        "pokecube_legends:temples/surface/regirock_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -546,7 +563,15 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/registeel_temple"
+        "pokecube_legends:temples/surface/registeel_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:kubfu_dojo",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/kubfu_dojo"
       ]
     },
 	{
@@ -811,7 +836,7 @@
       ],
       "spawn":{
         "values":{
-          "category":"ocean",
+          "biomes":"warm_ocean",
           "typesBlacklist":"cold",
           "categoryBlacklist":"the_end,nether,icy,beach"
         }
@@ -928,6 +953,18 @@
       }
     },
     {
+      "name":"pokecube_legends:kubfu_dojo",
+      "root":"pokecube_legends:kubfu_dojo",
+      "biomeType":"none",
+      "distance":84,
+      "separation":32,
+      "spawn":{
+        "values":{
+          "category":"plains"
+        }
+      }
+    },
+    {
       "name":"pokecube_legends:kubfu_water",
       "root":"pokecube_legends:kubfu_water",
       "biomeType":"none",
@@ -957,6 +994,7 @@
       "biomeType":"ruin",
       "distance":84,
       "separation":32,
+      "base_under":false,
       "spawn":{
         "values":{
           "category":"icy"
@@ -969,6 +1007,7 @@
       "biomeType":"ruin",
       "distance":84,
       "separation":32,
+      "base_under":false,
       "spawn":{
         "values":{
           "category":"icy"
@@ -981,6 +1020,7 @@
       "biomeType":"ruin",
       "distance":84,
       "separation":32,
+      "base_under":false,
       "spawn":{
         "values":{
           "types":"sandy",
@@ -994,6 +1034,7 @@
       "biomeType":"ruin",
       "distance":84,
       "separation":32,
+      "base_under":false,
       "spawn":{
         "values":{
           "category":"extreme_hills"
@@ -1006,6 +1047,7 @@
       "biomeType":"ruin",
       "distance":84,
       "separation":32,
+      "base_under":false,
       "spawn":{
         "values":{
           "types":"mesa"
@@ -1018,6 +1060,7 @@
       "biomeType":"ruin",
       "distance":84,
       "separation":32,
+      "base_under":false,
       "spawn":{
         "values":{
           "types":"savanna"

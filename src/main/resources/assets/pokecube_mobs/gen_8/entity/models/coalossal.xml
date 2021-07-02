@@ -2,6 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.8"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
   <customTex default="coalossal">
   <part name="Head" tex="coalossalhead"/>
   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
