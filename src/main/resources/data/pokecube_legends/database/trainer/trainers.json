@@ -6,7 +6,7 @@
       "spawns": [
         {
           "values": {
-            "rate": "0.7",
+            "rate": "0.4",
             "types": "all",
             "typesBlacklist": "cave"
           }
@@ -20,7 +20,7 @@
       "spawns": [
         {
           "values": {
-            "rate": "0.7",
+            "rate": "0.2",
             "types": "all",
             "typesBlacklist": "cave"
           }
@@ -31,10 +31,15 @@
     {
       "type": "plasma",
       "pokemon": "patrat,purrloin,sandile,scraggy,watchog,trubbish,liepard,krokorok,garbodor,krookodile,golbat,grimer,koffing,raticate,muk,seviper,weezing,drapion,pawniard,whirlipede,deino,sneasel,scrafty,scolipede,foongus,zangoose,amoonguss",
+      "gender": "Both"
+    },
+    {
+      "type": "dojo",
+      "pokemon": "psyduck,krabby,marill,poliwhirl,zorua,scraggy,inkay,krokorok,politoed,machamp,hitmontop,gallade",
       "spawns": [
         {
           "values": {
-            "rate": "0.7",
+            "rate": "0.4",
             "types": "all",
             "typesBlacklist": "cave"
           }
@@ -61,6 +66,11 @@
       "type": "miner",
       "pokemon": "geodude,diglett,phanpy,trapinch,hippopotas,drilbur,mudbray,silicobra,baltoy,gliscor,sandile,yamask_galar,nincada,numel,palpitoad,sandygast",
       "gender": "Both"
+    },
+    {
+      "type": "mustard",
+      "pokemon": "mienshao,luxray,corviknight,lycanroc,kommo-o,urshifu_single,urshifu_rapid,lucario_mega,sawk,hitmonlee,hawlucha",
+      "gender": "Male"
     },
     {
       "type": "zinnia",

@@ -11,6 +11,9 @@
                   "predicate_type": "minecraft:tag_match"
                 },
                 "state": {
+                 "Properties": {
+                    "lit": "false"
+                  },
                   "Name": "pokecube_legends:ultra_redstone_ore"
                 },
                 "size": 4

@@ -1582,6 +1582,17 @@
             "item_preset": "protector",
             "trade": true,
             "evoMoves": "irondefense"
+          },
+          {
+            "name": "Sirfetch'd",
+            "item_preset": "protector",
+            "level": 30,
+            "location": {
+              "values": {
+                "structures": "pokecube_legends:kubfu_dojo"
+              }
+            },
+            "evoMoves": "irondefense"
           }
         ],
         "activeTimes": "day"
@@ -10111,7 +10122,7 @@
       "stats": {
         "formeItems": {
           "values": {
-            "forme": "NZacian Crowned:Irustedsword"
+            "forme": "NZacian Crowned:Izacian_sword"
           }
         }
       }
@@ -10121,7 +10132,7 @@
       "stats": {
         "formeItems": {
           "values": {
-            "forme": "NZamazenta Crowned:Irustedshield"
+            "forme": "NZamazenta Crowned:Izamazenta_shield"
           }
         }
       }
@@ -10133,11 +10144,23 @@
           {
             "name": "Urshifu Single",
             "item_preset": "pdark",
+            "happy": true,
+            "location": {
+              "values": {
+                "structures": "pokecube_legends:kubfu_dark"
+              }
+            },
             "evoMoves": "wickedblow"
           },
           {
             "name": "Urshifu Rapid",
             "item_preset": "pwater",
+            "happy": true,
+            "location": {
+              "values": {
+                "structures": "pokecube_legends:kubfu_water"
+              }
+            },
             "evoMoves": "surgingstrikes"
           }
         ]

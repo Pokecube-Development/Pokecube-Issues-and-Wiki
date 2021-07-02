@@ -3846,7 +3846,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "beach",
+              "biomes": "beach",
               "min": "2",
               "rate": "0.01",
               "max": "2"
@@ -3861,7 +3861,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "beach",
+              "biomes": "stone_shore",
               "min": "2",
               "rate": "0.01",
               "max": "2"

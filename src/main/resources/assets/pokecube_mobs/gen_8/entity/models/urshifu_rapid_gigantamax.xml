@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.9"/>
+  <phase name="global" scale="0.95"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="urshifusgigantamax">
@@ -90,7 +90,7 @@
   </phase>
   <phase type="idle">
    <part name="body">
-    <component length="10" name="1" posOffset="0,27,0" rotOffset="0,65,0" startKey="0"/>
+    <component length="10" name="1" posOffset="0,18,0" rotOffset="0,65,0" startKey="0"/>
    </part>
    <part name="neck">
     <component length="1" name="1" rotOffset="0,-5,0," startKey="0"/>
@@ -159,16 +159,19 @@
     <component length="1" name="1" rotOffset="0,0,80," startKey="0"/>
    </part>
    <part name="leg1">
-    <component length="1" name="1" rotOffset="-20,90,85," startKey="0"/>
+    <component length="1" name="1" rotOffset="-20,60,55," startKey="0"/>
    </part>
    <part name="leg1_1">
-    <component length="1" name="1" rotOffset="85,0,0," startKey="0"/>
+    <component length="1" name="1" rotOffset="55,0,-20," startKey="0"/>
    </part>
    <part name="leg2">
-    <component length="1" name="1" rotOffset="0,-90,-85," startKey="0"/>
+    <component length="1" name="1" rotOffset="0,-60,-55," startKey="0"/>
    </part>
    <part name="leg2_1">
-    <component length="1" name="1" rotOffset="85,0,0," startKey="0"/>
+    <component length="1" name="1" rotOffset="55,-20,30," startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="1" name="1" rotOffset="-10,-10,5," startKey="0"/>
    </part>
    <part name="l1">
     <component length="10" name="1" rotChange="3,0,0" rotOffset="-15,0,0" startKey="0"/>

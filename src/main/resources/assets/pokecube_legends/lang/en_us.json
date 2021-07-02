@@ -9,6 +9,7 @@
 	"pokecube.magma.named": "Magma Employee %s",
 	"pokecube.aqua.named":  "Aqua Employee %s",
 	"pokecube.miner.named": "Miner %s",
+	"pokecube.dojo.named": "Dojo Student %s",
 	
 	"pokecube.giovanni.named": "Giovanni",
 	"pokecube.jessie.named": "Jessie",
@@ -21,6 +22,7 @@
 	"pokecube.lusamine.named": "Lusamine",
 	"pokecube.faba.named": "Faba",
 	"pokecube.n.named": "N",
+	"pokecube.mustard.named": "Mustard",
 	
 	"pokecube.lorelei.named": "Lorelei",
 	"pokecube.bruno.named": "Bruno",
@@ -122,6 +124,7 @@
     "filled_map.pokecube_legends:tapus_temple": "Buried Treasure Map: Tapus Temple",
     "filled_map.pokecube_legends:kubfu_water": "Buried Treasure Map: Kubfu Water Tower",
     "filled_map.pokecube_legends:kubfu_dark": "Buried Treasure Map: Kubfu Dark Tower",
+	"filled_map.pokecube_legends:kubfu_dojo": "Buried Treasure Map: Kubfu Dojo",
     
 	// Dimensions Part  
 	
@@ -564,6 +567,10 @@
     "item.pokecube_legends.ancient_stone": "Ancient Stone",
     "item.pokecube_legends.imprisonment_helmet":"Imprisonment Helmet",
     "item.pokecube_legends.keldeo_sword": "Keldeo Sword",
+	"item.pokecube_legends.kubfu_spawn": "Gray Scarf",
+	
+	"item.pokecube_legends.zamazenta_shield": "Zamazenta Shield",
+	"item.pokecube_legends.zacian_sword": "Zacian Sword",
 
     // Mint Nature
     "item.pokecube_legends.mint_adamant": "Mint Adamant",
@@ -630,6 +637,17 @@
     "item.pokecube_legends.bulu_orb": "Tapu-Bulu Orb",
     "item.pokecube_legends.lele_orb": "Tapu-Lele Orb",
     "item.pokecube_legends.fini_orb": "Tapu-Fini Orb",
+	"item.pokecube_legends.kyurem_core": "DNA Stone",
+	"item.pokecube_legends.steam_core": "Steam Core",
+	"item.pokecube_legends.diamond_gem": "Cut Diamond",
+	"item.pokecube_legends.uxie_gem": "Jewel of Wisdom",
+	"item.pokecube_legends.mesprit_gem": "Jewel of Emotions",
+	"item.pokecube_legends.azelf_gem": "Gem of Willpower",
+	"item.pokecube_legends.soul_dew": "Soul Dew",
+	"item.pokecube_legends.manaphy_necklace": "Prince's Necklace",
+	"item.pokecube_legends.nightmare_book": "Nightmare Book",
+	"item.pokecube_legends.lunar_wing": "Lunar Wing",
+	"item.pokecube_legends.meloetta_ocarina": "Melody Ocarina",
 
     // Core
     "item.pokecube_legends.rockcore": "Rock Core",
@@ -805,6 +823,7 @@
     
     
     // Mobs
+	"legends.kubfu_spawn.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Kubfu",
     "legends.soul_heart.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Magearna",
     "legends.fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Moltres",
     "legends.dark_fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Moltres Galar",
@@ -849,13 +868,28 @@
     "legends.nsun.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on -Solgaleo- to change it.",
     "legends.oceanorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Legendary Spawner- to spawn Lugia",
     "legends.orange_rune.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Nature Spawner- to spawn Landorus",
-    "legends.prisonbottle.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on -Hoopa- to change it.",
+    "legends.prisonbottle.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Hoopa.\nUse on -Hoopa- to change it.",
     "legends.keldeo_sword.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests or purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Keldeo.",
     "legends.redorb.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on a -Legendary Spawner- to spawn Groudon",
     "legends.regisorb.tooltip": "%1$s%2$s[Reward]%3$s %1$sWon in Quests!%3$s\nUse on a -Regigigas Core- to spawn Regigigas",
     "legends.revealglass.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on -Thundurus, Tornadus, or Landorus- to change it.",
-    "legends.rustedshield.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zamazenta.\nUse on -Zamazenta- to change it.",
-    "legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zacian.\nUse on -Zacian- to change it.",
+    "legends.rustedshield.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zamazenta",
+	"legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zacian",
+    
+	"legends.soul_dew.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Latios/Latias",
+	"legends.engine_core.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Volcanion",
+	"legends.kyurem_core.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Kyurem",
+	"legends.azelf_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Azelf",
+	"legends.mesprit_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Mesprit",
+	"legends.uxie_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Uxie",
+	"legends.diamond_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Diancie",
+	"legends.lunar_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Cresselia",
+	"legends.nightmare_book.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Cocoon of Destruction- to spawn Darkrai",
+	"legends.manaphy_necklace.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Manaphy",
+	"legends.meloetta_ocarina.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Nature Spawner- to spawn Meloetta",
+	
+	"legends.zacian_sword.tooltip": "%1$s%2$sUse on -Zacian- to change it.",
+	"legends.zamazenta_shield.tooltip": "%1$s%2$sUse on -Zamazenta- to change it.",
 
     "legends.cobalion_sword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Cobalion",
     "legends.virizion_sword.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Keldeo Spawner- to spawn Virizion",

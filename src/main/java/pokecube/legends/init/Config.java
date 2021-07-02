@@ -178,6 +178,7 @@ public class Config extends ConfigData
             "pokecube_legends:groudon_temple",
             "pokecube_legends:kyogre_temple",
             "pokecube_legends:sky_pillar",
+			"pokecube_legends:kubfu_dojo",
             "pokecube_legends:kubfu_dark",
             "pokecube_legends:kubfu_water",
             "pokecube_legends:keldeo_place",

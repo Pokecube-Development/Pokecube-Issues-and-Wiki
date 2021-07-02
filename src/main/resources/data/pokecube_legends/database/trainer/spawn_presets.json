@@ -1,6 +1,11 @@
 {
   "presets":[
     {
+      "preset_name": "dojo",
+      "trainerType":"dojo",
+	  "aiStates": 128
+    },
+	{
       "preset_name": "rocket",
       "trainerType":"rocket",
 	  "aiStates": 128
@@ -65,6 +70,17 @@
       "trainerType":"james",
       "customTrades":"rocket",
       "level":50,
+	  "aiStates": 128,
+      "guard":{
+        "time":"day",
+        "roam":0
+      }
+    },
+	{
+      "preset_name": "mustard",
+      "trainerType":"mustard",
+      "level":85,
+      "customTrades":"mustard",
 	  "aiStates": 128,
       "guard":{
         "time":"day",
