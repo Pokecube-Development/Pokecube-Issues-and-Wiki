@@ -33,7 +33,7 @@ public abstract class PokemobSided extends PokemobBase
         String texName = entry.texturePath + entry.getTrimmedName();
 
         if (this.getCustomHolder() != null && this.getCustomHolder().texture != null) texName = this
-                .getCustomHolder().texture.getPath();
+                .getCustomHolder().texture.toString();
         texName = texName.replace(".png", "");
 
         final String baseName = texName;
