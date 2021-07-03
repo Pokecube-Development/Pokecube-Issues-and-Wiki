@@ -47,10 +47,10 @@ public class PacketSyncWearables extends Packet
         final World world = net.minecraft.client.Minecraft.getInstance().level;
         if (world == null) return;
         final Entity p = world.getEntity(this.data.getInt("I"));
-        if (p != null && p instanceof LivingEntity)
+        if (p instanceof LivingEntity)
         {
             final PlayerWearables cap = ThutWearables.getWearables((LivingEntity) p);
-            cap.readFromNBT(this.data);
+            if (cap != null) cap.readFromNBT(this.data);
         }
         return;
     }
