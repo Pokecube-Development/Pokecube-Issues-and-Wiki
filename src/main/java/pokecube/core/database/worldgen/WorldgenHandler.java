@@ -292,14 +292,16 @@ public class WorldgenHandler
 
     private static class BiomeFeature
     {
-        public GenerationStage.Decoration stage;
+        public final GenerationStage.Decoration stage;
+        public final ConfiguredFeature<?, ?>    feature;
 
-        public ConfiguredFeature<?, ?> feature;
+        public final ResourceLocation name;
 
-        public BiomeFeature(final Decoration stage, final ConfiguredFeature<?, ?> feature)
+        public BiomeFeature(final Decoration stage, final ConfiguredFeature<?, ?> feature, final ResourceLocation name)
         {
             this.stage = stage;
             this.feature = feature;
+            this.name = name;
         }
     }
 
@@ -532,12 +534,17 @@ public class WorldgenHandler
             // rules it made.
             this.structures.put(value, c -> struct._matcher == null ? false : struct._matcher.checkLoadEvent(c));
         }
+        for (final BiomeFeature feature : this.features.keySet())
+        {
+            final Registry<ConfiguredFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_FEATURE;
+            Registry.register(registry, feature.name, feature.feature);
+        }
     }
 
     public void register(final Predicate<RegistryKey<Biome>> selector, final GenerationStage.Decoration stage,
-            final ConfiguredFeature<?, ?> feature)
+            final ConfiguredFeature<?, ?> feature, final ResourceLocation name)
     {
-        final BiomeFeature toAdd = new BiomeFeature(stage, feature);
+        final BiomeFeature toAdd = new BiomeFeature(stage, feature, name);
         this.features.put(toAdd, c -> selector.test(this.from(c)));
     }
 

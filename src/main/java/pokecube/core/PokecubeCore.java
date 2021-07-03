@@ -175,7 +175,8 @@ public class PokecubeCore
             // Currently this uses same settings as gold ore.
             WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
                     .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                            PokecubeItems.FOSSILSTONE.get().defaultBlockState(), 9)).range(32).squared().count(2));
+                            PokecubeItems.FOSSILSTONE.get().defaultBlockState(), 9)).range(32).squared().count(2),
+                    new ResourceLocation("pokecube:fossilstone"));
 
             // Register the general structure piece we use
             // Registry.register(Registry.STRUCTURE_PIECE,
