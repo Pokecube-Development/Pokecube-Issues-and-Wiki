@@ -98,7 +98,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             if (this.icons[0][0] == null)
             {
                 final String path = base.texturePath.replace("entity", "entity_icon");
-                final String texture = base.getModId() + ":" + path + this.key.getPath();
+                final String texture = path + this.key.getPath();
                 boolean gendered = this == base.male_holder || this == base.female_holder;
                 // 0 is male
                 gendered = gendered || base.getSexeRatio() == 0;

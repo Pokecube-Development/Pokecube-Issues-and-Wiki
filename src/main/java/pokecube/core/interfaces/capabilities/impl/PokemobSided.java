@@ -25,7 +25,6 @@ public abstract class PokemobSided extends PokemobBase
             final ResourceLocation texture = this.textures[texIndex];
             return texture;
         }
-        final String domain = entry.getModId();
         final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
         final int effects = entry.textureDetails[index].length;
         final int size = 2 * effects;
@@ -42,7 +41,7 @@ public abstract class PokemobSided extends PokemobBase
         for (int i = 0; i < effects; i++)
         {
             texName = baseName + entry.textureDetails[index][i];
-            this.textures[i] = new ResourceLocation(domain, texName + ".png");
+            this.textures[i] = new ResourceLocation(texName + ".png");
             this.textures[i + effects] = this.textures[i];
         }
         return this.getTexture();
@@ -68,7 +67,7 @@ public abstract class PokemobSided extends PokemobBase
                 for (int i = 0; i < maxNum; i++)
                 {
                     final String path = base + this.entry.textureDetails[index][texIndex] + ".png";
-                    tex[i] = new ResourceLocation(texture.getNamespace(), path);
+                    tex[i] = new ResourceLocation(path);
                 }
                 this.texs.put(texture, tex);
             }
@@ -77,10 +76,9 @@ public abstract class PokemobSided extends PokemobBase
         }
         if (this.isShiny()) if (!this.shinyTexs.containsKey(texture))
         {
-            final String domain = texture.getNamespace();
-            String texName = texture.getPath();
+            String texName = texture.toString();
             texName = texName.replace(".png", "s.png");
-            final ResourceLocation modified = new ResourceLocation(domain, texName);
+            final ResourceLocation modified = new ResourceLocation(texName);
             this.shinyTexs.put(texture, modified);
             return modified;
         }

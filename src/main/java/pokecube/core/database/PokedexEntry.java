@@ -1800,8 +1800,8 @@ public class PokedexEntry
         final String[] textureSuffixs = this.textureDetails[index];
         final String suffix = textureSuffixs[0];
         String ret = original + suffix + ".png";
-        if (!ret.contains(this.texturePath)) ret = this.texturePath + ret;
         ret = ret.replaceAll("([^a-zA-Z0-9/. _-])", "");
+        if (!ret.contains(this.texturePath)) ret = this.texturePath + ret;
         return ret;
     }
 
@@ -2151,7 +2151,7 @@ public class PokedexEntry
         if (this.icons[0][0] == null)
         {
             final String path = this.texturePath.replace("entity", "entity_icon");
-            final String texture = this.getModId() + ":" + path + this.getTrimmedName();
+            final String texture = path + this.getTrimmedName();
             if (this.isGenderForme)
             {
                 this.icons[0][0] = new ResourceLocation(texture + ".png");
