@@ -129,8 +129,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final Mesh shape : this.shapes)
         {
             ResourceLocation tex_1 = tex;
-            // System.out.println(shape + " " + shape.material + " " +
-            // shape.material.flat);
             // Apply material only, we make these if defined anyay.
             if (texer.hasMapping(shape.material.name)) tex_1 = texer.getTexture(shape.material.name, tex);
             shape.material.makeVertexBuilder(tex_1, bufferIn);

@@ -61,7 +61,8 @@ public class Material
         IVertexBuilder buff;
 
         final boolean transp = mat.alpha < 1 || mat.transluscent;
-        // This means we didn't actually make one for this texture!
+        // in this case, then it means that the material cares about order,
+        // culling, etc.
         if (transp)
         {
             buff = impl.fixedBuffers.get(type);

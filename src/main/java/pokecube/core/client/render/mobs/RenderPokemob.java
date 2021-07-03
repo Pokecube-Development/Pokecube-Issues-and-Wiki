@@ -45,7 +45,6 @@ import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
-import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
@@ -224,60 +223,6 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
             this.wrapper.imodel.setAnimationHolder(holder);
         }
 
-        private HashMap<String, PartInfo> getChildren(final IExtendedModelPart part)
-        {
-            final HashMap<String, PartInfo> partsList = new HashMap<>();
-            for (final String s : part.getSubParts().keySet())
-            {
-                final PartInfo p = new PartInfo(s);
-                final IExtendedModelPart subPart = part.getSubParts().get(s);
-                p.children = this.getChildren(subPart);
-                partsList.put(s, p);
-            }
-            return partsList;
-        }
-
-        private PartInfo getPartInfo(final String partName)
-        {
-            PartInfo ret = null;
-            for (final PartInfo part : this.parts.values())
-            {
-                if (part.name.equalsIgnoreCase(partName)) return part;
-                ret = this.getPartInfo(partName, part);
-                if (ret != null) return ret;
-            }
-            for (final IExtendedModelPart part : this.wrapper.getParts().values())
-                if (part.getName().equals(partName))
-                {
-                    final PartInfo p = new PartInfo(part.getName());
-                    p.children = this.getChildren(part);
-                    boolean toAdd = true;
-                    IExtendedModelPart parent = part.getParent();
-                    while (parent != null && toAdd)
-                    {
-                        toAdd = !this.parts.containsKey(parent.getName());
-                        parent = parent.getParent();
-                    }
-                    if (toAdd) this.parts.put(partName, p);
-                    return p;
-                }
-
-            return ret;
-        }
-
-        private PartInfo getPartInfo(final String partName, final PartInfo parent)
-        {
-            PartInfo ret = null;
-            for (final PartInfo part : parent.children.values())
-            {
-                if (part.name.equalsIgnoreCase(partName)) return part;
-                ret = this.getPartInfo(partName, part);
-                if (ret != null) return ret;
-            }
-
-            return ret;
-        }
-
         private String getPhase(final MobEntity entity, final IPokemob pokemob)
         {
             if (!this.wrapper.isLoaded()) return "not_loaded_yet!";
@@ -348,9 +293,8 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         public void initModel(final ModelWrapper<MobEntity> model)
         {
             this.wrapper = model;
-            ModelFactory.create(model.model, m ->
+            model.imodel = ModelFactory.create(model.model, m ->
             {
-                model.imodel = m;
                 // Check if an animation file exists.
                 try
                 {
@@ -362,20 +306,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
                 }
 
                 AnimationLoader.parse(this, model, this);
-                this.initModelParts();
             });
-        }
-
-        private void initModelParts()
-        {
-            if (this.wrapper == null) return;
-
-            for (final String s : this.wrapper.getParts().keySet())
-                if (this.wrapper.getParts().get(s).getParent() == null && !this.parts.containsKey(s))
-                {
-                    final PartInfo p = this.getPartInfo(s);
-                    this.parts.put(s, p);
-                }
         }
 
         @Override
@@ -431,7 +362,6 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         {
             this.name = model.name;
             this.texture = model.texture;
-            this.initModelParts();
             this.global = global;
         }
     }
