@@ -23,10 +23,12 @@ import pokecube.legends.entity.WormholeEntity;
 import thut.api.ModelHolder;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
+import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
+import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
@@ -58,6 +60,11 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     {
         final ModelHolder holder = new ModelHolder(Wormhole.MODEL, Wormhole.TEXTURE, Wormhole.ANIM, "ultra_wormhole");
         final ModelWrapper<WormholeEntity> model = new ModelWrapper<>(holder, this);
+        ModelFactory.create(model.model, m ->
+        {
+            model.imodel = m;
+            AnimationLoader.parse(holder, model, this);
+        });
         return model;
     }
 
