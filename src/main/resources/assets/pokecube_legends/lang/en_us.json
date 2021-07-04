@@ -649,7 +649,7 @@
     "item.pokecube_legends.fini_orb": "Tapu-Fini Orb",
 	"item.pokecube_legends.kyurem_core": "DNA Stone",
 	"item.pokecube_legends.steam_core": "Steam Core",
-	"item.pokecube_legends.diamond_gem": "Cut Diamond",
+	"item.pokecube_legends.diamond_gem": "Pink Diamond",
 	"item.pokecube_legends.uxie_gem": "Jewel of Wisdom",
 	"item.pokecube_legends.mesprit_gem": "Jewel of Emotions",
 	"item.pokecube_legends.azelf_gem": "Gem of Willpower",
@@ -887,7 +887,7 @@
 	"legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zacian",
     
 	"legends.soul_dew.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Latios/Latias",
-	"legends.engine_core.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Volcanion",
+	"legends.steam_core.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Volcanion",
 	"legends.kyurem_core.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Kyurem",
 	"legends.azelf_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Azelf",
 	"legends.mesprit_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Mesprit",
