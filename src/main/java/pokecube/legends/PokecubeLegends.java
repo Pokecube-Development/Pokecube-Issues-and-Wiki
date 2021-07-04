@@ -116,10 +116,12 @@ public class PokecubeLegends
 
             WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
                     .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE
-                            .get().defaultBlockState(), 5)).range(32).squared().count(2));
+                            .get().defaultBlockState(), 5)).range(32).squared().count(2),
+                    new ResourceLocation("pokecube_legends:ruby_ore"));
             WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
                     .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                            BlockInit.SAPPHIRE_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2));
+                            BlockInit.SAPPHIRE_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2),
+                    new ResourceLocation("pokecube_legends:sapphire_ore"));
 
             Trees.register();
         }
@@ -177,7 +179,7 @@ public class PokecubeLegends
         MoveRegister.init();
         EntityInit.init();
         ItemHelperEffect.init();
-        
+
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
     }
@@ -229,7 +231,7 @@ public class PokecubeLegends
 
     @SubscribeEvent
     public void registerPokecubes(final RegisterPokecubes event)
-    {	
+    {
         final PokecubeDim helper = new PokecubeDim();
 
         event.behaviors.add(new DefaultPokecubeBehavior()
@@ -309,10 +311,7 @@ public class PokecubeLegends
             final State state = new Random().nextInt(20) == 0 ? State.RARE : State.NORMAL;
             event.getWorld().setBlockAndUpdate(event.getPos(), hit.setValue(RaidSpawnBlock.ACTIVE, state));
             event.setUseItem(Result.ALLOW);
-            if (!event.getPlayer().isCreative())
-            {
-                event.getItemStack().grow(-1);
-            }
+            if (!event.getPlayer().isCreative()) event.getItemStack().grow(-1);
         }
     }
 }

@@ -554,6 +554,12 @@ public class PokedexEntryLoader
 
         public String sound = null;
 
+        public String model_path = null;
+        public String tex_path   = null;
+        public String anim_path  = null;
+
+        public String modid = "pokecube_mobs";
+
         public String ridden_offsets = "0.75";
 
         public Map<String, BodyNode> poseShapes = Maps.newHashMap();
@@ -1203,6 +1209,19 @@ public class PokedexEntryLoader
         final String name = xmlEntry.name;
         final PokedexEntry entry = Database.getEntry(name);
         entry.modelExt = xmlEntry.modelType;
+
+        if (xmlEntry.model_path != null && xmlEntry.tex_path != null)
+        {
+            final String tex = xmlEntry.tex_path;
+            final String model = xmlEntry.model_path;
+            String anim = xmlEntry.anim_path;
+            if (anim == null) anim = model;
+            entry.setModId(xmlEntry.modid);
+            entry.texturePath = tex;
+            entry.model = new ResourceLocation(model + entry.getTrimmedName() + entry.modelExt);
+            entry.texture = new ResourceLocation(tex + entry.getTrimmedName() + ".png");
+            entry.animation = new ResourceLocation(anim + entry.getTrimmedName() + ".xml");
+        }
 
         entry.poseShapes = null;
 

@@ -50,7 +50,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     @SubscribeEvent
     public static void onTextureReload(final TextureStitchEvent.Post event)
     {
-        ModelWrapper.WRAPPERS.clear();
+        ModelWrapper.WRAPPERS.forEach(w -> w.imodel = null);
     }
 
     public final ModelHolder       model;
@@ -68,6 +68,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         this.model = model;
         this.renderer = renderer;
+        ModelWrapper.WRAPPERS.add(this);
         Arrays.fill(this.tmp, 255);
     }
 
@@ -162,13 +163,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public void setupAnim(final T entityIn, final float limbSwing, final float limbSwingAmount, final float ageInTicks,
             final float netHeadYaw, final float headPitch)
     {
-        if (ModelWrapper.WRAPPERS.add(this)) this.imodel = null;
-        if (this.imodel == null)
-        {
-            this.imodel = ModelFactory.create(this.model);
-            final IAnimationHolder holder = this.renderer.getAnimationHolder();
-            if (holder != null) holder.clean();
-        }
         if (!this.isLoaded()) return;
         this.entityIn = entityIn;
         final HeadInfo info = this.imodel.getHeadInfo();
