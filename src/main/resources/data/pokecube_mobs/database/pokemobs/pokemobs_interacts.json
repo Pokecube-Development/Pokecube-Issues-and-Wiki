@@ -9438,16 +9438,6 @@
       }
     },
     {
-      "name": "marshadow",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NMarshadow Z:Ipokecube_mobs:marshadow"
-          }
-        }
-      }
-    },
-    {
       "name": "poipole",
       "stats": {
         "evolutions": [
