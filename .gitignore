@@ -40,3 +40,4 @@ processing_scripts/database_update/caches/*
 **/template_worlds/main_structures/e*
 **/template_worlds/main_structures/la*
 **/template_worlds/main_structures/p*
+/.apt_generated_tests/
