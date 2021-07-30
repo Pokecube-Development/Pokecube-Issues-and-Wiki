@@ -27,7 +27,7 @@ public class Not extends PostfixMathCommand
         if (param instanceof Number)
         {
             final int r = ((Number) param).doubleValue() == 0 ? 1 : 0;
-            inStack.push(new Double(r));// push the result on the inStack
+            inStack.push(Double.valueOf(r));// push the result on the inStack
         }
         else throw new ParseException("Invalid parameter type");
         return;

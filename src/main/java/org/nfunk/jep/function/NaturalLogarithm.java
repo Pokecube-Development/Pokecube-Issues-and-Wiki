@@ -31,7 +31,7 @@ public class NaturalLogarithm extends PostfixMathCommand
         {
             // Now returns Complex if param is <0
             final double num = ((Number) param).doubleValue();
-            if (num > 0) return new Double(Math.log(num));
+            if (num > 0) return Double.valueOf(Math.log(num));
             else
             {
                 final Complex temp = new Complex(num);

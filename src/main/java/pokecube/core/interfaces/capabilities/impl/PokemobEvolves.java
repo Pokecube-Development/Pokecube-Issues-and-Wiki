@@ -31,7 +31,7 @@ public abstract class PokemobEvolves extends PokemobHungry
     @Override
     public void setEvolutionTicks(final int evolutionTicks)
     {
-        this.dataSync().set(this.params.EVOLTICKDW, new Integer(evolutionTicks));
+        this.dataSync().set(this.params.EVOLTICKDW, Integer.valueOf(evolutionTicks));
     }
 
     @Override
@@ -45,6 +45,6 @@ public abstract class PokemobEvolves extends PokemobHungry
     {
         // Cap this so it is at least 1.
         factor = Math.max(1, factor);
-        this.dataSync().set(this.params.DYNAPOWERDW, new Float(factor));
+        this.dataSync().set(this.params.DYNAPOWERDW, Float.valueOf(factor));
     }
 }

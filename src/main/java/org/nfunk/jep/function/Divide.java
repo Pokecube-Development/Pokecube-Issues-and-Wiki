@@ -49,7 +49,7 @@ public class Divide extends PostfixMathCommand
 
     public Double div(Number d1, Number d2)
     {
-        return new Double(d1.doubleValue() / d2.doubleValue());
+        return Double.valueOf(d1.doubleValue() / d2.doubleValue());
     }
 
     public Vector div(Number d, Vector v)

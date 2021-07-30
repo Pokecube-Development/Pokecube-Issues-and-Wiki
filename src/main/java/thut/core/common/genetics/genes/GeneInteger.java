@@ -5,7 +5,7 @@ import thut.api.entity.genetics.Gene;
 
 public abstract class GeneInteger implements Gene<Integer>
 {
-    protected Integer value = new Integer(0);
+    protected Integer value = Integer.valueOf(0);
 
     @Override
     public Integer getValue()

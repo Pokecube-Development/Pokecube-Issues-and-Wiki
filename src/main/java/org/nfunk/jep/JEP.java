@@ -242,8 +242,8 @@ public class JEP
     public void addStandardConstants()
     {
         // add constants to Symbol Table
-        this.symTab.addConstant("pi", new Double(Math.PI));
-        this.symTab.addConstant("e", new Double(Math.E));
+        this.symTab.addConstant("pi", Double.valueOf(Math.PI));
+        this.symTab.addConstant("e", Double.valueOf(Math.E));
     }
 
     /**
@@ -306,7 +306,7 @@ public class JEP
      */
     public Double addVariable(String name, double value)
     {
-        final Double object = new Double(value);
+        final Double object = Double.valueOf(value);
         this.symTab.makeVarIfNeeded(name, object);
         return object;
     }

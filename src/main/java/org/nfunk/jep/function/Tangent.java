@@ -31,7 +31,7 @@ public class Tangent extends PostfixMathCommand
     public Object tan(Object param) throws ParseException
     {
         if (param instanceof Complex) return ((Complex) param).tan();
-        else if (param instanceof Number) return new Double(Math.tan(((Number) param).doubleValue()));
+        else if (param instanceof Number) return Double.valueOf(Math.tan(((Number) param).doubleValue()));
 
         throw new ParseException("Invalid parameter type");
     }

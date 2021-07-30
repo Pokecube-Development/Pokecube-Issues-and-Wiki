@@ -49,7 +49,7 @@ public class Subtract extends PostfixMathCommand
 
     public Double sub(Number d1, Number d2)
     {
-        return new Double(d1.doubleValue() - d2.doubleValue());
+        return Double.valueOf(d1.doubleValue() - d2.doubleValue());
     }
 
     public Object sub(Object param1, Object param2) throws ParseException

@@ -24,8 +24,8 @@ import org.nfunk.jep.type.Complex;
  * @since 2.3.0 beta 2 changed the internal lt,gt,le,ge,ne and eq method to
  *        return boolean.
  *        If this breaks anything use
- *        if(lt(obj1,obj2)) inStack.push(new Double(1));
- *        else inStack.push(new Double(0));
+ *        if(lt(obj1,obj2)) inStack.push(Double.valueOf(1));
+ *        else inStack.push(Double.valueOf(0));
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class Comparative extends PostfixMathCommand
@@ -80,7 +80,7 @@ public class Comparative extends PostfixMathCommand
      * double x = ((Number)param1).doubleValue();
      * double y = ((Number)param2).doubleValue();
      * int r = (x>=y) ? 1 : 0;
-     * return new Double(r);
+     * return Double.valueOf(r);
      * }
      * throw new
      * ParseException(">= not defined for object of type "+param1.getClass().
@@ -99,7 +99,7 @@ public class Comparative extends PostfixMathCommand
      * default:
      * throw new ParseException("Relational operator type error");
      * }
-     * inStack.push(new Double(r));//push the result on the inStack
+     * inStack.push(Double.valueOf(r));//push the result on the inStack
      * }
      * else if ((param1 instanceof Number) && (param2 instanceof Number))
      * {
@@ -129,7 +129,7 @@ public class Comparative extends PostfixMathCommand
      * default:
      * throw new ParseException("Unknown relational operator");
      * }
-     * inStack.push(new Double(r));//push the result on the inStack
+     * inStack.push(Double.valueOf(r));//push the result on the inStack
      * }
      * else if ((param1 instanceof String) && (param2 instanceof String))
      * {
@@ -145,7 +145,7 @@ public class Comparative extends PostfixMathCommand
      * default:
      * throw new ParseException("Relational operator type error");
      * }
-     * inStack.push(new Double(r));//push the result on the inStack
+     * inStack.push(Double.valueOf(r));//push the result on the inStack
      * } else
      * {
      * throw new ParseException("Invalid parameter type");
@@ -243,8 +243,8 @@ public class Comparative extends PostfixMathCommand
             res = this.eq(param1, param2);
             break;
         }
-        if (res) inStack.push(new Double(1));
-        else inStack.push(new Double(0));
+        if (res) inStack.push(Double.valueOf(1));
+        else inStack.push(Double.valueOf(0));
     }
 
     /**

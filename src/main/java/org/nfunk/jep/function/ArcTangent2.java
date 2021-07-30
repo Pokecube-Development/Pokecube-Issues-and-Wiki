@@ -35,7 +35,7 @@ public class ArcTangent2 extends PostfixMathCommand
         {
             final double y = ((Number) param1).doubleValue();
             final double x = ((Number) param2).doubleValue();
-            inStack.push(new Double(Math.atan2(y, x)));// push the result on the
+            inStack.push(Double.valueOf(Math.atan2(y, x)));// push the result on the
                                                        // inStack
         }
         else throw new ParseException("Invalid parameter type");

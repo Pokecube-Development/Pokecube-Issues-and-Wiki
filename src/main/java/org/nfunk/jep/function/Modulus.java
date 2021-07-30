@@ -33,7 +33,7 @@ public class Modulus extends PostfixMathCommand
 
             final double result = dividend % divisor;
 
-            inStack.push(new Double(result));
+            inStack.push(Double.valueOf(result));
         }
         else throw new ParseException("Invalid parameter type");
         return;

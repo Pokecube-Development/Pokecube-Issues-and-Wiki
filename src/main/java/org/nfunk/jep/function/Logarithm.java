@@ -34,7 +34,7 @@ public class Logarithm extends PostfixMathCommand
         else if (param instanceof Number)
         {
             final double num = ((Number) param).doubleValue();
-            if (num > 0) return new Double(Math.log(num) / Logarithm.LOG10);
+            if (num > 0) return Double.valueOf(Math.log(num) / Logarithm.LOG10);
             else
             {
                 final Complex temp = new Complex(num);

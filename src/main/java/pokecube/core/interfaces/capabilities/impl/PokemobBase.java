@@ -82,10 +82,10 @@ public abstract class PokemobBase implements IPokemob
             this.HELDITEMDW = sync.register(new Data_ItemStack(), ItemStack.EMPTY);
 
             // Humger timer
-            this.HUNGERDW = sync.register(new Data_Int(), new Integer(0));
+            this.HUNGERDW = sync.register(new Data_Int(), Integer.valueOf(0));
             // // for sheared status
             this.NICKNAMEDW = sync.register(new Data_String(), "");// nickname
-            this.HAPPYDW = sync.register(new Data_Int(), new Integer(0));// Happiness
+            this.HAPPYDW = sync.register(new Data_Int(), Integer.valueOf(0));// Happiness
             this.TYPE1DW = sync.register(new Data_String(), "");// overriden
             // type1
             this.TYPE2DW = sync.register(new Data_String(), "");// overriden
@@ -100,7 +100,7 @@ public abstract class PokemobBase implements IPokemob
             this.COMBATSTATESDW = sync.register(new Data_Int(), Integer.valueOf(0));
 
             // from EntityEvolvablePokemob
-            this.EVOLTICKDW = sync.register(new Data_Int(), new Integer(0));// evolution
+            this.EVOLTICKDW = sync.register(new Data_Int(), Integer.valueOf(0));// evolution
             this.DYNAPOWERDW = sync.register(new Data_Float(), Float.valueOf(1));
             // tick
 

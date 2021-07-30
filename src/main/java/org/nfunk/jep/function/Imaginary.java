@@ -22,8 +22,8 @@ public class Imaginary extends PostfixMathCommand
     public Number im(Object param) throws ParseException
     {
 
-        if (param instanceof Complex) return new Double(((Complex) param).im());
-        else if (param instanceof Number) return new Double(0);
+        if (param instanceof Complex) return Double.valueOf(((Complex) param).im());
+        else if (param instanceof Number) return Double.valueOf(0);
 
         throw new ParseException("Invalid parameter type");
     }

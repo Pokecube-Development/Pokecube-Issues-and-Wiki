@@ -22,7 +22,7 @@ public class ArcTangent extends PostfixMathCommand
     public Object atan(Object param) throws ParseException
     {
         if (param instanceof Complex) return ((Complex) param).atan();
-        else if (param instanceof Number) return new Double(Math.atan(((Number) param).doubleValue()));
+        else if (param instanceof Number) return Double.valueOf(Math.atan(((Number) param).doubleValue()));
 
         throw new ParseException("Invalid parameter type");
     }
