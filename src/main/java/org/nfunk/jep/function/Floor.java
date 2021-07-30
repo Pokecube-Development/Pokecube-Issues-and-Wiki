@@ -21,8 +21,8 @@ public class Floor extends PostfixMathCommand
 
     public Object abs(Object param) throws ParseException
     {
-        if (param instanceof Complex) return Math.floor(new Double(((Complex) param).abs()));
-        else if (param instanceof Number) return Math.floor(new Double(Math.abs(((Number) param).doubleValue())));
+        if (param instanceof Complex) return Math.floor(Double.valueOf(((Complex) param).abs()));
+        else if (param instanceof Number) return Math.floor(Double.valueOf(Math.abs(((Number) param).doubleValue())));
 
         throw new ParseException("Invalid parameter type");
     }

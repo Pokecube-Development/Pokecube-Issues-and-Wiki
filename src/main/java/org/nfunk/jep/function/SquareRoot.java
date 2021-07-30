@@ -47,7 +47,7 @@ public class SquareRoot extends PostfixMathCommand
 
             // a value less than 0 will produce a complex result
             if (value < 0.0) return new Complex(value).sqrt();
-            else return new Double(Math.sqrt(value));
+            else return Double.valueOf(Math.sqrt(value));
         }
 
         throw new ParseException("Invalid parameter type");

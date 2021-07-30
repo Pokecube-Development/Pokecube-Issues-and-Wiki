@@ -25,7 +25,7 @@ public class CosineH extends PostfixMathCommand
         else if (param instanceof Number)
         {
             final double value = ((Number) param).doubleValue();
-            return new Double((Math.exp(value) + Math.exp(-value)) / 2);
+            return Double.valueOf((Math.exp(value) + Math.exp(-value)) / 2);
         }
 
         throw new ParseException("Invalid parameter type");

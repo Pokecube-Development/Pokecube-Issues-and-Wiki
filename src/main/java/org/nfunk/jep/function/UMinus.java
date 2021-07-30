@@ -33,7 +33,7 @@ public class UMinus extends PostfixMathCommand
     public Object umin(Object param) throws ParseException
     {
         if (param instanceof Complex) return ((Complex) param).neg();
-        if (param instanceof Number) return new Double(-((Number) param).doubleValue());
+        if (param instanceof Number) return Double.valueOf(-((Number) param).doubleValue());
 
         throw new ParseException("Invalid parameter type");
     }

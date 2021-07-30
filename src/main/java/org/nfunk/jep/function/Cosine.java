@@ -22,7 +22,7 @@ public class Cosine extends PostfixMathCommand
     public Object cos(Object param) throws ParseException
     {
         if (param instanceof Complex) return ((Complex) param).cos();
-        else if (param instanceof Number) return new Double(Math.cos(((Number) param).doubleValue()));
+        else if (param instanceof Number) return Double.valueOf(Math.cos(((Number) param).doubleValue()));
 
         throw new ParseException("Invalid parameter type");
     }

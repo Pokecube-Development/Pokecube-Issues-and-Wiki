@@ -132,7 +132,7 @@ public class AnimationGui extends Screen
     {
         final Map<String, Float> sizeMap = Maps.newHashMap();
         for (final PokedexEntry e : AnimationGui.sizes.keySet())
-            sizeMap.put(e.getTrimmedName(), new Float(AnimationGui.sizes.getOrDefault(e, 0f)));
+            sizeMap.put(e.getTrimmedName(), Float.valueOf(AnimationGui.sizes.getOrDefault(e, 0f)));
 
         try
         {

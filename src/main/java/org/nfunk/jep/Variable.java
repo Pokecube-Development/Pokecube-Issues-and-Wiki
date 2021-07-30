@@ -33,7 +33,7 @@ public class Variable extends Observable
     private Object   value;
     private boolean  isConstant = false;
     private boolean  validValue = false;
-    // private static final Double ZERO = new Double(0.0);
+    // private static final Double ZERO = Double.valueOf(0.0);
 
     /**
      * Constructors are protected. Variables should only

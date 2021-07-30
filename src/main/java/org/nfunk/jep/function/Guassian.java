@@ -19,7 +19,7 @@ public class Guassian extends PostfixMathCommand
     public void run(Stack inStack) throws ParseException
     {
         this.checkStack(inStack);// check the stack
-        inStack.push(new Double(this.rand.nextGaussian()));
+        inStack.push(Double.valueOf(this.rand.nextGaussian()));
         return;
     }
 }

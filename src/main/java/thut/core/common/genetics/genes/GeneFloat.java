@@ -5,7 +5,7 @@ import thut.api.entity.genetics.Gene;
 
 public abstract class GeneFloat implements Gene<Float>
 {
-    protected Float value = new Float(0);
+    protected Float value = Float.valueOf(0);
 
     @Override
     public Float getValue()

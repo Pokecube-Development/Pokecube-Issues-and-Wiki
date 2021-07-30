@@ -24,9 +24,9 @@ public class DoubleNumberFactory implements NumberFactory
     @Override
     public Object createNumber(String value)
     {
-        return new Double(value);
+        return Double.valueOf(value);
     }
-    // public Object createNumber(double value) { return new Double(value); }
+    // public Object createNumber(double value) { return Double.valueOf(value); }
     // public Object createNumber(Double value) { return value; }
 
 }

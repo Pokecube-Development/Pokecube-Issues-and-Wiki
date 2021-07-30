@@ -21,8 +21,8 @@ public class Ceil extends PostfixMathCommand
 
     public Object abs(Object param) throws ParseException
     {
-        if (param instanceof Complex) return Math.ceil(new Double(((Complex) param).abs()));
-        else if (param instanceof Number) return Math.ceil(new Double(Math.abs(((Number) param).doubleValue())));
+        if (param instanceof Complex) return Math.ceil(Double.valueOf(((Complex) param).abs()));
+        else if (param instanceof Number) return Math.ceil(Double.valueOf(Math.abs(((Number) param).doubleValue())));
 
         throw new ParseException("Invalid parameter type");
     }

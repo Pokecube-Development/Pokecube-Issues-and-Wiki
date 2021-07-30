@@ -40,7 +40,7 @@ public class Exp extends PostfixMathCommand
             final double mod = Math.exp(x);
             return new Complex(mod * Math.cos(y), mod * Math.sin(y));
         }
-        else if (param instanceof Number) return new Double(Math.exp(((Number) param).doubleValue()));
+        else if (param instanceof Number) return Double.valueOf(Math.exp(((Number) param).doubleValue()));
 
         throw new ParseException("Invalid parameter type");
     }

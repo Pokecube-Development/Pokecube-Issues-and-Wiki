@@ -20,7 +20,7 @@ import org.nfunk.jep.type.Complex;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class Arg extends PostfixMathCommand
 {
-    private static final Double ONE = new Double(1.0);
+    private static final Double ONE = Double.valueOf(1.0);
 
     public Arg()
     {
@@ -29,7 +29,7 @@ public class Arg extends PostfixMathCommand
 
     public Number arg(Object param) throws ParseException
     {
-        if (param instanceof Complex) return new Double(((Complex) param).arg());
+        if (param instanceof Complex) return Double.valueOf(((Complex) param).arg());
         else if (param instanceof Number) return Arg.ONE;
         throw new ParseException("Invalid parameter type");
     }

@@ -52,7 +52,7 @@ public class Logical extends PostfixMathCommand
                 r = 0;
             }
 
-            inStack.push(new Double(r)); // push the result on the inStack
+            inStack.push(Double.valueOf(r)); // push the result on the inStack
         }
         else throw new ParseException("Invalid parameter type");
         return;
