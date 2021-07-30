@@ -94,12 +94,17 @@ minecraft {
             }
         }
         data = {
-            taskName 'run_datagens'
-            workingDirectory project.file('run').canonicalPath
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            workingDirectory project.file('run')
+            //property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
             args '--mod', 'pokecube', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
-            source sourceSets.main
+            mods {
+                pokecube {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }
@@ -145,6 +150,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
+   // annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
     
     //Computer Craft Support.
     implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
@@ -178,6 +184,10 @@ dependencies {
     // Curios - Wearables Support
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
+}
+
+sourceSets {
+    main.resources.srcDirs += 'src/generated/resources'
 }
 
 jar {
