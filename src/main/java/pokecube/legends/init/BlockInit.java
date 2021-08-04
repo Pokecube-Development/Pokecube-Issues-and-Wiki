@@ -506,6 +506,8 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_MIRAGE_SAPLING;
     public static final RegistryObject<Block> POTTED_TEMPORAL_SAPLING;
 
+    public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
+
     static
     {
         // Dimensions Creative Tab - Sorting depends on the order the blocks are listed in
@@ -1599,6 +1601,10 @@ public class BlockInit
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_TEMPORAL_SAPLING = PokecubeLegends.NO_TAB.register("potted_temporal_sapling",
             () -> new ItemGenerator.GenericPottedPlant(TEMPORAL_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+
+        POTTED_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_crystallized_bush",
+            () -> new ItemGenerator.GenericPottedPlant(CRYSTALLIZED_BUSH.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
     }
 
